@@ -138,4 +138,5 @@ tests/output/eval-*
 tasks/
 training/
 preserved/
-
+random
+LOG
