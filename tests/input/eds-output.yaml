@@ -1,0 +1,196 @@
+Caching OpenAI responses to .openai_cache.db
+Using cached payload for prompt: From the text below, extract the following entities in the following format:
+
+disease: <the name of the disease that is treated>
+drugs: <semicolon-separated list of named small molecule drugs>
+treatments: <semicolon-separated list of therapies and treatments>
+treatment_mechanisms: <semicolon-separated list of treatment to asterisk-separated mechanism associations>
+treatment_efficacies: <semicolon-separated list of treatment to efficacy associations, e.g. Imatinib*effective>
+
+
+Text:
+Disease: Ehlers Danlos Syndrome
+Treatment:
+The care of patients with EDS is generally focused on implementing preventative measures against serious or life-threatening complications. The primary complications seen in EDS involve the skin, musculoskeletal, and cardiovascular systems. Patient skin is velvety thin, loose, and stretchable. This predisposes patients to difficulties with wound healing. For both accidental and surgical wounds, deep stiches are applied generously. Superficial stiches are placed to carefully realign the skin to prevent scarring. Stiches are also left in for extended periods of time to allow best strengthening of the forming scar tissue. Ascorbic acid (Vitamin C) may be recommended to help reduce the easy bruising that accompanies EDS. Hypermobile joints easily dislocate. With each dislocation, subsequent dislocations are increasingly likely, therefore prevention is particularly important for quality of life. Heavy sports, lifting, and other strenuous efforts should be avoided due to the risk of inciting trauma. Blood vessel fragility increases the risk for serious bleeds and dissections. High blood pressure (hypertension) puts additional strain on the fragile vasculature and increases the risk for complications. Regular screening for hypertension and arterial disease should be conducted and treatment should be initiated early on. The best approaches to screening are by non-invasive technology: ultrasound, MRI, or CT. Arteriography, colonoscopy, and other similarly invasive screening procedures should be considered carefully for benefit versus risk. Surgery for non-life threatening conditions should also be carefully considered. Pregnancies should be followed by obstetricians that are well trained in dealing with high-risk pregnancies. Delivery can progress very quickly in EDS patients and it is yet unclear if there is an advantage to mothers to deliver by vaginal or cesarean routes. Expectant mothers with known aortic root dilations should have echocardiograms each trimester to observe for possible exacerbation. All EDS-affected individuals should seek immediate medical attention for any sudden or unexplained pains and consider wearing a MedicAlert bracelet to communicate their status as a patient with EDS should they lose consciousness.
+
+hEDS patients may especially benefit from physical therapy, low-resistance exercise, and assistive devices like braces, wheelchairs, and scooters. Comfortable writing utensils and a low-stress mattress serve an important role in reducing musculoskeletal pain. Pain management is tailored to the individual. Gastrointestinal and psychological complications are likewise managed per an individual’s needs. In addition to physical therapy and low-resistance exercise, calcium and vitamin D can help maximize bone density. DEXA bone density scans should be conducted every other year. kEDS patients should have routine eye exams as they are at risk for globus rupture, retinal detachment and glaucoma. dEDS patients may benefit from protective bandages over exposed areas such as the skin of the elbows and knees.
+
+
+===
+
+
+RAW: {'disease': 'Ehlers Danlos Syndrome;', 'drugs': ['Ascorbic Acid (Vitamin C)'], 'treatments': ['Superficial stiches', 'Preventative measures', 'Exercise', 'Physical therapy', 'Assitive devices', 'Bandages', 'Calcium', 'Vitamin D', 'DEXA bone density scans', 'Eye exams'], 'treatment_mechanisms': [{'treatment': 'Superficial stiches', 'mechanism': 'wound healing'}, {'treatment': 'Preventative measures', 'mechanism': 'life threatening complications'}, {'treatment': 'Exercise', 'mechanism': 'dislocations'}, {'treatment': 'Physical therapy', 'mechanism': 'musculoskeletal pain'}, {'treatment': 'Assistive devices', 'mechanism': 'quality of life'}, {'treatment': 'Bandages', 'mechanism': 'skin protection'}, {'treatment': 'Calcium', 'mechanism': 'bone density'}, {'treatment': 'Vitamin D', 'mechanism': 'bone density'}, {'treatment': 'DEXA bone density scans', 'mechanism': 'screening'}, {'treatment': 'Eye exams', 'mechanism': 'glaucoma'}], 'treatment_efficacies': [{'treatment': 'Superficial stiches', 'efficacy': 'effective'}, {'treatment': 'Preventative measures', 'efficacy': 'effective'}, {'treatment': 'Exercise', 'efficacy': 'preventive'}, {'treatment': 'Physical therapy', 'efficacy': 'pain management'}, {'treatment': 'Assistive devices', 'efficacy': 'pain management'}, {'treatment': 'Bandages', 'efficacy': 'skin protection'}, {'treatment': 'Calcium', 'efficacy': 'bone density maximization'}, {'treatment': 'Vitamin D', 'efficacy': 'bone density maximization'}, {'treatment': 'DEXA bone density scans', 'efficacy': 'screening'}, {'treatment': 'Eye exams', 'efficacy': 'screening.'}]}
+{'treatment': 'Superficial stiches', 'mechanism': 'GO:0042060'}
+{'treatment': 'Preventative measures', 'mechanism': 'life threatening complications'}
+{'treatment': 'NCIT:C16567', 'mechanism': 'dislocations'}
+{'treatment': 'MAXO:0000011', 'mechanism': 'NCIT:C3244'}
+{'treatment': 'NCIT:C157792', 'mechanism': 'NCIT:C17047'}
+{'treatment': 'Bandages', 'mechanism': 'skin protection'}
+{'treatment': 'CHEBI:22984', 'mechanism': 'NCIT:C61545'}
+{'treatment': 'CHEBI:27300', 'mechanism': 'NCIT:C61545'}
+{'treatment': 'DEXA bone density scans', 'mechanism': 'NCIT:C48261'}
+{'treatment': 'Eye exams', 'mechanism': 'NCIT:C26782'}
+{'treatment': 'Superficial stiches', 'efficacy': 'effective'}
+{'treatment': 'Preventative measures', 'efficacy': 'effective'}
+{'treatment': 'NCIT:C16567', 'efficacy': 'preventive'}
+{'treatment': 'MAXO:0000011', 'efficacy': 'pain management'}
+{'treatment': 'NCIT:C157792', 'efficacy': 'pain management'}
+{'treatment': 'Bandages', 'efficacy': 'skin protection'}
+{'treatment': 'CHEBI:22984', 'efficacy': 'bone density maximization'}
+{'treatment': 'CHEBI:27300', 'efficacy': 'bone density maximization'}
+{'treatment': 'DEXA bone density scans', 'efficacy': 'screening'}
+{'treatment': 'Eye exams', 'efficacy': 'screening.'}
+{'disease': 'Ehlers Danlos Syndrome;', 'drugs': ['Ascorbic Acid (Vitamin C)'], 'treatments': ['Superficial stiches', 'Preventative measures', 'NCIT:C16567', 'MAXO:0000011', 'Assitive devices', 'Bandages', 'CHEBI:22984', 'CHEBI:27300', 'DEXA bone density scans', 'Eye exams'], 'treatment_mechanisms': [TreatmentMechanism(treatment='Superficial stiches', mechanism='GO:0042060'), TreatmentMechanism(treatment='Preventative measures', mechanism='life threatening complications'), TreatmentMechanism(treatment='NCIT:C16567', mechanism='dislocations'), TreatmentMechanism(treatment='MAXO:0000011', mechanism='NCIT:C3244'), TreatmentMechanism(treatment='NCIT:C157792', mechanism='NCIT:C17047'), TreatmentMechanism(treatment='Bandages', mechanism='skin protection'), TreatmentMechanism(treatment='CHEBI:22984', mechanism='NCIT:C61545'), TreatmentMechanism(treatment='CHEBI:27300', mechanism='NCIT:C61545'), TreatmentMechanism(treatment='DEXA bone density scans', mechanism='NCIT:C48261'), TreatmentMechanism(treatment='Eye exams', mechanism='NCIT:C26782')], 'treatment_efficacies': [TreatmentEfficacy(treatment='Superficial stiches', efficacy='effective'), TreatmentEfficacy(treatment='Preventative measures', efficacy='effective'), TreatmentEfficacy(treatment='NCIT:C16567', efficacy='preventive'), TreatmentEfficacy(treatment='MAXO:0000011', efficacy='pain management'), TreatmentEfficacy(treatment='NCIT:C157792', efficacy='pain management'), TreatmentEfficacy(treatment='Bandages', efficacy='skin protection'), TreatmentEfficacy(treatment='CHEBI:22984', efficacy='bone density maximization'), TreatmentEfficacy(treatment='CHEBI:27300', efficacy='bone density maximization'), TreatmentEfficacy(treatment='DEXA bone density scans', efficacy='screening'), TreatmentEfficacy(treatment='Eye exams', efficacy='screening.')]}
+input_id: null
+input_text: "Disease: Ehlers Danlos Syndrome\nTreatment:\nThe care of patients with\
+  \ EDS is generally focused on implementing preventative measures against serious\
+  \ or life-threatening complications. The primary complications seen in EDS involve\
+  \ the skin, musculoskeletal, and cardiovascular systems. Patient skin is velvety\
+  \ thin, loose, and stretchable. This predisposes patients to difficulties with wound\
+  \ healing. For both accidental and surgical wounds, deep stiches are applied generously.\
+  \ Superficial stiches are placed to carefully realign the skin to prevent scarring.\
+  \ Stiches are also left in for extended periods of time to allow best strengthening\
+  \ of the forming scar tissue. Ascorbic acid (Vitamin C) may be recommended to help\
+  \ reduce the easy bruising that accompanies EDS. Hypermobile joints easily dislocate.\
+  \ With each dislocation, subsequent dislocations are increasingly likely, therefore\
+  \ prevention is particularly important for quality of life. Heavy sports, lifting,\
+  \ and other strenuous efforts should be avoided due to the risk of inciting trauma.\
+  \ Blood vessel fragility increases the risk for serious bleeds and dissections.\
+  \ High blood pressure (hypertension) puts additional strain on the fragile vasculature\
+  \ and increases the risk for complications. Regular screening for hypertension and\
+  \ arterial disease should be conducted and treatment should be initiated early on.\
+  \ The best approaches to screening are by non-invasive technology: ultrasound, MRI,\
+  \ or CT. Arteriography, colonoscopy, and other similarly invasive screening procedures\
+  \ should be considered carefully for benefit versus risk. Surgery for non-life threatening\
+  \ conditions should also be carefully considered. Pregnancies should be followed\
+  \ by obstetricians that are well trained in dealing with high-risk pregnancies.\
+  \ Delivery can progress very quickly in EDS patients and it is yet unclear if there\
+  \ is an advantage to mothers to deliver by vaginal or cesarean routes. Expectant\
+  \ mothers with known aortic root dilations should have echocardiograms each trimester\
+  \ to observe for possible exacerbation. All EDS-affected individuals should seek\
+  \ immediate medical attention for any sudden or unexplained pains and consider wearing\
+  \ a MedicAlert bracelet to communicate their status as a patient with EDS should\
+  \ they lose consciousness.\n\nhEDS patients may especially benefit from physical\
+  \ therapy, low-resistance exercise, and assistive devices like braces, wheelchairs,\
+  \ and scooters. Comfortable writing utensils and a low-stress mattress serve an\
+  \ important role in reducing musculoskeletal pain. Pain management is tailored to\
+  \ the individual. Gastrointestinal and psychological complications are likewise\
+  \ managed per an individual\u2019s needs. In addition to physical therapy and low-resistance\
+  \ exercise, calcium and vitamin D can help maximize bone density. DEXA bone density\
+  \ scans should be conducted every other year. kEDS patients should have routine\
+  \ eye exams as they are at risk for globus rupture, retinal detachment and glaucoma.\
+  \ dEDS patients may benefit from protective bandages over exposed areas such as\
+  \ the skin of the elbows and knees.\n"
+input_title: null
+named_entities:
+- id: NCIT:C16567
+  label: Exercise
+- id: MAXO:0000011
+  label: Physical therapy
+- id: CHEBI:22984
+  label: Calcium
+- id: CHEBI:27300
+  label: Vitamin D
+- id: GO:0042060
+  label: wound healing
+- id: NCIT:C16567
+  label: Exercise
+- id: MAXO:0000011
+  label: Physical therapy
+- id: NCIT:C3244
+  label: musculoskeletal pain
+- id: NCIT:C157792
+  label: Assistive devices
+- id: NCIT:C17047
+  label: quality of life
+- id: CHEBI:22984
+  label: Calcium
+- id: NCIT:C61545
+  label: bone density
+- id: CHEBI:27300
+  label: Vitamin D
+- id: NCIT:C61545
+  label: bone density
+- id: NCIT:C48261
+  label: screening
+- id: NCIT:C26782
+  label: glaucoma
+- id: NCIT:C16567
+  label: Exercise
+- id: MAXO:0000011
+  label: Physical therapy
+- id: NCIT:C157792
+  label: Assistive devices
+- id: CHEBI:22984
+  label: Calcium
+- id: CHEBI:27300
+  label: Vitamin D
+raw_completion_output: "\nDisease: Ehlers Danlos Syndrome; \nDrugs: Ascorbic Acid\
+  \ (Vitamin C); \nTreatments: Superficial stiches; Preventative measures; Exercise;\
+  \ Physical therapy; Assitive devices; Bandages; Calcium; Vitamin D; DEXA bone density\
+  \ scans; Eye exams; \nTreatment_mechanisms: Superficial stiches*wound healing; Preventative\
+  \ measures*life threatening complications; Exercise*dislocations; Physical therapy*musculoskeletal\
+  \ pain; Assistive devices*quality of life; Bandages*skin protection; Calcium*bone\
+  \ density; Vitamin D*bone density; DEXA bone density scans*screening; Eye exams*glaucoma;\n\
+  \nTreatment_efficacies: Superficial stiches*effective; Preventative measures*effective;\
+  \ Exercise*preventive; Physical therapy*pain management; Assistive devices*pain\
+  \ management; Bandages*skin protection; Calcium*bone density maximization; Vitamin\
+  \ D*bone density maximization; DEXA bone density scans*screening; Eye exams*screening."
+results:
+  disease: Ehlers Danlos Syndrome;
+  drugs:
+  - Ascorbic Acid (Vitamin C)
+  treatment_efficacies:
+  - efficacy: effective
+    treatment: Superficial stiches
+  - efficacy: effective
+    treatment: Preventative measures
+  - efficacy: preventive
+    treatment: NCIT:C16567
+  - efficacy: pain management
+    treatment: MAXO:0000011
+  - efficacy: pain management
+    treatment: NCIT:C157792
+  - efficacy: skin protection
+    treatment: Bandages
+  - efficacy: bone density maximization
+    treatment: CHEBI:22984
+  - efficacy: bone density maximization
+    treatment: CHEBI:27300
+  - efficacy: screening
+    treatment: DEXA bone density scans
+  - efficacy: screening.
+    treatment: Eye exams
+  treatment_mechanisms:
+  - mechanism: GO:0042060
+    treatment: Superficial stiches
+  - mechanism: life threatening complications
+    treatment: Preventative measures
+  - mechanism: dislocations
+    treatment: NCIT:C16567
+  - mechanism: NCIT:C3244
+    treatment: MAXO:0000011
+  - mechanism: NCIT:C17047
+    treatment: NCIT:C157792
+  - mechanism: skin protection
+    treatment: Bandages
+  - mechanism: NCIT:C61545
+    treatment: CHEBI:22984
+  - mechanism: NCIT:C61545
+    treatment: CHEBI:27300
+  - mechanism: NCIT:C48261
+    treatment: DEXA bone density scans
+  - mechanism: NCIT:C26782
+    treatment: Eye exams
+  treatments:
+  - Superficial stiches
+  - Preventative measures
+  - NCIT:C16567
+  - MAXO:0000011
+  - Assitive devices
+  - Bandages
+  - CHEBI:22984
+  - CHEBI:27300
+  - DEXA bone density scans
+  - Eye exams
+

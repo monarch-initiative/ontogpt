@@ -1,0 +1,77 @@
+id: https://w3id.org/ontogpt/ontology_class
+name: ontology-class
+title: Ontology Class Template
+description: >-
+  A template for Ontology Classes
+license: https://creativecommons.org/publicdomain/zero/1.0/
+prefixes:
+  linkml: https://w3id.org/linkml/
+  oc: http://w3id.org/ontogpt/ontology-class-template
+
+default_prefix: oc
+default_range: string
+
+imports:
+  - linkml:types
+  - core
+
+classes:
+  OntologyClass:
+    is_a: NamedEntity
+    attributes:
+      label:
+        description: the name of the entity
+      description:
+        description: a textual description of the entity
+      synonyms:
+        description: alternative names of the entity
+        multivalued: true
+      categories:
+        description: the categories to which this entity belongs
+        annotations:
+          prompt: semicolon-separated list of categories to which the entity belongs
+        range:  OntologyClass
+        multivalued: true
+      subclass_of:
+        annotations:
+          prompt: semicolon-separated list of parent classes
+        range:  OntologyClass
+        multivalued: true
+      logical_definition:
+        description: the necessary and sufficient conditions for this entity to be an instance of this class
+        annotations:
+          prompt: >-
+            the necessary and sufficient conditions for this entity to be an instance of this class,
+            written in OWL manchester syntax, e.g. bone and (part_of some 'hand')
+        range: LogicalDefinition
+
+  LogicalDefinition:
+    attributes:
+      genus:
+        range: OntologyClass
+        multivalued: true
+        annotations:
+          prompt: >-
+            in a logical definition expression, this is the parent (genus) class,
+            e.g. bone
+      differentiating_characteristic_relationship:
+        range: Relation
+        annotations:
+          prompt: >-
+            in a logical definition expression, this is the parent (differentiating characteristic) relationship type,
+            e.g. part of
+      differentiating_characteristic_parents:
+        range: OntologyClass
+        multivalued: true
+        annotations:
+          prompt: >-
+            in a logical definition expression, this the parent (differentiating characteristic) class,
+            e.g. hand
+
+  Relation:
+    is_a: NamedEntity
+    id_prefixes:
+      - RO
+    annotations:
+      annotators: sqlite:obo:ro
+

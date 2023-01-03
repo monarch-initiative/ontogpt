@@ -1,0 +1,37 @@
+site_name: "OntoGPT"
+theme:
+  name: material
+  analytics:
+    gtag: G-2SYBSJVZ23
+  palette:
+  - media: '(prefers-color-scheme: light)'
+    scheme: default
+    primary: teal
+    accent: amber
+    toggle:
+      icon: material/lightbulb
+      name: Switch to light mode
+  - media: '(prefers-color-scheme: dark)'
+    scheme: slate
+    primary: teal
+    accent: amber
+    toggle:
+      icon: material/lightbulb-outline
+      name: Switch to dark mode
+  features:
+    - content.tabs.link
+plugins:
+  - search
+  - mermaid2
+nav:
+  - About: index.md
+  - SPIRES:
+      - Recipes: recipes/index.md
+      - Pathways: gocam/index.md
+      - Chemical to Disease: ctd/index.md
+      - Drugs and Mechanisms: drug/index.md
+      - Biochemical Reactions: reaction/index.md
+      - Treatments: treatment/index.md
+  - HALO: halo/index.md
+site_url: https://monarch-initiative.github.io/ontogpt/
+repo_url: https://github.com/monarch-initiative/ontogpt/

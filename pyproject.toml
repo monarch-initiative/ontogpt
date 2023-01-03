@@ -1,0 +1,75 @@
+[tool.poetry]
+name = "ontogpt"
+version = "0.0.0"
+description = "OntoGPT"
+authors = ["Chris Mungall <cjmungall@lbl.gov>"]
+license = "BSD-3"
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.9"
+setuptools = "^65.5.0"
+tox = "^3.25.1"
+click = "^8.1.3"
+importlib = "^1.0.4"
+sphinx = {version = "^5.3.0", extras = ["docs"]}
+sphinx-rtd-theme = {version = "^1.0.0", extras = ["docs"]}
+sphinx-autodoc-typehints = {version = "^1.19.4", extras = ["docs"]}
+sphinx-click = {version = "^4.3.0", extras = ["docs"]}
+myst-parser = {version = "^0.18.1", extras = ["docs"]}
+openai = "^0.25.0"
+oaklib = "^0.1.64"
+gilda = "^0.10.3"
+jsonlines = "^3.1.0"
+fastapi = "^0.88.0"
+uvicorn = "^0.20.0"
+Jinja2 = "^3.1.2"
+python-multipart = "^0.0.5"
+mkdocs-mermaid2-plugin = "^0.6.0"
+linkml-owl = "^0.2.4"
+beautifulsoup4 = "^4.11.1"
+eutils = "^0.6.0"
+class-resolver = "^0.3.10"
+inflect = "^6.0.2"
+bioc = "^2.0.post5"
+linkml = "1.3.16"
+wikipedia = "^1.4.0"
+tiktoken = "^0.1.1"
+airium = "^0.2.5"
+erdantic = "^0.5.0"
+
+[tool.poetry.dev-dependencies]
+pytest = "^7.1.2"
+
+[tool.poetry.scripts]
+ontogpt = "ontogpt.cli:main"
+web-ontogpt = "ontogpt.webapp.main:start"
+
+[tool.poetry.extras]
+docs = [
+    "sphinx",
+    "sphinx-rtd-theme",
+    "sphinx-autodoc-typehints",
+    "sphinx-click",
+    "myst-parser"
+    ]
+
+[tool.poetry-dynamic-versioning]
+enable = true
+vcs = "git"
+style = "pep440"
+
+[tool.black]
+line-length = 100
+target-version = ["py38", "py39", "py310"]
+
+[tool.isort]
+profile = "black"
+multi_line_output = 3
+line_length = 100
+include_trailing_comma = true
+reverse_relative = true
+
+[build-system]
+requires = ["poetry-core>=1.0.0", "poetry-dynamic-versioning"]
+build-backend = "poetry_dynamic_versioning.backend"

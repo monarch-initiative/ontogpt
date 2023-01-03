@@ -1,0 +1,54 @@
+CHARCOT-MARIE-TOOTH DISEASE, AXONAL, TYPE 2E; CMT2E
+
+INHERITANCE
+- Autosomal dominant
+HEAD & NECK
+Face
+- Facial muscle weakness (in some patients)
+Eyes
+- Ptosis (in some patients) 
+Mouth
+- High-arched palate (in some patients)
+SKELETAL
+- Joint contractures
+Spine
+- Scoliosis (in some patients)
+Hands
+- Claw hand deformities (in severe cases)
+Feet
+- Pes cavus 
+- Hammer toes
+- Foot deformities
+MUSCLE, SOFT TISSUES
+- Shoulder muscle weakness (in some patients)
+- Hypotrophy of the small hand muscles
+- Fiber-type predominance seen on muscle biopsy (in some patients)
+- Fiber size variation (in some patients)
+- Internal nuclei (in some patients)
+- Increased connective tissue (in some patients)
+- Nemaline rods (in some patients)
+- Group fiber atrophy (in some patients)
+- Angular fibers (in some patients)
+- EMG consistent with chronic neurogenic disorder
+NEUROLOGIC
+Central Nervous System
+- Delayed motor development (in some patients)
+Peripheral Nervous System
+- Distal limb muscle weakness due to peripheral neuropathy
+- Distal limb muscle atrophy due to peripheral neuropathy
+- 'Steppage' gait
+- Foot drop
+- Distal sensory impairment
+- Hyporeflexia
+- Areflexia
+- Normal or mildly decreased motor nerve conduction velocity (NCV) (greater than 38 m/s)
+- Axonopathy seen on nerve biopsy
+- Giant axons with accumulation of disorganized neurofilaments
+MISCELLANEOUS
+- Variable age of onset (range first to third decade)
+- Usually begins in feet and legs (peroneal distribution)
+- Upper limb involvement occurs later
+- Variable severity
+- Some patients may become wheelchair-bound
+MOLECULAR BASIS
+- Caused by mutation in the light polypeptide neurofilament protein gene (NEFL, 162280.0001)

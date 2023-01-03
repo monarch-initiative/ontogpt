@@ -1,0 +1,9 @@
+genes: β-Catenin; cGAS; STING; US3; IFN; ISG
+organisms: Herpes Simplex Virus I (HSV-1);
+gene_organisms: β-Catenin:host; cGAS:host; STING:host; US3:HSV-1; IFN:host; ISG:host
+activities: production of type I IFN; transcription of type I IFN; replication of HSV-1; nuclear translocation of β-catenin
+gene_functions: β-catenin:enhance the transcription of type I IFN; US3:antagonize the production of IFN; β-catenin:block nuclear translocation
+cellular_processes: cGAS/STING-mediated DNA-sensing signaling; activation of IFN pathway
+pathways: IFN pathway; Wnt signalling pathway
+gene_gene_interactions: US3:β-catenin
+gene_localizations: US3:host; β-catenin:host

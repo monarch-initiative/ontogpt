@@ -1,0 +1,163 @@
+# Class: ReactionDocument
+
+
+
+URI: [reaction:ReactionDocument](http://w3id.org/ontogpt/reaction/ReactionDocument)
+
+
+```mermaid
+ classDiagram
+    class ReactionDocument
+      ReactionDocument : gene_reaction_pairings
+      ReactionDocument : genes
+      ReactionDocument : organism
+      ReactionDocument : reactions
+      
+```
+
+
+
+<!-- no inheritance hierarchy -->
+
+
+## Slots
+
+| Name | Cardinality and Range | Description | Inheritance |
+| ---  | --- | --- | --- |
+| [genes](genes.md) | 0..* <br/> [Gene](Gene.md) | semicolon separated list of genes that catalyzes the mentioned reactions | direct |
+| [reactions](reactions.md) | 0..1 <br/> NONE |  | direct |
+| [gene_reaction_pairings](gene_reaction_pairings.md) | 0..* <br/> [GeneReactionPairing](GeneReactionPairing.md) | semicolon separated list of gene to reaction pairings | direct |
+| [organism](organism.md) | 0..1 <br/> NONE |  | direct |
+
+
+
+
+
+
+
+
+
+## Identifier and Mapping Information
+
+
+
+
+
+
+
+### Schema Source
+
+
+* from schema: https://w3id.org/ontogpt/reaction
+
+
+
+
+
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | reaction:ReactionDocument |
+| native | reaction:ReactionDocument |
+
+
+## LinkML Source
+
+<!-- TODO: investigate https://stackoverflow.com/questions/37606292/how-to-create-tabbed-code-blocks-in-mkdocs-or-sphinx -->
+
+### Direct
+
+<details>
+```yaml
+name: ReactionDocument
+from_schema: https://w3id.org/ontogpt/reaction
+rank: 1000
+attributes:
+  genes:
+    name: genes
+    description: semicolon separated list of genes that catalyzes the mentioned reactions
+    from_schema: https://w3id.org/ontogpt/reaction
+    rank: 1000
+    multivalued: true
+    range: Gene
+  reactions:
+    name: reactions
+    description: semicolon separated list of reaction equations (e.g. A+B = C+D) catalyzed
+      by the gene
+    from_schema: https://w3id.org/ontogpt/reaction
+    multivalued: true
+    range: Reaction
+    inlined: true
+  gene_reaction_pairings:
+    name: gene_reaction_pairings
+    description: semicolon separated list of gene to reaction pairings
+    from_schema: https://w3id.org/ontogpt/reaction
+    rank: 1000
+    multivalued: true
+    range: GeneReactionPairing
+    inlined: true
+  organism:
+    name: organism
+    from_schema: https://w3id.org/ontogpt/reaction
+    range: Organism
+
+```
+</details>
+
+### Induced
+
+<details>
+```yaml
+name: ReactionDocument
+from_schema: https://w3id.org/ontogpt/reaction
+rank: 1000
+attributes:
+  genes:
+    name: genes
+    description: semicolon separated list of genes that catalyzes the mentioned reactions
+    from_schema: https://w3id.org/ontogpt/reaction
+    rank: 1000
+    multivalued: true
+    alias: genes
+    owner: ReactionDocument
+    domain_of:
+    - ReactionDocument
+    range: Gene
+  reactions:
+    name: reactions
+    description: semicolon separated list of reaction equations (e.g. A+B = C+D) catalyzed
+      by the gene
+    from_schema: https://w3id.org/ontogpt/reaction
+    multivalued: true
+    alias: reactions
+    owner: ReactionDocument
+    domain_of:
+    - GeneToReaction
+    - ReactionDocument
+    range: Reaction
+    inlined: true
+  gene_reaction_pairings:
+    name: gene_reaction_pairings
+    description: semicolon separated list of gene to reaction pairings
+    from_schema: https://w3id.org/ontogpt/reaction
+    rank: 1000
+    multivalued: true
+    alias: gene_reaction_pairings
+    owner: ReactionDocument
+    domain_of:
+    - ReactionDocument
+    range: GeneReactionPairing
+    inlined: true
+  organism:
+    name: organism
+    from_schema: https://w3id.org/ontogpt/reaction
+    alias: organism
+    owner: ReactionDocument
+    domain_of:
+    - GeneToReaction
+    - ReactionDocument
+    range: Organism
+
+```
+</details>

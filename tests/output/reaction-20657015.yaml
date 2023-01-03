@@ -1,0 +1,105 @@
+input_id: /Users/cjm/repos/semantic-llama/tests/input/cases/reaction-20657015.txt
+input_text: "Title: Molecular identification of N-acetylaspartylglutamate synthase\
+  \ and beta-citrylglutamate synthase\n\nAbstract\nThe purpose of the present work\
+  \ was to determine the identity of the enzymes that synthesize N-acetylaspartylglutamate\
+  \ (NAAG), the most abundant dipeptide present in vertebrate central nervous system\
+  \ (CNS), and \u03B2-citrylglutamate, a structural analogue of NAAG present in testis\
+  \ and immature brain. Previous evidence suggests that NAAG is not synthesized on\
+  \ ribosomes but presumably is synthesized by a ligase. As attempts to detect this\
+  \ ligase in brain extracts failed, we searched the mammalian genomes for putative\
+  \ enzymes that could catalyze this type of reaction. Mammalian genomes were found\
+  \ to encode two putative ligases homologous to Escherichia coli RIMK, which ligates\
+  \ glutamates to the C terminus of ribosomal protein S6. One of them, named RIMKLA,\
+  \ is almost exclusively expressed in the CNS, whereas RIMKLB, which shares 65% sequence\
+  \ identity with RIMKLA, is expressed in CNS and testis. Both proteins were expressed\
+  \ in bacteria or HEK293T cells and purified. RIMKLA catalyzed the ATP-dependent\
+  \ synthesis of N-acetylaspartylglutamate from N-acetylaspartate and l-glutamate.\
+  \ RIMKLB catalyzed this reaction as well as the synthesis of \u03B2-citrylglutamate.\
+  \ The nature of the reaction products was confirmed by mass spectrometry and NMR.\
+  \ RIMKLA was shown to produce stoichiometric amounts of NAAG and ADP, in agreement\
+  \ with its belonging to the ATP-grasp family of ligases. The molecular identification\
+  \ of these two enzymes will facilitate progress in the understanding of the function\
+  \ of NAAG and \u03B2-citrylglutamate."
+raw_completion_output: "genes: RIMKLB; RIMKLA;\nreactions: N-acetylaspartate + l-glutamate\
+  \ = N-acetylaspartylglutamate + ADP; N-acetylaspartate + l-glutamate = beta-citrylglutamate;\
+  \ \ngene_reaction_pairings: RIMKLB: N-acetylaspartate + l-glutamate = N-acetylaspartylglutamate\
+  \ + ADP; RIMKLB: N-acetylaspartate + l-glutamate = beta-citrylglutamate; RIMKLA:\
+  \ N-acetylaspartate + l-glutamate = N-acetylaspartylglutamate + ADP; \norganism:\
+  \ mammalian"
+prompt: 'From the text below, extract the following entities in the following format:
+
+
+  gene: <name of the gene that catalyzes the reaction>
+
+  reaction: <equation describing the reaction (e.g. A+B = C+D) catalyzed by the gene>
+
+
+
+  Text:
+
+  RIMKLA: N-acetylaspartate + l-glutamate = N-acetylaspartylglutamate + ADP
+
+
+  ===
+
+
+  '
+extracted_object:
+  genes:
+  - HGNC:29228
+  - HGNC:28725
+  reactions:
+  - label: N-acetylaspartate + l-glutamate reaction
+    description: A chemical reaction between N-acetylaspartate and l-glutamate, resulting
+      in the production of N-acetylaspartylglutamate and ADP
+    synonyms:
+    - NA
+    subclass_of: Chemical Reaction
+    left_side:
+    - N-acetylaspartate
+    - CHEBI:29988
+    right_side:
+    - CHEBI:76931
+    - CHEBI:16761
+  - label: N-acetylaspartate synthesis
+    description: A reaction in which N-acetylaspartate is converted to beta-citrylglutamate
+    synonyms:
+    - N-acetylaspartic acid synthesis
+    - NAA synthesis
+    subclass_of: GO:0009058
+    left_side:
+    - N-acetylaspartate
+    - CHEBI:29988
+    right_side:
+    - CHEBI:76942
+  gene_reaction_pairings:
+  - gene: HGNC:29228
+    reaction: N-acetylaspartate + l-glutamate = N-acetylaspartylglutamate + ADP
+  - gene: HGNC:29228
+    reaction: N-acetylaspartate + l-glutamate = beta-citrylglutamate
+  - gene: HGNC:28725
+    reaction: N-acetylaspartate + l-glutamate = N-acetylaspartylglutamate + ADP
+  organism: mammalian
+named_entities:
+- id: HGNC:29228
+  label: RIMKLB
+- id: HGNC:28725
+  label: RIMKLA
+- id: CHEBI:29988
+  label: l-glutamate
+- id: CHEBI:76931
+  label: N-acetylaspartylglutamate
+- id: CHEBI:16761
+  label: ADP
+- id: GO:0009058
+  label: Anabolism
+- id: CHEBI:29988
+  label: l-glutamate
+- id: CHEBI:76942
+  label: beta-citrylglutamate
+- id: HGNC:29228
+  label: RIMKLB
+- id: HGNC:29228
+  label: RIMKLB
+- id: HGNC:28725
+  label: RIMKLA

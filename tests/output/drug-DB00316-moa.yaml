@@ -1,0 +1,82 @@
+input_id: /Users/cjm/repos/semantic-llama/tests/input/cases/drug-DB00316-moa.txt
+input_text: 'According to its FDA labeling, acetaminophen''s exact mechanism of action
+  has not been fully establishedLabel - despite this, it is often categorized alongside
+  NSAIDs (nonsteroidal anti-inflammatory drugs) due to its ability to inhibit the
+  cyclooxygenase (COX) pathways.14 It is thought to exert central actions which ultimately
+  lead to the alleviation of pain symptoms.14
+
+
+  One theory is that acetaminophen increases the pain threshold by inhibiting two
+  isoforms of cyclooxygenase, COX-1 and COX-2, which are involved in prostaglandin
+  (PG) synthesis. Prostaglandins are responsible for eliciting pain sensations.13
+  Acetaminophen does not inhibit cyclooxygenase in peripheral tissues and, therefore,
+  has no peripheral anti-inflammatory effects. Though acetylsalicylic acid (aspirin)
+  is an irreversible inhibitor of COX and directly blocks the active site of this
+  enzyme, studies have shown that acetaminophen (paracetamol) blocks COX indirectly.24
+  Studies also suggest that acetaminophen selectively blocks a variant type of the
+  COX enzyme that is unique from the known variants COX-1 and COX-2.6 This enzyme
+  has been referred to as COX-3. The antipyretic actions of acetaminophen are likely
+  attributed to direct action on heat-regulating centers in the brain, resulting in
+  peripheral vasodilation, sweating, and loss of body heat.24 The exact mechanism
+  of action of this drug is not fully understood at this time, but future research
+  may contribute to deeper knowledge'
+raw_completion_output: "Disease: Pain symptoms; \nDrug: Acetaminophen; \nMechanism_Links:\
+  \ COX-1 - Acetaminophen - Inhibit; COX-2 - Acetaminophen - Inhibit; COX-3 - Acetaminophen\
+  \ - Block; Prostaglandin - Acetaminophen - Inhibit; Heat-regulating-centers - Acetaminophen\
+  \ - Direct-action."
+prompt: 'Split the following piece of text into fields in the following format:
+
+
+  subject: <the value for subject>
+
+  predicate: <the value for predicate>
+
+  object: <the value for object>
+
+
+
+  Text:
+
+  Heat-regulating-centers - Acetaminophen - Direct-action.
+
+
+  ===
+
+
+  '
+extracted_object:
+  disease: Pain symptoms;
+  drug: Acetaminophen;
+  mechanism_links:
+  - subject: PR:000013427
+    predicate: Inhibit
+    object: MESH:D000082
+  - subject: PR:000013428
+    predicate: Inhibit
+    object: MESH:D000082
+  - subject: PR:P24891
+    predicate: Block
+    object: MESH:D000082
+  - subject: CHEBI:26333
+    predicate: Inhibit
+    object: MESH:D000082
+  - subject: Heat-regulating-centers
+    predicate: Acetaminophen
+    object: Direct-action
+named_entities:
+- id: PR:000013427
+  label: COX-1
+- id: MESH:D000082
+  label: Acetaminophen
+- id: PR:000013428
+  label: COX-2
+- id: MESH:D000082
+  label: Acetaminophen
+- id: PR:P24891
+  label: COX-3
+- id: MESH:D000082
+  label: Acetaminophen
+- id: CHEBI:26333
+  label: Prostaglandin
+- id: MESH:D000082
+  label: Acetaminophen

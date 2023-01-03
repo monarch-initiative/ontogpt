@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Semantic Llama: Enter text</title>
+</head>
+<body>
+<div>
+    <form method="post">
+        <div>
+            Select Schema:
+            <select name="datamodel" id="datamodel">
+                {% for datamodel in datamodels %}
+                  <option value="{{ datamodel }}">{{ datamodel }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div>
+            <textarea name="text" rows="20" cols="80">enter text here (e.g. pubmed abstract)
+            </textarea>
+        </div>
+        <input type="submit">
+        <div>
+            <i><please be patient, can take up to 10s)</i>
+        </div>
+    </form>
+</div>
+<div class="footer">
+    <p>Powered by <a href="https://github.com/cmungall/semantic-llama">Semantic Llama</a></p>
+</div>
+</body>
+</html>

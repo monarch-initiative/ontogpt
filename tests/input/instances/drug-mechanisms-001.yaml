@@ -1,0 +1,69 @@
+- disease: MESH:D015464
+  drug: drugbank:DB00619
+  mechanism_links:
+  - object: PR:P00519
+    predicate: decreases activity of
+    subject: MESH:D000068877
+  - object: MESH:D015464
+    predicate: causes
+    subject: PR:P00519
+- disease: MESH:D034721
+  drug: drugbank:DB00619
+  mechanism_links:
+  - object: PR:P10721
+    predicate: decreases activity of
+    subject: MESH:D000068877
+  - object: PR:P16234
+    predicate: decreases activity of
+    subject: MESH:D000068877
+  - object: GO:0008283
+    predicate: positively regulates
+    subject: PR:P10721
+  - object: GO:0008283
+    predicate: positively regulates
+    subject: PR:P16234
+  - object: MESH:D034721
+    predicate: causes
+    subject: GO:0008283
+- disease: MESH:D010146
+  drug: drugbank:DB00316
+  mechanism_links:
+  - object: PR:P23219
+    predicate: decreases activity of
+    subject: MESH:D000082
+  - object: PR:P35354
+    predicate: decreases activity of
+    subject: MESH:D000082
+  - object: PR:Q15185
+    predicate: decreases activity of
+    subject: MESH:D000082
+  - object: GO:0001516
+    predicate: positively regulates
+    subject: PR:P23219
+  - object: GO:0001516
+    predicate: positively regulates
+    subject: PR:P35354
+  - object: GO:0001516
+    predicate: positively regulates
+    subject: PR:Q15185
+  - object: MESH:D011453
+    predicate: increases abundance of
+    subject: GO:0001516
+  - object: MESH:D010146
+    predicate: positively correlated with
+    subject: MESH:D011453
+- disease: MESH:D005334
+  drug: drugbank:DB00316
+  mechanism_links:
+  - object: REACT:R-HSA-2162123
+    predicate: negatively regulates
+    subject: MESH:D000082
+  - object: UBERON:0000955
+    predicate: occurs in
+    subject: REACT:R-HSA-2162123
+  - object: GO:0001659
+    predicate: location of
+    subject: UBERON:0000955
+  - object: MESH:D005334
+    predicate: negatively correlated with
+    subject: GO:0001659

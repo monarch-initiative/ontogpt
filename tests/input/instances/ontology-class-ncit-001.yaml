@@ -1,0 +1,36 @@
+- label: glioblastoma
+  description: >-
+    A carcinoma that arises from a glial cell in the nervous system
+  subclass_of:
+    - nervous system cancer
+    - glioma
+  logical_definition:
+    genus:
+      - carcinoma
+    differentiating_characteristic_relationship: arises from
+    differentiating_characteristic_parents:
+      - glial cell
+- label: Langerhans cell sarcoma
+  description: >-
+    A neoplastic proliferation of Langerhans cells with overtly malignant cytologic features.
+  subclass_of:
+    - dendritic cell tumor
+    - sarcoma
+  logical_definition:
+    genus:
+      - sarcoma
+    differentiating_characteristic_relationship: arises from
+    differentiating_characteristic_parents:
+      - Langerhans
+- label: lung cancer
+  description: >-
+    A malignant neoplasm of the lung.
+  subclass_of:
+    - cancer
+    - lung neoplasm
+  logical_definition:
+    genus:
+    - cancer
+    differentiating_characteristic_relationship: part of
+    differentiating_characteristic_parents:
+    - lung

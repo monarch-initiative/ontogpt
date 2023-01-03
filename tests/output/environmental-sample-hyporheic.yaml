@@ -1,0 +1,107 @@
+input_id: /Users/cjm/repos/semantic-llama/tests/input/cases/environmental-sample-hyporheic.txt
+input_text: "Sediment communities from the hyporheic zone of the Columbia River along\
+  \ the Hanford Reach were sampled from April 30, 2014 to November 25, 2014, using\
+  \ sand packs deployed at three equivalent hyporheic zone locations approximately\
+  \ 100m apart along the river (T2, T3, and T4) for six weeks at a time [22]. Water\
+  \ chemistry data taken in parallel at the three sites showed similar, yet not identical\
+  \ temporal patterns. A mid-year shift in hydraulic regime was observed, with higher\
+  \ influx of surface water in the spring resulting in higher levels of dissolved\
+  \ organic carbon (measured as non-purgeable organic carbon) (NPOC) (0.8\u20131.0\
+  \ mg/L) (Fig 2A) and low levels of nitrate (10\u201315 \u03BCM) (Fig 2B), transitioning\
+  \ to a more groundwater-influenced condition in the fall, increasing the nitrate\
+  \ concentrations (up to 300 \u03BCM) and decreasing NPOC concentration (down to\
+  \ <0.4 mg/L). Because the groundwater in this system is oxic, the DO concentration\
+  \ was fairly constant for the duration of sampling, ranging from ~60\u2013100% saturation\
+  \ (Fig 2C). The water temperature followed expected seasonal trends, warming in\
+  \ the summer and cooling in the fall (Fig 2D). Sampling times were categorized as\
+  \ early (Apr 30 through Jul 22) or late (Sep 2 through Nov 30), based on these observations.\n"
+raw_completion_output: "Location: T2;T3;T4\nEnvironmental Material: Non-purgeable\
+  \ Organic Carbon (NPOC);Nitrate \nEnvironments: Hyporheic Zone; Surface Water; Groundwater\
+  \ \nCausal Relationships: Non-purgeable Organic Carbon (NPOC) & Surface Water Influx;\
+  \ Nitrate & Groundwater Influence;Water Temperature & Seasonal Trends\nVariables:\
+  \ Hydraulic Regime;Dissolved Organic Carbon;Nitrate Concentrations;Non-Purgeable\
+  \ Organic Carbon;DO Concentration;Water Temperature \nMeasurements: Non-Purgeable\
+  \ Organic Carbon (0.8\u20131.0 mg/L); Nitrate (10\u201315 \u03BCM); DO Concentration\
+  \ (~60\u2013100% saturation); Water Temperature (Warming in Summer, Cooling in Fall)"
+prompt: 'Split the following piece of text into fields in the following format:
+
+
+  value: <the value of the measurement>
+
+  unit: <the unit of the measurement>
+
+
+
+  Text:
+
+  Water Temperature (Warming in Summer, Cooling in Fall)
+
+
+  ===
+
+
+  '
+extracted_object:
+  location:
+  - T2
+  - T3
+  - T4
+  environmental_material:
+  - Non-purgeable Organic Carbon (NPOC)
+  - CHEBI:17632
+  environments:
+  - Hyporheic Zone
+  - ENVO:00002042
+  - ENVO:01001004
+  causal_relationships:
+  - cause: Non-purgeable Organic Carbon (NPOC)
+    effect: Surface Water Influx
+  - cause: CHEBI:17632
+    effect: Groundwater Influence
+  - cause: ENVO:09200014
+    effect: Seasonal Trends
+  variables:
+  - Hydraulic Regime
+  - Dissolved Organic Carbon
+  - Nitrate Concentrations
+  - Non-Purgeable Organic Carbon
+  - DO Concentration
+  - ENVO:09200014
+  measurements:
+  - value: 0.8-1.0
+    unit: http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#C64572
+  - value: "10\u201315"
+    unit: "\u03BCM"
+  - value: 60-100
+    unit: http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#C61427
+  - value: Water Temperature
+    unit: http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#C94732
+named_entities:
+- id: ENVO:00000107
+  label: heath
+- id: ENVO:01000797
+  label: peatland vegetation on trace gas flux
+- id: ENVO:00005774
+  label: peat
+- id: PATO:0000915
+  label: thickness
+- id: http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#C18902
+  label: N/A
+- id: CHEBI:17632
+  label: Nitrate
+- id: ENVO:00002042
+  label: Surface Water
+- id: ENVO:01001004
+  label: Groundwater
+- id: CHEBI:17632
+  label: Nitrate
+- id: ENVO:09200014
+  label: Water Temperature
+- id: ENVO:09200014
+  label: Water Temperature
+- id: http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#C64572
+  label: mg/L
+- id: http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#C61427
+  label: '% saturation'
+- id: http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#C94732
+  label: (Warming in Summer, Cooling in Fall)

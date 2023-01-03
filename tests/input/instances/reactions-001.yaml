@@ -1,0 +1,36 @@
+- label: trans-hexaprenyltranstransferase activity
+  description: >-
+    Catalysis of the reaction:
+    (2E,6E)-farnesyl diphosphate + 4 isopentenyl diphosphate = 
+    4 diphosphate + all-trans-heptaprenyl diphosphate.
+  subclass_of:
+    - prenyltransferase activity
+  left_side:
+    - (2E,6E)-farnesyl diphosphate
+    - 4 isopentenyl diphosphate
+  right_side:
+    - 4 diphosphate
+    - all-trans-heptaprenyl diphosphate
+- label: dihydroorotate dehydrogenase (fumarate) activity
+  description: >-
+    Catalysis of the reaction: (S)-dihydroorotate + fumarate = orotate + succinate.
+  subclass_of:
+    - dihydroorotate dehydrogenase activity
+  left_side:
+    - (S)-dihydroorotate
+    - fumarate
+  right_side:
+    - orotate
+    - succinate
+- label: butanol dehydrogenase activity
+  description: >-
+    Catalysis of the reaction: butanal + NADH + H+ => n-butanol + NAD+.
+  subclass_of:
+    - alcohol dehydrogenase (NAD+) activity
+  left_side:
+    - butanal
+    - NADPH
+    - H+
+  right_side:
+    - butanol
+    - NAD+

@@ -1,0 +1,74 @@
+id: http://w3id.org/ontogpt/drug
+name: drug
+title: Drug Template
+description: >-
+  A template for Drugs and drug mechanism
+license: https://creativecommons.org/publicdomain/zero/1.0/
+prefixes:
+  linkml: https://w3id.org/linkml/
+  drug: http://w3id.org/ontogpt/drug/
+
+default_prefix: drug
+default_range: string
+
+imports:
+  - linkml:types
+  - core
+
+classes:
+  DrugMechanism:
+    attributes:
+      disease:
+        description: the name of the disease that is treated
+        range: Disease
+      drug:
+        description: the name of the drug that treats the disease
+        range: Drug
+      mechanism_links:
+        description: semicolon-separated list of links, where each link is a triple connecting two entities via a relationship type
+        multivalued: true
+        range: MechanismLink
+      references:
+        multivalued: true
+        range: string
+        annotations:
+          prompt.skip: "true"
+      source_text:
+        range: string
+        annotations:
+          prompt.skip: "true"
+
+  MechanismElement:
+    is_a: NamedEntity
+    id_prefixes:
+      - HGNC
+      - MESH
+    annotations:
+      annotators: sqlite:obo:go, sqlite:obo:mesh, sqlite:obo:uberon, sqlite:obo:pr, sqlite:obo:ncbitaxon, sqlite:obo:cl
+
+  Disease:
+    is_a: NamedEntity
+    # TODO: make mondo primary; we use mesh for now for evaluating drugmechdb
+    annotations:
+      annotators: sqlite:obo:mesh, sqlite:obo:mondo
+
+  Drug:
+    is_a: NamedEntity
+    annotations:
+      annotators: sqlite:obo:drugbank, sqlite:obo:chebi, sqlite:obo:mesh
+
+  Predicate:
+    is_a: NamedEntity
+    annotations:
+      annotators: sqlite:obo:biolink, sqlite:obo:ro
+
+  MechanismLink:
+    is_a:   CompoundExpression
+    attributes:
+      subject:
+        range: MechanismElement
+      predicate:
+        range: Predicate
+      object:
+        range: MechanismElement
+

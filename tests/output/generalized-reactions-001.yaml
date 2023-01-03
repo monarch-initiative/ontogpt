@@ -1,0 +1,708 @@
+- _combo:
+  - label
+  _input:
+    label: pseudouridine 5'-phosphatase activity
+  input_id: null
+  input_text: 'example:
+
+    label: trans-hexaprenyltranstransferase activity
+
+    description: Catalysis of the reaction: (2E,6E)-farnesyl diphosphate + 4 isopentenyl
+    diphosphate =  4 diphosphate + all-trans-heptaprenyl diphosphate.
+
+    subclass_of: prenyltransferase activity
+
+    left_side: (2E,6E)-farnesyl diphosphate; 4 isopentenyl diphosphate
+
+    right_side: 4 diphosphate; all-trans-heptaprenyl diphosphate
+
+
+    label: dihydroorotate dehydrogenase (fumarate) activity
+
+    description: Catalysis of the reaction: (S)-dihydroorotate + fumarate = orotate
+    + succinate.
+
+    subclass_of: dihydroorotate dehydrogenase activity
+
+    left_side: (S)-dihydroorotate; fumarate
+
+    right_side: orotate; succinate
+
+
+    label: butanol dehydrogenase activity
+
+    description: Catalysis of the reaction: butanal + NADH + H+ => n-butanol + NAD+.
+
+    subclass_of: alcohol dehydrogenase (NAD+) activity
+
+    left_side: butanal; NADPH; H+
+
+    right_side: butanol; NAD+
+
+
+
+
+    ===
+
+
+    label: pseudouridine 5''-phosphatase activity
+
+    '
+  input_title: null
+  named_entities:
+  - id: CHEBI:18116
+    label: pseudouridine 5'-phosphate
+  - id: CHEBI:15377
+    label: H2O
+  - id: CHEBI:17802
+    label: pseudouridine
+  - id: CHEBI:26020
+    label: phosphate
+  prompt: null
+  raw_completion_output: null
+  results:
+  - description: 'Catalysis of the reaction: pseudouridine 5''-phosphate + H2O = pseudouridine
+      + phosphate.'
+    id: null
+    label: pseudouridine 5'-phosphatase activity
+    left_side:
+    - CHEBI:18116
+    - CHEBI:15377
+    right_side:
+    - CHEBI:17802
+    - CHEBI:26020
+    subclass_of: nucleoside 5'-phosphatase activity
+    synonyms: []
+- _combo:
+  - description
+  _input:
+    description: 'Catalysis of the reaction: pseudouridine 5''-phosphate + H2O = pseudouridine
+      + phosphate.'
+  input_id: null
+  input_text: 'example:
+
+    label: trans-hexaprenyltranstransferase activity
+
+    description: Catalysis of the reaction: (2E,6E)-farnesyl diphosphate + 4 isopentenyl
+    diphosphate =  4 diphosphate + all-trans-heptaprenyl diphosphate.
+
+    subclass_of: prenyltransferase activity
+
+    left_side: (2E,6E)-farnesyl diphosphate; 4 isopentenyl diphosphate
+
+    right_side: 4 diphosphate; all-trans-heptaprenyl diphosphate
+
+
+    label: dihydroorotate dehydrogenase (fumarate) activity
+
+    description: Catalysis of the reaction: (S)-dihydroorotate + fumarate = orotate
+    + succinate.
+
+    subclass_of: dihydroorotate dehydrogenase activity
+
+    left_side: (S)-dihydroorotate; fumarate
+
+    right_side: orotate; succinate
+
+
+    label: butanol dehydrogenase activity
+
+    description: Catalysis of the reaction: butanal + NADH + H+ => n-butanol + NAD+.
+
+    subclass_of: alcohol dehydrogenase (NAD+) activity
+
+    left_side: butanal; NADPH; H+
+
+    right_side: butanol; NAD+
+
+
+
+
+    ===
+
+
+    description: Catalysis of the reaction: pseudouridine 5''-phosphate + H2O = pseudouridine
+    + phosphate.
+
+    '
+  input_title: null
+  named_entities:
+  - id: CHEBI:18116
+    label: pseudouridine 5'-phosphate
+  - id: CHEBI:15377
+    label: H2O
+  - id: CHEBI:17802
+    label: pseudouridine
+  - id: CHEBI:26020
+    label: phosphate
+  - id: CHEBI:18116
+    label: pseudouridine 5'-phosphate
+  - id: CHEBI:15377
+    label: H2O
+  - id: CHEBI:17802
+    label: pseudouridine
+  - id: CHEBI:26020
+    label: phosphate
+  prompt: null
+  raw_completion_output: null
+  results:
+  - description: 'Catalysis of the reaction: pseudouridine 5''-phosphate + H2O = pseudouridine
+      + phosphate.'
+    id: null
+    label: null
+    left_side:
+    - CHEBI:18116
+    - CHEBI:15377
+    right_side:
+    - CHEBI:17802
+    - CHEBI:26020
+    subclass_of: pseudouridine 5'-phosphate phosphohydrolase activity
+    synonyms: []
+- _combo:
+  - label
+  - description
+  _input:
+    description: 'Catalysis of the reaction: pseudouridine 5''-phosphate + H2O = pseudouridine
+      + phosphate.'
+    label: pseudouridine 5'-phosphatase activity
+  input_id: null
+  input_text: 'example:
+
+    label: trans-hexaprenyltranstransferase activity
+
+    description: Catalysis of the reaction: (2E,6E)-farnesyl diphosphate + 4 isopentenyl
+    diphosphate =  4 diphosphate + all-trans-heptaprenyl diphosphate.
+
+    subclass_of: prenyltransferase activity
+
+    left_side: (2E,6E)-farnesyl diphosphate; 4 isopentenyl diphosphate
+
+    right_side: 4 diphosphate; all-trans-heptaprenyl diphosphate
+
+
+    label: dihydroorotate dehydrogenase (fumarate) activity
+
+    description: Catalysis of the reaction: (S)-dihydroorotate + fumarate = orotate
+    + succinate.
+
+    subclass_of: dihydroorotate dehydrogenase activity
+
+    left_side: (S)-dihydroorotate; fumarate
+
+    right_side: orotate; succinate
+
+
+    label: butanol dehydrogenase activity
+
+    description: Catalysis of the reaction: butanal + NADH + H+ => n-butanol + NAD+.
+
+    subclass_of: alcohol dehydrogenase (NAD+) activity
+
+    left_side: butanal; NADPH; H+
+
+    right_side: butanol; NAD+
+
+
+
+
+    ===
+
+
+    label: pseudouridine 5''-phosphatase activity
+
+    description: Catalysis of the reaction: pseudouridine 5''-phosphate + H2O = pseudouridine
+    + phosphate.
+
+    '
+  input_title: null
+  named_entities:
+  - id: CHEBI:18116
+    label: pseudouridine 5'-phosphate
+  - id: CHEBI:15377
+    label: H2O
+  - id: CHEBI:17802
+    label: pseudouridine
+  - id: CHEBI:26020
+    label: phosphate
+  - id: CHEBI:18116
+    label: pseudouridine 5'-phosphate
+  - id: CHEBI:15377
+    label: H2O
+  - id: CHEBI:17802
+    label: pseudouridine
+  - id: CHEBI:26020
+    label: phosphate
+  - id: GO:0016791
+    label: phosphatase activity
+  - id: CHEBI:18116
+    label: pseudouridine 5'-phosphate
+  - id: CHEBI:15377
+    label: H2O
+  - id: CHEBI:17802
+    label: pseudouridine
+  - id: CHEBI:26020
+    label: phosphate
+  prompt: null
+  raw_completion_output: null
+  results:
+  - description: 'Catalysis of the reaction: pseudouridine 5''-phosphate + H2O = pseudouridine
+      + phosphate.'
+    id: null
+    label: pseudouridine 5'-phosphatase activity
+    left_side:
+    - CHEBI:18116
+    - CHEBI:15377
+    right_side:
+    - CHEBI:17802
+    - CHEBI:26020
+    subclass_of: GO:0016791
+    synonyms: []
+- _combo:
+  - label
+  _input:
+    label: L-altrarate dehydratase activity
+  input_id: null
+  input_text: 'example:
+
+    label: trans-hexaprenyltranstransferase activity
+
+    description: Catalysis of the reaction: (2E,6E)-farnesyl diphosphate + 4 isopentenyl
+    diphosphate =  4 diphosphate + all-trans-heptaprenyl diphosphate.
+
+    subclass_of: prenyltransferase activity
+
+    left_side: (2E,6E)-farnesyl diphosphate; 4 isopentenyl diphosphate
+
+    right_side: 4 diphosphate; all-trans-heptaprenyl diphosphate
+
+
+    label: dihydroorotate dehydrogenase (fumarate) activity
+
+    description: Catalysis of the reaction: (S)-dihydroorotate + fumarate = orotate
+    + succinate.
+
+    subclass_of: dihydroorotate dehydrogenase activity
+
+    left_side: (S)-dihydroorotate; fumarate
+
+    right_side: orotate; succinate
+
+
+    label: butanol dehydrogenase activity
+
+    description: Catalysis of the reaction: butanal + NADH + H+ => n-butanol + NAD+.
+
+    subclass_of: alcohol dehydrogenase (NAD+) activity
+
+    left_side: butanal; NADPH; H+
+
+    right_side: butanol; NAD+
+
+
+
+
+    ===
+
+
+    label: L-altrarate dehydratase activity
+
+    '
+  input_title: null
+  named_entities:
+  - id: CHEBI:18116
+    label: pseudouridine 5'-phosphate
+  - id: CHEBI:15377
+    label: H2O
+  - id: CHEBI:17802
+    label: pseudouridine
+  - id: CHEBI:26020
+    label: phosphate
+  - id: CHEBI:18116
+    label: pseudouridine 5'-phosphate
+  - id: CHEBI:15377
+    label: H2O
+  - id: CHEBI:17802
+    label: pseudouridine
+  - id: CHEBI:26020
+    label: phosphate
+  - id: GO:0016791
+    label: phosphatase activity
+  - id: CHEBI:18116
+    label: pseudouridine 5'-phosphate
+  - id: CHEBI:15377
+    label: H2O
+  - id: CHEBI:17802
+    label: pseudouridine
+  - id: CHEBI:26020
+    label: phosphate
+  - id: CHEBI:37547
+    label: L-altrarate
+  - id: CHEBI:15377
+    label: H2O
+  - id: CHEBI:18276
+    label: H2
+  prompt: null
+  raw_completion_output: null
+  results:
+  - description: 'Catalysis of the reaction: L-altrarate + H2O = 2-dehydro-3-deoxy-L-altronate
+      + H2.'
+    id: null
+    label: L-altrarate dehydratase activity
+    left_side:
+    - CHEBI:37547
+    - CHEBI:15377
+    right_side:
+    - 2-dehydro-3-deoxy-L-altronate
+    - CHEBI:18276
+    subclass_of: amino acid dehydratase activity
+    synonyms: []
+- _combo:
+  - description
+  _input:
+    description: 'Catalysis of the reaction: L-altrarate = 5-dehydro-4-deoxy-D-glucarate
+      + H2O.'
+  input_id: null
+  input_text: 'example:
+
+    label: trans-hexaprenyltranstransferase activity
+
+    description: Catalysis of the reaction: (2E,6E)-farnesyl diphosphate + 4 isopentenyl
+    diphosphate =  4 diphosphate + all-trans-heptaprenyl diphosphate.
+
+    subclass_of: prenyltransferase activity
+
+    left_side: (2E,6E)-farnesyl diphosphate; 4 isopentenyl diphosphate
+
+    right_side: 4 diphosphate; all-trans-heptaprenyl diphosphate
+
+
+    label: dihydroorotate dehydrogenase (fumarate) activity
+
+    description: Catalysis of the reaction: (S)-dihydroorotate + fumarate = orotate
+    + succinate.
+
+    subclass_of: dihydroorotate dehydrogenase activity
+
+    left_side: (S)-dihydroorotate; fumarate
+
+    right_side: orotate; succinate
+
+
+    label: butanol dehydrogenase activity
+
+    description: Catalysis of the reaction: butanal + NADH + H+ => n-butanol + NAD+.
+
+    subclass_of: alcohol dehydrogenase (NAD+) activity
+
+    left_side: butanal; NADPH; H+
+
+    right_side: butanol; NAD+
+
+
+
+
+    ===
+
+
+    description: Catalysis of the reaction: L-altrarate = 5-dehydro-4-deoxy-D-glucarate
+    + H2O.
+
+    '
+  input_title: null
+  named_entities:
+  - id: CHEBI:18116
+    label: pseudouridine 5'-phosphate
+  - id: CHEBI:15377
+    label: H2O
+  - id: CHEBI:17802
+    label: pseudouridine
+  - id: CHEBI:26020
+    label: phosphate
+  - id: CHEBI:18116
+    label: pseudouridine 5'-phosphate
+  - id: CHEBI:15377
+    label: H2O
+  - id: CHEBI:17802
+    label: pseudouridine
+  - id: CHEBI:26020
+    label: phosphate
+  - id: GO:0016791
+    label: phosphatase activity
+  - id: CHEBI:18116
+    label: pseudouridine 5'-phosphate
+  - id: CHEBI:15377
+    label: H2O
+  - id: CHEBI:17802
+    label: pseudouridine
+  - id: CHEBI:26020
+    label: phosphate
+  - id: CHEBI:37547
+    label: L-altrarate
+  - id: CHEBI:15377
+    label: H2O
+  - id: CHEBI:18276
+    label: H2
+  - id: GO:0016491
+    label: oxidoreductase activity
+  - id: CHEBI:37547
+    label: L-altrarate
+  - id: CHEBI:16369
+    label: 5-dehydro-4-deoxy-D-glucarate
+  - id: CHEBI:15377
+    label: H2O
+  prompt: null
+  raw_completion_output: null
+  results:
+  - description: 'Catalysis of the reaction: L-altrarate = 5-dehydro-4-deoxy-D-glucarate
+      + H2O.'
+    id: null
+    label: null
+    left_side:
+    - CHEBI:37547
+    right_side:
+    - CHEBI:16369
+    - CHEBI:15377
+    subclass_of: GO:0016491
+    synonyms: []
+- _combo:
+  - label
+  - description
+  _input:
+    description: 'Catalysis of the reaction: L-altrarate = 5-dehydro-4-deoxy-D-glucarate
+      + H2O.'
+    label: L-altrarate dehydratase activity
+  input_id: null
+  input_text: 'example:
+
+    label: trans-hexaprenyltranstransferase activity
+
+    description: Catalysis of the reaction: (2E,6E)-farnesyl diphosphate + 4 isopentenyl
+    diphosphate =  4 diphosphate + all-trans-heptaprenyl diphosphate.
+
+    subclass_of: prenyltransferase activity
+
+    left_side: (2E,6E)-farnesyl diphosphate; 4 isopentenyl diphosphate
+
+    right_side: 4 diphosphate; all-trans-heptaprenyl diphosphate
+
+
+    label: dihydroorotate dehydrogenase (fumarate) activity
+
+    description: Catalysis of the reaction: (S)-dihydroorotate + fumarate = orotate
+    + succinate.
+
+    subclass_of: dihydroorotate dehydrogenase activity
+
+    left_side: (S)-dihydroorotate; fumarate
+
+    right_side: orotate; succinate
+
+
+    label: butanol dehydrogenase activity
+
+    description: Catalysis of the reaction: butanal + NADH + H+ => n-butanol + NAD+.
+
+    subclass_of: alcohol dehydrogenase (NAD+) activity
+
+    left_side: butanal; NADPH; H+
+
+    right_side: butanol; NAD+
+
+
+
+
+    ===
+
+
+    label: L-altrarate dehydratase activity
+
+    description: Catalysis of the reaction: L-altrarate = 5-dehydro-4-deoxy-D-glucarate
+    + H2O.
+
+    '
+  input_title: null
+  named_entities:
+  - id: CHEBI:18116
+    label: pseudouridine 5'-phosphate
+  - id: CHEBI:15377
+    label: H2O
+  - id: CHEBI:17802
+    label: pseudouridine
+  - id: CHEBI:26020
+    label: phosphate
+  - id: CHEBI:18116
+    label: pseudouridine 5'-phosphate
+  - id: CHEBI:15377
+    label: H2O
+  - id: CHEBI:17802
+    label: pseudouridine
+  - id: CHEBI:26020
+    label: phosphate
+  - id: GO:0016791
+    label: phosphatase activity
+  - id: CHEBI:18116
+    label: pseudouridine 5'-phosphate
+  - id: CHEBI:15377
+    label: H2O
+  - id: CHEBI:17802
+    label: pseudouridine
+  - id: CHEBI:26020
+    label: phosphate
+  - id: CHEBI:37547
+    label: L-altrarate
+  - id: CHEBI:15377
+    label: H2O
+  - id: CHEBI:18276
+    label: H2
+  - id: GO:0016491
+    label: oxidoreductase activity
+  - id: CHEBI:37547
+    label: L-altrarate
+  - id: CHEBI:16369
+    label: 5-dehydro-4-deoxy-D-glucarate
+  - id: CHEBI:15377
+    label: H2O
+  - id: GO:0016829
+    label: lyase activity
+  - id: CHEBI:37547
+    label: L-altrarate
+  - id: CHEBI:16369
+    label: 5-dehydro-4-deoxy-D-glucarate
+  - id: CHEBI:15377
+    label: H2O
+  prompt: null
+  raw_completion_output: null
+  results:
+  - description: 'Catalysis of the reaction: L-altrarate = 5-dehydro-4-deoxy-D-glucarate
+      + H2O.'
+    id: null
+    label: L-altrarate dehydratase activity
+    left_side:
+    - CHEBI:37547
+    right_side:
+    - CHEBI:16369
+    - CHEBI:15377
+    subclass_of: GO:0016829
+    synonyms: []
+- _combo:
+  - description
+  _input:
+    description: ent-copalyl diphosphate + H2O = diphosphate + ent-manool
+  input_id: null
+  input_text: 'example:
+
+    label: trans-hexaprenyltranstransferase activity
+
+    description: Catalysis of the reaction: (2E,6E)-farnesyl diphosphate + 4 isopentenyl
+    diphosphate =  4 diphosphate + all-trans-heptaprenyl diphosphate.
+
+    subclass_of: prenyltransferase activity
+
+    left_side: (2E,6E)-farnesyl diphosphate; 4 isopentenyl diphosphate
+
+    right_side: 4 diphosphate; all-trans-heptaprenyl diphosphate
+
+
+    label: dihydroorotate dehydrogenase (fumarate) activity
+
+    description: Catalysis of the reaction: (S)-dihydroorotate + fumarate = orotate
+    + succinate.
+
+    subclass_of: dihydroorotate dehydrogenase activity
+
+    left_side: (S)-dihydroorotate; fumarate
+
+    right_side: orotate; succinate
+
+
+    label: butanol dehydrogenase activity
+
+    description: Catalysis of the reaction: butanal + NADH + H+ => n-butanol + NAD+.
+
+    subclass_of: alcohol dehydrogenase (NAD+) activity
+
+    left_side: butanal; NADPH; H+
+
+    right_side: butanol; NAD+
+
+
+
+
+    ===
+
+
+    description: ent-copalyl diphosphate + H2O = diphosphate + ent-manool
+
+    '
+  input_title: null
+  named_entities:
+  - id: CHEBI:18116
+    label: pseudouridine 5'-phosphate
+  - id: CHEBI:15377
+    label: H2O
+  - id: CHEBI:17802
+    label: pseudouridine
+  - id: CHEBI:26020
+    label: phosphate
+  - id: CHEBI:18116
+    label: pseudouridine 5'-phosphate
+  - id: CHEBI:15377
+    label: H2O
+  - id: CHEBI:17802
+    label: pseudouridine
+  - id: CHEBI:26020
+    label: phosphate
+  - id: GO:0016791
+    label: phosphatase activity
+  - id: CHEBI:18116
+    label: pseudouridine 5'-phosphate
+  - id: CHEBI:15377
+    label: H2O
+  - id: CHEBI:17802
+    label: pseudouridine
+  - id: CHEBI:26020
+    label: phosphate
+  - id: CHEBI:37547
+    label: L-altrarate
+  - id: CHEBI:15377
+    label: H2O
+  - id: CHEBI:18276
+    label: H2
+  - id: GO:0016491
+    label: oxidoreductase activity
+  - id: CHEBI:37547
+    label: L-altrarate
+  - id: CHEBI:16369
+    label: 5-dehydro-4-deoxy-D-glucarate
+  - id: CHEBI:15377
+    label: H2O
+  - id: GO:0016829
+    label: lyase activity
+  - id: CHEBI:37547
+    label: L-altrarate
+  - id: CHEBI:16369
+    label: 5-dehydro-4-deoxy-D-glucarate
+  - id: CHEBI:15377
+    label: H2O
+  - id: GO:0016787
+    label: hydrolase activity
+  - id: CHEBI:15377
+    label: H2O
+  - id: CHEBI:18361
+    label: diphosphate
+  - id: CHEBI:76948
+    label: ent-manool
+  prompt: null
+  raw_completion_output: null
+  results:
+  - description: ent-copalyl diphosphate + H2O = diphosphate + ent-manool
+    id: null
+    label: Ent-copalyl-diphosphate DD-hydrolase activity
+    left_side:
+    - ent-copalyl-diphosphate
+    - CHEBI:15377
+    right_side:
+    - CHEBI:18361
+    - CHEBI:76948
+    subclass_of: GO:0016787
+    synonyms: []

@@ -1,0 +1,161 @@
+id: http://w3id.org/ontogpt/ctd
+name: ctd
+title: Chemical to Disease Template
+description: >-
+  A template for Chemical to Disease associations.
+  
+  This template is intended to represent associations between chemicals and diseases,
+  and for evaluating Semantic Llama against BioCreative V Chemical Disease
+  Relation (CDR) Task (BC5CDR).
+see_also:
+  - https://biocreative.bioinformatics.udel.edu/media/store/files/2015/BC5CDR_overview.final.pdf
+  - https://academic.oup.com/database/article/doi/10.1093/database/baw068/2630414
+source: https://biocreative.bioinformatics.udel.edu/tasks/biocreative-v/track-3-cdr/
+license: https://creativecommons.org/publicdomain/zero/1.0/
+prefixes:
+  linkml: https://w3id.org/linkml/
+  drug: http://w3id.org/ontogpt/drug/
+
+default_prefix: drug
+default_range: string
+
+imports:
+  - linkml:types
+  - core
+
+classes:
+
+  ChemicalToDiseaseDocument:
+    description: A document that contains chemical to disease relations.
+    is_a: TextWithTriples
+    slot_usage:
+      triples:
+        range: ChemicalToDiseaseRelationship
+        annotations:
+          prompt: >-
+            A semi-colon separated list of chemical to disease relationships, where the relationship is either INDUCES
+            or TREATS.
+            for example: Lidocaine INDUCES cardiac asystole; 
+            Hydroxychloroquine NOT TREATS COVID-19;
+            Methyldopa INDUCES Hypotension;
+            Monosodium Glutamate NOT INDUCES Headache;
+            Imatinib TREATS cancer
+          exclude: Lidocaine, cardiac asystole, Hydroxychloroquine, COVID-19, Methyldopa, Headache, Imatinib, cancer
+
+
+  ChemicalToDiseaseRelationship:
+    is_a: Triple
+    description: A triple where the subject is a chemical and the object is a disease.
+    slot_usage:
+      subject:
+        range: Chemical
+        description: >-
+          The chemical substance, drug, or small molecule. 
+          or example: Lidocaine, Monosodium Glutamate, Imatinib.
+      object:
+        range: Disease
+        description: >-
+          The disease or condition that is being treated or induced by the chemical.
+          For example, asthma, cancer, covid-19, cardiac asystole, Hypotension, Headache.
+      predicate:
+        range: ChemicalToDiseasePredicate
+        description: The relationship type, e.g. INDUCES, TREATS.
+      subject_qualifier:
+        range: NamedEntity
+        description: >-
+          An optional qualifier or modifier for the chemical, e.g. "high dose" or "intravenously administered"
+      object_qualifier:
+        range: NamedEntity
+        description: >-
+          An optional qualifier or modifier for the disease, e.g. "severe" or "with additional complications"
+
+  Disease:
+    is_a: NamedEntity
+    annotations:
+      annotators: "sqlite:obo:mesh, sqlite:obo:mondo, sqlite:obo:hp, sqlite:obo:ncit, sqlite:obo:doid, bioportal:meddra"
+      prompt.examples: cardiac asystole, COVID-19, Headache, cancer
+    # For the purposes of evaluating against BC5CDR, we force normalization to MESH
+    id_prefixes:
+      - MESH
+    slot_usage:
+      id:
+        pattern: "^MESH:[CD][0-9]{6}$"
+        values_from:
+          - MeshDiseaseIdentifier
+
+  Chemical:
+    is_a: NamedEntity
+    annotations:
+      # https://data.bioontology.org/ontologies/MDM: The Mapping of Drug Names and MeSH 2022 (MDM) provides owl:sameAs relationships as well as owl:equivalentClass of similar concepts for Drug Names from the DrugBank vocabulary (released 2022-01-03 under version 5.1.9: https://go.drugbank.com/releases/latest#open-data) and the Medical Subject Headings (2022 version: http://id.nlm.nih.gov/mesh/).
+      annotators: "sqlite:obo:mesh, sqlite:obo:chebi, sqlite:obo:ncit, bioportal:mdm, sqlite:obo:drugbank, gilda:"
+      prompt.examples: Lidocaine, Hydroxychloroquine, Methyldopa, Imatinib
+    # For the purposes of evaluating against BC5CDR, we force normalization to MESH
+    id_prefixes:
+      - MESH
+    slot_usage:
+      id:
+        pattern: "^MESH:[CD][0-9]{6}$"
+        values_from:
+          - MeshChemicalIdentifier
+
+
+
+  ChemicalToDiseasePredicate:
+    is_a: RelationshipType
+    description: >-
+      A predicate for chemical to disease relationships
+    comments:
+      - for the purposes of evaluation against BC5CDR, any predicate other than INDUCES is ignored.
+
+enums:
+
+  MeshChemicalIdentifier:
+    reachable_from:
+      source_ontology: obo:mesh
+      source_nodes:
+        - MESH:D000602 ## Amino Acids, Peptides, and Proteins
+        - MESH:D001685 ## Biological Factors
+        - MESH:D002241 ## Carbohydrates
+        - MESH:D004364 ## Pharmaceutical Preparations
+        - MESH:D006571 ## Heterocyclic Compounds
+        - MESH:D007287 ## Inorganic Chemicals
+        - MESH:D008055 ## Lipids
+        - MESH:D009706 ## Nucleic Acids, Nucleotides, and Nucleosides
+        - MESH:D009930 ## Organic Chemicals
+        - MESH:D011083 ## Polycyclic Compounds
+        - MESH:D013812 ## Therapeutics
+        - MESH:D019602 ## Food and Beverages
+        - MESH:D045424 ## Complex Mixtures
+        - MESH:D045762 ## Enzymes and Coenzymes
+        - MESH:D046911 ## Macromolecular Substances
+  MeshDiseaseIdentifier:
+    reachable_from:
+      source_ontology: obo:mesh
+      source_nodes:
+        - MESH:D001423 ## Bacterial Infections and Mycoses
+        - MESH:D001523 ## Mental Disorders
+        - MESH:D002318 ## Cardiovascular Diseases
+        - MESH:D002943 ## Circulatory and Respiratory Physiological Phenomena
+        - MESH:D004066 ## Digestive System Diseases
+        - MESH:D004700 ## Endocrine System Diseases
+        - MESH:D005128 ## Eye Diseases
+        - MESH:D005261 ## Female Urogenital Diseases and Pregnancy Complications
+        - MESH:D006425 ## Hemic and Lymphatic Diseases
+        - MESH:D007154 ## Immune System Diseases
+        - MESH:D007280 ## Disorders of Environmental Origin
+        - MESH:D009057 ## Stomatognathic Diseases
+        - MESH:D009140 ## Musculoskeletal Diseases
+        - MESH:D009358 ## Congenital, Hereditary, and Neonatal Diseases and Abnormalities
+        - MESH:D009369 ## Neoplasms
+        - MESH:D009422 ## Nervous System Diseases
+        - MESH:D009750 ## Nutritional and Metabolic Diseases
+        - MESH:D009784 ## Occupational Diseases
+        - MESH:D010038 ## Otorhinolaryngologic Diseases
+        - MESH:D010272 ## Parasitic Diseases
+        - MESH:D012140 ## Respiratory Tract Diseases
+        - MESH:D013568 ## Pathological Conditions, Signs and Symptoms
+        - MESH:D014777 ## Virus Diseases
+        - MESH:D014947 ## Wounds and Injuries
+        - MESH:D017437 ## Skin and Connective Tissue Diseases
+        - MESH:D052801 ## Male Urogenital Diseases
+        - MESH:D064419 ## Chemically-Induced Disorders

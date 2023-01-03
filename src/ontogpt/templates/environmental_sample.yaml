@@ -1,0 +1,117 @@
+id: http://w3id.org/ontogpt/environmental-sample
+name: environmental-sample
+title: Environmental Sample Template
+description: >-
+  A template for Environmental Samples
+license: https://creativecommons.org/publicdomain/zero/1.0/
+prefixes:
+  linkml: https://w3id.org/linkml/
+  sample: http://w3id.org/ontogpt/environmental-sample/
+
+default_prefix: sample
+default_range: string
+
+imports:
+  - linkml:types
+  - core
+
+classes:
+  Study:
+    attributes:
+      location:
+        description: the sites at which the study was conducted
+        annotations:
+          prompt: semicolon-separated list of sites at which the study was conducted
+        range: Location
+        multivalued: true
+
+      environmental_material:
+        description: the environmental material that was sampled
+        annotations:
+          prompt: semicolon-separated list of environmental materials
+        range: EnvironmentalMaterial
+        multivalued: true
+
+      environments:
+        annotations:
+          prompt: semicolon-separated list of environmental contexts in which the study was conducted
+        multivalued: true
+        range: Environment
+
+      causal_relationships:
+        annotations:
+          prompt: semicolon-separated list of cause-effect pairs, for example, effect of temperature on growth
+        range: CausalRelationship
+        multivalued: true
+
+      variables:
+        annotations:
+          prompt: semicolon-separated list of study variables
+        range: Variable
+        multivalued: true
+
+      measurements:
+        annotations:
+          prompt: semicolon-separated list of value-measurement pairs
+        range: Measurement
+        multivalued: true
+
+  Location:
+    is_a: NamedEntity
+    id_prefixes:
+      - ENVO
+      - GAZ
+    annotations:
+      annotators: sqlite:obo:envo, bioportal:gaz
+
+  EnvironmentalMaterial:
+    is_a: NamedEntity
+    id_prefixes:
+      - ENVO
+    annotations:
+      annotators: sqlite:obo:envo
+
+  Environment:
+    is_a: NamedEntity
+    id_prefixes:
+      - ENVO
+    annotations:
+      annotators: sqlite:obo:envo
+
+  Variable:
+    is_a: NamedEntity
+    id_prefixes:
+      - ENVO
+      - MIXS
+      - PATO
+    annotations:
+      annotators: sqlite:obo:envo, bioportal:bero
+
+  Unit:
+    is_a: NamedEntity
+    id_prefixes:
+      - UO
+      - NCIT
+    annotations:
+      annotators: sqlite:obo:uo, bioportal:ncit
+
+  Measurement:
+    is_a:   CompoundExpression
+    attributes:
+        value:
+            description: the value of the measurement
+            #range: float
+        unit:
+            description: the unit of the measurement
+            range: Unit
+        #variable:
+
+  CausalRelationship:
+    is_a:   CompoundExpression
+    attributes:
+      cause:
+        description: the variable that is the cause of the effect
+        range: Variable
+      effect:
+        description: the things that is affected
+        range: Variable

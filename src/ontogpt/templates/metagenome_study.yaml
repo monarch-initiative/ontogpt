@@ -1,0 +1,157 @@
+id: http://w3id.org/ontogpt/metagenome
+name: environmental-metagenome
+title: Environmental Metagenome Template
+description: >-
+  A template for Environmental Metagenome Studies
+license: https://creativecommons.org/publicdomain/zero/1.0/
+prefixes:
+  linkml: https://w3id.org/linkml/
+  eg: http://w3id.org/ontogpt/environmental-metagenome/
+
+default_prefix: eg
+default_range: string
+
+imports:
+  - linkml:types
+  - core
+
+classes:
+  Study:
+    attributes:
+
+      environments:
+        annotations:
+          prompt: semicolon-separated list of environmental systems or biomes in which the study was conducted
+        multivalued: true
+        range: Environment
+
+      causal_relationships:
+        annotations:
+          prompt: semicolon-separated list of cause-effect pairs, for example, effect of temperature on growth
+        range: CausalRelationship
+        multivalued: true
+
+      variables:
+        annotations:
+          prompt: semicolon-separated list of environmental variables which are studies. E.g. temperature, pH, salinity
+        range: Variable
+        multivalued: true
+
+      treatments:
+        annotations:
+          prompt: semicolon-separated list of treatments that are applied
+        range: Treatment
+        multivalued: true
+
+      measurements:
+        annotations:
+          prompt: semicolon-separated list of value-measurement pairs
+        range: Measurement
+        multivalued: true
+
+      location:
+        description: the sites at which the study was conducted
+        annotations:
+          prompt: semicolon-separated list of sites at which the study was conducted
+        range: Location
+        multivalued: true
+
+      environmental_material:
+        description: the environmental material that was sampled
+        annotations:
+          prompt: semicolon-separated list of environmental materials
+        range: EnvironmentalMaterial
+        multivalued: true
+
+      sequencing_technologies:
+        annotations:
+          prompt: semicolon-separated list of  sequencing technologies used in the project
+        range: SequencingTechnology
+
+      organisms:
+        description: semicolon-separated list of all studied organism taxons
+        multivalued: true
+        range: Organism
+
+  Location:
+    is_a: NamedEntity
+    id_prefixes:
+      - ENVO
+      - GAZ
+    annotations:
+      annotators: sqlite:obo:envo, bioportal:gaz
+
+  EnvironmentalMaterial:
+    is_a: NamedEntity
+    id_prefixes:
+      - ENVO
+    annotations:
+      annotators: sqlite:obo:envo
+
+  Environment:
+    is_a: NamedEntity
+    id_prefixes:
+      - ENVO
+    annotations:
+      annotators: sqlite:obo:envo
+
+  Variable:
+    is_a: NamedEntity
+    id_prefixes:
+      - ENVO
+      - MIXS
+      - PATO
+    annotations:
+      annotators: sqlite:obo:envo, bioportal:bero
+
+  Unit:
+    is_a: NamedEntity
+    id_prefixes:
+      - UO
+      - NCIT
+    annotations:
+      annotators: sqlite:obo:uo, bioportal:ncit
+
+  Measurement:
+    is_a:   CompoundExpression
+    attributes:
+        value:
+            description: the value of the measurement
+            #range: float
+        unit:
+            description: the unit of the measurement
+            range: Unit
+        #variable:
+
+  CausalRelationship:
+    is_a:   CompoundExpression
+    attributes:
+      cause:
+        description: the variable that is the cause of the effect
+        range: Variable
+      effect:
+        description: the things that is affected
+        range: Variable
+
+  SequencingTechnology:
+    is_a: NamedEntity
+    id_prefixes:
+      - IDO
+      - EFO
+    annotations:
+      annotators: sqlite:obo:obi, sqlite:obo:efo, bioportal:bero
+
+  Treatment:
+    is_a: NamedEntity
+    id_prefixes:
+      - PECO
+      - OBI
+    annotations:
+      annotators: sqlite:obo:peco, sqlite:obo:obi, bioportal:bero
+
+  Organism:
+    is_a: NamedEntity
+    id_prefixes:
+      - NCBITaxon
+    annotations:
+      annotators: "sqlite:obo:ncbitaxon, gilda:"

@@ -1,0 +1,178 @@
+input_id: /Users/cjm/repos/semantic-llama/tests/input/cases/mendelian-disease-cmt2e.txt
+input_text: "Mersiyanova et al. (2000) reported a large 6-generation family from Russia\
+  \ with autosomal dominant CMT2. Onset was in the second and third decade, characterized\
+  \ by difficulty in walking and weakness and atrophy of the distal lower limb muscles\
+  \ and a variable degree of deformity of the feet (pes cavus). Affected individuals\
+  \ did not exhibit enlarged nerves, ulcerated feet, hearing impairment, or paralysis\
+  \ of the vocal cords. Several patients had hyperkeratosis, although the association,\
+  \ if any, between the 2 disorders was not clear. The authors suggested the designation\
+  \ CMT2E for this disorder. \n\nGeorgiou et al. (2002) described a large 5-generation\
+  \ Slovenian family with autosomal dominant CMT type 2E. Disease onset in most patients\
+  \ was in the first decade of life. The presenting symptoms were difficulty in walking\
+  \ or running, due to a slowly progressive distal weakness and wasting of the lower\
+  \ limbs. A steppage gait, pes cavus, and hammertoes were typically present. Over\
+  \ a period of 20 years after disease onset, two-thirds of patients developed upper\
+  \ limb involvement resulting in claw hands. All patients were ambulatory 20 to 30\
+  \ years after onset. \n\nFabrizi et al. (2004) reported a large kindred from southern\
+  \ Italy with autosomal dominant CMT2E spanning 5 generations and caused by mutation\
+  \ in the NEFL gene (162280.0002). An affected woman and her 2 affected sons had\
+  \ steppage gait, ataxic gait, peroneal muscular atrophy, decreased vibration sense\
+  \ with stocking and glove distribution, and hypotrophy of the hand muscles. One\
+  \ of the sons had claw hand deformities. Motor nerve conduction velocities (NCV)\
+  \ were decreased, consistent with a demyelinating neuropathy, but sural nerve biopsy\
+  \ of the mother showed a primary axonopathy characterized by giant axons containing\
+  \ disorganized neurofilaments. \n\nMiltenberger-Miltenyi et al. (2007) reported\
+  \ a large Austrian family in which at least 4 members had CMT2E confirmed by genetic\
+  \ analysis (162880.0006). Disease onset was in the second decade of life with pes\
+  \ cavus, progressive plantar extensor weakness, and distal lower limb atrophy and\
+  \ weakness. Two patients became wheelchair-bound. Affected members of a second Austrian\
+  \ family, with a different NEFL mutation (162280.0003), had disease onset before\
+  \ age 15 years in all but 1 patient. The disorder was slowly progressive but resulted\
+  \ in a severe and disabling phenotype. Electrophysiologic studies of both families\
+  \ showed intermediate motor nerve conduction velocities consistent with axonal pathology.\n"
+raw_completion_output: 'name: Charcot-Marie-Tooth type 2E (CMT2E)
+
+  description: An autosomal dominant genetic disease causing difficulty in walking,
+  weakness and atrophy of distal lower limb muscles, and deformity of the feet
+
+  synonyms: Charcot-Marie-Tooth disease type 2E; CMT2E; CMT type 2E
+
+  subclass_of: Charcot-Marie-Tooth Neuropathy; Autosomal Dominant Inheritance; Peroneal
+  Muscular Atrophy
+
+  symptoms: difficulty in walking or running; distal weakness and wasting of the lower
+  limbs; steppage gait; pes cavus; hammertoes; upper limb involvement; claw hands
+
+  inheritance: autosomal dominant
+
+  genes: NEFL; PEX1; PEX2; PEX3
+
+  disease_onsets: second and third decade; first decade; adult; juvenile
+
+  label: Charcot-Marie-Tooth type 2E'
+prompt: "From the text below, extract the following entities in the following format:\n\
+  \nname: <the name of the disease>\ndescription: <a description of the disease>\n\
+  synonyms: <semicolon-separated list of synonymss>\nsubclass_of: <semicolon-separated\
+  \ list of subclass_ofs>\nsymptoms: <semicolon-separated list of symptomss>\ninheritance:\
+  \ <the value for inheritance>\ngenes: <semicolon separated list of gene symbols;\
+  \ for example: PEX1; PEX2; PEX3>\ndisease_onsets: <semi-colon separated list of\
+  \ onsets at which the disease occurs, for example: adult; juvenile; first decade>\n\
+  label: <The label (name) of the named thing>\n\n\nText:\nMersiyanova et al. (2000)\
+  \ reported a large 6-generation family from Russia with autosomal dominant CMT2.\
+  \ Onset was in the second and third decade, characterized by difficulty in walking\
+  \ and weakness and atrophy of the distal lower limb muscles and a variable degree\
+  \ of deformity of the feet (pes cavus). Affected individuals did not exhibit enlarged\
+  \ nerves, ulcerated feet, hearing impairment, or paralysis of the vocal cords. Several\
+  \ patients had hyperkeratosis, although the association, if any, between the 2 disorders\
+  \ was not clear. The authors suggested the designation CMT2E for this disorder.\
+  \ \n\nGeorgiou et al. (2002) described a large 5-generation Slovenian family with\
+  \ autosomal dominant CMT type 2E. Disease onset in most patients was in the first\
+  \ decade of life. The presenting symptoms were difficulty in walking or running,\
+  \ due to a slowly progressive distal weakness and wasting of the lower limbs. A\
+  \ steppage gait, pes cavus, and hammertoes were typically present. Over a period\
+  \ of 20 years after disease onset, two-thirds of patients developed upper limb involvement\
+  \ resulting in claw hands. All patients were ambulatory 20 to 30 years after onset.\
+  \ \n\nFabrizi et al. (2004) reported a large kindred from southern Italy with autosomal\
+  \ dominant CMT2E spanning 5 generations and caused by mutation in the NEFL gene\
+  \ (162280.0002). An affected woman and her 2 affected sons had steppage gait, ataxic\
+  \ gait, peroneal muscular atrophy, decreased vibration sense with stocking and glove\
+  \ distribution, and hypotrophy of the hand muscles. One of the sons had claw hand\
+  \ deformities. Motor nerve conduction velocities (NCV) were decreased, consistent\
+  \ with a demyelinating neuropathy, but sural nerve biopsy of the mother showed a\
+  \ primary axonopathy characterized by giant axons containing disorganized neurofilaments.\
+  \ \n\nMiltenberger-Miltenyi et al. (2007) reported a large Austrian family in which\
+  \ at least 4 members had CMT2E confirmed by genetic analysis (162880.0006). Disease\
+  \ onset was in the second decade of life with pes cavus, progressive plantar extensor\
+  \ weakness, and distal lower limb atrophy and weakness. Two patients became wheelchair-bound.\
+  \ Affected members of a second Austrian family, with a different NEFL mutation (162280.0003),\
+  \ had disease onset before age 15 years in all but 1 patient. The disorder was slowly\
+  \ progressive but resulted in a severe and disabling phenotype. Electrophysiologic\
+  \ studies of both families showed intermediate motor nerve conduction velocities\
+  \ consistent with axonal pathology.\n\n\n===\n\n"
+extracted_object:
+  label: Charcot-Marie-Tooth type 2E
+  name: Charcot-Marie-Tooth type 2E (CMT2E)
+  description: An autosomal dominant genetic disease causing difficulty in walking,
+    weakness and atrophy of distal lower limb muscles, and deformity of the feet
+  synonyms:
+  - Charcot-Marie-Tooth disease type 2E
+  - CMT2E
+  - CMT type 2E
+  subclass_of:
+  - MONDO:0030433
+  - HP:0000006
+  - MONDO:0015626
+  symptoms:
+  - difficulty in walking or running
+  - distal weakness and wasting of the lower limbs
+  - HP:0003376
+  - HP:0001761
+  - HP:0001765
+  - upper limb involvement
+  - claw hands
+  inheritance: HP:0000006
+  genes:
+  - HGNC:7739
+  - HGNC:8850
+  - HGNC:9717
+  - HGNC:8858
+  disease_onsets:
+  - second and third decade
+  - first decade
+  - UBERON:0007023
+  - PATO:0001190
+named_entities:
+- id: HP:0009830
+  label: Peripheral Neuropathy
+- id: HP:0001371
+  label: Joint contractures
+- id: HP:0001761
+  label: Pes cavus
+- id: HP:0001760
+  label: Foot deformities
+- id: HP:0006006
+  label: Hypotrophy of the small hand muscles
+- id: HP:0002460
+  label: Distal limb muscle weakness due to peripheral neuropathy
+- id: HP:0009027
+  label: Foot drop
+- id: HP:0002936
+  label: Distal sensory impairment
+- id: HP:0001265
+  label: Hyporeflexia
+- id: HP:0001284
+  label: Areflexia
+- id: HP:0000006
+  label: Autosomal dominant
+- id: HGNC:7739
+  label: NEFL
+- id: UBERON:0007023
+  label: Adult
+- id: PATO:0001190
+  label: juvenile
+- id: MONDO:0030433
+  label: Charcot-Marie-Tooth Neuropathy
+- id: HP:0000006
+  label: Autosomal Dominant Inheritance
+- id: MONDO:0015626
+  label: Peroneal Muscular Atrophy
+- id: HP:0003376
+  label: steppage gait
+- id: HP:0001761
+  label: pes cavus
+- id: HP:0001765
+  label: hammertoes
+- id: HP:0000006
+  label: autosomal dominant
+- id: HGNC:7739
+  label: NEFL
+- id: HGNC:8850
+  label: PEX1
+- id: HGNC:9717
+  label: PEX2
+- id: HGNC:8858
+  label: PEX3
+- id: UBERON:0007023
+  label: adult
+- id: PATO:0001190
+  label: juvenile

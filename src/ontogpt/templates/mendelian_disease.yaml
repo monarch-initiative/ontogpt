@@ -1,0 +1,118 @@
+id: http://w3id.org/ontogpt/mendelian_disease
+name: mendelian_disease-template
+title: GO-CAM Template
+description: >-
+  A template for GO-CAMs
+license: https://creativecommons.org/publicdomain/zero/1.0/
+prefixes:
+  linkml: https://w3id.org/linkml/
+  mendelian_disease: http://w3id.org/ontogpt/mendelian_disease/
+
+default_prefix: mendelian_disease
+default_range: string
+
+imports:
+  - linkml:types
+  - core
+
+classes:
+  MendelianDisease:
+    is_a: NamedEntity
+    attributes:
+      name:
+        description: the name of the disease
+        examples:
+          - value: peroxisome biogenesis disorder
+        #identifier: true  ## needed for inlining
+      description:
+        description: a description of the disease
+        examples:
+          - value: >-
+             Peroxisome biogenesis disorders, Zellweger syndrome spectrum (PBD-ZSS) is a group of autosomal recessive disorders affecting the formation of functional peroxisomes, characterized by sensorineural hearing loss, pigmentary retinal degeneration, multiple organ dysfunction and psychomotor impairment
+      synonyms:
+        multivalued: true
+        examples:
+          - value: Zellweger syndrome spectrum
+          - value: PBD-ZSS
+      subclass_of:
+        multivalued: true
+        range: DiseaseCategory
+        examples:
+          - value: lysosomal disease
+          - value: autosomal recessive disorder
+      symptoms:
+        range: Symptom
+        multivalued: true
+        examples:
+          - value: sensorineural hearing loss
+          - value: pigmentary retinal degeneration
+      inheritance:
+        range: Inheritance
+        examples:
+          - value: autosomal recessive
+      genes:
+        range: Gene
+        multivalued: true
+        examples:
+          - value: PEX1
+          - value: PEX2
+          - value: PEX3
+        annotations:
+          prompt: >-
+            semicolon separated list of gene symbols; for example: PEX1; PEX2; PEX3
+      disease_onsets:
+        range: Onset
+        multivalued: true
+        annotations:
+          prompt: >-
+            semi-colon separated list of onsets at which the disease occurs, for example: adult; juvenile; first decade
+      publications:
+        range: Publication
+        multivalued: true
+        annotations:
+          prompt.skip: "true"
+
+  DiseaseCategory:
+    is_a: NamedEntity
+    id_prefixes:
+      - MONDO
+    annotations:
+      annotators: sqlite:obo:mondo
+
+  Gene:
+    is_a: NamedEntity
+    id_prefixes:
+      - HGNC
+    annotations:
+      annotators: gilda:, bioportal:hgnc-nr, sqlite:obo:pr
+
+  Symptom:
+    is_a: NamedEntity
+    id_prefixes:
+      - HP
+    annotations:
+      annotators: sqlite:obo:hp, sqlite:obo:mondo
+    attributes:
+      characteristic:
+      affects:
+      severity:
+      onset_of_symptom:
+        range: Onset
+
+  Onset:
+    is_a: NamedEntity
+    id_prefixes:
+      - HP
+    annotations:
+      annotators: sqlite:obo:hp, sqlite:obo:hsapdv
+    attributes:
+      years_old:
+      decades:
+        multivalued: true
+      juvenile_or_adult:
+
+
+  Inheritance:
+    is_a: NamedEntity
+    annotations:
+      annotators: sqlite:obo:hp, sqlite:obo:geno

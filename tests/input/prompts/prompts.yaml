@@ -1,0 +1,170 @@
+default_engine: text-davinci-003
+prompts:
+- engine: text-davinci-003
+  prompt: |
+    From the text below, extract the following entities in the following format:
+
+    subject: <The chemical substance, drug, or small molecule.  or example: Lidocaine, Monosodium Glutamate, Imatinib.>
+    predicate: <The relationship type, e.g. INDUCES, TREATS.>
+    object: <The disease or condition that is being treated or induced by the chemical. For example, asthma, cancer, covid-19, cardiac asystole, Hypotension, Headache.>
+    qualifier: <A qualifier for the statements, e.g. "NOT" for negation. Leave blank for positive>
+    subject_qualifier: <An optional qualifier or modifier for the chemical, e.g. "high dose" or "intravenously administered">
+    object_qualifier: <An optional qualifier or modifier for the disease, e.g. "severe" or "with additional complications">
+    Text:
+    Patient-controlled Analgesia Morphine INDUCES dizziness and downbeating nystagmus.
+  expected:
+    - "predicate: INDUCES"
+    - "object: .*nystagmus"
+- engine: code-davinci-002
+  pre_prompt: |
+    ## Instructions:
+    ## Add an additional element to the YAML below, which is for elements
+    ## in an industrial ontology. Complete as far as possible the following
+    ## fields:
+    ##  - name: the name of the element (in CamelCase)
+    ##  - context: the ontology to which this belongs (must be IndustryOntology)
+    ##  - description: a short description of the element
+    ##  - synonyms: alternative labels for the element
+    ##  - subtypes: a list of more specific classes
+    ##  - parts: a list of parts/components of the class
+    ##  - roles: an optional list of roles the component can play
+    ##  - equivalent_to: an OWL Manchester syntax expression that defines the class
+  prompt:
+    - name: Building
+      context: IndustrialOntology
+      subtypes:
+        - House
+        - OfficeBlock
+        - Warehouse
+      parts:
+        - BuildingEntrance
+        - Window
+    - name: Vehicle
+      context: IndustrialOntology
+      subtypes:
+        - Car
+        - Bicycle
+        - Truck
+        - Motorcycle
+        - Train
+        - Boat
+      parts:
+        - Wheel
+    - name: Car
+      context: IndustrialOntology
+      description: a vehicle with four wheels
+      equivalent_to: MotorVehicle and has_part exactly 4 Wheel
+      synonyms:
+        - automobile
+      subtypes:
+        - Sedan
+        - SUV
+        - Coupe
+      parts:
+        - CarEngine
+        - CarDoor
+        - Wheel
+        - Frame
+      roles:
+        - Taxi
+        - PoliceCar
+        - Ambulance
+    - name: CarDoor
+      context: IndustrialOntology
+      description: a door that is part of a car
+      parts:
+        - DoorHandle
+        - DoorLock
+      equivalent_to: Door and part_of some Car
+    - name: Transportation
+      context: IndustrialOntology
+      description: the act of moving people or goods from one place to another
+      synonyms:
+        - transport
+      subtypes:
+        - Shipping
+        - Trucking
+        - TransportByTrain
+      parts:
+        - Loading
+        - Unloading
+    - name: TransportByTrain
+      context: IndustrialOntology
+      description: the act of moving people or goods by train
+      synonyms:
+          - train transport
+      subtypes:
+          - TransportBySubway
+          - TransportByHighSpeedRail
+      equivalent_to: Transport and utilizes some Train
+    - name: CarEngine
+      context: IndustrialOntology
+- engine: text-davinci-003
+  prompt: |
+    Answer the following question where the answer is one of: subtype of; part of; equivalent to.
+    Question: The relationship between the concepts Car and Vehicle is:
+- engine: text-davinci-003
+  prompt: |
+    Answer the following question where the answer is one of: subtype of; supertype of; part of; has part; equivalent to.
+    Question: The relationship between the concepts Car and Vehicle is:
+- engine: text-davinci-003
+  prompt: |
+    Answer the following question where the answer is one of: subtype of; supertype of; part of; has part; equivalent to.
+    Question: The relationship between the concepts Tire and Bicycle is:
+- engine: text-davinci-003
+  prompt: |
+    In the context of cell biology, list all the parts of a nucleus as a semi-colon separated list.
+- engine: text-davinci-003
+  prompt: |
+    In the context of cell biology, list all the things a nucleus is a part of, as a semi-colon separated list.
+- engine: text-davinci-003
+  prompt: |
+    In the context of cell biology, list all parent concepts for the concept of nucleus, as a semi-colon separated list.
+- engine: text-davinci-003
+  prompt: |
+    In the context of cell biology, list all child concepts for the concept of nucleus, as a semi-colon separated list.
+- engine: text-davinci-003
+  prompt: |
+    From the text below, extract the following entities in the following format:
+    triples: <A semi-colon separated list of chemical to disease relationships, where the relationship is either INDUCES or TREATS. 
+    for example: Lidocaine INDUCES cardiac asystole;  Hydroxychloroquine NOT TREATS covid-19; 
+    Methyldopa INDUCES Hypotension; Monosodium Glutamate NOT INDUCES Headache; Imatinib TREATS cancer>
+
+    Text:
+    In vivo evidences suggesting the role of oxidative stress in pathogenesis of vancomycin-induced nephrotoxicity:
+    protection by erdosteine
+    In the context of cell biology, list all child concepts for the concept of nucleus, as a semi-colon separated list.
+- engine: text-davinci-003
+  prompt: |
+    From the text below, extract the following entities in the following format:
+
+    triples: <A semi-colon separated list of chemical to disease relationships, where the relationship is either INDUCES or TREATS. for example: Lidocaine INDUCES cardiac asystole;  Hydroxychloroquine NOT TREATS covid-19; Methyldopa INDUCES Hypotension; Monosodium Glutamate NOT INDUCES Headache; Imatinib TREATS cancer>
+
+    Text:
+    Worsening of Parkinsonism after the use of veralipride for treatment of menopause: case report.
+    ===
+  #expected:
+  #  - "Veralipride INDUCES Parkinsonism"
+- engine: text-davinci-003
+  prompt: |
+    From the text below, extract the following entities in the following format:
+
+    triples: <A semi-colon separated list of chemical to disease relationships, where the relationship is either INDUCES or TREATS. for example: Lidocaine INDUCES cardiac asystole;  Hydroxychloroquine NOT TREATS covid-19; Methyldopa INDUCES Hypotension; Monosodium Glutamate NOT INDUCES Headache; Imatinib TREATS cancer>
+
+    Text:
+    Kaliuretic effect of L-dopa treatment in parkinsonian patients.
+    ===
+- engine: text-davinci-003
+  prompt: |
+    From the text below, extract the following entities in the following format:
+    
+    triples: <A semi-colon separated list of chemical to disease relationships, where the relationship is either INDUCES or TREATS. for example: Lidocaine INDUCES cardiac asystole;  Hydroxychloroquine NOT TREATS covid-19; Methyldopa INDUCES Hypotension; Monosodium Glutamate NOT INDUCES Headache; Imatinib TREATS cancer>
+
+    Text:
+    Electrocardiographic evidence of myocardial injury in psychiatrically hospitalized cocaine abusers.
+    ===
+- engine: text-davinci-003
+  prompt: |
+    Generate a list of exact synonyms for the chemical concept "heavy metal", as a semi-colon separated list.
+    Only include concepts with the identical meaning. Do not include more specific concepts or broader concepts.
+

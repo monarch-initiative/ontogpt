@@ -1,0 +1,297 @@
+input_id: /Users/cjm/repos/semantic-llama/tests/input/cases/gocam-betacat.txt
+input_text: "Title: \u03B2-Catenin Is Required for the cGAS/STING Signaling Pathway\
+  \ but Antagonized by the Herpes Simplex Virus 1 US3 Protein\nText:\nThe cGAS/STING-mediated\
+  \ DNA-sensing signaling pathway is crucial\nfor interferon (IFN) production and\
+  \ host antiviral\nresponses. Herpes simplex virus I (HSV-1) is a DNA virus that\
+  \ has\nevolved multiple strategies to evade host immune responses. Here,\nwe demonstrate\
+  \ that the highly conserved \u03B2-catenin protein in the\nWnt signaling pathway\
+  \ is an important factor to enhance the\ntranscription of type I interferon (IFN-I)\
+  \ in the cGAS/STING\nsignaling pathway, and the production of IFN-I mediated by\n\
+  \u03B2-catenin was antagonized by HSV-1 US3 protein via its kinase\nactivity. Infection\
+  \ by US3-deficienct HSV-1 and its kinase-dead\nvariants failed to downregulate IFN-I\
+  \ and IFN-stimulated\ngene (ISG) production induced by \u03B2-catenin. Consistent\
+  \ with this,\nabsence of \u03B2-catenin enhanced the replication of US3-deficienct\n\
+  HSV-1, but not wild-type HSV-1. The underlying mechanism was the\ninteraction of\
+  \ US3 with \u03B2-catenin and its hyperphosphorylation of\n\u03B2-catenin at Thr556\
+  \ to block its nuclear translocation. For the\nfirst time, HSV-1 US3 has been shown\
+  \ to inhibit IFN-I production\nthrough hyperphosphorylation of \u03B2-catenin and\
+  \ to subvert host\nantiviral innate immunity.IMPORTANCE Although increasing evidence\n\
+  has demonstrated that HSV-1 subverts host immune responses and\nestablishes lifelong\
+  \ latent infection, the molecular mechanisms\nby which HSV-1 interrupts antiviral\
+  \ innate immunity, especially\nthe cGAS/STING-mediated cellular DNA-sensing signaling\
+  \ pathway,\nhave not been fully explored. Here, we show that \u03B2-catenin\npromotes\
+  \ cGAS/STING-mediated activation of the IFN pathway, which\nis important for cellular\
+  \ innate immune responses and intrinsic\nresistance to DNA virus infection. The\
+  \ protein kinase US3\nantagonizes the production of IFN by targeting \u03B2-catenin\
+  \ via its\nkinase activity. The findings in this study reveal a novel\nmechanism\
+  \ for HSV-1 to evade host antiviral immunity and add new\nknowledge to help in understanding\
+  \ the interaction between the\nhost and HSV-1 infection.\n\nKeywords: HSV-1; US3;\
+  \ type I IFN; \u03B2-catenin."
+raw_completion_output: "genes: cGAS; STING; \u03B2-catenin; US3; IFN; ISG; Thr556\n\
+  organisms: Homo sapiens; Herpes simplex virus I\ngene_organisms: cGAS/Homo sapiens;\
+  \ STING/Homo sapiens; \u03B2-catenin/Homo sapiens; US3/Herpes simplex virus I; IFN/Homo\
+  \ sapiens; ISG/Homo sapiens; Thr556/Homo sapiens\nactivities: transcription; replication;\
+  \ production; nuclear translocation\ngene_functions: cGAS/activate type I IFN; STING/activate\
+  \ type I IFN; \u03B2-catenin/enhance transcription of type I IFN; US3/antagonize\
+  \ production of IFN; IFN/produce type I IFN; ISG/produce type I IFN; Thr556/block\
+  \ nuclear translocation\ncellular_processes: DNA-sensing; interferon production;\
+  \ host antiviral responses; Wnt signaling; hyperphosphorylation\npathways: cGAS/STING\
+  \ signaling; Wnt signaling\ngene_gene_interactions: US3/\u03B2-catenin\ngene_localizations:\
+  \ cGAS/--; STING/--; \u03B2-catenin/nuclear; US3/--; IFN/--; ISG/--; Thr556/--"
+prompt: 'Split the following piece of text into fields in the following format:
+
+
+  gene: <the value for gene>
+
+  location: <the value for location>
+
+
+
+  Text:
+
+  Thr556/--
+
+
+  ===
+
+
+  '
+extracted_object:
+  genes:
+  - HGNC:21367
+  - HGNC:27962
+  - HGNC:2514
+  - US3
+  - FPLX:Interferon
+  - ISG
+  - Thr556
+  organisms:
+  - MESH:D006801
+  - MESH:D018259
+  gene_organisms:
+  - gene: HGNC:21367
+    organism: MESH:D006801
+  - gene: HGNC:27962
+    organism: MESH:D006801
+  - gene: HGNC:2514
+    organism: MESH:D006801
+  - gene: US3
+    organism: MESH:D018259
+  - gene: FPLX:Interferon
+    organism: MESH:D006801
+  - gene: ISG
+    organism: MESH:D006801
+  - gene: Thr556
+    organism: MESH:D006801
+  activities:
+  - GO:0006351
+  - replication
+  - production
+  - nuclear translocation
+  gene_functions:
+  - gene: HGNC:21367
+    molecular_activity: activate type I IFN
+  - gene: HGNC:27962
+    molecular_activity: activate type I IFN
+  - gene: HGNC:2514
+    molecular_activity: enhance transcription of type I IFN
+  - gene: US3
+    molecular_activity: antagonize production of IFN
+  - gene: FPLX:Interferon
+    molecular_activity: produce type I IFN
+  - gene: ISG
+    molecular_activity: produce type I IFN
+  - gene: Thr556
+    molecular_activity: block nuclear translocation
+  cellular_processes:
+  - DNA-sensing
+  - GO:0001816
+  - host antiviral responses
+  - Wnt signaling
+  - GO:0048151
+  pathways:
+  - cGAS/STING signaling
+  - Wnt signaling
+  gene_gene_interactions:
+  - gene1: US3
+    gene2: HGNC:2514
+  gene_localizations:
+  - gene: HGNC:21367
+    location: --
+  - gene: HGNC:27962
+    location: --
+  - gene: HGNC:2514
+    location: nuclear
+  - gene: US3
+    location: --
+  - gene: FPLX:Interferon
+    location: --
+  - gene: ISG
+    location: --
+  - gene: Thr556
+    location: --
+named_entities:
+- id: HGNC:16289
+  label: TRIM31
+- id: HGNC:16400
+  label: NLRP3
+- id: HGNC:5992
+  label: "IL-1\u03B2"
+- id: CHEBI:CHEBI:16412
+  label: LPS
+- id: MESH:D006801
+  label: Homo sapiens
+- id: NCBITaxon:10090
+  label: Mus musculus
+- id: http://identifiers.org/hgnc/16289
+  label: TRIM31*
+- id: MESH:D006801
+  label: Homo sapiens
+- id: http://identifiers.org/hgnc/16400
+  label: NLRP3*
+- id: MESH:D006801
+  label: Homo sapiens
+- id: MESH:D006801
+  label: Homo sapiens
+- id: MESH:D006801
+  label: Homo sapiens
+- id: GO:0005488
+  label: binding
+- id: http://identifiers.org/hgnc/16289
+  label: TRIM31*
+- id: GO:0005488
+  label: binding
+- id: http://identifiers.org/hgnc/16289
+  label: TRIM31*
+- id: http://identifiers.org/hgnc/16289
+  label: TRIM31*
+- id: http://identifiers.org/hgnc/16400
+  label: NLRP3*
+- id: GO:0046903
+  label: secretion
+- id: http://identifiers.org/hgnc/16289
+  label: TRIM31*
+- id: HGNC:16400
+  label: NLRP3
+- id: CHEBI:CHEBI:16412
+  label: LPS
+- id: http://identifiers.org/hgnc/16289
+  label: TRIM31*
+- id: GO:0005737
+  label: cytoplasm
+- id: HGNC:16400
+  label: NLRP3
+- id: GO:0005739
+  label: mitochondrion
+- id: HGNC:5992
+  label: Il1b
+- id: HGNC:5993
+  label: Il1r1
+- id: HGNC:16400
+  label: NLRP3
+- id: HGNC:1499
+  label: caspase-1
+- id: NCBITaxon:10090
+  label: Mus Musculus
+- id: HGNC:5992
+  label: Il1b
+- id: NCBITaxon:10090
+  label: Mus Musculus
+- id: HGNC:5993
+  label: Il1r1
+- id: NCBITaxon:10090
+  label: Mus Musculus
+- id: HGNC:16400
+  label: NLRP3
+- id: NCBITaxon:10090
+  label: Mus Musculus
+- id: HGNC:1499
+  label: caspase-1
+- id: NCBITaxon:10090
+  label: Mus Musculus
+- id: NCBITaxon:10090
+  label: Mus Musculus
+- id: HGNC:5992
+  label: Il1b
+- id: HGNC:5993
+  label: Il1r1
+- id: HGNC:16400
+  label: NLRP3
+- id: HGNC:1499
+  label: caspase-1
+- id: MESH:C529594
+  label: rytvela
+- id: HGNC:5992
+  label: Il1b
+- id: HGNC:5993
+  label: Il1r1
+- id: HGNC:16400
+  label: NLRP3
+- id: HGNC:1499
+  label: caspase-1
+- id: HGNC:5992
+  label: Il1b
+- id: HGNC:5993
+  label: Il1r1
+- id: HGNC:16400
+  label: NLRP3
+- id: HGNC:1499
+  label: caspase-1
+- id: HGNC:21367
+  label: cGAS
+- id: HGNC:27962
+  label: STING
+- id: HGNC:2514
+  label: "\u03B2-catenin"
+- id: FPLX:Interferon
+  label: IFN
+- id: MESH:D006801
+  label: Homo sapiens
+- id: MESH:D018259
+  label: Herpes simplex virus I
+- id: HGNC:21367
+  label: cGAS
+- id: MESH:D006801
+  label: Homo sapiens
+- id: HGNC:27962
+  label: STING
+- id: MESH:D006801
+  label: Homo sapiens
+- id: HGNC:2514
+  label: "\u03B2-catenin"
+- id: MESH:D006801
+  label: Homo sapiens
+- id: MESH:D018259
+  label: Herpes simplex virus I
+- id: FPLX:Interferon
+  label: IFN
+- id: MESH:D006801
+  label: Homo sapiens
+- id: MESH:D006801
+  label: Homo sapiens
+- id: MESH:D006801
+  label: Homo sapiens
+- id: GO:0006351
+  label: transcription
+- id: HGNC:21367
+  label: cGAS
+- id: HGNC:27962
+  label: STING
+- id: HGNC:2514
+  label: "\u03B2-catenin"
+- id: FPLX:Interferon
+  label: IFN
+- id: GO:0001816
+  label: interferon production
+- id: GO:0048151
+  label: hyperphosphorylation
+- id: HGNC:2514
+  label: "\u03B2-catenin"
+- id: HGNC:21367
+  label: cGAS
+- id: HGNC:27962
+  label: STING
+- id: HGNC:2514
+  label: "\u03B2-catenin"
+- id: FPLX:Interferon
+  label: IFN

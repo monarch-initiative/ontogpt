@@ -1,0 +1,82 @@
+id: https://w3id.org/ontogpt/recipe
+name: recipe-template
+title: Food Recipe Template
+description: >-
+  A template for food recipes
+license: https://creativecommons.org/publicdomain/zero/1.0/
+prefixes:
+  linkml: https://w3id.org/linkml/
+  recipe: http://w3id.org/ontogpt/recipe/
+
+default_prefix: recipe
+default_range: string
+
+imports:
+  - linkml:types
+  - core
+
+classes:
+  Recipe:
+    attributes:
+      label:
+        description: the name of the recipe
+      description:
+        description: a brief textual description of the recipe
+      category:
+        description: a semicolon separated list of the categories to which this recipe belongs
+        range:  RecipeCategory
+        multivalued: true
+      ingredients:
+        description: a semicolon separated list of the ingredients plus quantities of the recipe
+        multivalued: true
+        range: Ingredient
+      steps:
+        description: a semicolon separated list of the individual steps involved in this recipe
+        multivalued: true
+        range: Step
+
+  Ingredient:
+    is_a:   CompoundExpression
+    attributes:
+      food_item:
+        description: the food item
+        range: FoodItem
+      quantity:
+        description: the quantity of the ingredient
+        range: string
+
+  Step:
+    is_a:   CompoundExpression
+    attributes:
+      action:
+        description: the action taken in this step (e.g. mix, add)
+        range: Action
+      inputs:
+        description: a semicolon separated list of the inputs of this step
+        range: FoodItem
+        multivalued: true
+      outputs:
+        description: a semicolon separated list of the outputs of this step
+        range: FoodItem
+        multivalued: true
+
+  FoodItem:
+    is_a: NamedEntity
+    id_prefixes:
+      - FOODON
+    annotations:
+      annotators: sqlite:obo:foodon
+
+  RecipeCategory:
+    is_a: NamedEntity
+    id_prefixes:
+      - FOODON
+    annotations:
+      annotators: sqlite:obo:foodon
+
+  Action:
+    is_a: NamedEntity
+    id_prefixes:
+      - FOODON
+    annotations:
+      annotators: sqlite:obo:foodon

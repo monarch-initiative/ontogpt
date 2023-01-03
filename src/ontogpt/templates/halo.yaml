@@ -1,0 +1,81 @@
+id: https://w3id.org/ontogpt/halo
+name: ontology-class
+title: Ontology Class Template
+description: >-
+  A template for Ontology Classes
+license: https://creativecommons.org/publicdomain/zero/1.0/
+prefixes:
+  linkml: https://w3id.org/linkml/
+  oc: http://w3id.org/ontogpt/ontology-class-template
+  BFO: http://purl.obolibrary.org/obo/BFO_
+
+default_prefix: oc
+default_range: string
+
+imports:
+  - linkml:types
+  - core
+
+classes:
+  Ontology:
+    attributes:
+      elements:
+        range: OntologyElement
+        multivalued: true
+        inlined: true
+        inlined_as_list: true
+
+  OntologyElement:
+    attributes:
+      name:
+        identifier: true
+        description: the name of the entity
+      context:
+        description: the ontology to which this belongs (single-valued)
+      description:
+        description: a textual description of the entity (single-valued)
+      synonyms:
+        description: a list of alternative names of the entity
+        multivalued: true
+      categories:
+        description: a list of the categories to which this entity belongs
+        range:  Category
+        multivalued: true
+      subclass_of:
+        range:  OntologyElement
+        description: a list of parent class (superclasses) of this entity
+        multivalued: true
+        slot_uri: rdfs:subClassOf
+      part_of:
+        range:  OntologyElement
+        multivalued: true
+        slot_uri: BFO:0000050
+        description: a list of things this element is part of
+      subtypes:
+        range:  OntologyElement
+        multivalued: true
+        inverse: subclass_of
+        description: a list of child classes (subclasses) of this entity
+      parts:
+        range:  OntologyElement
+        multivalued: true
+        inverse: part_of
+        description: a list of names of things this element has as parts (components)
+      equivalent_to:
+        description: an OWL class expression with the necessary and sufficient conditions for this entity to be an instance of this class
+        range: string
+
+  Category:
+    is_a: OntologyElement
+
+slots:
+  subclass_of:
+    range: OntologyElement
+    description: a list of parent class (superclasses) of this entity
+    multivalued: true
+    slot_uri: rdfs:subClassOf
+  part_of:
+    range: OntologyElement
+    multivalued: true
+    slot_uri: BFO:0000050
+    description: a list of things this element is part of

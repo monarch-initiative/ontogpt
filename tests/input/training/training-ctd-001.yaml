@@ -1,0 +1,18 @@
+base_model: text-davinci-003
+prompt_header: |
+  From the text below, extract the following entities in the following format:
+  triples: <A semi-colon separated list of chemical to disease relationships, where the relationship is either INDUCES or TREATS. for example: Lidocaine INDUCES cardiac asystole;  Hydroxychloroquine NOT TREATS covid-19; Methyldopa INDUCES Hypotension; Monosodium Glutamate NOT INDUCES Headache; Imatinib TREATS cancer>
+  Text:
+prompt_footer: |
+  ===
+examples:
+- completion: |
+    Cocaine INDUCES myocardial injury
+  prompt: |
+    Electrocardiographic evidence of myocardial injury in psychiatrically hospitalized cocaine abusers.
+- completion: |
+    Sulpiride INDUCES tardive dystonia; Sulpiride treats Pyschosis
+  prompt: |
+    Sulpiride is a selective D2-receptor antagonist with antipsychotic and antidepressant properties. Although initially thought to be free of extrapyramidal side effects, sulpiride-induced tardive dyskinesia and parkinsonism have been reported occasionally. We studied a 37-year-old man who developed persistent segmental dystonia within 2 months after starting sulpiride therapy. We could not find any previous reports of sulpiride-induced tardive dystonia
+
+

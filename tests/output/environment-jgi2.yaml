@@ -1,0 +1,142 @@
+input_id: /Users/cjm/repos/semantic-llama/tests/input/cases/environment-jgi2.txt
+input_text: "Development of genomic resources for Sphagnum magellanicum (Bryophyta:\
+  \ peat moss) is proposed to enable genetic and molecular research related to environmental\
+  \ genomics, phylogenetics of early land plants, population genetics, and speciation.\
+  \ Most significantly, peat mosses, and Sphagnum magellanicum specifically, have\
+  \ tremendous impacts on global carbon budgets and climate. The phylogenetic position\
+  \ of Sphagnum as an early diverging lineage of land plants adds value to the project,\
+  \ and molecular tools enabled by such a resource will promote the continuing (and\
+  \ expanding) utilization of Sphagnum for research in population genetics and evolution.\n\
+  \nThere is one other bryophyte genome (Physcomitrella patens) that is designated\
+  \ as one of JGI\u2019s Flagship Genomes. While Physcomitrella has some advantageous\
+  \ features for functional genomics, the species is very rare in nature, is poorly\
+  \ characterized ecologically, and, as a tiny annual species, is not suitable for\
+  \ research on carbon cycling or climate change. Therefore, our proposal will leverage\
+  \ genomic resources already available for Physcomitrella by establishing a modern\
+  \ genomic resource for Sphagnum magellanicum, which is an important plant species\
+  \ with regard to carbon sequestration. A Sphagnum resource will also increase the\
+  \ value of Physcomitrella as a model flagship species and establish a plant model\
+  \ of tremendous importance for climate change research.\n\nSphagnum (peat moss)\
+  \ arguably has a greater impact on global carbon fluxes and therefore climate than\
+  \ any other single genus of plants. Peatlands develop where net production exceeds\
+  \ decomposition over extended time and some Sphagnum-dominated peatlands have accumulated\
+  \ tens of meters of partially decomposed plant material that store some 400 gigatons\
+  \ of carbon. Sphagnum magellanicum is a dominant species in peatlands throughout\
+  \ the subarctic and boreal zones, extends southward to subtropical Florida in the\
+  \ U.S., and through the Andes to Tierra del Fuego. It is estimated that approximately\
+  \ 30% of terrestrial carbon is stored in peatlands that occupy only about 10% of\
+  \ the earth\u2019s land surface. Low decomposition rates in Sphagnum-dominated peatlands\
+  \ result from a combination of abiotic conditions (cold temperatures, low nutrients,\
+  \ anoxia) and biological features of the Sphagnum plants themselves. Although uniformly\
+  \ slow to decompose relative to vascular plants, different species of Sphagnum are\
+  \ characterized by variable rates of decomposition and species-specific traits scale\
+  \ up to impact community structure and ecosystem function. Understanding the nature\
+  \ and genetic basis of variation in functional traits that impact Sphagnum growth\
+  \ and decomposition is essential for making predictions about ecosystem consequences\
+  \ of ongoing climate change. Important functional traits with substantive ecosystem-scale\
+  \ consequences include whole plant productivity and decomposition rates, nitrogen\
+  \ and phosphorous contents, foliar pH, and production of Sphagnum acids. While Sphagnum\
+  \ serves an important primary role in carbon dynamics of high-latitude ecosystems,\
+  \ it also serves a secondary role in insulating permafrost, thus dampening the influence\
+  \ of rising temperatures on vast amounts of carbon stored in arctic tundra. Some\
+  \ of these traits co-vary with microhabitat specialization among Sphagnum species,\
+  \ enabling research that connects field studies of species biology and community\
+  \ structure, ecosystem function, global carbon fluxes, and control of past, present,\
+  \ and future climate.\n"
+raw_completion_output: 'Environments: peatlands; subarctic; boreal; subtropical; Andes;
+  Tierra del Fuego; arctic tundra
+
+  Causal Relationships: impact of global carbon fluxes on climate; impact of rising
+  temperatures on carbon stored in arctic tundra;
+
+  Variables: temperature; nutrients; anoxia; whole plant productivity and decomposition
+  rates; nitrogen and phosphorous contents; foliar pH; production of Sphagnum acids
+
+  Treatments: none
+
+  Measurements: none
+
+  Location: Florida US;
+
+  Environmental Material: partially decomposed plant material
+
+  Sequencing Technologies: none
+
+  Organisms: Sphagnum magellanicum; Physcomitrella patens; Bryophyta; land plants'
+prompt: 'Split the following piece of text into fields in the following format:
+
+
+  value: <the value of the measurement>
+
+  unit: <the unit of the measurement>
+
+
+
+  Text:
+
+  none
+
+
+  ===
+
+
+  '
+extracted_object:
+  environments:
+  - peatlands
+  - ENVO:01000251
+  - ENVO:01000251
+  - ENVO:01000205
+  - Andes
+  - Tierra del Fuego
+  - arctic tundra
+  causal_relationships:
+  - cause: global carbon fluxes
+    effect: ENVO:01001082
+  - cause: rising temperatures
+    effect: carbon stored in arctic tundra
+  variables:
+  - PATO:0000146
+  - nutrients
+  - anoxia
+  - whole plant productivity and decomposition rates
+  - CHEBI:25555
+  - foliar pH
+  - production of Sphagnum acids
+  treatments:
+  - none
+  measurements:
+  - value: none
+  location:
+  - GAZ:00002888
+  environmental_material:
+  - partially decomposed plant material
+  sequencing_technologies: none
+  organisms:
+  - NCBITaxon:128215
+  - NCBITaxon:3218
+  - NCBITaxon:3208
+  - NCBITaxon:3193
+named_entities:
+- id: ENVO:01000251
+  label: subarctic
+- id: ENVO:01000251
+  label: boreal
+- id: ENVO:01000205
+  label: subtropical
+- id: ENVO:01001082
+  label: climate
+- id: PATO:0000146
+  label: temperature
+- id: CHEBI:25555
+  label: nitrogen and phosphorous contents
+- id: GAZ:00002888
+  label: Florida US
+- id: NCBITaxon:128215
+  label: Sphagnum magellanicum
+- id: NCBITaxon:3218
+  label: Physcomitrella patens
+- id: NCBITaxon:3208
+  label: Bryophyta
+- id: NCBITaxon:3193
+  label: land plants

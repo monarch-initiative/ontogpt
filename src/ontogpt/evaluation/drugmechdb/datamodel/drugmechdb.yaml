@@ -1,0 +1,96 @@
+id: https://w3id.org/drugmechdb
+name: drugmechdb
+title: DrugMechDB datamodel
+description: >-
+  A linkml rendering of the DrugmechDB schema
+source: https://github.com/SuLab/DrugMechDB
+license: https://creativecommons.org/publicdomain/zero/1.0/
+prefixes:
+  linkml: https://w3id.org/linkml/
+  drugmechdb: https://w3id.org/drugmechdb/
+
+default_prefix: drugmechdb
+default_range: string
+
+imports:
+  - linkml:types
+
+classes:
+  Mechanism:
+    attributes:
+      directed:
+        range: boolean
+      multigraph:
+        range: boolean
+      reference:
+        multivalued: true
+        slot_uri: dcterms:source
+      references:
+        multivalued: false
+        slot_uri: dcterms:source
+      comment:
+        slot_uri: rdfs:comment
+      comments:
+        #slot_uri: rdfs:comment
+        multivalued: false
+      commments:
+        comments:
+          - typo in source
+      graph:
+        range: Graph
+        inlined: true
+      links:
+        range: Link
+        multivalued: true
+      nodes:
+        range: Node
+        multivalued: true
+        inlined: true
+
+  Graph:
+    attributes:
+      id:
+        structured_aliases:
+          literal_form: _id
+          categories:
+            - json
+      disease:
+      disease_mesh:
+      drug:
+      drug_mesh:
+      drugbank:
+      alt_ids:
+        multivalued: false
+
+  Link:
+    attributes:
+      key:
+      source:
+      target:
+      reference:
+
+  Node:
+    attributes:
+      id:
+      label:
+        slot_uri: biolink:category
+      name:
+        slot_uri: rdfs:label
+      all_id:
+        slot_uri: skos:exactMatch
+        multivalued: false
+        comments:
+          - is this a typo in the source file?
+      alt_ids:
+        slot_uri: skos:exactMatch
+        multivalued: true
+      alt_names:
+        slot_uri: skos:altLabel
+        multivalued: true
+      alt_name:
+        slot_uri: skos:altLabel
+        multivalued: false
+      reference:
+        multivalued: false
+        comments:
+          - note that in contrast to reference for graph, this is single valued

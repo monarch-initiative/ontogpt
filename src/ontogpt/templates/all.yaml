@@ -1,0 +1,21 @@
+id: http://w3id.org/ontogpt/semantic-llama
+name: semantic-llama
+license: https://creativecommons.org/publicdomain/zero/1.0/
+prefixes:
+  linkml: https://w3id.org/linkml/
+  core: http://w3id.org/ontogpt/core/
+
+default_prefix: core
+default_range: string
+
+imports:
+ - biological_process
+ - core
+ - environmental_sample
+ - gocam
+ - mendelian_disease
+ - metagenome_study
+ - reaction
+ - recipe
+ - treatment
+

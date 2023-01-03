@@ -1,0 +1,31 @@
+Title: The E3 ubiquitin ligase TRIM31 attenuates NLRP3 inflammasome
+activation by promoting proteasomal degradation of NLRP3
+
+Abstract: The NLRP3 inflammasome has a fundamental role in host
+defence against microbial pathogens and its deregulation may cause
+diverse inflammatory diseases. NLRP3 protein expression is a
+rate-limiting step for inflammasome activation, thus its expression
+must be tightly controlled to maintain immune homeostasis and avoid
+detrimental effects. However, how NLRP3 expression is regulated
+remains largely unknown. In this study, we identify E3 ubiquitin
+ligase TRIM31 as a feedback suppressor of NLRP3 inflammasome. TRIM31
+directly binds to NLRP3, promotes K48-linked polyubiquitination and
+proteasomal degradation of NLRP3. Consequently, TRIM31 deficiency
+enhances NLRP3 inflammasome activation and aggravates alum-induced
+peritonitis in vivo. Furthermore, TRIM31 deficiency attenuates the
+severity of dextran sodium sulfate (DSS)-induced colitis, an
+inflammatory bowel diseases model in which NLRP3 possesses protective
+roles. Thus, our research describes a mechanism by which TRIM31 limits
+NLRP3 inflammasome activity under physiological conditions and
+suggests TRIM31 as a potential therapeutic target for the intervention
+of NLRP3 inflammasome related diseases.
+
+Figure 1: TRIM31 specifically inhibits NLRP3 inflammasome activation
+Figure 2. TRIM31 promotes proteasomal degradation of NLRP3
+Figure 3. TRIM31 interacts with NLRP3
+Figure 4. TRIM31 promotes K48-linked polyubiquitination of NLRP3.
+Figure 5. IL-1β and LPS induce TRIM31 expression
+Figure 6. TRIM31 deficiency enhances IL-1β secretion and aggravates
+Alum-induced peritonitis in vivo
+Figure 7. TRIM31 deficiency ameliorates DSS-induced colitis
+Figure 8. Working model for TRIM31 inhibiting NLRP3 inflammasome activation.

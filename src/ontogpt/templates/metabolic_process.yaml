@@ -1,0 +1,59 @@
+id: https://w3id.org/ontogpt/metabolic_process
+name: metabolic-process-template
+title: metabolic Process Template
+description: >-
+  A template for GO-CAMs
+license: https://creativecommons.org/publicdomain/zero/1.0/
+prefixes:
+  linkml: https://w3id.org/linkml/
+  bp: http://w3id.org/ontogpt/metabolic-process-template
+
+default_prefix: bp
+default_range: string
+
+imports:
+  - linkml:types
+  - core
+
+classes:
+  MetabolicProcess:
+    is_a: NamedEntity
+    attributes:
+      label:
+        description: the name of the metabolic process
+      description:
+        description: a textual description of the metabolic process
+      synonyms:
+        description: alternative names of the metabolic process
+        multivalued: true
+      subclass_of:
+        description: a semicolon separated list of broader metabolic processes which this is a subclass of
+        range: MetabolicProcessCategory
+        multivalued: true
+      category:
+        range: MetabolicProcessCategory
+        description: the category of metabolic process, e.g metabolic process, catabolic process, biosynthetic process, small molecule sensor activity
+      inputs:
+        description: the inputs of the metabolic process
+        multivalued: true
+        range: ChemicalEntity
+      outputs:
+        description: the outputs of the metabolic process
+        multivalued: true
+        range: ChemicalEntity
+
+  MetabolicProcessCategory:
+    is_a: NamedEntity
+    id_prefixes:
+      - GO
+    annotations:
+      annotators: sqlite:obo:go
+
+  ChemicalEntity:
+    is_a: NamedEntity
+    id_prefixes:
+      - CHEBI
+    annotations:
+      annotators: sqlite:obo:chebi
+
+

@@ -1,0 +1,6 @@
+id: xx
+name: cysteine biosynthetic process
+description: The chemical reactions and pathways resulting in the formation of cysteine from other compounds, including serine
+outputs:
+  - cysteine
+subclass_of: amino acid cysteine biosynthetic process

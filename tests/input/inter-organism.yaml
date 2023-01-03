@@ -1,0 +1,114 @@
+-
+  publication:
+    title: "β-Catenin Is Required for the cGAS/STING Signaling Pathway but Antagonized by the Herpes Simplex Virus 1 US3 Protein" >-
+    abstract: >-
+      The cGAS/STING-mediated DNA-sensing signaling pathway is crucial for interferon (IFN) production and host antiviral responses. Herpes simplex virus I (HSV-1) is a DNA virus that has evolved multiple strategies to evade host immune responses. Here, we demonstrate that the highly conserved β-catenin protein in the Wnt signaling pathway is an important factor to enhance the transcription of type I interferon (IFN-I) in the cGAS/STING signaling pathway, and the production of IFN-I mediated by β-catenin was antagonized by HSV-1 US3 protein via its kinase activity. Infection by US3-deficienct HSV-1 and its kinase-dead variants failed to downregulate IFN-I and IFN-stimulated gene (ISG) production induced by β-catenin. Consistent with this, absence of β-catenin enhanced the replication of US3-deficienct HSV-1, but not wild-type HSV-1. The underlying mechanism was the interaction of US3 with β-catenin and its hyperphosphorylation of β-catenin at Thr556 to block its nuclear translocation. For the first time, HSV-1 US3 has been shown to inhibit IFN-I production through hyperphosphorylation of β-catenin and to subvert host antiviral innate immunity.IMPORTANCE Although increasing evidence has demonstrated that HSV-1 subverts host immune responses and establishes lifelong latent infection, the molecular mechanisms by which HSV-1 interrupts antiviral innate immunity, especially the cGAS/STING-mediated cellular DNA-sensing signaling pathway, have not been fully explored. Here, we show that β-catenin promotes cGAS/STING-mediated activation of the IFN pathway, which is important for cellular innate immune responses and intrinsic resistance to DNA virus infection. The protein kinase US3 antagonizes the production of IFN by targeting β-catenin via its kinase activity. The findings in this study reveal a novel mechanism for HSV-1 to evade host antiviral immunity and add new knowledge to help in understanding the interaction between the host and HSV-1 infection.
+    keywords: "HSV-1; US3; type I IFN; β-catenin."
+    genes:
+      - cGAS
+      - STING
+      - β-catenin
+    gene_organism_pairs:
+      - gene: cGAS
+        organism: Human
+      - gene: STING
+        organism: Human
+      - gene: β-catenin
+        organism: Human
+      - gene: US3
+        organism: HSV-1
+    functions:
+      - DNA-sensing signaling pathway
+      - interferon production
+      - host antiviral responses
+    gene_function_pairs:
+      - gene: cGAS
+        function: DNA-sensing signaling pathway
+      - gene: STING
+        function: DNA-sensing signaling pathway
+      - gene: β-catenin
+        function: interferon production
+      - gene: US3
+        function: host antiviral responses
+    processes:
+      - cellular DNA-sensing signaling pathway
+      - cellular innate immune responses
+      - intrinsic resistance to DNA virus infection
+    pathways:
+      - Wnt signaling pathway
+      - cGAS/STING-mediated cellular DNA-sensing signaling pathway
+      - type I interferon production
+    gene_gene_interactions:
+      - gene1: cGAS
+        gene2: STING
+      - gene1: β-catenin
+        gene2: US3
+    gene_localization_pairs:
+      - gene: β-catenin
+        localization: nucleus
+      - gene: US3
+        localization: nucleus
+-
+  publication:
+    title: The interferon-inducible ubiquitin-protein isopeptide ligase (E3) EFP also functions as an ISG15 E3 ligase
+    abstract: The expression of the ubiquitin-like protein ISG15 and protein modification by ISG15 (ISGylation) are strongly activated by interferons. Accordingly, ISG15 expression and protein ISGylation are strongly activated upon viral and bacterial infections and during other stress conditions, suggesting important roles for the ISG15 system in innate immune responses. Here, we report the identification of the ubiquitin-protein isopeptide ligase (E3) EFP (estrogen-responsive finger protein) as the ISG15 E3 ligase for 14-3-3sigma protein. Like other known components of the protein ISGylation system (ISG15, UBE1L, UBP43, and UBC8), EFP is also an interferon-inducible protein. Expression of EFP small interfering RNA decreased the ISGylation of 14-3-3sigma in the 293T cell ISGylation system as well as in MCF-7 cells upon interferon treatment. Furthermore, the ISGylation enzyme activity of EFP was RING domain-dependent. These findings indicate that EFP is an ISG15 E3 ligase for 14-3-3sigma in vivo. The fact that both UBC8 and EFP are common components in the ubiquitin and ISG15 conjugation pathways suggests a mechanism whereby a limited set of enzymes accomplishes diverse post-translational modifications of their substrates in response to changes in environmental stimulations.
+    keywords: "ISG15; EFP; 14-3-3sigma; ISGylation; ubiquitination."
+  genes:
+    - EFP
+    - ISG15
+    - UBE1L
+    - UBP43
+    - UBC8
+    - 14-3-3sigma
+  gene_organism_pairs:
+    - gene: EFP
+      organism: Human
+    - gene: ISG15
+      organism: Human
+    - gene: UBE1L
+      organism: Human
+    - gene: UBP43
+      organism: Human
+    - gene: UBC8
+      organism: Human
+    - gene: 14-3-3sigma
+      organism: Human
+  functions:
+    - ubiquitin-protein isopeptide ligase
+    - ISG15 E3 ligase
+    - ISGylation
+    - ubiquitination
+  gene_function_pairs:
+    - gene: EFP
+      function: ubiquitin-protein isopeptide ligase
+    - gene: ISG15
+      function: ISG15 E3 ligase
+    - gene: UBE1L
+      function: ISG15 E3 ligase
+    - gene: UBP43
+      function: ISG15 E3 ligase
+    - gene: UBC8
+      function: ISG15 E3 ligase
+    - gene: 14-3-3sigma
+      function: ISGylation
+  processes:
+    - protein ISGylation
+    - protein ubiquitination
+  pathways:
+    - ubiquitin-dependent protein catabolic process
+    - ISGylation
+    - ubiquitination
+  gene_localization_pairs:
+    - gene: EFP
+      localization: cytoplasm
+    - gene: ISG15
+      localization: cytoplasm
+    - gene: UBE1L
+      localization: cytoplasm
+    - gene: UBP43
+      localization: cytoplasm
+    - gene: UBC8
+      localization: cytoplasm
+    - gene: 14-3-3sigma
+      localization: cytoplasm
+

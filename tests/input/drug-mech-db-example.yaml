@@ -1,0 +1,751 @@
+-   directed: true
+    graph:
+        _id: DB00619_MESH_D015464_1
+        disease: CML (ph+)
+        disease_mesh: MESH:D015464
+        drug: imatinib
+        drug_mesh: MESH:D000068877
+        drugbank: DB:DB00619
+    links:
+    -   key: decreases activity of
+        source: MESH:D000068877
+        target: UniProt:P00519
+    -   key: causes
+        source: UniProt:P00519
+        target: MESH:D015464
+    multigraph: true
+    nodes:
+    -   id: MESH:D000068877
+        label: Drug
+        name: imatinib
+    -   id: UniProt:P00519
+        label: Protein
+        name: BCR/ABL
+    -   id: MESH:D015464
+        label: Disease
+        name: CML (ph+)
+-   directed: true
+    graph:
+        _id: DB00619_MESH_D034721_1
+        disease: Systemic mast cell disease
+        disease_mesh: MESH:D034721
+        drug: imatinib
+        drug_mesh: MESH:D000068877
+        drugbank: DB:DB00619
+    links:
+    -   key: decreases activity of
+        source: MESH:D000068877
+        target: UniProt:P10721
+    -   key: decreases activity of
+        source: MESH:D000068877
+        target: UniProt:P16234
+    -   key: positively regulates
+        source: UniProt:P10721
+        target: GO:0008283
+    -   key: positively regulates
+        source: UniProt:P16234
+        target: GO:0008283
+    -   key: causes
+        source: GO:0008283
+        target: MESH:D034721
+    multigraph: true
+    nodes:
+    -   id: MESH:D000068877
+        label: Drug
+        name: imatinib
+    -   id: UniProt:P10721
+        label: Protein
+        name: c-Kit
+    -   id: UniProt:P16234
+        label: Protein
+        name: Pdgf
+    -   id: GO:0008283
+        label: BiologicalProcess
+        name: Cellular proliferation
+    -   id: MESH:D034721
+        label: Disease
+        name: Systemic mast cell disease
+-   directed: true
+    graph:
+        _id: DB00316_MESH_D010146_1
+        disease: Pain
+        disease_mesh: MESH:D010146
+        drug: Acetaminophen
+        drug_mesh: MESH:D000082
+        drugbank: DB:DB00316
+    links:
+    -   key: decreases activity of
+        source: MESH:D000082
+        target: UniProt:P23219
+    -   key: decreases activity of
+        source: MESH:D000082
+        target: UniProt:P35354
+    -   key: decreases activity of
+        source: MESH:D000082
+        target: UniProt:Q15185
+    -   key: positively regulates
+        source: UniProt:P23219
+        target: GO:0001516
+    -   key: positively regulates
+        source: UniProt:P35354
+        target: GO:0001516
+    -   key: positively regulates
+        source: UniProt:Q15185
+        target: GO:0001516
+    -   key: increases abundance of
+        source: GO:0001516
+        target: MESH:D011453
+    -   key: positively correlated with
+        source: MESH:D011453
+        target: MESH:D010146
+    multigraph: true
+    nodes:
+    -   id: MESH:D000082
+        label: Drug
+        name: Acetaminophen
+    -   id: UniProt:P23219
+        label: Protein
+        name: Prostaglandin G/H synthase 1
+    -   id: UniProt:P35354
+        label: Protein
+        name: Prostaglandin G/H synthase 2
+    -   id: UniProt:Q15185
+        label: Protein
+        name: Prostaglandin E synthase 3
+    -   id: GO:0001516
+        label: BiologicalProcess
+        name: prostaglandin biosynthetic process
+    -   id: MESH:D011453
+        label: ChemicalSubstance
+        name: Prostaglandins
+    -   id: MESH:D010146
+        label: Disease
+        name: Pain
+    reference:
+    - https://go.drugbank.com/drugs/DB00316#mechanism-of-action
+    - https://www.uniprot.org/uniprot/P23219#function
+    - https://www.uniprot.org/uniprot/P35354#function
+    - https://www.uniprot.org/uniprot/Q15185#function
+    - https://en.wikipedia.org/wiki/Pain
+-   directed: true
+    graph:
+        _id: DB00316_MESH_D005334_1
+        disease: Fever
+        disease_mesh: MESH:D005334
+        drug: acetaminophen
+        drug_mesh: MESH:D000082
+        drugbank: DB:DB00316
+    links:
+    -   key: negatively regulates
+        source: MESH:D000082
+        target: REACT:R-HSA-2162123
+    -   key: occurs in
+        source: REACT:R-HSA-2162123
+        target: UBERON:0000955
+    -   key: location of
+        source: UBERON:0000955
+        target: GO:0001659
+    -   key: negatively correlated with
+        source: GO:0001659
+        target: MESH:D005334
+    multigraph: true
+    nodes:
+    -   id: MESH:D000082
+        label: Drug
+        name: acetaminophen
+    -   id: REACT:R-HSA-2162123
+        label: Pathway
+        name: cycloxygenaze pathways
+    -   id: UBERON:0000955
+        label: GrossAnatomicalStructure
+        name: Brain
+    -   id: GO:0001659
+        label: BiologicalProcess
+        name: Temperature Homeostasis
+    -   id: MESH:D005334
+        label: Disease
+        name: Fever
+-   directed: true
+    graph:
+        _id: DB00945_MESH_D010146_1
+        disease: Pain
+        disease_mesh: MESH:D010146
+        drug: acetylsalicylic acid
+        drug_mesh: MESH:D001241
+        drugbank: DB:DB00945
+    links:
+    -   key: decreases activity of
+        source: MESH:D001241
+        target: UniProt:P23219
+    -   key: decreases activity of
+        source: MESH:D001241
+        target: UniProt:P35354
+    -   key: increases abundance of
+        source: UniProt:P23219
+        target: MESH:D011453
+    -   key: increases abundance of
+        source: UniProt:P35354
+        target: MESH:D011453
+    -   key: causes
+        source: MESH:D011453
+        target: MESH:D010146
+    multigraph: true
+    nodes:
+    -   id: MESH:D001241
+        label: Drug
+        name: acetylsalicylic acid
+    -   id: UniProt:P23219
+        label: Protein
+        name: Cox-1
+    -   id: UniProt:P35354
+        label: Protein
+        name: Cox-2
+    -   id: MESH:D011453
+        label: ChemicalSubstance
+        name: Prostaglandins
+    -   id: MESH:D010146
+        label: Disease
+        name: Pain
+-   directed: true
+    graph:
+        _id: DB00945_MESH_D013927_1
+        disease: Thrombosis
+        disease_mesh: MESH:D013927
+        drug: acetylsalicylic acid
+        drug_mesh: MESH:D001241
+        drugbank: DB:DB00945
+    links:
+    -   key: decreases activity of
+        source: MESH:D001241
+        target: UniProt:P23219
+    -   key: participates in
+        source: UniProt:P23219
+        target: REACT:R-HSA-2162123
+    -   key: participates in
+        source: UniProt:P23219
+        target: GO:0007596
+    -   key: has output
+        source: REACT:R-HSA-2162123
+        target: MESH:D013928
+    -   key: participates in
+        source: MESH:D013928
+        target: GO:0007596
+    -   key: causes
+        source: GO:0007596
+        target: MESH:D013927
+    multigraph: true
+    nodes:
+    -   id: MESH:D001241
+        label: Drug
+        name: acetylsalicylic acid
+    -   id: UniProt:P23219
+        label: Protein
+        name: COX
+    -   id: REACT:R-HSA-2162123
+        label: Pathway
+        name: Synthesis of Prostaglandins and Thromboxanes
+    -   id: MESH:D013928
+        label: ChemicalSubstance
+        name: Thromboxane A2
+    -   id: GO:0007596
+        label: BiologicalProcess
+        name: Platelet Activiation / Blood Coagulation
+    -   id: MESH:D013927
+        label: Disease
+        name: Thrombosis
+-   directed: true
+    graph:
+        _id: DB00788_MESH_D010146_1
+        disease: Pain
+        disease_mesh: MESH:D010146
+        drug: naproxen
+        drug_mesh: MESH:D009288
+        drugbank: DB:DB00788
+    links:
+    -   key: decreases activity of
+        source: MESH:D009288
+        target: UniProt:P35354
+    -   key: increases abundance of
+        source: UniProt:P35354
+        target: MESH:D011453
+    -   key: participates in
+        source: MESH:D011453
+        target: GO:0006954
+    -   key: causes
+        source: GO:0006954
+        target: MESH:D010146
+    multigraph: true
+    nodes:
+    -   id: MESH:D009288
+        label: Drug
+        name: naproxen
+    -   id: UniProt:P35354
+        label: Protein
+        name: Cox-2
+    -   id: MESH:D011453
+        label: ChemicalSubstance
+        name: Prostaglandins
+    -   id: GO:0006954
+        label: BiologicalProcess
+        name: Inflammation
+    -   id: MESH:D010146
+        label: Disease
+        name: Pain
+-   directed: true
+    graph:
+        _id: DB01059_MESH_D004405_1
+        disease: Shigellosis
+        disease_mesh: MESH:D004405
+        drug: norfloxacin
+        drug_mesh: MESH:D009643
+        drugbank: DB:DB01059
+    links:
+    -   key: decreases activity of
+        source: MESH:D009643
+        target: UniProt:P43702
+    -   key: negatively regulates
+        source: MESH:D009643
+        target: GO:0003746
+    -   key: participates in
+        source: UniProt:P43702
+        target: GO:0006260
+    -   key: precedes
+        source: GO:0003746
+        target: GO:0006412
+    -   key: occurs in
+        source: GO:0006260
+        target: NCBITaxon:622
+    -   key: occurs in
+        source: GO:0006412
+        target: NCBITaxon:622
+    -   key: causes
+        source: NCBITaxon:622
+        target: MESH:D004405
+    multigraph: true
+    nodes:
+    -   id: MESH:D009643
+        label: Drug
+        name: norfloxacin
+    -   id: UniProt:P43702
+        label: Protein
+        name: topoisomerases II, IV
+    -   id: GO:0003746
+        label: MolecularActivity
+        name: Translocation of EF-G
+    -   id: GO:0006260
+        label: BiologicalProcess
+        name: Bacterial DNA replication
+    -   id: GO:0006412
+        label: BiologicalProcess
+        name: Bacterial Protein Synthesis
+    -   id: NCBITaxon:622
+        label: OrganismTaxon
+        name: Shigella dysenteriae
+    -   id: MESH:D004405
+        label: Disease
+        name: Shigellosis
+-   directed: true
+    graph:
+        _id: DB01380_MESH_D007634_1
+        disease: Keratitis
+        disease_mesh: MESH:D007634
+        drug: cortisone acetate
+        drug_mesh: MESH:D003348
+        drugbank: DB:DB01380
+    links:
+    -   key: increases activity of
+        source: MESH:D003348
+        target: UniProt:P04150
+    -   key: increases abundance of
+        source: MESH:D003348
+        target: UniProt:P04083
+    -   key: decreases abundance of
+        source: MESH:D003348
+        target: UniProt:P23219
+    -   key: increases abundance of
+        source: UniProt:P04150
+        target: UniProt:P04083
+    -   key: decreases abundance of
+        source: UniProt:P04150
+        target: UniProt:P23219
+    -   key: increases abundance of
+        source: UniProt:P23219
+        target: MESH:D011453
+    -   key: negatively regulates
+        source: UniProt:P04083
+        target: GO:0050900
+    -   key: negatively regulates
+        source: UniProt:P04083
+        target: REACT:R-HSA-2162123
+    -   key: participates in
+        source: REACT:R-HSA-2162123
+        target: GO:0006954
+    -   key: participates in
+        source: MESH:D011453
+        target: GO:0006954
+    -   key: positively regulates
+        source: GO:0050900
+        target: GO:0006954
+    -   key: positively regulates
+        source: REACT:R-HSA-2162123
+        target: GO:0006954
+    -   key: causes
+        source: GO:0006954
+        target: MESH:D007634
+    multigraph: true
+    nodes:
+    -   id: MESH:D003348
+        label: Drug
+        name: cortisone acetate
+    -   id: UniProt:P04150
+        label: Protein
+        name: Glucocorticoid receptor
+    -   id: UniProt:P23219
+        label: Protein
+        name: COX Genes
+    -   id: UniProt:P04083
+        label: Protein
+        name: lipocortin-1
+    -   id: REACT:R-HSA-2162123
+        label: Pathway
+        name: Prostaglandin Synthesis
+    -   id: MESH:D011453
+        label: ChemicalSubstance
+        name: Prostaglandins
+    -   id: GO:0050900
+        label: BiologicalProcess
+        name: Immune Cell Funciton
+    -   id: GO:0006954
+        label: BiologicalProcess
+        name: Inflammation
+    -   id: MESH:D007634
+        label: Disease
+        name: Keratitis
+-   directed: true
+    graph:
+        _id: DB01610_MESH_D003586_1
+        disease: CMV infection
+        disease_mesh: MESH:D003586
+        drug: valganciclovir
+        drug_mesh: MESH:D000077562
+        drugbank: DB:DB01610
+    links:
+    -   key: increases abundance of
+        source: MESH:D000077562
+        target: MESH:D015774
+    -   key: negatively regulates
+        source: MESH:D015774
+        target: GO:0039693
+    -   key: occurs in
+        source: GO:0039693
+        target: NCBITaxon:10358
+    -   key: causes
+        source: NCBITaxon:10358
+        target: MESH:D003586
+    multigraph: true
+    nodes:
+    -   id: MESH:D000077562
+        label: Drug
+        name: valganciclovir
+    -   id: MESH:D015774
+        label: ChemicalSubstance
+        name: ganciclovir
+    -   id: GO:0039693
+        label: BiologicalProcess
+        name: viral DNA replication
+    -   id: NCBITaxon:10358
+        label: OrganismTaxon
+        name: Cytomegalovirus
+    -   id: MESH:D003586
+        label: Disease
+        name: CMV infection
+-   directed: true
+    graph:
+        _id: DB00916_MESH_D018805_1
+        disease: Bacterial septicemia
+        disease_mesh: MESH:D018805
+        drug: metronidazole
+        drug_mesh: MESH:D008795
+        drugbank: DB:DB00916
+    links:
+    -   key: increases abundance of
+        source: MESH:D008795
+        target: MESH:C029371
+    -   key: negatively regulates
+        source: MESH:C029371
+        target: GO:0003676
+    -   key: occurs in
+        source: GO:0003676
+        target: NCBITaxon:2
+    -   key: causes
+        source: NCBITaxon:2
+        target: MESH:D018805
+    multigraph: true
+    nodes:
+    -   id: MESH:D008795
+        label: Drug
+        name: metronidazole
+    -   id: MESH:C029371
+        label: ChemicalSubstance
+        name: hydroxyethyl oxamic acid
+    -   id: GO:0003676
+        label: BiologicalProcess
+        name: bacterial Nucleic Acid synthesis
+    -   id: NCBITaxon:2
+        label: OrganismTaxon
+        name: Bacteria
+    -   id: MESH:D018805
+        label: Disease
+        name: Bacterial septicemia
+-   directed: true
+    graph:
+        _id: DB00618_MESH_D000073605_1
+        disease: Rickettsialpox
+        disease_mesh: MESH:D000073605
+        drug: demeclocycline
+        drug_mesh: MESH:D003707
+        drugbank: DB:DB00618
+    links:
+    -   key: decreases activity of
+        source: MESH:D003707
+        target: UniProt:P0A7S3
+    -   key: decreases activity of
+        source: MESH:D003707
+        target: UniProt:P0A7J3
+    -   key: participates in
+        source: UniProt:P0A7S3
+        target: GO:0006412
+    -   key: participates in
+        source: UniProt:P0A7J3
+        target: GO:0006412
+    -   key: occurs in
+        source: GO:0006412
+        target: NCBITaxon:786
+    -   key: causes
+        source: NCBITaxon:786
+        target: MESH:D000073605
+    multigraph: true
+    nodes:
+    -   id: MESH:D003707
+        label: Drug
+        name: demeclocycline
+    -   id: UniProt:P0A7S3
+        label: Protein
+        name: 30S Ribosomal Subunit
+    -   id: UniProt:P0A7J3
+        label: Protein
+        name: 50S Ribosomal Subunit
+    -   id: GO:0006412
+        label: BiologicalProcess
+        name: Bacterial Translation
+    -   id: NCBITaxon:786
+        label: OrganismTaxon
+        name: Rickettsia akari
+    -   id: MESH:D000073605
+        label: Disease
+        name: Rickettsialpox
+-   directed: true
+    graph:
+        _id: DB01060_MESH_D014069_1
+        disease: Streptococcal tonsillitis
+        disease_mesh: MESH:D014069
+        drug: amoxicillin
+        drug_mesh: MESH:D000658
+        drugbank: DB:DB01060
+    links:
+    -   key: decreases activity of
+        source: MESH:D000658
+        target: TIGR:02074
+    -   key: participates in
+        source: TIGR:02074
+        target: GO:0009252
+    -   key: occurs in
+        source: GO:0009252
+        target: NCBITaxon:1314
+    -   key: causes
+        source: NCBITaxon:1314
+        target: MESH:D014069
+    multigraph: true
+    nodes:
+    -   id: MESH:D000658
+        label: Drug
+        name: amoxicillin
+    -   id: TIGR:02074
+        label: GeneFamily
+        name: Penicillin-binding proteins 1A
+    -   id: GO:0009252
+        label: BiologicalProcess
+        name: Peptidoglycan Biosyntheic Process
+    -   id: NCBITaxon:1314
+        label: OrganismTaxon
+        name: Streptococcus pyogenes
+    -   id: MESH:D014069
+        label: Disease
+        name: Streptococcal tonsillitis
+-   directed: true
+    graph:
+        _id: DB09335_MESH_D011023_1
+        disease: Staphylococcal pneumonia
+        disease_mesh: MESH:D011023
+        drug: alatrofloxacin
+        drug_mesh: MESH:C106856
+        drugbank: DB:DB09335
+    links:
+    -   key: decreases activity of
+        source: MESH:C106856
+        target: UniProt:P0C1U9
+    -   key: decreases activity of
+        source: MESH:C106856
+        target: UniProt:P20831
+    -   key: participates in
+        source: UniProt:P0C1U9
+        target: GO:0006260
+    -   key: participates in
+        source: UniProt:P20831
+        target: GO:0006260
+    -   key: occurs in
+        source: GO:0006260
+        target: NCBITaxon:1280
+    -   key: causes
+        source: NCBITaxon:1280
+        target: MESH:D011023
+    multigraph: true
+    nodes:
+    -   id: MESH:C106856
+        label: Drug
+        name: alatrofloxacin
+    -   id: UniProt:P0C1U9
+        label: Protein
+        name: Topoisomeraze 4
+    -   id: UniProt:P20831
+        label: Protein
+        name: DNA gyrase
+    -   id: GO:0006260
+        label: BiologicalProcess
+        name: Bacterial DNA replication
+    -   id: NCBITaxon:1280
+        label: OrganismTaxon
+        name: Staphylococcus aureus
+    -   id: MESH:D011023
+        label: Disease
+        name: Staphylococcal pneumonia
+-   directed: true
+    graph:
+        _id: DB00479_MESH_D016920_1
+        disease: Bacterial meningitis
+        disease_mesh: MESH:D016920
+        drug: amikacin
+        drug_mesh: MESH:D000583
+        drugbank: DB:DB00479
+    links:
+    -   key: decreases activity of
+        source: MESH:D000583
+        target: UniProt:P0A7S3
+    -   key: participates in
+        source: UniProt:P0A7S3
+        target: GO:0006412
+    -   key: occurs in
+        source: GO:0006412
+        target: NCBITaxon:2
+    -   key: causes
+        source: NCBITaxon:2
+        target: MESH:D016920
+    multigraph: true
+    nodes:
+    -   id: MESH:D000583
+        label: Drug
+        name: amikacin
+    -   id: UniProt:P0A7S3
+        label: Protein
+        name: 30S Ribosomal Subunit
+    -   id: GO:0006412
+        label: BiologicalProcess
+        name: Bacterial Translation
+    -   id: NCBITaxon:2
+        label: OrganismTaxon
+        name: Bacteria
+    -   id: MESH:D016920
+        label: Disease
+        name: Bacterial meningitis
+-   directed: true
+    graph:
+        _id: DB01234_MESH_D013717_1
+        disease: Tenosynovitis
+        disease_mesh: MESH:D013717
+        drug: dexamethasone
+        drug_mesh: MESH:D003907
+        drugbank: DB:DB01234
+    links:
+    -   key: increases activity of
+        source: MESH:D003907
+        target: UniProt:P04150
+    -   key: increases abundance of
+        source: UniProt:P04150
+        target: UniProt:P04083
+    -   key: negatively regulates
+        source: UniProt:P04083
+        target: REACT:R-HSA-2162123
+    -   key: positively regulates
+        source: REACT:R-HSA-2162123
+        target: GO:0006954
+    -   key: causes
+        source: GO:0006954
+        target: MESH:D013717
+    multigraph: true
+    nodes:
+    -   id: MESH:D003907
+        label: Drug
+        name: dexamethasone
+    -   id: UniProt:P04150
+        label: Protein
+        name: Glucocorticoid receptor
+    -   id: UniProt:P04083
+        label: Protein
+        name: Annexin A1
+    -   id: REACT:R-HSA-2162123
+        label: Pathway
+        name: Prostaglandin Synthesis
+    -   id: GO:0006954
+        label: BiologicalProcess
+        name: Inflammation
+    -   id: MESH:D013717
+        label: Disease
+        name: Tenosynovitis
+-   directed: true
+    graph:
+        _id: DB00438_MESH_D014552_1
+        disease: Bacterial urinary infection
+        disease_mesh: MESH:D014552
+        drug: ceftazidime
+        drug_mesh: MESH:D002442
+        drugbank: DB:DB00438
+    links:
+    -   key: decreases activity of
+        source: MESH:D002442
+        target: TIGR:02074
+    -   key: participates in
+        source: TIGR:02074
+        target: GO:0009252
+    -   key: occurs in
+        source: GO:0009252
+        target: NCBITaxon:562
+    -   key: causes
+        source: NCBITaxon:562
+        target: MESH:D014552
+    multigraph: true
+    nodes:
+    -   id: MESH:D002442
+        label: Drug
+        name: ceftazidime
+    -   id: TIGR:02074
+        label: GeneFamily
+        name: Penicillin-binding protein 1A
+    -   id: GO:0009252
+        label: BiologicalProcess
+        name: Bacterial Cell Wall Synthesis
+    -   id: NCBITaxon:562
+        label: OrganismTaxon
+        name: Escherichia coli
+    -   id: MESH:D014552
+        label: Disease
+        name: Bacterial urinary infection

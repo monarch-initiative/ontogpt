@@ -1,0 +1,109 @@
+- _combo:
+  - disease
+  - drug
+  _input:
+    disease: MESH:D014552
+    drug: drugbank:DB00438
+  input_id: null
+  input_text: 'example:
+
+    disease: Leukemia, Myelogenous, Chronic, BCR-ABL Positive
+
+    drug: Imatinib
+
+    mechanism_links: tyrosine-protein kinase ABL1 (human) - decreases activity of
+    - Imatinib Mesylate; Leukemia, Myelogenous, Chronic, BCR-ABL Positive - causes
+    - tyrosine-protein kinase ABL1 (human)
+
+
+    disease: Mastocytosis, Systemic
+
+    drug: Imatinib
+
+    mechanism_links: mast/stem cell growth factor receptor Kit (human) - decreases
+    activity of - Imatinib Mesylate; platelet-derived growth factor receptor alpha
+    (human) - decreases activity of - Imatinib Mesylate; cell population proliferation
+    - positively regulates - mast/stem cell growth factor receptor Kit (human); cell
+    population proliferation - positively regulates - platelet-derived growth factor
+    receptor alpha (human); Mastocytosis, Systemic - causes - cell population proliferation
+
+
+    disease: Pain
+
+    drug: Acetaminophen
+
+    mechanism_links: prostaglandin G/H synthase 1 (human) - decreases activity of
+    - Acetaminophen; prostaglandin G/H synthase 2 (human) - decreases activity of
+    - Acetaminophen; prostaglandin E synthase 3 (human) - decreases activity of -
+    Acetaminophen; prostaglandin biosynthetic process - positively regulates - prostaglandin
+    G/H synthase 1 (human); prostaglandin biosynthetic process - positively regulates
+    - prostaglandin G/H synthase 2 (human); prostaglandin biosynthetic process - positively
+    regulates - prostaglandin E synthase 3 (human); Prostaglandins - increases abundance
+    of - prostaglandin biosynthetic process; Pain - positively correlated with - Prostaglandins
+
+
+    disease: Fever
+
+    drug: Acetaminophen
+
+    mechanism_links: REACT:R-HSA-2162123 - negatively regulates - Acetaminophen; brain
+    - occurs in - REACT:R-HSA-2162123; temperature homeostasis - location of - brain;
+    Fever - negatively correlated with - temperature homeostasis
+
+
+
+
+    ===
+
+
+    disease: Urinary Tract Infections
+
+    drug: Ceftazidime
+
+    '
+  input_title: null
+  named_entities:
+  - id: MESH:D014552
+    label: Urinary Tract Infections
+  - id: GO:0009273
+    label: cell wall biosynthetic process
+  - id: RO:0002213
+    label: positively regulates
+  - id: GO:0009273
+    label: cell envelope biosynthetic process
+  - id: RO:0002213
+    label: positively regulates
+  - id: MESH:D002442
+    label: Ceftazidime
+  - id: RO:0001019
+    label: contains
+  prompt: 'From the text below, extract the following entities in the following format:
+
+
+    subject: <the value for subject>
+
+    predicate: <the value for predicate>
+
+    object: <the value for object>
+
+    '
+  raw_completion_output: null
+  results:
+  - disease: MESH:D014552
+    drug: drugbank:DB00438
+    mechanism_links:
+    - object: MESH:D014552
+      predicate: biological process involved in
+      subject: Gram-negative bacilli
+    - object: Gram-negative bacilli
+      predicate: RO:0002213
+      subject: GO:0009273
+    - object: Gram-negative bacilli
+      predicate: RO:0002213
+      subject: GO:0009273
+    - object: MESH:D002442
+      predicate: binds to
+      subject: penicillin binding proteins
+    - object: penicillin binding proteins
+      predicate: RO:0001019
+      subject: Gram-negative bacilli

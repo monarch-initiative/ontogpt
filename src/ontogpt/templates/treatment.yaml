@@ -1,0 +1,97 @@
+id: http://w3id.org/ontogpt/treatment
+name: treatment-template
+title: MAXO treatment Template
+description: >-
+  A template for MAXO treatments
+license: https://creativecommons.org/publicdomain/zero/1.0/
+prefixes:
+  linkml: https://w3id.org/linkml/
+  treatment: http://w3id.org/ontogpt/treatments/
+
+default_prefix: treatment
+default_range: string
+
+imports:
+  - linkml:types
+  - core
+
+classes:
+  DiseaseTreatmentSummary:
+    attributes:
+      disease:
+        description: the name of the disease that is treated
+        range: Disease
+
+      drugs:
+        description: semicolon-separated list of named small molecule drugs
+        multivalued: true
+        range: Drug
+
+      treatments:
+        description: semicolon-separated list of therapies and treatments
+        multivalued: true
+        range: Treatment
+
+      treatment_mechanisms:
+        description: semicolon-separated list of treatment to asterisk-separated mechanism associations
+        multivalued: true
+        range: TreatmentMechanism
+        annotations:
+          prompt.separator: "*"
+
+      treatment_efficacies:
+        description: semicolon-separated list of treatment to efficacy associations, e.g. Imatinib*effective
+        multivalued: true
+        range: TreatmentEfficacy
+        annotations:
+          prompt.separator: "*"
+
+  Gene:
+    is_a: NamedEntity
+    id_prefixes:
+      - HGNC
+    annotations:
+      annotators: gilda:, obo:sql:hgnc, bioportal:hgnc-nr
+
+  Symptom:
+    is_a: NamedEntity
+    id_prefixes:
+      - HP
+    annotations:
+      annotators: sqlite:obo:hp
+
+  Disease:
+    is_a: NamedEntity
+    annotations:
+      annotators: sqlite:obo:mondo
+
+  Treatment:
+    is_a: NamedEntity
+    annotations:
+      annotators: sqlite:obo:maxo, sqlite:obo:ncit
+
+  Mechanism:
+    is_a: NamedEntity
+    annotations:
+      annotators: sqlite:obo:go, sqlite:obo:ncit
+
+  Drug:
+    is_a: NamedEntity
+    annotations:
+      annotators: sqlite:obo:chebi, sqlite:obo:drugbank
+
+  TreatmentMechanism:
+    is_a:   CompoundExpression
+    attributes:
+      treatment:
+        range: Treatment
+      mechanism:
+        range: Mechanism
+
+  TreatmentEfficacy:
+    is_a:   CompoundExpression
+    attributes:
+      treatment:
+        range: Treatment
+      efficacy:
+        range: string

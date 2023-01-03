@@ -1,0 +1,98 @@
+input_id: /Users/cjm/repos/semantic-llama/tests/input/cases/environment-jgi1.txt
+input_text: "Title: Fungal, bacterial, and archaeal communities mediating C cycling\n\
+  and trace gas flux in peatland ecosystems subject to climate change\n\nAbstract:\n\
+  Metagenome and metatranscriptome analyses. In the second part of this study we will\
+  \ conduct in-depth analysis to integrate metagenomics and metatranscriptomics studies\
+  \ that will leverage two i\nntensive peatland climate change experiments: PEATcosm\
+  \ (USDA & NSF funded) and SPRUCE (DOE funded). The PEATcosm experiment is investigating\
+  \ the effects of water table and peatland vegetation on trace gas flux in bog ecosystems.\
+  \ Dominant vascular plants (heath and sedge family) are hypothesized to be key ecosystem\
+  \ engineers that influence microbial community structure both via symbiotic associations\
+  \ that have strong extracellular enzyme activity (Ericaeae), and by transport of\
+  \ oxygen and labile C into the peat (Carex).  We will investigate 8 microenvironments:\
+  \ Ericaceae and sedge rhizosphere peat, at two depths, in both high and low water\
+  \ manipulative treatments simulating anticipated climate-mediated changes in water\
+  \ balance. We anticipate collecting 3 replicate samples per sample type to be used\
+  \ for both metagenome and metatranscriptome seque\nncing; each set of 3 could be\
+  \ pooled on a single lane of Illumina HiSeq, bringing the total to 16 lanes. The\
+  \ SPRUCE experiment is designed to understand threshold level responses of a peatland\
+  \ system to experimental warming.  It features fourteen plots that will be heated\
+  \ over a temperature gradient of 0 to +9 \xB0C above ambient, factorial with CO2\
+  \ enrichment over a 10yr period.  The experiment is being constructed in Minnesota\
+  \ with heating scheduled to begin in spring of 2014. Pretreatment environmental,\
+  \ vegetation and biogeochemical data has already been collected over the last 3\
+  \ years.  To complement such efforts, we are requesting analysis from 70 samples\
+  \ representing spatial and depth variation across the bog (14 plots/5 depths). Our\
+  \ goal is to provide baseline data on community functional genomic potential (metagenomic\
+  \ DNA) and their activities (metatranscriptomic RNA) in order to guide future intensive\
+  \ investigations at this site.  We anticipate multiplexing of up to 10 DNA or RNA\
+  \ samples per lane of the HiSeq for a total of 14 lanes of capacity for this part\n"
+raw_completion_output: "\nLocation: PEATcosm; SPRUCE; Minnesota \nEnvironmental Material:\
+  \ Ericaceae; sedge rhizosphere peat; heath; sedge\nEnvironments: Ericaceae and sedge\
+  \ rhizosphere peat, at two depths, in both high and low water manipulative treatments;\
+  \ 14 plots/5 depths\nCausal Relationships: water table and peatland vegetation on\
+  \ trace gas flux; oxygen and labile C into the peat; experimental warming; CO2 enrichment\n\
+  Variables: thickness; chemistry; enzyme activity; microorganisms\nMeasurements:\
+  \ Trace gas flux; enzyme activity; microorganism abundance."
+prompt: 'Split the following piece of text into fields in the following format:
+
+
+  value: <the value of the measurement>
+
+  unit: <the unit of the measurement>
+
+
+
+  Text:
+
+  microorganism abundance.
+
+
+  ===
+
+
+  '
+extracted_object:
+  location:
+  - PEATcosm
+  - SPRUCE
+  - Minnesota
+  environmental_material:
+  - Ericaceae
+  - sedge rhizosphere peat
+  - ENVO:00000107
+  - sedge
+  environments:
+  - Ericaceae and sedge rhizosphere peat, at two depths, in both high and low water
+    manipulative treatments
+  - 14 plots/5 depths
+  causal_relationships:
+  - cause: water table
+    effect: ENVO:01000797
+  - cause: oxygen and labile C
+    effect: ENVO:00005774
+  - cause: experimental warming
+    effect: '-'
+  - cause: CO2 enrichment
+  variables:
+  - PATO:0000915
+  - chemistry
+  - enzyme activity
+  - microorganisms
+  measurements:
+  - value: Trace gas flux
+    unit: http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#C18902
+  - value: enzyme activity
+    unit: none
+  - value: microorganism abundance
+named_entities:
+- id: ENVO:00000107
+  label: heath
+- id: ENVO:01000797
+  label: peatland vegetation on trace gas flux
+- id: ENVO:00005774
+  label: peat
+- id: PATO:0000915
+  label: thickness
+- id: http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#C18902
+  label: N/A

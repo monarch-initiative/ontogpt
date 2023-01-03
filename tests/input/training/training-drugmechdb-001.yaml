@@ -1,0 +1,4023 @@
+base_model: text-davinci-003
+examples:
+- completion: 'disease: Leukemia, Lymphocytic, Chronic, B-Cell
+
+    drug: Bendamustine
+
+    mechanism_links: Bendamustine Hydrochloride - disrupts - DNA; DNA - participates
+    in - DNA replication; DNA replication - precedes - lymphocyte proliferation; lymphocyte
+    proliferation - positively correlated with - Leukemia, Lymphocytic, Chronic, B-Cell'
+  prompt: "From the text below, extract the following entities in the following format:\n\
+    \ndisease: <the name of the disease that is treated>\ndrug: <the name of the drug\
+    \ that treats the disease>\nmechanism_links: <semicolon-separated list of links,\
+    \ where each link is a triple connecting two entities via a relationship type>\n\
+    \n\nText:\n Bendamustine is a bifunctional mechlorethamine derivative capable\
+    \ of forming electrophilic alkyl groups that covalently bond to other molecules.\
+    \ Through this function as an alkylating agent, bendamustine causes intra- and\
+    \ inter-strand crosslinks between DNA bases resulting in cell death.  It is active\
+    \ against both active and quiescent cells, although the exact mechanism of action\
+    \ is unknown.\n\n===\n\ndisease: Leukemia, Lymphocytic, Chronic, B-Cell\ndrug:\
+    \ Bendamustine\n"
+- completion: 'disease: Pneumonia, Staphylococcal
+
+    drug: Cefmetazole
+
+    mechanism_links: Cefmetazole - decreases activity of - InterPro:IPR005311; InterPro:IPR005311
+    - positively regulates - peptidoglycan biosynthetic process; peptidoglycan biosynthetic
+    process - positively regulates - peptidoglycan-based cell wall biogenesis; peptidoglycan-based
+    cell wall biogenesis - positively correlated with - cell division; cell division
+    - in taxon - Staphylococcus aureus; Staphylococcus aureus - causes - Pneumonia,
+    Staphylococcal'
+  prompt: 'From the text below, extract the following entities in the following format:
+
+
+    disease: <the name of the disease that is treated>
+
+    drug: <the name of the drug that treats the disease>
+
+    mechanism_links: <semicolon-separated list of links, where each link is a triple
+    connecting two entities via a relationship type>
+
+
+
+    Text:
+
+    The bactericidal activity of cefmetazole results from the inhibition of cell wall
+    synthesis via affinity for penicillin-binding proteins (PBPs).
+
+
+    ===
+
+
+    disease: Pneumonia, Staphylococcal
+
+    drug: Cefmetazole
+
+    '
+- completion: 'disease: Pharyngitis
+
+    drug: Fusidic acid
+
+    mechanism_links: Fusidic Acid - decreases activity of - PR:A2RCI2; PR:A2RCI2 -
+    positively regulates - translation; translation - occurs in - NCBITaxon:1314;
+    NCBITaxon:1314 - causes - Pharyngitis'
+  prompt: 'From the text below, extract the following entities in the following format:
+
+
+    disease: <the name of the disease that is treated>
+
+    drug: <the name of the drug that treats the disease>
+
+    mechanism_links: <semicolon-separated list of links, where each link is a triple
+    connecting two entities via a relationship type>
+
+
+
+    Text:
+
+    Fusidic acid works by interfering with bacterial protein synthesis, specifically
+    by preventing the translocation of the elongation factor G (EF-G) from the ribosome.
+    It also can inhibit chloramphenicol acetyltransferase enzymes.
+
+
+    ===
+
+
+    disease: Pharyngitis
+
+    drug: Fusidic acid
+
+    '
+- completion: 'disease: Pain
+
+    drug: Fentanyl
+
+    mechanism_links: Fentanyl - increases activity of - mu-type opioid receptor (human);
+    Fentanyl - increases activity of - delta-type opioid receptor (human); mu-type
+    opioid receptor (human) - positively regulates - REACT:R-HSA-372790; delta-type
+    opioid receptor (human) - positively regulates - REACT:R-HSA-372790; REACT:R-HSA-372790
+    - decreases activity of - PR:B7Z2C7; PR:B7Z2C7 - increases abundance of - 3'',5''-cyclic
+    AMP; 3'',5''-cyclic AMP - negatively regulates - ATP-sensitive inward rectifier
+    potassium channel 11 (human); 3'',5''-cyclic AMP - positively correlated with
+    - calcium ion import; ATP-sensitive inward rectifier potassium channel 11 (human)
+    - participates in - membrane hyperpolarization; calcium ion import - positively
+    regulates - substance P secretion, neurotransmission; calcium ion import - positively
+    regulates - glutamate secretion, neurotransmission; membrane hyperpolarization
+    - negatively regulates - action potential initiation; substance P secretion, neurotransmission
+    - located in - pain receptor cell; glutamate secretion, neurotransmission - located
+    in - pain receptor cell; action potential initiation - positively regulates -
+    pain receptor cell; pain receptor cell - positively correlated with - Pain'
+  prompt: 'From the text below, extract the following entities in the following format:
+
+
+    disease: <the name of the disease that is treated>
+
+    drug: <the name of the drug that treats the disease>
+
+    mechanism_links: <semicolon-separated list of links, where each link is a triple
+    connecting two entities via a relationship type>
+
+
+
+    Text:
+
+    Fentanyl binds to opioid receptors, especially the mu opioid receptor, which are
+    coupled to G-proteins.[A179533] Activation of opioid receptors causes GTP to be
+    exchanged for GDP on the G-proteins which in turn down regulates adenylate cyclase,
+    reducing concentrations of cAMP.[A179533] Reduced cAMP decreases cAMP dependant
+    influx of calcium ions into the cell.[A179533] The exchange of GTP for GDP results
+    in hyperpolarization of the cell and inhibition of nerve activity.[A179533]
+
+
+    ===
+
+
+    disease: Pain
+
+    drug: Fentanyl
+
+    '
+- completion: 'disease: Cough
+
+    drug: Benzocaine
+
+    mechanism_links: Benzocaine - decreases activity of - sodium channel protein type
+    10 subunit alpha (human); sodium channel protein type 10 subunit alpha (human)
+    - participates in - voltage-gated sodium channel activity; voltage-gated sodium
+    channel activity - increases transport of - Sodium; Sodium - positively correlated
+    with - membrane depolarization; membrane depolarization - positively regulates
+    - neuronal action potential; neuronal action potential - occurs in - pain receptor
+    cell; pain receptor cell - participates in - sensory perception of pain; sensory
+    perception of pain - occurs in - Cough'
+  prompt: 'From the text below, extract the following entities in the following format:
+
+
+    disease: <the name of the disease that is treated>
+
+    drug: <the name of the drug that treats the disease>
+
+    mechanism_links: <semicolon-separated list of links, where each link is a triple
+    connecting two entities via a relationship type>
+
+
+
+    Text:
+
+    Benzocaine binds to sodium channels and reversibly stabilizes the neuronal membrane
+    which decreases its permeability to sodium ions. Depolarization of the neuronal
+    membrane is inhibited thereby blocking the initiation and conduction of nerve
+    impulses.
+
+
+    ===
+
+
+    disease: Cough
+
+    drug: Benzocaine
+
+    '
+- completion: 'disease: Anemia, Diamond-Blackfan
+
+    drug: Cortisone acetate
+
+    mechanism_links: Cortisone - increases activity of - glucocorticoid receptor (human);
+    glucocorticoid receptor (human) - increases activity of - annexin A1 (human);
+    glucocorticoid receptor (human) - decreases activity of - prostaglandin G/H synthase
+    1 (human); glucocorticoid receptor (human) - decreases activity of - prostaglandin
+    G/H synthase 2 (human); annexin A1 (human) - decreases activity of - cytosolic
+    phospholipase A2 (human); prostaglandin G/H synthase 1 (human) - positively regulates
+    - prostaglandin biosynthetic process; prostaglandin G/H synthase 2 (human) - positively
+    regulates - prostaglandin biosynthetic process; cytosolic phospholipase A2 (human)
+    - positively regulates - leukotriene biosynthetic process; cytosolic phospholipase
+    A2 (human) - positively regulates - prostaglandin biosynthetic process; leukotriene
+    biosynthetic process - positively correlated with - inflammatory response; prostaglandin
+    biosynthetic process - positively correlated with - inflammatory response; inflammatory
+    response - positively correlated with - HP:0001908; HP:0001908 - manifestation
+    of - Anemia, Diamond-Blackfan'
+  prompt: 'From the text below, extract the following entities in the following format:
+
+
+    disease: <the name of the disease that is treated>
+
+    drug: <the name of the drug that treats the disease>
+
+    mechanism_links: <semicolon-separated list of links, where each link is a triple
+    connecting two entities via a relationship type>
+
+
+
+    Text:
+
+    Cortisone acetate binds to the cytosolic glucocorticoid receptor. After binding
+    the receptor the newly formed receptor-ligand complex translocates itself into
+    the cell nucleus, where it binds to many glucocorticoid response elements (GRE)
+    in the promoter region of the target genes. The DNA bound receptor then interacts
+    with basic transcription factors, causing the increase in expression of specific
+    target genes. The anti-inflammatory actions of corticosteroids are thought to
+    involve lipocortins, phospholipase A2 inhibitory proteins which, through inhibition
+    arachidonic acid, control the biosynthesis of prostaglandins and leukotrienes.
+    Specifically glucocorticoids induce lipocortin-1 (annexin-1) synthesis, which
+    then binds to cell membranes preventing the phospholipase A2 from coming into
+    contact with its substrate arachidonic acid. This leads to diminished eicosanoid
+    production. The cyclooxygenase (both COX-1 and COX-2) expression is also suppressed,
+    potentiating the effect. In other words, the two main products in inflammation
+    Prostaglandins and Leukotrienes are inhibited by the action of Glucocorticoids.
+    Glucocorticoids also stimulate the lipocortin-1 escaping to the extracellular
+    space, where it binds to the leukocyte membrane receptors and inhibits various
+    inflammatory events: epithelial adhesion, emigration, chemotaxis, phagocytosis,
+    respiratory burst and the release of various inflammatory mediators (lysosomal
+    enzymes, cytokines, tissue plasminogen activator, chemokines etc.) from neutrophils,
+    macrophages and mastocytes. Additionally the immune system is suppressed by corticosteroids
+    due to a decrease in the function of the lymphatic system, a reduction in immunoglobulin
+    and complement concentrations, the precipitation of lymphocytopenia, and interference
+    with antigen-antibody binding.
+
+
+    ===
+
+
+    disease: Anemia, Diamond-Blackfan
+
+    drug: Cortisone acetate
+
+    '
+- completion: 'disease: Epilepsy, Absence
+
+    drug: Paramethadione
+
+    mechanism_links: paramethadione - decreases activity of - voltage-dependent T-type
+    calcium channel subunit alpha-1G (human); paramethadione - decreases activity
+    of - voltage-dependent T-type calcium channel subunit alpha-1H (human); paramethadione
+    - decreases activity of - voltage-dependent T-type calcium channel subunit alpha-1I
+    (human); voltage-dependent T-type calcium channel subunit alpha-1G (human) - positively
+    regulates - voltage-gated calcium channel activity; voltage-dependent T-type calcium
+    channel subunit alpha-1H (human) - positively regulates - voltage-gated calcium
+    channel activity; voltage-dependent T-type calcium channel subunit alpha-1I (human)
+    - positively regulates - voltage-gated calcium channel activity; voltage-gated
+    calcium channel activity - positively regulates - neuronal action potential; neuronal
+    action potential - positively regulates - neuronal signal transduction; neuronal
+    signal transduction - positively correlated with - Epilepsy, Absence'
+  prompt: 'From the text below, extract the following entities in the following format:
+
+
+    disease: <the name of the disease that is treated>
+
+    drug: <the name of the drug that treats the disease>
+
+    mechanism_links: <semicolon-separated list of links, where each link is a triple
+    connecting two entities via a relationship type>
+
+
+
+    Text:
+
+    Dione anticonvulsants such as paramethadione reduce T-type calcium currents in
+    thalamic neurons (including thalamic relay neurons). This inhibits corticothalamic
+    transmission and raises the threshold for repetitive activity in the thalamus.
+    This results in a dampening of the abnormal thalamocortical rhythmicity proposed
+    to underlie the 3-Hz spike-and-wave discharge seen on electroencephalogram (EEG)
+    during absence seizures.
+
+
+    ===
+
+
+    disease: Epilepsy, Absence
+
+    drug: Paramethadione
+
+    '
+- completion: 'disease: Pruritus Ani
+
+    drug: Flumethasone
+
+    mechanism_links: Flumethasone - increases activity of - glucocorticoid receptor
+    (human); glucocorticoid receptor (human) - increases activity of - annexin A1
+    (human); annexin A1 (human) - decreases activity of - cytosolic phospholipase
+    A2 (human); annexin A1 (human) - negatively regulates - prostaglandin G/H synthase
+    2 (human); cytosolic phospholipase A2 (human) - increases abundance of - Prostaglandins;
+    prostaglandin G/H synthase 2 (human) - increases abundance of - Prostaglandins;
+    Prostaglandins - positively regulates - inflammatory response; inflammatory response
+    - has phenotype - HP:0000989; HP:0000989 - manifestation of - Pruritus Ani'
+  prompt: 'From the text below, extract the following entities in the following format:
+
+
+    disease: <the name of the disease that is treated>
+
+    drug: <the name of the drug that treats the disease>
+
+    mechanism_links: <semicolon-separated list of links, where each link is a triple
+    connecting two entities via a relationship type>
+
+
+
+    Text:
+
+    Flumethasone is a glucocorticoid receptor agonist. This complex binds to the nucleus
+    causing a variety of genetic activation and repressions. The antiinflammatory
+    actions of corticosteroids are thought to involve lipocortins, phospholipase A2
+    inhibitory proteins which, through inhibition arachidonic acid, control the biosynthesis
+    of prostaglandins and leukotrienes. The immune system is suppressed by corticosteroids
+    due to a decrease in the function of the lymphatic system, a reduction in immunoglobulin
+    and complement concentrations, the precipitation of lymphocytopenia, and interference
+    with antigen-antibody binding. Flumethasone binds to plasma transcortin, and it
+    becomes active when it is not bound to transcortin.
+
+
+    ===
+
+
+    disease: Pruritus Ani
+
+    drug: Flumethasone
+
+    '
+- completion: 'disease: Pneumonia, Bacterial
+
+    drug: Gemifloxacin
+
+    mechanism_links: MESH:D000077735 - decreases activity of - DNA topoisomerase 4
+    subunit A (Streptococcus pneumoniae TIGR4); DNA topoisomerase 4 subunit A (Streptococcus
+    pneumoniae TIGR4) - participates in - DNA replication; DNA replication - occurs
+    in - Streptococcus pneumoniae; Streptococcus pneumoniae - causes - Pneumonia,
+    Bacterial'
+  prompt: 'From the text below, extract the following entities in the following format:
+
+
+    disease: <the name of the disease that is treated>
+
+    drug: <the name of the drug that treats the disease>
+
+    mechanism_links: <semicolon-separated list of links, where each link is a triple
+    connecting two entities via a relationship type>
+
+
+
+    Text:
+
+    The bactericidal action of gemifloxacin results from inhibition of the enzymes
+    topoisomerase II (DNA gyrase) and topoisomerase IV, which are required for bacterial
+    DNA replication, transcription, repair, and recombination.
+
+
+    ===
+
+
+    disease: Pneumonia, Bacterial
+
+    drug: Gemifloxacin
+
+    '
+- completion: 'disease: Escherichia coli Infections
+
+    drug: Tobramycin
+
+    mechanism_links: Tobramycin - negatively regulates - RNA, Ribosomal, 16S; Tobramycin
+    - negatively regulates - RNA, Ribosomal, 23S; RNA, Ribosomal, 16S - located in
+    - ribosome; RNA, Ribosomal, 23S - located in - ribosome; ribosome - positively
+    regulates - translation; translation - occurs in - Escherichia coli; Escherichia
+    coli - causes - Escherichia coli Infections'
+  prompt: 'From the text below, extract the following entities in the following format:
+
+
+    disease: <the name of the disease that is treated>
+
+    drug: <the name of the drug that treats the disease>
+
+    mechanism_links: <semicolon-separated list of links, where each link is a triple
+    connecting two entities via a relationship type>
+
+
+
+    Text:
+
+    Tobramycin binds irreversibly to one of two aminoglycoside binding sites on the
+    30 S ribosomal subunit, inhibiting bacterial protein synthesis. Tobramycin may
+    also destabilize bacterial memebrane by binding to 16 S 16 S r-RNA. An active
+    transport mechanism for aminoglycoside uptake is necessary in the bacteria in
+    order to attain a significant intracellular concentration of tobramycin.
+
+
+    ===
+
+
+    disease: Escherichia coli Infections
+
+    drug: Tobramycin
+
+    '
+- completion: 'disease: Epilepsy
+
+    drug: Felbamate
+
+    mechanism_links: felbamate - decreases activity of - glutamate receptor ionotropic,
+    NMDA 2B (human); felbamate - decreases activity of - glutamate receptor ionotropic,
+    NMDA 2A (human); glutamate receptor ionotropic, NMDA 2B (human) - positively correlated
+    with - HP:0001250; glutamate receptor ionotropic, NMDA 2A (human) - positively
+    correlated with - HP:0001250; HP:0001250 - manifestation of - Epilepsy'
+  prompt: 'From the text below, extract the following entities in the following format:
+
+
+    disease: <the name of the disease that is treated>
+
+    drug: <the name of the drug that treats the disease>
+
+    mechanism_links: <semicolon-separated list of links, where each link is a triple
+    connecting two entities via a relationship type>
+
+
+
+    Text:
+
+    The mechanism by which felbamate exerts its anticonvulsant activity is unknown,
+    but in animal test systems designed to detect anticonvulsant activity, felbamate
+    has properties in common with other marketed anticonvulsants. &lt;i&gt;In vitro&lt;/i&gt;
+    receptor binding studies suggest that felbamate may be an antagonist at the strychnine-insensitive
+    glycine-recognition site of the N-methyl-D-aspartate (NMDA) receptor-ionophore
+    complex. Antagonism of the NMDA receptor glycine binding site may block the effects
+    of the excitatory amino acids and suppress seizure activity. Animal studies indicate
+    that felbamate may increase the seizure threshold and may decrease seizure spread.
+    It is also indicated that felbamate has weak inhibitory effects on GABA-receptor
+    binding, benzodiazepine receptor binding.
+
+
+    ===
+
+
+    disease: Epilepsy
+
+    drug: Felbamate
+
+    '
+- completion: 'disease: Angioedema
+
+    drug: Triamcinolone
+
+    mechanism_links: Triamcinolone - increases activity of - glucocorticoid receptor
+    (human); glucocorticoid receptor (human) - increases activity of - annexin A1
+    (human); glucocorticoid receptor (human) - decreases activity of - prostaglandin
+    G/H synthase 1 (human); glucocorticoid receptor (human) - decreases activity of
+    - prostaglandin G/H synthase 2 (human); annexin A1 (human) - decreases activity
+    of - cytosolic phospholipase A2 (human); prostaglandin G/H synthase 1 (human)
+    - positively regulates - prostaglandin biosynthetic process; prostaglandin G/H
+    synthase 2 (human) - positively regulates - prostaglandin biosynthetic process;
+    cytosolic phospholipase A2 (human) - positively regulates - leukotriene biosynthetic
+    process; cytosolic phospholipase A2 (human) - positively regulates - prostaglandin
+    biosynthetic process; leukotriene biosynthetic process - positively correlated
+    with - inflammatory response; prostaglandin biosynthetic process - positively
+    correlated with - inflammatory response; inflammatory response - located in -
+    dermis; dermis - location of - Angioedema'
+  prompt: 'From the text below, extract the following entities in the following format:
+
+
+    disease: <the name of the disease that is treated>
+
+    drug: <the name of the drug that treats the disease>
+
+    mechanism_links: <semicolon-separated list of links, where each link is a triple
+    connecting two entities via a relationship type>
+
+
+
+    Text:
+
+    Corticosteroids like triamcinolone inhibit phospholipase A2 on cell membranes,
+    preventing the breakdown of lysosomal membranes of leukocytes, which in turn prevent
+    the formation of arachidonic acid, which decrease expression of cyclooxygenase
+    and lipoxygenase, inhibiting synthesis of prostaglandins and leukotrienes.[A184463]
+    Anti-inflammatory activity occurs via reversal of vascular dilation and reducing
+    permeability, which prevents macrophage and leukocyte migration.[A184463] Triamcinolone
+    also inhibits nuclear factor kappa-B, which decreases the production of pro-inflammatory
+    signals such as interleukin-6, interleukin-8, and monocyte chemoattractant protein-1.[A184463]
+
+
+    ===
+
+
+    disease: Angioedema
+
+    drug: Triamcinolone
+
+    '
+- completion: 'disease: Rhinitis, Vasomotor
+
+    drug: Phenindamine
+
+    mechanism_links: phenindamine - decreases activity of - histamine H1 receptor
+    (human); histamine H1 receptor (human) - positively correlated with - Histamine;
+    Histamine - causes - hypersensitivity; hypersensitivity - correlated with - Rhinitis,
+    Vasomotor'
+  prompt: 'From the text below, extract the following entities in the following format:
+
+
+    disease: <the name of the disease that is treated>
+
+    drug: <the name of the drug that treats the disease>
+
+    mechanism_links: <semicolon-separated list of links, where each link is a triple
+    connecting two entities via a relationship type>
+
+
+
+    Text:
+
+    Antihistamines such as phenindamine appear to compete with histamine for histamine
+    H1- receptor sites on effector cells. The antihistamines antagonize those pharmacological
+    effects of histamine which are mediated through activation of H1- receptor sites
+    and thereby reduce the intensity of allergic reactions and tissue injury response
+    involving histamine release.
+
+
+    ===
+
+
+    disease: Rhinitis, Vasomotor
+
+    drug: Phenindamine
+
+    '
+- completion: 'disease: Intraabdominal Infections
+
+    drug: Amphotericin B
+
+    mechanism_links: Amphotericin B - negatively regulates - Ergosterol; Ergosterol
+    - positively regulates - fungal-type cell wall; fungal-type cell wall - in taxon
+    - Candida albicans; Candida albicans - causes - Intraabdominal Infections'
+  prompt: 'From the text below, extract the following entities in the following format:
+
+
+    disease: <the name of the disease that is treated>
+
+    drug: <the name of the drug that treats the disease>
+
+    mechanism_links: <semicolon-separated list of links, where each link is a triple
+    connecting two entities via a relationship type>
+
+
+
+    Text:
+
+    Amphotericin B is fungistatic or fungicidal depending on the concentration obtained
+    in body fluids and the susceptibility of the fungus. The drug acts by binding
+    to sterols (ergosterol) in the cell membrane of susceptible fungi. This creates
+    a transmembrane channel, and the resultant change in membrane permeability allowing
+    leakage of intracellular components. Ergosterol, the principal sterol in the fungal
+    cytoplasmic membrane, is the target site of action of amphotericin B and the azoles.
+    Amphotericin B, a polyene, binds irreversibly to ergosterol, resulting in disruption
+    of membrane integrity and ultimately cell death.
+
+
+    ===
+
+
+    disease: Intraabdominal Infections
+
+    drug: Amphotericin B
+
+    '
+- completion: 'disease: Escherichia coli Infections
+
+    drug: Ampicillin
+
+    mechanism_links: Ampicillin - negatively regulates - Pfam:PF00905; Pfam:PF00905
+    - positively regulates - peptidoglycan biosynthetic process; peptidoglycan biosynthetic
+    process - positively correlated with - peptidoglycan-based cell wall biogenesis;
+    peptidoglycan-based cell wall biogenesis - in taxon - Escherichia coli; Escherichia
+    coli - causes - Escherichia coli Infections'
+  prompt: 'From the text below, extract the following entities in the following format:
+
+
+    disease: <the name of the disease that is treated>
+
+    drug: <the name of the drug that treats the disease>
+
+    mechanism_links: <semicolon-separated list of links, where each link is a triple
+    connecting two entities via a relationship type>
+
+
+
+    Text:
+
+    By binding to specific penicillin-binding proteins (PBPs) located inside the bacterial
+    cell wall, Ampicillin inhibits the third and last stage of bacterial cell wall
+    synthesis. Cell lysis is then mediated by bacterial cell wall autolytic enzymes
+    such as autolysins; it is possible that Ampicillin interferes with an autolysin
+    inhibitor.
+
+
+    ===
+
+
+    disease: Escherichia coli Infections
+
+    drug: Ampicillin
+
+    '
+- completion: 'disease: Fever
+
+    drug: Salicylic acid
+
+    mechanism_links: Salicylic Acid - decreases activity of - prostaglandin G/H synthase
+    1 (human); Salicylic Acid - decreases activity of - prostaglandin G/H synthase
+    2 (human); prostaglandin G/H synthase 1 (human) - positively regulates - prostaglandin
+    biosynthetic process; prostaglandin G/H synthase 2 (human) - positively regulates
+    - prostaglandin biosynthetic process; prostaglandin biosynthetic process - positively
+    correlated with - inflammatory response; inflammatory response - positively correlated
+    with - Fever'
+  prompt: 'From the text below, extract the following entities in the following format:
+
+
+    disease: <the name of the disease that is treated>
+
+    drug: <the name of the drug that treats the disease>
+
+    mechanism_links: <semicolon-separated list of links, where each link is a triple
+    connecting two entities via a relationship type>
+
+
+
+    Text:
+
+    Salicylic acid directly irreversibly inhibits COX-1 and COX-2 to decrease conversion
+    of arachidonic acid to precursors of prostaglandins and thromboxanes. Salicylate''s
+    use in rheumatic diseases is due to it''s analgesic and anti-inflammatory activity.
+    Salicylic acid is a key ingredient in many skin-care products for the treatment
+    of acne, psoriasis, calluses, corns, keratosis pilaris, and warts. Salicylic acid
+    allows cells of the epidermis to more readily slough off. Because of its effect
+    on skin cells, salicylic acid is used in several shampoos used to treat dandruff.
+    Salicylic acid is also used as an active ingredient in gels which remove verrucas
+    (plantar warts). Salicylic acid competitively inhibits oxidation of uridine-5-diphosphoglucose
+    (UDPG) with nicotinamide adenosine dinucleotide (NAD) and noncompetitively with
+    UDPG. It also competitively inhibits the transferring of the glucuronyl group
+    of uridine-5-phosphoglucuronic acid (UDPGA) to a phenolic acceptor. Inhibition
+    of mucopoly saccharide synthesis is likely responsible for the slowing of wound
+    healing with salicylates.
+
+
+    ===
+
+
+    disease: Fever
+
+    drug: Salicylic acid
+
+    '
+- completion: 'disease: Anthrax
+
+    drug: Fusidic acid
+
+    mechanism_links: Fusidic Acid - decreases activity of - PR:Q81VT3; PR:Q81VT3 -
+    positively regulates - translation; translation - occurs in - Bacillus anthracis;
+    Bacillus anthracis - causes - Anthrax'
+  prompt: 'From the text below, extract the following entities in the following format:
+
+
+    disease: <the name of the disease that is treated>
+
+    drug: <the name of the drug that treats the disease>
+
+    mechanism_links: <semicolon-separated list of links, where each link is a triple
+    connecting two entities via a relationship type>
+
+
+
+    Text:
+
+    Fusidic acid works by interfering with bacterial protein synthesis, specifically
+    by preventing the translocation of the elongation factor G (EF-G) from the ribosome.
+    It also can inhibit chloramphenicol acetyltransferase enzymes.
+
+
+    ===
+
+
+    disease: Anthrax
+
+    drug: Fusidic acid
+
+    '
+- completion: 'disease: Schizophrenia
+
+    drug: Perospirone
+
+    mechanism_links: perospirone - increases activity of - 5-hydroxytryptamine receptor
+    1A (human); perospirone - decreases activity of - D(2) dopamine receptor (human);
+    perospirone - decreases activity of - 5-hydroxytryptamine receptor 2A (human);
+    5-hydroxytryptamine receptor 1A (human) - negatively correlated with - HP:0000739;
+    5-hydroxytryptamine receptor 2A (human) - positively regulates - dopamine secretion;
+    5-hydroxytryptamine receptor 2A (human) - positively regulates - glutamate secretion;
+    glutamate secretion - positively correlated with - dopamine neurotransmitter receptor
+    activity; dopamine neurotransmitter receptor activity - positively correlated
+    with - HP:0000709; D(2) dopamine receptor (human) - positively regulates - dopamine
+    secretion; dopamine secretion - increases abundance of - dopamine; dopamine -
+    located in - medial forebrain bundle; medial forebrain bundle - correlated with
+    - HP:0000709; HP:0000709 - positively correlated with - Schizophrenia; dopamine
+    - located in - dorsolateral prefrontal cortex; dorsolateral prefrontal cortex
+    - correlated with - HP:0100543; dorsolateral prefrontal cortex - correlated with
+    - HP:0030213; dorsolateral prefrontal cortex - correlated with - HP:0012154; dorsolateral
+    prefrontal cortex - correlated with - HP:0002465; dorsolateral prefrontal cortex
+    - correlated with - HP:0000741; HP:0100543 - manifestation of - Schizophrenia;
+    HP:0030213 - manifestation of - Schizophrenia; HP:0012154 - manifestation of -
+    Schizophrenia; HP:0002465 - manifestation of - Schizophrenia; HP:0000741 - manifestation
+    of - Schizophrenia; HP:0000739 - manifestation of - Schizophrenia'
+  prompt: 'From the text below, extract the following entities in the following format:
+
+
+    disease: <the name of the disease that is treated>
+
+    drug: <the name of the drug that treats the disease>
+
+    mechanism_links: <semicolon-separated list of links, where each link is a triple
+    connecting two entities via a relationship type>
+
+
+
+    Text:
+
+    Antagonism at D2 receptors is believed to relieve the positive symptoms of schizophrenia
+    such as delusions, hallucinations, and thought disorders. Perospirone targets
+    the mesolimbic patway to reverse the overactivity of the dopaminergic signalling
+    via D2 receptors [T28]. 5-HT2A antagonism is thought to allevaite the negative
+    symptoms and cognitive impairments of schizophrenia. These receptors are Gi/Go
+    coupled receptors that lead to decreased neurotransmitter release and neuronal
+    inhibition when activated, thus play a role in dopamine release regulation. Perospirone
+    targets these receptors in the nigrostriatal pathway to reduce dopamine release
+    and function. In contrast, 5-HT2A receptor antagonism may improve the negative
+    symptoms by enhancing dopamine and glutamate release in the mesocortical pathway
+    [T28]. 5-HT1A receptor activation further inhibits the release of 5-HT into the
+    synaptic cleft.
+
+
+    ===
+
+
+    disease: Schizophrenia
+
+    drug: Perospirone
+
+    '
+- completion: 'disease: Lymphoma, T-Cell, Cutaneous
+
+    drug: Fluocinonide
+
+    mechanism_links: Fluocinonide - increases activity of - glucocorticoid receptor
+    (human); glucocorticoid receptor (human) - increases activity of - annexin A1
+    (human); annexin A1 (human) - decreases activity of - cytosolic phospholipase
+    A2 (human); annexin A1 (human) - decreases activity of - prostaglandin G/H synthase
+    2 (human); cytosolic phospholipase A2 (human) - increases abundance of - Prostaglandins;
+    prostaglandin G/H synthase 2 (human) - increases abundance of - Prostaglandins;
+    Prostaglandins - positively regulates - inflammatory response; inflammatory response
+    - has phenotype - HP:0000989; inflammatory response - has phenotype - HP:0000988;
+    HP:0000989 - manifestation of - Lymphoma, T-Cell, Cutaneous; HP:0000988 - manifestation
+    of - Lymphoma, T-Cell, Cutaneous'
+  prompt: 'From the text below, extract the following entities in the following format:
+
+
+    disease: <the name of the disease that is treated>
+
+    drug: <the name of the drug that treats the disease>
+
+    mechanism_links: <semicolon-separated list of links, where each link is a triple
+    connecting two entities via a relationship type>
+
+
+
+    Text:
+
+    Fluocinonide is a potent glucocorticoid steroid used topically as anti-inflammatory
+    agent for the treatment of skin disorders such as eczema. Fluocinonide binds to
+    the cytosolic glucocorticoid receptor. After binding the receptor the newly formed
+    receptor-ligand complex translocates itself into the cell nucleus, where it binds
+    to many glucocorticoid response elements (GRE) in the promoter region of the target
+    genes. The DNA bound receptor then interacts with basic transcription factors,
+    causing the increase in expression of specific target genes. The anti-inflammatory
+    actions of corticosteroids are thought to involve lipocortins, phospholipase A2
+    inhibitory proteins which, through inhibition arachidonic acid, control the biosynthesis
+    of prostaglandins and leukotrienes. Specifically glucocorticoids induce lipocortin-1
+    (annexin-1) synthesis, which then binds to cell membranes preventing the phospholipase
+    A2 from coming into contact with its substrate arachidonic acid. This leads to
+    diminished eicosanoid production. Cyclooxygenase (both COX-1 and COX-2) expression
+    is also suppressed, potentiating the effect. In another words, the two main products
+    in inflammation Prostaglandins and Leukotrienes are inhibited by the action of
+    Glucocorticoids. Glucocorticoids also stimulate the lipocortin-1 escaping to the
+    extracellular space, where it binds to the leukocyte membrane receptors and inhibits
+    various inflammatory events: epithelial adhesion, emigration, chemotaxis, phagocytosis,
+    respiratory burst and the release of various inflammatory mediators (lysosomal
+    enzymes, cytokines, tissue plasminogen activator, chemokines etc.) from neutrophils,
+    macrophages and mastocytes. Additionally the immune system is suppressed by corticosteroids
+    due to a decrease in the function of the lymphatic system, a reduction in immunoglobulin
+    and complement concentrations, the precipitation of lymphocytopenia, and interference
+    with antigen-antibody binding.  Like other glucocorticoid agents Fluocinolone
+    acetonide acts as a physiological antagonist to insulin by decreasing glycogenesis
+    (formation of glycogen). It also promotes the breakdown of lipids (lipolysis),
+    and proteins, leading to the mobilization of extrahepatic amino acids and ketone
+    bodies. This leads to increased circulating glucose concentrations (in the blood).
+    There is also decreased glycogen formation in the liver.
+
+
+    ===
+
+
+    disease: Lymphoma, T-Cell, Cutaneous
+
+    drug: Fluocinonide
+
+    '
+- completion: 'disease: Rhinoscleroma
+
+    drug: Ceftriaxone
+
+    mechanism_links: Ceftriaxone - decreases activity of - InterPro:IPR017790; InterPro:IPR017790
+    - participates in - peptidoglycan biosynthetic process; peptidoglycan biosynthetic
+    process - positively regulates - peptidoglycan-based cell wall biogenesis; peptidoglycan-based
+    cell wall biogenesis - occurs in - NCBITaxon:39831; NCBITaxon:39831 - causes -
+    Rhinoscleroma'
+  prompt: 'From the text below, extract the following entities in the following format:
+
+
+    disease: <the name of the disease that is treated>
+
+    drug: <the name of the drug that treats the disease>
+
+    mechanism_links: <semicolon-separated list of links, where each link is a triple
+    connecting two entities via a relationship type>
+
+
+
+    Text:
+
+    Ceftriaxone works by inhibiting the mucopeptide synthesis in the bacterial cell
+    wall.[T324,L15082] The beta-lactam moiety of ceftriaxone binds to carboxypeptidases,
+    endopeptidases, and transpeptidases in the bacterial cytoplasmic membrane. These
+    enzymes are involved in cell-wall synthesis and cell division. Binding of ceftriaxone
+    to these enzymes causes the enzyme to lose activity; therefore, the bacteria produce
+    defective cell walls, causing cell death.
+
+
+    ===
+
+
+    disease: Rhinoscleroma
+
+    drug: Ceftriaxone
+
+    '
+- completion: 'disease: Lymphoma, Large B-Cell, Diffuse
+
+    drug: Vincristine
+
+    mechanism_links: Vincristine - decreases activity of - tubulin beta chain (human);
+    tubulin beta chain (human) - part of - microtubule cytoskeleton organization involved
+    in mitosis; microtubule cytoskeleton organization involved in mitosis - positively
+    regulates - mitotic nuclear division; mitotic nuclear division - positively regulates
+    - cell population proliferation; cell population proliferation - positively correlated
+    with - Lymphoma, Large B-Cell, Diffuse'
+  prompt: 'From the text below, extract the following entities in the following format:
+
+
+    disease: <the name of the disease that is treated>
+
+    drug: <the name of the drug that treats the disease>
+
+    mechanism_links: <semicolon-separated list of links, where each link is a triple
+    connecting two entities via a relationship type>
+
+
+
+    Text:
+
+    The antitumor activity of Vincristine is thought to be due primarily to inhibition
+    of mitosis at metaphase through its interaction with tubulin. Like other vinca
+    alkaloids, Vincristine may also interfere with: 1) amino acid, cyclic AMP, and
+    glutathione metabolism, 2) calmodulin-dependent Ca&lt;sup&gt;2+&lt;/sup&gt;-transport
+    ATPase activity, 3) cellular respiration, and 4) nucleic acid and lipid biosynthesis.
+
+
+    ===
+
+
+    disease: Lymphoma, Large B-Cell, Diffuse
+
+    drug: Vincristine
+
+    '
+- completion: 'disease: Histoplasmosis
+
+    drug: Amphotericin B
+
+    mechanism_links: Amphotericin B - negatively regulates - Ergosterol; Ergosterol
+    - positively regulates - fungal-type cell wall; fungal-type cell wall - in taxon
+    - NCBITaxon:5036; NCBITaxon:5036 - causes - Histoplasmosis'
+  prompt: 'From the text below, extract the following entities in the following format:
+
+
+    disease: <the name of the disease that is treated>
+
+    drug: <the name of the drug that treats the disease>
+
+    mechanism_links: <semicolon-separated list of links, where each link is a triple
+    connecting two entities via a relationship type>
+
+
+
+    Text:
+
+    Amphotericin B is fungistatic or fungicidal depending on the concentration obtained
+    in body fluids and the susceptibility of the fungus. The drug acts by binding
+    to sterols (ergosterol) in the cell membrane of susceptible fungi. This creates
+    a transmembrane channel, and the resultant change in membrane permeability allowing
+    leakage of intracellular components. Ergosterol, the principal sterol in the fungal
+    cytoplasmic membrane, is the target site of action of amphotericin B and the azoles.
+    Amphotericin B, a polyene, binds irreversibly to ergosterol, resulting in disruption
+    of membrane integrity and ultimately cell death.
+
+
+    ===
+
+
+    disease: Histoplasmosis
+
+    drug: Amphotericin B
+
+    '
+- completion: 'disease: Lymphogranuloma Venereum
+
+    drug: Doxycycline
+
+    mechanism_links: Doxycycline - negatively regulates - RNA, Ribosomal, 16S; RNA,
+    Ribosomal, 16S - located in - small ribosomal subunit; small ribosomal subunit
+    - participates in - translation; translation - occurs in - Chlamydia trachomatis;
+    Chlamydia trachomatis - causes - Lymphogranuloma Venereum'
+  prompt: "From the text below, extract the following entities in the following format:\n\
+    \ndisease: <the name of the disease that is treated>\ndrug: <the name of the drug\
+    \ that treats the disease>\nmechanism_links: <semicolon-separated list of links,\
+    \ where each link is a triple connecting two entities via a relationship type>\n\
+    \n\nText:\nIn bacterial replication, an interaction that is important for translation\
+    \ initiation of proteins occurs at the 3\u2032 end of the 16S rRNA, found on the\
+    \ ribosome on the 30S subunit [A174046], [A19429],  [A174070].  The 30S subunit\
+    \ is the smaller subunit of the ribosome of prokaryotes, including bacteria[F3073].\
+    \   Tetracyclines such as doxycycline are thought to inhibit translation by binding\
+    \ to the 16S rRNA portion of the ribosome [A174040], preventing binding of tRNA\
+    \ to the RNA-30S bacterial ribosomal subunit,  which is necessary for the delivery\
+    \ of amino acids for protein synthesis.  As a result of the above actions, the\
+    \ initiation of protein synthesis by polyribosome formation is blocked. This stops\
+    \ the replication of bacteria and produces a bacteriostatic effect  [F3052].\n\
+    \n===\n\ndisease: Lymphogranuloma Venereum\ndrug: Doxycycline\n"
+- completion: 'disease: Dyspepsia
+
+    drug: Ranitidine
+
+    mechanism_links: Ranitidine - decreases activity of - histamine H2 receptor (human);
+    histamine H2 receptor (human) - positively regulates - gastric acid secretion;
+    gastric acid secretion - increases abundance of - Gastric Acid; Gastric Acid -
+    contributes to - Heartburn; Heartburn - manifestation of - Dyspepsia'
+  prompt: 'From the text below, extract the following entities in the following format:
+
+
+    disease: <the name of the disease that is treated>
+
+    drug: <the name of the drug that treats the disease>
+
+    mechanism_links: <semicolon-separated list of links, where each link is a triple
+    connecting two entities via a relationship type>
+
+
+
+    Text:
+
+    After a meal, the hormone gastrin, produced by cells in the lining of the stomach,
+    stimulates the release of histamine, which then binds to histamine H2 receptors,
+    leading to the secretion of gastric acid. Ranitidine reduces the secretion of
+    gastric acid by reversible binding to histamine (H2) receptors, which are found
+    on gastric parietal cells. This process leads to the inhibition of histamine binding
+    to this receptor, causing the reduction of gastric acid secretion. The relief
+    of gastric-acid related symptoms can occur as soon as 60 minutes after administration
+    of a single dose, and the effects can last from 4-10 hours, providing fast and
+    effective symptomatic relief.[A176774,T533,L10818]
+
+
+    ===
+
+
+    disease: Dyspepsia
+
+    drug: Ranitidine
+
+    '
+- completion: 'disease: Rhinitis, Allergic, Seasonal
+
+    drug: Levocetirizine
+
+    mechanism_links: levocetirizine - decreases activity of - histamine H1 receptor
+    (human); histamine H1 receptor (human) - positively regulates - histamine receptor
+    activity; histamine receptor activity - participates in - cellular response to
+    histamine; cellular response to histamine - positively correlated with - inflammatory
+    response; inflammatory response - has phenotype - HP:0031417; HP:0031417 - manifestation
+    of - Rhinitis, Allergic, Seasonal'
+  prompt: 'From the text below, extract the following entities in the following format:
+
+
+    disease: <the name of the disease that is treated>
+
+    drug: <the name of the drug that treats the disease>
+
+    mechanism_links: <semicolon-separated list of links, where each link is a triple
+    connecting two entities via a relationship type>
+
+
+
+    Text:
+
+    Levocetirizine selectively inhibits histamine H&lt;sub&gt;1&lt;/sub&gt; receptors.[L7694]
+    This action prevents histamine from activating this receptor and causing effects
+    like smooth muscle contraction, increased permeability of vascular endothelium,
+    histidine uptake in basophils, stimulation of cough receptors, and stimulation
+    of flare responses in the nervous system.[A181790]
+
+
+    ===
+
+
+    disease: Rhinitis, Allergic, Seasonal
+
+    drug: Levocetirizine
+
+    '
+- completion: 'disease: Enterobacteriaceae Infections
+
+    drug: Ceftizoxime
+
+    mechanism_links: Ceftizoxime - decreases activity of - InterPro:IPR001460; InterPro:IPR001460
+    - participates in - peptidoglycan biosynthetic process; peptidoglycan biosynthetic
+    process - positively regulates - peptidoglycan-based cell wall biogenesis; peptidoglycan-based
+    cell wall biogenesis - occurs in - Enterobacteriaceae; Enterobacteriaceae - causes
+    - Enterobacteriaceae Infections'
+  prompt: 'From the text below, extract the following entities in the following format:
+
+
+    disease: <the name of the disease that is treated>
+
+    drug: <the name of the drug that treats the disease>
+
+    mechanism_links: <semicolon-separated list of links, where each link is a triple
+    connecting two entities via a relationship type>
+
+
+
+    Text:
+
+    Ceftizoxime is an aminothiazolyl cephalosporin with an extended spectrum of activity
+    against many gram-negative, nosocomially acquired pathogens. It has excellent
+    beta-lactamase stability, with good in vitro activity against Haemophilus influenzae,
+    Neisseria gonorrhoeae and Klebsiella pneumoniae. Ceftizoxime, like the penicillins,
+    is a beta-lactam antibiotic. By binding to specific penicillin-binding proteins
+    (PBPs) located inside the bacterial cell wall, it inhibits the third and last
+    stage of bacterial cell wall synthesis. Cell lysis is then mediated by bacterial
+    cell wall autolytic enzymes such as autolysins; it is possible that ceftizoxime
+    interferes with an autolysin inhibitor.
+
+
+    ===
+
+
+    disease: Enterobacteriaceae Infections
+
+    drug: Ceftizoxime
+
+    '
+- completion: 'disease: Lupus Erythematosus, Discoid
+
+    drug: Alclometasone
+
+    mechanism_links: alclometasone dipropionate - positively regulates - glucocorticoid
+    receptor (human); alclometasone dipropionate - negatively correlated with - InterPro:SSF50353;
+    alclometasone dipropionate - negatively correlated with - histamine; InterPro:SSF50353
+    - positively correlated with - inflammatory response; histamine - positively correlated
+    with - inflammatory response; glucocorticoid receptor (human) - increases abundance
+    of - InterPro:IPR001464; InterPro:IPR001464 - negatively regulates - InterPro:IPR001211;
+    InterPro:IPR001211 - positively correlated with - leukotriene; leukotriene - positively
+    correlated with - inflammatory response; inflammatory response - positively correlated
+    with - HP:0000969; inflammatory response - positively correlated with - HP:0010783;
+    inflammatory response - positively correlated with - HP:0040189; inflammatory
+    response - positively correlated with - HP:0032152; inflammatory response - positively
+    correlated with - HP:0004334; HP:0000969 - manifestation of - Lupus Erythematosus,
+    Discoid; HP:0010783 - manifestation of - Lupus Erythematosus, Discoid; HP:0040189
+    - manifestation of - Lupus Erythematosus, Discoid; HP:0032152 - manifestation
+    of - Lupus Erythematosus, Discoid; HP:0004334 - manifestation of - Lupus Erythematosus,
+    Discoid'
+  prompt: 'From the text below, extract the following entities in the following format:
+
+
+    disease: <the name of the disease that is treated>
+
+    drug: <the name of the drug that treats the disease>
+
+    mechanism_links: <semicolon-separated list of links, where each link is a triple
+    connecting two entities via a relationship type>
+
+
+
+    Text:
+
+    The mechanism of the anti-inflammatory activity of the topical steroids, in general,
+    is unclear. However, corticosteroids are thought to act by the induction of phospholipase
+    A&lt;sub&gt;2&lt;/sub&gt; inhibitory proteins, collectively called lipocortins.
+    It is postulated that these proteins control the biosynthesis of potent mediators
+    of inflammation such as prostaglandins and leukotrienes by inhibiting the release
+    of their common precursor, arachidonic acid. Arachidonic acid is released from
+    membrane phospholipids by phospholipase A&lt;sub&gt;2&lt;/sub&gt;. Alclometasone
+    initially binds the corticosteroid receptor. This complex migrates to the nucleus
+    where it binds to different glucocorticoid response elements on the DNA. This
+    in turn enhances and represses various genes, especially those involved in inflammatory
+    pathways.
+
+
+    ===
+
+
+    disease: Lupus Erythematosus, Discoid
+
+    drug: Alclometasone
+
+    '
+- completion: 'disease: Common Cold
+
+    drug: Pseudoephedrine
+
+    mechanism_links: Pseudoephedrine - increases activity of - alpha-1A adrenergic
+    receptor (human); Pseudoephedrine - increases activity of - beta-2 adrenergic
+    receptor (human); beta-2 adrenergic receptor (human) - negatively correlated with
+    - HP:4000007; HP:4000007 - positively correlated with - Common Cold; alpha-1A
+    adrenergic receptor (human) - positively regulates - vasoconstriction; vasoconstriction
+    - negatively correlated with - mucus secretion; mucus secretion - positively correlated
+    with - Common Cold'
+  prompt: 'From the text below, extract the following entities in the following format:
+
+
+    disease: <the name of the disease that is treated>
+
+    drug: <the name of the drug that treats the disease>
+
+    mechanism_links: <semicolon-separated list of links, where each link is a triple
+    connecting two entities via a relationship type>
+
+
+
+    Text:
+
+    Pseudoephedrine acts mainly as an agonist of alpha adrenergic receptors[A189381]
+    and less strongly as an agonist of beta adrenergic receptors.[A10896] This agonism
+    of adrenergic receptors produces vasoconstriction which is used as a decongestant[A188823,L11031,L11037,L11040,L11046,L11052,L11058,L11061]
+    and as a treatment of priapism.[A189384] Pseudoephedrine is also an inhibitor
+    of norepinephrine, dopamine, and serotonin transporters.[A17168,A17169] The sympathomimetic
+    effects of pseudoephedrine include an increase in mean arterial pressure, heart
+    rate, and chronotropic response of the right atria.[A17197] Pseudoephedrine is
+    also a partial agonist of the anococcygeal muscle.[A17197] Pseudoephedrine also
+    inhibits NF-kappa-B, NFAT, and AP-1.[A18244]
+
+
+    ===
+
+
+    disease: Common Cold
+
+    drug: Pseudoephedrine
+
+    '
+- completion: 'disease: Multiple Myeloma
+
+    drug: Pomalidomide
+
+    mechanism_links: pomalidomide - positively regulates - natural killer cell; natural
+    killer cell - positively regulates - natural killer cell mediated immune response
+    to tumor cell; natural killer cell mediated immune response to tumor cell - negatively
+    correlated with - Multiple Myeloma; pomalidomide - decreases activity of - prostaglandin
+    G/H synthase 2 (human); prostaglandin G/H synthase 2 (human) - increases abundance
+    of - Prostaglandins; Prostaglandins - positively regulates - inflammatory response;
+    inflammatory response - positively correlated with - Multiple Myeloma; pomalidomide
+    - decreases activity of - tumor necrosis factor (human); tumor necrosis factor
+    (human) - participates in - REACT:R-HSA-75893; REACT:R-HSA-75893 - positively
+    regulates - inflammatory response; pomalidomide - negatively regulates - osteoclast;
+    osteoclast - positively regulates - bone resorption; bone resorption - occurs
+    in - Multiple Myeloma; pomalidomide - negatively regulates - vascular endothelial
+    growth factor production; vascular endothelial growth factor production - positively
+    regulates - angiogenesis; pomalidomide - negatively regulates - InterPro:IPR001321;
+    InterPro:IPR001321 - positively regulates - angiogenesis; angiogenesis - positively
+    correlated with - Multiple Myeloma'
+  prompt: 'From the text below, extract the following entities in the following format:
+
+
+    disease: <the name of the disease that is treated>
+
+    drug: <the name of the drug that treats the disease>
+
+    mechanism_links: <semicolon-separated list of links, where each link is a triple
+    connecting two entities via a relationship type>
+
+
+
+    Text:
+
+    Promalidomide is an immunomodulatory agent with antineoplastic activity. It is
+    shown to inhibit the proliferation and induce apoptosis of various tumour cells.
+    Furthermore, promalidomide enhances T cell and natural killer (NK) cell-mediated
+    immunity and inhibited the production of pro-inflammatory cytokines, like TNF-alpha
+    or IL-6, by monocytes. The primary target of promalidomide is thought to be the
+    protein cereblon. It binds to this target and inhibits ubiquitin ligase activity.
+    It is also a transcriptional inhibitor of COX2.
+
+
+    ===
+
+
+    disease: Multiple Myeloma
+
+    drug: Pomalidomide
+
+    '
+- completion: 'disease: Psittacosis
+
+    drug: Fusidic acid
+
+    mechanism_links: Fusidic Acid - decreases activity of - PR:S7JCG1; PR:S7JCG1 -
+    positively regulates - translation; translation - occurs in - Chlamydia psittaci;
+    Chlamydia psittaci - causes - Psittacosis'
+  prompt: 'From the text below, extract the following entities in the following format:
+
+
+    disease: <the name of the disease that is treated>
+
+    drug: <the name of the drug that treats the disease>
+
+    mechanism_links: <semicolon-separated list of links, where each link is a triple
+    connecting two entities via a relationship type>
+
+
+
+    Text:
+
+    Fusidic acid works by interfering with bacterial protein synthesis, specifically
+    by preventing the translocation of the elongation factor G (EF-G) from the ribosome.
+    It also can inhibit chloramphenicol acetyltransferase enzymes.
+
+
+    ===
+
+
+    disease: Psittacosis
+
+    drug: Fusidic acid
+
+    '
+- completion: 'disease: Cytomegalovirus Retinitis
+
+    drug: Foscarnet
+
+    mechanism_links: Foscarnet - decreases activity of - PR:P08546; PR:P08546 - participates
+    in - viral DNA genome replication; viral DNA genome replication - occurs in -
+    NCBITaxon:10358; NCBITaxon:10358 - causes - Cytomegalovirus Retinitis'
+  prompt: 'From the text below, extract the following entities in the following format:
+
+
+    disease: <the name of the disease that is treated>
+
+    drug: <the name of the drug that treats the disease>
+
+    mechanism_links: <semicolon-separated list of links, where each link is a triple
+    connecting two entities via a relationship type>
+
+
+
+    Text:
+
+    Foscarnet exerts its antiviral activity by a selective inhibition at the pyrophosphate
+    binding site on virus-specific DNA polymerases at concentrations that do not affect
+    cellular DNA polymerases.
+
+
+    ===
+
+
+    disease: Cytomegalovirus Retinitis
+
+    drug: Foscarnet
+
+    '
+- completion: 'disease: Tinea Versicolor
+
+    drug: Zinc oxide
+
+    mechanism_links: Zinc Oxide - decreases abundance of - Fungi; Zinc Oxide - negatively
+    regulates - inflammatory response; Fungi - causes - Tinea Versicolor; inflammatory
+    response - occurs in - Tinea Versicolor'
+  prompt: 'From the text below, extract the following entities in the following format:
+
+
+    disease: <the name of the disease that is treated>
+
+    drug: <the name of the drug that treats the disease>
+
+    mechanism_links: <semicolon-separated list of links, where each link is a triple
+    connecting two entities via a relationship type>
+
+
+
+    Text:
+
+    It acts by providing a physical barrier to prevent skin irritation and help heal
+    damaged skin.
+
+
+    ===
+
+
+    disease: Tinea Versicolor
+
+    drug: Zinc oxide
+
+    '
+- completion: 'disease: Asthma
+
+    drug: Pemirolast
+
+    mechanism_links: pemirolast - decreases activity of - histamine H1 receptor (human);
+    pemirolast - negatively regulates - mast cell degranulation; mast cell degranulation
+    - increases abundance of - Histamine; Histamine - causes - cellular response to
+    histamine; histamine H1 receptor (human) - participates in - histamine receptor
+    activity; histamine receptor activity - participates in - cellular response to
+    histamine; cellular response to histamine - positively correlated with - inflammatory
+    response; inflammatory response - causes - Asthma'
+  prompt: 'From the text below, extract the following entities in the following format:
+
+
+    disease: <the name of the disease that is treated>
+
+    drug: <the name of the drug that treats the disease>
+
+    mechanism_links: <semicolon-separated list of links, where each link is a triple
+    connecting two entities via a relationship type>
+
+
+
+    Text:
+
+    Pemirolast binds to the histamine H&lt;sub&gt;1&lt;/sub&gt; receptor. This blocks
+    the action of endogenous histamine, which subsequently leads to temporary relief
+    of the negative symptoms brought on by histamine. Pemirolast has also been observed
+    to inhibit antigen-stimulated calcium ion influx into mast cells through the blockage
+    of calcium channels. Pemirolast inhibits the chemotaxis of eosinophils into ocular
+    tissue, and prevents inflammatory mediator release from human eosinophils.
+
+
+    ===
+
+
+    disease: Asthma
+
+    drug: Pemirolast
+
+    '
+- completion: 'disease: Tinea Pedis
+
+    drug: Clotrimazole
+
+    mechanism_links: Clotrimazole - disrupts - ergosterol; ergosterol - located in
+    - yeast-form cell wall; yeast-form cell wall - in taxon - Candida albicans SC5314;
+    Candida albicans SC5314 - causes - Tinea Pedis'
+  prompt: "From the text below, extract the following entities in the following format:\n\
+    \ndisease: <the name of the disease that is treated>\ndrug: <the name of the drug\
+    \ that treats the disease>\nmechanism_links: <semicolon-separated list of links,\
+    \ where each link is a triple connecting two entities via a relationship type>\n\
+    \n\nText:\nClotrimazole acts primarily by damaging the permeability barrier in\
+    \ the cell membrane of fungi. Clotrimazole causes inhibition of ergosterol biosynthesis,\
+    \ an essential constituent of fungal cell membranes. If ergosterol synthesis is\
+    \ either completely or partially inhibited, the cell is no longer able to construct\
+    \ an intact and functional cell membrane [F3088],[F3100]. Because ergosterol directly\
+    \ promotes the growth of fungal cells in a hormone\u2010like fashion, rapid onset\
+    \ of the above events leads to dose-dependent inhibition of fungal growth [A174094].\
+    \ Though decreased ergosterol, due to the inhibition of lanosterol 14-demethylase\
+    \ (also known as _CYP51_) [A174094] is accepted to be primarily responsible for\
+    \ the antimycotic properties of clotrimazole, this drug also shows other pharmacological\
+    \ effects. These include the inhibition of sarcoplasmic reticulum Ca2+\u2010ATPase,\
+    \  depletion of intracellular calcium, and blocking of calcium\u2010dependent\
+    \ potassium channels and voltage\u2010dependent calcium channels [A174094]. The\
+    \ action of clotrimazole on these targets accounts for other effects of this drug\
+    \ that are separate from its antimycotic activities [A174094].\n\n===\n\ndisease:\
+    \ Tinea Pedis\ndrug: Clotrimazole\n"
+- completion: 'disease: Cluster Headache
+
+    drug: Dihydroergotamine
+
+    mechanism_links: Dihydroergotamine - increases activity of - 5-hydroxytryptamine
+    receptor 1D (human); Dihydroergotamine - increases activity of - 5-hydroxytryptamine
+    receptor 1B (human); 5-hydroxytryptamine receptor 1D (human) - positively regulates
+    - vasoconstriction; 5-hydroxytryptamine receptor 1B (human) - positively regulates
+    - vasoconstriction; 5-hydroxytryptamine receptor 1B (human) - negatively regulates
+    - substance P secretion, neurotransmission; 5-hydroxytryptamine receptor 1D (human)
+    - negatively regulates - substance P secretion, neurotransmission; vasoconstriction
+    - treats - Cluster Headache; substance P secretion, neurotransmission - positively
+    correlated with - Pain; Pain - positively correlated with - Cluster Headache'
+  prompt: 'From the text below, extract the following entities in the following format:
+
+
+    disease: <the name of the disease that is treated>
+
+    drug: <the name of the drug that treats the disease>
+
+    mechanism_links: <semicolon-separated list of links, where each link is a triple
+    connecting two entities via a relationship type>
+
+
+
+    Text:
+
+    Two theories have been proposed to explain the efficacy of 5-HT&lt;sub&gt;1D&lt;/sub&gt;
+    receptor agonists in migraine: 1) activation of 5-HT&lt;sub&gt;1D&lt;/sub&gt;
+    receptors located on intracranial blood vessels, including those on arterio-venous
+    anastomoses, leads to vasoconstriction, which correlates with the relief of migraine
+    headache and 2) activation of 5-HT&lt;sub&gt;1D&lt;/sub&gt; receptors on sensory
+    nerve endings of the trigeminal system results in the inhibition of pro-inflammatory
+    neuropeptide release.
+
+
+    ===
+
+
+    disease: Cluster Headache
+
+    drug: Dihydroergotamine
+
+    '
+- completion: 'disease: Atrial Fibrillation
+
+    drug: Digoxin
+
+    mechanism_links: Digoxin - negatively regulates - sodium/potassium-transporting
+    ATPase subunit alpha-1 (human); sodium/potassium-transporting ATPase subunit alpha-1
+    (human) - positively regulates - sodium ion transport; sodium ion transport -
+    negatively correlated with - calcium ion import into cytosol; calcium ion import
+    into cytosol - negatively correlated with - heart contraction; heart contraction
+    - correlated with - Atrial Fibrillation'
+  prompt: 'From the text below, extract the following entities in the following format:
+
+
+    disease: <the name of the disease that is treated>
+
+    drug: <the name of the drug that treats the disease>
+
+    mechanism_links: <semicolon-separated list of links, where each link is a triple
+    connecting two entities via a relationship type>
+
+
+
+    Text:
+
+    Digoxin exerts hemodynamic, electrophysiologic, and neurohormonal effects on the
+    cardiovascular system.[A178234] It reversibly inhibits the Na-K ATPase enzyme,
+    leading to various beneficial effects.  The Na-K ATPase enzyme functions to maintain
+    the intracellular environment by regulating the entry and exit of sodium, potassium,
+    and calcium (indirectly). Na-K ATPase is also known as the _sodium pump_[L9143].
+    The inhibition of the sodium pump by digoxin increases intracellular sodium and
+    increases the calcium level in the myocardial cells, causing an increased contractile
+    force of the heart.[L9143,A178264] This improves the left ventricular ejection
+    fraction (EF), an important measure of cardiac function.[A178234,T613] Digoxin
+    also stimulates the parasympathetic nervous system via the vagus nerve[T607] leading
+    to sinoatrial (SA) and atrioventricular (AV) node effects, decreasing the heart
+    rate.[L9143,A178234] Part of the pathophysiology of heart failure includes neurohormonal
+    activation, leading to an increase in norepinephrine. Digoxin helps to decrease
+    norepinephrine levels through activation of the parasympathetic nervous system.[A178234]
+
+
+    ===
+
+
+    disease: Atrial Fibrillation
+
+    drug: Digoxin
+
+    '
+- completion: 'disease: Scrub Typhus
+
+    drug: Doxycycline
+
+    mechanism_links: Doxycycline - negatively regulates - RNA, Ribosomal, 16S; RNA,
+    Ribosomal, 16S - located in - small ribosomal subunit; small ribosomal subunit
+    - participates in - translation; translation - occurs in - NCBITaxon:784; NCBITaxon:784
+    - causes - Scrub Typhus'
+  prompt: "From the text below, extract the following entities in the following format:\n\
+    \ndisease: <the name of the disease that is treated>\ndrug: <the name of the drug\
+    \ that treats the disease>\nmechanism_links: <semicolon-separated list of links,\
+    \ where each link is a triple connecting two entities via a relationship type>\n\
+    \n\nText:\nIn bacterial replication, an interaction that is important for translation\
+    \ initiation of proteins occurs at the 3\u2032 end of the 16S rRNA, found on the\
+    \ ribosome on the 30S subunit [A174046], [A19429],  [A174070].  The 30S subunit\
+    \ is the smaller subunit of the ribosome of prokaryotes, including bacteria[F3073].\
+    \   Tetracyclines such as doxycycline are thought to inhibit translation by binding\
+    \ to the 16S rRNA portion of the ribosome [A174040], preventing binding of tRNA\
+    \ to the RNA-30S bacterial ribosomal subunit,  which is necessary for the delivery\
+    \ of amino acids for protein synthesis.  As a result of the above actions, the\
+    \ initiation of protein synthesis by polyribosome formation is blocked. This stops\
+    \ the replication of bacteria and produces a bacteriostatic effect  [F3052].\n\
+    \n===\n\ndisease: Scrub Typhus\ndrug: Doxycycline\n"
+- completion: 'disease: Spasms, Infantile
+
+    drug: Corticotropin
+
+    mechanism_links: Corticotropin - positively regulates - adrenocorticotropic hormone
+    receptor (human); adrenocorticotropic hormone receptor (human) - decreases expression
+    of - CHEBI:65312; CHEBI:65312 - positively correlated with - HP:0001250; adrenocorticotropic
+    hormone receptor (human) - negatively correlated with - HP:0012469; HP:0001250
+    - manifestation of - Spasms, Infantile; HP:0012469 - manifestation of - Spasms,
+    Infantile'
+  prompt: 'From the text below, extract the following entities in the following format:
+
+
+    disease: <the name of the disease that is treated>
+
+    drug: <the name of the drug that treats the disease>
+
+    mechanism_links: <semicolon-separated list of links, where each link is a triple
+    connecting two entities via a relationship type>
+
+
+
+    Text:
+
+    As a diagnostic aid (adrenocortical function), corticotropin combines with a specific
+    receptor on the adrenal cell plasma membrane. In patients with normal adrenocortical
+    function, it stimulates the initial reaction involved in the synthesis of adrenal
+    steroids (including cortisol, cortisone, weak androgenic substances, and a limited
+    quantity of aldosterone) from cholesterol by increasing the quantity of cholesterol
+    within the mitochondria. Corticotropin does not significantly increase serum cortisol
+    concentrations in patients with primary adrenocortical insufficiency (Addison''s
+    disease). The mechanism of action of corticotropin in the treatment of infantile
+    myoclonic seizures is unknown.
+
+
+    ===
+
+
+    disease: Spasms, Infantile
+
+    drug: Corticotropin
+
+    '
+- completion: 'disease: Hepatitis C, Chronic
+
+    drug: Elbasvir
+
+    mechanism_links: 2-(pyrrolidin-2-yl)-5-(2-(4-(5-(pyrrolidin-2-yl)-1H-imidazol-2-yl)phenyl)benzofuran-5-yl)-1H-imidazole
+    - decreases activity of - PR:Q5L478; PR:Q5L478 - negatively regulates - virion
+    assembly; virion assembly - in taxon - NCBITaxon:11103; NCBITaxon:11103 - causes
+    - Hepatitis C, Chronic'
+  prompt: 'From the text below, extract the following entities in the following format:
+
+
+    disease: <the name of the disease that is treated>
+
+    drug: <the name of the drug that treats the disease>
+
+    mechanism_links: <semicolon-separated list of links, where each link is a triple
+    connecting two entities via a relationship type>
+
+
+
+    Text:
+
+    Elbasvir is an inhibitor of the HCV non-structural protein 5A. While the precise
+    role of this protein is unknown, it is essential to viral replication and virion
+    assembly.[synthesis] Potential modes of action of NS5A inhibitors like elbasvir
+    include blocking signaling interactions, redistribution of NS5A from the endoplasmic
+    reticulum to the surface of lipid droplets, and modification of the HCV replication
+    complex.[A19593] Computational target-based _in silico_ research suggests that
+    elbasvir may carry activity at several proteins required for replication of SARS-CoV-2
+    - namely RNA-dependent RNA polymerase, helicase, and papain-like proteinase -
+    although specific activity has yet to be affirmed by follow-up clinical studies.[A193257]
+
+
+    ===
+
+
+    disease: Hepatitis C, Chronic
+
+    drug: Elbasvir
+
+    '
+- completion: 'disease: Hypertension
+
+    drug: Verapamil
+
+    mechanism_links: Verapamil - decreases activity of - InterPro:IPR005446; InterPro:IPR005446
+    - positively regulates - calcium ion transport into cytosol; calcium ion transport
+    into cytosol - positively correlated with - vasoconstriction; vasoconstriction
+    - positively correlated with - HP:0033533; HP:0033533 - positively correlated
+    with - HP:0032263; HP:0032263 - manifestation of - Hypertension'
+  prompt: 'From the text below, extract the following entities in the following format:
+
+
+    disease: <the name of the disease that is treated>
+
+    drug: <the name of the drug that treats the disease>
+
+    mechanism_links: <semicolon-separated list of links, where each link is a triple
+    connecting two entities via a relationship type>
+
+
+
+    Text:
+
+    Verapamil inhibits L-type calcium channels by binding to a specific area of their
+    alpha-1 subunit,[L10478]Cav1.2, which is highly expressed on L-type calcium channels
+    in vascular smooth muscle and myocardial tissue where these channels are responsible
+    for the control of peripheral vascular resistance and heart contractility.[A175396]
+    Calcium influx through these channels allows for the propagation of action potentials
+    necessary for the contraction of muscle tissue and the heart''s electrical pacemaker
+    activity. Verapamil binds to these channels in a voltage- and frequency-dependent
+    manner, meaning affinity is increased 1) as vascular smooth muscle membrane potential
+    is reduced, and 2) with excessive depolarizing stimulus.[L10478]  Verapamil is
+    known to interact with other targets, including other calcium channels,[A188490,A13984,A188502,A15331]
+    potassium channels,[A188496,A13985,A13983] and adrenergic receptors.[A20291,A31755]
+
+
+    ===
+
+
+    disease: Hypertension
+
+    drug: Verapamil
+
+    '
+- completion: 'disease: Crohn Disease
+
+    drug: Methylprednisolone
+
+    mechanism_links: Methylprednisolone - increases activity of - glucocorticoid receptor
+    (human); glucocorticoid receptor (human) - increases activity of - annexin A1
+    (human); glucocorticoid receptor (human) - decreases activity of - prostaglandin
+    G/H synthase 1 (human); glucocorticoid receptor (human) - decreases activity of
+    - prostaglandin G/H synthase 2 (human); annexin A1 (human) - decreases activity
+    of - cytosolic phospholipase A2 (human); prostaglandin G/H synthase 1 (human)
+    - positively regulates - prostaglandin biosynthetic process; prostaglandin G/H
+    synthase 2 (human) - positively regulates - prostaglandin biosynthetic process;
+    cytosolic phospholipase A2 (human) - positively regulates - leukotriene biosynthetic
+    process; cytosolic phospholipase A2 (human) - positively regulates - prostaglandin
+    biosynthetic process; leukotriene biosynthetic process - positively correlated
+    with - inflammatory response; prostaglandin biosynthetic process - positively
+    correlated with - inflammatory response; inflammatory response - located in -
+    digestive tract; digestive tract - location of - Crohn Disease'
+  prompt: 'From the text below, extract the following entities in the following format:
+
+
+    disease: <the name of the disease that is treated>
+
+    drug: <the name of the drug that treats the disease>
+
+    mechanism_links: <semicolon-separated list of links, where each link is a triple
+    connecting two entities via a relationship type>
+
+
+
+    Text:
+
+    The short term effects of corticosteroids are decreased vasodilation and permeability
+    of capillaries, as well as decreased leukocyte migration to sites of inflammation.[A187463]
+    Corticosteroids binding to the glucocorticoid receptor mediates changes in gene
+    expression that lead to multiple downstream effects over hours to days.[A187463]
+    Lower doses of corticosteroids provide an anti-inflammatory effect, while higher
+    doses are immunosuppressive.[A187463] High doses of glucocorticoids for an extended
+    period bind to the mineralocorticoid receptor, raising sodium levels and decreasing
+    potassium levels.[A187463]
+
+
+    ===
+
+
+    disease: Crohn Disease
+
+    drug: Methylprednisolone
+
+    '
+- completion: 'disease: Vaginosis, Bacterial
+
+    drug: Secnidazole
+
+    mechanism_links: secnidazole - positively regulates - response to oxygen radical;
+    response to oxygen radical - disrupts - DNA; DNA - in taxon - Bacteria; Bacteria
+    - causes - Vaginosis, Bacterial'
+  prompt: 'From the text below, extract the following entities in the following format:
+
+
+    disease: <the name of the disease that is treated>
+
+    drug: <the name of the drug that treats the disease>
+
+    mechanism_links: <semicolon-separated list of links, where each link is a triple
+    connecting two entities via a relationship type>
+
+
+
+    Text:
+
+    Secnidazole enters the bacterial cell as a prodrug without an antimicrobial activity.
+    The drug is converted to an active form via reduction of nitro groups to radical
+    anions by bacterial enzymes. The radical anions are thought to interfere with
+    bacterial DNA synthesis of susceptible isolates [FDA Label].
+
+
+    ===
+
+
+    disease: Vaginosis, Bacterial
+
+    drug: Secnidazole
+
+    '
+- completion: 'disease: Cryopyrin-Associated Periodic Syndromes
+
+    drug: Anakinra
+
+    mechanism_links: Interleukin 1 Receptor Antagonist Protein - decreases activity
+    of - interleukin-1 receptor type 1 (human); interleukin-1 receptor type 1 (human)
+    - participates in - interleukin-1 receptor activity; interleukin-1 receptor activity
+    - positively regulates - inflammatory response; inflammatory response - causes
+    - Cryopyrin-Associated Periodic Syndromes'
+  prompt: 'From the text below, extract the following entities in the following format:
+
+
+    disease: <the name of the disease that is treated>
+
+    drug: <the name of the drug that treats the disease>
+
+    mechanism_links: <semicolon-separated list of links, where each link is a triple
+    connecting two entities via a relationship type>
+
+
+
+    Text:
+
+    Anakinra binds competitively to the Interleukin-1 type I receptor (IL-1RI), thereby
+    inhibiting the action of elevated levels IL-1 which normally can lead to cartilage
+    degradation and bone resorption.
+
+
+    ===
+
+
+    disease: Cryopyrin-Associated Periodic Syndromes
+
+    drug: Anakinra
+
+    '
+- completion: 'disease: Mucormycosis
+
+    drug: Isavuconazonium
+
+    mechanism_links: isavuconazole - decreases activity of - Pfam:PF00067; Pfam:PF00067
+    - positively regulates - sterol 14-demethylase activity; Pfam:PF00067 - positively
+    regulates - ergosterol biosynthetic process; sterol 14-demethylase activity -
+    positively correlated with - ergosterol; ergosterol biosynthetic process - increases
+    abundance of - ergosterol; sterol 14-demethylase activity - negatively correlated
+    with - lanosterol; ergosterol biosynthetic process - decreases abundance of -
+    lanosterol; lanosterol - negatively correlated with - fungal-type cell wall; ergosterol
+    - contributes to - fungal-type cell wall; fungal-type cell wall - in taxon - NCBITaxon:4827;
+    NCBITaxon:4827 - causes - Mucormycosis'
+  prompt: "From the text below, extract the following entities in the following format:\n\
+    \ndisease: <the name of the disease that is treated>\ndrug: <the name of the drug\
+    \ that treats the disease>\nmechanism_links: <semicolon-separated list of links,\
+    \ where each link is a triple connecting two entities via a relationship type>\n\
+    \n\nText:\nAntifungals in the triazole class, such as isavuconazonium, target\
+    \ and inhibit the sterol 14-\u03B1-demethylase (Erg11p) which is a key player\
+    \ in the demethylation step of the ergosterol biosynthetic pathway. This inhibition\
+    \ results in a halt in production of ergosterol, a molecule typically found in\
+    \ the membranes of fungi such as Aspergillus, Candida, and Mucorales that plays\
+    \ a role in regulation of membrane integrity, fluidity and permeability. The inhibition\
+    \ of Erg11p also causes the buildup of ergosterol precursors, which are toxic\
+    \ and cause cell death.\n\n===\n\ndisease: Mucormycosis\ndrug: Isavuconazonium\n"
+- completion: 'disease: Schizophrenia
+
+    drug: Chlorpromazine
+
+    mechanism_links: Chlorpromazine - decreases activity of - D(2) dopamine receptor
+    (human); D(2) dopamine receptor (human) - positively correlated with - dopamine;
+    dopamine - correlated with - regulation of synaptic transmission, dopaminergic;
+    regulation of synaptic transmission, dopaminergic - located in - central nervous
+    system; central nervous system - prevents - HP:0008760; HP:0008760 - correlated
+    with - Schizophrenia'
+  prompt: 'From the text below, extract the following entities in the following format:
+
+
+    disease: <the name of the disease that is treated>
+
+    drug: <the name of the drug that treats the disease>
+
+    mechanism_links: <semicolon-separated list of links, where each link is a triple
+    connecting two entities via a relationship type>
+
+
+
+    Text:
+
+    Chlorpromazine acts as an antagonist (blocking agent) on different postsysnaptic
+    receptors -on dopaminergic-receptors (subtypes D1, D2, D3 and D4 - different antipsychotic
+    properties on productive and unproductive symptoms), on serotonergic-receptors
+    (5-HT1 and 5-HT2, with anxiolytic, antidepressive and antiaggressive properties
+    as well as an attenuation of extrapypramidal side-effects, but also leading to
+    weight gain, fall in blood pressure, sedation and ejaculation difficulties), on
+    histaminergic-receptors (H1-receptors, sedation, antiemesis, vertigo, fall in
+    blood pressure and weight gain), alpha1/alpha2-receptors (antisympathomimetic
+    properties, lowering of blood pressure, reflex tachycardia, vertigo, sedation,
+    hypersalivation and incontinence as well as sexual dysfunction, but may also attenuate
+    pseudoparkinsonism - controversial) and finally on muscarinic (cholinergic) M1/M2-receptors
+    (causing anticholinergic symptoms like dry mouth, blurred vision, obstipation,
+    difficulty/inability to urinate, sinus tachycardia, ECG-changes and loss of memory,
+    but the anticholinergic action may attenuate extrapyramidal side-effects). Additionally,
+    Chlorpromazine is a weak presynaptic inhibitor of Dopamine reuptake, which may
+    lead to (mild) antidepressive and antiparkinsonian effects. This action could
+    also account for psychomotor agitation and amplification of psychosis (very rarely
+    noted in clinical use).
+
+
+    ===
+
+
+    disease: Schizophrenia
+
+    drug: Chlorpromazine
+
+    '
+- completion: 'disease: Peptic Ulcer
+
+    drug: Potassium bicarbonate
+
+    mechanism_links: potassium bicarbonate - negatively regulates - Gastric Acid;
+    Gastric Acid - positively regulates - InterPro:IPR034162; InterPro:IPR034162 -
+    positively correlated with - Peptic Ulcer'
+  prompt: 'From the text below, extract the following entities in the following format:
+
+
+    disease: <the name of the disease that is treated>
+
+    drug: <the name of the drug that treats the disease>
+
+    mechanism_links: <semicolon-separated list of links, where each link is a triple
+    connecting two entities via a relationship type>
+
+
+
+    Text:
+
+    The antacid potential of potassium bicarbonate is attained by increasing the gastrointestinal
+    pH by neutralizing hydrochloric acid.[T144] The increase in pH results in suppression
+    of the action of pepsin which is the enzyme that exacerbates ulceration due to
+    the presence of acid.[T143]
+
+
+    ===
+
+
+    disease: Peptic Ulcer
+
+    drug: Potassium bicarbonate
+
+    '
+- completion: 'disease: Hypoalphalipoproteinemias
+
+    drug: Fenofibrate
+
+    mechanism_links: Fenofibrate - has metabolite - fenofibric acid; fenofibric acid
+    - increases activity of - peroxisome proliferator-activated receptor alpha (human);
+    peroxisome proliferator-activated receptor alpha (human) - increases abundance
+    of - Lipoproteins, HDL; Lipoproteins, HDL - negatively correlated with - Hypoalphalipoproteinemias'
+  prompt: "From the text below, extract the following entities in the following format:\n\
+    \ndisease: <the name of the disease that is treated>\ndrug: <the name of the drug\
+    \ that treats the disease>\nmechanism_links: <semicolon-separated list of links,\
+    \ where each link is a triple connecting two entities via a relationship type>\n\
+    \n\nText:\nFenofibrate activates peroxisome proliferator activated receptor alpha\
+    \ (PPAR\u03B1), increasing lipolysis, activating lipoprotein lipase, and reducing\
+    \ apoprotein C-III.[A186002,L8588,L8591] PPAR\u03B1 is a nuclear receptor and\
+    \ its activation alters lipid, glucose, and amino acid homeostasis.[A186002] Activation\
+    \ of PPAR\u03B1 activates transcription of gene transcription and translation\
+    \ that generates peroxisomes filled with hydrogen peroxide, reactive oxygen species,\
+    \ and hydroxyl radicals that also participate in lipolysis.[A186005] This mechanism\
+    \ of increased lipid metabolism is also associated with increased oxidative stress\
+    \ on the liver.[A186005] In rare cases this stress can lead to cirrhosis and chronic\
+    \ active hepatitis.[A186002,L8588,L8591]\n\n===\n\ndisease: Hypoalphalipoproteinemias\n\
+    drug: Fenofibrate\n"
+- completion: 'disease: Glaucoma, Open-Angle
+
+    drug: Physostigmine
+
+    mechanism_links: Physostigmine - decreases activity of - acetylcholinesterase
+    (human); acetylcholinesterase (human) - increases abundance of - Acetylcholine;
+    Acetylcholine - located in - synapse; synapse - increases activity of - InterPro:IPR002394;
+    InterPro:IPR002394 - treats - Glaucoma, Open-Angle'
+  prompt: 'From the text below, extract the following entities in the following format:
+
+
+    disease: <the name of the disease that is treated>
+
+    drug: <the name of the drug that treats the disease>
+
+    mechanism_links: <semicolon-separated list of links, where each link is a triple
+    connecting two entities via a relationship type>
+
+
+
+    Text:
+
+    Physostigmine inhibits acetylcholinesterase, the enzyme responsible for the breakdown
+    of used acetylcholine. By interfering with the metabolism of acetylcholine, physostigmine
+    indirectly stimulates both nicotinic and muscarinic receptors due to the consequential
+    increase in available acetylcholine at the synapse.
+
+
+    ===
+
+
+    disease: Glaucoma, Open-Angle
+
+    drug: Physostigmine
+
+    '
+- completion: 'disease: Puberty, Delayed
+
+    drug: Fluoxymesterone
+
+    mechanism_links: Fluoxymesterone - increases activity of - androgen receptor (human);
+    androgen receptor (human) - positively regulates - androgen receptor signaling
+    pathway; androgen receptor signaling pathway - positively correlated with - development
+    of secondary sexual characteristics; development of secondary sexual characteristics
+    - negatively correlated with - Puberty, Delayed'
+  prompt: 'From the text below, extract the following entities in the following format:
+
+
+    disease: <the name of the disease that is treated>
+
+    drug: <the name of the drug that treats the disease>
+
+    mechanism_links: <semicolon-separated list of links, where each link is a triple
+    connecting two entities via a relationship type>
+
+
+
+    Text:
+
+    Fluoxymesterone is a synthetic androgenic anabolic steroid and is approximately
+    5 times as potent as natural methyltestosterone. Like testosterone and other androgenic
+    hormones, fluoxymesterone binds to the androgen receptor. It produces retention
+    of nitrogen, sodium, potassium, and phosphorus; increases protein anabolism; decreases
+    amino acid catabolism and decreased urinary excretion of calcium. The antitumour
+    activity of fluoxymesterone appears related to reduction or competitive inhibition
+    of prolactin receptors or estrogen receptors or production.
+
+
+    ===
+
+
+    disease: Puberty, Delayed
+
+    drug: Fluoxymesterone
+
+    '
+- completion: 'disease: Schizophrenia
+
+    drug: Brexpiprazole
+
+    mechanism_links: brexpiprazole - regulates - 5-hydroxytryptamine receptor 1A (human);
+    brexpiprazole - regulates - D(2) dopamine receptor (human); brexpiprazole - decreases
+    activity of - 5-hydroxytryptamine receptor 2A (human); 5-hydroxytryptamine receptor
+    1A (human) - positively correlated with - Serotonin; D(2) dopamine receptor (human)
+    - positively correlated with - Dopamine; 5-hydroxytryptamine receptor 2A (human)
+    - positively correlated with - HP:0000716; Serotonin - positively correlated with
+    - serotonin secretion, neurotransmission; Dopamine - positively correlated with
+    - dopamine secretion, neurotransmission; HP:0000716 - manifestation of - Schizophrenia;
+    serotonin secretion, neurotransmission - disrupted by - Schizophrenia; dopamine
+    secretion, neurotransmission - disrupted by - Schizophrenia'
+  prompt: 'From the text below, extract the following entities in the following format:
+
+
+    disease: <the name of the disease that is treated>
+
+    drug: <the name of the drug that treats the disease>
+
+    mechanism_links: <semicolon-separated list of links, where each link is a triple
+    connecting two entities via a relationship type>
+
+
+
+    Text:
+
+    Although the mechanism of action of brexpiprazole in the treatment of MDD and
+    schizophrenia is unclear, the efficacy of brexpiprazole may be attributed to partial
+    agonist activity at serotonin 1A and dopamine D2 receptors, and antagonist activity
+    at serotonin 2A receptors.
+
+
+    ===
+
+
+    disease: Schizophrenia
+
+    drug: Brexpiprazole
+
+    '
+- completion: 'disease: Pruritus
+
+    drug: Benzyl alcohol
+
+    mechanism_links: Benzyl Alcohol - decreases abundance of - NCBITaxon:52283; NCBITaxon:52283
+    - causes - Pruritus'
+  prompt: 'From the text below, extract the following entities in the following format:
+
+
+    disease: <the name of the disease that is treated>
+
+    drug: <the name of the drug that treats the disease>
+
+    mechanism_links: <semicolon-separated list of links, where each link is a triple
+    connecting two entities via a relationship type>
+
+
+
+    Text:
+
+    Benzyl alcohol inhibits lice from closing their respiratory spiracles, allowing
+    the vehicle to obstruct the spiracles and causing the lice to asphyxiate.
+
+
+    ===
+
+
+    disease: Pruritus
+
+    drug: Benzyl alcohol
+
+    '
+- completion: 'disease: Hypertension
+
+    drug: Mecamylamine
+
+    mechanism_links: Mecamylamine - decreases activity of - InterPro:IPR002394; InterPro:IPR002394
+    - positively regulates - synaptic transmission, cholinergic; synaptic transmission,
+    cholinergic - positively correlated with - smooth muscle contraction; smooth muscle
+    contraction - positively correlated with - vasoconstriction; vasoconstriction
+    - positively correlated with - HP:0032263; HP:0032263 - manifestation of - Hypertension'
+  prompt: 'From the text below, extract the following entities in the following format:
+
+
+    disease: <the name of the disease that is treated>
+
+    drug: <the name of the drug that treats the disease>
+
+    mechanism_links: <semicolon-separated list of links, where each link is a triple
+    connecting two entities via a relationship type>
+
+
+
+    Text:
+
+    Mecamylamine is a ganglionic blocker which prevents stimulation of postsynaptic
+    receptors by acetylcholine released from presynaptic nerve endings. The hypotensive
+    effect of Mecamylamine is attributed to reduction in sympathetic tone, vasodilation,
+    and reduced cardiac output, and is primarily postural.
+
+
+    ===
+
+
+    disease: Hypertension
+
+    drug: Mecamylamine
+
+    '
+- completion: 'disease: Puberty, Delayed
+
+    drug: Testosterone
+
+    mechanism_links: Testosterone - increases activity of - androgen receptor (human);
+    androgen receptor (human) - positively regulates - androgen receptor signaling
+    pathway; androgen receptor signaling pathway - positively regulates - developmental
+    process involved in reproduction; developmental process involved in reproduction
+    - negatively correlated with - Puberty, Delayed'
+  prompt: 'From the text below, extract the following entities in the following format:
+
+
+    disease: <the name of the disease that is treated>
+
+    drug: <the name of the drug that treats the disease>
+
+    mechanism_links: <semicolon-separated list of links, where each link is a triple
+    connecting two entities via a relationship type>
+
+
+
+    Text:
+
+    The androgen receptor exists in the cytoplasm bound to the heat shock proteins
+    HSP90, HSP70, and other chaperones.[A187114] After binding to an androgen, the
+    androgen receptor dissociates from HSP90 and undergoes a conformational change
+    to slow the rate of dissociation from the androgen receptor.[A187114] The androgen-receptor
+    complex is transported into the nucleus where it binds to DNA and recruits other
+    transcriptional regulators to form a pre-initiation complex and eventually induce
+    expression of specific genes.[A187114] Antagonism of the androgen receptor is
+    also responsible for the development of secondary sexual characteristics including
+    facial and body hair, enlargement of the larynx, thickening of the vocal cords,
+    and changes in muscle and fat distribution.[A187111,L8983,L8935,L8938,L8986,L8989,L8992,L8995]
+
+
+    ===
+
+
+    disease: Puberty, Delayed
+
+    drug: Testosterone
+
+    '
+- completion: 'disease: Hypertension
+
+    drug: Metolazone
+
+    mechanism_links: Metolazone - decreases activity of - solute carrier family 12
+    member 3 (human); solute carrier family 12 member 3 (human) - participates in
+    - renal sodium ion absorption; renal sodium ion absorption - positively correlated
+    with - renal water retention; renal water retention - contributes to - HP:0011104;
+    HP:0011104 - contributes to - positive regulation of blood pressure; positive
+    regulation of blood pressure - affects risk for - Hypertension'
+  prompt: 'From the text below, extract the following entities in the following format:
+
+
+    disease: <the name of the disease that is treated>
+
+    drug: <the name of the drug that treats the disease>
+
+    mechanism_links: <semicolon-separated list of links, where each link is a triple
+    connecting two entities via a relationship type>
+
+
+
+    Text:
+
+    The actions of metolazone result from interference with the renal tubular mechanism
+    of electrolyte reabsorption. Metolazone acts primarily to inhibit sodium reabsorption
+    at the cortical diluting site and to a lesser extent in the proximal convoluted
+    tubule. Sodium and chloride ions are excreted in approximately equivalent amounts.
+    The increased delivery of sodium to the distal tubular exchange site results in
+    increased potassium excretion. Metolazone does not inhibit carbonic anhydrase.
+    The antihypertensive mechanism of action of metolazone is not fully understood
+    but is presumed to be related to its saluretic and diuretic properties.
+
+
+    ===
+
+
+    disease: Hypertension
+
+    drug: Metolazone
+
+    '
+- completion: 'disease: Tinea Capitis
+
+    drug: Tolnaftate
+
+    mechanism_links: Tolnaftate - decreases activity of - InterPro:IPR040125; InterPro:IPR040125
+    - positively regulates - ergosterol biosynthetic process; ergosterol biosynthetic
+    process - increases abundance of - ergosterol; ergosterol - located in - yeast-form
+    cell wall; yeast-form cell wall - in taxon - NCBITaxon:5550; NCBITaxon:5550 -
+    causes - Tinea Capitis'
+  prompt: 'From the text below, extract the following entities in the following format:
+
+
+    disease: <the name of the disease that is treated>
+
+    drug: <the name of the drug that treats the disease>
+
+    mechanism_links: <semicolon-separated list of links, where each link is a triple
+    connecting two entities via a relationship type>
+
+
+
+    Text:
+
+    Tolnaftate is a topical fungicide. Though its exact mechanism unknown, it is believed
+    to prevent ergosterol biosynthesis by inhibiting squalene epoxidase. It has also
+    been reported to distort the hyphae and to stunt mycelial growth in susceptible
+    organisms.
+
+
+    ===
+
+
+    disease: Tinea Capitis
+
+    drug: Tolnaftate
+
+    '
+- completion: 'disease: Leukemia, Myeloid, Acute
+
+    drug: Histamine
+
+    mechanism_links: Histamine - increases activity of - interleukin-2 (human); interleukin-2
+    (human) - increases activity of - interleukin-2 receptor subunit alpha (human);
+    interleukin-2 (human) - increases activity of - interleukin-2 receptor subunit
+    beta (human); interleukin-2 (human) - increases activity of - cytokine receptor
+    common subunit gamma (human); interleukin-2 receptor subunit alpha (human) - positively
+    regulates - REACT:R-HSA-9020558; interleukin-2 receptor subunit beta (human) -
+    positively regulates - REACT:R-HSA-9020558; cytokine receptor common subunit gamma
+    (human) - positively regulates - REACT:R-HSA-9020558; REACT:R-HSA-9020558 - positively
+    regulates - cytotoxic T cell differentiation; REACT:R-HSA-9020558 - positively
+    regulates - natural killer cell activation; cytotoxic T cell differentiation -
+    negatively correlated with - Leukemia, Myeloid, Acute; natural killer cell activation
+    - negatively correlated with - Leukemia, Myeloid, Acute'
+  prompt: 'From the text below, extract the following entities in the following format:
+
+
+    disease: <the name of the disease that is treated>
+
+    drug: <the name of the drug that treats the disease>
+
+    mechanism_links: <semicolon-separated list of links, where each link is a triple
+    connecting two entities via a relationship type>
+
+
+
+    Text:
+
+    Histamine acts directly on the blood vessels to dilate arteries and capillaries;
+    this action is mediated by both H 1- and H 2-receptors. Capillary dilatation may
+    produce flushing of the face, a decrease in systemic blood pressure, and gastric
+    gland secretion, causing an increased secretion of gastric juice of high acidity.
+    Increased capillary permeability accompanies capillary dilatation, producing an
+    outward passage of plasma protein and fluid into the extracellular spaces, an
+    increase in lymph flow and protein content, and the formation of edema. In addition,
+    histamine has a direct stimulant action on smooth muscle, producing contraction
+    if H 1-receptors are activated, or mostly relaxation if H 2-receptors are activated.
+    Also in humans, the stimulant effect of histamine may cause contraction of the
+    intestinal muscle. However, little effect is noticed on the uterus, bladder, or
+    gallbladder. Histamine has some stimulant effect on duodenal, salivary, pancreatic,
+    bronchial, and lacrimal glands. Histamine also can bind to H3 and H4 receptors
+    which are involved in the CNS/PNS neurotransmitter release and immune system chemotaxis,
+    respectively.
+
+
+    ===
+
+
+    disease: Leukemia, Myeloid, Acute
+
+    drug: Histamine
+
+    '
+- completion: 'disease: Rhinitis, Allergic, Seasonal
+
+    drug: Cetirizine
+
+    mechanism_links: Cetirizine - decreases activity of - histamine H1 receptor (human);
+    histamine H1 receptor (human) - positively regulates - histamine receptor activity;
+    histamine receptor activity - participates in - cellular response to histamine;
+    cellular response to histamine - positively correlated with - inflammatory response;
+    inflammatory response - has phenotype - HP:0031417; HP:0031417 - manifestation
+    of - Rhinitis, Allergic, Seasonal'
+  prompt: 'From the text below, extract the following entities in the following format:
+
+
+    disease: <the name of the disease that is treated>
+
+    drug: <the name of the drug that treats the disease>
+
+    mechanism_links: <semicolon-separated list of links, where each link is a triple
+    connecting two entities via a relationship type>
+
+
+
+    Text:
+
+    Cetirizine, a metabolite of _hydroxyzine_, is an antihistamine drug.  Its main
+    effects are achieved through selective inhibition of peripheral H1 receptors.
+    The antihistamine activity of cetirizine has been shown in a variety of animal
+    and human models. _In vivo_ and _ex vivo_ animal models have shown insignificant
+    anticholinergic and antiserotonergic effects. In clinical studies, however, dry
+    mouth was found to be more frequent with cetirizine than with a placebo. In vitro
+    receptor binding studies have demonstrated no detectable affinity of cetirizine
+    for histamine receptors  other than the H1 receptors. Studies with radiolabeled
+    cetirizine administration in the rat have demonstrated insignificant penetration
+    into the brain. _Ex vivo_ studies in the mouse have shown that systemically administered
+    cetirizine does not occupy cerebral H1 receptors significantly [FDA label].
+
+
+    ===
+
+
+    disease: Rhinitis, Allergic, Seasonal
+
+    drug: Cetirizine
+
+    '
+- completion: 'disease: Thyroiditis
+
+    drug: Prednisone
+
+    mechanism_links: Prednisone - has metabolite - Prednisolone; Prednisolone - increases
+    activity of - glucocorticoid receptor (human); glucocorticoid receptor (human)
+    - increases activity of - annexin A1 (human); glucocorticoid receptor (human)
+    - decreases activity of - prostaglandin G/H synthase 1 (human); glucocorticoid
+    receptor (human) - decreases activity of - prostaglandin G/H synthase 2 (human);
+    annexin A1 (human) - decreases activity of - cytosolic phospholipase A2 (human);
+    prostaglandin G/H synthase 1 (human) - positively regulates - prostaglandin biosynthetic
+    process; prostaglandin G/H synthase 2 (human) - positively regulates - prostaglandin
+    biosynthetic process; cytosolic phospholipase A2 (human) - positively regulates
+    - leukotriene biosynthetic process; cytosolic phospholipase A2 (human) - positively
+    regulates - prostaglandin biosynthetic process; leukotriene biosynthetic process
+    - positively correlated with - inflammatory response; prostaglandin biosynthetic
+    process - positively correlated with - inflammatory response; inflammatory response
+    - located in - thyroid gland; thyroid gland - location of - Thyroiditis'
+  prompt: 'From the text below, extract the following entities in the following format:
+
+
+    disease: <the name of the disease that is treated>
+
+    drug: <the name of the drug that treats the disease>
+
+    mechanism_links: <semicolon-separated list of links, where each link is a triple
+    connecting two entities via a relationship type>
+
+
+
+    Text:
+
+    Prednisone is first metabolized in the liver to its active form, prednisolone,
+    a glucocorticoid agonist corticosteroid.[L10502] Lower doses of corticosteroids
+    provide an anti-inflammatory effect, while higher doses are immunosuppressive.[A187463]
+    High doses of glucocorticoids for an extended period bind to the mineralocorticoid
+    receptor, raising sodium levels and decreasing potassium levels.[A187463]
+
+
+    ===
+
+
+    disease: Thyroiditis
+
+    drug: Prednisone
+
+    '
+- completion: 'disease: Conjunctivitis, Allergic
+
+    drug: Hydrocortisone
+
+    mechanism_links: Hydrocortisone - increases activity of - glucocorticoid receptor
+    (human); glucocorticoid receptor (human) - increases activity of - annexin A1
+    (human); glucocorticoid receptor (human) - decreases activity of - prostaglandin
+    G/H synthase 1 (human); glucocorticoid receptor (human) - decreases activity of
+    - prostaglandin G/H synthase 2 (human); annexin A1 (human) - decreases activity
+    of - cytosolic phospholipase A2 (human); prostaglandin G/H synthase 1 (human)
+    - positively regulates - prostaglandin biosynthetic process; prostaglandin G/H
+    synthase 2 (human) - positively regulates - prostaglandin biosynthetic process;
+    cytosolic phospholipase A2 (human) - positively regulates - leukotriene biosynthetic
+    process; cytosolic phospholipase A2 (human) - positively regulates - prostaglandin
+    biosynthetic process; leukotriene biosynthetic process - positively correlated
+    with - inflammatory response; prostaglandin biosynthetic process - positively
+    correlated with - inflammatory response; inflammatory response - located in -
+    conjunctiva; conjunctiva - location of - Conjunctivitis, Allergic'
+  prompt: 'From the text below, extract the following entities in the following format:
+
+
+    disease: <the name of the disease that is treated>
+
+    drug: <the name of the drug that treats the disease>
+
+    mechanism_links: <semicolon-separated list of links, where each link is a triple
+    connecting two entities via a relationship type>
+
+
+
+    Text:
+
+    The short term effects of corticosteroids are decreased vasodilation and permeability
+    of capillaries, as well as decreased leukocyte migration to sites of inflammation.[A187463]
+    Corticosteroids binding to the glucocorticoid receptor mediates changes in gene
+    expression that lead to multiple downstream effects over hours to days.[A187463]
+    Lower doses of corticosteroids provide an anti-inflammatory effect, while higher
+    doses are immunosuppressive.[A187463] High doses of glucocorticoids for an extended
+    period bind to the mineralocorticoid receptor, raising sodium levels and decreasing
+    potassium levels.[A187463]
+
+
+    ===
+
+
+    disease: Conjunctivitis, Allergic
+
+    drug: Hydrocortisone
+
+    '
+- completion: 'disease: Berylliosis
+
+    drug: Methylprednisolone
+
+    mechanism_links: Methylprednisolone - increases activity of - glucocorticoid receptor
+    (human); glucocorticoid receptor (human) - increases activity of - annexin A1
+    (human); glucocorticoid receptor (human) - decreases activity of - prostaglandin
+    G/H synthase 1 (human); glucocorticoid receptor (human) - decreases activity of
+    - prostaglandin G/H synthase 2 (human); annexin A1 (human) - decreases activity
+    of - cytosolic phospholipase A2 (human); prostaglandin G/H synthase 1 (human)
+    - positively regulates - prostaglandin biosynthetic process; prostaglandin G/H
+    synthase 2 (human) - positively regulates - prostaglandin biosynthetic process;
+    cytosolic phospholipase A2 (human) - positively regulates - leukotriene biosynthetic
+    process; cytosolic phospholipase A2 (human) - positively regulates - prostaglandin
+    biosynthetic process; leukotriene biosynthetic process - positively correlated
+    with - inflammatory response; prostaglandin biosynthetic process - positively
+    correlated with - inflammatory response; inflammatory response - located in -
+    bronchus; bronchus - location of - Berylliosis'
+  prompt: 'From the text below, extract the following entities in the following format:
+
+
+    disease: <the name of the disease that is treated>
+
+    drug: <the name of the drug that treats the disease>
+
+    mechanism_links: <semicolon-separated list of links, where each link is a triple
+    connecting two entities via a relationship type>
+
+
+
+    Text:
+
+    The short term effects of corticosteroids are decreased vasodilation and permeability
+    of capillaries, as well as decreased leukocyte migration to sites of inflammation.[A187463]
+    Corticosteroids binding to the glucocorticoid receptor mediates changes in gene
+    expression that lead to multiple downstream effects over hours to days.[A187463]
+    Lower doses of corticosteroids provide an anti-inflammatory effect, while higher
+    doses are immunosuppressive.[A187463] High doses of glucocorticoids for an extended
+    period bind to the mineralocorticoid receptor, raising sodium levels and decreasing
+    potassium levels.[A187463]
+
+
+    ===
+
+
+    disease: Berylliosis
+
+    drug: Methylprednisolone
+
+    '
+- completion: 'disease: Klebsiella Infections
+
+    drug: Norfloxacin
+
+    mechanism_links: Norfloxacin - decreases activity of - PR:W1DID1; Norfloxacin
+    - decreases activity of - PR:W1DEE8; PR:W1DID1 - positively regulates - DNA replication;
+    PR:W1DEE8 - positively regulates - DNA replication; DNA replication - occurs in
+    - NCBITaxon:570; NCBITaxon:570 - causes - Klebsiella Infections'
+  prompt: 'From the text below, extract the following entities in the following format:
+
+
+    disease: <the name of the disease that is treated>
+
+    drug: <the name of the drug that treats the disease>
+
+    mechanism_links: <semicolon-separated list of links, where each link is a triple
+    connecting two entities via a relationship type>
+
+
+
+    Text:
+
+    The bactericidal action of Norfloxacin results from inhibition of the enzymes
+    topoisomerase II (DNA gyrase) and topoisomerase IV, which are required for bacterial
+    DNA replication, transcription, repair, and recombination. Norfloxacin is a broad-spectrum
+    antibiotic agent that is shown to be effective against various Gram-positive and
+    Gram-negative bacterial species. The fluorine atom at the 6 position increases
+    potency against gram-negative organisms, and the piperazine moiety at the 7 position
+    is responsible for anti-pseudomonal activity
+
+
+    ===
+
+
+    disease: Klebsiella Infections
+
+    drug: Norfloxacin
+
+    '
+- completion: 'disease: Typhoid Fever
+
+    drug: Chloramphenicol succinate
+
+    mechanism_links: chloramphenicol succinate - has metabolite - Chloramphenicol;
+    Chloramphenicol - decreases activity of - PR:Q8XET6; PR:Q8XET6 - positively regulates
+    - translation; translation - in taxon - Salmonella enterica subsp. enterica serovar
+    Typhi; Salmonella enterica subsp. enterica serovar Typhi - causes - Typhoid Fever'
+  prompt: 'From the text below, extract the following entities in the following format:
+
+
+    disease: <the name of the disease that is treated>
+
+    drug: <the name of the drug that treats the disease>
+
+    mechanism_links: <semicolon-separated list of links, where each link is a triple
+    connecting two entities via a relationship type>
+
+
+
+    Text:
+
+    Chloramphenicol succinate is hydrolyzed into the active chloramphenicol.[A204047]
+    Chloramphenicol resembles uridine-5''-phosphate.[A204071] It binds to the residues
+    A2451 and A2452 in the 23S rRNA of the 50S ribosomal subunit of _E. coli_, which
+    prevents translation.[A204077]
+
+
+    ===
+
+
+    disease: Typhoid Fever
+
+    drug: Chloramphenicol succinate
+
+    '
+- completion: 'disease: Heartburn
+
+    drug: Sodium citrate
+
+    mechanism_links: Sodium citrate - negatively regulates - Gastric Acid; Gastric
+    Acid - positively correlated with - Heartburn'
+  prompt: 'From the text below, extract the following entities in the following format:
+
+
+    disease: <the name of the disease that is treated>
+
+    drug: <the name of the drug that treats the disease>
+
+    mechanism_links: <semicolon-separated list of links, where each link is a triple
+    connecting two entities via a relationship type>
+
+
+
+    Text:
+
+    Citrate chelates free calcium ions preventing them from forming a complex with
+    tissue factor and coagulation factor VIIa to promote the activation of coagulation
+    factor X [A19410] [A19411]. This inhibits the extrinsic initiation of the coagulation
+    cascade. Citrate may also exert an anticoagulant effect via a so far unknown mechanism
+    as restoration of calcium concentration does not fully reverse the effect of citrate
+    [A19410]. Citrate is a weak base and so reacts with hydrochloric acid in the stomach
+    to raise the pH. It it further metabolized to bicarbonate which then acts as a
+    systemic alkalizing agent, raising the pH of the blood and urine [L790]. It also
+    acts as a diuretic and increases the urinary excretion of calcium.
+
+
+    ===
+
+
+    disease: Heartburn
+
+    drug: Sodium citrate
+
+    '
+- completion: 'disease: Attention Deficit Disorder with Hyperactivity
+
+    drug: Guanfacine
+
+    mechanism_links: Guanfacine - increases activity of - alpha-2A adrenergic receptor
+    (human); alpha-2A adrenergic receptor (human) - treats - Attention Deficit Disorder
+    with Hyperactivity'
+  prompt: "From the text below, extract the following entities in the following format:\n\
+    \ndisease: <the name of the disease that is treated>\ndrug: <the name of the drug\
+    \ that treats the disease>\nmechanism_links: <semicolon-separated list of links,\
+    \ where each link is a triple connecting two entities via a relationship type>\n\
+    \n\nText:\nGuanfacine is a selective alpha-2A adrenergic receptor agonist, which\
+    \ reduces the effects of the sympathetic nervous system on the heart and circulatory\
+    \ system.[L11277] The link between guanfacine\u2019s molecular mechanism and it\u2019\
+    s effect on the treatment of ADHD has not been determined.[L11277]\n\n===\n\n\
+    disease: Attention Deficit Disorder with Hyperactivity\ndrug: Guanfacine\n"
+- completion: 'disease: Osteoporosis, Postmenopausal
+
+    drug: Risedronic acid
+
+    mechanism_links: Risedronate Sodium - negatively correlated with - obsolete ATP
+    hydrolysis activity; obsolete ATP hydrolysis activity - increases activity of
+    - osteoclast; Risedronate Sodium - negatively regulates - V-type proton ATPase
+    catalytic subunit A (human); V-type proton ATPase catalytic subunit A (human)
+    - positively regulates - proton transmembrane transport; proton transmembrane
+    transport - positively correlated with - bone resorption; Risedronate Sodium -
+    positively regulates - apoptotic process; apoptotic process - decreases abundance
+    of - osteoclast; osteoclast - positively regulates - bone resorption; bone resorption
+    - positively correlated with - Osteoporosis, Postmenopausal; Risedronate Sodium
+    - molecularly interacts with - hydroxylapatite; hydroxylapatite - positively correlated
+    with - ossification; hydroxylapatite - positively correlated with - bone regeneration;
+    bone regeneration - negatively correlated with - Osteoporosis, Postmenopausal;
+    ossification - negatively correlated with - Osteoporosis, Postmenopausal'
+  prompt: 'From the text below, extract the following entities in the following format:
+
+
+    disease: <the name of the disease that is treated>
+
+    drug: <the name of the drug that treats the disease>
+
+    mechanism_links: <semicolon-separated list of links, where each link is a triple
+    connecting two entities via a relationship type>
+
+
+
+    Text:
+
+    Risedronatic acid binds to bone hydroxyapatite[FDA Label]. Bone resorption causes
+    local acidification, releasing risedronic acid which is that taken into osteoclasts
+    by fluid-phase endocytosis[A959]. Endocytic vesicles are acidified, releasing
+    risedronic acid to the cytosol of osteoclasts where they induce apoptosis through
+    inhbition of farnesyl pyrophosphate synthase[A959]. Inhibition of osteoclasts
+    results in decreased bone resorption[A959].
+
+
+    ===
+
+
+    disease: Osteoporosis, Postmenopausal
+
+    drug: Risedronic acid
+
+    '
+- completion: 'disease: Rhinitis, Vasomotor
+
+    drug: Chlorpheniramine
+
+    mechanism_links: Chlorpheniramine - negatively regulates - histamine H1 receptor
+    (human); histamine H1 receptor (human) - positively correlated with - Histamine;
+    Histamine - increases abundance of - Substance P; Substance P - participates in
+    - Neurogenic Inflammation; Neurogenic Inflammation - contributes to - Rhinitis,
+    Vasomotor'
+  prompt: 'From the text below, extract the following entities in the following format:
+
+
+    disease: <the name of the disease that is treated>
+
+    drug: <the name of the drug that treats the disease>
+
+    mechanism_links: <semicolon-separated list of links, where each link is a triple
+    connecting two entities via a relationship type>
+
+
+
+    Text:
+
+    Chlorpheniramine binds to the histamine H1 receptor. This blocks the action of
+    endogenous histamine, which subsequently leads to temporary relief of the negative
+    symptoms brought on by histamine.
+
+
+    ===
+
+
+    disease: Rhinitis, Vasomotor
+
+    drug: Chlorpheniramine
+
+    '
+- completion: 'disease: Rhinoscleroma
+
+    drug: Ciprofloxacin
+
+    mechanism_links: Ciprofloxacin - decreases activity of - PR:R4Y7H5; Ciprofloxacin
+    - decreases activity of - PR:R4YE07; PR:R4Y7H5 - positively regulates - DNA replication;
+    PR:R4YE07 - positively regulates - DNA replication; DNA replication - occurs in
+    - NCBITaxon:39831; NCBITaxon:39831 - causes - Rhinoscleroma'
+  prompt: 'From the text below, extract the following entities in the following format:
+
+
+    disease: <the name of the disease that is treated>
+
+    drug: <the name of the drug that treats the disease>
+
+    mechanism_links: <semicolon-separated list of links, where each link is a triple
+    connecting two entities via a relationship type>
+
+
+
+    Text:
+
+    Ciprofloxacin acts on bacterial topoisomerase II (DNA gyrase) and topoisomerase
+    IV.[A178885] Ciprofloxacin''s targeting of the alpha subunits of DNA gyrase prevents
+    it from supercoiling the bacterial DNA which prevents DNA replication.[A178876,A178882]
+
+
+    ===
+
+
+    disease: Rhinoscleroma
+
+    drug: Ciprofloxacin
+
+    '
+- completion: 'disease: Q Fever
+
+    drug: Meclocycline
+
+    mechanism_links: meclocycline - decreases activity of - InterPro:IPR000235; InterPro:IPR000235
+    - positively regulates - tRNA aminoacylation; tRNA aminoacylation - participates
+    in - translation; translation - in taxon - Coxiella burnetii; Coxiella burnetii
+    - causes - Q Fever'
+  prompt: 'From the text below, extract the following entities in the following format:
+
+
+    disease: <the name of the disease that is treated>
+
+    drug: <the name of the drug that treats the disease>
+
+    mechanism_links: <semicolon-separated list of links, where each link is a triple
+    connecting two entities via a relationship type>
+
+
+
+    Text:
+
+    As a tetracycline, meclocycline likely works by reversably associating with the
+    30s subint of the bacterial ribosome [A19429]. A likely binding site for tetracyclines
+    has been identified on protein S7 of this subunit. This association blocks the
+    association of aminoacyl-tRNA with the ribosome, inhibiting protein synthesis.
+    Ultimately this inhibits bacterial growth due to a lack of proteins necessary
+    for reproduction.
+
+
+    ===
+
+
+    disease: Q Fever
+
+    drug: Meclocycline
+
+    '
+- completion: 'disease: Keratosis, Actinic
+
+    drug: Masoprocol
+
+    mechanism_links: Masoprocol - decreases activity of - serine/threonine-protein
+    kinase mTOR (human); serine/threonine-protein kinase mTOR (human) - positively
+    regulates - REACT:R-HSA-166208; REACT:R-HSA-166208 - positively correlated with
+    - HP:0031377; HP:0031377 - causes - Keratosis, Actinic'
+  prompt: 'From the text below, extract the following entities in the following format:
+
+
+    disease: <the name of the disease that is treated>
+
+    drug: <the name of the drug that treats the disease>
+
+    mechanism_links: <semicolon-separated list of links, where each link is a triple
+    connecting two entities via a relationship type>
+
+
+
+    Text:
+
+    Although the exact mechanism of action is not known, studies have shown that masoprocol
+    is a potent 5-lipoxygenase inhibitor and has antiproliferative activity against
+    keratinocytes in tissue culture, but the relationship between this activity and
+    its effectiveness in actinic keratoses is unknown. Masoprocol also inhibits prostaglandins
+    but the significance of this action is not yet known.
+
+
+    ===
+
+
+    disease: Keratosis, Actinic
+
+    drug: Masoprocol
+
+    '
+- completion: 'disease: Streptococcal Infections
+
+    drug: Moxifloxacin
+
+    mechanism_links: MESH:D000077266 - decreases activity of - PR:Q9L7Q5; MESH:D000077266
+    - decreases activity of - PR:Q9L7Q4; PR:Q9L7Q5 - positively regulates - DNA replication;
+    PR:Q9L7Q4 - positively regulates - DNA replication; DNA replication - occurs in
+    - NCBITaxon:1314; NCBITaxon:1314 - causes - Streptococcal Infections'
+  prompt: 'From the text below, extract the following entities in the following format:
+
+
+    disease: <the name of the disease that is treated>
+
+    drug: <the name of the drug that treats the disease>
+
+    mechanism_links: <semicolon-separated list of links, where each link is a triple
+    connecting two entities via a relationship type>
+
+
+
+    Text:
+
+    The bactericidal action of moxifloxacin results from inhibition of the enzymes
+    topoisomerase II (DNA gyrase) and topoisomerase IV. DNA gyrase is an essential
+    enzyme that is involved in the replication, transcription and repair of bacterial
+    DNA. Topoisomerase IV is an enzyme known to play a key role in the partitioning
+    of the chromosomal DNA during bacterial cell division.
+
+
+    ===
+
+
+    disease: Streptococcal Infections
+
+    drug: Moxifloxacin
+
+    '
+- completion: 'disease: Myocardial Infarction
+
+    drug: Acetylsalicylic acid
+
+    mechanism_links: Aspirin - decreases activity of - prostaglandin G/H synthase
+    1 (human); prostaglandin G/H synthase 1 (human) - negatively regulates - prostaglandin
+    biosynthetic process; Aspirin - decreases activity of - prostaglandin G/H synthase
+    2 (human); prostaglandin G/H synthase 2 (human) - negatively regulates - prostaglandin
+    biosynthetic process; prostaglandin biosynthetic process - decreases abundance
+    of - Thromboxane A2; Thromboxane A2 - decreases activity of - platelet aggregation;
+    platelet aggregation - prevents - blood coagulation; blood coagulation - causes
+    - Myocardial Infarction'
+  prompt: 'From the text below, extract the following entities in the following format:
+
+
+    disease: <the name of the disease that is treated>
+
+    drug: <the name of the drug that treats the disease>
+
+    mechanism_links: <semicolon-separated list of links, where each link is a triple
+    connecting two entities via a relationship type>
+
+
+
+    Text:
+
+    Acetylsalicylic acid (ASA) blocks prostaglandin synthesis. It is non-selective
+    for COX-1 and COX-2 enzymes [A177241, A10989, A32682]. Inhibition of COX-1 results
+    in the inhibition of platelet aggregation for about 7-10 days (average platelet
+    lifespan). The acetyl group of acetylsalicylic acid binds with a serine residue
+    of the cyclooxygenase-1 (COX-1) enzyme, leading to irreversible inhibition. This
+    prevents the production of pain-causing prostaglandins. This process also stops
+    the conversion of arachidonic acid to thromboxane A2 (TXA2), which is a potent
+    inducer of platelet aggregation [FDA label].  Platelet aggregation can result
+    in clots and harmful venous and arterial thromboembolism, leading to conditions
+    such as pulmonary embolism and stroke.  It is important to note that there is
+    60% homology between the protein structures of COX-1 and COX-2. ASA binds to serine
+    516 residue on the active site of COX-2 in the same fashion as its binding to
+    the serine 530 residue located on the active site of COX-1. The active site of
+    COX-2 is, however, slightly larger than the active site of COX-1, so that arachidonic
+    acid (which later becomes prostaglandins) manages to bypass the aspirin molecule
+    inactivating COX-2 [A32682, A177256].  ASA, therefore, exerts more action on the
+    COX-1 receptor rather than on the COX-2 receptor [A177268]. A higher dose of acetylsalicylic
+    acid is required for COX-2 inhibition [A177325].
+
+
+    ===
+
+
+    disease: Myocardial Infarction
+
+    drug: Acetylsalicylic acid
+
+    '
+- completion: 'disease: Tularemia
+
+    drug: Streptomycin
+
+    mechanism_links: Streptomycin - molecularly interacts with - 30S ribosomal protein
+    S2; 30S ribosomal protein S2 - disrupts - translation; translation - in taxon
+    - NCBITaxon:263; NCBITaxon:263 - causes - Tularemia'
+  prompt: 'From the text below, extract the following entities in the following format:
+
+
+    disease: <the name of the disease that is treated>
+
+    drug: <the name of the drug that treats the disease>
+
+    mechanism_links: <semicolon-separated list of links, where each link is a triple
+    connecting two entities via a relationship type>
+
+
+
+    Text:
+
+    Aminoglycosides like Streptomycin "irreversibly" bind to specific 30S-subunit
+    proteins and 16S rRNA. Specifically Streptomycin binds to four nucleotides of
+    16S rRNA and a single amino acid of protein S12. This interferes with decoding
+    site in the vicinity of nucleotide 1400 in 16S rRNA of 30S subunit. This region
+    interacts with the wobble base in the anticodon of tRNA. This leads to interference
+    with the initiation complex, misreading of mRNA so incorrect amino acids are inserted
+    into the polypeptide leading to nonfunctional or toxic peptides and the breakup
+    of polysomes into nonfunctional monosomes.
+
+
+    ===
+
+
+    disease: Tularemia
+
+    drug: Streptomycin
+
+    '
+- completion: 'disease: Erectile Dysfunction
+
+    drug: Avanafil
+
+    mechanism_links: avanafil - decreases activity of - cGMP-specific 3'',5''-cyclic
+    phosphodiesterase (human); cGMP-specific 3'',5''-cyclic phosphodiesterase (human)
+    - increases abundance of - Cyclic GMP; Cyclic GMP - causes - relaxation of smooth
+    muscle; relaxation of smooth muscle - positively regulates - blood circulation;
+    blood circulation - located in - corpus cavernosum penis; corpus cavernosum penis
+    - participates in - Erectile Dysfunction'
+  prompt: 'From the text below, extract the following entities in the following format:
+
+
+    disease: <the name of the disease that is treated>
+
+    drug: <the name of the drug that treats the disease>
+
+    mechanism_links: <semicolon-separated list of links, where each link is a triple
+    connecting two entities via a relationship type>
+
+
+
+    Text:
+
+    Avanafil is a selective phosphodiesterase 5 (PDE5) enzyme inhibitor used for the
+    treatment of erectile dysfunction caused by diabetes, age induced oxidative stress
+    or other complications. Avanafil inhibits the cGMP specific phosphodiesterase
+    type 5 (PDE5) which is responsible for degradation of cGMP in the corpus cavernosum
+    located around the penis. Penile erection during sexual stimulation is caused
+    by increased penile blood flow resulting from the relaxation of penile arteries
+    and corpus cavernosal smooth muscle. This response is mediated by the release
+    of nitric oxide (NO) from nerve terminals and endothelial cells, which stimulates
+    the synthesis of cGMP in smooth muscle cells. Cyclic GMP causes smooth muscle
+    relaxation and increased blood flow into the corpus cavernosum. The inhibition
+    of phosphodiesterase type 5 (PDE5) by avanafil enhances erectile function by increasing
+    the amount of cGMP.
+
+
+    ===
+
+
+    disease: Erectile Dysfunction
+
+    drug: Avanafil
+
+    '
+- completion: 'disease: Neurosyphilis
+
+    drug: Procaine benzylpenicillin
+
+    mechanism_links: Penicillin G Procaine - produces - Benzylpenicillin; Benzylpenicillin
+    - negatively regulates - Pfam:PF00905; Pfam:PF00905 - positively regulates - peptidoglycan
+    biosynthetic process; peptidoglycan biosynthetic process - positively correlated
+    with - peptidoglycan-based cell wall biogenesis; peptidoglycan-based cell wall
+    biogenesis - in taxon - NCBITaxon:160; NCBITaxon:160 - causes - Neurosyphilis'
+  prompt: 'From the text below, extract the following entities in the following format:
+
+
+    disease: <the name of the disease that is treated>
+
+    drug: <the name of the drug that treats the disease>
+
+    mechanism_links: <semicolon-separated list of links, where each link is a triple
+    connecting two entities via a relationship type>
+
+
+
+    Text:
+
+    Procaine benzylpenicillin is hydrolyzed into penicillin G once it is released
+    from the injection site. Penicillin G attaches to the penicillin-binding proteins
+    on bacterial cell wall and inhibit the transpeptidation enzyme that crosslinks
+    the peptide chains attached to the backbone of the peptidoglycan. The final bactericidal
+    event involves the inactivation of an inhibitor of autolytic enzymes in the cell
+    wall, leading to lysis of the bacterium [T33].
+
+
+    ===
+
+
+    disease: Neurosyphilis
+
+    drug: Procaine benzylpenicillin
+
+    '
+- completion: 'disease: MESH:D000073605
+
+    drug: Meclocycline
+
+    mechanism_links: meclocycline - decreases activity of - InterPro:IPR000235; InterPro:IPR000235
+    - positively regulates - tRNA aminoacylation; tRNA aminoacylation - participates
+    in - translation; translation - in taxon - NCBITaxon:786; NCBITaxon:786 - causes
+    - MESH:D000073605'
+  prompt: 'From the text below, extract the following entities in the following format:
+
+
+    disease: <the name of the disease that is treated>
+
+    drug: <the name of the drug that treats the disease>
+
+    mechanism_links: <semicolon-separated list of links, where each link is a triple
+    connecting two entities via a relationship type>
+
+
+
+    Text:
+
+    As a tetracycline, meclocycline likely works by reversably associating with the
+    30s subint of the bacterial ribosome [A19429]. A likely binding site for tetracyclines
+    has been identified on protein S7 of this subunit. This association blocks the
+    association of aminoacyl-tRNA with the ribosome, inhibiting protein synthesis.
+    Ultimately this inhibits bacterial growth due to a lack of proteins necessary
+    for reproduction.
+
+
+    ===
+
+
+    disease: MESH:D000073605
+
+    drug: Meclocycline
+
+    '
+- completion: 'disease: Nasal Polyps
+
+    drug: Beclomethasone dipropionate
+
+    mechanism_links: Beclomethasone dipropionate - has metabolite - CHEBI:3001; CHEBI:3001
+    - positively regulates - glucocorticoid receptor (human); glucocorticoid receptor
+    (human) - negatively regulates - inflammatory response; inflammatory response
+    - positively correlated with - Nasal Polyps'
+  prompt: 'From the text below, extract the following entities in the following format:
+
+
+    disease: <the name of the disease that is treated>
+
+    drug: <the name of the drug that treats the disease>
+
+    mechanism_links: <semicolon-separated list of links, where each link is a triple
+    connecting two entities via a relationship type>
+
+
+
+    Text:
+
+    Beclomethasone dipropionate is a corticosteroid and prodrug that is rapidly activated
+    by hydrolysis to the active monoester, 17 monopropionate (17-BMP), which mediates
+    anti-inflammatory actions. 17-BMP has been shown _in vitro_ to exhibit a binding
+    affinity for the human glucocorticoid receptor which is approximately 13 times
+    that of dexamethasone and 25 times that of beclomethasone dipropionate.[L6871]
+    Upon binding of the ligand, the glucocorticoid receptors dimerize and translocate
+    into the nucleus, where they subsequently bind to glucocorticoid response elements
+    (GRE) on glucocorticoid-responsive genes, leading to changes in transcription.
+    There are several proposed mechanisms for the anti-inflammatory action of corticosteroids.
+    Corticosteroids may work by increasing the transcription of genes coding for anti-inflammatory
+    proteins, including lipocortin-1 and interleukin-10.[A179875] Corticosteroids
+    were also shown to inhibit the expression of multiple genes that encode pro-inflammatory
+    factors, such as cytokines, chemokines, and adhesion molecules, that are activated
+    during the chronic inflammatory process.[A31449] This is thought to be due to
+    the direct inhibitory interaction between activated glucocorticoid receptors and
+    activated pro-inflammatory transcription factors, such as nuclear factor-kappa
+    B and activator protein-1.[A179875] Chronic inflammation is often characterized
+    by enhanced expression of these transcription factors that bind to and activate
+    coactivator molecules, which then acetylate core histones to switch on gene transcription
+    to further amplify the inflammatory process.[A31449] Corticosteroids suppress
+    the multiple inflammatory gene expression by promoting histone deacetylation,
+    resulting in tighter coiling of DNA and reduced access of transcription factors
+    to their binding sites.[A179875]
+
+
+    ===
+
+
+    disease: Nasal Polyps
+
+    drug: Beclomethasone dipropionate
+
+    '
+- completion: 'disease: Gastrointestinal anthrax
+
+    drug: Fusidic acid
+
+    mechanism_links: Fusidic Acid - decreases activity of - PR:Q81VT3; PR:Q81VT3 -
+    positively regulates - translation; translation - occurs in - Bacillus anthracis;
+    Bacillus anthracis - causes - Gastrointestinal anthrax'
+  prompt: 'From the text below, extract the following entities in the following format:
+
+
+    disease: <the name of the disease that is treated>
+
+    drug: <the name of the drug that treats the disease>
+
+    mechanism_links: <semicolon-separated list of links, where each link is a triple
+    connecting two entities via a relationship type>
+
+
+
+    Text:
+
+    Fusidic acid works by interfering with bacterial protein synthesis, specifically
+    by preventing the translocation of the elongation factor G (EF-G) from the ribosome.
+    It also can inhibit chloramphenicol acetyltransferase enzymes.
+
+
+    ===
+
+
+    disease: Gastrointestinal anthrax
+
+    drug: Fusidic acid
+
+    '
+- completion: 'disease: Rhinitis, Allergic
+
+    drug: Methdilazine
+
+    mechanism_links: methdilazine - decreases activity of - histamine H1 receptor
+    (human); histamine H1 receptor (human) - positively regulates - histamine receptor
+    activity; histamine receptor activity - participates in - histamine secretion
+    involved in inflammatory response; histamine secretion involved in inflammatory
+    response - positively correlated with - Rhinitis, Allergic'
+  prompt: 'From the text below, extract the following entities in the following format:
+
+
+    disease: <the name of the disease that is treated>
+
+    drug: <the name of the drug that treats the disease>
+
+    mechanism_links: <semicolon-separated list of links, where each link is a triple
+    connecting two entities via a relationship type>
+
+
+
+    Text:
+
+    Methdilazine binds to the histamine H&lt;sub&gt;1&lt;/sub&gt; receptor. This blocks
+    the action of endogenous histamine, which subsequently leads to temporary relief
+    of the negative symptoms brought on by histamine.
+
+
+    ===
+
+
+    disease: Rhinitis, Allergic
+
+    drug: Methdilazine
+
+    '
+- completion: 'disease: Rhinitis, Allergic
+
+    drug: Acetaminophen
+
+    mechanism_links: Acetaminophen - decreases activity of - prostaglandin G/H synthase
+    1 (human); Acetaminophen - decreases activity of - prostaglandin G/H synthase
+    2 (human); Acetaminophen - decreases activity of - prostaglandin E synthase 3
+    (human); prostaglandin G/H synthase 1 (human) - positively regulates - prostaglandin
+    biosynthetic process; prostaglandin G/H synthase 2 (human) - positively regulates
+    - prostaglandin biosynthetic process; prostaglandin E synthase 3 (human) - positively
+    regulates - prostaglandin biosynthetic process; prostaglandin biosynthetic process
+    - increases abundance of - Prostaglandins; Prostaglandins - positively correlated
+    with - Rhinitis, Allergic'
+  prompt: 'From the text below, extract the following entities in the following format:
+
+
+    disease: <the name of the disease that is treated>
+
+    drug: <the name of the drug that treats the disease>
+
+    mechanism_links: <semicolon-separated list of links, where each link is a triple
+    connecting two entities via a relationship type>
+
+
+
+    Text:
+
+    According to its FDA labeling, acetaminophen''s exact mechanism of action has
+    not been fully established[Label] - despite this, it is often categorized alongside
+    NSAIDs (nonsteroidal anti-inflammatory drugs) due to its ability to inhibit the
+    cyclooxygenase (COX) pathways.[T518] It is thought to exert central actions which
+    ultimately lead to the alleviation of pain symptoms.[T518] One theory is that
+    acetaminophen increases the pain threshold by inhibiting two isoforms of cyclooxygenase,
+    COX-1 and COX-2, which are involved in prostaglandin (PG) synthesis. Prostaglandins
+    are responsible for eliciting pain sensations.[A176366] Acetaminophen does not
+    inhibit cyclooxygenase in peripheral tissues and, therefore, has no peripheral
+    anti-inflammatory effects. Though acetylsalicylic acid (aspirin) is an irreversible
+    inhibitor of COX and directly blocks the active site of this enzyme, studies have
+    shown that acetaminophen (paracetamol) blocks COX indirectly.[F4133] Studies also
+    suggest that acetaminophen selectively blocks a variant type of the COX enzyme
+    that is unique from the known variants COX-1 and COX-2.[A468] This enzyme has
+    been referred to as _COX-3_. The antipyretic actions of acetaminophen are likely
+    attributed to direct action on heat-regulating centers in the brain, resulting
+    in peripheral vasodilation, sweating, and loss of body heat.[F4133] The exact
+    mechanism of action of this drug is not fully understood at this time, but future
+    research may contribute to deeper knowledge.[F4133]
+
+
+    ===
+
+
+    disease: Rhinitis, Allergic
+
+    drug: Acetaminophen
+
+    '
+- completion: 'disease: Streptococcal Infections
+
+    drug: Benzylpenicillin
+
+    mechanism_links: Penicillin G - decreases activity of - InterPro:IPR001460; InterPro:IPR001460
+    - participates in - peptidoglycan biosynthetic process; peptidoglycan biosynthetic
+    process - positively regulates - peptidoglycan-based cell wall biogenesis; peptidoglycan-based
+    cell wall biogenesis - occurs in - Streptococcus; Streptococcus - causes - Streptococcal
+    Infections'
+  prompt: 'From the text below, extract the following entities in the following format:
+
+
+    disease: <the name of the disease that is treated>
+
+    drug: <the name of the drug that treats the disease>
+
+    mechanism_links: <semicolon-separated list of links, where each link is a triple
+    connecting two entities via a relationship type>
+
+
+
+    Text:
+
+    By binding to specific penicillin-binding proteins (PBPs) located inside the bacterial
+    cell wall, penicillin G inhibits the third and last stage of bacterial cell wall
+    synthesis. Cell lysis is then mediated by bacterial cell wall autolytic enzymes
+    such as autolysins; it is possible that penicillin G interferes with an autolysin
+    inhibitor.
+
+
+    ===
+
+
+    disease: Streptococcal Infections
+
+    drug: Benzylpenicillin
+
+    '
+- completion: 'disease: Meningitis, Bacterial
+
+    drug: Ampicillin
+
+    mechanism_links: Ampicillin - negatively regulates - Pfam:PF00905; Pfam:PF00905
+    - positively regulates - peptidoglycan biosynthetic process; peptidoglycan biosynthetic
+    process - positively correlated with - peptidoglycan-based cell wall biogenesis;
+    peptidoglycan-based cell wall biogenesis - in taxon - Neisseria meningitidis;
+    Neisseria meningitidis - causes - Meningitis, Bacterial'
+  prompt: 'From the text below, extract the following entities in the following format:
+
+
+    disease: <the name of the disease that is treated>
+
+    drug: <the name of the drug that treats the disease>
+
+    mechanism_links: <semicolon-separated list of links, where each link is a triple
+    connecting two entities via a relationship type>
+
+
+
+    Text:
+
+    By binding to specific penicillin-binding proteins (PBPs) located inside the bacterial
+    cell wall, Ampicillin inhibits the third and last stage of bacterial cell wall
+    synthesis. Cell lysis is then mediated by bacterial cell wall autolytic enzymes
+    such as autolysins; it is possible that Ampicillin interferes with an autolysin
+    inhibitor.
+
+
+    ===
+
+
+    disease: Meningitis, Bacterial
+
+    drug: Ampicillin
+
+    '
+- completion: 'disease: Small Cell Lung Carcinoma
+
+    drug: Topotecan
+
+    mechanism_links: Topotecan - decreases activity of - DNA topoisomerase 1 (human);
+    DNA topoisomerase 1 (human) - positively regulates - DNA binding; DNA binding
+    - correlated with - DNA replication; DNA replication - positively correlated with
+    - neoplastic cell; neoplastic cell - positively correlated with - Small Cell Lung
+    Carcinoma'
+  prompt: "From the text below, extract the following entities in the following format:\n\
+    \ndisease: <the name of the disease that is treated>\ndrug: <the name of the drug\
+    \ that treats the disease>\nmechanism_links: <semicolon-separated list of links,\
+    \ where each link is a triple connecting two entities via a relationship type>\n\
+    \n\nText:\nTopotecan has the same mechanism of action as irinotecan and is believed\
+    \ to exert its cytotoxic effects during the S-phase of DNA synthesis. Topoisomerase\
+    \ I relieves torsional strain in DNA by inducing reversible single strand breaks.\
+    \ Topotecan binds to the topoisomerase I-DNA complex and prevents religation of\
+    \ these single strand breaks. This ternary complex interferes with the moving\
+    \ replication fork, which leads to the induction of replication arrest and lethal\
+    \ double-stranded breaks in DNA. As mammalian cells cannot efficiently repair\
+    \ these double strand breaks, the formation of this ternary complex eventually\
+    \ leads to apoptosis (programmed cell death). Topotecan mimics a DNA base pair\
+    \ and binds at the site of DNA cleavage by intercalating between the upstream\
+    \ (\u22121) and downstream (+1) base pairs. Intercalation displaces the downstream\
+    \ DNA, thus preventing religation of the cleaved strand. By specifically binding\
+    \ to the enzyme\u2013substrate complex, Topotecan acts as an uncompetitive inhibitor.\n\
+    \n===\n\ndisease: Small Cell Lung Carcinoma\ndrug: Topotecan\n"
+- completion: 'disease: Common Cold
+
+    drug: Glycine
+
+    mechanism_links: Glycine - treats - Common Cold'
+  prompt: 'From the text below, extract the following entities in the following format:
+
+
+    disease: <the name of the disease that is treated>
+
+    drug: <the name of the drug that treats the disease>
+
+    mechanism_links: <semicolon-separated list of links, where each link is a triple
+    connecting two entities via a relationship type>
+
+
+
+    Text:
+
+    In the CNS, there exist strychnine-sensitive glycine binding sites as well as
+    strychnine-insensitive glycine binding sites. The strychnine-insensitive glycine-binding
+    site is located on the NMDA receptor complex. The strychnine-sensitive glycine
+    receptor complex is comprised of a chloride channel and is a member of the ligand-gated
+    ion channel superfamily. The putative antispastic activity of supplemental glycine
+    could be mediated by glycine''s binding to strychnine-sensitive binding sites
+    in the spinal cord. This would result in increased chloride conductance and consequent
+    enhancement of inhibitory neurotransmission. The ability of glycine to potentiate
+    NMDA receptor-mediated neurotransmission raised the possibility of its use in
+    the management of neuroleptic-resistant negative symptoms in schizophrenia. &lt;br/&gt;Animal
+    studies indicate that supplemental glycine protects against endotoxin-induced
+    lethality, hypoxia-reperfusion injury after liver transplantation, and D-galactosamine-mediated
+    liver injury. Neutrophils are thought to participate in these pathologic processes
+    via invasion of tissue and releasing such reactive oxygen species as superoxide.
+    In vitro studies have shown that neutrophils contain a glycine-gated chloride
+    channel that can attenuate increases in intracellular calcium and diminsh neutrophil
+    oxidant production. This research is ealy-stage, but suggests that supplementary
+    glycine may turn out to be useful in processes where neutrophil infiltration contributes
+    to toxicity, such as ARDS.
+
+
+    ===
+
+
+    disease: Common Cold
+
+    drug: Glycine
+
+    '
+- completion: 'disease: Arthritis, Rheumatoid
+
+    drug: Loxoprofen
+
+    mechanism_links: loxoprofen - decreases activity of - prostaglandin G/H synthase
+    1 (human); loxoprofen - decreases activity of - prostaglandin G/H synthase 2 (human);
+    prostaglandin G/H synthase 1 (human) - participates in - REACT:R-HSA-2162123;
+    prostaglandin G/H synthase 2 (human) - participates in - REACT:R-HSA-2162123;
+    REACT:R-HSA-2162123 - increases abundance of - Prostaglandins; Prostaglandins
+    - positively correlated with - HP:0002829; Prostaglandins - positively correlated
+    with - HP:0001386; HP:0001386 - positively correlated with - Arthritis, Rheumatoid;
+    HP:0002829 - positively correlated with - Arthritis, Rheumatoid'
+  prompt: 'From the text below, extract the following entities in the following format:
+
+
+    disease: <the name of the disease that is treated>
+
+    drug: <the name of the drug that treats the disease>
+
+    mechanism_links: <semicolon-separated list of links, where each link is a triple
+    connecting two entities via a relationship type>
+
+
+
+    Text:
+
+    Loxoprofen itself is a prodrug and carries little-to-no pharmacological activity
+    - it is rapidly metabolized to its trans-alcohol form, which is a potent and non-selective
+    inhibitor of cyclooxygenase.[A27797] Cyclooxygenase (COX) is present in 2 forms,
+    COX-1 and COX-2, with each serving different functions. COX-1 is present in human
+    cells and is constitutively released,  performing cellular housekeeping functions
+    such as mucus production and platelet aggregation.[L1228]  COX-2 is induced in
+    human cells post-injury or due to other stimuli, is triggered to appear in large
+    quantities at the sites of injury/stimuli, and is ultimately responsible for the
+    mediation of inflammation and pain.[L1228] Loxoprofen''s active metabolite inhibits
+    both COX isoforms, resulting in reduced expression of several mediators of pain,
+    inflammation, and fever (e.g. prostaglandins, prostacyclin, thromboxane, etc).[L1228]
+
+
+    ===
+
+
+    disease: Arthritis, Rheumatoid
+
+    drug: Loxoprofen
+
+    '
+- completion: 'disease: Pruritus Ani
+
+    drug: Desoximetasone
+
+    mechanism_links: Desoximetasone - increases activity of - glucocorticoid receptor
+    (human); glucocorticoid receptor (human) - increases abundance of - annexin A1
+    (human); annexin A1 (human) - negatively regulates - REACT:R-HSA-2162123; REACT:R-HSA-2162123
+    - positively regulates - inflammatory response; inflammatory response - contributes
+    to - HP:0000989; HP:0000989 - manifestation of - Pruritus Ani'
+  prompt: 'From the text below, extract the following entities in the following format:
+
+
+    disease: <the name of the disease that is treated>
+
+    drug: <the name of the drug that treats the disease>
+
+    mechanism_links: <semicolon-separated list of links, where each link is a triple
+    connecting two entities via a relationship type>
+
+
+
+    Text:
+
+    The precise mechanism of the antiinflammatory activity of topical steroids in
+    the treatment of steroid-responsive dermatoses, in general, is uncertain. However,
+    corticosteroids are thought to act by the induction of phospholipase A&lt;sub&gt;2&lt;/sub&gt;
+    inhibitory proteins, collectively called lipocortins. This is achieved first by
+    the drug binding to the glucocorticoid receptors which then translocates into
+    the nucleus and binds to DNA causing various activations and repressions of genes.
+    It is postulated that these proteins control the biosynthesis of potent mediators
+    of inflammation such as prostaglandins and leukotrienes by inhibiting the release
+    of their common precursor arachidonic acid. Arachidonic acid is released from
+    membrane phospholipids by phospholipase A&lt;sub&gt;2&lt;/sub&gt;.
+
+
+    ===
+
+
+    disease: Pruritus Ani
+
+    drug: Desoximetasone
+
+    '
+- completion: 'disease: Enterobiasis
+
+    drug: Piperazine
+
+    mechanism_links: Piperazine - increases activity of - gamma-aminobutyric acid
+    receptor subunit beta-3 (human); gamma-aminobutyric acid receptor subunit beta-3
+    (human) - positively correlated with - chloride channel activity; gamma-aminobutyric
+    acid receptor subunit beta-3 (human) - decreases abundance of - Acetylcholine;
+    Acetylcholine - occurs in - membrane hyperpolarization; chloride channel activity
+    - occurs in - membrane hyperpolarization; membrane hyperpolarization - has phenotype
+    - HP:0003470; HP:0003470 - increases activity of - defense response to other organism;
+    defense response to other organism - in taxon - NCBITaxon:51028; NCBITaxon:51028
+    - causes - Enterobiasis'
+  prompt: 'From the text below, extract the following entities in the following format:
+
+
+    disease: <the name of the disease that is treated>
+
+    drug: <the name of the drug that treats the disease>
+
+    mechanism_links: <semicolon-separated list of links, where each link is a triple
+    connecting two entities via a relationship type>
+
+
+
+    Text:
+
+    Piperazine is a GABA receptor agonist. Piperzine binds directly and selectively
+    to muscle membrane GABA receptors, presumably causing hyperpolarization of nerve
+    endings, resulting in flaccid paralysis of the worm. While the worm is paralyzed,
+    it is dislodged from the intestinal lumen and expelled live from the body by normal
+    intestinal peristalsis.
+
+
+    ===
+
+
+    disease: Enterobiasis
+
+    drug: Piperazine
+
+    '
+- completion: 'disease: Puberty, Precocious
+
+    drug: Leuprolide
+
+    mechanism_links: Leuprolide - increases activity of - gonadotropin-releasing hormone
+    receptor (human); gonadotropin-releasing hormone receptor (human) - positively
+    regulates - gonadotropin hormone-releasing hormone activity; gonadotropin hormone-releasing
+    hormone activity - regulates - estrogen biosynthetic process; gonadotropin hormone-releasing
+    hormone activity - regulates - androgen biosynthetic process; gonadotropin hormone-releasing
+    hormone activity - regulates - progesterone biosynthetic process; estrogen biosynthetic
+    process - negatively correlated with - Puberty, Precocious; androgen biosynthetic
+    process - negatively correlated with - Puberty, Precocious; progesterone biosynthetic
+    process - negatively correlated with - Puberty, Precocious'
+  prompt: 'From the text below, extract the following entities in the following format:
+
+
+    disease: <the name of the disease that is treated>
+
+    drug: <the name of the drug that treats the disease>
+
+    mechanism_links: <semicolon-separated list of links, where each link is a triple
+    connecting two entities via a relationship type>
+
+
+
+    Text:
+
+    Gonadotropin-releasing hormone (GnRH) is a naturally occurring decapeptide that
+    modulates the hypothalamic-pituitary-gonadal (HPG) axis. GnRH binds to corresponding
+    receptors (GnRHRs) on the anterior pituitary gonadotropes, which in turn release
+    luteinizing hormone (LH) and follicle-stimulating hormone (FSH); these, in turn,
+    affect the downstream synthesis and release of the sex hormones testosterone,
+    dihydrotestosterone, estrone, and estradiol.[A203126, A203132] Despite the variety
+    of conditions indicated for treatment with leuprolide, the mechanism of action
+    underlying efficacy is the same in all cases. As a GnRHR agonist, leuprolide binds
+    to and initially activates downstream LH and FSH release; this initial spike in
+    gonadotropin levels is responsible for some of the adverse effects associated
+    with treatment. After 2-4 weeks of treatment, continuous stimulation of GnRHR
+    results in feedback inhibition and significant downregulation of LH, FSH, and
+    their corresponding downstream effects, producing a therapeutic benefit. These
+    effects are reversible upon treatment discontinuation.[A203126, A203129, A203132,
+    A203222, L10310, L13781, L13784, L13787, L13790, L13814]
+
+
+    ===
+
+
+    disease: Puberty, Precocious
+
+    drug: Leuprolide
+
+    '
+- completion: 'disease: Parkinson Disease
+
+    drug: Amantadine
+
+    mechanism_links: Amantadine - increases activity of - D(2) dopamine receptor (human);
+    D(2) dopamine receptor (human) - positively correlated with - Dopamine; Dopamine
+    - positively correlated with - dopamine secretion, neurotransmission; dopamine
+    secretion, neurotransmission - occurs in - substantia nigra; substantia nigra
+    - disrupted by - Parkinson Disease'
+  prompt: 'From the text below, extract the following entities in the following format:
+
+
+    disease: <the name of the disease that is treated>
+
+    drug: <the name of the drug that treats the disease>
+
+    mechanism_links: <semicolon-separated list of links, where each link is a triple
+    connecting two entities via a relationship type>
+
+
+
+    Text:
+
+    The mechanism of its antiparkinsonic effect is not fully understood, but it appears
+    to be releasing dopamine from the nerve endings of the brain cells, together with
+    stimulation of norepinephrine response. It also has NMDA receptor antagonistic
+    effects. The antiviral mechanism seems to be unrelated. The drug interferes with
+    a viral protein, M2 (an ion channel), which is needed for the viral particle to
+    become "uncoated" once it is taken inside the cell by endocytosis.
+
+
+    ===
+
+
+    disease: Parkinson Disease
+
+    drug: Amantadine
+
+    '
+- completion: 'disease: Rhinitis, Allergic
+
+    drug: Triprolidine
+
+    mechanism_links: Triprolidine - decreases activity of - histamine H1 receptor
+    (human); histamine H1 receptor (human) - positively regulates - histamine receptor
+    activity; histamine receptor activity - positively correlated with - histamine
+    secretion involved in inflammatory response; histamine secretion involved in inflammatory
+    response - positively correlated with - Rhinitis, Allergic'
+  prompt: 'From the text below, extract the following entities in the following format:
+
+
+    disease: <the name of the disease that is treated>
+
+    drug: <the name of the drug that treats the disease>
+
+    mechanism_links: <semicolon-separated list of links, where each link is a triple
+    connecting two entities via a relationship type>
+
+
+
+    Text:
+
+    Triprolidine binds to the histamine H1 receptor. This blocks the action of endogenous
+    histamine, which subsequently leads to temporary relief of the negative symptoms
+    brought on by histamine.
+
+
+    ===
+
+
+    disease: Rhinitis, Allergic
+
+    drug: Triprolidine
+
+    '
+- completion: 'disease: Hot Flashes
+
+    drug: Medroxyprogesterone acetate
+
+    mechanism_links: Medroxyprogesterone - increases activity of - progesterone receptor
+    (human); progesterone receptor (human) - positively regulates - progesterone receptor
+    signaling pathway; progesterone receptor signaling pathway - treats - Hot Flashes;
+    Medroxyprogesterone - increases activity of - estrogen receptor (human); estrogen
+    receptor (human) - positively regulates - intracellular estrogen receptor signaling
+    pathway; intracellular estrogen receptor signaling pathway - treats - Hot Flashes'
+  prompt: "From the text below, extract the following entities in the following format:\n\
+    \ndisease: <the name of the disease that is treated>\ndrug: <the name of the drug\
+    \ that treats the disease>\nmechanism_links: <semicolon-separated list of links,\
+    \ where each link is a triple connecting two entities via a relationship type>\n\
+    \n\nText:\nMedroxyprogesterone acetate (MPA) inhibits the production of gonadotropin,\
+    \ preventing follicular maturation and ovulation, which is responsible for it\u2019\
+    s ability to prevent pregnancy.[L8660] This action also thins the endometrium.[L8660]\
+    \ MPA reduces nuclear estrogen receptors and DNA synthesis in epithelial cells\
+    \ of the endometrium.[L8660] MPA can also induce p53 dependant apoptosis in certain\
+    \ cancer cell lines,[A186134] and inhibit GABA-A receptors.[A186140]\n\n===\n\n\
+    disease: Hot Flashes\ndrug: Medroxyprogesterone acetate\n"
+- completion: 'disease: Hypertension
+
+    drug: Indapamide
+
+    mechanism_links: Indapamide - decreases activity of - solute carrier family 12
+    member 3 (human); solute carrier family 12 member 3 (human) - participates in
+    - renal sodium ion absorption; renal sodium ion absorption - positively correlated
+    with - renal water retention; renal water retention - contributes to - HP:0011104;
+    HP:0011104 - contributes to - positive regulation of blood pressure; positive
+    regulation of blood pressure - affects risk for - Hypertension'
+  prompt: "From the text below, extract the following entities in the following format:\n\
+    \ndisease: <the name of the disease that is treated>\ndrug: <the name of the drug\
+    \ that treats the disease>\nmechanism_links: <semicolon-separated list of links,\
+    \ where each link is a triple connecting two entities via a relationship type>\n\
+    \n\nText:\nIndapamide acts on the nephron, specifically at the proximal segment\
+    \ of the distal convoluted tubule where it inhibits the Na+/Cl- cotransporter,\
+    \ leading to reduced sodium reabsorption.[A203519,A16729] As a result, sodium\
+    \ and water are retained in the lumen of the nephron for urinary excretion.[A185180]\
+    \ The effects that follow include reduced plasma volume, reduced venous return,\
+    \ lower cardiac output, and ultimately decreased blood pressure.[A16729] Some\
+    \ studies have suggested that indapamide may decrease responsiveness to pressor\
+    \ agents while others have suggested it can decrease peripheral resistance.[A203627]\
+    \ Although it is clear that diuresis contributes to the antihypertensive effects\
+    \ of indapamide, further studies are needed to investigate the medication\u2019\
+    s ability to decrease peripheral vascular resistance and relax vascular smooth\
+    \ muscle.[A203627]\n\n===\n\ndisease: Hypertension\ndrug: Indapamide\n"
+- completion: 'disease: Tardive Dyskinesia
+
+    drug: Deutetrabenazine
+
+    mechanism_links: deutetrabenazine - has metabolite - Tetrabenazine; Tetrabenazine
+    - decreases activity of - synaptic vesicular amine transporter (human); synaptic
+    vesicular amine transporter (human) - positively regulates - aminergic neurotransmitter
+    loading into synaptic vesicle; aminergic neurotransmitter loading into synaptic
+    vesicle - prevents - dopamine catabolic process; dopamine catabolic process -
+    negatively regulates - dopamine secretion, neurotransmission; dopamine secretion,
+    neurotransmission - correlated with - Tardive Dyskinesia'
+  prompt: "From the text below, extract the following entities in the following format:\n\
+    \ndisease: <the name of the disease that is treated>\ndrug: <the name of the drug\
+    \ that treats the disease>\nmechanism_links: <semicolon-separated list of links,\
+    \ where each link is a triple connecting two entities via a relationship type>\n\
+    \n\nText:\nThe precise mechanism of action of deutetrabenazine in mediating its\
+    \ anti-chorea effects is not fully elucidated. Deutetrabenazine reversibly depletes\
+    \ the levels of monoamines, such as dopamine, serotonin, norepinephrine, and histamine,\
+    \ from nerve terminals via its active metabolites. The major circulating metabolites\
+    \ are \u03B1-dihydrotetrabenazine [HTBZ] and \u03B2-HTBZ that act as reversible\
+    \ inhibitors of VMAT2. Inhibition of VMAT2 results in decreased uptake of monoamines\
+    \ into synaptic terminal and depletion of monoamine stores from nerve terminals\
+    \ [FDA Label].  Deutetrabenazine contains the molecule deuterium, which is a naturally-occurring,\
+    \ nontoxic hydrogen isotope but with an increased mass relative to hydrogen [A32046].\
+    \ Placed at key positions, deuterium forms a stronger hydrogen bond with carbon\
+    \ that requires more energy for cleavage, thus attenuating CYP2D6-mediated metabolism\
+    \ without having any effect on the therapeutic target [A32046].\n\n===\n\ndisease:\
+    \ Tardive Dyskinesia\ndrug: Deutetrabenazine\n"
+- completion: 'disease: Hepatitis C, Chronic
+
+    drug: Paritaprevir
+
+    mechanism_links: ABT-450 - negatively regulates - PR:P27958; PR:P27958 - positively
+    regulates - viral RNA genome replication; viral RNA genome replication - in taxon
+    - NCBITaxon:11103; NCBITaxon:11103 - causes - Hepatitis C, Chronic'
+  prompt: 'From the text below, extract the following entities in the following format:
+
+
+    disease: <the name of the disease that is treated>
+
+    drug: <the name of the drug that treats the disease>
+
+    mechanism_links: <semicolon-separated list of links, where each link is a triple
+    connecting two entities via a relationship type>
+
+
+
+    Text:
+
+    Paritaprevir is a potent inhibitor of the NS3/4A serine protease of Hepatitis
+    C Virus (HCV) [FDA Label]. Following viral replication of HCV genetic material
+    and translation into a single polypeptide, Nonstructural Protein 3 (NS3) and its
+    activating cofactor Nonstructural Protein 4A (NS4A) are responsible for cleaving
+    it into the following structural and nonstructural proteins required for assembly
+    into mature virus: NS3, NS4A, NS4B, NS5A, and NS5B. By inhibiting viral protease
+    NS3/4A, paritaprevir therefore prevents viral replication and function.
+
+
+    ===
+
+
+    disease: Hepatitis C, Chronic
+
+    drug: Paritaprevir
+
+    '
+- completion: 'disease: Carcinoma, Non-Small-Cell Lung
+
+    drug: Crizotinib
+
+    mechanism_links: crizotinib - decreases activity of - hepatocyte growth factor
+    receptor (human); hepatocyte growth factor receptor (human) - negatively regulates
+    - cell population proliferation; cell population proliferation - contributes to
+    - Carcinoma, Non-Small-Cell Lung'
+  prompt: 'From the text below, extract the following entities in the following format:
+
+
+    disease: <the name of the disease that is treated>
+
+    drug: <the name of the drug that treats the disease>
+
+    mechanism_links: <semicolon-separated list of links, where each link is a triple
+    connecting two entities via a relationship type>
+
+
+
+    Text:
+
+    Crizotinib is a tyrosine kinase receptor inhibitor. More specifically, it inhibits
+    anaplastic lymphoma kinase (ALK), hepatocyte growth factor receptor (HGFR, c-MET),
+    and Recepteur d''Origine Nantais (RON). Abnormalities in the ALK gene caused by
+    mutations or translocations may lead to expression of oncogenic fusion proteins.
+    In patients with NSCLC, they have the EML4-ALK gene. Crizotinib inhibits ALK tyrosine
+    kinase which ultimately results in decreased proliferation of cells that carry
+    the genetic mutation and tumour survivability.
+
+
+    ===
+
+
+    disease: Carcinoma, Non-Small-Cell Lung
+
+    drug: Crizotinib
+
+    '
+- completion: 'disease: Prostatitis
+
+    drug: Ciprofloxacin
+
+    mechanism_links: Ciprofloxacin - decreases activity of - DNA gyrase subunit A
+    (Escherichia coli K-12); Ciprofloxacin - decreases activity of - DNA topoisomerase
+    4 subunit A (Escherichia coli K-12); DNA gyrase subunit A (Escherichia coli K-12)
+    - positively regulates - DNA replication; DNA topoisomerase 4 subunit A (Escherichia
+    coli K-12) - positively regulates - DNA replication; DNA replication - occurs
+    in - Escherichia coli; Escherichia coli - causes - Prostatitis'
+  prompt: 'From the text below, extract the following entities in the following format:
+
+
+    disease: <the name of the disease that is treated>
+
+    drug: <the name of the drug that treats the disease>
+
+    mechanism_links: <semicolon-separated list of links, where each link is a triple
+    connecting two entities via a relationship type>
+
+
+
+    Text:
+
+    Ciprofloxacin acts on bacterial topoisomerase II (DNA gyrase) and topoisomerase
+    IV.[A178885] Ciprofloxacin''s targeting of the alpha subunits of DNA gyrase prevents
+    it from supercoiling the bacterial DNA which prevents DNA replication.[A178876,A178882]
+
+
+    ===
+
+
+    disease: Prostatitis
+
+    drug: Ciprofloxacin
+
+    '
+- completion: 'disease: Osteoporosis, Postmenopausal
+
+    drug: Alendronic acid
+
+    mechanism_links: Alendronate - positively regulates - apoptotic process; apoptotic
+    process - located in - osteoclast; osteoclast - participates in - bone resorption;
+    bone resorption - causes - Osteoporosis, Postmenopausal'
+  prompt: 'From the text below, extract the following entities in the following format:
+
+
+    disease: <the name of the disease that is treated>
+
+    drug: <the name of the drug that treats the disease>
+
+    mechanism_links: <semicolon-separated list of links, where each link is a triple
+    connecting two entities via a relationship type>
+
+
+
+    Text:
+
+    Alendronic acid binds to bone hydroxyapatite[FDA Label]. Bone resorption causes
+    local acidification, releasing alendronic acid which is that taken into osteoclasts
+    by fluid-phase endocytosis[A959]. Endocytic vesicles are acidified, releasing
+    alendronic acid to the cytosol of osteoclasts where they induce apoptosis[A959].
+    Inhibition of osteoclasts results in decreased bone resorption which is shown
+    through decreased urinary calcium, deoxypyridinoline and cross-linked N-telopeptidases
+    of type I collagen[FDA Label].
+
+
+    ===
+
+
+    disease: Osteoporosis, Postmenopausal
+
+    drug: Alendronic acid
+
+    '
+- completion: 'disease: Tendinopathy
+
+    drug: Sulindac
+
+    mechanism_links: Sulindac - decreases activity of - prostaglandin G/H synthase
+    1 (human); Sulindac - decreases activity of - prostaglandin G/H synthase 2 (human);
+    prostaglandin G/H synthase 1 (human) - increases abundance of - Prostaglandins;
+    prostaglandin G/H synthase 2 (human) - increases abundance of - Prostaglandins;
+    Prostaglandins - participates in - inflammatory response; inflammatory response
+    - contributes to - Pain; Pain - manifestation of - Tendinopathy'
+  prompt: 'From the text below, extract the following entities in the following format:
+
+
+    disease: <the name of the disease that is treated>
+
+    drug: <the name of the drug that treats the disease>
+
+    mechanism_links: <semicolon-separated list of links, where each link is a triple
+    connecting two entities via a relationship type>
+
+
+
+    Text:
+
+    Sulindac''s exact mechanism of action is unknown. Its antiinflammatory effects
+    are believed to be due to inhibition of both COX-1 and COX-2 which leads to the
+    inhibition of prostaglandin synthesis. Antipyretic effects may be due to action
+    on the hypothalamus, resulting in an increased peripheral blood flow, vasodilation,
+    and subsequent heat dissipation.
+
+
+    ===
+
+
+    disease: Tendinopathy
+
+    drug: Sulindac
+
+    '
+- completion: 'disease: Pneumonia, Aspiration
+
+    drug: Benzylpenicillin
+
+    mechanism_links: Penicillin G - decreases activity of - InterPro:IPR001460; InterPro:IPR001460
+    - participates in - peptidoglycan biosynthetic process; peptidoglycan biosynthetic
+    process - positively regulates - peptidoglycan-based cell wall biogenesis; peptidoglycan-based
+    cell wall biogenesis - occurs in - Bacteria; Bacteria - causes - Pneumonia, Aspiration'
+  prompt: 'From the text below, extract the following entities in the following format:
+
+
+    disease: <the name of the disease that is treated>
+
+    drug: <the name of the drug that treats the disease>
+
+    mechanism_links: <semicolon-separated list of links, where each link is a triple
+    connecting two entities via a relationship type>
+
+
+
+    Text:
+
+    By binding to specific penicillin-binding proteins (PBPs) located inside the bacterial
+    cell wall, penicillin G inhibits the third and last stage of bacterial cell wall
+    synthesis. Cell lysis is then mediated by bacterial cell wall autolytic enzymes
+    such as autolysins; it is possible that penicillin G interferes with an autolysin
+    inhibitor.
+
+
+    ===
+
+
+    disease: Pneumonia, Aspiration
+
+    drug: Benzylpenicillin
+
+    '
+- completion: 'disease: Pulmonary Disease, Chronic Obstructive
+
+    drug: Umeclidinium
+
+    mechanism_links: GSK573719 - decreases activity of - muscarinic acetylcholine
+    receptor M2 (human); GSK573719 - decreases activity of - muscarinic acetylcholine
+    receptor M3 (human); muscarinic acetylcholine receptor M2 (human) - participates
+    in - response to acetylcholine; muscarinic acetylcholine receptor M3 (human) -
+    participates in - response to acetylcholine; response to acetylcholine - positively
+    regulates - smooth muscle contraction; smooth muscle contraction - located in
+    - bronchus; bronchus - location of - inflammatory response; inflammatory response
+    - causes - Pulmonary Disease, Chronic Obstructive'
+  prompt: 'From the text below, extract the following entities in the following format:
+
+
+    disease: <the name of the disease that is treated>
+
+    drug: <the name of the drug that treats the disease>
+
+    mechanism_links: <semicolon-separated list of links, where each link is a triple
+    connecting two entities via a relationship type>
+
+
+
+    Text:
+
+    Umeclidinium is a long-acting, antimuscarinic agent, which is often referred to
+    as an anticholinergic. It has similar affinity to the subtypes of muscarinic receptors
+    M1 to M5. In the airways, it exhibits pharmacological effects through the inhibition
+    of M3 receptor at the smooth muscle leading to bronchodilation.
+
+
+    ===
+
+
+    disease: Pulmonary Disease, Chronic Obstructive
+
+    drug: Umeclidinium
+
+    '
+- completion: 'disease: Psoriasis
+
+    drug: Methylprednisolone
+
+    mechanism_links: Methylprednisolone - increases activity of - glucocorticoid receptor
+    (human); glucocorticoid receptor (human) - increases activity of - annexin A1
+    (human); glucocorticoid receptor (human) - decreases activity of - prostaglandin
+    G/H synthase 1 (human); glucocorticoid receptor (human) - decreases activity of
+    - prostaglandin G/H synthase 2 (human); annexin A1 (human) - decreases activity
+    of - cytosolic phospholipase A2 (human); prostaglandin G/H synthase 1 (human)
+    - positively regulates - prostaglandin biosynthetic process; prostaglandin G/H
+    synthase 2 (human) - positively regulates - prostaglandin biosynthetic process;
+    cytosolic phospholipase A2 (human) - positively regulates - leukotriene biosynthetic
+    process; cytosolic phospholipase A2 (human) - positively regulates - prostaglandin
+    biosynthetic process; leukotriene biosynthetic process - positively correlated
+    with - inflammatory response; prostaglandin biosynthetic process - positively
+    correlated with - inflammatory response; inflammatory response - positively correlated
+    with - HP:0011123; HP:0011123 - positively correlated with - Psoriasis'
+  prompt: 'From the text below, extract the following entities in the following format:
+
+
+    disease: <the name of the disease that is treated>
+
+    drug: <the name of the drug that treats the disease>
+
+    mechanism_links: <semicolon-separated list of links, where each link is a triple
+    connecting two entities via a relationship type>
+
+
+
+    Text:
+
+    The short term effects of corticosteroids are decreased vasodilation and permeability
+    of capillaries, as well as decreased leukocyte migration to sites of inflammation.[A187463]
+    Corticosteroids binding to the glucocorticoid receptor mediates changes in gene
+    expression that lead to multiple downstream effects over hours to days.[A187463]
+    Lower doses of corticosteroids provide an anti-inflammatory effect, while higher
+    doses are immunosuppressive.[A187463] High doses of glucocorticoids for an extended
+    period bind to the mineralocorticoid receptor, raising sodium levels and decreasing
+    potassium levels.[A187463]
+
+
+    ===
+
+
+    disease: Psoriasis
+
+    drug: Methylprednisolone
+
+    '
+template: drug.DrugMechanism

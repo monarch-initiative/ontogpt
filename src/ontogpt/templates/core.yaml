@@ -1,0 +1,126 @@
+id: http://w3id.org/ontogpt/core
+name: core
+title: AI core Template
+license: https://creativecommons.org/publicdomain/zero/1.0/
+prefixes:
+  linkml: https://w3id.org/linkml/
+  core: http://w3id.org/ontogpt/core/
+description: Core upper level
+
+default_prefix: core
+default_range: string
+
+imports:
+  - linkml:types
+
+classes:
+  Any:
+    class_uri: linkml:Any
+
+  ExtractionResult:
+    description: >-
+      A result of extracting knowledge on text
+    attributes:
+      input_id:
+      input_title:
+      input_text:
+      raw_completion_output:
+      prompt:
+      extracted_object:
+        description: >-
+          The complex objects extracted from the text
+        range: Any
+        inlined: true
+      named_entities:
+        description: >-
+          Named entities extracted from the text
+        range: Any
+        multivalued: true
+        inlined: true
+        inlined_as_list: true
+
+  NamedEntity:
+    abstract: true
+    attributes:
+      id:
+        description: >-
+          A unique identifier for the named entity
+        comments:
+          - this is populated during the grounding and normalization step
+        identifier: true
+        annotations:
+          prompt.skip: "true"
+      label:
+        aliases:
+          - name
+        description: >-
+          The label (name) of the named thing
+        range: string
+
+  CompoundExpression:
+    abstract: true
+
+  Triple:
+    abstract: true
+    description: Abstract parent for Relation Extraction tasks
+    is_a: CompoundExpression
+    attributes:
+      subject:
+        range: NamedEntity
+      predicate:
+        range: RelationshipType
+      object:
+        range: NamedEntity
+      qualifier:
+        range: string
+        description: >-
+          A qualifier for the statements, e.g. "NOT" for negation
+      subject_qualifier:
+        range: NamedEntity
+        description: >-
+          An optional qualifier or modifier for the subject of the statement, e.g. "high dose" or "intravenously administered"
+      object_qualifier:
+        range: NamedEntity
+        description: >-
+          An optional qualifier or modifier for the object of the statement, e.g. "severe" or "with additional complications"
+
+  TextWithTriples:
+    attributes:
+      publication:
+        range: Publication
+        inlined: true
+        annotations:
+          prompt.skip: "true"
+      triples:
+        range: Triple
+        multivalued: true
+        inlined: true
+        inlined_as_list: true
+
+  RelationshipType:
+    is_a: NamedEntity
+    id_prefixes:
+      - RO
+      - biolink
+
+  Publication:
+    attributes:
+      id:
+        description: >-
+          The publication identifier
+      title:
+        description: >-
+          The title of the publication
+      abstract:
+        description: >-
+          The abstract of the publication
+      combined_text:
+      full_text:
+        description: >-
+          The full text of the publication
+
+  AnnotatorResult:
+    attributes:
+      subject_text:
+      object_id:
+      object_text:

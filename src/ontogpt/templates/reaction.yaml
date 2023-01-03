@@ -1,0 +1,111 @@
+id: https://w3id.org/ontogpt/reaction
+name: reaction-template
+title: reaction Template
+description: >-
+  A template for reactions
+license: https://creativecommons.org/publicdomain/zero/1.0/
+prefixes:
+  linkml: https://w3id.org/linkml/
+  reaction: http://w3id.org/ontogpt/reaction/
+
+default_prefix: reaction
+default_range: string
+
+imports:
+  - linkml:types
+  - core
+
+classes:
+  Reaction:
+    is_a: NamedEntity
+    attributes:
+      label:
+        description: the name of the reaction
+      description:
+        description: a textual description of the reaction
+      synonyms:
+        description: alternative names of the reaction
+        multivalued: true
+      subclass_of:
+        description: the category to which this biological process belongs
+        range: ReactionGrouping
+      left_side:
+        description: semicolon separated list of chemical entities on the left side
+        multivalued: true
+        range: ChemicalEntity
+      right_side:
+        description: semicolon separated list of chemical entities on the right side
+        multivalued: true
+        range: ChemicalEntity
+
+  GeneToReaction:
+    attributes:
+      gene:
+        range: Gene
+        description: name of the gene that catalyzes the reaction
+      reactions:
+        range: Reaction
+        description: semicolon separated list of reaction equations (e.g. A+B = C+D) catalyzed by the gene
+        multivalued: true
+        inlined: true
+      organism:
+        range: Organism
+
+  ReactionDocument:
+    attributes:
+      genes:
+        range: Gene
+        description: semicolon separated list of genes that catalyzes the mentioned reactions
+        multivalued: true
+      reactions:
+        range: Reaction
+        description: semicolon separated list of reaction equations (e.g. A+B = C+D) catalyzed by the gene
+        multivalued: true
+        inlined: true
+      gene_reaction_pairings:
+        range: GeneReactionPairing
+        description: semicolon separated list of gene to reaction pairings
+        multivalued: true
+        inlined: true
+      organism:
+        range: Organism
+
+  GeneReactionPairing:
+    is_a:   CompoundExpression
+    attributes:
+      gene:
+        range: Gene
+        description: name of the gene that catalyzes the reaction
+      reaction:
+        range: Reaction
+        description: equation describing the reaction (e.g. A+B = C+D) catalyzed by the gene
+
+  ReactionGrouping:
+    is_a: NamedEntity
+    id_prefixes:
+      - GO
+    annotations:
+      annotators: sqlite:obo:go
+
+  ChemicalEntity:
+    is_a: NamedEntity
+    id_prefixes:
+      - CHEBI
+    annotations:
+      annotators: sqlite:obo:chebi
+
+  Gene:
+    is_a: NamedEntity
+    id_prefixes:
+      - HGNC
+    annotations:
+      annotators: gilda:, bioportal:pr
+
+  Organism:
+    is_a: NamedEntity
+    id_prefixes:
+      - NCBITaxon
+    annotations:
+      annotators: gilda:, sqlite:obo:ncbitaxon
+
+

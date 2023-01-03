@@ -1,0 +1,64 @@
+elements:
+  - name: Building
+    context: IndustrialOntology
+    subtypes:
+      - House
+      - OfficeBlock
+      - Warehouse
+    parts:
+      - BuildingEntrance
+      - Window
+  - name: Vehicle
+    context: IndustrialOntology
+    subtypes:
+      - Car
+      - Bicycle
+      - Truck
+      - Motorcycle
+      - Train
+      - Boat
+    parts:
+      - Wheel
+  - name: Car
+    context: IndustrialOntology
+    description: a vehicle with four wheels
+    equivalent_to: MotorVehicle and has_part exactly 4 Wheel
+    synonyms:
+      - automobile
+    subtypes:
+      - Sedan
+      - SUV
+      - Coupe
+    parts:
+      - CarEngine
+      - CarDoor
+      - Wheel
+      - Frame
+  - name: CarDoor
+    context: IndustrialOntology
+    description: a door that is part of a car
+    parts:
+      - DoorHandle
+      - DoorLock
+    equivalent_to: Door and part_of some Car
+  - name: Transportation
+    context: IndustrialOntology
+    description: the act of moving people or goods from one place to another
+    synonyms:
+      - transport
+    subtypes:
+      - Shipping
+      - Trucking
+      - TransportByTrain
+    parts:
+      - Loading
+      - Unloading
+  - name: TransportByTrain
+    context: IndustrialOntology
+    description: the act of moving people or goods by train
+    synonyms:
+        - train transport
+    subtypes:
+        - TransportBySubway
+        - TransportByHighSpeedRail
+    equivalent_to: Transport and utilizes some Train
