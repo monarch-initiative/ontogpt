@@ -1,0 +1,37 @@
+name: oak-ai QC
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: [ "3.8", "3.9", "3.10" ]
+
+    steps:
+      - uses: actions/checkout@v3.0.2
+
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v3
+        with:
+          python-version: ${{ matrix.python-version }}
+
+      - name: Install Poetry
+        uses: snok/install-poetry@v1.3.1
+      - name: Install dependencies
+        run: poetry install --no-interaction
+
+      - name: Check code quality with flake8
+        run: poetry run tox -e flake8
+#       - name: Check package metadata with Pyroma
+#         run: poetry run tox -e pyroma
+      - name: Check static typing with MyPy
+        run: poetry run tox -e mypy
+
+      - name: Test with pytest and generate coverage file
+        run: poetry run tox -e py

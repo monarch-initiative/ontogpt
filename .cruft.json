@@ -1,0 +1,23 @@
+{
+  "template": "https://github.com/hrshdhgd/sphintoxetry-cookiecutter",
+  "commit": "3b59198de83cbe43fcd33255e898105faf61627d",
+  "checkout": null,
+  "context": {
+    "cookiecutter": {
+      "project_name": "oak-ai",
+      "__project_slug": "oak_ai",
+      "project_description": "OAK AI",
+      "min_python_version": "3.9",
+      "file_name": "OAK for Artifical Intelligence",
+      "greeting_recipient": "World",
+      "full_name": "Harshad Hegde",
+      "email": "hhegde@lbl.gov",
+      "__author": "Harshad Hegde <hhegde@lbl.gov>",
+      "license": "BSD-3",
+      "github_token_for_doc_deployment": "GH_TOKEN",
+      "github_token_for_pypi_deployment": "PYPI_TOKEN",
+      "_template": "https://github.com/hrshdhgd/sphintoxetry-cookiecutter"
+    }
+  },
+  "directory": null
+}

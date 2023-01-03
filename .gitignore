@@ -133,3 +133,9 @@ dmypy.json
 
 # specific
 tests/output/eval-*
+.template.db
+
+tasks/
+training/
+preserved/
+
