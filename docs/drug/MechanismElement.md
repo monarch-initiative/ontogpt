@@ -6,13 +6,14 @@ URI: [drug:MechanismElement](http://w3id.org/ontogpt/drug/MechanismElement)
 
 
 ```mermaid
- classDiagram
-    class MechanismElement
-      NamedEntity <|-- MechanismElement
-      
-      MechanismElement : id
-      MechanismElement : label
-      
+erDiagram
+MechanismElement {
+    string id  
+    string label  
+}
+
+
+
 ```
 
 

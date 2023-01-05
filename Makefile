@@ -36,3 +36,6 @@ docs/%/index.md: src/$(PACKAGE)/templates/%.yaml
 
 serve:
 	$(RUN) mkdocs serve
+
+gh-deploy:
+	$(RUN) mkdocs gh-deploy

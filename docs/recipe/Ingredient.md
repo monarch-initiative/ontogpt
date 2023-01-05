@@ -4,35 +4,19 @@
 
 URI: [recipe:Ingredient](http://w3id.org/ontogpt/recipe/Ingredient)
 
-```mermaid
- classDiagram
-    class Phenopacket
-      Phenopacket : biosamples
-      Phenopacket : diseases
-      Phenopacket : files
-      Phenopacket : id
-      Phenopacket : interpretations
-      Phenopacket : measurements
-      Phenopacket : medicalActions
-      Phenopacket : metaData
-      Phenopacket : phenotypicFeatures
-      Phenopacket : subject
-
-```
-
-xxx
 
 ```mermaid
-  erDiagram
-  Ingredient {
+erDiagram
+Ingredient {
     string quantity  
-  }
-  FoodItem {
+}
+FoodItem {
     string id  
     string label  
-  }
+}
 
-  Ingredient ||--|o FoodItem : "food_item"
+Ingredient ||--|o FoodItem : "food_item"
+
 ```
 
 

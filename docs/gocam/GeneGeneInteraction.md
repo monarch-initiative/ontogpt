@@ -6,13 +6,18 @@ URI: [gocam:GeneGeneInteraction](http://w3id.org/ontogpt/gocam/GeneGeneInteracti
 
 
 ```mermaid
- classDiagram
-    class GeneGeneInteraction
-      CompoundExpression <|-- GeneGeneInteraction
-      
-      GeneGeneInteraction : gene1
-      GeneGeneInteraction : gene2
-      
+erDiagram
+GeneGeneInteraction {
+
+}
+Gene {
+    string id  
+    string label  
+}
+
+GeneGeneInteraction ||--|o Gene : "gene1"
+GeneGeneInteraction ||--|o Gene : "gene2"
+
 ```
 
 

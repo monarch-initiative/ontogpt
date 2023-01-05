@@ -6,9 +6,13 @@ URI: [linkml:Any](https://w3id.org/linkml/Any)
 
 
 ```mermaid
- classDiagram
-    class Any
-      
+erDiagram
+Any {
+
+}
+
+
+
 ```
 
 

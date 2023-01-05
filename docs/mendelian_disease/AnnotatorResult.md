@@ -6,12 +6,15 @@ URI: [core:AnnotatorResult](http://w3id.org/ontogpt/core/AnnotatorResult)
 
 
 ```mermaid
- classDiagram
-    class AnnotatorResult
-      AnnotatorResult : object_id
-      AnnotatorResult : object_text
-      AnnotatorResult : subject_text
-      
+erDiagram
+AnnotatorResult {
+    string subject_text  
+    string object_id  
+    string object_text  
+}
+
+
+
 ```
 
 

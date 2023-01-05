@@ -6,13 +6,14 @@ URI: [eg:Variable](http://w3id.org/ontogpt/environmental-metagenome/Variable)
 
 
 ```mermaid
- classDiagram
-    class Variable
-      NamedEntity <|-- Variable
-      
-      Variable : id
-      Variable : label
-      
+erDiagram
+Variable {
+    string id  
+    string label  
+}
+
+
+
 ```
 
 

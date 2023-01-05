@@ -5,6 +5,84 @@ A template for Ontology Classes
 URI: https://w3id.org/ontogpt/ontology_class
 Name: ontology-class
 
+
+
+## Schema Diagram
+
+```mermaid
+erDiagram
+OntologyClass {
+    string label  
+    string description  
+    stringList synonyms  
+    string id  
+}
+LogicalDefinition {
+
+}
+Relation {
+    string id  
+    string label  
+}
+Any {
+
+}
+ExtractionResult {
+    string input_id  
+    string input_title  
+    string input_text  
+    string raw_completion_output  
+    string prompt  
+}
+NamedEntity {
+    string id  
+    string label  
+}
+CompoundExpression {
+
+}
+Triple {
+    string qualifier  
+}
+TextWithTriples {
+
+}
+RelationshipType {
+    string id  
+    string label  
+}
+Publication {
+    string id  
+    string title  
+    string abstract  
+    string combined_text  
+    string full_text  
+}
+AnnotatorResult {
+    string subject_text  
+    string object_id  
+    string object_text  
+}
+
+OntologyClass ||--}o OntologyClass : "categories"
+OntologyClass ||--}o OntologyClass : "subclass_of"
+OntologyClass ||--|o LogicalDefinition : "logical_definition"
+LogicalDefinition ||--}o OntologyClass : "genus"
+LogicalDefinition ||--|o Relation : "differentiating_characteristic_relationship"
+LogicalDefinition ||--}o OntologyClass : "differentiating_characteristic_parents"
+ExtractionResult ||--|o Any : "extracted_object"
+ExtractionResult ||--}o Any : "named_entities"
+Triple ||--|o NamedEntity : "subject"
+Triple ||--|o RelationshipType : "predicate"
+Triple ||--|o NamedEntity : "object"
+Triple ||--|o NamedEntity : "subject_qualifier"
+Triple ||--|o NamedEntity : "object_qualifier"
+TextWithTriples ||--|o Publication : "publication"
+TextWithTriples ||--}o Triple : "triples"
+
+```
+
+
 ## Classes
 
 | Class | Description |

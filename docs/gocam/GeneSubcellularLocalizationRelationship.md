@@ -6,13 +6,22 @@ URI: [gocam:GeneSubcellularLocalizationRelationship](http://w3id.org/ontogpt/goc
 
 
 ```mermaid
- classDiagram
-    class GeneSubcellularLocalizationRelationship
-      CompoundExpression <|-- GeneSubcellularLocalizationRelationship
-      
-      GeneSubcellularLocalizationRelationship : gene
-      GeneSubcellularLocalizationRelationship : location
-      
+erDiagram
+GeneSubcellularLocalizationRelationship {
+
+}
+CellularComponent {
+    string id  
+    string label  
+}
+Gene {
+    string id  
+    string label  
+}
+
+GeneSubcellularLocalizationRelationship ||--|o Gene : "gene"
+GeneSubcellularLocalizationRelationship ||--|o CellularComponent : "location"
+
 ```
 
 

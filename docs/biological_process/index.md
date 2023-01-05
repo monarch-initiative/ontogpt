@@ -5,6 +5,94 @@ A template for GO-CAMs
 URI: https://w3id.org/ontogpt/biological_process
 Name: biological-process-template
 
+
+
+## Schema Diagram
+
+```mermaid
+erDiagram
+BiologicalProcess {
+    string label  
+    string description  
+    stringList synonyms  
+    string id  
+}
+Gene {
+    string id  
+    string label  
+}
+MolecularActivity {
+    string id  
+    string label  
+}
+ChemicalEntity {
+    string id  
+    string label  
+}
+GeneMolecularActivityRelationship {
+
+}
+Any {
+
+}
+ExtractionResult {
+    string input_id  
+    string input_title  
+    string input_text  
+    string raw_completion_output  
+    string prompt  
+}
+NamedEntity {
+    string id  
+    string label  
+}
+CompoundExpression {
+
+}
+Triple {
+    string qualifier  
+}
+TextWithTriples {
+
+}
+RelationshipType {
+    string id  
+    string label  
+}
+Publication {
+    string id  
+    string title  
+    string abstract  
+    string combined_text  
+    string full_text  
+}
+AnnotatorResult {
+    string subject_text  
+    string object_id  
+    string object_text  
+}
+
+BiologicalProcess ||--|o BiologicalProcess : "subclass_of"
+BiologicalProcess ||--}o ChemicalEntity : "inputs"
+BiologicalProcess ||--}o ChemicalEntity : "outputs"
+BiologicalProcess ||--}o MolecularActivity : "steps"
+BiologicalProcess ||--}o Gene : "genes"
+BiologicalProcess ||--}o GeneMolecularActivityRelationship : "gene_activities"
+GeneMolecularActivityRelationship ||--|o Gene : "gene"
+GeneMolecularActivityRelationship ||--|o MolecularActivity : "molecular_activity"
+ExtractionResult ||--|o Any : "extracted_object"
+ExtractionResult ||--}o Any : "named_entities"
+Triple ||--|o NamedEntity : "subject"
+Triple ||--|o RelationshipType : "predicate"
+Triple ||--|o NamedEntity : "object"
+Triple ||--|o NamedEntity : "subject_qualifier"
+Triple ||--|o NamedEntity : "object_qualifier"
+TextWithTriples ||--|o Publication : "publication"
+TextWithTriples ||--}o Triple : "triples"
+
+```
+
+
 ## Classes
 
 | Class | Description |

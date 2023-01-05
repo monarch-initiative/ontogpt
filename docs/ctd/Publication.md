@@ -1,46 +1,30 @@
-# Class: Publication
+# Slot: publication
 
-
-
-URI: [core:Publication](http://w3id.org/ontogpt/core/Publication)
-
-
-```mermaid
- classDiagram
-    class Publication
-      Publication : abstract
-      Publication : combined_text
-      Publication : full_text
-      Publication : id
-      Publication : title
-      
-```
+URI: [core:publication](http://w3id.org/ontogpt/core/publication)
 
 
 
 <!-- no inheritance hierarchy -->
 
 
-## Slots
 
-| Name | Cardinality and Range | Description | Inheritance |
-| ---  | --- | --- | --- |
-| [id](id.md) | 0..1 <br/> NONE |  | direct |
-| [title](title.md) | 0..1 <br/> NONE | The title of the publication | direct |
-| [abstract](abstract.md) | 0..1 <br/> NONE | The abstract of the publication | direct |
-| [combined_text](combined_text.md) | 0..1 <br/> NONE |  | direct |
-| [full_text](full_text.md) | 0..1 <br/> NONE | The full text of the publication | direct |
 
+## Applicable Classes
+
+| Name | Description |
+| --- | --- |
+[ChemicalToDiseaseDocument](ChemicalToDiseaseDocument.md) | A document that contains chemical to disease relations
+[TextWithTriples](TextWithTriples.md) | 
 
 
 
 
-## Usages
 
-| used by | used in | type | used |
-| ---  | --- | --- | --- |
-| [ChemicalToDiseaseDocument](ChemicalToDiseaseDocument.md) | [publication](publication.md) | range | [Publication](Publication.md) |
-| [TextWithTriples](TextWithTriples.md) | [publication](publication.md) | range | [Publication](Publication.md) |
+
+## Properties
+
+* Range: [Publication](Publication.md)
+
 
 
 
@@ -53,6 +37,12 @@ URI: [core:Publication](http://w3id.org/ontogpt/core/Publication)
 
 
 
+### Annotations
+
+| property | value |
+| --- | --- |
+| prompt.skip | true |
+
 
 
 ### Schema Source
@@ -63,111 +53,23 @@ URI: [core:Publication](http://w3id.org/ontogpt/core/Publication)
 
 
 
-
-## Mappings
-
-| Mapping Type | Mapped Value |
-| ---  | ---  |
-| self | core:Publication |
-| native | core:Publication |
-
-
 ## LinkML Source
 
-<!-- TODO: investigate https://stackoverflow.com/questions/37606292/how-to-create-tabbed-code-blocks-in-mkdocs-or-sphinx -->
-
-### Direct
-
 <details>
 ```yaml
-name: Publication
+name: publication
+annotations:
+  prompt.skip:
+    tag: prompt.skip
+    value: 'true'
 from_schema: http://w3id.org/ontogpt/core
 rank: 1000
-attributes:
-  id:
-    name: id
-    description: The publication identifier
-    from_schema: http://w3id.org/ontogpt/core
-  title:
-    name: title
-    description: The title of the publication
-    from_schema: http://w3id.org/ontogpt/core
-    rank: 1000
-  abstract:
-    name: abstract
-    description: The abstract of the publication
-    from_schema: http://w3id.org/ontogpt/core
-    rank: 1000
-  combined_text:
-    name: combined_text
-    from_schema: http://w3id.org/ontogpt/core
-    rank: 1000
-  full_text:
-    name: full_text
-    description: The full text of the publication
-    from_schema: http://w3id.org/ontogpt/core
-    rank: 1000
-
-```
-</details>
-
-### Induced
-
-<details>
-```yaml
-name: Publication
-from_schema: http://w3id.org/ontogpt/core
-rank: 1000
-attributes:
-  id:
-    name: id
-    description: The publication identifier
-    from_schema: http://w3id.org/ontogpt/core
-    alias: id
-    owner: Publication
-    domain_of:
-    - NamedEntity
-    - Publication
-    range: string
-  title:
-    name: title
-    description: The title of the publication
-    from_schema: http://w3id.org/ontogpt/core
-    rank: 1000
-    alias: title
-    owner: Publication
-    domain_of:
-    - Publication
-    range: string
-  abstract:
-    name: abstract
-    description: The abstract of the publication
-    from_schema: http://w3id.org/ontogpt/core
-    rank: 1000
-    alias: abstract
-    owner: Publication
-    domain_of:
-    - Publication
-    range: string
-  combined_text:
-    name: combined_text
-    from_schema: http://w3id.org/ontogpt/core
-    rank: 1000
-    alias: combined_text
-    owner: Publication
-    domain_of:
-    - Publication
-    range: string
-  full_text:
-    name: full_text
-    description: The full text of the publication
-    from_schema: http://w3id.org/ontogpt/core
-    rank: 1000
-    alias: full_text
-    owner: Publication
-    domain_of:
-    - Publication
-    range: string
+alias: publication
+owner: TextWithTriples
+domain_of:
+- TextWithTriples
+range: Publication
+inlined: true
 
 ```
 </details>

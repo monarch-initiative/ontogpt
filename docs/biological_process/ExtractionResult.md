@@ -8,16 +8,21 @@ URI: [core:ExtractionResult](http://w3id.org/ontogpt/core/ExtractionResult)
 
 
 ```mermaid
- classDiagram
-    class ExtractionResult
-      ExtractionResult : extracted_object
-      ExtractionResult : input_id
-      ExtractionResult : input_text
-      ExtractionResult : input_title
-      ExtractionResult : named_entities
-      ExtractionResult : prompt
-      ExtractionResult : raw_completion_output
-      
+erDiagram
+ExtractionResult {
+    string input_id  
+    string input_title  
+    string input_text  
+    string raw_completion_output  
+    string prompt  
+}
+Any {
+
+}
+
+ExtractionResult ||--|o Any : "extracted_object"
+ExtractionResult ||--}o Any : "named_entities"
+
 ```
 
 

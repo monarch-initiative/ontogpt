@@ -6,13 +6,17 @@ URI: [sample:Measurement](http://w3id.org/ontogpt/environmental-sample/Measureme
 
 
 ```mermaid
- classDiagram
-    class Measurement
-      CompoundExpression <|-- Measurement
-      
-      Measurement : unit
-      Measurement : value
-      
+erDiagram
+Measurement {
+    string value  
+}
+Unit {
+    string id  
+    string label  
+}
+
+Measurement ||--|o Unit : "unit"
+
 ```
 
 

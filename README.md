@@ -77,7 +77,7 @@ note in the above the grounding is very preliminary and can be improved. Ungroun
 1. You provide an arbitrary data model, describing the structure you want to extract text into
     - this can be nested (but see limitations below)
 2. provide your preferred annotations for grounding NamedEntity fields
-3. semantic-llama will:
+3. ontogpt will:
     - generate a prompt
     - feed the prompt to a language model (currently OpenAI)
     - parse the results into a dictionary structure
@@ -100,7 +100,7 @@ poetry run runoak set-apikey bioportal <your bioportal api key>
 
 ### Step 1: Define a schema
 
-See [src/semantic_llama/templates/](src/ontogpt/templates/) for examples.
+See [src/ontogpt/templates/](src/ontogpt/templates/) for examples.
 
 Define a schema (using a subset of LinkML) that describes the structure you want to extract from your text.
 
@@ -185,7 +185,7 @@ Run the `make` command at the top level. This will compile the schema to pedanti
 e.g.
 
 ```
-emllama extract -t  mendelian_disease.MendelianDisease marfan-wikipedia.txt
+ontogpt extract -t  mendelian_disease.MendelianDisease marfan-wikipedia.txt
 ```
 
 ## Web Application
@@ -224,7 +224,7 @@ The generated prompt is:
 
 `gene_functions : <semicolon-separated list of gene to molecular activities relationships>`
 
-The output of this is then passed through further llama iterations.
+The output of this is then passed through further SPIRES iterations.
 
 ## Text length limit
 

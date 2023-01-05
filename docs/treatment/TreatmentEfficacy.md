@@ -6,13 +6,17 @@ URI: [treatment:TreatmentEfficacy](http://w3id.org/ontogpt/treatments/TreatmentE
 
 
 ```mermaid
- classDiagram
-    class TreatmentEfficacy
-      CompoundExpression <|-- TreatmentEfficacy
-      
-      TreatmentEfficacy : efficacy
-      TreatmentEfficacy : treatment
-      
+erDiagram
+TreatmentEfficacy {
+    string efficacy  
+}
+Treatment {
+    string id  
+    string label  
+}
+
+TreatmentEfficacy ||--|o Treatment : "treatment"
+
 ```
 
 

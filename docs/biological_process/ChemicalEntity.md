@@ -6,13 +6,14 @@ URI: [bp:ChemicalEntity](http://w3id.org/ontogpt/biological-process-templateChem
 
 
 ```mermaid
- classDiagram
-    class ChemicalEntity
-      NamedEntity <|-- ChemicalEntity
-      
-      ChemicalEntity : id
-      ChemicalEntity : label
-      
+erDiagram
+ChemicalEntity {
+    string id  
+    string label  
+}
+
+
+
 ```
 
 
@@ -28,8 +29,8 @@ URI: [bp:ChemicalEntity](http://w3id.org/ontogpt/biological-process-templateChem
 
 | Name | Cardinality and Range | Description | Inheritance |
 | ---  | --- | --- | --- |
-| [label](label.md) | 0..1 <br/> NONE |  | [NamedEntity](NamedEntity.md) |
 | [id](id.md) | 0..1 <br/> NONE |  | [NamedEntity](NamedEntity.md) |
+| [label](label.md) | 0..1 <br/> NONE |  | [NamedEntity](NamedEntity.md) |
 
 
 

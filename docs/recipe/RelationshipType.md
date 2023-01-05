@@ -29,8 +29,8 @@ RelationshipType {
 
 | Name | Cardinality and Range | Description | Inheritance |
 | ---  | --- | --- | --- |
-| [label](label.md) | 0..1 <br/> NONE |  | [NamedEntity](NamedEntity.md) |
 | [id](id.md) | 0..1 <br/> NONE |  | [NamedEntity](NamedEntity.md) |
+| [label](label.md) | 0..1 <br/> NONE |  | [NamedEntity](NamedEntity.md) |
 
 
 

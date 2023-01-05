@@ -6,12 +6,28 @@ URI: [oc:LogicalDefinition](http://w3id.org/ontogpt/ontology-class-templateLogic
 
 
 ```mermaid
- classDiagram
-    class LogicalDefinition
-      LogicalDefinition : differentiating_characteristic_parents
-      LogicalDefinition : differentiating_characteristic_relationship
-      LogicalDefinition : genus
-      
+erDiagram
+LogicalDefinition {
+
+}
+OntologyClass {
+    string label  
+    string description  
+    stringList synonyms  
+    string id  
+}
+Relation {
+    string id  
+    string label  
+}
+
+LogicalDefinition ||--}o OntologyClass : "genus"
+LogicalDefinition ||--|o Relation : "differentiating_characteristic_relationship"
+LogicalDefinition ||--}o OntologyClass : "differentiating_characteristic_parents"
+OntologyClass ||--}o OntologyClass : "categories"
+OntologyClass ||--}o OntologyClass : "subclass_of"
+OntologyClass ||--|o LogicalDefinition : "logical_definition"
+
 ```
 
 

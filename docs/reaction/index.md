@@ -5,6 +5,108 @@ A template for reactions
 URI: https://w3id.org/ontogpt/reaction
 Name: reaction-template
 
+
+
+## Schema Diagram
+
+```mermaid
+erDiagram
+Reaction {
+    string label  
+    string description  
+    stringList synonyms  
+    string id  
+}
+GeneToReaction {
+
+}
+ReactionDocument {
+
+}
+GeneReactionPairing {
+
+}
+ReactionGrouping {
+    string id  
+    string label  
+}
+ChemicalEntity {
+    string id  
+    string label  
+}
+Gene {
+    string id  
+    string label  
+}
+Organism {
+    string id  
+    string label  
+}
+Any {
+
+}
+ExtractionResult {
+    string input_id  
+    string input_title  
+    string input_text  
+    string raw_completion_output  
+    string prompt  
+}
+NamedEntity {
+    string id  
+    string label  
+}
+CompoundExpression {
+
+}
+Triple {
+    string qualifier  
+}
+TextWithTriples {
+
+}
+RelationshipType {
+    string id  
+    string label  
+}
+Publication {
+    string id  
+    string title  
+    string abstract  
+    string combined_text  
+    string full_text  
+}
+AnnotatorResult {
+    string subject_text  
+    string object_id  
+    string object_text  
+}
+
+Reaction ||--|o ReactionGrouping : "subclass_of"
+Reaction ||--}o ChemicalEntity : "left_side"
+Reaction ||--}o ChemicalEntity : "right_side"
+GeneToReaction ||--|o Gene : "gene"
+GeneToReaction ||--}o Reaction : "reactions"
+GeneToReaction ||--|o Organism : "organism"
+ReactionDocument ||--}o Gene : "genes"
+ReactionDocument ||--}o Reaction : "reactions"
+ReactionDocument ||--}o GeneReactionPairing : "gene_reaction_pairings"
+ReactionDocument ||--|o Organism : "organism"
+GeneReactionPairing ||--|o Gene : "gene"
+GeneReactionPairing ||--|o Reaction : "reaction"
+ExtractionResult ||--|o Any : "extracted_object"
+ExtractionResult ||--}o Any : "named_entities"
+Triple ||--|o NamedEntity : "subject"
+Triple ||--|o RelationshipType : "predicate"
+Triple ||--|o NamedEntity : "object"
+Triple ||--|o NamedEntity : "subject_qualifier"
+Triple ||--|o NamedEntity : "object_qualifier"
+TextWithTriples ||--|o Publication : "publication"
+TextWithTriples ||--}o Triple : "triples"
+
+```
+
+
 ## Classes
 
 | Class | Description |

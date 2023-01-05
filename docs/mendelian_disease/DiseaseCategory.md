@@ -6,13 +6,14 @@ URI: [mendelian_disease:DiseaseCategory](http://w3id.org/ontogpt/mendelian_disea
 
 
 ```mermaid
- classDiagram
-    class DiseaseCategory
-      NamedEntity <|-- DiseaseCategory
-      
-      DiseaseCategory : id
-      DiseaseCategory : label
-      
+erDiagram
+DiseaseCategory {
+    string id  
+    string label  
+}
+
+
+
 ```
 
 
@@ -28,8 +29,8 @@ URI: [mendelian_disease:DiseaseCategory](http://w3id.org/ontogpt/mendelian_disea
 
 | Name | Cardinality and Range | Description | Inheritance |
 | ---  | --- | --- | --- |
-| [label](label.md) | 0..1 <br/> [xsd:string](xsd:string) | The label (name) of the named thing | [NamedEntity](NamedEntity.md) |
 | [id](id.md) | 0..1 <br/> NONE |  | [NamedEntity](NamedEntity.md) |
+| [label](label.md) | 0..1 <br/> [xsd:string](xsd:string) | The label (name) of the named thing | [NamedEntity](NamedEntity.md) |
 
 
 

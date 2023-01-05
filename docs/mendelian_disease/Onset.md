@@ -6,16 +6,17 @@ URI: [mendelian_disease:Onset](http://w3id.org/ontogpt/mendelian_disease/Onset)
 
 
 ```mermaid
- classDiagram
-    class Onset
-      NamedEntity <|-- Onset
-      
-      Onset : decades
-      Onset : id
-      Onset : juvenile_or_adult
-      Onset : label
-      Onset : years_old
-      
+erDiagram
+Onset {
+    string years_old  
+    stringList decades  
+    string juvenile_or_adult  
+    string id  
+    string label  
+}
+
+
+
 ```
 
 
@@ -34,8 +35,8 @@ URI: [mendelian_disease:Onset](http://w3id.org/ontogpt/mendelian_disease/Onset)
 | [years_old](years_old.md) | 0..1 <br/> NONE |  | direct |
 | [decades](decades.md) | 0..* <br/> NONE |  | direct |
 | [juvenile_or_adult](juvenile_or_adult.md) | 0..1 <br/> NONE |  | direct |
-| [label](label.md) | 0..1 <br/> [xsd:string](xsd:string) | The label (name) of the named thing | [NamedEntity](NamedEntity.md) |
 | [id](id.md) | 0..1 <br/> NONE |  | [NamedEntity](NamedEntity.md) |
+| [label](label.md) | 0..1 <br/> [xsd:string](xsd:string) | The label (name) of the named thing | [NamedEntity](NamedEntity.md) |
 
 
 

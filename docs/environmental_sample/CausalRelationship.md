@@ -6,13 +6,18 @@ URI: [sample:CausalRelationship](http://w3id.org/ontogpt/environmental-sample/Ca
 
 
 ```mermaid
- classDiagram
-    class CausalRelationship
-      CompoundExpression <|-- CausalRelationship
-      
-      CausalRelationship : cause
-      CausalRelationship : effect
-      
+erDiagram
+CausalRelationship {
+
+}
+Variable {
+    string id  
+    string label  
+}
+
+CausalRelationship ||--|o Variable : "cause"
+CausalRelationship ||--|o Variable : "effect"
+
 ```
 
 

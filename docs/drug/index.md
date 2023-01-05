@@ -5,6 +5,94 @@ A template for Drugs and drug mechanism
 URI: http://w3id.org/ontogpt/drug
 Name: drug
 
+
+
+## Schema Diagram
+
+```mermaid
+erDiagram
+DrugMechanism {
+    stringList references  
+    string source_text  
+}
+MechanismElement {
+    string id  
+    string label  
+}
+Disease {
+    string id  
+    string label  
+}
+Drug {
+    string id  
+    string label  
+}
+Predicate {
+    string id  
+    string label  
+}
+MechanismLink {
+
+}
+Any {
+
+}
+ExtractionResult {
+    string input_id  
+    string input_title  
+    string input_text  
+    string raw_completion_output  
+    string prompt  
+}
+NamedEntity {
+    string id  
+    string label  
+}
+CompoundExpression {
+
+}
+Triple {
+    string qualifier  
+}
+TextWithTriples {
+
+}
+RelationshipType {
+    string id  
+    string label  
+}
+Publication {
+    string id  
+    string title  
+    string abstract  
+    string combined_text  
+    string full_text  
+}
+AnnotatorResult {
+    string subject_text  
+    string object_id  
+    string object_text  
+}
+
+DrugMechanism ||--|o Disease : "disease"
+DrugMechanism ||--|o Drug : "drug"
+DrugMechanism ||--}o MechanismLink : "mechanism_links"
+MechanismLink ||--|o MechanismElement : "subject"
+MechanismLink ||--|o Predicate : "predicate"
+MechanismLink ||--|o MechanismElement : "object"
+ExtractionResult ||--|o Any : "extracted_object"
+ExtractionResult ||--}o Any : "named_entities"
+Triple ||--|o NamedEntity : "subject"
+Triple ||--|o RelationshipType : "predicate"
+Triple ||--|o NamedEntity : "object"
+Triple ||--|o NamedEntity : "subject_qualifier"
+Triple ||--|o NamedEntity : "object_qualifier"
+TextWithTriples ||--|o Publication : "publication"
+TextWithTriples ||--}o Triple : "triples"
+
+```
+
+
 ## Classes
 
 | Class | Description |

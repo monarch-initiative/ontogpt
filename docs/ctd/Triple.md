@@ -10,27 +10,25 @@ URI: [core:Triple](http://w3id.org/ontogpt/core/Triple)
 
 
 ```mermaid
- classDiagram
-    class Triple
-      CompoundExpression <|-- Triple
-      
-      Triple : object
-      Triple : object_qualifier
-      Triple : predicate
-      Triple : qualifier
-      Triple : subject
-      Triple : subject_qualifier
-      
+erDiagram
+Triple {
+    string qualifier  
+}
+NamedEntity {
+    string id  
+    string label  
+}
+RelationshipType {
+    string id  
+    string label  
+}
 
-      Triple <|-- ChemicalToDiseaseRelationship
-      
-      Triple : object
-      Triple : object_qualifier
-      Triple : predicate
-      Triple : qualifier
-      Triple : subject
-      Triple : subject_qualifier
-      
+Triple ||--|o NamedEntity : "subject"
+Triple ||--|o RelationshipType : "predicate"
+Triple ||--|o NamedEntity : "object"
+Triple ||--|o NamedEntity : "subject_qualifier"
+Triple ||--|o NamedEntity : "object_qualifier"
+
 ```
 
 

@@ -6,13 +6,37 @@ URI: [core:TextWithTriples](http://w3id.org/ontogpt/core/TextWithTriples)
 
 
 ```mermaid
- classDiagram
-    class TextWithTriples
-      TextWithTriples <|-- ChemicalToDiseaseDocument
-      
-      TextWithTriples : publication
-      TextWithTriples : triples
-      
+erDiagram
+TextWithTriples {
+
+}
+Triple {
+    string qualifier  
+}
+NamedEntity {
+    string id  
+    string label  
+}
+RelationshipType {
+    string id  
+    string label  
+}
+Publication {
+    string id  
+    string title  
+    string abstract  
+    string combined_text  
+    string full_text  
+}
+
+TextWithTriples ||--|o Publication : "publication"
+TextWithTriples ||--}o Triple : "triples"
+Triple ||--|o NamedEntity : "subject"
+Triple ||--|o RelationshipType : "predicate"
+Triple ||--|o NamedEntity : "object"
+Triple ||--|o NamedEntity : "subject_qualifier"
+Triple ||--|o NamedEntity : "object_qualifier"
+
 ```
 
 

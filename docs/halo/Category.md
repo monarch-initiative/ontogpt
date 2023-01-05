@@ -6,21 +6,33 @@ URI: [oc:Category](http://w3id.org/ontogpt/ontology-class-templateCategory)
 
 
 ```mermaid
- classDiagram
-    class Category
-      OntologyElement <|-- Category
-      
-      Category : categories
-      Category : context
-      Category : description
-      Category : equivalent_to
-      Category : name
-      Category : part_of
-      Category : parts
-      Category : subclass_of
-      Category : subtypes
-      Category : synonyms
-      
+erDiagram
+Category {
+    string name  
+    string context  
+    string description  
+    stringList synonyms  
+    string equivalent_to  
+}
+OntologyElement {
+    string name  
+    string context  
+    string description  
+    stringList synonyms  
+    string equivalent_to  
+}
+
+Category ||--}o Category : "categories"
+Category ||--}o OntologyElement : "subclass_of"
+Category ||--}o OntologyElement : "part_of"
+Category ||--}o OntologyElement : "subtypes"
+Category ||--}o OntologyElement : "parts"
+OntologyElement ||--}o Category : "categories"
+OntologyElement ||--}o OntologyElement : "subclass_of"
+OntologyElement ||--}o OntologyElement : "part_of"
+OntologyElement ||--}o OntologyElement : "subtypes"
+OntologyElement ||--}o OntologyElement : "parts"
+
 ```
 
 
@@ -36,16 +48,16 @@ URI: [oc:Category](http://w3id.org/ontogpt/ontology-class-templateCategory)
 
 | Name | Cardinality and Range | Description | Inheritance |
 | ---  | --- | --- | --- |
-| [description](description.md) | 0..1 <br/> NONE | a textual description of the entity (single-valued) | [OntologyElement](OntologyElement.md) |
-| [part_of](part_of.md) | 0..* <br/> [OntologyElement](OntologyElement.md) | a list of things this element is part of | [OntologyElement](OntologyElement.md) |
+| [context](context.md) | 0..1 <br/> NONE | the ontology to which this belongs (single-valued) | [OntologyElement](OntologyElement.md) |
 | [subtypes](subtypes.md) | 0..* <br/> [OntologyElement](OntologyElement.md) | a list of child classes (subclasses) of this entity | [OntologyElement](OntologyElement.md) |
-| [equivalent_to](equivalent_to.md) | 0..1 <br/> [xsd:string](xsd:string) | an OWL class expression with the necessary and sufficient conditions for this... | [OntologyElement](OntologyElement.md) |
 | [parts](parts.md) | 0..* <br/> [OntologyElement](OntologyElement.md) | a list of names of things this element has as parts (components) | [OntologyElement](OntologyElement.md) |
 | [subclass_of](subclass_of.md) | 0..* <br/> [OntologyElement](OntologyElement.md) | a list of parent class (superclasses) of this entity | [OntologyElement](OntologyElement.md) |
-| [categories](categories.md) | 0..* <br/> [Category](Category.md) | a list of the categories to which this entity belongs | [OntologyElement](OntologyElement.md) |
-| [synonyms](synonyms.md) | 0..* <br/> NONE | a list of alternative names of the entity | [OntologyElement](OntologyElement.md) |
 | [name](name.md) | 1..1 <br/> NONE | the name of the entity | [OntologyElement](OntologyElement.md) |
-| [context](context.md) | 0..1 <br/> NONE | the ontology to which this belongs (single-valued) | [OntologyElement](OntologyElement.md) |
+| [synonyms](synonyms.md) | 0..* <br/> NONE | a list of alternative names of the entity | [OntologyElement](OntologyElement.md) |
+| [part_of](part_of.md) | 0..* <br/> [OntologyElement](OntologyElement.md) | a list of things this element is part of | [OntologyElement](OntologyElement.md) |
+| [description](description.md) | 0..1 <br/> NONE | a textual description of the entity (single-valued) | [OntologyElement](OntologyElement.md) |
+| [equivalent_to](equivalent_to.md) | 0..1 <br/> [xsd:string](xsd:string) | an OWL class expression with the necessary and sufficient conditions for this... | [OntologyElement](OntologyElement.md) |
+| [categories](categories.md) | 0..* <br/> [Category](Category.md) | a list of the categories to which this entity belongs | [OntologyElement](OntologyElement.md) |
 
 
 

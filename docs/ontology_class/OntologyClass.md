@@ -6,18 +6,28 @@ URI: [oc:OntologyClass](http://w3id.org/ontogpt/ontology-class-templateOntologyC
 
 
 ```mermaid
- classDiagram
-    class OntologyClass
-      NamedEntity <|-- OntologyClass
-      
-      OntologyClass : categories
-      OntologyClass : description
-      OntologyClass : id
-      OntologyClass : label
-      OntologyClass : logical_definition
-      OntologyClass : subclass_of
-      OntologyClass : synonyms
-      
+erDiagram
+OntologyClass {
+    string label  
+    string description  
+    stringList synonyms  
+    string id  
+}
+LogicalDefinition {
+
+}
+Relation {
+    string id  
+    string label  
+}
+
+OntologyClass ||--}o OntologyClass : "categories"
+OntologyClass ||--}o OntologyClass : "subclass_of"
+OntologyClass ||--|o LogicalDefinition : "logical_definition"
+LogicalDefinition ||--}o OntologyClass : "genus"
+LogicalDefinition ||--|o Relation : "differentiating_characteristic_relationship"
+LogicalDefinition ||--}o OntologyClass : "differentiating_characteristic_parents"
+
 ```
 
 

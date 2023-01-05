@@ -8,13 +8,14 @@ URI: [drug:ChemicalToDiseasePredicate](http://w3id.org/ontogpt/drug/ChemicalToDi
 
 
 ```mermaid
- classDiagram
-    class ChemicalToDiseasePredicate
-      RelationshipType <|-- ChemicalToDiseasePredicate
-      
-      ChemicalToDiseasePredicate : id
-      ChemicalToDiseasePredicate : label
-      
+erDiagram
+ChemicalToDiseasePredicate {
+    string id  
+    string label  
+}
+
+
+
 ```
 
 

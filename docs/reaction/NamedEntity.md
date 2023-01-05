@@ -8,18 +8,14 @@ URI: [core:NamedEntity](http://w3id.org/ontogpt/core/NamedEntity)
 
 
 ```mermaid
- classDiagram
-    class NamedEntity
-      NamedEntity <|-- Reaction
-      NamedEntity <|-- ReactionGrouping
-      NamedEntity <|-- ChemicalEntity
-      NamedEntity <|-- Gene
-      NamedEntity <|-- Organism
-      NamedEntity <|-- RelationshipType
-      
-      NamedEntity : id
-      NamedEntity : label
-      
+erDiagram
+NamedEntity {
+    string id  
+    string label  
+}
+
+
+
 ```
 
 

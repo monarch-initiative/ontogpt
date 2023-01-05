@@ -6,13 +6,14 @@ URI: [treatment:Gene](http://w3id.org/ontogpt/treatments/Gene)
 
 
 ```mermaid
- classDiagram
-    class Gene
-      NamedEntity <|-- Gene
-      
-      Gene : id
-      Gene : label
-      
+erDiagram
+Gene {
+    string id  
+    string label  
+}
+
+
+
 ```
 
 
@@ -28,8 +29,8 @@ URI: [treatment:Gene](http://w3id.org/ontogpt/treatments/Gene)
 
 | Name | Cardinality and Range | Description | Inheritance |
 | ---  | --- | --- | --- |
-| [label](label.md) | 0..1 <br/> [xsd:string](xsd:string) | The label (name) of the named thing | [NamedEntity](NamedEntity.md) |
 | [id](id.md) | 0..1 <br/> NONE |  | [NamedEntity](NamedEntity.md) |
+| [label](label.md) | 0..1 <br/> [xsd:string](xsd:string) | The label (name) of the named thing | [NamedEntity](NamedEntity.md) |
 
 
 

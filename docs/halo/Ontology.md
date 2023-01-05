@@ -6,10 +6,37 @@ URI: [oc:Ontology](http://w3id.org/ontogpt/ontology-class-templateOntology)
 
 
 ```mermaid
- classDiagram
-    class Ontology
-      Ontology : elements
-      
+erDiagram
+Ontology {
+
+}
+OntologyElement {
+    string name  
+    string context  
+    string description  
+    stringList synonyms  
+    string equivalent_to  
+}
+Category {
+    string name  
+    string context  
+    string description  
+    stringList synonyms  
+    string equivalent_to  
+}
+
+Ontology ||--}o OntologyElement : "elements"
+OntologyElement ||--}o Category : "categories"
+OntologyElement ||--}o OntologyElement : "subclass_of"
+OntologyElement ||--}o OntologyElement : "part_of"
+OntologyElement ||--}o OntologyElement : "subtypes"
+OntologyElement ||--}o OntologyElement : "parts"
+Category ||--}o Category : "categories"
+Category ||--}o OntologyElement : "subclass_of"
+Category ||--}o OntologyElement : "part_of"
+Category ||--}o OntologyElement : "subtypes"
+Category ||--}o OntologyElement : "parts"
+
 ```
 
 

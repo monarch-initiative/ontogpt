@@ -6,13 +6,14 @@ URI: [eg:Environment](http://w3id.org/ontogpt/environmental-metagenome/Environme
 
 
 ```mermaid
- classDiagram
-    class Environment
-      NamedEntity <|-- Environment
-      
-      Environment : id
-      Environment : label
-      
+erDiagram
+Environment {
+    string id  
+    string label  
+}
+
+
+
 ```
 
 

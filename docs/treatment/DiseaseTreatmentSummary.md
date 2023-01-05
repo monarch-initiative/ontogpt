@@ -6,14 +6,42 @@ URI: [treatment:DiseaseTreatmentSummary](http://w3id.org/ontogpt/treatments/Dise
 
 
 ```mermaid
- classDiagram
-    class DiseaseTreatmentSummary
-      DiseaseTreatmentSummary : disease
-      DiseaseTreatmentSummary : drugs
-      DiseaseTreatmentSummary : treatment_efficacies
-      DiseaseTreatmentSummary : treatment_mechanisms
-      DiseaseTreatmentSummary : treatments
-      
+erDiagram
+DiseaseTreatmentSummary {
+
+}
+TreatmentEfficacy {
+    string efficacy  
+}
+Treatment {
+    string id  
+    string label  
+}
+TreatmentMechanism {
+
+}
+Mechanism {
+    string id  
+    string label  
+}
+Drug {
+    string id  
+    string label  
+}
+Disease {
+    string id  
+    string label  
+}
+
+DiseaseTreatmentSummary ||--|o Disease : "disease"
+DiseaseTreatmentSummary ||--}o Drug : "drugs"
+DiseaseTreatmentSummary ||--}o Treatment : "treatments"
+DiseaseTreatmentSummary ||--}o TreatmentMechanism : "treatment_mechanisms"
+DiseaseTreatmentSummary ||--}o TreatmentEfficacy : "treatment_efficacies"
+TreatmentEfficacy ||--|o Treatment : "treatment"
+TreatmentMechanism ||--|o Treatment : "treatment"
+TreatmentMechanism ||--|o Mechanism : "mechanism"
+
 ```
 
 

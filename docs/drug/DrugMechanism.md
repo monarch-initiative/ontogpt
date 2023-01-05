@@ -6,14 +6,38 @@ URI: [drug:DrugMechanism](http://w3id.org/ontogpt/drug/DrugMechanism)
 
 
 ```mermaid
- classDiagram
-    class DrugMechanism
-      DrugMechanism : disease
-      DrugMechanism : drug
-      DrugMechanism : mechanism_links
-      DrugMechanism : references
-      DrugMechanism : source_text
-      
+erDiagram
+DrugMechanism {
+    stringList references  
+    string source_text  
+}
+MechanismLink {
+
+}
+MechanismElement {
+    string id  
+    string label  
+}
+Predicate {
+    string id  
+    string label  
+}
+Drug {
+    string id  
+    string label  
+}
+Disease {
+    string id  
+    string label  
+}
+
+DrugMechanism ||--|o Disease : "disease"
+DrugMechanism ||--|o Drug : "drug"
+DrugMechanism ||--}o MechanismLink : "mechanism_links"
+MechanismLink ||--|o MechanismElement : "subject"
+MechanismLink ||--|o Predicate : "predicate"
+MechanismLink ||--|o MechanismElement : "object"
+
 ```
 
 

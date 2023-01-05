@@ -5,6 +5,83 @@ A template for GO-CAMs
 URI: https://w3id.org/ontogpt/metabolic_process
 Name: metabolic-process-template
 
+
+
+## Schema Diagram
+
+```mermaid
+erDiagram
+MetabolicProcess {
+    string label  
+    string description  
+    stringList synonyms  
+    string id  
+}
+MetabolicProcessCategory {
+    string id  
+    string label  
+}
+ChemicalEntity {
+    string id  
+    string label  
+}
+Any {
+
+}
+ExtractionResult {
+    string input_id  
+    string input_title  
+    string input_text  
+    string raw_completion_output  
+    string prompt  
+}
+NamedEntity {
+    string id  
+    string label  
+}
+CompoundExpression {
+
+}
+Triple {
+    string qualifier  
+}
+TextWithTriples {
+
+}
+RelationshipType {
+    string id  
+    string label  
+}
+Publication {
+    string id  
+    string title  
+    string abstract  
+    string combined_text  
+    string full_text  
+}
+AnnotatorResult {
+    string subject_text  
+    string object_id  
+    string object_text  
+}
+
+MetabolicProcess ||--}o MetabolicProcessCategory : "subclass_of"
+MetabolicProcess ||--|o MetabolicProcessCategory : "category"
+MetabolicProcess ||--}o ChemicalEntity : "inputs"
+MetabolicProcess ||--}o ChemicalEntity : "outputs"
+ExtractionResult ||--|o Any : "extracted_object"
+ExtractionResult ||--}o Any : "named_entities"
+Triple ||--|o NamedEntity : "subject"
+Triple ||--|o RelationshipType : "predicate"
+Triple ||--|o NamedEntity : "object"
+Triple ||--|o NamedEntity : "subject_qualifier"
+Triple ||--|o NamedEntity : "object_qualifier"
+TextWithTriples ||--|o Publication : "publication"
+TextWithTriples ||--}o Triple : "triples"
+
+```
+
+
 ## Classes
 
 | Class | Description |

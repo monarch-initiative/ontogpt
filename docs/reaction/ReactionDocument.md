@@ -6,13 +6,38 @@ URI: [reaction:ReactionDocument](http://w3id.org/ontogpt/reaction/ReactionDocume
 
 
 ```mermaid
- classDiagram
-    class ReactionDocument
-      ReactionDocument : gene_reaction_pairings
-      ReactionDocument : genes
-      ReactionDocument : organism
-      ReactionDocument : reactions
-      
+erDiagram
+ReactionDocument {
+
+}
+Organism {
+    string id  
+    string label  
+}
+GeneReactionPairing {
+
+}
+Reaction {
+    string label  
+    string description  
+    stringList synonyms  
+    string id  
+}
+Gene {
+    string id  
+    string label  
+}
+
+ReactionDocument ||--}o Gene : "genes"
+ReactionDocument ||--}o Reaction : "reactions"
+ReactionDocument ||--}o GeneReactionPairing : "gene_reaction_pairings"
+ReactionDocument ||--|o Organism : "organism"
+GeneReactionPairing ||--|o Gene : "gene"
+GeneReactionPairing ||--|o Reaction : "reaction"
+Reaction ||--|o ReactionGrouping : "subclass_of"
+Reaction ||--}o ChemicalEntity : "left_side"
+Reaction ||--}o ChemicalEntity : "right_side"
+
 ```
 
 

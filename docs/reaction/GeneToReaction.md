@@ -6,12 +6,40 @@ URI: [reaction:GeneToReaction](http://w3id.org/ontogpt/reaction/GeneToReaction)
 
 
 ```mermaid
- classDiagram
-    class GeneToReaction
-      GeneToReaction : gene
-      GeneToReaction : organism
-      GeneToReaction : reactions
-      
+erDiagram
+GeneToReaction {
+
+}
+Organism {
+    string id  
+    string label  
+}
+Reaction {
+    string label  
+    string description  
+    stringList synonyms  
+    string id  
+}
+ChemicalEntity {
+    string id  
+    string label  
+}
+ReactionGrouping {
+    string id  
+    string label  
+}
+Gene {
+    string id  
+    string label  
+}
+
+GeneToReaction ||--|o Gene : "gene"
+GeneToReaction ||--}o Reaction : "reactions"
+GeneToReaction ||--|o Organism : "organism"
+Reaction ||--|o ReactionGrouping : "subclass_of"
+Reaction ||--}o ChemicalEntity : "left_side"
+Reaction ||--}o ChemicalEntity : "right_side"
+
 ```
 
 

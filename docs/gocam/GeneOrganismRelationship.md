@@ -6,13 +6,22 @@ URI: [gocam:GeneOrganismRelationship](http://w3id.org/ontogpt/gocam/GeneOrganism
 
 
 ```mermaid
- classDiagram
-    class GeneOrganismRelationship
-      CompoundExpression <|-- GeneOrganismRelationship
-      
-      GeneOrganismRelationship : gene
-      GeneOrganismRelationship : organism
-      
+erDiagram
+GeneOrganismRelationship {
+
+}
+Organism {
+    string id  
+    string label  
+}
+Gene {
+    string id  
+    string label  
+}
+
+GeneOrganismRelationship ||--|o Gene : "gene"
+GeneOrganismRelationship ||--|o Organism : "organism"
+
 ```
 
 

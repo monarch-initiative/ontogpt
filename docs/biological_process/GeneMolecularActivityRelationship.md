@@ -6,11 +6,22 @@ URI: [bp:GeneMolecularActivityRelationship](http://w3id.org/ontogpt/biological-p
 
 
 ```mermaid
- classDiagram
-    class GeneMolecularActivityRelationship
-      GeneMolecularActivityRelationship : gene
-      GeneMolecularActivityRelationship : molecular_activity
-      
+erDiagram
+GeneMolecularActivityRelationship {
+
+}
+MolecularActivity {
+    string id  
+    string label  
+}
+Gene {
+    string id  
+    string label  
+}
+
+GeneMolecularActivityRelationship ||--|o Gene : "gene"
+GeneMolecularActivityRelationship ||--|o MolecularActivity : "molecular_activity"
+
 ```
 
 

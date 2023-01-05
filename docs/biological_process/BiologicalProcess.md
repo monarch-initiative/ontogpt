@@ -6,21 +6,38 @@ URI: [bp:BiologicalProcess](http://w3id.org/ontogpt/biological-process-templateB
 
 
 ```mermaid
- classDiagram
-    class BiologicalProcess
-      NamedEntity <|-- BiologicalProcess
-      
-      BiologicalProcess : description
-      BiologicalProcess : gene_activities
-      BiologicalProcess : genes
-      BiologicalProcess : id
-      BiologicalProcess : inputs
-      BiologicalProcess : label
-      BiologicalProcess : outputs
-      BiologicalProcess : steps
-      BiologicalProcess : subclass_of
-      BiologicalProcess : synonyms
-      
+erDiagram
+BiologicalProcess {
+    string label  
+    string description  
+    stringList synonyms  
+    string id  
+}
+GeneMolecularActivityRelationship {
+
+}
+MolecularActivity {
+    string id  
+    string label  
+}
+Gene {
+    string id  
+    string label  
+}
+ChemicalEntity {
+    string id  
+    string label  
+}
+
+BiologicalProcess ||--|o BiologicalProcess : "subclass_of"
+BiologicalProcess ||--}o ChemicalEntity : "inputs"
+BiologicalProcess ||--}o ChemicalEntity : "outputs"
+BiologicalProcess ||--}o MolecularActivity : "steps"
+BiologicalProcess ||--}o Gene : "genes"
+BiologicalProcess ||--}o GeneMolecularActivityRelationship : "gene_activities"
+GeneMolecularActivityRelationship ||--|o Gene : "gene"
+GeneMolecularActivityRelationship ||--|o MolecularActivity : "molecular_activity"
+
 ```
 
 

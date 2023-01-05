@@ -6,13 +6,22 @@ URI: [treatment:TreatmentMechanism](http://w3id.org/ontogpt/treatments/Treatment
 
 
 ```mermaid
- classDiagram
-    class TreatmentMechanism
-      CompoundExpression <|-- TreatmentMechanism
-      
-      TreatmentMechanism : mechanism
-      TreatmentMechanism : treatment
-      
+erDiagram
+TreatmentMechanism {
+
+}
+Mechanism {
+    string id  
+    string label  
+}
+Treatment {
+    string id  
+    string label  
+}
+
+TreatmentMechanism ||--|o Treatment : "treatment"
+TreatmentMechanism ||--|o Mechanism : "mechanism"
+
 ```
 
 

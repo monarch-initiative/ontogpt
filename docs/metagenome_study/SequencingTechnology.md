@@ -6,13 +6,14 @@ URI: [eg:SequencingTechnology](http://w3id.org/ontogpt/environmental-metagenome/
 
 
 ```mermaid
- classDiagram
-    class SequencingTechnology
-      NamedEntity <|-- SequencingTechnology
-      
-      SequencingTechnology : id
-      SequencingTechnology : label
-      
+erDiagram
+SequencingTechnology {
+    string id  
+    string label  
+}
+
+
+
 ```
 
 

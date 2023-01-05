@@ -6,17 +6,24 @@ URI: [mendelian_disease:Symptom](http://w3id.org/ontogpt/mendelian_disease/Sympt
 
 
 ```mermaid
- classDiagram
-    class Symptom
-      NamedEntity <|-- Symptom
-      
-      Symptom : affects
-      Symptom : characteristic
-      Symptom : id
-      Symptom : label
-      Symptom : onset_of_symptom
-      Symptom : severity
-      
+erDiagram
+Symptom {
+    string characteristic  
+    string affects  
+    string severity  
+    string id  
+    string label  
+}
+Onset {
+    string years_old  
+    stringList decades  
+    string juvenile_or_adult  
+    string id  
+    string label  
+}
+
+Symptom ||--|o Onset : "onset_of_symptom"
+
 ```
 
 
@@ -36,8 +43,8 @@ URI: [mendelian_disease:Symptom](http://w3id.org/ontogpt/mendelian_disease/Sympt
 | [affects](affects.md) | 0..1 <br/> NONE |  | direct |
 | [severity](severity.md) | 0..1 <br/> NONE |  | direct |
 | [onset_of_symptom](onset_of_symptom.md) | 0..1 <br/> [Onset](Onset.md) |  | direct |
-| [label](label.md) | 0..1 <br/> [xsd:string](xsd:string) | The label (name) of the named thing | [NamedEntity](NamedEntity.md) |
 | [id](id.md) | 0..1 <br/> NONE |  | [NamedEntity](NamedEntity.md) |
+| [label](label.md) | 0..1 <br/> [xsd:string](xsd:string) | The label (name) of the named thing | [NamedEntity](NamedEntity.md) |
 
 
 

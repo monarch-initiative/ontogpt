@@ -6,13 +6,14 @@ URI: [oc:Relation](http://w3id.org/ontogpt/ontology-class-templateRelation)
 
 
 ```mermaid
- classDiagram
-    class Relation
-      NamedEntity <|-- Relation
-      
-      Relation : id
-      Relation : label
-      
+erDiagram
+Relation {
+    string id  
+    string label  
+}
+
+
+
 ```
 
 
@@ -28,8 +29,8 @@ URI: [oc:Relation](http://w3id.org/ontogpt/ontology-class-templateRelation)
 
 | Name | Cardinality and Range | Description | Inheritance |
 | ---  | --- | --- | --- |
-| [id](id.md) | 0..1 <br/> NONE |  | [NamedEntity](NamedEntity.md) |
 | [label](label.md) | 0..1 <br/> NONE |  | [NamedEntity](NamedEntity.md) |
+| [id](id.md) | 0..1 <br/> NONE |  | [NamedEntity](NamedEntity.md) |
 
 
 

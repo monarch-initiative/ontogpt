@@ -6,13 +6,14 @@ URI: [drug:Disease](http://w3id.org/ontogpt/drug/Disease)
 
 
 ```mermaid
- classDiagram
-    class Disease
-      NamedEntity <|-- Disease
-      
-      Disease : id
-      Disease : label
-      
+erDiagram
+Disease {
+    string id  
+    string label  
+}
+
+
+
 ```
 
 
@@ -117,6 +118,14 @@ slot_usage:
     - Publication
     - NamedEntity
     - Publication
+    - NamedEntity
+    - Publication
+    - NamedEntity
+    - Publication
+    - NamedEntity
+    - Publication
+    - NamedEntity
+    - Publication
     pattern: ^MESH:[CD][0-9]{6}$
 
 ```
@@ -150,6 +159,14 @@ slot_usage:
     - Publication
     - NamedEntity
     - Publication
+    - NamedEntity
+    - Publication
+    - NamedEntity
+    - Publication
+    - NamedEntity
+    - Publication
+    - NamedEntity
+    - Publication
     pattern: ^MESH:[CD][0-9]{6}$
 attributes:
   id:
@@ -163,6 +180,14 @@ attributes:
     alias: id
     owner: Disease
     domain_of:
+    - NamedEntity
+    - Publication
+    - NamedEntity
+    - Publication
+    - NamedEntity
+    - Publication
+    - NamedEntity
+    - Publication
     - NamedEntity
     - Publication
     - NamedEntity

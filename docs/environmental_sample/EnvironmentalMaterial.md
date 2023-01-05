@@ -6,13 +6,14 @@ URI: [sample:EnvironmentalMaterial](http://w3id.org/ontogpt/environmental-sample
 
 
 ```mermaid
- classDiagram
-    class EnvironmentalMaterial
-      NamedEntity <|-- EnvironmentalMaterial
-      
-      EnvironmentalMaterial : id
-      EnvironmentalMaterial : label
-      
+erDiagram
+EnvironmentalMaterial {
+    string id  
+    string label  
+}
+
+
+
 ```
 
 

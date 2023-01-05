@@ -6,19 +6,27 @@ URI: [bp:MetabolicProcess](http://w3id.org/ontogpt/metabolic-process-templateMet
 
 
 ```mermaid
- classDiagram
-    class MetabolicProcess
-      NamedEntity <|-- MetabolicProcess
-      
-      MetabolicProcess : category
-      MetabolicProcess : description
-      MetabolicProcess : id
-      MetabolicProcess : inputs
-      MetabolicProcess : label
-      MetabolicProcess : outputs
-      MetabolicProcess : subclass_of
-      MetabolicProcess : synonyms
-      
+erDiagram
+MetabolicProcess {
+    string label  
+    string description  
+    stringList synonyms  
+    string id  
+}
+ChemicalEntity {
+    string id  
+    string label  
+}
+MetabolicProcessCategory {
+    string id  
+    string label  
+}
+
+MetabolicProcess ||--}o MetabolicProcessCategory : "subclass_of"
+MetabolicProcess ||--|o MetabolicProcessCategory : "category"
+MetabolicProcess ||--}o ChemicalEntity : "inputs"
+MetabolicProcess ||--}o ChemicalEntity : "outputs"
+
 ```
 
 

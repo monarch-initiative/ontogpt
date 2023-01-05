@@ -6,13 +6,14 @@ URI: [gocam:Molecule](http://w3id.org/ontogpt/gocam/Molecule)
 
 
 ```mermaid
- classDiagram
-    class Molecule
-      NamedEntity <|-- Molecule
-      
-      Molecule : id
-      Molecule : label
-      
+erDiagram
+Molecule {
+    string id  
+    string label  
+}
+
+
+
 ```
 
 
@@ -28,8 +29,8 @@ URI: [gocam:Molecule](http://w3id.org/ontogpt/gocam/Molecule)
 
 | Name | Cardinality and Range | Description | Inheritance |
 | ---  | --- | --- | --- |
-| [label](label.md) | 0..1 <br/> [xsd:string](xsd:string) | The label (name) of the named thing | [NamedEntity](NamedEntity.md) |
 | [id](id.md) | 0..1 <br/> NONE |  | [NamedEntity](NamedEntity.md) |
+| [label](label.md) | 0..1 <br/> [xsd:string](xsd:string) | The label (name) of the named thing | [NamedEntity](NamedEntity.md) |
 
 
 

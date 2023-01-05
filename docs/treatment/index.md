@@ -5,6 +5,106 @@ A template for MAXO treatments
 URI: http://w3id.org/ontogpt/treatment
 Name: treatment-template
 
+
+
+## Schema Diagram
+
+```mermaid
+erDiagram
+DiseaseTreatmentSummary {
+
+}
+Gene {
+    string id  
+    string label  
+}
+Symptom {
+    string id  
+    string label  
+}
+Disease {
+    string id  
+    string label  
+}
+Treatment {
+    string id  
+    string label  
+}
+Mechanism {
+    string id  
+    string label  
+}
+Drug {
+    string id  
+    string label  
+}
+TreatmentMechanism {
+
+}
+TreatmentEfficacy {
+    string efficacy  
+}
+Any {
+
+}
+ExtractionResult {
+    string input_id  
+    string input_title  
+    string input_text  
+    string raw_completion_output  
+    string prompt  
+}
+NamedEntity {
+    string id  
+    string label  
+}
+CompoundExpression {
+
+}
+Triple {
+    string qualifier  
+}
+TextWithTriples {
+
+}
+RelationshipType {
+    string id  
+    string label  
+}
+Publication {
+    string id  
+    string title  
+    string abstract  
+    string combined_text  
+    string full_text  
+}
+AnnotatorResult {
+    string subject_text  
+    string object_id  
+    string object_text  
+}
+
+DiseaseTreatmentSummary ||--|o Disease : "disease"
+DiseaseTreatmentSummary ||--}o Drug : "drugs"
+DiseaseTreatmentSummary ||--}o Treatment : "treatments"
+DiseaseTreatmentSummary ||--}o TreatmentMechanism : "treatment_mechanisms"
+DiseaseTreatmentSummary ||--}o TreatmentEfficacy : "treatment_efficacies"
+TreatmentMechanism ||--|o Treatment : "treatment"
+TreatmentMechanism ||--|o Mechanism : "mechanism"
+TreatmentEfficacy ||--|o Treatment : "treatment"
+ExtractionResult ||--|o Any : "extracted_object"
+ExtractionResult ||--}o Any : "named_entities"
+Triple ||--|o NamedEntity : "subject"
+Triple ||--|o RelationshipType : "predicate"
+Triple ||--|o NamedEntity : "object"
+Triple ||--|o NamedEntity : "subject_qualifier"
+Triple ||--|o NamedEntity : "object_qualifier"
+TextWithTriples ||--|o Publication : "publication"
+TextWithTriples ||--}o Triple : "triples"
+
+```
+
+
 ## Classes
 
 | Class | Description |

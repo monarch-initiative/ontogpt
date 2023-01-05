@@ -8,13 +8,45 @@ URI: [drug:ChemicalToDiseaseDocument](http://w3id.org/ontogpt/drug/ChemicalToDis
 
 
 ```mermaid
- classDiagram
-    class ChemicalToDiseaseDocument
-      TextWithTriples <|-- ChemicalToDiseaseDocument
-      
-      ChemicalToDiseaseDocument : publication
-      ChemicalToDiseaseDocument : triples
-      
+erDiagram
+ChemicalToDiseaseDocument {
+
+}
+ChemicalToDiseaseRelationship {
+    string qualifier  
+}
+NamedEntity {
+    string id  
+    string label  
+}
+Disease {
+    string id  
+    string label  
+}
+ChemicalToDiseasePredicate {
+    string id  
+    string label  
+}
+Chemical {
+    string id  
+    string label  
+}
+Publication {
+    string id  
+    string title  
+    string abstract  
+    string combined_text  
+    string full_text  
+}
+
+ChemicalToDiseaseDocument ||--|o Publication : "publication"
+ChemicalToDiseaseDocument ||--}o ChemicalToDiseaseRelationship : "triples"
+ChemicalToDiseaseRelationship ||--|o Chemical : "subject"
+ChemicalToDiseaseRelationship ||--|o ChemicalToDiseasePredicate : "predicate"
+ChemicalToDiseaseRelationship ||--|o Disease : "object"
+ChemicalToDiseaseRelationship ||--|o NamedEntity : "subject_qualifier"
+ChemicalToDiseaseRelationship ||--|o NamedEntity : "object_qualifier"
+
 ```
 
 
@@ -97,6 +129,8 @@ slot_usage:
     domain_of:
     - TextWithTriples
     - TextWithTriples
+    - TextWithTriples
+    - TextWithTriples
     range: ChemicalToDiseaseRelationship
 
 ```
@@ -127,6 +161,8 @@ slot_usage:
         value: Lidocaine, cardiac asystole, Hydroxychloroquine, COVID-19, Methyldopa,
           Headache, Imatinib, cancer
     domain_of:
+    - TextWithTriples
+    - TextWithTriples
     - TextWithTriples
     - TextWithTriples
     range: ChemicalToDiseaseRelationship
@@ -165,6 +201,8 @@ attributes:
     alias: triples
     owner: ChemicalToDiseaseDocument
     domain_of:
+    - TextWithTriples
+    - TextWithTriples
     - TextWithTriples
     range: ChemicalToDiseaseRelationship
     inlined: true

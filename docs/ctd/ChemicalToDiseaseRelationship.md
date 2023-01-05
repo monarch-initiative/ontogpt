@@ -8,17 +8,33 @@ URI: [drug:ChemicalToDiseaseRelationship](http://w3id.org/ontogpt/drug/ChemicalT
 
 
 ```mermaid
- classDiagram
-    class ChemicalToDiseaseRelationship
-      Triple <|-- ChemicalToDiseaseRelationship
-      
-      ChemicalToDiseaseRelationship : object
-      ChemicalToDiseaseRelationship : object_qualifier
-      ChemicalToDiseaseRelationship : predicate
-      ChemicalToDiseaseRelationship : qualifier
-      ChemicalToDiseaseRelationship : subject
-      ChemicalToDiseaseRelationship : subject_qualifier
-      
+erDiagram
+ChemicalToDiseaseRelationship {
+    string qualifier  
+}
+NamedEntity {
+    string id  
+    string label  
+}
+Disease {
+    string id  
+    string label  
+}
+ChemicalToDiseasePredicate {
+    string id  
+    string label  
+}
+Chemical {
+    string id  
+    string label  
+}
+
+ChemicalToDiseaseRelationship ||--|o Chemical : "subject"
+ChemicalToDiseaseRelationship ||--|o ChemicalToDiseasePredicate : "predicate"
+ChemicalToDiseaseRelationship ||--|o Disease : "object"
+ChemicalToDiseaseRelationship ||--|o NamedEntity : "subject_qualifier"
+ChemicalToDiseaseRelationship ||--|o NamedEntity : "object_qualifier"
+
 ```
 
 
@@ -37,10 +53,10 @@ URI: [drug:ChemicalToDiseaseRelationship](http://w3id.org/ontogpt/drug/ChemicalT
 | ---  | --- | --- | --- |
 | [predicate](predicate.md) | 0..1 <br/> [RelationshipType](RelationshipType.md) |  | [Triple](Triple.md) |
 | [object_qualifier](object_qualifier.md) | 0..1 <br/> [NamedEntity](NamedEntity.md) | An optional qualifier or modifier for the object of the statement, e | [Triple](Triple.md) |
-| [qualifier](qualifier.md) | 0..1 <br/> [xsd:string](xsd:string) | A qualifier for the statements, e | [Triple](Triple.md) |
 | [object](object.md) | 0..1 <br/> [NamedEntity](NamedEntity.md) |  | [Triple](Triple.md) |
 | [subject](subject.md) | 0..1 <br/> [NamedEntity](NamedEntity.md) |  | [Triple](Triple.md) |
 | [subject_qualifier](subject_qualifier.md) | 0..1 <br/> [NamedEntity](NamedEntity.md) | An optional qualifier or modifier for the subject of the statement, e | [Triple](Triple.md) |
+| [qualifier](qualifier.md) | 0..1 <br/> [xsd:string](xsd:string) | A qualifier for the statements, e | [Triple](Triple.md) |
 
 
 
@@ -103,6 +119,9 @@ slot_usage:
     domain_of:
     - Triple
     - Triple
+    - Triple
+    - Triple
+    - Triple
     range: Chemical
   object:
     name: object
@@ -112,11 +131,17 @@ slot_usage:
     domain_of:
     - Triple
     - Triple
+    - Triple
+    - Triple
+    - Triple
     range: Disease
   predicate:
     name: predicate
     description: The relationship type, e.g. INDUCES, TREATS.
     domain_of:
+    - Triple
+    - Triple
+    - Triple
     - Triple
     - Triple
     range: ChemicalToDiseasePredicate
@@ -127,12 +152,18 @@ slot_usage:
     domain_of:
     - Triple
     - Triple
+    - Triple
+    - Triple
+    - Triple
     range: NamedEntity
   object_qualifier:
     name: object_qualifier
     description: An optional qualifier or modifier for the disease, e.g. "severe"
       or "with additional complications"
     domain_of:
+    - Triple
+    - Triple
+    - Triple
     - Triple
     - Triple
     range: NamedEntity
@@ -157,6 +188,9 @@ slot_usage:
     domain_of:
     - Triple
     - Triple
+    - Triple
+    - Triple
+    - Triple
     range: Chemical
   object:
     name: object
@@ -166,11 +200,17 @@ slot_usage:
     domain_of:
     - Triple
     - Triple
+    - Triple
+    - Triple
+    - Triple
     range: Disease
   predicate:
     name: predicate
     description: The relationship type, e.g. INDUCES, TREATS.
     domain_of:
+    - Triple
+    - Triple
+    - Triple
     - Triple
     - Triple
     range: ChemicalToDiseasePredicate
@@ -181,12 +221,18 @@ slot_usage:
     domain_of:
     - Triple
     - Triple
+    - Triple
+    - Triple
+    - Triple
     range: NamedEntity
   object_qualifier:
     name: object_qualifier
     description: An optional qualifier or modifier for the disease, e.g. "severe"
       or "with additional complications"
     domain_of:
+    - Triple
+    - Triple
+    - Triple
     - Triple
     - Triple
     range: NamedEntity
@@ -202,6 +248,9 @@ attributes:
     domain_of:
     - Triple
     - Triple
+    - Triple
+    - Triple
+    - Triple
     range: Chemical
   predicate:
     name: predicate
@@ -211,6 +260,9 @@ attributes:
     alias: predicate
     owner: ChemicalToDiseaseRelationship
     domain_of:
+    - Triple
+    - Triple
+    - Triple
     - Triple
     - Triple
     range: ChemicalToDiseasePredicate
@@ -224,6 +276,9 @@ attributes:
     alias: object
     owner: ChemicalToDiseaseRelationship
     domain_of:
+    - Triple
+    - Triple
+    - Triple
     - Triple
     - Triple
     range: Disease
@@ -248,6 +303,9 @@ attributes:
     domain_of:
     - Triple
     - Triple
+    - Triple
+    - Triple
+    - Triple
     range: NamedEntity
   object_qualifier:
     name: object_qualifier
@@ -258,6 +316,9 @@ attributes:
     alias: object_qualifier
     owner: ChemicalToDiseaseRelationship
     domain_of:
+    - Triple
+    - Triple
+    - Triple
     - Triple
     - Triple
     range: NamedEntity

@@ -6,18 +6,65 @@ URI: [gocam:GoCamAnnotations](http://w3id.org/ontogpt/gocam/GoCamAnnotations)
 
 
 ```mermaid
- classDiagram
-    class GoCamAnnotations
-      GoCamAnnotations : activities
-      GoCamAnnotations : cellular_processes
-      GoCamAnnotations : gene_functions
-      GoCamAnnotations : gene_gene_interactions
-      GoCamAnnotations : gene_localizations
-      GoCamAnnotations : gene_organisms
-      GoCamAnnotations : genes
-      GoCamAnnotations : organisms
-      GoCamAnnotations : pathways
-      
+erDiagram
+GoCamAnnotations {
+
+}
+GeneSubcellularLocalizationRelationship {
+
+}
+CellularComponent {
+    string id  
+    string label  
+}
+Gene {
+    string id  
+    string label  
+}
+GeneGeneInteraction {
+
+}
+Pathway {
+    string id  
+    string label  
+}
+CellularProcess {
+    string id  
+    string label  
+}
+GeneMolecularActivityRelationship {
+
+}
+MolecularActivity {
+    string id  
+    string label  
+}
+GeneOrganismRelationship {
+
+}
+Organism {
+    string id  
+    string label  
+}
+
+GoCamAnnotations ||--}o Gene : "genes"
+GoCamAnnotations ||--}o Organism : "organisms"
+GoCamAnnotations ||--}o GeneOrganismRelationship : "gene_organisms"
+GoCamAnnotations ||--}o MolecularActivity : "activities"
+GoCamAnnotations ||--}o GeneMolecularActivityRelationship : "gene_functions"
+GoCamAnnotations ||--}o CellularProcess : "cellular_processes"
+GoCamAnnotations ||--}o Pathway : "pathways"
+GoCamAnnotations ||--}o GeneGeneInteraction : "gene_gene_interactions"
+GoCamAnnotations ||--}o GeneSubcellularLocalizationRelationship : "gene_localizations"
+GeneSubcellularLocalizationRelationship ||--|o Gene : "gene"
+GeneSubcellularLocalizationRelationship ||--|o CellularComponent : "location"
+GeneGeneInteraction ||--|o Gene : "gene1"
+GeneGeneInteraction ||--|o Gene : "gene2"
+GeneMolecularActivityRelationship ||--|o Gene : "gene"
+GeneMolecularActivityRelationship ||--|o MolecularActivity : "molecular_activity"
+GeneOrganismRelationship ||--|o Gene : "gene"
+GeneOrganismRelationship ||--|o Organism : "organism"
+
 ```
 
 

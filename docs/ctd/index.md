@@ -6,6 +6,90 @@ This template is intended to represent associations between chemicals and diseas
 URI: http://w3id.org/ontogpt/ctd
 Name: ctd
 
+
+
+## Schema Diagram
+
+```mermaid
+erDiagram
+ChemicalToDiseaseDocument {
+
+}
+ChemicalToDiseaseRelationship {
+    string qualifier  
+}
+Disease {
+    string id  
+    string label  
+}
+Chemical {
+    string id  
+    string label  
+}
+ChemicalToDiseasePredicate {
+    string id  
+    string label  
+}
+Any {
+
+}
+ExtractionResult {
+    string input_id  
+    string input_title  
+    string input_text  
+    string raw_completion_output  
+    string prompt  
+}
+NamedEntity {
+    string id  
+    string label  
+}
+CompoundExpression {
+
+}
+Triple {
+    string qualifier  
+}
+TextWithTriples {
+
+}
+RelationshipType {
+    string id  
+    string label  
+}
+Publication {
+    string id  
+    string title  
+    string abstract  
+    string combined_text  
+    string full_text  
+}
+AnnotatorResult {
+    string subject_text  
+    string object_id  
+    string object_text  
+}
+
+ChemicalToDiseaseDocument ||--|o Publication : "publication"
+ChemicalToDiseaseDocument ||--}o ChemicalToDiseaseRelationship : "triples"
+ChemicalToDiseaseRelationship ||--|o Chemical : "subject"
+ChemicalToDiseaseRelationship ||--|o ChemicalToDiseasePredicate : "predicate"
+ChemicalToDiseaseRelationship ||--|o Disease : "object"
+ChemicalToDiseaseRelationship ||--|o NamedEntity : "subject_qualifier"
+ChemicalToDiseaseRelationship ||--|o NamedEntity : "object_qualifier"
+ExtractionResult ||--|o Any : "extracted_object"
+ExtractionResult ||--}o Any : "named_entities"
+Triple ||--|o NamedEntity : "subject"
+Triple ||--|o RelationshipType : "predicate"
+Triple ||--|o NamedEntity : "object"
+Triple ||--|o NamedEntity : "subject_qualifier"
+Triple ||--|o NamedEntity : "object_qualifier"
+TextWithTriples ||--|o Publication : "publication"
+TextWithTriples ||--}o Triple : "triples"
+
+```
+
+
 ## Classes
 
 | Class | Description |

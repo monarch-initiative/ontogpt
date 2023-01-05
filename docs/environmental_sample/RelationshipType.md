@@ -6,13 +6,14 @@ URI: [core:RelationshipType](http://w3id.org/ontogpt/core/RelationshipType)
 
 
 ```mermaid
- classDiagram
-    class RelationshipType
-      NamedEntity <|-- RelationshipType
-      
-      RelationshipType : id
-      RelationshipType : label
-      
+erDiagram
+RelationshipType {
+    string id  
+    string label  
+}
+
+
+
 ```
 
 

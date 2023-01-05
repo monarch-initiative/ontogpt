@@ -5,6 +5,105 @@ A template for GO-CAMs
 URI: http://w3id.org/ontogpt/mendelian_disease
 Name: mendelian_disease-template
 
+
+
+## Schema Diagram
+
+```mermaid
+erDiagram
+MendelianDisease {
+    string name  
+    string description  
+    stringList synonyms  
+    string id  
+    string label  
+}
+DiseaseCategory {
+    string id  
+    string label  
+}
+Gene {
+    string id  
+    string label  
+}
+Symptom {
+    string characteristic  
+    string affects  
+    string severity  
+    string id  
+    string label  
+}
+Onset {
+    string years_old  
+    stringList decades  
+    string juvenile_or_adult  
+    string id  
+    string label  
+}
+Inheritance {
+    string id  
+    string label  
+}
+Any {
+
+}
+ExtractionResult {
+    string input_id  
+    string input_title  
+    string input_text  
+    string raw_completion_output  
+    string prompt  
+}
+NamedEntity {
+    string id  
+    string label  
+}
+CompoundExpression {
+
+}
+Triple {
+    string qualifier  
+}
+TextWithTriples {
+
+}
+RelationshipType {
+    string id  
+    string label  
+}
+Publication {
+    string id  
+    string title  
+    string abstract  
+    string combined_text  
+    string full_text  
+}
+AnnotatorResult {
+    string subject_text  
+    string object_id  
+    string object_text  
+}
+
+MendelianDisease ||--}o DiseaseCategory : "subclass_of"
+MendelianDisease ||--}o Symptom : "symptoms"
+MendelianDisease ||--|o Inheritance : "inheritance"
+MendelianDisease ||--}o Gene : "genes"
+MendelianDisease ||--}o Onset : "disease_onsets"
+MendelianDisease ||--}o Publication : "publications"
+Symptom ||--|o Onset : "onset_of_symptom"
+ExtractionResult ||--|o Any : "extracted_object"
+ExtractionResult ||--}o Any : "named_entities"
+Triple ||--|o NamedEntity : "subject"
+Triple ||--|o RelationshipType : "predicate"
+Triple ||--|o NamedEntity : "object"
+Triple ||--|o NamedEntity : "subject_qualifier"
+Triple ||--|o NamedEntity : "object_qualifier"
+TextWithTriples ||--|o Publication : "publication"
+TextWithTriples ||--}o Triple : "triples"
+
+```
+
+
 ## Classes
 
 | Class | Description |

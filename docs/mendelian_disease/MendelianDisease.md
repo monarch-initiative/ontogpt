@@ -6,22 +6,56 @@ URI: [mendelian_disease:MendelianDisease](http://w3id.org/ontogpt/mendelian_dise
 
 
 ```mermaid
- classDiagram
-    class MendelianDisease
-      NamedEntity <|-- MendelianDisease
-      
-      MendelianDisease : description
-      MendelianDisease : disease_onsets
-      MendelianDisease : genes
-      MendelianDisease : id
-      MendelianDisease : inheritance
-      MendelianDisease : label
-      MendelianDisease : name
-      MendelianDisease : publications
-      MendelianDisease : subclass_of
-      MendelianDisease : symptoms
-      MendelianDisease : synonyms
-      
+erDiagram
+MendelianDisease {
+    string name  
+    string description  
+    stringList synonyms  
+    string id  
+    string label  
+}
+Publication {
+    string id  
+    string title  
+    string abstract  
+    string combined_text  
+    string full_text  
+}
+Onset {
+    string years_old  
+    stringList decades  
+    string juvenile_or_adult  
+    string id  
+    string label  
+}
+Gene {
+    string id  
+    string label  
+}
+Inheritance {
+    string id  
+    string label  
+}
+Symptom {
+    string characteristic  
+    string affects  
+    string severity  
+    string id  
+    string label  
+}
+DiseaseCategory {
+    string id  
+    string label  
+}
+
+MendelianDisease ||--}o DiseaseCategory : "subclass_of"
+MendelianDisease ||--}o Symptom : "symptoms"
+MendelianDisease ||--|o Inheritance : "inheritance"
+MendelianDisease ||--}o Gene : "genes"
+MendelianDisease ||--}o Onset : "disease_onsets"
+MendelianDisease ||--}o Publication : "publications"
+Symptom ||--|o Onset : "onset_of_symptom"
+
 ```
 
 
@@ -46,8 +80,8 @@ URI: [mendelian_disease:MendelianDisease](http://w3id.org/ontogpt/mendelian_dise
 | [genes](genes.md) | 0..* <br/> [Gene](Gene.md) |  | direct |
 | [disease_onsets](disease_onsets.md) | 0..* <br/> [Onset](Onset.md) |  | direct |
 | [publications](publications.md) | 0..* <br/> [Publication](Publication.md) |  | direct |
-| [label](label.md) | 0..1 <br/> [xsd:string](xsd:string) | The label (name) of the named thing | [NamedEntity](NamedEntity.md) |
 | [id](id.md) | 0..1 <br/> NONE |  | [NamedEntity](NamedEntity.md) |
+| [label](label.md) | 0..1 <br/> [xsd:string](xsd:string) | The label (name) of the named thing | [NamedEntity](NamedEntity.md) |
 
 
 

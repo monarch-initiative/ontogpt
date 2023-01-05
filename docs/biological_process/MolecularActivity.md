@@ -6,13 +6,14 @@ URI: [bp:MolecularActivity](http://w3id.org/ontogpt/biological-process-templateM
 
 
 ```mermaid
- classDiagram
-    class MolecularActivity
-      NamedEntity <|-- MolecularActivity
-      
-      MolecularActivity : id
-      MolecularActivity : label
-      
+erDiagram
+MolecularActivity {
+    string id  
+    string label  
+}
+
+
+
 ```
 
 
@@ -28,8 +29,8 @@ URI: [bp:MolecularActivity](http://w3id.org/ontogpt/biological-process-templateM
 
 | Name | Cardinality and Range | Description | Inheritance |
 | ---  | --- | --- | --- |
-| [label](label.md) | 0..1 <br/> NONE |  | [NamedEntity](NamedEntity.md) |
 | [id](id.md) | 0..1 <br/> NONE |  | [NamedEntity](NamedEntity.md) |
+| [label](label.md) | 0..1 <br/> NONE |  | [NamedEntity](NamedEntity.md) |
 
 
 

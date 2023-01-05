@@ -8,13 +8,13 @@ URI: [core:CompoundExpression](http://w3id.org/ontogpt/core/CompoundExpression)
 
 
 ```mermaid
- classDiagram
-    class CompoundExpression
-      CompoundExpression <|-- Measurement
-      CompoundExpression <|-- CausalRelationship
-      CompoundExpression <|-- Triple
-      
-      
+erDiagram
+CompoundExpression {
+
+}
+
+
+
 ```
 
 

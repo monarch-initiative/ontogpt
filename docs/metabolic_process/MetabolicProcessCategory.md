@@ -6,13 +6,14 @@ URI: [bp:MetabolicProcessCategory](http://w3id.org/ontogpt/metabolic-process-tem
 
 
 ```mermaid
- classDiagram
-    class MetabolicProcessCategory
-      NamedEntity <|-- MetabolicProcessCategory
-      
-      MetabolicProcessCategory : id
-      MetabolicProcessCategory : label
-      
+erDiagram
+MetabolicProcessCategory {
+    string id  
+    string label  
+}
+
+
+
 ```
 
 
@@ -28,8 +29,8 @@ URI: [bp:MetabolicProcessCategory](http://w3id.org/ontogpt/metabolic-process-tem
 
 | Name | Cardinality and Range | Description | Inheritance |
 | ---  | --- | --- | --- |
-| [label](label.md) | 0..1 <br/> NONE |  | [NamedEntity](NamedEntity.md) |
 | [id](id.md) | 0..1 <br/> NONE |  | [NamedEntity](NamedEntity.md) |
+| [label](label.md) | 0..1 <br/> NONE |  | [NamedEntity](NamedEntity.md) |
 
 
 

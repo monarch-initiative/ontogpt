@@ -6,14 +6,23 @@ URI: [drug:MechanismLink](http://w3id.org/ontogpt/drug/MechanismLink)
 
 
 ```mermaid
- classDiagram
-    class MechanismLink
-      CompoundExpression <|-- MechanismLink
-      
-      MechanismLink : object
-      MechanismLink : predicate
-      MechanismLink : subject
-      
+erDiagram
+MechanismLink {
+
+}
+MechanismElement {
+    string id  
+    string label  
+}
+Predicate {
+    string id  
+    string label  
+}
+
+MechanismLink ||--|o MechanismElement : "subject"
+MechanismLink ||--|o Predicate : "predicate"
+MechanismLink ||--|o MechanismElement : "object"
+
 ```
 
 

@@ -5,6 +5,103 @@ A template for Environmental Samples
 URI: http://w3id.org/ontogpt/environmental-sample
 Name: environmental-sample
 
+
+
+## Schema Diagram
+
+```mermaid
+erDiagram
+Study {
+
+}
+Location {
+    string id  
+    string label  
+}
+EnvironmentalMaterial {
+    string id  
+    string label  
+}
+Environment {
+    string id  
+    string label  
+}
+Variable {
+    string id  
+    string label  
+}
+Unit {
+    string id  
+    string label  
+}
+Measurement {
+    string value  
+}
+CausalRelationship {
+
+}
+Any {
+
+}
+ExtractionResult {
+    string input_id  
+    string input_title  
+    string input_text  
+    string raw_completion_output  
+    string prompt  
+}
+NamedEntity {
+    string id  
+    string label  
+}
+CompoundExpression {
+
+}
+Triple {
+    string qualifier  
+}
+TextWithTriples {
+
+}
+RelationshipType {
+    string id  
+    string label  
+}
+Publication {
+    string id  
+    string title  
+    string abstract  
+    string combined_text  
+    string full_text  
+}
+AnnotatorResult {
+    string subject_text  
+    string object_id  
+    string object_text  
+}
+
+Study ||--}o Location : "location"
+Study ||--}o EnvironmentalMaterial : "environmental_material"
+Study ||--}o Environment : "environments"
+Study ||--}o CausalRelationship : "causal_relationships"
+Study ||--}o Variable : "variables"
+Study ||--}o Measurement : "measurements"
+Measurement ||--|o Unit : "unit"
+CausalRelationship ||--|o Variable : "cause"
+CausalRelationship ||--|o Variable : "effect"
+ExtractionResult ||--|o Any : "extracted_object"
+ExtractionResult ||--}o Any : "named_entities"
+Triple ||--|o NamedEntity : "subject"
+Triple ||--|o RelationshipType : "predicate"
+Triple ||--|o NamedEntity : "object"
+Triple ||--|o NamedEntity : "subject_qualifier"
+Triple ||--|o NamedEntity : "object_qualifier"
+TextWithTriples ||--|o Publication : "publication"
+TextWithTriples ||--}o Triple : "triples"
+
+```
+
+
 ## Classes
 
 | Class | Description |

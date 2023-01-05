@@ -5,6 +5,131 @@ A template for GO-CAMs
 URI: http://w3id.org/ontogpt/gocam
 Name: gocam-template
 
+
+
+## Schema Diagram
+
+```mermaid
+erDiagram
+GoCamAnnotations {
+
+}
+Gene {
+    string id  
+    string label  
+}
+Pathway {
+    string id  
+    string label  
+}
+CellularProcess {
+    string id  
+    string label  
+}
+MolecularActivity {
+    string id  
+    string label  
+}
+CellularComponent {
+    string id  
+    string label  
+}
+Organism {
+    string id  
+    string label  
+}
+Molecule {
+    string id  
+    string label  
+}
+GeneOrganismRelationship {
+
+}
+GeneMolecularActivityRelationship {
+
+}
+GeneMolecularActivityRelationship2 {
+
+}
+GeneSubcellularLocalizationRelationship {
+
+}
+GeneGeneInteraction {
+
+}
+Any {
+
+}
+ExtractionResult {
+    string input_id  
+    string input_title  
+    string input_text  
+    string raw_completion_output  
+    string prompt  
+}
+NamedEntity {
+    string id  
+    string label  
+}
+CompoundExpression {
+
+}
+Triple {
+    string qualifier  
+}
+TextWithTriples {
+
+}
+RelationshipType {
+    string id  
+    string label  
+}
+Publication {
+    string id  
+    string title  
+    string abstract  
+    string combined_text  
+    string full_text  
+}
+AnnotatorResult {
+    string subject_text  
+    string object_id  
+    string object_text  
+}
+
+GoCamAnnotations ||--}o Gene : "genes"
+GoCamAnnotations ||--}o Organism : "organisms"
+GoCamAnnotations ||--}o GeneOrganismRelationship : "gene_organisms"
+GoCamAnnotations ||--}o MolecularActivity : "activities"
+GoCamAnnotations ||--}o GeneMolecularActivityRelationship : "gene_functions"
+GoCamAnnotations ||--}o CellularProcess : "cellular_processes"
+GoCamAnnotations ||--}o Pathway : "pathways"
+GoCamAnnotations ||--}o GeneGeneInteraction : "gene_gene_interactions"
+GoCamAnnotations ||--}o GeneSubcellularLocalizationRelationship : "gene_localizations"
+GeneOrganismRelationship ||--|o Gene : "gene"
+GeneOrganismRelationship ||--|o Organism : "organism"
+GeneMolecularActivityRelationship ||--|o Gene : "gene"
+GeneMolecularActivityRelationship ||--|o MolecularActivity : "molecular_activity"
+GeneMolecularActivityRelationship2 ||--|o Gene : "gene"
+GeneMolecularActivityRelationship2 ||--|o MolecularActivity : "molecular_activity"
+GeneMolecularActivityRelationship2 ||--|o Molecule : "target"
+GeneSubcellularLocalizationRelationship ||--|o Gene : "gene"
+GeneSubcellularLocalizationRelationship ||--|o CellularComponent : "location"
+GeneGeneInteraction ||--|o Gene : "gene1"
+GeneGeneInteraction ||--|o Gene : "gene2"
+ExtractionResult ||--|o Any : "extracted_object"
+ExtractionResult ||--}o Any : "named_entities"
+Triple ||--|o NamedEntity : "subject"
+Triple ||--|o RelationshipType : "predicate"
+Triple ||--|o NamedEntity : "object"
+Triple ||--|o NamedEntity : "subject_qualifier"
+Triple ||--|o NamedEntity : "object_qualifier"
+TextWithTriples ||--|o Publication : "publication"
+TextWithTriples ||--}o Triple : "triples"
+
+```
+
+
 ## Classes
 
 | Class | Description |

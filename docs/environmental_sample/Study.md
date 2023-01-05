@@ -6,15 +6,47 @@ URI: [sample:Study](http://w3id.org/ontogpt/environmental-sample/Study)
 
 
 ```mermaid
- classDiagram
-    class Study
-      Study : causal_relationships
-      Study : environmental_material
-      Study : environments
-      Study : location
-      Study : measurements
-      Study : variables
-      
+erDiagram
+Study {
+
+}
+Measurement {
+    string value  
+}
+Unit {
+    string id  
+    string label  
+}
+Variable {
+    string id  
+    string label  
+}
+CausalRelationship {
+
+}
+Environment {
+    string id  
+    string label  
+}
+EnvironmentalMaterial {
+    string id  
+    string label  
+}
+Location {
+    string id  
+    string label  
+}
+
+Study ||--}o Location : "location"
+Study ||--}o EnvironmentalMaterial : "environmental_material"
+Study ||--}o Environment : "environments"
+Study ||--}o CausalRelationship : "causal_relationships"
+Study ||--}o Variable : "variables"
+Study ||--}o Measurement : "measurements"
+Measurement ||--|o Unit : "unit"
+CausalRelationship ||--|o Variable : "cause"
+CausalRelationship ||--|o Variable : "effect"
+
 ```
 
 

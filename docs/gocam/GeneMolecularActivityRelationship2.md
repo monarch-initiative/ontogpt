@@ -6,14 +6,27 @@ URI: [gocam:GeneMolecularActivityRelationship2](http://w3id.org/ontogpt/gocam/Ge
 
 
 ```mermaid
- classDiagram
-    class GeneMolecularActivityRelationship2
-      CompoundExpression <|-- GeneMolecularActivityRelationship2
-      
-      GeneMolecularActivityRelationship2 : gene
-      GeneMolecularActivityRelationship2 : molecular_activity
-      GeneMolecularActivityRelationship2 : target
-      
+erDiagram
+GeneMolecularActivityRelationship2 {
+
+}
+Molecule {
+    string id  
+    string label  
+}
+MolecularActivity {
+    string id  
+    string label  
+}
+Gene {
+    string id  
+    string label  
+}
+
+GeneMolecularActivityRelationship2 ||--|o Gene : "gene"
+GeneMolecularActivityRelationship2 ||--|o MolecularActivity : "molecular_activity"
+GeneMolecularActivityRelationship2 ||--|o Molecule : "target"
+
 ```
 
 

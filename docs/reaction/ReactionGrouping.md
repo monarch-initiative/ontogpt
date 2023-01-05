@@ -6,13 +6,14 @@ URI: [reaction:ReactionGrouping](http://w3id.org/ontogpt/reaction/ReactionGroupi
 
 
 ```mermaid
- classDiagram
-    class ReactionGrouping
-      NamedEntity <|-- ReactionGrouping
-      
-      ReactionGrouping : id
-      ReactionGrouping : label
-      
+erDiagram
+ReactionGrouping {
+    string id  
+    string label  
+}
+
+
+
 ```
 
 
@@ -28,8 +29,8 @@ URI: [reaction:ReactionGrouping](http://w3id.org/ontogpt/reaction/ReactionGroupi
 
 | Name | Cardinality and Range | Description | Inheritance |
 | ---  | --- | --- | --- |
-| [id](id.md) | 0..1 <br/> NONE |  | [NamedEntity](NamedEntity.md) |
 | [label](label.md) | 0..1 <br/> NONE |  | [NamedEntity](NamedEntity.md) |
+| [id](id.md) | 0..1 <br/> NONE |  | [NamedEntity](NamedEntity.md) |
 
 
 

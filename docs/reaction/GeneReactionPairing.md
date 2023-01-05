@@ -6,13 +6,35 @@ URI: [reaction:GeneReactionPairing](http://w3id.org/ontogpt/reaction/GeneReactio
 
 
 ```mermaid
- classDiagram
-    class GeneReactionPairing
-      CompoundExpression <|-- GeneReactionPairing
-      
-      GeneReactionPairing : gene
-      GeneReactionPairing : reaction
-      
+erDiagram
+GeneReactionPairing {
+
+}
+Reaction {
+    string label  
+    string description  
+    stringList synonyms  
+    string id  
+}
+ChemicalEntity {
+    string id  
+    string label  
+}
+ReactionGrouping {
+    string id  
+    string label  
+}
+Gene {
+    string id  
+    string label  
+}
+
+GeneReactionPairing ||--|o Gene : "gene"
+GeneReactionPairing ||--|o Reaction : "reaction"
+Reaction ||--|o ReactionGrouping : "subclass_of"
+Reaction ||--}o ChemicalEntity : "left_side"
+Reaction ||--}o ChemicalEntity : "right_side"
+
 ```
 
 
