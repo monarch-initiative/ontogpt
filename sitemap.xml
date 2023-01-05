@@ -86,67 +86,7 @@
          <changefreq>daily</changefreq>
     </url>
     <url>
-         <loc>https://monarch-initiative.github.io/ontogpt/biological_process/annotatorResult__object_id/</loc>
-         <lastmod>2023-01-05</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://monarch-initiative.github.io/ontogpt/biological_process/annotatorResult__object_text/</loc>
-         <lastmod>2023-01-05</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://monarch-initiative.github.io/ontogpt/biological_process/annotatorResult__subject_text/</loc>
-         <lastmod>2023-01-05</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
          <loc>https://monarch-initiative.github.io/ontogpt/biological_process/biological-process-template/</loc>
-         <lastmod>2023-01-05</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://monarch-initiative.github.io/ontogpt/biological_process/biologicalProcess__description/</loc>
-         <lastmod>2023-01-05</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://monarch-initiative.github.io/ontogpt/biological_process/biologicalProcess__gene_activities/</loc>
-         <lastmod>2023-01-05</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://monarch-initiative.github.io/ontogpt/biological_process/biologicalProcess__genes/</loc>
-         <lastmod>2023-01-05</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://monarch-initiative.github.io/ontogpt/biological_process/biologicalProcess__inputs/</loc>
-         <lastmod>2023-01-05</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://monarch-initiative.github.io/ontogpt/biological_process/biologicalProcess__label/</loc>
-         <lastmod>2023-01-05</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://monarch-initiative.github.io/ontogpt/biological_process/biologicalProcess__outputs/</loc>
-         <lastmod>2023-01-05</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://monarch-initiative.github.io/ontogpt/biological_process/biologicalProcess__steps/</loc>
-         <lastmod>2023-01-05</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://monarch-initiative.github.io/ontogpt/biological_process/biologicalProcess__subclass_of/</loc>
-         <lastmod>2023-01-05</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://monarch-initiative.github.io/ontogpt/biological_process/biologicalProcess__synonyms/</loc>
          <lastmod>2023-01-05</lastmod>
          <changefreq>daily</changefreq>
     </url>
@@ -176,52 +116,7 @@
          <changefreq>daily</changefreq>
     </url>
     <url>
-         <loc>https://monarch-initiative.github.io/ontogpt/biological_process/extractionResult__extracted_object/</loc>
-         <lastmod>2023-01-05</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://monarch-initiative.github.io/ontogpt/biological_process/extractionResult__input_id/</loc>
-         <lastmod>2023-01-05</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://monarch-initiative.github.io/ontogpt/biological_process/extractionResult__input_text/</loc>
-         <lastmod>2023-01-05</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://monarch-initiative.github.io/ontogpt/biological_process/extractionResult__input_title/</loc>
-         <lastmod>2023-01-05</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://monarch-initiative.github.io/ontogpt/biological_process/extractionResult__named_entities/</loc>
-         <lastmod>2023-01-05</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://monarch-initiative.github.io/ontogpt/biological_process/extractionResult__prompt/</loc>
-         <lastmod>2023-01-05</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://monarch-initiative.github.io/ontogpt/biological_process/extractionResult__raw_completion_output/</loc>
-         <lastmod>2023-01-05</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
          <loc>https://monarch-initiative.github.io/ontogpt/biological_process/full_text/</loc>
-         <lastmod>2023-01-05</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://monarch-initiative.github.io/ontogpt/biological_process/geneMolecularActivityRelationship__gene/</loc>
-         <lastmod>2023-01-05</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://monarch-initiative.github.io/ontogpt/biological_process/geneMolecularActivityRelationship__molecular_activity/</loc>
          <lastmod>2023-01-05</lastmod>
          <changefreq>daily</changefreq>
     </url>
@@ -271,16 +166,6 @@
          <changefreq>daily</changefreq>
     </url>
     <url>
-         <loc>https://monarch-initiative.github.io/ontogpt/biological_process/namedEntity__id/</loc>
-         <lastmod>2023-01-05</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://monarch-initiative.github.io/ontogpt/biological_process/namedEntity__label/</loc>
-         <lastmod>2023-01-05</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
          <loc>https://monarch-initiative.github.io/ontogpt/biological_process/named_entities/</loc>
          <lastmod>2023-01-05</lastmod>
          <changefreq>daily</changefreq>
@@ -317,31 +202,6 @@
     </url>
     <url>
          <loc>https://monarch-initiative.github.io/ontogpt/biological_process/prompt/</loc>
-         <lastmod>2023-01-05</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://monarch-initiative.github.io/ontogpt/biological_process/publication__abstract/</loc>
-         <lastmod>2023-01-05</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://monarch-initiative.github.io/ontogpt/biological_process/publication__combined_text/</loc>
-         <lastmod>2023-01-05</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://monarch-initiative.github.io/ontogpt/biological_process/publication__full_text/</loc>
-         <lastmod>2023-01-05</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://monarch-initiative.github.io/ontogpt/biological_process/publication__id/</loc>
-         <lastmod>2023-01-05</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://monarch-initiative.github.io/ontogpt/biological_process/publication__title/</loc>
          <lastmod>2023-01-05</lastmod>
          <changefreq>daily</changefreq>
     </url>
@@ -386,47 +246,7 @@
          <changefreq>daily</changefreq>
     </url>
     <url>
-         <loc>https://monarch-initiative.github.io/ontogpt/biological_process/textWithTriples__publication/</loc>
-         <lastmod>2023-01-05</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://monarch-initiative.github.io/ontogpt/biological_process/textWithTriples__triples/</loc>
-         <lastmod>2023-01-05</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
          <loc>https://monarch-initiative.github.io/ontogpt/biological_process/title/</loc>
-         <lastmod>2023-01-05</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://monarch-initiative.github.io/ontogpt/biological_process/triple__object/</loc>
-         <lastmod>2023-01-05</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://monarch-initiative.github.io/ontogpt/biological_process/triple__object_qualifier/</loc>
-         <lastmod>2023-01-05</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://monarch-initiative.github.io/ontogpt/biological_process/triple__predicate/</loc>
-         <lastmod>2023-01-05</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://monarch-initiative.github.io/ontogpt/biological_process/triple__qualifier/</loc>
-         <lastmod>2023-01-05</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://monarch-initiative.github.io/ontogpt/biological_process/triple__subject/</loc>
-         <lastmod>2023-01-05</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://monarch-initiative.github.io/ontogpt/biological_process/triple__subject_qualifier/</loc>
          <lastmod>2023-01-05</lastmod>
          <changefreq>daily</changefreq>
     </url>
@@ -571,21 +391,6 @@
          <changefreq>daily</changefreq>
     </url>
     <url>
-         <loc>https://monarch-initiative.github.io/ontogpt/core/annotatorResult__object_id/</loc>
-         <lastmod>2023-01-05</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://monarch-initiative.github.io/ontogpt/core/annotatorResult__object_text/</loc>
-         <lastmod>2023-01-05</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://monarch-initiative.github.io/ontogpt/core/annotatorResult__subject_text/</loc>
-         <lastmod>2023-01-05</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
          <loc>https://monarch-initiative.github.io/ontogpt/core/combined_text/</loc>
          <lastmod>2023-01-05</lastmod>
          <changefreq>daily</changefreq>
@@ -597,41 +402,6 @@
     </url>
     <url>
          <loc>https://monarch-initiative.github.io/ontogpt/core/extracted_object/</loc>
-         <lastmod>2023-01-05</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://monarch-initiative.github.io/ontogpt/core/extractionResult__extracted_object/</loc>
-         <lastmod>2023-01-05</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://monarch-initiative.github.io/ontogpt/core/extractionResult__input_id/</loc>
-         <lastmod>2023-01-05</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://monarch-initiative.github.io/ontogpt/core/extractionResult__input_text/</loc>
-         <lastmod>2023-01-05</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://monarch-initiative.github.io/ontogpt/core/extractionResult__input_title/</loc>
-         <lastmod>2023-01-05</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://monarch-initiative.github.io/ontogpt/core/extractionResult__named_entities/</loc>
-         <lastmod>2023-01-05</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://monarch-initiative.github.io/ontogpt/core/extractionResult__prompt/</loc>
-         <lastmod>2023-01-05</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://monarch-initiative.github.io/ontogpt/core/extractionResult__raw_completion_output/</loc>
          <lastmod>2023-01-05</lastmod>
          <changefreq>daily</changefreq>
     </url>
@@ -662,16 +432,6 @@
     </url>
     <url>
          <loc>https://monarch-initiative.github.io/ontogpt/core/label/</loc>
-         <lastmod>2023-01-05</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://monarch-initiative.github.io/ontogpt/core/namedEntity__id/</loc>
-         <lastmod>2023-01-05</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://monarch-initiative.github.io/ontogpt/core/namedEntity__label/</loc>
          <lastmod>2023-01-05</lastmod>
          <changefreq>daily</changefreq>
     </url>
@@ -711,31 +471,6 @@
          <changefreq>daily</changefreq>
     </url>
     <url>
-         <loc>https://monarch-initiative.github.io/ontogpt/core/publication__abstract/</loc>
-         <lastmod>2023-01-05</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://monarch-initiative.github.io/ontogpt/core/publication__combined_text/</loc>
-         <lastmod>2023-01-05</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://monarch-initiative.github.io/ontogpt/core/publication__full_text/</loc>
-         <lastmod>2023-01-05</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://monarch-initiative.github.io/ontogpt/core/publication__id/</loc>
-         <lastmod>2023-01-05</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://monarch-initiative.github.io/ontogpt/core/publication__title/</loc>
-         <lastmod>2023-01-05</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
          <loc>https://monarch-initiative.github.io/ontogpt/core/qualifier/</loc>
          <lastmod>2023-01-05</lastmod>
          <changefreq>daily</changefreq>
@@ -761,47 +496,7 @@
          <changefreq>daily</changefreq>
     </url>
     <url>
-         <loc>https://monarch-initiative.github.io/ontogpt/core/textWithTriples__publication/</loc>
-         <lastmod>2023-01-05</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://monarch-initiative.github.io/ontogpt/core/textWithTriples__triples/</loc>
-         <lastmod>2023-01-05</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
          <loc>https://monarch-initiative.github.io/ontogpt/core/title/</loc>
-         <lastmod>2023-01-05</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://monarch-initiative.github.io/ontogpt/core/triple__object/</loc>
-         <lastmod>2023-01-05</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://monarch-initiative.github.io/ontogpt/core/triple__object_qualifier/</loc>
-         <lastmod>2023-01-05</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://monarch-initiative.github.io/ontogpt/core/triple__predicate/</loc>
-         <lastmod>2023-01-05</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://monarch-initiative.github.io/ontogpt/core/triple__qualifier/</loc>
-         <lastmod>2023-01-05</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://monarch-initiative.github.io/ontogpt/core/triple__subject/</loc>
-         <lastmod>2023-01-05</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://monarch-initiative.github.io/ontogpt/core/triple__subject_qualifier/</loc>
          <lastmod>2023-01-05</lastmod>
          <changefreq>daily</changefreq>
     </url>
@@ -941,6 +636,16 @@
          <changefreq>daily</changefreq>
     </url>
     <url>
+         <loc>https://monarch-initiative.github.io/ontogpt/ctd/MeshChemicalIdentifier/</loc>
+         <lastmod>2023-01-05</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://monarch-initiative.github.io/ontogpt/ctd/MeshDiseaseIdentifier/</loc>
+         <lastmod>2023-01-05</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
          <loc>https://monarch-initiative.github.io/ontogpt/ctd/NamedEntity/</loc>
          <lastmod>2023-01-05</lastmod>
          <changefreq>daily</changefreq>
@@ -966,7 +671,22 @@
          <changefreq>daily</changefreq>
     </url>
     <url>
+         <loc>https://monarch-initiative.github.io/ontogpt/ctd/abstract/</loc>
+         <lastmod>2023-01-05</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://monarch-initiative.github.io/ontogpt/ctd/combined_text/</loc>
+         <lastmod>2023-01-05</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
          <loc>https://monarch-initiative.github.io/ontogpt/ctd/core-template/</loc>
+         <lastmod>2023-01-05</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://monarch-initiative.github.io/ontogpt/ctd/core/</loc>
          <lastmod>2023-01-05</lastmod>
          <changefreq>daily</changefreq>
     </url>
@@ -977,6 +697,16 @@
     </url>
     <url>
          <loc>https://monarch-initiative.github.io/ontogpt/ctd/extracted_object/</loc>
+         <lastmod>2023-01-05</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://monarch-initiative.github.io/ontogpt/ctd/full_text/</loc>
+         <lastmod>2023-01-05</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://monarch-initiative.github.io/ontogpt/ctd/id/</loc>
          <lastmod>2023-01-05</lastmod>
          <changefreq>daily</changefreq>
     </url>
@@ -996,7 +726,37 @@
          <changefreq>daily</changefreq>
     </url>
     <url>
+         <loc>https://monarch-initiative.github.io/ontogpt/ctd/label/</loc>
+         <lastmod>2023-01-05</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
          <loc>https://monarch-initiative.github.io/ontogpt/ctd/named_entities/</loc>
+         <lastmod>2023-01-05</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://monarch-initiative.github.io/ontogpt/ctd/object/</loc>
+         <lastmod>2023-01-05</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://monarch-initiative.github.io/ontogpt/ctd/object_id/</loc>
+         <lastmod>2023-01-05</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://monarch-initiative.github.io/ontogpt/ctd/object_qualifier/</loc>
+         <lastmod>2023-01-05</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://monarch-initiative.github.io/ontogpt/ctd/object_text/</loc>
+         <lastmod>2023-01-05</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://monarch-initiative.github.io/ontogpt/ctd/predicate/</loc>
          <lastmod>2023-01-05</lastmod>
          <changefreq>daily</changefreq>
     </url>
@@ -1006,7 +766,37 @@
          <changefreq>daily</changefreq>
     </url>
     <url>
+         <loc>https://monarch-initiative.github.io/ontogpt/ctd/qualifier/</loc>
+         <lastmod>2023-01-05</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
          <loc>https://monarch-initiative.github.io/ontogpt/ctd/raw_completion_output/</loc>
+         <lastmod>2023-01-05</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://monarch-initiative.github.io/ontogpt/ctd/subject/</loc>
+         <lastmod>2023-01-05</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://monarch-initiative.github.io/ontogpt/ctd/subject_qualifier/</loc>
+         <lastmod>2023-01-05</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://monarch-initiative.github.io/ontogpt/ctd/subject_text/</loc>
+         <lastmod>2023-01-05</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://monarch-initiative.github.io/ontogpt/ctd/title/</loc>
+         <lastmod>2023-01-05</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://monarch-initiative.github.io/ontogpt/ctd/triples/</loc>
          <lastmod>2023-01-05</lastmod>
          <changefreq>daily</changefreq>
     </url>
@@ -1096,21 +886,6 @@
          <changefreq>daily</changefreq>
     </url>
     <url>
-         <loc>https://monarch-initiative.github.io/ontogpt/drug/annotatorResult__object_id/</loc>
-         <lastmod>2023-01-05</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://monarch-initiative.github.io/ontogpt/drug/annotatorResult__object_text/</loc>
-         <lastmod>2023-01-05</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://monarch-initiative.github.io/ontogpt/drug/annotatorResult__subject_text/</loc>
-         <lastmod>2023-01-05</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
          <loc>https://monarch-initiative.github.io/ontogpt/drug/combined_text/</loc>
          <lastmod>2023-01-05</lastmod>
          <changefreq>daily</changefreq>
@@ -1126,67 +901,7 @@
          <changefreq>daily</changefreq>
     </url>
     <url>
-         <loc>https://monarch-initiative.github.io/ontogpt/drug/drugMechanism__disease/</loc>
-         <lastmod>2023-01-05</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://monarch-initiative.github.io/ontogpt/drug/drugMechanism__drug/</loc>
-         <lastmod>2023-01-05</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://monarch-initiative.github.io/ontogpt/drug/drugMechanism__mechanism_links/</loc>
-         <lastmod>2023-01-05</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://monarch-initiative.github.io/ontogpt/drug/drugMechanism__references/</loc>
-         <lastmod>2023-01-05</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://monarch-initiative.github.io/ontogpt/drug/drugMechanism__source_text/</loc>
-         <lastmod>2023-01-05</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
          <loc>https://monarch-initiative.github.io/ontogpt/drug/extracted_object/</loc>
-         <lastmod>2023-01-05</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://monarch-initiative.github.io/ontogpt/drug/extractionResult__extracted_object/</loc>
-         <lastmod>2023-01-05</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://monarch-initiative.github.io/ontogpt/drug/extractionResult__input_id/</loc>
-         <lastmod>2023-01-05</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://monarch-initiative.github.io/ontogpt/drug/extractionResult__input_text/</loc>
-         <lastmod>2023-01-05</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://monarch-initiative.github.io/ontogpt/drug/extractionResult__input_title/</loc>
-         <lastmod>2023-01-05</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://monarch-initiative.github.io/ontogpt/drug/extractionResult__named_entities/</loc>
-         <lastmod>2023-01-05</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://monarch-initiative.github.io/ontogpt/drug/extractionResult__prompt/</loc>
-         <lastmod>2023-01-05</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://monarch-initiative.github.io/ontogpt/drug/extractionResult__raw_completion_output/</loc>
          <lastmod>2023-01-05</lastmod>
          <changefreq>daily</changefreq>
     </url>
@@ -1221,32 +936,7 @@
          <changefreq>daily</changefreq>
     </url>
     <url>
-         <loc>https://monarch-initiative.github.io/ontogpt/drug/mechanismLink__object/</loc>
-         <lastmod>2023-01-05</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://monarch-initiative.github.io/ontogpt/drug/mechanismLink__predicate/</loc>
-         <lastmod>2023-01-05</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://monarch-initiative.github.io/ontogpt/drug/mechanismLink__subject/</loc>
-         <lastmod>2023-01-05</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
          <loc>https://monarch-initiative.github.io/ontogpt/drug/mechanism_links/</loc>
-         <lastmod>2023-01-05</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://monarch-initiative.github.io/ontogpt/drug/namedEntity__id/</loc>
-         <lastmod>2023-01-05</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://monarch-initiative.github.io/ontogpt/drug/namedEntity__label/</loc>
          <lastmod>2023-01-05</lastmod>
          <changefreq>daily</changefreq>
     </url>
@@ -1277,31 +967,6 @@
     </url>
     <url>
          <loc>https://monarch-initiative.github.io/ontogpt/drug/prompt/</loc>
-         <lastmod>2023-01-05</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://monarch-initiative.github.io/ontogpt/drug/publication__abstract/</loc>
-         <lastmod>2023-01-05</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://monarch-initiative.github.io/ontogpt/drug/publication__combined_text/</loc>
-         <lastmod>2023-01-05</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://monarch-initiative.github.io/ontogpt/drug/publication__full_text/</loc>
-         <lastmod>2023-01-05</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://monarch-initiative.github.io/ontogpt/drug/publication__id/</loc>
-         <lastmod>2023-01-05</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://monarch-initiative.github.io/ontogpt/drug/publication__title/</loc>
          <lastmod>2023-01-05</lastmod>
          <changefreq>daily</changefreq>
     </url>
@@ -1341,47 +1006,7 @@
          <changefreq>daily</changefreq>
     </url>
     <url>
-         <loc>https://monarch-initiative.github.io/ontogpt/drug/textWithTriples__publication/</loc>
-         <lastmod>2023-01-05</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://monarch-initiative.github.io/ontogpt/drug/textWithTriples__triples/</loc>
-         <lastmod>2023-01-05</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
          <loc>https://monarch-initiative.github.io/ontogpt/drug/title/</loc>
-         <lastmod>2023-01-05</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://monarch-initiative.github.io/ontogpt/drug/triple__object/</loc>
-         <lastmod>2023-01-05</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://monarch-initiative.github.io/ontogpt/drug/triple__object_qualifier/</loc>
-         <lastmod>2023-01-05</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://monarch-initiative.github.io/ontogpt/drug/triple__predicate/</loc>
-         <lastmod>2023-01-05</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://monarch-initiative.github.io/ontogpt/drug/triple__qualifier/</loc>
-         <lastmod>2023-01-05</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://monarch-initiative.github.io/ontogpt/drug/triple__subject/</loc>
-         <lastmod>2023-01-05</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://monarch-initiative.github.io/ontogpt/drug/triple__subject_qualifier/</loc>
          <lastmod>2023-01-05</lastmod>
          <changefreq>daily</changefreq>
     </url>
@@ -1566,31 +1191,6 @@
          <changefreq>daily</changefreq>
     </url>
     <url>
-         <loc>https://monarch-initiative.github.io/ontogpt/environmental_sample/annotatorResult__object_id/</loc>
-         <lastmod>2023-01-05</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://monarch-initiative.github.io/ontogpt/environmental_sample/annotatorResult__object_text/</loc>
-         <lastmod>2023-01-05</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://monarch-initiative.github.io/ontogpt/environmental_sample/annotatorResult__subject_text/</loc>
-         <lastmod>2023-01-05</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://monarch-initiative.github.io/ontogpt/environmental_sample/causalRelationship__cause/</loc>
-         <lastmod>2023-01-05</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://monarch-initiative.github.io/ontogpt/environmental_sample/causalRelationship__effect/</loc>
-         <lastmod>2023-01-05</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
          <loc>https://monarch-initiative.github.io/ontogpt/environmental_sample/causal_relationships/</loc>
          <lastmod>2023-01-05</lastmod>
          <changefreq>daily</changefreq>
@@ -1641,41 +1241,6 @@
          <changefreq>daily</changefreq>
     </url>
     <url>
-         <loc>https://monarch-initiative.github.io/ontogpt/environmental_sample/extractionResult__extracted_object/</loc>
-         <lastmod>2023-01-05</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://monarch-initiative.github.io/ontogpt/environmental_sample/extractionResult__input_id/</loc>
-         <lastmod>2023-01-05</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://monarch-initiative.github.io/ontogpt/environmental_sample/extractionResult__input_text/</loc>
-         <lastmod>2023-01-05</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://monarch-initiative.github.io/ontogpt/environmental_sample/extractionResult__input_title/</loc>
-         <lastmod>2023-01-05</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://monarch-initiative.github.io/ontogpt/environmental_sample/extractionResult__named_entities/</loc>
-         <lastmod>2023-01-05</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://monarch-initiative.github.io/ontogpt/environmental_sample/extractionResult__prompt/</loc>
-         <lastmod>2023-01-05</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://monarch-initiative.github.io/ontogpt/environmental_sample/extractionResult__raw_completion_output/</loc>
-         <lastmod>2023-01-05</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
          <loc>https://monarch-initiative.github.io/ontogpt/environmental_sample/full_text/</loc>
          <lastmod>2023-01-05</lastmod>
          <changefreq>daily</changefreq>
@@ -1706,27 +1271,7 @@
          <changefreq>daily</changefreq>
     </url>
     <url>
-         <loc>https://monarch-initiative.github.io/ontogpt/environmental_sample/measurement__unit/</loc>
-         <lastmod>2023-01-05</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://monarch-initiative.github.io/ontogpt/environmental_sample/measurement__value/</loc>
-         <lastmod>2023-01-05</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
          <loc>https://monarch-initiative.github.io/ontogpt/environmental_sample/measurements/</loc>
-         <lastmod>2023-01-05</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://monarch-initiative.github.io/ontogpt/environmental_sample/namedEntity__id/</loc>
-         <lastmod>2023-01-05</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://monarch-initiative.github.io/ontogpt/environmental_sample/namedEntity__label/</loc>
          <lastmod>2023-01-05</lastmod>
          <changefreq>daily</changefreq>
     </url>
@@ -1766,67 +1311,12 @@
          <changefreq>daily</changefreq>
     </url>
     <url>
-         <loc>https://monarch-initiative.github.io/ontogpt/environmental_sample/publication__abstract/</loc>
-         <lastmod>2023-01-05</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://monarch-initiative.github.io/ontogpt/environmental_sample/publication__combined_text/</loc>
-         <lastmod>2023-01-05</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://monarch-initiative.github.io/ontogpt/environmental_sample/publication__full_text/</loc>
-         <lastmod>2023-01-05</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://monarch-initiative.github.io/ontogpt/environmental_sample/publication__id/</loc>
-         <lastmod>2023-01-05</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://monarch-initiative.github.io/ontogpt/environmental_sample/publication__title/</loc>
-         <lastmod>2023-01-05</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
          <loc>https://monarch-initiative.github.io/ontogpt/environmental_sample/qualifier/</loc>
          <lastmod>2023-01-05</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://monarch-initiative.github.io/ontogpt/environmental_sample/raw_completion_output/</loc>
-         <lastmod>2023-01-05</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://monarch-initiative.github.io/ontogpt/environmental_sample/study__causal_relationships/</loc>
-         <lastmod>2023-01-05</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://monarch-initiative.github.io/ontogpt/environmental_sample/study__environmental_material/</loc>
-         <lastmod>2023-01-05</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://monarch-initiative.github.io/ontogpt/environmental_sample/study__environments/</loc>
-         <lastmod>2023-01-05</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://monarch-initiative.github.io/ontogpt/environmental_sample/study__location/</loc>
-         <lastmod>2023-01-05</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://monarch-initiative.github.io/ontogpt/environmental_sample/study__measurements/</loc>
-         <lastmod>2023-01-05</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://monarch-initiative.github.io/ontogpt/environmental_sample/study__variables/</loc>
          <lastmod>2023-01-05</lastmod>
          <changefreq>daily</changefreq>
     </url>
@@ -1846,47 +1336,7 @@
          <changefreq>daily</changefreq>
     </url>
     <url>
-         <loc>https://monarch-initiative.github.io/ontogpt/environmental_sample/textWithTriples__publication/</loc>
-         <lastmod>2023-01-05</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://monarch-initiative.github.io/ontogpt/environmental_sample/textWithTriples__triples/</loc>
-         <lastmod>2023-01-05</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
          <loc>https://monarch-initiative.github.io/ontogpt/environmental_sample/title/</loc>
-         <lastmod>2023-01-05</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://monarch-initiative.github.io/ontogpt/environmental_sample/triple__object/</loc>
-         <lastmod>2023-01-05</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://monarch-initiative.github.io/ontogpt/environmental_sample/triple__object_qualifier/</loc>
-         <lastmod>2023-01-05</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://monarch-initiative.github.io/ontogpt/environmental_sample/triple__predicate/</loc>
-         <lastmod>2023-01-05</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://monarch-initiative.github.io/ontogpt/environmental_sample/triple__qualifier/</loc>
-         <lastmod>2023-01-05</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://monarch-initiative.github.io/ontogpt/environmental_sample/triple__subject/</loc>
-         <lastmod>2023-01-05</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://monarch-initiative.github.io/ontogpt/environmental_sample/triple__subject_qualifier/</loc>
          <lastmod>2023-01-05</lastmod>
          <changefreq>daily</changefreq>
     </url>
@@ -2111,21 +1561,6 @@
          <changefreq>daily</changefreq>
     </url>
     <url>
-         <loc>https://monarch-initiative.github.io/ontogpt/gocam/annotatorResult__object_id/</loc>
-         <lastmod>2023-01-05</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://monarch-initiative.github.io/ontogpt/gocam/annotatorResult__object_text/</loc>
-         <lastmod>2023-01-05</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://monarch-initiative.github.io/ontogpt/gocam/annotatorResult__subject_text/</loc>
-         <lastmod>2023-01-05</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
          <loc>https://monarch-initiative.github.io/ontogpt/gocam/cellular_processes/</loc>
          <lastmod>2023-01-05</lastmod>
          <changefreq>daily</changefreq>
@@ -2146,41 +1581,6 @@
          <changefreq>daily</changefreq>
     </url>
     <url>
-         <loc>https://monarch-initiative.github.io/ontogpt/gocam/extractionResult__extracted_object/</loc>
-         <lastmod>2023-01-05</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://monarch-initiative.github.io/ontogpt/gocam/extractionResult__input_id/</loc>
-         <lastmod>2023-01-05</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://monarch-initiative.github.io/ontogpt/gocam/extractionResult__input_text/</loc>
-         <lastmod>2023-01-05</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://monarch-initiative.github.io/ontogpt/gocam/extractionResult__input_title/</loc>
-         <lastmod>2023-01-05</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://monarch-initiative.github.io/ontogpt/gocam/extractionResult__named_entities/</loc>
-         <lastmod>2023-01-05</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://monarch-initiative.github.io/ontogpt/gocam/extractionResult__prompt/</loc>
-         <lastmod>2023-01-05</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://monarch-initiative.github.io/ontogpt/gocam/extractionResult__raw_completion_output/</loc>
-         <lastmod>2023-01-05</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
          <loc>https://monarch-initiative.github.io/ontogpt/gocam/full_text/</loc>
          <lastmod>2023-01-05</lastmod>
          <changefreq>daily</changefreq>
@@ -2192,61 +1592,6 @@
     </url>
     <url>
          <loc>https://monarch-initiative.github.io/ontogpt/gocam/gene2/</loc>
-         <lastmod>2023-01-05</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://monarch-initiative.github.io/ontogpt/gocam/geneGeneInteraction__gene1/</loc>
-         <lastmod>2023-01-05</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://monarch-initiative.github.io/ontogpt/gocam/geneGeneInteraction__gene2/</loc>
-         <lastmod>2023-01-05</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://monarch-initiative.github.io/ontogpt/gocam/geneMolecularActivityRelationship2__gene/</loc>
-         <lastmod>2023-01-05</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://monarch-initiative.github.io/ontogpt/gocam/geneMolecularActivityRelationship2__molecular_activity/</loc>
-         <lastmod>2023-01-05</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://monarch-initiative.github.io/ontogpt/gocam/geneMolecularActivityRelationship2__target/</loc>
-         <lastmod>2023-01-05</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://monarch-initiative.github.io/ontogpt/gocam/geneMolecularActivityRelationship__gene/</loc>
-         <lastmod>2023-01-05</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://monarch-initiative.github.io/ontogpt/gocam/geneMolecularActivityRelationship__molecular_activity/</loc>
-         <lastmod>2023-01-05</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://monarch-initiative.github.io/ontogpt/gocam/geneOrganismRelationship__gene/</loc>
-         <lastmod>2023-01-05</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://monarch-initiative.github.io/ontogpt/gocam/geneOrganismRelationship__organism/</loc>
-         <lastmod>2023-01-05</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://monarch-initiative.github.io/ontogpt/gocam/geneSubcellularLocalizationRelationship__gene/</loc>
-         <lastmod>2023-01-05</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://monarch-initiative.github.io/ontogpt/gocam/geneSubcellularLocalizationRelationship__location/</loc>
          <lastmod>2023-01-05</lastmod>
          <changefreq>daily</changefreq>
     </url>
@@ -2272,51 +1617,6 @@
     </url>
     <url>
          <loc>https://monarch-initiative.github.io/ontogpt/gocam/genes/</loc>
-         <lastmod>2023-01-05</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://monarch-initiative.github.io/ontogpt/gocam/goCamAnnotations__activities/</loc>
-         <lastmod>2023-01-05</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://monarch-initiative.github.io/ontogpt/gocam/goCamAnnotations__cellular_processes/</loc>
-         <lastmod>2023-01-05</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://monarch-initiative.github.io/ontogpt/gocam/goCamAnnotations__gene_functions/</loc>
-         <lastmod>2023-01-05</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://monarch-initiative.github.io/ontogpt/gocam/goCamAnnotations__gene_gene_interactions/</loc>
-         <lastmod>2023-01-05</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://monarch-initiative.github.io/ontogpt/gocam/goCamAnnotations__gene_localizations/</loc>
-         <lastmod>2023-01-05</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://monarch-initiative.github.io/ontogpt/gocam/goCamAnnotations__gene_organisms/</loc>
-         <lastmod>2023-01-05</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://monarch-initiative.github.io/ontogpt/gocam/goCamAnnotations__genes/</loc>
-         <lastmod>2023-01-05</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://monarch-initiative.github.io/ontogpt/gocam/goCamAnnotations__organisms/</loc>
-         <lastmod>2023-01-05</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://monarch-initiative.github.io/ontogpt/gocam/goCamAnnotations__pathways/</loc>
          <lastmod>2023-01-05</lastmod>
          <changefreq>daily</changefreq>
     </url>
@@ -2366,16 +1666,6 @@
          <changefreq>daily</changefreq>
     </url>
     <url>
-         <loc>https://monarch-initiative.github.io/ontogpt/gocam/namedEntity__id/</loc>
-         <lastmod>2023-01-05</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://monarch-initiative.github.io/ontogpt/gocam/namedEntity__label/</loc>
-         <lastmod>2023-01-05</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
          <loc>https://monarch-initiative.github.io/ontogpt/gocam/named_entities/</loc>
          <lastmod>2023-01-05</lastmod>
          <changefreq>daily</changefreq>
@@ -2421,31 +1711,6 @@
          <changefreq>daily</changefreq>
     </url>
     <url>
-         <loc>https://monarch-initiative.github.io/ontogpt/gocam/publication__abstract/</loc>
-         <lastmod>2023-01-05</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://monarch-initiative.github.io/ontogpt/gocam/publication__combined_text/</loc>
-         <lastmod>2023-01-05</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://monarch-initiative.github.io/ontogpt/gocam/publication__full_text/</loc>
-         <lastmod>2023-01-05</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://monarch-initiative.github.io/ontogpt/gocam/publication__id/</loc>
-         <lastmod>2023-01-05</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://monarch-initiative.github.io/ontogpt/gocam/publication__title/</loc>
-         <lastmod>2023-01-05</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
          <loc>https://monarch-initiative.github.io/ontogpt/gocam/qualifier/</loc>
          <lastmod>2023-01-05</lastmod>
          <changefreq>daily</changefreq>
@@ -2476,47 +1741,7 @@
          <changefreq>daily</changefreq>
     </url>
     <url>
-         <loc>https://monarch-initiative.github.io/ontogpt/gocam/textWithTriples__publication/</loc>
-         <lastmod>2023-01-05</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://monarch-initiative.github.io/ontogpt/gocam/textWithTriples__triples/</loc>
-         <lastmod>2023-01-05</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
          <loc>https://monarch-initiative.github.io/ontogpt/gocam/title/</loc>
-         <lastmod>2023-01-05</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://monarch-initiative.github.io/ontogpt/gocam/triple__object/</loc>
-         <lastmod>2023-01-05</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://monarch-initiative.github.io/ontogpt/gocam/triple__object_qualifier/</loc>
-         <lastmod>2023-01-05</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://monarch-initiative.github.io/ontogpt/gocam/triple__predicate/</loc>
-         <lastmod>2023-01-05</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://monarch-initiative.github.io/ontogpt/gocam/triple__qualifier/</loc>
-         <lastmod>2023-01-05</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://monarch-initiative.github.io/ontogpt/gocam/triple__subject/</loc>
-         <lastmod>2023-01-05</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://monarch-initiative.github.io/ontogpt/gocam/triple__subject_qualifier/</loc>
          <lastmod>2023-01-05</lastmod>
          <changefreq>daily</changefreq>
     </url>
@@ -2676,21 +1901,6 @@
          <changefreq>daily</changefreq>
     </url>
     <url>
-         <loc>https://monarch-initiative.github.io/ontogpt/halo/annotatorResult__object_id/</loc>
-         <lastmod>2023-01-05</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://monarch-initiative.github.io/ontogpt/halo/annotatorResult__object_text/</loc>
-         <lastmod>2023-01-05</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://monarch-initiative.github.io/ontogpt/halo/annotatorResult__subject_text/</loc>
-         <lastmod>2023-01-05</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
          <loc>https://monarch-initiative.github.io/ontogpt/halo/categories/</loc>
          <lastmod>2023-01-05</lastmod>
          <changefreq>daily</changefreq>
@@ -2736,41 +1946,6 @@
          <changefreq>daily</changefreq>
     </url>
     <url>
-         <loc>https://monarch-initiative.github.io/ontogpt/halo/extractionResult__extracted_object/</loc>
-         <lastmod>2023-01-05</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://monarch-initiative.github.io/ontogpt/halo/extractionResult__input_id/</loc>
-         <lastmod>2023-01-05</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://monarch-initiative.github.io/ontogpt/halo/extractionResult__input_text/</loc>
-         <lastmod>2023-01-05</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://monarch-initiative.github.io/ontogpt/halo/extractionResult__input_title/</loc>
-         <lastmod>2023-01-05</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://monarch-initiative.github.io/ontogpt/halo/extractionResult__named_entities/</loc>
-         <lastmod>2023-01-05</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://monarch-initiative.github.io/ontogpt/halo/extractionResult__prompt/</loc>
-         <lastmod>2023-01-05</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://monarch-initiative.github.io/ontogpt/halo/extractionResult__raw_completion_output/</loc>
-         <lastmod>2023-01-05</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
          <loc>https://monarch-initiative.github.io/ontogpt/halo/full_text/</loc>
          <lastmod>2023-01-05</lastmod>
          <changefreq>daily</changefreq>
@@ -2811,16 +1986,6 @@
          <changefreq>daily</changefreq>
     </url>
     <url>
-         <loc>https://monarch-initiative.github.io/ontogpt/halo/namedEntity__id/</loc>
-         <lastmod>2023-01-05</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://monarch-initiative.github.io/ontogpt/halo/namedEntity__label/</loc>
-         <lastmod>2023-01-05</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
          <loc>https://monarch-initiative.github.io/ontogpt/halo/named_entities/</loc>
          <lastmod>2023-01-05</lastmod>
          <changefreq>daily</changefreq>
@@ -2851,61 +2016,6 @@
          <changefreq>daily</changefreq>
     </url>
     <url>
-         <loc>https://monarch-initiative.github.io/ontogpt/halo/ontologyElement__categories/</loc>
-         <lastmod>2023-01-05</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://monarch-initiative.github.io/ontogpt/halo/ontologyElement__context/</loc>
-         <lastmod>2023-01-05</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://monarch-initiative.github.io/ontogpt/halo/ontologyElement__description/</loc>
-         <lastmod>2023-01-05</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://monarch-initiative.github.io/ontogpt/halo/ontologyElement__equivalent_to/</loc>
-         <lastmod>2023-01-05</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://monarch-initiative.github.io/ontogpt/halo/ontologyElement__name/</loc>
-         <lastmod>2023-01-05</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://monarch-initiative.github.io/ontogpt/halo/ontologyElement__part_of/</loc>
-         <lastmod>2023-01-05</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://monarch-initiative.github.io/ontogpt/halo/ontologyElement__parts/</loc>
-         <lastmod>2023-01-05</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://monarch-initiative.github.io/ontogpt/halo/ontologyElement__subclass_of/</loc>
-         <lastmod>2023-01-05</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://monarch-initiative.github.io/ontogpt/halo/ontologyElement__subtypes/</loc>
-         <lastmod>2023-01-05</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://monarch-initiative.github.io/ontogpt/halo/ontologyElement__synonyms/</loc>
-         <lastmod>2023-01-05</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://monarch-initiative.github.io/ontogpt/halo/ontology__elements/</loc>
-         <lastmod>2023-01-05</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
          <loc>https://monarch-initiative.github.io/ontogpt/halo/part_of/</loc>
          <lastmod>2023-01-05</lastmod>
          <changefreq>daily</changefreq>
@@ -2922,31 +2032,6 @@
     </url>
     <url>
          <loc>https://monarch-initiative.github.io/ontogpt/halo/prompt/</loc>
-         <lastmod>2023-01-05</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://monarch-initiative.github.io/ontogpt/halo/publication__abstract/</loc>
-         <lastmod>2023-01-05</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://monarch-initiative.github.io/ontogpt/halo/publication__combined_text/</loc>
-         <lastmod>2023-01-05</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://monarch-initiative.github.io/ontogpt/halo/publication__full_text/</loc>
-         <lastmod>2023-01-05</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://monarch-initiative.github.io/ontogpt/halo/publication__id/</loc>
-         <lastmod>2023-01-05</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://monarch-initiative.github.io/ontogpt/halo/publication__title/</loc>
          <lastmod>2023-01-05</lastmod>
          <changefreq>daily</changefreq>
     </url>
@@ -2991,47 +2076,7 @@
          <changefreq>daily</changefreq>
     </url>
     <url>
-         <loc>https://monarch-initiative.github.io/ontogpt/halo/textWithTriples__publication/</loc>
-         <lastmod>2023-01-05</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://monarch-initiative.github.io/ontogpt/halo/textWithTriples__triples/</loc>
-         <lastmod>2023-01-05</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
          <loc>https://monarch-initiative.github.io/ontogpt/halo/title/</loc>
-         <lastmod>2023-01-05</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://monarch-initiative.github.io/ontogpt/halo/triple__object/</loc>
-         <lastmod>2023-01-05</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://monarch-initiative.github.io/ontogpt/halo/triple__object_qualifier/</loc>
-         <lastmod>2023-01-05</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://monarch-initiative.github.io/ontogpt/halo/triple__predicate/</loc>
-         <lastmod>2023-01-05</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://monarch-initiative.github.io/ontogpt/halo/triple__qualifier/</loc>
-         <lastmod>2023-01-05</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://monarch-initiative.github.io/ontogpt/halo/triple__subject/</loc>
-         <lastmod>2023-01-05</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://monarch-initiative.github.io/ontogpt/halo/triple__subject_qualifier/</loc>
          <lastmod>2023-01-05</lastmod>
          <changefreq>daily</changefreq>
     </url>
@@ -3211,21 +2256,6 @@
          <changefreq>daily</changefreq>
     </url>
     <url>
-         <loc>https://monarch-initiative.github.io/ontogpt/mendelian_disease/annotatorResult__object_id/</loc>
-         <lastmod>2023-01-05</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://monarch-initiative.github.io/ontogpt/mendelian_disease/annotatorResult__object_text/</loc>
-         <lastmod>2023-01-05</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://monarch-initiative.github.io/ontogpt/mendelian_disease/annotatorResult__subject_text/</loc>
-         <lastmod>2023-01-05</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
          <loc>https://monarch-initiative.github.io/ontogpt/mendelian_disease/characteristic/</loc>
          <lastmod>2023-01-05</lastmod>
          <changefreq>daily</changefreq>
@@ -3257,41 +2287,6 @@
     </url>
     <url>
          <loc>https://monarch-initiative.github.io/ontogpt/mendelian_disease/extracted_object/</loc>
-         <lastmod>2023-01-05</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://monarch-initiative.github.io/ontogpt/mendelian_disease/extractionResult__extracted_object/</loc>
-         <lastmod>2023-01-05</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://monarch-initiative.github.io/ontogpt/mendelian_disease/extractionResult__input_id/</loc>
-         <lastmod>2023-01-05</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://monarch-initiative.github.io/ontogpt/mendelian_disease/extractionResult__input_text/</loc>
-         <lastmod>2023-01-05</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://monarch-initiative.github.io/ontogpt/mendelian_disease/extractionResult__input_title/</loc>
-         <lastmod>2023-01-05</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://monarch-initiative.github.io/ontogpt/mendelian_disease/extractionResult__named_entities/</loc>
-         <lastmod>2023-01-05</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://monarch-initiative.github.io/ontogpt/mendelian_disease/extractionResult__prompt/</loc>
-         <lastmod>2023-01-05</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://monarch-initiative.github.io/ontogpt/mendelian_disease/extractionResult__raw_completion_output/</loc>
          <lastmod>2023-01-05</lastmod>
          <changefreq>daily</changefreq>
     </url>
@@ -3336,51 +2331,6 @@
          <changefreq>daily</changefreq>
     </url>
     <url>
-         <loc>https://monarch-initiative.github.io/ontogpt/mendelian_disease/mendelianDisease__description/</loc>
-         <lastmod>2023-01-05</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://monarch-initiative.github.io/ontogpt/mendelian_disease/mendelianDisease__disease_onsets/</loc>
-         <lastmod>2023-01-05</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://monarch-initiative.github.io/ontogpt/mendelian_disease/mendelianDisease__genes/</loc>
-         <lastmod>2023-01-05</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://monarch-initiative.github.io/ontogpt/mendelian_disease/mendelianDisease__inheritance/</loc>
-         <lastmod>2023-01-05</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://monarch-initiative.github.io/ontogpt/mendelian_disease/mendelianDisease__name/</loc>
-         <lastmod>2023-01-05</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://monarch-initiative.github.io/ontogpt/mendelian_disease/mendelianDisease__publications/</loc>
-         <lastmod>2023-01-05</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://monarch-initiative.github.io/ontogpt/mendelian_disease/mendelianDisease__subclass_of/</loc>
-         <lastmod>2023-01-05</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://monarch-initiative.github.io/ontogpt/mendelian_disease/mendelianDisease__symptoms/</loc>
-         <lastmod>2023-01-05</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://monarch-initiative.github.io/ontogpt/mendelian_disease/mendelianDisease__synonyms/</loc>
-         <lastmod>2023-01-05</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
          <loc>https://monarch-initiative.github.io/ontogpt/mendelian_disease/mendelian_disease-template/</loc>
          <lastmod>2023-01-05</lastmod>
          <changefreq>daily</changefreq>
@@ -3392,16 +2342,6 @@
     </url>
     <url>
          <loc>https://monarch-initiative.github.io/ontogpt/mendelian_disease/name/</loc>
-         <lastmod>2023-01-05</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://monarch-initiative.github.io/ontogpt/mendelian_disease/namedEntity__id/</loc>
-         <lastmod>2023-01-05</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://monarch-initiative.github.io/ontogpt/mendelian_disease/namedEntity__label/</loc>
          <lastmod>2023-01-05</lastmod>
          <changefreq>daily</changefreq>
     </url>
@@ -3431,21 +2371,6 @@
          <changefreq>daily</changefreq>
     </url>
     <url>
-         <loc>https://monarch-initiative.github.io/ontogpt/mendelian_disease/onset__decades/</loc>
-         <lastmod>2023-01-05</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://monarch-initiative.github.io/ontogpt/mendelian_disease/onset__juvenile_or_adult/</loc>
-         <lastmod>2023-01-05</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://monarch-initiative.github.io/ontogpt/mendelian_disease/onset__years_old/</loc>
-         <lastmod>2023-01-05</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
          <loc>https://monarch-initiative.github.io/ontogpt/mendelian_disease/onset_of_symptom/</loc>
          <lastmod>2023-01-05</lastmod>
          <changefreq>daily</changefreq>
@@ -3457,31 +2382,6 @@
     </url>
     <url>
          <loc>https://monarch-initiative.github.io/ontogpt/mendelian_disease/prompt/</loc>
-         <lastmod>2023-01-05</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://monarch-initiative.github.io/ontogpt/mendelian_disease/publication__abstract/</loc>
-         <lastmod>2023-01-05</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://monarch-initiative.github.io/ontogpt/mendelian_disease/publication__combined_text/</loc>
-         <lastmod>2023-01-05</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://monarch-initiative.github.io/ontogpt/mendelian_disease/publication__full_text/</loc>
-         <lastmod>2023-01-05</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://monarch-initiative.github.io/ontogpt/mendelian_disease/publication__id/</loc>
-         <lastmod>2023-01-05</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://monarch-initiative.github.io/ontogpt/mendelian_disease/publication__title/</loc>
          <lastmod>2023-01-05</lastmod>
          <changefreq>daily</changefreq>
     </url>
@@ -3526,26 +2426,6 @@
          <changefreq>daily</changefreq>
     </url>
     <url>
-         <loc>https://monarch-initiative.github.io/ontogpt/mendelian_disease/symptom__affects/</loc>
-         <lastmod>2023-01-05</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://monarch-initiative.github.io/ontogpt/mendelian_disease/symptom__characteristic/</loc>
-         <lastmod>2023-01-05</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://monarch-initiative.github.io/ontogpt/mendelian_disease/symptom__onset_of_symptom/</loc>
-         <lastmod>2023-01-05</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://monarch-initiative.github.io/ontogpt/mendelian_disease/symptom__severity/</loc>
-         <lastmod>2023-01-05</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
          <loc>https://monarch-initiative.github.io/ontogpt/mendelian_disease/symptoms/</loc>
          <lastmod>2023-01-05</lastmod>
          <changefreq>daily</changefreq>
@@ -3556,47 +2436,7 @@
          <changefreq>daily</changefreq>
     </url>
     <url>
-         <loc>https://monarch-initiative.github.io/ontogpt/mendelian_disease/textWithTriples__publication/</loc>
-         <lastmod>2023-01-05</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://monarch-initiative.github.io/ontogpt/mendelian_disease/textWithTriples__triples/</loc>
-         <lastmod>2023-01-05</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
          <loc>https://monarch-initiative.github.io/ontogpt/mendelian_disease/title/</loc>
-         <lastmod>2023-01-05</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://monarch-initiative.github.io/ontogpt/mendelian_disease/triple__object/</loc>
-         <lastmod>2023-01-05</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://monarch-initiative.github.io/ontogpt/mendelian_disease/triple__object_qualifier/</loc>
-         <lastmod>2023-01-05</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://monarch-initiative.github.io/ontogpt/mendelian_disease/triple__predicate/</loc>
-         <lastmod>2023-01-05</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://monarch-initiative.github.io/ontogpt/mendelian_disease/triple__qualifier/</loc>
-         <lastmod>2023-01-05</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://monarch-initiative.github.io/ontogpt/mendelian_disease/triple__subject/</loc>
-         <lastmod>2023-01-05</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://monarch-initiative.github.io/ontogpt/mendelian_disease/triple__subject_qualifier/</loc>
          <lastmod>2023-01-05</lastmod>
          <changefreq>daily</changefreq>
     </url>
@@ -3761,21 +2601,6 @@
          <changefreq>daily</changefreq>
     </url>
     <url>
-         <loc>https://monarch-initiative.github.io/ontogpt/metabolic_process/annotatorResult__object_id/</loc>
-         <lastmod>2023-01-05</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://monarch-initiative.github.io/ontogpt/metabolic_process/annotatorResult__object_text/</loc>
-         <lastmod>2023-01-05</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://monarch-initiative.github.io/ontogpt/metabolic_process/annotatorResult__subject_text/</loc>
-         <lastmod>2023-01-05</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
          <loc>https://monarch-initiative.github.io/ontogpt/metabolic_process/category/</loc>
          <lastmod>2023-01-05</lastmod>
          <changefreq>daily</changefreq>
@@ -3797,41 +2622,6 @@
     </url>
     <url>
          <loc>https://monarch-initiative.github.io/ontogpt/metabolic_process/extracted_object/</loc>
-         <lastmod>2023-01-05</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://monarch-initiative.github.io/ontogpt/metabolic_process/extractionResult__extracted_object/</loc>
-         <lastmod>2023-01-05</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://monarch-initiative.github.io/ontogpt/metabolic_process/extractionResult__input_id/</loc>
-         <lastmod>2023-01-05</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://monarch-initiative.github.io/ontogpt/metabolic_process/extractionResult__input_text/</loc>
-         <lastmod>2023-01-05</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://monarch-initiative.github.io/ontogpt/metabolic_process/extractionResult__input_title/</loc>
-         <lastmod>2023-01-05</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://monarch-initiative.github.io/ontogpt/metabolic_process/extractionResult__named_entities/</loc>
-         <lastmod>2023-01-05</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://monarch-initiative.github.io/ontogpt/metabolic_process/extractionResult__prompt/</loc>
-         <lastmod>2023-01-05</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://monarch-initiative.github.io/ontogpt/metabolic_process/extractionResult__raw_completion_output/</loc>
          <lastmod>2023-01-05</lastmod>
          <changefreq>daily</changefreq>
     </url>
@@ -3876,52 +2666,7 @@
          <changefreq>daily</changefreq>
     </url>
     <url>
-         <loc>https://monarch-initiative.github.io/ontogpt/metabolic_process/metabolicProcess__category/</loc>
-         <lastmod>2023-01-05</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://monarch-initiative.github.io/ontogpt/metabolic_process/metabolicProcess__description/</loc>
-         <lastmod>2023-01-05</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://monarch-initiative.github.io/ontogpt/metabolic_process/metabolicProcess__inputs/</loc>
-         <lastmod>2023-01-05</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://monarch-initiative.github.io/ontogpt/metabolic_process/metabolicProcess__label/</loc>
-         <lastmod>2023-01-05</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://monarch-initiative.github.io/ontogpt/metabolic_process/metabolicProcess__outputs/</loc>
-         <lastmod>2023-01-05</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://monarch-initiative.github.io/ontogpt/metabolic_process/metabolicProcess__subclass_of/</loc>
-         <lastmod>2023-01-05</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://monarch-initiative.github.io/ontogpt/metabolic_process/metabolicProcess__synonyms/</loc>
-         <lastmod>2023-01-05</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
          <loc>https://monarch-initiative.github.io/ontogpt/metabolic_process/metabolic_process/</loc>
-         <lastmod>2023-01-05</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://monarch-initiative.github.io/ontogpt/metabolic_process/namedEntity__id/</loc>
-         <lastmod>2023-01-05</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://monarch-initiative.github.io/ontogpt/metabolic_process/namedEntity__label/</loc>
          <lastmod>2023-01-05</lastmod>
          <changefreq>daily</changefreq>
     </url>
@@ -3966,31 +2711,6 @@
          <changefreq>daily</changefreq>
     </url>
     <url>
-         <loc>https://monarch-initiative.github.io/ontogpt/metabolic_process/publication__abstract/</loc>
-         <lastmod>2023-01-05</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://monarch-initiative.github.io/ontogpt/metabolic_process/publication__combined_text/</loc>
-         <lastmod>2023-01-05</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://monarch-initiative.github.io/ontogpt/metabolic_process/publication__full_text/</loc>
-         <lastmod>2023-01-05</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://monarch-initiative.github.io/ontogpt/metabolic_process/publication__id/</loc>
-         <lastmod>2023-01-05</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://monarch-initiative.github.io/ontogpt/metabolic_process/publication__title/</loc>
-         <lastmod>2023-01-05</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
          <loc>https://monarch-initiative.github.io/ontogpt/metabolic_process/qualifier/</loc>
          <lastmod>2023-01-05</lastmod>
          <changefreq>daily</changefreq>
@@ -4026,47 +2746,7 @@
          <changefreq>daily</changefreq>
     </url>
     <url>
-         <loc>https://monarch-initiative.github.io/ontogpt/metabolic_process/textWithTriples__publication/</loc>
-         <lastmod>2023-01-05</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://monarch-initiative.github.io/ontogpt/metabolic_process/textWithTriples__triples/</loc>
-         <lastmod>2023-01-05</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
          <loc>https://monarch-initiative.github.io/ontogpt/metabolic_process/title/</loc>
-         <lastmod>2023-01-05</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://monarch-initiative.github.io/ontogpt/metabolic_process/triple__object/</loc>
-         <lastmod>2023-01-05</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://monarch-initiative.github.io/ontogpt/metabolic_process/triple__object_qualifier/</loc>
-         <lastmod>2023-01-05</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://monarch-initiative.github.io/ontogpt/metabolic_process/triple__predicate/</loc>
-         <lastmod>2023-01-05</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://monarch-initiative.github.io/ontogpt/metabolic_process/triple__qualifier/</loc>
-         <lastmod>2023-01-05</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://monarch-initiative.github.io/ontogpt/metabolic_process/triple__subject/</loc>
-         <lastmod>2023-01-05</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://monarch-initiative.github.io/ontogpt/metabolic_process/triple__subject_qualifier/</loc>
          <lastmod>2023-01-05</lastmod>
          <changefreq>daily</changefreq>
     </url>
@@ -4266,31 +2946,6 @@
          <changefreq>daily</changefreq>
     </url>
     <url>
-         <loc>https://monarch-initiative.github.io/ontogpt/metagenome_study/annotatorResult__object_id/</loc>
-         <lastmod>2023-01-05</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://monarch-initiative.github.io/ontogpt/metagenome_study/annotatorResult__object_text/</loc>
-         <lastmod>2023-01-05</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://monarch-initiative.github.io/ontogpt/metagenome_study/annotatorResult__subject_text/</loc>
-         <lastmod>2023-01-05</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://monarch-initiative.github.io/ontogpt/metagenome_study/causalRelationship__cause/</loc>
-         <lastmod>2023-01-05</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://monarch-initiative.github.io/ontogpt/metagenome_study/causalRelationship__effect/</loc>
-         <lastmod>2023-01-05</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
          <loc>https://monarch-initiative.github.io/ontogpt/metagenome_study/causal_relationships/</loc>
          <lastmod>2023-01-05</lastmod>
          <changefreq>daily</changefreq>
@@ -4336,41 +2991,6 @@
          <changefreq>daily</changefreq>
     </url>
     <url>
-         <loc>https://monarch-initiative.github.io/ontogpt/metagenome_study/extractionResult__extracted_object/</loc>
-         <lastmod>2023-01-05</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://monarch-initiative.github.io/ontogpt/metagenome_study/extractionResult__input_id/</loc>
-         <lastmod>2023-01-05</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://monarch-initiative.github.io/ontogpt/metagenome_study/extractionResult__input_text/</loc>
-         <lastmod>2023-01-05</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://monarch-initiative.github.io/ontogpt/metagenome_study/extractionResult__input_title/</loc>
-         <lastmod>2023-01-05</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://monarch-initiative.github.io/ontogpt/metagenome_study/extractionResult__named_entities/</loc>
-         <lastmod>2023-01-05</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://monarch-initiative.github.io/ontogpt/metagenome_study/extractionResult__prompt/</loc>
-         <lastmod>2023-01-05</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://monarch-initiative.github.io/ontogpt/metagenome_study/extractionResult__raw_completion_output/</loc>
-         <lastmod>2023-01-05</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
          <loc>https://monarch-initiative.github.io/ontogpt/metagenome_study/full_text/</loc>
          <lastmod>2023-01-05</lastmod>
          <changefreq>daily</changefreq>
@@ -4401,32 +3021,12 @@
          <changefreq>daily</changefreq>
     </url>
     <url>
-         <loc>https://monarch-initiative.github.io/ontogpt/metagenome_study/measurement__unit/</loc>
-         <lastmod>2023-01-05</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://monarch-initiative.github.io/ontogpt/metagenome_study/measurement__value/</loc>
-         <lastmod>2023-01-05</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
          <loc>https://monarch-initiative.github.io/ontogpt/metagenome_study/measurements/</loc>
          <lastmod>2023-01-05</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://monarch-initiative.github.io/ontogpt/metagenome_study/metagenome_study/</loc>
-         <lastmod>2023-01-05</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://monarch-initiative.github.io/ontogpt/metagenome_study/namedEntity__id/</loc>
-         <lastmod>2023-01-05</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://monarch-initiative.github.io/ontogpt/metagenome_study/namedEntity__label/</loc>
          <lastmod>2023-01-05</lastmod>
          <changefreq>daily</changefreq>
     </url>
@@ -4471,31 +3071,6 @@
          <changefreq>daily</changefreq>
     </url>
     <url>
-         <loc>https://monarch-initiative.github.io/ontogpt/metagenome_study/publication__abstract/</loc>
-         <lastmod>2023-01-05</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://monarch-initiative.github.io/ontogpt/metagenome_study/publication__combined_text/</loc>
-         <lastmod>2023-01-05</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://monarch-initiative.github.io/ontogpt/metagenome_study/publication__full_text/</loc>
-         <lastmod>2023-01-05</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://monarch-initiative.github.io/ontogpt/metagenome_study/publication__id/</loc>
-         <lastmod>2023-01-05</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://monarch-initiative.github.io/ontogpt/metagenome_study/publication__title/</loc>
-         <lastmod>2023-01-05</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
          <loc>https://monarch-initiative.github.io/ontogpt/metagenome_study/qualifier/</loc>
          <lastmod>2023-01-05</lastmod>
          <changefreq>daily</changefreq>
@@ -4507,51 +3082,6 @@
     </url>
     <url>
          <loc>https://monarch-initiative.github.io/ontogpt/metagenome_study/sequencing_technologies/</loc>
-         <lastmod>2023-01-05</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://monarch-initiative.github.io/ontogpt/metagenome_study/study__causal_relationships/</loc>
-         <lastmod>2023-01-05</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://monarch-initiative.github.io/ontogpt/metagenome_study/study__environmental_material/</loc>
-         <lastmod>2023-01-05</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://monarch-initiative.github.io/ontogpt/metagenome_study/study__environments/</loc>
-         <lastmod>2023-01-05</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://monarch-initiative.github.io/ontogpt/metagenome_study/study__location/</loc>
-         <lastmod>2023-01-05</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://monarch-initiative.github.io/ontogpt/metagenome_study/study__measurements/</loc>
-         <lastmod>2023-01-05</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://monarch-initiative.github.io/ontogpt/metagenome_study/study__organisms/</loc>
-         <lastmod>2023-01-05</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://monarch-initiative.github.io/ontogpt/metagenome_study/study__sequencing_technologies/</loc>
-         <lastmod>2023-01-05</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://monarch-initiative.github.io/ontogpt/metagenome_study/study__treatments/</loc>
-         <lastmod>2023-01-05</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://monarch-initiative.github.io/ontogpt/metagenome_study/study__variables/</loc>
          <lastmod>2023-01-05</lastmod>
          <changefreq>daily</changefreq>
     </url>
@@ -4571,52 +3101,12 @@
          <changefreq>daily</changefreq>
     </url>
     <url>
-         <loc>https://monarch-initiative.github.io/ontogpt/metagenome_study/textWithTriples__publication/</loc>
-         <lastmod>2023-01-05</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://monarch-initiative.github.io/ontogpt/metagenome_study/textWithTriples__triples/</loc>
-         <lastmod>2023-01-05</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
          <loc>https://monarch-initiative.github.io/ontogpt/metagenome_study/title/</loc>
          <lastmod>2023-01-05</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://monarch-initiative.github.io/ontogpt/metagenome_study/treatments/</loc>
-         <lastmod>2023-01-05</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://monarch-initiative.github.io/ontogpt/metagenome_study/triple__object/</loc>
-         <lastmod>2023-01-05</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://monarch-initiative.github.io/ontogpt/metagenome_study/triple__object_qualifier/</loc>
-         <lastmod>2023-01-05</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://monarch-initiative.github.io/ontogpt/metagenome_study/triple__predicate/</loc>
-         <lastmod>2023-01-05</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://monarch-initiative.github.io/ontogpt/metagenome_study/triple__qualifier/</loc>
-         <lastmod>2023-01-05</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://monarch-initiative.github.io/ontogpt/metagenome_study/triple__subject/</loc>
-         <lastmod>2023-01-05</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://monarch-initiative.github.io/ontogpt/metagenome_study/triple__subject_qualifier/</loc>
          <lastmod>2023-01-05</lastmod>
          <changefreq>daily</changefreq>
     </url>
@@ -4786,21 +3276,6 @@
          <changefreq>daily</changefreq>
     </url>
     <url>
-         <loc>https://monarch-initiative.github.io/ontogpt/ontology_class/annotatorResult__object_id/</loc>
-         <lastmod>2023-01-05</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://monarch-initiative.github.io/ontogpt/ontology_class/annotatorResult__object_text/</loc>
-         <lastmod>2023-01-05</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://monarch-initiative.github.io/ontogpt/ontology_class/annotatorResult__subject_text/</loc>
-         <lastmod>2023-01-05</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
          <loc>https://monarch-initiative.github.io/ontogpt/ontology_class/categories/</loc>
          <lastmod>2023-01-05</lastmod>
          <changefreq>daily</changefreq>
@@ -4832,41 +3307,6 @@
     </url>
     <url>
          <loc>https://monarch-initiative.github.io/ontogpt/ontology_class/extracted_object/</loc>
-         <lastmod>2023-01-05</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://monarch-initiative.github.io/ontogpt/ontology_class/extractionResult__extracted_object/</loc>
-         <lastmod>2023-01-05</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://monarch-initiative.github.io/ontogpt/ontology_class/extractionResult__input_id/</loc>
-         <lastmod>2023-01-05</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://monarch-initiative.github.io/ontogpt/ontology_class/extractionResult__input_text/</loc>
-         <lastmod>2023-01-05</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://monarch-initiative.github.io/ontogpt/ontology_class/extractionResult__input_title/</loc>
-         <lastmod>2023-01-05</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://monarch-initiative.github.io/ontogpt/ontology_class/extractionResult__named_entities/</loc>
-         <lastmod>2023-01-05</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://monarch-initiative.github.io/ontogpt/ontology_class/extractionResult__prompt/</loc>
-         <lastmod>2023-01-05</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://monarch-initiative.github.io/ontogpt/ontology_class/extractionResult__raw_completion_output/</loc>
          <lastmod>2023-01-05</lastmod>
          <changefreq>daily</changefreq>
     </url>
@@ -4906,32 +3346,7 @@
          <changefreq>daily</changefreq>
     </url>
     <url>
-         <loc>https://monarch-initiative.github.io/ontogpt/ontology_class/logicalDefinition__differentiating_characteristic_parents/</loc>
-         <lastmod>2023-01-05</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://monarch-initiative.github.io/ontogpt/ontology_class/logicalDefinition__differentiating_characteristic_relationship/</loc>
-         <lastmod>2023-01-05</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://monarch-initiative.github.io/ontogpt/ontology_class/logicalDefinition__genus/</loc>
-         <lastmod>2023-01-05</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
          <loc>https://monarch-initiative.github.io/ontogpt/ontology_class/logical_definition/</loc>
-         <lastmod>2023-01-05</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://monarch-initiative.github.io/ontogpt/ontology_class/namedEntity__id/</loc>
-         <lastmod>2023-01-05</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://monarch-initiative.github.io/ontogpt/ontology_class/namedEntity__label/</loc>
          <lastmod>2023-01-05</lastmod>
          <changefreq>daily</changefreq>
     </url>
@@ -4966,36 +3381,6 @@
          <changefreq>daily</changefreq>
     </url>
     <url>
-         <loc>https://monarch-initiative.github.io/ontogpt/ontology_class/ontologyClass__categories/</loc>
-         <lastmod>2023-01-05</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://monarch-initiative.github.io/ontogpt/ontology_class/ontologyClass__description/</loc>
-         <lastmod>2023-01-05</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://monarch-initiative.github.io/ontogpt/ontology_class/ontologyClass__label/</loc>
-         <lastmod>2023-01-05</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://monarch-initiative.github.io/ontogpt/ontology_class/ontologyClass__logical_definition/</loc>
-         <lastmod>2023-01-05</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://monarch-initiative.github.io/ontogpt/ontology_class/ontologyClass__subclass_of/</loc>
-         <lastmod>2023-01-05</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://monarch-initiative.github.io/ontogpt/ontology_class/ontologyClass__synonyms/</loc>
-         <lastmod>2023-01-05</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
          <loc>https://monarch-initiative.github.io/ontogpt/ontology_class/ontology_class/</loc>
          <lastmod>2023-01-05</lastmod>
          <changefreq>daily</changefreq>
@@ -5007,31 +3392,6 @@
     </url>
     <url>
          <loc>https://monarch-initiative.github.io/ontogpt/ontology_class/prompt/</loc>
-         <lastmod>2023-01-05</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://monarch-initiative.github.io/ontogpt/ontology_class/publication__abstract/</loc>
-         <lastmod>2023-01-05</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://monarch-initiative.github.io/ontogpt/ontology_class/publication__combined_text/</loc>
-         <lastmod>2023-01-05</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://monarch-initiative.github.io/ontogpt/ontology_class/publication__full_text/</loc>
-         <lastmod>2023-01-05</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://monarch-initiative.github.io/ontogpt/ontology_class/publication__id/</loc>
-         <lastmod>2023-01-05</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://monarch-initiative.github.io/ontogpt/ontology_class/publication__title/</loc>
          <lastmod>2023-01-05</lastmod>
          <changefreq>daily</changefreq>
     </url>
@@ -5071,47 +3431,7 @@
          <changefreq>daily</changefreq>
     </url>
     <url>
-         <loc>https://monarch-initiative.github.io/ontogpt/ontology_class/textWithTriples__publication/</loc>
-         <lastmod>2023-01-05</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://monarch-initiative.github.io/ontogpt/ontology_class/textWithTriples__triples/</loc>
-         <lastmod>2023-01-05</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
          <loc>https://monarch-initiative.github.io/ontogpt/ontology_class/title/</loc>
-         <lastmod>2023-01-05</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://monarch-initiative.github.io/ontogpt/ontology_class/triple__object/</loc>
-         <lastmod>2023-01-05</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://monarch-initiative.github.io/ontogpt/ontology_class/triple__object_qualifier/</loc>
-         <lastmod>2023-01-05</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://monarch-initiative.github.io/ontogpt/ontology_class/triple__predicate/</loc>
-         <lastmod>2023-01-05</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://monarch-initiative.github.io/ontogpt/ontology_class/triple__qualifier/</loc>
-         <lastmod>2023-01-05</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://monarch-initiative.github.io/ontogpt/ontology_class/triple__subject/</loc>
-         <lastmod>2023-01-05</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://monarch-initiative.github.io/ontogpt/ontology_class/triple__subject_qualifier/</loc>
          <lastmod>2023-01-05</lastmod>
          <changefreq>daily</changefreq>
     </url>
@@ -5291,21 +3611,6 @@
          <changefreq>daily</changefreq>
     </url>
     <url>
-         <loc>https://monarch-initiative.github.io/ontogpt/reaction/annotatorResult__object_id/</loc>
-         <lastmod>2023-01-05</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://monarch-initiative.github.io/ontogpt/reaction/annotatorResult__object_text/</loc>
-         <lastmod>2023-01-05</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://monarch-initiative.github.io/ontogpt/reaction/annotatorResult__subject_text/</loc>
-         <lastmod>2023-01-05</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
          <loc>https://monarch-initiative.github.io/ontogpt/reaction/combined_text/</loc>
          <lastmod>2023-01-05</lastmod>
          <changefreq>daily</changefreq>
@@ -5326,67 +3631,7 @@
          <changefreq>daily</changefreq>
     </url>
     <url>
-         <loc>https://monarch-initiative.github.io/ontogpt/reaction/extractionResult__extracted_object/</loc>
-         <lastmod>2023-01-05</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://monarch-initiative.github.io/ontogpt/reaction/extractionResult__input_id/</loc>
-         <lastmod>2023-01-05</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://monarch-initiative.github.io/ontogpt/reaction/extractionResult__input_text/</loc>
-         <lastmod>2023-01-05</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://monarch-initiative.github.io/ontogpt/reaction/extractionResult__input_title/</loc>
-         <lastmod>2023-01-05</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://monarch-initiative.github.io/ontogpt/reaction/extractionResult__named_entities/</loc>
-         <lastmod>2023-01-05</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://monarch-initiative.github.io/ontogpt/reaction/extractionResult__prompt/</loc>
-         <lastmod>2023-01-05</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://monarch-initiative.github.io/ontogpt/reaction/extractionResult__raw_completion_output/</loc>
-         <lastmod>2023-01-05</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
          <loc>https://monarch-initiative.github.io/ontogpt/reaction/full_text/</loc>
-         <lastmod>2023-01-05</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://monarch-initiative.github.io/ontogpt/reaction/geneReactionPairing__gene/</loc>
-         <lastmod>2023-01-05</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://monarch-initiative.github.io/ontogpt/reaction/geneReactionPairing__reaction/</loc>
-         <lastmod>2023-01-05</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://monarch-initiative.github.io/ontogpt/reaction/geneToReaction__gene/</loc>
-         <lastmod>2023-01-05</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://monarch-initiative.github.io/ontogpt/reaction/geneToReaction__organism/</loc>
-         <lastmod>2023-01-05</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://monarch-initiative.github.io/ontogpt/reaction/geneToReaction__reactions/</loc>
          <lastmod>2023-01-05</lastmod>
          <changefreq>daily</changefreq>
     </url>
@@ -5431,16 +3676,6 @@
          <changefreq>daily</changefreq>
     </url>
     <url>
-         <loc>https://monarch-initiative.github.io/ontogpt/reaction/namedEntity__id/</loc>
-         <lastmod>2023-01-05</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://monarch-initiative.github.io/ontogpt/reaction/namedEntity__label/</loc>
-         <lastmod>2023-01-05</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
          <loc>https://monarch-initiative.github.io/ontogpt/reaction/named_entities/</loc>
          <lastmod>2023-01-05</lastmod>
          <changefreq>daily</changefreq>
@@ -5476,31 +3711,6 @@
          <changefreq>daily</changefreq>
     </url>
     <url>
-         <loc>https://monarch-initiative.github.io/ontogpt/reaction/publication__abstract/</loc>
-         <lastmod>2023-01-05</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://monarch-initiative.github.io/ontogpt/reaction/publication__combined_text/</loc>
-         <lastmod>2023-01-05</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://monarch-initiative.github.io/ontogpt/reaction/publication__full_text/</loc>
-         <lastmod>2023-01-05</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://monarch-initiative.github.io/ontogpt/reaction/publication__id/</loc>
-         <lastmod>2023-01-05</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://monarch-initiative.github.io/ontogpt/reaction/publication__title/</loc>
-         <lastmod>2023-01-05</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
          <loc>https://monarch-initiative.github.io/ontogpt/reaction/qualifier/</loc>
          <lastmod>2023-01-05</lastmod>
          <changefreq>daily</changefreq>
@@ -5517,56 +3727,6 @@
     </url>
     <url>
          <loc>https://monarch-initiative.github.io/ontogpt/reaction/reaction/</loc>
-         <lastmod>2023-01-05</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://monarch-initiative.github.io/ontogpt/reaction/reactionDocument__gene_reaction_pairings/</loc>
-         <lastmod>2023-01-05</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://monarch-initiative.github.io/ontogpt/reaction/reactionDocument__genes/</loc>
-         <lastmod>2023-01-05</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://monarch-initiative.github.io/ontogpt/reaction/reactionDocument__organism/</loc>
-         <lastmod>2023-01-05</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://monarch-initiative.github.io/ontogpt/reaction/reactionDocument__reactions/</loc>
-         <lastmod>2023-01-05</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://monarch-initiative.github.io/ontogpt/reaction/reaction__description/</loc>
-         <lastmod>2023-01-05</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://monarch-initiative.github.io/ontogpt/reaction/reaction__label/</loc>
-         <lastmod>2023-01-05</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://monarch-initiative.github.io/ontogpt/reaction/reaction__left_side/</loc>
-         <lastmod>2023-01-05</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://monarch-initiative.github.io/ontogpt/reaction/reaction__right_side/</loc>
-         <lastmod>2023-01-05</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://monarch-initiative.github.io/ontogpt/reaction/reaction__subclass_of/</loc>
-         <lastmod>2023-01-05</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://monarch-initiative.github.io/ontogpt/reaction/reaction__synonyms/</loc>
          <lastmod>2023-01-05</lastmod>
          <changefreq>daily</changefreq>
     </url>
@@ -5606,47 +3766,7 @@
          <changefreq>daily</changefreq>
     </url>
     <url>
-         <loc>https://monarch-initiative.github.io/ontogpt/reaction/textWithTriples__publication/</loc>
-         <lastmod>2023-01-05</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://monarch-initiative.github.io/ontogpt/reaction/textWithTriples__triples/</loc>
-         <lastmod>2023-01-05</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
          <loc>https://monarch-initiative.github.io/ontogpt/reaction/title/</loc>
-         <lastmod>2023-01-05</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://monarch-initiative.github.io/ontogpt/reaction/triple__object/</loc>
-         <lastmod>2023-01-05</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://monarch-initiative.github.io/ontogpt/reaction/triple__object_qualifier/</loc>
-         <lastmod>2023-01-05</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://monarch-initiative.github.io/ontogpt/reaction/triple__predicate/</loc>
-         <lastmod>2023-01-05</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://monarch-initiative.github.io/ontogpt/reaction/triple__qualifier/</loc>
-         <lastmod>2023-01-05</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://monarch-initiative.github.io/ontogpt/reaction/triple__subject/</loc>
-         <lastmod>2023-01-05</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://monarch-initiative.github.io/ontogpt/reaction/triple__subject_qualifier/</loc>
          <lastmod>2023-01-05</lastmod>
          <changefreq>daily</changefreq>
     </url>
@@ -5816,21 +3936,6 @@
          <changefreq>daily</changefreq>
     </url>
     <url>
-         <loc>https://monarch-initiative.github.io/ontogpt/recipe/annotatorResult__object_id/</loc>
-         <lastmod>2023-01-05</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://monarch-initiative.github.io/ontogpt/recipe/annotatorResult__object_text/</loc>
-         <lastmod>2023-01-05</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://monarch-initiative.github.io/ontogpt/recipe/annotatorResult__subject_text/</loc>
-         <lastmod>2023-01-05</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
          <loc>https://monarch-initiative.github.io/ontogpt/recipe/category/</loc>
          <lastmod>2023-01-05</lastmod>
          <changefreq>daily</changefreq>
@@ -5856,41 +3961,6 @@
          <changefreq>daily</changefreq>
     </url>
     <url>
-         <loc>https://monarch-initiative.github.io/ontogpt/recipe/extractionResult__extracted_object/</loc>
-         <lastmod>2023-01-05</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://monarch-initiative.github.io/ontogpt/recipe/extractionResult__input_id/</loc>
-         <lastmod>2023-01-05</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://monarch-initiative.github.io/ontogpt/recipe/extractionResult__input_text/</loc>
-         <lastmod>2023-01-05</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://monarch-initiative.github.io/ontogpt/recipe/extractionResult__input_title/</loc>
-         <lastmod>2023-01-05</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://monarch-initiative.github.io/ontogpt/recipe/extractionResult__named_entities/</loc>
-         <lastmod>2023-01-05</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://monarch-initiative.github.io/ontogpt/recipe/extractionResult__prompt/</loc>
-         <lastmod>2023-01-05</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://monarch-initiative.github.io/ontogpt/recipe/extractionResult__raw_completion_output/</loc>
-         <lastmod>2023-01-05</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
          <loc>https://monarch-initiative.github.io/ontogpt/recipe/food_item/</loc>
          <lastmod>2023-01-05</lastmod>
          <changefreq>daily</changefreq>
@@ -5902,16 +3972,6 @@
     </url>
     <url>
          <loc>https://monarch-initiative.github.io/ontogpt/recipe/id/</loc>
-         <lastmod>2023-01-05</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://monarch-initiative.github.io/ontogpt/recipe/ingredient__food_item/</loc>
-         <lastmod>2023-01-05</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://monarch-initiative.github.io/ontogpt/recipe/ingredient__quantity/</loc>
          <lastmod>2023-01-05</lastmod>
          <changefreq>daily</changefreq>
     </url>
@@ -5942,16 +4002,6 @@
     </url>
     <url>
          <loc>https://monarch-initiative.github.io/ontogpt/recipe/label/</loc>
-         <lastmod>2023-01-05</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://monarch-initiative.github.io/ontogpt/recipe/namedEntity__id/</loc>
-         <lastmod>2023-01-05</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://monarch-initiative.github.io/ontogpt/recipe/namedEntity__label/</loc>
          <lastmod>2023-01-05</lastmod>
          <changefreq>daily</changefreq>
     </url>
@@ -5996,31 +4046,6 @@
          <changefreq>daily</changefreq>
     </url>
     <url>
-         <loc>https://monarch-initiative.github.io/ontogpt/recipe/publication__abstract/</loc>
-         <lastmod>2023-01-05</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://monarch-initiative.github.io/ontogpt/recipe/publication__combined_text/</loc>
-         <lastmod>2023-01-05</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://monarch-initiative.github.io/ontogpt/recipe/publication__full_text/</loc>
-         <lastmod>2023-01-05</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://monarch-initiative.github.io/ontogpt/recipe/publication__id/</loc>
-         <lastmod>2023-01-05</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://monarch-initiative.github.io/ontogpt/recipe/publication__title/</loc>
-         <lastmod>2023-01-05</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
          <loc>https://monarch-initiative.github.io/ontogpt/recipe/qualifier/</loc>
          <lastmod>2023-01-05</lastmod>
          <changefreq>daily</changefreq>
@@ -6046,46 +4071,6 @@
          <changefreq>daily</changefreq>
     </url>
     <url>
-         <loc>https://monarch-initiative.github.io/ontogpt/recipe/recipe__category/</loc>
-         <lastmod>2023-01-05</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://monarch-initiative.github.io/ontogpt/recipe/recipe__description/</loc>
-         <lastmod>2023-01-05</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://monarch-initiative.github.io/ontogpt/recipe/recipe__ingredients/</loc>
-         <lastmod>2023-01-05</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://monarch-initiative.github.io/ontogpt/recipe/recipe__label/</loc>
-         <lastmod>2023-01-05</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://monarch-initiative.github.io/ontogpt/recipe/recipe__steps/</loc>
-         <lastmod>2023-01-05</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://monarch-initiative.github.io/ontogpt/recipe/step__action/</loc>
-         <lastmod>2023-01-05</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://monarch-initiative.github.io/ontogpt/recipe/step__inputs/</loc>
-         <lastmod>2023-01-05</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://monarch-initiative.github.io/ontogpt/recipe/step__outputs/</loc>
-         <lastmod>2023-01-05</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
          <loc>https://monarch-initiative.github.io/ontogpt/recipe/steps/</loc>
          <lastmod>2023-01-05</lastmod>
          <changefreq>daily</changefreq>
@@ -6106,47 +4091,7 @@
          <changefreq>daily</changefreq>
     </url>
     <url>
-         <loc>https://monarch-initiative.github.io/ontogpt/recipe/textWithTriples__publication/</loc>
-         <lastmod>2023-01-05</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://monarch-initiative.github.io/ontogpt/recipe/textWithTriples__triples/</loc>
-         <lastmod>2023-01-05</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
          <loc>https://monarch-initiative.github.io/ontogpt/recipe/title/</loc>
-         <lastmod>2023-01-05</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://monarch-initiative.github.io/ontogpt/recipe/triple__object/</loc>
-         <lastmod>2023-01-05</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://monarch-initiative.github.io/ontogpt/recipe/triple__object_qualifier/</loc>
-         <lastmod>2023-01-05</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://monarch-initiative.github.io/ontogpt/recipe/triple__predicate/</loc>
-         <lastmod>2023-01-05</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://monarch-initiative.github.io/ontogpt/recipe/triple__qualifier/</loc>
-         <lastmod>2023-01-05</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://monarch-initiative.github.io/ontogpt/recipe/triple__subject/</loc>
-         <lastmod>2023-01-05</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://monarch-initiative.github.io/ontogpt/recipe/triple__subject_qualifier/</loc>
          <lastmod>2023-01-05</lastmod>
          <changefreq>daily</changefreq>
     </url>
@@ -6331,52 +4276,12 @@
          <changefreq>daily</changefreq>
     </url>
     <url>
-         <loc>https://monarch-initiative.github.io/ontogpt/treatment/annotatorResult__object_id/</loc>
-         <lastmod>2023-01-05</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://monarch-initiative.github.io/ontogpt/treatment/annotatorResult__object_text/</loc>
-         <lastmod>2023-01-05</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://monarch-initiative.github.io/ontogpt/treatment/annotatorResult__subject_text/</loc>
-         <lastmod>2023-01-05</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
          <loc>https://monarch-initiative.github.io/ontogpt/treatment/combined_text/</loc>
          <lastmod>2023-01-05</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://monarch-initiative.github.io/ontogpt/treatment/core/</loc>
-         <lastmod>2023-01-05</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://monarch-initiative.github.io/ontogpt/treatment/diseaseTreatmentSummary__disease/</loc>
-         <lastmod>2023-01-05</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://monarch-initiative.github.io/ontogpt/treatment/diseaseTreatmentSummary__drugs/</loc>
-         <lastmod>2023-01-05</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://monarch-initiative.github.io/ontogpt/treatment/diseaseTreatmentSummary__treatment_efficacies/</loc>
-         <lastmod>2023-01-05</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://monarch-initiative.github.io/ontogpt/treatment/diseaseTreatmentSummary__treatment_mechanisms/</loc>
-         <lastmod>2023-01-05</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://monarch-initiative.github.io/ontogpt/treatment/diseaseTreatmentSummary__treatments/</loc>
          <lastmod>2023-01-05</lastmod>
          <changefreq>daily</changefreq>
     </url>
@@ -6392,41 +4297,6 @@
     </url>
     <url>
          <loc>https://monarch-initiative.github.io/ontogpt/treatment/extracted_object/</loc>
-         <lastmod>2023-01-05</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://monarch-initiative.github.io/ontogpt/treatment/extractionResult__extracted_object/</loc>
-         <lastmod>2023-01-05</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://monarch-initiative.github.io/ontogpt/treatment/extractionResult__input_id/</loc>
-         <lastmod>2023-01-05</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://monarch-initiative.github.io/ontogpt/treatment/extractionResult__input_text/</loc>
-         <lastmod>2023-01-05</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://monarch-initiative.github.io/ontogpt/treatment/extractionResult__input_title/</loc>
-         <lastmod>2023-01-05</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://monarch-initiative.github.io/ontogpt/treatment/extractionResult__named_entities/</loc>
-         <lastmod>2023-01-05</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://monarch-initiative.github.io/ontogpt/treatment/extractionResult__prompt/</loc>
-         <lastmod>2023-01-05</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://monarch-initiative.github.io/ontogpt/treatment/extractionResult__raw_completion_output/</loc>
          <lastmod>2023-01-05</lastmod>
          <changefreq>daily</changefreq>
     </url>
@@ -6457,16 +4327,6 @@
     </url>
     <url>
          <loc>https://monarch-initiative.github.io/ontogpt/treatment/label/</loc>
-         <lastmod>2023-01-05</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://monarch-initiative.github.io/ontogpt/treatment/namedEntity__id/</loc>
-         <lastmod>2023-01-05</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://monarch-initiative.github.io/ontogpt/treatment/namedEntity__label/</loc>
          <lastmod>2023-01-05</lastmod>
          <changefreq>daily</changefreq>
     </url>
@@ -6506,31 +4366,6 @@
          <changefreq>daily</changefreq>
     </url>
     <url>
-         <loc>https://monarch-initiative.github.io/ontogpt/treatment/publication__abstract/</loc>
-         <lastmod>2023-01-05</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://monarch-initiative.github.io/ontogpt/treatment/publication__combined_text/</loc>
-         <lastmod>2023-01-05</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://monarch-initiative.github.io/ontogpt/treatment/publication__full_text/</loc>
-         <lastmod>2023-01-05</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://monarch-initiative.github.io/ontogpt/treatment/publication__id/</loc>
-         <lastmod>2023-01-05</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://monarch-initiative.github.io/ontogpt/treatment/publication__title/</loc>
-         <lastmod>2023-01-05</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
          <loc>https://monarch-initiative.github.io/ontogpt/treatment/qualifier/</loc>
          <lastmod>2023-01-05</lastmod>
          <changefreq>daily</changefreq>
@@ -6556,16 +4391,6 @@
          <changefreq>daily</changefreq>
     </url>
     <url>
-         <loc>https://monarch-initiative.github.io/ontogpt/treatment/textWithTriples__publication/</loc>
-         <lastmod>2023-01-05</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://monarch-initiative.github.io/ontogpt/treatment/textWithTriples__triples/</loc>
-         <lastmod>2023-01-05</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
          <loc>https://monarch-initiative.github.io/ontogpt/treatment/title/</loc>
          <lastmod>2023-01-05</lastmod>
          <changefreq>daily</changefreq>
@@ -6581,26 +4406,6 @@
          <changefreq>daily</changefreq>
     </url>
     <url>
-         <loc>https://monarch-initiative.github.io/ontogpt/treatment/treatmentEfficacy__efficacy/</loc>
-         <lastmod>2023-01-05</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://monarch-initiative.github.io/ontogpt/treatment/treatmentEfficacy__treatment/</loc>
-         <lastmod>2023-01-05</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://monarch-initiative.github.io/ontogpt/treatment/treatmentMechanism__mechanism/</loc>
-         <lastmod>2023-01-05</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://monarch-initiative.github.io/ontogpt/treatment/treatmentMechanism__treatment/</loc>
-         <lastmod>2023-01-05</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
          <loc>https://monarch-initiative.github.io/ontogpt/treatment/treatment_efficacies/</loc>
          <lastmod>2023-01-05</lastmod>
          <changefreq>daily</changefreq>
@@ -6612,36 +4417,6 @@
     </url>
     <url>
          <loc>https://monarch-initiative.github.io/ontogpt/treatment/treatments/</loc>
-         <lastmod>2023-01-05</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://monarch-initiative.github.io/ontogpt/treatment/triple__object/</loc>
-         <lastmod>2023-01-05</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://monarch-initiative.github.io/ontogpt/treatment/triple__object_qualifier/</loc>
-         <lastmod>2023-01-05</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://monarch-initiative.github.io/ontogpt/treatment/triple__predicate/</loc>
-         <lastmod>2023-01-05</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://monarch-initiative.github.io/ontogpt/treatment/triple__qualifier/</loc>
-         <lastmod>2023-01-05</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://monarch-initiative.github.io/ontogpt/treatment/triple__subject/</loc>
-         <lastmod>2023-01-05</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://monarch-initiative.github.io/ontogpt/treatment/triple__subject_qualifier/</loc>
          <lastmod>2023-01-05</lastmod>
          <changefreq>daily</changefreq>
     </url>

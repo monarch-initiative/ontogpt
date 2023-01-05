@@ -8,7 +8,7 @@
       
       
       
-        <link rel="canonical" href="https://monarch-initiative.github.io/ontogpt/halo/halo/">
+        <link rel="canonical" href="https://monarch-initiative.github.io/ontogpt/ctd/id/">
       
       
       
@@ -17,7 +17,7 @@
     
     
       
-        <title>ontology-class - OntoGPT</title>
+        <title>Slot: id - OntoGPT</title>
       
     
     
@@ -69,7 +69,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#ontology-class" class="md-skip">
+        <a href="#slot-id" class="md-skip">
           Skip to content
         </a>
       
@@ -102,7 +102,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              ontology-class
+              Slot: id
             
           </span>
         </div>
@@ -301,7 +301,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../ctd/" class="md-nav__link">
+      <a href="../" class="md-nav__link">
         Chemical to Disease
       </a>
     </li>
@@ -365,7 +365,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../" class="md-nav__link">
+      <a href="../../halo/" class="md-nav__link">
         HALO
       </a>
     </li>
@@ -399,64 +399,30 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#classes" class="md-nav__link">
-    Classes
+  <a href="#applicable-classes" class="md-nav__link">
+    Applicable Classes
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#mixins" class="md-nav__link">
-    Mixins
+  <a href="#properties" class="md-nav__link">
+    Properties
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#slots" class="md-nav__link">
-    Slots
+  <a href="#identifier-and-mapping-information" class="md-nav__link">
+    Identifier and Mapping Information
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#enums" class="md-nav__link">
-    Enums
+  <a href="#linkml-source" class="md-nav__link">
+    LinkML Source
   </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#subsets" class="md-nav__link">
-    Subsets
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#types" class="md-nav__link">
-    Types
-  </a>
-  
-    <nav class="md-nav" aria-label="Types">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#built-in" class="md-nav__link">
-    Built in
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#defined" class="md-nav__link">
-    Defined
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
   
 </li>
       
@@ -479,110 +445,63 @@
 
 
 
-<h1 id="ontology-class">ontology-class</h1>
-<p><strong>metamodel version:</strong> 1.7.0</p>
-<p><strong>version:</strong> None</p>
-<p>A template for Ontology Classes</p>
-<h3 id="classes">Classes</h3>
+<h1 id="slot-id">Slot: id</h1>
+<p>URI: <a href="http://w3id.org/ontogpt/core/id">core:id</a></p>
+<!-- no inheritance hierarchy -->
+
+<h2 id="applicable-classes">Applicable Classes</h2>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="../Disease/">Disease</a></td>
+<td></td>
+</tr>
+<tr>
+<td><a href="../Chemical/">Chemical</a></td>
+<td></td>
+</tr>
+<tr>
+<td><a href="../ChemicalToDiseasePredicate/">ChemicalToDiseasePredicate</a></td>
+<td>A predicate for chemical to disease relationships</td>
+</tr>
+<tr>
+<td><a href="../NamedEntity/">NamedEntity</a></td>
+<td></td>
+</tr>
+<tr>
+<td><a href="../RelationshipType/">RelationshipType</a></td>
+<td></td>
+</tr>
+<tr>
+<td><a href="../Publication/">Publication</a></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h2 id="properties">Properties</h2>
 <ul>
-<li><a href="../AnnotatorResult/">AnnotatorResult</a></li>
-<li><a href="../Any/">Any</a></li>
-<li><a href="../CompoundExpression/">CompoundExpression</a><ul>
-<li><a href="../Triple/">Triple</a> - Abstract parent for Relation Extraction tasks</li>
+<li>Range: <a href="xsd:string">xsd:string</a></li>
 </ul>
-</li>
-<li><a href="../ExtractionResult/">ExtractionResult</a> - A result of extracting knowledge on text</li>
-<li><a href="../NamedEntity/">NamedEntity</a><ul>
-<li><a href="../RelationshipType/">RelationshipType</a></li>
-</ul>
-</li>
-<li><a href="../Ontology/">Ontology</a></li>
-<li><a href="../OntologyElement/">OntologyElement</a><ul>
-<li><a href="../Category/">Category</a></li>
-</ul>
-</li>
-<li><a href="../Publication/">Publication</a></li>
-<li><a href="../TextWithTriples/">TextWithTriples</a></li>
-</ul>
-<h3 id="mixins">Mixins</h3>
-<h3 id="slots">Slots</h3>
-<ul>
-<li><a href="annotatorResult__object_id.md">➞object_id</a></li>
-<li><a href="annotatorResult__object_text.md">➞object_text</a></li>
-<li><a href="annotatorResult__subject_text.md">➞subject_text</a></li>
-<li><a href="extractionResult__extracted_object.md">➞extracted_object</a> - The complex objects extracted from the text</li>
-<li><a href="extractionResult__input_id.md">➞input_id</a></li>
-<li><a href="extractionResult__input_text.md">➞input_text</a></li>
-<li><a href="extractionResult__input_title.md">➞input_title</a></li>
-<li><a href="extractionResult__named_entities.md">➞named_entities</a> - Named entities extracted from the text</li>
-<li><a href="extractionResult__prompt.md">➞prompt</a></li>
-<li><a href="extractionResult__raw_completion_output.md">➞raw_completion_output</a></li>
-<li><a href="namedEntity__id.md">➞id</a> - A unique identifier for the named entity</li>
-<li><a href="namedEntity__label.md">➞label</a> - The label (name) of the named thing</li>
-<li><a href="ontologyElement__categories.md">➞categories</a> - a list of the categories to which this entity belongs</li>
-<li><a href="ontologyElement__context.md">➞context</a> - the ontology to which this belongs (single-valued)</li>
-<li><a href="ontologyElement__description.md">➞description</a> - a textual description of the entity (single-valued)</li>
-<li><a href="ontologyElement__equivalent_to.md">➞equivalent_to</a> - an OWL class expression with the necessary and sufficient conditions for this entity to be an instance of this class</li>
-<li><a href="ontologyElement__name.md">➞name</a> - the name of the entity</li>
-<li><a href="ontologyElement__part_of.md">➞part_of</a> - a list of things this element is part of</li>
-<li><a href="ontologyElement__parts.md">➞parts</a> - a list of names of things this element has as parts (components)</li>
-<li><a href="ontologyElement__subclass_of.md">➞subclass_of</a> - a list of parent class (superclasses) of this entity</li>
-<li><a href="ontologyElement__subtypes.md">➞subtypes</a> - a list of child classes (subclasses) of this entity</li>
-<li><a href="ontologyElement__synonyms.md">➞synonyms</a> - a list of alternative names of the entity</li>
-<li><a href="ontology__elements.md">➞elements</a></li>
-<li><a href="../part_of/">part_of</a></li>
-<li><a href="publication__abstract.md">➞abstract</a> - The abstract of the publication</li>
-<li><a href="publication__combined_text.md">➞combined_text</a></li>
-<li><a href="publication__full_text.md">➞full_text</a> - The full text of the publication</li>
-<li><a href="publication__id.md">➞id</a> - The publication identifier</li>
-<li><a href="publication__title.md">➞title</a> - The title of the publication</li>
-<li><a href="../subclass_of/">subclass_of</a> - a list of parent class (superclasses) of this entity</li>
-<li><a href="textWithTriples__publication.md">➞publication</a></li>
-<li><a href="textWithTriples__triples.md">➞triples</a></li>
-<li><a href="triple__object.md">➞object</a></li>
-<li><a href="triple__object_qualifier.md">➞object_qualifier</a> - An optional qualifier or modifier for the object of the statement, e.g. "severe" or "with additional complications"</li>
-<li><a href="triple__predicate.md">➞predicate</a></li>
-<li><a href="triple__qualifier.md">➞qualifier</a> - A qualifier for the statements, e.g. "NOT" for negation</li>
-<li><a href="triple__subject.md">➞subject</a></li>
-<li><a href="triple__subject_qualifier.md">➞subject_qualifier</a> - An optional qualifier or modifier for the subject of the statement, e.g. "high dose" or "intravenously administered"</li>
-</ul>
-<h3 id="enums">Enums</h3>
-<h3 id="subsets">Subsets</h3>
-<h3 id="types">Types</h3>
-<h4 id="built-in">Built in</h4>
-<ul>
-<li><strong>Bool</strong></li>
-<li><strong>Decimal</strong></li>
-<li><strong>ElementIdentifier</strong></li>
-<li><strong>NCName</strong></li>
-<li><strong>NodeIdentifier</strong></li>
-<li><strong>URI</strong></li>
-<li><strong>URIorCURIE</strong></li>
-<li><strong>XSDDate</strong></li>
-<li><strong>XSDDateTime</strong></li>
-<li><strong>XSDTime</strong></li>
-<li><strong>float</strong></li>
-<li><strong>int</strong></li>
-<li><strong>str</strong></li>
-</ul>
-<h4 id="defined">Defined</h4>
-<ul>
-<li><a href="../types/Boolean/">Boolean</a>  (<strong>Bool</strong>)  - A binary (true or false) value</li>
-<li><a href="../types/Date/">Date</a>  (<strong>XSDDate</strong>)  - a date (year, month and day) in an idealized calendar</li>
-<li><a href="../types/DateOrDatetime/">DateOrDatetime</a>  (<strong>str</strong>)  - Either a date or a datetime</li>
-<li><a href="../types/Datetime/">Datetime</a>  (<strong>XSDDateTime</strong>)  - The combination of a date and time</li>
-<li><a href="../types/Decimal/">Decimal</a>  (<strong>Decimal</strong>)  - A real number with arbitrary precision that conforms to the xsd:decimal specification</li>
-<li><a href="../types/Double/">Double</a>  (<strong>float</strong>)  - A real number that conforms to the xsd:double specification</li>
-<li><a href="../types/Float/">Float</a>  (<strong>float</strong>)  - A real number that conforms to the xsd:float specification</li>
-<li><a href="../types/Integer/">Integer</a>  (<strong>int</strong>)  - An integer</li>
-<li><a href="../types/Ncname/">Ncname</a>  (<strong>NCName</strong>)  - Prefix part of CURIE</li>
-<li><a href="../types/Nodeidentifier/">Nodeidentifier</a>  (<strong>NodeIdentifier</strong>)  - A URI, CURIE or BNODE that represents a node in a model.</li>
-<li><a href="../types/Objectidentifier/">Objectidentifier</a>  (<strong>ElementIdentifier</strong>)  - A URI or CURIE that represents an object in the model.</li>
-<li><a href="../types/String/">String</a>  (<strong>str</strong>)  - A character string</li>
-<li><a href="../types/Time/">Time</a>  (<strong>XSDTime</strong>)  - A time object represents a (local) time of day, independent of any particular day</li>
-<li><a href="../types/Uri/">Uri</a>  (<strong>URI</strong>)  - a complete URI</li>
-<li><a href="../types/Uriorcurie/">Uriorcurie</a>  (<strong>URIorCURIE</strong>)  - a URI or a CURIE</li>
-</ul>
+<h2 id="identifier-and-mapping-information">Identifier and Mapping Information</h2>
+<h2 id="linkml-source">LinkML Source</h2>
+<details>
+
+<pre><code class="language-yaml">name: id
+alias: id
+domain_of:
+- NamedEntity
+- Publication
+range: string
+
+</code></pre>
+
+</details>
 
 
 
