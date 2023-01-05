@@ -22,7 +22,8 @@ theme:
     - content.tabs.link
 plugins:
   - search
-  - mermaid2
+  - mermaid2:
+      version: 9.3.0
 nav:
   - About: index.md
   - SPIRES:
