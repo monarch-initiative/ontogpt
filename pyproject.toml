@@ -36,7 +36,6 @@ linkml = "^1.4.1"
 wikipedia = "^1.4.0"
 tiktoken = "^0.1.1"
 airium = "^0.2.5"
-erdantic = "^0.5.0"
 
 [tool.poetry.dev-dependencies]
 pytest = "^7.1.2"
