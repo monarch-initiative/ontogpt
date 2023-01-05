@@ -6,13 +6,14 @@ URI: [core:RelationshipType](http://w3id.org/ontogpt/core/RelationshipType)
 
 
 ```mermaid
- classDiagram
-    class RelationshipType
-      NamedEntity <|-- RelationshipType
-      
-      RelationshipType : id
-      RelationshipType : label
-      
+erDiagram
+RelationshipType {
+    string id  
+    string label  
+}
+
+
+
 ```
 
 
@@ -28,8 +29,8 @@ URI: [core:RelationshipType](http://w3id.org/ontogpt/core/RelationshipType)
 
 | Name | Cardinality and Range | Description | Inheritance |
 | ---  | --- | --- | --- |
-| [id](id.md) | 0..1 <br/> NONE |  | [NamedEntity](NamedEntity.md) |
 | [label](label.md) | 0..1 <br/> NONE |  | [NamedEntity](NamedEntity.md) |
+| [id](id.md) | 0..1 <br/> NONE |  | [NamedEntity](NamedEntity.md) |
 
 
 

@@ -1,4 +1,4 @@
-input_id: /Users/cjm/repos/semantic-llama/tests/input/cases/environment-jgi2.txt
+input_id: /Users/cjm/repos/ontogpt/tests/input/cases/environment-jgi2.txt
 input_text: "Development of genomic resources for Sphagnum magellanicum (Bryophyta:\
   \ peat moss) is proposed to enable genetic and molecular research related to environmental\
   \ genomics, phylogenetics of early land plants, population genetics, and speciation.\
@@ -100,7 +100,7 @@ extracted_object:
   - nutrients
   - anoxia
   - whole plant productivity and decomposition rates
-  - CHEBI:25555
+  - nitrogen and phosphorous contents
   - foliar pH
   - production of Sphagnum acids
   treatments:
@@ -128,8 +128,6 @@ named_entities:
   label: climate
 - id: PATO:0000146
   label: temperature
-- id: CHEBI:25555
-  label: nitrogen and phosphorous contents
 - id: GAZ:00002888
   label: Florida US
 - id: NCBITaxon:128215

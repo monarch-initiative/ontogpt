@@ -5,6 +5,46 @@ A template for food recipes
 URI: https://w3id.org/ontogpt/recipe
 Name: recipe-template
 
+
+
+## Schema Diagram
+
+```mermaid
+erDiagram
+Recipe {
+    string label  
+    string description  
+}
+Step {
+
+}
+FoodItem {
+    string id  
+    string label  
+}
+Action {
+    string id  
+    string label  
+}
+Ingredient {
+    string quantity  
+}
+RecipeCategory {
+    string id  
+    string label  
+}
+
+Recipe ||--}o RecipeCategory : "category"
+Recipe ||--}o Ingredient : "ingredients"
+Recipe ||--}o Step : "steps"
+Step ||--|o Action : "action"
+Step ||--}o FoodItem : "inputs"
+Step ||--}o FoodItem : "outputs"
+Ingredient ||--|o FoodItem : "food_item"
+
+```
+
+
 ## Classes
 
 | Class | Description |

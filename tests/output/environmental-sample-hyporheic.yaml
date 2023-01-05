@@ -1,4 +1,4 @@
-input_id: /Users/cjm/repos/semantic-llama/tests/input/cases/environmental-sample-hyporheic.txt
+input_id: /Users/cjm/repos/ontogpt/tests/input/cases/environmental-sample-hyporheic.txt
 input_text: "Sediment communities from the hyporheic zone of the Columbia River along\
   \ the Hanford Reach were sampled from April 30, 2014 to November 25, 2014, using\
   \ sand packs deployed at three equivalent hyporheic zone locations approximately\
@@ -48,7 +48,7 @@ extracted_object:
   - T4
   environmental_material:
   - Non-purgeable Organic Carbon (NPOC)
-  - CHEBI:17632
+  - Nitrate
   environments:
   - Hyporheic Zone
   - ENVO:00002042
@@ -56,7 +56,7 @@ extracted_object:
   causal_relationships:
   - cause: Non-purgeable Organic Carbon (NPOC)
     effect: Surface Water Influx
-  - cause: CHEBI:17632
+  - cause: Nitrate
     effect: Groundwater Influence
   - cause: ENVO:09200014
     effect: Seasonal Trends
@@ -69,13 +69,13 @@ extracted_object:
   - ENVO:09200014
   measurements:
   - value: 0.8-1.0
-    unit: http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#C64572
+    unit: mg/L
   - value: "10\u201315"
     unit: "\u03BCM"
   - value: 60-100
-    unit: http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#C61427
+    unit: '% saturation'
   - value: Water Temperature
-    unit: http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#C94732
+    unit: (Warming in Summer, Cooling in Fall)
 named_entities:
 - id: ENVO:00000107
   label: heath
@@ -85,23 +85,11 @@ named_entities:
   label: peat
 - id: PATO:0000915
   label: thickness
-- id: http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#C18902
-  label: N/A
-- id: CHEBI:17632
-  label: Nitrate
 - id: ENVO:00002042
   label: Surface Water
 - id: ENVO:01001004
   label: Groundwater
-- id: CHEBI:17632
-  label: Nitrate
 - id: ENVO:09200014
   label: Water Temperature
 - id: ENVO:09200014
   label: Water Temperature
-- id: http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#C64572
-  label: mg/L
-- id: http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#C61427
-  label: '% saturation'
-- id: http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#C94732
-  label: (Warming in Summer, Cooling in Fall)

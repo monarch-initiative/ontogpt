@@ -1,4 +1,4 @@
-input_id: /Users/cjm/repos/semantic-llama/tests/input/cases/drug-DB00316-moa.txt
+input_id: /Users/cjm/repos/ontogpt/tests/input/cases/drug-DB00316-moa.txt
 input_text: 'According to its FDA labeling, acetaminophen''s exact mechanism of action
   has not been fully establishedLabel - despite this, it is often categorized alongside
   NSAIDs (nonsteroidal anti-inflammatory drugs) due to its ability to inhibit the
@@ -48,32 +48,26 @@ extracted_object:
   disease: Pain symptoms;
   drug: Acetaminophen;
   mechanism_links:
-  - subject: PR:000013427
+  - subject: COX-1
     predicate: Inhibit
     object: MESH:D000082
-  - subject: PR:000013428
+  - subject: COX-2
     predicate: Inhibit
     object: MESH:D000082
-  - subject: PR:P24891
+  - subject: COX-3
     predicate: Block
     object: MESH:D000082
-  - subject: CHEBI:26333
+  - subject: MESH:D011453
     predicate: Inhibit
     object: MESH:D000082
   - subject: Heat-regulating-centers
     predicate: Acetaminophen
     object: Direct-action
 named_entities:
-- id: PR:000013427
-  label: COX-1
 - id: MESH:D000082
   label: Acetaminophen
-- id: PR:000013428
-  label: COX-2
 - id: MESH:D000082
   label: Acetaminophen
-- id: PR:P24891
-  label: COX-3
 - id: MESH:D000082
   label: Acetaminophen
 - id: CHEBI:26333

@@ -17,6 +17,7 @@ imports:
 
 classes:
   Recipe:
+    tree_root: true
     attributes:
       label:
         description: the name of the recipe

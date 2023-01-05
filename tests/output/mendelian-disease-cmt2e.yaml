@@ -1,4 +1,4 @@
-input_id: /Users/cjm/repos/semantic-llama/tests/input/cases/mendelian-disease-cmt2e.txt
+input_id: /Users/cjm/repos/ontogpt/tests/input/cases/mendelian-disease-cmt2e.txt
 input_text: "Mersiyanova et al. (2000) reported a large 6-generation family from Russia\
   \ with autosomal dominant CMT2. Onset was in the second and third decade, characterized\
   \ by difficulty in walking and weakness and atrophy of the distal lower limb muscles\
@@ -100,7 +100,7 @@ extracted_object:
   - CMT type 2E
   subclass_of:
   - MONDO:0030433
-  - HP:0000006
+  - Autosomal Dominant Inheritance
   - MONDO:0015626
   symptoms:
   - difficulty in walking or running
@@ -119,8 +119,8 @@ extracted_object:
   disease_onsets:
   - second and third decade
   - first decade
-  - UBERON:0007023
-  - PATO:0001190
+  - adult
+  - juvenile
 named_entities:
 - id: HP:0009830
   label: Peripheral Neuropathy
@@ -146,14 +146,8 @@ named_entities:
   label: Autosomal dominant
 - id: HGNC:7739
   label: NEFL
-- id: UBERON:0007023
-  label: Adult
-- id: PATO:0001190
-  label: juvenile
 - id: MONDO:0030433
   label: Charcot-Marie-Tooth Neuropathy
-- id: HP:0000006
-  label: Autosomal Dominant Inheritance
 - id: MONDO:0015626
   label: Peroneal Muscular Atrophy
 - id: HP:0003376
@@ -172,7 +166,3 @@ named_entities:
   label: PEX2
 - id: HGNC:8858
   label: PEX3
-- id: UBERON:0007023
-  label: adult
-- id: PATO:0001190
-  label: juvenile

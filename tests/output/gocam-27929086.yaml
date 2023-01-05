@@ -1,4 +1,4 @@
-input_id: /Users/cjm/repos/semantic-llama/tests/input/cases/gocam-27929086.txt
+input_id: /Users/cjm/repos/ontogpt/tests/input/cases/gocam-27929086.txt
 input_text: "Title: The E3 ubiquitin ligase TRIM31 attenuates NLRP3 inflammasome\n\
   activation by promoting proteasomal degradation of NLRP3\n\nAbstract: The NLRP3\
   \ inflammasome has a fundamental role in host\ndefence against microbial pathogens\
@@ -53,19 +53,19 @@ extracted_object:
   - HGNC:16289
   - HGNC:16400
   - HGNC:5992
-  - CHEBI:CHEBI:16412
+  - HGNC:6121
   organisms:
-  - MESH:D006801
+  - NCBITaxon:9606
   - NCBITaxon:10090
   gene_organisms:
-  - gene: http://identifiers.org/hgnc/16289
-    organism: MESH:D006801
-  - gene: http://identifiers.org/hgnc/16400
-    organism: MESH:D006801
+  - gene: TRIM31*
+    organism: NCBITaxon:9606
+  - gene: NLRP3*
+    organism: NCBITaxon:9606
   - gene: "IL-1\u03B2*"
-    organism: MESH:D006801
+    organism: NCBITaxon:9606
   - gene: LPS*
-    organism: MESH:D006801
+    organism: NCBITaxon:9606
   activities:
   - GO:0005488
   - K48-linked polyubiquitination
@@ -73,13 +73,13 @@ extracted_object:
   - expression
   - secrection
   gene_functions:
-  - gene: http://identifiers.org/hgnc/16289
+  - gene: TRIM31*
     molecular_activity: GO:0005488
-  - gene: http://identifiers.org/hgnc/16289
+  - gene: TRIM31*
     molecular_activity: K48-linked polyubiquitination
-  - gene: http://identifiers.org/hgnc/16289
+  - gene: TRIM31*
     molecular_activity: proteasomal degradation
-  - gene: http://identifiers.org/hgnc/16400
+  - gene: NLRP3*
     molecular_activity: Expression
   - gene: "IL-1\u03B2*"
     molecular_activity: GO:0046903
@@ -89,12 +89,12 @@ extracted_object:
   pathways:
   - NLRP3 inflammasome
   gene_gene_interactions:
-  - gene1: http://identifiers.org/hgnc/16289
+  - gene1: TRIM31*
     gene2: HGNC:16400
   - gene1: "IL-1\u03B2*"
-    gene2: CHEBI:CHEBI:16412
+    gene2: HGNC:6121
   gene_localizations:
-  - gene: http://identifiers.org/hgnc/16289
+  - gene: TRIM31*
     location: GO:0005737
   - gene: HGNC:16400
     location: GO:0005739
@@ -105,18 +105,14 @@ named_entities:
   label: NLRP3
 - id: HGNC:5992
   label: "IL-1\u03B2"
-- id: CHEBI:CHEBI:16412
+- id: HGNC:6121
   label: LPS
 - id: MESH:D006801
   label: Homo sapiens
 - id: NCBITaxon:10090
   label: Mus musculus
-- id: http://identifiers.org/hgnc/16289
-  label: TRIM31*
 - id: MESH:D006801
   label: Homo sapiens
-- id: http://identifiers.org/hgnc/16400
-  label: NLRP3*
 - id: MESH:D006801
   label: Homo sapiens
 - id: MESH:D006801
@@ -125,26 +121,14 @@ named_entities:
   label: Homo sapiens
 - id: GO:0005488
   label: binding
-- id: http://identifiers.org/hgnc/16289
-  label: TRIM31*
 - id: GO:0005488
   label: binding
-- id: http://identifiers.org/hgnc/16289
-  label: TRIM31*
-- id: http://identifiers.org/hgnc/16289
-  label: TRIM31*
-- id: http://identifiers.org/hgnc/16400
-  label: NLRP3*
 - id: GO:0046903
   label: secretion
-- id: http://identifiers.org/hgnc/16289
-  label: TRIM31*
 - id: HGNC:16400
   label: NLRP3
-- id: CHEBI:CHEBI:16412
+- id: HGNC:6121
   label: LPS
-- id: http://identifiers.org/hgnc/16289
-  label: TRIM31*
 - id: GO:0005737
   label: cytoplasm
 - id: HGNC:16400

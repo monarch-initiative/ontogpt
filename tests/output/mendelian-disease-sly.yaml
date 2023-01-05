@@ -1,4 +1,4 @@
-input_id: /Users/cjm/repos/semantic-llama/tests/input/cases/mendelian-disease-sly.txt
+input_id: /Users/cjm/repos/ontogpt/tests/input/cases/mendelian-disease-sly.txt
 input_text: "Sly syndrome, also called mucopolysaccharidosis type VII (MPS-VII), is\
   \ an autosomal recessive lysosomal storage disease caused by a deficiency of the\
   \ enzyme \u03B2-glucuronidase. This enzyme is responsible for breaking down large\
@@ -67,14 +67,8 @@ named_entities:
   label: Autosomal dominant
 - id: HGNC:7739
   label: NEFL
-- id: UBERON:0007023
-  label: Adult
-- id: PATO:0001190
-  label: juvenile
 - id: MONDO:0030433
   label: Charcot-Marie-Tooth Neuropathy
-- id: HP:0000006
-  label: Autosomal Dominant Inheritance
 - id: MONDO:0015626
   label: Peroneal Muscular Atrophy
 - id: HP:0003376
@@ -93,10 +87,6 @@ named_entities:
   label: PEX2
 - id: HGNC:8858
   label: PEX3
-- id: UBERON:0007023
-  label: adult
-- id: PATO:0001190
-  label: juvenile
 - id: HP:0000007
   label: Autosomal recessive
 - id: HGNC:4696

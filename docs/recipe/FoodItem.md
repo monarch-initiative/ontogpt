@@ -6,13 +6,14 @@ URI: [recipe:FoodItem](http://w3id.org/ontogpt/recipe/FoodItem)
 
 
 ```mermaid
- classDiagram
-    class FoodItem
-      NamedEntity <|-- FoodItem
-      
-      FoodItem : id
-      FoodItem : label
-      
+erDiagram
+FoodItem {
+    string id  
+    string label  
+}
+
+
+
 ```
 
 
@@ -28,8 +29,8 @@ URI: [recipe:FoodItem](http://w3id.org/ontogpt/recipe/FoodItem)
 
 | Name | Cardinality and Range | Description | Inheritance |
 | ---  | --- | --- | --- |
-| [id](id.md) | 0..1 <br/> NONE |  | [NamedEntity](NamedEntity.md) |
 | [label](label.md) | 0..1 <br/> NONE |  | [NamedEntity](NamedEntity.md) |
+| [id](id.md) | 0..1 <br/> NONE |  | [NamedEntity](NamedEntity.md) |
 
 
 

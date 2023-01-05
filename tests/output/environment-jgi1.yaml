@@ -1,4 +1,4 @@
-input_id: /Users/cjm/repos/semantic-llama/tests/input/cases/environment-jgi1.txt
+input_id: /Users/cjm/repos/ontogpt/tests/input/cases/environment-jgi1.txt
 input_text: "Title: Fungal, bacterial, and archaeal communities mediating C cycling\n\
   and trace gas flux in peatland ecosystems subject to climate change\n\nAbstract:\n\
   Metagenome and metatranscriptome analyses. In the second part of this study we will\
@@ -81,7 +81,7 @@ extracted_object:
   - microorganisms
   measurements:
   - value: Trace gas flux
-    unit: http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#C18902
+    unit: N/A
   - value: enzyme activity
     unit: none
   - value: microorganism abundance
@@ -94,5 +94,3 @@ named_entities:
   label: peat
 - id: PATO:0000915
   label: thickness
-- id: http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#C18902
-  label: N/A

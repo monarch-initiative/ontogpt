@@ -1,4 +1,4 @@
-input_id: /Users/cjm/repos/semantic-llama/tests/input/cases/mendelian-disease-cmt2e-summary.txt
+input_id: /Users/cjm/repos/ontogpt/tests/input/cases/mendelian-disease-cmt2e-summary.txt
 input_text: "CHARCOT-MARIE-TOOTH DISEASE, AXONAL, TYPE 2E; CMT2E\n\nINHERITANCE\n\
   - Autosomal dominant\nHEAD & NECK\nFace\n- Facial muscle weakness (in some patients)\n\
   Eyes\n- Ptosis (in some patients) \nMouth\n- High-arched palate (in some patients)\n\
@@ -77,7 +77,7 @@ extracted_object:
   - CHARCOT-MARIE-TOOTH DISEASE, AXONAL, TYPE 2E
   - CMT2E
   subclass_of:
-  - HP:0009830
+  - MONDO:0005244
   symptoms:
   - Facial muscle weakness (in some patients)
   - Ptosis (in some patients)
@@ -110,8 +110,8 @@ extracted_object:
   genes:
   - HGNC:7739
   disease_onsets:
-  - UBERON:0007023
-  - PATO:0001190
+  - Adult
+  - juvenile
   - first decade
 named_entities:
 - id: HP:0009830
@@ -138,7 +138,3 @@ named_entities:
   label: Autosomal dominant
 - id: HGNC:7739
   label: NEFL
-- id: UBERON:0007023
-  label: Adult
-- id: PATO:0001190
-  label: juvenile

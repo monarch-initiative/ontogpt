@@ -1,4 +1,4 @@
-input_id: /Users/cjm/repos/semantic-llama/tests/input/cases/gocam-33246504.txt
+input_id: /Users/cjm/repos/ontogpt/tests/input/cases/gocam-33246504.txt
 input_text: "Text: An allosteric interleukin-1 receptor modulator mitigates\ninflammation\
   \ and photoreceptor toxicity in a model of retinal\ndegeneration\n\nBackground:\
   \ Inflammation and particularly interleukin-1\u03B2 (IL-1\u03B2), a pro-inflammatory\
@@ -99,7 +99,7 @@ extracted_object:
     molecular_activity: targeting
   - gene: F4/80
     molecular_activity: Targeting
-  - gene: MESH:C529594
+  - gene: rytvela
     molecular_activity: suppressing
   - gene: Kineret
     molecular_activity: suppressing
@@ -132,18 +132,14 @@ named_entities:
   label: NLRP3
 - id: HGNC:5992
   label: "IL-1\u03B2"
-- id: CHEBI:CHEBI:16412
+- id: HGNC:6121
   label: LPS
 - id: MESH:D006801
   label: Homo sapiens
 - id: NCBITaxon:10090
   label: Mus musculus
-- id: http://identifiers.org/hgnc/16289
-  label: TRIM31*
 - id: MESH:D006801
   label: Homo sapiens
-- id: http://identifiers.org/hgnc/16400
-  label: NLRP3*
 - id: MESH:D006801
   label: Homo sapiens
 - id: MESH:D006801
@@ -152,26 +148,14 @@ named_entities:
   label: Homo sapiens
 - id: GO:0005488
   label: binding
-- id: http://identifiers.org/hgnc/16289
-  label: TRIM31*
 - id: GO:0005488
   label: binding
-- id: http://identifiers.org/hgnc/16289
-  label: TRIM31*
-- id: http://identifiers.org/hgnc/16289
-  label: TRIM31*
-- id: http://identifiers.org/hgnc/16400
-  label: NLRP3*
 - id: GO:0046903
   label: secretion
-- id: http://identifiers.org/hgnc/16289
-  label: TRIM31*
 - id: HGNC:16400
   label: NLRP3
-- id: CHEBI:CHEBI:16412
+- id: HGNC:6121
   label: LPS
-- id: http://identifiers.org/hgnc/16289
-  label: TRIM31*
 - id: GO:0005737
   label: cytoplasm
 - id: HGNC:16400
@@ -214,8 +198,6 @@ named_entities:
   label: NLRP3
 - id: HGNC:1499
   label: caspase-1
-- id: MESH:C529594
-  label: rytvela
 - id: HGNC:5992
   label: Il1b
 - id: HGNC:5993

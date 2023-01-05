@@ -6,14 +6,38 @@ URI: [recipe:Recipe](http://w3id.org/ontogpt/recipe/Recipe)
 
 
 ```mermaid
- classDiagram
-    class Recipe
-      Recipe : category
-      Recipe : description
-      Recipe : ingredients
-      Recipe : label
-      Recipe : steps
-      
+erDiagram
+Recipe {
+    string label  
+    string description  
+}
+Step {
+
+}
+FoodItem {
+    string id  
+    string label  
+}
+Action {
+    string id  
+    string label  
+}
+Ingredient {
+    string quantity  
+}
+RecipeCategory {
+    string id  
+    string label  
+}
+
+Recipe ||--}o RecipeCategory : "category"
+Recipe ||--}o Ingredient : "ingredients"
+Recipe ||--}o Step : "steps"
+Step ||--|o Action : "action"
+Step ||--}o FoodItem : "inputs"
+Step ||--}o FoodItem : "outputs"
+Ingredient ||--|o FoodItem : "food_item"
+
 ```
 
 
@@ -110,6 +134,7 @@ attributes:
     rank: 1000
     multivalued: true
     range: Step
+tree_root: true
 
 ```
 </details>
@@ -179,6 +204,7 @@ attributes:
     domain_of:
     - Recipe
     range: Step
+tree_root: true
 
 ```
 </details>

@@ -26,7 +26,7 @@ plugins:
 nav:
   - About: index.md
   - SPIRES:
-      - Recipes: recipes/index.md
+      - Recipes: recipe/index.md
       - Pathways: gocam/index.md
       - Chemical to Disease: ctd/index.md
       - Drugs and Mechanisms: drug/index.md

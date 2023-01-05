@@ -6,14 +6,23 @@ URI: [recipe:Step](http://w3id.org/ontogpt/recipe/Step)
 
 
 ```mermaid
- classDiagram
-    class Step
-      CompoundExpression <|-- Step
-      
-      Step : action
-      Step : inputs
-      Step : outputs
-      
+erDiagram
+Step {
+
+}
+FoodItem {
+    string id  
+    string label  
+}
+Action {
+    string id  
+    string label  
+}
+
+Step ||--|o Action : "action"
+Step ||--}o FoodItem : "inputs"
+Step ||--}o FoodItem : "outputs"
+
 ```
 
 

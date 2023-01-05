@@ -6,13 +6,14 @@ URI: [recipe:RecipeCategory](http://w3id.org/ontogpt/recipe/RecipeCategory)
 
 
 ```mermaid
- classDiagram
-    class RecipeCategory
-      NamedEntity <|-- RecipeCategory
-      
-      RecipeCategory : id
-      RecipeCategory : label
-      
+erDiagram
+RecipeCategory {
+    string id  
+    string label  
+}
+
+
+
 ```
 
 
@@ -28,8 +29,8 @@ URI: [recipe:RecipeCategory](http://w3id.org/ontogpt/recipe/RecipeCategory)
 
 | Name | Cardinality and Range | Description | Inheritance |
 | ---  | --- | --- | --- |
-| [id](id.md) | 0..1 <br/> NONE |  | [NamedEntity](NamedEntity.md) |
 | [label](label.md) | 0..1 <br/> NONE |  | [NamedEntity](NamedEntity.md) |
+| [id](id.md) | 0..1 <br/> NONE |  | [NamedEntity](NamedEntity.md) |
 
 
 

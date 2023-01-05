@@ -1,4 +1,4 @@
-input_id: /Users/cjm/repos/semantic-llama/tests/input/cases/mendelian-disease-marfan.txt
+input_id: /Users/cjm/repos/ontogpt/tests/input/cases/mendelian-disease-marfan.txt
 input_text: Marfan syndrome is a genetic disorder that affects connective tissue,
   which is the material between cells of the body that gives the tissues form and
   strength. Connective tissue is found all over the body and multiple organ systems
@@ -102,8 +102,8 @@ extracted_object:
   genes:
   - HGNC:3603
   disease_onsets:
-  - UBERON:0007023
-  - PATO:0001190
+  - Adult
+  - Juvenile
   - First Decade
 named_entities:
 - id: HP:0009830
@@ -130,14 +130,8 @@ named_entities:
   label: Autosomal dominant
 - id: HGNC:7739
   label: NEFL
-- id: UBERON:0007023
-  label: Adult
-- id: PATO:0001190
-  label: juvenile
 - id: MONDO:0030433
   label: Charcot-Marie-Tooth Neuropathy
-- id: HP:0000006
-  label: Autosomal Dominant Inheritance
 - id: MONDO:0015626
   label: Peroneal Muscular Atrophy
 - id: HP:0003376
@@ -156,10 +150,6 @@ named_entities:
   label: PEX2
 - id: HGNC:8858
   label: PEX3
-- id: UBERON:0007023
-  label: adult
-- id: PATO:0001190
-  label: juvenile
 - id: HP:0000007
   label: Autosomal recessive
 - id: HGNC:4696
@@ -168,7 +158,3 @@ named_entities:
   label: Autosomal Dominant
 - id: HGNC:3603
   label: FBN1
-- id: UBERON:0007023
-  label: Adult
-- id: PATO:0001190
-  label: Juvenile

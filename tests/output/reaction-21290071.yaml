@@ -1,4 +1,4 @@
-input_id: /Users/cjm/repos/semantic-llama/tests/input/cases/reaction-21290071.txt
+input_id: /Users/cjm/repos/ontogpt/tests/input/cases/reaction-21290071.txt
 input_text: 'Title: Substrate specificity of Rv3378c, an enzyme from Mycobacterium
 
   tuberculosis, and the inhibitory activity of the bicyclic diterpenoids
@@ -108,7 +108,7 @@ extracted_object:
     right_side:
     - '27'
     - '28'
-  organism: MESH:D009169
+  organism: NCBITaxon:1773
 named_entities:
 - id: MESH:D009169
   label: Mycobacterium tuberculosis

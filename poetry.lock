@@ -1031,7 +1031,7 @@ regex = ["regex"]
 
 [[package]]
 name = "linkml"
-version = "1.3.16"
+version = "1.4.1"
 description = "Linked Open Data Modeling Language"
 category = "main"
 optional = false
@@ -1047,7 +1047,7 @@ jinja2 = ">=3.1.0"
 jsonasobj2 = ">=1.0.3,<2.0.0"
 jsonschema = {version = ">=4.0.0", extras = ["format"]}
 linkml-dataops = "*"
-linkml-runtime = ">=1.3,<1.4"
+linkml-runtime = ">=1,<2"
 myst-parser = "*"
 openpyxl = "*"
 parse = "*"
@@ -2700,7 +2700,7 @@ docs = ["sphinx", "sphinx-rtd-theme", "sphinx-autodoc-typehints", "sphinx-click"
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.9"
-content-hash = "ba86ba591782c72500e0dabed8976c98e10a804b6185f6cb80e257f6e42af4db"
+content-hash = "d1291a8b3b7afb8da7952773a30ccdb074c740a01fd2bca917abc68931758518"
 
 [metadata.files]
 adeft = []

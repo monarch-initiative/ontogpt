@@ -9,12 +9,15 @@ from ontogpt.io.yaml_wrapper import dump_minimal_yaml
 from tests import CASES_DIR, OUTPUT_DIR
 
 CASES = [
+    ("recipe.Recipe", "recipe-spaghetti"),
+    ("recipe.Recipe", "recipe-tortilla-soup"),
+    ("recipe.Recipe", "recipe-egg-noodles"),
     ("mendelian_disease.MendelianDisease", "mendelian-disease-cmt2e-summary"),
     ("mendelian_disease.MendelianDisease", "mendelian-disease-cmt2e"),
     ("drug.DrugMechanism", "drug-DB00316-moa"),
     ("metagenome_study.Study", "environment-jgi2"),
     ("environmental_sample.Study", "environment-jgi1"),
-    ("reaction.MultiGeneToReaction", "reaction-20657015"),
+    ("reaction.ReactionDocument", "reaction-20657015"),
     ("reaction.GeneToReaction", "reaction-21290071"),
     ("gocam.GoCamAnnotations", "gocam-27929086"),
     ("gocam.GoCamAnnotations", "gocam-33246504"),
