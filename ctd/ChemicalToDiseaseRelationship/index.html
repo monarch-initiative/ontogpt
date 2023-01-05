@@ -7,9 +7,9 @@
 <meta content="width=device-width,initial-scale=1" name="viewport"/>
 <link href="https://monarch-initiative.github.io/ontogpt/ctd/ChemicalToDiseaseRelationship/" rel="canonical"/>
 <link href="../../assets/images/favicon.png" rel="icon"/>
-<meta content="mkdocs-1.4.2, mkdocs-material-8.5.10" name="generator"/>
+<meta content="mkdocs-1.4.2, mkdocs-material-9.0.2" name="generator"/>
 <title>Class: ChemicalToDiseaseRelationship - OntoGPT</title>
-<link href="../../assets/stylesheets/main.975780f9.min.css" rel="stylesheet"/>
+<link href="../../assets/stylesheets/main.f56500e0.min.css" rel="stylesheet"/>
 <link href="../../assets/stylesheets/palette.2505c338.min.css" rel="stylesheet"/>
 <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
 <link href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&amp;display=fallback" rel="stylesheet"/>
@@ -257,22 +257,35 @@
 </div>
 <div class="md-content" data-md-component="content">
 <article class="md-content__inner md-typeset">
-<a class="md-content__button md-icon" href="https://github.com/monarch-initiative/ontogpt/edit/master/docs/ctd/ChemicalToDiseaseRelationship.md" title="Edit this page">
-<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M20.71 7.04c.39-.39.39-1.04 0-1.41l-2.34-2.34c-.37-.39-1.02-.39-1.41 0l-1.84 1.83 3.75 3.75M3 17.25V21h3.75L17.81 9.93l-3.75-3.75L3 17.25Z"></path></svg>
-</a>
 <h1 id="class-chemicaltodiseaserelationship">Class: ChemicalToDiseaseRelationship</h1>
 <p><em>A triple where the subject is a chemical and the object is a disease.</em></p>
 <p>URI: <a href="http://w3id.org/ontogpt/drug/ChemicalToDiseaseRelationship">drug:ChemicalToDiseaseRelationship</a></p>
-<div class="mermaid"> classDiagram
-    class ChemicalToDiseaseRelationship
-      Triple &lt;|-- ChemicalToDiseaseRelationship
+<div class="mermaid">erDiagram
+ChemicalToDiseaseRelationship {
+    string qualifier  
+}
+NamedEntity {
+    string id  
+    string label  
+}
+Disease {
+    string id  
+    string label  
+}
+ChemicalToDiseasePredicate {
+    string id  
+    string label  
+}
+Chemical {
+    string id  
+    string label  
+}
 
-      ChemicalToDiseaseRelationship : object
-      ChemicalToDiseaseRelationship : object_qualifier
-      ChemicalToDiseaseRelationship : predicate
-      ChemicalToDiseaseRelationship : qualifier
-      ChemicalToDiseaseRelationship : subject
-      ChemicalToDiseaseRelationship : subject_qualifier
+ChemicalToDiseaseRelationship ||--|o Chemical : "subject"
+ChemicalToDiseaseRelationship ||--|o ChemicalToDiseasePredicate : "predicate"
+ChemicalToDiseaseRelationship ||--|o Disease : "object"
+ChemicalToDiseaseRelationship ||--|o NamedEntity : "subject_qualifier"
+ChemicalToDiseaseRelationship ||--|o NamedEntity : "object_qualifier"
 
 </div>
 <h2 id="inheritance">Inheritance</h2>
@@ -309,12 +322,6 @@
 <td><a href="../Triple/">Triple</a></td>
 </tr>
 <tr>
-<td><a href="qualifier.md">qualifier</a></td>
-<td>0..1 <br/> <a href="xsd:string">xsd:string</a></td>
-<td>A qualifier for the statements, e</td>
-<td><a href="../Triple/">Triple</a></td>
-</tr>
-<tr>
 <td><a href="object.md">object</a></td>
 <td>0..1 <br/> <a href="../NamedEntity/">NamedEntity</a></td>
 <td></td>
@@ -330,6 +337,12 @@
 <td><a href="subject_qualifier.md">subject_qualifier</a></td>
 <td>0..1 <br/> <a href="../NamedEntity/">NamedEntity</a></td>
 <td>An optional qualifier or modifier for the subject of the statement, e</td>
+<td><a href="../Triple/">Triple</a></td>
+</tr>
+<tr>
+<td><a href="qualifier.md">qualifier</a></td>
+<td>0..1 <br/> <a href="xsd:string">xsd:string</a></td>
+<td>A qualifier for the statements, e</td>
 <td><a href="../Triple/">Triple</a></td>
 </tr>
 </tbody>
@@ -394,6 +407,9 @@ slot_usage:
     domain_of:
     - Triple
     - Triple
+    - Triple
+    - Triple
+    - Triple
     range: Chemical
   object:
     name: object
@@ -403,11 +419,17 @@ slot_usage:
     domain_of:
     - Triple
     - Triple
+    - Triple
+    - Triple
+    - Triple
     range: Disease
   predicate:
     name: predicate
     description: The relationship type, e.g. INDUCES, TREATS.
     domain_of:
+    - Triple
+    - Triple
+    - Triple
     - Triple
     - Triple
     range: ChemicalToDiseasePredicate
@@ -418,12 +440,18 @@ slot_usage:
     domain_of:
     - Triple
     - Triple
+    - Triple
+    - Triple
+    - Triple
     range: NamedEntity
   object_qualifier:
     name: object_qualifier
     description: An optional qualifier or modifier for the disease, e.g. "severe"
       or "with additional complications"
     domain_of:
+    - Triple
+    - Triple
+    - Triple
     - Triple
     - Triple
     range: NamedEntity
@@ -445,6 +473,9 @@ slot_usage:
     domain_of:
     - Triple
     - Triple
+    - Triple
+    - Triple
+    - Triple
     range: Chemical
   object:
     name: object
@@ -454,11 +485,17 @@ slot_usage:
     domain_of:
     - Triple
     - Triple
+    - Triple
+    - Triple
+    - Triple
     range: Disease
   predicate:
     name: predicate
     description: The relationship type, e.g. INDUCES, TREATS.
     domain_of:
+    - Triple
+    - Triple
+    - Triple
     - Triple
     - Triple
     range: ChemicalToDiseasePredicate
@@ -469,12 +506,18 @@ slot_usage:
     domain_of:
     - Triple
     - Triple
+    - Triple
+    - Triple
+    - Triple
     range: NamedEntity
   object_qualifier:
     name: object_qualifier
     description: An optional qualifier or modifier for the disease, e.g. "severe"
       or "with additional complications"
     domain_of:
+    - Triple
+    - Triple
+    - Triple
     - Triple
     - Triple
     range: NamedEntity
@@ -490,6 +533,9 @@ attributes:
     domain_of:
     - Triple
     - Triple
+    - Triple
+    - Triple
+    - Triple
     range: Chemical
   predicate:
     name: predicate
@@ -499,6 +545,9 @@ attributes:
     alias: predicate
     owner: ChemicalToDiseaseRelationship
     domain_of:
+    - Triple
+    - Triple
+    - Triple
     - Triple
     - Triple
     range: ChemicalToDiseasePredicate
@@ -512,6 +561,9 @@ attributes:
     alias: object
     owner: ChemicalToDiseaseRelationship
     domain_of:
+    - Triple
+    - Triple
+    - Triple
     - Triple
     - Triple
     range: Disease
@@ -536,6 +588,9 @@ attributes:
     domain_of:
     - Triple
     - Triple
+    - Triple
+    - Triple
+    - Triple
     range: NamedEntity
   object_qualifier:
     name: object_qualifier
@@ -546,6 +601,9 @@ attributes:
     alias: object_qualifier
     owner: ChemicalToDiseaseRelationship
     domain_of:
+    - Triple
+    - Triple
+    - Triple
     - Triple
     - Triple
     range: NamedEntity
@@ -575,7 +633,7 @@ attributes:
 <div class="md-dialog" data-md-component="dialog">
 <div class="md-dialog__inner md-typeset"></div>
 </div>
-<script id="__config" type="application/json">{"base": "../..", "features": ["content.tabs.link"], "search": "../../assets/javascripts/workers/search.16e2a7d4.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version.title": "Select version"}}</script>
-<script src="../../assets/javascripts/bundle.5a2dcb6a.min.js"></script>
-<script src="https://unpkg.com/mermaid@8.8.0/dist/mermaid.min.js"></script><script>mermaid.initialize({});</script></body>
+<script id="__config" type="application/json">{"base": "../..", "features": ["content.tabs.link"], "search": "../../assets/javascripts/workers/search.12658920.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
+<script src="../../assets/javascripts/bundle.5cf534bf.min.js"></script>
+<script src="https://unpkg.com/mermaid@9.3.0/dist/mermaid.min.js"></script><script>mermaid.initialize({});</script></body>
 </html>
