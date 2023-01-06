@@ -92,8 +92,8 @@ note in the above the grounding is very preliminary and can be improved. Ungroun
 You will need to set both API keys using OAK (which is a dependency of this project)
 
 ```
-poetry run runoak set-apikey openai <your openai api key>
-poetry run runoak set-apikey bioportal <your bioportal api key>
+poetry run runoak set-apikey -e openai <your openai api key>
+poetry run runoak set-apikey -e bioportal <your bioportal api key>
 ```
 
 ## How to define your own extraction data model
