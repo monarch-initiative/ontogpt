@@ -35,6 +35,8 @@ def write_extraction(results: ExtractionResult, output: BytesIO, output_format: 
         output = codecs.getwriter("utf-8")(output)
         exporter = MarkdownExporter()
         exporter.export(results, output)
+    elif output_format == "yaml":
+        output.write(dump_minimal_yaml(results))
     else:
         output = codecs.getwriter("utf-8")(output)
         output.write(dump_minimal_yaml(results))
