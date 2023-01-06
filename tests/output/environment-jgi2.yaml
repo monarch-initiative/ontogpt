@@ -83,35 +83,35 @@ prompt: 'Split the following piece of text into fields in the following format:
   '
 extracted_object:
   environments:
-  - peatlands
+  - AUTO:peatlands
   - ENVO:01000251
   - ENVO:01000251
   - ENVO:01000205
-  - Andes
-  - Tierra del Fuego
-  - arctic tundra
+  - AUTO:Andes
+  - AUTO:Tierra%20del%20Fuego
+  - AUTO:arctic%20tundra
   causal_relationships:
-  - cause: global carbon fluxes
+  - cause: AUTO:global%20carbon%20fluxes
     effect: ENVO:01001082
-  - cause: rising temperatures
-    effect: carbon stored in arctic tundra
+  - cause: AUTO:rising%20temperatures
+    effect: AUTO:carbon%20stored%20in%20arctic%20tundra
   variables:
   - PATO:0000146
-  - nutrients
-  - anoxia
-  - whole plant productivity and decomposition rates
-  - nitrogen and phosphorous contents
-  - foliar pH
-  - production of Sphagnum acids
+  - AUTO:nutrients
+  - AUTO:anoxia
+  - AUTO:whole%20plant%20productivity%20and%20decomposition%20rates
+  - AUTO:nitrogen%20and%20phosphorous%20contents
+  - AUTO:foliar%20pH
+  - AUTO:production%20of%20Sphagnum%20acids
   treatments:
-  - none
+  - AUTO:none
   measurements:
   - value: none
   location:
   - GAZ:00002888
   environmental_material:
-  - partially decomposed plant material
-  sequencing_technologies: none
+  - AUTO:partially%20decomposed%20plant%20material
+  sequencing_technologies: AUTO:none
   organisms:
   - NCBITaxon:128215
   - NCBITaxon:3218

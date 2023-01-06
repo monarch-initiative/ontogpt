@@ -58,7 +58,6 @@ description: An optional qualifier or modifier for the subject of the statement,
 from_schema: http://w3id.org/ontogpt/core
 rank: 1000
 alias: subject_qualifier
-owner: Triple
 domain_of:
 - Triple
 range: NamedEntity

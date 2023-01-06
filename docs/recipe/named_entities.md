@@ -60,7 +60,6 @@ from_schema: http://w3id.org/ontogpt/core
 rank: 1000
 multivalued: true
 alias: named_entities
-owner: ExtractionResult
 domain_of:
 - ExtractionResult
 range: Any

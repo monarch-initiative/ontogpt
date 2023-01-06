@@ -58,43 +58,43 @@ extracted_object:
   - NCBITaxon:9606
   - NCBITaxon:10090
   gene_organisms:
-  - gene: TRIM31*
+  - gene: AUTO:TRIM31%2A
     organism: NCBITaxon:9606
-  - gene: NLRP3*
+  - gene: AUTO:NLRP3%2A
     organism: NCBITaxon:9606
-  - gene: "IL-1\u03B2*"
+  - gene: AUTO:IL-1%CE%B2%2A
     organism: NCBITaxon:9606
-  - gene: LPS*
+  - gene: AUTO:LPS%2A
     organism: NCBITaxon:9606
   activities:
   - GO:0005488
-  - K48-linked polyubiquitination
-  - proteasomal degradation
-  - expression
-  - secrection
+  - AUTO:K48-linked%20polyubiquitination
+  - AUTO:proteasomal%20degradation
+  - AUTO:expression
+  - AUTO:secrection
   gene_functions:
-  - gene: TRIM31*
+  - gene: AUTO:TRIM31%2A
     molecular_activity: GO:0005488
-  - gene: TRIM31*
-    molecular_activity: K48-linked polyubiquitination
-  - gene: TRIM31*
-    molecular_activity: proteasomal degradation
-  - gene: NLRP3*
-    molecular_activity: Expression
-  - gene: "IL-1\u03B2*"
+  - gene: AUTO:TRIM31%2A
+    molecular_activity: AUTO:K48-linked%20polyubiquitination
+  - gene: AUTO:TRIM31%2A
+    molecular_activity: AUTO:proteasomal%20degradation
+  - gene: AUTO:NLRP3%2A
+    molecular_activity: AUTO:Expression
+  - gene: AUTO:IL-1%CE%B2%2A
     molecular_activity: GO:0046903
   cellular_processes:
-  - inflammasome activation
-  - immune homeostasis
+  - AUTO:inflammasome%20activation
+  - AUTO:immune%20homeostasis
   pathways:
-  - NLRP3 inflammasome
+  - AUTO:NLRP3%20inflammasome
   gene_gene_interactions:
-  - gene1: TRIM31*
+  - gene1: AUTO:TRIM31%2A
     gene2: HGNC:16400
-  - gene1: "IL-1\u03B2*"
+  - gene1: AUTO:IL-1%CE%B2%2A
     gene2: HGNC:6121
   gene_localizations:
-  - gene: TRIM31*
+  - gene: AUTO:TRIM31%2A
     location: GO:0005737
   - gene: HGNC:16400
     location: GO:0005739

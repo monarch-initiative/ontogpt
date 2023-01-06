@@ -79,29 +79,29 @@ extracted_object:
   subclass_of:
   - MONDO:0005244
   symptoms:
-  - Facial muscle weakness (in some patients)
-  - Ptosis (in some patients)
-  - High-arched palate (in some patients)
+  - AUTO:Facial%20muscle%20weakness%20%28in%20some%20patients%29
+  - AUTO:Ptosis%20%28in%20some%20patients%29
+  - AUTO:High-arched%20palate%20%28in%20some%20patients%29
   - HP:0001371
-  - Scoliosis (in some patients)
-  - Claw hand deformities (in severe cases)
+  - AUTO:Scoliosis%20%28in%20some%20patients%29
+  - AUTO:Claw%20hand%20deformities%20%28in%20severe%20cases%29
   - HP:0001761
-  - Hammer toes
+  - AUTO:Hammer%20toes
   - HP:0001760
-  - Shoulder muscle weakness (in some patients)
+  - AUTO:Shoulder%20muscle%20weakness%20%28in%20some%20patients%29
   - HP:0006006
-  - Fiber-type predominance seen on muscle biopsy (in some patients)
-  - Fiber size variation (in some patients)
-  - Internal nuclei (in some patients)
-  - Increased connective tissue (in some patients)
-  - Nemaline rods (in some patients)
-  - Group fiber atrophy (in some patients)
-  - Angular fibers (in some patients)
-  - EMG consistent with chronic neurogenic disorder
-  - Delayed motor development (in some patients)
+  - AUTO:Fiber-type%20predominance%20seen%20on%20muscle%20biopsy%20%28in%20some%20patients%29
+  - AUTO:Fiber%20size%20variation%20%28in%20some%20patients%29
+  - AUTO:Internal%20nuclei%20%28in%20some%20patients%29
+  - AUTO:Increased%20connective%20tissue%20%28in%20some%20patients%29
+  - AUTO:Nemaline%20rods%20%28in%20some%20patients%29
+  - AUTO:Group%20fiber%20atrophy%20%28in%20some%20patients%29
+  - AUTO:Angular%20fibers%20%28in%20some%20patients%29
+  - AUTO:EMG%20consistent%20with%20chronic%20neurogenic%20disorder
+  - AUTO:Delayed%20motor%20development%20%28in%20some%20patients%29
   - HP:0002460
-  - Distal limb muscle atrophy due to peripheral neuropathy
-  - '''Steppage'' gait'
+  - AUTO:Distal%20limb%20muscle%20atrophy%20due%20to%20peripheral%20neuropathy
+  - AUTO:%27Steppage%27%20gait
   - HP:0009027
   - HP:0002936
   - HP:0001265
@@ -110,9 +110,9 @@ extracted_object:
   genes:
   - HGNC:7739
   disease_onsets:
-  - Adult
-  - juvenile
-  - first decade
+  - AUTO:Adult
+  - AUTO:juvenile
+  - AUTO:first%20decade
 named_entities:
 - id: HP:0009830
   label: Peripheral Neuropathy

@@ -43,39 +43,39 @@ prompt: 'Split the following piece of text into fields in the following format:
   '
 extracted_object:
   location:
-  - T2
-  - T3
-  - T4
+  - AUTO:T2
+  - AUTO:T3
+  - AUTO:T4
   environmental_material:
-  - Non-purgeable Organic Carbon (NPOC)
-  - Nitrate
+  - AUTO:Non-purgeable%20Organic%20Carbon%20%28NPOC%29
+  - AUTO:Nitrate
   environments:
-  - Hyporheic Zone
+  - AUTO:Hyporheic%20Zone
   - ENVO:00002042
   - ENVO:01001004
   causal_relationships:
-  - cause: Non-purgeable Organic Carbon (NPOC)
-    effect: Surface Water Influx
-  - cause: Nitrate
-    effect: Groundwater Influence
+  - cause: AUTO:Non-purgeable%20Organic%20Carbon%20%28NPOC%29
+    effect: AUTO:Surface%20Water%20Influx
+  - cause: AUTO:Nitrate
+    effect: AUTO:Groundwater%20Influence
   - cause: ENVO:09200014
-    effect: Seasonal Trends
+    effect: AUTO:Seasonal%20Trends
   variables:
-  - Hydraulic Regime
-  - Dissolved Organic Carbon
-  - Nitrate Concentrations
-  - Non-Purgeable Organic Carbon
-  - DO Concentration
+  - AUTO:Hydraulic%20Regime
+  - AUTO:Dissolved%20Organic%20Carbon
+  - AUTO:Nitrate%20Concentrations
+  - AUTO:Non-Purgeable%20Organic%20Carbon
+  - AUTO:DO%20Concentration
   - ENVO:09200014
   measurements:
   - value: 0.8-1.0
-    unit: mg/L
+    unit: AUTO:mg/L
   - value: "10\u201315"
-    unit: "\u03BCM"
+    unit: AUTO:%CE%BCM
   - value: 60-100
-    unit: '% saturation'
+    unit: AUTO:%25%20saturation
   - value: Water Temperature
-    unit: (Warming in Summer, Cooling in Fall)
+    unit: AUTO:%28Warming%20in%20Summer%2C%20Cooling%20in%20Fall%29
 named_entities:
 - id: ENVO:00000107
   label: heath

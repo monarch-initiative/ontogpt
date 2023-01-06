@@ -86,25 +86,24 @@ extracted_object:
   - Ochronotic arthropathy
   - Dysfibrillinosis
   subclass_of:
-  - N/A
+  - AUTO:N/A
   symptoms:
-  - Overgrowth of the long bones of the arms and legs
-  - abnormal side-to-side curvature of the spine (scoliosis)
-  - indentation or protrusion of the chest wall (pectus deformity)
-  - dislocation of the lenses of the eyes (ectopia lentis)
-  - nearsightedness (myopia)
-  - widening (aneurysm)
-  - tear (dissection) of the main artery that carries blood away from the heart (aorta)
-  - floppiness of the mitral valve (mitral valve prolapse)
-  - backward flow of blood through the aortic and mitral valves (aortic and mitral
-    regurgitation)
+  - AUTO:Overgrowth%20of%20the%20long%20bones%20of%20the%20arms%20and%20legs
+  - AUTO:abnormal%20side-to-side%20curvature%20of%20the%20spine%20%28scoliosis%29
+  - AUTO:indentation%20or%20protrusion%20of%20the%20chest%20wall%20%28pectus%20deformity%29
+  - AUTO:dislocation%20of%20the%20lenses%20of%20the%20eyes%20%28ectopia%20lentis%29
+  - AUTO:nearsightedness%20%28myopia%29
+  - AUTO:widening%20%28aneurysm%29
+  - AUTO:tear%20%28dissection%29%20of%20the%20main%20artery%20that%20carries%20blood%20away%20from%20the%20heart%20%28aorta%29
+  - AUTO:floppiness%20of%20the%20mitral%20valve%20%28mitral%20valve%20prolapse%29
+  - AUTO:backward%20flow%20of%20blood%20through%20the%20aortic%20and%20mitral%20valves%20%28aortic%20and%20mitral%20regurgitation%29
   inheritance: HP:0000006
   genes:
   - HGNC:3603
   disease_onsets:
-  - Adult
-  - Juvenile
-  - First Decade
+  - AUTO:Adult
+  - AUTO:Juvenile
+  - AUTO:First%20Decade
 named_entities:
 - id: HP:0009830
   label: Peripheral Neuropathy

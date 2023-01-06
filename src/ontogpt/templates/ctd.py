@@ -25,6 +25,12 @@ class MeshChemicalIdentifier(str, Enum):
     dummy = "dummy"
     
 
+class MeshDiseaseIdentifier(str, Enum):
+    
+    
+    dummy = "dummy"
+    
+
 class ExtractionResult(ConfiguredBaseModel):
     """
     A result of extracting knowledge on text

@@ -4,6 +4,7 @@ Main Knowledge Extractor class.
 import importlib
 import logging
 import re
+from urllib.parse import quote
 from abc import ABC
 from dataclasses import dataclass, field
 from pathlib import Path
@@ -123,6 +124,9 @@ class KnowledgeEngine(ABC):
 
     named_entities: List[NamedEntity] = field(default_factory=list)
     """Cache of all named entities"""
+
+    auto_prefix: str = None
+    """If set then non-normalized named entities will be mapped to this prefix"""
 
     last_text: str = None
     """Cache of last text."""
@@ -303,6 +307,10 @@ class KnowledgeEngine(ABC):
                 logger.info(f"Normalized {text} with {obj_id} to {normalized_id}")
                 return normalized_id
         logger.info(f"Could not ground and normalize {text} to {cls.name}")
+        if self.auto_prefix:
+            obj_id = f"{self.auto_prefix}:{quote(text)}"
+        else:
+            obj_id = text
         if ANNOTATION_KEY_RECURSE in cls.annotations:
             logger.info(f"Using recursive strategy to parse: {text} to {cls.name}")
             obj = self.extract_from_text(text, cls).extracted_object
@@ -310,11 +318,11 @@ class KnowledgeEngine(ABC):
                 if self.named_entities is None:
                     self.named_entities = []
                 try:
-                    obj.id = text
+                    obj.id = obj_id
                 except ValueError as e:
                     logger.error(f"No id for {obj} {e}")
                 self.named_entities.append(obj)
-        return text
+        return obj_id
 
     def is_valid_identifier(self, input_id: str, cls: ClassDefinition) -> bool:
         sv = self.schemaview

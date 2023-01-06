@@ -37,7 +37,7 @@ class TestCases(unittest.TestCase):
         """Set up all engines in advance."""
         ke_map = {}
         for template, _ in CASES:
-            ke_map[template] = SPIRESEngine(template, recurse=True)
+            ke_map[template] = SPIRESEngine(template, recurse=True, auto_prefix="AUTO")
         self.ke_map = ke_map
 
     def test_cases(self):

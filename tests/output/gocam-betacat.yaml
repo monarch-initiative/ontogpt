@@ -61,10 +61,10 @@ extracted_object:
   - HGNC:21367
   - HGNC:27962
   - HGNC:2514
-  - US3
+  - AUTO:US3
   - HGNC:5417
-  - ISG
-  - Thr556
+  - AUTO:ISG
+  - AUTO:Thr556
   organisms:
   - NCBITaxon:9606
   - NCBITaxon:10298
@@ -75,61 +75,61 @@ extracted_object:
     organism: NCBITaxon:9606
   - gene: HGNC:2514
     organism: NCBITaxon:9606
-  - gene: US3
+  - gene: AUTO:US3
     organism: NCBITaxon:10298
   - gene: HGNC:5417
     organism: NCBITaxon:9606
-  - gene: ISG
+  - gene: AUTO:ISG
     organism: NCBITaxon:9606
-  - gene: Thr556
+  - gene: AUTO:Thr556
     organism: NCBITaxon:9606
   activities:
   - GO:0006351
-  - replication
-  - production
-  - nuclear translocation
+  - AUTO:replication
+  - AUTO:production
+  - AUTO:nuclear%20translocation
   gene_functions:
   - gene: HGNC:21367
-    molecular_activity: activate type I IFN
+    molecular_activity: AUTO:activate%20type%20I%20IFN
   - gene: HGNC:27962
-    molecular_activity: activate type I IFN
+    molecular_activity: AUTO:activate%20type%20I%20IFN
   - gene: HGNC:2514
-    molecular_activity: enhance transcription of type I IFN
-  - gene: US3
-    molecular_activity: antagonize production of IFN
+    molecular_activity: AUTO:enhance%20transcription%20of%20type%20I%20IFN
+  - gene: AUTO:US3
+    molecular_activity: AUTO:antagonize%20production%20of%20IFN
   - gene: HGNC:5417
-    molecular_activity: produce type I IFN
-  - gene: ISG
-    molecular_activity: produce type I IFN
-  - gene: Thr556
-    molecular_activity: block nuclear translocation
+    molecular_activity: AUTO:produce%20type%20I%20IFN
+  - gene: AUTO:ISG
+    molecular_activity: AUTO:produce%20type%20I%20IFN
+  - gene: AUTO:Thr556
+    molecular_activity: AUTO:block%20nuclear%20translocation
   cellular_processes:
-  - DNA-sensing
+  - AUTO:DNA-sensing
   - GO:0001816
-  - host antiviral responses
-  - Wnt signaling
+  - AUTO:host%20antiviral%20responses
+  - AUTO:Wnt%20signaling
   - GO:0048151
   pathways:
-  - cGAS/STING signaling
-  - Wnt signaling
+  - AUTO:cGAS/STING%20signaling
+  - AUTO:Wnt%20signaling
   gene_gene_interactions:
-  - gene1: US3
+  - gene1: AUTO:US3
     gene2: HGNC:2514
   gene_localizations:
   - gene: HGNC:21367
-    location: --
+    location: AUTO:--
   - gene: HGNC:27962
-    location: --
+    location: AUTO:--
   - gene: HGNC:2514
-    location: nuclear
-  - gene: US3
-    location: --
+    location: AUTO:nuclear
+  - gene: AUTO:US3
+    location: AUTO:--
   - gene: HGNC:5417
-    location: --
-  - gene: ISG
-    location: --
-  - gene: Thr556
-    location: --
+    location: AUTO:--
+  - gene: AUTO:ISG
+    location: AUTO:--
+  - gene: AUTO:Thr556
+    location: AUTO:--
 named_entities:
 - id: HGNC:16289
   label: TRIM31

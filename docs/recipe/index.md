@@ -18,7 +18,14 @@ Recipe {
 Step {
 
 }
+UtensilType {
+    string id  
+    string label  
+}
 FoodItem {
+    string state  
+}
+FoodType {
     string id  
     string label  
 }
@@ -27,20 +34,31 @@ Action {
     string label  
 }
 Ingredient {
-    string quantity  
+
+}
+Quantity {
+    string value  
+}
+Unit {
+    string id  
+    string label  
 }
 RecipeCategory {
     string id  
     string label  
 }
 
-Recipe ||--}o RecipeCategory : "category"
+Recipe ||--}o RecipeCategory : "categories"
 Recipe ||--}o Ingredient : "ingredients"
 Recipe ||--}o Step : "steps"
 Step ||--|o Action : "action"
 Step ||--}o FoodItem : "inputs"
 Step ||--}o FoodItem : "outputs"
+Step ||--}o UtensilType : "utensils"
+FoodItem ||--|o FoodType : "food"
 Ingredient ||--|o FoodItem : "food_item"
+Ingredient ||--|o Quantity : "amount"
+Quantity ||--|o Unit : "unit"
 
 ```
 
@@ -55,15 +73,19 @@ Ingredient ||--|o FoodItem : "food_item"
 | [CompoundExpression](CompoundExpression.md) |  |
 | [ExtractionResult](ExtractionResult.md) | A result of extracting knowledge on text |
 | [FoodItem](FoodItem.md) |  |
+| [FoodType](FoodType.md) |  |
 | [Ingredient](Ingredient.md) |  |
 | [NamedEntity](NamedEntity.md) |  |
 | [Publication](Publication.md) |  |
+| [Quantity](Quantity.md) |  |
 | [Recipe](Recipe.md) |  |
 | [RecipeCategory](RecipeCategory.md) |  |
 | [RelationshipType](RelationshipType.md) |  |
 | [Step](Step.md) |  |
 | [TextWithTriples](TextWithTriples.md) |  |
 | [Triple](Triple.md) | Abstract parent for Relation Extraction tasks |
+| [Unit](Unit.md) |  |
+| [UtensilType](UtensilType.md) |  |
 
 
 ## Slots
@@ -72,10 +94,12 @@ Ingredient ||--|o FoodItem : "food_item"
 | --- | --- |
 | [abstract](abstract.md) | The abstract of the publication |
 | [action](action.md) | the action taken in this step (e |
-| [category](category.md) | a semicolon separated list of the categories to which this recipe belongs |
+| [amount](amount.md) | the quantity of the ingredient, e |
+| [categories](categories.md) | a semicolon separated list of the categories to which this recipe belongs |
 | [combined_text](combined_text.md) |  |
 | [description](description.md) | a brief textual description of the recipe |
 | [extracted_object](extracted_object.md) | The complex objects extracted from the text |
+| [food](food.md) | the food item |
 | [food_item](food_item.md) | the food item |
 | [full_text](full_text.md) | The full text of the publication |
 | [id](id.md) | A unique identifier for the named entity |
@@ -95,14 +119,17 @@ Ingredient ||--|o FoodItem : "food_item"
 | [prompt](prompt.md) |  |
 | [publication](publication.md) |  |
 | [qualifier](qualifier.md) | A qualifier for the statements, e |
-| [quantity](quantity.md) | the quantity of the ingredient |
 | [raw_completion_output](raw_completion_output.md) |  |
+| [state](state.md) | the state of the food item (e |
 | [steps](steps.md) | a semicolon separated list of the individual steps involved in this recipe |
 | [subject](subject.md) |  |
 | [subject_qualifier](subject_qualifier.md) | An optional qualifier or modifier for the subject of the statement, e |
 | [subject_text](subject_text.md) |  |
 | [title](title.md) | The title of the publication |
 | [triples](triples.md) |  |
+| [unit](unit.md) | the unit of the quantity, e |
+| [utensils](utensils.md) | the kitchen utensil used in this step (e |
+| [value](value.md) | the value of the quantity |
 
 
 ## Enumerations

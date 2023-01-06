@@ -64,7 +64,6 @@ annotations:
 from_schema: http://w3id.org/ontogpt/core
 rank: 1000
 alias: publication
-owner: TextWithTriples
 domain_of:
 - TextWithTriples
 range: Publication

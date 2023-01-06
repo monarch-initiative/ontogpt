@@ -120,7 +120,7 @@ class SPIRESEngine(KnowledgeEngine):
             if v:
                 slot = sv.induced_slot(k, cls.name)
                 prompt += f"{k}: {self._serialize_value(v, slot)}\n"
-        print(f"PROMPT: {prompt}")
+        logging.debug(f"PROMPT: {prompt}")
         payload = self.client.complete(prompt)
         prediction = self.parse_completion_payload(payload, object=object)
         return ExtractionResult(
@@ -412,7 +412,7 @@ class SPIRESEngine(KnowledgeEngine):
         :return:
         """
         raw = self._parse_response_to_dict(results, cls)
-        print(f"RAW: {raw}")
+        logging.debug(f"RAW: {raw}")
         if object:
             raw = {**object, **raw}
         return self.ground_annotation_object(raw, cls)

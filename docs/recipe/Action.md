@@ -57,7 +57,6 @@ description: the action taken in this step (e.g. mix, add)
 from_schema: https://w3id.org/ontogpt/recipe
 rank: 1000
 alias: action
-owner: Step
 domain_of:
 - Step
 range: Action

@@ -23,7 +23,9 @@ CompoundExpression {
 ## Inheritance
 * **CompoundExpression**
     * [Ingredient](Ingredient.md)
+    * [Quantity](Quantity.md)
     * [Step](Step.md)
+    * [FoodItem](FoodItem.md)
     * [Triple](Triple.md)
 
 

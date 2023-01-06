@@ -45,24 +45,24 @@ prompt: 'Split the following piece of text into fields in the following format:
 
   '
 extracted_object:
-  disease: Pain symptoms;
-  drug: Acetaminophen;
+  disease: AUTO:Pain%20symptoms%3B
+  drug: AUTO:Acetaminophen%3B
   mechanism_links:
-  - subject: COX-1
-    predicate: Inhibit
+  - subject: AUTO:COX-1
+    predicate: AUTO:Inhibit
     object: MESH:D000082
-  - subject: COX-2
-    predicate: Inhibit
+  - subject: AUTO:COX-2
+    predicate: AUTO:Inhibit
     object: MESH:D000082
-  - subject: COX-3
-    predicate: Block
+  - subject: AUTO:COX-3
+    predicate: AUTO:Block
     object: MESH:D000082
   - subject: MESH:D011453
-    predicate: Inhibit
+    predicate: AUTO:Inhibit
     object: MESH:D000082
-  - subject: Heat-regulating-centers
-    predicate: Acetaminophen
-    object: Direct-action
+  - subject: AUTO:Heat-regulating-centers
+    predicate: AUTO:Acetaminophen
+    object: AUTO:Direct-action
 named_entities:
 - id: MESH:D000082
   label: Acetaminophen

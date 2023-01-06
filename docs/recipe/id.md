@@ -1,4 +1,6 @@
 # Slot: id
+_A unique identifier for the named entity_
+
 
 URI: [core:id](http://w3id.org/ontogpt/core/id)
 
@@ -13,9 +15,11 @@ URI: [core:id](http://w3id.org/ontogpt/core/id)
 
 | Name | Description |
 | --- | --- |
-[FoodItem](FoodItem.md) | 
+[FoodType](FoodType.md) | 
 [RecipeCategory](RecipeCategory.md) | 
 [Action](Action.md) | 
+[UtensilType](UtensilType.md) | 
+[Unit](Unit.md) | 
 [NamedEntity](NamedEntity.md) | 
 [RelationshipType](RelationshipType.md) | 
 [Publication](Publication.md) | 
@@ -35,11 +39,28 @@ URI: [core:id](http://w3id.org/ontogpt/core/id)
 
 
 
+## Comments
+
+* this is populated during the grounding and normalization step
+
 ## Identifier and Mapping Information
 
 
 
 
+
+### Annotations
+
+| property | value |
+| --- | --- |
+| prompt.skip | true |
+
+
+
+### Schema Source
+
+
+* from schema: http://w3id.org/ontogpt/core
 
 
 
@@ -49,6 +70,16 @@ URI: [core:id](http://w3id.org/ontogpt/core/id)
 <details>
 ```yaml
 name: id
+annotations:
+  prompt.skip:
+    tag: prompt.skip
+    value: 'true'
+description: A unique identifier for the named entity
+comments:
+- this is populated during the grounding and normalization step
+from_schema: http://w3id.org/ontogpt/core
+rank: 1000
+identifier: true
 alias: id
 domain_of:
 - NamedEntity

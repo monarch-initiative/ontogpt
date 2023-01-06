@@ -60,7 +60,6 @@ from_schema: https://w3id.org/ontogpt/recipe
 rank: 1000
 multivalued: true
 alias: steps
-owner: Recipe
 domain_of:
 - Recipe
 range: Step

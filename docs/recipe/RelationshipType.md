@@ -29,8 +29,8 @@ RelationshipType {
 
 | Name | Cardinality and Range | Description | Inheritance |
 | ---  | --- | --- | --- |
-| [id](id.md) | 0..1 <br/> NONE |  | [NamedEntity](NamedEntity.md) |
-| [label](label.md) | 0..1 <br/> NONE |  | [NamedEntity](NamedEntity.md) |
+| [label](label.md) | 0..1 <br/> NONE | the name of the recipe | [NamedEntity](NamedEntity.md) |
+| [id](id.md) | 1..1 <br/> NONE | A unique identifier for the named entity | [NamedEntity](NamedEntity.md) |
 
 
 

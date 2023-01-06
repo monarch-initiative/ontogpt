@@ -29,8 +29,8 @@ RecipeCategory {
 
 | Name | Cardinality and Range | Description | Inheritance |
 | ---  | --- | --- | --- |
-| [id](id.md) | 0..1 <br/> NONE |  | [NamedEntity](NamedEntity.md) |
-| [label](label.md) | 0..1 <br/> NONE |  | [NamedEntity](NamedEntity.md) |
+| [label](label.md) | 0..1 <br/> NONE | the name of the recipe | [NamedEntity](NamedEntity.md) |
+| [id](id.md) | 1..1 <br/> NONE | A unique identifier for the named entity | [NamedEntity](NamedEntity.md) |
 
 
 
@@ -40,7 +40,7 @@ RecipeCategory {
 
 | used by | used in | type | used |
 | ---  | --- | --- | --- |
-| [Recipe](Recipe.md) | [category](category.md) | range | [RecipeCategory](RecipeCategory.md) |
+| [Recipe](Recipe.md) | [categories](categories.md) | range | [RecipeCategory](RecipeCategory.md) |
 
 
 
@@ -54,7 +54,11 @@ RecipeCategory {
 
 Instances of this class *should* have identifiers with one of the following prefixes:
 
+* dbpediaont
+
 * FOODON
+
+* HANCESTRO
 
 
 
@@ -65,7 +69,7 @@ Instances of this class *should* have identifiers with one of the following pref
 
 | property | value |
 | --- | --- |
-| annotators | sqlite:obo:foodon |
+| annotators | sqlite:obo:foodon, sqlite:obo:dbpediaont |
 
 
 
@@ -96,11 +100,13 @@ Instances of this class *should* have identifiers with one of the following pref
 ```yaml
 name: RecipeCategory
 id_prefixes:
+- dbpediaont
 - FOODON
+- HANCESTRO
 annotations:
   annotators:
     tag: annotators
-    value: sqlite:obo:foodon
+    value: sqlite:obo:foodon, sqlite:obo:dbpediaont
 from_schema: https://w3id.org/ontogpt/recipe
 rank: 1000
 is_a: NamedEntity
@@ -114,11 +120,13 @@ is_a: NamedEntity
 ```yaml
 name: RecipeCategory
 id_prefixes:
+- dbpediaont
 - FOODON
+- HANCESTRO
 annotations:
   annotators:
     tag: annotators
-    value: sqlite:obo:foodon
+    value: sqlite:obo:foodon, sqlite:obo:dbpediaont
 from_schema: https://w3id.org/ontogpt/recipe
 rank: 1000
 is_a: NamedEntity

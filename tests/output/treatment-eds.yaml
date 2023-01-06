@@ -85,79 +85,79 @@ prompt: 'Split the following piece of text into fields in the following format:
 extracted_object:
   disease: MONDO:0020066
   drugs:
-  - Ascorbic Acid (Vitamin C)
+  - AUTO:Ascorbic%20Acid%20%28Vitamin%20C%29
   treatments:
-  - Preventative measures
-  - Deep stiches
-  - Superficial stiches
-  - Ascorbic Acid (Vitamin C)
-  - Avoidance of heavy sports, lifting, and other strenuous efforts
-  - Screening for hypertension and arterial disease
-  - Non-invasive technology screening
-  - Careful consideration of surgery for non-life threatening conditions
-  - Monitoring during pregnancy
+  - AUTO:Preventative%20measures
+  - AUTO:Deep%20stiches
+  - AUTO:Superficial%20stiches
+  - AUTO:Ascorbic%20Acid%20%28Vitamin%20C%29
+  - AUTO:Avoidance%20of%20heavy%20sports%2C%20lifting%2C%20and%20other%20strenuous%20efforts
+  - AUTO:Screening%20for%20hypertension%20and%20arterial%20disease
+  - AUTO:Non-invasive%20technology%20screening
+  - AUTO:Careful%20consideration%20of%20surgery%20for%20non-life%20threatening%20conditions
+  - AUTO:Monitoring%20during%20pregnancy
   - MAXO:0000011
-  - Low-resistance exercise
+  - AUTO:Low-resistance%20exercise
   - NCIT:C157792
-  - Comfortable writing utensils
-  - Low-stress mattress
+  - AUTO:Comfortable%20writing%20utensils
+  - AUTO:Low-stress%20mattress
   - MAXO:0000457
-  - Calcium and vitamin D
-  - DEXA bone density scans
-  - Routine eye exams
-  - Protective bandages
+  - AUTO:Calcium%20and%20vitamin%20D
+  - AUTO:DEXA%20bone%20density%20scans
+  - AUTO:Routine%20eye%20exams
+  - AUTO:Protective%20bandages
   treatment_mechanisms:
-  - treatment: Deep stiches
+  - treatment: AUTO:Deep%20stiches
     mechanism: GO:0042060
-  - treatment: Superficial stiches
+  - treatment: AUTO:Superficial%20stiches
     mechanism: NCIT:C34483
-  - treatment: Ascorbic Acid (Vitamin C)
+  - treatment: AUTO:Ascorbic%20Acid%20%28Vitamin%20C%29
     mechanism: NCIT:C143345
-  - treatment: Avoidance of heavy sports, lifting, and other strenuous efforts
+  - treatment: AUTO:Avoidance%20of%20heavy%20sports%2C%20lifting%2C%20and%20other%20strenuous%20efforts
     mechanism: NCIT:C15405
   - treatment: HP:0000822
-    mechanism: arterial screening
-  - treatment: Non-invasive technology
-    mechanism: screening*screening
+    mechanism: AUTO:arterial%20screening
+  - treatment: AUTO:Non-invasive%20technology
+    mechanism: AUTO:screening%2Ascreening
   - treatment: MAXO:0000004
     mechanism: NCIT:C15405
-  - treatment: Monitoring during pregnancy
+  - treatment: AUTO:Monitoring%20during%20pregnancy
     mechanism: NCIT:C48261
   - treatment: MAXO:0000011
     mechanism: NCIT:C3244
-  - treatment: Low-resistance exercise
+  - treatment: AUTO:Low-resistance%20exercise
     mechanism: NCIT:C3244
   - treatment: NCIT:C157792
     mechanism: NCIT:C3244
-  - treatment: writing utensils
+  - treatment: AUTO:writing%20utensils
     mechanism: NCIT:C3244
-  - treatment: Low-stress mattress
+  - treatment: AUTO:Low-stress%20mattress
     mechanism: NCIT:C3244
   - treatment: MAXO:0000457
     mechanism: NCIT:C15292
-  - treatment: Calcium and vitamin D
+  - treatment: AUTO:Calcium%20and%20vitamin%20D
     mechanism: NCIT:C61545
-  - treatment: DEXA bone density scans
+  - treatment: AUTO:DEXA%20bone%20density%20scans
     mechanism: NCIT:C61545
-  - treatment: Routine eye exams
-    mechanism: globus rupture
+  - treatment: AUTO:Routine%20eye%20exams
+    mechanism: AUTO:globus%20rupture
   - treatment: NCIT:C26874
   - treatment: NCIT:C26782
     mechanism: NCIT:C18902
-  - treatment: Protective bandages
-    mechanism: protection
+  - treatment: AUTO:Protective%20bandages
+    mechanism: AUTO:protection
   treatment_efficacies:
-  - treatment: Ascorbic Acid (Vitamin C)
+  - treatment: AUTO:Ascorbic%20Acid%20%28Vitamin%20C%29
     efficacy: effective
   - treatment: MAXO:0000011
     efficacy: effective
-  - treatment: Low-resistance exercise
+  - treatment: AUTO:Low-resistance%20exercise
     efficacy: effective
-  - treatment: Calcium and vitamin D
+  - treatment: AUTO:Calcium%20and%20vitamin%20D
     efficacy: effective
-  - treatment: Routine eye exams
+  - treatment: AUTO:Routine%20eye%20exams
     efficacy: effective
-  - treatment: Protective bandages
+  - treatment: AUTO:Protective%20bandages
     efficacy: effective
 named_entities:
 - id: MONDO:0007947

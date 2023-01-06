@@ -70,7 +70,7 @@ extracted_object:
   - HGNC:5993
   - HGNC:16400
   - HGNC:1499
-  - F4/80
+  - AUTO:F4/80
   organisms:
   - NCBITaxon:10090
   gene_organisms:
@@ -82,33 +82,33 @@ extracted_object:
     organism: NCBITaxon:10090
   - gene: HGNC:1499
     organism: NCBITaxon:10090
-  - gene: F4/80
+  - gene: AUTO:F4/80
     organism: NCBITaxon:10090
   activities:
-  - targeting
-  - suppressing
-  - validating
+  - AUTO:targeting
+  - AUTO:suppressing
+  - AUTO:validating
   gene_functions:
   - gene: HGNC:5992
-    molecular_activity: targeting
+    molecular_activity: AUTO:targeting
   - gene: HGNC:5993
-    molecular_activity: targeting
+    molecular_activity: AUTO:targeting
   - gene: HGNC:16400
-    molecular_activity: targeting
+    molecular_activity: AUTO:targeting
   - gene: HGNC:1499
-    molecular_activity: targeting
-  - gene: F4/80
-    molecular_activity: Targeting
-  - gene: rytvela
-    molecular_activity: suppressing
-  - gene: Kineret
-    molecular_activity: suppressing
+    molecular_activity: AUTO:targeting
+  - gene: AUTO:F4/80
+    molecular_activity: AUTO:Targeting
+  - gene: AUTO:rytvela
+    molecular_activity: AUTO:suppressing
+  - gene: AUTO:Kineret
+    molecular_activity: AUTO:suppressing
   cellular_processes:
-  - neuro-retinal degeneration
-  - neuronal ativation
-  - macrophage-induced photoreceptor death
+  - AUTO:neuro-retinal%20degeneration
+  - AUTO:neuronal%20ativation
+  - AUTO:macrophage-induced%20photoreceptor%20death
   pathways:
-  - interleukin-1 pathway
+  - AUTO:interleukin-1%20pathway
   gene_gene_interactions:
   - gene1: HGNC:5992
     gene2: HGNC:5993
@@ -116,15 +116,15 @@ extracted_object:
     gene2: HGNC:1499
   gene_localizations:
   - gene: HGNC:5992
-    location: Perivascular Macrophages
+    location: AUTO:Perivascular%20Macrophages
   - gene: HGNC:5993
-    location: astrocytes, bipolar, and vascular cells
+    location: AUTO:astrocytes%2C%20bipolar%2C%20and%20vascular%20cells
   - gene: HGNC:16400
-    location: subretinal space
+    location: AUTO:subretinal%20space
   - gene: HGNC:1499
-    location: subretinal space
-  - gene: F4/80
-    location: mononuclear phagocytes
+    location: AUTO:subretinal%20space
+  - gene: AUTO:F4/80
+    location: AUTO:mononuclear%20phagocytes
 named_entities:
 - id: HGNC:16289
   label: TRIM31

@@ -33,15 +33,14 @@ extracted_object:
   synonyms:
   - Mucopolysaccharidosis type VII (MPS-VII)
   subclass_of:
-  - None
+  - AUTO:None
   symptoms:
-  - Buildup in many tissues and organs of the body, Severity of the disease can vary
-    widely
+  - AUTO:Buildup%20in%20many%20tissues%20and%20organs%20of%20the%20body%2C%20Severity%20of%20the%20disease%20can%20vary%20widely
   inheritance: HP:0000007
   genes:
   - HGNC:4696
   disease_onsets:
-  - None
+  - AUTO:None
 named_entities:
 - id: HP:0009830
   label: Peripheral Neuropathy

@@ -54,9 +54,9 @@ extracted_object:
       in the production of N-acetylaspartylglutamate and ADP
     synonyms:
     - NA
-    subclass_of: Chemical Reaction
+    subclass_of: AUTO:Chemical%20Reaction
     left_side:
-    - N-acetylaspartate
+    - AUTO:N-acetylaspartate
     - CHEBI:29988
     right_side:
     - CHEBI:76931
@@ -68,18 +68,18 @@ extracted_object:
     - NAA synthesis
     subclass_of: GO:0009058
     left_side:
-    - N-acetylaspartate
+    - AUTO:N-acetylaspartate
     - CHEBI:29988
     right_side:
     - CHEBI:76942
   gene_reaction_pairings:
   - gene: HGNC:29228
-    reaction: N-acetylaspartate + l-glutamate = N-acetylaspartylglutamate + ADP
+    reaction: AUTO:N-acetylaspartate%20%2B%20l-glutamate%20%3D%20N-acetylaspartylglutamate%20%2B%20ADP
   - gene: HGNC:29228
-    reaction: N-acetylaspartate + l-glutamate = beta-citrylglutamate
+    reaction: AUTO:N-acetylaspartate%20%2B%20l-glutamate%20%3D%20beta-citrylglutamate
   - gene: HGNC:28725
-    reaction: N-acetylaspartate + l-glutamate = N-acetylaspartylglutamate + ADP
-  organism: mammalian
+    reaction: AUTO:N-acetylaspartate%20%2B%20l-glutamate%20%3D%20N-acetylaspartylglutamate%20%2B%20ADP
+  organism: AUTO:mammalian
 named_entities:
 - id: HGNC:29228
   label: RIMKLB

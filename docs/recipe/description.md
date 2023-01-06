@@ -57,7 +57,6 @@ description: a brief textual description of the recipe
 from_schema: https://w3id.org/ontogpt/recipe
 rank: 1000
 alias: description
-owner: Recipe
 domain_of:
 - Recipe
 range: string

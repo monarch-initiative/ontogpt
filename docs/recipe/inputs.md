@@ -60,7 +60,6 @@ from_schema: https://w3id.org/ontogpt/recipe
 rank: 1000
 multivalued: true
 alias: inputs
-owner: Step
 domain_of:
 - Step
 range: FoodItem

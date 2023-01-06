@@ -8,11 +8,14 @@ URI: [recipe:FoodItem](http://w3id.org/ontogpt/recipe/FoodItem)
 ```mermaid
 erDiagram
 FoodItem {
+    string state  
+}
+FoodType {
     string id  
     string label  
 }
 
-
+FoodItem ||--|o FoodType : "food"
 
 ```
 
@@ -20,7 +23,7 @@ FoodItem {
 
 
 ## Inheritance
-* [NamedEntity](NamedEntity.md)
+* [CompoundExpression](CompoundExpression.md)
     * **FoodItem**
 
 
@@ -29,8 +32,8 @@ FoodItem {
 
 | Name | Cardinality and Range | Description | Inheritance |
 | ---  | --- | --- | --- |
-| [id](id.md) | 0..1 <br/> NONE |  | [NamedEntity](NamedEntity.md) |
-| [label](label.md) | 0..1 <br/> NONE |  | [NamedEntity](NamedEntity.md) |
+| [food](food.md) | 0..1 <br/> [FoodType](FoodType.md) | the food item | direct |
+| [state](state.md) | 0..1 <br/> NONE | the state of the food item (e | direct |
 
 
 
@@ -52,22 +55,8 @@ FoodItem {
 ## Identifier and Mapping Information
 
 
-### Valid ID Prefixes
-
-Instances of this class *should* have identifiers with one of the following prefixes:
-
-* FOODON
 
 
-
-
-
-
-### Annotations
-
-| property | value |
-| --- | --- |
-| annotators | sqlite:obo:foodon |
 
 
 
@@ -97,15 +86,21 @@ Instances of this class *should* have identifiers with one of the following pref
 <details>
 ```yaml
 name: FoodItem
-id_prefixes:
-- FOODON
-annotations:
-  annotators:
-    tag: annotators
-    value: sqlite:obo:foodon
 from_schema: https://w3id.org/ontogpt/recipe
 rank: 1000
-is_a: NamedEntity
+is_a: CompoundExpression
+attributes:
+  food:
+    name: food
+    description: the food item
+    from_schema: https://w3id.org/ontogpt/recipe
+    rank: 1000
+    range: FoodType
+  state:
+    name: state
+    description: the state of the food item (e.g. chopped, diced)
+    from_schema: https://w3id.org/ontogpt/recipe
+    rank: 1000
 
 ```
 </details>
@@ -115,45 +110,29 @@ is_a: NamedEntity
 <details>
 ```yaml
 name: FoodItem
-id_prefixes:
-- FOODON
-annotations:
-  annotators:
-    tag: annotators
-    value: sqlite:obo:foodon
 from_schema: https://w3id.org/ontogpt/recipe
 rank: 1000
-is_a: NamedEntity
+is_a: CompoundExpression
 attributes:
-  id:
-    name: id
-    annotations:
-      prompt.skip:
-        tag: prompt.skip
-        value: 'true'
-    description: A unique identifier for the named entity
-    comments:
-    - this is populated during the grounding and normalization step
-    from_schema: http://w3id.org/ontogpt/core
+  food:
+    name: food
+    description: the food item
+    from_schema: https://w3id.org/ontogpt/recipe
     rank: 1000
-    identifier: true
-    alias: id
+    alias: food
     owner: FoodItem
     domain_of:
-    - NamedEntity
-    - Publication
-    range: string
-  label:
-    name: label
-    description: The label (name) of the named thing
-    from_schema: http://w3id.org/ontogpt/core
-    aliases:
-    - name
-    alias: label
+    - FoodItem
+    range: FoodType
+  state:
+    name: state
+    description: the state of the food item (e.g. chopped, diced)
+    from_schema: https://w3id.org/ontogpt/recipe
+    rank: 1000
+    alias: state
     owner: FoodItem
     domain_of:
-    - Recipe
-    - NamedEntity
+    - FoodItem
     range: string
 
 ```

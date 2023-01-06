@@ -23,9 +23,11 @@ NamedEntity {
 
 ## Inheritance
 * **NamedEntity**
-    * [FoodItem](FoodItem.md)
+    * [FoodType](FoodType.md)
     * [RecipeCategory](RecipeCategory.md)
     * [Action](Action.md)
+    * [UtensilType](UtensilType.md)
+    * [Unit](Unit.md)
     * [RelationshipType](RelationshipType.md)
 
 
@@ -34,8 +36,8 @@ NamedEntity {
 
 | Name | Cardinality and Range | Description | Inheritance |
 | ---  | --- | --- | --- |
-| [id](id.md) | 0..1 <br/> NONE |  | direct |
-| [label](label.md) | 0..1 <br/> NONE |  | direct |
+| [id](id.md) | 1..1 <br/> NONE | A unique identifier for the named entity | direct |
+| [label](label.md) | 0..1 <br/> NONE | the name of the recipe | direct |
 
 
 

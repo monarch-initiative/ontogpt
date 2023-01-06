@@ -14,29 +14,39 @@ Recipe {
 Step {
 
 }
-FoodItem {
+UtensilType {
     string id  
     string label  
+}
+FoodItem {
+    string state  
 }
 Action {
     string id  
     string label  
 }
 Ingredient {
-    string quantity  
+
+}
+Quantity {
+    string value  
 }
 RecipeCategory {
     string id  
     string label  
 }
 
-Recipe ||--}o RecipeCategory : "category"
+Recipe ||--}o RecipeCategory : "categories"
 Recipe ||--}o Ingredient : "ingredients"
 Recipe ||--}o Step : "steps"
 Step ||--|o Action : "action"
 Step ||--}o FoodItem : "inputs"
 Step ||--}o FoodItem : "outputs"
+Step ||--}o UtensilType : "utensils"
+FoodItem ||--|o FoodType : "food"
 Ingredient ||--|o FoodItem : "food_item"
+Ingredient ||--|o Quantity : "amount"
+Quantity ||--|o Unit : "unit"
 
 ```
 
@@ -49,9 +59,9 @@ Ingredient ||--|o FoodItem : "food_item"
 
 | Name | Cardinality and Range | Description | Inheritance |
 | ---  | --- | --- | --- |
-| [label](label.md) | 0..1 <br/> NONE |  | direct |
+| [label](label.md) | 0..1 <br/> NONE | the name of the recipe | direct |
 | [description](description.md) | 0..1 <br/> NONE | a brief textual description of the recipe | direct |
-| [category](category.md) | 0..* <br/> [RecipeCategory](RecipeCategory.md) | a semicolon separated list of the categories to which this recipe belongs | direct |
+| [categories](categories.md) | 0..* <br/> [RecipeCategory](RecipeCategory.md) | a semicolon separated list of the categories to which this recipe belongs | direct |
 | [ingredients](ingredients.md) | 0..* <br/> [Ingredient](Ingredient.md) | a semicolon separated list of the ingredients plus quantities of the recipe | direct |
 | [steps](steps.md) | 0..* <br/> [Step](Step.md) | a semicolon separated list of the individual steps involved in this recipe | direct |
 
@@ -110,8 +120,8 @@ attributes:
     description: a brief textual description of the recipe
     from_schema: https://w3id.org/ontogpt/recipe
     rank: 1000
-  category:
-    name: category
+  categories:
+    name: categories
     description: a semicolon separated list of the categories to which this recipe
       belongs
     from_schema: https://w3id.org/ontogpt/recipe
@@ -168,14 +178,14 @@ attributes:
     domain_of:
     - Recipe
     range: string
-  category:
-    name: category
+  categories:
+    name: categories
     description: a semicolon separated list of the categories to which this recipe
       belongs
     from_schema: https://w3id.org/ontogpt/recipe
     rank: 1000
     multivalued: true
-    alias: category
+    alias: categories
     owner: Recipe
     domain_of:
     - Recipe

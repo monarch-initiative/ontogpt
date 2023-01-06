@@ -100,16 +100,16 @@ extracted_object:
   - CMT type 2E
   subclass_of:
   - MONDO:0030433
-  - Autosomal Dominant Inheritance
+  - AUTO:Autosomal%20Dominant%20Inheritance
   - MONDO:0015626
   symptoms:
-  - difficulty in walking or running
-  - distal weakness and wasting of the lower limbs
+  - AUTO:difficulty%20in%20walking%20or%20running
+  - AUTO:distal%20weakness%20and%20wasting%20of%20the%20lower%20limbs
   - HP:0003376
   - HP:0001761
   - HP:0001765
-  - upper limb involvement
-  - claw hands
+  - AUTO:upper%20limb%20involvement
+  - AUTO:claw%20hands
   inheritance: HP:0000006
   genes:
   - HGNC:7739
@@ -117,10 +117,10 @@ extracted_object:
   - HGNC:9717
   - HGNC:8858
   disease_onsets:
-  - second and third decade
-  - first decade
-  - adult
-  - juvenile
+  - AUTO:second%20and%20third%20decade
+  - AUTO:first%20decade
+  - AUTO:adult
+  - AUTO:juvenile
 named_entities:
 - id: HP:0009830
   label: Peripheral Neuropathy

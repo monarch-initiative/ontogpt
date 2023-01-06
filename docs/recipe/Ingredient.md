@@ -8,14 +8,27 @@ URI: [recipe:Ingredient](http://w3id.org/ontogpt/recipe/Ingredient)
 ```mermaid
 erDiagram
 Ingredient {
-    string quantity  
+
+}
+Quantity {
+    string value  
+}
+Unit {
+    string id  
+    string label  
 }
 FoodItem {
+    string state  
+}
+FoodType {
     string id  
     string label  
 }
 
 Ingredient ||--|o FoodItem : "food_item"
+Ingredient ||--|o Quantity : "amount"
+Quantity ||--|o Unit : "unit"
+FoodItem ||--|o FoodType : "food"
 
 ```
 
@@ -33,7 +46,7 @@ Ingredient ||--|o FoodItem : "food_item"
 | Name | Cardinality and Range | Description | Inheritance |
 | ---  | --- | --- | --- |
 | [food_item](food_item.md) | 0..1 <br/> [FoodItem](FoodItem.md) | the food item | direct |
-| [quantity](quantity.md) | 0..1 <br/> [xsd:string](xsd:string) | the quantity of the ingredient | direct |
+| [amount](amount.md) | 0..1 <br/> [Quantity](Quantity.md) | the quantity of the ingredient, e | direct |
 
 
 
@@ -94,12 +107,12 @@ attributes:
     from_schema: https://w3id.org/ontogpt/recipe
     rank: 1000
     range: FoodItem
-  quantity:
-    name: quantity
-    description: the quantity of the ingredient
+  amount:
+    name: amount
+    description: the quantity of the ingredient, e.g. 2 lbs
     from_schema: https://w3id.org/ontogpt/recipe
     rank: 1000
-    range: string
+    range: Quantity
 
 ```
 </details>
@@ -123,16 +136,16 @@ attributes:
     domain_of:
     - Ingredient
     range: FoodItem
-  quantity:
-    name: quantity
-    description: the quantity of the ingredient
+  amount:
+    name: amount
+    description: the quantity of the ingredient, e.g. 2 lbs
     from_schema: https://w3id.org/ontogpt/recipe
     rank: 1000
-    alias: quantity
+    alias: amount
     owner: Ingredient
     domain_of:
     - Ingredient
-    range: string
+    range: Quantity
 
 ```
 </details>

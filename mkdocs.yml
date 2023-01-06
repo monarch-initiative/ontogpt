@@ -26,13 +26,13 @@ plugins:
       version: 9.3.0
 nav:
   - About: index.md
-  - SPIRES:
+  - SPIRES Templates:
       - Recipes: recipe/index.md
       - Pathways: gocam/index.md
       - Chemical to Disease: ctd/index.md
       - Drugs and Mechanisms: drug/index.md
       - Biochemical Reactions: reaction/index.md
       - Treatments: treatment/index.md
-  - HALO: halo/index.md
+  - HALO Schema: halo/index.md
 site_url: https://monarch-initiative.github.io/ontogpt/
 repo_url: https://github.com/monarch-initiative/ontogpt/

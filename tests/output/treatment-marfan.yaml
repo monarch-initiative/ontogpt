@@ -68,22 +68,22 @@ extracted_object:
   - CHEBI:8499
   - CHEBI:2904
   - CHEBI:6541
-  - Irbesatan
+  - AUTO:Irbesatan
   treatments:
   - CHEBI:35530
   - NCIT:C66930
   - NCIT:C16567
-  - Avoid contact sports
-  - Avoid heavy lifting
+  - AUTO:Avoid%20contact%20sports
+  - AUTO:Avoid%20heavy%20lifting
   treatment_mechanisms:
   - treatment: CHEBI:35530
-    mechanism: reduce strength and frequency of heart contractions
-  - treatment: ARBs
-    mechanism: "lower blood pressure, block TGF-\u03B2 activity"
+    mechanism: AUTO:reduce%20strength%20and%20frequency%20of%20heart%20contractions
+  - treatment: AUTO:ARBs
+    mechanism: AUTO:lower%20blood%20pressure%2C%20block%20TGF-%CE%B2%20activity
   treatment_efficacies:
   - treatment: CHEBI:35530
     efficacy: delay need for heart surgery
-  - treatment: ARBs
+  - treatment: AUTO:ARBs
     efficacy: better than beta-blockers or as good as beta-blockers
 named_entities:
 - id: MONDO:0007947

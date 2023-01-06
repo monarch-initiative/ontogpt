@@ -10,7 +10,14 @@ erDiagram
 Step {
 
 }
+UtensilType {
+    string id  
+    string label  
+}
 FoodItem {
+    string state  
+}
+FoodType {
     string id  
     string label  
 }
@@ -22,6 +29,8 @@ Action {
 Step ||--|o Action : "action"
 Step ||--}o FoodItem : "inputs"
 Step ||--}o FoodItem : "outputs"
+Step ||--}o UtensilType : "utensils"
+FoodItem ||--|o FoodType : "food"
 
 ```
 
@@ -41,6 +50,7 @@ Step ||--}o FoodItem : "outputs"
 | [action](action.md) | 0..1 <br/> [Action](Action.md) | the action taken in this step (e | direct |
 | [inputs](inputs.md) | 0..* <br/> [FoodItem](FoodItem.md) | a semicolon separated list of the inputs of this step | direct |
 | [outputs](outputs.md) | 0..* <br/> [FoodItem](FoodItem.md) | a semicolon separated list of the outputs of this step | direct |
+| [utensils](utensils.md) | 0..* <br/> [UtensilType](UtensilType.md) | the kitchen utensil used in this step (e | direct |
 
 
 
@@ -115,6 +125,13 @@ attributes:
     rank: 1000
     multivalued: true
     range: FoodItem
+  utensils:
+    name: utensils
+    description: the kitchen utensil used in this step (e.g. pan, bowl)
+    from_schema: https://w3id.org/ontogpt/recipe
+    rank: 1000
+    multivalued: true
+    range: UtensilType
 
 ```
 </details>
@@ -160,6 +177,17 @@ attributes:
     domain_of:
     - Step
     range: FoodItem
+  utensils:
+    name: utensils
+    description: the kitchen utensil used in this step (e.g. pan, bowl)
+    from_schema: https://w3id.org/ontogpt/recipe
+    rank: 1000
+    multivalued: true
+    alias: utensils
+    owner: Step
+    domain_of:
+    - Step
+    range: UtensilType
 
 ```
 </details>

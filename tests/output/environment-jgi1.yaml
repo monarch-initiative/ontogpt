@@ -54,36 +54,35 @@ prompt: 'Split the following piece of text into fields in the following format:
   '
 extracted_object:
   location:
-  - PEATcosm
-  - SPRUCE
-  - Minnesota
+  - AUTO:PEATcosm
+  - AUTO:SPRUCE
+  - AUTO:Minnesota
   environmental_material:
-  - Ericaceae
-  - sedge rhizosphere peat
+  - AUTO:Ericaceae
+  - AUTO:sedge%20rhizosphere%20peat
   - ENVO:00000107
-  - sedge
+  - AUTO:sedge
   environments:
-  - Ericaceae and sedge rhizosphere peat, at two depths, in both high and low water
-    manipulative treatments
-  - 14 plots/5 depths
+  - AUTO:Ericaceae%20and%20sedge%20rhizosphere%20peat%2C%20at%20two%20depths%2C%20in%20both%20high%20and%20low%20water%20manipulative%20treatments
+  - AUTO:14%20plots/5%20depths
   causal_relationships:
-  - cause: water table
+  - cause: AUTO:water%20table
     effect: ENVO:01000797
-  - cause: oxygen and labile C
+  - cause: AUTO:oxygen%20and%20labile%20C
     effect: ENVO:00005774
-  - cause: experimental warming
-    effect: '-'
-  - cause: CO2 enrichment
+  - cause: AUTO:experimental%20warming
+    effect: AUTO:-
+  - cause: AUTO:CO2%20enrichment
   variables:
   - PATO:0000915
-  - chemistry
-  - enzyme activity
-  - microorganisms
+  - AUTO:chemistry
+  - AUTO:enzyme%20activity
+  - AUTO:microorganisms
   measurements:
   - value: Trace gas flux
-    unit: N/A
+    unit: AUTO:N/A
   - value: enzyme activity
-    unit: none
+    unit: AUTO:none
   - value: microorganism abundance
 named_entities:
 - id: ENVO:00000107

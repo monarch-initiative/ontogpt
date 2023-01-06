@@ -1,4 +1,6 @@
 RUN = poetry run
+# NOTE: we are currently pinned to an earlier linkml because pydantic...
+TMPRUN = 
 PACKAGE = ontogpt
 TEMPLATE_DIR = src/$(PACKAGE)/templates
 EVAL_DIR = src/$(PACKAGE)/evaluation
@@ -20,9 +22,9 @@ $(TEMPLATE_DIR)/%.py: src/$(PACKAGE)/templates/%.yaml
 %.py: %.yaml
 	$(RUN) gen-pydantic $< > $@
 
-all_images: $(patsubst %, docs/images/%.png, $(ENTRY_CLASSES))
-docs/images/%.png:
-	$(RUN) erdantic ontogpt.templates.$* -o $@
+#all_images: $(patsubst %, docs/images/%.png, $(ENTRY_CLASSES))
+#docs/images/%.png:
+#	$(RUN) erdantic ontogpt.templates.$* -o $@
 
 projects/%: src/$(PACKAGE)/templates/%.yaml
 	$(RUN) gen-project $< -d $@ && cp -pr $@/docs docs/$*
@@ -31,7 +33,7 @@ docs/index.md: README.md
 	cp $< $@
 
 docs/%/index.md: src/$(PACKAGE)/templates/%.yaml
-	$(RUN) gen-doc --include-top-level-diagram --diagram-type er_diagram $< -d docs/$*
+	$(TMPRUN) gen-doc --include-top-level-diagram --diagram-type er_diagram $< -d docs/$*
 
 
 serve:

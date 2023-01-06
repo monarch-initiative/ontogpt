@@ -1,6 +1,8 @@
 # Slot: label
+_the name of the recipe_
 
-URI: [core:label](http://w3id.org/ontogpt/core/label)
+
+URI: [recipe:label](http://w3id.org/ontogpt/recipe/label)
 
 
 
@@ -14,9 +16,11 @@ URI: [core:label](http://w3id.org/ontogpt/core/label)
 | Name | Description |
 | --- | --- |
 [Recipe](Recipe.md) | 
-[FoodItem](FoodItem.md) | 
+[FoodType](FoodType.md) | 
 [RecipeCategory](RecipeCategory.md) | 
 [Action](Action.md) | 
+[UtensilType](UtensilType.md) | 
+[Unit](Unit.md) | 
 [NamedEntity](NamedEntity.md) | 
 [RelationshipType](RelationshipType.md) | 
 
@@ -43,12 +47,22 @@ URI: [core:label](http://w3id.org/ontogpt/core/label)
 
 
 
+### Schema Source
+
+
+* from schema: https://w3id.org/ontogpt/recipe
+
+
+
 
 ## LinkML Source
 
 <details>
 ```yaml
 name: label
+description: the name of the recipe
+from_schema: https://w3id.org/ontogpt/recipe
+rank: 1000
 alias: label
 domain_of:
 - Recipe

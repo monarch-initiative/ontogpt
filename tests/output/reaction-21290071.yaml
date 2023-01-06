@@ -66,48 +66,48 @@ prompt: 'Split the following piece of text into fields in the following format:
 
   '
 extracted_object:
-  gene: Rv3378c
+  gene: AUTO:Rv3378c
   reactions:
   - label: 2 to 3 + 4
     description: A reaction involving the transfer of 2 atoms to yield 3 and 4 atoms.
     synonyms:
     - None
-    subclass_of: Reaction
+    subclass_of: AUTO:Reaction
     left_side:
-    - '2'
+    - AUTO:2
     right_side:
-    - '3'
-    - '4'
+    - AUTO:3
+    - AUTO:4
   - label: reaction_7-23+24
     description: Reaction between 7 and 23, resulting in the production of 24
     synonyms:
     - N/A
-    subclass_of: Chemical Reaction
+    subclass_of: AUTO:Chemical%20Reaction
     left_side:
-    - '7'
+    - AUTO:7
     right_side:
-    - '23'
-    - '24'
+    - AUTO:23
+    - AUTO:24
   - label: 8 to 25 and 26
     description: Chemical reaction that involves conversion of 8 to 25 and 26.
     synonyms:
     - n/a
-    subclass_of: Conversion reaction
+    subclass_of: AUTO:Conversion%20reaction
     left_side:
-    - '8'
+    - AUTO:8
     right_side:
-    - '25'
-    - '26'
+    - AUTO:25
+    - AUTO:26
   - label: 9 to 27 and 28 reaction
     description: A reaction in which 9 combines to form both 27 and 28
     synonyms:
     - N/A
-    subclass_of: Combination reaction
+    subclass_of: AUTO:Combination%20reaction
     left_side:
-    - '9'
+    - AUTO:9
     right_side:
-    - '27'
-    - '28'
+    - AUTO:27
+    - AUTO:28
   organism: NCBITaxon:1773
 named_entities:
 - id: MESH:D009169
