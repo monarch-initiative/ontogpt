@@ -136,13 +136,13 @@
 <li class="md-nav__item md-nav__item--nested">
 <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_2" id="__nav_2" type="checkbox"/>
 <label class="md-nav__link" for="__nav_2">
-          SPIRES
+          SPIRES Templates
           <span class="md-nav__icon md-icon"></span>
 </label>
-<nav aria-label="SPIRES" class="md-nav" data-md-level="1">
+<nav aria-label="SPIRES Templates" class="md-nav" data-md-level="1">
 <label class="md-nav__title" for="__nav_2">
 <span class="md-nav__icon md-icon"></span>
-          SPIRES
+          SPIRES Templates
         </label>
 <ul class="md-nav__list" data-md-scrollfix="">
 <li class="md-nav__item">
@@ -180,7 +180,7 @@
 </li>
 <li class="md-nav__item">
 <a class="md-nav__link" href="../../halo/">
-        HALO
+        HALO Schema
       </a>
 </li>
 </ul>
@@ -218,16 +218,6 @@
   </a>
 <nav aria-label="Identifier and Mapping Information" class="md-nav">
 <ul class="md-nav__list">
-<li class="md-nav__item">
-<a class="md-nav__link" href="#valid-id-prefixes">
-    Valid ID Prefixes
-  </a>
-</li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="#annotations">
-    Annotations
-  </a>
-</li>
 <li class="md-nav__item">
 <a class="md-nav__link" href="#schema-source">
     Schema Source
@@ -271,16 +261,19 @@
 <p>URI: <a href="http://w3id.org/ontogpt/recipe/FoodItem">recipe:FoodItem</a></p>
 <div class="mermaid">erDiagram
 FoodItem {
+    string state  
+}
+FoodType {
     string id  
     string label  
 }
 
-
+FoodItem ||--|o FoodType : "food"
 
 </div>
 <h2 id="inheritance">Inheritance</h2>
 <ul>
-<li><a href="../NamedEntity/">NamedEntity</a><ul>
+<li><a href="../CompoundExpression/">CompoundExpression</a><ul>
 <li><strong>FoodItem</strong></li>
 </ul>
 </li>
@@ -297,16 +290,16 @@ FoodItem {
 </thead>
 <tbody>
 <tr>
-<td><a href="../id/">id</a></td>
-<td>0..1 <br/> NONE</td>
-<td></td>
-<td><a href="../NamedEntity/">NamedEntity</a></td>
+<td><a href="food.md">food</a></td>
+<td>0..1 <br/> <a href="FoodType.md">FoodType</a></td>
+<td>the food item</td>
+<td>direct</td>
 </tr>
 <tr>
-<td><a href="../label/">label</a></td>
+<td><a href="state.md">state</a></td>
 <td>0..1 <br/> NONE</td>
-<td></td>
-<td><a href="../NamedEntity/">NamedEntity</a></td>
+<td>the state of the food item (e</td>
+<td>direct</td>
 </tr>
 </tbody>
 </table>
@@ -342,26 +335,6 @@ FoodItem {
 </tbody>
 </table>
 <h2 id="identifier-and-mapping-information">Identifier and Mapping Information</h2>
-<h3 id="valid-id-prefixes">Valid ID Prefixes</h3>
-<p>Instances of this class <em>should</em> have identifiers with one of the following prefixes:</p>
-<ul>
-<li>FOODON</li>
-</ul>
-<h3 id="annotations">Annotations</h3>
-<table>
-<thead>
-<tr>
-<th>property</th>
-<th>value</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>annotators</td>
-<td>sqlite:obo:foodon</td>
-</tr>
-</tbody>
-</table>
 <h3 id="schema-source">Schema Source</h3>
 <ul>
 <li>from schema: https://w3id.org/ontogpt/recipe</li>
@@ -390,60 +363,50 @@ FoodItem {
 <h3 id="direct">Direct</h3>
 <details>
 <pre><code class="language-yaml">name: FoodItem
-id_prefixes:
-- FOODON
-annotations:
-  annotators:
-    tag: annotators
-    value: sqlite:obo:foodon
 from_schema: https://w3id.org/ontogpt/recipe
 rank: 1000
-is_a: NamedEntity
+is_a: CompoundExpression
+attributes:
+  food:
+    name: food
+    description: the food item
+    from_schema: https://w3id.org/ontogpt/recipe
+    rank: 1000
+    range: FoodType
+  state:
+    name: state
+    description: the state of the food item (e.g. chopped, diced)
+    from_schema: https://w3id.org/ontogpt/recipe
+    rank: 1000
 
 </code></pre>
 </details>
 <h3 id="induced">Induced</h3>
 <details>
 <pre><code class="language-yaml">name: FoodItem
-id_prefixes:
-- FOODON
-annotations:
-  annotators:
-    tag: annotators
-    value: sqlite:obo:foodon
 from_schema: https://w3id.org/ontogpt/recipe
 rank: 1000
-is_a: NamedEntity
+is_a: CompoundExpression
 attributes:
-  id:
-    name: id
-    annotations:
-      prompt.skip:
-        tag: prompt.skip
-        value: 'true'
-    description: A unique identifier for the named entity
-    comments:
-    - this is populated during the grounding and normalization step
-    from_schema: http://w3id.org/ontogpt/core
+  food:
+    name: food
+    description: the food item
+    from_schema: https://w3id.org/ontogpt/recipe
     rank: 1000
-    identifier: true
-    alias: id
+    alias: food
     owner: FoodItem
     domain_of:
-    - NamedEntity
-    - Publication
-    range: string
-  label:
-    name: label
-    description: The label (name) of the named thing
-    from_schema: http://w3id.org/ontogpt/core
-    aliases:
-    - name
-    alias: label
+    - FoodItem
+    range: FoodType
+  state:
+    name: state
+    description: the state of the food item (e.g. chopped, diced)
+    from_schema: https://w3id.org/ontogpt/recipe
+    rank: 1000
+    alias: state
     owner: FoodItem
     domain_of:
-    - Recipe
-    - NamedEntity
+    - FoodItem
     range: string
 
 </code></pre>

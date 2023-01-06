@@ -136,13 +136,13 @@
 <li class="md-nav__item md-nav__item--nested">
 <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_2" id="__nav_2" type="checkbox"/>
 <label class="md-nav__link" for="__nav_2">
-          SPIRES
+          SPIRES Templates
           <span class="md-nav__icon md-icon"></span>
 </label>
-<nav aria-label="SPIRES" class="md-nav" data-md-level="1">
+<nav aria-label="SPIRES Templates" class="md-nav" data-md-level="1">
 <label class="md-nav__title" for="__nav_2">
 <span class="md-nav__icon md-icon"></span>
-          SPIRES
+          SPIRES Templates
         </label>
 <ul class="md-nav__list" data-md-scrollfix="">
 <li class="md-nav__item">
@@ -180,7 +180,7 @@
 </li>
 <li class="md-nav__item">
 <a class="md-nav__link" href="../../halo/">
-        HALO
+        HALO Schema
       </a>
 </li>
 </ul>
@@ -261,14 +261,27 @@
 <p>URI: <a href="http://w3id.org/ontogpt/recipe/Ingredient">recipe:Ingredient</a></p>
 <div class="mermaid">erDiagram
 Ingredient {
-    string quantity  
+
+}
+Quantity {
+    string value  
+}
+Unit {
+    string id  
+    string label  
 }
 FoodItem {
+    string state  
+}
+FoodType {
     string id  
     string label  
 }
 
 Ingredient ||--|o FoodItem : "food_item"
+Ingredient ||--|o Quantity : "amount"
+Quantity ||--|o Unit : "unit"
+FoodItem ||--|o FoodType : "food"
 
 </div>
 <h2 id="inheritance">Inheritance</h2>
@@ -296,9 +309,9 @@ Ingredient ||--|o FoodItem : "food_item"
 <td>direct</td>
 </tr>
 <tr>
-<td><a href="../quantity/">quantity</a></td>
-<td>0..1 <br/> <a href="xsd:string">xsd:string</a></td>
-<td>the quantity of the ingredient</td>
+<td><a href="amount.md">amount</a></td>
+<td>0..1 <br/> <a href="Quantity.md">Quantity</a></td>
+<td>the quantity of the ingredient, e</td>
 <td>direct</td>
 </tr>
 </tbody>
@@ -361,12 +374,12 @@ attributes:
     from_schema: https://w3id.org/ontogpt/recipe
     rank: 1000
     range: FoodItem
-  quantity:
-    name: quantity
-    description: the quantity of the ingredient
+  amount:
+    name: amount
+    description: the quantity of the ingredient, e.g. 2 lbs
     from_schema: https://w3id.org/ontogpt/recipe
     rank: 1000
-    range: string
+    range: Quantity
 
 </code></pre>
 </details>
@@ -387,16 +400,16 @@ attributes:
     domain_of:
     - Ingredient
     range: FoodItem
-  quantity:
-    name: quantity
-    description: the quantity of the ingredient
+  amount:
+    name: amount
+    description: the quantity of the ingredient, e.g. 2 lbs
     from_schema: https://w3id.org/ontogpt/recipe
     rank: 1000
-    alias: quantity
+    alias: amount
     owner: Ingredient
     domain_of:
     - Ingredient
-    range: string
+    range: Quantity
 
 </code></pre>
 </details>

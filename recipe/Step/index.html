@@ -136,13 +136,13 @@
 <li class="md-nav__item md-nav__item--nested">
 <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_2" id="__nav_2" type="checkbox"/>
 <label class="md-nav__link" for="__nav_2">
-          SPIRES
+          SPIRES Templates
           <span class="md-nav__icon md-icon"></span>
 </label>
-<nav aria-label="SPIRES" class="md-nav" data-md-level="1">
+<nav aria-label="SPIRES Templates" class="md-nav" data-md-level="1">
 <label class="md-nav__title" for="__nav_2">
 <span class="md-nav__icon md-icon"></span>
-          SPIRES
+          SPIRES Templates
         </label>
 <ul class="md-nav__list" data-md-scrollfix="">
 <li class="md-nav__item">
@@ -180,7 +180,7 @@
 </li>
 <li class="md-nav__item">
 <a class="md-nav__link" href="../../halo/">
-        HALO
+        HALO Schema
       </a>
 </li>
 </ul>
@@ -263,7 +263,14 @@
 Step {
 
 }
+UtensilType {
+    string id  
+    string label  
+}
 FoodItem {
+    string state  
+}
+FoodType {
     string id  
     string label  
 }
@@ -275,6 +282,8 @@ Action {
 Step ||--|o Action : "action"
 Step ||--}o FoodItem : "inputs"
 Step ||--}o FoodItem : "outputs"
+Step ||--}o UtensilType : "utensils"
+FoodItem ||--|o FoodType : "food"
 
 </div>
 <h2 id="inheritance">Inheritance</h2>
@@ -311,6 +320,12 @@ Step ||--}o FoodItem : "outputs"
 <td><a href="../outputs/">outputs</a></td>
 <td>0..* <br/> <a href="../FoodItem/">FoodItem</a></td>
 <td>a semicolon separated list of the outputs of this step</td>
+<td>direct</td>
+</tr>
+<tr>
+<td><a href="utensils.md">utensils</a></td>
+<td>0..* <br/> <a href="UtensilType.md">UtensilType</a></td>
+<td>the kitchen utensil used in this step (e</td>
 <td>direct</td>
 </tr>
 </tbody>
@@ -387,6 +402,13 @@ attributes:
     rank: 1000
     multivalued: true
     range: FoodItem
+  utensils:
+    name: utensils
+    description: the kitchen utensil used in this step (e.g. pan, bowl)
+    from_schema: https://w3id.org/ontogpt/recipe
+    rank: 1000
+    multivalued: true
+    range: UtensilType
 
 </code></pre>
 </details>
@@ -429,6 +451,17 @@ attributes:
     domain_of:
     - Step
     range: FoodItem
+  utensils:
+    name: utensils
+    description: the kitchen utensil used in this step (e.g. pan, bowl)
+    from_schema: https://w3id.org/ontogpt/recipe
+    rank: 1000
+    multivalued: true
+    alias: utensils
+    owner: Step
+    domain_of:
+    - Step
+    range: UtensilType
 
 </code></pre>
 </details>

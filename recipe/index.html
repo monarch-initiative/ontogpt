@@ -138,13 +138,13 @@
 <li class="md-nav__item md-nav__item--active md-nav__item--nested">
 <input checked="" class="md-nav__toggle md-toggle" data-md-toggle="__nav_2" id="__nav_2" type="checkbox"/>
 <label class="md-nav__link" for="__nav_2">
-          SPIRES
+          SPIRES Templates
           <span class="md-nav__icon md-icon"></span>
 </label>
-<nav aria-label="SPIRES" class="md-nav" data-md-level="1">
+<nav aria-label="SPIRES Templates" class="md-nav" data-md-level="1">
 <label class="md-nav__title" for="__nav_2">
 <span class="md-nav__icon md-icon"></span>
-          SPIRES
+          SPIRES Templates
         </label>
 <ul class="md-nav__list" data-md-scrollfix="">
 <li class="md-nav__item md-nav__item--active">
@@ -225,7 +225,7 @@
 </li>
 <li class="md-nav__item">
 <a class="md-nav__link" href="../halo/">
-        HALO
+        HALO Schema
       </a>
 </li>
 </ul>
@@ -292,7 +292,14 @@ Recipe {
 Step {
 
 }
+UtensilType {
+    string id  
+    string label  
+}
 FoodItem {
+    string state  
+}
+FoodType {
     string id  
     string label  
 }
@@ -301,20 +308,31 @@ Action {
     string label  
 }
 Ingredient {
-    string quantity  
+
+}
+Quantity {
+    string value  
+}
+Unit {
+    string id  
+    string label  
 }
 RecipeCategory {
     string id  
     string label  
 }
 
-Recipe ||--}o RecipeCategory : "category"
+Recipe ||--}o RecipeCategory : "categories"
 Recipe ||--}o Ingredient : "ingredients"
 Recipe ||--}o Step : "steps"
 Step ||--|o Action : "action"
 Step ||--}o FoodItem : "inputs"
 Step ||--}o FoodItem : "outputs"
+Step ||--}o UtensilType : "utensils"
+FoodItem ||--|o FoodType : "food"
 Ingredient ||--|o FoodItem : "food_item"
+Ingredient ||--|o Quantity : "amount"
+Quantity ||--|o Unit : "unit"
 
 </div>
 <h2 id="classes">Classes</h2>
@@ -351,6 +369,10 @@ Ingredient ||--|o FoodItem : "food_item"
 <td></td>
 </tr>
 <tr>
+<td><a href="FoodType.md">FoodType</a></td>
+<td></td>
+</tr>
+<tr>
 <td><a href="Ingredient/">Ingredient</a></td>
 <td></td>
 </tr>
@@ -360,6 +382,10 @@ Ingredient ||--|o FoodItem : "food_item"
 </tr>
 <tr>
 <td><a href="Publication/">Publication</a></td>
+<td></td>
+</tr>
+<tr>
+<td><a href="Quantity.md">Quantity</a></td>
 <td></td>
 </tr>
 <tr>
@@ -386,6 +412,14 @@ Ingredient ||--|o FoodItem : "food_item"
 <td><a href="Triple/">Triple</a></td>
 <td>Abstract parent for Relation Extraction tasks</td>
 </tr>
+<tr>
+<td><a href="Unit.md">Unit</a></td>
+<td></td>
+</tr>
+<tr>
+<td><a href="UtensilType.md">UtensilType</a></td>
+<td></td>
+</tr>
 </tbody>
 </table>
 <h2 id="slots">Slots</h2>
@@ -406,7 +440,11 @@ Ingredient ||--|o FoodItem : "food_item"
 <td>the action taken in this step (e</td>
 </tr>
 <tr>
-<td><a href="category/">category</a></td>
+<td><a href="amount.md">amount</a></td>
+<td>the quantity of the ingredient, e</td>
+</tr>
+<tr>
+<td><a href="categories.md">categories</a></td>
 <td>a semicolon separated list of the categories to which this recipe belongs</td>
 </tr>
 <tr>
@@ -420,6 +458,10 @@ Ingredient ||--|o FoodItem : "food_item"
 <tr>
 <td><a href="extracted_object/">extracted_object</a></td>
 <td>The complex objects extracted from the text</td>
+</tr>
+<tr>
+<td><a href="food.md">food</a></td>
+<td>the food item</td>
 </tr>
 <tr>
 <td><a href="food_item/">food_item</a></td>
@@ -498,12 +540,12 @@ Ingredient ||--|o FoodItem : "food_item"
 <td>A qualifier for the statements, e</td>
 </tr>
 <tr>
-<td><a href="quantity/">quantity</a></td>
-<td>the quantity of the ingredient</td>
-</tr>
-<tr>
 <td><a href="raw_completion_output/">raw_completion_output</a></td>
 <td></td>
+</tr>
+<tr>
+<td><a href="state.md">state</a></td>
+<td>the state of the food item (e</td>
 </tr>
 <tr>
 <td><a href="steps/">steps</a></td>
@@ -528,6 +570,18 @@ Ingredient ||--|o FoodItem : "food_item"
 <tr>
 <td><a href="triples/">triples</a></td>
 <td></td>
+</tr>
+<tr>
+<td><a href="unit.md">unit</a></td>
+<td>the unit of the quantity, e</td>
+</tr>
+<tr>
+<td><a href="utensils.md">utensils</a></td>
+<td>the kitchen utensil used in this step (e</td>
+</tr>
+<tr>
+<td><a href="value.md">value</a></td>
+<td>the value of the quantity</td>
 </tr>
 </tbody>
 </table>
