@@ -21,6 +21,7 @@ class ConfiguredBaseModel(WeakRefShimBaseModel,
 
 class Recipe(ConfiguredBaseModel):
     
+    url: Optional[str] = Field(None)
     label: Optional[str] = Field(None, description="""the name of the recipe""")
     description: Optional[str] = Field(None, description="""a brief textual description of the recipe""")
     categories: Optional[List[str]] = Field(default_factory=list, description="""a semicolon separated list of the categories to which this recipe belongs""")
@@ -94,14 +95,14 @@ class CompoundExpression(ConfiguredBaseModel):
 class Ingredient(CompoundExpression):
     
     food_item: Optional[FoodItem] = Field(None, description="""the food item""")
-    amount: Optional[Quantity] = Field(None, description="""the quantity of the ingredient""")
+    amount: Optional[Quantity] = Field(None, description="""the quantity of the ingredient, e.g. 2 lbs""")
     
 
 
 class Quantity(CompoundExpression):
     
     value: Optional[str] = Field(None, description="""the value of the quantity""")
-    unit: Optional[str] = Field(None, description="""the unit of the quantity""")
+    unit: Optional[str] = Field(None, description="""the unit of the quantity, e.g. grams, cups, etc.""")
     
 
 
