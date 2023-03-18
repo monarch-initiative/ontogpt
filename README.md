@@ -70,7 +70,7 @@ gene_functions:
 
 See [full output](tests/output/gocam-betacat.yaml)
 
-note in the above the grounding is very preliminary and can be improved. Ungrounded NamedEntities appear as text.
+Note in the above the grounding is very preliminary and can be improved. Ungrounded NamedEntities appear as text.
 
 ## How it works
 
@@ -92,8 +92,8 @@ note in the above the grounding is very preliminary and can be improved. Ungroun
 You will need to set both API keys using OAK (which is a dependency of this project)
 
 ```
-poetry run runoak set-apikey openai <your openai api key>
-poetry run runoak set-apikey bioportal <your bioportal api key>
+poetry run runoak set-apikey -e openai <your openai api key>
+poetry run runoak set-apikey -e bioportal <your bioportal api key>
 ```
 
 ## How to define your own extraction data model
@@ -174,7 +174,7 @@ classes:
 - define a class for each NamedEntity
 - for any NamedEntity, you can specify a preferred annotator using the `annotators` annotation
 
-We recommend following an established schema like biolink, but you can define your own.
+We recommend following an established schema like Biolink, but you can define your own.
 
 ### Step 2: Compile the schema
 
@@ -185,7 +185,7 @@ Run the `make` command at the top level. This will compile the schema to pedanti
 e.g.
 
 ```
-ontogpt extract -t  mendelian_disease.MendelianDisease marfan-wikipedia.txt
+ontogpt extract -t mendelian_disease.MendelianDisease marfan-wikipedia.txt
 ```
 
 ## Web Application
@@ -201,7 +201,7 @@ don't host this publicly without authentication, unless you want your credits dr
 
 ## Features
 
-### Multiple Levels of nesting
+### Multiple levels of nesting
 
 Currently no more than two levels of nesting are recommended.
 
@@ -235,7 +235,7 @@ but more experiments need to be done to determined how reliable this is.
 
 ```
 
-## HALOE: Usage
+## HALO: Usage
 
 TODO
 

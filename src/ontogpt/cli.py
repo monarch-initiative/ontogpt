@@ -45,7 +45,7 @@ def write_extraction(results: ExtractionResult, output: BytesIO, output_format: 
 template_option = click.option("-t", "--template", required=True, help="Template to use.")
 engine_option = click.option("-e", "--engine", help="Engine to use, e.g. text-davinci-003.")
 recurse_option = click.option(
-    "--recurse/--no-recurse", default=True, show_default=True, help="Recursively parse structyres."
+    "--recurse/--no-recurse", default=True, show_default=True, help="Recursively parse structures."
 )
 output_option_wb = click.option(
     "-o", "--output", type=click.File(mode="wb"), default=sys.stdout, help="Output file."
