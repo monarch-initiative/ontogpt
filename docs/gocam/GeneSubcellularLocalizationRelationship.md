@@ -10,7 +10,7 @@ erDiagram
 GeneSubcellularLocalizationRelationship {
 
 }
-CellularComponent {
+GeneLocation {
     string id  
     string label  
 }
@@ -20,7 +20,7 @@ Gene {
 }
 
 GeneSubcellularLocalizationRelationship ||--|o Gene : "gene"
-GeneSubcellularLocalizationRelationship ||--|o CellularComponent : "location"
+GeneSubcellularLocalizationRelationship ||--|o GeneLocation : "location"
 
 ```
 
@@ -37,8 +37,8 @@ GeneSubcellularLocalizationRelationship ||--|o CellularComponent : "location"
 
 | Name | Cardinality and Range | Description | Inheritance |
 | ---  | --- | --- | --- |
-| [gene](gene.md) | 0..1 <br/> NONE |  | direct |
-| [location](location.md) | 0..1 <br/> [CellularComponent](CellularComponent.md) |  | direct |
+| [gene](gene.md) | 0..1 <br/> [Gene](Gene.md) |  | direct |
+| [location](location.md) | 0..1 <br/> [GeneLocation](GeneLocation.md) |  | direct |
 
 
 
@@ -80,6 +80,9 @@ GeneSubcellularLocalizationRelationship ||--|o CellularComponent : "location"
 | native | gocam:GeneSubcellularLocalizationRelationship |
 
 
+
+
+
 ## LinkML Source
 
 <!-- TODO: investigate https://stackoverflow.com/questions/37606292/how-to-create-tabbed-code-blocks-in-mkdocs-or-sphinx -->
@@ -101,7 +104,7 @@ attributes:
     name: location
     from_schema: http://w3id.org/ontogpt/gocam
     rank: 1000
-    range: CellularComponent
+    range: GeneLocation
 
 ```
 </details>
@@ -134,7 +137,7 @@ attributes:
     owner: GeneSubcellularLocalizationRelationship
     domain_of:
     - GeneSubcellularLocalizationRelationship
-    range: CellularComponent
+    range: GeneLocation
 
 ```
 </details>

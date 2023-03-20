@@ -57,7 +57,6 @@ description: A qualifier for the statements, e.g. "NOT" for negation
 from_schema: http://w3id.org/ontogpt/core
 rank: 1000
 alias: qualifier
-owner: Triple
 domain_of:
 - Triple
 range: string

@@ -19,7 +19,7 @@ logger = logging.getLogger(__name__)
 @dataclass
 class OntologyConverter:
     """
-    Converts an OAK ontology to a Llama schema
+    Converts an OAK ontology to an OntoGPT schema
     """
 
     adapter: OboGraphInterface = None

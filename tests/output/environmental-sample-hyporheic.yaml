@@ -79,7 +79,7 @@ extracted_object:
 named_entities:
 - id: ENVO:00000107
   label: heath
-- id: ENVO:01000797
+- id: ENVO:01001209
   label: peatland vegetation on trace gas flux
 - id: ENVO:00005774
   label: peat

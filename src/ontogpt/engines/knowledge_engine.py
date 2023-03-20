@@ -11,6 +11,7 @@ from pathlib import Path
 from types import ModuleType
 from typing import Any, Dict, Iterator, List, Optional, TextIO, Tuple, Union
 
+import inflection
 import openai
 import pydantic
 import yaml
@@ -67,7 +68,10 @@ def chunk_text(text: str, window_size=3) -> Iterator[str]:
 @dataclass
 class KnowledgeEngine(ABC):
     """
-    Abstract base class for all knowledge engines
+    Abstract base class for all knowledge engines.
+
+    A Knowledge Engine is able to extract knowledge from text, utilizing
+    knowledge sources plus LLMs
     """
 
     template: TEMPLATE_NAME = None
@@ -105,6 +109,10 @@ class KnowledgeEngine(ABC):
     These override the annotators annotated in the template
     """
 
+    skip_annotators: Optional[List[TextAnnotatorInterface]] = None
+    """Annotators to skip.
+    This overrides any specified in the schema"""
+
     mappers: List[BasicOntologyInterface] = None
     """List of concept mappers, to assist in grounding to desired ID prefix"""
 
@@ -137,10 +145,13 @@ class KnowledgeEngine(ABC):
     def __post_init__(self):
         if self.template:
             self.template_class = self._get_template_class(self.template)
+        logging.info(f"Using template {self.template_class}")
         self.client = OpenAIClient()
+        logging.info("Setting up OpenAI client API Key")
         self.api_key = self._get_openai_api_key()
         openai.api_key = self.api_key
         if self.mappers is None:
+            logging.info("Using mappers (currently hardcoded)")
             self.mappers = [get_implementation_from_shorthand("translator:")]
 
     def extract_from_text(
@@ -251,6 +262,9 @@ class KnowledgeEngine(ABC):
         for annotator in annotators:
             if isinstance(annotator, str):
                 logger.info(f"Loading annotator {annotator}")
+                if self.skip_annotators and annotator in self.skip_annotators:
+                    logger.info(f"Skipping annotator {annotator}")
+                    continue
                 objs.append(get_implementation_from_shorthand(annotator))
             elif isinstance(annotator, BasicOntologyInterface):
                 objs.append(annotator)
@@ -284,6 +298,8 @@ class KnowledgeEngine(ABC):
     def normalize_named_entity(self, text: str, range: ElementName) -> str:
         """
         Grounds and normalizes to preferred ID prefixes.
+
+        if the entity cannot be grounded and normalized, the original text is returned.
 
         :param text:
         :param cls:
@@ -342,16 +358,22 @@ class KnowledgeEngine(ABC):
                 return False
         if id_slot and id_slot.values_from:
             vse = ValueSetExpander()
+            is_found = False
             for e in id_slot.values_from:
                 if e not in self.value_set_expansions:
+                    # expanding value set for first time
                     range_enum = sv.get_enum(e)
                     pvs = vse.expand_value_set(range_enum, sv.schema)
                     valid_ids = [pv.text for pv in pvs]
                     self.value_set_expansions[e] = valid_ids
                     logger.info(f"Expanded {e} to {len(valid_ids)} IDs")
-                if input_id not in self.value_set_expansions[e]:
-                    logger.info(f"ID {input_id} not in value set {e}")
-                    return False
+                if input_id in self.value_set_expansions[e]:
+                    is_found = True
+                    logger.info(f"ID {input_id} found in value set {e}")
+                    break
+            if not is_found:
+                logger.info(f"ID {input_id} not in value set {e}")
+                return False
         return True
 
     def normalize_identifier(self, input_id: str, cls: ClassDefinition) -> Iterator[str]:
@@ -399,12 +421,34 @@ class KnowledgeEngine(ABC):
         """
         Ground the given text to element identifiers.
 
+        This can potentially yield multiple possible alternatives; these
+        should be yielded in priority order.
+
+        - if there is a different singular form of the text, yield from that first
+        - dictionary exact matches are yielded first
+        - dictionary partial matches are yielded next
+        - annotators are yielded next, in order in which they are specified in the schema
+
         :param text: text to ground, e.g. gene symbol
         :param cls: schema class the ground object should instantiate
         :return:
         """
         logger.info(f"GROUNDING {text} using {cls.name}")
         text_lower = text.lower()
+        text_singularized = inflection.singularize(text_lower)
+        if text_singularized != text_lower:
+            logger.info(f"Singularized {text} to {text_singularized}")
+            yield from self.groundings(text_singularized, cls)
+        parenthetical_components = re.findall(r'\((.*?)\)', text_lower)
+        if parenthetical_components:
+            trimmed_text = text_lower
+            for component in parenthetical_components:
+                if component:
+                    yield from self.groundings(component, cls)
+                trimmed_text = trimmed_text.replace(f"({component})", "")
+            trimmed_text = trimmed_text.strip().replace("  ", " ")
+            if trimmed_text:
+                yield from self.groundings(trimmed_text, cls)
         if self.dictionary and text_lower in self.dictionary:
             obj_id = self.dictionary[text_lower]
             logger.info(f"Found {text} in dictionary: {obj_id}")

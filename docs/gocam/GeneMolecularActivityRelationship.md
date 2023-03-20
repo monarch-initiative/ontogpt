@@ -37,8 +37,8 @@ GeneMolecularActivityRelationship ||--|o MolecularActivity : "molecular_activity
 
 | Name | Cardinality and Range | Description | Inheritance |
 | ---  | --- | --- | --- |
-| [gene](gene.md) | 0..1 <br/> NONE |  | direct |
-| [molecular_activity](molecular_activity.md) | 0..1 <br/> NONE |  | direct |
+| [gene](gene.md) | 0..1 <br/> [Gene](Gene.md) |  | direct |
+| [molecular_activity](molecular_activity.md) | 0..1 <br/> [MolecularActivity](MolecularActivity.md) |  | direct |
 
 
 
@@ -87,6 +87,9 @@ molecular_activity: GO:0003674 |
 | ---  | ---  |
 | self | gocam:GeneMolecularActivityRelationship |
 | native | gocam:GeneMolecularActivityRelationship |
+
+
+
 
 
 ## LinkML Source

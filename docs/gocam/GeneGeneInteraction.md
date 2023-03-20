@@ -76,6 +76,9 @@ GeneGeneInteraction ||--|o Gene : "gene2"
 | native | gocam:GeneGeneInteraction |
 
 
+
+
+
 ## LinkML Source
 
 <!-- TODO: investigate https://stackoverflow.com/questions/37606292/how-to-create-tabbed-code-blocks-in-mkdocs-or-sphinx -->

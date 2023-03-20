@@ -54,7 +54,6 @@ name: input_title
 from_schema: http://w3id.org/ontogpt/core
 rank: 1000
 alias: input_title
-owner: ExtractionResult
 domain_of:
 - ExtractionResult
 range: string

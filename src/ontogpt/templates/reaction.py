@@ -1,8 +1,9 @@
 from __future__ import annotations
 from datetime import datetime, date
 from enum import Enum
-from typing import List, Dict, Optional, Any
+from typing import List, Dict, Optional, Any, Union, Literal
 from pydantic import BaseModel as BaseModel, Field
+from linkml_runtime.linkml_model import Decimal
 
 metamodel_version = "None"
 version = "None"
@@ -22,7 +23,7 @@ class ConfiguredBaseModel(WeakRefShimBaseModel,
 class GeneToReaction(ConfiguredBaseModel):
     
     gene: Optional[str] = Field(None, description="""name of the gene that catalyzes the reaction""")
-    reactions: Optional[List[Reaction]] = Field(default_factory=list, description="""semicolon separated list of reaction equations (e.g. A+B = C+D) catalyzed by the gene""")
+    reactions: Optional[Dict[str, Reaction]] = Field(default_factory=dict, description="""semicolon separated list of reaction equations (e.g. A+B = C+D) catalyzed by the gene""")
     organism: Optional[str] = Field(None)
     
 
@@ -30,9 +31,10 @@ class GeneToReaction(ConfiguredBaseModel):
 class ReactionDocument(ConfiguredBaseModel):
     
     genes: Optional[List[str]] = Field(default_factory=list, description="""semicolon separated list of genes that catalyzes the mentioned reactions""")
-    reactions: Optional[List[Reaction]] = Field(default_factory=list, description="""semicolon separated list of reaction equations (e.g. A+B = C+D) catalyzed by the gene""")
+    reactions: Optional[Dict[str, Reaction]] = Field(default_factory=dict, description="""semicolon separated list of reaction equations (e.g. A+B = C+D) catalyzed by the gene""")
     gene_reaction_pairings: Optional[List[GeneReactionPairing]] = Field(default_factory=list, description="""semicolon separated list of gene to reaction pairings""")
     organism: Optional[str] = Field(None)
+    has_evidence: Optional[List[str]] = Field(default_factory=list, description="""evidence for the reaction""")
     
 
 
@@ -77,6 +79,13 @@ class ReactionGrouping(NamedEntity):
 
 
 class ChemicalEntity(NamedEntity):
+    
+    id: Optional[str] = Field(None, description="""A unique identifier for the named entity""")
+    label: Optional[str] = Field(None, description="""The label (name) of the named thing""")
+    
+
+
+class Evidence(NamedEntity):
     
     id: Optional[str] = Field(None, description="""A unique identifier for the named entity""")
     label: Optional[str] = Field(None, description="""The label (name) of the named thing""")
@@ -165,6 +174,7 @@ NamedEntity.update_forward_refs()
 Reaction.update_forward_refs()
 ReactionGrouping.update_forward_refs()
 ChemicalEntity.update_forward_refs()
+Evidence.update_forward_refs()
 Gene.update_forward_refs()
 Organism.update_forward_refs()
 CompoundExpression.update_forward_refs()

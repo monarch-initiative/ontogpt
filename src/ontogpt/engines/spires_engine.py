@@ -5,7 +5,8 @@ This works by recursively constructing structured prompt-completions where
 a pseudo-YAML structure is requested, where the YAML
 structure corresponds to a template class.
 
-
+Describes in the SPIRES manuscript
+TODO: add link
 """
 import logging
 from dataclasses import dataclass

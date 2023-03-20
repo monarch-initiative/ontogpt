@@ -2,8 +2,6 @@
 import pickle
 import unittest
 
-import yaml
-
 from ontogpt.engines.spires_engine import SPIRESEngine
 from ontogpt.io.yaml_wrapper import dump_minimal_yaml
 from tests import CASES_DIR, OUTPUT_DIR

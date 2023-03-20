@@ -29,7 +29,7 @@ RelationshipType {
 
 | Name | Cardinality and Range | Description | Inheritance |
 | ---  | --- | --- | --- |
-| [id](id.md) | 0..1 <br/> NONE |  | [NamedEntity](NamedEntity.md) |
+| [id](id.md) | 1..1 <br/> [xsd:string](xsd:string) | A unique identifier for the named entity | [NamedEntity](NamedEntity.md) |
 | [label](label.md) | 0..1 <br/> [xsd:string](xsd:string) | The label (name) of the named thing | [NamedEntity](NamedEntity.md) |
 
 
@@ -80,6 +80,9 @@ Instances of this class *should* have identifiers with one of the following pref
 | ---  | ---  |
 | self | core:RelationshipType |
 | native | core:RelationshipType |
+
+
+
 
 
 ## LinkML Source

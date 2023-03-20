@@ -4,8 +4,7 @@ Generation of Ontologies and Knowledge Bases using GPT
 
 A knowledge extraction tool that uses a large language model to extract semantic information from text.
 
-This exploits the ability of ultra-LLMs such as GPT-3 to return user-defined data structures
-as a response.
+This makes use of so-called *instruction prompts* in Large Language Models (LLMs) such as GPT-4.
 
 Currently there are two different pipelines implemented:
 
@@ -102,7 +101,7 @@ poetry run runoak set-apikey -e bioportal <your bioportal api key>
 
 See [src/ontogpt/templates/](src/ontogpt/templates/) for examples.
 
-Define a schema (using a subset of LinkML) that describes the structure you want to extract from your text.
+Define a schema (using a subset of [LinkML](https://linkml.io)) that describes the structure you want to extract from your text.
 
 ```yaml
 classes:
@@ -226,20 +225,80 @@ The generated prompt is:
 
 The output of this is then passed through further SPIRES iterations.
 
-## Text length limit
+### Text length limit
 
 Currently SPIRES must use text-davinci-003, which has a total 4k token limit (prompt + completion).
 
 You can pass in a parameter to split the text into chunks, results will be recombined automatically,
 but more experiments need to be done to determined how reliable this is.
 
+## Schema Tips
+
+It helps to have an understanding of the [LinkML](https://linkml.io) schema language, but it should be possible
+to define your own schemas using the examples as a guide.
+
+OntoGPT-specific extensions are specified as *annotations*
+
+You can specify a set of annotators for a field using the `annotators` annotation
+
+```yaml
+  Gene:
+    is_a: NamedThing
+    id_prefixes:
+      - HGNC
+    annotations:
+      annotators: gilda:, bioportal:hgnc-nr, obo:pr
+```
+
+The annotators are applied in order.
+
+Additionally, when performing grounding, the following measures can be taken to improve accuracy:
+
+- specify the valid set of ID prefixes using `id_prefixes`
+- some vocabularies have structural IDs that are amenable to regexes, you can specify these using `pattern`
+- you can make use of `values_from` slot to specify a [Dynamic Value Set](https://linkml.io/linkml/schemas/enums.html#dynamic-enums)
+    - for example, you can constrain the set of valid locations for a gene product to be subclasses of `cellular_component` in GO or `cell` in CL.
+
+For example:
+
+```yaml
+classes:
+  ...
+  GeneLocation:
+    is_a: NamedEntity
+    id_prefixes:
+      - GO
+      - CL
+    annotations:
+      annotators: "sqlite:obo:go, sqlite:obo:cl"
+    slot_usage:
+      id:
+        values_from:
+          - GOCellComponentType
+          - CellType
+
+enums:
+
+  GOCellComponentType:
+    reachable_from:
+      source_ontology: obo:go
+      source_nodes:
+        - GO:0005575 ## cellular_component
+  CellType:
+    reachable_from:
+      source_ontology: obo:cl
+      source_nodes:
+        - CL:0000000 ## cell
+        
 ```
 
 ## HALO: Usage
 
 TODO
 
-## Limitations
+
+
+## OntoGPT Limitations
 
 ### Non-deterministic
 

@@ -19,7 +19,7 @@ URI: [core:label](http://w3id.org/ontogpt/core/label)
 [Pathway](Pathway.md) | 
 [CellularProcess](CellularProcess.md) | 
 [MolecularActivity](MolecularActivity.md) | 
-[CellularComponent](CellularComponent.md) | 
+[GeneLocation](GeneLocation.md) | 
 [Organism](Organism.md) | 
 [Molecule](Molecule.md) | 
 [NamedEntity](NamedEntity.md) | 
@@ -72,7 +72,6 @@ aliases:
 - name
 rank: 1000
 alias: label
-owner: NamedEntity
 domain_of:
 - NamedEntity
 range: string

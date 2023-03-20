@@ -67,7 +67,7 @@ extracted_object:
   - AUTO:14%20plots/5%20depths
   causal_relationships:
   - cause: AUTO:water%20table
-    effect: ENVO:01000797
+    effect: ENVO:01001209
   - cause: AUTO:oxygen%20and%20labile%20C
     effect: ENVO:00005774
   - cause: AUTO:experimental%20warming
@@ -87,7 +87,7 @@ extracted_object:
 named_entities:
 - id: ENVO:00000107
   label: heath
-- id: ENVO:01000797
+- id: ENVO:01001209
   label: peatland vegetation on trace gas flux
 - id: ENVO:00005774
   label: peat

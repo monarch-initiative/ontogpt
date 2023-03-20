@@ -1,10 +1,35 @@
 import logging
 from dataclasses import dataclass, field
+from typing import Iterator, List
 
-import yaml
+import inflection
 from eutils import Client
+from eutils._internal.xmlfacades.pubmedarticle import PubmedArticle
 
 PMID = str
+TITLE_WEIGHT = 5
+MAX_PMIDS = 50
+
+def _normalize(s: str) -> str:
+    return inflection.singularize(s).lower()
+
+
+def _score_paper(paper: PubmedArticle, keywords: List[str]) -> int:
+    title_score = _score_text(paper.title, keywords)
+    abstract_score = _score_text(paper.abstract, keywords)
+    logging.info(f"Scored {paper.pmid} {paper.title} with TS={title_score} AS={abstract_score} ")
+    return title_score * TITLE_WEIGHT + abstract_score
+
+
+def _score_text(text: str, keywords: List[str]) -> int:
+    text = text.lower()
+    if not text:
+        return -100
+    score = 0
+    for kw in keywords:
+        if kw in text:
+            score += 1
+    return score
 
 
 @dataclass
@@ -38,3 +63,29 @@ class PubmedClient:
             logging.warning(f"Truncating text: {txt[:self.max_text_length]}...")
             txt = txt[0 : self.max_text_length]
         return txt
+
+    def search(self, term: str, keywords: List[str] = None) -> Iterator[PMID]:
+        """
+        Get the text of a paper from its PMID
+
+        :param term:
+        :param keywords:
+        :return:
+        """
+        print("Getting client")
+        ec = self.entrez_client
+        if keywords:
+            keywords = [_normalize(kw) for kw in keywords]
+            term = f"({term}) AND ({' OR '.join(keywords)})"
+        logging.info(f"Searching for {term}...")
+        esr = ec.esearch(db="pubmed", term=term)
+        logging.info(f"Found {esr.count} papers for {term}.")
+        paset = ec.efetch(db='pubmed', id=esr.ids[0:MAX_PMIDS])
+        keywords = keywords or []
+        keywords = [_normalize(kw) for kw in keywords]
+        scored_papers = [(_score_paper(paper, keywords), paper) for paper in paset]
+        scored_papers.sort(key=lambda x: x[0], reverse=True)
+        for score, paper in scored_papers:
+            logging.debug(f"Yielding {paper.pmid} {paper.title} with score {score} ")
+            yield f"PMID:{paper.pmid}"
+

@@ -54,7 +54,6 @@ name: subject_text
 from_schema: http://w3id.org/ontogpt/core
 rank: 1000
 alias: subject_text
-owner: AnnotatorResult
 domain_of:
 - AnnotatorResult
 range: string

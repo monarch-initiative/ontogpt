@@ -34,11 +34,11 @@ ExtractionResult ||--}o Any : "named_entities"
 
 | Name | Cardinality and Range | Description | Inheritance |
 | ---  | --- | --- | --- |
-| [input_id](input_id.md) | 0..1 <br/> NONE |  | direct |
-| [input_title](input_title.md) | 0..1 <br/> NONE |  | direct |
-| [input_text](input_text.md) | 0..1 <br/> NONE |  | direct |
-| [raw_completion_output](raw_completion_output.md) | 0..1 <br/> NONE |  | direct |
-| [prompt](prompt.md) | 0..1 <br/> NONE |  | direct |
+| [input_id](input_id.md) | 0..1 <br/> [xsd:string](xsd:string) |  | direct |
+| [input_title](input_title.md) | 0..1 <br/> [xsd:string](xsd:string) |  | direct |
+| [input_text](input_text.md) | 0..1 <br/> [xsd:string](xsd:string) |  | direct |
+| [raw_completion_output](raw_completion_output.md) | 0..1 <br/> [xsd:string](xsd:string) |  | direct |
+| [prompt](prompt.md) | 0..1 <br/> [xsd:string](xsd:string) |  | direct |
 | [extracted_object](extracted_object.md) | 0..1 <br/> [Any](Any.md) | The complex objects extracted from the text | direct |
 | [named_entities](named_entities.md) | 0..* <br/> [Any](Any.md) | Named entities extracted from the text | direct |
 
@@ -73,6 +73,9 @@ ExtractionResult ||--}o Any : "named_entities"
 | ---  | ---  |
 | self | core:ExtractionResult |
 | native | core:ExtractionResult |
+
+
+
 
 
 ## LinkML Source

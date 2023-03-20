@@ -60,7 +60,6 @@ from_schema: http://w3id.org/ontogpt/gocam
 rank: 1000
 multivalued: true
 alias: gene_functions
-owner: GoCamAnnotations
 domain_of:
 - GoCamAnnotations
 range: GeneMolecularActivityRelationship

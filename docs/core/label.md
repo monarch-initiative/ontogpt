@@ -65,7 +65,6 @@ aliases:
 - name
 rank: 1000
 alias: label
-owner: NamedEntity
 domain_of:
 - NamedEntity
 range: string

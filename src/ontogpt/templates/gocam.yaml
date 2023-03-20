@@ -7,6 +7,8 @@ license: https://creativecommons.org/publicdomain/zero/1.0/
 prefixes:
   linkml: https://w3id.org/linkml/
   gocam: http://w3id.org/ontogpt/gocam/
+  GO: http://purl.obolibrary.org/obo/GO_
+  CL: http://purl.obolibrary.org/obo/CL_
 
 default_prefix: gocam
 default_range: string
@@ -85,12 +87,19 @@ classes:
       - GO
     annotations:
       annotators: sqlite:obo:go
-  CellularComponent:
+  GeneLocation:
     is_a: NamedEntity
     id_prefixes:
       - GO
+      - CL
+      - UBERON
     annotations:
-      annotators: sqlite:obo:go
+      annotators: "sqlite:obo:go, sqlite:obo:cl"
+    slot_usage:
+      id:
+        values_from:
+          - GOCellComponentType
+          - CellType
   Organism:
     is_a: NamedEntity
     id_prefixes:
@@ -107,7 +116,7 @@ classes:
       annotators: gilda:, sqlite:obo:chebi
 
   GeneOrganismRelationship:
-    is_a:   CompoundExpression
+    is_a: CompoundExpression
     attributes:
       gene:
         range: Gene
@@ -154,7 +163,7 @@ classes:
       gene:
         range: Gene
       location:
-        range: CellularComponent
+        range: GeneLocation
 
   GeneGeneInteraction:
     is_a:   CompoundExpression
@@ -163,3 +172,21 @@ classes:
         range: Gene
       gene2:
         range: Gene
+
+enums:
+
+  GeneLocationEnum:
+    inherits:
+      - GOCellComponent
+      - CellType
+
+  GOCellComponentType:
+    reachable_from:
+      source_ontology: obo:go
+      source_nodes:
+        - GO:0005575 ## cellular_component
+  CellType:
+    reachable_from:
+      source_ontology: obo:cl
+      source_nodes:
+        - CL:0000000 ## cell

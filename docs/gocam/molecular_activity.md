@@ -23,7 +23,7 @@ URI: [gocam:molecular_activity](http://w3id.org/ontogpt/gocam/molecular_activity
 
 ## Properties
 
-* Range: [xsd:string](xsd:string)
+* Range: [MolecularActivity](MolecularActivity.md)
 
 
 
@@ -37,6 +37,19 @@ URI: [gocam:molecular_activity](http://w3id.org/ontogpt/gocam/molecular_activity
 
 
 
+### Annotations
+
+| property | value |
+| --- | --- |
+| prompt | the name of the molecular function in the pair. This comes second. May be a GO term. |
+
+
+
+### Schema Source
+
+
+* from schema: http://w3id.org/ontogpt/gocam
+
 
 
 
@@ -45,11 +58,18 @@ URI: [gocam:molecular_activity](http://w3id.org/ontogpt/gocam/molecular_activity
 <details>
 ```yaml
 name: molecular_activity
+annotations:
+  prompt:
+    tag: prompt
+    value: the name of the molecular function in the pair. This comes second. May
+      be a GO term.
+from_schema: http://w3id.org/ontogpt/gocam
+rank: 1000
 alias: molecular_activity
 domain_of:
 - GeneMolecularActivityRelationship
 - GeneMolecularActivityRelationship2
-range: string
+range: MolecularActivity
 
 ```
 </details>

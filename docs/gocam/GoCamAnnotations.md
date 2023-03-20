@@ -13,7 +13,7 @@ GoCamAnnotations {
 GeneSubcellularLocalizationRelationship {
 
 }
-CellularComponent {
+GeneLocation {
     string id  
     string label  
 }
@@ -57,7 +57,7 @@ GoCamAnnotations ||--}o Pathway : "pathways"
 GoCamAnnotations ||--}o GeneGeneInteraction : "gene_gene_interactions"
 GoCamAnnotations ||--}o GeneSubcellularLocalizationRelationship : "gene_localizations"
 GeneSubcellularLocalizationRelationship ||--|o Gene : "gene"
-GeneSubcellularLocalizationRelationship ||--|o CellularComponent : "location"
+GeneSubcellularLocalizationRelationship ||--|o GeneLocation : "location"
 GeneGeneInteraction ||--|o Gene : "gene1"
 GeneGeneInteraction ||--|o Gene : "gene2"
 GeneMolecularActivityRelationship ||--|o Gene : "gene"
@@ -117,6 +117,9 @@ GeneOrganismRelationship ||--|o Organism : "organism"
 | ---  | ---  |
 | self | gocam:GoCamAnnotations |
 | native | gocam:GoCamAnnotations |
+
+
+
 
 
 ## LinkML Source

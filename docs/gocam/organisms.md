@@ -60,7 +60,6 @@ from_schema: http://w3id.org/ontogpt/gocam
 rank: 1000
 multivalued: true
 alias: organisms
-owner: GoCamAnnotations
 domain_of:
 - GoCamAnnotations
 range: Organism

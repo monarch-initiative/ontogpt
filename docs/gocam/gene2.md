@@ -54,7 +54,6 @@ name: gene2
 from_schema: http://w3id.org/ontogpt/gocam
 rank: 1000
 alias: gene2
-owner: GeneGeneInteraction
 domain_of:
 - GeneGeneInteraction
 range: Gene

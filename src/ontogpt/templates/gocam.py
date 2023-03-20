@@ -19,6 +19,24 @@ class ConfiguredBaseModel(WeakRefShimBaseModel,
     pass                    
 
 
+class GeneLocationEnum(str, Enum):
+    
+    
+    dummy = "dummy"
+    
+
+class GOCellComponentType(str, Enum):
+    
+    
+    dummy = "dummy"
+    
+
+class CellType(str, Enum):
+    
+    
+    dummy = "dummy"
+    
+
 class GoCamAnnotations(ConfiguredBaseModel):
     
     genes: Optional[List[str]] = Field(default_factory=list, description="""semicolon-separated list of genes""")
@@ -82,7 +100,7 @@ class MolecularActivity(NamedEntity):
     
 
 
-class CellularComponent(NamedEntity):
+class GeneLocation(NamedEntity):
     
     id: Optional[str] = Field(None, description="""A unique identifier for the named entity""")
     label: Optional[str] = Field(None, description="""The label (name) of the named thing""")
@@ -200,7 +218,7 @@ Gene.update_forward_refs()
 Pathway.update_forward_refs()
 CellularProcess.update_forward_refs()
 MolecularActivity.update_forward_refs()
-CellularComponent.update_forward_refs()
+GeneLocation.update_forward_refs()
 Organism.update_forward_refs()
 Molecule.update_forward_refs()
 CompoundExpression.update_forward_refs()

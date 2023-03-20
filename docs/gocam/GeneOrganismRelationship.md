@@ -37,7 +37,7 @@ GeneOrganismRelationship ||--|o Organism : "organism"
 
 | Name | Cardinality and Range | Description | Inheritance |
 | ---  | --- | --- | --- |
-| [gene](gene.md) | 0..1 <br/> NONE |  | direct |
+| [gene](gene.md) | 0..1 <br/> [Gene](Gene.md) |  | direct |
 | [organism](organism.md) | 0..1 <br/> [Organism](Organism.md) |  | direct |
 
 
@@ -78,6 +78,9 @@ GeneOrganismRelationship ||--|o Organism : "organism"
 | ---  | ---  |
 | self | gocam:GeneOrganismRelationship |
 | native | gocam:GeneOrganismRelationship |
+
+
+
 
 
 ## LinkML Source

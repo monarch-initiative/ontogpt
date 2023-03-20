@@ -7,7 +7,6 @@ from typing import Iterator, Tuple
 
 import openai
 from oaklib.utilities.apikey_manager import get_apikey_value
-from openai.error import APIConnectionError
 
 logger = logging.getLogger(__name__)
 NUM_RETRIES = 3

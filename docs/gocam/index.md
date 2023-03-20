@@ -30,7 +30,7 @@ MolecularActivity {
     string id  
     string label  
 }
-CellularComponent {
+GeneLocation {
     string id  
     string label  
 }
@@ -114,7 +114,7 @@ GeneMolecularActivityRelationship2 ||--|o Gene : "gene"
 GeneMolecularActivityRelationship2 ||--|o MolecularActivity : "molecular_activity"
 GeneMolecularActivityRelationship2 ||--|o Molecule : "target"
 GeneSubcellularLocalizationRelationship ||--|o Gene : "gene"
-GeneSubcellularLocalizationRelationship ||--|o CellularComponent : "location"
+GeneSubcellularLocalizationRelationship ||--|o GeneLocation : "location"
 GeneGeneInteraction ||--|o Gene : "gene1"
 GeneGeneInteraction ||--|o Gene : "gene2"
 ExtractionResult ||--|o Any : "extracted_object"
@@ -136,12 +136,12 @@ TextWithTriples ||--}o Triple : "triples"
 | --- | --- |
 | [AnnotatorResult](AnnotatorResult.md) |  |
 | [Any](Any.md) |  |
-| [CellularComponent](CellularComponent.md) |  |
 | [CellularProcess](CellularProcess.md) |  |
 | [CompoundExpression](CompoundExpression.md) |  |
 | [ExtractionResult](ExtractionResult.md) | A result of extracting knowledge on text |
 | [Gene](Gene.md) |  |
 | [GeneGeneInteraction](GeneGeneInteraction.md) |  |
+| [GeneLocation](GeneLocation.md) |  |
 | [GeneMolecularActivityRelationship](GeneMolecularActivityRelationship.md) |  |
 | [GeneMolecularActivityRelationship2](GeneMolecularActivityRelationship2.md) |  |
 | [GeneOrganismRelationship](GeneOrganismRelationship.md) |  |
@@ -208,6 +208,9 @@ TextWithTriples ||--}o Triple : "triples"
 
 | Enumeration | Description |
 | --- | --- |
+| [CellType](CellType.md) |  |
+| [GeneLocationEnum](GeneLocationEnum.md) |  |
+| [GOCellComponentType](GOCellComponentType.md) |  |
 
 
 ## Types
@@ -215,6 +218,7 @@ TextWithTriples ||--}o Triple : "triples"
 | Type | Description |
 | --- | --- |
 | [xsd:boolean](xsd:boolean) | A binary (true or false) value |
+| [xsd:string](xsd:string) | a compact URI |
 | [xsd:date](xsd:date) | a date (year, month and day) in an idealized calendar |
 | [linkml:DateOrDatetime](https://w3id.org/linkml/DateOrDatetime) | Either a date or a datetime |
 | [xsd:dateTime](xsd:dateTime) | The combination of a date and time |

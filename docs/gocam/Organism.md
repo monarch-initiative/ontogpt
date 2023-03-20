@@ -54,7 +54,6 @@ name: organism
 from_schema: http://w3id.org/ontogpt/gocam
 rank: 1000
 alias: organism
-owner: GeneOrganismRelationship
 domain_of:
 - GeneOrganismRelationship
 range: Organism

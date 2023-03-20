@@ -2,6 +2,7 @@
 import unittest
 
 import yaml
+from linkml_runtime.linkml_model import ClassDefinitionName
 from oaklib import get_implementation_from_shorthand
 
 from ontogpt.clients.pubmed_client import PubmedClient
@@ -13,7 +14,7 @@ from ontogpt.templates.biological_process import BiologicalProcess
 from ontogpt.templates.gocam import (
     ExtractionResult,
     GeneOrganismRelationship,
-    GoCamAnnotations,
+    GoCamAnnotations, Gene, GeneLocation,
 )
 
 TEMPLATE = "gocam.GoCamAnnotations"
@@ -283,12 +284,42 @@ class TestCore(unittest.TestCase):
         """
         ke = self.ke
         if not isinstance(ke, SPIRESEngine):
-            raise ValueError(f"Expected TextModelKnowledgeEngine, got {type(ke)}")
+            raise ValueError(f"Expected SPIRESEngine, got {type(ke)}")
         annotated = ke.ground_annotation_object(DIRECT_PARSE)
         print(dump_minimal_yaml(annotated))
         self.assertIn("HGNC:2514", annotated.genes)
         expected = GeneOrganismRelationship(gene="HGNC:2514", organism="EFO:0000532")
         self.assertIn(expected, annotated.gene_organisms)
+
+    def test_normalize_named_entity(self):
+        ke = self.ke
+        normalize_cases = [
+            ("β-Catenin", ClassDefinitionName(Gene.__name__), "HGNC:2514"),
+            ("nucleus", ClassDefinitionName(GeneLocation.__name__), "GO:0005634"),
+            ("transport", ClassDefinitionName(GeneLocation.__name__), "transport"),  ## not a location
+            ("perivascular macrophage", ClassDefinitionName(GeneLocation.__name__), "CL:0000881"),
+            ("perivascular macrophages", ClassDefinitionName(GeneLocation.__name__), "CL:0000881"),
+            ("blah blah (nucleus)", ClassDefinitionName(GeneLocation.__name__), "GO:0005634"),
+            ("nucleus (blah blah)", ClassDefinitionName(GeneLocation.__name__), "GO:0005634"),
+        ]
+        for text, elt_name, expected in normalize_cases:
+            result = ke.normalize_named_entity(text, elt_name)
+            self.assertEqual(expected, result)
+
+    def test_is_valid_identifier(self):
+        ke = self.ke
+        value_set_cases = [
+            ("HGNC:2514", Gene, True),
+            ("CL:0000881", GeneLocation, True),
+            ("GO:0005634", GeneLocation, True),
+            ("HGNC:2514", GeneLocation, False),
+            ("GO:0005634", Gene, False),
+            ("GO:0006810", GeneLocation, False),  ## wrong hierarchy
+        ]
+        for curie, cls, is_valid in value_set_cases:
+            cls_def = ke.schemaview.get_class(cls.__name__)
+            result = ke.is_valid_identifier(curie, cls_def)
+            self.assertEqual(result, is_valid, f"Expected validity of {curie} for {cls} to be {is_valid}")
 
     def test_custom_dictionary(self):
         ke = create_engine(TEMPLATE, SPIRESEngine)

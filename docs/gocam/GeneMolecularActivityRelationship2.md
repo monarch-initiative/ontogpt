@@ -42,8 +42,8 @@ GeneMolecularActivityRelationship2 ||--|o Molecule : "target"
 
 | Name | Cardinality and Range | Description | Inheritance |
 | ---  | --- | --- | --- |
-| [gene](gene.md) | 0..1 <br/> NONE |  | direct |
-| [molecular_activity](molecular_activity.md) | 0..1 <br/> NONE |  | direct |
+| [gene](gene.md) | 0..1 <br/> [Gene](Gene.md) |  | direct |
+| [molecular_activity](molecular_activity.md) | 0..1 <br/> [MolecularActivity](MolecularActivity.md) |  | direct |
 | [target](target.md) | 0..1 <br/> [Molecule](Molecule.md) |  | direct |
 
 
@@ -77,6 +77,9 @@ GeneMolecularActivityRelationship2 ||--|o Molecule : "target"
 | ---  | ---  |
 | self | gocam:GeneMolecularActivityRelationship2 |
 | native | gocam:GeneMolecularActivityRelationship2 |
+
+
+
 
 
 ## LinkML Source

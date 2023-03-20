@@ -69,6 +69,10 @@ classes:
         inlined: true
       organism:
         range: Organism
+      has_evidence:
+        range: Evidence
+        description: evidence for the reaction
+        multivalued: true
 
   GeneReactionPairing:
     is_a:   CompoundExpression
@@ -94,12 +98,21 @@ classes:
     annotations:
       annotators: sqlite:obo:chebi
 
+  Evidence:
+    is_a: NamedEntity
+    id_prefixes:
+      - OBI
+      - ECO
+      - MS
+    annotations:
+      annotators: sqlite:obo:obi, sqlite:obo:eco, sqlite:obo:ms
+
   Gene:
     is_a: NamedEntity
     id_prefixes:
       - HGNC
     annotations:
-      annotators: gilda:, bioportal:pr
+      annotators: gilda:, bioportal:hgnc-nr, bioportal:pr
 
   Organism:
     is_a: NamedEntity

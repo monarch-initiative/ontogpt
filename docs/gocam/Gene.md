@@ -25,7 +25,7 @@ URI: [gocam:gene](http://w3id.org/ontogpt/gocam/gene)
 
 ## Properties
 
-* Range: [xsd:string](xsd:string)
+* Range: [Gene](Gene.md)
 
 
 
@@ -41,19 +41,28 @@ URI: [gocam:gene](http://w3id.org/ontogpt/gocam/gene)
 
 
 
+### Schema Source
+
+
+* from schema: http://w3id.org/ontogpt/gocam
+
+
+
 
 ## LinkML Source
 
 <details>
 ```yaml
 name: gene
+from_schema: http://w3id.org/ontogpt/gocam
+rank: 1000
 alias: gene
 domain_of:
 - GeneOrganismRelationship
 - GeneMolecularActivityRelationship
 - GeneMolecularActivityRelationship2
 - GeneSubcellularLocalizationRelationship
-range: string
+range: Gene
 
 ```
 </details>

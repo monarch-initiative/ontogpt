@@ -22,7 +22,7 @@ URI: [gocam:location](http://w3id.org/ontogpt/gocam/location)
 
 ## Properties
 
-* Range: [CellularComponent](CellularComponent.md)
+* Range: [GeneLocation](GeneLocation.md)
 
 
 
@@ -54,10 +54,9 @@ name: location
 from_schema: http://w3id.org/ontogpt/gocam
 rank: 1000
 alias: location
-owner: GeneSubcellularLocalizationRelationship
 domain_of:
 - GeneSubcellularLocalizationRelationship
-range: CellularComponent
+range: GeneLocation
 
 ```
 </details>

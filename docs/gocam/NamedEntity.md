@@ -27,7 +27,7 @@ NamedEntity {
     * [Pathway](Pathway.md)
     * [CellularProcess](CellularProcess.md)
     * [MolecularActivity](MolecularActivity.md)
-    * [CellularComponent](CellularComponent.md)
+    * [GeneLocation](GeneLocation.md)
     * [Organism](Organism.md)
     * [Molecule](Molecule.md)
     * [RelationshipType](RelationshipType.md)
@@ -38,7 +38,7 @@ NamedEntity {
 
 | Name | Cardinality and Range | Description | Inheritance |
 | ---  | --- | --- | --- |
-| [id](id.md) | 0..1 <br/> NONE |  | direct |
+| [id](id.md) | 1..1 <br/> [xsd:string](xsd:string) | A unique identifier for the named entity | direct |
 | [label](label.md) | 0..1 <br/> [xsd:string](xsd:string) | The label (name) of the named thing | direct |
 
 
@@ -82,6 +82,9 @@ NamedEntity {
 | ---  | ---  |
 | self | core:NamedEntity |
 | native | core:NamedEntity |
+
+
+
 
 
 ## LinkML Source
