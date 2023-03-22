@@ -1,12 +1,11 @@
 """Core tests."""
 import pickle
-import sys
 import unittest
 
-import yaml
 
 from ontogpt.io.markdown_exporter import MarkdownExporter
 from tests import INPUT_DIR, OUTPUT_DIR
+from tests.unit.test_exporters import TEST_PICKLED_RESULTS
 
 
 class TestExport(unittest.TestCase):
@@ -15,11 +14,11 @@ class TestExport(unittest.TestCase):
     def setUp(self) -> None:
         """Set up."""
         self.exporter = MarkdownExporter()
-        with open(str(INPUT_DIR / "eds-output.pickle"), "rb") as f:
+        with open(TEST_PICKLED_RESULTS, "rb") as f:
             self.extraction_result = pickle.load(f)
         # print(yaml.dump(self.extraction_result.dict()))
 
     def test_export(self):
         """Test export."""
-        with open(str(OUTPUT_DIR / "eds-output.md"), "w", encoding="utf-8") as f:
+        with open(str(OUTPUT_DIR / "test-output.md"), "w", encoding="utf-8") as f:
             self.exporter.export(self.extraction_result, f)
