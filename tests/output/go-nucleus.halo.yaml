@@ -1,4 +1,55 @@
 elements:
+- name: CellularProcess
+  description: Any process that is carried out at the cellular level, but not necessarily
+    restricted to a single cell. For example, cell communication occurs among more
+    than one cell, but occurs at the cellular level.
+  synonyms:
+  - cell physiology
+  - cellular physiological process
+  - cell growth and/or maintenance
+  - single-organism cellular process
+  subclass_of:
+  - BiologicalProcess
+  subtypes:
+  - CellularMetabolicProcess
+- name: Continuant
+  description: An entity that exists in full at any time in which it exists at all,
+    persists through time while maintaining its identity and has no temporal parts.
+  subtypes:
+  - IndependentContinuant
+- name: MaterialEntity
+  description: An independent continuant that is spatially extended whose identity
+    is independent of that of other entities and can be maintained through time.
+  subclass_of:
+  - IndependentContinuant
+  subtypes:
+  - MaterialAnatomicalEntity
+  - CellularComponent
+- name: IndependentContinuant
+  description: A continuant that is a bearer of quality and realizable entity entities,
+    in which other entities inhere and which itself cannot inhere in anything.
+  subclass_of:
+  - Continuant
+  subtypes:
+  - MaterialEntity
+  - BiologicalEntity
+- name: Membrane
+  description: A lipid bilayer along with all the proteins and protein complexes embedded
+    in it an attached to it.
+  synonyms:
+  - membrane region
+  - region of membrane
+  - whole membrane
+  subclass_of:
+  - CellularAnatomicalEntity
+  subtypes:
+  - OrganelleMembrane
+- name: MaterialAnatomicalEntity
+  subclass_of:
+  - MaterialEntity
+  - AnatomicalEntity
+  subtypes:
+  - ConnectedAnatomicalStructure
 - name: EndomembraneSystem
   description: A collection of membranous structures involved in transport within
     the cell. The main components of the endomembrane system are endoplasmic reticulum,
@@ -10,6 +61,20 @@ elements:
   - Cell
   parts:
   - NuclearEnvelope
+- name: Nucleus
+  description: A membrane-bounded organelle of eukaryotic cells in which chromosomes
+    are housed and replicated. In most cells, the nucleus contains all of the cell's
+    chromosomes except the organellar chromosomes, and is the site of RNA synthesis
+    and processing. In some species, or in specialized cell types, RNA metabolism
+    or DNA replication may be absent.
+  synonyms:
+  - cell nucleus
+  - horsetail nucleus
+  subclass_of:
+  - IntracellularMembrane-boundedOrganelle
+  parts:
+  - NuclearEnvelope
+  - NuclearMembrane
 - name: BiologicalEntity
   subclass_of:
   - IndependentContinuant
@@ -24,18 +89,110 @@ elements:
   - Nucleus
   - NuclearEnvelope
   equivalent_to: Membrane and part of some Nucleus
-- name: OrganelleMembrane
-  description: A membrane that is one of the two lipid bilayers of an organelle envelope
-    or the outermost membrane of single membrane bound organelle.
-  synonyms:
-  - intracellular membrane
+- name: OrganelleEnvelope
+  description: A double membrane structure enclosing an organelle, including two lipid
+    bilayers and the region between them. In some cases, an organelle envelope may
+    have more than two membranes.
   subclass_of:
-  - Membrane
+  - Envelope
   part_of:
   - Membrane-boundedOrganelle
+  - IntracellularOrganelle
   subtypes:
+  - NuclearEnvelope
+- name: IntracellularMembrane-boundedOrganelle
+  description: Organized structure of distinctive morphology and function, bounded
+    by a single or double lipid bilayer membrane and occurring within the cell. Includes
+    the nucleus, mitochondria, plastids, vacuoles, and vesicles. Excludes the plasma
+    membrane.
+  synonyms:
+  - intracellular membrane-enclosed organelle
+  subclass_of:
+  - Membrane-boundedOrganelle
+  - IntracellularOrganelle
+  part_of:
+  - IntracellularAnatomicalStructure
+  subtypes:
+  - Nucleus
+  equivalent_to: Membrane-boundedOrganelle and part of some IntracellularAnatomicalStructure
+- name: AnatomicalEntity
+  subclass_of:
+  - BiologicalEntity
+  subtypes:
+  - MaterialAnatomicalEntity
+  - CellularAnatomicalEntity
+- name: ConnectedAnatomicalStructure
+  subclass_of:
+  - MaterialAnatomicalEntity
+  subtypes:
+  - Cell
+- name: Process
+  description: An occurrent that has temporal proper parts and for some time t, p
+    s-depends_on some material entity at t.
+  subclass_of:
+  - Occurrent
+  subtypes:
+  - BiologicalProcess
+- name: IntracellularOrganelle
+  description: Organized structure of distinctive morphology and function, occurring
+    within the cell. Includes the nucleus, mitochondria, plastids, vacuoles, vesicles,
+    ribosomes and the cytoskeleton. Excludes the plasma membrane.
+  subclass_of:
+  - Organelle
+  part_of:
+  - IntracellularAnatomicalStructure
+  subtypes:
+  - IntracellularMembrane-boundedOrganelle
+  parts:
+  - OrganelleEnvelope
+  equivalent_to: Organelle and part of some IntracellularAnatomicalStructure
+- name: CellularMetabolicProcess
+  description: The chemical reactions and pathways by which individual cells transform
+    chemical substances.
+  synonyms:
+  - cellular metabolism
+  - intermediary metabolism
+  subclass_of:
+  - MetabolicProcess
+  - CellularProcess
+  subtypes:
+  - PhosphorusMetabolicProcess
+- name: Envelope
+  description: A multilayered structure surrounding all or part of a cell; encompasses
+    one or more lipid bilayers, and may include a cell wall layer; also includes the
+    space between layers.
+  subclass_of:
+  - CellularAnatomicalEntity
+  part_of:
+  - Cell
+  subtypes:
+  - OrganelleEnvelope
+- name: NuclearEnvelope
+  description: The double lipid bilayer enclosing the nucleus and separating its contents
+    from the rest of the cytoplasm; includes the intermembrane space, a gap of width
+    20-40 nm (also called the perinuclear space).
+  subclass_of:
+  - OrganelleEnvelope
+  part_of:
+  - Nucleus
+  - EndomembraneSystem
+  parts:
   - NuclearMembrane
-  equivalent_to: Membrane and part of some Membrane-boundedOrganelle
+- name: MetabolicProcess
+  description: The chemical reactions and pathways, including anabolism and catabolism,
+    by which living organisms transform chemical substances. Metabolic processes typically
+    transform small molecules, but also include macromolecular processes such as DNA
+    repair and replication, and protein synthesis and degradation.
+  synonyms:
+  - metabolism
+  - metabolic process resulting in cell growth
+  - metabolism resulting in cell growth
+  - multicellular organism metabolic process
+  - single-organism metabolic process
+  subclass_of:
+  - BiologicalProcess
+  subtypes:
+  - CellularMetabolicProcess
 - name: BiologicalProcess
   description: A biological process represents a specific objective that the organism
     is genetically programmed to achieve. Biological processes are often described
@@ -54,86 +211,32 @@ elements:
   subtypes:
   - MetabolicProcess
   - CellularProcess
-- name: NuclearEnvelope
-  description: The double lipid bilayer enclosing the nucleus and separating its contents
-    from the rest of the cytoplasm; includes the intermembrane space, a gap of width
-    20-40 nm (also called the perinuclear space).
+- name: OrganelleMembrane
+  description: A membrane that is one of the two lipid bilayers of an organelle envelope
+    or the outermost membrane of single membrane bound organelle.
+  synonyms:
+  - intracellular membrane
   subclass_of:
-  - OrganelleEnvelope
+  - Membrane
   part_of:
-  - Nucleus
-  - EndomembraneSystem
-  parts:
-  - NuclearMembrane
-- name: Membrane
-  description: A lipid bilayer along with all the proteins and protein complexes embedded
-    in it an attached to it.
-  synonyms:
-  - membrane region
-  - region of membrane
-  - whole membrane
-  subclass_of:
-  - CellularAnatomicalEntity
-  subtypes:
-  - OrganelleMembrane
-- name: Nucleus
-  description: A membrane-bounded organelle of eukaryotic cells in which chromosomes
-    are housed and replicated. In most cells, the nucleus contains all of the cell's
-    chromosomes except the organellar chromosomes, and is the site of RNA synthesis
-    and processing. In some species, or in specialized cell types, RNA metabolism
-    or DNA replication may be absent.
-  synonyms:
-  - cell nucleus
-  - horsetail nucleus
-  subclass_of:
-  - IntracellularMembrane-boundedOrganelle
-  parts:
-  - NuclearEnvelope
-  - NuclearMembrane
-- name: Envelope
-  description: A multilayered structure surrounding all or part of a cell; encompasses
-    one or more lipid bilayers, and may include a cell wall layer; also includes the
-    space between layers.
-  subclass_of:
-  - CellularAnatomicalEntity
-  part_of:
-  - Cell
-  subtypes:
-  - OrganelleEnvelope
-- name: IntracellularMembrane-boundedOrganelle
-  description: Organized structure of distinctive morphology and function, bounded
-    by a single or double lipid bilayer membrane and occurring within the cell. Includes
-    the nucleus, mitochondria, plastids, vacuoles, and vesicles. Excludes the plasma
-    membrane.
-  synonyms:
-  - intracellular membrane-enclosed organelle
-  subclass_of:
   - Membrane-boundedOrganelle
-  - IntracellularOrganelle
-  part_of:
+  subtypes:
+  - NuclearMembrane
+  equivalent_to: Membrane and part of some Membrane-boundedOrganelle
+- name: CellularAnatomicalEntity
+  description: A part of a cellular organism that is either an immaterial entity or
+    a material entity with granularity above the level of a protein complex but below
+    that of an anatomical system. Or, a substance produced by a cellular organism
+    with granularity above the level of a protein complex.
+  subclass_of:
+  - AnatomicalEntity
+  - CellularComponent
+  subtypes:
   - IntracellularAnatomicalStructure
-  subtypes:
-  - Nucleus
-  equivalent_to: Membrane-boundedOrganelle and part of some IntracellularAnatomicalStructure
-- name: CellularProcess
-  description: Any process that is carried out at the cellular level, but not necessarily
-    restricted to a single cell. For example, cell communication occurs among more
-    than one cell, but occurs at the cellular level.
-  synonyms:
-  - cell physiology
-  - cellular physiological process
-  - cell growth and/or maintenance
-  - single-organism cellular process
-  subclass_of:
-  - BiologicalProcess
-  subtypes:
-  - CellularMetabolicProcess
-- name: AnatomicalEntity
-  subclass_of:
-  - BiologicalEntity
-  subtypes:
-  - MaterialAnatomicalEntity
-  - CellularAnatomicalEntity
+  - EndomembraneSystem
+  - Membrane
+  - Envelope
+  - Organelle
 - name: Membrane-boundedOrganelle
   description: Organized structure of distinctive morphology and function, bounded
     by a single or double lipid bilayer membrane. Includes the nucleus, mitochondria,
@@ -148,19 +251,16 @@ elements:
   - OrganelleMembrane
   - OrganelleEnvelope
   equivalent_to: Organelle and has part some Membrane
-- name: Process
-  description: An occurrent that has temporal proper parts and for some time t, p
-    s-depends_on some material entity at t.
+- name: Cell
+  description: A material entity of anatomical origin (part of or deriving from an
+    organism) that has as its parts a maximally connected cell compartment surrounded
+    by a plasma membrane.
   subclass_of:
-  - Occurrent
-  subtypes:
-  - BiologicalProcess
-- name: MaterialAnatomicalEntity
-  subclass_of:
-  - MaterialEntity
-  - AnatomicalEntity
-  subtypes:
   - ConnectedAnatomicalStructure
+  parts:
+  - IntracellularAnatomicalStructure
+  - EndomembraneSystem
+  - Envelope
 - name: CellularComponent
   description: 'A location, relative to cellular compartments and structures, occupied
     by a macromolecular machine when it carries out a molecular function. There are
@@ -176,34 +276,16 @@ elements:
   - MaterialEntity
   subtypes:
   - CellularAnatomicalEntity
-- name: IndependentContinuant
-  description: A continuant that is a bearer of quality and realizable entity entities,
-    in which other entities inhere and which itself cannot inhere in anything.
+- name: Organelle
+  description: Organized structure of distinctive morphology and function. Includes
+    the nucleus, mitochondria, plastids, vacuoles, vesicles, ribosomes and the cytoskeleton,
+    and prokaryotic structures such as anammoxosomes and pirellulosomes. Excludes
+    the plasma membrane.
   subclass_of:
-  - Continuant
+  - CellularAnatomicalEntity
   subtypes:
-  - MaterialEntity
-  - BiologicalEntity
-- name: MetabolicProcess
-  description: The chemical reactions and pathways, including anabolism and catabolism,
-    by which living organisms transform chemical substances. Metabolic processes typically
-    transform small molecules, but also include macromolecular processes such as DNA
-    repair and replication, and protein synthesis and degradation.
-  synonyms:
-  - metabolism
-  - metabolic process resulting in cell growth
-  - metabolism resulting in cell growth
-  - multicellular organism metabolic process
-  - single-organism metabolic process
-  subclass_of:
-  - BiologicalProcess
-  subtypes:
-  - CellularMetabolicProcess
-- name: ConnectedAnatomicalStructure
-  subclass_of:
-  - MaterialAnatomicalEntity
-  subtypes:
-  - Cell
+  - Membrane-boundedOrganelle
+  - IntracellularOrganelle
 - name: PhosphorusMetabolicProcess
   description: The chemical reactions and pathways involving the nonmetallic element
     phosphorus or compounds that contain phosphorus, usually in the form of a phosphate
@@ -213,35 +295,6 @@ elements:
   subclass_of:
   - CellularMetabolicProcess
   equivalent_to: MetabolicProcess and has primary input or output some PhosphorusMolecularEntity
-- name: MaterialEntity
-  description: An independent continuant that is spatially extended whose identity
-    is independent of that of other entities and can be maintained through time.
-  subclass_of:
-  - IndependentContinuant
-  subtypes:
-  - MaterialAnatomicalEntity
-  - CellularComponent
-- name: Occurrent
-  description: An entity that has temporal parts and that happens, unfolds or develops
-    through time.
-  subtypes:
-  - Process
-- name: Continuant
-  description: An entity that exists in full at any time in which it exists at all,
-    persists through time while maintaining its identity and has no temporal parts.
-  subtypes:
-  - IndependentContinuant
-- name: CellularMetabolicProcess
-  description: The chemical reactions and pathways by which individual cells transform
-    chemical substances.
-  synonyms:
-  - cellular metabolism
-  - intermediary metabolism
-  subclass_of:
-  - MetabolicProcess
-  - CellularProcess
-  subtypes:
-  - PhosphorusMetabolicProcess
 - name: IntracellularAnatomicalStructure
   description: A component of a cell contained within (but not including) the plasma
     membrane. In eukaryotes it includes the nucleus and cytoplasm.
@@ -258,61 +311,8 @@ elements:
   parts:
   - IntracellularOrganelle
   - IntracellularMembrane-boundedOrganelle
-- name: Cell
-  description: A material entity of anatomical origin (part of or deriving from an
-    organism) that has as its parts a maximally connected cell compartment surrounded
-    by a plasma membrane.
-  subclass_of:
-  - ConnectedAnatomicalStructure
-  parts:
-  - IntracellularAnatomicalStructure
-  - EndomembraneSystem
-  - Envelope
-- name: Organelle
-  description: Organized structure of distinctive morphology and function. Includes
-    the nucleus, mitochondria, plastids, vacuoles, vesicles, ribosomes and the cytoskeleton,
-    and prokaryotic structures such as anammoxosomes and pirellulosomes. Excludes
-    the plasma membrane.
-  subclass_of:
-  - CellularAnatomicalEntity
+- name: Occurrent
+  description: An entity that has temporal parts and that happens, unfolds or develops
+    through time.
   subtypes:
-  - Membrane-boundedOrganelle
-  - IntracellularOrganelle
-- name: OrganelleEnvelope
-  description: A double membrane structure enclosing an organelle, including two lipid
-    bilayers and the region between them. In some cases, an organelle envelope may
-    have more than two membranes.
-  subclass_of:
-  - Envelope
-  part_of:
-  - Membrane-boundedOrganelle
-  - IntracellularOrganelle
-  subtypes:
-  - NuclearEnvelope
-- name: IntracellularOrganelle
-  description: Organized structure of distinctive morphology and function, occurring
-    within the cell. Includes the nucleus, mitochondria, plastids, vacuoles, vesicles,
-    ribosomes and the cytoskeleton. Excludes the plasma membrane.
-  subclass_of:
-  - Organelle
-  part_of:
-  - IntracellularAnatomicalStructure
-  subtypes:
-  - IntracellularMembrane-boundedOrganelle
-  parts:
-  - OrganelleEnvelope
-  equivalent_to: Organelle and part of some IntracellularAnatomicalStructure
-- name: CellularAnatomicalEntity
-  description: A part of a cellular organism that is either an immaterial entity or
-    a material entity with granularity above the level of a protein complex but below
-    that of an anatomical system. Or, a substance produced by a cellular organism
-    with granularity above the level of a protein complex.
-  subclass_of:
-  - AnatomicalEntity
-  - CellularComponent
-  subtypes:
-  - IntracellularAnatomicalStructure
-  - EndomembraneSystem
-  - Membrane
-  - Envelope
-  - Organelle
+  - Process
