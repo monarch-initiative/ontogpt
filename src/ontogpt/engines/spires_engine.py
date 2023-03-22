@@ -248,7 +248,6 @@ class SPIRESEngine(KnowledgeEngine):
         """
         prompt = self.get_completion_prompt(cls, text, object=object)
         self.last_prompt = prompt
-        full_text = prompt
         payload = self.client.complete(prompt)
         return payload
 

@@ -292,6 +292,22 @@ enums:
         
 ```
 
+## OWL Exports
+
+The `extract` command will let you export the results as OWL axioms, utilizing linkml-owl mappings in the schema.
+
+For example:
+
+```bash
+ontogpt extract -t recipe recipe-spaghetti.txt -o recipe-spaghetti.owl -O owl
+```
+
+See [src/ontogpt/templates/recipe.yaml](src/ontogpt/templates/recipe.yaml) 
+for an example of a schema that uses linkml-owl mappings.
+
+See the Makefile for a full pipeline that involves using robot to extract a subset of FOODON
+and merge in the extracted results.
+
 ## HALO: Usage
 
 TODO

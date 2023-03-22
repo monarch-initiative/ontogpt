@@ -51,7 +51,7 @@ classes:
         range: Chemical
         description: >-
           The chemical substance, drug, or small molecule. 
-          or example: Lidocaine, Monosodium Glutamate, Imatinib.
+          For example: Lidocaine, Monosodium Glutamate, Imatinib.
       object:
         range: Disease
         description: >-

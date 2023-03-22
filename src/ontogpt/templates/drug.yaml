@@ -17,6 +17,7 @@ imports:
 
 classes:
   DrugMechanism:
+    tree_root: true
     attributes:
       disease:
         description: the name of the disease that is treated

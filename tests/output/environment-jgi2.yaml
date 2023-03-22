@@ -83,7 +83,7 @@ prompt: 'Split the following piece of text into fields in the following format:
   '
 extracted_object:
   environments:
-  - AUTO:peatlands
+  - ENVO:00000044
   - ENVO:01000251
   - ENVO:01000251
   - ENVO:01000205
@@ -118,6 +118,8 @@ extracted_object:
   - NCBITaxon:3208
   - NCBITaxon:3193
 named_entities:
+- id: ENVO:00000044
+  label: peatlands
 - id: ENVO:01000251
   label: subarctic
 - id: ENVO:01000251
@@ -136,5 +138,5 @@ named_entities:
   label: Physcomitrella patens
 - id: NCBITaxon:3208
   label: Bryophyta
-- id: NCBITaxon:3193
+- id: MESH:D019669
   label: land plants

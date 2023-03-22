@@ -19,6 +19,7 @@ imports:
 
 classes:
   GoCamAnnotations:
+    tree_root: true
     attributes:
       genes:
         description: semicolon-separated list of genes

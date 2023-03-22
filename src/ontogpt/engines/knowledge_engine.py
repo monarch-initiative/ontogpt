@@ -145,7 +145,7 @@ class KnowledgeEngine(ABC):
     def __post_init__(self):
         if self.template:
             self.template_class = self._get_template_class(self.template)
-        logging.info(f"Using template {self.template_class}")
+        logging.info(f"Using template {self.template_class.name}")
         self.client = OpenAIClient()
         logging.info("Setting up OpenAI client API Key")
         self.api_key = self._get_openai_api_key()
@@ -212,13 +212,22 @@ class KnowledgeEngine(ABC):
         :return: LinkML class definition
         """
         logger.info(f"Loading schema for {template}")
-        module_name, class_name = template.split(".", 1)
+        if "." in template:
+            module_name, class_name = template.split(".", 1)
+        else:
+            module_name = template
+            class_name = None
         templates_path = this_path.parent / "templates"
         path_to_template = str(templates_path / f"{module_name}.yaml")
+        sv = SchemaView(path_to_template)
+        if class_name is None:
+            roots = [c.name for c in sv.all_classes().values() if c.tree_root]
+            if len(roots) != 1:
+                raise ValueError(f"Template {template} does not have singular root: {roots}")
+            class_name = roots[0]
         mod = importlib.import_module(f"ontogpt.templates.{module_name}")
         self.template_module = mod
         self.template_pyclass = mod.__dict__[class_name]
-        sv = SchemaView(path_to_template)
         self.schemaview = sv
         logger.info(f"Getting class for template {template}")
         cls = None
@@ -257,7 +266,7 @@ class KnowledgeEngine(ABC):
                 logger.error(f"No annotators for {cls.name}")
                 return []
             annotators = cls.annotations[ANNOTATION_KEY_ANNOTATORS].value.split(", ")
-        logger.info(f" Annotators: {annotators}")
+        logger.info(f" Annotators: {annotators} [will skip: {self.skip_annotators}]")
         objs = []
         for annotator in annotators:
             if isinstance(annotator, str):
@@ -319,12 +328,15 @@ class KnowledgeEngine(ABC):
         for obj_id in self.groundings(text, cls):
             logger.info(f"Grounding {text} to {obj_id}; next step is to normalize")
             for normalized_id in self.normalize_identifier(obj_id, cls):
-                self.named_entities.append(NamedEntity(id=obj_id, label=text))
+                if not any(e for e in self.named_entities if e.id == normalized_id):
+                    self.named_entities.append(NamedEntity(id=normalized_id, label=text))
                 logger.info(f"Normalized {text} with {obj_id} to {normalized_id}")
                 return normalized_id
         logger.info(f"Could not ground and normalize {text} to {cls.name}")
         if self.auto_prefix:
             obj_id = f"{self.auto_prefix}:{quote(text)}"
+            if not any(e for e in self.named_entities if e.id == obj_id):
+                self.named_entities.append(NamedEntity(id=obj_id, label=text))
         else:
             obj_id = text
         if ANNOTATION_KEY_RECURSE in cls.annotations:
@@ -466,12 +478,14 @@ class KnowledgeEngine(ABC):
                 annotators = []
             else:
                 annotators = cls.annotations[ANNOTATION_KEY_ANNOTATORS].value.split(", ")
-        logger.info(f" Annotators: {annotators}")
+        logger.info(f" Annotators: {annotators} [will skip: {self.skip_annotators}]")
         # prioritize whole matches by running these first
         for matches_whole_text in [True, False]:
             config = TextAnnotationConfiguration(matches_whole_text=matches_whole_text)
             for annotator in annotators:
                 if isinstance(annotator, str):
+                    if self.skip_annotators and annotator in self.skip_annotators:
+                        continue
                     logger.info(f"Loading annotator {annotator}")
                     annotator = get_implementation_from_shorthand(annotator)
                 if not matches_whole_text and not isinstance(

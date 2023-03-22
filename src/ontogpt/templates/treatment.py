@@ -1,8 +1,9 @@
 from __future__ import annotations
 from datetime import datetime, date
 from enum import Enum
-from typing import List, Dict, Optional, Any
+from typing import List, Dict, Optional, Any, Union, Literal
 from pydantic import BaseModel as BaseModel, Field
+from linkml_runtime.linkml_model import Decimal
 
 metamodel_version = "None"
 version = "None"
@@ -19,13 +20,51 @@ class ConfiguredBaseModel(WeakRefShimBaseModel,
     pass                    
 
 
+class NCITDrugType(str, Enum):
+    
+    
+    dummy = "dummy"
+    
+
+class NCITTreatmentType(str, Enum):
+    
+    
+    dummy = "dummy"
+    
+
+class NCITTActivityType(str, Enum):
+    
+    
+    dummy = "dummy"
+    
+
+class MAXOActionType(str, Enum):
+    
+    
+    dummy = "dummy"
+    
+
+class MESHTherapeuticType(str, Enum):
+    
+    
+    dummy = "dummy"
+    
+
+class CHEBIDrugType(str, Enum):
+    
+    
+    dummy = "dummy"
+    
+
 class DiseaseTreatmentSummary(ConfiguredBaseModel):
     
     disease: Optional[str] = Field(None, description="""the name of the disease that is treated""")
     drugs: Optional[List[str]] = Field(default_factory=list, description="""semicolon-separated list of named small molecule drugs""")
-    treatments: Optional[List[str]] = Field(default_factory=list, description="""semicolon-separated list of therapies and treatments""")
+    treatments: Optional[List[str]] = Field(default_factory=list, description="""semicolon-separated list of therapies and treatments are indicated for treating the disease.""")
+    contraindications: Optional[List[str]] = Field(default_factory=list, description="""semicolon-separated list of therapies and treatments that are contra-indicated for the disease, and should not be used, due to risk of adverse effects.""")
     treatment_mechanisms: Optional[List[TreatmentMechanism]] = Field(default_factory=list, description="""semicolon-separated list of treatment to asterisk-separated mechanism associations""")
     treatment_efficacies: Optional[List[TreatmentEfficacy]] = Field(default_factory=list, description="""semicolon-separated list of treatment to efficacy associations, e.g. Imatinib*effective""")
+    treatment_adverse_effects: Optional[List[TreatmentAdverseEffect]] = Field(default_factory=list, description="""semicolon-separated list of treatment to adverse effect associations, e.g. Imatinib*nausea""")
     
 
 
@@ -71,6 +110,13 @@ class Disease(NamedEntity):
     
 
 
+class AdverseEffect(NamedEntity):
+    
+    id: Optional[str] = Field(None, description="""A unique identifier for the named entity""")
+    label: Optional[str] = Field(None, description="""The label (name) of the named thing""")
+    
+
+
 class Treatment(NamedEntity):
     
     id: Optional[str] = Field(None, description="""A unique identifier for the named entity""")
@@ -102,6 +148,13 @@ class TreatmentMechanism(CompoundExpression):
     
     treatment: Optional[str] = Field(None)
     mechanism: Optional[str] = Field(None)
+    
+
+
+class TreatmentAdverseEffect(CompoundExpression):
+    
+    treatment: Optional[str] = Field(None)
+    adverse_effects: Optional[List[str]] = Field(default_factory=list)
     
 
 
@@ -166,11 +219,13 @@ NamedEntity.update_forward_refs()
 Gene.update_forward_refs()
 Symptom.update_forward_refs()
 Disease.update_forward_refs()
+AdverseEffect.update_forward_refs()
 Treatment.update_forward_refs()
 Mechanism.update_forward_refs()
 Drug.update_forward_refs()
 CompoundExpression.update_forward_refs()
 TreatmentMechanism.update_forward_refs()
+TreatmentAdverseEffect.update_forward_refs()
 TreatmentEfficacy.update_forward_refs()
 Triple.update_forward_refs()
 TextWithTriples.update_forward_refs()

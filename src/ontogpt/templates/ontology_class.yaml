@@ -17,24 +17,31 @@ imports:
 
 classes:
   OntologyClass:
+    tree_root: true
     is_a: NamedEntity
     attributes:
       label:
-        description: the name of the entity
+        description: the name of the main entity being defined
       description:
         description: a textual description of the entity
       synonyms:
         description: alternative names of the entity
         multivalued: true
       categories:
-        description: the categories to which this entity belongs
+        description: >-
+          the categories to which this entity belongs.
         annotations:
-          prompt: semicolon-separated list of categories to which the entity belongs
+          prompt: >-
+            semicolon-separated list of categories to which the entity belongs.
+            These may be taken from an upper
+            level ontology such as COB, BioLink, or UMLS semantic types.
         range:  OntologyClass
         multivalued: true
       subclass_of:
         annotations:
-          prompt: semicolon-separated list of parent classes
+          prompt: >-
+            semicolon-separated list of parent classes, indicating broader concepts.
+            E.g. if the input text is "a type of bone", then the parent class is "bone"
         range:  OntologyClass
         multivalued: true
       logical_definition:

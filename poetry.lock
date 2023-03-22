@@ -1087,21 +1087,20 @@ tqdm = ["tqdm"]
 
 [[package]]
 name = "funowl"
-version = "0.1.13"
+version = "0.1.12"
 description = "Python rendering of the OWL Functional syntax"
 category = "main"
 optional = false
 python-versions = ">=3.7"
 files = [
-    {file = "funowl-0.1.13-py3-none-any.whl", hash = "sha256:81dc273b11cb1b0c9fbf15496a6b85f335ef1694c321fd704267bcd694e3cb26"},
-    {file = "funowl-0.1.13.tar.gz", hash = "sha256:49f26a0e9b072ba331914564478a90e99e1d8fa10c4570d600bb3bae9250ea06"},
+    {file = "funowl-0.1.12-py3-none-any.whl", hash = "sha256:44f2337d47d21ab6532f8f0e51173c506a0d9dae9efa959cb105b0311e352082"},
+    {file = "funowl-0.1.12.tar.gz", hash = "sha256:3316c37ecde08cdfa96ebcbcc02ed53c355dc56845d654a8f37aa7a913ca6f71"},
 ]
 
 [package.dependencies]
 bcp47 = "*"
-jsonasobj = "*"
 pyjsg = ">=0.11.6"
-rdflib = "6.2.0"
+rdflib = ">=5.0.0"
 rdflib-shim = "*"
 rfc3987 = "*"
 
@@ -1791,19 +1790,19 @@ linkml-runtime = ">=1.1.6"
 
 [[package]]
 name = "linkml-owl"
-version = "0.2.4"
+version = "0.2.7"
 description = "OWL mappings for Linked Open Data Modeling Language"
 category = "main"
 optional = false
 python-versions = ">=3.8,<4.0"
 files = [
-    {file = "linkml_owl-0.2.4-py3-none-any.whl", hash = "sha256:1d3da7f43e3b0c5961de3762d21f26cff2bf791ed254417c90d6f337aefcfc11"},
-    {file = "linkml_owl-0.2.4.tar.gz", hash = "sha256:abebd0a2bff3b8ec802a0c6b3f4dd6905f563ffe294d5d2bad6ae9693b215f26"},
+    {file = "linkml_owl-0.2.7-py3-none-any.whl", hash = "sha256:4aa5a083c60f77a26a013896edb553b5f19b091ab2e127a79fcfe492d383f168"},
+    {file = "linkml_owl-0.2.7.tar.gz", hash = "sha256:c45d4ce5cecade67ad46ca5af4bf56472754a8d94ac86a694b45bfd115d6aabc"},
 ]
 
 [package.dependencies]
 click = "*"
-funowl = ">=0.1.12,<0.2.0"
+funowl = "0.1.12"
 Jinja2 = ">=3.0.3,<4.0.0"
 linkml = ">=1.3.0,<2.0.0"
 linkml-runtime = ">=1.3.4,<2.0.0"
@@ -4643,4 +4642,4 @@ docs = ["myst-parser", "sphinx", "sphinx-autodoc-typehints", "sphinx-click", "sp
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.9"
-content-hash = "aac02631940ab224edc8c1f2e8bba1b63f972c123cac0fb350155279415325b7"
+content-hash = "f15cfda5182e20ba4f97c5228460baa34f48aa9d66e84332681e075cbd441eca"

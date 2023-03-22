@@ -17,6 +17,7 @@ from ontogpt.clients import OpenAIClient
 from ontogpt.clients.pubmed_client import PubmedClient
 from ontogpt.clients.soup_client import SoupClient
 from ontogpt.engines.halo_engine import HALOEngine
+from ontogpt.engines.knowledge_engine import KnowledgeEngine
 from ontogpt.engines.synonym_engine import SynonymEngine
 from ontogpt.engines.spires_engine import SPIRESEngine
 from ontogpt.evaluation.resolver import create_evaluator
@@ -26,6 +27,8 @@ from ontogpt.io.markdown_exporter import MarkdownExporter
 __all__ = [
     "main",
 ]
+
+from ontogpt.io.owl_exporter import OWLExporter
 
 from ontogpt.io.yaml_wrapper import dump_minimal_yaml
 from ontogpt.templates.core import ExtractionResult
@@ -42,7 +45,7 @@ class Settings:
 
 settings = Settings()
 
-def write_extraction(results: ExtractionResult, output: BytesIO, output_format: str = None):
+def write_extraction(results: ExtractionResult, output: BytesIO, output_format: str = None, knowledge_engine: KnowledgeEngine = None):
     def _as_text_writer(f):
         if isinstance(f, TextIOWrapper):
             return f
@@ -61,6 +64,10 @@ def write_extraction(results: ExtractionResult, output: BytesIO, output_format: 
     elif output_format == "yaml":
         output = _as_text_writer(output)
         output.write(dump_minimal_yaml(results))
+    elif output_format == "owl":
+        output = _as_text_writer(output)
+        exporter = OWLExporter()
+        exporter.export(results, output, knowledge_engine.schemaview)
     else:
         output = _as_text_writer(output)
         output.write(dump_minimal_yaml(results))
@@ -81,7 +88,7 @@ output_option_txt = click.option(
 output_format_options = click.option(
     "-O",
     "--output-format",
-    type=click.Choice(["json", "yaml", "pickle", "md", "html"]),
+    type=click.Choice(["json", "yaml", "pickle", "md", "html", "owl"]),
     default="yaml",
     help="Output format.",
 )
@@ -125,6 +132,9 @@ def main(verbose: int, quiet: bool, cache_db: str, skip_annotator):
 @output_option_wb
 @click.option("--dictionary")
 @output_format_options
+@click.option("--auto-prefix",
+              default="AUTO",
+              help="Prefix to use for auto-generated classes.")
 @click.argument("input")
 def extract(template, target_class, dictionary, input, output, output_format, **kwargs):
     """Extract knowledge from text guided by schema, using SPIRES engine.
@@ -155,7 +165,7 @@ def extract(template, target_class, dictionary, input, output, output_format, **
     if not input or input == "-":
         text = sys.stdin.read()
     else:
-        if Path(input).exists():
+        if len(input) < 50 and Path(input).exists():
             text = open(input, "r").read()
         else:
             logging.info(f"Input {input} is not a file, assuming it is a string")
@@ -166,7 +176,7 @@ def extract(template, target_class, dictionary, input, output, output_format, **
     else:
         target_class_def = None
     results = ke.extract_from_text(text, target_class_def)
-    write_extraction(results, output, output_format)
+    write_extraction(results, output, output_format, ke)
 
 
 @main.command()
