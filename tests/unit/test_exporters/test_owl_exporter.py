@@ -9,16 +9,18 @@ from ontogpt.engines import create_engine
 from ontogpt.engines.spires_engine import SPIRESEngine
 from ontogpt.io.owl_exporter import OWLExporter
 from tests import INPUT_DIR, OUTPUT_DIR
+from tests.unit.test_exporters import TEST_PICKLED_RESULTS
+
 
 class TestExportOWL(unittest.TestCase):
-    """Test annotation."""
+    """Test exporting from pre-made results to OWL."""
 
     def setUp(self) -> None:
         """Set up."""
         self.exporter = OWLExporter()
         self.ke = create_engine("recipe", SPIRESEngine)
         self.schemaview = self.ke.schemaview
-        with open(str(INPUT_DIR / "recipe-spaghetti.pickle"), "rb") as f:
+        with open(TEST_PICKLED_RESULTS, "rb") as f:
             self.extraction_result = pickle.load(f)
 
     def test_export(self):

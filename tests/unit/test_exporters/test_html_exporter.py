@@ -4,6 +4,7 @@ import unittest
 
 from ontogpt.io.html_exporter import HTMLExporter
 from tests import INPUT_DIR, OUTPUT_DIR
+from tests.unit.test_exporters import TEST_PICKLED_RESULTS
 
 
 class TestExportHTML(unittest.TestCase):
@@ -12,10 +13,10 @@ class TestExportHTML(unittest.TestCase):
     def setUp(self) -> None:
         """Set up."""
         self.exporter = HTMLExporter()
-        with open(str(INPUT_DIR / "eds-output.pickle"), "rb") as f:
+        with open(TEST_PICKLED_RESULTS, "rb") as f:
             self.extraction_result = pickle.load(f)
 
     def test_export(self):
         """Test export."""
-        with open(str(OUTPUT_DIR / "eds-output.html"), "w", encoding="utf-8") as f:
+        with open(str(OUTPUT_DIR / "test-output.html"), "w", encoding="utf-8") as f:
             self.exporter.export(self.extraction_result, f)
