@@ -20,12 +20,15 @@ CASES = [
     ("reaction.GeneToReaction", "reaction-21290071"),
     ("gocam.GoCamAnnotations", "gocam-27929086"),
     ("gocam.GoCamAnnotations", "gocam-33246504"),
+    ("gocam.GoCamAnnotations", "gocam-betacat"),
     ("environmental_sample.Study", "environmental-sample-hyporheic"),
     ("treatment.DiseaseTreatmentSummary", "treatment-marfan"),
     ("treatment.DiseaseTreatmentSummary", "treatment-eds"),
     ("mendelian_disease.MendelianDisease", "mendelian-disease-sly"),
     ("mendelian_disease.MendelianDisease", "mendelian-disease-marfan"),
-    ("gocam.GoCamAnnotations", "gocam-betacat"),
+    ("environmental_sample.Study", "amphibian_skin"),
+    ("environmental_sample.Study", "human_urban_green_space"),
+    ("environmental_sample.Study", "human_smoking_China")
 ]
 
 
