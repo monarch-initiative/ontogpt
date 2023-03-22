@@ -1,0 +1,29 @@
+Title
+Transfer of environmental microbes to the skin and respiratory tract of humans after urban green space exposure
+
+Highlights
+•
+Microbes from urban green spaces may help to shape the human microbiome.
+
+•
+After urban green space exposure, skin and nasal microbial diversity increased.
+
+•
+Skin and nasal microbial composition became more similar to environmental sources.
+
+•
+Nasal microbiota are more variable between sites and individuals than skin microbiota.
+
+
+Abstract
+Background
+In industrialized countries, non-communicable diseases have been increasing in prevalence since the middle of the 20th century. While the causal mechanisms remain poorly understood, increased population density, pollution, sedentary behavior, smoking, changes in diet, and limited outdoor exposure have all been proposed as significant contributors. Several hypotheses (e.g. Hygiene, Old Friends, and Biodiversity Hypotheses) also suggest that limited environmental microbial exposures may underpin part of this rise in non-communicable diseases. In response, the Microbiome Rewilding Hypothesis proposes that adequate environmental microbial exposures could be achieved by restoring urban green spaces and could potentially decrease the prevalence of non-communicable diseases. However, the microbial interactions between humans and their surrounding environment and the passaging of microbes between both entities remains poorly understood, especially within an urban context.
+
+Results
+Here, we survey human skin (n = 90 swabs) and nasal (n = 90 swabs) microbiota of three subjects that were exposed to air (n = 15), soil (n = 15), and leaves (n = 15) from different urban green space environments in three different cities across different continents (Adelaide, Australia; Bournemouth, United Kingdom; New Delhi, India). Using 16S ribosomal RNA metabarcoding, we examined baseline controls (pre-exposure) of both skin (n = 16) and nasal (n = 16) swabs and tracked microbiota transfer from the environment to the human body after exposure events. Microbial richness and phylogenetic diversity increased after urban green space exposure in skin and nasal samples collected in two of the three locations. The microbial composition of skin samples also became more similar to soil microbiota after exposure, while nasal samples became more similar to air samples. Nasal samples were more variable between sites and individuals than skin samples.
+
+Conclusions
+We show that exposure to urban green spaces can increase skin and nasal microbial diversity and alter human microbiota composition. Our study improves our understanding of human-environmental microbial interactions and suggests that increased exposure to diverse outdoor environments may increase the microbial diversity, which could lead to positive health outcomes for non-communicable diseases.
+
+Keywords
+Microbiota, Biodiversity, Rewilding, Non-communicable diseases, Allergies, Urban green space

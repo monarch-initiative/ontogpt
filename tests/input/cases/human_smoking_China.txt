@@ -1,0 +1,35 @@
+Title
+Smoking related environmental microbes affecting the pulmonary microbiome in Chinese population
+
+Highlights
+•
+Smoking may change the environmental microbes and then the lung microbiome.
+
+•
+Our study subjects were Chinese.
+
+•
+NGS was used to analyze the sample's sequence in this study.
+
+
+Abstract
+Background
+Smoking is a serious public health problem that affects human health conditions. Although there is evidence that microorganisms are associated with smoking-related lung diseases, the relationship between the rich lung microbiome of upper respiratory tract groups and smoking has not been studied.
+
+Objective
+In this study, we investigated the effects of smoking on environmental microbes and lung microbiome in the Chinese population and provided clues for the role of smoking in the development of respiratory disease.
+
+Methods
+Bronchoalveolar lavage fluid samples were collected from 55 individuals with a history of smoking. Microbial gene sequencing was carried out through NGS technology. We analyzed and compared the diversity, community structure, and species abundance of bronchoalveolar lavage microbiome between smokers and nonsmokers, to speculate the effects of smoking on the lung microbiome.
+
+Results
+Smoking hardly affected the α diversity of microbial groups of bronchoalveolar lavage, but it had a huge influence on the microbiome composition. The relative abundance of Rothia, Actinomycetes, Haemophilus, Porphyrins, Neisseria, Acinetobacter, and Streptococcus genera had a remarkable increase in the smoking group. On the other hand, the relative abundance of Plusella and Veronella decreased significantly.
+
+Conclusion
+Smoking may change the environmental microbes and then alter the structure of the lung microbiome, which may lead to smoking-related diseases.
+
+Graphical abstract
+Smoking might change the environmental microbes and then alter the structure of the lung microbiome, which may lead to smoking-related diseases.
+
+Keywords
+Smoking Lung microbiome, Next-generation sequencing technology (NGS technology), Lung diseases
