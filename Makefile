@@ -41,3 +41,19 @@ serve:
 
 gh-deploy:
 	$(RUN) mkdocs gh-deploy
+
+tests/output/owl/recipe-%.owl: tests/input/cases/recipe-%.txt
+	$(RUN) ontogpt extract -t recipe $< -o $@ -O owl
+
+tests/output/owl/seed-recipe-%.txt: tests/output/owl/recipe-%.owl
+	robot query -i $< -f csv -q tests/input/queries/terms.rq $@
+
+FOODON = tests/output/owl/imports/foodon.owl
+$(FOODON):
+	curl -L -s http://purl.obolibrary.org/obo/foodon.owl > $@
+
+tests/output/owl/imports/recipe-%-import.owl: tests/output/owl/seed-recipe-%.txt $(FOODON)
+	robot extract -i $(FOODON) -m BOT -T $< -o $@
+
+tests/output/owl/merged/recipe-%-merged.owl: tests/output/owl/imports/recipe-%-import.owl
+	robot merge -i tests/output/owl/recipe-$*.owl -i $< reason -r elk -o $@

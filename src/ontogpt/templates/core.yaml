@@ -56,6 +56,9 @@ classes:
         description: >-
           The label (name) of the named thing
         range: string
+        slot_uri: rdfs:label
+        annotations:
+          owl: AnnotationProperty, AnnotationAssertion
 
   CompoundExpression:
     abstract: true

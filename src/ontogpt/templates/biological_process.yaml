@@ -17,6 +17,7 @@ imports:
 
 classes:
   BiologicalProcess:
+    tree_root: true
     is_a: NamedEntity
     attributes:
       label:

@@ -79,12 +79,12 @@ extracted_object:
   subclass_of:
   - MONDO:0005244
   symptoms:
-  - AUTO:Facial%20muscle%20weakness%20%28in%20some%20patients%29
-  - AUTO:Ptosis%20%28in%20some%20patients%29
-  - AUTO:High-arched%20palate%20%28in%20some%20patients%29
-  - HP:0001371
-  - AUTO:Scoliosis%20%28in%20some%20patients%29
-  - AUTO:Claw%20hand%20deformities%20%28in%20severe%20cases%29
+  - HP:0030319
+  - HP:0000508
+  - HP:0000218
+  - HP:0034392
+  - HP:0002650
+  - HP:0034337
   - HP:0001761
   - AUTO:Hammer%20toes
   - HP:0001760
@@ -93,12 +93,12 @@ extracted_object:
   - AUTO:Fiber-type%20predominance%20seen%20on%20muscle%20biopsy%20%28in%20some%20patients%29
   - AUTO:Fiber%20size%20variation%20%28in%20some%20patients%29
   - AUTO:Internal%20nuclei%20%28in%20some%20patients%29
-  - AUTO:Increased%20connective%20tissue%20%28in%20some%20patients%29
-  - AUTO:Nemaline%20rods%20%28in%20some%20patients%29
+  - HP:0009025
+  - HP:0003798
   - AUTO:Group%20fiber%20atrophy%20%28in%20some%20patients%29
   - AUTO:Angular%20fibers%20%28in%20some%20patients%29
   - AUTO:EMG%20consistent%20with%20chronic%20neurogenic%20disorder
-  - AUTO:Delayed%20motor%20development%20%28in%20some%20patients%29
+  - HP:0001270
   - HP:0002460
   - AUTO:Distal%20limb%20muscle%20atrophy%20due%20to%20peripheral%20neuropathy
   - AUTO:%27Steppage%27%20gait
@@ -116,14 +116,30 @@ extracted_object:
 named_entities:
 - id: HP:0009830
   label: Peripheral Neuropathy
-- id: HP:0001371
+- id: HP:0030319
+  label: Facial muscle weakness (in some patients)
+- id: HP:0000508
+  label: Ptosis (in some patients)
+- id: HP:0000218
+  label: High-arched palate (in some patients)
+- id: HP:0034392
   label: Joint contractures
+- id: HP:0002650
+  label: Scoliosis (in some patients)
+- id: HP:0034337
+  label: Claw hand deformities (in severe cases)
 - id: HP:0001761
   label: Pes cavus
 - id: HP:0001760
   label: Foot deformities
 - id: HP:0006006
   label: Hypotrophy of the small hand muscles
+- id: HP:0009025
+  label: Increased connective tissue (in some patients)
+- id: HP:0003798
+  label: Nemaline rods (in some patients)
+- id: HP:0001270
+  label: Delayed motor development (in some patients)
 - id: HP:0002460
   label: Distal limb muscle weakness due to peripheral neuropathy
 - id: HP:0009027
