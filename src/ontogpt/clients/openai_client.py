@@ -20,7 +20,8 @@ class OpenAIClient:
     api_key: str = None
 
     def __post_init__(self):
-        self.api_key = get_apikey_value("openai")
+        if not self.api_key:
+            self.api_key = get_apikey_value("openai")
         openai.api_key = self.api_key
 
     def complete(self, prompt, **kwargs) -> str:
