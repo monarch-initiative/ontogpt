@@ -1,5 +1,5 @@
 """
-Uses code-davinci-002
+Uses code-davinci-002.
 
 Note also that fine-tuning can't be done with code-davinci-002, see:
 https://community.openai.com/t/finetuning-code-davinci/23132/2
@@ -7,7 +7,7 @@ https://community.openai.com/t/finetuning-code-davinci/23132/2
 import logging
 from dataclasses import dataclass, field
 from pathlib import Path
-from typing import Any, Dict, List, Optional, Set, Tuple, Union
+from typing import Any, Dict, List, Optional, Set
 
 import openai
 import pydantic
@@ -21,7 +21,7 @@ from oaklib.interfaces.obograph_interface import OboGraphInterface
 from tiktoken import Encoding
 
 from ontogpt.clients import OpenAIClient
-from ontogpt.engines.knowledge_engine import EXAMPLE, FIELD, OBJECT, KnowledgeEngine
+from ontogpt.engines.knowledge_engine import FIELD, KnowledgeEngine
 from ontogpt.io.yaml_wrapper import dump_minimal_yaml
 from ontogpt.templates.halo import Ontology, OntologyElement
 
@@ -67,7 +67,7 @@ class HALOEngine(KnowledgeEngine):
     expand_horizon: bool = False
 
     element_scores: Dict[ELEMENT_NAME, float] = field(default_factory=lambda: {})
-    """Ranks each element by estimated informativeness for training"""
+    """Ranks each element by estimated informativeness for training."""
 
     tokenizer_encoding: Encoding = field(default_factory=lambda: tiktoken.get_encoding("gpt2"))
 
@@ -78,8 +78,8 @@ class HALOEngine(KnowledgeEngine):
         openai.api_key = self.api_key
 
     def seed(self, seed_ontology: Ontology):
-        """
-        Seed the engine with an initial ontology
+        """Seed the engine with an initial ontology.
+
         :param seed_ontology:
         :return:
         """
@@ -88,8 +88,8 @@ class HALOEngine(KnowledgeEngine):
             self.visited = {x.name for x in self.ontology.elements}
 
     def seed_from_file(self, file_path: str) -> Ontology:
-        """
-        Seed the engine with an initial ontology from a file
+        """Seed the engine with an initial ontology from a file.
+
         :param file_path:
         :return:
         """
@@ -101,8 +101,7 @@ class HALOEngine(KnowledgeEngine):
     def hallucinate(
         self, seed_elements: List[ELEMENT_NAME] = None, num_iterations=10
     ) -> List[OntologyElement]:
-        """
-        Run the HALO engine for a given number of iterations.
+        """Run the HALO engine for a given number of iterations.
 
         Each iteration will expand the initial seed ontology.
 
@@ -123,8 +122,7 @@ class HALOEngine(KnowledgeEngine):
         return added
 
     def hallucinate_once(self) -> Optional[OntologyElement]:
-        """
-        Run the HALO engine once.
+        """Run the HALO engine once.
 
         Finds a candidate element to expand,
         then runs HALO on that element by generating
@@ -142,8 +140,7 @@ class HALOEngine(KnowledgeEngine):
         return self.hallucinate_element(element)
 
     def get_candidate_elements(self) -> List[ELEMENT_NAME]:
-        """
-        Get candidate elements to expand
+        """Get candidate elements to expand.
 
         Has side effect of removing candidate cache if visited
         :return:
@@ -155,8 +152,7 @@ class HALOEngine(KnowledgeEngine):
         return self.candidates
 
     def extend_candidates(self, elements: List[ELEMENT_NAME]) -> List[ELEMENT_NAME]:
-        """
-        Extend candidates by all entities in the signature of the specified elements.
+        """Extend candidates by all entities in the signature of the specified elements.
 
         :return:
         """
@@ -178,8 +174,8 @@ class HALOEngine(KnowledgeEngine):
         return self.candidates
 
     def get_element(self, element_name: ELEMENT_NAME) -> Optional[OntologyElement]:
-        """
-        Get an element by name
+        """Get an element by name.
+
         :param element_name:
         :return:
         """
@@ -188,8 +184,8 @@ class HALOEngine(KnowledgeEngine):
                 return e
 
     def old_get_candidate_elements(self) -> List[ELEMENT_NAME]:
-        """
-        Get candidate elements for HALO
+        """Get candidate elements for HALO.
+
         :return:
         """
         candidate_elements = set()
@@ -270,8 +266,8 @@ class HALOEngine(KnowledgeEngine):
     def generate_prompt(
         self, seed_element: ELEMENT_NAME, example_elements: List[OntologyElement]
     ) -> StructuredPrompt:
-        """
-        Generate a prompt for HALO
+        """Generate a prompt for HALO.
+
         :param seed_element:
         :param example_elements:
         :return:
@@ -301,8 +297,8 @@ class HALOEngine(KnowledgeEngine):
     def integrate_payload(
         self, prompt: StructuredPrompt, payload: Dict[str, Any]
     ) -> List[OntologyElement]:
-        """
-        Integrate the payload from HALO into the ontology
+        """Integrate the payload from HALO into the ontology.
+
         :param payload:
         :param element:
         :return:
@@ -349,8 +345,8 @@ class HALOEngine(KnowledgeEngine):
         return nu_obj
 
     def old_integrate_payload(self, prompt: StructuredPrompt, payload: Dict[str, Any]):
-        """
-        Integrate the payload from HALO into the ontology
+        """Integrate the payload from HALO into the ontology.
+
         :param payload:
         :param element:
         :return:
@@ -390,8 +386,8 @@ class HALOEngine(KnowledgeEngine):
         return added
 
     def parse_what_you_can(self, yaml_str: str) -> List[Dict[str, Any]]:
-        """
-        Parse as much of the YAML as possible
+        """Parse as much of the YAML as possible.
+
         :param yaml_str:
         :return:
         """
@@ -408,8 +404,8 @@ class HALOEngine(KnowledgeEngine):
         return objs
 
     def add_element(self, element: OntologyElement) -> bool:
-        """
-        Add an element to the ontology
+        """Add an element to the ontology.
+
         :param obj:
         :return:
         """
@@ -420,8 +416,8 @@ class HALOEngine(KnowledgeEngine):
         return True
 
     def xxextract_seed_ontology(self, seeds: List[str], predicates: List[str]) -> Ontology:
-        """
-        Extract an ontology from a given text
+        """Extract an ontology from a given text.
+
         :param text:
         :return:
         """
@@ -432,8 +428,8 @@ class HALOEngine(KnowledgeEngine):
         return seed_ontology
 
     def xxontology_from_obograph(self, graph: Graph) -> Ontology:
-        """
-        Convert an OBO Graph to an Ontology
+        """Convert an OBO Graph to an Ontology.
+
         :param graph:
         :return:
         """
@@ -509,8 +505,8 @@ class HALOEngine(KnowledgeEngine):
         return ontology
 
     def xxnode_to_name(self, curie: str, label: Optional[str] = None) -> str:
-        """
-        Convert a node to a name
+        """Convert a node to a name.
+
         :param curie:
         :param label:
         :return:

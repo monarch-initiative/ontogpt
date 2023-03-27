@@ -9,9 +9,7 @@ CLI_OUTPUT_DIR = OUTPUT_DIR / "cli"
 
 
 class TestCommandLineInterface(unittest.TestCase):
-    """
-    Tests all command-line subcommands
-    """
+    """Tests all command-line subcommands."""
 
     def setUp(self) -> None:
         runner = CliRunner(mix_stderr=False)

@@ -1,11 +1,10 @@
 """Core tests."""
 import unittest
-from random import shuffle
 
 import yaml
 
 from ontogpt.evaluation.hpoa.eval_hpoa import EvalHPOA
-from tests import CASES_DIR, OUTPUT_DIR
+from tests import OUTPUT_DIR
 
 NORMALIZED_OUT = OUTPUT_DIR / "hpoa-normalized.yaml"
 PREDICTIONS_OMIM_OUT = OUTPUT_DIR / "eval-hpoa-predictions-omim.yaml"
@@ -58,9 +57,7 @@ class Testhpoa(unittest.TestCase):
             yaml.dump(eos.dict(), f)
 
     def test_eval_omim(self):
-        """
-        Evaluates extraction purely from OMIM texts
-        """
+        """Evaluates extraction purely from OMIM texts."""
         evaluator = self.engine
         eos = evaluator.eval("omim")
         with open(PREDICTIONS_OMIM_OUT, "w") as f:

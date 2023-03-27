@@ -5,9 +5,7 @@ import yaml
 
 
 def eliminate_empty(obj: Any, preserve=False) -> Any:
-    """
-    Eliminate empty lists and dicts from an object
-    """
+    """Eliminate empty lists and dicts from an object."""
     if isinstance(obj, list):
         return [eliminate_empty(x, preserve) for x in obj if x or preserve]
     elif isinstance(obj, dict):

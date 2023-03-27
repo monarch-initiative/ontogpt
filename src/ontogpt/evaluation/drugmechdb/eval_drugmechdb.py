@@ -111,8 +111,8 @@ class EvalDrugMechDB(EvaluationEngine):
 
     @property
     def drug_to_mechanism_text(self) -> Dict[str, str]:
-        """
-        Mapping between drugbank id and MOA text from drugbank record.
+        """Mapping between drugbank id and MOA text from drugbank record.
+
         :return:
         """
         if self._drug_to_mechanism_text is None:
@@ -261,8 +261,8 @@ class EvalDrugMechDB(EvaluationEngine):
         return eos
 
     def eval_path_prediction(self) -> EvaluationObjectSetDrugMechDB:
-        """
-        Evaluates the ability to predict a path purely from background knowledge in the LLM.
+        """Evaluates the ability to predict a path purely from background knowledge in the LLM.
+
         :return:
         """
         ke = self.extractor
