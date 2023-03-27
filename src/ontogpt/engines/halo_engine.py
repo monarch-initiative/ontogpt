@@ -297,8 +297,8 @@ class HALOEngine(KnowledgeEngine):
     def integrate_payload(
         self, prompt: StructuredPrompt, payload: Dict[str, Any]
     ) -> List[OntologyElement]:
-        """
-        Integrate the payload from HALO into the ontology
+        """Integrate the payload from HALO into the ontology.
+
         :param payload:
         :param element:
         :return:
@@ -345,8 +345,8 @@ class HALOEngine(KnowledgeEngine):
         return nu_obj
 
     def old_integrate_payload(self, prompt: StructuredPrompt, payload: Dict[str, Any]):
-        """
-        Integrate the payload from HALO into the ontology
+        """Integrate the payload from HALO into the ontology.
+
         :param payload:
         :param element:
         :return:
@@ -386,8 +386,8 @@ class HALOEngine(KnowledgeEngine):
         return added
 
     def parse_what_you_can(self, yaml_str: str) -> List[Dict[str, Any]]:
-        """
-        Parse as much of the YAML as possible
+        """Parse as much of the YAML as possible.
+
         :param yaml_str:
         :return:
         """
