@@ -185,7 +185,7 @@ class HALOEngine(KnowledgeEngine):
 
     def old_get_candidate_elements(self) -> List[ELEMENT_NAME]:
         """Get candidate elements for HALO.
-        
+
         :return:
         """
         candidate_elements = set()
