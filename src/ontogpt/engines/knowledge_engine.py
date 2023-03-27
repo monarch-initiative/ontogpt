@@ -451,7 +451,9 @@ class KnowledgeEngine(ABC):
         if text_singularized != text_lower:
             logger.info(f"Singularized {text} to {text_singularized}")
             yield from self.groundings(text_singularized, cls)
-        parenthetical_components = re.findall(r'\((.*?)\)', text_lower)
+        parenthetical_components = re.findall(r'\[(.*?)\]', text_lower)
+        if not parenthetical_components:
+            parenthetical_components = re.findall(r'\((.*?)\)', text_lower)
         if parenthetical_components:
             trimmed_text = text_lower
             for component in parenthetical_components:

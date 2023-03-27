@@ -7,6 +7,7 @@ from ontogpt.io.yaml_wrapper import dump_minimal_yaml
 from tests import CASES_DIR, OUTPUT_DIR
 
 CASES = [
+    ("recipe", "recipe-palak-paneer"),
     ("treatment", "treatment-schiz"),
     ("recipe.Recipe", "recipe-spaghetti"),
     ("recipe.Recipe", "recipe-tortilla-soup"),

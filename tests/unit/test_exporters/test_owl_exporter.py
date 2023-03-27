@@ -26,3 +26,8 @@ class TestExportOWL(unittest.TestCase):
         """Test export."""
         with open(str(OUTPUT_DIR / "recipe-spaghetti.owl"), "w", encoding="utf-8") as f:
             self.exporter.export(self.extraction_result, f, self.schemaview, id_value="AUTO:_ROOT")
+
+    def test_export2(self):
+        """Test export."""
+        with open(str(OUTPUT_DIR / "recipe-palak-paneer.owl"), "w", encoding="utf-8") as f:
+            self.exporter.export(self.extraction_result, f, self.schemaview, id_value="AUTO:_ROOT")

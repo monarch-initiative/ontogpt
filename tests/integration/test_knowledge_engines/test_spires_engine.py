@@ -301,6 +301,7 @@ class TestCore(unittest.TestCase):
             ("perivascular macrophages", ClassDefinitionName(GeneLocation.__name__), "CL:0000881"),
             ("blah blah (nucleus)", ClassDefinitionName(GeneLocation.__name__), "GO:0005634"),
             ("nucleus (blah blah)", ClassDefinitionName(GeneLocation.__name__), "GO:0005634"),
+            ("NUCLEUS (blah blah)", ClassDefinitionName(GeneLocation.__name__), "GO:0005634"),
         ]
         for text, elt_name, expected in normalize_cases:
             result = ke.normalize_named_entity(text, elt_name)

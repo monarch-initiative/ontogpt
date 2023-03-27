@@ -311,6 +311,19 @@ def fill(template, object: str, examples, output, output_format, **kwargs):
 
 
 @main.command()
+@engine_option
+@output_option_txt
+@output_format_options
+@click.argument("input")
+def complete(input, output, output_format, **kwargs):
+    """Prompt completion."""
+    ai = OpenAIClient()
+    text = open(input).read()
+    payload = ai.complete(text)
+    print(payload)
+
+
+@main.command()
 @template_option
 @click.option("--input", "-i", type=click.File("r"), default=sys.stdin, help="Input file")
 def parse(template, input):
