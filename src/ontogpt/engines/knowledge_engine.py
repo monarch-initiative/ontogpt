@@ -4,12 +4,12 @@ Main Knowledge Extractor class.
 import importlib
 import logging
 import re
+from urllib.parse import quote
 from abc import ABC
 from dataclasses import dataclass, field
 from pathlib import Path
 from types import ModuleType
 from typing import Any, Dict, Iterator, List, Optional, TextIO, Tuple, Union
-from urllib.parse import quote
 
 import inflection
 import openai
@@ -451,7 +451,9 @@ class KnowledgeEngine(ABC):
         if text_singularized != text_lower:
             logger.info(f"Singularized {text} to {text_singularized}")
             yield from self.groundings(text_singularized, cls)
-        parenthetical_components = re.findall(r"\((.*?)\)", text_lower)
+        parenthetical_components = re.findall(r'\[(.*?)\]', text_lower)
+        if not parenthetical_components:
+            parenthetical_components = re.findall(r'\((.*?)\)', text_lower)
         if parenthetical_components:
             trimmed_text = text_lower
             for component in parenthetical_components:

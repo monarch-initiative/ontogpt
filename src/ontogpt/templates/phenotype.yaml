@@ -1,0 +1,66 @@
+id: http://w3id.org/ontogpt/eq
+name: eq-template
+title: EQ Template
+description: >-
+  A template for Computational Phenotypes
+license: https://creativecommons.org/publicdomain/zero/1.0/
+prefixes:
+  linkml: https://w3id.org/linkml/
+  phenotype: http://w3id.org/ontogpt/phenotype/
+keywords:
+  - phenotype
+  - traits
+
+default_prefix: phenotype
+default_range: string
+
+imports:
+  - linkml:types
+  - core
+
+classes:
+  Trait:
+    tree_root: true
+    attributes:
+    
+      quality:
+        description: The property being measured, or changes in this property, for example, amount, level, increased amount, decreased concentration
+        annotations:
+          prompt.example: amount, level, increased amount, decreased concentration
+        range: Quality
+
+      anatomical_entity:
+        description: The anatomical location that the chemical entity is measured in
+        range: AnatomicalEntity
+        annotations:
+          prompt.example: liver, heart, brain, finger
+
+      chemical_entity:
+        description: The chemical entity that is being measured
+        range: ChemicalEntity
+        annotations:
+          prompt.example: lysine, metabolite
+
+
+  Quality:
+    is_a: NamedEntity
+    id_prefixes:
+      - PATO
+    annotations:
+      annotators: sqlite:obo:pato
+
+  ChemicalEntity:
+    is_a: NamedEntity
+    id_prefixes:
+      - CHEBI
+      - PR
+    annotations:
+      annotators: sqlite:obo:chebi
+
+  AnatomicalEntity:
+    is_a: NamedEntity
+    id_prefixes:
+      - UBERON
+    annotations:
+      annotators: sqlite:obo:uberon
+

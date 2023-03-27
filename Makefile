@@ -13,8 +13,14 @@ all_pydantic: $(patsubst %, $(TEMPLATE_DIR)/%.py, $(TEMPLATES))
 all_projects: $(patsubst %, projects/%, $(TEMPLATES))
 all_docs: $(patsubst %, docs/%/index.md, $(TEMPLATES))
 
-test:
-	$(RUN) pytest
+test: unit-test
+
+unit-test:
+	$(RUN) python -m unittest discover tests.unit
+
+integration-test:
+	$(RUN) python -m unittest
+
 
 $(TEMPLATE_DIR)/%.py: src/$(PACKAGE)/templates/%.yaml
 	$(RUN) gen-pydantic $< > $@.tmp && mv $@.tmp $@
