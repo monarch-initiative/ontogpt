@@ -13,14 +13,17 @@ from ontogpt.io.yaml_wrapper import dump_minimal_yaml
 from ontogpt.templates.biological_process import BiologicalProcess
 from ontogpt.templates.gocam import (
     ExtractionResult,
+    Gene,
+    GeneLocation,
     GeneOrganismRelationship,
-    GoCamAnnotations, Gene, GeneLocation,
+    GoCamAnnotations,
 )
 
 TEMPLATE = "gocam.GoCamAnnotations"
 
 PAPER = """
-Title: β-Catenin Is Required for the cGAS/STING Signaling Pathway but Antagonized by the Herpes Simplex Virus 1 US3 Protein
+Title: β-Catenin Is Required for the cGAS/STING Signaling Pathway but
+       Antagonized by the Herpes Simplex Virus 1 US3 Protein.
 Text:
 The cGAS/STING-mediated DNA-sensing signaling pathway is crucial
 for interferon (IFN) production and host antiviral
@@ -62,8 +65,10 @@ EXAMPLE_RESULTS = """
 genes: β-Catenin; cGAS; STING; US3; IFN; ISG
 organisms: Herpes Simplex Virus I (HSV-1);
 gene_organisms: β-Catenin:host; cGAS:host; STING:host; US3:HSV-1; IFN:host; ISG:host
-activities: production of type I IFN; transcription of type I IFN; replication of HSV-1; nuclear translocation of β-catenin
-gene_functions: β-catenin:enhance the transcription of type I IFN; US3:antagonize the production of IFN; β-catenin:block nuclear translocation
+activities: production of type I IFN; transcription of type I IFN; replication of HSV-1;
+nuclear translocation of β-catenin.
+gene_functions: β-catenin:enhance the transcription of type I IFN; US3:antagonize
+the production of IFN; β-catenin:block nuclear translocation.
 cellular_processes: cGAS/STING-mediated DNA-sensing signaling; activation of IFN pathway
 pathways: IFN pathway; Wnt signalling pathway
 gene_gene_interactions: US3:β-catenin
@@ -73,10 +78,13 @@ gene_localizations: US3:host; β-catenin:host
 EXAMPLE_RESULTS_ALT = """
 genes: β-Catenin; cGAS; STING; US3; IFN; ISG
 organisms: Herpes Simplex Virus I (HSV-1);
-gene_organisms: β-Catenin - Human; cGAS - Human; STING - Human; US3 - Human; IFN - Human; ISG - Human
+gene_organisms: β-Catenin - Human; cGAS - Human; STING - Human;
+US3 - Human; IFN - Human; ISG - Human.
 activities: Transcription; Production; Downregulation; Replication; Nuclear Translocation
-gene_functions: β-Catenin - Enhances Transcription; US3 - Antagonizes Production; US3 - Downregulates IFN-I; US3 - Blocks Nuclear Translocation; β-Catenin - Enhances Production
-cellular_processes: DNA-sensing; Interferon Production; Antiviral Innate Immunity; Host Innate Immune Responses; Interaction with Host; Evade Host Antiviral Immunity
+gene_functions: β-Catenin - Enhances Transcription; US3 - Antagonizes Production;
+US3 - Downregulates IFN-I; US3 - Blocks Nuclear Translocation; β-Catenin - Enhances Production
+cellular_processes: DNA-sensing; Interferon Production; Antiviral Innate Immunity;
+Host Innate Immune Responses; Interaction with Host; Evade Host Antiviral Immunity
 pathways: cGAS/STING-mediated DNA-sensing; Wnt Signaling; IFN pathway
 gene_gene_interactions: US3 - β-Catenin; β-Catenin - US3
 gene_localizations: β-Catenin - Nuclear; US3 - Hyperphosphorylation
@@ -84,7 +92,9 @@ gene_localizations: β-Catenin - Nuclear; US3 - Hyperphosphorylation
 
 TEST_PROCESS = BiologicalProcess(
     label="autophagosome assembly",
-    description="The formation of a double membrane-bounded structure, the autophagosome, that occurs when a specialized membrane sac, called the isolation membrane, starts to enclose a portion of the cytoplasm",
+    description="The formation of a double membrane-bounded structure, the autophagosome,\
+        that occurs when a specialized membrane sac, called the isolation membrane,\
+        starts to enclose a portion of the cytoplasm",
     subclass_of="GO:0022607",
     outputs=["GO:0005776"],
 )
@@ -143,14 +153,18 @@ class TestCore(unittest.TestCase):
         examples = [
             """
             label: mannose biosynthesis
-            description: The chemical reactions and pathways resulting in the formation of mannose, the aldohexose manno-hexose, the C-2 epimer of glucose
+            description: The chemical reactions and pathways resulting
+                         in the formation of mannose, the aldohexose manno-hexose,
+                         the C-2 epimer of glucose.
             synonyms: mannose anabolism
             subclass_of: hexose biosynthesis
             outputs: mannose
             """,
             """
             label: maltose biosynthesis
-            description: The chemical reactions and pathways resulting in the formation of the disaccharide maltose (4-O-alpha-D-glucopyranosyl-D-glucopyranose)
+            description: The chemical reactions and pathways
+                         resulting in the formation of the
+                         disaccharide maltose (4-O-alpha-D-glucopyranosyl-D-glucopyranose)
             subclass_of: disaccharide biosynthesis
             outputs: maltose
             """,
@@ -220,7 +234,8 @@ class TestCore(unittest.TestCase):
             "Expected to derived prompt from description of gene slot",
         )
         self.assertIn(
-            "gene_organisms: <semicolon-separated list of asterisk separated gene to organism relationships>",
+            "gene_organisms: <semicolon-separated list of asterisk separated gene\
+            to organism relationships>",
             prompt,
             "Expected to derived prompt from annotations of gene_organisms slot",
         )
@@ -296,7 +311,11 @@ class TestCore(unittest.TestCase):
         normalize_cases = [
             ("β-Catenin", ClassDefinitionName(Gene.__name__), "HGNC:2514"),
             ("nucleus", ClassDefinitionName(GeneLocation.__name__), "GO:0005634"),
-            ("transport", ClassDefinitionName(GeneLocation.__name__), "transport"),  ## not a location
+            (
+                "transport",
+                ClassDefinitionName(GeneLocation.__name__),
+                "transport",
+            ),  # not a location
             ("perivascular macrophage", ClassDefinitionName(GeneLocation.__name__), "CL:0000881"),
             ("perivascular macrophages", ClassDefinitionName(GeneLocation.__name__), "CL:0000881"),
             ("blah blah (nucleus)", ClassDefinitionName(GeneLocation.__name__), "GO:0005634"),
@@ -314,12 +333,14 @@ class TestCore(unittest.TestCase):
             ("GO:0005634", GeneLocation, True),
             ("HGNC:2514", GeneLocation, False),
             ("GO:0005634", Gene, False),
-            ("GO:0006810", GeneLocation, False),  ## wrong hierarchy
+            ("GO:0006810", GeneLocation, False),  # wrong hierarchy
         ]
         for curie, cls, is_valid in value_set_cases:
             cls_def = ke.schemaview.get_class(cls.__name__)
             result = ke.is_valid_identifier(curie, cls_def)
-            self.assertEqual(result, is_valid, f"Expected validity of {curie} for {cls} to be {is_valid}")
+            self.assertEqual(
+                result, is_valid, f"Expected validity of {curie} for {cls} to be {is_valid}"
+            )
 
     def test_custom_dictionary(self):
         ke = create_engine(TEMPLATE, SPIRESEngine)

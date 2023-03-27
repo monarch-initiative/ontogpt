@@ -28,11 +28,13 @@ CASES = [
         [
             {
                 "label": "pseudouridine 5'-phosphatase activity",
-                "description": "Catalysis of the reaction: pseudouridine 5'-phosphate + H2O = pseudouridine + phosphate.",
+                "description": "Catalysis of the reaction:\
+                    pseudouridine 5'-phosphate + H2O = pseudouridine + phosphate.",
             },
             {
                 "label": "L-altrarate dehydratase activity",
-                "description": "Catalysis of the reaction: L-altrarate = 5-dehydro-4-deoxy-D-glucarate + H2O.",
+                "description": "Catalysis of the reaction:\
+                    L-altrarate = 5-dehydro-4-deoxy-D-glucarate + H2O.",
             },
             # rhea:40031
             {"description": "ent-copalyl diphosphate + H2O = diphosphate + ent-manool"},

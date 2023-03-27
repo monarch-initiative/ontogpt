@@ -1,0 +1,218 @@
+input_id: /Users/HHegde/Desktop/gitRepo/monarch-initiative/ontogpt/tests/input/cases/recipe-spaghetti.txt
+input_text: "SIMPLE SPAGHETTI\n\nDIRECTIONS\nOn medium heat melt the butter and sautee\
+  \ the onion and bell peppers.\nAdd the hamburger meat and cook until meat is well\
+  \ done.\nAdd the tomato sauce, salt, pepper and garlic powder.\nSalt, pepper and\
+  \ garlic powder can be adjusted to your own tastes.\nCook noodles as directed.\n\
+  Mix the sauce and noodles if you like, I keep them separated.\n\nINGREDIENTS\nUNITS:\
+  \ US\n1\nsmall onion (chopped)\n1\nbell pepper (chopped)\n2\ntablespoons garlic\
+  \ powder\n3\ntablespoons butter\n1\nteaspoon salt\n1\nteaspoon pepper\n2\n(15 ounce)\
+  \ cans tomato sauce\n1\n(16 ounce) box spaghetti noodles\n1 - 1 1\u20442\nlb hamburger\
+  \ meat.\n"
+raw_completion_output: "url: \nlabel: Simple Spaghetti\ndescription: A savory spaghetti\
+  \ dish featuring hamburger meat, bell peppers, onion, and tomato sauce.\ncategories:\
+  \ Main Dishes; Italian; Spaghetti\ningredients: 1 small onion (chopped); 1 bell\
+  \ pepper (chopped); 2 tablespoons garlic powder; 3 tablespoons butter; 1 teaspoon\
+  \ salt; 1 teaspoon pepper; 2 (15 ounce) cans tomato sauce; 1 (16 ounce) box spaghetti\
+  \ noodles; 1 - 1 1\u20442 lb hamburger meat.\nsteps: On medium heat melt the butter\
+  \ and saut\xE9 the onion and bell peppers; Add the hamburger meat and cook until\
+  \ meat is well done; Add the tomato sauce, salt, pepper, and garlic powder; Salt,\
+  \ pepper and garlic powder can be adjusted to your own tastes; Cook noodles as directed;\
+  \ Mix the sauce and noodles if you like, I keep them separated."
+prompt: 'Split the following piece of text into fields in the following format:
+
+
+  food: <the food item>
+
+  state: <the state of the food item (e.g. chopped, diced)>
+
+
+
+  Text:
+
+  mixed sauce and noodles
+
+
+  ===
+
+
+  '
+extracted_object:
+  label: Simple Spaghetti
+  description: A savory spaghetti dish featuring hamburger meat, bell peppers, onion,
+    and tomato sauce.
+  categories:
+  - AUTO:Main%20Dishes
+  - HANCESTRO:0307
+  - FOODON:03301005
+  ingredients:
+  - food_item:
+      food: AUTO:small%20onion
+      state: chopped
+    amount:
+      value: '1'
+      unit: AUTO:chopped
+  - food_item:
+      food: FOODON:00003485
+    amount:
+      value: '1'
+      unit: AUTO:chopped
+  - food_item:
+      food: FOODON:00003582
+      state: powder
+    amount:
+      value: '2'
+      unit: UO:0010042
+  - food_item:
+      food: FOODON:03310351
+    amount:
+      value: '3'
+      unit: UO:0010042
+  - food_item:
+      food: AUTO:salt
+    amount:
+      value: '1'
+      unit: UO:0010040
+  - food_item:
+      food: FOODON:00001649
+    amount:
+      value: '1'
+      unit: UO:0010040
+  - food_item:
+      food: FOODON:03301217
+      state: canned
+    amount:
+      value: '2'
+      unit: AUTO:cans
+  - food_item:
+      food: AUTO:1%20%2816%20ounce%29%20box%20spaghetti%20noodles
+      state: chopped, diced
+    amount:
+      value: '1'
+  - food_item:
+      food: FOODON:00001282
+      state: chopped
+    amount:
+      value: "1 - 1 1\u20442"
+      unit: AUTO:lb
+  steps:
+  - action: AUTO:melt%3B%20saut%C3%A9
+    inputs:
+    - food: FOODON:03310351
+    - food: FOODON:03301704
+    - food: FOODON:00003485
+      state: diced
+    utensils:
+    - AUTO:pan
+  - action: AUTO:Add%3B%20Cook
+    inputs:
+    - food: FOODON:00001282
+      state: Chopped
+    outputs:
+    - food: AUTO:meat
+      state: well done
+    utensils:
+    - AUTO:Pan
+  - action: AUTO:Add%3B
+    inputs:
+    - food: FOODON:03000227
+      state: sauce
+    - food: AUTO:salt
+    - food: FOODON:00001649
+    - food: FOODON:00003582
+      state: powder
+  - action: AUTO:adjust%3B
+    inputs:
+    - food: AUTO:salt
+    - food: FOODON:00001649
+    - food: FOODON:00003582
+      state: powder
+    utensils:
+    - AUTO:None
+  - action: AUTO:Cook
+    inputs:
+    - food: FOODON:03306944
+    outputs:
+    - food: AUTO:cooked%20noodles
+      state: cooked
+    utensils:
+    - AUTO:as%20directed
+  - action: AUTO:mix%3B
+    inputs:
+    - food: FOODON:03311146
+    - food: FOODON:03306944
+    outputs:
+    - food: AUTO:mixed%20sauce
+      state: and noodles
+    utensils:
+    - AUTO:none
+named_entities:
+- id: AUTO:Main%20Dishes
+  label: Main Dishes
+- id: HANCESTRO:0307
+  label: Italian
+- id: FOODON:03301005
+  label: Spaghetti
+- id: AUTO:small%20onion
+  label: small onion
+- id: AUTO:chopped
+  label: chopped
+- id: FOODON:00003485
+  label: bell pepper
+- id: FOODON:00003582
+  label: garlic
+- id: UO:0010042
+  label: tablespoons
+- id: FOODON:03310351
+  label: butter
+- id: AUTO:salt
+  label: salt
+- id: UO:0010040
+  label: teaspoon
+- id: FOODON:00001649
+  label: pepper
+- id: FOODON:03301217
+  label: tomato sauce
+- id: AUTO:cans
+  label: cans
+- id: AUTO:1%20%2816%20ounce%29%20box%20spaghetti%20noodles
+  label: 1 (16 ounce) box spaghetti noodles
+- id: FOODON:00001282
+  label: hamburger meat
+- id: AUTO:lb
+  label: lb
+- id: AUTO:melt%3B%20saut%C3%A9
+  label: "melt; saut\xE9"
+- id: FOODON:03301704
+  label: onion
+- id: AUTO:pan
+  label: pan
+- id: AUTO:Add%3B%20Cook
+  label: Add; Cook
+- id: AUTO:meat
+  label: meat
+- id: AUTO:Pan
+  label: Pan
+- id: AUTO:Add%3B
+  label: Add;
+- id: FOODON:03000227
+  label: tomato
+- id: AUTO:adjust%3B
+  label: adjust;
+- id: AUTO:None
+  label: None
+- id: AUTO:Cook
+  label: Cook
+- id: FOODON:03306944
+  label: noodles
+- id: AUTO:cooked%20noodles
+  label: cooked noodles
+- id: AUTO:as%20directed
+  label: as directed
+- id: AUTO:mix%3B
+  label: mix;
+- id: FOODON:03311146
+  label: sauce
+- id: AUTO:mixed%20sauce
+  label: mixed sauce
+- id: AUTO:none
+  label: none

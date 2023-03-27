@@ -7,7 +7,7 @@ from oaklib import get_implementation_from_shorthand
 from oaklib.datamodels.vocabulary import IS_A, PART_OF
 
 from ontogpt.converters.ontology_converter import OntologyConverter
-from ontogpt.engines import create_engine, halo_engine
+from ontogpt.engines import halo_engine
 from ontogpt.engines.halo_engine import HALOEngine
 from ontogpt.io.yaml_wrapper import dump_minimal_yaml
 from tests import INPUT_DIR, OUTPUT_DIR

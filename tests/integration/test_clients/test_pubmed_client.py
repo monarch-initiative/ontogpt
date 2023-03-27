@@ -1,8 +1,5 @@
 """PubMed client tests."""
-import re
 import unittest
-
-import yaml
 
 from ontogpt.clients import PubmedClient
 

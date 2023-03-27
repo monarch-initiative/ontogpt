@@ -6,7 +6,7 @@ import sys
 from dataclasses import dataclass
 from io import BytesIO, TextIOWrapper
 from pathlib import Path
-from typing import Optional, List
+from typing import List, Optional
 
 import click
 import jsonlines
@@ -18,8 +18,8 @@ from ontogpt.clients.pubmed_client import PubmedClient
 from ontogpt.clients.soup_client import SoupClient
 from ontogpt.engines.halo_engine import HALOEngine
 from ontogpt.engines.knowledge_engine import KnowledgeEngine
-from ontogpt.engines.synonym_engine import SynonymEngine
 from ontogpt.engines.spires_engine import SPIRESEngine
+from ontogpt.engines.synonym_engine import SynonymEngine
 from ontogpt.evaluation.resolver import create_evaluator
 from ontogpt.io.html_exporter import HTMLExporter
 from ontogpt.io.markdown_exporter import MarkdownExporter
@@ -29,28 +29,33 @@ __all__ = [
 ]
 
 from ontogpt.io.owl_exporter import OWLExporter
-
 from ontogpt.io.yaml_wrapper import dump_minimal_yaml
 from ontogpt.templates.core import ExtractionResult
 
 
 @dataclass
 class Settings:
-    """
-    Global command line settings.
-    """
+    """Global command line settings."""
+
     cache_db: Optional[str] = None
     skip_annotators: Optional[List[str]] = None
 
 
 settings = Settings()
 
-def write_extraction(results: ExtractionResult, output: BytesIO, output_format: str = None, knowledge_engine: KnowledgeEngine = None):
+
+def write_extraction(
+    results: ExtractionResult,
+    output: BytesIO,
+    output_format: str = None,
+    knowledge_engine: KnowledgeEngine = None,
+):
     def _as_text_writer(f):
         if isinstance(f, TextIOWrapper):
             return f
         else:
             return codecs.getwriter("utf-8")(f)
+
     if output_format == "pickle":
         output.write(pickle.dumps(results))
     elif output_format == "md":
@@ -74,7 +79,9 @@ def write_extraction(results: ExtractionResult, output: BytesIO, output_format: 
 
 
 template_option = click.option("-t", "--template", required=True, help="Template to use.")
-target_class_option = click.option("-T", "--target-class", help="Target class (if not already root).")
+target_class_option = click.option(
+    "-T", "--target-class", help="Target class (if not already root)."
+)
 engine_option = click.option("-e", "--engine", help="Engine to use, e.g. text-davinci-003.")
 recurse_option = click.option(
     "--recurse/--no-recurse", default=True, show_default=True, help="Recursively parse structures."
@@ -97,11 +104,10 @@ output_format_options = click.option(
 @click.group()
 @click.option("-v", "--verbose", count=True)
 @click.option("-q", "--quiet")
-@click.option("--cache-db",
-              help="Path to sqlite database to cache prompt-completion results")
-@click.option("--skip-annotator",
-              multiple=True,
-              help="Skip annotator (e.g. --skip-annotator gilda)")
+@click.option("--cache-db", help="Path to sqlite database to cache prompt-completion results")
+@click.option(
+    "--skip-annotator", multiple=True, help="Skip annotator (e.g. --skip-annotator gilda)"
+)
 @click.version_option(__version__)
 def main(verbose: int, quiet: bool, cache_db: str, skip_annotator):
     """CLI for oak-ai.
@@ -124,6 +130,7 @@ def main(verbose: int, quiet: bool, cache_db: str, skip_annotator):
     if skip_annotator:
         settings.skip_annotators = list(skip_annotator)
 
+
 @main.command()
 @template_option
 @target_class_option
@@ -132,9 +139,7 @@ def main(verbose: int, quiet: bool, cache_db: str, skip_annotator):
 @output_option_wb
 @click.option("--dictionary")
 @output_format_options
-@click.option("--auto-prefix",
-              default="AUTO",
-              help="Prefix to use for auto-generated classes.")
+@click.option("--auto-prefix", default="AUTO", help="Prefix to use for auto-generated classes.")
 @click.argument("input")
 def extract(template, target_class, dictionary, input, output, output_format, **kwargs):
     """Extract knowledge from text guided by schema, using SPIRES engine.
@@ -203,14 +208,15 @@ def pubmed_extract(pmid, template, output, output_format, **kwargs):
 @recurse_option
 @output_option_wb
 @output_format_options
-@click.option("--keyword",
-              "-k",
-              multiple=True,
-              help="Keyword to search for (e.g. --keyword therapy). Also obtained from schema")
+@click.option(
+    "--keyword",
+    "-k",
+    multiple=True,
+    help="Keyword to search for (e.g. --keyword therapy). Also obtained from schema",
+)
 @click.argument("term_tokens", nargs=-1)
 def search_and_extract(term_tokens, keyword, template, output, output_format, **kwargs):
-    """Searches for relevant literature and extracts knowledge from it.
-    """
+    """Search for relevant literature and extracts knowledge from it."""
     term = " ".join(term_tokens)
     logging.info(f"Creating for {template}; search={term} kw={keyword}")
     ke = SPIRESEngine(template, **kwargs)
@@ -298,7 +304,7 @@ def eval(evaluator, num_tests, output, output_format, **kwargs):
 @output_format_options
 @click.argument("object")
 def fill(template, object: str, examples, output, output_format, **kwargs):
-    """Fills in missing values."""
+    """Fill in missing values."""
     logging.info(f"Creating for {template}")
     ke = SPIRESEngine(template, **kwargs)
     object = yaml.safe_load(object)
@@ -331,7 +337,7 @@ def parse(template, input):
 @click.option("-m", "match", help="Match string to use for filtering.")
 @click.option("-D", "database", help="Path to sqlite database.")
 def dump_completions(engine, match, database, output, output_format):
-    """Dumps cached completions."""
+    """Dump cached completions."""
     logging.info(f"Creating for {engine}")
     client = OpenAIClient()
     if database:
@@ -358,7 +364,7 @@ def dump_completions(engine, match, database, output, output_format):
 @click.option("-o", "--output", type=click.File(mode="w"), default=sys.stdout, help="Output file.")
 @click.argument("input", type=click.File("r"))
 def convert_examples(input, output):
-    """Converts training examples from YAML."""
+    """Convert training examples from YAML."""
     logging.info(f"Creating examples for {input}")
     example_doc = yaml.safe_load(input)
     writer = jsonlines.Writer(output)
@@ -381,7 +387,7 @@ def convert_examples(input, output):
 )
 @click.argument("terms", nargs=-1)
 def halo(input, context, terms, output, **kwargs):
-    """Runs HALO over inputs."""
+    """Run HALO over inputs."""
     engine = HALOEngine()
     engine.seed_from_file(input)
     if context is None:
@@ -393,7 +399,7 @@ def halo(input, context, terms, output, **kwargs):
 
 @main.command()
 def list_templates():
-    """Lists the templates."""
+    """List the templates."""
     print("TODO")
 
 

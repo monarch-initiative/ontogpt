@@ -5,15 +5,22 @@ from typing import TextIO, Union
 import pydantic
 import yaml
 from linkml.generators.pythongen import PythonGenerator
+from linkml_owl.dumpers.owl_dumper import OWLDumper
 from linkml_runtime import SchemaView
 
 from ontogpt.io.exporter import Exporter, is_curie
 from ontogpt.templates.core import ExtractionResult
-from linkml_owl.dumpers.owl_dumper import OWLDumper
+
 
 @dataclass
 class OWLExporter(Exporter):
-    def export(self, extraction_output: ExtractionResult, output: Union[str, Path, TextIO], schemaview: SchemaView, id_value = None):
+    def export(
+        self,
+        extraction_output: ExtractionResult,
+        output: Union[str, Path, TextIO],
+        schemaview: SchemaView,
+        id_value=None,
+    ):
         if isinstance(output, Path):
             output = str(output)
         if isinstance(output, str):

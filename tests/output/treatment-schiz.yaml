@@ -1,0 +1,154 @@
+input_id: /Users/HHegde/Desktop/gitRepo/monarch-initiative/ontogpt/tests/input/cases/treatment-schiz.txt
+input_text: "According to the American Psychiatric Association, second-generation\
+  \ (atypical) antipsychotics (SGAs)\u2014with the exception of clozapine\u2014are\
+  \ the agents of choice for first-line treatment of schizophrenia.16,25 Clozapine\
+  \ is not recommended because of its risk of agranulocytosis.2 SGAs are usually preferred\
+  \ over first-generation (typical) antipsychotics (FGAs) because they are associated\
+  \ with fewer extrapyramidal symptoms.2 However, SGAs tend to have metabolic side\
+  \ effects, such as weight gain, hyperlipidemia, and diabetes mellitus.26 These adverse\
+  \ effects can contribute to the increased risk of cardiovascular mortality observed\
+  \ in schizophrenia patients.26\n\nThe Texas Medication Algorithm Project (TMAP)\
+  \ has provided a six-stage pharmacotherapeutic algorithm for the treatment of schizophrenia.\
+  \ Stage 1 is first-line monotherapy with an SGA. If the patient shows little or\
+  \ no response, he or she should proceed to stage 2, which consists of monotherapy\
+  \ with either another SGA or an FGA. If there is still no response, the patient\
+  \ should move to stage 3, which consists of clozapine monotherapy with monitoring\
+  \ of the white blood cell (WBC) count.24 If agranulocytosis occurs, clozapine should\
+  \ be discontinued. If stage-3 therapy fails to elicit a response, the patient should\
+  \ proceed to stage 4, which combines clozapine with an FGA, an SGA, or electroconvulsive\
+  \ therapy (ECT).24 If the patient still shows no response to treatment, stage 5\
+  \ calls for monotherapy with an FGA or an SGA that has not been tried.24 Finally,\
+  \ if stage 5 treatment is unsuccessful, stage 6 consists of combination therapy\
+  \ with an SGA, an FGA, ECT, and/or a mood stabilizer."
+raw_completion_output: 'Disease: Schizophrenia
+
+  Drugs: Second-generation (atypical) antipsychotics (SGAs); Clozapine; First-generation
+  (typical) antipsychotics (FGAs)
+
+  Treatments: Monotherapy with an SGA; Monotherapy with either another SGA or an FGA;
+  Clozapine monotherapy; Combining clozapine with an FGA, an SGA, or electroconvulsive
+  therapy (ECT); Monotherapy with an FGA or an SGA that has not been tried; Combination
+  therapy with an SGA, an FGA, ECT, and/or a mood stabilizer
+
+  Contraindications: Clozapine (due to risk of agranulocytosis)
+
+  Treatment_Mechanisms: Monotherapy*decrease extrapyramidal symptoms; Clozapine monotherapy*monitor
+  WBC count
+
+  Treatment_Efficacies: Monotherapy with an SGA*effective; Monotherapy with either
+  another SGA or an FGA*effective; Clozapine monotherapy*effective; Combining clozapine
+  with an FGA, an SGA, or electroconvulsive therapy (ECT)*effective; Monotherapy with
+  an FGA or an SGA that has not been tried*effective; Combination therapy with an
+  SGA, an FGA, ECT, and/or a mood stabilizer*effective
+
+  Treatment_Adverse_Effects: Second-generation (atypical) antipsychotics (SGAs)*weight
+  gain, hyperlipidemia, and diabetes mellitus; First-generation (typical) antipsychotics
+  (FGAs)*extrapyramidal symptoms; Clozapine* agranulocytosis'
+prompt: 'Split the following piece of text into fields in the following format:
+
+
+  treatment: <the value for treatment>
+
+  adverse_effects: <semicolon-separated list of adverse_effectss>
+
+
+
+  Text:
+
+  Clozapine* agranulocytosis
+
+
+  ===
+
+
+  '
+extracted_object:
+  disease: MONDO:0005090
+  drugs:
+  - AUTO:Second-generation%20%28atypical%29%20antipsychotics%20%28SGAs%29
+  - CHEBI:3766
+  - AUTO:First-generation%20%28typical%29%20antipsychotics%20%28FGAs%29
+  treatments:
+  - AUTO:Monotherapy%20with%20an%20SGA
+  - AUTO:Monotherapy%20with%20either%20another%20SGA%20or%20an%20FGA
+  - AUTO:Clozapine%20monotherapy
+  - NCIT:C100422
+  - AUTO:Monotherapy%20with%20an%20FGA%20or%20an%20SGA%20that%20has%20not%20been%20tried
+  - AUTO:Combination%20therapy%20with%20an%20SGA%2C%20an%20FGA%2C%20ECT%2C%20and/or%20a%20mood%20stabilizer
+  contraindications:
+  - NCIT:C28936
+  treatment_mechanisms:
+  - treatment: NCIT:C157514
+    mechanism: AUTO:decrease%20extrapyramidal%20symptoms
+  - treatment: AUTO:Clozapine%20monotherapy
+    mechanism: AUTO:monitor%20WBC%20count
+  treatment_efficacies:
+  - treatment: AUTO:Monotherapy%20with%20an%20SGA
+    efficacy: effective
+  - treatment: AUTO:Monotherapy%20with%20either%20another%20SGA%20or%20an%20FGA
+    efficacy: effective
+  - treatment: AUTO:Clozapine%20monotherapy
+    efficacy: effective
+  - treatment: NCIT:C100422
+    efficacy: effective
+  - treatment: AUTO:Monotherapy%20with%20an%20FGA%20or%20an%20SGA
+    efficacy: effective
+  - treatment: AUTO:Combination%20therapy%20with%20an%20SGA%2C%20an%20FGA%2C%20ECT%2C%20and/or%20a%20mood%20stabilizer
+    efficacy: effective
+  treatment_adverse_effects:
+  - treatment: NCIT:C25428
+    adverse_effects:
+    - HP:0004324
+    - HP:0003077
+    - HP:0000819
+  - treatment: NCIT:C102843
+    adverse_effects:
+    - HP:0002071
+  - treatment: NCIT:C28936
+    adverse_effects:
+    - HP:0012234
+named_entities:
+- id: MONDO:0005090
+  label: Schizophrenia
+- id: AUTO:Second-generation%20%28atypical%29%20antipsychotics%20%28SGAs%29
+  label: Second-generation (atypical) antipsychotics (SGAs)
+- id: CHEBI:3766
+  label: Clozapine
+- id: AUTO:First-generation%20%28typical%29%20antipsychotics%20%28FGAs%29
+  label: First-generation (typical) antipsychotics (FGAs)
+- id: AUTO:Monotherapy%20with%20an%20SGA
+  label: Monotherapy with an SGA
+- id: AUTO:Monotherapy%20with%20either%20another%20SGA%20or%20an%20FGA
+  label: Monotherapy with either another SGA or an FGA
+- id: AUTO:Clozapine%20monotherapy
+  label: Clozapine monotherapy
+- id: NCIT:C100422
+  label: Combining clozapine with an FGA, an SGA, or electroconvulsive therapy (ECT)
+- id: AUTO:Monotherapy%20with%20an%20FGA%20or%20an%20SGA%20that%20has%20not%20been%20tried
+  label: Monotherapy with an FGA or an SGA that has not been tried
+- id: AUTO:Combination%20therapy%20with%20an%20SGA%2C%20an%20FGA%2C%20ECT%2C%20and/or%20a%20mood%20stabilizer
+  label: Combination therapy with an SGA, an FGA, ECT, and/or a mood stabilizer
+- id: NCIT:C28936
+  label: Clozapine (due to risk of agranulocytosis)
+- id: NCIT:C157514
+  label: Monotherapy
+- id: AUTO:decrease%20extrapyramidal%20symptoms
+  label: decrease extrapyramidal symptoms
+- id: AUTO:monitor%20WBC%20count
+  label: monitor WBC count
+- id: AUTO:Monotherapy%20with%20an%20FGA%20or%20an%20SGA
+  label: Monotherapy with an FGA or an SGA
+- id: NCIT:C25428
+  label: second-generation (atypical) antipsychotics (SGAs);
+- id: HP:0004324
+  label: weight gain
+- id: HP:0003077
+  label: hyperlipidemia
+- id: HP:0000819
+  label: diabetes mellitus
+- id: NCIT:C102843
+  label: First-generation (typical) antipsychotics (FGAs) ;
+- id: HP:0002071
+  label: extrapyramidal symptoms
+- id: HP:0012234
+  label: agranulocytosis

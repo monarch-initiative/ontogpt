@@ -10,6 +10,7 @@ PMID = str
 TITLE_WEIGHT = 5
 MAX_PMIDS = 50
 
+
 def _normalize(s: str) -> str:
     return inflection.singularize(s).lower()
 
@@ -56,7 +57,7 @@ class PubmedClient:
         paset = ec.efetch(db="pubmed", id=id)
         for pa in paset:
             if autoformat:
-                txt = f"Title: {pa.title}\nAbstract: {pa.abstract}\nKeywords: {'; '.join(pa.mesh_headings)}"
+                txt = f"Title: {pa.title}\nAbstract: {pa.abstract}\nKeywords: {'; '.join(pa.mesh_headings)}"  # noqa
             else:
                 txt = pa.full_text
         if len(txt) > self.max_text_length:
@@ -80,7 +81,7 @@ class PubmedClient:
         logging.info(f"Searching for {term}...")
         esr = ec.esearch(db="pubmed", term=term)
         logging.info(f"Found {esr.count} papers for {term}.")
-        paset = ec.efetch(db='pubmed', id=esr.ids[0:MAX_PMIDS])
+        paset = ec.efetch(db="pubmed", id=esr.ids[0:MAX_PMIDS])
         keywords = keywords or []
         keywords = [_normalize(kw) for kw in keywords]
         scored_papers = [(_score_paper(paper, keywords), paper) for paper in paset]
@@ -88,4 +89,3 @@ class PubmedClient:
         for score, paper in scored_papers:
             logging.debug(f"Yielding {paper.pmid} {paper.title} with score {score} ")
             yield f"PMID:{paper.pmid}"
-
