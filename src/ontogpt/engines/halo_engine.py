@@ -21,7 +21,7 @@ from oaklib.interfaces.obograph_interface import OboGraphInterface
 from tiktoken import Encoding
 
 from ontogpt.clients import OpenAIClient
-from ontogpt.engines.knowledge_engine import EXAMPLE, FIELD, OBJECT, KnowledgeEngine
+from ontogpt.engines.knowledge_engine import FIELD, KnowledgeEngine
 from ontogpt.io.yaml_wrapper import dump_minimal_yaml
 from ontogpt.templates.halo import Ontology, OntologyElement
 
