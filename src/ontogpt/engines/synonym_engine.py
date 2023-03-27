@@ -12,7 +12,8 @@ class SynonymEngine(KnowledgeEngine):
 
     def synonyms(self, named_entity: str, domain: str) -> List[str]:
         """Get synonyms for a given text."""
-        prompt = f"List the example formal scientific synonyms for the {domain} concept {named_entity} as a semi-colon separated list."
+        prompt = f"List the example formal scientific\
+            synonyms for the {domain} concept {named_entity} as a semi-colon separated list."
         prompt += " Only include terms with identical meaning, not more specific or general terms."
         payload = self.client.complete(prompt)
         return payload.split("; ")

@@ -1,5 +1,5 @@
 """
-Uses code-davinci-002
+Uses code-davinci-002.
 
 Note also that fine-tuning can't be done with code-davinci-002, see:
 https://community.openai.com/t/finetuning-code-davinci/23132/2
