@@ -35,15 +35,15 @@ class Recipe(ConfiguredBaseModel):
     )
     categories: Optional[List[str]] = Field(
         default_factory=list,
-        description="""a semicolon separated list of the categories to which this recipe belongs""",
+        description="""a semicolon separated list of the categories to which this recipe belongs""",  # noqa
     )
     ingredients: Optional[List[Ingredient]] = Field(
         default_factory=list,
-        description="""a semicolon separated list of the ingredients plus quantities of the recipe""",
+        description="""a semicolon separated list of the ingredients plus quantities of the recipe""",  # noqa
     )
     steps: Optional[List[Step]] = Field(
         default_factory=list,
-        description="""a semicolon separated list of the individual steps involved in this recipe""",
+        description="""a semicolon separated list of the individual steps involved in this recipe""",  # noqa
     )
 
 
