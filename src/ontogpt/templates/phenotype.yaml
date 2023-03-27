@@ -22,17 +22,24 @@ classes:
   Trait:
     tree_root: true
     attributes:
+    
       quality:
-        description: the phenotypic quality exibited by the phenotype
+        description: The property being measured, or changes in this property, for example, amount, level, increased amount, decreased concentration
+        annotations:
+          prompt.example: amount, level, increased amount, decreased concentration
         range: Quality
 
       anatomical_entity:
-        description: The anatomical entity that the chemical entity is measured in
+        description: The anatomical location that the chemical entity is measured in
         range: AnatomicalEntity
+        annotations:
+          prompt.example: liver, heart, brain, finger
 
       chemical_entity:
-        description: The chemical entity that is affected by the phenotype
+        description: The chemical entity that is being measured
         range: ChemicalEntity
+        annotations:
+          prompt.example: lysine, metabolite
 
 
   Quality:
@@ -48,7 +55,7 @@ classes:
       - CHEBI
       - PR
     annotations:
-      annotators: sqlite:obo:chebi, sqlite:obo:pr
+      annotators: sqlite:obo:chebi
 
   AnatomicalEntity:
     is_a: NamedEntity
