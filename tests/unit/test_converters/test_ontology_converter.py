@@ -3,7 +3,6 @@ import logging
 import unittest
 
 import yaml
-
 from oaklib import get_implementation_from_shorthand
 from oaklib.datamodels.vocabulary import IS_A, PART_OF
 from oaklib.interfaces.obograph_interface import OboGraphInterface

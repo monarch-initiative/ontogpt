@@ -1,8 +1,7 @@
 from __future__ import annotations
 
-from datetime import date, datetime
 from enum import Enum
-from typing import Any, Dict, List, Optional
+from typing import Any, List, Optional
 
 from pydantic import BaseModel as BaseModel
 from pydantic import Field
@@ -37,9 +36,7 @@ class MeshDiseaseIdentifier(str, Enum):
 
 
 class ExtractionResult(ConfiguredBaseModel):
-    """
-    A result of extracting knowledge on text
-    """
+    """A result of extracting knowledge on text."""
 
     input_id: Optional[str] = Field(None)
     input_title: Optional[str] = Field(None)
@@ -78,9 +75,7 @@ class CompoundExpression(ConfiguredBaseModel):
 
 
 class Triple(CompoundExpression):
-    """
-    Abstract parent for Relation Extraction tasks
-    """
+    """Abstract parent for Relation Extraction tasks."""
 
     subject: Optional[str] = Field(None)
     predicate: Optional[str] = Field(None)
@@ -90,40 +85,44 @@ class Triple(CompoundExpression):
     )
     subject_qualifier: Optional[str] = Field(
         None,
-        description="""An optional qualifier or modifier for the subject of the statement, e.g. \"high dose\" or \"intravenously administered\"""",
+        description="""An optional qualifier or modifier for the subject of the statement,\
+            e.g. \"high dose\" or \"intravenously administered\"""",
     )
     object_qualifier: Optional[str] = Field(
         None,
-        description="""An optional qualifier or modifier for the object of the statement, e.g. \"severe\" or \"with additional complications\"""",
+        description="""An optional qualifier or modifier for the object of the statement,\
+            e.g. \"severe\" or \"with additional complications\"""",
     )
 
 
 class ChemicalToDiseaseRelationship(Triple):
-    """
-    A triple where the subject is a chemical and the object is a disease.
-    """
+    """A triple where the subject is a chemical and the object is a disease."""
 
     subject: Optional[str] = Field(
         None,
-        description="""The chemical substance, drug, or small molecule.  or example: Lidocaine, Monosodium Glutamate, Imatinib.""",
+        description="""The chemical substance, drug, or small molecule.\
+            or example: Lidocaine, Monosodium Glutamate, Imatinib.""",
     )
     predicate: Optional[str] = Field(
         None, description="""The relationship type, e.g. INDUCES, TREATS."""
     )
     object: Optional[str] = Field(
         None,
-        description="""The disease or condition that is being treated or induced by the chemical. For example, asthma, cancer, covid-19, cardiac asystole, Hypotension, Headache.""",
+        description="""The disease or condition that is being treated or induced by the chemical.\
+            For example, asthma, cancer, covid-19, cardiac asystole, Hypotension, Headache.""",
     )
     qualifier: Optional[str] = Field(
         None, description="""A qualifier for the statements, e.g. \"NOT\" for negation"""
     )
     subject_qualifier: Optional[str] = Field(
         None,
-        description="""An optional qualifier or modifier for the chemical, e.g. \"high dose\" or \"intravenously administered\"""",
+        description="""An optional qualifier or modifier for the chemical,\
+            e.g. \"high dose\" or \"intravenously administered\"""",
     )
     object_qualifier: Optional[str] = Field(
         None,
-        description="""An optional qualifier or modifier for the disease, e.g. \"severe\" or \"with additional complications\"""",
+        description="""An optional qualifier or modifier for the disease,\
+            e.g. \"severe\" or \"with additional complications\"""",
     )
 
 
@@ -134,9 +133,7 @@ class TextWithTriples(ConfiguredBaseModel):
 
 
 class ChemicalToDiseaseDocument(TextWithTriples):
-    """
-    A document that contains chemical to disease relations.
-    """
+    """A document that contains chemical to disease relations."""
 
     publication: Optional[Publication] = Field(None)
     triples: Optional[List[ChemicalToDiseaseRelationship]] = Field(default_factory=list)
@@ -149,9 +146,7 @@ class RelationshipType(NamedEntity):
 
 
 class ChemicalToDiseasePredicate(RelationshipType):
-    """
-    A predicate for chemical to disease relationships
-    """
+    """A predicate for chemical to disease relationships."""
 
     id: Optional[str] = Field(None, description="""A unique identifier for the named entity""")
     label: Optional[str] = Field(None, description="""The label (name) of the named thing""")

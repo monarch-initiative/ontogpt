@@ -7,7 +7,7 @@ https://community.openai.com/t/finetuning-code-davinci/23132/2
 import logging
 from dataclasses import dataclass, field
 from pathlib import Path
-from typing import Any, Dict, List, Optional, Set, Tuple, Union
+from typing import Any, Dict, List, Optional, Set
 
 import openai
 import pydantic
@@ -67,7 +67,7 @@ class HALOEngine(KnowledgeEngine):
     expand_horizon: bool = False
 
     element_scores: Dict[ELEMENT_NAME, float] = field(default_factory=lambda: {})
-    """Ranks each element by estimated informativeness for training"""
+    """Ranks each element by estimated informativeness for training."""
 
     tokenizer_encoding: Encoding = field(default_factory=lambda: tiktoken.get_encoding("gpt2"))
 
@@ -78,8 +78,8 @@ class HALOEngine(KnowledgeEngine):
         openai.api_key = self.api_key
 
     def seed(self, seed_ontology: Ontology):
-        """
-        Seed the engine with an initial ontology
+        """Seed the engine with an initial ontology.
+
         :param seed_ontology:
         :return:
         """

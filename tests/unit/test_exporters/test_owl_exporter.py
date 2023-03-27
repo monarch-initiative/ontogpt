@@ -6,7 +6,7 @@ from linkml_runtime import SchemaView
 
 from ontogpt.io.owl_exporter import OWLExporter
 from ontogpt.templates import PATH_TO_TEMPLATES
-from tests import INPUT_DIR, OUTPUT_DIR
+from tests import OUTPUT_DIR
 from tests.unit.test_exporters import TEST_PICKLED_RESULTS
 
 

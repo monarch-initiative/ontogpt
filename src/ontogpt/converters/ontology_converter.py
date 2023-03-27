@@ -18,9 +18,7 @@ logger = logging.getLogger(__name__)
 
 @dataclass
 class OntologyConverter:
-    """
-    Converts an OAK ontology to an OntoGPT schema
-    """
+    """Converts an OAK ontology to an OntoGPT schema."""
 
     adapter: OboGraphInterface = None
     schemaview: SchemaView = None
@@ -32,8 +30,8 @@ class OntologyConverter:
         self.schemaview = SchemaView(path_to_template)
 
     def extract_seed_ontology(self, seeds: List[str], predicates: List[str]) -> Ontology:
-        """
-        Extract an ontology from a given text
+        """Extract an ontology from a given text.
+
         :param text:
         :return:
         """
@@ -44,8 +42,7 @@ class OntologyConverter:
         return seed_ontology
 
     def from_adapter(self) -> Ontology:
-        """
-        Convert an OAK adapter to an Ontology
+        """Convert an OAK adapter to an Ontology.
 
         :param adapter:
         :return:
@@ -54,8 +51,7 @@ class OntologyConverter:
         return self.from_obograph(graph)
 
     def from_obograph(self, graph: Graph) -> Ontology:
-        """
-        Convert an OBO Graph to an Ontology
+        """Convert an OBO Graph to an Ontology.
 
         :param graph:
         :return:
@@ -132,8 +128,8 @@ class OntologyConverter:
         return ontology
 
     def node_to_name(self, curie: str, label: Optional[str] = None) -> str:
-        """
-        Convert a node to a name
+        """Convert a node to a name.
+
         :param curie:
         :param label:
         :return:

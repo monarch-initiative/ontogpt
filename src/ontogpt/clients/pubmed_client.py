@@ -35,8 +35,7 @@ def _score_text(text: str, keywords: List[str]) -> int:
 
 @dataclass
 class PubmedClient:
-    """
-    A client for the Pubmed API.
+    """A client for the Pubmed API.
 
     This class is a wrapper around the Entrez API.
     """
@@ -45,8 +44,7 @@ class PubmedClient:
     max_text_length = 3000
 
     def text(self, id: PMID, autoformat=True) -> str:
-        """
-        Get the text of a paper from its PMID
+        """Get the text of a paper from its PMID.
 
         :param id:
         :param autoformat: if True include title and abstract concatenated
@@ -66,8 +64,7 @@ class PubmedClient:
         return txt
 
     def search(self, term: str, keywords: List[str] = None) -> Iterator[PMID]:
-        """
-        Get the text of a paper from its PMID
+        """Get the text of a paper from its PMID.
 
         :param term:
         :param keywords:

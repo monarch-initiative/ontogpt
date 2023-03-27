@@ -1,5 +1,4 @@
-import logging
-from dataclasses import dataclass, field
+from dataclasses import dataclass
 
 import requests
 from bs4 import BeautifulSoup
@@ -9,14 +8,10 @@ PMID = str
 
 @dataclass
 class SoupClient:
-    """
-    A client for the Beautiful Soup API.
-
-    """
+    """A client for the Beautiful Soup API."""
 
     def text(self, url: str) -> str:
-        """
-        Get the text of a paper from its PMID
+        """Get the text of a paper from its PMID.
 
         :param id:
         :param autoformat: if True include title and abstract concatenated

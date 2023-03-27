@@ -120,7 +120,7 @@ class TestCore(unittest.TestCase):
         self.ke = create_engine(TEMPLATE, SPIRESEngine)
 
     def test_setup(self):
-        """Tests template and module is loaded"""
+        """Tests template and module is loaded."""
         ke = self.ke
         pyc = ke.template_pyclass
         print(pyc)
