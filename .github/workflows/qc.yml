@@ -26,6 +26,9 @@ jobs:
       - name: Install dependencies
         run: poetry install --no-interaction
 
+      - name: Run linter
+        run: poetry run tox -e lint
+
 #      - name: Check code quality with flake8
 #        run: poetry run tox -e flake8
 #       - name: Check package metadata with Pyroma
