@@ -15,6 +15,7 @@ prefixes:
   AUTO: http://example.org/auto/
   RO: http://purl.obolibrary.org/obo/RO_
   qudt: http://qudt.org/schema/qudt/
+  dbpediaont: http://dbpedia.org/ontology/
 
 
 default_prefix: recipe

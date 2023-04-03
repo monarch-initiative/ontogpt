@@ -20,10 +20,13 @@ input_text: 'According to its FDA labeling, acetaminophen''s exact mechanism of 
   peripheral vasodilation, sweating, and loss of body heat.24 The exact mechanism
   of action of this drug is not fully understood at this time, but future research
   may contribute to deeper knowledge'
-raw_completion_output: "Disease: Pain symptoms; \nDrug: Acetaminophen; \nMechanism_Links:\
-  \ COX-1 - Acetaminophen - Inhibit; COX-2 - Acetaminophen - Inhibit; COX-3 - Acetaminophen\
-  \ - Block; Prostaglandin - Acetaminophen - Inhibit; Heat-regulating-centers - Acetaminophen\
-  \ - Direct-action."
+raw_completion_output: 'Disease: Pain Symptoms;
+
+  Drug: Acetaminophen;
+
+  Mechanism_links: cyclooxygenase (COX)-pain sensations;13; COX-1-acetaminophen;14;
+  COX-2-acetaminophen;14; COX-3-acetaminophen;6; antipyretic-direct action on heat-regulating
+  centers;24'
 prompt: 'Split the following piece of text into fields in the following format:
 
 
@@ -37,7 +40,7 @@ prompt: 'Split the following piece of text into fields in the following format:
 
   Text:
 
-  Heat-regulating-centers - Acetaminophen - Direct-action.
+  24
 
 
   ===
@@ -45,32 +48,59 @@ prompt: 'Split the following piece of text into fields in the following format:
 
   '
 extracted_object:
-  disease: AUTO:Pain%20symptoms%3B
+  disease: AUTO:Pain%20Symptoms%3B
   drug: AUTO:Acetaminophen%3B
   mechanism_links:
+  - subject: MESH:D011451
+    predicate: AUTO:-pain
+    object: MESH:D012677
   - subject: AUTO:COX-1
-    predicate: AUTO:Inhibit
-    object: MESH:D000082
+    predicate: AUTO:acetaminophen
+    object: AUTO:-
+  - subject: AUTO:14
   - subject: AUTO:COX-2
-    predicate: AUTO:Inhibit
+    predicate: <https://w3id.org/biolink/vocab/StrandEnum#->
     object: MESH:D000082
+  - subject: AUTO:14
   - subject: AUTO:COX-3
-    predicate: AUTO:Block
-    object: MESH:D000082
-  - subject: MESH:D011453
-    predicate: AUTO:Inhibit
-    object: MESH:D000082
-  - subject: AUTO:Heat-regulating-centers
-    predicate: AUTO:Acetaminophen
-    object: AUTO:Direct-action
+    predicate: AUTO:acetaminophen
+    object: AUTO:-
+  - subject: MESH:D058633
+    predicate: AUTO:direct%20action%20on
+    object: AUTO:heat-regulating%20centers
+  - subject: AUTO:24
 named_entities:
+- id: AUTO:Pain%20Symptoms%3B
+  label: Pain Symptoms;
+- id: AUTO:Acetaminophen%3B
+  label: Acetaminophen;
+- id: MESH:D011451
+  label: cyclooxygenase (COX)
+- id: AUTO:-pain
+  label: -pain
+- id: MESH:D012677
+  label: sensations
+- id: AUTO:COX-1
+  label: COX-1
+- id: AUTO:acetaminophen
+  label: acetaminophen
+- id: AUTO:-
+  label: '-'
+- id: AUTO:14
+  label: '14'
+- id: AUTO:COX-2
+  label: COX-2
+- id: <https://w3id.org/biolink/vocab/StrandEnum#->
+  label: '-'
 - id: MESH:D000082
   label: Acetaminophen
-- id: MESH:D000082
-  label: Acetaminophen
-- id: MESH:D000082
-  label: Acetaminophen
-- id: CHEBI:26333
-  label: Prostaglandin
-- id: MESH:D000082
-  label: Acetaminophen
+- id: AUTO:COX-3
+  label: COX-3
+- id: MESH:D058633
+  label: antipyretic
+- id: AUTO:direct%20action%20on
+  label: direct action on
+- id: AUTO:heat-regulating%20centers
+  label: heat-regulating centers
+- id: AUTO:24
+  label: '24'

@@ -85,11 +85,48 @@ extracted_object:
     unit: AUTO:none
   - value: microorganism abundance
 named_entities:
+- id: AUTO:PEATcosm
+  label: PEATcosm
+- id: AUTO:SPRUCE
+  label: SPRUCE
+- id: AUTO:Minnesota
+  label: Minnesota
+- id: AUTO:Ericaceae
+  label: Ericaceae
+- id: AUTO:sedge%20rhizosphere%20peat
+  label: sedge rhizosphere peat
 - id: ENVO:00000107
   label: heath
+- id: AUTO:sedge
+  label: sedge
+- id: AUTO:Ericaceae%20and%20sedge%20rhizosphere%20peat%2C%20at%20two%20depths%2C%20in%20both%20high%20and%20low%20water%20manipulative%20treatments
+  label: Ericaceae and sedge rhizosphere peat, at two depths, in both high and low
+    water manipulative treatments
+- id: AUTO:14%20plots/5%20depths
+  label: 14 plots/5 depths
+- id: AUTO:water%20table
+  label: water table
 - id: ENVO:01001209
   label: peatland vegetation on trace gas flux
+- id: AUTO:oxygen%20and%20labile%20C
+  label: oxygen and labile C
 - id: ENVO:00005774
   label: peat
+- id: AUTO:experimental%20warming
+  label: experimental warming
+- id: AUTO:-
+  label: '-'
+- id: AUTO:CO2%20enrichment
+  label: CO2 enrichment
 - id: PATO:0000915
   label: thickness
+- id: AUTO:chemistry
+  label: chemistry
+- id: AUTO:enzyme%20activity
+  label: enzyme activity
+- id: AUTO:microorganisms
+  label: microorganisms
+- id: AUTO:N/A
+  label: N/A
+- id: AUTO:none
+  label: none

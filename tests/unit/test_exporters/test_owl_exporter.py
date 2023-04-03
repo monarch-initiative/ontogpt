@@ -22,6 +22,8 @@ class TestExportOWL(unittest.TestCase):
 
     def test_export(self):
         """Test export."""
+        print(f"URL={self.extraction_result.extracted_object.url}")
+        print(f"Label={self.extraction_result.extracted_object.label}")
         with open(str(OUTPUT_DIR / "recipe-spaghetti.owl"), "w", encoding="utf-8") as f:
             self.exporter.export(self.extraction_result, f, self.schemaview, id_value="AUTO:_ROOT")
 

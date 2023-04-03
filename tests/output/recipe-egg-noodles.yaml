@@ -1,4 +1,4 @@
-input_id: /Users/HHegde/Desktop/gitRepo/monarch-initiative/ontogpt/tests/input/cases/recipe-egg-noodles.txt
+input_id: /Users/cjm/repos/ontogpt/tests/input/cases/recipe-egg-noodles.txt
 input_text: "Homemade Egg Noodles\n\nGather the ingredients.\n\nCombine the flour\
   \ and salt in a large shallow bowl or on a clean work surface. Make a well in the\
   \ center, almost like a \"bowl\" of flour, to hold the eggs. Crack the eggs into\
@@ -34,33 +34,14 @@ input_text: "Homemade Egg Noodles\n\nGather the ingredients.\n\nCombine the flou
   \ for fresh noodles depending on the thickness). Drain and use in your favorite\
   \ recipe. Enjoy!\n\nEgg pasta noodles with pesto and Parmesan cheese on a plate\n\
   \n"
-raw_completion_output: '
-
-  url: Homemade-Egg-Noodles
-
-
-  label: Homemade Egg Noodles
-
-
-  description: A recipe for Homemade Egg Noodles, where eggs and flour are mixed together
-  to create a shaggy dough, then chilled, divided and rolled out to the desired thickness.
-  The dough is then cut into noodles and boiled until tender.
-
-
-  categories: Pasta, Homemade, Main Dish
-
-
-  ingredients: Flour; Salt; Eggs
-
-
-  steps: Combine flour and salt in a bowl; Make a well in the center of the flour
-  for the eggs; Crack the eggs into the well and beat with a fork, gradually incorporating
-  the flour into the eggs; Knead the dough with well-floured hands to form a smooth
-  and firm dough; Wrap the dough with plastic wrap and chill for 30 minutes or overnight;
-  Divide chilled dough into 2 pieces; Roll out dough on a well-floured surface, adding
-  flour as necessary; Cut the noodles to desired size using a sharp knife or pizza
-  cutting wheel; Lay noodles on a cooling rack; Boil noodles in well-salted water
-  until tender.'
+raw_completion_output: "\nLabel: Homemade Egg Noodles \nDescription: Homemade egg\
+  \ noodles that are boiled until tender for use in your favorite recipe.\nCategories:\
+  \ Pasta; Noodles \nIngredients: Flour; Salt; Eggs \nSteps: Gather the ingredients;\
+  \ Combine the flour and salt in a bowl/on a work surface and make a well in the\
+  \ center; Beat eggs with a fork and gradually incorporate flour; Knead dough with\
+  \ well-floured hands until smooth and firm; Wrap dough in plastic wrap and chill;\
+  \ Divide chilled dough into two and roll out; Cut noodles; Boil in salted water\
+  \ and drain; Enjoy."
 prompt: 'Split the following piece of text into fields in the following format:
 
 
@@ -72,7 +53,7 @@ prompt: 'Split the following piece of text into fields in the following format:
 
   Text:
 
-  tender noodles
+  none
 
 
   ===
@@ -80,123 +61,109 @@ prompt: 'Split the following piece of text into fields in the following format:
 
   '
 extracted_object:
-  url: Homemade-Egg-Noodles
   label: Homemade Egg Noodles
-  description: A recipe for Homemade Egg Noodles, where eggs and flour are mixed together
-    to create a shaggy dough, then chilled, divided and rolled out to the desired
-    thickness. The dough is then cut into noodles and boiled until tender.
+  description: Homemade egg noodles that are boiled until tender for use in your favorite
+    recipe.
   categories:
-  - AUTO:Pasta%2C%20Homemade%2C%20Main%20Dish
+  - FOODON:03306347
+  - FOODON:03306944
   ingredients:
   - food_item:
       food: FOODON:03301116
   - food_item:
       food: AUTO:Salt
+      state: Chopped
   - food_item:
       food: FOODON:03316061
   steps:
-  - action: AUTO:combine%3B
+  - action: AUTO:Gather%3B
+    inputs:
+    - food: FOODON:00004272
+      state: N/A
+    utensils:
+    - AUTO:N/A.
+  - action: AUTO:Combine
     inputs:
     - food: FOODON:03301116
-    - food: AUTO:salt
+    - food: AUTO:Salt
+      state: Chopped
     outputs:
-    - food: AUTO:mixture
+    - food: AUTO:Well
     utensils:
-    - AUTO:bowl
-  - action: AUTO:Make%3B
-    inputs:
-    - food: AUTO:a
-      state: well
-    - food: FOODON:03301116
-      state: center of
-    - food: FOODON:03316061
-    outputs:
-    - food: AUTO:a
-      state: well
-    utensils:
-    - AUTO:none
-  - action: AUTO:Beat
+    - AUTO:Bowl
+    - AUTO:Work%20surface
+  - action: AUTO:Beat%3B%20incorporate
     inputs:
     - food: FOODON:03316061
     - food: FOODON:03301116
-    utensils:
-    - AUTO:Fork
-  - action: AUTO:Knead
-    inputs:
-    - food: FOODON:03311552
+    outputs:
+    - food: FOODON:03316061
+      state: beaten
     - food: FOODON:03301116
-    outputs:
-    - food: AUTO:Smooth
-    - food: AUTO:Firm%20dough
+      state: incorporated
     utensils:
-    - dbpediaont:hand
-  - action: AUTO:Wrap%3B%20Add
+    - AUTO:fork
+  - action: AUTO:knead%3B
+    inputs:
+    - food: FOODON:03311552
+    outputs:
+    - food: FOODON:03311552
+      state: smooth and firm
+    utensils:
+    - AUTO:hands.
+  - action: AUTO:Wrap%3B%20Chill
     inputs:
     - food: FOODON:03311552
     outputs:
     - food: FOODON:03311552
     utensils:
-    - AUTO:N/A
-  - action: AUTO:divide
-    inputs:
-    - food: AUTO:chilled%20dough
-      state: chopped
-    outputs:
-    - food: AUTO:pieces
-      state: '2'
-    utensils:
-    - AUTO:none
-  - action: AUTO:roll%20out%3B
+    - AUTO:None
+  - action: AUTO:divide%3B%20roll%20out
     inputs:
     - food: FOODON:03311552
-    - food: FOODON:03301116
+      state: chilled
     outputs:
-    - food: AUTO:floured
-      state: surface
+    - food: AUTO:two%20pieces%20of%20dough
     utensils:
     - AUTO:none
   - action: FOODON:00002777
     inputs:
     - food: FOODON:03306944
-    - food: AUTO:sharp%20knife
-      state: chopped
-    - food: FOODON:00003928
-      state: cutting wheel
     outputs:
     - food: FOODON:03306944
       state: cut
     utensils:
-    - AUTO:sharp%20knife
-    - AUTO:pizza%20cutting%20wheel
-  - action: AUTO:Lay%3B
+    - AUTO:none
+  - action: AUTO:Boil%3B%20Drain
     inputs:
-    - food: FOODON:03306944
-    outputs:
-    - food: AUTO:cooling%20rack
-    utensils:
-    - AUTO:-
-  - action: AUTO:Boil
-    inputs:
-    - food: FOODON:03306944
     - food: FOODON:00002340
-      state: well-salted
+    - food: AUTO:Salt
+      state: Chopped
     outputs:
-    - food: AUTO:tender%20noodles
+    - food: AUTO:Boiled%20Water
+      state: Boiled
     utensils:
-    - AUTO:pan
+    - AUTO:Pot
+  - action: AUTO:none
+    inputs:
+    - food: AUTO:none
+    outputs:
+    - food: AUTO:none
+    utensils:
+    - AUTO:none
 named_entities:
-- id: AUTO:Main%20Dishes
-  label: Main Dishes
-- id: HANCESTRO:0307
-  label: Italian
-- id: FOODON:03301005
-  label: Spaghetti
-- id: AUTO:small%20onion
-  label: small onion
-- id: AUTO:chopped
-  label: chopped
+- id: AUTO:Main
+  label: Main
+- id: FOODON:03306347
+  label: Pasta
+- id: FOODON:03301704
+  label: onion
+- id: AUTO:small%20%28chopped%29
+  label: small (chopped)
 - id: FOODON:00003485
   label: bell pepper
+- id: AUTO:cups
+  label: cups
 - id: FOODON:00003582
   label: garlic
 - id: UO:0010042
@@ -209,80 +176,66 @@ named_entities:
   label: teaspoon
 - id: FOODON:00001649
   label: pepper
-- id: FOODON:03301217
-  label: tomato sauce
-- id: AUTO:cans
-  label: cans
+- id: FOODON:03000227
+  label: tomato
+- id: AUTO:%2815%20ounce%29%20cans
+  label: (15 ounce) cans
 - id: AUTO:1%20%2816%20ounce%29%20box%20spaghetti%20noodles
   label: 1 (16 ounce) box spaghetti noodles
 - id: FOODON:00001282
   label: hamburger meat
-- id: AUTO:lb
-  label: lb
-- id: AUTO:melt%3B%20saut%C3%A9
-  label: "melt; saut\xE9"
-- id: FOODON:03301704
-  label: onion
-- id: AUTO:pan
-  label: pan
-- id: AUTO:Add%3B%20Cook
-  label: Add; Cook
-- id: AUTO:meat
-  label: meat
+- id: AUTO:lbs
+  label: lbs
+- id: AUTO:Melt%3B%20Saut%C3%A9
+  label: "Melt; Saut\xE9"
 - id: AUTO:Pan
   label: Pan
-- id: AUTO:Add%3B
-  label: Add;
-- id: FOODON:03000227
-  label: tomato
+- id: AUTO:add%3B%20cook
+  label: add; cook
+- id: AUTO:well%20done
+  label: well done
+- id: AUTO:pan
+  label: pan
+- id: AUTO:Add
+  label: Add
 - id: AUTO:adjust%3B
   label: adjust;
-- id: AUTO:None
-  label: None
+- id: FOODON:03460173
+  label: salted
+- id: AUTO:none
+  label: none
 - id: AUTO:Cook
   label: Cook
 - id: FOODON:03306944
   label: noodles
-- id: AUTO:cooked%20noodles
-  label: cooked noodles
-- id: AUTO:as%20directed
-  label: as directed
-- id: AUTO:mix%3B
-  label: mix;
+- id: AUTO:Mix%3B
+  label: Mix;
 - id: FOODON:03311146
   label: sauce
-- id: AUTO:mixed%20sauce
-  label: mixed sauce
-- id: AUTO:none
-  label: none
+- id: HANCESTRO:0415
+  label: Mexican
 - id: AUTO:Soup
   label: Soup
 - id: AUTO:poached%20chicken
   label: poached chicken
-- id: AUTO:cups
-  label: cups
 - id: AUTO:1%20%2815%20oz%29%20can%20fire%20roasted%20tomatoes
   label: 1 (15 oz) can fire roasted tomatoes
+- id: AUTO:N/A
+  label: N/A
 - id: AUTO:red%20enchilada%20sauce
   label: red enchilada sauce
-- id: AUTO:10%20oz%20can
-  label: 10 oz can
-- id: AUTO:small%2C%20chopped
-  label: small, chopped
+- id: AUTO:oz
+  label: oz
 - id: FOODON:03310943
   label: zucchini
 - id: AUTO:medium%2C%20sliced%20into%201/4-inch%20half%20circles
   label: medium, sliced into 1/4-inch half circles
-- id: AUTO:green%20chilies
-  label: green chilies
-- id: AUTO:4%20cloves%20garlic
-  label: 4 cloves garlic
+- id: AUTO:1%20%284%20oz%29%20can%20green%20chilies
+  label: 1 (4 oz) can green chilies
 - id: FOODON:03411457
   label: chicken
 - id: AUTO:creamed%20corn
   label: creamed corn
-- id: AUTO:oz
-  label: oz
 - id: AUTO:ground%20cumin
   label: ground cumin
 - id: AUTO:tsp
@@ -293,20 +246,38 @@ named_entities:
   label: sea salt
 - id: AUTO:freshly%20ground%20black%20pepper
   label: freshly ground black pepper
-- id: AUTO:3%20bay%20leaves
-  label: 3 bay leaves
-- id: AUTO:pick%3B
-  label: pick;
-- id: AUTO:rotisserie%20chicken
-  label: rotisserie chicken
-- id: AUTO:all%20meat
-  label: all meat
+- id: AUTO:bay%20leaves
+  label: bay leaves
+- id: AUTO:cilantro
+  label: cilantro
+- id: AUTO:Tbsp
+  label: Tbsp
+- id: FOODON:00003661
+  label: lime
+- id: FOODON:03302515
+  label: sour cream
+- id: FOODON:00001013
+  label: cheese
+- id: FOODON:00003600
+  label: avocado
+- id: AUTO:large%2C%20sliced
+  label: large, sliced
+- id: FOODON:03310710
+  label: Tortilla chips
+- id: AUTO:Pick%3B
+  label: Pick;
+- id: AUTO:pre-cooked%20chicken
+  label: pre-cooked chicken
+- id: AUTO:meat
+  label: meat
 - id: dbpediaont:Square
   label: Place
 - id: AUTO:large%20stock%20pot
   label: large stock pot
-- id: AUTO:add
-  label: add
+- id: AUTO:Pot
+  label: Pot
+- id: AUTO:add%3B
+  label: add;
 - id: FOODON:03304007
   label: enchilada sauce
 - id: FOODON:03317304
@@ -315,97 +286,69 @@ named_entities:
   label: corn
 - id: FOODON:00003024
   label: cumin
-- id: AUTO:bay%20leaves
-  label: bay leaves
 - id: AUTO:pot
   label: pot
-- id: AUTO:Stir%3B%20Turn
-  label: Stir; Turn
-- id: AUTO:Combined
-  label: Combined
+- id: AUTO:Stir%3B
+  label: Stir;
+- id: AUTO:combine
+  label: combine
+- id: AUTO:-
+  label: '-'
 - id: AUTO:cook%3B
   label: cook;
 - id: AUTO:soup
   label: soup
-- id: AUTO:pan.
-  label: pan.
-- id: AUTO:serve%3B
-  label: serve;
-- id: AUTO:cilantro
-  label: cilantro
-- id: FOODON:03306160
-  label: lime juice
-- id: FOODON:03302515
-  label: sour cream
-- id: FOODON:00001013
-  label: cheese
-- id: FOODON:00003600
-  label: avocado
+- id: AUTO:none.
+  label: none.
+- id: AUTO:topping%3B
+  label: topping;
+- id: AUTO:fresh%20lime%20juice
+  label: fresh lime juice
 - id: FOODON:03302052
   label: corn chips
-- id: AUTO:Pasta%2C%20Homemade%2C%20Main%20Dish
-  label: Pasta, Homemade, Main Dish
 - id: FOODON:03301116
   label: Flour
 - id: AUTO:Salt
   label: Salt
 - id: FOODON:03316061
   label: Eggs
-- id: AUTO:combine%3B
-  label: combine;
-- id: AUTO:mixture
-  label: mixture
-- id: AUTO:bowl
-  label: bowl
-- id: AUTO:Make%3B
-  label: Make;
-- id: AUTO:a
-  label: a
-- id: AUTO:Beat
-  label: Beat
-- id: AUTO:Fork
-  label: Fork
-- id: AUTO:Knead
-  label: Knead
+- id: AUTO:Gather%3B
+  label: Gather;
+- id: FOODON:00004272
+  label: ingredients
+- id: AUTO:N/A.
+  label: N/A.
+- id: AUTO:Combine
+  label: Combine
+- id: AUTO:Well
+  label: Well
+- id: AUTO:Bowl
+  label: Bowl
+- id: AUTO:Work%20surface
+  label: Work surface
+- id: AUTO:Beat%3B%20incorporate
+  label: Beat; incorporate
+- id: AUTO:fork
+  label: fork
+- id: AUTO:knead%3B
+  label: knead;
 - id: FOODON:03311552
-  label: Dough
-- id: AUTO:Smooth
-  label: Smooth
-- id: AUTO:Firm%20dough
-  label: Firm dough
-- id: dbpediaont:hand
-  label: Hands
-- id: AUTO:Wrap%3B%20Add
-  label: Wrap; Add
-- id: AUTO:N/A
-  label: N/A
-- id: AUTO:divide
-  label: divide
-- id: AUTO:chilled%20dough
-  label: chilled dough
-- id: AUTO:pieces
-  label: pieces
-- id: AUTO:roll%20out%3B
-  label: roll out;
-- id: AUTO:floured
-  label: floured
+  label: dough
+- id: AUTO:hands.
+  label: hands.
+- id: AUTO:Wrap%3B%20Chill
+  label: Wrap; Chill
+- id: AUTO:None
+  label: None
+- id: AUTO:divide%3B%20roll%20out
+  label: divide; roll out
+- id: AUTO:two%20pieces%20of%20dough
+  label: two pieces of dough
 - id: FOODON:00002777
-  label: cut
-- id: AUTO:sharp%20knife
-  label: sharp knife
-- id: FOODON:00003928
-  label: pizza
-- id: AUTO:pizza%20cutting%20wheel
-  label: pizza cutting wheel
-- id: AUTO:Lay%3B
-  label: Lay;
-- id: AUTO:cooling%20rack
-  label: cooling rack
-- id: AUTO:-
-  label: '-'
-- id: AUTO:Boil
-  label: Boil
+  label: Cut
+- id: AUTO:Boil%3B%20Drain
+  label: Boil; Drain
 - id: FOODON:00002340
-  label: water
-- id: AUTO:tender%20noodles
-  label: tender noodles
+  label: Water
+- id: AUTO:Boiled%20Water
+  label: Boiled Water

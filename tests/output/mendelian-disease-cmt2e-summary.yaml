@@ -1,4 +1,4 @@
-input_id: /Users/HHegde/Desktop/gitRepo/monarch-initiative/ontogpt/tests/input/cases/mendelian-disease-cmt2e-summary.txt
+input_id: /Users/cjm/repos/ontogpt/tests/input/cases/mendelian-disease-cmt2e-summary.txt
 input_text: "CHARCOT-MARIE-TOOTH DISEASE, AXONAL, TYPE 2E; CMT2E\n\nINHERITANCE\n\
   - Autosomal dominant\nHEAD & NECK\nFace\n- Facial muscle weakness (in some patients)\n\
   Eyes\n- Ptosis (in some patients) \nMouth\n- High-arched palate (in some patients)\n\
@@ -21,16 +21,15 @@ input_text: "CHARCOT-MARIE-TOOTH DISEASE, AXONAL, TYPE 2E; CMT2E\n\nINHERITANCE\
   \ occurs later\n- Variable severity\n- Some patients may become wheelchair-bound\n\
   MOLECULAR BASIS\n- Caused by mutation in the light polypeptide neurofilament protein\
   \ gene (NEFL, 162280.0001)\n"
-raw_completion_output: "Name: Charcot-Marie-Tooth Disease, Axonal, Type 2E \nDescription:\
-  \ A hereditary peripheral Neuropathy characterized by distal limb muscle weakness\
-  \ and distal limb muscle atrophy due to peripheral neuropathy, 'steppage' gait,\
-  \ foot drop, distal sensory impairment, hyporeflexia, areflexia, and axonopathy\
-  \ seen on nerve biopsy.\nSynonyms: CHARCOT-MARIE-TOOTH DISEASE, AXONAL, TYPE 2E;\
-  \ CMT2E\nSubclass_Of: Charcot-Marie-Tooth Disease\nSymptoms: Facial muscle weakness;\
-  \ Ptosis; High-arched palate; Joint contractures; Scoliosis; Claw hand deformities;\
-  \ Pes cavus; Hammer toes; Foot deformities; Shoulder muscle weakness; Hypotrophy\
-  \ of the small hand muscles; Delayed motor development\nInheritance: Autosomal dominant\n\
-  Genes: NEFL \nDisease_Onsets: Adult; Juvenile; First Decade\nLabel: Charcot-Marie-Tooth\
+raw_completion_output: "name: Charcot-Marie-Tooth Disease, Axonal, Type 2E \ndescription:\
+  \ A peripheral neuropathy characterized by distal limb muscle weakness and atrophy,\
+  \ 'steppage' gait, foot drop, distal sensory impairment, hyporeflexia, areflexia,\
+  \ and normal or mildly decreased motor nerve conduction velocity \nsynonyms: CMT2E\n\
+  subclass_of; Charcot-Marie-Tooth Disease\nsymptoms: Facial muscle weakness; Ptosis;\
+  \ High-arched palate; Joint contractures; Scoliosis; Claw hand deformities; Pes\
+  \ cavus; Hammer toes; Foot deformities; Shoulder muscle weakness; Hypotrophy of\
+  \ the small hand muscles; Delayed motor development\ninheritance: Autosomal dominant\n\
+  genes: NEFL\ndisease_onsets: Adult; Juvenile; First decade\nlabel: Charcot-Marie-Tooth\
   \ Disease, Axonal, Type 2E"
 prompt: "From the text below, extract the following entities in the following format:\n\
   \nname: <the name of the disease>\ndescription: <a description of the disease>\n\
@@ -62,72 +61,3 @@ prompt: "From the text below, extract the following entities in the following fo
   - Some patients may become wheelchair-bound\nMOLECULAR BASIS\n- Caused by mutation\
   \ in the light polypeptide neurofilament protein gene (NEFL, 162280.0001)\n\n\n\
   ===\n\n"
-extracted_object:
-  label: Charcot-Marie-Tooth Disease, Axonal, Type 2E
-  name: Charcot-Marie-Tooth Disease, Axonal, Type 2E
-  description: A hereditary peripheral Neuropathy characterized by distal limb muscle
-    weakness and distal limb muscle atrophy due to peripheral neuropathy, 'steppage'
-    gait, foot drop, distal sensory impairment, hyporeflexia, areflexia, and axonopathy
-    seen on nerve biopsy.
-  synonyms:
-  - CHARCOT-MARIE-TOOTH DISEASE, AXONAL, TYPE 2E
-  - CMT2E
-  subclass_of:
-  - MONDO:0015626
-  symptoms:
-  - HP:0030319
-  - HP:0000508
-  - HP:0000218
-  - HP:0034392
-  - HP:0002650
-  - HP:0034337
-  - HP:0001761
-  - AUTO:Hammer%20toes
-  - HP:0001760
-  - AUTO:Shoulder%20muscle%20weakness
-  - HP:0006006
-  - HP:0001270
-  inheritance: HP:0000006
-  genes:
-  - HGNC:7739
-  disease_onsets:
-  - AUTO:Adult
-  - AUTO:Juvenile
-  - AUTO:First%20Decade
-named_entities:
-- id: MONDO:0015626
-  label: Charcot-Marie-Tooth Disease
-- id: HP:0030319
-  label: Facial muscle weakness
-- id: HP:0000508
-  label: Ptosis
-- id: HP:0000218
-  label: High-arched palate
-- id: HP:0034392
-  label: Joint contractures
-- id: HP:0002650
-  label: Scoliosis
-- id: HP:0034337
-  label: Claw hand deformities
-- id: HP:0001761
-  label: Pes cavus
-- id: AUTO:Hammer%20toes
-  label: Hammer toes
-- id: HP:0001760
-  label: Foot deformities
-- id: AUTO:Shoulder%20muscle%20weakness
-  label: Shoulder muscle weakness
-- id: HP:0006006
-  label: Hypotrophy of the small hand muscles
-- id: HP:0001270
-  label: Delayed motor development
-- id: HP:0000006
-  label: Autosomal dominant
-- id: HGNC:7739
-  label: NEFL
-- id: AUTO:Adult
-  label: Adult
-- id: AUTO:Juvenile
-  label: Juvenile
-- id: AUTO:First%20Decade
-  label: First Decade

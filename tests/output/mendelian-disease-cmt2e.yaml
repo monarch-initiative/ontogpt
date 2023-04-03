@@ -1,4 +1,4 @@
-input_id: /Users/HHegde/Desktop/gitRepo/monarch-initiative/ontogpt/tests/input/cases/mendelian-disease-cmt2e.txt
+input_id: /Users/cjm/repos/ontogpt/tests/input/cases/mendelian-disease-cmt2e.txt
 input_text: "Mersiyanova et al. (2000) reported a large 6-generation family from Russia\
   \ with autosomal dominant CMT2. Onset was in the second and third decade, characterized\
   \ by difficulty in walking and weakness and atrophy of the distal lower limb muscles\
@@ -30,15 +30,15 @@ input_text: "Mersiyanova et al. (2000) reported a large 6-generation family from
   \ age 15 years in all but 1 patient. The disorder was slowly progressive but resulted\
   \ in a severe and disabling phenotype. Electrophysiologic studies of both families\
   \ showed intermediate motor nerve conduction velocities consistent with axonal pathology.\n"
-raw_completion_output: "Name: Charcot\u2013Marie\u2013Tooth Disease Type 2E \nDescription:\
-  \ An inherited neurological disorder characterized by slowly progressive muscle\
-  \ weakness and wasting, primarily affecting the lower limbs \nSynonyms: CMT Type\
-  \ 2E; CMT2E; CMT2E with NEFL mutation \nSubclass_of: Charcot-Marie-Tooth Disease\
-  \ \nSymptoms: Difficulty in walking, weak and atrophied distal lower limb muscles,\
-  \ pes cavus, steppage gait, hammertoe, claw hands, ataxic gait, decreased vibration\
-  \ sensation, hypotrophy of the hand muscles \nInheritance: Autosomal dominant \n\
-  Genes: NEFL \nDisease_Onsets: Second decade; third decade; first decade; adult;\
-  \ juvenile; first decade \nLabel: Charcot-Marie-Tooth Disease Type 2E"
+raw_completion_output: "Name: CMT2\nDescription: A hereditary motor and sensory neuropathy\
+  \ characterized by slowly progressive distal lower limb muscle weakness.\nSynonyms:\
+  \ Charcot-Marie-Tooth disease type 2; Hereditary Motor and Sensory Neuropathy Type\
+  \ 2; CMT2E\nSubclass_of: Charcot-Marie-Tooth Disease\nSymptoms: Difficulty in walking;\
+  \ Steppage gait; Pes cavus; Hammertoes; Claw hands; Decreased vibration sense with\
+  \ stocking and glove distribution; Hypotrophy of hand muscles\nInheritance: Autosomal\
+  \ dominant\nGenes: NEFL; 162280.0002; 162880.0006; 162280.0003\nDisease_Onsets:\
+  \ Second and third decade; First decade; Adult; Juvenile; First decade \nLabel:\
+  \ Charcot-Marie-Tooth Disease Type 2"
 prompt: "From the text below, extract the following entities in the following format:\n\
   \nname: <the name of the disease>\ndescription: <a description of the disease>\n\
   synonyms: <semicolon-separated list of synonymss>\nsubclass_of: <semicolon-separated\
@@ -79,76 +79,68 @@ prompt: "From the text below, extract the following entities in the following fo
   \ studies of both families showed intermediate motor nerve conduction velocities\
   \ consistent with axonal pathology.\n\n\n===\n\n"
 extracted_object:
-  label: Charcot-Marie-Tooth Disease Type 2E
-  name: "Charcot\u2013Marie\u2013Tooth Disease Type 2E"
-  description: An inherited neurological disorder characterized by slowly progressive
-    muscle weakness and wasting, primarily affecting the lower limbs
+  label: Charcot-Marie-Tooth Disease Type 2
+  name: CMT2
+  description: A hereditary motor and sensory neuropathy characterized by slowly progressive
+    distal lower limb muscle weakness.
   synonyms:
-  - CMT Type 2E
+  - Charcot-Marie-Tooth disease type 2
+  - Hereditary Motor and Sensory Neuropathy Type 2
   - CMT2E
-  - CMT2E with NEFL mutation
   subclass_of:
   - MONDO:0015626
   symptoms:
-  - AUTO:Difficulty%20in%20walking%2C%20weak%20and%20atrophied%20distal%20lower%20limb%20muscles%2C%20pes%20cavus%2C%20steppage%20gait%2C%20hammertoe%2C%20claw%20hands%2C%20ataxic%20gait%2C%20decreased%20vibration%20sensation%2C%20hypotrophy%20of%20the%20hand%20muscles
+  - HP:0002355
+  - HP:0003376
+  - HP:0001761
+  - HP:0001765
+  - AUTO:Claw%20hands
+  - AUTO:Decreased%20vibration%20sense%20with%20stocking%20and%20glove%20distribution
+  - AUTO:Hypotrophy%20of%20hand%20muscles
   inheritance: HP:0000006
   genes:
   - HGNC:7739
+  - AUTO:162280.0002
+  - AUTO:162880.0006
+  - AUTO:162280.0003
   disease_onsets:
-  - AUTO:Second%20decade
-  - AUTO:third%20decade
-  - AUTO:first%20decade
-  - AUTO:adult
-  - AUTO:juvenile
-  - AUTO:first%20decade
+  - AUTO:Second%20and%20third%20decade
+  - AUTO:First%20decade
+  - AUTO:Adult
+  - AUTO:Juvenile
+  - AUTO:First%20decade
 named_entities:
 - id: MONDO:0015626
   label: Charcot-Marie-Tooth Disease
-- id: HP:0030319
-  label: Facial muscle weakness
-- id: HP:0000508
-  label: Ptosis
-- id: HP:0000218
-  label: High-arched palate
-- id: HP:0034392
-  label: Joint contractures
-- id: HP:0002650
-  label: Scoliosis
-- id: HP:0034337
-  label: Claw hand deformities
+- id: HP:0002355
+  label: Difficulty in walking
+- id: HP:0003376
+  label: Steppage gait
 - id: HP:0001761
   label: Pes cavus
-- id: AUTO:Hammer%20toes
-  label: Hammer toes
-- id: HP:0001760
-  label: Foot deformities
-- id: AUTO:Shoulder%20muscle%20weakness
-  label: Shoulder muscle weakness
-- id: HP:0006006
-  label: Hypotrophy of the small hand muscles
-- id: HP:0001270
-  label: Delayed motor development
+- id: HP:0001765
+  label: Hammertoes
+- id: AUTO:Claw%20hands
+  label: Claw hands
+- id: AUTO:Decreased%20vibration%20sense%20with%20stocking%20and%20glove%20distribution
+  label: Decreased vibration sense with stocking and glove distribution
+- id: AUTO:Hypotrophy%20of%20hand%20muscles
+  label: Hypotrophy of hand muscles
 - id: HP:0000006
   label: Autosomal dominant
 - id: HGNC:7739
   label: NEFL
+- id: AUTO:162280.0002
+  label: '162280.0002'
+- id: AUTO:162880.0006
+  label: '162880.0006'
+- id: AUTO:162280.0003
+  label: '162280.0003'
+- id: AUTO:Second%20and%20third%20decade
+  label: Second and third decade
+- id: AUTO:First%20decade
+  label: First decade
 - id: AUTO:Adult
   label: Adult
 - id: AUTO:Juvenile
   label: Juvenile
-- id: AUTO:First%20Decade
-  label: First Decade
-- id: AUTO:Difficulty%20in%20walking%2C%20weak%20and%20atrophied%20distal%20lower%20limb%20muscles%2C%20pes%20cavus%2C%20steppage%20gait%2C%20hammertoe%2C%20claw%20hands%2C%20ataxic%20gait%2C%20decreased%20vibration%20sensation%2C%20hypotrophy%20of%20the%20hand%20muscles
-  label: Difficulty in walking, weak and atrophied distal lower limb muscles, pes
-    cavus, steppage gait, hammertoe, claw hands, ataxic gait, decreased vibration
-    sensation, hypotrophy of the hand muscles
-- id: AUTO:Second%20decade
-  label: Second decade
-- id: AUTO:third%20decade
-  label: third decade
-- id: AUTO:first%20decade
-  label: first decade
-- id: AUTO:adult
-  label: adult
-- id: AUTO:juvenile
-  label: juvenile

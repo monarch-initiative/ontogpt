@@ -17,7 +17,7 @@ import pydantic
 import yaml
 from linkml_runtime import SchemaView
 from linkml_runtime.linkml_model import ClassDefinition, ElementName, SlotDefinition
-from oaklib import BasicOntologyInterface, get_implementation_from_shorthand
+from oaklib import BasicOntologyInterface, get_implementation_from_shorthand, get_adapter
 from oaklib.datamodels.text_annotator import TextAnnotationConfiguration
 from oaklib.implementations import OntoPortalImplementationBase
 from oaklib.interfaces import MappingProviderInterface, TextAnnotatorInterface
@@ -489,7 +489,7 @@ class KnowledgeEngine(ABC):
                     if self.skip_annotators and annotator in self.skip_annotators:
                         continue
                     logger.info(f"Loading annotator {annotator}")
-                    annotator = get_implementation_from_shorthand(annotator)
+                    annotator = get_adapter(annotator)
                 if not matches_whole_text and not isinstance(
                     annotator, OntoPortalImplementationBase
                 ):

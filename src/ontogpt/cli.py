@@ -140,8 +140,12 @@ def main(verbose: int, quiet: bool, cache_db: str, skip_annotator):
 @click.option("--dictionary")
 @output_format_options
 @click.option("--auto-prefix", default="AUTO", help="Prefix to use for auto-generated classes.")
+@click.option("--set-slot-value",
+              "-S",
+            multiple=True,
+            help="Set slot value, e.g. --set-slot-value has_participant=protein")
 @click.argument("input")
-def extract(template, target_class, dictionary, input, output, output_format, **kwargs):
+def extract(template, target_class, dictionary, input, output, output_format, set_slot_value, **kwargs):
     """Extract knowledge from text guided by schema, using SPIRES engine.
 
     Example:
@@ -181,6 +185,10 @@ def extract(template, target_class, dictionary, input, output, output_format, **
     else:
         target_class_def = None
     results = ke.extract_from_text(text, target_class_def)
+    if set_slot_value:
+        for slot_value in set_slot_value:
+            slot, value = slot_value.split("=")
+            setattr(results.extracted_object, slot, value)
     write_extraction(results, output, output_format, ke)
 
 
@@ -256,6 +264,70 @@ def web_extract(template, url, output, output_format, **kwargs):
     logging.debug(f"Input text: {text}")
     results = ke.extract_from_text(text)
     write_extraction(results, output, output_format)
+
+
+@main.command()
+@output_option_wb
+@click.option("--dictionary")
+@output_format_options
+@click.option(
+    "--recipes-urls-file",
+    "-R",
+    help="File with URLs to recipes to use for extraction",
+)
+@click.option("--auto-prefix", default="AUTO", help="Prefix to use for auto-generated classes.")
+@click.argument("url")
+def recipe_extract(url, recipes_urls_file, dictionary, output, output_format, **kwargs):
+    """Extract from recipe on the web.
+
+    """
+    from recipe_scrapers import scrape_me
+    if recipes_urls_file:
+        with open(recipes_urls_file, "r") as f:
+            urls = [line.strip() for line in f.readlines() if url in line]
+            if len(urls) != 1:
+                raise ValueError(f"Found {len(urls)} URLs in {recipes_urls_file}")
+            url = urls[0]
+    scraper = scrape_me(url)
+    template = "recipe"
+    logging.info(f"Creating for {template}")
+    ke = SPIRESEngine(template, **kwargs)
+    if settings.cache_db:
+        ke.client.cache_db_path = settings.cache_db
+    if settings.skip_annotators:
+        ke.client.skip_annotators = settings.skip_annotators
+    if dictionary:
+        ke.load_dictionary(dictionary)
+    ingredients = "\n".join(scraper.ingredients())
+    instructions = "\n".join(scraper.instructions_list())
+    text = f"""
+    Recipe: {scraper.title()}
+    Ingredients:\n{ingredients}
+    Instructions:\n{instructions}
+    """
+    logging.info(f"Input text: {text}")
+    results = ke.extract_from_text(text)
+    results.extracted_object.url = url
+    write_extraction(results, output, output_format, ke)
+
+
+@main.command()
+@output_option_wb
+@output_format_options
+@click.argument("input")
+def convert(input, output, output_format, **kwargs):
+    """Convert output format.
+
+    """
+    template = "recipe"
+    logging.info(f"Creating for {template}")
+    ke = SPIRESEngine(template, **kwargs)
+    cls = ke.template_pyclass
+    with open(input, "r") as f:
+        data = yaml.safe_load(f)
+    obj = cls(**data["extracted_object"])
+    results = ExtractionResult(extracted_object=obj)
+    write_extraction(results, output, output_format, ke)
 
 
 @main.command()

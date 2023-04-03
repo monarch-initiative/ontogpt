@@ -43,26 +43,27 @@ input_text: "Development of genomic resources for Sphagnum magellanicum (Bryophy
   \ enabling research that connects field studies of species biology and community\
   \ structure, ecosystem function, global carbon fluxes, and control of past, present,\
   \ and future climate.\n"
-raw_completion_output: 'Environments: peatlands; subarctic; boreal; subtropical; Andes;
-  Tierra del Fuego; arctic tundra
+raw_completion_output: '
 
-  Causal Relationships: impact of global carbon fluxes on climate; impact of rising
-  temperatures on carbon stored in arctic tundra;
+  environments: subarctic; boreal; subtropical; Andes; Tierra del Fuego; arctic tundra;
 
-  Variables: temperature; nutrients; anoxia; whole plant productivity and decomposition
-  rates; nitrogen and phosphorous contents; foliar pH; production of Sphagnum acids
+  causal_relationships: carbon fluxes and climate; traits and Sphagnum growth/decomposition;
+  temperature and carbon storage; microhabitat specialization and species biology;
 
-  Treatments: none
+  variables: temperature; pH; salinity; nitrogen; phosphorous; Sphagnum acids;
 
-  Measurements: none
+  treatments: none
 
-  Location: Florida US;
+  measurements: decomposition rates; productivity; nitrogen content; phosphorous content;
+  foliar pH; production of Sphagnum acids
 
-  Environmental Material: partially decomposed plant material
+  location: subarctic; boreal; subtropical; Andes; Tierra del Fuego
 
-  Sequencing Technologies: none
+  environmental_material: carbon;
 
-  Organisms: Sphagnum magellanicum; Physcomitrella patens; Bryophyta; land plants'
+  sequencing_technologies: none
+
+  organisms: Sphagnum magellanicum; Physcomitrella patens'
 prompt: 'Split the following piece of text into fields in the following format:
 
 
@@ -74,7 +75,7 @@ prompt: 'Split the following piece of text into fields in the following format:
 
   Text:
 
-  none
+  production of Sphagnum acids
 
 
   ===
@@ -83,7 +84,6 @@ prompt: 'Split the following piece of text into fields in the following format:
   '
 extracted_object:
   environments:
-  - ENVO:00000044
   - ENVO:01000251
   - ENVO:01000251
   - ENVO:01000205
@@ -91,52 +91,97 @@ extracted_object:
   - AUTO:Tierra%20del%20Fuego
   - AUTO:arctic%20tundra
   causal_relationships:
-  - cause: AUTO:global%20carbon%20fluxes
+  - cause: AUTO:carbon%20fluxes
     effect: ENVO:01001082
-  - cause: AUTO:rising%20temperatures
-    effect: AUTO:carbon%20stored%20in%20arctic%20tundra
+  - cause: AUTO:traits
+    effect: AUTO:Sphagnum%20growth/decomposition
+  - cause: PATO:0000146
+    effect: AUTO:carbon%20storage
+  - cause: AUTO:microhabitat%20specialization
+    effect: AUTO:species%20biology
   variables:
   - PATO:0000146
-  - AUTO:nutrients
-  - AUTO:anoxia
-  - AUTO:whole%20plant%20productivity%20and%20decomposition%20rates
-  - AUTO:nitrogen%20and%20phosphorous%20contents
-  - AUTO:foliar%20pH
-  - AUTO:production%20of%20Sphagnum%20acids
+  - PATO:0001842
+  - AUTO:salinity
+  - AUTO:nitrogen
+  - AUTO:phosphorous
+  - AUTO:Sphagnum%20acids
   treatments:
   - AUTO:none
   measurements:
-  - value: none
+  - value: decomposition rates
+    unit: AUTO:None
+  - value: productivity
+    unit: AUTO:none
+  - value: nitrogen content
+  - value: phosphorous
+    unit: AUTO:content
+  - value: foliar
+    unit: UO:0000196
+  - value: production
+    unit: AUTO:Sphagnum%20acids
   location:
-  - GAZ:00002888
+  - ENVO:01000251
+  - ENVO:01000251
+  - ENVO:01000205
+  - GAZ:00008631
+  - AUTO:Tierra%20del%20Fuego
   environmental_material:
-  - AUTO:partially%20decomposed%20plant%20material
+  - AUTO:carbon
   sequencing_technologies: AUTO:none
   organisms:
   - NCBITaxon:128215
   - NCBITaxon:3218
-  - NCBITaxon:3208
-  - NCBITaxon:3193
 named_entities:
-- id: ENVO:00000044
-  label: peatlands
 - id: ENVO:01000251
   label: subarctic
-- id: ENVO:01000251
-  label: boreal
 - id: ENVO:01000205
   label: subtropical
+- id: AUTO:Andes
+  label: Andes
+- id: AUTO:Tierra%20del%20Fuego
+  label: Tierra del Fuego
+- id: AUTO:arctic%20tundra
+  label: arctic tundra
+- id: AUTO:carbon%20fluxes
+  label: carbon fluxes
 - id: ENVO:01001082
   label: climate
+- id: AUTO:traits
+  label: traits
+- id: AUTO:Sphagnum%20growth/decomposition
+  label: Sphagnum growth/decomposition
 - id: PATO:0000146
   label: temperature
-- id: GAZ:00002888
-  label: Florida US
+- id: AUTO:carbon%20storage
+  label: carbon storage
+- id: AUTO:microhabitat%20specialization
+  label: microhabitat specialization
+- id: AUTO:species%20biology
+  label: species biology
+- id: PATO:0001842
+  label: pH
+- id: AUTO:salinity
+  label: salinity
+- id: AUTO:nitrogen
+  label: nitrogen
+- id: AUTO:phosphorous
+  label: phosphorous
+- id: AUTO:Sphagnum%20acids
+  label: Sphagnum acids
+- id: AUTO:none
+  label: none
+- id: AUTO:None
+  label: None
+- id: AUTO:content
+  label: content
+- id: UO:0000196
+  label: pH
+- id: GAZ:00008631
+  label: Andes
+- id: AUTO:carbon
+  label: carbon
 - id: NCBITaxon:128215
   label: Sphagnum magellanicum
 - id: NCBITaxon:3218
   label: Physcomitrella patens
-- id: NCBITaxon:3208
-  label: Bryophyta
-- id: MESH:D019669
-  label: land plants

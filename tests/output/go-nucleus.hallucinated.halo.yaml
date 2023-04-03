@@ -348,30 +348,61 @@ elements:
   - Cell
 - name: Axon
   context: subcellular
-  description: The long projection of a nerve cell, or neuron, that conducts nerve
-    impulses, away from the nerve cell body. A single neuron may have many axons.
+  description: The long process of a neuron that conducts nerve impulses, usually
+    away from the cell body to the terminals and varicosities, which are sites of
+    storage and release of neurotransmitter.
   synonyms:
-  - axon process
-  - nerve axon
+  - process of Anaxonic cell
+  - process of neuron cell
   subclass_of:
-  - Individual
-  - NerveFiber
-  subtypes:
-  - BasketAxons
-  equivalent_to: Individual and only has some NerveFiber as part
+  - PartOfSensorimotorSystem
+  - AnaxonicCellProcess
+  - Neuron
+  equivalent_to: Neuron and has part some '(process of Anaxonic cell) or (process
+    of neuron cell)'
 - name: Dendrite
   context: subcellular
-  description: The short fiber of a nerve cell '
-- name: BasketAxons
+  description: a neuron's branched extension that conducts the reflex impulses to
+    the cell body
+  synonyms:
+  - ecdysone receptor
+  subclass_of:
+  - Axon
+  subtypes:
+  - Autograph
+  - Encephalograph
+  - Telegraph
+  - Timeograph
+  - Xylograph
+- name: PartOfSensorimotorSystem
   context: subcellular
-- name: Individual
+  subclass_of:
+  - NeurologicalTissue
+  - MobileAnatomicalStructure
+  part_of:
+  - WholeSensorimotorSystem
+  subtypes:
+  - AfferentNerve
+  - EfferentNerve
+  - Ganglion
+  - MotorSystem
+  - SensoryReceptor
+  - SomaticCentralNervousSystemCell
+  equivalent_to: NeuralTissue and part of some MobileAnatomicalStructure
+- name: AnaxonicCellProcess
   context: subcellular
-  equivalent_to: ncbitaxon:43229
-- name: NerveFiber
+  part_of:
+  - CellProcess
+  - AnatomicalStructureProcess
+  - BiologicalProcess
+- name: Neuron
   context: subcellular
-  description: The fiber composed of an axon, or railroad, on which a neuron transports
-    its nerve signals. The outgrowths of the nerve fibers may be covered in myelin.
-    The nerve fiber is sort of a pipe, through which the neuronal signals are transported.
-    The neuronal signals can be atoms or molecules, but also complexes of atoms or
-    big molecules.
-  equivalent_to: has part only NerveSignal as part
+  subtypes:
+  - CentralNervousSystemNeuron
+  - DorsalRootGangliaNeuron
+- name: Segment
+  context: subcellular
+  description: Describes how we visually represent the context, that is what is written.
+  subtypes:
+  - Autinem, Automeme, Autoradic, Autoflume
+  equivalent_to: isWriteContextOf
