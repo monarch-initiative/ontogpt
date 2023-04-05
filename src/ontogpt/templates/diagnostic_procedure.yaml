@@ -1,0 +1,78 @@
+id: http://w3id.org/ontogpt/diagnostic_procedure
+name: diagnostic_procedure
+title: Diagnostic Procedure Template
+description: >-
+  A template for clinical diagnostic procedures and the
+  phenotypes they may contribute to.
+license: https://creativecommons.org/publicdomain/zero/1.0/
+prefixes:
+  linkml: https://w3id.org/linkml/
+  diag: http://w3id.org/ontogpt/diagnostic_procedure/
+
+default_prefix: diag
+default_range: string
+
+imports:
+  - linkml:types
+  - core
+
+classes:
+  DiagnosticProcedure:
+    tree_root: true
+    attributes:
+      procedure_name:
+        description: The name of the diagnostic procedure.
+        range: Procedure
+      phenotype:
+        description: The name of a phenotype associated with the diagnostic procedure.
+        range: Phenotype
+      links:
+        description: semicolon-separated list of links, where each link is a triple connecting two entities via a relationship type
+        multivalued: true
+        range: Link
+      references:
+        multivalued: true
+        range: string
+        annotations:
+          prompt.skip: "true"
+      source_text:
+        range: string
+        annotations:
+          prompt.skip: "true"
+
+  Procedure:
+    is_a: NamedEntity
+    id_prefixes:
+      - LOINC
+    annotations:
+      annotators: bioportal:loinc
+
+  Phenotype:
+    is_a: NamedEntity
+    id_prefixes:
+      - HP
+    annotations:
+      annotators: sqlite:obo:hp
+
+  LinkedElement:
+    is_a: NamedEntity
+    id_prefixes:
+      - MESH
+    annotations:
+      annotators: sqlite:obo:mesh
+
+  Predicate:
+    is_a: NamedEntity
+    annotations:
+      annotators: sqlite:obo:biolink, sqlite:obo:ro
+
+  Link:
+    is_a:   CompoundExpression
+    attributes:
+      subject:
+        range: LinkedElement
+      predicate:
+        range: Predicate
+      object:
+        range: LinkedElement
+
