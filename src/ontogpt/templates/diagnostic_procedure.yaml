@@ -20,6 +20,13 @@ imports:
   - linkml:types
   - core
 
+# TODO: Try expanding schema to capture the subject(s) of the measurement, e.g.,
+# "white blood cell count" has a subject of "white blood cell", and most procedures
+# don't even include anything denoting them as procedures; "serum IgG" has a subject of "IgG" 
+# In turn, those subjects correspond to properties (PATO, OBA). 
+# LOINC isn't great for grounding, but perhaps a combo of subject, unit, and qualifier would work
+# since LOINC names are often like "IgG [Units/volume] in Serum"
+
 classes:
 
   DiagnosticProcedureRelationship:
