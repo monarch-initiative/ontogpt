@@ -8,6 +8,10 @@ license: https://creativecommons.org/publicdomain/zero/1.0/
 prefixes:
   linkml: https://w3id.org/linkml/
   diag: http://w3id.org/ontogpt/diagnostic_procedure/
+  LOINC: http://loinc.org/rdf/
+  HP: http://purl.obolibrary.org/obo/HP_
+  RO: http://purl.obolibrary.org/obo/RO_
+  biolink: https://w3id.org/biolink/vocab/
 
 default_prefix: diag
 default_range: string
@@ -56,10 +60,6 @@ classes:
       annotators: bioportal:loinc
     id_prefixes:
       - LOINC
-    slot_usage:
-      id:
-        values_from:
-          - MeshDiseaseIdentifier
 
   Phenotype:
     is_a: NamedEntity
