@@ -65,6 +65,11 @@ RECIPES = case-spaghetti case-egg-noodles case-tortilla-soup \
  web-sauteed-lacinato-kale \
  web-quick-pickled-onions \
  web-deviled-eggs-106562 \
+ web-corn-dog \
+ web-spicy-thai-basil-chicken-pad-krapow-gai \
+ web-marinated-summer-squash-with-hazelnuts-and-ricotta \
+ web-Waldorf \
+ web-red-lentil-soup \
  web-sweet-and-spicy-pork-and-napa-cabbage-stir-fry-with-spicy-noodles
 
 RECIPE_URLS_FILE = tests/input/recipe-urls.csv
