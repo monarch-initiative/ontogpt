@@ -17,62 +17,58 @@ imports:
   - core
 
 classes:
-  DiagnosticProcedure:
-    tree_root: true
-    attributes:
-      procedure_name:
-        description: The name of the diagnostic procedure.
+
+  DiagnosticProcedureRelationship:
+    is_a: Triple
+    description: >- 
+      A triple representing a relationship between a diagnostic
+      procedure and an associated phenotype, e.g., "blood pressure measurement"
+      is associated with "high blood pressure".
+    slot_usage:
+      subject:
         range: Procedure
-      phenotype:
-        description: The name of a phenotype associated with the diagnostic procedure.
+        description: >-
+          A diagnostic procedure yielding a result, which in turn
+          may be interpreted as a phenotype.
+          Procedures include "heart rate measurement", "blood pressure measurement",
+          "oxygen saturation measurement", etc. In practice, procedures may be
+          named based on what they measure, with the "measurement" part left implicit.
+      object:
         range: Phenotype
-      links:
-        description: semicolon-separated list of links, where each link is a triple connecting two entities via a relationship type
-        multivalued: true
-        range: Link
-      references:
-        multivalued: true
-        range: string
-        annotations:
-          prompt.skip: "true"
-      source_text:
-        range: string
-        annotations:
-          prompt.skip: "true"
+        description: >-
+          The observable physical or biochemical characteristics of a patient.
+          Not equivalent to a disease state, but may contribute to a diagnosis.
+      predicate:
+        range: ProcedureToPhenotypePredicate
+        description: The relationship type, e.g. RELATED_TO
+      subject_qualifier:
+        range: NamedEntity
+        description: >-
+          An optional qualifier or modifier for the procedure.
+      object_qualifier:
+        range: NamedEntity
+        description: >-
+          An optional qualifier or modifier for the phenotype.
 
   Procedure:
     is_a: NamedEntity
-    id_prefixes:
-      - LOINC
     annotations:
       annotators: bioportal:loinc
+    id_prefixes:
+      - LOINC
+    slot_usage:
+      id:
+        values_from:
+          - MeshDiseaseIdentifier
 
   Phenotype:
     is_a: NamedEntity
-    id_prefixes:
-      - HP
     annotations:
       annotators: sqlite:obo:hp
-
-  LinkedElement:
-    is_a: NamedEntity
     id_prefixes:
-      - MESH
-    annotations:
-      annotators: sqlite:obo:mesh
+      - HP
 
-  Predicate:
-    is_a: NamedEntity
-    annotations:
-      annotators: sqlite:obo:biolink, sqlite:obo:ro
-
-  Link:
-    is_a:   CompoundExpression
-    attributes:
-      subject:
-        range: LinkedElement
-      predicate:
-        range: Predicate
-      object:
-        range: LinkedElement
-
+  ProcedureToPhenotypePredicate:
+    is_a: RelationshipType
+    description: >-
+      A predicate for chemical to disease relationships

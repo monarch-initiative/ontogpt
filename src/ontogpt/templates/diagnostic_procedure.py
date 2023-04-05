@@ -20,16 +20,6 @@ class ConfiguredBaseModel(WeakRefShimBaseModel,
     pass                    
 
 
-class DiagnosticProcedure(ConfiguredBaseModel):
-    
-    procedure_name: Optional[str] = Field(None, description="""The name of the diagnostic procedure.""")
-    phenotype: Optional[str] = Field(None, description="""The name of a phenotype associated with the diagnostic procedure.""")
-    links: Optional[List[Link]] = Field(default_factory=list, description="""semicolon-separated list of links, where each link is a triple connecting two entities via a relationship type""")
-    references: Optional[List[str]] = Field(default_factory=list)
-    source_text: Optional[str] = Field(None)
-    
-
-
 class ExtractionResult(ConfiguredBaseModel):
     """
     A result of extracting knowledge on text
@@ -65,31 +55,9 @@ class Phenotype(NamedEntity):
     
 
 
-class LinkedElement(NamedEntity):
-    
-    id: Optional[str] = Field(None, description="""A unique identifier for the named entity""")
-    label: Optional[str] = Field(None, description="""The label (name) of the named thing""")
-    
-
-
-class Predicate(NamedEntity):
-    
-    id: Optional[str] = Field(None, description="""A unique identifier for the named entity""")
-    label: Optional[str] = Field(None, description="""The label (name) of the named thing""")
-    
-
-
 class CompoundExpression(ConfiguredBaseModel):
     
     None
-    
-
-
-class Link(CompoundExpression):
-    
-    subject: Optional[str] = Field(None)
-    predicate: Optional[str] = Field(None)
-    object: Optional[str] = Field(None)
     
 
 
@@ -106,6 +74,19 @@ class Triple(CompoundExpression):
     
 
 
+class DiagnosticProcedureRelationship(Triple):
+    """
+    A triple representing a relationship between a diagnostic procedure and an associated phenotype, e.g., \"blood pressure measurement\" is associated with \"high blood pressure\".
+    """
+    subject: Optional[str] = Field(None, description="""A diagnostic procedure yielding a result, which in turn may be interpreted as a phenotype. Procedures include \"heart rate measurement\", \"blood pressure measurement\", \"oxygen saturation measurement\", etc. In practice, procedures may be named based on what they measure, with the \"measurement\" part left implicit.""")
+    predicate: Optional[str] = Field(None, description="""The relationship type, e.g. RELATED_TO""")
+    object: Optional[str] = Field(None, description="""The observable physical or biochemical characteristics of a patient. Not equivalent to a disease state, but may contribute to a diagnosis.""")
+    qualifier: Optional[str] = Field(None, description="""A qualifier for the statements, e.g. \"NOT\" for negation""")
+    subject_qualifier: Optional[str] = Field(None, description="""An optional qualifier or modifier for the procedure.""")
+    object_qualifier: Optional[str] = Field(None, description="""An optional qualifier or modifier for the phenotype.""")
+    
+
+
 class TextWithTriples(ConfiguredBaseModel):
     
     publication: Optional[Publication] = Field(None)
@@ -115,6 +96,15 @@ class TextWithTriples(ConfiguredBaseModel):
 
 class RelationshipType(NamedEntity):
     
+    id: Optional[str] = Field(None, description="""A unique identifier for the named entity""")
+    label: Optional[str] = Field(None, description="""The label (name) of the named thing""")
+    
+
+
+class ProcedureToPhenotypePredicate(RelationshipType):
+    """
+    A predicate for chemical to disease relationships
+    """
     id: Optional[str] = Field(None, description="""A unique identifier for the named entity""")
     label: Optional[str] = Field(None, description="""The label (name) of the named thing""")
     
@@ -141,18 +131,16 @@ class AnnotatorResult(ConfiguredBaseModel):
 
 # Update forward refs
 # see https://pydantic-docs.helpmanual.io/usage/postponed_annotations/
-DiagnosticProcedure.update_forward_refs()
 ExtractionResult.update_forward_refs()
 NamedEntity.update_forward_refs()
 Procedure.update_forward_refs()
 Phenotype.update_forward_refs()
-LinkedElement.update_forward_refs()
-Predicate.update_forward_refs()
 CompoundExpression.update_forward_refs()
-Link.update_forward_refs()
 Triple.update_forward_refs()
+DiagnosticProcedureRelationship.update_forward_refs()
 TextWithTriples.update_forward_refs()
 RelationshipType.update_forward_refs()
+ProcedureToPhenotypePredicate.update_forward_refs()
 Publication.update_forward_refs()
 AnnotatorResult.update_forward_refs()
 
