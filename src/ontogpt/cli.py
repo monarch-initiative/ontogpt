@@ -16,6 +16,8 @@ from ontogpt import __version__
 from ontogpt.clients import OpenAIClient
 from ontogpt.clients.pubmed_client import PubmedClient
 from ontogpt.clients.soup_client import SoupClient
+from ontogpt.engines import create_engine
+from ontogpt.engines.enrichment import EnrichmentEngine
 from ontogpt.engines.halo_engine import HALOEngine
 from ontogpt.engines.knowledge_engine import KnowledgeEngine
 from ontogpt.engines.spires_engine import SPIRESEngine
@@ -343,6 +345,20 @@ def synonyms(term, context, output, output_format, **kwargs):
     ke = SynonymEngine()
     out = str(ke.synonyms(term, context))
     output.write(out)
+
+
+@main.command()
+@output_option_txt
+@output_format_options
+@click.option(
+    "-C", "--context",  help="domain e.g. anatomy, industry, health-related (NOT IMPLEMENTED)"
+)
+@click.argument("genes", nargs=-1)
+def enrichment(genes, context, output, output_format, **kwargs):
+    """Gene class enrichment."""
+    ke: EnrichmentEngine = create_engine(None, EnrichmentEngine)
+    desc = ke.summarize(genes)
+    output.write(desc)
 
 
 @main.command()
