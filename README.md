@@ -294,7 +294,7 @@ enums:
 
 ## OWL Exports
 
-The `extract` command will let you export the results as OWL axioms, utilizing linkml-owl mappings in the schema.
+The `extract` command will let you export the results as OWL axioms, utilizing [linkml-owl](https://linkml.io/linkml-owl) mappings in the schema.
 
 For example:
 
@@ -306,7 +306,19 @@ See [src/ontogpt/templates/recipe.yaml](src/ontogpt/templates/recipe.yaml)
 for an example of a schema that uses linkml-owl mappings.
 
 See the Makefile for a full pipeline that involves using robot to extract a subset of FOODON
-and merge in the extracted results.
+and merge in the extracted results. This uses [recipe-scrapers](https://github.com/hhursev/recipe-scrapers)
+
+Example output OWL here:
+
+- [recipe-all-merged.owl](https://github.com/monarch-initiative/ontogpt/blob/main/tests/output/owl/merged/recipe-all-merged.owl)
+
+Example classification:
+
+<img width="1329" alt="image" src="https://user-images.githubusercontent.com/50745/230427663-20d845e9-f1d5-490e-b1ad-cdccdd0dca70.png">
+
+
+Contributions on recipes to test welcome from anyone! Just make a PR [here](https://github.com/monarch-initiative/ontogpt/blob/main/tests/input/recipe-urls.csv). See [this list](https://github.com/hhursev/recipe-scrapers) for accepted URLs
+
 
 ## HALO: Usage
 
