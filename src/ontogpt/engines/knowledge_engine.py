@@ -145,7 +145,8 @@ class KnowledgeEngine(ABC):
     def __post_init__(self):
         if self.template:
             self.template_class = self._get_template_class(self.template)
-        logging.info(f"Using template {self.template_class.name}")
+        if self.template_class:
+            logging.info(f"Using template {self.template_class.name}")
         self.client = OpenAIClient()
         logging.info("Setting up OpenAI client API Key")
         self.api_key = self._get_openai_api_key()
