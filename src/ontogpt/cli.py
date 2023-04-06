@@ -350,14 +350,60 @@ def synonyms(term, context, output, output_format, **kwargs):
 @main.command()
 @output_option_txt
 @output_format_options
+@click.option("--resolver",
+              "-r",
+              help="OAK selector for the gene ID resolver. E.g. sqlite:obo:hgnc")
 @click.option(
-    "-C", "--context",  help="domain e.g. anatomy, industry, health-related (NOT IMPLEMENTED)"
+    "-C", "--context",
+    help="domain e.g. anatomy, industry, health-related (NOT IMPLEMENTED - currently gene only)"
+)
+@click.option(
+    "--strict/--no-strict",
+    default=True,
+    show_default=True,
+    help="If set, there must be a unique mappings from labels to IDs",
+)
+@click.option(
+    "--input-file",
+    "-U",
+    help="File with gene IDs to enrich (if not passed as arguments)",
 )
 @click.argument("genes", nargs=-1)
-def enrichment(genes, context, output, output_format, **kwargs):
-    """Gene class enrichment."""
+def enrichment(genes, context, strict: bool, input_file, resolver, output, output_format, **kwargs):
+    """Gene class enrichment.
+
+    Algorithm:
+
+    1. Map gene symbols to IDs using the resolver (unless IDs specified)
+    2. Fetch gene descriptions using Alliance API
+    3. Create a prompt using descriptions
+
+    Limitations:
+
+    It is very easy to exceed the max token length; resolved in GPT-4?
+
+    Usage:
+
+        ontogpt enrichment -r sqlite:obo:hgnc -U tests/input/human-genes.txt
+
+    Usage:
+
+        ontogpt enrichment -r sqlite:obo:hgnc -U tests/input/human-genes.txt
+
+    """
+    if not genes and not input_file:
+        raise ValueError("Either genes or input file must be passed")
+    if input_file:
+        if genes:
+            raise ValueError("Either genes or input file must be passed")
+        with open(input_file, "r") as f:
+            genes = [line.strip() for line in f.readlines()]
+    if not genes:
+        raise ValueError("No genes passed")
     ke: EnrichmentEngine = create_engine(None, EnrichmentEngine)
-    desc = ke.summarize(genes)
+    if resolver:
+        ke.add_resolver(resolver)
+    desc = ke.summarize(genes, normalize=resolver is not None, strict=strict)
     output.write(desc)
 
 

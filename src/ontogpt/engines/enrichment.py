@@ -1,7 +1,10 @@
-from dataclasses import dataclass
-from typing import List
+import logging
+from collections.abc import Iterator
+from dataclasses import dataclass, field
+from typing import List, Dict
 
 import requests
+from oaklib import BasicOntologyInterface, get_adapter
 
 from ontogpt.engines.knowledge_engine import KnowledgeEngine
 
@@ -16,16 +19,25 @@ then the term "digit development" would be enriched as represented by gene1 and 
 Here are the gene summaries:
 """
 
+ENTITY_ID = str
+
 @dataclass
 class EnrichmentEngine(KnowledgeEngine):
     """Engine for performing term enrichment."""
 
     engine: str = "text-davinci-003"
 
-    def summarize(self, ids: List[str]) -> List[str]:
+    label_resolvers: Dict[str, BasicOntologyInterface] = field(default_factory=dict)
+
+    def summarize(self, ids: List[ENTITY_ID], normalize=False, strict=False) -> str:
         """Summarize gene IDs."""
         genes = []
+        if normalize:
+            logging.info(f"Normalizing {len(ids)} gene IDs: {ids}")
+            ids = list(self.map_labels(ids, strict=strict))
+            logging.info(f"Normalized {len(ids)} gene IDs => {ids}")
         for id in ids:
+            logging.info(f"Fetching gene summary for {id}...")
             symbol, desc = self.gene_summary(id)
             genes.append((id, symbol, desc))
         prompt = BASE_PROMPT
@@ -34,8 +46,9 @@ class EnrichmentEngine(KnowledgeEngine):
         payload = self.client.complete(prompt)
         return payload
 
-    def gene_summary(self, id: str) -> str:
+    def gene_summary(self, id: ENTITY_ID) -> str:
         url = f"https://www.alliancegenome.org/api/gene/{id}"
+        logging.info(f"Fetching gene summary from {url}")
         response = requests.get(url)
         if response.status_code != 200:
             print(f"Error fetching issues: {response.status_code} // {response.text}")
@@ -44,3 +57,24 @@ class EnrichmentEngine(KnowledgeEngine):
         symbol = obj["symbol"]
         description = obj["automatedGeneSynopsis"]
         return symbol, description
+
+    def map_labels(self, labels: List[str], strict=False) -> Iterator[ENTITY_ID]:
+        """Map labels to IDs."""
+        for label in labels:
+            if ":" in label and " " not in label:
+                yield label
+            for adapter in self.label_resolvers.values():
+                try:
+                    curies = [x.upper() for x in adapter.curies_by_label(label)]
+                    if len(curies) != 1:
+                        logging.warning(f"Found {len(curies)} curies for label: {label}")
+                        if strict:
+                            raise ValueError(f"Found {len(curies)} curies for label: {label}")
+                    if curies:
+                        yield curies[0]
+                except ValueError:
+                    continue
+
+    def add_resolver(self, resolver: str):
+        self.label_resolvers[resolver] = get_adapter(resolver)
+
