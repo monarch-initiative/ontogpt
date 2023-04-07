@@ -10,7 +10,7 @@ Currently there are two different pipelines implemented:
 
 - SPIRES: Structured Prompt Interrogation and Recursive Extraction of Semantics
     - Zero-shot learning approach to extracting nested semantic structures from text
-    - Inputs: LinkML schema + text
+    - Inputs: [LinkML](https://linkml.io/) schema + text
     - Outputs: JSON, YAML, or RDF or OWL that conforms to the schema
     - Uses text-davinci-003
 - HALO: HAllucinating Latent Ontologies 
@@ -77,20 +77,20 @@ Note in the above the grounding is very preliminary and can be improved. Ungroun
 
 1. You provide an arbitrary data model, describing the structure you want to extract text into
     - this can be nested (but see limitations below)
-2. provide your preferred annotations for grounding NamedEntity fields
-3. ontogpt will:
+2. Provide your preferred annotations for grounding NamedEntity fields
+3. OntoGPT will:
     - generate a prompt
-    - feed the prompt to a language model (currently OpenAI)
+    - feed the prompt to a language model (currently OpenAI GPT models)
     - parse the results into a dictionary structure
     - ground the results using a preferred annotator
 
 ## Pre-requisites
 
-- python 3.9+
-- an OpenAI account
-- a BioPortal account (optional, for grounding)
+- Python 3.9+
+- An OpenAI account
+- A [BioPortal](https://bioportal.bioontology.org/) account (optional, for grounding)
 
-You will need to set both API keys using OAK (which is a dependency of this project)
+You will need to set both API keys using the [Ontology Access Kit](https://github.com/INCATools/ontology-access-kit) (OAK, a dependency of this project)
 
 ```
 poetry run runoak set-apikey -e openai <your openai api key>
@@ -175,7 +175,7 @@ classes:
 - define a class for each NamedEntity
 - for any NamedEntity, you can specify a preferred annotator using the `annotators` annotation
 
-We recommend following an established schema like Biolink, but you can define your own.
+We recommend following an established schema like [BioLink Model](https://github.com/biolink/biolink-model), but you can define your own.
 
 ### Step 2: Compile the schema
 
@@ -206,7 +206,7 @@ don't host this publicly without authentication, unless you want your credits dr
 
 Currently no more than two levels of nesting are recommended.
 
-If a field has a range which is itself a class and not a primitive, it will attempt to nest
+If a field has a range which is itself a class and not a primitive, it will attempt to nest.
 
 E.g. the gocam schema has an attribute:
 
@@ -219,7 +219,7 @@ E.g. the gocam schema has an attribute:
         range: GeneMolecularActivityRelationship
 ```
 
-Because GeneMolecularActivityRelationship is *inlined* it will nest
+Because `GeneMolecularActivityRelationship` is *inlined* it will nest
 
 The generated prompt is:
 
@@ -328,6 +328,21 @@ TODO
 
 
 
+## Gene Enrichment
+
+Given a set of genes, OntoGPT can find similarities among them.
+
+Example:
+```
+ontogpt enrichment HGNC:8858 HGNC:8859 HGNC:9719
+```
+
+Results:
+
+```
+Commonality: Protein targeting to the Peroxisome. All the genes are involved in targeting proteins to the peroxisome membrane, matrix or both, and they are all located in cytoplasm; peroxisome; and/or endoplasmic reticulum. Additionally, they all enable different types of binding activity and/or hydrolysing activity which likely contribute to their roles in protein import
+```
+
 ## OntoGPT Limitations
 
 ### Non-deterministic
@@ -336,7 +351,7 @@ This relies on an existing LLM, and LLMs can be fickle in their responses.
 
 ### Coupled to OpenAI
 
-You will need an openai account. In theory any LLM can be used but in practice the parser is tuned for OpenAI
+You will need an OpenAI account to use their API. In theory any LLM can be used but in practice the parser is tuned for OpenAI's models.
 
 
 
