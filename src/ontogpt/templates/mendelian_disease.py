@@ -45,13 +45,11 @@ class ExtractionResult(ConfiguredBaseModel):
 
 
 class NamedEntity(ConfiguredBaseModel):
-
     id: Optional[str] = Field(None, description="""A unique identifier for the named entity""")
     label: Optional[str] = Field(None, description="""The label (name) of the named thing""")
 
 
 class MendelianDisease(NamedEntity):
-
     name: Optional[str] = Field(None, description="""the name of the disease""")
     description: Optional[str] = Field(None, description="""a description of the disease""")
     synonyms: Optional[List[str]] = Field(default_factory=list)
@@ -66,19 +64,16 @@ class MendelianDisease(NamedEntity):
 
 
 class DiseaseCategory(NamedEntity):
-
     id: Optional[str] = Field(None, description="""A unique identifier for the named entity""")
     label: Optional[str] = Field(None, description="""The label (name) of the named thing""")
 
 
 class Gene(NamedEntity):
-
     id: Optional[str] = Field(None, description="""A unique identifier for the named entity""")
     label: Optional[str] = Field(None, description="""The label (name) of the named thing""")
 
 
 class Symptom(NamedEntity):
-
     characteristic: Optional[str] = Field(None)
     affects: Optional[str] = Field(None)
     severity: Optional[str] = Field(None)
@@ -88,7 +83,6 @@ class Symptom(NamedEntity):
 
 
 class Onset(NamedEntity):
-
     years_old: Optional[str] = Field(None)
     decades: Optional[List[str]] = Field(default_factory=list)
     juvenile_or_adult: Optional[str] = Field(None)
@@ -97,13 +91,11 @@ class Onset(NamedEntity):
 
 
 class Inheritance(NamedEntity):
-
     id: Optional[str] = Field(None, description="""A unique identifier for the named entity""")
     label: Optional[str] = Field(None, description="""The label (name) of the named thing""")
 
 
 class CompoundExpression(ConfiguredBaseModel):
-
     None
 
 
@@ -129,19 +121,16 @@ class Triple(CompoundExpression):
 
 
 class TextWithTriples(ConfiguredBaseModel):
-
     publication: Optional[Publication] = Field(None)
     triples: Optional[List[Triple]] = Field(default_factory=list)
 
 
 class RelationshipType(NamedEntity):
-
     id: Optional[str] = Field(None, description="""A unique identifier for the named entity""")
     label: Optional[str] = Field(None, description="""The label (name) of the named thing""")
 
 
 class Publication(ConfiguredBaseModel):
-
     id: Optional[str] = Field(None, description="""The publication identifier""")
     title: Optional[str] = Field(None, description="""The title of the publication""")
     abstract: Optional[str] = Field(None, description="""The abstract of the publication""")
@@ -150,7 +139,6 @@ class Publication(ConfiguredBaseModel):
 
 
 class AnnotatorResult(ConfiguredBaseModel):
-
     subject_text: Optional[str] = Field(None)
     object_id: Optional[str] = Field(None)
     object_text: Optional[str] = Field(None)

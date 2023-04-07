@@ -46,18 +46,19 @@ class Settings:
 settings = Settings()
 
 
+def _as_text_writer(f):
+    if isinstance(f, TextIOWrapper):
+        return f
+    else:
+        return codecs.getwriter("utf-8")(f)
+
+
 def write_extraction(
     results: ExtractionResult,
     output: BytesIO,
     output_format: str = None,
     knowledge_engine: KnowledgeEngine = None,
 ):
-    def _as_text_writer(f):
-        if isinstance(f, TextIOWrapper):
-            return f
-        else:
-            return codecs.getwriter("utf-8")(f)
-
     if output_format == "pickle":
         output.write(pickle.dumps(results))
     elif output_format == "md":
@@ -142,12 +143,16 @@ def main(verbose: int, quiet: bool, cache_db: str, skip_annotator):
 @click.option("--dictionary")
 @output_format_options
 @click.option("--auto-prefix", default="AUTO", help="Prefix to use for auto-generated classes.")
-@click.option("--set-slot-value",
-              "-S",
-            multiple=True,
-            help="Set slot value, e.g. --set-slot-value has_participant=protein")
+@click.option(
+    "--set-slot-value",
+    "-S",
+    multiple=True,
+    help="Set slot value, e.g. --set-slot-value has_participant=protein",
+)
 @click.argument("input")
-def extract(template, target_class, dictionary, input, output, output_format, set_slot_value, **kwargs):
+def extract(
+    template, target_class, dictionary, input, output, output_format, set_slot_value, **kwargs
+):
     """Extract knowledge from text guided by schema, using SPIRES engine.
 
     Example:
@@ -280,10 +285,9 @@ def web_extract(template, url, output, output_format, **kwargs):
 @click.option("--auto-prefix", default="AUTO", help="Prefix to use for auto-generated classes.")
 @click.argument("url")
 def recipe_extract(url, recipes_urls_file, dictionary, output, output_format, **kwargs):
-    """Extract from recipe on the web.
-
-    """
+    """Extract from recipe on the web."""
     from recipe_scrapers import scrape_me
+
     if recipes_urls_file:
         with open(recipes_urls_file, "r") as f:
             urls = [line.strip() for line in f.readlines() if url in line]
@@ -318,9 +322,7 @@ def recipe_extract(url, recipes_urls_file, dictionary, output, output_format, **
 @output_format_options
 @click.argument("input")
 def convert(input, output, output_format, **kwargs):
-    """Convert output format.
-
-    """
+    """Convert output format."""
     template = "recipe"
     logging.info(f"Creating for {template}")
     ke = SPIRESEngine(template, **kwargs)
@@ -350,12 +352,13 @@ def synonyms(term, context, output, output_format, **kwargs):
 @main.command()
 @output_option_txt
 @output_format_options
-@click.option("--resolver",
-              "-r",
-              help="OAK selector for the gene ID resolver. E.g. sqlite:obo:hgnc")
 @click.option(
-    "-C", "--context",
-    help="domain e.g. anatomy, industry, health-related (NOT IMPLEMENTED - currently gene only)"
+    "--resolver", "-r", help="OAK selector for the gene ID resolver. E.g. sqlite:obo:hgnc"
+)
+@click.option(
+    "-C",
+    "--context",
+    help="domain e.g. anatomy, industry, health-related (NOT IMPLEMENTED - currently gene only)",
 )
 @click.option(
     "--strict/--no-strict",
@@ -368,8 +371,20 @@ def synonyms(term, context, output, output_format, **kwargs):
     "-U",
     help="File with gene IDs to enrich (if not passed as arguments)",
 )
+@click.option(
+    "--auto-synopsis/--no-auto-synopsis",
+    default=True,
+    show_default=True,
+    help="If set, use automated rather than manual gene descriptions",
+)
+@click.option(
+    "--combined-synopsis/--no-combined-synopsis",
+    default=False,
+    show_default=True,
+    help="If set, both gene descriptions",
+)
 @click.argument("genes", nargs=-1)
-def enrichment(genes, context, strict: bool, input_file, resolver, output, output_format, **kwargs):
+def enrichment(genes, context, input_file, resolver, output, output_format, **kwargs):
     """Gene class enrichment.
 
     Algorithm:
@@ -403,8 +418,11 @@ def enrichment(genes, context, strict: bool, input_file, resolver, output, outpu
     ke: EnrichmentEngine = create_engine(None, EnrichmentEngine)
     if resolver:
         ke.add_resolver(resolver)
-    desc = ke.summarize(genes, normalize=resolver is not None, strict=strict)
-    output.write(desc)
+    results = ke.summarize(genes, normalize=resolver is not None, **kwargs)
+    if results.truncation_factor < 1.0:
+        logging.warning(f"Text was truncated; factor = {results.truncation_factor}")
+    output = _as_text_writer(output)
+    output.write(dump_minimal_yaml(results))
 
 
 @main.command()

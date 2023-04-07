@@ -1,0 +1,26 @@
+id: https://w3id.org/ontogpt/go_term
+name: go-term-template
+title: GO Term Template
+description: >-
+  A simple GO term template for NER
+license: https://creativecommons.org/publicdomain/zero/1.0/
+prefixes:
+  linkml: https://w3id.org/linkml/
+  bp: http://w3id.org/ontogpt/biological-process-template
+
+default_prefix: bp
+default_range: string
+
+imports:
+  - linkml:types
+  - core
+
+classes:
+  GeneDescriptionTerm:
+    tree_root: true
+    is_a: NamedEntity
+    attributes:
+      label:
+        description: the name of the GO term
+    annotations:
+      annotators: sqlite:obo:go, sqlite:obo:mondo, sqlite:obo:uberon, bioportal:mesh

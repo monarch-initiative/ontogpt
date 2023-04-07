@@ -15,6 +15,7 @@ PEX = [
     ("HGNC:8853", "PEX11B"),
 ]
 
+
 class TestEnrichment(unittest.TestCase):
     """Test annotation."""
 
@@ -25,8 +26,9 @@ class TestEnrichment(unittest.TestCase):
     def test_gene_summaries(self):
         """Tests template and module is loaded."""
         ke: EnrichmentEngine = self.ke
-        desc = ke.gene_summary("HGNC:11584")
+        desc = ke.gene_info("HGNC:11584")
         print(desc)
+        _symbol, _d1, _d2 = desc
 
     def test_enrichment(self):
         """Tests gene set enrichment."""
@@ -34,4 +36,6 @@ class TestEnrichment(unittest.TestCase):
         ids = [id for id, _ in PEX]
         desc = ke.summarize(ids)
         print(desc)
-
+        self.assertIn("peroxisome", desc.response_text.lower())
+        self.assertTrue(any(s for s in desc.term_strings if "peroxisome" in s))
+        print(desc.term_ids)

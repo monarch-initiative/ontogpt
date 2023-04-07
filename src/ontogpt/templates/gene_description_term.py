@@ -2,8 +2,9 @@ from __future__ import annotations
 
 from datetime import date, datetime
 from enum import Enum
-from typing import Any, Dict, List, Optional
+from typing import Any, Dict, List, Literal, Optional, Union
 
+from linkml_runtime.linkml_model import Decimal
 from pydantic import BaseModel as BaseModel
 from pydantic import Field
 
@@ -24,19 +25,6 @@ class ConfiguredBaseModel(
     arbitrary_types_allowed=True,
 ):
     pass
-
-
-class DrugMechanism(ConfiguredBaseModel):
-    disease: Optional[str] = Field(None, description="""the name of the disease that is treated""")
-    drug: Optional[str] = Field(
-        None, description="""the name of the drug that treats the disease"""
-    )
-    mechanism_links: Optional[List[MechanismLink]] = Field(
-        default_factory=list,
-        description="""semicolon-separated list of links, where each link is a triple connecting two entities via a relationship type""",
-    )
-    references: Optional[List[str]] = Field(default_factory=list)
-    source_text: Optional[str] = Field(None)
 
 
 class ExtractionResult(ConfiguredBaseModel):
@@ -62,34 +50,13 @@ class NamedEntity(ConfiguredBaseModel):
     label: Optional[str] = Field(None, description="""The label (name) of the named thing""")
 
 
-class MechanismElement(NamedEntity):
+class GeneDescriptionTerm(NamedEntity):
+    label: Optional[str] = Field(None, description="""the name of the GO term""")
     id: Optional[str] = Field(None, description="""A unique identifier for the named entity""")
-    label: Optional[str] = Field(None, description="""The label (name) of the named thing""")
-
-
-class Disease(NamedEntity):
-    id: Optional[str] = Field(None, description="""A unique identifier for the named entity""")
-    label: Optional[str] = Field(None, description="""The label (name) of the named thing""")
-
-
-class Drug(NamedEntity):
-    id: Optional[str] = Field(None, description="""A unique identifier for the named entity""")
-    label: Optional[str] = Field(None, description="""The label (name) of the named thing""")
-
-
-class Predicate(NamedEntity):
-    id: Optional[str] = Field(None, description="""A unique identifier for the named entity""")
-    label: Optional[str] = Field(None, description="""The label (name) of the named thing""")
 
 
 class CompoundExpression(ConfiguredBaseModel):
     None
-
-
-class MechanismLink(CompoundExpression):
-    subject: Optional[str] = Field(None)
-    predicate: Optional[str] = Field(None)
-    object: Optional[str] = Field(None)
 
 
 class Triple(CompoundExpression):
@@ -139,15 +106,10 @@ class AnnotatorResult(ConfiguredBaseModel):
 
 # Update forward refs
 # see https://pydantic-docs.helpmanual.io/usage/postponed_annotations/
-DrugMechanism.update_forward_refs()
 ExtractionResult.update_forward_refs()
 NamedEntity.update_forward_refs()
-MechanismElement.update_forward_refs()
-Disease.update_forward_refs()
-Drug.update_forward_refs()
-Predicate.update_forward_refs()
+GeneDescriptionTerm.update_forward_refs()
 CompoundExpression.update_forward_refs()
-MechanismLink.update_forward_refs()
 Triple.update_forward_refs()
 TextWithTriples.update_forward_refs()
 RelationshipType.update_forward_refs()

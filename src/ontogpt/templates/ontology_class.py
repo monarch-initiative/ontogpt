@@ -25,7 +25,6 @@ class ConfiguredBaseModel(
 
 
 class LogicalDefinition(ConfiguredBaseModel):
-
     genus: Optional[List[str]] = Field(default_factory=list)
     differentiating_characteristic_relationship: Optional[str] = Field(None)
     differentiating_characteristic_parents: Optional[List[str]] = Field(default_factory=list)
@@ -50,13 +49,11 @@ class ExtractionResult(ConfiguredBaseModel):
 
 
 class NamedEntity(ConfiguredBaseModel):
-
     id: Optional[str] = Field(None, description="""A unique identifier for the named entity""")
     label: Optional[str] = Field(None, description="""The label (name) of the named thing""")
 
 
 class OntologyClass(NamedEntity):
-
     label: Optional[str] = Field(None, description="""the name of the entity""")
     description: Optional[str] = Field(None, description="""a textual description of the entity""")
     synonyms: Optional[List[str]] = Field(
@@ -74,13 +71,11 @@ class OntologyClass(NamedEntity):
 
 
 class Relation(NamedEntity):
-
     id: Optional[str] = Field(None, description="""A unique identifier for the named entity""")
     label: Optional[str] = Field(None, description="""The label (name) of the named thing""")
 
 
 class CompoundExpression(ConfiguredBaseModel):
-
     None
 
 
@@ -106,19 +101,16 @@ class Triple(CompoundExpression):
 
 
 class TextWithTriples(ConfiguredBaseModel):
-
     publication: Optional[Publication] = Field(None)
     triples: Optional[List[Triple]] = Field(default_factory=list)
 
 
 class RelationshipType(NamedEntity):
-
     id: Optional[str] = Field(None, description="""A unique identifier for the named entity""")
     label: Optional[str] = Field(None, description="""The label (name) of the named thing""")
 
 
 class Publication(ConfiguredBaseModel):
-
     id: Optional[str] = Field(None, description="""The publication identifier""")
     title: Optional[str] = Field(None, description="""The title of the publication""")
     abstract: Optional[str] = Field(None, description="""The abstract of the publication""")
@@ -127,7 +119,6 @@ class Publication(ConfiguredBaseModel):
 
 
 class AnnotatorResult(ConfiguredBaseModel):
-
     subject_text: Optional[str] = Field(None)
     object_id: Optional[str] = Field(None)
     object_text: Optional[str] = Field(None)

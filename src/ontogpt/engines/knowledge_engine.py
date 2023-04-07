@@ -17,7 +17,7 @@ import pydantic
 import yaml
 from linkml_runtime import SchemaView
 from linkml_runtime.linkml_model import ClassDefinition, ElementName, SlotDefinition
-from oaklib import BasicOntologyInterface, get_implementation_from_shorthand, get_adapter
+from oaklib import BasicOntologyInterface, get_adapter, get_implementation_from_shorthand
 from oaklib.datamodels.text_annotator import TextAnnotationConfiguration
 from oaklib.implementations import OntoPortalImplementationBase
 from oaklib.interfaces import MappingProviderInterface, TextAnnotatorInterface
