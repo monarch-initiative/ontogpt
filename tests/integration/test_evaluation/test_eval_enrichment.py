@@ -93,6 +93,17 @@ class TestEvalEnrichment(unittest.TestCase):
             print(payload)
             self.assertTrue(len(payload.term_ids) > 0)
 
+    def test_random_enrichment(self):
+        """Tests random terms."""
+        engine = self.evaluator
+        self.evaluator.load_annotations(GENES2GO_PATH)
+        payload = self.evaluator.random_enrichment([])
+        print(payload)
+        payload2 = self.evaluator.random_enrichment([])
+        print(payload2)
+        # this could conceivably spuriously fail but highly unlikely
+        self.assertNotEqual(payload.term_ids, payload2.term_ids)
+
     def test_pairwise(self):
         """Tests template and module is loaded."""
         engine = self.evaluator

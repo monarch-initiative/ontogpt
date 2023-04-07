@@ -1,6 +1,7 @@
 import datetime
 import gzip
 import logging
+import random
 from dataclasses import dataclass
 from pathlib import Path
 from typing import Dict, Iterator, List, Optional, Tuple
@@ -26,6 +27,7 @@ AUTO = "auto"
 MANUAL = "manual"
 STANDARD = "standard"
 STANDARD_NO_ONTOLOGY = "standard_no_ontology"
+RANDOM = "random"
 
 
 class Overlap(BaseModel):
@@ -97,6 +99,7 @@ class EvalEnrichment(EvaluationEngine):
         enrichment_standard = self.standard_enrichment(gene_symbols)
         print("Doing standard enrichment, no ontology...")
         enrichment_standard_no_ontology = self.standard_enrichment(gene_symbols, use_ontology=False)
+        enrichment_random = self.random_enrichment(gene_symbols)
         comp = GeneSetComparison(
             name=name,
             gene_symbols=gene_symbols,
@@ -105,6 +108,7 @@ class EvalEnrichment(EvaluationEngine):
                 AUTO: enrichment_auto,
                 STANDARD: enrichment_standard,
                 STANDARD_NO_ONTOLOGY: enrichment_standard_no_ontology,
+                RANDOM: enrichment_random,
             },
         )
         combos = [
@@ -114,6 +118,10 @@ class EvalEnrichment(EvaluationEngine):
             (STANDARD, STANDARD_NO_ONTOLOGY),
             (MANUAL, STANDARD_NO_ONTOLOGY),
             (AUTO, STANDARD_NO_ONTOLOGY),
+            (RANDOM, STANDARD),
+            (RANDOM, STANDARD_NO_ONTOLOGY),
+            (RANDOM, MANUAL),
+            (RANDOM, AUTO),
         ]
         print("Comparing...")
         for tup in combos:
@@ -145,6 +153,17 @@ class EvalEnrichment(EvaluationEngine):
             payload.term_strings.append(result.class_label)
             payload.term_ids.append(result.class_id)
         return payload
+
+    def random_enrichment(self, gene_symbols: List[str], n=20) -> EnrichmentPayload:
+        anns = list(self.ontology.associations())
+        random.shuffle(anns)
+        payload = EnrichmentPayload()
+        term_ids = list({ann.object for ann in anns[:n]})
+        payload.term_ids = term_ids
+        # payload.term_strings = [self.ontology.label(id) for id in term_ids]
+        return payload
+
+
 
     def compare_payloads(self, a: EnrichmentPayload, b: EnrichmentPayload) -> Overlap:
         """Compare two payloads."""
