@@ -17,6 +17,8 @@ Currently there are two different pipelines implemented:
     - Few-shot learning approach to generating/hallucinating a domain ontology given a few examples
     - Uses code-davinci-002
 
+SPIRES is described futher in: Caufield JH, Hegde H, Emonet V, Harris NL, Joachimiak MP, Matentzoglu N, et al. Structured prompt interrogation and recursive extraction of semantics (SPIRES): A method for populating knowledge bases using zero-shot learning. arXiv [cs.AI]. 2023. http://arxiv.org/abs/2304.02711
+
 ## SPIRES: Usage
 
 Given a short text `abstract.txt` with content such as:
