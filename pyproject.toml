@@ -41,10 +41,11 @@ sphinx-autodoc-typehints = {version = "^1.19.4", extras = ["docs"], optional = t
 sphinx-click = {version = "^4.3.0", extras = ["docs"], optional = true}
 myst-parser = {version = "^0.18.1", extras = ["docs"], optional = true}
 recipe-scrapers = {version = "^14.35.0", extras = ["recipes"], optional = true}
+cachier = "^2.1.0"
 
 [tool.poetry.dev-dependencies]
 pytest = "^7.1.2"
-setuptools = "^65.5.0"
+setuptools = ">=65.5.0"
 tox = "^3.25.1"
 mkdocs-mermaid2-plugin = "^0.6.0"
 

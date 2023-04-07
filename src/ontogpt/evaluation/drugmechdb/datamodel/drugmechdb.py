@@ -27,7 +27,6 @@ class ConfiguredBaseModel(
 
 
 class Mechanism(ConfiguredBaseModel):
-
     directed: Optional[bool] = Field(None)
     multigraph: Optional[bool] = Field(None)
     reference: Optional[List[str]] = Field(default_factory=list)
@@ -41,7 +40,6 @@ class Mechanism(ConfiguredBaseModel):
 
 
 class Graph(ConfiguredBaseModel):
-
     id: Optional[str] = Field(None)
     disease: Optional[str] = Field(None)
     disease_mesh: Optional[str] = Field(None)
@@ -52,7 +50,6 @@ class Graph(ConfiguredBaseModel):
 
 
 class Link(ConfiguredBaseModel):
-
     key: Optional[str] = Field(None)
     source: Optional[str] = Field(None)
     target: Optional[str] = Field(None)
@@ -60,7 +57,6 @@ class Link(ConfiguredBaseModel):
 
 
 class Node(ConfiguredBaseModel):
-
     id: Optional[str] = Field(None)
     label: Optional[str] = Field(None)
     name: Optional[str] = Field(None)

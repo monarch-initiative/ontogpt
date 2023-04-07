@@ -2,8 +2,9 @@ from __future__ import annotations
 
 from datetime import date, datetime
 from enum import Enum
-from typing import Any, Dict, List, Optional
+from typing import Any, Dict, List, Literal, Optional, Union
 
+from linkml_runtime.linkml_model import Decimal
 from pydantic import BaseModel as BaseModel
 from pydantic import Field
 
@@ -27,7 +28,6 @@ class ConfiguredBaseModel(
 
 
 class Recipe(ConfiguredBaseModel):
-
     url: Optional[str] = Field(None)
     label: Optional[str] = Field(None, description="""the name of the recipe""")
     description: Optional[str] = Field(
@@ -35,15 +35,15 @@ class Recipe(ConfiguredBaseModel):
     )
     categories: Optional[List[str]] = Field(
         default_factory=list,
-        description="""a semicolon separated list of the categories to which this recipe belongs""",  # noqa
+        description="""a semicolon separated list of the categories to which this recipe belongs""",
     )
     ingredients: Optional[List[Ingredient]] = Field(
         default_factory=list,
-        description="""a semicolon separated list of the ingredients plus quantities of the recipe""",  # noqa
+        description="""a semicolon separated list of the ingredients plus quantities of the recipe""",
     )
     steps: Optional[List[Step]] = Field(
         default_factory=list,
-        description="""a semicolon separated list of the individual steps involved in this recipe""",  # noqa
+        description="""a semicolon separated list of the individual steps involved in this recipe""",
     )
 
 
@@ -66,48 +66,40 @@ class ExtractionResult(ConfiguredBaseModel):
 
 
 class NamedEntity(ConfiguredBaseModel):
-
     id: Optional[str] = Field(None, description="""A unique identifier for the named entity""")
     label: Optional[str] = Field(None, description="""The label (name) of the named thing""")
 
 
 class FoodType(NamedEntity):
-
     id: Optional[str] = Field(None, description="""A unique identifier for the named entity""")
     label: Optional[str] = Field(None, description="""The label (name) of the named thing""")
 
 
 class RecipeCategory(NamedEntity):
-
     id: Optional[str] = Field(None, description="""A unique identifier for the named entity""")
     label: Optional[str] = Field(None, description="""The label (name) of the named thing""")
 
 
 class Action(NamedEntity):
-
     id: Optional[str] = Field(None, description="""A unique identifier for the named entity""")
     label: Optional[str] = Field(None, description="""The label (name) of the named thing""")
 
 
 class UtensilType(NamedEntity):
-
     id: Optional[str] = Field(None, description="""A unique identifier for the named entity""")
     label: Optional[str] = Field(None, description="""The label (name) of the named thing""")
 
 
 class Unit(NamedEntity):
-
     id: Optional[str] = Field(None, description="""A unique identifier for the named entity""")
     label: Optional[str] = Field(None, description="""The label (name) of the named thing""")
 
 
 class CompoundExpression(ConfiguredBaseModel):
-
     None
 
 
 class Ingredient(CompoundExpression):
-
     food_item: Optional[FoodItem] = Field(None, description="""the food item""")
     amount: Optional[Quantity] = Field(
         None, description="""the quantity of the ingredient, e.g. 2 lbs"""
@@ -115,7 +107,6 @@ class Ingredient(CompoundExpression):
 
 
 class Quantity(CompoundExpression):
-
     value: Optional[str] = Field(None, description="""the value of the quantity""")
     unit: Optional[str] = Field(
         None, description="""the unit of the quantity, e.g. grams, cups, etc."""
@@ -123,7 +114,6 @@ class Quantity(CompoundExpression):
 
 
 class Step(CompoundExpression):
-
     action: Optional[str] = Field(
         None, description="""the action taken in this step (e.g. mix, add)"""
     )
@@ -142,7 +132,6 @@ class Step(CompoundExpression):
 
 
 class FoodItem(CompoundExpression):
-
     food: Optional[str] = Field(None, description="""the food item""")
     state: Optional[str] = Field(
         None, description="""the state of the food item (e.g. chopped, diced)"""
@@ -150,7 +139,9 @@ class FoodItem(CompoundExpression):
 
 
 class Triple(CompoundExpression):
-    """Abstract parent for Relation Extraction tasks."""
+    """
+    Abstract parent for Relation Extraction tasks
+    """
 
     subject: Optional[str] = Field(None)
     predicate: Optional[str] = Field(None)
@@ -160,30 +151,25 @@ class Triple(CompoundExpression):
     )
     subject_qualifier: Optional[str] = Field(
         None,
-        description="""An optional qualifier or modifier for the subject of the statement,\
-            e.g. \"high dose\" or \"intravenously administered\"""",
+        description="""An optional qualifier or modifier for the subject of the statement, e.g. \"high dose\" or \"intravenously administered\"""",
     )
     object_qualifier: Optional[str] = Field(
         None,
-        description="""An optional qualifier or modifier for the object of the statement,\
-            e.g. \"severe\" or \"with additional complications\"""",
+        description="""An optional qualifier or modifier for the object of the statement, e.g. \"severe\" or \"with additional complications\"""",
     )
 
 
 class TextWithTriples(ConfiguredBaseModel):
-
     publication: Optional[Publication] = Field(None)
     triples: Optional[List[Triple]] = Field(default_factory=list)
 
 
 class RelationshipType(NamedEntity):
-
     id: Optional[str] = Field(None, description="""A unique identifier for the named entity""")
     label: Optional[str] = Field(None, description="""The label (name) of the named thing""")
 
 
 class Publication(ConfiguredBaseModel):
-
     id: Optional[str] = Field(None, description="""The publication identifier""")
     title: Optional[str] = Field(None, description="""The title of the publication""")
     abstract: Optional[str] = Field(None, description="""The abstract of the publication""")
@@ -192,7 +178,6 @@ class Publication(ConfiguredBaseModel):
 
 
 class AnnotatorResult(ConfiguredBaseModel):
-
     subject_text: Optional[str] = Field(None)
     object_id: Optional[str] = Field(None)
     object_text: Optional[str] = Field(None)

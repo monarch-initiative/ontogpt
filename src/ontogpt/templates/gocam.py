@@ -26,22 +26,18 @@ class ConfiguredBaseModel(
 
 
 class GeneLocationEnum(str, Enum):
-
     dummy = "dummy"
 
 
 class GOCellComponentType(str, Enum):
-
     dummy = "dummy"
 
 
 class CellType(str, Enum):
-
     dummy = "dummy"
 
 
 class GoCamAnnotations(ConfiguredBaseModel):
-
     genes: Optional[List[str]] = Field(
         default_factory=list, description="""semicolon-separated list of genes"""
     )
@@ -90,85 +86,71 @@ class ExtractionResult(ConfiguredBaseModel):
 
 
 class NamedEntity(ConfiguredBaseModel):
-
     id: Optional[str] = Field(None, description="""A unique identifier for the named entity""")
     label: Optional[str] = Field(None, description="""The label (name) of the named thing""")
 
 
 class Gene(NamedEntity):
-
     id: Optional[str] = Field(None, description="""A unique identifier for the named entity""")
     label: Optional[str] = Field(None, description="""The label (name) of the named thing""")
 
 
 class Pathway(NamedEntity):
-
     id: Optional[str] = Field(None, description="""A unique identifier for the named entity""")
     label: Optional[str] = Field(None, description="""The label (name) of the named thing""")
 
 
 class CellularProcess(NamedEntity):
-
     id: Optional[str] = Field(None, description="""A unique identifier for the named entity""")
     label: Optional[str] = Field(None, description="""The label (name) of the named thing""")
 
 
 class MolecularActivity(NamedEntity):
-
     id: Optional[str] = Field(None, description="""A unique identifier for the named entity""")
     label: Optional[str] = Field(None, description="""The label (name) of the named thing""")
 
 
 class GeneLocation(NamedEntity):
-
     id: Optional[str] = Field(None, description="""A unique identifier for the named entity""")
     label: Optional[str] = Field(None, description="""The label (name) of the named thing""")
 
 
 class Organism(NamedEntity):
-
     id: Optional[str] = Field(None, description="""A unique identifier for the named entity""")
     label: Optional[str] = Field(None, description="""The label (name) of the named thing""")
 
 
 class Molecule(NamedEntity):
-
     id: Optional[str] = Field(None, description="""A unique identifier for the named entity""")
     label: Optional[str] = Field(None, description="""The label (name) of the named thing""")
 
 
 class CompoundExpression(ConfiguredBaseModel):
-
     pass
 
 
 class GeneOrganismRelationship(CompoundExpression):
-
     gene: Optional[str] = Field(None)
     organism: Optional[str] = Field(None)
 
 
 class GeneMolecularActivityRelationship(CompoundExpression):
-
     gene: Optional[str] = Field(None)
     molecular_activity: Optional[str] = Field(None)
 
 
 class GeneMolecularActivityRelationship2(CompoundExpression):
-
     gene: Optional[str] = Field(None)
     molecular_activity: Optional[str] = Field(None)
     target: Optional[str] = Field(None)
 
 
 class GeneSubcellularLocalizationRelationship(CompoundExpression):
-
     gene: Optional[str] = Field(None)
     location: Optional[str] = Field(None)
 
 
 class GeneGeneInteraction(CompoundExpression):
-
     gene1: Optional[str] = Field(None)
     gene2: Optional[str] = Field(None)
 
@@ -195,19 +177,16 @@ class Triple(CompoundExpression):
 
 
 class TextWithTriples(ConfiguredBaseModel):
-
     publication: Optional[Publication] = Field(None)
     triples: Optional[List[Triple]] = Field(default_factory=list)
 
 
 class RelationshipType(NamedEntity):
-
     id: Optional[str] = Field(None, description="""A unique identifier for the named entity""")
     label: Optional[str] = Field(None, description="""The label (name) of the named thing""")
 
 
 class Publication(ConfiguredBaseModel):
-
     id: Optional[str] = Field(None, description="""The publication identifier""")
     title: Optional[str] = Field(None, description="""The title of the publication""")
     abstract: Optional[str] = Field(None, description="""The abstract of the publication""")
@@ -216,7 +195,6 @@ class Publication(ConfiguredBaseModel):
 
 
 class AnnotatorResult(ConfiguredBaseModel):
-
     subject_text: Optional[str] = Field(None)
     object_id: Optional[str] = Field(None)
     object_text: Optional[str] = Field(None)
