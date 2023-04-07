@@ -179,7 +179,11 @@ We recommend following an established schema like [BioLink Model](https://github
 
 ### Step 2: Compile the schema
 
-Run the `make` command at the top level. This will compile the schema to pedantic
+Place the schema YAML in the directory `src/ontogpt/templates/`.
+
+Add the name of the template to the TEMPLATES list in `project.Makefile`.
+
+Run the `make` command at the top level. This will compile the schema to Python (Pydantic classes).
 
 ### Step 3: Run the command line
 
