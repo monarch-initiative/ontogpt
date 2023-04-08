@@ -362,7 +362,6 @@ This relies on an existing LLM, and LLMs can be fickle in their responses.
 You will need an OpenAI account to use their API. In theory any LLM can be used but in practice the parser is tuned for OpenAI's models.
 
 
-
 # Acknowledgements
 
-This [cookiecutter](https://cookiecutter.readthedocs.io/en/stable/README.html) project was developed from the [sphintoxetry-cookiecutter](https://github.com/hrshdhgd/sphintoxetry-cookiecutter) template and will be kept up-to-date using [cruft](https://cruft.github.io/cruft/).
+We gratefully acknowledge [Bosch Research](https://www.bosch.com/research) for their support of this research project.
