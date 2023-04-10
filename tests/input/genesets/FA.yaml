@@ -1,0 +1,24 @@
+description: null
+gene_ids: null
+gene_symbols:
+- FANCC
+- FANCD2
+- FANCA
+- FANCB
+- FANCE
+- FANCF
+- BRCA2
+- FANCI
+- BRIP1
+- PALB2
+- RAD51C
+- SLX4
+- FANCG
+- FANCL
+- ERCC4
+- UBE2T
+- MAD2L2
+- RAD51
+- XRCC2
+name: FA
+taxon: human
