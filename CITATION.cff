@@ -39,7 +39,6 @@ authors:
   orcid: "https://orcid.org/0000-0002-6601-2165"
 title: "OntoGPT"
 version: 0.2.1
-# doi: TBA
 date-released: 2023-04-06
 url: "https://github.com/monarch-initiative/ontogpt"
 preferred-citation:
