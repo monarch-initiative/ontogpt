@@ -159,7 +159,7 @@ class TestCompletion(unittest.TestCase):
             if not isinstance(prompt_text, str):
                 prompt_text = yaml.dump(prompt_text)
             engine = prompt.get("engine", default_engine)
-            client = OpenAIClient(engine=engine)
+            client = OpenAIClient(model=engine)
             pre_prompt = prompt.get("pre_prompt", "")
             prompt_text = "".join([pre_prompt, prompt_text])
             print(f"## Testing prompt [{engine}: [{len(prompt_text)}] {prompt_text}")
@@ -201,7 +201,7 @@ class TestCompletion(unittest.TestCase):
         """Tests structured responses."""
         engine = "code-davinci-002"
         # engine = "code-cushman-001"
-        client = OpenAIClient(engine=engine, max_tokens=300)
+        client = OpenAIClient(model=engine, max_tokens=300)
         print(len(CODE_PROMPT_GENERALIZATION))
         ann = client.complete(CODE_PROMPT_GENERALIZATION)
         print(ann)
@@ -210,7 +210,7 @@ class TestCompletion(unittest.TestCase):
         """Tests structured responses."""
         engine = "code-davinci-002"
         # engine = "code-cushman-001"
-        client = OpenAIClient(engine=engine, max_tokens=1000)
+        client = OpenAIClient(model=engine, max_tokens=1000)
         ann = client.complete(CODE_PROMPT_EXTRACT)
         print(ann)
 
@@ -219,6 +219,6 @@ class TestCompletion(unittest.TestCase):
         engine = (
             "davinci:ft-lawrence-berkeley-national-laboratory:mendelian-disease-2022-12-22-00-53-36"
         )
-        client = OpenAIClient(engine=engine, max_tokens=1000)
+        client = OpenAIClient(model=engine, max_tokens=1000)
         ann = client.complete(TUNED_TEST_PROMPT)
         print(ann)

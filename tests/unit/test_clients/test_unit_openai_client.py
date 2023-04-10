@@ -21,7 +21,7 @@ class TestCompletion(unittest.TestCase):
         # 2. run the test
         # 3. commit the new cache db
         client = OpenAIClient(
-            engine=engine,
+            model=engine,
             api_key="fake",
             cache_db_path=UNIT_CACHE_DB,
         )

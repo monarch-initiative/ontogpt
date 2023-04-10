@@ -8,16 +8,17 @@ from abc import ABC
 from dataclasses import dataclass, field
 from pathlib import Path
 from types import ModuleType
-from typing import Any, Dict, Iterator, List, Optional, TextIO, Tuple, Union
+from typing import Dict, Iterator, List, Optional, TextIO, Union
 from urllib.parse import quote
 
 import inflection
 import openai
 import pydantic
+import tiktoken
 import yaml
 from linkml_runtime import SchemaView
 from linkml_runtime.linkml_model import ClassDefinition, ElementName, SlotDefinition
-from oaklib import BasicOntologyInterface, get_adapter, get_implementation_from_shorthand
+from oaklib import BasicOntologyInterface, get_adapter
 from oaklib.datamodels.text_annotator import TextAnnotationConfiguration
 from oaklib.implementations import OntoPortalImplementationBase
 from oaklib.interfaces import MappingProviderInterface, TextAnnotatorInterface
@@ -42,6 +43,9 @@ ANNOTATION_KEY_PROMPT_SKIP = "prompt.skip"
 ANNOTATION_KEY_ANNOTATORS = "annotators"
 ANNOTATION_KEY_RECURSE = "ner.recurse"
 ANNOTATION_KEY_EXAMPLES = "prompt.examples"
+
+
+DEFAULT_MODEL = "gpt-3.5-turbo"
 
 # TODO: introspect
 DATAMODELS = [
@@ -97,8 +101,8 @@ class KnowledgeEngine(ABC):
     api_key: str = None
     """OpenAI API key."""
 
-    engine: str = None
-    """OpenAI Engine. This should be overridden in subclasses"""
+    model: str = None
+    """OpenAI Model. This should be overridden in subclasses"""
 
     # annotator: TextAnnotatorInterface = None
     # """Default annotator. TODO: deprecate?"""
@@ -142,18 +146,23 @@ class KnowledgeEngine(ABC):
     last_prompt: str = None
     """Cache of last prompt used."""
 
+    encoding = None
+
     def __post_init__(self):
         if self.template:
             self.template_class = self._get_template_class(self.template)
         if self.template_class:
             logging.info(f"Using template {self.template_class.name}")
-        self.client = OpenAIClient()
+        if not self.model:
+            self.model = DEFAULT_MODEL
+        self.client = OpenAIClient(model=self.model)
         logging.info("Setting up OpenAI client API Key")
         self.api_key = self._get_openai_api_key()
         openai.api_key = self.api_key
         if self.mappers is None:
             logging.info("Using mappers (currently hardcoded)")
-            self.mappers = [get_implementation_from_shorthand("translator:")]
+            self.mappers = [get_adapter("translator:")]
+        self.encoding = tiktoken.encoding_for_model(self.client.model)
 
     def extract_from_text(
         self, text: str, cls: ClassDefinition = None, object: OBJECT = None
@@ -268,19 +277,21 @@ class KnowledgeEngine(ABC):
                 return []
             annotators = cls.annotations[ANNOTATION_KEY_ANNOTATORS].value.split(", ")
         logger.info(f" Annotators: {annotators} [will skip: {self.skip_annotators}]")
-        objs = []
+        annotators = []
         for annotator in annotators:
             if isinstance(annotator, str):
                 logger.info(f"Loading annotator {annotator}")
                 if self.skip_annotators and annotator in self.skip_annotators:
                     logger.info(f"Skipping annotator {annotator}")
                     continue
-                objs.append(get_implementation_from_shorthand(annotator))
+                if annotator not in self.annotators:
+                    self.annotators[annotator] = get_adapter(annotator)
+                annotators.append(self.annotators[annotator])
             elif isinstance(annotator, BasicOntologyInterface):
-                objs.append(annotator)
+                annotators.append(annotator)
             else:
                 raise ValueError(f"Unknown annotator type {annotator}")
-        return objs
+        return annotators
 
     def promptable_slots(self, cls: Optional[ClassDefinition] = None) -> List[SlotDefinition]:
         """
@@ -489,8 +500,12 @@ class KnowledgeEngine(ABC):
                 if isinstance(annotator, str):
                     if self.skip_annotators and annotator in self.skip_annotators:
                         continue
-                    logger.info(f"Loading annotator {annotator}")
-                    annotator = get_adapter(annotator)
+                    if self.annotators is None:
+                        self.annotators = {}
+                    if annotator not in self.annotators:
+                        logger.info(f"Loading annotator {annotator}")
+                        self.annotators[annotator] = get_adapter(annotator)
+                    annotator = self.annotators[annotator]
                 if not matches_whole_text and not isinstance(
                     annotator, OntoPortalImplementationBase
                 ):

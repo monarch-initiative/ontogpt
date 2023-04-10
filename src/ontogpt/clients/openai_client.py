@@ -12,10 +12,11 @@ logger = logging.getLogger(__name__)
 NUM_RETRIES = 3
 
 
+
 @dataclass
 class OpenAIClient:
-    max_tokens: int = field(default_factory=lambda: 3000)
-    engine: str = field(default_factory=lambda: "text-davinci-003")
+    #max_tokens: int = field(default_factory=lambda: 3000)
+    model: str = field(default_factory=lambda: "gpt-3.5-turbo")
     cache_db_path: str = None
     api_key: str = None
 
@@ -24,8 +25,9 @@ class OpenAIClient:
             self.api_key = get_apikey_value("openai")
         openai.api_key = self.api_key
 
-    def complete(self, prompt, **kwargs) -> str:
-        engine = self.engine
+    def complete(self, prompt, max_tokens=3000, **kwargs) -> str:
+        engine = self.model
+        logging.info(f"Complete: engine={engine}, prompt={prompt[0:100]}...")
         cur = self.db_connection()
         res = cur.execute("SELECT payload FROM cache WHERE prompt=? AND engine=?", (prompt, engine))
         payload = res.fetchone()
@@ -39,12 +41,23 @@ class OpenAIClient:
             i += 1
             logging.debug(f"Calling OpenAI API (attempt {i})...")
             try:
-                response = openai.Completion.create(
-                    engine=engine,
-                    prompt=prompt,
-                    max_tokens=self.max_tokens,
-                    **kwargs,
-                )
+                if self._must_use_chat_api():
+                    response = openai.ChatCompletion.create(
+                        model=engine,
+                        messages=[
+                            {"role": "user",
+                             "content": prompt,
+                             },
+                        ],
+                        max_tokens=max_tokens,
+                        **kwargs,
+                    )
+                else:
+                    response = openai.Completion.create(
+                                            engine = engine,
+                                            prompt = prompt,
+                                            max_tokens = max_tokens,
+                    )
                 break
             except Exception as e:
                 logger.error(f"OpenAI API connection error: {e}")
@@ -53,7 +66,11 @@ class OpenAIClient:
                 sleep_time = 4**i
                 logger.info(f"Retrying {i} of {NUM_RETRIES} after {sleep_time} seconds...")
                 sleep(sleep_time)
-        payload = response.choices[0].text
+
+        if self._must_use_chat_api():
+            payload = response['choices'][0]['message']['content']
+        else:
+            payload = response['choices'][0]['text']
         logger.info(f"Storing payload of len: {len(payload)}")
         cur.execute(
             "INSERT INTO cache (prompt, engine, payload) VALUES (?, ?, ?)",
@@ -90,3 +107,13 @@ class OpenAIClient:
             if engine and engine != row[0]:
                 continue
             yield row
+
+    def _must_use_chat_api(self) -> bool:
+        """
+        Returns True if the model requires the chat API, False otherwise.
+        """
+        if self.model.startswith("text-davinci"):
+            return False
+        return True
+
+

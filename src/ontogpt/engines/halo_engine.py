@@ -73,7 +73,7 @@ class HALOEngine(KnowledgeEngine):
 
     def __post_init__(self):
         self.template_class = self._get_template_class("halo.OntologyElement")
-        self.client = OpenAIClient(engine=self.engine)
+        self.client = OpenAIClient(model=self.engine)
         self.api_key = self._get_openai_api_key()
         openai.api_key = self.api_key
 

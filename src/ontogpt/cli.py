@@ -10,6 +10,7 @@ from typing import List, Optional
 
 import click
 import jsonlines
+import openai
 import yaml
 
 from ontogpt import __version__
@@ -17,11 +18,12 @@ from ontogpt.clients import OpenAIClient
 from ontogpt.clients.pubmed_client import PubmedClient
 from ontogpt.clients.soup_client import SoupClient
 from ontogpt.engines import create_engine
-from ontogpt.engines.enrichment import EnrichmentEngine
+from ontogpt.engines.enrichment import EnrichmentEngine, parse_gene_set
 from ontogpt.engines.halo_engine import HALOEngine
 from ontogpt.engines.knowledge_engine import KnowledgeEngine
 from ontogpt.engines.spires_engine import SPIRESEngine
 from ontogpt.engines.synonym_engine import SynonymEngine
+from ontogpt.evaluation.enrichment.eval_enrichment import EvalEnrichment
 from ontogpt.evaluation.resolver import create_evaluator
 from ontogpt.io.html_exporter import HTMLExporter
 from ontogpt.io.markdown_exporter import MarkdownExporter
@@ -85,7 +87,7 @@ template_option = click.option("-t", "--template", required=True, help="Template
 target_class_option = click.option(
     "-T", "--target-class", help="Target class (if not already root)."
 )
-engine_option = click.option("-e", "--engine", help="Engine to use, e.g. text-davinci-003.")
+model_option = click.option("-m", "--model", help="Engine to use, e.g. text-davinci-003.")
 recurse_option = click.option(
     "--recurse/--no-recurse", default=True, show_default=True, help="Recursively parse structures."
 )
@@ -137,7 +139,7 @@ def main(verbose: int, quiet: bool, cache_db: str, skip_annotator):
 @main.command()
 @template_option
 @target_class_option
-@engine_option
+@model_option
 @recurse_option
 @output_option_wb
 @click.option("--dictionary")
@@ -201,7 +203,7 @@ def extract(
 
 @main.command()
 @template_option
-@engine_option
+@model_option
 @recurse_option
 @output_option_wb
 @output_format_options
@@ -219,7 +221,7 @@ def pubmed_extract(pmid, template, output, output_format, **kwargs):
 
 @main.command()
 @template_option
-@engine_option
+@model_option
 @recurse_option
 @output_option_wb
 @output_format_options
@@ -256,7 +258,7 @@ def search_and_extract(term_tokens, keyword, template, output, output_format, **
 
 @main.command()
 @template_option
-@engine_option
+@model_option
 @recurse_option
 @output_option_wb
 @output_format_options
@@ -352,6 +354,23 @@ def synonyms(term, context, output, output_format, **kwargs):
 @main.command()
 @output_option_txt
 @output_format_options
+@click.option("--annotation-path",
+              required=True,
+              )
+@click.argument("term")
+def gene_set(term, output, output_format, annotation_path, **kwargs):
+    """Create a gene set."""
+    logging.info(f"Creating for {term}")
+    evaluator = EvalEnrichment()
+    evaluator.load_annotations(annotation_path)
+    gene_set = evaluator.create_gene_set_from_term(term)
+    print(yaml.dump(gene_set.dict(), sort_keys=False))
+
+
+@main.command()
+@output_option_txt
+@output_format_options
+@model_option
 @click.option(
     "--resolver", "-r", help="OAK selector for the gene ID resolver. E.g. sqlite:obo:hgnc"
 )
@@ -372,7 +391,7 @@ def synonyms(term, context, output, output_format, **kwargs):
     help="File with gene IDs to enrich (if not passed as arguments)",
 )
 @click.option(
-    "--auto-synopsis/--no-auto-synopsis",
+    "--ontological-synopsis/--no-ontological-synopsis",
     default=True,
     show_default=True,
     help="If set, use automated rather than manual gene descriptions",
@@ -383,8 +402,14 @@ def synonyms(term, context, output, output_format, **kwargs):
     show_default=True,
     help="If set, both gene descriptions",
 )
+@click.option(
+    "--annotations/--no-annotations",
+    default=True,
+    show_default=True,
+    help="If set, include annotations in the prompt",
+)
 @click.argument("genes", nargs=-1)
-def enrichment(genes, context, input_file, resolver, output, output_format, **kwargs):
+def enrichment(genes, context, input_file, resolver, output, model, output_format, **kwargs):
     """Gene class enrichment.
 
     Algorithm:
@@ -411,22 +436,26 @@ def enrichment(genes, context, input_file, resolver, output, output_format, **kw
     if input_file:
         if genes:
             raise ValueError("Either genes or input file must be passed")
-        with open(input_file, "r") as f:
-            genes = [line.strip() for line in f.readlines()]
+        gene_set = parse_gene_set(input_file)
+        genes = gene_set.gene_symbols
     if not genes:
         raise ValueError("No genes passed")
-    ke: EnrichmentEngine = create_engine(None, EnrichmentEngine)
+    ke = create_engine(None, EnrichmentEngine, model=model)
+    if settings.cache_db:
+        ke.client.cache_db_path = settings.cache_db
+    if not isinstance(ke, EnrichmentEngine):
+        raise ValueError(f"Expected EnrichmentEngine, got {type(ke)}")
     if resolver:
         ke.add_resolver(resolver)
     results = ke.summarize(genes, normalize=resolver is not None, **kwargs)
-    if results.truncation_factor < 1.0:
+    if results.truncation_factor is not None and results.truncation_factor < 1.0:
         logging.warning(f"Text was truncated; factor = {results.truncation_factor}")
     output = _as_text_writer(output)
     output.write(dump_minimal_yaml(results))
 
 
 @main.command()
-@engine_option
+@model_option
 @recurse_option
 @output_option_txt
 @output_format_options
@@ -449,7 +478,7 @@ def eval(evaluator, num_tests, output, output_format, **kwargs):
 
 @main.command()
 @template_option
-@engine_option
+@model_option
 @click.option("-E", "--examples", type=click.File("r"), help="File of example objects.")
 @recurse_option
 @output_option_wb
@@ -469,7 +498,14 @@ def fill(template, object: str, examples, output, output_format, **kwargs):
 
 
 @main.command()
-@engine_option
+def models(**kwargs):
+    """Prompt completion."""
+    ai = OpenAIClient()
+    for model in openai.Model.list():
+        print(model)
+
+@main.command()
+@model_option
 @output_option_txt
 @output_format_options
 @click.argument("input")
@@ -498,7 +534,7 @@ def parse(template, input):
 @main.command()
 @click.option("-o", "--output", type=click.File(mode="w"), default=sys.stdout, help="Output file.")
 @output_format_options
-@engine_option
+@model_option
 @click.option("-m", "match", help="Match string to use for filtering.")
 @click.option("-D", "database", help="Path to sqlite database.")
 def dump_completions(engine, match, database, output, output_format):
