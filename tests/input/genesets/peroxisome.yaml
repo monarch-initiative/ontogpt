@@ -1,0 +1,13 @@
+description: null
+gene_ids: null
+gene_symbols:
+- PEX1
+- PEX2
+- PEX3
+- PEX4
+- PEX5
+- PEX6
+- PEX7
+- PEX8
+name: peroxisome
+taxon: human
