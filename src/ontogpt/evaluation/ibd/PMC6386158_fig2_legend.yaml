@@ -1,0 +1,141 @@
+input_text: "Figure 2. The intestinal mucosa in the normal bowel and IBD.\nUpon exposure\
+  \ to environmental factors, patients with IBD develop microbial dysbiosis with\n\
+  decrease of short-chain fatty acids (SCFA) producing bacteria and increase in\n\
+  Proteobacteria. Mechanisms that maintain the intestinal barrier are also disrupted\
+  \ in the IBD\nmucosa, including: down regulation of E-cadherin in tight junctions;\
+  \ thickness of the mucus\nlayer; abnormal goblet cell function, including Muc2 and\
+  \ RELM\u03B2 proteins; and\ndysfunctional Paneth cells associated mechanisms, including\
+  \ secretion of antimicrobial\nproducts, NOD2 and ATG16L1 gene associated functions.\
+  \ From the innate immune system\nperspective, the IBD mucosa has been shown to exhibit:\
+  \ a decrease in colonic macrophages\nexpressing CD14, defective CX3CR1 antigen presentation\
+  \ by dendritic cells; and impaired\nAutophagy. Lastly, while leukocyte migration\
+  \ via integrin cellular adhesion molecules\n(CAMs) interactions also occurs in the\
+  \ normal mucosa, the balance between Effector and\nregulatory T cells (T-reg) appears\
+  \ to be disturbed in the IBD mucosa, resulting in\nuncontrolled activation of different\
+  \ T-cell lineages that migrate to the inflamed intestine.\n"
+raw_completion_output: "genes: E-cadherin; Muc2; RELM\u03B2; NOD2; ATG16L1\norganisms:\
+  \ not mentioned\ngene_organisms: E-cadherin / not mentioned; Muc2 / not mentioned;\
+  \ RELM\u03B2 / not mentioned; NOD2 / not mentioned; ATG16L1 / not mentioned\nactivities:\
+  \ antimicrobial secretion; antigen presentation; leukocyte migration; T-cell activation\n\
+  gene_functions: E-cadherin / cell adhesion; Muc2 / mucus secretion; RELM\u03B2 /\
+  \ mucus secretion; NOD2 / antimicrobial response; ATG16L1 / autophagy\ncellular_processes:\
+  \ maintenance of intestinal barrier; innate immune response\npathways: not mentioned\n\
+  gene_gene_interactions: not mentioned\ngene_localizations: E-cadherin / tight junctions;\
+  \ Muc2 / mucus layer; RELM\u03B2 / goblet cells; NOD2 / associated mechanisms; ATG16L1\
+  \ / associated mechanisms"
+prompt: 'Split the following piece of text into fields in the following format:
+
+
+  gene: <the value for gene>
+
+  location: <the value for location>
+
+
+
+  Text:
+
+  ATG16L1 / associated mechanisms
+
+
+  ===
+
+
+  '
+extracted_object:
+  genes:
+  - HGNC:1748
+  - HGNC:7512
+  - HGNC:20388
+  - HGNC:5331
+  - HGNC:21498
+  organisms:
+  - AUTO:not%20mentioned
+  gene_organisms:
+  - gene: HGNC:1748
+    organism: AUTO:not%20mentioned
+  - gene: HGNC:7512
+    organism: AUTO:not%20mentioned
+  - gene: HGNC:20388
+    organism: AUTO:not%20mentioned
+  - gene: HGNC:5331
+    organism: AUTO:not%20mentioned
+  - gene: HGNC:21498
+    organism: AUTO:not%20mentioned
+  activities:
+  - AUTO:antimicrobial%20secretion
+  - GO:0019882
+  - GO:0050900
+  - GO:0042110
+  gene_functions:
+  - gene: HGNC:1748
+    molecular_activity: GO:0007155
+  - gene: HGNC:7512
+    molecular_activity: GO:0070254
+  - gene: HGNC:20388
+    molecular_activity: GO:0070254
+  - gene: HGNC:5331
+    molecular_activity: AUTO:antimicrobial%20response
+  - gene: HGNC:21498
+    molecular_activity: GO:0006914
+  cellular_processes:
+  - AUTO:maintenance%20of%20intestinal%20barrier
+  - GO:0045087
+  pathways:
+  - AUTO:not%20mentioned
+  gene_gene_interactions:
+  - gene1: AUTO:not%20mentioned
+    gene2: AUTO:not%20mentioned
+  gene_localizations:
+  - gene: HGNC:1748
+    location: GO:0070160
+  - gene: HGNC:7512
+    location: GO:0070701
+  - gene: HGNC:20388
+    location: CL:0000160
+  - gene: HGNC:5331
+    location: AUTO:not%20specified%20%28no%20location%20mentioned%20in%20the%20text%29
+  - gene: HGNC:21498
+    location: AUTO:not%20specified
+named_entities:
+- id: HGNC:1748
+  label: E-cadherin
+- id: HGNC:7512
+  label: Muc2
+- id: HGNC:20388
+  label: "RELM\u03B2"
+- id: HGNC:5331
+  label: NOD2
+- id: HGNC:21498
+  label: ATG16L1
+- id: AUTO:not%20mentioned
+  label: not mentioned
+- id: AUTO:antimicrobial%20secretion
+  label: antimicrobial secretion
+- id: GO:0019882
+  label: antigen presentation
+- id: GO:0050900
+  label: leukocyte migration
+- id: GO:0042110
+  label: T-cell activation
+- id: GO:0007155
+  label: cell adhesion
+- id: GO:0070254
+  label: mucus secretion
+- id: AUTO:antimicrobial%20response
+  label: antimicrobial response
+- id: GO:0006914
+  label: autophagy
+- id: AUTO:maintenance%20of%20intestinal%20barrier
+  label: maintenance of intestinal barrier
+- id: GO:0045087
+  label: innate immune response
+- id: GO:0070160
+  label: tight junctions
+- id: GO:0070701
+  label: mucus layer
+- id: CL:0000160
+  label: goblet cells
+- id: AUTO:not%20specified%20%28no%20location%20mentioned%20in%20the%20text%29
+  label: not specified (no location mentioned in the text)
+- id: AUTO:not%20specified
+  label: not specified
