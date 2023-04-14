@@ -105,6 +105,15 @@ class EnrichmentPayload(BaseModel):
 def parse_gene_set(input_path: str, format: str = None) -> GeneSet:
     """
     Parse a gene set from a file.
+
+    Accepts:
+
+    - yaml (native gene set format; recommended)
+    - json (msigdb format)
+    - txt (one gene symbol per line)
+
+    This does no normalization of gene symbols or ids.
+
     """
     if format is None:
         format = input_path.split(".")[-1]
@@ -135,29 +144,33 @@ def load_gene_sets(path: str, ontology_adapter: BasicOntologyInterface = None, s
         gene_sets.append(gene_set)
         if not gene_set.gene_ids and not gene_set.gene_symbols:
             raise ValueError(f"Gene set {gene_set.name} has no gene symbols or ids")
-        if ontology_adapter:
-            if not gene_set.gene_ids:
-                print(f"Fetching ids for {len(gene_set.gene_symbols)} genes")
-                gene_set.gene_ids = []
-                for sym in gene_set.gene_symbols:
-                    ids = ontology_adapter.curies_by_label(sym)
-                    if strict and len(ids) != 1:
-                        raise ValueError(f"Could not find a single id for symbol {sym}")
-                    # hack! normalize casing
-                    gene_set.gene_ids.extend([id.upper() for id in ids])
-            if not gene_set.gene_symbols:
-                print(f"Fetching labels for {len(gene_set.gene_ids)} genes")
-                gene_set.gene_symbols = []
-                for id in gene_set.gene_ids:
-                    # HACK! lowercase the id to avoid issues with obo-dv-ingest
-                    lbl = ontology_adapter.label(id.lower())
-                    print(f"{id} -> {lbl}")
-                    if lbl:
-                        gene_set.gene_symbols.append(lbl)
-                    else:
-                        if strict:
-                            raise ValueError(f"Could not find a label for id {id}")
+        populate_ids_and_symbols(gene_set, ontology_adapter, strict)
     return GeneSetCollection(gene_sets=gene_sets)
+
+
+def populate_ids_and_symbols(gene_set: GeneSet, ontology_adapter: BasicOntologyInterface = None, strict=False):
+    if ontology_adapter:
+        if not gene_set.gene_ids:
+            print(f"Fetching ids for {len(gene_set.gene_symbols)} genes")
+            gene_set.gene_ids = []
+            for sym in gene_set.gene_symbols:
+                ids = ontology_adapter.curies_by_label(sym)
+                if strict and len(ids) != 1:
+                    raise ValueError(f"Could not find a single id for symbol {sym}")
+                # hack! normalize casing
+                gene_set.gene_ids.extend([id.upper() for id in ids])
+        if not gene_set.gene_symbols:
+            print(f"Fetching labels for {len(gene_set.gene_ids)} genes")
+            gene_set.gene_symbols = []
+            for id in gene_set.gene_ids:
+                # HACK! lowercase the id to avoid issues with obo-dv-ingest
+                lbl = ontology_adapter.label(id.lower())
+                print(f"{id} -> {lbl}")
+                if lbl:
+                    gene_set.gene_symbols.append(lbl)
+                else:
+                    if strict:
+                        raise ValueError(f"Could not find a label for id {id}")
 
 
 @cachier(stale_after=datetime.timedelta(days=7))
@@ -206,7 +219,7 @@ class EnrichmentEngine(KnowledgeEngine):
 
     def summarize(
         self,
-        ids: List[ENTITY_ID],
+        gene_set: GeneSet,
         normalize=False,
         strict=False,
         ontological_synopsis=True,
@@ -224,14 +237,14 @@ class EnrichmentEngine(KnowledgeEngine):
         :param annotations: whether to use annotations
         :return: summary
         """
-        genes = []
-        if normalize:
-            logging.info(f"Normalizing {len(ids)} gene IDs: {ids}")
-            ids = list(self.map_labels(ids, strict=strict))
-            logging.info(f"Normalized {len(ids)} gene IDs => {ids}")
-        for id in ids:
-            logging.info(f"Fetching gene summary for {id}...")
-            symbol, desc_manual, desc_auto = gene_info(id)
+        if not gene_set.gene_ids and not gene_set.gene_symbols:
+            raise ValueError(f"Gene set {gene_set.name} has no gene symbols or ids")
+        if not gene_set.gene_ids or normalize:
+            gene_set.gene_ids = list(self.map_labels(gene_set.gene_symbols, strict=strict))
+        gene_tuples = []
+        for gene_id in gene_set.gene_ids:
+            logging.info(f"Looking up gene summary for {gene_id}...")
+            symbol, desc_manual, desc_auto = gene_info(gene_id)
             if combined_synopsis:
                 if ontological_synopsis:
                     desc = desc_auto + "; " + desc_manual
@@ -245,10 +258,10 @@ class EnrichmentEngine(KnowledgeEngine):
             else:
                 desc = desc_manual
                 logging.debug(f"Manual synopsis: {desc}")
-            genes.append((id, symbol, desc))
+            gene_tuples.append((gene_id, symbol, desc))
         if not annotations:
-            return self.summarize_annotation_free(genes)
-        prompt, tf = self._prompt(genes)
+            return self.summarize_annotation_free(gene_tuples)
+        prompt, tf = self._prompt(gene_tuples)
         response_text = self.client.complete(prompt, max_tokens=self.completion_length)
         response_token_length = len(self.encoding.encode(response_text))
         logging.info(f"Response token length: {response_token_length}")
@@ -267,6 +280,8 @@ class EnrichmentEngine(KnowledgeEngine):
     def summarize_annotation_free(self,genes: List[GENE_TUPLE]) -> EnrichmentPayload:
         """Summarize gene IDs without using any annotations."""
         prompt = ANNOTATION_FREE_PROMPT
+        if not genes:
+            raise ValueError("No genes provided")
         prompt += "; ".join([symbol for _id, symbol, _desc in genes])
         prompt += FOOTER
         response_text = self.client.complete(prompt)
@@ -348,7 +363,15 @@ class EnrichmentEngine(KnowledgeEngine):
         else:
             payload.summary = "COULD NOT PARSE"
             rest = payload.response_text
-        payload.term_strings = [s.lower().strip(":-*;. ") for s in rest.split("; ")]
+        # we ask to split on ";" but sometimes the model disobeys and uses "," instead
+        tok_chars = [";", ",", "-"]
+        tokenizations = {}
+        for tok_char in tok_chars:
+            toks = rest.split(f"{tok_char} ")
+            tokenizations[tok_char] = toks
+        tokenizations = sorted(tokenizations.items(), key=lambda x: len(x[1]), reverse=True)
+        best_tokens = tokenizations[0][1]
+        payload.term_strings = [s.lower().strip(":-*;. -\n") for s in best_tokens]
         payload.term_ids = []
         for term in payload.term_strings:
             payload.term_ids.append(self.normalize_named_entity(term, GeneDescriptionTerm.__name__))

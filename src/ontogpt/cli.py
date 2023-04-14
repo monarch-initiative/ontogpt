@@ -18,7 +18,7 @@ from ontogpt.clients import OpenAIClient
 from ontogpt.clients.pubmed_client import PubmedClient
 from ontogpt.clients.soup_client import SoupClient
 from ontogpt.engines import create_engine
-from ontogpt.engines.enrichment import EnrichmentEngine, parse_gene_set
+from ontogpt.engines.enrichment import EnrichmentEngine, parse_gene_set, populate_ids_and_symbols, GeneSet
 from ontogpt.engines.halo_engine import HALOEngine
 from ontogpt.engines.knowledge_engine import KnowledgeEngine
 from ontogpt.engines.spires_engine import SPIRESEngine
@@ -223,6 +223,25 @@ def pubmed_extract(pmid, template, output, output_format, **kwargs):
 @template_option
 @model_option
 @recurse_option
+@output_option_txt
+@output_format_options
+@click.argument("pmcid")
+def pmc_extract(pmcid, template, output, output_format, **kwargs):
+    """Extract knowledge from PMC (TODO)."""
+    logging.info(f"Creating for {template}")
+    pmc = PubmedClient()
+    ec = pmc.entrez_client
+    paset = ec.efetch(db="pmc", id=pmcid)
+    from lxml import etree
+    for pa in paset:
+        pa._xml_root
+        print(etree.tostring(pa._xml_root, pretty_print=True))
+
+
+@main.command()
+@template_option
+@model_option
+@recurse_option
 @output_option_wb
 @output_format_options
 @click.option(
@@ -358,7 +377,7 @@ def synonyms(term, context, output, output_format, **kwargs):
               required=True,
               )
 @click.argument("term")
-def gene_set(term, output, output_format, annotation_path, **kwargs):
+def create_gene_set(term, output, output_format, annotation_path, **kwargs):
     """Create a gene set."""
     logging.info(f"Creating for {term}")
     evaluator = EvalEnrichment()
@@ -366,6 +385,19 @@ def gene_set(term, output, output_format, annotation_path, **kwargs):
     gene_set = evaluator.create_gene_set_from_term(term)
     print(yaml.dump(gene_set.dict(), sort_keys=False))
 
+
+@main.command()
+@output_option_txt
+@output_format_options
+@click.option(
+    "--input-file",
+    "-U",
+    help="File with gene IDs to enrich (if not passed as arguments)",
+)
+def convert_geneset(input_file, output, output_format, **kwargs):
+    """Convert gene set to YAML."""
+    gene_set = parse_gene_set(input_file)
+    output.write(dump_minimal_yaml(gene_set.dict()))
 
 @main.command()
 @output_option_txt
@@ -433,12 +465,13 @@ def enrichment(genes, context, input_file, resolver, output, model, output_forma
     """
     if not genes and not input_file:
         raise ValueError("Either genes or input file must be passed")
+    if genes:
+        gene_set = GeneSet(name="TEMP", gene_symbols=genes)
     if input_file:
         if genes:
             raise ValueError("Either genes or input file must be passed")
         gene_set = parse_gene_set(input_file)
-        genes = gene_set.gene_symbols
-    if not genes:
+    if not gene_set:
         raise ValueError("No genes passed")
     ke = create_engine(None, EnrichmentEngine, model=model)
     if settings.cache_db:
@@ -447,11 +480,82 @@ def enrichment(genes, context, input_file, resolver, output, model, output_forma
         raise ValueError(f"Expected EnrichmentEngine, got {type(ke)}")
     if resolver:
         ke.add_resolver(resolver)
-    results = ke.summarize(genes, normalize=resolver is not None, **kwargs)
+    results = ke.summarize(gene_set, normalize=resolver is not None, **kwargs)
     if results.truncation_factor is not None and results.truncation_factor < 1.0:
         logging.warning(f"Text was truncated; factor = {results.truncation_factor}")
     output = _as_text_writer(output)
     output.write(dump_minimal_yaml(results))
+
+
+@main.command()
+@output_option_txt
+@click.option(
+    "--strict/--no-strict",
+    default=True,
+    show_default=True,
+    help="If set, there must be a unique mappings from labels to IDs",
+)
+@click.option(
+    "--input-file",
+    "-U",
+    help="File with gene IDs to enrich (if not passed as arguments)",
+)
+@click.option(
+    "--ontological-synopsis/--no-ontological-synopsis",
+    default=True,
+    show_default=True,
+    help="If set, use automated rather than manual gene descriptions",
+)
+@click.option(
+    "--combined-synopsis/--no-combined-synopsis",
+    default=False,
+    show_default=True,
+    help="If set, both gene descriptions",
+)
+@click.option(
+    "--annotations/--no-annotations",
+    default=True,
+    show_default=True,
+    help="If set, include annotations in the prompt",
+)
+@click.option(
+    "--number-to-drop",
+    "-n",
+    type=click.types.INT,
+    default=1,
+    help="Max number of genes to drop",
+)
+@click.option(
+    "--annotations-path",
+    "-A",
+    default="tests/input/genes2go.tsv.gz",
+    help="Path to annotations",
+)
+@click.argument("genes", nargs=-1)
+def eval_enrichment(genes, input_file, number_to_drop, annotations_path, output, **kwargs):
+    """Runs enrichment using multiple methods
+    """
+    if not genes and not input_file:
+        raise ValueError("Either genes or input file must be passed")
+    if genes:
+        gene_set = GeneSet(name="TEMP", gene_symbols=genes)
+    if input_file:
+        if genes:
+            raise ValueError("Either genes or input file must be passed")
+        gene_set = parse_gene_set(input_file)
+    if not gene_set:
+        raise ValueError("No genes passed")
+    models = ["gpt-3.5-turbo", "text-davinci-003"]
+    all_comparisons = []
+    for model in models:
+        eval_engine = EvalEnrichment(model=model)
+        eval_engine.load_annotations(annotations_path)
+        print(f"RANDOM GENE: {eval_engine.random_gene_symbol()}")
+        comps = eval_engine.evaluate_methods_on_gene_set(gene_set, n=number_to_drop)
+        all_comparisons.extend([comp.dict() for comp in comps])
+    output.write(dump_minimal_yaml(all_comparisons))
+
+
 
 
 @main.command()
