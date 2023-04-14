@@ -18,22 +18,13 @@ imports:
   - core
 
 classes:
-  IBDAnnotations:
+  DiseasePhysiologyAnnotations:
     tree_root: true
     attributes:
       genes:
         description: semicolon-separated list of genes
         multivalued: true
         range: Gene
-      organisms:
-        description: semicolon-separated list of organism taxons
-        multivalued: true
-        range: Organism
-      gene_organisms:
-        annotations:
-          prompt: semicolon-separated list of asterisk separated gene to organism relationships
-        multivalued: true
-        range: GeneOrganismRelationship
       activities:
         description: semicolon-separated list of molecular activities
         multivalued: true
@@ -101,13 +92,6 @@ classes:
         values_from:
           - GOCellComponentType
           - CellType
-  Organism:
-    is_a: NamedEntity
-    id_prefixes:
-      - NCBITaxon
-      - EFO
-    annotations:
-      annotators: gilda:, sqlite:obo:ncbitaxon
   Molecule:
     is_a: NamedEntity
     id_prefixes:
@@ -115,14 +99,6 @@ classes:
       - PR
     annotations:
       annotators: gilda:, sqlite:obo:chebi
-
-  GeneOrganismRelationship:
-    is_a: CompoundExpression
-    attributes:
-      gene:
-        range: Gene
-      organism:
-        range: Organism
 
   GeneMolecularActivityRelationship:
     is_a:   CompoundExpression

@@ -37,16 +37,9 @@ class CellType(str, Enum):
     dummy = "dummy"
 
 
-class IBDAnnotations(ConfiguredBaseModel):
+class DiseasePhysiologyAnnotations(ConfiguredBaseModel):
     genes: Optional[List[str]] = Field(
         default_factory=list, description="""semicolon-separated list of genes"""
-    )
-    organisms: Optional[List[str]] = Field(
-        default_factory=list, description="""semicolon-separated list of organism taxons"""
-    )
-    gene_organisms: Optional[List[GeneOrganismRelationship]] = Field(default_factory=list)
-    activities: Optional[List[str]] = Field(
-        default_factory=list, description="""semicolon-separated list of molecular activities"""
     )
     gene_functions: Optional[List[GeneMolecularActivityRelationship]] = Field(
         default_factory=list,
@@ -115,11 +108,6 @@ class GeneLocation(NamedEntity):
     label: Optional[str] = Field(None, description="""The label (name) of the named thing""")
 
 
-class Organism(NamedEntity):
-    id: Optional[str] = Field(None, description="""A unique identifier for the named entity""")
-    label: Optional[str] = Field(None, description="""The label (name) of the named thing""")
-
-
 class Molecule(NamedEntity):
     id: Optional[str] = Field(None, description="""A unique identifier for the named entity""")
     label: Optional[str] = Field(None, description="""The label (name) of the named thing""")
@@ -127,11 +115,6 @@ class Molecule(NamedEntity):
 
 class CompoundExpression(ConfiguredBaseModel):
     pass
-
-
-class GeneOrganismRelationship(CompoundExpression):
-    gene: Optional[str] = Field(None)
-    organism: Optional[str] = Field(None)
 
 
 class GeneMolecularActivityRelationship(CompoundExpression):
@@ -202,7 +185,7 @@ class AnnotatorResult(ConfiguredBaseModel):
 
 # Update forward refs
 # see https://pydantic-docs.helpmanual.io/usage/postponed_annotations/
-IBDAnnotations.update_forward_refs()
+DiseasePhysiologyAnnotations.update_forward_refs()
 ExtractionResult.update_forward_refs()
 NamedEntity.update_forward_refs()
 Gene.update_forward_refs()
@@ -210,10 +193,8 @@ Pathway.update_forward_refs()
 CellularProcess.update_forward_refs()
 MolecularActivity.update_forward_refs()
 GeneLocation.update_forward_refs()
-Organism.update_forward_refs()
 Molecule.update_forward_refs()
 CompoundExpression.update_forward_refs()
-GeneOrganismRelationship.update_forward_refs()
 GeneMolecularActivityRelationship.update_forward_refs()
 GeneMolecularActivityRelationship2.update_forward_refs()
 GeneSubcellularLocalizationRelationship.update_forward_refs()
