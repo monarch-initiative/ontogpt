@@ -14,6 +14,8 @@ def eliminate_empty(obj: Any, preserve=False) -> Any:
         return eliminate_empty(obj.dict(), preserve)
     elif isinstance(obj, tuple):
         return [eliminate_empty(x, preserve) for x in obj]
+    elif isinstance(obj, str):
+        return str(obj)
     else:
         return obj
 
