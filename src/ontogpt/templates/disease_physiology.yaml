@@ -100,6 +100,13 @@ classes:
     annotations:
       annotators: gilda:, sqlite:obo:chebi
 
+  Phenotype:
+    is_a: NamedEntity
+    id_prefixes:
+      - HP
+    annotations:
+      annotators: sqlite:obo:hp
+
   GeneMolecularActivityRelationship:
     is_a:   CompoundExpression
     attributes:
