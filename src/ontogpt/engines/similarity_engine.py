@@ -30,6 +30,7 @@ class SimilarityEngine(KnowledgeEngine):
     parents: bool = True
     ancestors: bool = True
     synonyms: bool = True
+    logical_definitions: bool = False
 
 
     def similarity(self, entity1: str, entity2: str) -> EmbeddingSimilarity:
@@ -77,5 +78,11 @@ class SimilarityEngine(KnowledgeEngine):
             s += f"\nancestors: {'; '.join(ancestor_labels)}"
         if self.synonyms:
             s += f"\nsynonyms: {'; '.join(adapter.entity_aliases(entity))}"
+        if self.logical_definitions:
+            for ldef in adapter.logical_definitions(entity):
+                genus_labels = [adapter.label(g) for g in ldef.genusIds]
+                restriction_labels = [f"{adapter.label(r.propertyId)} {adapter.label(r.valueId)}" for r in ldef.restrictions]
+                s += f"\nlogical definition: A {', '.join(genus_labels)} that {' and '.join(restriction_labels)}"
+            s += f"\nlogical definitions: {'; '.join(adapter.logical_definitions(entity))}"
         logger.info(f"Entity text for {entity}: {s}")
         return s

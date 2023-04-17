@@ -548,9 +548,16 @@ def text_similarity(text, context, output, model, output_format, **kwargs):
 @output_format_options
 @model_option
 @click.option("--ontology", "-r", help="Ontology to use")
-@click.option("--definitions/--no-definitions", default=True, show_default=True)
-@click.option("--parents/--no-parents", default=True, show_default=True)
-@click.option("--autolabel/--no-autolabel", default=True, show_default=True)
+@click.option("--definitions/--no-definitions", default=True, show_default=True,
+              help="Include text definitions in the text to embed")
+@click.option("--parents/--no-parents", default=True, show_default=True,
+                help="Include is-a parent terms in the text to embed")
+@click.option("--ancestors/--no-ancestors", default=True, show_default=True,
+                help="Include all ancestors in the text to embed")
+@click.option("--logical-definitions/--no-logical-definitions", default=True, show_default=True,
+                help="Include logical definitions in the text to embed")
+@click.option("--autolabel/--no-autolabel", default=True, show_default=True,
+                help="Add subj/obj labels to report objects")
 @click.argument("terms", nargs=-1)
 def entity_similarity(terms, ontology, output, model, output_format, **kwargs):
     """Embed text.
