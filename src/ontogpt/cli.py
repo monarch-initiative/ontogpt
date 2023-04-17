@@ -83,7 +83,7 @@ def write_extraction(
         output.write(dump_minimal_yaml(results))
 
 
-inputfile_option = click.option("-U", "--inputfile", help="Path to a file containing input text.")
+inputfile_option = click.option("-i", "--inputfile", help="Path to a file containing input text.")
 template_option = click.option("-t", "--template", required=True, help="Template to use.")
 target_class_option = click.option(
     "-T", "--target-class", help="Target class (if not already root)."
@@ -161,10 +161,10 @@ def extract(
 
     Example:
 
-        ontogpt extract -t gocam.GoCamAnnotations -U gocam-27929086.txt
+        ontogpt extract -t gocam.GoCamAnnotations -i gocam-27929086.txt
 
     The input argument must be either a file path or a string. 
-    Use the -U/--input-file option followed by the path to the input file if using the former.
+    Use the -i/--input-file option followed by the path to the input file if using the former.
     Otherwise, the input is assumed to be a string to be read as input.
 
     You can also use fragments of existing schemas, use the --target-class option (-T) to
