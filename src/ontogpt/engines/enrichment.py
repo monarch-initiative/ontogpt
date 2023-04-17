@@ -5,7 +5,7 @@ import logging
 import re
 from collections.abc import Iterator
 from dataclasses import dataclass, field
-from typing import Dict, List, Tuple
+from typing import Dict, List, Tuple, Optional
 
 import requests
 import yaml
@@ -17,7 +17,12 @@ from pydantic import BaseModel
 from ontogpt.engines.knowledge_engine import KnowledgeEngine
 from ontogpt.templates.gene_description_term import GeneDescriptionTerm
 
+
+logger = logging.getLogger(__name__)
+
+
 SUMMARY_KEYWORD = "Summary"
+MECHANISM_KEYWORD = "Mechanism"
 ENRICHED_TERMS_KEYWORD = "Enriched Terms"
 
 BASE_PROMPT = f"""
@@ -29,10 +34,12 @@ Only report gene functions in common, not diseases.
 e.g if gene1 is involved in "toe bone growth" and gene2 is involved in "finger morphogenesis" 
 then the term "digit development" would be enriched as represented by gene1 and gene2.
 Only include terms that are statistically over-represented.
+Also include a hypothesis of the underlying biological mechanism or pathway.
 
 Provide results in the format
 
 {SUMMARY_KEYWORD}: <high level summary>
+{MECHANISM_KEYWORD}: <mechanism>
 {ENRICHED_TERMS_KEYWORD}: <term1>; <term2>; <term3>
 
 ###
@@ -74,10 +81,11 @@ class GeneSet(BaseModel):
     """A set of genes."""
 
     name: str
-    gene_symbols: List[str] = None
-    gene_ids: List[str] = None
+    gene_symbols: Optional[List[str]] = None
+    gene_ids: Optional[List[str]] = None
     taxon: str = "human"
-    description: str = None
+    description: Optional[str] = None
+    target_term_ids: Optional[List[str]] = None
 
 
 class GeneSetCollection(BaseModel):
@@ -100,6 +108,7 @@ class EnrichmentPayload(BaseModel):
     annotations: bool = None
     response_token_length: int = None
     model: str = None
+    method: str = None
 
 
 def parse_gene_set(input_path: str, format: str = None) -> GeneSet:
@@ -241,6 +250,7 @@ class EnrichmentEngine(KnowledgeEngine):
             raise ValueError(f"Gene set {gene_set.name} has no gene symbols or ids")
         if not gene_set.gene_ids or normalize:
             gene_set.gene_ids = list(self.map_labels(gene_set.gene_symbols, strict=strict))
+            logger.info(f"gene ids: {gene_set.gene_ids}")
         gene_tuples = []
         for gene_id in gene_set.gene_ids:
             logging.info(f"Looking up gene summary for {gene_id}...")
@@ -350,8 +360,7 @@ class EnrichmentEngine(KnowledgeEngine):
 
     def process_payload(self, payload: EnrichmentPayload) -> EnrichmentPayload:
         """Process the payload."""
-
-        toks = re.split(ENRICHED_TERMS_KEYWORD, payload.response_text, flags=re.IGNORECASE)
+        toks = re.split(f"{ENRICHED_TERMS_KEYWORD}:", payload.response_text, flags=re.IGNORECASE)
         if len(toks) > 2:
             logging.warning(
                 f"Found more than one {ENRICHED_TERMS_KEYWORD} in response: {payload.response_text}"
@@ -363,6 +372,12 @@ class EnrichmentEngine(KnowledgeEngine):
         else:
             payload.summary = "COULD NOT PARSE"
             rest = payload.response_text
+        if "hypothesis:" in rest.lower():
+            # this is a little ad-hoc; turbo is prone to inserting a "hypothesis" at the end
+            # even though this is not in the prompt
+            toks = re.split("hypothesis:", rest, flags=re.IGNORECASE)
+            rest = toks[0]
+            payload.summary += "\nHypothesis: " + toks[1]
         # we ask to split on ";" but sometimes the model disobeys and uses "," instead
         tok_chars = [";", ",", "-"]
         tokenizations = {}

@@ -25,7 +25,8 @@ from tiktoken import Encoding
 from ontogpt.engines import create_engine
 from ontogpt.engines.enrichment import ENTITY_ID, SYMBOL, EnrichmentEngine, EnrichmentPayload, GeneSet, gene_info, \
     populate_ids_and_symbols
-from ontogpt.evaluation.evaluation_engine import EvaluationEngine, SimilarityScore
+from ontogpt.engines.knowledge_engine import MODEL_NAME, MODEL_GPT_3_5_TURBO, MODEL_TEXT_DAVINCI_003
+from ontogpt.evaluation.evaluation_engine import EvaluationEngine
 
 THIS_DIR = Path(__file__).parent
 DATABASE_DIR = Path(__file__).parent / "database"
@@ -37,6 +38,9 @@ STANDARD = "standard"
 STANDARD_NO_ONTOLOGY = "standard_no_ontology"
 RANDOM = "random"
 RANK_BASED = "rank_based"
+
+ENRICHMENT_MODELS = [MODEL_GPT_3_5_TURBO, MODEL_TEXT_DAVINCI_003]
+
 
 
 logger = logging.getLogger(__name__)
@@ -59,7 +63,7 @@ class GeneSetComparison(BaseModel):
     model: str = None
     payloads: Dict[str, EnrichmentPayload] = None
     overlaps: Dict[Tuple[str, str], Overlap] = None
-
+    number_of_genes_swapped_out: int = None
 
 @cachier(stale_after=datetime.timedelta(days=3))
 def get_symbol_to_gene_id_map() -> Dict[SYMBOL, ENTITY_ID]:
@@ -76,42 +80,33 @@ class EvalEnrichment(EvaluationEngine):
 
     model: str = None
 
+    engines: Dict[MODEL_NAME, EnrichmentEngine] = field(default_factory=dict)
+
+
+
     def __post_init__(self):
         ontology = get_implementation_from_shorthand("sqlite:obo:go")
         if not isinstance(ontology, OboGraphInterface):
             raise TypeError
         self.ontology: ClassEnrichmentCalculationInterface = ontology
         self.engine: EnrichmentEngine = create_engine(None, EnrichmentEngine, model=self.model)
+        for model in ENRICHMENT_MODELS:
+            self.engines[model] = create_engine(None, EnrichmentEngine, model=model)
+            self.engines[model].add_resolver("sqlite:obo:hgnc")
         self.engine.add_resolver("sqlite:obo:hgnc")
         self.tokenizer_encoding = tiktoken.encoding_for_model(self.engine.model)
 
-    @deprecated
-    def compare_analysis_pairwise(
-        self, gene_symbols: List[str], name: str = None
-    ) -> GeneSetComparison:
-        """Compare OntoGPT enrichment vs standard."""
-        logger.info(f"Doing manual enrichment...; {gene_symbols}")
-        enrichment_auto = self.engine.summarize(gene_symbols, ontological_synopsis=True, normalize=True)
-        logger.info("Doing auto enrichment...")
-        enrichment_manual = self.engine.summarize(gene_symbols, ontological_synopsis=False, normalize=True)
-        comp = GeneSetComparison(
-            name=name,
-            gene_symbols=gene_symbols,
-            payloads={NARRATIVE_SYNOPSIS: enrichment_manual, ONTOLOGICAL_SYNOPSIS: enrichment_auto},
-        )
-        combos = [(NARRATIVE_SYNOPSIS, ONTOLOGICAL_SYNOPSIS)]
-        logger.info(f"Comparing combos: {combos}")
-        for tup in combos:
-            t1, t2 = tup
-            p1 = comp.payloads[t1]
-            p2 = comp.payloads[t2]
-            ov = self.compare_payloads(p1, p2)
-            if comp.overlaps is None:
-                comp.overlaps = {}
-            comp.overlaps[tup] = ov
-        return comp
-
     def evaluate_methods_on_gene_set(self, gene_set: GeneSet, max_size=999, n=4) -> List[GeneSetComparison]:
+        """
+        Perform evaluation of different methods on a gene set.
+
+        Different permutations of the gene set are created, dropping out some members, and
+        inserting random genes.
+
+        :param gene_set: Gene set to evaluate
+        :param max_size: Maximum size of gene set, above this the gene set will be truncated
+        :param n: Number of dropouts to perform
+        """
         if n < 1:
             raise ValueError(f"n must be greater than 0: {n}")
         if n > 5:
@@ -136,13 +131,47 @@ class EvalEnrichment(EvaluationEngine):
                 logger.info(f"Adding random gene: {random_gene}")
                 expt_gene_symbols.append(random_gene)
             logger.info(f"New symbols: {expt_gene_symbols}")
-            comp = self.compare_analysis(expt_gene_symbols, expt_name)
+            comp = self.compare_analysis(expt_gene_symbols, expt_name, number_of_genes_swapped_out=num_to_drop)
             logger.debug(comp)
             logger.info(yaml.dump(comp.dict(), sort_keys=False))
             comparisons.append(comp)
         return comparisons
 
-    def compare_analysis(self, gene_symbols: List[str], name: str = None) -> GeneSetComparison:
+    def compare_analysis(self, gene_symbols: List[str], name: str = None, **kwargs) -> GeneSetComparison:
+        """Compare OntoGPT enrichment vs standard."""
+        payloads = {}
+        gene_set = GeneSet(name=name, gene_symbols=gene_symbols)
+        logger.info(f"Gene symbols: {gene_symbols}")
+        for model in ENRICHMENT_MODELS:
+            engine = self.engines[model]
+            for method in [NO_SYNOPSIS, ONTOLOGICAL_SYNOPSIS, NARRATIVE_SYNOPSIS]:
+                if method == ONTOLOGICAL_SYNOPSIS:
+                    args = dict(ontological_synopsis=True)
+                elif method == NARRATIVE_SYNOPSIS:
+                    args = dict(ontological_synopsis=False)
+                elif method == NO_SYNOPSIS:
+                    args = dict(annotations=False)
+                else:
+                    raise AssertionError(f"Unknown method: {method}")
+                payload = engine.summarize(gene_set, normalize=True, **args)
+                payload.method = method
+                model_method = f"{model}.{method}"
+                payloads[model_method] = payload
+        payloads[STANDARD] = self.standard_enrichment(gene_set)
+        payloads[STANDARD_NO_ONTOLOGY] = self.standard_enrichment(gene_set, use_ontology=False)
+        payloads[RANDOM] = self.random_enrichment(gene_set)
+        payloads[RANK_BASED] = self.null_enrichment(gene_set)
+        for k in [STANDARD, STANDARD_NO_ONTOLOGY, RANDOM, RANK_BASED]:
+            payloads[k].method = k
+        comp = GeneSetComparison(
+            name=name,
+            gene_symbols=gene_symbols,
+            payloads=payloads,
+            **kwargs,
+        )
+        return comp
+
+    def OLD_compare_analysis(self, gene_symbols: List[str], name: str = None) -> GeneSetComparison:
         """Compare OntoGPT enrichment vs standard."""
         gene_set = GeneSet(name=name, gene_symbols=gene_symbols)
         print("Doing manual enrichment...")

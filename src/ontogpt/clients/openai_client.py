@@ -5,6 +5,7 @@ from pathlib import Path
 from time import sleep
 from typing import Iterator, Tuple
 
+import numpy as np
 import openai
 from oaklib.utilities.apikey_manager import get_apikey_value
 
@@ -115,5 +116,40 @@ class OpenAIClient:
         if self.model.startswith("text-davinci"):
             return False
         return True
+
+    def embeddings(self, text: str, model: str = None):
+        if model is None:
+            model = "text-embedding-ada-002"
+        cur = self.db_connection()
+        try:
+            logger.info("creating embeddings cache")
+            cur.execute("CREATE TABLE embeddings_cache (text, engine, vector_as_string)")
+        except sqlite3.OperationalError:
+            logger.info("Embeddings cache table already exists")
+            pass
+        res = cur.execute("SELECT vector_as_string FROM embeddings_cache WHERE text=? AND engine=?", (text, model))
+        payload = res.fetchone()
+        if payload:
+            logger.info(f"Using cached embeddings for {model} {text[0:80]}...")
+            return eval(payload[0])
+        logger.info(f"querying OpenAI for {model} {text[0:80]}...")
+        response = openai.Embedding.create(
+            model=model,
+            input=text,
+        )
+        v = response.data[0]["embedding"]
+        logger.info(f"Storing embeddings of len: {len(v)}")
+        cur.execute(
+            "INSERT INTO embeddings_cache (text, engine, vector_as_string) VALUES (?, ?, ?)",
+            (text, model, str(v)),
+        )
+        cur.connection.commit()
+        return v
+
+    def similarity(self, text1: str, text2: str, **kwargs):
+        a1 = self.embeddings(text1, **kwargs)
+        a2 = self.embeddings(text2, **kwargs)
+        return np.dot(a1, a2) / (np.linalg.norm(a1) * np.linalg.norm(a2))
+
 
 

@@ -7,6 +7,7 @@ from oaklib import get_implementation_from_shorthand
 
 from ontogpt.engines import create_engine
 from ontogpt.engines.enrichment import EnrichmentEngine, GeneSet, gene_info
+from ontogpt.templates.gene_description_term import GeneDescriptionTerm
 
 PEX = [
     ("HGNC:8850", "PEX1"),
@@ -39,5 +40,17 @@ class TestEnrichment(unittest.TestCase):
         self.assertIn("peroxisome", desc.response_text.lower())
         self.assertTrue(any(s for s in desc.term_strings if "peroxisome" in s))
         print(desc.term_ids)
+
+    def test_normalize(self):
+        texts = [
+            ("nucleus", "GO:0005634"),
+            ("1. protein folding (go:0006457)\n", "GO:0006457")
+        ]
+        for text, expected in texts:
+            print(text)
+            grounding = self.ke.normalize_named_entity(text, GeneDescriptionTerm.__name__)
+            print(grounding)
+            self.assertEqual(grounding, expected)
+
 
 

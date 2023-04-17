@@ -12,6 +12,11 @@ import click
 import jsonlines
 import openai
 import yaml
+from oaklib import get_adapter
+from oaklib.cli import query_terms_iterator
+from oaklib.datamodels.similarity import TermPairwiseSimilarity
+from oaklib.datamodels.vocabulary import IS_A
+from oaklib.io.streaming_csv_writer import StreamingCsvWriter
 
 from ontogpt import __version__
 from ontogpt.clients import OpenAIClient
@@ -21,6 +26,7 @@ from ontogpt.engines import create_engine
 from ontogpt.engines.enrichment import EnrichmentEngine, parse_gene_set, populate_ids_and_symbols, GeneSet
 from ontogpt.engines.halo_engine import HALOEngine
 from ontogpt.engines.knowledge_engine import KnowledgeEngine
+from ontogpt.engines.similarity_engine import SimilarityEngine
 from ontogpt.engines.spires_engine import SPIRESEngine
 from ontogpt.engines.synonym_engine import SynonymEngine
 from ontogpt.evaluation.enrichment.eval_enrichment import EvalEnrichment
@@ -485,6 +491,98 @@ def enrichment(genes, context, input_file, resolver, output, model, output_forma
         logging.warning(f"Text was truncated; factor = {results.truncation_factor}")
     output = _as_text_writer(output)
     output.write(dump_minimal_yaml(results))
+
+
+@main.command()
+@output_option_txt
+@output_format_options
+@model_option
+@click.option(
+    "-C",
+    "--context",
+    help="domain e.g. anatomy, industry, health-related (NOT IMPLEMENTED - currently gene only)",
+)
+@click.argument("text", nargs=-1)
+def embed(text, context, output, model, output_format, **kwargs):
+    """Embed text."""
+    if not text:
+        raise ValueError("Text must be passed")
+    if model is None:
+        model = "text-embedding-ada-002"
+    client = OpenAIClient(model=model)
+    resp = client.embeddings(text)
+    print(resp)
+
+
+@main.command()
+@output_option_txt
+@output_format_options
+@model_option
+@click.option(
+    "-C",
+    "--context",
+    help="domain e.g. anatomy, industry, health-related (NOT IMPLEMENTED - currently gene only)",
+)
+@click.argument("text", nargs=-1)
+def text_similarity(text, context, output, model, output_format, **kwargs):
+    """Embed text."""
+    if not text:
+        raise ValueError("Text must be passed")
+    text = list(text)
+    if "@" not in text:
+        raise ValueError("Text must contain @")
+    ix = text.index("@")
+    text1 = " ".join(text[:ix])
+    text2 = " ".join(text[ix + 1 :])
+    print(text1)
+    print(text2)
+    if model is None:
+        model = "text-embedding-ada-002"
+    client = OpenAIClient(model=model)
+    sim = client.similarity(text1, text2, model=model)
+    print(sim)
+
+
+@main.command()
+@output_option_txt
+@output_format_options
+@model_option
+@click.option("--ontology", "-r", help="Ontology to use")
+@click.option("--definitions/--no-definitions", default=True, show_default=True)
+@click.option("--parents/--no-parents", default=True, show_default=True)
+@click.option("--autolabel/--no-autolabel", default=True, show_default=True)
+@click.argument("terms", nargs=-1)
+def entity_similarity(terms, ontology, output, model, output_format, **kwargs):
+    """Embed text.
+
+    Uses ada by default, currently: $0.0004 / 1K tokens
+    """
+    if not terms:
+        raise ValueError("terms must be passed")
+    terms = list(terms)
+    if "@" not in terms:
+        logging.info("No @ found, assuming all by all")
+        terms1 = list(terms)
+        terms2 = list(terms)
+    else:
+        ix = terms.index("@")
+        terms1 = terms[:ix]
+        terms2 = terms[ix + 1 :]
+    adapter = get_adapter(ontology)
+    entities1 = list(query_terms_iterator(terms1, adapter))
+    entities2 = list(query_terms_iterator(terms2, adapter))
+
+    engine = SimilarityEngine(model=model, adapter=adapter, **kwargs)
+    writer = StreamingCsvWriter(output, heterogeneous_keys=False)
+
+    for e1 in entities1:
+        sims = engine.search(e1, entities2)
+        for sim in sims:
+            writer.emit(sim)
+
+
+
+
 
 
 @main.command()
