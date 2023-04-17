@@ -51,6 +51,12 @@ classes:
           for example, "gene1 / cytoplasm; gene2 / mitochondrion"
         multivalued: true
         range: GeneSubcellularLocalizationRelationship
+      phenotypes:
+        range: Phenotype
+        multivalued: true
+        examples:
+          - value: sensorineural hearing loss
+          - value: pigmentary retinal degeneration
 
   Gene:
     is_a: NamedEntity

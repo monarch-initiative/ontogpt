@@ -14,13 +14,14 @@ input_text: "Figure 2. The intestinal mucosa in the normal bowel and IBD.\nUpon 
   \ to be disturbed in the IBD mucosa, resulting in\nuncontrolled activation of different\
   \ T-cell lineages that migrate to the inflamed intestine.\n"
 raw_completion_output: "genes: E-cadherin; Muc2; RELM\u03B2; NOD2; ATG16L1\nactivities:\
-  \ secretion of antimicrobial products; antigen presentation; leukocyte migration\
-  \ via integrin cellular adhesion molecules; T-cell activation\ngene_functions: E-cadherin\
-  \ / tight junction formation; Muc2 and RELM\u03B2 / goblet cell function; NOD2 and\
-  \ ATG16L1 / antimicrobial product secretion \ncellular_processes: maintenance of\
-  \ intestinal barrier; leukocyte migration; T-cell activation \npathways: None mentioned\
-  \ \ngene_gene_interactions: None mentioned \ngene_localizations: E-cadherin / tight\
-  \ junctions; Muc2 and RELM\u03B2 / goblet cells; NOD2 and ATG16L1 / not specified"
+  \ antigen presentation; leukocyte migration; T-cell activation\ngene_functions:\
+  \ E-cadherin / tight junction formation; Muc2 and RELM\u03B2 / mucus layer function;\
+  \ NOD2 and ATG16L1 / Paneth cell antimicrobial secretion\ncellular_processes: maintenance\
+  \ of intestinal barrier; leukocyte migration\npathways: none mentioned\ngene_gene_interactions:\
+  \ none mentioned\ngene_localizations: none mentioned\nphenotypes: microbial dysbiosis;\
+  \ decreased SCFA-producing bacteria; increased Proteobacteria; abnormal goblet cell\
+  \ function; dysfunctional Paneth cell associated mechanisms; uncontrolled T-cell\
+  \ activation in the inflamed intestine."
 prompt: 'Split the following piece of text into fields in the following format:
 
 
@@ -32,7 +33,7 @@ prompt: 'Split the following piece of text into fields in the following format:
 
   Text:
 
-  NOD2 and ATG16L1 / not specified
+  none mentioned
 
 
   ===
@@ -50,30 +51,31 @@ extracted_object:
   - gene: HGNC:1748
     molecular_activity: GO:0070830
   - gene: HGNC:20388
-    molecular_activity: AUTO:goblet%20cell%20function
+    molecular_activity: AUTO:mucus%20layer%20function
   - gene: AUTO:NOD2%2C%20ATG16L1
-    molecular_activity: AUTO:antimicrobial%20product%20secretion
+    molecular_activity: AUTO:Paneth%20cell%20antimicrobial%20secretion
   activities:
-  - AUTO:secretion%20of%20antimicrobial%20products
   - GO:0019882
-  - AUTO:leukocyte%20migration%20via%20integrin%20cellular%20adhesion%20molecules
+  - GO:0050900
   - GO:0042110
   cellular_processes:
   - AUTO:maintenance%20of%20intestinal%20barrier
   - GO:0050900
-  - GO:0042110
   pathways:
-  - AUTO:None%20mentioned
+  - AUTO:none%20mentioned
   gene_gene_interactions:
-  - gene1: AUTO:None%20mentioned
-    gene2: AUTO:None%20mentioned
+  - gene1: AUTO:none%20mentioned
+    gene2: AUTO:none%20mentioned
   gene_localizations:
-  - gene: HGNC:1748
-    location: GO:0070160
-  - gene: AUTO:Muc2%2C%20RELM%CE%B2
-    location: CL:0000160
-  - gene: AUTO:NOD2%20and%20ATG16L1
-    location: AUTO:not%20specified
+  - gene: AUTO:not%20applicable
+    location: AUTO:not%20applicable
+  phenotypes:
+  - AUTO:microbial%20dysbiosis
+  - AUTO:decreased%20SCFA-producing%20bacteria
+  - AUTO:increased%20Proteobacteria
+  - AUTO:abnormal%20goblet%20cell%20function
+  - AUTO:dysfunctional%20Paneth%20cell%20associated%20mechanisms
+  - AUTO:uncontrolled%20T-cell%20activation%20in%20the%20inflamed%20intestine.
 named_entities:
 - id: HGNC:1748
   label: E-cadherin
@@ -85,35 +87,35 @@ named_entities:
   label: NOD2
 - id: HGNC:21498
   label: ATG16L1
-- id: AUTO:secretion%20of%20antimicrobial%20products
-  label: secretion of antimicrobial products
 - id: GO:0019882
   label: antigen presentation
-- id: AUTO:leukocyte%20migration%20via%20integrin%20cellular%20adhesion%20molecules
-  label: leukocyte migration via integrin cellular adhesion molecules
+- id: GO:0050900
+  label: leukocyte migration
 - id: GO:0042110
   label: T-cell activation
 - id: GO:0070830
   label: tight junction formation
-- id: AUTO:goblet%20cell%20function
-  label: goblet cell function
+- id: AUTO:mucus%20layer%20function
+  label: mucus layer function
 - id: AUTO:NOD2%2C%20ATG16L1
   label: NOD2, ATG16L1
-- id: AUTO:antimicrobial%20product%20secretion
-  label: antimicrobial product secretion
+- id: AUTO:Paneth%20cell%20antimicrobial%20secretion
+  label: Paneth cell antimicrobial secretion
 - id: AUTO:maintenance%20of%20intestinal%20barrier
   label: maintenance of intestinal barrier
-- id: GO:0050900
-  label: leukocyte migration
-- id: AUTO:None%20mentioned
-  label: None mentioned
-- id: GO:0070160
-  label: tight junctions
-- id: AUTO:Muc2%2C%20RELM%CE%B2
-  label: "Muc2, RELM\u03B2"
-- id: CL:0000160
-  label: goblet cells
-- id: AUTO:NOD2%20and%20ATG16L1
-  label: NOD2 and ATG16L1
-- id: AUTO:not%20specified
-  label: not specified
+- id: AUTO:none%20mentioned
+  label: none mentioned
+- id: AUTO:not%20applicable
+  label: not applicable
+- id: AUTO:microbial%20dysbiosis
+  label: microbial dysbiosis
+- id: AUTO:decreased%20SCFA-producing%20bacteria
+  label: decreased SCFA-producing bacteria
+- id: AUTO:increased%20Proteobacteria
+  label: increased Proteobacteria
+- id: AUTO:abnormal%20goblet%20cell%20function
+  label: abnormal goblet cell function
+- id: AUTO:dysfunctional%20Paneth%20cell%20associated%20mechanisms
+  label: dysfunctional Paneth cell associated mechanisms
+- id: AUTO:uncontrolled%20T-cell%20activation%20in%20the%20inflamed%20intestine.
+  label: uncontrolled T-cell activation in the inflamed intestine.
