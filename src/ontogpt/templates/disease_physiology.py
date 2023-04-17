@@ -164,6 +164,13 @@ class GeneGeneInteraction(CompoundExpression):
     
 
 
+class DiseasePhenotypeRelationship(CompoundExpression):
+    
+    disease: Optional[str] = Field(None)
+    phenotype: Optional[str] = Field(None)
+    
+
+
 class Triple(CompoundExpression):
     """
     Abstract parent for Relation Extraction tasks
@@ -228,6 +235,7 @@ GeneMolecularActivityRelationship.update_forward_refs()
 GeneMolecularActivityRelationship2.update_forward_refs()
 GeneSubcellularLocalizationRelationship.update_forward_refs()
 GeneGeneInteraction.update_forward_refs()
+DiseasePhenotypeRelationship.update_forward_refs()
 Triple.update_forward_refs()
 TextWithTriples.update_forward_refs()
 RelationshipType.update_forward_refs()

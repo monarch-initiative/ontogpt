@@ -76,6 +76,7 @@ extracted_object:
   - AUTO:abnormal%20goblet%20cell%20function
   - AUTO:dysfunctional%20Paneth%20cell%20associated%20mechanisms
   - AUTO:uncontrolled%20T-cell%20activation%20in%20the%20inflamed%20intestine.
+
 named_entities:
 - id: HGNC:1748
   label: E-cadherin

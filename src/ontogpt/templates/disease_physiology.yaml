@@ -173,6 +173,19 @@ classes:
       gene2:
         range: Gene
 
+  DiseasePhenotypeRelationship:
+    is_a:   CompoundExpression
+    attributes:
+      disease:
+        range: Disease
+        annotations:
+          prompt: the name of the disease
+      phenotype:
+        range: Phenotype
+        annotations:
+          prompt: the name of the phenotype, for example, club foot. May be an HPO term
+
+
 enums:
 
   GeneLocationEnum:
