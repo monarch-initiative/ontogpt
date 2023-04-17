@@ -83,7 +83,7 @@ def write_extraction(
         output.write(dump_minimal_yaml(results))
 
 
-inputpfile_option = click.option("-U", "--inputfile", help="Path to a file containing input text.")
+inputfile_option = click.option("-U", "--inputfile", help="Path to a file containing input text.")
 template_option = click.option("-t", "--template", required=True, help="Template to use.")
 target_class_option = click.option(
     "-T", "--target-class", help="Target class (if not already root)."
