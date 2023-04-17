@@ -161,11 +161,11 @@ def extract(
 
     Example:
 
-        ontogpt extract -t gocam.GoCamAnnotations gocam-27929086.txt
+        ontogpt extract -t gocam.GoCamAnnotations -U gocam-27929086.txt
 
     The input argument must be either a file path or a string. 
     Use the -U/--input-file option followed by the path to the input file if using the former.
-    Otherwise, the input is assumed to be a string, as in the example below.
+    Otherwise, the input is assumed to be a string to be read as input.
 
     You can also use fragments of existing schemas, use the --target-class option (-T) to
     specify an alternative Container/root class.
@@ -183,13 +183,12 @@ def extract(
         ke.client.skip_annotators = settings.skip_annotators
     if dictionary:
         ke.load_dictionary(dictionary)
-    if not input or input == "-":
+    if inputfile and Path(inputfile).exists():
+        text = open(input, "r").read()
+    elif input:
+        text = input
+    elif not input or input == "-":
         text = sys.stdin.read()
-    else:
-        if inputfile and Path(inputfile).exists():
-            text = open(input, "r").read()
-        else:
-            logging.info(f"Cannot access {inputfile}.")
     logging.info(f"Input text: {text}")
     if target_class:
         target_class_def = ke.schemaview.get_class(target_class)
