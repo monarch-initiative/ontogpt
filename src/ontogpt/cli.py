@@ -155,7 +155,7 @@ def main(verbose: int, quiet: bool, cache_db: str, skip_annotator):
 )
 @click.argument("input")
 def extract(
-    template, target_class, dictionary, input, output, output_format, set_slot_value, **kwargs
+    inputfile, template, target_class, dictionary, input, output, output_format, set_slot_value, **kwargs
 ):
     """Extract knowledge from text guided by schema, using SPIRES engine.
 
@@ -186,11 +186,10 @@ def extract(
     if not input or input == "-":
         text = sys.stdin.read()
     else:
-        if len(input) < 50 and Path(input).exists():
+        if inputfile and Path(inputfile).exists():
             text = open(input, "r").read()
         else:
-            logging.info(f"Input {input} is not a file, assuming it is a string")
-            text = input
+            logging.info(f"Cannot access {inputfile}.")
     logging.info(f"Input text: {text}")
     if target_class:
         target_class_def = ke.schemaview.get_class(target_class)
