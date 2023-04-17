@@ -111,7 +111,7 @@ classes:
     id_prefixes:
       - HP
     annotations:
-      annotators: sqlite:obo:hp,bioportal:hp
+      annotators: sqlite:obo:hp
 
   GeneMolecularActivityRelationship:
     is_a:   CompoundExpression
