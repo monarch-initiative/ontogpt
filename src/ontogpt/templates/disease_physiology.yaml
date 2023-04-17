@@ -57,6 +57,9 @@ classes:
         examples:
           - value: sensorineural hearing loss
           - value: pigmentary retinal degeneration
+      diseases:
+        range: Disease
+        multivalued: true
 
   Gene:
     is_a: NamedEntity
@@ -112,6 +115,13 @@ classes:
       - HP
     annotations:
       annotators: sqlite:obo:hp
+
+  Disease:
+    is_a: NamedEntity
+    id_prefixes:
+      - MONDO
+    annotations:
+      annotators: sqlite:obo:mondo
 
   GeneMolecularActivityRelationship:
     is_a:   CompoundExpression

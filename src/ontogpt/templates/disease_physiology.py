@@ -66,6 +66,9 @@ class DiseasePhysiologyAnnotations(ConfiguredBaseModel):
     phenotypes: Optional[List[str]] = Field(
         default_factory=list, description="""semicolon-separated list of phenotypes"""
     )
+    diseases: Optional[List[str]] = Field(
+        default_factory=list, description="""semicolon-separated list of diseases"""
+    )
 
 class ExtractionResult(ConfiguredBaseModel):
     """A result of extracting knowledge on text."""
@@ -118,6 +121,9 @@ class Molecule(NamedEntity):
     label: Optional[str] = Field(None, description="""The label (name) of the named thing""")
 
 class Phenotype(NamedEntity):
+    id: Optional[str] = Field(None, description="""A unique identifier for the named entity""")
+    label: Optional[str] = Field(None, description="""The label (name) of the named thing""")
+class Disease(NamedEntity):
     id: Optional[str] = Field(None, description="""A unique identifier for the named entity""")
     label: Optional[str] = Field(None, description="""The label (name) of the named thing""")
 
