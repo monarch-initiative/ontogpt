@@ -153,7 +153,7 @@ def main(verbose: int, quiet: bool, cache_db: str, skip_annotator):
     multiple=True,
     help="Set slot value, e.g. --set-slot-value has_participant=protein",
 )
-@click.argument("input")
+@click.argument("input", required=False)
 def extract(
     inputfile, template, target_class, dictionary, input, output, output_format, set_slot_value, **kwargs
 ):
@@ -184,7 +184,7 @@ def extract(
     if dictionary:
         ke.load_dictionary(dictionary)
     if inputfile and Path(inputfile).exists():
-        text = open(input, "r").read()
+        text = open(inputfile, "r").read()
     elif input:
         text = input
     elif not input or input == "-":
