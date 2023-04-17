@@ -18,7 +18,7 @@ from pydantic import BaseModel
 import ontogpt.evaluation.drugmechdb.datamodel.drugmechdb as source_datamodel
 import ontogpt.templates.drug as target_datamodel
 from ontogpt.engines.spires_engine import SPIRESEngine
-from ontogpt.evaluation.evaluation_engine import EvaluationEngine, SimilarityScore
+from ontogpt.evaluation.evaluation_engine import SPIRESEvaluationEngine, SimilarityScore
 
 THIS_DIR = Path(__file__).parent
 DATABASE_DIR = Path(__file__).parent / "database"
@@ -91,7 +91,7 @@ class EvaluationObjectSetDrugMechDB(BaseModel):
 
 
 @dataclass
-class EvalDrugMechDB(EvaluationEngine):
+class EvalDrugMechDB(SPIRESEvaluationEngine):
     # ontology: OboGraphInterface = None
     data: List[target_datamodel.DrugMechanism] = None
     _drug_to_mechanism_text: Dict[str, str] = None

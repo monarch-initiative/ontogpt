@@ -11,7 +11,7 @@ from oaklib.interfaces.obograph_interface import OboGraphInterface
 from pydantic import BaseModel
 
 from ontogpt.engines.spires_engine import SPIRESEngine
-from ontogpt.evaluation.evaluation_engine import EvaluationEngine, SimilarityScore
+from ontogpt.evaluation.evaluation_engine import SPIRESEvaluationEngine, SimilarityScore
 from ontogpt.templates.metabolic_process import MetabolicProcess
 
 TEST_CASES_DIR = Path(__file__).parent / "test_cases"
@@ -51,7 +51,7 @@ class EvaluationObjectSetGO(BaseModel):
 
 
 @dataclass
-class EvalGO(EvaluationEngine):
+class EvalGO(SPIRESEvaluationEngine):
     ontology: OboGraphInterface = None
     genus: str = BIOSYNTHESIS
     differentia_relation: str = HAS_PRIMARY_OUTPUT

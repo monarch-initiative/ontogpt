@@ -198,3 +198,4 @@ class TestEvalEnrichment(unittest.TestCase):
             all.extend([comp.dict() for comp in comps])
         with open(RESULTS_PATH, "w") as file:
             print(dump_minimal_yaml(all))
+
