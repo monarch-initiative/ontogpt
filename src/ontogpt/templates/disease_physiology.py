@@ -45,6 +45,9 @@ class DiseasePhysiologyAnnotations(ConfiguredBaseModel):
         default_factory=list,
         description="""semicolon-separated list of gene to molecular activity relationships""",
     )
+    activities: Optional[List[str]] = Field(
+        default_factory=list, description="""semicolon-separated list of molecular activities"""
+    )
     cellular_processes: Optional[List[str]] = Field(
         default_factory=list, description="""semicolon-separated list of cellular processes"""
     )
