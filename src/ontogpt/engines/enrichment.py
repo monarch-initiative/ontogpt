@@ -152,7 +152,7 @@ def load_gene_sets(
     If ontology_adapter is provided, gene symbols will be converted to gene ids and vice versa.
     """
     gene_sets = []
-    for input_path in glob.glob(f"{path}/*.*"):
+    for input_path in glob.glob(f"{path}/*.yaml"):
         gene_set = parse_gene_set(input_path)
         gene_sets.append(gene_set)
         if not gene_set.gene_ids and not gene_set.gene_symbols:
