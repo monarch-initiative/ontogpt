@@ -161,7 +161,8 @@ class SPIRESEngine(KnowledgeEngine):
             example = examples[ontology]
         else:
             example = examples["uberon"]
-        prompt = "Normalize the following semicolon separated list of terms to the {ontology.upper()} ontology\n\n"
+        prompt = "Normalize the following semicolon separated\
+            list of terms to the {ontology.upper()} ontology\n\n"
         prompt += "For example:\n\n"
         for k, v in example.items():
             prompt += f"{k}: {v}\n"

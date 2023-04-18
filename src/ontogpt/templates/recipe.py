@@ -36,11 +36,13 @@ class Recipe(ConfiguredBaseModel):
     )
     ingredients: Optional[List[Ingredient]] = Field(
         default_factory=list,
-        description="""a semicolon separated list of the ingredients plus quantities of the recipe""",
+        description="""a semicolon separated list of the\
+            ingredients plus quantities of the recipe""",
     )
     steps: Optional[List[Step]] = Field(
         default_factory=list,
-        description="""a semicolon separated list of the individual steps involved in this recipe""",
+        description="""a semicolon separated list of the\
+            individual steps involved in this recipe""",
     )
 
 
@@ -144,11 +146,13 @@ class Triple(CompoundExpression):
     )
     subject_qualifier: Optional[str] = Field(
         None,
-        description="""An optional qualifier or modifier for the subject of the statement, e.g. \"high dose\" or \"intravenously administered\"""",
+        description="""An optional qualifier or modifier for the subject of the\
+            statement, e.g. \"high dose\" or \"intravenously administered\"""",
     )
     object_qualifier: Optional[str] = Field(
         None,
-        description="""An optional qualifier or modifier for the object of the statement, e.g. \"severe\" or \"with additional complications\"""",
+        description="""An optional qualifier or modifier for the object of\
+            the statement, e.g. \"severe\" or \"with additional complications\"""",
     )
 
 

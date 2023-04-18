@@ -58,7 +58,8 @@ class OntologyElement(ConfiguredBaseModel):
     )
     equivalent_to: Optional[str] = Field(
         None,
-        description="""an OWL class expression with the necessary and sufficient conditions for this entity to be an instance of this class""",
+        description="""an OWL class expression with the necessary and\
+            sufficient conditions for this entity to be an instance of this class""",
     )
 
 
@@ -92,7 +93,8 @@ class Category(OntologyElement):
     )
     equivalent_to: Optional[str] = Field(
         None,
-        description="""an OWL class expression with the necessary and sufficient conditions for this entity to be an instance of this class""",
+        description="""an OWL class expression with the necessary and\
+            sufficient conditions for this entity to be an instance of this class""",
     )
 
 

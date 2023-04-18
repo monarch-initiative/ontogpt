@@ -63,7 +63,8 @@ class OntologyClass(NamedEntity):
     subclass_of: Optional[List[str]] = Field(default_factory=list)
     logical_definition: Optional[LogicalDefinition] = Field(
         None,
-        description="""the necessary and sufficient conditions for this entity to be an instance of this class""",
+        description="""the necessary and sufficient conditions for this\
+            entity to be an instance of this class""",
     )
     id: Optional[str] = Field(None, description="""A unique identifier for the named entity""")
 
@@ -88,11 +89,13 @@ class Triple(CompoundExpression):
     )
     subject_qualifier: Optional[str] = Field(
         None,
-        description="""An optional qualifier or modifier for the subject of the statement, e.g. \"high dose\" or \"intravenously administered\"""",
+        description="""An optional qualifier or modifier for the subject\
+            of the statement, e.g. \"high dose\" or \"intravenously administered\"""",
     )
     object_qualifier: Optional[str] = Field(
         None,
-        description="""An optional qualifier or modifier for the object of the statement, e.g. \"severe\" or \"with additional complications\"""",
+        description="""An optional qualifier or modifier for the\
+            object of the statement, e.g. \"severe\" or \"with additional complications\"""",
     )
 
 

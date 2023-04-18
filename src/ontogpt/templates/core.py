@@ -60,11 +60,13 @@ class Triple(CompoundExpression):
     )
     subject_qualifier: Optional[str] = Field(
         None,
-        description="""An optional qualifier or modifier for the subject of the statement, e.g. \"high dose\" or \"intravenously administered\"""",
+        description="""An optional qualifier or modifier for the subject of the\
+            statement, e.g. \"high dose\" or \"intravenously administered\"""",
     )
     object_qualifier: Optional[str] = Field(
         None,
-        description="""An optional qualifier or modifier for the object of the statement, e.g. \"severe\" or \"with additional complications\"""",
+        description="""An optional qualifier or modifier for the object of\
+            the statement, e.g. \"severe\" or \"with additional complications\"""",
     )
 
 

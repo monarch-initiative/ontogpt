@@ -55,11 +55,13 @@ class MetabolicProcess(NamedEntity):
     )
     subclass_of: Optional[List[str]] = Field(
         default_factory=list,
-        description="""a semicolon separated list of broader metabolic processes which this is a subclass of""",
+        description="""a semicolon separated list of broader metabolic\
+            processes which this is a subclass of""",
     )
     category: Optional[str] = Field(
         None,
-        description="""the category of metabolic process, e.g metabolic process, catabolic process, biosynthetic process, small molecule sensor activity""",
+        description="""the category of metabolic process, e.g metabolic process,\
+            catabolic process, biosynthetic process, small molecule sensor activity""",
     )
     inputs: Optional[List[str]] = Field(
         default_factory=list, description="""the inputs of the metabolic process"""
@@ -95,11 +97,13 @@ class Triple(CompoundExpression):
     )
     subject_qualifier: Optional[str] = Field(
         None,
-        description="""An optional qualifier or modifier for the subject of the statement, e.g. \"high dose\" or \"intravenously administered\"""",
+        description="""An optional qualifier or modifier for the subject of the\
+            statement, e.g. \"high dose\" or \"intravenously administered\"""",
     )
     object_qualifier: Optional[str] = Field(
         None,
-        description="""An optional qualifier or modifier for the object of the statement, e.g. \"severe\" or \"with additional complications\"""",
+        description="""An optional qualifier or modifier for the object of the\
+            statement, e.g. \"severe\" or \"with additional complications\"""",
     )
 
 

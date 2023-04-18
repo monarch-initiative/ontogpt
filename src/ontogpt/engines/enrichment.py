@@ -205,7 +205,8 @@ class EnrichmentEngine(KnowledgeEngine):
 
     Algorithm: SPINDOCTER
 
-    Structured Prompting Interpalating Narrative Descriptions Ontology Classification Term Enrichment
+    Structured Prompting Interpalating Narrative
+    Descriptions Ontology Classification Term Enrichment
 
     """
 

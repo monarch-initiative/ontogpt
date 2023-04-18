@@ -92,7 +92,8 @@ class SimilarityEngine(KnowledgeEngine):
                     f"{adapter.label(r.propertyId)} {adapter.label(r.valueId)}"
                     for r in ldef.restrictions
                 ]
-                s += f"\nlogical definition: A {', '.join(genus_labels)} that {' and '.join(restriction_labels)}"
+                s += f"\nlogical definition: A {', '.join(genus_labels)} that\
+                    {' and '.join(restriction_labels)}"
             s += f"\nlogical definitions: {'; '.join(adapter.logical_definitions(entity))}"
         logger.info(f"Entity text for {entity}: {s}")
         return s

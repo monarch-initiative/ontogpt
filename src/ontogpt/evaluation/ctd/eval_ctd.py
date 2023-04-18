@@ -10,8 +10,10 @@ Biocreativ results here:
 https://biocreative.bioinformatics.udel.edu/media/store/files/2015/BC5CDR_overview.final.pdf
 
 A total of 18 teams successfully submitted CID results in 46 runs. As
-shown in Table 3 (only the best run of each team is included), the Fscore ranges from 32.01% to 57.03% (team 288) with an average of
-43.37%. All teams outperformed the baseline results by the simple abstract-level co-occurrence method (16.43% in precision, 76.45% in recall and 27.05% in F-score).
+shown in Table 3 (only the best run of each team is included),
+the Fscore ranges from 32.01% to 57.03% (team 288) with an average of
+43.37%. All teams outperformed the baseline results by the simple abstract-level
+co-occurrence method (16.43% in precision, 76.45% in recall and 27.05% in F-score).
 
 """
 import gzip
@@ -193,7 +195,8 @@ class EvalCTD(SPIRESEvaluationEngine):
             for chunked_text in chunk_text(text):
                 extraction = ke.extract_from_text(chunked_text)
                 logger.info(
-                    f"{len(extraction.extracted_object.triples)} triples from window: {chunked_text}"
+                    f"{len(extraction.extracted_object.triples)}\
+                        triples from window: {chunked_text}"
                 )
                 if not predicted_obj:
                     predicted_obj = extraction.extracted_object
@@ -204,9 +207,11 @@ class EvalCTD(SPIRESEvaluationEngine):
                 named_entities.extend(extraction.named_entities)
 
             # title_extraction = ke.extract_from_text(doc.publication.title)
-            # logger.info(f"{len(title_extraction.extracted_object.triples)} triples from: Title {doc.publication.title}")
+            # logger.info(f"{len(title_extraction.extracted_object.triples)}\
+            # triples from: Title {doc.publication.title}")
             # abstract_extraction = ke.extract_from_text(doc.publication.abstract)
-            # logger.info(f"{len(abstract_extraction.extracted_object.triples)} triples from: Abstract {doc.publication.abstract}")
+            # logger.info(f"{len(abstract_extraction.extracted_object.triples)}\
+            # triples from: Abstract {doc.publication.abstract}")
             # ke.merge_resultsets([results, results2])
             # predicted_obj = title_extraction.extracted_object
             # predicted_obj.triples.extend(abstract_extraction.extracted_object.triples)

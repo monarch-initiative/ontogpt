@@ -105,7 +105,8 @@ class EvalGO(SPIRESEvaluationEngine):
         ontology = self.ontology
         entities = set(ontology.descendants([self.genus], [IS_A]))
         print(
-            f"Found {len(entities)} entities that are descendants of genus {self.genus}; {list(entities)[0:5]}"
+            f"Found {len(entities)} entities that are descendants of\
+                genus {self.genus}; {list(entities)[0:5]}"
         )
         assert "GO:0140872" in entities
         all_test_ids = set(self.valid_test_ids())

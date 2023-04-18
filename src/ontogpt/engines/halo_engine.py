@@ -288,7 +288,8 @@ class HALOEngine(KnowledgeEngine):
             stub_object[k] = v
         prompt.main_prompt = yaml.dump([stub_object])
         logger.info(
-            f"Generated prompt: {len(prompt.text)} = {len(prompt.header)} + {len(prompt.body)} + {len(prompt.main_prompt)}"
+            f"Generated prompt: {len(prompt.text)} = {len(prompt.header)} +\
+                {len(prompt.body)} + {len(prompt.main_prompt)}"
         )
         return prompt
 

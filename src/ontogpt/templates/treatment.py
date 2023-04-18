@@ -57,23 +57,29 @@ class DiseaseTreatmentSummary(ConfiguredBaseModel):
     )
     treatments: Optional[List[str]] = Field(
         default_factory=list,
-        description="""semicolon-separated list of therapies and treatments are indicated for treating the disease.""",
+        description="""semicolon-separated list of therapies and treatments are\
+            indicated for treating the disease.""",
     )
     contraindications: Optional[List[str]] = Field(
         default_factory=list,
-        description="""semicolon-separated list of therapies and treatments that are contra-indicated for the disease, and should not be used, due to risk of adverse effects.""",
+        description="""semicolon-separated list of therapies and treatments that are\
+            contra-indicated for the disease, and should not be used,\
+            due to risk of adverse effects.""",
     )
     treatment_mechanisms: Optional[List[TreatmentMechanism]] = Field(
         default_factory=list,
-        description="""semicolon-separated list of treatment to asterisk-separated mechanism associations""",
+        description="""semicolon-separated list of treatment to asterisk-separated\
+            mechanism associations""",
     )
     treatment_efficacies: Optional[List[TreatmentEfficacy]] = Field(
         default_factory=list,
-        description="""semicolon-separated list of treatment to efficacy associations, e.g. Imatinib*effective""",
+        description="""semicolon-separated list of treatment to efficacy associations,\
+            e.g. Imatinib*effective""",
     )
     treatment_adverse_effects: Optional[List[TreatmentAdverseEffect]] = Field(
         default_factory=list,
-        description="""semicolon-separated list of treatment to adverse effect associations, e.g. Imatinib*nausea""",
+        description="""semicolon-separated list of treatment to adverse effect associations,\
+            e.g. Imatinib*nausea""",
     )
 
 
@@ -163,11 +169,13 @@ class Triple(CompoundExpression):
     )
     subject_qualifier: Optional[str] = Field(
         None,
-        description="""An optional qualifier or modifier for the subject of the statement, e.g. \"high dose\" or \"intravenously administered\"""",
+        description="""An optional qualifier or modifier for the subject of the statement,\
+            e.g. \"high dose\" or \"intravenously administered\"""",
     )
     object_qualifier: Optional[str] = Field(
         None,
-        description="""An optional qualifier or modifier for the object of the statement, e.g. \"severe\" or \"with additional complications\"""",
+        description="""An optional qualifier or modifier for the object of the statement,\
+            e.g. \"severe\" or \"with additional complications\"""",
     )
 
 

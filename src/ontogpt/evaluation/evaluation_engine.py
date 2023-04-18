@@ -78,8 +78,10 @@ class SPIRESEvaluationEngine(EvaluationEngine):
     - NamedEntity Recognition
     - Simple Relation Extraction, i.e. pairs of subject-object (e.g CTD task)
     - Triple Extraction, i.e. triples of subject-predicate-object
-    - Complex Relation Extraction, i.e. triples of subject-predicate-object with additional information, e.g. qualifiers
-    - Structured Knowledge Extraction, i.e. arbitrary nested objects including both literals and edges
+    - Complex Relation Extraction, i.e. triples of subject-predicate-object with\
+        additional information, e.g. qualifiers
+    - Structured Knowledge Extraction, i.e. arbitrary nested objects including\
+        both literals and edges
     """
 
     extractor: SPIRESEngine = None
