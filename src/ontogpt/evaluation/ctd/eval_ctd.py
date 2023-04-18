@@ -234,7 +234,7 @@ class EvalCTD(SPIRESEvaluationEngine):
             )
             pred = PredictionRE(predicted_object=predicted_obj, test_object=doc)
             pred.named_entities = named_entities
-            logger.info(f"PRED")
+            logger.info("PRED")
             logger.info(yaml.dump(pred.dict()))
             logger.info("Calc scores")
             pred.calculate_scores(labelers=[labeler])
