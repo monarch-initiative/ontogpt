@@ -55,6 +55,7 @@ class PredictionHPOA(BaseModel):
 
 class EvaluationObjectSetHPOA(BaseModel):
     """A result of predicting paths."""
+
     test: List[MendelianDisease] = None
     training: List[MendelianDisease] = None
     predictions: List = None

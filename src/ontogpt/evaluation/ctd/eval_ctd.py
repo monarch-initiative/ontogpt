@@ -108,6 +108,7 @@ class PredictionRE(BaseModel):
 
 class EvaluationObjectSetRE(BaseModel):
     """A result of predicting relationextractions."""
+
     precision: float = None
     recall: float = None
     f1: float = None

@@ -82,6 +82,7 @@ class PredictionDrugMechDB(BaseModel):
 
 class EvaluationObjectSetDrugMechDB(BaseModel):
     """A result of predicting paths."""
+
     test: List[target_datamodel.DrugMechanism] = None
     training: List[target_datamodel.DrugMechanism] = None
     predictions: List[PredictionDrugMechDB] = None

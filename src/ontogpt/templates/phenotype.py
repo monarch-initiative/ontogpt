@@ -33,7 +33,8 @@ class Trait(ConfiguredBaseModel):
     )
     chemical_entity: Optional[str] = Field(
         None,
-        description="""semicolon-separated list of treatment to adverse effect associations, e.g. Imatinib*nausea""",
+        description="""semicolon-separated list of treatment\
+            to adverse effect associations, e.g. Imatinib*nausea""",
     )
 
 
