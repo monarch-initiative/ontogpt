@@ -29,8 +29,8 @@ this_path = Path(__file__).parent
 logger = logging.getLogger(__name__)
 
 
-ELEMENT_NAME = str
-FIELD = str
+ELEMENT_NAME: str
+FIELD: str
 
 INSTRUCTIONS = """
 ## Instructions:
