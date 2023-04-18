@@ -89,6 +89,7 @@ def write_extraction(
         output.write(dump_minimal_yaml(results))
 
 
+inputfile_option = click.option("-i", "--inputfile", help="Path to a file containing input text.")
 template_option = click.option("-t", "--template", required=True, help="Template to use.")
 target_class_option = click.option(
     "-T", "--target-class", help="Target class (if not already root)."
@@ -143,6 +144,7 @@ def main(verbose: int, quiet: bool, cache_db: str, skip_annotator):
 
 
 @main.command()
+@inputfile_option
 @template_option
 @target_class_option
 @model_option
@@ -157,18 +159,19 @@ def main(verbose: int, quiet: bool, cache_db: str, skip_annotator):
     multiple=True,
     help="Set slot value, e.g. --set-slot-value has_participant=protein",
 )
-@click.argument("input")
+@click.argument("input", required=False)
 def extract(
-    template, target_class, dictionary, input, output, output_format, set_slot_value, **kwargs
+    inputfile, template, target_class, dictionary, input, output, output_format, set_slot_value, **kwargs
 ):
     """Extract knowledge from text guided by schema, using SPIRES engine.
 
     Example:
 
-        ontogpt extract -t gocam.GoCamAnnotations gocam-27929086.txt
+        ontogpt extract -t gocam.GoCamAnnotations -i gocam-27929086.txt
 
-    The input argument must be either a file path or a string. If the file path exists,
-    it will be read. Otherwise, the input is assumed to be a string.
+    The input argument must be either a file path or a string. 
+    Use the -i/--input-file option followed by the path to the input file if using the former.
+    Otherwise, the input is assumed to be a string to be read as input.
 
     You can also use fragments of existing schemas, use the --target-class option (-T) to
     specify an alternative Container/root class.
@@ -186,14 +189,12 @@ def extract(
         ke.client.skip_annotators = settings.skip_annotators
     if dictionary:
         ke.load_dictionary(dictionary)
-    if not input or input == "-":
+    if inputfile and Path(inputfile).exists():
+        text = open(inputfile, "r").read()
+    elif input:
+        text = input
+    elif not input or input == "-":
         text = sys.stdin.read()
-    else:
-        if len(input) < 50 and Path(input).exists():
-            text = open(input, "r").read()
-        else:
-            logging.info(f"Input {input} is not a file, assuming it is a string")
-            text = input
     logging.info(f"Input text: {text}")
     if target_class:
         target_class_def = ke.schemaview.get_class(target_class)
