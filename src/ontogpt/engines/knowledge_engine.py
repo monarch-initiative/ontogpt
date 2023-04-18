@@ -2,7 +2,6 @@
 import importlib
 import logging
 import re
-from abc import ABC, abstractmethod
 from dataclasses import dataclass, field
 from pathlib import Path
 from types import ModuleType
@@ -203,9 +202,9 @@ class KnowledgeEngine(ABC):
             self.dictionary[syn] = id
         logger.info(f"Loaded {len(self.dictionary)}")
 
-    @abstractmethod
+    # @abstractmethod
     def synthesize(self, cls: ClassDefinition = None, object: OBJECT = None) -> ExtractionResult:
-        pass
+        raise NotImplementedError
 
     def generalize(
         self, object: Union[pydantic.BaseModel, dict], examples: List[EXAMPLE]
