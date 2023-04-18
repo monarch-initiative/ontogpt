@@ -434,6 +434,12 @@ def convert_geneset(input_file, output, output_format, **kwargs):
     help="If set, there must be a unique mappings from labels to IDs",
 )
 @click.option(
+    "--show-prompt/--no-show-prompt",
+    default=True,
+    show_default=True,
+    help="If set, show prompt passed to model",
+)
+@click.option(
     "--input-file",
     "-U",
     help="File with gene IDs to enrich (if not passed as arguments)",
@@ -457,7 +463,9 @@ def convert_geneset(input_file, output, output_format, **kwargs):
     help="If set, include annotations in the prompt",
 )
 @click.argument("genes", nargs=-1)
-def enrichment(genes, context, input_file, resolver, output, model, output_format, **kwargs):
+def enrichment(
+    genes, context, input_file, resolver, output, model, show_prompt, output_format, **kwargs
+):
     """Gene class enrichment.
 
     Algorithm:
@@ -500,6 +508,8 @@ def enrichment(genes, context, input_file, resolver, output, model, output_forma
     if results.truncation_factor is not None and results.truncation_factor < 1.0:
         logging.warning(f"Text was truncated; factor = {results.truncation_factor}")
     output = _as_text_writer(output)
+    if show_prompt:
+        print(results.prompt)
     output.write(dump_minimal_yaml(results))
 
 
@@ -552,6 +562,7 @@ def text_similarity(text, context, output, model, output_format, **kwargs):
     sim = client.similarity(text1, text2, model=model)
     print(sim)
 
+
 @main.command()
 @output_option_txt
 @output_format_options
@@ -579,6 +590,7 @@ def text_distance(text, context, output, model, output_format, **kwargs):
     client = OpenAIClient(model=model)
     sim = client.euclidian_distance(text1, text2, model=model)
     print(sim)
+
 
 @main.command()
 @output_option_txt
@@ -614,6 +626,12 @@ def text_distance(text, context, output, model, output_format, **kwargs):
     default=True,
     show_default=True,
     help="Add subj/obj labels to report objects",
+)
+@click.option(
+    "--synonyms/--no-synonyms",
+    default=True,
+    show_default=True,
+    help="Include synonyms in the text to embed",
 )
 @click.argument("terms", nargs=-1)
 def entity_similarity(terms, ontology, output, model, output_format, **kwargs):

@@ -5,7 +5,7 @@ from pathlib import Path
 import yaml
 from oaklib import get_adapter
 
-from ontogpt.engines.enrichment import GeneSet, load_gene_sets
+from ontogpt.engines.enrichment import GeneSet, load_gene_sets, populate_ids_and_symbols
 from ontogpt.evaluation.enrichment.eval_enrichment import EvalEnrichment
 from ontogpt.io.yaml_wrapper import dump_minimal_yaml
 from tests import GENE_SETS_DIR, INPUT_DIR, OUTPUT_DIR
@@ -356,6 +356,7 @@ class TestEvalEnrichment(unittest.TestCase):
         self.evaluator = EvalEnrichment()
         self.evaluator.load_annotations(GENES2GO_PATH)
         self.davinci_evaluator = EvalEnrichment(model="text-davinci-003")
+        self.hgnc = get_adapter("sqlite:obo:hgnc")
 
     def test_load(self):
         for a in list(self.evaluator.ontology.associations())[0:10]:
@@ -385,10 +386,10 @@ class TestEvalEnrichment(unittest.TestCase):
         """Tests normal OAK enrichment."""
         engine = self.evaluator
         self.evaluator.load_annotations(GENES2GO_PATH)
-        for gene_set in GENE_SETS:
-            print(gene_set)
-            name, gene_ids = gene_set
-            payload = self.evaluator.standard_enrichment(gene_ids, use_ontology=False)
+        for name, gene_symbols in GENE_SETS:
+            gene_set = GeneSet(name=name, gene_symbols=gene_symbols)
+            populate_ids_and_symbols(gene_set, self.hgnc)
+            payload = self.evaluator.standard_enrichment(gene_set, use_ontology=False)
             print(payload)
             self.assertTrue(len(payload.term_ids) > 0)
 
