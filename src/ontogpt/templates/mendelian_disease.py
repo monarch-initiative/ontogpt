@@ -92,7 +92,7 @@ class Inheritance(NamedEntity):
 
 
 class CompoundExpression(ConfiguredBaseModel):
-    None
+    pass
 
 
 class Triple(CompoundExpression):

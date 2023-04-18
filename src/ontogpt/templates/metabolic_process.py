@@ -83,7 +83,7 @@ class ChemicalEntity(NamedEntity):
 
 
 class CompoundExpression(ConfiguredBaseModel):
-    None
+    pass
 
 
 class Triple(CompoundExpression):

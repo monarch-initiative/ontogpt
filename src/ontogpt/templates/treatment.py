@@ -140,7 +140,7 @@ class Drug(NamedEntity):
 
 
 class CompoundExpression(ConfiguredBaseModel):
-    None
+    pass
 
 
 class TreatmentMechanism(CompoundExpression):

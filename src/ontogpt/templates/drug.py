@@ -80,7 +80,7 @@ class Predicate(NamedEntity):
 
 
 class CompoundExpression(ConfiguredBaseModel):
-    None
+    pass
 
 
 class MechanismLink(CompoundExpression):

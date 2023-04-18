@@ -125,7 +125,7 @@ class Organism(NamedEntity):
 
 
 class CompoundExpression(ConfiguredBaseModel):
-    None
+    pass
 
 
 class GeneReactionPairing(CompoundExpression):

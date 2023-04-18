@@ -84,7 +84,7 @@ class Unit(NamedEntity):
 
 
 class CompoundExpression(ConfiguredBaseModel):
-    None
+    pass
 
 
 class Measurement(CompoundExpression):

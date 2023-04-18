@@ -75,7 +75,7 @@ class AnatomicalEntity(NamedEntity):
 
 
 class CompoundExpression(ConfiguredBaseModel):
-    None
+    pass
 
 
 class Triple(CompoundExpression):

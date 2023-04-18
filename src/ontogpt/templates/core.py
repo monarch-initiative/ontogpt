@@ -46,7 +46,7 @@ class NamedEntity(ConfiguredBaseModel):
 
 
 class CompoundExpression(ConfiguredBaseModel):
-    None
+    pass
 
 
 class Triple(CompoundExpression):

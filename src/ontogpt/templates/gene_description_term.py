@@ -51,7 +51,7 @@ class GeneDescriptionTerm(NamedEntity):
 
 
 class CompoundExpression(ConfiguredBaseModel):
-    None
+    pass
 
 
 class Triple(CompoundExpression):
