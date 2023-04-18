@@ -2,7 +2,7 @@
 import importlib
 import logging
 import re
-from abc import ABC
+from abc import ABC, abstractmethod
 from dataclasses import dataclass, field
 from pathlib import Path
 from types import ModuleType
@@ -203,6 +203,7 @@ class KnowledgeEngine(ABC):
             self.dictionary[syn] = id
         logger.info(f"Loaded {len(self.dictionary)}")
 
+    @abstractmethod
     def synthesize(self, cls: ClassDefinition = None, object: OBJECT = None) -> ExtractionResult:
         pass
 
