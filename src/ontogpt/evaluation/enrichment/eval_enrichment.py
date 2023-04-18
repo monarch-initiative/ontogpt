@@ -271,9 +271,7 @@ class EvalEnrichment(EvaluationEngine):
         return payload
 
     def random_enrichment(self, gene_set: GeneSet = None, n: int = None) -> EnrichmentPayload:
-        """
-        Randomized enrichment results.
-        """
+        """Randomized enrichment results."""
         if n is None:
             # by default, return a number of terms proportional to the number of genes
             if gene_set:

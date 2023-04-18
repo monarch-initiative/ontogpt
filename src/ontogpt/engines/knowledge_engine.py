@@ -1,6 +1,4 @@
-"""
-Main Knowledge Extractor class.
-"""
+"""Main Knowledge Extractor class."""
 import importlib
 import logging
 import re
@@ -64,9 +62,7 @@ DATAMODELS = [
 
 
 def chunk_text(text: str, window_size=3) -> Iterator[str]:
-    """
-    Chunk text into windows of sentences.
-    """
+    """Chunk text into windows of sentences."""
     sentences = re.split(r"[.?!]\s+", text)
     for right_index in range(1, len(sentences)):
         left_index = max(0, right_index - window_size)

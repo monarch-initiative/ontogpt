@@ -28,11 +28,11 @@ ENRICHED_TERMS_KEYWORD = "Enriched Terms"
 
 BASE_PROMPT = f"""
 I will give you a list of genes together with descriptions of their functions.
-Perform a term enrichment test on these genes. 
+Perform a term enrichment test on these genes.
 i.e. tell me what the commonalities are in their function.
-Make use of classification hierarchies when you do this. 
+Make use of classification hierarchies when you do this.
 Only report gene functions in common, not diseases.
-e.g if gene1 is involved in "toe bone growth" and gene2 is involved in "finger morphogenesis" 
+e.g if gene1 is involved in "toe bone growth" and gene2 is involved in "finger morphogenesis"
 then the term "digit development" would be enriched as represented by gene1 and gene2.
 Only include terms that are statistically over-represented.
 Also include a hypothesis of the underlying biological mechanism or pathway.
@@ -54,11 +54,11 @@ Summary and enriched terms:
 
 ANNOTATION_FREE_PROMPT = f"""
 I will give you a list of genes symbols.
-Perform a term enrichment test on these genes. 
+Perform a term enrichment test on these genes.
 i.e. tell me what the commonalities are in their function.
-Make use of classification hierarchies when you do this. 
+Make use of classification hierarchies when you do this.
 Only report gene functions in common, not diseases.
-e.g if gene1 is involved in "toe bone growth" and gene2 is involved in "finger morphogenesis" 
+e.g if gene1 is involved in "toe bone growth" and gene2 is involved in "finger morphogenesis"
 then the term "digit development" would be enriched as represented by gene1 and gene2.
 Only include terms that are statistically over-represented.
 
