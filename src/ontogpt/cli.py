@@ -543,6 +543,33 @@ def text_similarity(text, context, output, model, output_format, **kwargs):
     sim = client.similarity(text1, text2, model=model)
     print(sim)
 
+@main.command()
+@output_option_txt
+@output_format_options
+@model_option
+@click.option(
+    "-C",
+    "--context",
+    help="domain e.g. anatomy, industry, health-related (NOT IMPLEMENTED - currently gene only)",
+)
+@click.argument("text", nargs=-1)
+def text_distance(text, context, output, model, output_format, **kwargs):
+    """Embed text, calculate euclidian distance between embeddings."""
+    if not text:
+        raise ValueError("Text must be passed")
+    text = list(text)
+    if "@" not in text:
+        raise ValueError("Text must contain @")
+    ix = text.index("@")
+    text1 = " ".join(text[:ix])
+    text2 = " ".join(text[ix + 1 :])
+    print(text1)
+    print(text2)
+    if model is None:
+        model = "text-embedding-ada-002"
+    client = OpenAIClient(model=model)
+    sim = client.euclidian_distance(text1, text2, model=model)
+    print(sim)
 
 @main.command()
 @output_option_txt
