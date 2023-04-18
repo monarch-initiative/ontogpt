@@ -538,7 +538,7 @@ class KnowledgeEngine(ABC):
         self, resultset: List[ExtractionResult], unique_fields: List[str] = None
     ) -> ExtractionResult:
         """
-        Merges all resultsets into a single resultset.
+        Merge all resultsets into a single resultset.
 
         Note the first element of the list is mutated.
 

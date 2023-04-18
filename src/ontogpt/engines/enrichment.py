@@ -319,7 +319,7 @@ class EnrichmentEngine(KnowledgeEngine):
         ontology: ClassEnrichmentCalculationInterface = None,
         predicates: List[ENTITY_ID] = None,
     ) -> EnrichmentPayload:
-        """Standard enrichment using an ontology."""
+        """Enrichment using an ontology."""
         if ontology is None:
             ontology = get_adapter("sqlite:obo:go")
         results = ontology.enriched_classes(

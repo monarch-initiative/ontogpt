@@ -255,7 +255,7 @@ class EvalEnrichment(EvaluationEngine):
         return info[0]
 
     def standard_enrichment(self, gene_set: GeneSet, use_ontology=True) -> EnrichmentPayload:
-        """Standard enrichment."""
+        """Enrichment."""
         gene_ids = gene_set.gene_ids
         if use_ontology:
             predicates = [IS_A, PART_OF]

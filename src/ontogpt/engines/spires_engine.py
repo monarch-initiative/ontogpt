@@ -291,7 +291,7 @@ class SPIRESEngine(KnowledgeEngine):
         self, results: str, cls: ClassDefinition = None
     ) -> Optional[RESPONSE_DICT]:
         """
-        Parses the pseudo-YAML response from OpenAI into a dictionary object.
+        Parse the pseudo-YAML response from OpenAI into a dictionary object.
 
         E.g.
 

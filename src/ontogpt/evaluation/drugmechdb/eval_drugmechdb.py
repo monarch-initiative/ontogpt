@@ -212,7 +212,7 @@ class EvalDrugMechDB(SPIRESEvaluationEngine):
             yield dict(prompt=prompt, completion=completion)
 
     def eval(self) -> EvaluationObjectSetDrugMechDB:
-        """Evaluates the ability to extract a path from MOA text."""
+        """Evaluate the ability to extract a path from MOA text."""
         num_test = self.num_tests
         ke = self.extractor
         mechanisms = self.load_target_database()
@@ -257,7 +257,7 @@ class EvalDrugMechDB(SPIRESEvaluationEngine):
         return eos
 
     def eval_path_prediction(self) -> EvaluationObjectSetDrugMechDB:
-        """Evaluates the ability to predict a path purely from background knowledge in the LLM.
+        """Evaluate the ability to predict a path purely from background knowledge in the LLM.
 
         :return:
         """

@@ -664,7 +664,7 @@ def entity_similarity(terms, ontology, output, model, output_format, **kwargs):
 )
 @click.argument("genes", nargs=-1)
 def eval_enrichment(genes, input_file, number_to_drop, annotations_path, output, **kwargs):
-    """Runs enrichment using multiple methods."""
+    """Run enrichment using multiple methods."""
     if not genes and not input_file:
         raise ValueError("Either genes or input file must be passed")
     if genes:

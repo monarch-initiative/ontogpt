@@ -111,7 +111,7 @@ class OpenAIClient:
 
     def _must_use_chat_api(self) -> bool:
         """
-        Returns True if the model requires the chat API, False otherwise.
+        Return True if the model requires the chat API, False otherwise.
         """
         if self.model.startswith("text-davinci"):
             return False
