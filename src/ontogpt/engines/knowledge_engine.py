@@ -2,6 +2,7 @@
 import importlib
 import logging
 import re
+from abc import ABC
 from dataclasses import dataclass, field
 from pathlib import Path
 from types import ModuleType
