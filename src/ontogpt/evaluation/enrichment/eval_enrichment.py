@@ -132,7 +132,7 @@ class EvalEnrichment(EvaluationEngine):
             num_to_drop = int(len(expt_gene_symbols) * (i / 10))
             logger.info(f"Dropping {num_to_drop} genes (iteration: {i})")
             expt_gene_symbols = expt_gene_symbols[num_to_drop:max_size]
-            for j in range(0, num_to_drop):
+            for _ in range(0, num_to_drop):
                 random_gene = self.random_gene_symbol()
                 logger.info(f"Adding random gene: {random_gene}")
                 expt_gene_symbols.append(random_gene)
@@ -356,7 +356,7 @@ class EvalEnrichment(EvaluationEngine):
         tupls = list(self.get_annotation_tuples(path))
         symbols = set([sym for sym, _ in tupls])
         m = map_hgnc_symbols(tuple(symbols))
-        for sym, term_id in tupls:
+        for sym, _ in tupls:
             if sym in m:
                 yield sym, m[sym]
                 continue

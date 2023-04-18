@@ -333,7 +333,7 @@ class EnrichmentEngine(KnowledgeEngine):
 
     def _prompt(self, genes: List[GENE_TUPLE], truncation_factor=1.0) -> Tuple[str, float]:
         prompt = BASE_PROMPT
-        for id, symbol, desc in genes:
+        for _, symbol, desc in genes:
             if truncation_factor < 1.0:
                 desc = desc[: int(len(desc) * truncation_factor)] + "..."
             prompt += f"{symbol}: {desc}\n"

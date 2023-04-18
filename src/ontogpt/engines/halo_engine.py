@@ -253,7 +253,7 @@ class HALOEngine(KnowledgeEngine):
             score = self.element_scores[element_name]
         else:
             score = 0
-            for k, v in element.dict().items():
+            for _, v in element.dict().items():
                 if v:
                     score += 1
             self.element_scores[element_name] = score
