@@ -1,3 +1,4 @@
+import ast
 import logging
 import sqlite3
 from dataclasses import dataclass, field
@@ -131,7 +132,7 @@ class OpenAIClient:
         payload = res.fetchone()
         if payload:
             logger.info(f"Using cached embeddings for {model} {text[0:80]}...")
-            return eval(payload[0])
+            return ast.literal_eval(payload[0])
         logger.info(f"querying OpenAI for {model} {text[0:80]}...")
         response = openai.Embedding.create(
             model=model,
