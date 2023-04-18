@@ -397,7 +397,7 @@ class EnrichmentEngine(KnowledgeEngine):
             tokenizations[tok_char] = toks
         tokenizations = sorted(tokenizations.items(), key=lambda x: len(x[1]), reverse=True)
         best_tokens = tokenizations[0][1]
-        payload.term_strings = [s.lower().strip(":-*;. -\n") for s in best_tokens]
+        payload.term_strings = [s.lower().strip(":-*;. -\n") for s in best_tokens]  # noqa
         payload.term_ids = []
         for term in payload.term_strings:
             payload.term_ids.append(self.normalize_named_entity(term, GeneDescriptionTerm.__name__))
