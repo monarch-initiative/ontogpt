@@ -245,7 +245,7 @@ def pmc_extract(pmcid, template, output, output_format, **kwargs):
     pmc = PubmedClient()
     ec = pmc.entrez_client
     paset = ec.efetch(db="pmc", id=pmcid)
-    from lxml import etree
+    from lxml import etree # noqa
 
     for pa in paset:
         pa._xml_root
