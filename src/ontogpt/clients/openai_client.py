@@ -1,3 +1,4 @@
+"""OpenAI client."""
 import ast
 import logging
 import sqlite3

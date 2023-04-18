@@ -1,3 +1,4 @@
+"""Evaluation Resolver."""
 from typing import Optional, Type, Union
 
 from class_resolver import ClassResolver

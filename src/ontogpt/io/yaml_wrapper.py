@@ -1,3 +1,4 @@
+"""YAML Wrapper."""
 from typing import Any
 
 import pydantic

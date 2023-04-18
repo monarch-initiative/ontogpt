@@ -1,3 +1,4 @@
+"""Soup client."""
 from dataclasses import dataclass
 
 import requests

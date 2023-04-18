@@ -1,3 +1,4 @@
+"""Eval enrichment template."""
 import datetime
 import gzip
 import logging

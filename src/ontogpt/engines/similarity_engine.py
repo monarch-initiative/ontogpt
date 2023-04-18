@@ -1,3 +1,4 @@
+"""Similarity engine."""
 import logging
 from dataclasses import dataclass
 from typing import Iterable, List

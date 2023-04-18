@@ -1,3 +1,4 @@
+"""Evaluate GO."""
 from dataclasses import dataclass
 from pathlib import Path
 from random import shuffle
