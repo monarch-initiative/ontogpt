@@ -12,15 +12,21 @@ import click
 import jsonlines
 import openai
 import yaml
+from oaklib import get_adapter
+from oaklib.cli import query_terms_iterator
+from oaklib.datamodels.similarity import TermPairwiseSimilarity
+from oaklib.datamodels.vocabulary import IS_A
+from oaklib.io.streaming_csv_writer import StreamingCsvWriter
 
 from ontogpt import __version__
 from ontogpt.clients import OpenAIClient
 from ontogpt.clients.pubmed_client import PubmedClient
 from ontogpt.clients.soup_client import SoupClient
 from ontogpt.engines import create_engine
-from ontogpt.engines.enrichment import EnrichmentEngine, parse_gene_set
+from ontogpt.engines.enrichment import EnrichmentEngine, parse_gene_set, populate_ids_and_symbols, GeneSet
 from ontogpt.engines.halo_engine import HALOEngine
 from ontogpt.engines.knowledge_engine import KnowledgeEngine
+from ontogpt.engines.similarity_engine import SimilarityEngine
 from ontogpt.engines.spires_engine import SPIRESEngine
 from ontogpt.engines.synonym_engine import SynonymEngine
 from ontogpt.evaluation.enrichment.eval_enrichment import EvalEnrichment
@@ -83,6 +89,7 @@ def write_extraction(
         output.write(dump_minimal_yaml(results))
 
 
+inputfile_option = click.option("-i", "--inputfile", help="Path to a file containing input text.")
 template_option = click.option("-t", "--template", required=True, help="Template to use.")
 target_class_option = click.option(
     "-T", "--target-class", help="Target class (if not already root)."
@@ -137,6 +144,7 @@ def main(verbose: int, quiet: bool, cache_db: str, skip_annotator):
 
 
 @main.command()
+@inputfile_option
 @template_option
 @target_class_option
 @model_option
@@ -151,18 +159,19 @@ def main(verbose: int, quiet: bool, cache_db: str, skip_annotator):
     multiple=True,
     help="Set slot value, e.g. --set-slot-value has_participant=protein",
 )
-@click.argument("input")
+@click.argument("input", required=False)
 def extract(
-    template, target_class, dictionary, input, output, output_format, set_slot_value, **kwargs
+    inputfile, template, target_class, dictionary, input, output, output_format, set_slot_value, **kwargs
 ):
     """Extract knowledge from text guided by schema, using SPIRES engine.
 
     Example:
 
-        ontogpt extract -t gocam.GoCamAnnotations gocam-27929086.txt
+        ontogpt extract -t gocam.GoCamAnnotations -i gocam-27929086.txt
 
-    The input argument must be either a file path or a string. If the file path exists,
-    it will be read. Otherwise, the input is assumed to be a string.
+    The input argument must be either a file path or a string. 
+    Use the -i/--input-file option followed by the path to the input file if using the former.
+    Otherwise, the input is assumed to be a string to be read as input.
 
     You can also use fragments of existing schemas, use the --target-class option (-T) to
     specify an alternative Container/root class.
@@ -180,14 +189,12 @@ def extract(
         ke.client.skip_annotators = settings.skip_annotators
     if dictionary:
         ke.load_dictionary(dictionary)
-    if not input or input == "-":
+    if inputfile and Path(inputfile).exists():
+        text = open(inputfile, "r").read()
+    elif input:
+        text = input
+    elif not input or input == "-":
         text = sys.stdin.read()
-    else:
-        if len(input) < 50 and Path(input).exists():
-            text = open(input, "r").read()
-        else:
-            logging.info(f"Input {input} is not a file, assuming it is a string")
-            text = input
     logging.info(f"Input text: {text}")
     if target_class:
         target_class_def = ke.schemaview.get_class(target_class)
@@ -217,6 +224,25 @@ def pubmed_extract(pmid, template, output, output_format, **kwargs):
     logging.debug(f"Input text: {text}")
     results = ke.extract_from_text(text)
     write_extraction(results, output, output_format)
+
+
+@main.command()
+@template_option
+@model_option
+@recurse_option
+@output_option_txt
+@output_format_options
+@click.argument("pmcid")
+def pmc_extract(pmcid, template, output, output_format, **kwargs):
+    """Extract knowledge from PMC (TODO)."""
+    logging.info(f"Creating for {template}")
+    pmc = PubmedClient()
+    ec = pmc.entrez_client
+    paset = ec.efetch(db="pmc", id=pmcid)
+    from lxml import etree
+    for pa in paset:
+        pa._xml_root
+        print(etree.tostring(pa._xml_root, pretty_print=True))
 
 
 @main.command()
@@ -358,7 +384,7 @@ def synonyms(term, context, output, output_format, **kwargs):
               required=True,
               )
 @click.argument("term")
-def gene_set(term, output, output_format, annotation_path, **kwargs):
+def create_gene_set(term, output, output_format, annotation_path, **kwargs):
     """Create a gene set."""
     logging.info(f"Creating for {term}")
     evaluator = EvalEnrichment()
@@ -366,6 +392,19 @@ def gene_set(term, output, output_format, annotation_path, **kwargs):
     gene_set = evaluator.create_gene_set_from_term(term)
     print(yaml.dump(gene_set.dict(), sort_keys=False))
 
+
+@main.command()
+@output_option_txt
+@output_format_options
+@click.option(
+    "--input-file",
+    "-U",
+    help="File with gene IDs to enrich (if not passed as arguments)",
+)
+def convert_geneset(input_file, output, output_format, **kwargs):
+    """Convert gene set to YAML."""
+    gene_set = parse_gene_set(input_file)
+    output.write(dump_minimal_yaml(gene_set.dict()))
 
 @main.command()
 @output_option_txt
@@ -433,12 +472,13 @@ def enrichment(genes, context, input_file, resolver, output, model, output_forma
     """
     if not genes and not input_file:
         raise ValueError("Either genes or input file must be passed")
+    if genes:
+        gene_set = GeneSet(name="TEMP", gene_symbols=genes)
     if input_file:
         if genes:
             raise ValueError("Either genes or input file must be passed")
         gene_set = parse_gene_set(input_file)
-        genes = gene_set.gene_symbols
-    if not genes:
+    if not gene_set:
         raise ValueError("No genes passed")
     ke = create_engine(None, EnrichmentEngine, model=model)
     if settings.cache_db:
@@ -447,11 +487,181 @@ def enrichment(genes, context, input_file, resolver, output, model, output_forma
         raise ValueError(f"Expected EnrichmentEngine, got {type(ke)}")
     if resolver:
         ke.add_resolver(resolver)
-    results = ke.summarize(genes, normalize=resolver is not None, **kwargs)
+    results = ke.summarize(gene_set, normalize=resolver is not None, **kwargs)
     if results.truncation_factor is not None and results.truncation_factor < 1.0:
         logging.warning(f"Text was truncated; factor = {results.truncation_factor}")
     output = _as_text_writer(output)
     output.write(dump_minimal_yaml(results))
+
+
+@main.command()
+@output_option_txt
+@output_format_options
+@model_option
+@click.option(
+    "-C",
+    "--context",
+    help="domain e.g. anatomy, industry, health-related (NOT IMPLEMENTED - currently gene only)",
+)
+@click.argument("text", nargs=-1)
+def embed(text, context, output, model, output_format, **kwargs):
+    """Embed text."""
+    if not text:
+        raise ValueError("Text must be passed")
+    if model is None:
+        model = "text-embedding-ada-002"
+    client = OpenAIClient(model=model)
+    resp = client.embeddings(text)
+    print(resp)
+
+
+@main.command()
+@output_option_txt
+@output_format_options
+@model_option
+@click.option(
+    "-C",
+    "--context",
+    help="domain e.g. anatomy, industry, health-related (NOT IMPLEMENTED - currently gene only)",
+)
+@click.argument("text", nargs=-1)
+def text_similarity(text, context, output, model, output_format, **kwargs):
+    """Embed text."""
+    if not text:
+        raise ValueError("Text must be passed")
+    text = list(text)
+    if "@" not in text:
+        raise ValueError("Text must contain @")
+    ix = text.index("@")
+    text1 = " ".join(text[:ix])
+    text2 = " ".join(text[ix + 1 :])
+    print(text1)
+    print(text2)
+    if model is None:
+        model = "text-embedding-ada-002"
+    client = OpenAIClient(model=model)
+    sim = client.similarity(text1, text2, model=model)
+    print(sim)
+
+
+@main.command()
+@output_option_txt
+@output_format_options
+@model_option
+@click.option("--ontology", "-r", help="Ontology to use")
+@click.option("--definitions/--no-definitions", default=True, show_default=True,
+              help="Include text definitions in the text to embed")
+@click.option("--parents/--no-parents", default=True, show_default=True,
+                help="Include is-a parent terms in the text to embed")
+@click.option("--ancestors/--no-ancestors", default=True, show_default=True,
+                help="Include all ancestors in the text to embed")
+@click.option("--logical-definitions/--no-logical-definitions", default=True, show_default=True,
+                help="Include logical definitions in the text to embed")
+@click.option("--autolabel/--no-autolabel", default=True, show_default=True,
+                help="Add subj/obj labels to report objects")
+@click.argument("terms", nargs=-1)
+def entity_similarity(terms, ontology, output, model, output_format, **kwargs):
+    """Embed text.
+
+    Uses ada by default, currently: $0.0004 / 1K tokens
+    """
+    if not terms:
+        raise ValueError("terms must be passed")
+    terms = list(terms)
+    if "@" not in terms:
+        logging.info("No @ found, assuming all by all")
+        terms1 = list(terms)
+        terms2 = list(terms)
+    else:
+        ix = terms.index("@")
+        terms1 = terms[:ix]
+        terms2 = terms[ix + 1 :]
+    adapter = get_adapter(ontology)
+    entities1 = list(query_terms_iterator(terms1, adapter))
+    entities2 = list(query_terms_iterator(terms2, adapter))
+
+    engine = SimilarityEngine(model=model, adapter=adapter, **kwargs)
+    writer = StreamingCsvWriter(output, heterogeneous_keys=False)
+
+    for e1 in entities1:
+        sims = engine.search(e1, entities2)
+        for sim in sims:
+            writer.emit(sim)
+
+
+
+
+
+
+@main.command()
+@output_option_txt
+@click.option(
+    "--strict/--no-strict",
+    default=True,
+    show_default=True,
+    help="If set, there must be a unique mappings from labels to IDs",
+)
+@click.option(
+    "--input-file",
+    "-U",
+    help="File with gene IDs to enrich (if not passed as arguments)",
+)
+@click.option(
+    "--ontological-synopsis/--no-ontological-synopsis",
+    default=True,
+    show_default=True,
+    help="If set, use automated rather than manual gene descriptions",
+)
+@click.option(
+    "--combined-synopsis/--no-combined-synopsis",
+    default=False,
+    show_default=True,
+    help="If set, both gene descriptions",
+)
+@click.option(
+    "--annotations/--no-annotations",
+    default=True,
+    show_default=True,
+    help="If set, include annotations in the prompt",
+)
+@click.option(
+    "--number-to-drop",
+    "-n",
+    type=click.types.INT,
+    default=1,
+    help="Max number of genes to drop",
+)
+@click.option(
+    "--annotations-path",
+    "-A",
+    default="tests/input/genes2go.tsv.gz",
+    help="Path to annotations",
+)
+@click.argument("genes", nargs=-1)
+def eval_enrichment(genes, input_file, number_to_drop, annotations_path, output, **kwargs):
+    """Runs enrichment using multiple methods
+    """
+    if not genes and not input_file:
+        raise ValueError("Either genes or input file must be passed")
+    if genes:
+        gene_set = GeneSet(name="TEMP", gene_symbols=genes)
+    if input_file:
+        if genes:
+            raise ValueError("Either genes or input file must be passed")
+        gene_set = parse_gene_set(input_file)
+    if not gene_set:
+        raise ValueError("No genes passed")
+    models = ["gpt-3.5-turbo", "text-davinci-003"]
+    all_comparisons = []
+    for model in models:
+        eval_engine = EvalEnrichment(model=model)
+        eval_engine.load_annotations(annotations_path)
+        print(f"RANDOM GENE: {eval_engine.random_gene_symbol()}")
+        comps = eval_engine.evaluate_methods_on_gene_set(gene_set, n=number_to_drop)
+        all_comparisons.extend([comp.dict() for comp in comps])
+    output.write(dump_minimal_yaml(all_comparisons))
+
+
 
 
 @main.command()

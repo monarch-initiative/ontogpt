@@ -77,10 +77,10 @@ class TestEvalEnrichment(unittest.TestCase):
     def setUp(self) -> None:
         """Set up all engines in advance."""
         self.evaluator = EvalEnrichment()
+        self.evaluator.load_annotations(GENES2GO_PATH)
         self.davinci_evaluator = EvalEnrichment(model="text-davinci-003")
 
     def test_load(self):
-        self.evaluator.load_annotations(GENES2GO_PATH)
         for a in list(self.evaluator.ontology.associations())[0:10]:
             print(a)
 
@@ -119,9 +119,9 @@ class TestEvalEnrichment(unittest.TestCase):
         """Tests random terms."""
         engine = self.evaluator
         self.evaluator.load_annotations(GENES2GO_PATH)
-        payload = self.evaluator.random_enrichment([])
+        payload = self.evaluator.random_enrichment()
         print(payload)
-        payload2 = self.evaluator.random_enrichment([])
+        payload2 = self.evaluator.random_enrichment()
         print(payload2)
         # this could conceivably spuriously fail but highly unlikely
         self.assertNotEqual(payload.term_ids, payload2.term_ids)
@@ -134,6 +134,13 @@ class TestEvalEnrichment(unittest.TestCase):
         payload = self.evaluator.null_enrichment(genes)
         print(payload)
 
+    def test_random_gene_id(self):
+        """Tests random gene id."""
+        gene_id = self.evaluator.random_gene_symbol()
+        print(gene_id)
+        gene_id2 = self.evaluator.random_gene_symbol()
+        print(gene_id2)
+        self.assertNotEqual(gene_id, gene_id2)
 
     def test_pairwise(self):
         """Tests template and module is loaded."""
@@ -191,3 +198,4 @@ class TestEvalEnrichment(unittest.TestCase):
             all.extend([comp.dict() for comp in comps])
         with open(RESULTS_PATH, "w") as file:
             print(dump_minimal_yaml(all))
+

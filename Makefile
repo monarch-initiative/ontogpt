@@ -110,3 +110,25 @@ tests/output/owl/imports/recipe-%-import.owl: tests/output/owl/seed-recipe-%.txt
 
 tests/output/owl/merged/recipe-%-merged.owl: tests/output/owl/imports/recipe-%-import.owl $(RECIPE_GROUPINGS)
 	robot merge -i tests/output/owl/recipe-$*.owl -i $(RECIPE_GROUPINGS) -i $< reason -r elk -o $@
+
+# enrichment
+
+GENE_SET_FILES = $(wildcard tests/input/genesets/*.yaml)
+GENE_SETS = $(patsubst tests/input/genesets/%.yaml,%,$(GENE_SET_FILES))
+
+t:
+	echo $(GENE_SETS)
+
+
+tests/input/genesets/%.yaml: tests/input/genesets/%.json
+	$(RUN) ontogpt convert-geneset -U $< -o $@
+.PRECIOUS: tests/input/genesets/%.yaml
+
+N=2
+analysis/enrichment/%-results-$(N).yaml: tests/input/genesets/%.yaml
+	$(RUN) ontogpt -v eval-enrichment -n $(N) -U $< -o $@.tmp && mv $@.tmp $@
+
+analysis/enrichment-summary.yaml:
+	cat analysis/enrichment/*yaml > $@
+
+all_enrich: $(patsubst %, analysis/enrichment/%-results-$(N).yaml, $(GENE_SETS))

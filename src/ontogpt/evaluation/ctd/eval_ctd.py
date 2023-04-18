@@ -29,7 +29,7 @@ from pydantic import BaseModel
 
 from ontogpt.engines.knowledge_engine import chunk_text
 from ontogpt.engines.spires_engine import SPIRESEngine
-from ontogpt.evaluation.evaluation_engine import EvaluationEngine, SimilarityScore
+from ontogpt.evaluation.evaluation_engine import SPIRESEvaluationEngine, SimilarityScore
 from ontogpt.templates.core import Publication, Triple
 from ontogpt.templates.ctd import (
     ChemicalToDiseaseDocument,
@@ -121,7 +121,7 @@ class EvaluationObjectSetRE(BaseModel):
 
 
 @dataclass
-class EvalCTD(EvaluationEngine):
+class EvalCTD(SPIRESEvaluationEngine):
     # ontology: OboGraphInterface = None
     subject_prefix = "MESH"
     object_prefix = "MESH"

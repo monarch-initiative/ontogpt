@@ -23,8 +23,10 @@ from pydantic import BaseModel
 from tiktoken import Encoding
 
 from ontogpt.engines import create_engine
-from ontogpt.engines.enrichment import ENTITY_ID, SYMBOL, EnrichmentEngine, EnrichmentPayload, GeneSet
-from ontogpt.evaluation.evaluation_engine import EvaluationEngine, SimilarityScore
+from ontogpt.engines.enrichment import ENTITY_ID, SYMBOL, EnrichmentEngine, EnrichmentPayload, GeneSet, gene_info, \
+    populate_ids_and_symbols
+from ontogpt.engines.knowledge_engine import MODEL_NAME, MODEL_GPT_3_5_TURBO, MODEL_TEXT_DAVINCI_003
+from ontogpt.evaluation.evaluation_engine import EvaluationEngine
 
 THIS_DIR = Path(__file__).parent
 DATABASE_DIR = Path(__file__).parent / "database"
@@ -37,8 +39,11 @@ STANDARD_NO_ONTOLOGY = "standard_no_ontology"
 RANDOM = "random"
 RANK_BASED = "rank_based"
 
+ENRICHMENT_MODELS = [MODEL_GPT_3_5_TURBO, MODEL_TEXT_DAVINCI_003]
 
 
+
+logger = logging.getLogger(__name__)
 
 
 class Overlap(BaseModel):
@@ -55,9 +60,10 @@ class Overlap(BaseModel):
 class GeneSetComparison(BaseModel):
     name: str
     gene_symbols: List[str]
+    model: str = None
     payloads: Dict[str, EnrichmentPayload] = None
     overlaps: Dict[Tuple[str, str], Overlap] = None
-
+    number_of_genes_swapped_out: int = None
 
 @cachier(stale_after=datetime.timedelta(days=3))
 def get_symbol_to_gene_id_map() -> Dict[SYMBOL, ENTITY_ID]:
@@ -74,76 +80,115 @@ class EvalEnrichment(EvaluationEngine):
 
     model: str = None
 
+    engines: Dict[MODEL_NAME, EnrichmentEngine] = field(default_factory=dict)
+
+
+
     def __post_init__(self):
         ontology = get_implementation_from_shorthand("sqlite:obo:go")
         if not isinstance(ontology, OboGraphInterface):
             raise TypeError
         self.ontology: ClassEnrichmentCalculationInterface = ontology
         self.engine: EnrichmentEngine = create_engine(None, EnrichmentEngine, model=self.model)
+        for model in ENRICHMENT_MODELS:
+            self.engines[model] = create_engine(None, EnrichmentEngine, model=model)
+            self.engines[model].add_resolver("sqlite:obo:hgnc")
         self.engine.add_resolver("sqlite:obo:hgnc")
         self.tokenizer_encoding = tiktoken.encoding_for_model(self.engine.model)
 
-    @deprecated
-    def compare_analysis_pairwise(
-        self, gene_symbols: List[str], name: str = None
-    ) -> GeneSetComparison:
-        """Compare OntoGPT enrichment vs standard."""
-        print("Doing manual enrichment...")
-        enrichment_auto = self.engine.summarize(gene_symbols, ontological_synopsis=True, normalize=True)
-        print("Doing auto enrichment...")
-        enrichment_manual = self.engine.summarize(gene_symbols, ontological_synopsis=False, normalize=True)
-        comp = GeneSetComparison(
-            name=name,
-            gene_symbols=gene_symbols,
-            payloads={NARRATIVE_SYNOPSIS: enrichment_manual, ONTOLOGICAL_SYNOPSIS: enrichment_auto},
-        )
-        combos = [(NARRATIVE_SYNOPSIS, ONTOLOGICAL_SYNOPSIS)]
-        print("Comparing...")
-        for tup in combos:
-            t1, t2 = tup
-            p1 = comp.payloads[t1]
-            p2 = comp.payloads[t2]
-            ov = self.compare_payloads(p1, p2)
-            if comp.overlaps is None:
-                comp.overlaps = {}
-            comp.overlaps[tup] = ov
-        return comp
-
     def evaluate_methods_on_gene_set(self, gene_set: GeneSet, max_size=999, n=4) -> List[GeneSetComparison]:
+        """
+        Perform evaluation of different methods on a gene set.
+
+        Different permutations of the gene set are created, dropping out some members, and
+        inserting random genes.
+
+        :param gene_set: Gene set to evaluate
+        :param max_size: Maximum size of gene set, above this the gene set will be truncated
+        :param n: Number of dropouts to perform
+        """
+        if n < 1:
+            raise ValueError(f"n must be greater than 0: {n}")
+        if n > 5:
+            raise ValueError(f"n must be less than 5: {n}")
         name = gene_set.name
+        hgnc = get_adapter("sqlite:obo:hgnc")
+        populate_ids_and_symbols(gene_set, hgnc)
         gene_symbols = gene_set.gene_symbols
         comparisons = []
         if len(gene_symbols) <= 1:
             raise ValueError(f"Gene set must have at least two genes: {gene_set}")
         for i in range(0, n):
-            print(gene_set)
+            logger.info(f"{gene_set.name} [{i}]")
             expt_name = f"{name}-{i}"
             expt_gene_symbols = copy(gene_symbols)
             random.shuffle(expt_gene_symbols)
-            expt_gene_symbols = expt_gene_symbols[0:max_size]
-            print(expt_gene_symbols)
-            comp = self.compare_analysis(expt_gene_symbols, expt_name)
-            print(comp)
-            print(yaml.dump(comp.dict(), sort_keys=False))
+            num_to_drop = int(len(expt_gene_symbols) * (i / 10))
+            logger.info(f"Dropping {num_to_drop} genes (iteration: {i})")
+            expt_gene_symbols = expt_gene_symbols[num_to_drop:max_size]
+            for j in range(0, num_to_drop):
+                random_gene = self.random_gene_symbol()
+                logger.info(f"Adding random gene: {random_gene}")
+                expt_gene_symbols.append(random_gene)
+            logger.info(f"New symbols: {expt_gene_symbols}")
+            comp = self.compare_analysis(expt_gene_symbols, expt_name, number_of_genes_swapped_out=num_to_drop)
+            logger.debug(comp)
+            logger.info(yaml.dump(comp.dict(), sort_keys=False))
             comparisons.append(comp)
         return comparisons
 
-    def compare_analysis(self, gene_symbols: List[str], name: str = None) -> GeneSetComparison:
+    def compare_analysis(self, gene_symbols: List[str], name: str = None, **kwargs) -> GeneSetComparison:
         """Compare OntoGPT enrichment vs standard."""
-        print("Doing manual enrichment...")
-        enrichment_auto = self.engine.summarize(gene_symbols, ontological_synopsis=True, normalize=True)
-        print("Doing auto enrichment...")
-        enrichment_manual = self.engine.summarize(gene_symbols, ontological_synopsis=False, normalize=True)
-        enrichment_no_synopsis = self.engine.summarize(gene_symbols, annotations=False, normalize=True)
-        print("Doing standard enrichment...")
-        enrichment_standard = self.standard_enrichment(gene_symbols)
-        print("Doing standard enrichment, no ontology...")
-        enrichment_standard_no_ontology = self.standard_enrichment(gene_symbols, use_ontology=False)
-        enrichment_random = self.random_enrichment(gene_symbols)
-        enrichment_rank_based = self.null_enrichment(gene_symbols)
+        payloads = {}
+        gene_set = GeneSet(name=name, gene_symbols=gene_symbols)
+        logger.info(f"Gene symbols: {gene_symbols}")
+        for model in ENRICHMENT_MODELS:
+            engine = self.engines[model]
+            for method in [NO_SYNOPSIS, ONTOLOGICAL_SYNOPSIS, NARRATIVE_SYNOPSIS]:
+                if method == ONTOLOGICAL_SYNOPSIS:
+                    args = dict(ontological_synopsis=True)
+                elif method == NARRATIVE_SYNOPSIS:
+                    args = dict(ontological_synopsis=False)
+                elif method == NO_SYNOPSIS:
+                    args = dict(annotations=False)
+                else:
+                    raise AssertionError(f"Unknown method: {method}")
+                payload = engine.summarize(gene_set, normalize=True, **args)
+                payload.method = method
+                model_method = f"{model}.{method}"
+                payloads[model_method] = payload
+        payloads[STANDARD] = self.standard_enrichment(gene_set)
+        payloads[STANDARD_NO_ONTOLOGY] = self.standard_enrichment(gene_set, use_ontology=False)
+        payloads[RANDOM] = self.random_enrichment(gene_set)
+        payloads[RANK_BASED] = self.null_enrichment(gene_set)
+        for k in [STANDARD, STANDARD_NO_ONTOLOGY, RANDOM, RANK_BASED]:
+            payloads[k].method = k
         comp = GeneSetComparison(
             name=name,
             gene_symbols=gene_symbols,
+            payloads=payloads,
+            **kwargs,
+        )
+        return comp
+
+    def OLD_compare_analysis(self, gene_symbols: List[str], name: str = None) -> GeneSetComparison:
+        """Compare OntoGPT enrichment vs standard."""
+        gene_set = GeneSet(name=name, gene_symbols=gene_symbols)
+        print("Doing manual enrichment...")
+        enrichment_auto = self.engine.summarize(gene_set, ontological_synopsis=True, normalize=True)
+        print("Doing auto enrichment...")
+        enrichment_manual = self.engine.summarize(gene_set, ontological_synopsis=False, normalize=True)
+        enrichment_no_synopsis = self.engine.summarize(gene_set, annotations=False, normalize=True)
+        print("Doing standard enrichment...")
+        enrichment_standard = self.standard_enrichment(gene_set)
+        print("Doing standard enrichment, no ontology...")
+        enrichment_standard_no_ontology = self.standard_enrichment(gene_set, use_ontology=False)
+        enrichment_random = self.random_enrichment(gene_set)
+        enrichment_rank_based = self.null_enrichment(gene_set)
+        comp = GeneSetComparison(
+            name=name,
+            gene_symbols=gene_symbols,
+            model=self.model,
             payloads={
                 NARRATIVE_SYNOPSIS: enrichment_manual,
                 ONTOLOGICAL_SYNOPSIS: enrichment_auto,
@@ -189,14 +234,17 @@ class EvalEnrichment(EvaluationEngine):
             comp.overlaps[tup] = ov
         return comp
 
-    def standard_enrichment(self, gene_symbols: List[str], use_ontology=True) -> EnrichmentPayload:
+    def random_gene_symbol(self) -> ENTITY_ID:
+        """Get a random gene."""
+        assocs = list(self.ontology.associations())
+        logger.debug(f"Got {len(assocs)} associations")
+        ann = random.choice(assocs)
+        info = gene_info(ann.subject)
+        return info[0]
+
+    def standard_enrichment(self, gene_set: GeneSet, use_ontology=True) -> EnrichmentPayload:
         """Standard enrichment."""
-        gene_ids = []
-        m = get_symbol_to_gene_id_map()
-        print("Mapping symbols...")
-        for sym in gene_symbols:
-            if sym in m:
-                gene_ids.append(m[sym])
+        gene_ids = gene_set.gene_ids
         if use_ontology:
             predicates = [IS_A, PART_OF]
         else:
@@ -210,13 +258,16 @@ class EvalEnrichment(EvaluationEngine):
             payload.term_ids.append(result.class_id)
         return payload
 
-    def random_enrichment(self, gene_symbols: List[str], n : int = None) -> EnrichmentPayload:
+    def random_enrichment(self, gene_set: GeneSet = None, n : int = None) -> EnrichmentPayload:
         """
         Randomized enrichment results.
         """
         if n is None:
             # by default, return a number of terms proportional to the number of genes
-            n = len(gene_symbols)
+            if gene_set:
+                n = len(gene_set.gene_symbols)
+            else:
+                n = 20
         anns = list(self.ontology.associations())
         random.shuffle(anns)
         payload = EnrichmentPayload()
@@ -225,10 +276,11 @@ class EvalEnrichment(EvaluationEngine):
         payload.term_strings = [self.ontology.label(id) for id in term_ids]
         return payload
 
-    def null_enrichment(self, gene_symbols: List[str], n: int = None) -> EnrichmentPayload:
+    def null_enrichment(self, gene_set: GeneSet, n: int = None) -> EnrichmentPayload:
         """
         Psuedo-enrichment, returning all top ranking direct terms, no ontology rollup
         """
+        gene_symbols = gene_set.gene_symbols
         if n is None:
             # by default, return a number of terms proportional to the number of genes
             n = len(gene_symbols)

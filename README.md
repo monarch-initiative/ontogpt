@@ -46,7 +46,7 @@ Given a short text `abstract.txt` with content such as:
 We can extract this into the [GO pathway datamodel](src/ontogpt/templates/gocam.yaml):
 
 ```bash
-ontogpt extract -t gocam.GoCamAnnotations abstract.txt
+ontogpt extract -t gocam.GoCamAnnotations -i abstract.txt
 ```
 
 Giving schema-compliant yaml such as:
@@ -194,7 +194,7 @@ Run the `make` command at the top level. This will compile the schema to Python 
 e.g.
 
 ```
-ontogpt extract -t mendelian_disease.MendelianDisease marfan-wikipedia.txt
+ontogpt extract -t mendelian_disease.MendelianDisease -i marfan-wikipedia.txt
 ```
 
 ## Web Application
@@ -206,7 +206,7 @@ poetry run web-ontogpt
 ```
 
 Note that the agent running uvicorn must have the API key set, so for obvious reasons
-don't host this publicly without authentication, unless you want your credits drained. 
+don't host this publicly without authentication, unless you want your credits drained.
 
 ## Features
 
@@ -309,7 +309,7 @@ The `extract` command will let you export the results as OWL axioms, utilizing [
 For example:
 
 ```bash
-ontogpt extract -t recipe recipe-spaghetti.txt -o recipe-spaghetti.owl -O owl
+ontogpt extract -t recipe -i recipe-spaghetti.txt -o recipe-spaghetti.owl -O owl
 ```
 
 See [src/ontogpt/templates/recipe.yaml](src/ontogpt/templates/recipe.yaml) 

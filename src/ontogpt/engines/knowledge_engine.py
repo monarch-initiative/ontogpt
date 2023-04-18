@@ -36,6 +36,7 @@ OBJECT = Union[str, pydantic.BaseModel, dict]
 EXAMPLE = OBJECT
 FIELD = str
 TEMPLATE_NAME = str
+MODEL_NAME = str
 
 # annotation metamodel
 ANNOTATION_KEY_PROMPT = "prompt"
@@ -44,8 +45,11 @@ ANNOTATION_KEY_ANNOTATORS = "annotators"
 ANNOTATION_KEY_RECURSE = "ner.recurse"
 ANNOTATION_KEY_EXAMPLES = "prompt.examples"
 
+MODEL_GPT_3_5_TURBO = "gpt-3.5-turbo"
+MODEL_TEXT_DAVINCI_003 = "text-davinci-003"
+MODELS = [MODEL_GPT_3_5_TURBO, MODEL_TEXT_DAVINCI_003]
 
-DEFAULT_MODEL = "gpt-3.5-turbo"
+DEFAULT_MODEL = MODEL_GPT_3_5_TURBO
 
 # TODO: introspect
 DATAMODELS = [
@@ -101,7 +105,7 @@ class KnowledgeEngine(ABC):
     api_key: str = None
     """OpenAI API key."""
 
-    model: str = None
+    model: MODEL_NAME = None
     """OpenAI Model. This should be overridden in subclasses"""
 
     # annotator: TextAnnotatorInterface = None
@@ -458,6 +462,12 @@ class KnowledgeEngine(ABC):
         :return:
         """
         logger.info(f"GROUNDING {text} using {cls.name}")
+        id_matches = re.match(r"^(\S+):(\d+)$", text)
+        if id_matches:
+            obj_prefix = id_matches.group(1)
+            matching_prefixes = [x for x in cls.id_prefixes if x.upper() == obj_prefix.upper()]
+            if matching_prefixes:
+                yield matching_prefixes[0] + ":" + id_matches.group(2)
         text_lower = text.lower()
         text_singularized = inflection.singularize(text_lower)
         if text_singularized != text_lower:
