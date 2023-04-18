@@ -70,7 +70,7 @@ class EvaluationEngine:
 
 @dataclass
 class SPIRESEvaluationEngine(EvaluationEngine):
-    """Base class for all evaluation engines in SPIRES
+    """Base class for all evaluation engines in SPIRES.
 
     TODO: currently there is a lot of repetition between the different evaluation engines.
     This should be refactored so we have common base classes for different tasks

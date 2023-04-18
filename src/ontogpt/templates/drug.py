@@ -38,10 +38,7 @@ class DrugMechanism(ConfiguredBaseModel):
 
 
 class ExtractionResult(ConfiguredBaseModel):
-    """
-    A result of extracting knowledge on text
-    """
-
+    """A result of extracting knowledge on text."""
     input_id: Optional[str] = Field(None)
     input_title: Optional[str] = Field(None)
     input_text: Optional[str] = Field(None)
@@ -91,10 +88,7 @@ class MechanismLink(CompoundExpression):
 
 
 class Triple(CompoundExpression):
-    """
-    Abstract parent for Relation Extraction tasks
-    """
-
+    """Abstract parent for Relation Extraction tasks."""
     subject: Optional[str] = Field(None)
     predicate: Optional[str] = Field(None)
     object: Optional[str] = Field(None)

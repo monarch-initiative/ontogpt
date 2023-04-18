@@ -41,9 +41,7 @@ class PredictionGO(BaseModel):
 
 
 class EvaluationObjectSetGO(BaseModel):
-    """
-    A result of extracting knowledge on text
-    """
+    """A result of extracting knowledge on text."""
 
     test: List[MetabolicProcess] = None
     training: List[MetabolicProcess] = None
@@ -65,9 +63,7 @@ class EvalGO(SPIRESEvaluationEngine):
         self.extractor.labelers = [ontology]
 
     def make_term_from_ldef(self, ldef: LogicalDefinitionAxiom) -> MetabolicProcess:
-        """
-        Make a term from a logical definition
-        """
+        """Make a term from a logical definition."""
         ontology = self.ontology
         term = ldef.definedClassId
         parents = [rel[2] for rel in ontology.relationships([term], [IS_A])]
@@ -89,9 +85,7 @@ class EvalGO(SPIRESEvaluationEngine):
             return [x.strip() for x in f.readlines()]
 
     def ldef_matches(self, ldef: LogicalDefinitionAxiom) -> bool:
-        """
-        Check if a logical definition matches the genus and differentia
-        """
+        """Check if a logical definition matches the genus and differentia."""
         if self.genus not in ldef.genusIds:
             return False
         if len(ldef.restrictions) != 1:

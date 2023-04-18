@@ -208,8 +208,7 @@ class HALOEngine(KnowledgeEngine):
         return list(candidate_elements)
 
     def hallucinate_element(self, element: ELEMENT_NAME) -> OntologyElement:
-        """
-        Generate an ontology element based on its name
+        """Generate an ontology element based on its name.
 
         :param element: example: LeftDigit1OfHand
         :return:
@@ -229,8 +228,8 @@ class HALOEngine(KnowledgeEngine):
         return obj
 
     def get_example_elements(self, element: ELEMENT_NAME) -> List[OntologyElement]:
-        """
-        Get example elements for HALO
+        """Get example elements for HALO.
+
         :param element:
         :return:
         """
@@ -243,8 +242,7 @@ class HALOEngine(KnowledgeEngine):
         return [x for _, x in score_element_pairs]
 
     def get_element_score(self, element: OntologyElement, tokens: Set[int]) -> float:
-        """
-        Calculate a score for an element based on how informative it is for few-shot learning
+        """Calculate a score for an element based on how informative it is for few-shot learning.
 
         :param element:
         :param tokens: tokenized form of the element name

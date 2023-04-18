@@ -289,9 +289,7 @@ class EvalEnrichment(EvaluationEngine):
         return payload
 
     def null_enrichment(self, gene_set: GeneSet, n: int = None) -> EnrichmentPayload:
-        """
-        Psuedo-enrichment, returning all top ranking direct terms, no ontology rollup
-        """
+        """Psuedo-enrichment, returning all top ranking direct terms, no ontology rollup."""
         gene_symbols = gene_set.gene_symbols
         if n is None:
             # by default, return a number of terms proportional to the number of genes

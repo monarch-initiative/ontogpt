@@ -107,10 +107,7 @@ class PredictionRE(BaseModel):
 
 
 class EvaluationObjectSetRE(BaseModel):
-    """
-    A result of predicting relationextractions
-    """
-
+    """A result of predicting relationextractions."""
     precision: float = None
     recall: float = None
     f1: float = None
@@ -173,9 +170,7 @@ class EvalCTD(SPIRESEvaluationEngine):
             yield dict(prompt=prompt, completion=completion)
 
     def eval(self) -> EvaluationObjectSetRE:
-        """
-        Evaluates the ability to extract relations
-        """
+        """Evaluates the ability to extract relations."""
         labeler = get_implementation_from_shorthand("sqlite:obo:mesh")
         num_test = self.num_tests
         ke = self.extractor
