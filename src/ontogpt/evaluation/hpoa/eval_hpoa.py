@@ -17,7 +17,7 @@ from pydantic import BaseModel
 
 from ontogpt.clients.pubmed_client import PubmedClient
 from ontogpt.engines.spires_engine import SPIRESEngine
-from ontogpt.evaluation.evaluation_engine import SPIRESEvaluationEngine, SimilarityScore
+from ontogpt.evaluation.evaluation_engine import SimilarityScore, SPIRESEvaluationEngine
 from ontogpt.templates.mendelian_disease import MendelianDisease
 
 THIS_DIR = Path(__file__).parent

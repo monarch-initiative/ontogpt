@@ -67,6 +67,7 @@ class SimilarityScore(BaseModel):
 class EvaluationEngine:
     pass
 
+
 @dataclass
 class SPIRESEvaluationEngine(EvaluationEngine):
     """Base class for all evaluation engines in SPIRES

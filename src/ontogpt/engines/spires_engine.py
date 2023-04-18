@@ -15,11 +15,8 @@ from typing import Any, Dict, List, Optional, Tuple, Union
 
 import pydantic
 from linkml_runtime.linkml_model import ClassDefinition, SlotDefinition
-from oaklib import get_implementation_from_shorthand
-from oaklib.datamodels.text_annotator import TextAnnotation, TextAnnotationConfiguration
 
 from ontogpt.engines.knowledge_engine import (
-    ANNOTATION_KEY_ANNOTATORS,
     ANNOTATION_KEY_PROMPT,
     ANNOTATION_KEY_PROMPT_SKIP,
     EXAMPLE,
@@ -28,7 +25,7 @@ from ontogpt.engines.knowledge_engine import (
     KnowledgeEngine,
     chunk_text,
 )
-from ontogpt.templates.core import ExtractionResult, NamedEntity
+from ontogpt.templates.core import ExtractionResult
 
 this_path = Path(__file__).parent
 

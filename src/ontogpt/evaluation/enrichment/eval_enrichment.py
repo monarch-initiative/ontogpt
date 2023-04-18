@@ -11,10 +11,9 @@ from typing import Dict, Iterator, List, Optional, Tuple
 import tiktoken
 import yaml
 from cachier import cachier
-from deprecation import deprecated
 from oaklib import get_adapter, get_implementation_from_shorthand
 from oaklib.datamodels.association import Association
-from oaklib.datamodels.vocabulary import EQUIVALENT_CLASS, HAS_PART, IS_A, PART_OF
+from oaklib.datamodels.vocabulary import EQUIVALENT_CLASS, IS_A, PART_OF
 from oaklib.interfaces.class_enrichment_calculation_interface import (
     ClassEnrichmentCalculationInterface,
 )
@@ -23,9 +22,16 @@ from pydantic import BaseModel
 from tiktoken import Encoding
 
 from ontogpt.engines import create_engine
-from ontogpt.engines.enrichment import ENTITY_ID, SYMBOL, EnrichmentEngine, EnrichmentPayload, GeneSet, gene_info, \
-    populate_ids_and_symbols
-from ontogpt.engines.knowledge_engine import MODEL_NAME, MODEL_GPT_3_5_TURBO, MODEL_TEXT_DAVINCI_003
+from ontogpt.engines.enrichment import (
+    ENTITY_ID,
+    SYMBOL,
+    EnrichmentEngine,
+    EnrichmentPayload,
+    GeneSet,
+    gene_info,
+    populate_ids_and_symbols,
+)
+from ontogpt.engines.knowledge_engine import MODEL_GPT_3_5_TURBO, MODEL_NAME, MODEL_TEXT_DAVINCI_003
 from ontogpt.evaluation.evaluation_engine import EvaluationEngine
 
 THIS_DIR = Path(__file__).parent
@@ -40,7 +46,6 @@ RANDOM = "random"
 RANK_BASED = "rank_based"
 
 ENRICHMENT_MODELS = [MODEL_GPT_3_5_TURBO, MODEL_TEXT_DAVINCI_003]
-
 
 
 logger = logging.getLogger(__name__)
@@ -65,6 +70,7 @@ class GeneSetComparison(BaseModel):
     overlaps: Dict[Tuple[str, str], Overlap] = None
     number_of_genes_swapped_out: int = None
 
+
 @cachier(stale_after=datetime.timedelta(days=3))
 def get_symbol_to_gene_id_map() -> Dict[SYMBOL, ENTITY_ID]:
     hgnc = get_adapter("sqlite:obo:hgnc")
@@ -82,8 +88,6 @@ class EvalEnrichment(EvaluationEngine):
 
     engines: Dict[MODEL_NAME, EnrichmentEngine] = field(default_factory=dict)
 
-
-
     def __post_init__(self):
         ontology = get_implementation_from_shorthand("sqlite:obo:go")
         if not isinstance(ontology, OboGraphInterface):
@@ -96,7 +100,9 @@ class EvalEnrichment(EvaluationEngine):
         self.engine.add_resolver("sqlite:obo:hgnc")
         self.tokenizer_encoding = tiktoken.encoding_for_model(self.engine.model)
 
-    def evaluate_methods_on_gene_set(self, gene_set: GeneSet, max_size=999, n=4) -> List[GeneSetComparison]:
+    def evaluate_methods_on_gene_set(
+        self, gene_set: GeneSet, max_size=999, n=4
+    ) -> List[GeneSetComparison]:
         """
         Perform evaluation of different methods on a gene set.
 
@@ -131,13 +137,17 @@ class EvalEnrichment(EvaluationEngine):
                 logger.info(f"Adding random gene: {random_gene}")
                 expt_gene_symbols.append(random_gene)
             logger.info(f"New symbols: {expt_gene_symbols}")
-            comp = self.compare_analysis(expt_gene_symbols, expt_name, number_of_genes_swapped_out=num_to_drop)
+            comp = self.compare_analysis(
+                expt_gene_symbols, expt_name, number_of_genes_swapped_out=num_to_drop
+            )
             logger.debug(comp)
             logger.info(yaml.dump(comp.dict(), sort_keys=False))
             comparisons.append(comp)
         return comparisons
 
-    def compare_analysis(self, gene_symbols: List[str], name: str = None, **kwargs) -> GeneSetComparison:
+    def compare_analysis(
+        self, gene_symbols: List[str], name: str = None, **kwargs
+    ) -> GeneSetComparison:
         """Compare OntoGPT enrichment vs standard."""
         payloads = {}
         gene_set = GeneSet(name=name, gene_symbols=gene_symbols)
@@ -177,7 +187,9 @@ class EvalEnrichment(EvaluationEngine):
         print("Doing manual enrichment...")
         enrichment_auto = self.engine.summarize(gene_set, ontological_synopsis=True, normalize=True)
         print("Doing auto enrichment...")
-        enrichment_manual = self.engine.summarize(gene_set, ontological_synopsis=False, normalize=True)
+        enrichment_manual = self.engine.summarize(
+            gene_set, ontological_synopsis=False, normalize=True
+        )
         enrichment_no_synopsis = self.engine.summarize(gene_set, annotations=False, normalize=True)
         print("Doing standard enrichment...")
         enrichment_standard = self.standard_enrichment(gene_set)
@@ -258,7 +270,7 @@ class EvalEnrichment(EvaluationEngine):
             payload.term_ids.append(result.class_id)
         return payload
 
-    def random_enrichment(self, gene_set: GeneSet = None, n : int = None) -> EnrichmentPayload:
+    def random_enrichment(self, gene_set: GeneSet = None, n: int = None) -> EnrichmentPayload:
         """
         Randomized enrichment results.
         """
@@ -297,7 +309,9 @@ class EvalEnrichment(EvaluationEngine):
 
     def create_gene_set_from_term(self, term: ENTITY_ID, name: str = None) -> GeneSet:
         """Create a gene set from a list of terms."""
-        assocs = self.ontology.associations(objects=[term], object_closure_predicates=[IS_A, PART_OF])
+        assocs = self.ontology.associations(
+            objects=[term], object_closure_predicates=[IS_A, PART_OF]
+        )
         gene_ids = list(set([str(assoc.subject) for assoc in assocs]))
         hgnc = get_adapter("sqlite:obo:hgnc")
         gene_symbols = [hgnc.label(id) for id in gene_ids]

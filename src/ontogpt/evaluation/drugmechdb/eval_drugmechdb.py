@@ -18,7 +18,7 @@ from pydantic import BaseModel
 import ontogpt.evaluation.drugmechdb.datamodel.drugmechdb as source_datamodel
 import ontogpt.templates.drug as target_datamodel
 from ontogpt.engines.spires_engine import SPIRESEngine
-from ontogpt.evaluation.evaluation_engine import SPIRESEvaluationEngine, SimilarityScore
+from ontogpt.evaluation.evaluation_engine import SimilarityScore, SPIRESEvaluationEngine
 
 THIS_DIR = Path(__file__).parent
 DATABASE_DIR = Path(__file__).parent / "database"

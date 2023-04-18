@@ -14,8 +14,6 @@ import openai
 import yaml
 from oaklib import get_adapter
 from oaklib.cli import query_terms_iterator
-from oaklib.datamodels.similarity import TermPairwiseSimilarity
-from oaklib.datamodels.vocabulary import IS_A
 from oaklib.io.streaming_csv_writer import StreamingCsvWriter
 
 from ontogpt import __version__
@@ -23,7 +21,7 @@ from ontogpt.clients import OpenAIClient
 from ontogpt.clients.pubmed_client import PubmedClient
 from ontogpt.clients.soup_client import SoupClient
 from ontogpt.engines import create_engine
-from ontogpt.engines.enrichment import EnrichmentEngine, parse_gene_set, populate_ids_and_symbols, GeneSet
+from ontogpt.engines.enrichment import EnrichmentEngine, GeneSet, parse_gene_set
 from ontogpt.engines.halo_engine import HALOEngine
 from ontogpt.engines.knowledge_engine import KnowledgeEngine
 from ontogpt.engines.similarity_engine import SimilarityEngine
@@ -161,7 +159,15 @@ def main(verbose: int, quiet: bool, cache_db: str, skip_annotator):
 )
 @click.argument("input", required=False)
 def extract(
-    inputfile, template, target_class, dictionary, input, output, output_format, set_slot_value, **kwargs
+    inputfile,
+    template,
+    target_class,
+    dictionary,
+    input,
+    output,
+    output_format,
+    set_slot_value,
+    **kwargs,
 ):
     """Extract knowledge from text guided by schema, using SPIRES engine.
 
@@ -169,7 +175,7 @@ def extract(
 
         ontogpt extract -t gocam.GoCamAnnotations -i gocam-27929086.txt
 
-    The input argument must be either a file path or a string. 
+    The input argument must be either a file path or a string.
     Use the -i/--input-file option followed by the path to the input file if using the former.
     Otherwise, the input is assumed to be a string to be read as input.
 
@@ -240,6 +246,7 @@ def pmc_extract(pmcid, template, output, output_format, **kwargs):
     ec = pmc.entrez_client
     paset = ec.efetch(db="pmc", id=pmcid)
     from lxml import etree
+
     for pa in paset:
         pa._xml_root
         print(etree.tostring(pa._xml_root, pretty_print=True))
@@ -380,9 +387,10 @@ def synonyms(term, context, output, output_format, **kwargs):
 @main.command()
 @output_option_txt
 @output_format_options
-@click.option("--annotation-path",
-              required=True,
-              )
+@click.option(
+    "--annotation-path",
+    required=True,
+)
 @click.argument("term")
 def create_gene_set(term, output, output_format, annotation_path, **kwargs):
     """Create a gene set."""
@@ -405,6 +413,7 @@ def convert_geneset(input_file, output, output_format, **kwargs):
     """Convert gene set to YAML."""
     gene_set = parse_gene_set(input_file)
     output.write(dump_minimal_yaml(gene_set.dict()))
+
 
 @main.command()
 @output_option_txt
@@ -549,16 +558,36 @@ def text_similarity(text, context, output, model, output_format, **kwargs):
 @output_format_options
 @model_option
 @click.option("--ontology", "-r", help="Ontology to use")
-@click.option("--definitions/--no-definitions", default=True, show_default=True,
-              help="Include text definitions in the text to embed")
-@click.option("--parents/--no-parents", default=True, show_default=True,
-                help="Include is-a parent terms in the text to embed")
-@click.option("--ancestors/--no-ancestors", default=True, show_default=True,
-                help="Include all ancestors in the text to embed")
-@click.option("--logical-definitions/--no-logical-definitions", default=True, show_default=True,
-                help="Include logical definitions in the text to embed")
-@click.option("--autolabel/--no-autolabel", default=True, show_default=True,
-                help="Add subj/obj labels to report objects")
+@click.option(
+    "--definitions/--no-definitions",
+    default=True,
+    show_default=True,
+    help="Include text definitions in the text to embed",
+)
+@click.option(
+    "--parents/--no-parents",
+    default=True,
+    show_default=True,
+    help="Include is-a parent terms in the text to embed",
+)
+@click.option(
+    "--ancestors/--no-ancestors",
+    default=True,
+    show_default=True,
+    help="Include all ancestors in the text to embed",
+)
+@click.option(
+    "--logical-definitions/--no-logical-definitions",
+    default=True,
+    show_default=True,
+    help="Include logical definitions in the text to embed",
+)
+@click.option(
+    "--autolabel/--no-autolabel",
+    default=True,
+    show_default=True,
+    help="Add subj/obj labels to report objects",
+)
 @click.argument("terms", nargs=-1)
 def entity_similarity(terms, ontology, output, model, output_format, **kwargs):
     """Embed text.
@@ -587,10 +616,6 @@ def entity_similarity(terms, ontology, output, model, output_format, **kwargs):
         sims = engine.search(e1, entities2)
         for sim in sims:
             writer.emit(sim)
-
-
-
-
 
 
 @main.command()
@@ -639,8 +664,7 @@ def entity_similarity(terms, ontology, output, model, output_format, **kwargs):
 )
 @click.argument("genes", nargs=-1)
 def eval_enrichment(genes, input_file, number_to_drop, annotations_path, output, **kwargs):
-    """Runs enrichment using multiple methods
-    """
+    """Runs enrichment using multiple methods"""
     if not genes and not input_file:
         raise ValueError("Either genes or input file must be passed")
     if genes:
@@ -660,8 +684,6 @@ def eval_enrichment(genes, input_file, number_to_drop, annotations_path, output,
         comps = eval_engine.evaluate_methods_on_gene_set(gene_set, n=number_to_drop)
         all_comparisons.extend([comp.dict() for comp in comps])
     output.write(dump_minimal_yaml(all_comparisons))
-
-
 
 
 @main.command()
@@ -713,6 +735,7 @@ def models(**kwargs):
     ai = OpenAIClient()
     for model in openai.Model.list():
         print(model)
+
 
 @main.command()
 @model_option

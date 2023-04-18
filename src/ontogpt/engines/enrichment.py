@@ -5,18 +5,19 @@ import logging
 import re
 from collections.abc import Iterator
 from dataclasses import dataclass, field
-from typing import Dict, List, Tuple, Optional
+from typing import Dict, List, Optional, Tuple
 
 import requests
 import yaml
 from cachier import cachier
 from oaklib import BasicOntologyInterface, get_adapter
-from oaklib.interfaces.class_enrichment_calculation_interface import ClassEnrichmentCalculationInterface
+from oaklib.interfaces.class_enrichment_calculation_interface import (
+    ClassEnrichmentCalculationInterface,
+)
 from pydantic import BaseModel
 
 from ontogpt.engines.knowledge_engine import KnowledgeEngine
 from ontogpt.templates.gene_description_term import GeneDescriptionTerm
-
 
 logger = logging.getLogger(__name__)
 
@@ -142,7 +143,9 @@ def parse_gene_set(input_path: str, format: str = None) -> GeneSet:
     return gene_set
 
 
-def load_gene_sets(path: str, ontology_adapter: BasicOntologyInterface = None, strict=False) -> GeneSetCollection:
+def load_gene_sets(
+    path: str, ontology_adapter: BasicOntologyInterface = None, strict=False
+) -> GeneSetCollection:
     """Load gene sets from a folder.
 
     If ontology_adapter is provided, gene symbols will be converted to gene ids and vice versa.
@@ -157,7 +160,9 @@ def load_gene_sets(path: str, ontology_adapter: BasicOntologyInterface = None, s
     return GeneSetCollection(gene_sets=gene_sets)
 
 
-def populate_ids_and_symbols(gene_set: GeneSet, ontology_adapter: BasicOntologyInterface = None, strict=False):
+def populate_ids_and_symbols(
+    gene_set: GeneSet, ontology_adapter: BasicOntologyInterface = None, strict=False
+):
     if ontology_adapter:
         if not gene_set.gene_ids:
             print(f"Fetching ids for {len(gene_set.gene_symbols)} genes")
@@ -192,6 +197,7 @@ def gene_info(id: ENTITY_ID) -> Tuple[SYMBOL, DESCRIPTION, DESCRIPTION]:
     obj = response.json()
     symbol = obj["symbol"]
     return symbol, obj["geneSynopsis"], obj["automatedGeneSynopsis"]
+
 
 @dataclass
 class EnrichmentEngine(KnowledgeEngine):
@@ -287,7 +293,7 @@ class EnrichmentEngine(KnowledgeEngine):
         self.process_payload(payload)
         return payload
 
-    def summarize_annotation_free(self,genes: List[GENE_TUPLE]) -> EnrichmentPayload:
+    def summarize_annotation_free(self, genes: List[GENE_TUPLE]) -> EnrichmentPayload:
         """Summarize gene IDs without using any annotations."""
         prompt = ANNOTATION_FREE_PROMPT
         if not genes:
@@ -306,8 +312,12 @@ class EnrichmentEngine(KnowledgeEngine):
         self.process_payload(payload)
         return payload
 
-
-    def standard_enrichment(self, gene_ids: List[ENTITY_ID], ontology: ClassEnrichmentCalculationInterface = None, predicates: List[ENTITY_ID]=None) -> EnrichmentPayload:
+    def standard_enrichment(
+        self,
+        gene_ids: List[ENTITY_ID],
+        ontology: ClassEnrichmentCalculationInterface = None,
+        predicates: List[ENTITY_ID] = None,
+    ) -> EnrichmentPayload:
         """Standard enrichment using an ontology."""
         if ontology is None:
             ontology = get_adapter("sqlite:obo:go")
@@ -391,5 +401,3 @@ class EnrichmentEngine(KnowledgeEngine):
         for term in payload.term_strings:
             payload.term_ids.append(self.normalize_named_entity(term, GeneDescriptionTerm.__name__))
         return payload
-
-

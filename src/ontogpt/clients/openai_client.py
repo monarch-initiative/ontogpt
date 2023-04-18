@@ -13,10 +13,9 @@ logger = logging.getLogger(__name__)
 NUM_RETRIES = 3
 
 
-
 @dataclass
 class OpenAIClient:
-    #max_tokens: int = field(default_factory=lambda: 3000)
+    # max_tokens: int = field(default_factory=lambda: 3000)
     model: str = field(default_factory=lambda: "gpt-3.5-turbo")
     cache_db_path: str = None
     api_key: str = None
@@ -46,18 +45,19 @@ class OpenAIClient:
                     response = openai.ChatCompletion.create(
                         model=engine,
                         messages=[
-                            {"role": "user",
-                             "content": prompt,
-                             },
+                            {
+                                "role": "user",
+                                "content": prompt,
+                            },
                         ],
                         max_tokens=max_tokens,
                         **kwargs,
                     )
                 else:
                     response = openai.Completion.create(
-                                            engine = engine,
-                                            prompt = prompt,
-                                            max_tokens = max_tokens,
+                        engine=engine,
+                        prompt=prompt,
+                        max_tokens=max_tokens,
                     )
                 break
             except Exception as e:
@@ -69,9 +69,9 @@ class OpenAIClient:
                 sleep(sleep_time)
 
         if self._must_use_chat_api():
-            payload = response['choices'][0]['message']['content']
+            payload = response["choices"][0]["message"]["content"]
         else:
-            payload = response['choices'][0]['text']
+            payload = response["choices"][0]["text"]
         logger.info(f"Storing payload of len: {len(payload)}")
         cur.execute(
             "INSERT INTO cache (prompt, engine, payload) VALUES (?, ?, ?)",
@@ -127,7 +127,9 @@ class OpenAIClient:
         except sqlite3.OperationalError:
             logger.info("Embeddings cache table already exists")
             pass
-        res = cur.execute("SELECT vector_as_string FROM embeddings_cache WHERE text=? AND engine=?", (text, model))
+        res = cur.execute(
+            "SELECT vector_as_string FROM embeddings_cache WHERE text=? AND engine=?", (text, model)
+        )
         payload = res.fetchone()
         if payload:
             logger.info(f"Using cached embeddings for {model} {text[0:80]}...")
@@ -150,6 +152,3 @@ class OpenAIClient:
         a1 = self.embeddings(text1, **kwargs)
         a2 = self.embeddings(text2, **kwargs)
         return np.dot(a1, a2) / (np.linalg.norm(a1) * np.linalg.norm(a2))
-
-
-

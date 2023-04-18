@@ -11,7 +11,7 @@ from oaklib.interfaces.obograph_interface import OboGraphInterface
 from pydantic import BaseModel
 
 from ontogpt.engines.spires_engine import SPIRESEngine
-from ontogpt.evaluation.evaluation_engine import SPIRESEvaluationEngine, SimilarityScore
+from ontogpt.evaluation.evaluation_engine import SimilarityScore, SPIRESEvaluationEngine
 from ontogpt.templates.metabolic_process import MetabolicProcess
 
 TEST_CASES_DIR = Path(__file__).parent / "test_cases"
