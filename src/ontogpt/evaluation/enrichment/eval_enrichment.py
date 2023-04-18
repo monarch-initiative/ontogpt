@@ -250,7 +250,7 @@ class EvalEnrichment(EvaluationEngine):
         """Get a random gene."""
         assocs = list(self.ontology.associations())
         logger.debug(f"Got {len(assocs)} associations")
-        ann = random.choice(assocs)
+        ann = random.SystemRandom.choice(assocs)
         info = gene_info(ann.subject)
         return info[0]
 
