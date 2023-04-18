@@ -1,10 +1,8 @@
+"""Phenotype template."""
 from __future__ import annotations
 
-from datetime import date, datetime
-from enum import Enum
-from typing import Any, Dict, List, Literal, Optional, Union
+from typing import Any, List, Optional
 
-from linkml_runtime.linkml_model import Decimal
 from pydantic import BaseModel as BaseModel
 from pydantic import Field
 
@@ -36,14 +34,13 @@ class Trait(ConfiguredBaseModel):
     )
     chemical_entity: Optional[str] = Field(
         None,
-        description="""semicolon-separated list of treatment to adverse effect associations, e.g. Imatinib*nausea""",
+        description="""semicolon-separated list of treatment\
+            to adverse effect associations, e.g. Imatinib*nausea""",
     )
 
 
 class ExtractionResult(ConfiguredBaseModel):
-    """
-    A result of extracting knowledge on text
-    """
+    """A result of extracting knowledge on text."""
 
     input_id: Optional[str] = Field(None)
     input_title: Optional[str] = Field(None)
@@ -79,13 +76,11 @@ class AnatomicalEntity(NamedEntity):
 
 
 class CompoundExpression(ConfiguredBaseModel):
-    None
+    pass
 
 
 class Triple(CompoundExpression):
-    """
-    Abstract parent for Relation Extraction tasks
-    """
+    """Abstract parent for Relation Extraction tasks."""
 
     subject: Optional[str] = Field(None)
     predicate: Optional[str] = Field(None)

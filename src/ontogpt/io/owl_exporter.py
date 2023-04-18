@@ -1,14 +1,14 @@
+"""OWL convertor."""
 from dataclasses import dataclass
 from pathlib import Path
 from typing import TextIO, Union
 
 import pydantic
-import yaml
 from linkml.generators.pythongen import PythonGenerator
 from linkml_owl.dumpers.owl_dumper import OWLDumper
 from linkml_runtime import SchemaView
 
-from ontogpt.io.exporter import Exporter, is_curie
+from ontogpt.io.exporter import Exporter
 from ontogpt.templates.core import ExtractionResult
 
 

@@ -1,8 +1,7 @@
+"""Environmental sample template."""
 from __future__ import annotations
 
-from datetime import date, datetime
-from enum import Enum
-from typing import Any, Dict, List, Optional
+from typing import Any, List, Optional
 
 from pydantic import BaseModel as BaseModel
 from pydantic import Field
@@ -40,9 +39,7 @@ class Study(ConfiguredBaseModel):
 
 
 class ExtractionResult(ConfiguredBaseModel):
-    """
-    A result of extracting knowledge on text
-    """
+    """A result of extracting knowledge on text."""
 
     input_id: Optional[str] = Field(None)
     input_title: Optional[str] = Field(None)
@@ -88,7 +85,7 @@ class Unit(NamedEntity):
 
 
 class CompoundExpression(ConfiguredBaseModel):
-    None
+    pass
 
 
 class Measurement(CompoundExpression):
@@ -104,9 +101,7 @@ class CausalRelationship(CompoundExpression):
 
 
 class Triple(CompoundExpression):
-    """
-    Abstract parent for Relation Extraction tasks
-    """
+    """Abstract parent for Relation Extraction tasks."""
 
     subject: Optional[str] = Field(None)
     predicate: Optional[str] = Field(None)
@@ -116,11 +111,13 @@ class Triple(CompoundExpression):
     )
     subject_qualifier: Optional[str] = Field(
         None,
-        description="""An optional qualifier or modifier for the subject of the statement, e.g. \"high dose\" or \"intravenously administered\"""",
+        description="""An optional qualifier or modifier for the subject of\
+            the statement, e.g. \"high dose\" or \"intravenously administered\"""",
     )
     object_qualifier: Optional[str] = Field(
         None,
-        description="""An optional qualifier or modifier for the object of the statement, e.g. \"severe\" or \"with additional complications\"""",
+        description="""An optional qualifier or modifier for the object of\
+            the statement, e.g. \"severe\" or \"with additional complications\"""",
     )
 
 

@@ -29,8 +29,8 @@ jobs:
       - name: Run linter
         run: poetry run tox -e lint
 
-#      - name: Check code quality with flake8
-#        run: poetry run tox -e flake8
+      - name: Check code quality with flake8
+        run: poetry run tox -e flake8
 #       - name: Check package metadata with Pyroma
 #         run: poetry run tox -e pyroma
 #      - name: Check static typing with MyPy

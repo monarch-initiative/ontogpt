@@ -1,8 +1,7 @@
+"""HALO template."""
 from __future__ import annotations
 
-from datetime import date, datetime
-from enum import Enum
-from typing import Any, Dict, List, Optional
+from typing import Any, List, Optional
 
 from pydantic import BaseModel as BaseModel
 from pydantic import Field
@@ -60,7 +59,8 @@ class OntologyElement(ConfiguredBaseModel):
     )
     equivalent_to: Optional[str] = Field(
         None,
-        description="""an OWL class expression with the necessary and sufficient conditions for this entity to be an instance of this class""",
+        description="""an OWL class expression with the necessary and\
+            sufficient conditions for this entity to be an instance of this class""",
     )
 
 
@@ -94,14 +94,13 @@ class Category(OntologyElement):
     )
     equivalent_to: Optional[str] = Field(
         None,
-        description="""an OWL class expression with the necessary and sufficient conditions for this entity to be an instance of this class""",
+        description="""an OWL class expression with the necessary and\
+            sufficient conditions for this entity to be an instance of this class""",
     )
 
 
 class ExtractionResult(ConfiguredBaseModel):
-    """
-    A result of extracting knowledge on text
-    """
+    """A result of extracting knowledge on text."""
 
     input_id: Optional[str] = Field(None)
     input_title: Optional[str] = Field(None)
@@ -122,13 +121,11 @@ class NamedEntity(ConfiguredBaseModel):
 
 
 class CompoundExpression(ConfiguredBaseModel):
-    None
+    pass
 
 
 class Triple(CompoundExpression):
-    """
-    Abstract parent for Relation Extraction tasks
-    """
+    """Abstract parent for Relation Extraction tasks."""
 
     subject: Optional[str] = Field(None)
     predicate: Optional[str] = Field(None)

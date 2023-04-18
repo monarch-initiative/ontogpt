@@ -1,3 +1,4 @@
+"""Biological process template."""
 from __future__ import annotations
 
 from typing import Any, List, Optional
@@ -94,7 +95,7 @@ class ChemicalEntity(NamedEntity):
 
 
 class CompoundExpression(ConfiguredBaseModel):
-    None
+    pass
 
 
 class Triple(CompoundExpression):

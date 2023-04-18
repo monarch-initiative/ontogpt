@@ -1,10 +1,8 @@
-"""
-Main Knowledge Extractor class.
-"""
+"""Main Knowledge Extractor class."""
 import importlib
 import logging
 import re
-from abc import ABC
+from abc import ABC, abstractmethod
 from dataclasses import dataclass, field
 from pathlib import Path
 from types import ModuleType
@@ -64,9 +62,7 @@ DATAMODELS = [
 
 
 def chunk_text(text: str, window_size=3) -> Iterator[str]:
-    """
-    Chunk text into windows of sentences.
-    """
+    """Chunk text into windows of sentences."""
     sentences = re.split(r"[.?!]\s+", text)
     for right_index in range(1, len(sentences)):
         left_index = max(0, right_index - window_size)
@@ -207,6 +203,7 @@ class KnowledgeEngine(ABC):
             self.dictionary[syn] = id
         logger.info(f"Loaded {len(self.dictionary)}")
 
+    @abstractmethod
     def synthesize(self, cls: ClassDefinition = None, object: OBJECT = None) -> ExtractionResult:
         pass
 
@@ -538,7 +535,7 @@ class KnowledgeEngine(ABC):
         self, resultset: List[ExtractionResult], unique_fields: List[str] = None
     ) -> ExtractionResult:
         """
-        Merges all resultsets into a single resultset.
+        Merge all resultsets into a single resultset.
 
         Note the first element of the list is mutated.
 

@@ -1,3 +1,4 @@
+"""CTD template."""
 from __future__ import annotations
 
 from enum import Enum
@@ -65,7 +66,7 @@ class Chemical(NamedEntity):
 
 
 class CompoundExpression(ConfiguredBaseModel):
-    None
+    pass
 
 
 class Triple(CompoundExpression):

@@ -1,3 +1,4 @@
+"""Enrichment engine."""
 import datetime
 import glob
 import json
@@ -5,18 +6,19 @@ import logging
 import re
 from collections.abc import Iterator
 from dataclasses import dataclass, field
-from typing import Dict, List, Tuple, Optional
+from typing import Dict, List, Optional, Tuple
 
 import requests
 import yaml
 from cachier import cachier
 from oaklib import BasicOntologyInterface, get_adapter
-from oaklib.interfaces.class_enrichment_calculation_interface import ClassEnrichmentCalculationInterface
+from oaklib.interfaces.class_enrichment_calculation_interface import (
+    ClassEnrichmentCalculationInterface,
+)
 from pydantic import BaseModel
 
 from ontogpt.engines.knowledge_engine import KnowledgeEngine
 from ontogpt.templates.gene_description_term import GeneDescriptionTerm
-
 
 logger = logging.getLogger(__name__)
 
@@ -27,11 +29,11 @@ ENRICHED_TERMS_KEYWORD = "Enriched Terms"
 
 BASE_PROMPT = f"""
 I will give you a list of genes together with descriptions of their functions.
-Perform a term enrichment test on these genes. 
+Perform a term enrichment test on these genes.
 i.e. tell me what the commonalities are in their function.
-Make use of classification hierarchies when you do this. 
+Make use of classification hierarchies when you do this.
 Only report gene functions in common, not diseases.
-e.g if gene1 is involved in "toe bone growth" and gene2 is involved in "finger morphogenesis" 
+e.g if gene1 is involved in "toe bone growth" and gene2 is involved in "finger morphogenesis"
 then the term "digit development" would be enriched as represented by gene1 and gene2.
 Only include terms that are statistically over-represented.
 Also include a hypothesis of the underlying biological mechanism or pathway.
@@ -53,11 +55,11 @@ Summary and enriched terms:
 
 ANNOTATION_FREE_PROMPT = f"""
 I will give you a list of genes symbols.
-Perform a term enrichment test on these genes. 
+Perform a term enrichment test on these genes.
 i.e. tell me what the commonalities are in their function.
-Make use of classification hierarchies when you do this. 
+Make use of classification hierarchies when you do this.
 Only report gene functions in common, not diseases.
-e.g if gene1 is involved in "toe bone growth" and gene2 is involved in "finger morphogenesis" 
+e.g if gene1 is involved in "toe bone growth" and gene2 is involved in "finger morphogenesis"
 then the term "digit development" would be enriched as represented by gene1 and gene2.
 Only include terms that are statistically over-represented.
 
@@ -142,7 +144,9 @@ def parse_gene_set(input_path: str, format: str = None) -> GeneSet:
     return gene_set
 
 
-def load_gene_sets(path: str, ontology_adapter: BasicOntologyInterface = None, strict=False) -> GeneSetCollection:
+def load_gene_sets(
+    path: str, ontology_adapter: BasicOntologyInterface = None, strict=False
+) -> GeneSetCollection:
     """Load gene sets from a folder.
 
     If ontology_adapter is provided, gene symbols will be converted to gene ids and vice versa.
@@ -157,7 +161,9 @@ def load_gene_sets(path: str, ontology_adapter: BasicOntologyInterface = None, s
     return GeneSetCollection(gene_sets=gene_sets)
 
 
-def populate_ids_and_symbols(gene_set: GeneSet, ontology_adapter: BasicOntologyInterface = None, strict=False):
+def populate_ids_and_symbols(
+    gene_set: GeneSet, ontology_adapter: BasicOntologyInterface = None, strict=False
+):
     if ontology_adapter:
         if not gene_set.gene_ids:
             print(f"Fetching ids for {len(gene_set.gene_symbols)} genes")
@@ -193,13 +199,15 @@ def gene_info(id: ENTITY_ID) -> Tuple[SYMBOL, DESCRIPTION, DESCRIPTION]:
     symbol = obj["symbol"]
     return symbol, obj["geneSynopsis"], obj["automatedGeneSynopsis"]
 
+
 @dataclass
 class EnrichmentEngine(KnowledgeEngine):
     """Engine for performing term enrichment.
 
     Algorithm: SPINDOCTER
 
-    Structured Prompting Interpalating Narrative Descriptions Ontology Classification Term Enrichment
+    Structured Prompting Interpalating Narrative
+    Descriptions Ontology Classification Term Enrichment
 
     """
 
@@ -287,7 +295,7 @@ class EnrichmentEngine(KnowledgeEngine):
         self.process_payload(payload)
         return payload
 
-    def summarize_annotation_free(self,genes: List[GENE_TUPLE]) -> EnrichmentPayload:
+    def summarize_annotation_free(self, genes: List[GENE_TUPLE]) -> EnrichmentPayload:
         """Summarize gene IDs without using any annotations."""
         prompt = ANNOTATION_FREE_PROMPT
         if not genes:
@@ -306,9 +314,13 @@ class EnrichmentEngine(KnowledgeEngine):
         self.process_payload(payload)
         return payload
 
-
-    def standard_enrichment(self, gene_ids: List[ENTITY_ID], ontology: ClassEnrichmentCalculationInterface = None, predicates: List[ENTITY_ID]=None) -> EnrichmentPayload:
-        """Standard enrichment using an ontology."""
+    def standard_enrichment(
+        self,
+        gene_ids: List[ENTITY_ID],
+        ontology: ClassEnrichmentCalculationInterface = None,
+        predicates: List[ENTITY_ID] = None,
+    ) -> EnrichmentPayload:
+        """Enrichment using an ontology."""
         if ontology is None:
             ontology = get_adapter("sqlite:obo:go")
         results = ontology.enriched_classes(
@@ -322,7 +334,7 @@ class EnrichmentEngine(KnowledgeEngine):
 
     def _prompt(self, genes: List[GENE_TUPLE], truncation_factor=1.0) -> Tuple[str, float]:
         prompt = BASE_PROMPT
-        for id, symbol, desc in genes:
+        for _, symbol, desc in genes:
             if truncation_factor < 1.0:
                 desc = desc[: int(len(desc) * truncation_factor)] + "..."
             prompt += f"{symbol}: {desc}\n"
@@ -386,10 +398,8 @@ class EnrichmentEngine(KnowledgeEngine):
             tokenizations[tok_char] = toks
         tokenizations = sorted(tokenizations.items(), key=lambda x: len(x[1]), reverse=True)
         best_tokens = tokenizations[0][1]
-        payload.term_strings = [s.lower().strip(":-*;. -\n") for s in best_tokens]
+        payload.term_strings = [s.lower().strip(":-*;. -\n") for s in best_tokens]  # noqa
         payload.term_ids = []
         for term in payload.term_strings:
             payload.term_ids.append(self.normalize_named_entity(term, GeneDescriptionTerm.__name__))
         return payload
-
-

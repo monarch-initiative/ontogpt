@@ -1,3 +1,4 @@
+"""YAML Wrapper."""
 from typing import Any
 
 import pydantic
@@ -21,7 +22,5 @@ def eliminate_empty(obj: Any, preserve=False) -> Any:
 
 
 def dump_minimal_yaml(obj: Any, minimize=True) -> str:
-    """
-    Dump a YAML string, but eliminating Nones and empty lists and dicts
-    """
+    """Dump a YAML string, but eliminating Nones and empty lists and dicts."""
     return yaml.dump(eliminate_empty(obj, not minimize), sort_keys=False)

@@ -18,7 +18,7 @@ from pydantic import BaseModel
 import ontogpt.evaluation.drugmechdb.datamodel.drugmechdb as source_datamodel
 import ontogpt.templates.drug as target_datamodel
 from ontogpt.engines.spires_engine import SPIRESEngine
-from ontogpt.evaluation.evaluation_engine import SPIRESEvaluationEngine, SimilarityScore
+from ontogpt.evaluation.evaluation_engine import SimilarityScore, SPIRESEvaluationEngine
 
 THIS_DIR = Path(__file__).parent
 DATABASE_DIR = Path(__file__).parent / "database"
@@ -81,9 +81,7 @@ class PredictionDrugMechDB(BaseModel):
 
 
 class EvaluationObjectSetDrugMechDB(BaseModel):
-    """
-    A result of predicting paths
-    """
+    """A result of predicting paths."""
 
     test: List[target_datamodel.DrugMechanism] = None
     training: List[target_datamodel.DrugMechanism] = None
@@ -106,7 +104,7 @@ class EvalDrugMechDB(SPIRESEvaluationEngine):
     def __post_init__(self):
         self.extractor = SPIRESEngine("drug.DrugMechanism")
         self.extractor.labelers = [
-            get_implementation_from_shorthand(l) for l in self.default_labelers
+            get_implementation_from_shorthand(lab) for lab in self.default_labelers
         ]
 
     @property
@@ -214,9 +212,7 @@ class EvalDrugMechDB(SPIRESEvaluationEngine):
             yield dict(prompt=prompt, completion=completion)
 
     def eval(self) -> EvaluationObjectSetDrugMechDB:
-        """
-        Evaluates the ability to extract a path from MOA text
-        """
+        """Evaluate the ability to extract a path from MOA text."""
         num_test = self.num_tests
         ke = self.extractor
         mechanisms = self.load_target_database()
@@ -261,7 +257,7 @@ class EvalDrugMechDB(SPIRESEvaluationEngine):
         return eos
 
     def eval_path_prediction(self) -> EvaluationObjectSetDrugMechDB:
-        """Evaluates the ability to predict a path purely from background knowledge in the LLM.
+        """Evaluate the ability to predict a path purely from background knowledge in the LLM.
 
         :return:
         """

@@ -1,3 +1,4 @@
+"""Evaluate GO."""
 from dataclasses import dataclass
 from pathlib import Path
 from random import shuffle
@@ -11,7 +12,7 @@ from oaklib.interfaces.obograph_interface import OboGraphInterface
 from pydantic import BaseModel
 
 from ontogpt.engines.spires_engine import SPIRESEngine
-from ontogpt.evaluation.evaluation_engine import SPIRESEvaluationEngine, SimilarityScore
+from ontogpt.evaluation.evaluation_engine import SimilarityScore, SPIRESEvaluationEngine
 from ontogpt.templates.metabolic_process import MetabolicProcess
 
 TEST_CASES_DIR = Path(__file__).parent / "test_cases"
@@ -41,9 +42,7 @@ class PredictionGO(BaseModel):
 
 
 class EvaluationObjectSetGO(BaseModel):
-    """
-    A result of extracting knowledge on text
-    """
+    """A result of extracting knowledge on text."""
 
     test: List[MetabolicProcess] = None
     training: List[MetabolicProcess] = None
@@ -65,9 +64,7 @@ class EvalGO(SPIRESEvaluationEngine):
         self.extractor.labelers = [ontology]
 
     def make_term_from_ldef(self, ldef: LogicalDefinitionAxiom) -> MetabolicProcess:
-        """
-        Make a term from a logical definition
-        """
+        """Make a term from a logical definition."""
         ontology = self.ontology
         term = ldef.definedClassId
         parents = [rel[2] for rel in ontology.relationships([term], [IS_A])]
@@ -89,9 +86,7 @@ class EvalGO(SPIRESEvaluationEngine):
             return [x.strip() for x in f.readlines()]
 
     def ldef_matches(self, ldef: LogicalDefinitionAxiom) -> bool:
-        """
-        Check if a logical definition matches the genus and differentia
-        """
+        """Check if a logical definition matches the genus and differentia."""
         if self.genus not in ldef.genusIds:
             return False
         if len(ldef.restrictions) != 1:
@@ -111,7 +106,8 @@ class EvalGO(SPIRESEvaluationEngine):
         ontology = self.ontology
         entities = set(ontology.descendants([self.genus], [IS_A]))
         print(
-            f"Found {len(entities)} entities that are descendants of genus {self.genus}; {list(entities)[0:5]}"
+            f"Found {len(entities)} entities that are descendants of\
+                genus {self.genus}; {list(entities)[0:5]}"
         )
         assert "GO:0140872" in entities
         all_test_ids = set(self.valid_test_ids())

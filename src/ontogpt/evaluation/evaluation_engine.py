@@ -67,9 +67,10 @@ class SimilarityScore(BaseModel):
 class EvaluationEngine:
     pass
 
+
 @dataclass
 class SPIRESEvaluationEngine(EvaluationEngine):
-    """Base class for all evaluation engines in SPIRES
+    """Base class for all evaluation engines in SPIRES.
 
     TODO: currently there is a lot of repetition between the different evaluation engines.
     This should be refactored so we have common base classes for different tasks
@@ -77,8 +78,10 @@ class SPIRESEvaluationEngine(EvaluationEngine):
     - NamedEntity Recognition
     - Simple Relation Extraction, i.e. pairs of subject-object (e.g CTD task)
     - Triple Extraction, i.e. triples of subject-predicate-object
-    - Complex Relation Extraction, i.e. triples of subject-predicate-object with additional information, e.g. qualifiers
-    - Structured Knowledge Extraction, i.e. arbitrary nested objects including both literals and edges
+    - Complex Relation Extraction, i.e. triples of subject-predicate-object with\
+        additional information, e.g. qualifiers
+    - Structured Knowledge Extraction, i.e. arbitrary nested objects including\
+        both literals and edges
     """
 
     extractor: SPIRESEngine = None

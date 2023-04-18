@@ -1,3 +1,4 @@
+"""CLI test."""
 import unittest
 
 from click.testing import CliRunner
