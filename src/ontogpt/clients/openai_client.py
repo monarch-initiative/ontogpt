@@ -151,6 +151,7 @@ class OpenAIClient:
     def similarity(self, text1: str, text2: str, **kwargs):
         a1 = self.embeddings(text1, **kwargs)
         a2 = self.embeddings(text2, **kwargs)
+        logger.debug(f"similarity: {a1[0:10]}... x {a2[0:10]}... // ({len(a1)} x {len(a2)})")
         return np.dot(a1, a2) / (np.linalg.norm(a1) * np.linalg.norm(a2))
 
 

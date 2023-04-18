@@ -277,6 +277,7 @@ class EnrichmentEngine(KnowledgeEngine):
                 desc = desc_manual
                 logging.debug(f"Manual synopsis: {desc}")
             gene_tuples.append((gene_id, symbol, desc))
+        logging.info(f"Found {len(gene_tuples)} gene summaries")
         if not annotations:
             return self.summarize_annotation_free(gene_tuples)
         prompt, tf = self._prompt(gene_tuples)
@@ -335,6 +336,8 @@ class EnrichmentEngine(KnowledgeEngine):
     def _prompt(self, genes: List[GENE_TUPLE], truncation_factor=1.0) -> Tuple[str, float]:
         prompt = BASE_PROMPT
         for _, symbol, desc in genes:
+            if desc is None:
+                desc = ""
             if truncation_factor < 1.0:
                 desc = desc[: int(len(desc) * truncation_factor)] + "..."
             prompt += f"{symbol}: {desc}\n"

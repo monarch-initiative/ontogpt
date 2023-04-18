@@ -126,7 +126,7 @@ tests/input/genesets/%.yaml: tests/input/genesets/%.json
 
 N=2
 analysis/enrichment/%-results-$(N).yaml: tests/input/genesets/%.yaml
-	$(RUN) ontogpt -v eval-enrichment -n $(N) -U $< -o $@.tmp && mv $@.tmp $@
+	$(RUN) ontogpt -vv eval-enrichment -n $(N) -U $< -o $@.tmp && mv $@.tmp $@
 
 analysis/enrichment-summary.yaml:
 	cat analysis/enrichment/*yaml > $@
