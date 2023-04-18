@@ -104,7 +104,7 @@ class EvalDrugMechDB(SPIRESEvaluationEngine):
     def __post_init__(self):
         self.extractor = SPIRESEngine("drug.DrugMechanism")
         self.extractor.labelers = [
-            get_implementation_from_shorthand(l) for l in self.default_labelers
+            get_implementation_from_shorthand(lab) for lab in self.default_labelers
         ]
 
     @property
