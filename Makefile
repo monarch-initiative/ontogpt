@@ -21,10 +21,8 @@ unit-test:
 integration-test:
 	$(RUN) python -m unittest
 
-
-update_citation: CITATION.cff
-	V=$$($(RUN) python -c "import ontogpt;print('.'.join((ontogpt.__version__).split('.', 3)[:3]))") ; \
-	sed -i '/^version:/c\version: '"$$V"'' $<
+get_version:
+	$(RUN) python -c "import ontogpt;print('.'.join((ontogpt.__version__).split('.', 3)[:3]))"
 
 $(TEMPLATE_DIR)/%.py: src/$(PACKAGE)/templates/%.yaml
 	$(RUN) gen-pydantic $< > $@.tmp && mv $@.tmp $@
