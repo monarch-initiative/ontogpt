@@ -4,7 +4,7 @@ TMPRUN =
 PACKAGE = ontogpt
 TEMPLATE_DIR = src/$(PACKAGE)/templates
 EVAL_DIR = src/$(PACKAGE)/evaluation
-TEMPLATES = core gocam mendelian_disease biological_process treatment environmental_sample metagenome_study reaction recipe ontology_class metabolic_process drug ctd halo gene_description_term
+TEMPLATES = $(notdir $(basename $(wildcard $(TEMPLATE_DIR)/*.yaml)))
 ENTRY_CLASSES = recipe.Recipe gocam.GoCamAnnotations reaction.ReactionDocument ctd.ChemicalToDiseaseDocument
 
 all: all_pydantic all_projects update_citation
@@ -12,6 +12,9 @@ all: all_pydantic all_projects update_citation
 all_pydantic: $(patsubst %, $(TEMPLATE_DIR)/%.py, $(TEMPLATES))
 all_projects: $(patsubst %, projects/%, $(TEMPLATES))
 all_docs: $(patsubst %, docs/%/index.md, $(TEMPLATES))
+
+list_templates: $(TEMPLATE_DIR)/*.yaml
+	@echo $(basename $^)
 
 test: unit-test
 
