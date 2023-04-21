@@ -185,8 +185,6 @@ We recommend following an established schema like [BioLink Model](https://github
 
 Place the schema YAML in the directory `src/ontogpt/templates/`.
 
-Add the name of the template to the TEMPLATES list in `project.Makefile`.
-
 Run the `make` command at the top level. This will compile the schema to Python (Pydantic classes).
 
 ### Step 3: Run the command line
@@ -361,7 +359,6 @@ This relies on an existing LLM, and LLMs can be fickle in their responses.
 
 You will need an OpenAI account to use their API. In theory any LLM can be used but in practice the parser is tuned for OpenAI's models.
 
-
-# Acknowledgements
+## Acknowledgements
 
 We gratefully acknowledge [Bosch Research](https://www.bosch.com/research) for their support of this research project.
