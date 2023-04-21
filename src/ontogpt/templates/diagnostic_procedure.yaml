@@ -45,6 +45,7 @@ classes:
           named based on what they measure, with the "measurement" part left implicit.
       object:
         range: Phenotype
+        multivalued: true
         description: >-
           The observable physical or biochemical characteristics of a patient.
           Not equivalent to a disease state, but may contribute to a diagnosis.
@@ -78,6 +79,7 @@ classes:
           named based on what they measure, with the "measurement" part left implicit.
       object:
         range: Attribute
+        multivalued: true
         description: >-
           Any measurable biological attribute.
       predicate:
