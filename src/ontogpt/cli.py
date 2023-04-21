@@ -197,6 +197,8 @@ def extract(
         ke.load_dictionary(dictionary)
     if inputfile and Path(inputfile).exists():
         text = open(inputfile, "r").read()
+    elif inputfile and not Path(inputfile).exists():
+        raise FileNotFoundError(f"Cannot find input file {inputfile}")
     elif input:
         text = input
     elif not input or input == "-":
