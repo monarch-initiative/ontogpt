@@ -9,7 +9,6 @@ from pydantic import BaseModel
 from starlette.staticfiles import StaticFiles
 from starlette.templating import Jinja2Templates
 
-from ontogpt.engines import enrichment
 from ontogpt.engines.enrichment import EnrichmentEngine, GeneSet
 from ontogpt.engines.knowledge_engine import DATAMODELS, MODELS
 from ontogpt.engines.spires_engine import SPIRESEngine
@@ -62,14 +61,14 @@ def form_post(request: Request, datamodel: str = Form(...), text: str = Form(...
 
 
 @app.get("/spindoctor")
-def read_root(request: Request):
+def sd_read_root(request: Request):
     return templates.TemplateResponse(
         "spindoctor/form.html", context={"request": request, "models": MODELS}
     )
 
 
 @app.post("/spindoctor")
-def form_post(request: Request, model: str = Form(...), text: str = Form(...)):
+def sd_form_post(request: Request, model: str = Form(...), text: str = Form(...)):
     print(f"Received request with model {model}")
     print(f"Received request with text {text}")
     symbols = [s.strip() for s in text.split("\n")]

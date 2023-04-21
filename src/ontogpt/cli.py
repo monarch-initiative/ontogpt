@@ -287,7 +287,7 @@ def wikipedia_search(topic, keyword, template, output, output_format, **kwargs):
     search_term = f"{topic + ' ' + ' '.join(keywords)}"
     print(f"Searching for {search_term}")
     search_results = client.search_wikipedia_articles(search_term)
-    for index, result in enumerate(search_results, start=1):
+    for _index, result in enumerate(search_results, start=1):
         title = result["title"]
         text = client.text(title)
         logging.debug(f"Input text: {text}")

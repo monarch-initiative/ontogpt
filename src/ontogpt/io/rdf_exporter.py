@@ -3,7 +3,6 @@ from dataclasses import dataclass
 from pathlib import Path
 from typing import TextIO, Union
 
-import pydantic
 from linkml.generators.pythongen import PythonGenerator
 from linkml_runtime import SchemaView
 from linkml_runtime.dumpers import rdflib_dumper

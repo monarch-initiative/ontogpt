@@ -100,19 +100,18 @@ class OpenAIClient:
         return cur
 
     def _interactive_completion(self, prompt: str, engine: str, max_tokens: int = None, **kwargs):
-        print(f"Please use the ChatGPT interface to complete the following prompt:")
+        print("Please use the ChatGPT interface to complete the following prompt:")
         print(f"IMPORTANT: make sure model == {engine}")
         print(f"Note: max_tokens == {max_tokens}")
-        print(f"Prompt:")
+        print("Prompt:")
         print(prompt)
         print("Paste in the response here, then ctrl-d to continue:")
         response = sys.stdin.read()
         print("OK? (y/n)")
         ok = input()
         if ok == "y":
-            print(
-                "Thank you! This will now be cached. Please be patient for the rest of the process to finish"
-            )
+            print("Thank you! This will now be cached.")
+            print("Please be patient for the rest of the process to finish...")
             return response
         else:
             return self._interactive_completion(prompt, engine, max_tokens, **kwargs)

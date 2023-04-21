@@ -1,10 +1,6 @@
 """Pubmed Client."""
-import json
-import logging
-from dataclasses import dataclass, field
-from typing import Iterator, List
+from dataclasses import dataclass
 
-import inflection
 import requests
 import wikipediaapi
 
