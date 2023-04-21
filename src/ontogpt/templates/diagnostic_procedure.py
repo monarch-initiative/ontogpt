@@ -55,6 +55,20 @@ class Phenotype(NamedEntity):
     
 
 
+class Attribute(NamedEntity):
+    
+    id: Optional[str] = Field(None, description="""A unique identifier for the named entity""")
+    label: Optional[str] = Field(None, description="""The label (name) of the named thing""")
+    
+
+
+class Quality(NamedEntity):
+    
+    id: Optional[str] = Field(None, description="""A unique identifier for the named entity""")
+    label: Optional[str] = Field(None, description="""The label (name) of the named thing""")
+    
+
+
 class CompoundExpression(ConfiguredBaseModel):
     
     None
@@ -74,13 +88,26 @@ class Triple(CompoundExpression):
     
 
 
-class DiagnosticProcedureRelationship(Triple):
+class DiagnosticProceduretoPhenotypeAssociation(Triple):
     """
     A triple representing a relationship between a diagnostic procedure and an associated phenotype, e.g., \"blood pressure measurement\" is associated with \"high blood pressure\".
     """
     subject: Optional[str] = Field(None, description="""A diagnostic procedure yielding a result, which in turn may be interpreted as a phenotype. Procedures include \"heart rate measurement\", \"blood pressure measurement\", \"oxygen saturation measurement\", etc. In practice, procedures may be named based on what they measure, with the \"measurement\" part left implicit.""")
     predicate: Optional[str] = Field(None, description="""The relationship type, e.g. RELATED_TO""")
-    object: Optional[str] = Field(None, description="""The observable physical or biochemical characteristics of a patient. Not equivalent to a disease state, but may contribute to a diagnosis.""")
+    object: Optional[List[str]] = Field(default_factory=list, description="""The observable physical or biochemical characteristics of a patient. Not equivalent to a disease state, but may contribute to a diagnosis.""")
+    qualifier: Optional[str] = Field(None, description="""A qualifier for the statements, e.g. \"NOT\" for negation""")
+    subject_qualifier: Optional[str] = Field(None, description="""An optional qualifier or modifier for the procedure.""")
+    object_qualifier: Optional[str] = Field(None, description="""An optional qualifier or modifier for the phenotype.""")
+    
+
+
+class DiagnosticProceduretoAttributeAssociation(Triple):
+    """
+    A triple representing a relationship between a diagnostic procedure and a measured attribute, e.g., \"blood pressure measurement\" is associated with \"blood pressure\" (or in OBA, something like OBA:VT0000183, \"blood pressure trait\").
+    """
+    subject: Optional[str] = Field(None, description="""A diagnostic procedure yielding a result, which in turn may be interpreted as a phenotype. Procedures include \"heart rate measurement\", \"blood pressure measurement\", \"oxygen saturation measurement\", etc. In practice, procedures may be named based on what they measure, with the \"measurement\" part left implicit.""")
+    predicate: Optional[str] = Field(None, description="""The relationship type, e.g. RELATED_TO""")
+    object: Optional[List[str]] = Field(default_factory=list, description="""Any measurable biological attribute.""")
     qualifier: Optional[str] = Field(None, description="""A qualifier for the statements, e.g. \"NOT\" for negation""")
     subject_qualifier: Optional[str] = Field(None, description="""An optional qualifier or modifier for the procedure.""")
     object_qualifier: Optional[str] = Field(None, description="""An optional qualifier or modifier for the phenotype.""")
@@ -103,7 +130,16 @@ class RelationshipType(NamedEntity):
 
 class ProcedureToPhenotypePredicate(RelationshipType):
     """
-    A predicate for chemical to disease relationships
+    A predicate for procedure to phenotype relationships, defining \"this procedure is intended to provide support for/against this phenotype\".
+    """
+    id: Optional[str] = Field(None, description="""A unique identifier for the named entity""")
+    label: Optional[str] = Field(None, description="""The label (name) of the named thing""")
+    
+
+
+class ProcedureToAttributePredicate(RelationshipType):
+    """
+    A predicate for procedure to attribute relationships, defining \"this procedure is a measurement of this attribute\".
     """
     id: Optional[str] = Field(None, description="""A unique identifier for the named entity""")
     label: Optional[str] = Field(None, description="""The label (name) of the named thing""")
@@ -135,12 +171,16 @@ ExtractionResult.update_forward_refs()
 NamedEntity.update_forward_refs()
 Procedure.update_forward_refs()
 Phenotype.update_forward_refs()
+Attribute.update_forward_refs()
+Quality.update_forward_refs()
 CompoundExpression.update_forward_refs()
 Triple.update_forward_refs()
-DiagnosticProcedureRelationship.update_forward_refs()
+DiagnosticProceduretoPhenotypeAssociation.update_forward_refs()
+DiagnosticProceduretoAttributeAssociation.update_forward_refs()
 TextWithTriples.update_forward_refs()
 RelationshipType.update_forward_refs()
 ProcedureToPhenotypePredicate.update_forward_refs()
+ProcedureToAttributePredicate.update_forward_refs()
 Publication.update_forward_refs()
 AnnotatorResult.update_forward_refs()
 

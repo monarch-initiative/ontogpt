@@ -97,7 +97,7 @@ classes:
   Procedure:
     is_a: NamedEntity
     annotations:
-      annotators: bioportal:loinc
+      annotators: bioportal:loinc, sqlite:obo:ncit
     id_prefixes:
       - LOINC
 
@@ -111,7 +111,7 @@ classes:
   Attribute:
     is_a: NamedEntity
     annotations:
-      annotators: sqlite:obo:oba
+      annotators: sqlite:obo:oba, sqlite:obo:ncit
     id_prefixes:
       - OBA
 
