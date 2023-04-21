@@ -92,6 +92,12 @@ template_option = click.option("-t", "--template", required=True, help="Template
 target_class_option = click.option(
     "-T", "--target-class", help="Target class (if not already root)."
 )
+interactive_option = click.option(
+    "--interactive/--no-interactive",
+    default=False,
+    show_default=True,
+    help="Interactive mode - rather than call the LLM API it will prompt you do this."
+)
 model_option = click.option("-m", "--model", help="Engine to use, e.g. text-davinci-003.")
 recurse_option = click.option(
     "--recurse/--no-recurse", default=True, show_default=True, help="Recursively parse structures."
@@ -462,9 +468,10 @@ def convert_geneset(input_file, output, output_format, **kwargs):
     show_default=True,
     help="If set, include annotations in the prompt",
 )
+@interactive_option
 @click.argument("genes", nargs=-1)
 def enrichment(
-    genes, context, input_file, resolver, output, model, show_prompt, output_format, **kwargs
+    genes, context, input_file, resolver, output, model, show_prompt, interactive, output_format, **kwargs
 ):
     """Gene class enrichment.
 
@@ -498,6 +505,8 @@ def enrichment(
     if not gene_set:
         raise ValueError("No genes passed")
     ke = create_engine(None, EnrichmentEngine, model=model)
+    if interactive:
+        ke.client.interactive = True
     if settings.cache_db:
         ke.client.cache_db_path = settings.cache_db
     if not isinstance(ke, EnrichmentEngine):

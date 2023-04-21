@@ -292,6 +292,7 @@ class EnrichmentEngine(KnowledgeEngine):
             used_combined_synopsis=combined_synopsis,
             annotations=True,
             response_token_length=response_token_length,
+            model=self.model,
         )
         self.process_payload(payload)
         return payload
@@ -311,6 +312,7 @@ class EnrichmentEngine(KnowledgeEngine):
             response_text=response_text,
             annotations=False,
             response_token_length=response_token_length,
+            model=self.model,
         )
         self.process_payload(payload)
         return payload

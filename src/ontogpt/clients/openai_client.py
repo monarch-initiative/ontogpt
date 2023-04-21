@@ -2,6 +2,7 @@
 import ast
 import logging
 import sqlite3
+import sys
 from dataclasses import dataclass, field
 from pathlib import Path
 from time import sleep
@@ -21,6 +22,7 @@ class OpenAIClient:
     model: str = field(default_factory=lambda: "gpt-3.5-turbo")
     cache_db_path: str = None
     api_key: str = None
+    interactive: bool = None
 
     def __post_init__(self):
         if not self.api_key:
@@ -43,7 +45,9 @@ class OpenAIClient:
             i += 1
             logging.debug(f"Calling OpenAI API (attempt {i})...")
             try:
-                if self._must_use_chat_api():
+                if self.interactive:
+                    response = self._interactive_completion(prompt, engine, max_tokens, **kwargs)
+                elif self._must_use_chat_api():
                     response = openai.ChatCompletion.create(
                         model=engine,
                         messages=[
@@ -70,7 +74,9 @@ class OpenAIClient:
                 logger.info(f"Retrying {i} of {NUM_RETRIES} after {sleep_time} seconds...")
                 sleep(sleep_time)
 
-        if self._must_use_chat_api():
+        if self.interactive:
+            payload = response
+        elif self._must_use_chat_api():
             payload = response["choices"][0]["message"]["content"]
         else:
             payload = response["choices"][0]["text"]
@@ -92,6 +98,22 @@ class OpenAIClient:
         if create:
             cur.execute("CREATE TABLE cache (prompt, engine, payload)")
         return cur
+
+    def _interactive_completion(self, prompt: str, engine: str, max_tokens: int = None, **kwargs):
+        print(f"Please use the ChatGPT interface to complete the following prompt:")
+        print(f"IMPORTANT: make sure model == {engine}")
+        print(f"Note: max_tokens == {max_tokens}")
+        print(f"Prompt:")
+        print(prompt)
+        print("Paste in the response here, then ctrl-d to continue:")
+        response = sys.stdin.read()
+        print("OK? (y/n)")
+        ok = input()
+        if ok == "y":
+            print("Thank you! This will now be cached. Please be patient for the rest of the process to finish")
+            return response
+        else:
+            return self._interactive_completion(prompt, engine, max_tokens, **kwargs)
 
     def cached_completions(
         self, search_term: str = None, engine: str = None
