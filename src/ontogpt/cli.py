@@ -102,7 +102,7 @@ interactive_option = click.option(
     "--interactive/--no-interactive",
     default=False,
     show_default=True,
-    help="Interactive mode - rather than call the LLM API it will prompt you do this."
+    help="Interactive mode - rather than call the LLM API it will prompt you do this.",
 )
 model_option = click.option("-m", "--model", help="Engine to use, e.g. text-davinci-003.")
 recurse_option = click.option(
@@ -288,7 +288,7 @@ def wikipedia_search(topic, keyword, template, output, output_format, **kwargs):
     print(f"Searching for {search_term}")
     search_results = client.search_wikipedia_articles(search_term)
     for index, result in enumerate(search_results, start=1):
-        title = result['title']
+        title = result["title"]
         text = client.text(title)
         logging.debug(f"Input text: {text}")
         if len(text) > 4000:
@@ -532,7 +532,16 @@ def convert_geneset(input_file, output, output_format, **kwargs):
 @interactive_option
 @click.argument("genes", nargs=-1)
 def enrichment(
-    genes, context, input_file, resolver, output, model, show_prompt, interactive, output_format, **kwargs
+    genes,
+    context,
+    input_file,
+    resolver,
+    output,
+    model,
+    show_prompt,
+    interactive,
+    output_format,
+    **kwargs,
 ):
     """Gene class enrichment.
 

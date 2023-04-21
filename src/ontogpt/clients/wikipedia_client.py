@@ -1,4 +1,5 @@
 """Pubmed Client."""
+import json
 import logging
 from dataclasses import dataclass, field
 from typing import Iterator, List
@@ -6,25 +7,16 @@ from typing import Iterator, List
 import inflection
 import requests
 import wikipediaapi
-import json
-
-
-
-
-
 
 
 @dataclass
 class WikipediaClient:
-    """A client for Wikipedia articles.
+    """A client for Wikipedia articles."""
 
-    """
     language: str = "en"
 
     def text(self, title: str) -> str:
-        """Get the text of a an article.
-
-        """
+        """Get the text of a an article."""
         wiki = wikipediaapi.Wikipedia(self.language)
         page = wiki.page(title)
 
@@ -34,21 +26,20 @@ class WikipediaClient:
             raise ValueError(f"Page {title} does not exist.")
 
     def search_wikipedia_articles(self, topic, results=10):
-        base_url = f'https://{self.language}.wikipedia.org/w/api.php'
+        base_url = f"https://{self.language}.wikipedia.org/w/api.php"
         params = {
-            'action': 'query',
-            'list': 'search',
-            'format': 'json',
-            'srsearch': topic,
-            'srprop': 'size|wordcount',
-            'srlimit': results,
-            'srinfo': 'totalhits'
+            "action": "query",
+            "list": "search",
+            "format": "json",
+            "srsearch": topic,
+            "srprop": "size|wordcount",
+            "srlimit": results,
+            "srinfo": "totalhits",
         }
         response = requests.get(base_url, params=params)
         data = response.json()
 
-        if data and 'query' in data and 'search' in data['query']:
-            return data['query']['search']
+        if data and "query" in data and "search" in data["query"]:
+            return data["query"]["search"]
         else:
             return []
-

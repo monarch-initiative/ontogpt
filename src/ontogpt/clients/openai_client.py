@@ -110,7 +110,9 @@ class OpenAIClient:
         print("OK? (y/n)")
         ok = input()
         if ok == "y":
-            print("Thank you! This will now be cached. Please be patient for the rest of the process to finish")
+            print(
+                "Thank you! This will now be cached. Please be patient for the rest of the process to finish"
+            )
             return response
         else:
             return self._interactive_completion(prompt, engine, max_tokens, **kwargs)
