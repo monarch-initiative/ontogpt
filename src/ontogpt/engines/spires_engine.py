@@ -15,11 +15,8 @@ from typing import Any, Dict, List, Optional, Tuple, Union
 
 import pydantic
 from linkml_runtime.linkml_model import ClassDefinition, SlotDefinition
-from oaklib import get_implementation_from_shorthand
-from oaklib.datamodels.text_annotator import TextAnnotation, TextAnnotationConfiguration
 
 from ontogpt.engines.knowledge_engine import (
-    ANNOTATION_KEY_ANNOTATORS,
     ANNOTATION_KEY_PROMPT,
     ANNOTATION_KEY_PROMPT_SKIP,
     EXAMPLE,
@@ -28,7 +25,7 @@ from ontogpt.engines.knowledge_engine import (
     KnowledgeEngine,
     chunk_text,
 )
-from ontogpt.templates.core import ExtractionResult, NamedEntity
+from ontogpt.templates.core import ExtractionResult
 
 this_path = Path(__file__).parent
 
@@ -164,7 +161,8 @@ class SPIRESEngine(KnowledgeEngine):
             example = examples[ontology]
         else:
             example = examples["uberon"]
-        prompt = "Normalize the following semicolon separated list of terms to the {ontology.upper()} ontology\n\n"
+        prompt = "Normalize the following semicolon separated\
+            list of terms to the {ontology.upper()} ontology\n\n"
         prompt += "For example:\n\n"
         for k, v in example.items():
             prompt += f"{k}: {v}\n"
@@ -293,7 +291,7 @@ class SPIRESEngine(KnowledgeEngine):
         self, results: str, cls: ClassDefinition = None
     ) -> Optional[RESPONSE_DICT]:
         """
-        Parses the pseudo-YAML response from OpenAI into a dictionary object.
+        Parse the pseudo-YAML response from OpenAI into a dictionary object.
 
         E.g.
 

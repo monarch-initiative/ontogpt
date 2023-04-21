@@ -1,0 +1,14 @@
+Figure 2. The intestinal mucosa in the normal bowel and IBD.
+Upon exposure to environmental factors, patients with IBD develop microbial dysbiosis with
+decrease of short-chain fatty acids (SCFA) producing bacteria and increase in
+Proteobacteria. Mechanisms that maintain the intestinal barrier are also disrupted in the IBD
+mucosa, including: down regulation of E-cadherin in tight junctions; thickness of the mucus
+layer; abnormal goblet cell function, including Muc2 and RELMβ proteins; and
+dysfunctional Paneth cells associated mechanisms, including secretion of antimicrobial
+products, NOD2 and ATG16L1 gene associated functions. From the innate immune system
+perspective, the IBD mucosa has been shown to exhibit: a decrease in colonic macrophages
+expressing CD14, defective CX3CR1 antigen presentation by dendritic cells; and impaired
+Autophagy. Lastly, while leukocyte migration via integrin cellular adhesion molecules
+(CAMs) interactions also occurs in the normal mucosa, the balance between Effector and
+regulatory T cells (T-reg) appears to be disturbed in the IBD mucosa, resulting in
+uncontrolled activation of different T-cell lineages that migrate to the inflamed intestine.

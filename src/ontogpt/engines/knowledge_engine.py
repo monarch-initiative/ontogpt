@@ -1,6 +1,4 @@
-"""
-Main Knowledge Extractor class.
-"""
+"""Main Knowledge Extractor class."""
 import importlib
 import logging
 import re
@@ -8,16 +6,17 @@ from abc import ABC
 from dataclasses import dataclass, field
 from pathlib import Path
 from types import ModuleType
-from typing import Any, Dict, Iterator, List, Optional, TextIO, Tuple, Union
+from typing import Dict, Iterator, List, Optional, TextIO, Union
 from urllib.parse import quote
 
 import inflection
 import openai
 import pydantic
+import tiktoken
 import yaml
 from linkml_runtime import SchemaView
 from linkml_runtime.linkml_model import ClassDefinition, ElementName, SlotDefinition
-from oaklib import BasicOntologyInterface, get_implementation_from_shorthand, get_adapter
+from oaklib import BasicOntologyInterface, get_adapter
 from oaklib.datamodels.text_annotator import TextAnnotationConfiguration
 from oaklib.implementations import OntoPortalImplementationBase
 from oaklib.interfaces import MappingProviderInterface, TextAnnotatorInterface
@@ -35,6 +34,7 @@ OBJECT = Union[str, pydantic.BaseModel, dict]
 EXAMPLE = OBJECT
 FIELD = str
 TEMPLATE_NAME = str
+MODEL_NAME = str
 
 # annotation metamodel
 ANNOTATION_KEY_PROMPT = "prompt"
@@ -42,6 +42,12 @@ ANNOTATION_KEY_PROMPT_SKIP = "prompt.skip"
 ANNOTATION_KEY_ANNOTATORS = "annotators"
 ANNOTATION_KEY_RECURSE = "ner.recurse"
 ANNOTATION_KEY_EXAMPLES = "prompt.examples"
+
+MODEL_GPT_3_5_TURBO = "gpt-3.5-turbo"
+MODEL_TEXT_DAVINCI_003 = "text-davinci-003"
+MODELS = [MODEL_GPT_3_5_TURBO, MODEL_TEXT_DAVINCI_003]
+
+DEFAULT_MODEL = MODEL_GPT_3_5_TURBO
 
 # TODO: introspect
 DATAMODELS = [
@@ -56,9 +62,7 @@ DATAMODELS = [
 
 
 def chunk_text(text: str, window_size=3) -> Iterator[str]:
-    """
-    Chunk text into windows of sentences.
-    """
+    """Chunk text into windows of sentences."""
     sentences = re.split(r"[.?!]\s+", text)
     for right_index in range(1, len(sentences)):
         left_index = max(0, right_index - window_size)
@@ -97,8 +101,8 @@ class KnowledgeEngine(ABC):
     api_key: str = None
     """OpenAI API key."""
 
-    engine: str = None
-    """OpenAI Engine. This should be overridden in subclasses"""
+    model: MODEL_NAME = None
+    """OpenAI Model. This should be overridden in subclasses"""
 
     # annotator: TextAnnotatorInterface = None
     # """Default annotator. TODO: deprecate?"""
@@ -142,17 +146,23 @@ class KnowledgeEngine(ABC):
     last_prompt: str = None
     """Cache of last prompt used."""
 
+    encoding = None
+
     def __post_init__(self):
         if self.template:
             self.template_class = self._get_template_class(self.template)
-        logging.info(f"Using template {self.template_class.name}")
-        self.client = OpenAIClient()
+        if self.template_class:
+            logging.info(f"Using template {self.template_class.name}")
+        if not self.model:
+            self.model = DEFAULT_MODEL
+        self.client = OpenAIClient(model=self.model)
         logging.info("Setting up OpenAI client API Key")
         self.api_key = self._get_openai_api_key()
         openai.api_key = self.api_key
         if self.mappers is None:
             logging.info("Using mappers (currently hardcoded)")
-            self.mappers = [get_implementation_from_shorthand("translator:")]
+            self.mappers = [get_adapter("translator:")]
+        self.encoding = tiktoken.encoding_for_model(self.client.model)
 
     def extract_from_text(
         self, text: str, cls: ClassDefinition = None, object: OBJECT = None
@@ -193,8 +203,9 @@ class KnowledgeEngine(ABC):
             self.dictionary[syn] = id
         logger.info(f"Loaded {len(self.dictionary)}")
 
+    # @abstractmethod
     def synthesize(self, cls: ClassDefinition = None, object: OBJECT = None) -> ExtractionResult:
-        pass
+        raise NotImplementedError
 
     def generalize(
         self, object: Union[pydantic.BaseModel, dict], examples: List[EXAMPLE]
@@ -267,19 +278,21 @@ class KnowledgeEngine(ABC):
                 return []
             annotators = cls.annotations[ANNOTATION_KEY_ANNOTATORS].value.split(", ")
         logger.info(f" Annotators: {annotators} [will skip: {self.skip_annotators}]")
-        objs = []
+        annotators = []
         for annotator in annotators:
             if isinstance(annotator, str):
                 logger.info(f"Loading annotator {annotator}")
                 if self.skip_annotators and annotator in self.skip_annotators:
                     logger.info(f"Skipping annotator {annotator}")
                     continue
-                objs.append(get_implementation_from_shorthand(annotator))
+                if annotator not in self.annotators:
+                    self.annotators[annotator] = get_adapter(annotator)
+                annotators.append(self.annotators[annotator])
             elif isinstance(annotator, BasicOntologyInterface):
-                objs.append(annotator)
+                annotators.append(annotator)
             else:
                 raise ValueError(f"Unknown annotator type {annotator}")
-        return objs
+        return annotators
 
     def promptable_slots(self, cls: Optional[ClassDefinition] = None) -> List[SlotDefinition]:
         """
@@ -446,6 +459,12 @@ class KnowledgeEngine(ABC):
         :return:
         """
         logger.info(f"GROUNDING {text} using {cls.name}")
+        id_matches = re.match(r"^(\S+):(\d+)$", text)
+        if id_matches:
+            obj_prefix = id_matches.group(1)
+            matching_prefixes = [x for x in cls.id_prefixes if x.upper() == obj_prefix.upper()]
+            if matching_prefixes:
+                yield matching_prefixes[0] + ":" + id_matches.group(2)
         text_lower = text.lower()
         text_singularized = inflection.singularize(text_lower)
         if text_singularized != text_lower:
@@ -488,8 +507,12 @@ class KnowledgeEngine(ABC):
                 if isinstance(annotator, str):
                     if self.skip_annotators and annotator in self.skip_annotators:
                         continue
-                    logger.info(f"Loading annotator {annotator}")
-                    annotator = get_adapter(annotator)
+                    if self.annotators is None:
+                        self.annotators = {}
+                    if annotator not in self.annotators:
+                        logger.info(f"Loading annotator {annotator}")
+                        self.annotators[annotator] = get_adapter(annotator)
+                    annotator = self.annotators[annotator]
                 if not matches_whole_text and not isinstance(
                     annotator, OntoPortalImplementationBase
                 ):
@@ -512,7 +535,7 @@ class KnowledgeEngine(ABC):
         self, resultset: List[ExtractionResult], unique_fields: List[str] = None
     ) -> ExtractionResult:
         """
-        Merges all resultsets into a single resultset.
+        Merge all resultsets into a single resultset.
 
         Note the first element of the list is mutated.
 

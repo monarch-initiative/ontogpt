@@ -10,8 +10,10 @@ Biocreativ results here:
 https://biocreative.bioinformatics.udel.edu/media/store/files/2015/BC5CDR_overview.final.pdf
 
 A total of 18 teams successfully submitted CID results in 46 runs. As
-shown in Table 3 (only the best run of each team is included), the Fscore ranges from 32.01% to 57.03% (team 288) with an average of
-43.37%. All teams outperformed the baseline results by the simple abstract-level co-occurrence method (16.43% in precision, 76.45% in recall and 27.05% in F-score).
+shown in Table 3 (only the best run of each team is included),
+the Fscore ranges from 32.01% to 57.03% (team 288) with an average of
+43.37%. All teams outperformed the baseline results by the simple abstract-level
+co-occurrence method (16.43% in precision, 76.45% in recall and 27.05% in F-score).
 
 """
 import gzip
@@ -29,7 +31,7 @@ from pydantic import BaseModel
 
 from ontogpt.engines.knowledge_engine import chunk_text
 from ontogpt.engines.spires_engine import SPIRESEngine
-from ontogpt.evaluation.evaluation_engine import EvaluationEngine, SimilarityScore
+from ontogpt.evaluation.evaluation_engine import SimilarityScore, SPIRESEvaluationEngine
 from ontogpt.templates.core import Publication, Triple
 from ontogpt.templates.ctd import (
     ChemicalToDiseaseDocument,
@@ -107,9 +109,7 @@ class PredictionRE(BaseModel):
 
 
 class EvaluationObjectSetRE(BaseModel):
-    """
-    A result of predicting relationextractions
-    """
+    """A result of predicting relationextractions."""
 
     precision: float = None
     recall: float = None
@@ -121,7 +121,7 @@ class EvaluationObjectSetRE(BaseModel):
 
 
 @dataclass
-class EvalCTD(EvaluationEngine):
+class EvalCTD(SPIRESEvaluationEngine):
     # ontology: OboGraphInterface = None
     subject_prefix = "MESH"
     object_prefix = "MESH"
@@ -173,9 +173,7 @@ class EvalCTD(EvaluationEngine):
             yield dict(prompt=prompt, completion=completion)
 
     def eval(self) -> EvaluationObjectSetRE:
-        """
-        Evaluates the ability to extract relations
-        """
+        """Evaluate the ability to extract relations."""
         labeler = get_implementation_from_shorthand("sqlite:obo:mesh")
         num_test = self.num_tests
         ke = self.extractor
@@ -197,7 +195,8 @@ class EvalCTD(EvaluationEngine):
             for chunked_text in chunk_text(text):
                 extraction = ke.extract_from_text(chunked_text)
                 logger.info(
-                    f"{len(extraction.extracted_object.triples)} triples from window: {chunked_text}"
+                    f"{len(extraction.extracted_object.triples)}\
+                        triples from window: {chunked_text}"
                 )
                 if not predicted_obj:
                     predicted_obj = extraction.extracted_object
@@ -208,9 +207,11 @@ class EvalCTD(EvaluationEngine):
                 named_entities.extend(extraction.named_entities)
 
             # title_extraction = ke.extract_from_text(doc.publication.title)
-            # logger.info(f"{len(title_extraction.extracted_object.triples)} triples from: Title {doc.publication.title}")
+            # logger.info(f"{len(title_extraction.extracted_object.triples)}\
+            # triples from: Title {doc.publication.title}")
             # abstract_extraction = ke.extract_from_text(doc.publication.abstract)
-            # logger.info(f"{len(abstract_extraction.extracted_object.triples)} triples from: Abstract {doc.publication.abstract}")
+            # logger.info(f"{len(abstract_extraction.extracted_object.triples)}\
+            # triples from: Abstract {doc.publication.abstract}")
             # ke.merge_resultsets([results, results2])
             # predicted_obj = title_extraction.extracted_object
             # predicted_obj.triples.extend(abstract_extraction.extracted_object.triples)
@@ -233,7 +234,7 @@ class EvalCTD(EvaluationEngine):
             )
             pred = PredictionRE(predicted_object=predicted_obj, test_object=doc)
             pred.named_entities = named_entities
-            logger.info(f"PRED")
+            logger.info("PRED")
             logger.info(yaml.dump(pred.dict()))
             logger.info("Calc scores")
             pred.calculate_scores(labelers=[labeler])

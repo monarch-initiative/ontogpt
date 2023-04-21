@@ -1,3 +1,4 @@
+"""Reaction template."""
 from __future__ import annotations
 
 from typing import Any, Dict, List, Optional
@@ -25,7 +26,6 @@ class ConfiguredBaseModel(
 
 
 class GeneToReaction(ConfiguredBaseModel):
-
     gene: Optional[str] = Field(
         None, description="""name of the gene that catalyzes the reaction"""
     )
@@ -38,7 +38,6 @@ class GeneToReaction(ConfiguredBaseModel):
 
 
 class ReactionDocument(ConfiguredBaseModel):
-
     genes: Optional[List[str]] = Field(
         default_factory=list,
         description="""semicolon separated list of genes that catalyzes the mentioned reactions""",
@@ -75,13 +74,11 @@ class ExtractionResult(ConfiguredBaseModel):
 
 
 class NamedEntity(ConfiguredBaseModel):
-
     id: Optional[str] = Field(None, description="""A unique identifier for the named entity""")
     label: Optional[str] = Field(None, description="""The label (name) of the named thing""")
 
 
 class Reaction(NamedEntity):
-
     label: Optional[str] = Field(None, description="""the name of the reaction""")
     description: Optional[str] = Field(
         None, description="""a textual description of the reaction"""
@@ -104,42 +101,35 @@ class Reaction(NamedEntity):
 
 
 class ReactionGrouping(NamedEntity):
-
     id: Optional[str] = Field(None, description="""A unique identifier for the named entity""")
     label: Optional[str] = Field(None, description="""The label (name) of the named thing""")
 
 
 class ChemicalEntity(NamedEntity):
-
     id: Optional[str] = Field(None, description="""A unique identifier for the named entity""")
     label: Optional[str] = Field(None, description="""The label (name) of the named thing""")
 
 
 class Evidence(NamedEntity):
-
     id: Optional[str] = Field(None, description="""A unique identifier for the named entity""")
     label: Optional[str] = Field(None, description="""The label (name) of the named thing""")
 
 
 class Gene(NamedEntity):
-
     id: Optional[str] = Field(None, description="""A unique identifier for the named entity""")
     label: Optional[str] = Field(None, description="""The label (name) of the named thing""")
 
 
 class Organism(NamedEntity):
-
     id: Optional[str] = Field(None, description="""A unique identifier for the named entity""")
     label: Optional[str] = Field(None, description="""The label (name) of the named thing""")
 
 
 class CompoundExpression(ConfiguredBaseModel):
-
-    None
+    pass
 
 
 class GeneReactionPairing(CompoundExpression):
-
     gene: Optional[str] = Field(
         None, description="""name of the gene that catalyzes the reaction"""
     )
@@ -171,19 +161,16 @@ class Triple(CompoundExpression):
 
 
 class TextWithTriples(ConfiguredBaseModel):
-
     publication: Optional[Publication] = Field(None)
     triples: Optional[List[Triple]] = Field(default_factory=list)
 
 
 class RelationshipType(NamedEntity):
-
     id: Optional[str] = Field(None, description="""A unique identifier for the named entity""")
     label: Optional[str] = Field(None, description="""The label (name) of the named thing""")
 
 
 class Publication(ConfiguredBaseModel):
-
     id: Optional[str] = Field(None, description="""The publication identifier""")
     title: Optional[str] = Field(None, description="""The title of the publication""")
     abstract: Optional[str] = Field(None, description="""The abstract of the publication""")
@@ -192,7 +179,6 @@ class Publication(ConfiguredBaseModel):
 
 
 class AnnotatorResult(ConfiguredBaseModel):
-
     subject_text: Optional[str] = Field(None)
     object_id: Optional[str] = Field(None)
     object_text: Optional[str] = Field(None)

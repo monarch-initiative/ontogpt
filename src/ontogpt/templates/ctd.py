@@ -1,3 +1,4 @@
+"""CTD template."""
 from __future__ import annotations
 
 from enum import Enum
@@ -26,12 +27,10 @@ class ConfiguredBaseModel(
 
 
 class MeshChemicalIdentifier(str, Enum):
-
     dummy = "dummy"
 
 
 class MeshDiseaseIdentifier(str, Enum):
-
     dummy = "dummy"
 
 
@@ -52,26 +51,22 @@ class ExtractionResult(ConfiguredBaseModel):
 
 
 class NamedEntity(ConfiguredBaseModel):
-
     id: Optional[str] = Field(None, description="""A unique identifier for the named entity""")
     label: Optional[str] = Field(None, description="""The label (name) of the named thing""")
 
 
 class Disease(NamedEntity):
-
     id: Optional[str] = Field(None, description="""A unique identifier for the named entity""")
     label: Optional[str] = Field(None, description="""The label (name) of the named thing""")
 
 
 class Chemical(NamedEntity):
-
     id: Optional[str] = Field(None, description="""A unique identifier for the named entity""")
     label: Optional[str] = Field(None, description="""The label (name) of the named thing""")
 
 
 class CompoundExpression(ConfiguredBaseModel):
-
-    None
+    pass
 
 
 class Triple(CompoundExpression):
@@ -127,7 +122,6 @@ class ChemicalToDiseaseRelationship(Triple):
 
 
 class TextWithTriples(ConfiguredBaseModel):
-
     publication: Optional[Publication] = Field(None)
     triples: Optional[List[Triple]] = Field(default_factory=list)
 
@@ -140,7 +134,6 @@ class ChemicalToDiseaseDocument(TextWithTriples):
 
 
 class RelationshipType(NamedEntity):
-
     id: Optional[str] = Field(None, description="""A unique identifier for the named entity""")
     label: Optional[str] = Field(None, description="""The label (name) of the named thing""")
 
@@ -153,7 +146,6 @@ class ChemicalToDiseasePredicate(RelationshipType):
 
 
 class Publication(ConfiguredBaseModel):
-
     id: Optional[str] = Field(None, description="""The publication identifier""")
     title: Optional[str] = Field(None, description="""The title of the publication""")
     abstract: Optional[str] = Field(None, description="""The abstract of the publication""")
@@ -162,7 +154,6 @@ class Publication(ConfiguredBaseModel):
 
 
 class AnnotatorResult(ConfiguredBaseModel):
-
     subject_text: Optional[str] = Field(None)
     object_id: Optional[str] = Field(None)
     object_text: Optional[str] = Field(None)

@@ -30,7 +30,6 @@ logger = logging.getLogger(__name__)
 
 
 ELEMENT_NAME = str
-FIELD = str
 
 INSTRUCTIONS = """
 ## Instructions:
@@ -73,7 +72,7 @@ class HALOEngine(KnowledgeEngine):
 
     def __post_init__(self):
         self.template_class = self._get_template_class("halo.OntologyElement")
-        self.client = OpenAIClient(engine=self.engine)
+        self.client = OpenAIClient(model=self.engine)
         self.api_key = self._get_openai_api_key()
         openai.api_key = self.api_key
 
@@ -208,8 +207,7 @@ class HALOEngine(KnowledgeEngine):
         return list(candidate_elements)
 
     def hallucinate_element(self, element: ELEMENT_NAME) -> OntologyElement:
-        """
-        Generate an ontology element based on its name
+        """Generate an ontology element based on its name.
 
         :param element: example: LeftDigit1OfHand
         :return:
@@ -229,8 +227,8 @@ class HALOEngine(KnowledgeEngine):
         return obj
 
     def get_example_elements(self, element: ELEMENT_NAME) -> List[OntologyElement]:
-        """
-        Get example elements for HALO
+        """Get example elements for HALO.
+
         :param element:
         :return:
         """
@@ -243,8 +241,7 @@ class HALOEngine(KnowledgeEngine):
         return [x for _, x in score_element_pairs]
 
     def get_element_score(self, element: OntologyElement, tokens: Set[int]) -> float:
-        """
-        Calculate a score for an element based on how informative it is for few-shot learning
+        """Calculate a score for an element based on how informative it is for few-shot learning.
 
         :param element:
         :param tokens: tokenized form of the element name
@@ -255,7 +252,7 @@ class HALOEngine(KnowledgeEngine):
             score = self.element_scores[element_name]
         else:
             score = 0
-            for k, v in element.dict().items():
+            for _, v in element.dict().items():
                 if v:
                     score += 1
             self.element_scores[element_name] = score
@@ -290,7 +287,8 @@ class HALOEngine(KnowledgeEngine):
             stub_object[k] = v
         prompt.main_prompt = yaml.dump([stub_object])
         logger.info(
-            f"Generated prompt: {len(prompt.text)} = {len(prompt.header)} + {len(prompt.body)} + {len(prompt.main_prompt)}"
+            f"Generated prompt: {len(prompt.text)} = {len(prompt.header)} +\
+                {len(prompt.body)} + {len(prompt.main_prompt)}"
         )
         return prompt
 

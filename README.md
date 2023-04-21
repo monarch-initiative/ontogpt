@@ -10,12 +10,18 @@ Currently there are two different pipelines implemented:
 
 - SPIRES: Structured Prompt Interrogation and Recursive Extraction of Semantics
     - Zero-shot learning approach to extracting nested semantic structures from text
-    - Inputs: LinkML schema + text
+    - Inputs: [LinkML](https://linkml.io/) schema + text
     - Outputs: JSON, YAML, or RDF or OWL that conforms to the schema
     - Uses text-davinci-003
 - HALO: HAllucinating Latent Ontologies 
     - Few-shot learning approach to generating/hallucinating a domain ontology given a few examples
     - Uses code-davinci-002
+
+SPIRES is described futher in: Caufield JH, Hegde H, Emonet V, Harris NL, Joachimiak MP, Matentzoglu N, et al. Structured prompt interrogation and recursive extraction of semantics (SPIRES): A method for populating knowledge bases using zero-shot learning. arXiv [cs.AI]. 2023. http://arxiv.org/abs/2304.02711
+
+## Citation
+
+ - https://arxiv.org/abs/2304.02711
 
 ## SPIRES: Usage
 
@@ -40,7 +46,7 @@ Given a short text `abstract.txt` with content such as:
 We can extract this into the [GO pathway datamodel](src/ontogpt/templates/gocam.yaml):
 
 ```bash
-ontogpt extract -t gocam.GoCamAnnotations abstract.txt
+ontogpt extract -t gocam.GoCamAnnotations -i abstract.txt
 ```
 
 Giving schema-compliant yaml such as:
@@ -75,20 +81,20 @@ Note in the above the grounding is very preliminary and can be improved. Ungroun
 
 1. You provide an arbitrary data model, describing the structure you want to extract text into
     - this can be nested (but see limitations below)
-2. provide your preferred annotations for grounding NamedEntity fields
-3. ontogpt will:
+2. Provide your preferred annotations for grounding NamedEntity fields
+3. OntoGPT will:
     - generate a prompt
-    - feed the prompt to a language model (currently OpenAI)
+    - feed the prompt to a language model (currently OpenAI GPT models)
     - parse the results into a dictionary structure
     - ground the results using a preferred annotator
 
 ## Pre-requisites
 
-- python 3.9+
-- an OpenAI account
-- a BioPortal account (optional, for grounding)
+- Python 3.9+
+- An OpenAI account
+- A [BioPortal](https://bioportal.bioontology.org/) account (optional, for grounding)
 
-You will need to set both API keys using OAK (which is a dependency of this project)
+You will need to set both API keys using the [Ontology Access Kit](https://github.com/INCATools/ontology-access-kit) (OAK, a dependency of this project)
 
 ```
 poetry run runoak set-apikey -e openai <your openai api key>
@@ -173,18 +179,22 @@ classes:
 - define a class for each NamedEntity
 - for any NamedEntity, you can specify a preferred annotator using the `annotators` annotation
 
-We recommend following an established schema like Biolink, but you can define your own.
+We recommend following an established schema like [BioLink Model](https://github.com/biolink/biolink-model), but you can define your own.
 
 ### Step 2: Compile the schema
 
-Run the `make` command at the top level. This will compile the schema to pedantic
+Place the schema YAML in the directory `src/ontogpt/templates/`.
+
+Add the name of the template to the TEMPLATES list in `project.Makefile`.
+
+Run the `make` command at the top level. This will compile the schema to Python (Pydantic classes).
 
 ### Step 3: Run the command line
 
 e.g.
 
 ```
-ontogpt extract -t mendelian_disease.MendelianDisease marfan-wikipedia.txt
+ontogpt extract -t mendelian_disease.MendelianDisease -i marfan-wikipedia.txt
 ```
 
 ## Web Application
@@ -196,7 +206,7 @@ poetry run web-ontogpt
 ```
 
 Note that the agent running uvicorn must have the API key set, so for obvious reasons
-don't host this publicly without authentication, unless you want your credits drained. 
+don't host this publicly without authentication, unless you want your credits drained.
 
 ## Features
 
@@ -204,7 +214,7 @@ don't host this publicly without authentication, unless you want your credits dr
 
 Currently no more than two levels of nesting are recommended.
 
-If a field has a range which is itself a class and not a primitive, it will attempt to nest
+If a field has a range which is itself a class and not a primitive, it will attempt to nest.
 
 E.g. the gocam schema has an attribute:
 
@@ -217,7 +227,7 @@ E.g. the gocam schema has an attribute:
         range: GeneMolecularActivityRelationship
 ```
 
-Because GeneMolecularActivityRelationship is *inlined* it will nest
+Because `GeneMolecularActivityRelationship` is *inlined* it will nest
 
 The generated prompt is:
 
@@ -294,25 +304,52 @@ enums:
 
 ## OWL Exports
 
-The `extract` command will let you export the results as OWL axioms, utilizing linkml-owl mappings in the schema.
+The `extract` command will let you export the results as OWL axioms, utilizing [linkml-owl](https://linkml.io/linkml-owl) mappings in the schema.
 
 For example:
 
 ```bash
-ontogpt extract -t recipe recipe-spaghetti.txt -o recipe-spaghetti.owl -O owl
+ontogpt extract -t recipe -i recipe-spaghetti.txt -o recipe-spaghetti.owl -O owl
 ```
 
 See [src/ontogpt/templates/recipe.yaml](src/ontogpt/templates/recipe.yaml) 
 for an example of a schema that uses linkml-owl mappings.
 
 See the Makefile for a full pipeline that involves using robot to extract a subset of FOODON
-and merge in the extracted results.
+and merge in the extracted results. This uses [recipe-scrapers](https://github.com/hhursev/recipe-scrapers)
+
+Example output OWL here:
+
+- [recipe-all-merged.owl](https://github.com/monarch-initiative/ontogpt/blob/main/tests/output/owl/merged/recipe-all-merged.owl)
+
+Example classification:
+
+<img width="1329" alt="image" src="https://user-images.githubusercontent.com/50745/230427663-20d845e9-f1d5-490e-b1ad-cdccdd0dca70.png">
+
+
+Contributions on recipes to test welcome from anyone! Just make a PR [here](https://github.com/monarch-initiative/ontogpt/blob/main/tests/input/recipe-urls.csv). See [this list](https://github.com/hhursev/recipe-scrapers) for accepted URLs
+
 
 ## HALO: Usage
 
 TODO
 
 
+
+## Gene Enrichment
+
+Given a set of genes, OntoGPT can find similarities among them.
+
+Example:
+```
+ontogpt enrichment HGNC:8858 HGNC:8859 HGNC:9719
+```
+
+Results:
+
+```
+Commonality: Protein targeting to the Peroxisome. All the genes are involved in targeting proteins to the peroxisome membrane, matrix or both, and they are all located in cytoplasm; peroxisome; and/or endoplasmic reticulum. Additionally, they all enable different types of binding activity and/or hydrolysing activity which likely contribute to their roles in protein import
+```
 
 ## OntoGPT Limitations
 
@@ -322,10 +359,9 @@ This relies on an existing LLM, and LLMs can be fickle in their responses.
 
 ### Coupled to OpenAI
 
-You will need an openai account. In theory any LLM can be used but in practice the parser is tuned for OpenAI
-
+You will need an OpenAI account to use their API. In theory any LLM can be used but in practice the parser is tuned for OpenAI's models.
 
 
 # Acknowledgements
 
-This [cookiecutter](https://cookiecutter.readthedocs.io/en/stable/README.html) project was developed from the [sphintoxetry-cookiecutter](https://github.com/hrshdhgd/sphintoxetry-cookiecutter) template and will be kept up-to-date using [cruft](https://cruft.github.io/cruft/).
+We gratefully acknowledge [Bosch Research](https://www.bosch.com/research) for their support of this research project.

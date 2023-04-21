@@ -4,7 +4,7 @@ TMPRUN =
 PACKAGE = ontogpt
 TEMPLATE_DIR = src/$(PACKAGE)/templates
 EVAL_DIR = src/$(PACKAGE)/evaluation
-TEMPLATES = core gocam mendelian_disease biological_process treatment environmental_sample metagenome_study reaction recipe ontology_class metabolic_process drug ctd halo
+TEMPLATES = core gocam mendelian_disease biological_process treatment environmental_sample metagenome_study reaction recipe ontology_class metabolic_process drug ctd halo gene_description_term
 ENTRY_CLASSES = recipe.Recipe gocam.GoCamAnnotations reaction.ReactionDocument ctd.ChemicalToDiseaseDocument
 
 all: all_pydantic all_projects
@@ -21,6 +21,8 @@ unit-test:
 integration-test:
 	$(RUN) python -m unittest
 
+get_version:
+	$(RUN) python -c "import ontogpt;print('.'.join((ontogpt.__version__).split('.', 3)[:3]))"
 
 $(TEMPLATE_DIR)/%.py: src/$(PACKAGE)/templates/%.yaml
 	$(RUN) gen-pydantic $< > $@.tmp && mv $@.tmp $@
@@ -65,6 +67,11 @@ RECIPES = case-spaghetti case-egg-noodles case-tortilla-soup \
  web-sauteed-lacinato-kale \
  web-quick-pickled-onions \
  web-deviled-eggs-106562 \
+ web-corn-dog \
+ web-spicy-thai-basil-chicken-pad-krapow-gai \
+ web-marinated-summer-squash-with-hazelnuts-and-ricotta \
+ web-Waldorf \
+ web-red-lentil-soup \
  web-sweet-and-spicy-pork-and-napa-cabbage-stir-fry-with-spicy-noodles
 
 RECIPE_URLS_FILE = tests/input/recipe-urls.csv
@@ -101,3 +108,25 @@ tests/output/owl/imports/recipe-%-import.owl: tests/output/owl/seed-recipe-%.txt
 
 tests/output/owl/merged/recipe-%-merged.owl: tests/output/owl/imports/recipe-%-import.owl $(RECIPE_GROUPINGS)
 	robot merge -i tests/output/owl/recipe-$*.owl -i $(RECIPE_GROUPINGS) -i $< reason -r elk -o $@
+
+# enrichment
+
+GENE_SET_FILES = $(wildcard tests/input/genesets/*.yaml)
+GENE_SETS = $(patsubst tests/input/genesets/%.yaml,%,$(GENE_SET_FILES))
+
+t:
+	echo $(GENE_SETS)
+
+
+tests/input/genesets/%.yaml: tests/input/genesets/%.json
+	$(RUN) ontogpt convert-geneset -U $< -o $@
+.PRECIOUS: tests/input/genesets/%.yaml
+
+N=2
+analysis/enrichment/%-results-$(N).yaml: tests/input/genesets/%.yaml
+	$(RUN) ontogpt -vv eval-enrichment -n $(N) -U $< -o $@.tmp && mv $@.tmp $@
+
+analysis/enrichment-summary.yaml:
+	cat analysis/enrichment/*yaml > $@
+
+all_enrich: $(patsubst %, analysis/enrichment/%-results-$(N).yaml, $(GENE_SETS))

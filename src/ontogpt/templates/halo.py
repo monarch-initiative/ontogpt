@@ -1,8 +1,7 @@
+"""HALO template."""
 from __future__ import annotations
 
-from datetime import date, datetime
-from enum import Enum
-from typing import Any, Dict, List, Optional
+from typing import Any, List, Optional
 
 from pydantic import BaseModel as BaseModel
 from pydantic import Field
@@ -27,12 +26,10 @@ class ConfiguredBaseModel(
 
 
 class Ontology(ConfiguredBaseModel):
-
     elements: Optional[List[OntologyElement]] = Field(default_factory=list)
 
 
 class OntologyElement(ConfiguredBaseModel):
-
     name: Optional[str] = Field(None, description="""the name of the entity""")
     context: Optional[str] = Field(
         None, description="""the ontology to which this belongs (single-valued)"""
@@ -62,12 +59,12 @@ class OntologyElement(ConfiguredBaseModel):
     )
     equivalent_to: Optional[str] = Field(
         None,
-        description="""an OWL class expression with the necessary and sufficient conditions for this entity to be an instance of this class""",
+        description="""an OWL class expression with the necessary and\
+            sufficient conditions for this entity to be an instance of this class""",
     )
 
 
 class Category(OntologyElement):
-
     name: Optional[str] = Field(None, description="""the name of the entity""")
     context: Optional[str] = Field(
         None, description="""the ontology to which this belongs (single-valued)"""
@@ -97,14 +94,13 @@ class Category(OntologyElement):
     )
     equivalent_to: Optional[str] = Field(
         None,
-        description="""an OWL class expression with the necessary and sufficient conditions for this entity to be an instance of this class""",
+        description="""an OWL class expression with the necessary and\
+            sufficient conditions for this entity to be an instance of this class""",
     )
 
 
 class ExtractionResult(ConfiguredBaseModel):
-    """
-    A result of extracting knowledge on text
-    """
+    """A result of extracting knowledge on text."""
 
     input_id: Optional[str] = Field(None)
     input_title: Optional[str] = Field(None)
@@ -120,20 +116,16 @@ class ExtractionResult(ConfiguredBaseModel):
 
 
 class NamedEntity(ConfiguredBaseModel):
-
     id: Optional[str] = Field(None, description="""A unique identifier for the named entity""")
     label: Optional[str] = Field(None, description="""The label (name) of the named thing""")
 
 
 class CompoundExpression(ConfiguredBaseModel):
-
-    None
+    pass
 
 
 class Triple(CompoundExpression):
-    """
-    Abstract parent for Relation Extraction tasks
-    """
+    """Abstract parent for Relation Extraction tasks."""
 
     subject: Optional[str] = Field(None)
     predicate: Optional[str] = Field(None)
@@ -154,19 +146,16 @@ class Triple(CompoundExpression):
 
 
 class TextWithTriples(ConfiguredBaseModel):
-
     publication: Optional[Publication] = Field(None)
     triples: Optional[List[Triple]] = Field(default_factory=list)
 
 
 class RelationshipType(NamedEntity):
-
     id: Optional[str] = Field(None, description="""A unique identifier for the named entity""")
     label: Optional[str] = Field(None, description="""The label (name) of the named thing""")
 
 
 class Publication(ConfiguredBaseModel):
-
     id: Optional[str] = Field(None, description="""The publication identifier""")
     title: Optional[str] = Field(None, description="""The title of the publication""")
     abstract: Optional[str] = Field(None, description="""The abstract of the publication""")
@@ -175,7 +164,6 @@ class Publication(ConfiguredBaseModel):
 
 
 class AnnotatorResult(ConfiguredBaseModel):
-
     subject_text: Optional[str] = Field(None)
     object_id: Optional[str] = Field(None)
     object_text: Optional[str] = Field(None)
