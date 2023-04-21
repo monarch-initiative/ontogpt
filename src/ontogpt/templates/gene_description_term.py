@@ -1,8 +1,10 @@
-"""Gene description term template."""
 from __future__ import annotations
 
-from typing import Any, List, Optional
+from datetime import date, datetime
+from enum import Enum
+from typing import Any, Dict, List, Literal, Optional, Union
 
+from linkml_runtime.linkml_model import Decimal
 from pydantic import BaseModel as BaseModel
 from pydantic import Field
 
@@ -25,8 +27,25 @@ class ConfiguredBaseModel(
     pass
 
 
+class GeneDescription(ConfiguredBaseModel):
+    """
+    A summarization of an individual gene
+    """
+
+    about: Optional[str] = Field(None)
+    narrative_summary: Optional[str] = Field(
+        None, description="""A free text summary describing the function of the gene"""
+    )
+    terms: Optional[List[str]] = Field(
+        default_factory=list,
+        description="""A semicolon separated list of controlled terms that describe the function of the gene""",
+    )
+
+
 class ExtractionResult(ConfiguredBaseModel):
-    """A result of extracting knowledge on text."""
+    """
+    A result of extracting knowledge on text
+    """
 
     input_id: Optional[str] = Field(None)
     input_title: Optional[str] = Field(None)
@@ -46,17 +65,24 @@ class NamedEntity(ConfiguredBaseModel):
     label: Optional[str] = Field(None, description="""The label (name) of the named thing""")
 
 
+class Gene(NamedEntity):
+    id: Optional[str] = Field(None, description="""A unique identifier for the named entity""")
+    label: Optional[str] = Field(None, description="""The label (name) of the named thing""")
+
+
 class GeneDescriptionTerm(NamedEntity):
     label: Optional[str] = Field(None, description="""the name of the GO term""")
     id: Optional[str] = Field(None, description="""A unique identifier for the named entity""")
 
 
 class CompoundExpression(ConfiguredBaseModel):
-    pass
+    None
 
 
 class Triple(CompoundExpression):
-    """Abstract parent for Relation Extraction tasks."""
+    """
+    Abstract parent for Relation Extraction tasks
+    """
 
     subject: Optional[str] = Field(None)
     predicate: Optional[str] = Field(None)
@@ -66,13 +92,11 @@ class Triple(CompoundExpression):
     )
     subject_qualifier: Optional[str] = Field(
         None,
-        description="""An optional qualifier or modifier for the subject of the\
-            statement, e.g. \"high dose\" or \"intravenously administered\"""",
+        description="""An optional qualifier or modifier for the subject of the statement, e.g. \"high dose\" or \"intravenously administered\"""",
     )
     object_qualifier: Optional[str] = Field(
         None,
-        description="""An optional qualifier or modifier for the object of the\
-            statement, e.g. \"severe\" or \"with additional complications\"""",
+        description="""An optional qualifier or modifier for the object of the statement, e.g. \"severe\" or \"with additional complications\"""",
     )
 
 
@@ -102,8 +126,10 @@ class AnnotatorResult(ConfiguredBaseModel):
 
 # Update forward refs
 # see https://pydantic-docs.helpmanual.io/usage/postponed_annotations/
+GeneDescription.update_forward_refs()
 ExtractionResult.update_forward_refs()
 NamedEntity.update_forward_refs()
+Gene.update_forward_refs()
 GeneDescriptionTerm.update_forward_refs()
 CompoundExpression.update_forward_refs()
 Triple.update_forward_refs()

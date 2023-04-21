@@ -6463,6 +6463,21 @@ beautifulsoup4 = "*"
 requests = ">=2.0.0,<3.0.0"
 
 [[package]]
+name = "wikipedia-api"
+version = "0.5.8"
+description = "Python Wrapper for Wikipedia"
+category = "main"
+optional = false
+python-versions = "*"
+files = [
+    {file = "Wikipedia-API-0.5.8.tar.gz", hash = "sha256:065c6541e7480b95b14b9607c243fbce6aefe084e6dc58e41ffb313aec472fcd"},
+    {file = "Wikipedia_API-0.5.8-py3-none-any.whl", hash = "sha256:f124cb59fef0c635fa3818d33025f4cd3daa4a119314728653959c0ede328813"},
+]
+
+[package.dependencies]
+requests = "*"
+
+[[package]]
 name = "wrapt"
 version = "1.14.1"
 description = "Module for decorators, wrappers and monkey patching."
@@ -6666,4 +6681,4 @@ web = ["Jinja2", "fastapi", "uvicorn"]
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.9"
-content-hash = "cafac4d6b86b45ae573af7c08b80625d9bfadc3d293a62ec53330a93017e4360"
+content-hash = "e777fcbe3112710a857c97f98a9e0dd56a34fbbf160c975495b20bc088762969"

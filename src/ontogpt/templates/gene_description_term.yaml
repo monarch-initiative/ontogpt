@@ -7,6 +7,10 @@ license: https://creativecommons.org/publicdomain/zero/1.0/
 prefixes:
   linkml: https://w3id.org/linkml/
   bp: http://w3id.org/ontogpt/biological-process-template
+  HGNC: http://identifiers.org/hgnc/
+  GO: http://purl.obolibrary.org/obo/GO_
+  MONDO: http://purl.obolibrary.org/obo/MONDO_
+  MESH: http://identifiers.org/mesh/
 
 default_prefix: bp
 default_range: string
@@ -16,6 +20,29 @@ imports:
   - core
 
 classes:
+  Gene:
+    is_a: NamedEntity
+    id_prefixes:
+      - HGNC
+    annotations:
+      annotators: sqlite:obo:hgnc
+  GeneDescription:
+    description: >-
+      A summarization of an individual gene
+    attributes:
+      about:
+        range: Gene
+        description: >-
+          The official symbol of the gene that is described. For example "TP53". Do not include the word "gene" in the answer.
+      narrative_summary:
+        description: >-
+          A free text summary describing the function of the gene
+        range: string
+      terms:
+        range: GeneDescriptionTerm
+        multivalued: true
+        description: >-
+          A semicolon separated list of controlled terms drawn from the Gene Ontology that describe the function of the gene
   GeneDescriptionTerm:
     tree_root: true
     is_a: NamedEntity

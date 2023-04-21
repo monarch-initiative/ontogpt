@@ -9,7 +9,8 @@ from pydantic import BaseModel
 from starlette.staticfiles import StaticFiles
 from starlette.templating import Jinja2Templates
 
-from ontogpt.engines.knowledge_engine import DATAMODELS
+from ontogpt.engines.enrichment import EnrichmentEngine, GeneSet
+from ontogpt.engines.knowledge_engine import DATAMODELS, MODELS
 from ontogpt.engines.spires_engine import SPIRESEngine
 from ontogpt.io.html_exporter import HTMLExporter
 
@@ -56,6 +57,29 @@ def form_post(request: Request, datamodel: str = Form(...), text: str = Form(...
     html_exporter.export(ann, output)
     return templates.TemplateResponse(
         "results.html", context={"request": request, "inner_html": output.getvalue()}
+    )
+
+
+@app.get("/spindoctor")
+def sd_read_root(request: Request):
+    return templates.TemplateResponse(
+        "spindoctor/form.html", context={"request": request, "models": MODELS}
+    )
+
+
+@app.post("/spindoctor")
+def sd_form_post(request: Request, model: str = Form(...), text: str = Form(...)):
+    print(f"Received request with model {model}")
+    print(f"Received request with text {text}")
+    symbols = [s.strip() for s in text.split("\n")]
+    engine = EnrichmentEngine(model=model)
+    gene_set = GeneSet(name="TEMP", gene_symbols=symbols)
+    ann = engine.summarize(gene_set)
+    print(f"Got {ann}")
+    output = StringIO()
+    html_exporter.export(ann, output)
+    return templates.TemplateResponse(
+        "spindoctor/results.html", context={"request": request, "inner_html": output.getvalue()}
     )
 
 

@@ -20,6 +20,7 @@ from ontogpt import __version__
 from ontogpt.clients import OpenAIClient
 from ontogpt.clients.pubmed_client import PubmedClient
 from ontogpt.clients.soup_client import SoupClient
+from ontogpt.clients.wikipedia_client import WikipediaClient
 from ontogpt.engines import create_engine
 from ontogpt.engines.enrichment import EnrichmentEngine, GeneSet, parse_gene_set
 from ontogpt.engines.halo_engine import HALOEngine
@@ -37,6 +38,7 @@ __all__ = [
 ]
 
 from ontogpt.io.owl_exporter import OWLExporter
+from ontogpt.io.rdf_exporter import RDFExporter
 from ontogpt.io.yaml_wrapper import dump_minimal_yaml
 from ontogpt.templates.core import ExtractionResult
 
@@ -78,6 +80,10 @@ def write_extraction(
     elif output_format == "yaml":
         output = _as_text_writer(output)
         output.write(dump_minimal_yaml(results))
+    elif output_format == "turtle":
+        output = _as_text_writer(output)
+        exporter = RDFExporter()
+        exporter.export(results, output, knowledge_engine.schemaview)
     elif output_format == "owl":
         output = _as_text_writer(output)
         exporter = OWLExporter()
@@ -92,6 +98,12 @@ template_option = click.option("-t", "--template", required=True, help="Template
 target_class_option = click.option(
     "-T", "--target-class", help="Target class (if not already root)."
 )
+interactive_option = click.option(
+    "--interactive/--no-interactive",
+    default=False,
+    show_default=True,
+    help="Interactive mode - rather than call the LLM API it will prompt you do this.",
+)
 model_option = click.option("-m", "--model", help="Engine to use, e.g. text-davinci-003.")
 recurse_option = click.option(
     "--recurse/--no-recurse", default=True, show_default=True, help="Recursively parse structures."
@@ -105,7 +117,7 @@ output_option_txt = click.option(
 output_format_options = click.option(
     "-O",
     "--output-format",
-    type=click.Choice(["json", "yaml", "pickle", "md", "html", "owl"]),
+    type=click.Choice(["json", "yaml", "pickle", "md", "html", "owl", "turtle"]),
     default="yaml",
     help="Output format.",
 )
@@ -232,6 +244,61 @@ def pubmed_extract(pmid, template, output, output_format, **kwargs):
     logging.debug(f"Input text: {text}")
     results = ke.extract_from_text(text)
     write_extraction(results, output, output_format)
+
+
+@main.command()
+@template_option
+@model_option
+@recurse_option
+@output_option_wb
+@output_format_options
+@click.option("--auto-prefix", default="AUTO", help="Prefix to use for auto-generated classes.")
+@click.argument("article")
+def wikipedia_extract(article, template, output, output_format, **kwargs):
+    """Extract knowledge from a wikipedia page."""
+    logging.info(f"Creating for {template} => {article}")
+    client = WikipediaClient()
+    text = client.text(article)
+    ke = SPIRESEngine(template, **kwargs)
+    logging.debug(f"Input text: {text}")
+    results = ke.extract_from_text(text)
+    write_extraction(results, output, output_format, ke)
+
+
+@main.command()
+@template_option
+@model_option
+@recurse_option
+@output_option_wb
+@output_format_options
+@click.option(
+    "--keyword",
+    "-k",
+    multiple=True,
+    help="Keyword to search for (e.g. --keyword therapy). Also obtained from schema",
+)
+@click.argument("topic")
+def wikipedia_search(topic, keyword, template, output, output_format, **kwargs):
+    """Extract knowledge from a wikipedia page."""
+    logging.info(f"Creating for {template} => {topic}")
+    client = WikipediaClient()
+    keywords = list(keyword) if keyword else []
+    logging.info(f"KW={keywords}")
+    ke = SPIRESEngine(template, **kwargs)
+    keywords.extend(ke.schemaview.schema.keywords)
+    search_term = f"{topic + ' ' + ' '.join(keywords)}"
+    print(f"Searching for {search_term}")
+    search_results = client.search_wikipedia_articles(search_term)
+    for _index, result in enumerate(search_results, start=1):
+        title = result["title"]
+        text = client.text(title)
+        logging.debug(f"Input text: {text}")
+        if len(text) > 4000:
+            # TODO
+            text = text[:4000]
+        results = ke.extract_from_text(text)
+        write_extraction(results, output, output_format)
+        break
 
 
 @main.command()
@@ -464,9 +531,19 @@ def convert_geneset(input_file, output, output_format, **kwargs):
     show_default=True,
     help="If set, include annotations in the prompt",
 )
+@interactive_option
 @click.argument("genes", nargs=-1)
 def enrichment(
-    genes, context, input_file, resolver, output, model, show_prompt, output_format, **kwargs
+    genes,
+    context,
+    input_file,
+    resolver,
+    output,
+    model,
+    show_prompt,
+    interactive,
+    output_format,
+    **kwargs,
 ):
     """Gene class enrichment.
 
@@ -500,6 +577,8 @@ def enrichment(
     if not gene_set:
         raise ValueError("No genes passed")
     ke = create_engine(None, EnrichmentEngine, model=model)
+    if interactive:
+        ke.client.interactive = True
     if settings.cache_db:
         ke.client.cache_db_path = settings.cache_db
     if not isinstance(ke, EnrichmentEngine):
