@@ -5275,6 +5275,32 @@ files = [
 ]
 
 [[package]]
+name = "rustsim"
+version = "0.1.8"
+description = ""
+category = "main"
+optional = false
+python-versions = ">=3.7"
+files = [
+    {file = "rustsim-0.1.8-cp310-cp310-macosx_10_7_x86_64.whl", hash = "sha256:e0170079ae850801c74b776ba6a1e68e31b0cc60f7a739f1974873778ac4207e"},
+    {file = "rustsim-0.1.8-cp310-cp310-macosx_10_9_x86_64.macosx_11_0_arm64.macosx_10_9_universal2.whl", hash = "sha256:240dda9b80e7c8b5d382427020c951729f899732503ef4d9a861eaef7cec46d6"},
+    {file = "rustsim-0.1.8-cp310-cp310-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:ce483a165030fa73c2d133a61fab2963d88e5c4d468244df38084051a6b8c5f1"},
+    {file = "rustsim-0.1.8-cp310-none-win_amd64.whl", hash = "sha256:2619967825f2a42e9eaf32d8217abd2c49c48a78059f57602df30b3b750378de"},
+    {file = "rustsim-0.1.8-cp37-cp37m-macosx_10_7_x86_64.whl", hash = "sha256:660237d57905b596ce5fb5a9efc8b1331610dc981f6271132e37a438be839787"},
+    {file = "rustsim-0.1.8-cp37-cp37m-macosx_10_9_x86_64.macosx_11_0_arm64.macosx_10_9_universal2.whl", hash = "sha256:cb3d71f4bc7fa8fdbf15246bb65c15e6c5159e1e2d0cb825697fe60cab23b61b"},
+    {file = "rustsim-0.1.8-cp37-cp37m-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:bd414e6a081e31fab8cc479ffbfc8ac0f4a8febdfbe41445855aefa690406e94"},
+    {file = "rustsim-0.1.8-cp37-none-win_amd64.whl", hash = "sha256:892654a68c6c7c8ddafdf3beab4e06f02c0d151bd7476f3bf353ea3e268590d1"},
+    {file = "rustsim-0.1.8-cp38-cp38-macosx_10_7_x86_64.whl", hash = "sha256:af2c433a7d67d8e3f53843aed8da677af7dd6ab8ff7e4b9b0cebfd65b8f38971"},
+    {file = "rustsim-0.1.8-cp38-cp38-macosx_10_9_x86_64.macosx_11_0_arm64.macosx_10_9_universal2.whl", hash = "sha256:739fd70e0c8b071bd5d5b8b88c94dde2662ed517f98c180e5080f35e7be24302"},
+    {file = "rustsim-0.1.8-cp38-cp38-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:d38872179b43d97a5f93ed81a9e51ba76f8db0ba4f1dd39641ef21f2b8d0fdb0"},
+    {file = "rustsim-0.1.8-cp38-none-win_amd64.whl", hash = "sha256:850fc909312eb14ac9bbede957393ece39e65ab7475bd11d0a82c9dffc950130"},
+    {file = "rustsim-0.1.8-cp39-cp39-macosx_10_7_x86_64.whl", hash = "sha256:3e484698c98d24b73013d5497b37197544bbeb276bd09eae89fbc52258432092"},
+    {file = "rustsim-0.1.8-cp39-cp39-macosx_10_9_x86_64.macosx_11_0_arm64.macosx_10_9_universal2.whl", hash = "sha256:067083ffe78482c359e922518e20576e8c143d9376c138c959b3a84d5afbd35a"},
+    {file = "rustsim-0.1.8-cp39-cp39-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:0bdf735de145efca05a2abb6dcfe9f713c4e2d2b44bc5b0f4dd40587a3a4e9a3"},
+    {file = "rustsim-0.1.8-cp39-none-win_amd64.whl", hash = "sha256:cf3f987f30d58b8535bfebfe9fde63c14621e0dcbe375fe129b78d9f81aeadf9"},
+]
+
+[[package]]
 name = "s3transfer"
 version = "0.6.0"
 description = "An Amazon S3 Transfer Manager"
@@ -6701,4 +6727,4 @@ web = ["Jinja2", "fastapi", "uvicorn"]
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.9"
-content-hash = "525a7f9d53deac3f975defb9c02a644af68da136e2c0c41a7cc1f2801e42a069"
+content-hash = "840a985feb9c0afe31f41ea0dbc9c70b9da33f7c7a9a700cab26c0a2999913b3"
