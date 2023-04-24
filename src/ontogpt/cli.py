@@ -857,6 +857,36 @@ def halo(input, context, terms, output, **kwargs):
     engine.hallucinate(terms, **kwargs)
     output.write(dump_minimal_yaml(engine.ontology))
 
+@main.command()
+@output_option_txt
+@output_format_options
+@model_option
+@click.option(
+    "-C",
+    "--context",
+    help="domain e.g. anatomy, industry, health-related (NOT IMPLEMENTED - currently gene only)",
+)
+@click.argument("text", nargs=-1)
+def clinical_notes(text, context, output, model, output_format, **kwargs):
+    """Create mock clinical notes.
+
+    Text: short description of the patient, e.g. diabetic
+    """
+    if not text:
+        raise ValueError("Text must be passed")
+    text = list(text)
+    if "@" not in text:
+        raise ValueError("Text must contain @")
+    ix = text.index("@")
+    text1 = " ".join(text[:ix])
+    text2 = " ".join(text[ix + 1 :])
+    print(text1)
+    print(text2)
+    if model is None:
+        model = "text-embedding-ada-002"
+    client = OpenAIClient(model=model)
+    sim = client.similarity(text1, text2, model=model)
+    print(sim)
 
 @main.command()
 def list_templates():
