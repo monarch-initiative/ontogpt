@@ -153,10 +153,7 @@ class OpenAIClient:
         a2 = self.embeddings(text2, **kwargs)
         return np.dot(a1, a2) / (np.linalg.norm(a1) * np.linalg.norm(a2))
 
-
     def euclidian_distance(self, text1: str, text2: str, **kwargs):
         a1 = self.embeddings(text1, **kwargs)
         a2 = self.embeddings(text2, **kwargs)
         return np.linalg.norm(np.array(a1) - np.array(a2))
-
-

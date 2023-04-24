@@ -552,6 +552,7 @@ def text_similarity(text, context, output, model, output_format, **kwargs):
     sim = client.similarity(text1, text2, model=model)
     print(sim)
 
+
 @main.command()
 @output_option_txt
 @output_format_options
@@ -579,6 +580,7 @@ def text_distance(text, context, output, model, output_format, **kwargs):
     client = OpenAIClient(model=model)
     sim = client.euclidian_distance(text1, text2, model=model)
     print(sim)
+
 
 @main.command()
 @output_option_txt
@@ -857,6 +859,7 @@ def halo(input, context, terms, output, **kwargs):
     engine.hallucinate(terms, **kwargs)
     output.write(dump_minimal_yaml(engine.ontology))
 
+
 @main.command()
 @output_option_wb
 @output_format_options
@@ -872,7 +875,7 @@ def clinical_notes(
     output_format,
     **kwargs,
 ):
-    """Create mock clinical notes
+    """Create mock clinical notes.
 
     Example:
 
@@ -885,6 +888,7 @@ def clinical_notes(
     results = c.complete(prompt)
     print(results)
     output.write(results)
+
 
 @main.command()
 def list_templates():
