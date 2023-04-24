@@ -883,7 +883,7 @@ def clinical_notes(
     Example:
 
         ontogpt clinical-notes -d "middle-aged female patient with diabetes"
-        ontogpt clinical-notes --description "middle-aged female patient with diabetes"
+        ontogpt clinical-notes --description "middle-aged female patient with diabetes" --sections medications --sections "vital signs"
 
     """
     c = OpenAIClient()
