@@ -863,14 +863,17 @@ def halo(input, context, terms, output, **kwargs):
 @main.command()
 @output_option_wb
 @output_format_options
-@click.argument("text", required=False)
 @click.option(
     "-d",
     "--description",
     help="domain e.g. anatomy, industry, health-related (NOT IMPLEMENTED - currently gene only)",
 )
+@click.option(
+    "--sections", multiple=True, help="sections to include e.g. medications, vital signs, etc."
+)
 def clinical_notes(
     description,
+    sections,
     output,
     output_format,
     **kwargs,
@@ -885,6 +888,8 @@ def clinical_notes(
     """
     c = OpenAIClient()
     prompt = "create mock clinical notes for a patient like this: " + description
+    if sections:
+        prompt += " including sections: " + ", ".join(sections)
     results = c.complete(prompt)
     print(results)
     output.write(results)
