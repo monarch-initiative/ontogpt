@@ -12,6 +12,7 @@ from typing import Dict, Iterator, List, Optional, Tuple
 import tiktoken
 import yaml
 from cachier import cachier
+from linkml_runtime.dumpers import json_dumper
 from oaklib import get_adapter, get_implementation_from_shorthand
 from oaklib.datamodels.association import Association
 from oaklib.datamodels.vocabulary import EQUIVALENT_CLASS, IS_A, PART_OF
@@ -23,17 +24,17 @@ from pydantic import BaseModel
 from tiktoken import Encoding
 
 from ontogpt.engines import create_engine
-from ontogpt.engines.enrichment import (
-    ENTITY_ID,
+from ontogpt.engines.enrichment import ENTITY_ID, EnrichmentEngine
+from ontogpt.engines.knowledge_engine import MODEL_GPT_3_5_TURBO, MODEL_NAME, MODEL_TEXT_DAVINCI_003
+from ontogpt.evaluation.evaluation_engine import EvaluationEngine
+from ontogpt.templates.class_enrichment import ClassEnrichmentResult
+from ontogpt.utils.gene_set_utils import (
     SYMBOL,
-    EnrichmentEngine,
     EnrichmentPayload,
     GeneSet,
     gene_info,
     populate_ids_and_symbols,
 )
-from ontogpt.engines.knowledge_engine import MODEL_GPT_3_5_TURBO, MODEL_NAME, MODEL_TEXT_DAVINCI_003
-from ontogpt.evaluation.evaluation_engine import EvaluationEngine
 
 THIS_DIR = Path(__file__).parent
 DATABASE_DIR = Path(__file__).parent / "database"
@@ -45,6 +46,7 @@ STANDARD = "standard"
 STANDARD_NO_ONTOLOGY = "standard_no_ontology"
 RANDOM = "random"
 RANK_BASED = "rank_based"
+CLOSURE = "closure"
 
 ENRICHMENT_MODELS = [MODEL_GPT_3_5_TURBO, MODEL_TEXT_DAVINCI_003]
 
@@ -172,6 +174,7 @@ class EvalEnrichment(EvaluationEngine):
         payloads[STANDARD_NO_ONTOLOGY] = self.standard_enrichment(gene_set, use_ontology=False)
         payloads[RANDOM] = self.random_enrichment(gene_set)
         payloads[RANK_BASED] = self.null_enrichment(gene_set)
+        payloads[CLOSURE] = self.gene_term_closure(gene_set)
         for k in [STANDARD, STANDARD_NO_ONTOLOGY, RANDOM, RANK_BASED]:
             payloads[k].method = k
         comp = GeneSetComparison(
@@ -200,10 +203,24 @@ class EvalEnrichment(EvaluationEngine):
         results = self.ontology.enriched_classes(
             gene_ids, autolabel=True, object_closure_predicates=predicates
         )
-        payload = EnrichmentPayload()
+        # awkward: convert from oaklib dataclasses to pydantic
+        results = [ClassEnrichmentResult(**json_dumper.to_dict(result)) for result in results]
+        payload = EnrichmentPayload(enrichment_results=results)
         for result in results:
+            if result.p_value_adjusted > 0.05:
+                continue
             payload.term_strings.append(result.class_label)
             payload.term_ids.append(result.class_id)
+        return payload
+
+    def gene_term_closure(self, gene_set: GeneSet) -> EnrichmentPayload:
+        gene_ids = gene_set.gene_ids
+        term_ids = {a.object for a in self.ontology.associations(subjects=gene_ids)}
+        ancs = list(self.ontology.ancestors(list(term_ids), [IS_A, PART_OF]))
+        payload = EnrichmentPayload()
+        for anc in ancs:
+            payload.term_ids.append(anc)
+            payload.term_strings.append(self.ontology.label(anc))
         return payload
 
     def random_enrichment(self, gene_set: GeneSet = None, n: int = None) -> EnrichmentPayload:

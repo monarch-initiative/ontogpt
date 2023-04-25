@@ -22,16 +22,17 @@ from ontogpt.clients.pubmed_client import PubmedClient
 from ontogpt.clients.soup_client import SoupClient
 from ontogpt.clients.wikipedia_client import WikipediaClient
 from ontogpt.engines import create_engine
-from ontogpt.engines.enrichment import EnrichmentEngine, GeneSet, parse_gene_set
+from ontogpt.engines.embedding_similarity_engine import SimilarityEngine
+from ontogpt.engines.enrichment import EnrichmentEngine
 from ontogpt.engines.halo_engine import HALOEngine
 from ontogpt.engines.knowledge_engine import KnowledgeEngine
-from ontogpt.engines.similarity_engine import SimilarityEngine
 from ontogpt.engines.spires_engine import SPIRESEngine
 from ontogpt.engines.synonym_engine import SynonymEngine
 from ontogpt.evaluation.enrichment.eval_enrichment import EvalEnrichment
 from ontogpt.evaluation.resolver import create_evaluator
 from ontogpt.io.html_exporter import HTMLExporter
 from ontogpt.io.markdown_exporter import MarkdownExporter
+from ontogpt.utils.gene_set_utils import GeneSet, parse_gene_set
 
 __all__ = [
     "main",
@@ -105,6 +106,9 @@ interactive_option = click.option(
     help="Interactive mode - rather than call the LLM API it will prompt you do this.",
 )
 model_option = click.option("-m", "--model", help="Engine to use, e.g. text-davinci-003.")
+prompt_template_option = click.option(
+    "--prompt-template", help="Path to a file containing the prompt."
+)
 recurse_option = click.option(
     "--recurse/--no-recurse", default=True, show_default=True, help="Recursively parse structures."
 )
@@ -531,6 +535,7 @@ def convert_geneset(input_file, output, output_format, **kwargs):
     show_default=True,
     help="If set, include annotations in the prompt",
 )
+@prompt_template_option
 @interactive_option
 @click.argument("genes", nargs=-1)
 def enrichment(
@@ -801,15 +806,10 @@ def eval_enrichment(genes, input_file, number_to_drop, annotations_path, output,
         gene_set = parse_gene_set(input_file)
     if not gene_set:
         raise ValueError("No genes passed")
-    models = ["gpt-3.5-turbo", "text-davinci-003"]
-    all_comparisons = []
-    for model in models:
-        eval_engine = EvalEnrichment(model=model)
-        eval_engine.load_annotations(annotations_path)
-        print(f"RANDOM GENE: {eval_engine.random_gene_symbol()}")
-        comps = eval_engine.evaluate_methods_on_gene_set(gene_set, n=number_to_drop)
-        all_comparisons.extend([comp.dict() for comp in comps])
-    output.write(dump_minimal_yaml(all_comparisons))
+    eval_engine = EvalEnrichment()
+    eval_engine.load_annotations(annotations_path)
+    comps = eval_engine.evaluate_methods_on_gene_set(gene_set, n=number_to_drop)
+    output.write(dump_minimal_yaml(comps))
 
 
 @main.command()

@@ -3734,14 +3734,14 @@ viz = ["pygraphviz"]
 
 [[package]]
 name = "oaklib"
-version = "0.5.1"
+version = "0.5.2"
 description = "Ontology Access Kit: Python library for common ontology operations over a variety of backends"
 category = "main"
 optional = false
 python-versions = ">=3.9,<4.0.0"
 files = [
-    {file = "oaklib-0.5.1-py3-none-any.whl", hash = "sha256:043468c3fda2a39e90f38c3adbffa4c664e37c50b106d90b9e8cc7152c6488ad"},
-    {file = "oaklib-0.5.1.tar.gz", hash = "sha256:bc959f7804dc88db1fc8706dbc7c36711939b180b83be5e2f5dcaceaf96ff637"},
+    {file = "oaklib-0.5.2-py3-none-any.whl", hash = "sha256:748f95ee5ed8a9dce6f9eb1bcfecf2c7b37a24efc76b04a16d6988d900ae4984"},
+    {file = "oaklib-0.5.2.tar.gz", hash = "sha256:45e0f66b22217273d7011500d410223d413731e2913f6a604474df041e7bc373"},
 ]
 
 [package.dependencies]
@@ -3750,6 +3750,7 @@ appdirs = ">=1.4.4,<2.0.0"
 bioregistry = ">=0.6.35,<0.7.0"
 class-resolver = ">=0.4.2"
 curies = ">=0.4.0,<0.5.0"
+eutils = ">=0.6.0,<0.7.0"
 funowl = ">=0.1.12,<0.2.0"
 kgcl-rdflib = ">=0.3.0,<0.4.0"
 kgcl-schema = ">=0.3.5,<0.4.0"
@@ -3764,6 +3765,7 @@ ontoportal-client = "0.0.3"
 pandas = ">=1.5.1,<2.0.0"
 prefixmaps = ">=0.1.2,<0.2.0"
 pronto = ">=2.5.0,<3.0.0"
+pysolr = ">=3.9.0,<4.0.0"
 pystow = ">=0.5.0,<0.6.0"
 ratelimit = ">=2.2.1,<3.0.0"
 semsql = ">=0.3.1,<0.4.0"
@@ -3775,6 +3777,7 @@ upsetplot = ">=0.8.0,<0.9.0"
 
 [package.extras]
 gilda = ["gilda (>=0.10.1,<0.11.0)"]
+rustsim = ["rustsim (>=0.1.6,<0.2.0)"]
 
 [[package]]
 name = "obonet"
@@ -4545,6 +4548,23 @@ rdflib-shim = "*"
 shexjsg = ">=0.8.1"
 
 [[package]]
+name = "pysolr"
+version = "3.9.0"
+description = "Lightweight Python client for Apache Solr"
+category = "main"
+optional = false
+python-versions = "*"
+files = [
+    {file = "pysolr-3.9.0.tar.gz", hash = "sha256:6ef05feb87c614894243eddc62e9b0a6134a889c159ae868655cf6cd749545e6"},
+]
+
+[package.dependencies]
+requests = ">=2.9.1"
+
+[package.extras]
+solrcloud = ["kazoo (>=2.5.0)"]
+
+[[package]]
 name = "pystow"
 version = "0.5.0"
 description = "Easily pick a place to store data for your python package."
@@ -5252,6 +5272,32 @@ files = [
     {file = "ruamel.yaml.clib-0.2.7-cp39-cp39-win32.whl", hash = "sha256:d5e51e2901ec2366b79f16c2299a03e74ba4531ddcfacc1416639c557aef0ad8"},
     {file = "ruamel.yaml.clib-0.2.7-cp39-cp39-win_amd64.whl", hash = "sha256:184faeaec61dbaa3cace407cffc5819f7b977e75360e8d5ca19461cd851a5fc5"},
     {file = "ruamel.yaml.clib-0.2.7.tar.gz", hash = "sha256:1f08fd5a2bea9c4180db71678e850b995d2a5f4537be0e94557668cf0f5f9497"},
+]
+
+[[package]]
+name = "rustsim"
+version = "0.1.8"
+description = ""
+category = "main"
+optional = false
+python-versions = ">=3.7"
+files = [
+    {file = "rustsim-0.1.8-cp310-cp310-macosx_10_7_x86_64.whl", hash = "sha256:e0170079ae850801c74b776ba6a1e68e31b0cc60f7a739f1974873778ac4207e"},
+    {file = "rustsim-0.1.8-cp310-cp310-macosx_10_9_x86_64.macosx_11_0_arm64.macosx_10_9_universal2.whl", hash = "sha256:240dda9b80e7c8b5d382427020c951729f899732503ef4d9a861eaef7cec46d6"},
+    {file = "rustsim-0.1.8-cp310-cp310-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:ce483a165030fa73c2d133a61fab2963d88e5c4d468244df38084051a6b8c5f1"},
+    {file = "rustsim-0.1.8-cp310-none-win_amd64.whl", hash = "sha256:2619967825f2a42e9eaf32d8217abd2c49c48a78059f57602df30b3b750378de"},
+    {file = "rustsim-0.1.8-cp37-cp37m-macosx_10_7_x86_64.whl", hash = "sha256:660237d57905b596ce5fb5a9efc8b1331610dc981f6271132e37a438be839787"},
+    {file = "rustsim-0.1.8-cp37-cp37m-macosx_10_9_x86_64.macosx_11_0_arm64.macosx_10_9_universal2.whl", hash = "sha256:cb3d71f4bc7fa8fdbf15246bb65c15e6c5159e1e2d0cb825697fe60cab23b61b"},
+    {file = "rustsim-0.1.8-cp37-cp37m-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:bd414e6a081e31fab8cc479ffbfc8ac0f4a8febdfbe41445855aefa690406e94"},
+    {file = "rustsim-0.1.8-cp37-none-win_amd64.whl", hash = "sha256:892654a68c6c7c8ddafdf3beab4e06f02c0d151bd7476f3bf353ea3e268590d1"},
+    {file = "rustsim-0.1.8-cp38-cp38-macosx_10_7_x86_64.whl", hash = "sha256:af2c433a7d67d8e3f53843aed8da677af7dd6ab8ff7e4b9b0cebfd65b8f38971"},
+    {file = "rustsim-0.1.8-cp38-cp38-macosx_10_9_x86_64.macosx_11_0_arm64.macosx_10_9_universal2.whl", hash = "sha256:739fd70e0c8b071bd5d5b8b88c94dde2662ed517f98c180e5080f35e7be24302"},
+    {file = "rustsim-0.1.8-cp38-cp38-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:d38872179b43d97a5f93ed81a9e51ba76f8db0ba4f1dd39641ef21f2b8d0fdb0"},
+    {file = "rustsim-0.1.8-cp38-none-win_amd64.whl", hash = "sha256:850fc909312eb14ac9bbede957393ece39e65ab7475bd11d0a82c9dffc950130"},
+    {file = "rustsim-0.1.8-cp39-cp39-macosx_10_7_x86_64.whl", hash = "sha256:3e484698c98d24b73013d5497b37197544bbeb276bd09eae89fbc52258432092"},
+    {file = "rustsim-0.1.8-cp39-cp39-macosx_10_9_x86_64.macosx_11_0_arm64.macosx_10_9_universal2.whl", hash = "sha256:067083ffe78482c359e922518e20576e8c143d9376c138c959b3a84d5afbd35a"},
+    {file = "rustsim-0.1.8-cp39-cp39-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:0bdf735de145efca05a2abb6dcfe9f713c4e2d2b44bc5b0f4dd40587a3a4e9a3"},
+    {file = "rustsim-0.1.8-cp39-none-win_amd64.whl", hash = "sha256:cf3f987f30d58b8535bfebfe9fde63c14621e0dcbe375fe129b78d9f81aeadf9"},
 ]
 
 [[package]]
@@ -6681,4 +6727,4 @@ web = ["Jinja2", "fastapi", "uvicorn"]
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.9"
-content-hash = "e777fcbe3112710a857c97f98a9e0dd56a34fbbf160c975495b20bc088762969"
+content-hash = "840a985feb9c0afe31f41ea0dbc9c70b9da33f7c7a9a700cab26c0a2999913b3"

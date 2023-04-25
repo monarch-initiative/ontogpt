@@ -50,7 +50,7 @@ classes:
       label:
         description: the name of the GO term
     annotations:
-      annotators: sqlite:obo:go, sqlite:obo:mondo, sqlite:obo:uberon, bioportal:mesh
+      annotators: sqlite:obo:go, sqlite:obo:mondo, sqlite:obo:uberon, sqlite:obo:mesh
     id_prefixes:
       - GO
       - MONDO
