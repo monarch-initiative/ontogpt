@@ -5,7 +5,7 @@ from pathlib import Path
 import yaml
 from oaklib import get_adapter
 
-from ontogpt.engines.enrichment import GeneSet, load_gene_sets, populate_ids_and_symbols
+from ontogpt.utils.gene_set_utils import GeneSet, load_gene_sets, populate_ids_and_symbols
 from ontogpt.evaluation.enrichment.eval_enrichment import EvalEnrichment
 from ontogpt.io.yaml_wrapper import dump_minimal_yaml
 from tests import GENE_SETS_DIR, INPUT_DIR, OUTPUT_DIR
@@ -371,15 +371,23 @@ class TestEvalEnrichment(unittest.TestCase):
             with open(tmpdir / f"{name}.yaml", "w") as f:
                 yaml.dump(geneset.dict(), f)
 
+    def test_closure(self):
+        engine = self.evaluator
+        self.evaluator.load_annotations(GENES2GO_PATH)
+        for name, gene_symbols in GENE_SETS:
+            gene_set = GeneSet(name=name, gene_symbols=gene_symbols)
+            populate_ids_and_symbols(gene_set, self.hgnc)
+            payload = self.evaluator.gene_term_closure(gene_set)
+            print(payload)
+
     def test_standard_enrichment(self):
         """Tests normal OAK enrichment."""
         engine = self.evaluator
         self.evaluator.load_annotations(GENES2GO_PATH)
-        for gene_set in GENE_SETS:
-            print(gene_set)
-            name, gene_ids = gene_set
-            print("GENE IDS", gene_ids)
-            payload = self.evaluator.standard_enrichment(gene_ids)
+        for name, gene_symbols in GENE_SETS:
+            gene_set = GeneSet(name=name, gene_symbols=gene_symbols)
+            populate_ids_and_symbols(gene_set, self.hgnc)
+            payload = self.evaluator.standard_enrichment(gene_set)
             print(payload)
 
     def test_standard_enrichment_no_ontology(self):

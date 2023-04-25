@@ -1,24 +1,19 @@
 """Enrichment engine."""
-import datetime
-import glob
-import json
 import logging
 import re
 from collections.abc import Iterator
 from dataclasses import dataclass, field
-from typing import Dict, List, Optional, Tuple
+from enum import Enum
+from pathlib import Path
+from typing import Dict, List, Optional, Tuple, Union
 
-import requests
-import yaml
-from cachier import cachier
+from jinja2 import Template
 from oaklib import BasicOntologyInterface, get_adapter
-from oaklib.interfaces.class_enrichment_calculation_interface import (
-    ClassEnrichmentCalculationInterface,
-)
-from pydantic import BaseModel
 
 from ontogpt.engines.knowledge_engine import KnowledgeEngine
 from ontogpt.templates.gene_description_term import GeneDescriptionTerm
+from ontogpt.utils.gene_set_utils import GeneSet, EnrichmentPayload, gene_info, ENTITY_ID, \
+    GENE_TUPLE
 
 logger = logging.getLogger(__name__)
 
@@ -66,6 +61,7 @@ Only include terms that are statistically over-represented.
 Provide results in the format
 
 {SUMMARY_KEYWORD}: <high level summary>
+{MECHANISM_KEYWORD}: <mechanism>
 {ENRICHED_TERMS_KEYWORD}: <term1>; <term2>; <term3>
 
 ###
@@ -73,141 +69,24 @@ Provide results in the format
 Here are the genes:
 """
 
-ENTITY_ID = str
-SYMBOL = str
-DESCRIPTION = str
-GENE_TUPLE = Tuple[ENTITY_ID, SYMBOL, DESCRIPTION]
 
-
-class GeneSet(BaseModel):
-    """A set of genes."""
-
-    name: str
-    gene_symbols: Optional[List[str]] = None
-    gene_ids: Optional[List[str]] = None
-    taxon: str = "human"
-    description: Optional[str] = None
-    target_term_ids: Optional[List[str]] = None
-
-
-class GeneSetCollection(BaseModel):
-    """A collection of gene sets."""
-
-    gene_sets: List[GeneSet]
-
-
-class EnrichmentPayload(BaseModel):
-    """Payload for enrichment."""
-
-    prompt: str = None
-    response_text: str = None
-    truncation_factor: float = None
-    summary: str = None
-    term_strings: List[str] = []
-    term_ids: List[str] = []
-    ontological_synopsis: bool = None
-    combined_synopsis: bool = None
-    annotations: bool = None
-    response_token_length: int = None
-    model: str = None
-    method: str = None
-
-
-def parse_gene_set(input_path: str, format: str = None) -> GeneSet:
-    """
-    Parse a gene set from a file.
-
-    Accepts:
-
-    - yaml (native gene set format; recommended)
-    - json (msigdb format)
-    - txt (one gene symbol per line)
-
-    This does no normalization of gene symbols or ids.
-
-    """
-    if format is None:
-        format = input_path.split(".")[-1]
-    if format == "yaml":
-        with open(input_path, "r") as f:
-            gene_set = GeneSet(**yaml.safe_load(f))
-    elif format == "json" or format == "msigdb":
-        with open(input_path, "r") as f:
-            name, msig = list(json.load(f).items())[0]
-            gene_set = GeneSet(name=name, gene_symbols=msig["geneSymbols"])
-    elif format == "txt":
-        with open(input_path, "r") as f:
-            gene_symbols = [line.strip() for line in f.readlines()]
-            gene_set = GeneSet(name=input_path, gene_symbols=gene_symbols)
-    else:
-        raise ValueError(f"Unknown format {format}")
-    return gene_set
-
-
-def load_gene_sets(
-    path: str, ontology_adapter: BasicOntologyInterface = None, strict=False
-) -> GeneSetCollection:
-    """Load gene sets from a folder.
-
-    If ontology_adapter is provided, gene symbols will be converted to gene ids and vice versa.
-    """
-    gene_sets = []
-    for input_path in glob.glob(f"{path}/*.yaml"):
-        gene_set = parse_gene_set(input_path)
-        gene_sets.append(gene_set)
-        if not gene_set.gene_ids and not gene_set.gene_symbols:
-            raise ValueError(f"Gene set {gene_set.name} has no gene symbols or ids")
-        populate_ids_and_symbols(gene_set, ontology_adapter, strict)
-    return GeneSetCollection(gene_sets=gene_sets)
-
-
-def populate_ids_and_symbols(
-    gene_set: GeneSet, ontology_adapter: BasicOntologyInterface = None, strict=False
-):
-    if ontology_adapter:
-        if not gene_set.gene_ids:
-            print(f"Fetching ids for {len(gene_set.gene_symbols)} genes")
-            gene_set.gene_ids = []
-            for sym in gene_set.gene_symbols:
-                ids = ontology_adapter.curies_by_label(sym)
-                if strict and len(ids) != 1:
-                    raise ValueError(f"Could not find a single id for symbol {sym}")
-                # hack! normalize casing
-                gene_set.gene_ids.extend([id.upper() for id in ids])
-        if not gene_set.gene_symbols:
-            print(f"Fetching labels for {len(gene_set.gene_ids)} genes")
-            gene_set.gene_symbols = []
-            for id in gene_set.gene_ids:
-                # HACK! lowercase the id to avoid issues with obo-dv-ingest
-                lbl = ontology_adapter.label(id.lower())
-                print(f"{id} -> {lbl}")
-                if lbl:
-                    gene_set.gene_symbols.append(lbl)
-                else:
-                    if strict:
-                        raise ValueError(f"Could not find a label for id {id}")
-
-
-@cachier(stale_after=datetime.timedelta(days=7))
-def gene_info(id: ENTITY_ID) -> Tuple[SYMBOL, DESCRIPTION, DESCRIPTION]:
-    url = f"https://www.alliancegenome.org/api/gene/{id}"
-    logging.info(f"Fetching gene summary from {url}")
-    response = requests.get(url)
-    if response.status_code != 200:
-        raise ValueError(f"Error fetching issues: {response.status_code} // {response.text}")
-    obj = response.json()
-    symbol = obj["symbol"]
-    return symbol, obj["geneSynopsis"], obj["automatedGeneSynopsis"]
+class GeneDescriptionSource(Enum):
+    NONE = "none"
+    ONTOLOGICAL_SYNOPSIS = "ontological"
+    NARRATIVE_SYNOPSIS = "narrative"
+    COMBINED_SYNOPSIS = "combined"
+    WIKIPEDIA = "wikipedia"
+    PUBMED = "pubmed"
 
 
 @dataclass
 class EnrichmentEngine(KnowledgeEngine):
     """Engine for performing term enrichment.
 
-    Algorithm: SPINDOCTER
+    Algorithm: SPINDOCTOR
 
-    Structured Prompting Interpalating Narrative
-    Descriptions Ontology Classification Term Enrichment
+    Summarizing Proteins Interpolating Narrative
+    Descriptions of Controlled Terms for Ontological enRichment
 
     """
 
@@ -217,6 +96,9 @@ class EnrichmentEngine(KnowledgeEngine):
     label_resolvers: Dict[str, BasicOntologyInterface] = field(default_factory=dict)
 
     completion_length = 250
+
+    prompt_template: str = None
+    """Path to a jinja2 template for the prompt"""
 
     def __post_init__(self):
         if not self.template:
@@ -237,8 +119,10 @@ class EnrichmentEngine(KnowledgeEngine):
     def summarize(
         self,
         gene_set: GeneSet,
+        prompt_template: Optional[str] = None,
         normalize=False,
         strict=False,
+        gene_description_source: GeneDescriptionSource = None,
         ontological_synopsis=True,
         combined_synopsis=False,
         annotations=True,
@@ -246,7 +130,8 @@ class EnrichmentEngine(KnowledgeEngine):
         """
         Summarize a list of gene IDs.
 
-        :param ids: list of gene IDs
+        :param gene_set: an object representing a list of genes to summarize
+        :prompt_template: path to alternative prompt
         :param normalize: whether to normalize labels to IDs
         :param strict: whether to raise an error if a gene symbol cannot be normalized
         :param ontological_synopsis: whether to use the auto-generated synopsis
@@ -254,8 +139,25 @@ class EnrichmentEngine(KnowledgeEngine):
         :param annotations: whether to use annotations
         :return: summary
         """
+        if gene_description_source:
+            if gene_description_source == GeneDescriptionSource.NONE:
+                ontological_synopsis = False
+                annotations = False
+            elif gene_description_source == GeneDescriptionSource.ONTOLOGICAL_SYNOPSIS:
+                ontological_synopsis = True
+                annotations = True
+            elif gene_description_source == GeneDescriptionSource.NARRATIVE_SYNOPSIS:
+                ontological_synopsis = False
+                annotations = True
+            elif gene_description_source == GeneDescriptionSource.COMBINED_SYNOPSIS:
+                combined_synopsis = True
+            else:
+                raise NotImplementedError
         if not gene_set.gene_ids and not gene_set.gene_symbols:
             raise ValueError(f"Gene set {gene_set.name} has no gene symbols or ids")
+        if gene_set.gene_ids and not gene_set.gene_symbols:
+            adapter = list(self.label_resolvers.values())[0]
+            gene_set.gene_symbols = [adapter.label(x.lower()) for x in gene_set.gene_ids]
         if not gene_set.gene_ids or normalize:
             gene_set.gene_ids = list(self.map_labels(gene_set.gene_symbols, strict=strict))
             logger.info(f"gene ids: {gene_set.gene_ids}")
@@ -280,7 +182,7 @@ class EnrichmentEngine(KnowledgeEngine):
         logging.info(f"Found {len(gene_tuples)} gene summaries")
         if not annotations:
             return self.summarize_annotation_free(gene_tuples)
-        prompt, tf = self._prompt(gene_tuples)
+        prompt, tf = self._prompt(gene_tuples, template=prompt_template)
         response_text = self.client.complete(prompt, max_tokens=self.completion_length)
         response_token_length = len(self.encoding.encode(response_text))
         logging.info(f"Response token length: {response_token_length}")
@@ -317,25 +219,9 @@ class EnrichmentEngine(KnowledgeEngine):
         self.process_payload(payload)
         return payload
 
-    def standard_enrichment(
-        self,
-        gene_ids: List[ENTITY_ID],
-        ontology: ClassEnrichmentCalculationInterface = None,
-        predicates: List[ENTITY_ID] = None,
-    ) -> EnrichmentPayload:
-        """Enrichment using an ontology."""
-        if ontology is None:
-            ontology = get_adapter("sqlite:obo:go")
-        results = ontology.enriched_classes(
-            gene_ids, autolabel=True, object_closure_predicates=predicates
-        )
-        payload = EnrichmentPayload()
-        for result in results:
-            payload.term_strings.append(result.class_label)
-            payload.term_ids.append(result.class_id)
-        return payload
-
-    def _prompt(self, genes: List[GENE_TUPLE], truncation_factor=1.0) -> Tuple[str, float]:
+    def _prompt(self, genes: List[GENE_TUPLE], template: Optional[Union[str, Path, Template]] = None, truncation_factor=1.0) -> Tuple[str, float]:
+        if template:
+            return self._prompt_from_template(genes, template, truncation_factor)
         prompt = BASE_PROMPT
         for _, symbol, desc in genes:
             if desc is None:
@@ -353,6 +239,39 @@ class EnrichmentEngine(KnowledgeEngine):
         if prompt_length > max_len:  # TODO: check this
             logging.warning(f"Prompt is too long; toks: {prompt_length} len: {len(prompt)}")
             return self._prompt(genes, truncation_factor=truncation_factor * 0.8)
+        return prompt, truncation_factor
+
+    def _prompt_from_template(self, genes: List[GENE_TUPLE], template: str, truncation_factor=1.0) -> Tuple[str, float]:
+        if isinstance(template, Path):
+            template = str(template)
+        if isinstance(template, str):
+            # create a Jinja2 template object
+            with open(template) as file:
+                template = Template(file.read())
+        if not isinstance(template, Template):
+            raise ValueError(f"Invalid template: {template}")
+        gd_tuples = []
+        for _, symbol, desc in genes:
+            if desc is None:
+                desc = ""
+            if truncation_factor < 1.0:
+                desc = desc[: int(len(desc) * truncation_factor)] + "..."
+            gd_tuples.append((symbol, desc))
+        prompt = template.render(
+            gene_descriptions=gd_tuples,
+            SUMMARY_KEYWORD=SUMMARY_KEYWORD,
+            MECHANISM_KEYWORD=MECHANISM_KEYWORD,
+            ENRICHED_TERMS_KEYWORD=ENRICHED_TERMS_KEYWORD,
+        )
+        logging.debug(f"Prompt from template: {prompt}")
+        logging.info(f"Prompt [{truncation_factor}] Length: {len(prompt)}")
+        # https://help.openai.com/en/articles/4936856-what-are-tokens-and-how-to-count-them
+        prompt_length = len(self.encoding.encode(prompt))
+        logging.info(f"Prompt [{truncation_factor}] Tokens: {prompt_length} Strlen={len(prompt)}")
+        max_len = 4097 - self.completion_length
+        if prompt_length > max_len:  # TODO: check this
+            logging.warning(f"Prompt is too long; toks: {prompt_length} len: {len(prompt)}")
+            return self._prompt_from_template(genes, template, truncation_factor=truncation_factor * 0.8)
         return prompt, truncation_factor
 
     def map_labels(self, labels: List[str], strict=False) -> Iterator[ENTITY_ID]:
@@ -404,6 +323,9 @@ class EnrichmentEngine(KnowledgeEngine):
         tokenizations = sorted(tokenizations.items(), key=lambda x: len(x[1]), reverse=True)
         best_tokens = tokenizations[0][1]
         payload.term_strings = [s.lower().strip(":-*;. -\n") for s in best_tokens]  # noqa
+        if payload.term_strings and payload.term_strings[-1].startswith("and "):
+            # sometimes the LLM will write an oxford comma style list
+            payload.term_strings[-1] = payload.term_strings[-1].replace("and ", "")
         payload.term_ids = []
         for term in payload.term_strings:
             payload.term_ids.append(self.normalize_named_entity(term, GeneDescriptionTerm.__name__))

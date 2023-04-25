@@ -5,7 +5,7 @@ import unittest
 import yaml
 
 from ontogpt.engines import halo_engine
-from ontogpt.engines.enrichment import load_gene_sets
+from ontogpt.utils.gene_set_utils import load_gene_sets
 from tests import GENE_SETS_DIR
 
 logger = logging.getLogger(halo_engine.__name__)

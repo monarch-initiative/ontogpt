@@ -2,7 +2,8 @@
 import unittest
 
 from ontogpt.engines import create_engine
-from ontogpt.engines.enrichment import EnrichmentEngine, GeneSet, gene_info
+from ontogpt.engines.enrichment import EnrichmentEngine
+from ontogpt.utils.gene_set_utils import GeneSet, gene_info
 from ontogpt.templates.gene_description_term import GeneDescriptionTerm
 
 PEX = [
