@@ -1,3 +1,4 @@
+"""Utilities for handling gene sets"""
 import datetime
 import glob
 import json
