@@ -24,14 +24,17 @@ from pydantic import BaseModel
 from tiktoken import Encoding
 
 from ontogpt.engines import create_engine
-from ontogpt.engines.enrichment import (
-    ENTITY_ID,
-    EnrichmentEngine,
-)
-from ontogpt.templates.class_enrichment import ClassEnrichmentResult
-from ontogpt.utils.gene_set_utils import GeneSet, EnrichmentPayload, populate_ids_and_symbols, gene_info, SYMBOL
+from ontogpt.engines.enrichment import ENTITY_ID, EnrichmentEngine
 from ontogpt.engines.knowledge_engine import MODEL_GPT_3_5_TURBO, MODEL_NAME, MODEL_TEXT_DAVINCI_003
 from ontogpt.evaluation.evaluation_engine import EvaluationEngine
+from ontogpt.templates.class_enrichment import ClassEnrichmentResult
+from ontogpt.utils.gene_set_utils import (
+    SYMBOL,
+    EnrichmentPayload,
+    GeneSet,
+    gene_info,
+    populate_ids_and_symbols,
+)
 
 THIS_DIR = Path(__file__).parent
 DATABASE_DIR = Path(__file__).parent / "database"
@@ -219,8 +222,6 @@ class EvalEnrichment(EvaluationEngine):
             payload.term_ids.append(anc)
             payload.term_strings.append(self.ontology.label(anc))
         return payload
-
-
 
     def random_enrichment(self, gene_set: GeneSet = None, n: int = None) -> EnrichmentPayload:
         """Randomized enrichment results."""

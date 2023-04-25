@@ -3,6 +3,7 @@ import logging
 import unittest
 
 import yaml
+
 from ontogpt.utils import gene_set_utils
 from ontogpt.utils.gene_set_utils import load_gene_sets
 from tests import GENE_SETS_DIR

@@ -5,9 +5,9 @@ from pathlib import Path
 import yaml
 from oaklib import get_adapter
 
-from ontogpt.utils.gene_set_utils import GeneSet, load_gene_sets, populate_ids_and_symbols
 from ontogpt.evaluation.enrichment.eval_enrichment import EvalEnrichment
 from ontogpt.io.yaml_wrapper import dump_minimal_yaml
+from ontogpt.utils.gene_set_utils import GeneSet, load_gene_sets, populate_ids_and_symbols
 from tests import GENE_SETS_DIR, INPUT_DIR, OUTPUT_DIR
 
 RESULTS_PATH = OUTPUT_DIR / "enrichment_results"

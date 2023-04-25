@@ -2,7 +2,7 @@ import datetime
 import glob
 import json
 import logging
-from typing import Optional, List, Tuple
+from typing import List, Optional, Tuple
 
 import requests
 import yaml
@@ -12,12 +12,11 @@ from pydantic import BaseModel
 
 from ontogpt.templates.class_enrichment import ClassEnrichmentResult
 
-
-
 ENTITY_ID = str
 SYMBOL = str
 DESCRIPTION = str
 GENE_TUPLE = Tuple[ENTITY_ID, SYMBOL, DESCRIPTION]
+
 
 class GeneSet(BaseModel):
     """A set of genes."""

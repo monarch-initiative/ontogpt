@@ -12,8 +12,13 @@ from oaklib import BasicOntologyInterface, get_adapter
 
 from ontogpt.engines.knowledge_engine import KnowledgeEngine
 from ontogpt.templates.gene_description_term import GeneDescriptionTerm
-from ontogpt.utils.gene_set_utils import GeneSet, EnrichmentPayload, gene_info, ENTITY_ID, \
-    GENE_TUPLE
+from ontogpt.utils.gene_set_utils import (
+    ENTITY_ID,
+    GENE_TUPLE,
+    EnrichmentPayload,
+    GeneSet,
+    gene_info,
+)
 
 logger = logging.getLogger(__name__)
 
@@ -219,7 +224,12 @@ class EnrichmentEngine(KnowledgeEngine):
         self.process_payload(payload)
         return payload
 
-    def _prompt(self, genes: List[GENE_TUPLE], template: Optional[Union[str, Path, Template]] = None, truncation_factor=1.0) -> Tuple[str, float]:
+    def _prompt(
+        self,
+        genes: List[GENE_TUPLE],
+        template: Optional[Union[str, Path, Template]] = None,
+        truncation_factor=1.0,
+    ) -> Tuple[str, float]:
         if template:
             return self._prompt_from_template(genes, template, truncation_factor)
         prompt = BASE_PROMPT
@@ -241,7 +251,9 @@ class EnrichmentEngine(KnowledgeEngine):
             return self._prompt(genes, truncation_factor=truncation_factor * 0.8)
         return prompt, truncation_factor
 
-    def _prompt_from_template(self, genes: List[GENE_TUPLE], template: str, truncation_factor=1.0) -> Tuple[str, float]:
+    def _prompt_from_template(
+        self, genes: List[GENE_TUPLE], template: str, truncation_factor=1.0
+    ) -> Tuple[str, float]:
         if isinstance(template, Path):
             template = str(template)
         if isinstance(template, str):
@@ -271,7 +283,9 @@ class EnrichmentEngine(KnowledgeEngine):
         max_len = 4097 - self.completion_length
         if prompt_length > max_len:  # TODO: check this
             logging.warning(f"Prompt is too long; toks: {prompt_length} len: {len(prompt)}")
-            return self._prompt_from_template(genes, template, truncation_factor=truncation_factor * 0.8)
+            return self._prompt_from_template(
+                genes, template, truncation_factor=truncation_factor * 0.8
+            )
         return prompt, truncation_factor
 
     def map_labels(self, labels: List[str], strict=False) -> Iterator[ENTITY_ID]:
