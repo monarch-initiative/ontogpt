@@ -29,20 +29,25 @@ ENRICHED_TERMS_KEYWORD = "Enriched Terms"
 
 BASE_PROMPT = f"""
 I will give you a list of genes together with descriptions of their functions.
-Perform a term enrichment test on these genes.
-i.e. tell me what the commonalities are in their function.
-Make use of classification hierarchies when you do this.
-Only report gene functions in common, not diseases.
-e.g if gene1 is involved in "toe bone growth" and gene2 is involved in "finger morphogenesis"
-then the term "digit development" would be enriched as represented by gene1 and gene2.
-Only include terms that are statistically over-represented.
-Also include a hypothesis of the underlying biological mechanism or pathway.
+Perform a standardized biological function term enrichment analysis on these genes.
+That is tell me what the commonalities are in their function.
+Make use of biological function term classification hierarchies when you do this.
+Only report gene functions that are in common, not diseases.
+For example, if a gene A is involved in "toe bone growth" (term1) and gene B  is involved in "finger morphogenesis" (term2)
+then the parent term of these two terms, representing a more general concept in the biological function hierarchy,
+would be "digit development" (term3) and it would be enriched for the gene set with gene A and and gene B.
+In other words since in the biological function classification hierarchy term1 and term2 are children 
+terms of the parent term "digit development", the gene set consisting of gene A and gene B is enriched for this parent term.
+After each enriched functional term give an exact p-value (e.g. <term1, p-value1>) 
+based on a statistical enrichment test comparing to the likelihood of observing that function 
+term enrichment for function descriptions from random gene sets.
+Also include a hypothesis of the underlying biological mechanism.
 
 Provide results in the format
 
 {SUMMARY_KEYWORD}: <high level summary>
 {MECHANISM_KEYWORD}: <mechanism>
-{ENRICHED_TERMS_KEYWORD}: <term1>; <term2>; <term3>
+{ENRICHED_TERMS_KEYWORD}: <term1, p-value1>; <term2, p-value2>; <term3, p-value3>
 
 ###
 
@@ -329,7 +334,8 @@ class EnrichmentEngine(KnowledgeEngine):
             rest = toks[0]
             payload.summary += "\nHypothesis: " + toks[1]
         # we ask to split on ";" but sometimes the model disobeys and uses "," instead
-        tok_chars = [";", ",", "-"]
+        # removing splitting on '-' since delimiter for p-value
+        tok_chars = [";"]#, ","]#, "-"]
         tokenizations = {}
         for tok_char in tok_chars:
             toks = rest.split(f"{tok_char} ")
@@ -337,6 +343,11 @@ class EnrichmentEngine(KnowledgeEngine):
         tokenizations = sorted(tokenizations.items(), key=lambda x: len(x[1]), reverse=True)
         best_tokens = tokenizations[0][1]
         payload.term_strings = [s.lower().strip(":-*;. -\n") for s in best_tokens]  # noqa
+
+        print("payload.term_strings\n"+str(payload.term_strings))
+        payload.pvalues = [s.split(" - ")[1] for s in payload.term_strings]
+        payload.term_strings = [s.split(" - ")[0] for s in payload.term_strings]        
+
         if payload.term_strings and payload.term_strings[-1].startswith("and "):
             # sometimes the LLM will write an oxford comma style list
             payload.term_strings[-1] = payload.term_strings[-1].replace("and ", "")
