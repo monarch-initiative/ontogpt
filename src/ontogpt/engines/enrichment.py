@@ -5,12 +5,13 @@ from collections.abc import Iterator
 from dataclasses import dataclass, field
 from enum import Enum
 from pathlib import Path
-from typing import Dict, List, Optional, Tuple, Union
+from typing import Dict, List, Optional, Tuple
 
 from jinja2 import Template
 from oaklib import BasicOntologyInterface, get_adapter
 
 from ontogpt.engines.knowledge_engine import KnowledgeEngine
+from ontogpt.prompts.enrichment import DEFAULT_ENRICHMENT_PROMPT
 from ontogpt.templates.gene_description_term import GeneDescriptionTerm
 from ontogpt.utils.gene_set_utils import (
     ENTITY_ID,
@@ -26,53 +27,6 @@ logger = logging.getLogger(__name__)
 SUMMARY_KEYWORD = "Summary"
 MECHANISM_KEYWORD = "Mechanism"
 ENRICHED_TERMS_KEYWORD = "Enriched Terms"
-
-BASE_PROMPT = f"""
-I will give you a list of genes together with descriptions of their functions.
-Perform a term enrichment test on these genes.
-i.e. tell me what the commonalities are in their function.
-Make use of classification hierarchies when you do this.
-Only report gene functions in common, not diseases.
-e.g if gene1 is involved in "toe bone growth" and gene2 is involved in "finger morphogenesis"
-then the term "digit development" would be enriched as represented by gene1 and gene2.
-Only include terms that are statistically over-represented.
-Also include a hypothesis of the underlying biological mechanism or pathway.
-
-Provide results in the format
-
-{SUMMARY_KEYWORD}: <high level summary>
-{MECHANISM_KEYWORD}: <mechanism>
-{ENRICHED_TERMS_KEYWORD}: <term1>; <term2>; <term3>
-
-###
-
-Here are the gene summaries:
-"""
-
-FOOTER = """
-Summary and enriched terms:
-"""
-
-ANNOTATION_FREE_PROMPT = f"""
-I will give you a list of genes symbols.
-Perform a term enrichment test on these genes.
-i.e. tell me what the commonalities are in their function.
-Make use of classification hierarchies when you do this.
-Only report gene functions in common, not diseases.
-e.g if gene1 is involved in "toe bone growth" and gene2 is involved in "finger morphogenesis"
-then the term "digit development" would be enriched as represented by gene1 and gene2.
-Only include terms that are statistically over-represented.
-
-Provide results in the format
-
-{SUMMARY_KEYWORD}: <high level summary>
-{MECHANISM_KEYWORD}: <mechanism>
-{ENRICHED_TERMS_KEYWORD}: <term1>; <term2>; <term3>
-
-###
-
-Here are the genes:
-"""
 
 
 class GeneDescriptionSource(Enum):
@@ -131,9 +85,14 @@ class EnrichmentEngine(KnowledgeEngine):
         ontological_synopsis=True,
         combined_synopsis=False,
         annotations=True,
+        gene_aliases=None,
     ) -> EnrichmentPayload:
         """
         Summarize a list of gene IDs.
+
+        >>> engine = EnrichmentEngine()
+        >>> gene_set = GeneSet(gene_ids=...)
+        >>> engine.summarize(gene_set)
 
         :param gene_set: an object representing a list of genes to summarize
         :prompt_template: path to alternative prompt
@@ -142,6 +101,7 @@ class EnrichmentEngine(KnowledgeEngine):
         :param ontological_synopsis: whether to use the auto-generated synopsis
         :param combined_synopsis: whether to combine the auto-generated and manual synopsis
         :param annotations: whether to use annotations
+        :param spike_gene_set: FOR TESTING ONLY
         :return: summary
         """
         if gene_description_source:
@@ -185,9 +145,15 @@ class EnrichmentEngine(KnowledgeEngine):
                 logging.debug(f"Manual synopsis: {desc}")
             gene_tuples.append((gene_id, symbol, desc))
         logging.info(f"Found {len(gene_tuples)} gene summaries")
-        if not annotations:
-            return self.summarize_annotation_free(gene_tuples)
-        prompt, tf = self._prompt(gene_tuples, template=prompt_template)
+        # if not annotations:
+        #    return self.summarize_annotation_free(gene_tuples)
+        if gene_aliases:
+            gene_tuples = [(id, gene_aliases.get(sym, sym), desc) for id, sym, desc in gene_tuples]
+        if not prompt_template:
+            prompt_template = str(f"{DEFAULT_ENRICHMENT_PROMPT}.jinja2")
+        prompt, tf = self._prompt_from_template(
+            gene_tuples, template=prompt_template, annotations=annotations
+        )
         response_text = self.client.complete(prompt, max_tokens=self.completion_length)
         response_token_length = len(self.encoding.encode(response_text))
         logging.info(f"Response token length: {response_token_length}")
@@ -197,62 +163,19 @@ class EnrichmentEngine(KnowledgeEngine):
             truncation_factor=tf,
             used_auto_synopsis=ontological_synopsis,
             used_combined_synopsis=combined_synopsis,
-            annotations=True,
+            annotations=annotations,
             response_token_length=response_token_length,
             model=self.model,
         )
         self.process_payload(payload)
         return payload
-
-    def summarize_annotation_free(self, genes: List[GENE_TUPLE]) -> EnrichmentPayload:
-        """Summarize gene IDs without using any annotations."""
-        prompt = ANNOTATION_FREE_PROMPT
-        if not genes:
-            raise ValueError("No genes provided")
-        prompt += "; ".join([symbol for _id, symbol, _desc in genes])
-        prompt += FOOTER
-        response_text = self.client.complete(prompt)
-        response_token_length = len(self.encoding.encode(response_text))
-        logging.info(f"Response token length: {response_token_length}")
-        payload = EnrichmentPayload(
-            prompt=prompt,
-            response_text=response_text,
-            annotations=False,
-            response_token_length=response_token_length,
-            model=self.model,
-        )
-        self.process_payload(payload)
-        return payload
-
-    def _prompt(
-        self,
-        genes: List[GENE_TUPLE],
-        template: Optional[Union[str, Path, Template]] = None,
-        truncation_factor=1.0,
-    ) -> Tuple[str, float]:
-        if template:
-            return self._prompt_from_template(genes, template, truncation_factor)
-        prompt = BASE_PROMPT
-        for _, symbol, desc in genes:
-            if desc is None:
-                desc = ""
-            if truncation_factor < 1.0:
-                desc = desc[: int(len(desc) * truncation_factor)] + "..."
-            prompt += f"{symbol}: {desc}\n"
-        # prompt += "\nEnriched terms:"
-        prompt += FOOTER
-        logging.info(f"Prompt [{truncation_factor}] Length: {len(prompt)}")
-        # https://help.openai.com/en/articles/4936856-what-are-tokens-and-how-to-count-them
-        prompt_length = len(self.encoding.encode(prompt))
-        logging.info(f"Prompt [{truncation_factor}] Tokens: {prompt_length} Strlen={len(prompt)}")
-        max_len = 4097 - self.completion_length
-        if prompt_length > max_len:  # TODO: check this
-            logging.warning(f"Prompt is too long; toks: {prompt_length} len: {len(prompt)}")
-            return self._prompt(genes, truncation_factor=truncation_factor * 0.8)
-        return prompt, truncation_factor
 
     def _prompt_from_template(
-        self, genes: List[GENE_TUPLE], template: str, truncation_factor=1.0
+        self,
+        genes: List[GENE_TUPLE],
+        template: str,
+        truncation_factor=1.0,
+        annotations=True,
     ) -> Tuple[str, float]:
         if isinstance(template, Path):
             template = str(template)
@@ -271,6 +194,7 @@ class EnrichmentEngine(KnowledgeEngine):
             gd_tuples.append((symbol, desc))
         prompt = template.render(
             gene_descriptions=gd_tuples,
+            annotations=annotations,
             SUMMARY_KEYWORD=SUMMARY_KEYWORD,
             MECHANISM_KEYWORD=MECHANISM_KEYWORD,
             ENRICHED_TERMS_KEYWORD=ENRICHED_TERMS_KEYWORD,
@@ -284,7 +208,10 @@ class EnrichmentEngine(KnowledgeEngine):
         if prompt_length > max_len:  # TODO: check this
             logging.warning(f"Prompt is too long; toks: {prompt_length} len: {len(prompt)}")
             return self._prompt_from_template(
-                genes, template, truncation_factor=truncation_factor * 0.8
+                genes,
+                template,
+                truncation_factor=truncation_factor * 0.8,
+                annotations=annotations,
             )
         return prompt, truncation_factor
 
