@@ -3,6 +3,7 @@ import codecs
 import logging
 import pickle
 import sys
+from copy import copy
 from dataclasses import dataclass
 from io import BytesIO, TextIOWrapper
 from pathlib import Path
@@ -518,6 +519,10 @@ def convert_geneset(input_file, output, output_format, **kwargs):
     help="File with gene IDs to enrich (if not passed as arguments)",
 )
 @click.option(
+    "--randomize-gene-descriptions-using-file",
+    help="FOR EVALUATION ONLY. swap out gene descriptions with genes from this gene set filefile",
+)
+@click.option(
     "--ontological-synopsis/--no-ontological-synopsis",
     default=True,
     show_default=True,
@@ -548,6 +553,7 @@ def enrichment(
     show_prompt,
     interactive,
     output_format,
+    randomize_gene_descriptions_using_file,
     **kwargs,
 ):
     """Gene class enrichment.
@@ -590,7 +596,22 @@ def enrichment(
         raise ValueError(f"Expected EnrichmentEngine, got {type(ke)}")
     if resolver:
         ke.add_resolver(resolver)
-    results = ke.summarize(gene_set, normalize=resolver is not None, **kwargs)
+    if randomize_gene_descriptions_using_file:
+        print("WARNING!! Randomly spiking gene descriptions")
+        spike_gene_set = parse_gene_set(randomize_gene_descriptions_using_file)
+        aliases = {}
+        if not spike_gene_set.gene_symbols:
+            raise ValueError(f"No gene symbols for spike set")
+        syms = copy(gene_set.gene_symbols)
+        if len(spike_gene_set.gene_symbols) < len(gene_set.gene_symbols):
+            raise ValueError(f"Not enough genes in spike set")
+        for sym in spike_gene_set.gene_symbols:
+            if not syms:
+                break
+            aliases[sym] = syms.pop()
+        results = ke.summarize(spike_gene_set, normalize=resolver is not None, gene_aliases=aliases, **kwargs)
+    else:
+        results = ke.summarize(gene_set, normalize=resolver is not None, **kwargs)
     if results.truncation_factor is not None and results.truncation_factor < 1.0:
         logging.warning(f"Text was truncated; factor = {results.truncation_factor}")
     output = _as_text_writer(output)
@@ -787,6 +808,10 @@ def entity_similarity(terms, ontology, output, model, output_format, **kwargs):
     default=1,
     help="Max number of genes to drop",
 )
+#@click.option(
+#    "--randomize-gene-descriptions/--no-randomize-gene-descriptions",
+#    help="DO NOT USE EXCEPT FOR EVALUATION PUPOSES."
+#)
 @click.option(
     "--annotations-path",
     "-A",
@@ -808,7 +833,7 @@ def eval_enrichment(genes, input_file, number_to_drop, annotations_path, output,
         raise ValueError("No genes passed")
     eval_engine = EvalEnrichment()
     eval_engine.load_annotations(annotations_path)
-    comps = eval_engine.evaluate_methods_on_gene_set(gene_set, n=number_to_drop)
+    comps = eval_engine.evaluate_methods_on_gene_set(gene_set, n=number_to_drop, **kwargs)
     output.write(dump_minimal_yaml(comps))
 
 

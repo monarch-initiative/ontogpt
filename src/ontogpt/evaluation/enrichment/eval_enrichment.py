@@ -104,7 +104,7 @@ class EvalEnrichment(EvaluationEngine):
         self.tokenizer_encoding = tiktoken.encoding_for_model(self.engine.model)
 
     def evaluate_methods_on_gene_set(
-        self, gene_set: GeneSet, max_size=999, n=4
+        self, gene_set: GeneSet, max_size=999, n=4, randomize_gene_descriptions=False, **kwargs
     ) -> List[GeneSetComparison]:
         """
         Perform evaluation of different methods on a gene set.
@@ -115,6 +115,7 @@ class EvalEnrichment(EvaluationEngine):
         :param gene_set: Gene set to evaluate
         :param max_size: Maximum size of gene set, above this the gene set will be truncated
         :param n: Number of dropouts to perform
+        :param randomize_gene_descriptions: use random gene descriptions
         """
         if n < 1:
             raise ValueError(f"n must be greater than 0: {n}")
