@@ -609,7 +609,9 @@ def enrichment(
             if not syms:
                 break
             aliases[sym] = syms.pop()
-        results = ke.summarize(spike_gene_set, normalize=resolver is not None, gene_aliases=aliases, **kwargs)
+        results = ke.summarize(
+            spike_gene_set, normalize=resolver is not None, gene_aliases=aliases, **kwargs
+        )
     else:
         results = ke.summarize(gene_set, normalize=resolver is not None, **kwargs)
     if results.truncation_factor is not None and results.truncation_factor < 1.0:
@@ -808,10 +810,10 @@ def entity_similarity(terms, ontology, output, model, output_format, **kwargs):
     default=1,
     help="Max number of genes to drop",
 )
-#@click.option(
+# @click.option(
 #    "--randomize-gene-descriptions/--no-randomize-gene-descriptions",
 #    help="DO NOT USE EXCEPT FOR EVALUATION PUPOSES."
-#)
+# )
 @click.option(
     "--annotations-path",
     "-A",

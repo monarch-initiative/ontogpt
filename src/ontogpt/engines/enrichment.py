@@ -29,6 +29,7 @@ SUMMARY_KEYWORD = "Summary"
 MECHANISM_KEYWORD = "Mechanism"
 ENRICHED_TERMS_KEYWORD = "Enriched Terms"
 
+
 class GeneDescriptionSource(Enum):
     NONE = "none"
     ONTOLOGICAL_SYNOPSIS = "ontological"
@@ -145,13 +146,15 @@ class EnrichmentEngine(KnowledgeEngine):
                 logging.debug(f"Manual synopsis: {desc}")
             gene_tuples.append((gene_id, symbol, desc))
         logging.info(f"Found {len(gene_tuples)} gene summaries")
-        #if not annotations:
+        # if not annotations:
         #    return self.summarize_annotation_free(gene_tuples)
         if gene_aliases:
             gene_tuples = [(id, gene_aliases.get(sym, sym), desc) for id, sym, desc in gene_tuples]
         if not prompt_template:
             prompt_template = str(f"{DEFAULT_ENRICHMENT_PROMPT}.jinja2")
-        prompt, tf = self._prompt_from_template(gene_tuples, template=prompt_template, annotations=annotations)
+        prompt, tf = self._prompt_from_template(
+            gene_tuples, template=prompt_template, annotations=annotations
+        )
         response_text = self.client.complete(prompt, max_tokens=self.completion_length)
         response_token_length = len(self.encoding.encode(response_text))
         logging.info(f"Response token length: {response_token_length}")
@@ -169,7 +172,11 @@ class EnrichmentEngine(KnowledgeEngine):
         return payload
 
     def _prompt_from_template(
-        self, genes: List[GENE_TUPLE], template: str, truncation_factor=1.0, annotations=True,
+        self,
+        genes: List[GENE_TUPLE],
+        template: str,
+        truncation_factor=1.0,
+        annotations=True,
     ) -> Tuple[str, float]:
         if isinstance(template, Path):
             template = str(template)
@@ -202,7 +209,10 @@ class EnrichmentEngine(KnowledgeEngine):
         if prompt_length > max_len:  # TODO: check this
             logging.warning(f"Prompt is too long; toks: {prompt_length} len: {len(prompt)}")
             return self._prompt_from_template(
-                genes, template, truncation_factor=truncation_factor * 0.8, annotations=annotations,
+                genes,
+                template,
+                truncation_factor=truncation_factor * 0.8,
+                annotations=annotations,
             )
         return prompt, truncation_factor
 
