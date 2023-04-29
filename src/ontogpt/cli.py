@@ -601,10 +601,10 @@ def enrichment(
         spike_gene_set = parse_gene_set(randomize_gene_descriptions_using_file)
         aliases = {}
         if not spike_gene_set.gene_symbols:
-            raise ValueError(f"No gene symbols for spike set")
+            raise ValueError("No gene symbols for spike set")
         syms = copy(gene_set.gene_symbols)
         if len(spike_gene_set.gene_symbols) < len(gene_set.gene_symbols):
-            raise ValueError(f"Not enough genes in spike set")
+            raise ValueError("Not enough genes in spike set")
         for sym in spike_gene_set.gene_symbols:
             if not syms:
                 break

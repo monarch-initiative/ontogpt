@@ -5,9 +5,8 @@ from collections.abc import Iterator
 from dataclasses import dataclass, field
 from enum import Enum
 from pathlib import Path
-from typing import Dict, List, Optional, Tuple, Union
+from typing import Dict, List, Optional, Tuple
 
-from deprecation import deprecated
 from jinja2 import Template
 from oaklib import BasicOntologyInterface, get_adapter
 
