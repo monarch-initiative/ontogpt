@@ -1,0 +1,25 @@
+rules:
+  - type: NewSynonym
+    description: adding X as synonym for X-activity in GO
+    see_also:
+      - https://github.com/geneontology/go-ontology/issues/21978
+    branches:
+      - molecular_function
+    match: "(.*)(activity)"
+    match_scope: "*"
+    replacement: "\\1"
+    tests:
+      - input: "ChS ABC lyase activity"
+        output: "ChS ABC lyase"
+        ontology: GO
+  - synonymizer:
+      the_rule: Remove parentheses bound info from the label.
+      match: r'\([^)]*\)'
+      match_scope: "*"
+      replacement: ""
+  - synonymizer:
+      the_rule: Synonymize foodon food products
+      match: "(.*) food product"
+      match_scope: "FOODON"
+      replacement: "\\1"
+

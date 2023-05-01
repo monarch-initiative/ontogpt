@@ -1,4 +1,8 @@
+{% if annotations %}
 I will give you a list of genes together with descriptions of their functions.
+{% else %}
+I will give you a list of genes.
+{% endif %}
 Perform a term enrichment test on these genes.
 i.e. tell me what the commonalities are in their function.
 Make use of classification hierarchies when you do this.
@@ -16,10 +20,15 @@ Provide results in the format
 
 ###
 
+{% if annotations %}
 Here are the gene summaries:
 
 {% for gd in gene_descriptions %}
 {{ gd[0] }}: {{ gd[1] }}
-{% endfor %
+{% endfor %}
+{% else %}
+Here are the genes:
+{% for gd in gene_descriptions %}{{ gd[0] }}; {% endfor %}
+{% endif %}
 
 Summary and enriched terms:
