@@ -120,7 +120,7 @@ class EnrichmentEngine(KnowledgeEngine):
                 raise NotImplementedError
         if not gene_set.gene_ids and not gene_set.gene_symbols:
             raise ValueError(f"Gene set {gene_set.name} has no gene symbols or ids")
-        #if gene_set.gene_ids and not gene_set.gene_symbols:
+        # if gene_set.gene_ids and not gene_set.gene_symbols:
         #    adapter = list(self.label_resolvers.values())[0]
         #    gene_set.gene_symbols = [adapter.label(x.lower()) for x in gene_set.gene_ids]
         if not gene_set.gene_ids or normalize:
@@ -152,7 +152,10 @@ class EnrichmentEngine(KnowledgeEngine):
         if not prompt_template:
             prompt_template = str(f"{DEFAULT_ENRICHMENT_PROMPT}.jinja2")
         prompt, tf = self._prompt_from_template(
-            gene_tuples, template=prompt_template, annotations=annotations, taxon=gene_set.taxon,
+            gene_tuples,
+            template=prompt_template,
+            annotations=annotations,
+            taxon=gene_set.taxon,
         )
         response_text = self.client.complete(prompt, max_tokens=self.completion_length)
         response_token_length = len(self.encoding.encode(response_text))
@@ -206,7 +209,9 @@ class EnrichmentEngine(KnowledgeEngine):
         # https://help.openai.com/en/articles/4936856-what-are-tokens-and-how-to-count-them
         prompt_length = len(self.encoding.encode(prompt)) + 10
         max_len = 4097 - self.completion_length
-        logging.info(f"Prompt [{truncation_factor}] Tokens: {prompt_length} Strlen={len(prompt)} max={max_len}")
+        logging.info(
+            f"Prompt [{truncation_factor}] Tokens: {prompt_length} Strlen={len(prompt)} max={max_len}"
+        )
         if prompt_length > max_len:  # TODO: check this
             logging.warning(f"Prompt is too long; toks: {prompt_length} len: {len(prompt)}")
             return self._prompt_from_template(
