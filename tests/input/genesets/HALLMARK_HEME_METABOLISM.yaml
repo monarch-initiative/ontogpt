@@ -1,6 +1,6 @@
 name: HALLMARK_HEME_METABOLISM
-gene_symbols: []
-gene_ids:
+
+gene_symbols:
  - ABCB6
  - ABCG2
  - ACKR1

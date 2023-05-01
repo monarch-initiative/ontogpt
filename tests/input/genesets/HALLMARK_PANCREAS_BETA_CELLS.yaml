@@ -1,6 +1,6 @@
 name: HALLMARK_PANCREAS_BETA_CELLS
-gene_symbols: []
-gene_ids:
+
+gene_symbols:
  - ABCC8
  - AKT3
  - CHGA

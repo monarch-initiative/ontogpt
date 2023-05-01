@@ -1,6 +1,6 @@
 name: HALLMARK_DNA_REPAIR
-gene_symbols: []
-gene_ids:
+
+gene_symbols:
  - AAAS
  - ADA
  - ADCY6

@@ -1,6 +1,6 @@
 name: HALLMARK_WNT_BETA_CATENIN_SIGNALING
-gene_symbols: []
-gene_ids:
+
+gene_symbols:
  - ADAM17
  - AXIN1
  - AXIN2

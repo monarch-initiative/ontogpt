@@ -1,6 +1,6 @@
 name: HALLMARK_IL2_STAT5_SIGNALING
-gene_symbols: []
-gene_ids:
+
+gene_symbols:
  - ABCB1
  - ADAM19
  - AGER

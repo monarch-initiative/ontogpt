@@ -1,6 +1,6 @@
 name: HALLMARK_ADIPOGENESIS
-gene_symbols: []
-gene_ids:
+
+gene_symbols:
  - ABCA1
  - ABCB8
  - ACAA2

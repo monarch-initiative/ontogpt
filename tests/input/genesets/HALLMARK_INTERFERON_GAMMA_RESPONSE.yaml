@@ -1,6 +1,6 @@
 name: HALLMARK_INTERFERON_GAMMA_RESPONSE
-gene_symbols: []
-gene_ids:
+
+gene_symbols:
  - ADAR
  - APOL6
  - ARID5B

@@ -1,6 +1,6 @@
 name: HALLMARK_P53_PATHWAY
-gene_symbols: []
-gene_ids:
+
+gene_symbols:
  - ABAT
  - ABCC5
  - ABHD4

@@ -1,6 +1,6 @@
 name: HALLMARK_GLYCOLYSIS
-gene_symbols: []
-gene_ids:
+
+gene_symbols:
  - ABCB6
  - ADORA2B
  - AGL

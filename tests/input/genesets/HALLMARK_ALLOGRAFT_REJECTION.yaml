@@ -1,6 +1,6 @@
 name: HALLMARK_ALLOGRAFT_REJECTION
-gene_symbols: []
-gene_ids:
+
+gene_symbols:
  - AARS1
  - ABCE1
  - ABI1

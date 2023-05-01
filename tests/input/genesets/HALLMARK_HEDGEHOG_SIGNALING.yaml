@@ -1,6 +1,6 @@
 name: HALLMARK_HEDGEHOG_SIGNALING
-gene_symbols: []
-gene_ids:
+
+gene_symbols:
  - ACHE
  - ADGRG1
  - AMOT

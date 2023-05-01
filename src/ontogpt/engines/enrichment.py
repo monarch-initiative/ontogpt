@@ -5,7 +5,7 @@ from collections.abc import Iterator
 from dataclasses import dataclass, field
 from enum import Enum
 from pathlib import Path
-from typing import Dict, List, Optional, Tuple
+from typing import Dict, List, Optional, Tuple, Union
 
 from jinja2 import Template
 from oaklib import BasicOntologyInterface, get_adapter
@@ -120,9 +120,9 @@ class EnrichmentEngine(KnowledgeEngine):
                 raise NotImplementedError
         if not gene_set.gene_ids and not gene_set.gene_symbols:
             raise ValueError(f"Gene set {gene_set.name} has no gene symbols or ids")
-        if gene_set.gene_ids and not gene_set.gene_symbols:
-            adapter = list(self.label_resolvers.values())[0]
-            gene_set.gene_symbols = [adapter.label(x.lower()) for x in gene_set.gene_ids]
+        #if gene_set.gene_ids and not gene_set.gene_symbols:
+        #    adapter = list(self.label_resolvers.values())[0]
+        #    gene_set.gene_symbols = [adapter.label(x.lower()) for x in gene_set.gene_ids]
         if not gene_set.gene_ids or normalize:
             gene_set.gene_ids = list(self.map_labels(gene_set.gene_symbols, strict=strict))
             logger.info(f"gene ids: {gene_set.gene_ids}")
@@ -152,7 +152,7 @@ class EnrichmentEngine(KnowledgeEngine):
         if not prompt_template:
             prompt_template = str(f"{DEFAULT_ENRICHMENT_PROMPT}.jinja2")
         prompt, tf = self._prompt_from_template(
-            gene_tuples, template=prompt_template, annotations=annotations
+            gene_tuples, template=prompt_template, annotations=annotations, taxon=gene_set.taxon,
         )
         response_text = self.client.complete(prompt, max_tokens=self.completion_length)
         response_token_length = len(self.encoding.encode(response_text))
@@ -173,8 +173,9 @@ class EnrichmentEngine(KnowledgeEngine):
     def _prompt_from_template(
         self,
         genes: List[GENE_TUPLE],
-        template: str,
+        template: Union[str, Path, Template],
         truncation_factor=1.0,
+        taxon: str = None,
         annotations=True,
     ) -> Tuple[str, float]:
         if isinstance(template, Path):
@@ -195,6 +196,7 @@ class EnrichmentEngine(KnowledgeEngine):
         prompt = template.render(
             gene_descriptions=gd_tuples,
             annotations=annotations,
+            taxon=taxon,
             SUMMARY_KEYWORD=SUMMARY_KEYWORD,
             MECHANISM_KEYWORD=MECHANISM_KEYWORD,
             ENRICHED_TERMS_KEYWORD=ENRICHED_TERMS_KEYWORD,
@@ -202,15 +204,16 @@ class EnrichmentEngine(KnowledgeEngine):
         logging.debug(f"Prompt from template: {prompt}")
         logging.info(f"Prompt [{truncation_factor}] Length: {len(prompt)}")
         # https://help.openai.com/en/articles/4936856-what-are-tokens-and-how-to-count-them
-        prompt_length = len(self.encoding.encode(prompt))
-        logging.info(f"Prompt [{truncation_factor}] Tokens: {prompt_length} Strlen={len(prompt)}")
+        prompt_length = len(self.encoding.encode(prompt)) + 10
         max_len = 4097 - self.completion_length
+        logging.info(f"Prompt [{truncation_factor}] Tokens: {prompt_length} Strlen={len(prompt)} max={max_len}")
         if prompt_length > max_len:  # TODO: check this
             logging.warning(f"Prompt is too long; toks: {prompt_length} len: {len(prompt)}")
             return self._prompt_from_template(
                 genes,
                 template,
                 truncation_factor=truncation_factor * 0.8,
+                taxon=taxon,
                 annotations=annotations,
             )
         return prompt, truncation_factor

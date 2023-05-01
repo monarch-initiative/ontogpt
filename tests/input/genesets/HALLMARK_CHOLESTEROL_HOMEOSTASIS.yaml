@@ -1,6 +1,6 @@
 name: HALLMARK_CHOLESTEROL_HOMEOSTASIS
-gene_symbols: []
-gene_ids:
+
+gene_symbols:
  - ABCA2
  - ACAT2
  - ACSS2

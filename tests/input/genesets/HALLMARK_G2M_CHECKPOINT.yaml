@@ -1,6 +1,6 @@
 name: HALLMARK_G2M_CHECKPOINT
-gene_symbols: []
-gene_ids:
+
+gene_symbols:
  - ABL1
  - AMD1
  - ARID4A

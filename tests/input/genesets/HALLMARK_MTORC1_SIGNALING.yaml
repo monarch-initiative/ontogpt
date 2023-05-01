@@ -1,6 +1,6 @@
 name: HALLMARK_MTORC1_SIGNALING
-gene_symbols: []
-gene_ids:
+
+gene_symbols:
  - ABCF2
  - ACACA
  - ACLY

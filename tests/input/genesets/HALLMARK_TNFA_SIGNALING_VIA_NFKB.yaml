@@ -1,6 +1,6 @@
 name: HALLMARK_TNFA_SIGNALING_VIA_NFKB
-gene_symbols: []
-gene_ids:
+
+gene_symbols:
  - ABCA1
  - ACKR3
  - AREG

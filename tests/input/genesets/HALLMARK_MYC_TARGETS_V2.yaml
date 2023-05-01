@@ -1,6 +1,6 @@
 name: HALLMARK_MYC_TARGETS_V2
-gene_symbols: []
-gene_ids:
+
+gene_symbols:
  - AIMP2
  - BYSL
  - CBX3

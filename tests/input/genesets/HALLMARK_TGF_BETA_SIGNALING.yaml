@@ -1,6 +1,6 @@
 name: HALLMARK_TGF_BETA_SIGNALING
-gene_symbols: []
-gene_ids:
+
+gene_symbols:
  - ACVR1
  - APC
  - ARID4B

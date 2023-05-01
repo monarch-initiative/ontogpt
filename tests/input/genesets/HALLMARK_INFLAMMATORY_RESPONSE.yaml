@@ -1,6 +1,6 @@
 name: HALLMARK_INFLAMMATORY_RESPONSE
-gene_symbols: []
-gene_ids:
+
+gene_symbols:
  - ABCA1
  - ABI1
  - ACVR1B

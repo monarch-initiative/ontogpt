@@ -1,6 +1,6 @@
 name: HALLMARK_INTERFERON_ALPHA_RESPONSE
-gene_symbols: []
-gene_ids:
+
+gene_symbols:
  - ADAR
  - B2M
  - BATF2

@@ -1,6 +1,6 @@
 name: HALLMARK_NOTCH_SIGNALING
-gene_symbols: []
-gene_ids:
+
+gene_symbols:
  - APH1A
  - ARRB1
  - CCND1

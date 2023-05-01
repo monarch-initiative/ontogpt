@@ -1,6 +1,6 @@
 name: HALLMARK_MYOGENESIS
-gene_symbols: []
-gene_ids:
+
+gene_symbols:
  - ABLIM1
  - ACHE
  - ACSL1
