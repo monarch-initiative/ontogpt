@@ -210,7 +210,7 @@ class EnrichmentEngine(KnowledgeEngine):
         prompt_length = len(self.encoding.encode(prompt)) + 10
         max_len = 4097 - self.completion_length
         logging.info(
-            f"Prompt [{truncation_factor}] Tokens: {prompt_length} Strlen={len(prompt)} max={max_len}"
+            f"Prompt [{truncation_factor}] Toks: {prompt_length} / {max_len} Str={len(prompt)}"
         )
         if prompt_length > max_len:  # TODO: check this
             logging.warning(f"Prompt is too long; toks: {prompt_length} len: {len(prompt)}")
