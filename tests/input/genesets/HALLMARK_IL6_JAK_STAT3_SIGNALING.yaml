@@ -1,6 +1,6 @@
 name: HALLMARK_IL6_JAK_STAT3_SIGNALING
-gene_symbols: []
-gene_ids:
+
+gene_symbols:
  - A2M
  - ACVR1B
  - ACVRL1

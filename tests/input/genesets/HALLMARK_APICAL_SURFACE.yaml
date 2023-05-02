@@ -1,6 +1,6 @@
 name: HALLMARK_APICAL_SURFACE
-gene_symbols: []
-gene_ids:
+
+gene_symbols:
  - ADAM10
  - ADIPOR2
  - AFAP1L2

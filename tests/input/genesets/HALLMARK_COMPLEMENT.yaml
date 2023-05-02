@@ -1,6 +1,6 @@
 name: HALLMARK_COMPLEMENT
-gene_symbols: []
-gene_ids:
+
+gene_symbols:
  - ACTN2
  - ADAM9
  - ADRA2B

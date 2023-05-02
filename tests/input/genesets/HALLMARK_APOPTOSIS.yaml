@@ -1,6 +1,6 @@
 name: HALLMARK_APOPTOSIS
-gene_symbols: []
-gene_ids:
+
+gene_symbols:
  - ADD1
  - AIFM3
  - ANKH

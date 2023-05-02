@@ -1,6 +1,6 @@
 name: HALLMARK_ANGIOGENESIS
-gene_symbols: []
-gene_ids:
+
+gene_symbols:
  - APOH
  - APP
  - CCND2

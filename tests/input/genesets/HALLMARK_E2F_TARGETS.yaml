@@ -1,6 +1,6 @@
 name: HALLMARK_E2F_TARGETS
-gene_symbols: []
-gene_ids:
+
+gene_symbols:
  - AK2
  - ANP32E
  - ASF1A

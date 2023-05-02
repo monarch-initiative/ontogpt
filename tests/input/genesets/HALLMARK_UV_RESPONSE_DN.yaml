@@ -1,6 +1,6 @@
 name: HALLMARK_UV_RESPONSE_DN
-gene_symbols: []
-gene_ids:
+
+gene_symbols:
  - ABCC1
  - ACVR2A
  - ADD3

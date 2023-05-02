@@ -1,6 +1,6 @@
 name: HALLMARK_REACTIVE_OXYGEN_SPECIES_PATHWAY
-gene_symbols: []
-gene_ids:
+
+gene_symbols:
  - ABCC1
  - ATOX1
  - CAT

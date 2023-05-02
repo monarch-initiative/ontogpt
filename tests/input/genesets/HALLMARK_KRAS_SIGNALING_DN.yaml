@@ -1,6 +1,6 @@
 name: HALLMARK_KRAS_SIGNALING_DN
-gene_symbols: []
-gene_ids:
+
+gene_symbols:
  - ABCB11
  - ABCG4
  - ACTC1

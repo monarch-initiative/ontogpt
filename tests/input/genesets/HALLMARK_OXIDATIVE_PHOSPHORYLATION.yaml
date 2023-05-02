@@ -1,6 +1,6 @@
 name: HALLMARK_OXIDATIVE_PHOSPHORYLATION
-gene_symbols: []
-gene_ids:
+
+gene_symbols:
  - ABCB7
  - ACAA1
  - ACAA2

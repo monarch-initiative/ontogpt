@@ -1,6 +1,6 @@
 name: HALLMARK_UNFOLDED_PROTEIN_RESPONSE
-gene_symbols: []
-gene_ids:
+
+gene_symbols:
  - ALDH18A1
  - ARFGAP1
  - ASNS

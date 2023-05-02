@@ -1,6 +1,6 @@
 name: HALLMARK_MYC_TARGETS_V1
-gene_symbols: []
-gene_ids:
+
+gene_symbols:
  - ABCE1
  - ACP1
  - AIMP2

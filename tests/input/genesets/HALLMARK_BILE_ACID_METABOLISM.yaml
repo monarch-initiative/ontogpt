@@ -1,6 +1,6 @@
 name: HALLMARK_BILE_ACID_METABOLISM
-gene_symbols: []
-gene_ids:
+
+gene_symbols:
  - ABCA1
  - ABCA2
  - ABCA3

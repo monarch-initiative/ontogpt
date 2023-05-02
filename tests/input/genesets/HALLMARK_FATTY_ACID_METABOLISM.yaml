@@ -1,6 +1,6 @@
 name: HALLMARK_FATTY_ACID_METABOLISM
-gene_symbols: []
-gene_ids:
+
+gene_symbols:
  - AADAT
  - ACAA1
  - ACAA2

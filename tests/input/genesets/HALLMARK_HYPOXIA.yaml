@@ -1,6 +1,6 @@
 name: HALLMARK_HYPOXIA
-gene_symbols: []
-gene_ids:
+
+gene_symbols:
  - ACKR3
  - ADM
  - ADORA2B

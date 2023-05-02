@@ -1,6 +1,6 @@
 name: HALLMARK_ESTROGEN_RESPONSE_EARLY
-gene_symbols: []
-gene_ids:
+
+gene_symbols:
  - ABAT
  - ABCA3
  - ABHD2

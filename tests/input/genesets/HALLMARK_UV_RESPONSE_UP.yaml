@@ -1,6 +1,6 @@
 name: HALLMARK_UV_RESPONSE_UP
-gene_symbols: []
-gene_ids:
+
+gene_symbols:
  - ABCB1
  - ACAA1
  - AGO2

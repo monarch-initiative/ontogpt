@@ -1,8 +1,4 @@
-{% if annotations %}
-I will give you a list of genes together with descriptions of their functions.
-{% else %}
-I will give you a list of genes.
-{% endif %}
+I will give you a list of {{ taxon }} genes {% if annotations %} together with descriptions of their functions{% endif %}.
 Perform a term enrichment test on these genes.
 i.e. tell me what the commonalities are in their function.
 Make use of classification hierarchies when you do this.

@@ -1,6 +1,6 @@
 name: HALLMARK_PEROXISOME
-gene_symbols: []
-gene_ids:
+
+gene_symbols:
  - ABCB1
  - ABCB4
  - ABCB9

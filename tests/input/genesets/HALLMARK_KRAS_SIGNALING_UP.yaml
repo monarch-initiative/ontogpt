@@ -1,6 +1,6 @@
 name: HALLMARK_KRAS_SIGNALING_UP
-gene_symbols: []
-gene_ids:
+
+gene_symbols:
  - ABCB1
  - ACE
  - ADAM17

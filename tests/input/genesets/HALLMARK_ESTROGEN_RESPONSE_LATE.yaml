@@ -1,6 +1,6 @@
 name: HALLMARK_ESTROGEN_RESPONSE_LATE
-gene_symbols: []
-gene_ids:
+
+gene_symbols:
  - ABCA3
  - ABHD2
  - ACOX2

@@ -1,6 +1,6 @@
 name: HALLMARK_MITOTIC_SPINDLE
-gene_symbols: []
-gene_ids:
+
+gene_symbols:
  - ABI1
  - ABL1
  - ABR

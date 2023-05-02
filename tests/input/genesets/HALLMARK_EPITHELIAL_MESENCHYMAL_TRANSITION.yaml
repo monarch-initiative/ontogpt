@@ -1,6 +1,6 @@
 name: HALLMARK_EPITHELIAL_MESENCHYMAL_TRANSITION
-gene_symbols: []
-gene_ids:
+
+gene_symbols:
  - ABI3BP
  - ACTA2
  - ADAM12

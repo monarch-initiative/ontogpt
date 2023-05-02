@@ -1,6 +1,6 @@
 name: HALLMARK_COAGULATION
-gene_symbols: []
-gene_ids:
+
+gene_symbols:
  - A2M
  - ACOX2
  - ADAM9

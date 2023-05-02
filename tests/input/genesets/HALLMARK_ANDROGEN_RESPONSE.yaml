@@ -1,6 +1,6 @@
 name: HALLMARK_ANDROGEN_RESPONSE
-gene_symbols: []
-gene_ids:
+
+gene_symbols:
  - ABCC4
  - ABHD2
  - ACSL3

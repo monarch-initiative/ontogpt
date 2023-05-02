@@ -26,7 +26,10 @@ class GeneSet(BaseModel):
     gene_symbols: Optional[List[str]] = None
     gene_ids: Optional[List[str]] = None
     taxon: str = "human"
+    taxon_id: Optional[str] = None
     description: Optional[str] = None
+    source: Optional[str] = None
+    source_url: Optional[str] = None
     target_term_ids: Optional[List[str]] = None
 
 
