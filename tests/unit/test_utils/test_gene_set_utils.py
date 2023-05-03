@@ -29,7 +29,7 @@ class TestGeneSetUtils(unittest.TestCase):
 
     def test_load_gene_sets(self):
         """Test loading from folder."""
-        gene_sets = load_gene_sets(GENE_SETS_DIR)
+        gene_sets = load_gene_sets(GENE_SETS_DIR, fill_missing=False)
         # print(yaml.dump(gene_sets.dict(), sort_keys=False))
         self.assertGreater(len(gene_sets.gene_sets), 3)
 

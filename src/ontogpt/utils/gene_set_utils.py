@@ -103,7 +103,7 @@ def parse_gene_set(input_path: Union[str, Path], format: str = None) -> GeneSet:
 
 
 def load_gene_sets(
-    path: str, ontology_adapter: BasicOntologyInterface = None, strict=False
+    path: str, ontology_adapter: BasicOntologyInterface = None, strict=False, fill_missing=True,
 ) -> GeneSetCollection:
     """Load collection of gene sets from a folder.
 
@@ -115,7 +115,8 @@ def load_gene_sets(
         gene_sets.append(gene_set)
         if not gene_set.gene_ids and not gene_set.gene_symbols:
             raise ValueError(f"Gene set {gene_set.name} has no gene symbols or ids")
-        fill_missing_gene_set_values(gene_set, ontology_adapter, strict)
+        if fill_missing:
+            fill_missing_gene_set_values(gene_set, ontology_adapter, strict)
     return GeneSetCollection(gene_sets=gene_sets)
 
 
