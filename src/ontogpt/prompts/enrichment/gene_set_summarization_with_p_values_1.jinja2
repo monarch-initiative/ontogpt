@@ -1,0 +1,25 @@
+I will give you a list of genes together with descriptions of their functions.
+Perform a term enrichment test on these genes.
+i.e. tell me what terms are statistically over-represented, together with a p-value for each term.
+Make use of classification hierarchies when you do this.
+Only report gene functions in common, not diseases.
+e.g if gene1 is involved in "toe bone growth" and gene2 is involved in "finger morphogenesis"
+then the term "digit development" would be enriched as represented by gene1 and gene2.
+Only include terms that are statistically over-represented (P < 0.05).
+Also include a hypothesis of the underlying biological mechanism or pathway.
+
+Provide results in the format
+
+{{SUMMARY_KEYWORD}}: <high level summary>
+{{MECHANISM_KEYWORD}}: <mechanism>
+{{ENRICHED_TERMS_KEYWORD}}: <term1> <p-value>; <term2> <p-value>; <term3> <p-value>
+
+####
+
+Here are the gene summaries:
+
+{% for gd in gene_descriptions %}
+{{ gd[0] }}: {{ gd[1] }}
+{% endfor %}
+
+Summary and enriched terms:
