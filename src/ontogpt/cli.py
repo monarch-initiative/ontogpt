@@ -33,7 +33,12 @@ from ontogpt.evaluation.enrichment.eval_enrichment import EvalEnrichment
 from ontogpt.evaluation.resolver import create_evaluator
 from ontogpt.io.html_exporter import HTMLExporter
 from ontogpt.io.markdown_exporter import MarkdownExporter
-from ontogpt.utils.gene_set_utils import GeneSet, parse_gene_set
+from ontogpt.utils.gene_set_utils import (
+    GeneSet,
+    _is_human,
+    fill_missing_gene_set_values,
+    parse_gene_set,
+)
 
 __all__ = [
     "main",
@@ -463,6 +468,7 @@ def synonyms(term, context, output, output_format, **kwargs):
 @output_format_options
 @click.option(
     "--annotation-path",
+    "-A",
     required=True,
 )
 @click.argument("term")
@@ -478,14 +484,17 @@ def create_gene_set(term, output, output_format, annotation_path, **kwargs):
 @main.command()
 @output_option_txt
 @output_format_options
+@click.option("--fill/--no-fill", default=False)
 @click.option(
     "--input-file",
     "-U",
     help="File with gene IDs to enrich (if not passed as arguments)",
 )
-def convert_geneset(input_file, output, output_format, **kwargs):
+def convert_geneset(input_file, output, output_format, fill, **kwargs):
     """Convert gene set to YAML."""
     gene_set = parse_gene_set(input_file)
+    if fill:
+        fill_missing_gene_set_values(gene_set)
     output.write(dump_minimal_yaml(gene_set.dict()))
 
 
@@ -535,6 +544,10 @@ def convert_geneset(input_file, output, output_format, **kwargs):
     help="If set, both gene descriptions",
 )
 @click.option(
+    "--end-marker",
+    help="For testing minor variants of prompts",
+)
+@click.option(
     "--annotations/--no-annotations",
     default=True,
     show_default=True,
@@ -552,6 +565,7 @@ def enrichment(
     model,
     show_prompt,
     interactive,
+    end_marker,
     output_format,
     randomize_gene_descriptions_using_file,
     **kwargs,
@@ -588,6 +602,8 @@ def enrichment(
     if not gene_set:
         raise ValueError("No genes passed")
     ke = create_engine(None, EnrichmentEngine, model=model)
+    if end_marker:
+        ke.end_marker = end_marker
     if interactive:
         ke.client.interactive = True
     if settings.cache_db:
@@ -817,7 +833,6 @@ def entity_similarity(terms, ontology, output, model, output_format, **kwargs):
 @click.option(
     "--annotations-path",
     "-A",
-    default="tests/input/genes2go.tsv.gz",
     help="Path to annotations",
 )
 @click.argument("genes", nargs=-1)
@@ -833,6 +848,11 @@ def eval_enrichment(genes, input_file, number_to_drop, annotations_path, output,
         gene_set = parse_gene_set(input_file)
     if not gene_set:
         raise ValueError("No genes passed")
+    fill_missing_gene_set_values(gene_set)
+    if not annotations_path:
+        if not _is_human(gene_set):
+            raise ValueError("No annotations path passed")
+        annotations_path = "tests/input/genes2go.tsv.gz"
     eval_engine = EvalEnrichment()
     eval_engine.load_annotations(annotations_path)
     comps = eval_engine.evaluate_methods_on_gene_set(gene_set, n=number_to_drop, **kwargs)
