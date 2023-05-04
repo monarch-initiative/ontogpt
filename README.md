@@ -1,3 +1,5 @@
+[![DOI](https://zenodo.org/badge/13996/monarch-initiative/ontogpt.svg)](https://zenodo.org/badge/latestdoi/13996/monarch-initiative/ontogpt)
+
 # OntoGPT
 
 Generation of Ontologies and Knowledge Bases using GPT
