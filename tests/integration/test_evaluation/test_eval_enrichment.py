@@ -7,7 +7,7 @@ from oaklib import get_adapter
 
 from ontogpt.evaluation.enrichment.eval_enrichment import EvalEnrichment
 from ontogpt.io.yaml_wrapper import dump_minimal_yaml
-from ontogpt.utils.gene_set_utils import GeneSet, load_gene_sets, populate_ids_and_symbols
+from ontogpt.utils.gene_set_utils import GeneSet, fill_missing_gene_set_values, load_gene_sets
 from tests import GENE_SETS_DIR, INPUT_DIR, OUTPUT_DIR
 
 RESULTS_PATH = OUTPUT_DIR / "enrichment_results"
@@ -376,7 +376,7 @@ class TestEvalEnrichment(unittest.TestCase):
         self.evaluator.load_annotations(GENES2GO_PATH)
         for name, gene_symbols in GENE_SETS:
             gene_set = GeneSet(name=name, gene_symbols=gene_symbols)
-            populate_ids_and_symbols(gene_set, self.hgnc)
+            fill_missing_gene_set_values(gene_set, self.hgnc)
             payload = self.evaluator.gene_term_closure(gene_set)
             print(payload)
 
@@ -386,7 +386,7 @@ class TestEvalEnrichment(unittest.TestCase):
         self.evaluator.load_annotations(GENES2GO_PATH)
         for name, gene_symbols in GENE_SETS:
             gene_set = GeneSet(name=name, gene_symbols=gene_symbols)
-            populate_ids_and_symbols(gene_set, self.hgnc)
+            fill_missing_gene_set_values(gene_set, self.hgnc)
             payload = self.evaluator.standard_enrichment(gene_set)
             print(payload)
 
@@ -396,7 +396,7 @@ class TestEvalEnrichment(unittest.TestCase):
         self.evaluator.load_annotations(GENES2GO_PATH)
         for name, gene_symbols in GENE_SETS:
             gene_set = GeneSet(name=name, gene_symbols=gene_symbols)
-            populate_ids_and_symbols(gene_set, self.hgnc)
+            fill_missing_gene_set_values(gene_set, self.hgnc)
             payload = self.evaluator.standard_enrichment(gene_set, use_ontology=False)
             print(payload)
             self.assertTrue(len(payload.term_ids) > 0)

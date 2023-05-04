@@ -14,7 +14,8 @@ Provide results in the format
 {{MECHANISM_KEYWORD}}: <mechanism>
 {{ENRICHED_TERMS_KEYWORD}}: <term1>; <term2>; <term3>
 
-###
+For the list of terms, be sure to use a semi-colon separator, and do not number the list.
+Always put the list of terms last, after mechanism, summary, or hypotheses.
 
 {% if annotations %}
 Here are the gene summaries:
@@ -26,5 +27,7 @@ Here are the gene summaries:
 Here are the genes:
 {% for gd in gene_descriptions %}{{ gd[0] }}; {% endfor %}
 {% endif %}
+
+{{END_MARKER}}
 
 Summary and enriched terms:
