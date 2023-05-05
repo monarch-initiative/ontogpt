@@ -1,0 +1,47 @@
+name: HALLMARK_WNT_BETA_CATENIN_SIGNALING
+
+gene_symbols:
+ - ADAM17
+ - AXIN1
+ - AXIN2
+ - CCND2
+ - CSNK1E
+ - CTNNB1
+ - CUL1
+ - DKK1
+ - DKK4
+ - DLL1
+ - DVL2
+ - FRAT1
+ - FZD1
+ - FZD8
+ - GNAI1
+ - HDAC11
+ - HDAC2
+ - HDAC5
+ - HEY1
+ - HEY2
+ - JAG1
+ - JAG2
+ - KAT2A
+ - LEF1
+ - MAML1
+ - MYC
+ - NCOR2
+ - NCSTN
+ - NKD1
+ - NOTCH1
+ - NOTCH4
+ - NUMB
+ - PPARD
+ - PSEN2
+ - PTCH1
+ - RBPJ
+ - SKP2
+ - TCF7
+ - TP53
+ - WNT1
+ - WNT5B
+ - WNT6
+taxon: human
+description: null

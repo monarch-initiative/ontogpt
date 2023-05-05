@@ -1,0 +1,41 @@
+name: HALLMARK_HEDGEHOG_SIGNALING
+
+gene_symbols:
+ - ACHE
+ - ADGRG1
+ - AMOT
+ - CDK5R1
+ - CDK6
+ - CELSR1
+ - CNTFR
+ - CRMP1
+ - DPYSL2
+ - ETS2
+ - GLI1
+ - HEY1
+ - HEY2
+ - L1CAM
+ - LDB1
+ - MYH9
+ - NF1
+ - NKX6-1
+ - NRCAM
+ - NRP1
+ - NRP2
+ - OPHN1
+ - PLG
+ - PML
+ - PTCH1
+ - RASA1
+ - RTN1
+ - SCG2
+ - SHH
+ - SLIT1
+ - THY1
+ - TLE1
+ - TLE3
+ - UNC5C
+ - VEGFA
+ - VLDLR
+taxon: human
+description: null

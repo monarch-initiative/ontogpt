@@ -273,6 +273,10 @@ class SPIRESEngine(KnowledgeEngine):
                     slot_prompt = f"semicolon-separated list of {slot.name}s"
                 else:
                     slot_prompt = f"the value for {slot.name}"
+            if slot.range in self.schemaview.all_enums():
+                enum_def = self.schemaview.get_enum(slot.range)
+                pvs = [str(k) for k in enum_def.permissible_values.keys()]
+                slot_prompt += f"Must be one of: {', '.join(pvs)}"
             prompt += f"{slot.name}: <{slot_prompt}>\n"
         # prompt += "Do not answer if you don't know\n\n"
         prompt = f"{prompt}\n\nText:\n{text}\n\n===\n\n"
@@ -445,6 +449,10 @@ class SPIRESEngine(KnowledgeEngine):
                 vals = [vals]
             slot = sv.induced_slot(field, cls.name)
             rng_cls = sv.get_class(slot.range)
+            enum_def = None
+            if slot.range:
+                if slot.range in self.schemaview.all_enums():
+                    enum_def = self.schemaview.get_enum(slot.range)
             new_ann[field] = []
             for val in vals:
                 if not val:
@@ -465,6 +473,17 @@ class SPIRESEngine(KnowledgeEngine):
                     obj = self.ground_annotation_object(val, rng_cls)
                 else:
                     obj = self.normalize_named_entity(val, slot.range)
+                if enum_def:
+                    found = False
+                    logging.info(f"Looking for {obj} in {enum_def.name}")
+                    for k, _pv in enum_def.permissible_values.items():
+                        if obj.lower() == k.lower():
+                            obj = k
+                            found = True
+                            break
+                    if not found:
+                        logging.info(f"Cannot find enum value for {obj} in {enum_def.name}")
+                        obj = None
                 if multivalued:
                     new_ann[field].append(obj)
                 else:

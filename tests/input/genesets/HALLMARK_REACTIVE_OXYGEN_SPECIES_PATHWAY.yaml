@@ -1,0 +1,54 @@
+name: HALLMARK_REACTIVE_OXYGEN_SPECIES_PATHWAY
+
+gene_symbols:
+ - ABCC1
+ - ATOX1
+ - CAT
+ - CDKN2D
+ - EGLN2
+ - ERCC2
+ - FES
+ - FTL
+ - G6PD
+ - GCLC
+ - GCLM
+ - GLRX
+ - GLRX2
+ - GPX3
+ - GPX4
+ - GSR
+ - HHEX
+ - HMOX2
+ - IPCEF1
+ - JUNB
+ - LAMTOR5
+ - LSP1
+ - MBP
+ - MGST1
+ - MPO
+ - MSRA
+ - NDUFA6
+ - NDUFB4
+ - NDUFS2
+ - NQO1
+ - OXSR1
+ - PDLIM1
+ - PFKP
+ - PRDX1
+ - PRDX2
+ - PRDX4
+ - PRDX6
+ - PRNP
+ - PTPA
+ - SBNO2
+ - SCAF4
+ - SELENOS
+ - SOD1
+ - SOD2
+ - SRXN1
+ - STK25
+ - TXN
+ - TXNRD1
+ - TXNRD2
+taxon: human
+description: null

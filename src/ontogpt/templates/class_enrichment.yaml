@@ -1,0 +1,118 @@
+id: https://w3id.org/oak/class-enrichment
+title: Class Enrichment Datamodel
+name: class-enrichment
+description: >-
+  A datamodel for representing the results of class enrichment on gene sets
+license: https://creativecommons.org/publicdomain/zero/1.0/
+
+prefixes:
+  linkml: https://w3id.org/linkml/
+  ontoenrich: https://w3id.org/oak/class-enrichment/
+  skos: http://www.w3.org/2004/02/skos/core#
+  pav: http://purl.org/pav/
+  schema: http://schema.org/
+  sh: https://w3id.org/shacl/
+  prov: http://www.w3.org/ns/prov#
+  sssom: http://w3id.org/sssom/
+  bpa: https://bioportal.bioontology.org/annotator/
+  oa: http://www.w3.org/ns/oa#
+  STATO: http://purl.obolibrary.org/obo/STATO_
+  OBI: http://purl.obolibrary.org/obo/OBI_
+
+default_prefix: ontoenrich
+default_range: string
+
+default_curi_maps:
+  - semweb_context
+
+emit_prefixes:
+  - linkml
+  - rdf
+  - rdfs
+  - xsd
+  - owl
+
+imports:
+  - linkml:types
+
+types:
+  Position:
+    typeof: integer
+
+#==================================
+# Classes                         #
+#==================================
+classes:
+  ClassEnrichmentConfiguration:
+    description: configuration for search
+    attributes:
+      p_value_cutoff:
+        description: p-value cutoff for enrichment
+        range: float
+        required: true
+
+  ClassEnrichmentResultSet:
+    description: A collection of enrichemt results
+    attributes:
+      results:
+        description: The enrichment results
+        range: ClassEnrichmentResult
+        multivalued: true
+
+  ClassEnrichmentResult:
+    description: A single enrichment result
+    attributes:
+      class_id:
+        description: The class id
+        range: uriorcurie
+        required: true
+      class_label:
+        description: The class label
+        range: string
+      rank:
+        description: The rank of this result
+        range: integer
+      p_value:
+        slot_uri: OBI:0000175
+        description: The p-value
+        range: float
+        required: true
+      p_value_adjusted:
+        description: The adjusted p-value
+        range: float
+      false_discovery_rate:
+        description: The false discovery rate
+        range: float
+      fold_enrichment:
+        description: The fold enrichment
+        range: float
+      probability:
+        description: The probability, as estimated by model-based approaches
+        range: float
+        minimum_value: 0
+        maximum_value: 1
+      sample_count:
+        description: The number of entities in the sample with this class
+        range: integer
+      sample_total:
+        description: The total number of entities in the sample
+        range: integer
+      background_count:
+        description: The background count
+        range: integer
+      background_total:
+        description: The background total
+        range: integer
+      ancestor_of_more_informative_result:
+        description: This term is more general than a previously reported result
+        range: boolean
+      descendant_of_more_informative_result:
+        description: This term is more specific than a previously reported result
+        range: boolean
+
+enums:
+  SortFieldEnum:
+    description: The field to sort by
+    permissible_values:
+      ANY:
+      P_VALUE:

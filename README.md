@@ -12,12 +12,15 @@ Currently there are two different pipelines implemented:
     - Zero-shot learning approach to extracting nested semantic structures from text
     - Inputs: [LinkML](https://linkml.io/) schema + text
     - Outputs: JSON, YAML, or RDF or OWL that conforms to the schema
-    - Uses text-davinci-003
+    - Uses text-davinci-003 or gpt-3.5-turbo (gtp-4 untested)
 - HALO: HAllucinating Latent Ontologies 
     - Few-shot learning approach to generating/hallucinating a domain ontology given a few examples
     - Uses code-davinci-002
+- SPINDOCTOR: Structured Prompt Interpolation of Narrative Descriptions Or Controlled Terms for Ontological Reporting
+    - Summarize gene set descriptions (pseudo gene-set enrichment)
+    - Uses text-davinci-003 or  gpt-3.5-turbo (gtp-4 untested)
 
-SPIRES is described futher in: Caufield JH, Hegde H, Emonet V, Harris NL, Joachimiak MP, Matentzoglu N, et al. Structured prompt interrogation and recursive extraction of semantics (SPIRES): A method for populating knowledge bases using zero-shot learning. arXiv [cs.AI]. 2023. http://arxiv.org/abs/2304.02711
+SPIRES is described further in: Caufield JH, Hegde H, Emonet V, Harris NL, Joachimiak MP, Matentzoglu N, et al. Structured prompt interrogation and recursive extraction of semantics (SPIRES): A method for populating knowledge bases using zero-shot learning. arXiv [cs.AI]. 2023. http://arxiv.org/abs/2304.02711
 
 ## Citation
 
@@ -185,8 +188,6 @@ We recommend following an established schema like [BioLink Model](https://github
 
 Place the schema YAML in the directory `src/ontogpt/templates/`.
 
-Add the name of the template to the TEMPLATES list in `project.Makefile`.
-
 Run the `make` command at the top level. This will compile the schema to Python (Pydantic classes).
 
 ### Step 3: Run the command line
@@ -336,19 +337,23 @@ TODO
 
 
 
-## Gene Enrichment
+## Gene Enrichment using SPINDOCTOR
 
 Given a set of genes, OntoGPT can find similarities among them.
 
 Example:
 ```
-ontogpt enrichment HGNC:8858 HGNC:8859 HGNC:9719
+ontogpt  enrichment -r sqlite:obo:hgnc  -U tests/input/genesets/sensory-ataxia.yaml
 ```
 
-Results:
+This gives both a narrative summary:
+
+__
+
+and structured term list:
 
 ```
-Commonality: Protein targeting to the Peroxisome. All the genes are involved in targeting proteins to the peroxisome membrane, matrix or both, and they are all located in cytoplasm; peroxisome; and/or endoplasmic reticulum. Additionally, they all enable different types of binding activity and/or hydrolysing activity which likely contribute to their roles in protein import
+
 ```
 
 ## OntoGPT Limitations
@@ -361,7 +366,6 @@ This relies on an existing LLM, and LLMs can be fickle in their responses.
 
 You will need an OpenAI account to use their API. In theory any LLM can be used but in practice the parser is tuned for OpenAI's models.
 
-
-# Acknowledgements
+## Acknowledgements
 
 We gratefully acknowledge [Bosch Research](https://www.bosch.com/research) for their support of this research project.

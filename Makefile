@@ -4,7 +4,7 @@ TMPRUN =
 PACKAGE = ontogpt
 TEMPLATE_DIR = src/$(PACKAGE)/templates
 EVAL_DIR = src/$(PACKAGE)/evaluation
-TEMPLATES = core gocam mendelian_disease biological_process treatment environmental_sample metagenome_study reaction recipe ontology_class metabolic_process drug ctd halo gene_description_term
+TEMPLATES = $(notdir $(basename $(wildcard $(TEMPLATE_DIR)/*.yaml)))
 ENTRY_CLASSES = recipe.Recipe gocam.GoCamAnnotations reaction.ReactionDocument ctd.ChemicalToDiseaseDocument
 
 all: all_pydantic all_projects
@@ -12,6 +12,9 @@ all: all_pydantic all_projects
 all_pydantic: $(patsubst %, $(TEMPLATE_DIR)/%.py, $(TEMPLATES))
 all_projects: $(patsubst %, projects/%, $(TEMPLATES))
 all_docs: $(patsubst %, docs/%/index.md, $(TEMPLATES))
+
+list_templates: $(TEMPLATE_DIR)/*.yaml
+	@echo $(basename $^)
 
 test: unit-test
 
@@ -114,6 +117,12 @@ tests/output/owl/merged/recipe-%-merged.owl: tests/output/owl/imports/recipe-%-i
 GENE_SET_FILES = $(wildcard tests/input/genesets/*.yaml)
 GENE_SETS = $(patsubst tests/input/genesets/%.yaml,%,$(GENE_SET_FILES))
 
+ZFIN_GENE_SET_FILES = $(wildcard tests/input/genesets/zebrafish/*.yaml)
+ZFIN_GENE_SETS = $(patsubst tests/input/genesets/zebrafish/%.yaml,%,$(ZFIN_GENE_SET_FILES))
+
+SGD_GENE_SET_FILES = $(wildcard tests/input/genesets/yeast/*.yaml)
+SGD_GENE_SETS = $(patsubst tests/input/genesets/yeast/%.yaml,%,$(SGD_GENE_SET_FILES))
+
 t:
 	echo $(GENE_SETS)
 
@@ -123,10 +132,31 @@ tests/input/genesets/%.yaml: tests/input/genesets/%.json
 .PRECIOUS: tests/input/genesets/%.yaml
 
 N=2
+
+analysis/enrichment/zebrafish/%-results-$(N).yaml: tests/input/genesets/zebrafish/%.yaml
+	$(RUN) ontogpt -vv eval-enrichment -n $(N) -U $< -A tests/input/zfin.gaf -o $@.tmp && mv $@.tmp $@
+
+
+analysis/enrichment/yeast/%-results-$(N).yaml: tests/input/genesets/yeast/%.yaml
+	$(RUN) ontogpt -vv eval-enrichment -n $(N) -U $< -A tests/input/sgd.gaf -o $@.tmp && mv $@.tmp $@
+
+
 analysis/enrichment/%-results-$(N).yaml: tests/input/genesets/%.yaml
-	$(RUN) ontogpt -vv eval-enrichment -n $(N) -U $< -o $@.tmp && mv $@.tmp $@
+	$(RUN) ontogpt -v eval-enrichment -n $(N) -U $< -o $@.tmp && mv $@.tmp $@
+
 
 analysis/enrichment-summary.yaml:
-	cat analysis/enrichment/*yaml > $@
+	cat analysis/enrichment/*-$(N).yaml > $@
+
+analysis/enrichment-summary-$(N).yaml:
+	cat analysis/enrichment/*-$(N).yaml > $@
+
+analysis/zebrafish-enrichment-summary-$(N).yaml:
+	cat analysis/enrichment/zebrafish/*-$(N).yaml > $@
+
+analysis/yeast-enrichment-summary-$(N).yaml:
+	cat analysis/enrichment/yeast/*-$(N).yaml > $@
 
 all_enrich: $(patsubst %, analysis/enrichment/%-results-$(N).yaml, $(GENE_SETS))
+all_zfin_enrich: $(patsubst %, analysis/enrichment/zebrafish/%-results-$(N).yaml, $(ZFIN_GENE_SETS))
+all_sgd_enrich: $(patsubst %, analysis/enrichment/yeast/%-results-$(N).yaml, $(SGD_GENE_SETS))

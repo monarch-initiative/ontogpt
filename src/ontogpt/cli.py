@@ -3,6 +3,7 @@ import codecs
 import logging
 import pickle
 import sys
+from copy import copy
 from dataclasses import dataclass
 from io import BytesIO, TextIOWrapper
 from pathlib import Path
@@ -20,23 +21,31 @@ from ontogpt import __version__
 from ontogpt.clients import OpenAIClient
 from ontogpt.clients.pubmed_client import PubmedClient
 from ontogpt.clients.soup_client import SoupClient
+from ontogpt.clients.wikipedia_client import WikipediaClient
 from ontogpt.engines import create_engine
-from ontogpt.engines.enrichment import EnrichmentEngine, GeneSet, parse_gene_set
+from ontogpt.engines.embedding_similarity_engine import SimilarityEngine
+from ontogpt.engines.enrichment import EnrichmentEngine
 from ontogpt.engines.halo_engine import HALOEngine
 from ontogpt.engines.knowledge_engine import KnowledgeEngine
-from ontogpt.engines.similarity_engine import SimilarityEngine
 from ontogpt.engines.spires_engine import SPIRESEngine
 from ontogpt.engines.synonym_engine import SynonymEngine
 from ontogpt.evaluation.enrichment.eval_enrichment import EvalEnrichment
 from ontogpt.evaluation.resolver import create_evaluator
 from ontogpt.io.html_exporter import HTMLExporter
 from ontogpt.io.markdown_exporter import MarkdownExporter
+from ontogpt.utils.gene_set_utils import (
+    GeneSet,
+    _is_human,
+    fill_missing_gene_set_values,
+    parse_gene_set,
+)
 
 __all__ = [
     "main",
 ]
 
 from ontogpt.io.owl_exporter import OWLExporter
+from ontogpt.io.rdf_exporter import RDFExporter
 from ontogpt.io.yaml_wrapper import dump_minimal_yaml
 from ontogpt.templates.core import ExtractionResult
 
@@ -78,6 +87,10 @@ def write_extraction(
     elif output_format == "yaml":
         output = _as_text_writer(output)
         output.write(dump_minimal_yaml(results))
+    elif output_format == "turtle":
+        output = _as_text_writer(output)
+        exporter = RDFExporter()
+        exporter.export(results, output, knowledge_engine.schemaview)
     elif output_format == "owl":
         output = _as_text_writer(output)
         exporter = OWLExporter()
@@ -92,7 +105,16 @@ template_option = click.option("-t", "--template", required=True, help="Template
 target_class_option = click.option(
     "-T", "--target-class", help="Target class (if not already root)."
 )
+interactive_option = click.option(
+    "--interactive/--no-interactive",
+    default=False,
+    show_default=True,
+    help="Interactive mode - rather than call the LLM API it will prompt you do this.",
+)
 model_option = click.option("-m", "--model", help="Engine to use, e.g. text-davinci-003.")
+prompt_template_option = click.option(
+    "--prompt-template", help="Path to a file containing the prompt."
+)
 recurse_option = click.option(
     "--recurse/--no-recurse", default=True, show_default=True, help="Recursively parse structures."
 )
@@ -105,7 +127,7 @@ output_option_txt = click.option(
 output_format_options = click.option(
     "-O",
     "--output-format",
-    type=click.Choice(["json", "yaml", "pickle", "md", "html", "owl"]),
+    type=click.Choice(["json", "yaml", "pickle", "md", "html", "owl", "turtle"]),
     default="yaml",
     help="Output format.",
 )
@@ -197,6 +219,8 @@ def extract(
         ke.load_dictionary(dictionary)
     if inputfile and Path(inputfile).exists():
         text = open(inputfile, "r").read()
+    elif inputfile and not Path(inputfile).exists():
+        raise FileNotFoundError(f"Cannot find input file {inputfile}")
     elif input:
         text = input
     elif not input or input == "-":
@@ -230,6 +254,61 @@ def pubmed_extract(pmid, template, output, output_format, **kwargs):
     logging.debug(f"Input text: {text}")
     results = ke.extract_from_text(text)
     write_extraction(results, output, output_format)
+
+
+@main.command()
+@template_option
+@model_option
+@recurse_option
+@output_option_wb
+@output_format_options
+@click.option("--auto-prefix", default="AUTO", help="Prefix to use for auto-generated classes.")
+@click.argument("article")
+def wikipedia_extract(article, template, output, output_format, **kwargs):
+    """Extract knowledge from a wikipedia page."""
+    logging.info(f"Creating for {template} => {article}")
+    client = WikipediaClient()
+    text = client.text(article)
+    ke = SPIRESEngine(template, **kwargs)
+    logging.debug(f"Input text: {text}")
+    results = ke.extract_from_text(text)
+    write_extraction(results, output, output_format, ke)
+
+
+@main.command()
+@template_option
+@model_option
+@recurse_option
+@output_option_wb
+@output_format_options
+@click.option(
+    "--keyword",
+    "-k",
+    multiple=True,
+    help="Keyword to search for (e.g. --keyword therapy). Also obtained from schema",
+)
+@click.argument("topic")
+def wikipedia_search(topic, keyword, template, output, output_format, **kwargs):
+    """Extract knowledge from a wikipedia page."""
+    logging.info(f"Creating for {template} => {topic}")
+    client = WikipediaClient()
+    keywords = list(keyword) if keyword else []
+    logging.info(f"KW={keywords}")
+    ke = SPIRESEngine(template, **kwargs)
+    keywords.extend(ke.schemaview.schema.keywords)
+    search_term = f"{topic + ' ' + ' '.join(keywords)}"
+    print(f"Searching for {search_term}")
+    search_results = client.search_wikipedia_articles(search_term)
+    for _index, result in enumerate(search_results, start=1):
+        title = result["title"]
+        text = client.text(title)
+        logging.debug(f"Input text: {text}")
+        if len(text) > 4000:
+            # TODO
+            text = text[:4000]
+        results = ke.extract_from_text(text)
+        write_extraction(results, output, output_format)
+        break
 
 
 @main.command()
@@ -389,6 +468,7 @@ def synonyms(term, context, output, output_format, **kwargs):
 @output_format_options
 @click.option(
     "--annotation-path",
+    "-A",
     required=True,
 )
 @click.argument("term")
@@ -404,14 +484,17 @@ def create_gene_set(term, output, output_format, annotation_path, **kwargs):
 @main.command()
 @output_option_txt
 @output_format_options
+@click.option("--fill/--no-fill", default=False)
 @click.option(
     "--input-file",
     "-U",
     help="File with gene IDs to enrich (if not passed as arguments)",
 )
-def convert_geneset(input_file, output, output_format, **kwargs):
+def convert_geneset(input_file, output, output_format, fill, **kwargs):
     """Convert gene set to YAML."""
     gene_set = parse_gene_set(input_file)
+    if fill:
+        fill_missing_gene_set_values(gene_set)
     output.write(dump_minimal_yaml(gene_set.dict()))
 
 
@@ -445,6 +528,10 @@ def convert_geneset(input_file, output, output_format, **kwargs):
     help="File with gene IDs to enrich (if not passed as arguments)",
 )
 @click.option(
+    "--randomize-gene-descriptions-using-file",
+    help="FOR EVALUATION ONLY. swap out gene descriptions with genes from this gene set filefile",
+)
+@click.option(
     "--ontological-synopsis/--no-ontological-synopsis",
     default=True,
     show_default=True,
@@ -457,14 +544,31 @@ def convert_geneset(input_file, output, output_format, **kwargs):
     help="If set, both gene descriptions",
 )
 @click.option(
+    "--end-marker",
+    help="For testing minor variants of prompts",
+)
+@click.option(
     "--annotations/--no-annotations",
     default=True,
     show_default=True,
     help="If set, include annotations in the prompt",
 )
+@prompt_template_option
+@interactive_option
 @click.argument("genes", nargs=-1)
 def enrichment(
-    genes, context, input_file, resolver, output, model, show_prompt, output_format, **kwargs
+    genes,
+    context,
+    input_file,
+    resolver,
+    output,
+    model,
+    show_prompt,
+    interactive,
+    end_marker,
+    output_format,
+    randomize_gene_descriptions_using_file,
+    **kwargs,
 ):
     """Gene class enrichment.
 
@@ -498,13 +602,34 @@ def enrichment(
     if not gene_set:
         raise ValueError("No genes passed")
     ke = create_engine(None, EnrichmentEngine, model=model)
+    if end_marker:
+        ke.end_marker = end_marker
+    if interactive:
+        ke.client.interactive = True
     if settings.cache_db:
         ke.client.cache_db_path = settings.cache_db
     if not isinstance(ke, EnrichmentEngine):
         raise ValueError(f"Expected EnrichmentEngine, got {type(ke)}")
     if resolver:
         ke.add_resolver(resolver)
-    results = ke.summarize(gene_set, normalize=resolver is not None, **kwargs)
+    if randomize_gene_descriptions_using_file:
+        print("WARNING!! Randomly spiking gene descriptions")
+        spike_gene_set = parse_gene_set(randomize_gene_descriptions_using_file)
+        aliases = {}
+        if not spike_gene_set.gene_symbols:
+            raise ValueError("No gene symbols for spike set")
+        syms = copy(gene_set.gene_symbols)
+        if len(spike_gene_set.gene_symbols) < len(gene_set.gene_symbols):
+            raise ValueError("Not enough genes in spike set")
+        for sym in spike_gene_set.gene_symbols:
+            if not syms:
+                break
+            aliases[sym] = syms.pop()
+        results = ke.summarize(
+            spike_gene_set, normalize=resolver is not None, gene_aliases=aliases, **kwargs
+        )
+    else:
+        results = ke.summarize(gene_set, normalize=resolver is not None, **kwargs)
     if results.truncation_factor is not None and results.truncation_factor < 1.0:
         logging.warning(f"Text was truncated; factor = {results.truncation_factor}")
     output = _as_text_writer(output)
@@ -701,10 +826,13 @@ def entity_similarity(terms, ontology, output, model, output_format, **kwargs):
     default=1,
     help="Max number of genes to drop",
 )
+# @click.option(
+#    "--randomize-gene-descriptions/--no-randomize-gene-descriptions",
+#    help="DO NOT USE EXCEPT FOR EVALUATION PUPOSES."
+# )
 @click.option(
     "--annotations-path",
     "-A",
-    default="tests/input/genes2go.tsv.gz",
     help="Path to annotations",
 )
 @click.argument("genes", nargs=-1)
@@ -720,15 +848,15 @@ def eval_enrichment(genes, input_file, number_to_drop, annotations_path, output,
         gene_set = parse_gene_set(input_file)
     if not gene_set:
         raise ValueError("No genes passed")
-    models = ["gpt-3.5-turbo", "text-davinci-003"]
-    all_comparisons = []
-    for model in models:
-        eval_engine = EvalEnrichment(model=model)
-        eval_engine.load_annotations(annotations_path)
-        print(f"RANDOM GENE: {eval_engine.random_gene_symbol()}")
-        comps = eval_engine.evaluate_methods_on_gene_set(gene_set, n=number_to_drop)
-        all_comparisons.extend([comp.dict() for comp in comps])
-    output.write(dump_minimal_yaml(all_comparisons))
+    fill_missing_gene_set_values(gene_set)
+    if not annotations_path:
+        if not _is_human(gene_set):
+            raise ValueError("No annotations path passed")
+        annotations_path = "tests/input/genes2go.tsv.gz"
+    eval_engine = EvalEnrichment()
+    eval_engine.load_annotations(annotations_path)
+    comps = eval_engine.evaluate_methods_on_gene_set(gene_set, n=number_to_drop, **kwargs)
+    output.write(dump_minimal_yaml(comps))
 
 
 @main.command()
@@ -874,6 +1002,42 @@ def halo(input, context, terms, output, **kwargs):
     engine.fixed_slot_values = {"context": context}
     engine.hallucinate(terms, **kwargs)
     output.write(dump_minimal_yaml(engine.ontology))
+
+
+@main.command()
+@output_option_wb
+@output_format_options
+@click.option(
+    "-d",
+    "--description",
+    help="domain e.g. anatomy, industry, health-related (NOT IMPLEMENTED - currently gene only)",
+)
+@click.option(
+    "--sections", multiple=True, help="sections to include e.g. medications, vital signs, etc."
+)
+def clinical_notes(
+    description,
+    sections,
+    output,
+    output_format,
+    **kwargs,
+):
+    """Create mock clinical notes.
+
+    Example:
+
+        ontogpt clinical-notes -d "middle-aged female patient with diabetes"
+        ontogpt clinical-notes --description "middle-aged female patient with diabetes"\
+         --sections medications --sections "vital signs"
+
+    """
+    c = OpenAIClient()
+    prompt = "create mock clinical notes for a patient like this: " + description
+    if sections:
+        prompt += " including sections: " + ", ".join(sections)
+    results = c.complete(prompt)
+    print(results)
+    output.write(results)
 
 
 @main.command()

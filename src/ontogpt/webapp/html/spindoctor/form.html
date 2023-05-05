@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>OntoGPT SPINDOCTOR: Enter genes</title>
+</head>
+<body>
+<div>
+    <form method="post">
+        <div>
+            Select Model:
+            <select name="model" id="model">
+                {% for model in models %}
+                  <option value="{{ model }}">{{ model }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div>
+            <textarea name="text" rows="40" cols="20">enter genes here
+            </textarea>
+        </div>
+        <input type="submit">
+        <div>
+            <i><please be patient, can take up to 10s)</i>
+        </div>
+    </form>
+</div>
+<div class="footer">
+    <p>Powered by <a href="https://github.com/monarch-initiative/ontogpt">OntoGPT</a></p>
+</div>
+</body>
+</html>

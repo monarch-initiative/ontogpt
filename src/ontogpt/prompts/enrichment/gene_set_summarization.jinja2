@@ -1,0 +1,33 @@
+I will give you a list of {{ taxon }} genes {% if annotations %} together with descriptions of their functions{% endif %}.
+Perform a term enrichment test on these genes.
+i.e. tell me what the commonalities are in their function.
+Make use of classification hierarchies when you do this.
+Only report gene functions in common, not diseases.
+e.g if gene1 is involved in "toe bone growth" and gene2 is involved in "finger morphogenesis"
+then the term "digit development" would be enriched as represented by gene1 and gene2.
+Only include terms that are statistically over-represented.
+Also include a hypothesis of the underlying biological mechanism or pathway.
+
+Provide results in the format
+
+{{SUMMARY_KEYWORD}}: <high level summary>
+{{MECHANISM_KEYWORD}}: <mechanism>
+{{ENRICHED_TERMS_KEYWORD}}: <term1>; <term2>; <term3>
+
+For the list of terms, be sure to use a semi-colon separator, and do not number the list.
+Always put the list of terms last, after mechanism, summary, or hypotheses.
+
+{% if annotations %}
+Here are the gene summaries:
+
+{% for gd in gene_descriptions %}
+{{ gd[0] }}: {{ gd[1] }}
+{% endfor %}
+{% else %}
+Here are the genes:
+{% for gd in gene_descriptions %}{{ gd[0] }}; {% endfor %}
+{% endif %}
+
+{{END_MARKER}}
+
+Summary and enriched terms:

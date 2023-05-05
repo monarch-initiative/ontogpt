@@ -1,0 +1,59 @@
+name: HALLMARK_TGF_BETA_SIGNALING
+
+gene_symbols:
+ - ACVR1
+ - APC
+ - ARID4B
+ - BCAR3
+ - BMP2
+ - BMPR1A
+ - BMPR2
+ - CDH1
+ - CDK9
+ - CDKN1C
+ - CTNNB1
+ - ENG
+ - FKBP1A
+ - FNTA
+ - FURIN
+ - HDAC1
+ - HIPK2
+ - ID1
+ - ID2
+ - ID3
+ - IFNGR2
+ - JUNB
+ - KLF10
+ - LEFTY2
+ - LTBP2
+ - MAP3K7
+ - NCOR2
+ - NOG
+ - PMEPA1
+ - PPM1A
+ - PPP1CA
+ - PPP1R15A
+ - RAB31
+ - RHOA
+ - SERPINE1
+ - SKI
+ - SKIL
+ - SLC20A1
+ - SMAD1
+ - SMAD3
+ - SMAD6
+ - SMAD7
+ - SMURF1
+ - SMURF2
+ - SPTBN1
+ - TGFB1
+ - TGFBR1
+ - TGIF1
+ - THBS1
+ - TJP1
+ - TRIM33
+ - UBE2D3
+ - WWTR1
+ - XIAP
+taxon: human
+description: null

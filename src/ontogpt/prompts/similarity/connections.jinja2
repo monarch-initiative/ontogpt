@@ -1,0 +1,22 @@
+I will give you a list of genes and descriptions of those genes.
+I will then give a list of phenotypes for a patient with a disease.
+
+Return a ranked list of candidate genes for that disease, together with confidence, and an explanations
+
+Results should be in the format
+
+- <gene1> <confidence1> <explanation1>
+- <gene2> <confidence2> <explanation2>
+- ...
+
+Here are the gene descriptions:
+
+{% for gd in gene_descriptions %}
+{{ gd[0] }}: {{ gd[1] }}
+{% endfor %
+
+Here are the patient phenotypes:
+
+{% for phenotype in phenotypes %}
+{{ phenotype }} ;
+{% endfor %}

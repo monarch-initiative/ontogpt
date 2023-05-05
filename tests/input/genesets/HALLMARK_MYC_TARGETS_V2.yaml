@@ -1,0 +1,63 @@
+name: HALLMARK_MYC_TARGETS_V2
+
+gene_symbols:
+ - AIMP2
+ - BYSL
+ - CBX3
+ - CDK4
+ - DCTPP1
+ - DDX18
+ - DUSP2
+ - EXOSC5
+ - FARSA
+ - GNL3
+ - GRWD1
+ - HK2
+ - HSPD1
+ - HSPE1
+ - IMP4
+ - IPO4
+ - LAS1L
+ - MAP3K6
+ - MCM4
+ - MCM5
+ - MPHOSPH10
+ - MRTO4
+ - MYBBP1A
+ - MYC
+ - NDUFAF4
+ - NIP7
+ - NOC4L
+ - NOLC1
+ - NOP16
+ - NOP2
+ - NOP56
+ - NPM1
+ - PA2G4
+ - PES1
+ - PHB1
+ - PLK1
+ - PLK4
+ - PPAN
+ - PPRC1
+ - PRMT3
+ - PUS1
+ - RABEPK
+ - RCL1
+ - RRP12
+ - RRP9
+ - SLC19A1
+ - SLC29A2
+ - SORD
+ - SRM
+ - SUPV3L1
+ - TBRG4
+ - TCOF1
+ - TFB2M
+ - TMEM97
+ - UNG
+ - UTP20
+ - WDR43
+ - WDR74
+taxon: human
+description: null

@@ -1,0 +1,41 @@
+name: HALLMARK_ANGIOGENESIS
+
+gene_symbols:
+ - APOH
+ - APP
+ - CCND2
+ - COL3A1
+ - COL5A2
+ - CXCL6
+ - FGFR1
+ - FSTL1
+ - ITGAV
+ - JAG1
+ - JAG2
+ - KCNJ8
+ - LPL
+ - LRPAP1
+ - LUM
+ - MSX1
+ - NRP1
+ - OLR1
+ - PDGFA
+ - PF4
+ - PGLYRP1
+ - POSTN
+ - PRG2
+ - PTK2
+ - S100A4
+ - SERPINA5
+ - SLCO2A1
+ - SPP1
+ - STC1
+ - THBD
+ - TIMP1
+ - TNFRSF21
+ - VAV2
+ - VCAN
+ - VEGFA
+ - VTN
+taxon: human
+description: null

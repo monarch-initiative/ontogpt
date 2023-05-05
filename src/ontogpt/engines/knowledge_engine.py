@@ -470,27 +470,45 @@ class KnowledgeEngine(ABC):
         if text_singularized != text_lower:
             logger.info(f"Singularized {text} to {text_singularized}")
             yield from self.groundings(text_singularized, cls)
+        paren_char = "["
         parenthetical_components = re.findall(r"\[(.*?)\]", text_lower)
         if not parenthetical_components:
+            paren_char = "("
             parenthetical_components = re.findall(r"\((.*?)\)", text_lower)
         if parenthetical_components:
+            logger.info(f"{text_lower} =>paren=> {parenthetical_components}")
             trimmed_text = text_lower
             for component in parenthetical_components:
                 if component:
+                    logger.debug(
+                        f"RECURSIVE GROUNDING OF {component} from {parenthetical_components}"
+                    )
                     yield from self.groundings(component, cls)
-                trimmed_text = trimmed_text.replace(f"({component})", "")
+                if paren_char == "(":
+                    trimmed_text = trimmed_text.replace(f"({component})", "")
+                elif paren_char == "[":
+                    trimmed_text = trimmed_text.replace(f"[{component}]", "")
+                else:
+                    raise AssertionError(f"Unknown paren char {paren_char}")
             trimmed_text = trimmed_text.strip().replace("  ", " ")
             if trimmed_text:
+                if len(trimmed_text) >= len(text_lower):
+                    raise AssertionError(
+                        f"Trimmed text {trimmed_text} is not shorter than {text_lower}"
+                    )
+                logger.debug(
+                    f"{text_lower} =>trimmed=> {trimmed_text}; in {parenthetical_components}"
+                )
                 yield from self.groundings(trimmed_text, cls)
         if self.dictionary and text_lower in self.dictionary:
             obj_id = self.dictionary[text_lower]
-            logger.info(f"Found {text} in dictionary: {obj_id}")
+            logger.debug(f"Found {text} in dictionary: {obj_id}")
             yield obj_id
         if self.dictionary:
             for syn, obj_id in self.dictionary.items():
                 if syn in text_lower:
                     if len(syn) / len(text_lower) > self.min_grounding_text_overlap:
-                        logger.info(f"Found {syn} < {text} in dictionary: {obj_id}")
+                        logger.debug(f"Found {syn} < {text} in dictionary: {obj_id}")
                         yield obj_id
         if self.annotators and cls.name in self.annotators:
             annotators = self.annotators[cls.name]

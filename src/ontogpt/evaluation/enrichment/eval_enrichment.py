@@ -4,7 +4,6 @@ import gzip
 import logging
 import random
 from collections import defaultdict
-from copy import copy
 from dataclasses import dataclass, field
 from pathlib import Path
 from typing import Dict, Iterator, List, Optional, Tuple
@@ -12,6 +11,7 @@ from typing import Dict, Iterator, List, Optional, Tuple
 import tiktoken
 import yaml
 from cachier import cachier
+from linkml_runtime.dumpers import json_dumper
 from oaklib import get_adapter, get_implementation_from_shorthand
 from oaklib.datamodels.association import Association
 from oaklib.datamodels.vocabulary import EQUIVALENT_CLASS, IS_A, PART_OF
@@ -19,21 +19,16 @@ from oaklib.interfaces.class_enrichment_calculation_interface import (
     ClassEnrichmentCalculationInterface,
 )
 from oaklib.interfaces.obograph_interface import OboGraphInterface
+from oaklib.parsers.association_parser_factory import get_association_parser
 from pydantic import BaseModel
 from tiktoken import Encoding
 
 from ontogpt.engines import create_engine
-from ontogpt.engines.enrichment import (
-    ENTITY_ID,
-    SYMBOL,
-    EnrichmentEngine,
-    EnrichmentPayload,
-    GeneSet,
-    gene_info,
-    populate_ids_and_symbols,
-)
+from ontogpt.engines.enrichment import ENTITY_ID, EnrichmentEngine, EnrichmentPayload
 from ontogpt.engines.knowledge_engine import MODEL_GPT_3_5_TURBO, MODEL_NAME, MODEL_TEXT_DAVINCI_003
 from ontogpt.evaluation.evaluation_engine import EvaluationEngine
+from ontogpt.templates.class_enrichment import ClassEnrichmentResult
+from ontogpt.utils.gene_set_utils import SYMBOL, GeneSet, drop_genes_from_gene_set, gene_info
 
 THIS_DIR = Path(__file__).parent
 DATABASE_DIR = Path(__file__).parent / "database"
@@ -45,6 +40,7 @@ STANDARD = "standard"
 STANDARD_NO_ONTOLOGY = "standard_no_ontology"
 RANDOM = "random"
 RANK_BASED = "rank_based"
+CLOSURE = "closure"
 
 ENRICHMENT_MODELS = [MODEL_GPT_3_5_TURBO, MODEL_TEXT_DAVINCI_003]
 
@@ -66,6 +62,7 @@ class Overlap(BaseModel):
 class GeneSetComparison(BaseModel):
     name: str
     gene_symbols: List[str]
+    gene_ids: List[str] = None
     model: str = None
     payloads: Dict[str, EnrichmentPayload] = None
     overlaps: Dict[Tuple[str, str], Overlap] = None
@@ -102,7 +99,7 @@ class EvalEnrichment(EvaluationEngine):
         self.tokenizer_encoding = tiktoken.encoding_for_model(self.engine.model)
 
     def evaluate_methods_on_gene_set(
-        self, gene_set: GeneSet, max_size=999, n=4
+        self, gene_set: GeneSet, max_size=999, n=4, randomize_gene_descriptions=False, **kwargs
     ) -> List[GeneSetComparison]:
         """
         Perform evaluation of different methods on a gene set.
@@ -113,46 +110,29 @@ class EvalEnrichment(EvaluationEngine):
         :param gene_set: Gene set to evaluate
         :param max_size: Maximum size of gene set, above this the gene set will be truncated
         :param n: Number of dropouts to perform
+        :param randomize_gene_descriptions: use random gene descriptions
         """
         if n < 1:
             raise ValueError(f"n must be greater than 0: {n}")
         if n > 5:
             raise ValueError(f"n must be less than 5: {n}")
         name = gene_set.name
-        hgnc = get_adapter("sqlite:obo:hgnc")
-        populate_ids_and_symbols(gene_set, hgnc)
-        gene_symbols = gene_set.gene_symbols
         comparisons = []
-        if len(gene_symbols) <= 1:
-            raise ValueError(f"Gene set must have at least two genes: {gene_set}")
         for i in range(0, n):
-            logger.info(f"{gene_set.name} [{i}]")
-            expt_name = f"{name}-{i}"
-            expt_gene_symbols = copy(gene_symbols)
-            random.shuffle(expt_gene_symbols)
-            num_to_drop = int(len(expt_gene_symbols) * (i / 10))
-            logger.info(f"Dropping {num_to_drop} genes (iteration: {i})")
-            expt_gene_symbols = expt_gene_symbols[num_to_drop:max_size]
-            for _ in range(0, num_to_drop):
-                random_gene = self.random_gene_symbol()
-                logger.info(f"Adding random gene: {random_gene}")
-                expt_gene_symbols.append(random_gene)
-            logger.info(f"New symbols: {expt_gene_symbols}")
+            perturbed_gene_set = drop_genes_from_gene_set(gene_set, i * 10)
+            perturbed_gene_set.name = f"{name}-{i}"
             comp = self.compare_analysis(
-                expt_gene_symbols, expt_name, number_of_genes_swapped_out=num_to_drop
+                perturbed_gene_set,
             )
             logger.debug(comp)
             logger.info(yaml.dump(comp.dict(), sort_keys=False))
             comparisons.append(comp)
         return comparisons
 
-    def compare_analysis(
-        self, gene_symbols: List[str], name: str = None, **kwargs
-    ) -> GeneSetComparison:
+    def compare_analysis(self, gene_set: GeneSet, **kwargs) -> GeneSetComparison:
         """Compare OntoGPT enrichment vs standard."""
         payloads = {}
-        gene_set = GeneSet(name=name, gene_symbols=gene_symbols)
-        logger.info(f"Gene symbols: {gene_symbols}")
+        logger.info(f"Gene symbols: {gene_set.gene_symbols}")
         for model in ENRICHMENT_MODELS:
             engine = self.engines[model]
             for method in [NO_SYNOPSIS, ONTOLOGICAL_SYNOPSIS, NARRATIVE_SYNOPSIS]:
@@ -164,19 +144,25 @@ class EvalEnrichment(EvaluationEngine):
                     args = dict(annotations=False)
                 else:
                     raise AssertionError(f"Unknown method: {method}")
-                payload = engine.summarize(gene_set, normalize=True, **args)
-                payload.method = method
-                model_method = f"{model}.{method}"
-                payloads[model_method] = payload
+                for prompt_variant, end_marker in [("v1", "==="), ("v2", "###")]:
+                    engine.end_marker = end_marker
+                    payload = engine.summarize(gene_set, normalize=True, **args)
+                    payload.method = method
+                    payload.prompt_variant = prompt_variant
+                    model_method = f"{model}.{method}.{prompt_variant}"
+                    payloads[model_method] = payload
         payloads[STANDARD] = self.standard_enrichment(gene_set)
         payloads[STANDARD_NO_ONTOLOGY] = self.standard_enrichment(gene_set, use_ontology=False)
         payloads[RANDOM] = self.random_enrichment(gene_set)
         payloads[RANK_BASED] = self.null_enrichment(gene_set)
+        payloads[CLOSURE] = self.gene_term_closure(gene_set)
         for k in [STANDARD, STANDARD_NO_ONTOLOGY, RANDOM, RANK_BASED]:
             payloads[k].method = k
         comp = GeneSetComparison(
-            name=name,
-            gene_symbols=gene_symbols,
+            name=gene_set.name,
+            gene_symbols=gene_set.gene_symbols,
+            gene_ids=gene_set.gene_ids,
+            number_of_genes_swapped_out=gene_set.number_of_genes_dropped,
             payloads=payloads,
             **kwargs,
         )
@@ -191,7 +177,10 @@ class EvalEnrichment(EvaluationEngine):
         return info[0]
 
     def standard_enrichment(self, gene_set: GeneSet, use_ontology=True) -> EnrichmentPayload:
-        """Enrichment."""
+        """Perform standard gene set enrichment.
+
+        :param gene_set: GeneSet object, with gene_ids populated
+        """
         gene_ids = gene_set.gene_ids
         if use_ontology:
             predicates = [IS_A, PART_OF]
@@ -200,10 +189,24 @@ class EvalEnrichment(EvaluationEngine):
         results = self.ontology.enriched_classes(
             gene_ids, autolabel=True, object_closure_predicates=predicates
         )
-        payload = EnrichmentPayload()
+        # awkward: convert from oaklib dataclasses to pydantic
+        results = [ClassEnrichmentResult(**json_dumper.to_dict(result)) for result in results]
+        payload = EnrichmentPayload(enrichment_results=results)
         for result in results:
+            if result.p_value_adjusted > 0.05:
+                continue
             payload.term_strings.append(result.class_label)
             payload.term_ids.append(result.class_id)
+        return payload
+
+    def gene_term_closure(self, gene_set: GeneSet) -> EnrichmentPayload:
+        gene_ids = gene_set.gene_ids
+        term_ids = {a.object for a in self.ontology.associations(subjects=gene_ids)}
+        ancs = list(self.ontology.ancestors(list(term_ids), [IS_A, PART_OF]))
+        payload = EnrichmentPayload()
+        for anc in ancs:
+            payload.term_ids.append(anc)
+            payload.term_strings.append(self.ontology.label(anc))
         return payload
 
     def random_enrichment(self, gene_set: GeneSet = None, n: int = None) -> EnrichmentPayload:
@@ -295,15 +298,36 @@ class EvalEnrichment(EvaluationEngine):
                 yield sym, m[sym]
                 continue
 
-    def load_annotations(self, path=None) -> None:
-        """Load."""
+    def load_annotations(self, path=None, format=None) -> None:
+        """
+        Load annotations from a two-column TSV file or a GAF.
+
+        :param path:
+        :return:
+        """
         if self.loaded:
             return
-        m = get_symbol_to_gene_id_map()
         assocs = []
-        for sym, term_id in self.get_annotation_tuples(path):
-            if sym in m:
-                gene_id = m[sym]
-                assocs.append(Association(subject=gene_id, object=term_id))
+        if not format:
+            if path.endswith(".tsv.gz"):
+                format = "tsv.gz"
+            elif path.endswith(".gaf"):
+                format = "gaf"
+            else:
+                raise ValueError(f"Unknown format: {format}")
+        if format == "tsv.gz":
+            # We have a slightly awkward special case for HGNC as the GO GAFs
+            # use UniProtKB IDs
+            m = get_symbol_to_gene_id_map()
+            for sym, term_id in self.get_annotation_tuples(path):
+                if sym in m:
+                    gene_id = m[sym]
+                    assocs.append(Association(subject=gene_id, object=term_id))
+        elif format == "gaf":
+            association_parser = get_association_parser("gaf")
+            with open(path) as file:
+                assocs = list(association_parser.parse(file))
+        else:
+            raise ValueError(f"Unknown format: {format}")
         self.ontology.add_associations(assocs)
         self.loaded = True
