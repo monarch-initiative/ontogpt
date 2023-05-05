@@ -36,7 +36,7 @@ classes:
       is associated with "high blood pressure".
     slot_usage:
       subject:
-        range: Procedure
+        range: DiagnosticProcedure
         description: >-
           A diagnostic procedure yielding a result, which in turn
           may be interpreted as a phenotype.
@@ -70,7 +70,7 @@ classes:
       OBA:VT0000183, "blood pressure trait").
     slot_usage:
       subject:
-        range: Procedure
+        range: DiagnosticProcedure
         description: >-
           A diagnostic procedure yielding a result, which in turn
           may be interpreted as a phenotype.
@@ -78,10 +78,10 @@ classes:
           "oxygen saturation measurement", etc. In practice, procedures may be
           named based on what they measure, with the "measurement" part left implicit.
       object:
-        range: Attribute
+        range: ClinicalAttribute
         multivalued: true
         description: >-
-          Any measurable biological attribute.
+          Any measurable clinical attribute.
       predicate:
         range: ProcedureToAttributePredicate
         description: The relationship type, e.g. RELATED_TO
@@ -94,7 +94,7 @@ classes:
         description: >-
           An optional qualifier or modifier for the phenotype.
 
-  Procedure:
+  DiagnosticProcedure:
     is_a: NamedEntity
     annotations:
       annotators: bioportal:loinc, sqlite:obo:ncit
@@ -108,8 +108,12 @@ classes:
     id_prefixes:
       - HP
 
-  Attribute:
+  ClinicalAttribute:
     is_a: NamedEntity
+    attributes:
+      unit:
+        description: the unit used to measure the attribute
+        range: Unit
     annotations:
       annotators: sqlite:obo:oba, sqlite:obo:ncit
     id_prefixes:
@@ -135,3 +139,10 @@ classes:
       A predicate for procedure to attribute relationships,
       defining "this procedure is a measurement of this
       attribute".
+
+  Unit:
+    is_a: NamedEntity
+    id_prefixes:
+      - UO
+    annotations:
+      annotators: sqlite:obo:uo

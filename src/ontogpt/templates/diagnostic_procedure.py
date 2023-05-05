@@ -41,7 +41,7 @@ class NamedEntity(ConfiguredBaseModel):
     
 
 
-class Procedure(NamedEntity):
+class DiagnosticProcedure(NamedEntity):
     
     id: Optional[str] = Field(None, description="""A unique identifier for the named entity""")
     label: Optional[str] = Field(None, description="""The label (name) of the named thing""")
@@ -55,14 +55,22 @@ class Phenotype(NamedEntity):
     
 
 
-class Attribute(NamedEntity):
+class ClinicalAttribute(NamedEntity):
     
+    unit: Optional[str] = Field(None, description="""the unit used to measure the attribute""")
     id: Optional[str] = Field(None, description="""A unique identifier for the named entity""")
     label: Optional[str] = Field(None, description="""The label (name) of the named thing""")
     
 
 
 class Quality(NamedEntity):
+    
+    id: Optional[str] = Field(None, description="""A unique identifier for the named entity""")
+    label: Optional[str] = Field(None, description="""The label (name) of the named thing""")
+    
+
+
+class Unit(NamedEntity):
     
     id: Optional[str] = Field(None, description="""A unique identifier for the named entity""")
     label: Optional[str] = Field(None, description="""The label (name) of the named thing""")
@@ -107,7 +115,7 @@ class DiagnosticProceduretoAttributeAssociation(Triple):
     """
     subject: Optional[str] = Field(None, description="""A diagnostic procedure yielding a result, which in turn may be interpreted as a phenotype. Procedures include \"heart rate measurement\", \"blood pressure measurement\", \"oxygen saturation measurement\", etc. In practice, procedures may be named based on what they measure, with the \"measurement\" part left implicit.""")
     predicate: Optional[str] = Field(None, description="""The relationship type, e.g. RELATED_TO""")
-    object: Optional[List[str]] = Field(default_factory=list, description="""Any measurable biological attribute.""")
+    object: Optional[List[str]] = Field(default_factory=list, description="""Any measurable clinical attribute.""")
     qualifier: Optional[str] = Field(None, description="""A qualifier for the statements, e.g. \"NOT\" for negation""")
     subject_qualifier: Optional[str] = Field(None, description="""An optional qualifier or modifier for the procedure.""")
     object_qualifier: Optional[str] = Field(None, description="""An optional qualifier or modifier for the phenotype.""")
@@ -169,10 +177,11 @@ class AnnotatorResult(ConfiguredBaseModel):
 # see https://pydantic-docs.helpmanual.io/usage/postponed_annotations/
 ExtractionResult.update_forward_refs()
 NamedEntity.update_forward_refs()
-Procedure.update_forward_refs()
+DiagnosticProcedure.update_forward_refs()
 Phenotype.update_forward_refs()
-Attribute.update_forward_refs()
+ClinicalAttribute.update_forward_refs()
 Quality.update_forward_refs()
+Unit.update_forward_refs()
 CompoundExpression.update_forward_refs()
 Triple.update_forward_refs()
 DiagnosticProceduretoPhenotypeAssociation.update_forward_refs()
