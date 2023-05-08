@@ -1,3 +1,4 @@
+"""Ontology Class template."""
 from __future__ import annotations
 
 from typing import Any, List, Optional
@@ -31,9 +32,7 @@ class LogicalDefinition(ConfiguredBaseModel):
 
 
 class ExtractionResult(ConfiguredBaseModel):
-    """
-    A result of extracting knowledge on text
-    """
+    """A result of extracting knowledge on text."""
 
     input_id: Optional[str] = Field(None)
     input_title: Optional[str] = Field(None)
@@ -65,7 +64,8 @@ class OntologyClass(NamedEntity):
     subclass_of: Optional[List[str]] = Field(default_factory=list)
     logical_definition: Optional[LogicalDefinition] = Field(
         None,
-        description="""the necessary and sufficient conditions for this entity to be an instance of this class""",
+        description="""the necessary and sufficient conditions for this\
+            entity to be an instance of this class""",
     )
     id: Optional[str] = Field(None, description="""A unique identifier for the named entity""")
 
@@ -76,13 +76,11 @@ class Relation(NamedEntity):
 
 
 class CompoundExpression(ConfiguredBaseModel):
-    None
+    pass
 
 
 class Triple(CompoundExpression):
-    """
-    Abstract parent for Relation Extraction tasks
-    """
+    """Abstract parent for Relation Extraction tasks."""
 
     subject: Optional[str] = Field(None)
     predicate: Optional[str] = Field(None)
@@ -92,11 +90,13 @@ class Triple(CompoundExpression):
     )
     subject_qualifier: Optional[str] = Field(
         None,
-        description="""An optional qualifier or modifier for the subject of the statement, e.g. \"high dose\" or \"intravenously administered\"""",
+        description="""An optional qualifier or modifier for the subject\
+            of the statement, e.g. \"high dose\" or \"intravenously administered\"""",
     )
     object_qualifier: Optional[str] = Field(
         None,
-        description="""An optional qualifier or modifier for the object of the statement, e.g. \"severe\" or \"with additional complications\"""",
+        description="""An optional qualifier or modifier for the\
+            object of the statement, e.g. \"severe\" or \"with additional complications\"""",
     )
 
 

@@ -1,0 +1,49 @@
+name: HALLMARK_APICAL_SURFACE
+
+gene_symbols:
+ - ADAM10
+ - ADIPOR2
+ - AFAP1L2
+ - AKAP7
+ - APP
+ - ATP6V0A4
+ - ATP8B1
+ - B4GALT1
+ - BRCA1
+ - CD160
+ - CROCC
+ - CRYBG1
+ - CX3CL1
+ - DCBLD2
+ - EFNA5
+ - EPHB4
+ - FLOT2
+ - GAS1
+ - GATA3
+ - GHRL
+ - GSTM3
+ - HSPB1
+ - IL2RB
+ - IL2RG
+ - LYN
+ - LYPD3
+ - MAL
+ - MDGA1
+ - NCOA6
+ - NTNG1
+ - PCSK9
+ - PKHD1
+ - PLAUR
+ - RHCG
+ - RTN4RL1
+ - SCUBE1
+ - SHROOM2
+ - SLC22A12
+ - SLC2A4
+ - SLC34A3
+ - SRPX
+ - SULF2
+ - THY1
+ - TMEM8B
+taxon: human
+description: null

@@ -1,6 +1,4 @@
-"""
-HPOA evaluation.
-"""
+"""HPOA evaluation."""
 import csv
 import logging
 from collections import defaultdict
@@ -17,7 +15,7 @@ from pydantic import BaseModel
 
 from ontogpt.clients.pubmed_client import PubmedClient
 from ontogpt.engines.spires_engine import SPIRESEngine
-from ontogpt.evaluation.evaluation_engine import EvaluationEngine, SimilarityScore
+from ontogpt.evaluation.evaluation_engine import SimilarityScore, SPIRESEvaluationEngine
 from ontogpt.templates.mendelian_disease import MendelianDisease
 
 THIS_DIR = Path(__file__).parent
@@ -54,9 +52,7 @@ class PredictionHPOA(BaseModel):
 
 
 class EvaluationObjectSetHPOA(BaseModel):
-    """
-    A result of predicting paths
-    """
+    """A result of predicting paths."""
 
     test: List[MendelianDisease] = None
     training: List[MendelianDisease] = None
@@ -71,7 +67,7 @@ class HPOAnnotation(BaseModel):
 
 
 @dataclass
-class EvalHPOA(EvaluationEngine):
+class EvalHPOA(SPIRESEvaluationEngine):
     mondo: BasicOntologyInterface = None
 
     def __post_init__(self):

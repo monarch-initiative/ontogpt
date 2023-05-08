@@ -1,0 +1,45 @@
+name: HALLMARK_PANCREAS_BETA_CELLS
+
+gene_symbols:
+ - ABCC8
+ - AKT3
+ - CHGA
+ - DCX
+ - DPP4
+ - ELP4
+ - FOXA2
+ - FOXO1
+ - G6PC2
+ - GCG
+ - GCK
+ - HNF1A
+ - IAPP
+ - INS
+ - INSM1
+ - ISL1
+ - LMO2
+ - MAFB
+ - NEUROD1
+ - NEUROG3
+ - NKX2-2
+ - NKX6-1
+ - PAK3
+ - PAX4
+ - PAX6
+ - PCSK1
+ - PCSK2
+ - PDX1
+ - PKLR
+ - SCGN
+ - SEC11A
+ - SLC2A2
+ - SPCS1
+ - SRP14
+ - SRP9
+ - SRPRB
+ - SST
+ - STXBP1
+ - SYT13
+ - VDR
+taxon: human
+description: null

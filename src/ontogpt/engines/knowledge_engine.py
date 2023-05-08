@@ -1,6 +1,4 @@
-"""
-Main Knowledge Extractor class.
-"""
+"""Main Knowledge Extractor class."""
 import importlib
 import logging
 import re
@@ -36,6 +34,7 @@ OBJECT = Union[str, pydantic.BaseModel, dict]
 EXAMPLE = OBJECT
 FIELD = str
 TEMPLATE_NAME = str
+MODEL_NAME = str
 
 # annotation metamodel
 ANNOTATION_KEY_PROMPT = "prompt"
@@ -44,8 +43,11 @@ ANNOTATION_KEY_ANNOTATORS = "annotators"
 ANNOTATION_KEY_RECURSE = "ner.recurse"
 ANNOTATION_KEY_EXAMPLES = "prompt.examples"
 
+MODEL_GPT_3_5_TURBO = "gpt-3.5-turbo"
+MODEL_TEXT_DAVINCI_003 = "text-davinci-003"
+MODELS = [MODEL_GPT_3_5_TURBO, MODEL_TEXT_DAVINCI_003]
 
-DEFAULT_MODEL = "gpt-3.5-turbo"
+DEFAULT_MODEL = MODEL_GPT_3_5_TURBO
 
 # TODO: introspect
 DATAMODELS = [
@@ -60,9 +62,7 @@ DATAMODELS = [
 
 
 def chunk_text(text: str, window_size=3) -> Iterator[str]:
-    """
-    Chunk text into windows of sentences.
-    """
+    """Chunk text into windows of sentences."""
     sentences = re.split(r"[.?!]\s+", text)
     for right_index in range(1, len(sentences)):
         left_index = max(0, right_index - window_size)
@@ -101,7 +101,7 @@ class KnowledgeEngine(ABC):
     api_key: str = None
     """OpenAI API key."""
 
-    model: str = None
+    model: MODEL_NAME = None
     """OpenAI Model. This should be overridden in subclasses"""
 
     # annotator: TextAnnotatorInterface = None
@@ -203,8 +203,9 @@ class KnowledgeEngine(ABC):
             self.dictionary[syn] = id
         logger.info(f"Loaded {len(self.dictionary)}")
 
+    # @abstractmethod
     def synthesize(self, cls: ClassDefinition = None, object: OBJECT = None) -> ExtractionResult:
-        pass
+        raise NotImplementedError
 
     def generalize(
         self, object: Union[pydantic.BaseModel, dict], examples: List[EXAMPLE]
@@ -458,32 +459,56 @@ class KnowledgeEngine(ABC):
         :return:
         """
         logger.info(f"GROUNDING {text} using {cls.name}")
+        id_matches = re.match(r"^(\S+):(\d+)$", text)
+        if id_matches:
+            obj_prefix = id_matches.group(1)
+            matching_prefixes = [x for x in cls.id_prefixes if x.upper() == obj_prefix.upper()]
+            if matching_prefixes:
+                yield matching_prefixes[0] + ":" + id_matches.group(2)
         text_lower = text.lower()
         text_singularized = inflection.singularize(text_lower)
         if text_singularized != text_lower:
             logger.info(f"Singularized {text} to {text_singularized}")
             yield from self.groundings(text_singularized, cls)
+        paren_char = "["
         parenthetical_components = re.findall(r"\[(.*?)\]", text_lower)
         if not parenthetical_components:
+            paren_char = "("
             parenthetical_components = re.findall(r"\((.*?)\)", text_lower)
         if parenthetical_components:
+            logger.info(f"{text_lower} =>paren=> {parenthetical_components}")
             trimmed_text = text_lower
             for component in parenthetical_components:
                 if component:
+                    logger.debug(
+                        f"RECURSIVE GROUNDING OF {component} from {parenthetical_components}"
+                    )
                     yield from self.groundings(component, cls)
-                trimmed_text = trimmed_text.replace(f"({component})", "")
+                if paren_char == "(":
+                    trimmed_text = trimmed_text.replace(f"({component})", "")
+                elif paren_char == "[":
+                    trimmed_text = trimmed_text.replace(f"[{component}]", "")
+                else:
+                    raise AssertionError(f"Unknown paren char {paren_char}")
             trimmed_text = trimmed_text.strip().replace("  ", " ")
             if trimmed_text:
+                if len(trimmed_text) >= len(text_lower):
+                    raise AssertionError(
+                        f"Trimmed text {trimmed_text} is not shorter than {text_lower}"
+                    )
+                logger.debug(
+                    f"{text_lower} =>trimmed=> {trimmed_text}; in {parenthetical_components}"
+                )
                 yield from self.groundings(trimmed_text, cls)
         if self.dictionary and text_lower in self.dictionary:
             obj_id = self.dictionary[text_lower]
-            logger.info(f"Found {text} in dictionary: {obj_id}")
+            logger.debug(f"Found {text} in dictionary: {obj_id}")
             yield obj_id
         if self.dictionary:
             for syn, obj_id in self.dictionary.items():
                 if syn in text_lower:
                     if len(syn) / len(text_lower) > self.min_grounding_text_overlap:
-                        logger.info(f"Found {syn} < {text} in dictionary: {obj_id}")
+                        logger.debug(f"Found {syn} < {text} in dictionary: {obj_id}")
                         yield obj_id
         if self.annotators and cls.name in self.annotators:
             annotators = self.annotators[cls.name]
@@ -528,7 +553,7 @@ class KnowledgeEngine(ABC):
         self, resultset: List[ExtractionResult], unique_fields: List[str] = None
     ) -> ExtractionResult:
         """
-        Merges all resultsets into a single resultset.
+        Merge all resultsets into a single resultset.
 
         Note the first element of the list is mutated.
 

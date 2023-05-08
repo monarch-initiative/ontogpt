@@ -1,3 +1,4 @@
+"""Reaction template."""
 from __future__ import annotations
 
 from typing import Any, Dict, List, Optional
@@ -125,7 +126,7 @@ class Organism(NamedEntity):
 
 
 class CompoundExpression(ConfiguredBaseModel):
-    None
+    pass
 
 
 class GeneReactionPairing(CompoundExpression):

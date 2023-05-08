@@ -27,6 +27,21 @@ class ConfiguredBaseModel(
     pass
 
 
+class GeneDescription(ConfiguredBaseModel):
+    """
+    A summarization of an individual gene
+    """
+
+    about: Optional[str] = Field(None)
+    narrative_summary: Optional[str] = Field(
+        None, description="""A free text summary describing the function of the gene"""
+    )
+    terms: Optional[List[str]] = Field(
+        default_factory=list,
+        description="""A semicolon separated list of controlled terms that describe the function of the gene""",
+    )
+
+
 class ExtractionResult(ConfiguredBaseModel):
     """
     A result of extracting knowledge on text
@@ -46,6 +61,11 @@ class ExtractionResult(ConfiguredBaseModel):
 
 
 class NamedEntity(ConfiguredBaseModel):
+    id: Optional[str] = Field(None, description="""A unique identifier for the named entity""")
+    label: Optional[str] = Field(None, description="""The label (name) of the named thing""")
+
+
+class Gene(NamedEntity):
     id: Optional[str] = Field(None, description="""A unique identifier for the named entity""")
     label: Optional[str] = Field(None, description="""The label (name) of the named thing""")
 
@@ -106,8 +126,10 @@ class AnnotatorResult(ConfiguredBaseModel):
 
 # Update forward refs
 # see https://pydantic-docs.helpmanual.io/usage/postponed_annotations/
+GeneDescription.update_forward_refs()
 ExtractionResult.update_forward_refs()
 NamedEntity.update_forward_refs()
+Gene.update_forward_refs()
 GeneDescriptionTerm.update_forward_refs()
 CompoundExpression.update_forward_refs()
 Triple.update_forward_refs()

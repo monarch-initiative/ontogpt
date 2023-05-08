@@ -1,0 +1,37 @@
+name: HALLMARK_NOTCH_SIGNALING
+
+gene_symbols:
+ - APH1A
+ - ARRB1
+ - CCND1
+ - CUL1
+ - DLL1
+ - DTX1
+ - DTX2
+ - DTX4
+ - FBXW11
+ - FZD1
+ - FZD5
+ - FZD7
+ - HES1
+ - HEYL
+ - JAG1
+ - KAT2A
+ - LFNG
+ - MAML2
+ - NOTCH1
+ - NOTCH2
+ - NOTCH3
+ - PPARD
+ - PRKCA
+ - PSEN2
+ - PSENEN
+ - RBX1
+ - SAP30
+ - SKP1
+ - ST3GAL6
+ - TCF7L2
+ - WNT2
+ - WNT5A
+taxon: human
+description: null

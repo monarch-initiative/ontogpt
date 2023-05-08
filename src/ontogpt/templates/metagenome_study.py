@@ -1,3 +1,4 @@
+"""Metagenome study template."""
 from __future__ import annotations
 
 from typing import Any, List, Optional
@@ -44,9 +45,7 @@ class Study(ConfiguredBaseModel):
 
 
 class ExtractionResult(ConfiguredBaseModel):
-    """
-    A result of extracting knowledge on text
-    """
+    """A result of extracting knowledge on text."""
 
     input_id: Optional[str] = Field(None)
     input_title: Optional[str] = Field(None)
@@ -107,7 +106,7 @@ class Organism(NamedEntity):
 
 
 class CompoundExpression(ConfiguredBaseModel):
-    None
+    pass
 
 
 class Measurement(CompoundExpression):

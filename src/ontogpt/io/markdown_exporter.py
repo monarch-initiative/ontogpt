@@ -1,3 +1,4 @@
+"""Markdown exporter."""
 from dataclasses import dataclass
 from pathlib import Path
 from typing import TextIO, Union
@@ -17,10 +18,10 @@ class MarkdownExporter(Exporter):
         if isinstance(output, str):
             output = open(str(output), "w", encoding="utf-8")
         output.write(f"# {extraction_output.input_id}\n\n")
-        output.write(f"## Input\n\n")
+        output.write("## Input\n\n")
         for block in extraction_output.input_text.split("\n"):
             output.write(f"_{block.replace('_', '')}_\n\n")
-        output.write(f"## Results\n\n")
+        output.write("## Results\n\n")
         obj = extraction_output.extracted_object
         self.export_object(obj, extraction_output, output, -1)
         output.write("\n\nYAML:\n\n")

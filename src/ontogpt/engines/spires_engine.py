@@ -15,11 +15,8 @@ from typing import Any, Dict, List, Optional, Tuple, Union
 
 import pydantic
 from linkml_runtime.linkml_model import ClassDefinition, SlotDefinition
-from oaklib import get_implementation_from_shorthand
-from oaklib.datamodels.text_annotator import TextAnnotation, TextAnnotationConfiguration
 
 from ontogpt.engines.knowledge_engine import (
-    ANNOTATION_KEY_ANNOTATORS,
     ANNOTATION_KEY_PROMPT,
     ANNOTATION_KEY_PROMPT_SKIP,
     EXAMPLE,
@@ -28,7 +25,7 @@ from ontogpt.engines.knowledge_engine import (
     KnowledgeEngine,
     chunk_text,
 )
-from ontogpt.templates.core import ExtractionResult, NamedEntity
+from ontogpt.templates.core import ExtractionResult
 
 this_path = Path(__file__).parent
 
@@ -164,7 +161,8 @@ class SPIRESEngine(KnowledgeEngine):
             example = examples[ontology]
         else:
             example = examples["uberon"]
-        prompt = "Normalize the following semicolon separated list of terms to the {ontology.upper()} ontology\n\n"
+        prompt = "Normalize the following semicolon separated\
+            list of terms to the {ontology.upper()} ontology\n\n"
         prompt += "For example:\n\n"
         for k, v in example.items():
             prompt += f"{k}: {v}\n"
@@ -275,6 +273,10 @@ class SPIRESEngine(KnowledgeEngine):
                     slot_prompt = f"semicolon-separated list of {slot.name}s"
                 else:
                     slot_prompt = f"the value for {slot.name}"
+            if slot.range in self.schemaview.all_enums():
+                enum_def = self.schemaview.get_enum(slot.range)
+                pvs = [str(k) for k in enum_def.permissible_values.keys()]
+                slot_prompt += f"Must be one of: {', '.join(pvs)}"
             prompt += f"{slot.name}: <{slot_prompt}>\n"
         # prompt += "Do not answer if you don't know\n\n"
         prompt = f"{prompt}\n\nText:\n{text}\n\n===\n\n"
@@ -293,7 +295,7 @@ class SPIRESEngine(KnowledgeEngine):
         self, results: str, cls: ClassDefinition = None
     ) -> Optional[RESPONSE_DICT]:
         """
-        Parses the pseudo-YAML response from OpenAI into a dictionary object.
+        Parse the pseudo-YAML response from OpenAI into a dictionary object.
 
         E.g.
 
@@ -447,6 +449,10 @@ class SPIRESEngine(KnowledgeEngine):
                 vals = [vals]
             slot = sv.induced_slot(field, cls.name)
             rng_cls = sv.get_class(slot.range)
+            enum_def = None
+            if slot.range:
+                if slot.range in self.schemaview.all_enums():
+                    enum_def = self.schemaview.get_enum(slot.range)
             new_ann[field] = []
             for val in vals:
                 if not val:
@@ -467,6 +473,17 @@ class SPIRESEngine(KnowledgeEngine):
                     obj = self.ground_annotation_object(val, rng_cls)
                 else:
                     obj = self.normalize_named_entity(val, slot.range)
+                if enum_def:
+                    found = False
+                    logging.info(f"Looking for {obj} in {enum_def.name}")
+                    for k, _pv in enum_def.permissible_values.items():
+                        if obj.lower() == k.lower():
+                            obj = k
+                            found = True
+                            break
+                    if not found:
+                        logging.info(f"Cannot find enum value for {obj} in {enum_def.name}")
+                        obj = None
                 if multivalued:
                     new_ann[field].append(obj)
                 else:

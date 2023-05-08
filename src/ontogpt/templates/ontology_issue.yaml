@@ -1,0 +1,118 @@
+id: https://w3id.org/ontogpt/ontology_issue
+name: ontology-issue
+title: Ontology Issue Data Model
+description: >-
+  A data model for representing the contents of a GitHub issue on an ontology tracker
+license: https://creativecommons.org/publicdomain/zero/1.0/
+prefixes:
+  linkml: https://w3id.org/linkml/
+  oc: http://w3id.org/ontogpt/ontology-class-template
+
+default_prefix: oc
+default_range: string
+
+imports:
+  - linkml:types
+  - core
+
+classes:
+  OntologyIssue:
+    tree_root: true
+    attributes:
+      title:
+        description: the title of the issue
+      summary:
+        description: a high level summary
+        annotations:
+          prompt: >-
+            a high level one or two line summary of the issue, e.g. "the definition of the class 'bone' is too vague"
+      status:
+      domains:
+        description: >-
+          What part of the ontology does this pertain to.
+        annotations:
+          prompt: >-
+            semicolon-separated list of grouping terms in the ontology.
+        range: OntologyClass
+        multivalued: true
+      problem_list:
+        description: A list of problems stated at a high level
+        annotations:
+          prompt: >-
+            semicolon-separated list of problems each written as a simple statement.
+            For example "T cell is classified in the wrong place"
+        multivalued: true
+        range: OntologyProblem
+      proposed_changes:
+        description: >-
+          What part of the ontology does this pertain to.
+        annotations:
+          prompt: >-
+            semicolon-separated list of grouping terms in the ontology. Example terms will be high level
+            terms in the relevant ontology, e.g. "skeletal system" for an anatomy ontology.
+        multivalued: true
+        range: OntologyChange
+
+  OntologyClass:
+    is_a: NamedEntity
+    annotations:
+      annotators: sqlite:obo:go
+
+  OntologyProblem:
+    is_a: CompoundExpression
+    attributes:
+      description:
+        description: >-
+          A succinct description of the problem
+      severity:
+        description: >-
+          How severe is this problem?
+      category:
+        description: >-
+          What category does this problem fall into?
+        range: ProblemType
+      about:
+        description: >-
+          What terms in the ontology is this problem about?
+        annotations:
+          prompt: >-
+            semicolon-separated list of terms in the ontology that are problematic.
+        range: OntologyClass
+        multivalued: true
+
+  OntologyChange:
+    is_a: CompoundExpression
+    attributes:
+      description:
+        description: >-
+          A succinct description of the proposed change
+      category:
+        description: >-
+          What kind of change?
+        range: ChangeType
+      about:
+        description: >-
+          What terms in the ontology will this change affect?
+        annotations:
+          prompt: >-
+            semicolon-separated list of specific terms in the ontology which will be affected by the change.
+        range: OntologyClass
+        multivalued: true
+
+enums:
+  ProblemType:
+    permissible_values:
+      UNKNOWN:
+      TYPO:
+      BAD_XREF:
+      MISSING_DEFINITION:
+      MISSING_PARENT:
+      BAD_RELATIONSHIP:
+      OTHER:
+  ChangeType:
+    permissible_values:
+      UNKNOWN:
+      CHANGE_DEFINITION:
+      CHANGE_LABEL:
+      CHANGE_XREF:
+      MOVE_TERM:
