@@ -200,7 +200,14 @@ ontogpt extract -t mendelian_disease.MendelianDisease -i marfan-wikipedia.txt
 
 ## Web Application
 
-There is a bare bones web application
+There is a bare bones web application for running OntoGPT and viewing results.
+
+Install the required dependencies first with the following command:
+```
+poetry install -E web
+```
+
+Then run the following command to start the web application:
 
 ```
 poetry run web-ontogpt
@@ -343,7 +350,7 @@ Given a set of genes, OntoGPT can find similarities among them.
 
 Example:
 ```
-ontogpt  enrichment -r sqlite:obo:hgnc  -U tests/input/genesets/sensory-ataxia.yaml
+ontogpt enrichment -r sqlite:obo:hgnc  -U tests/input/genesets/sensory-ataxia.yaml
 ```
 
 This gives both a narrative summary:
