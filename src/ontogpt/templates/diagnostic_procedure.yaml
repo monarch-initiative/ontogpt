@@ -1,0 +1,148 @@
+id: http://w3id.org/ontogpt/diagnostic_procedure
+name: diagnostic_procedure
+title: Diagnostic Procedure Template
+description: >-
+  A template for clinical diagnostic procedures and the
+  phenotypes they may contribute to.
+license: https://creativecommons.org/publicdomain/zero/1.0/
+prefixes:
+  linkml: https://w3id.org/linkml/
+  diag: http://w3id.org/ontogpt/diagnostic_procedure/
+  LOINC: http://loinc.org/rdf/
+  HP: http://purl.obolibrary.org/obo/HP_
+  RO: http://purl.obolibrary.org/obo/RO_
+  OBA: http://purl.obolibrary.org/obo/OBA_
+  PATO: http://purl.obolibrary.org/obo/PATO_
+  biolink: https://w3id.org/biolink/vocab/
+
+default_prefix: diag
+default_range: string
+
+imports:
+  - linkml:types
+  - core
+
+# TODO: LOINC isn't great for grounding, 
+# but perhaps a combo of subject, unit, and qualifier would work
+# since LOINC names are often like "IgG [Units/volume] in Serum"
+
+classes:
+
+  DiagnosticProceduretoPhenotypeAssociation:
+    is_a: Triple
+    description: >- 
+      A triple representing a relationship between a diagnostic
+      procedure and an associated phenotype, e.g., "blood pressure measurement"
+      is associated with "high blood pressure".
+    slot_usage:
+      subject:
+        range: DiagnosticProcedure
+        description: >-
+          A diagnostic procedure yielding a result, which in turn
+          may be interpreted as a phenotype.
+          Procedures include "heart rate measurement", "blood pressure measurement",
+          "oxygen saturation measurement", etc. In practice, procedures may be
+          named based on what they measure, with the "measurement" part left implicit.
+      object:
+        range: Phenotype
+        multivalued: true
+        description: >-
+          The observable physical or biochemical characteristics of a patient.
+          Not equivalent to a disease state, but may contribute to a diagnosis.
+      predicate:
+        range: ProcedureToPhenotypePredicate
+        description: The relationship type, e.g. RELATED_TO
+      subject_qualifier:
+        range: NamedEntity
+        description: >-
+          An optional qualifier or modifier for the procedure.
+      object_qualifier:
+        range: NamedEntity
+        description: >-
+          An optional qualifier or modifier for the phenotype.
+
+  DiagnosticProceduretoAttributeAssociation:
+    is_a: Triple
+    description: >- 
+      A triple representing a relationship between a diagnostic
+      procedure and a measured attribute, e.g., "blood pressure measurement"
+      is associated with "blood pressure" (or in OBA, something like
+      OBA:VT0000183, "blood pressure trait").
+    slot_usage:
+      subject:
+        range: DiagnosticProcedure
+        description: >-
+          A diagnostic procedure yielding a result, which in turn
+          may be interpreted as a phenotype.
+          Procedures include "heart rate measurement", "blood pressure measurement",
+          "oxygen saturation measurement", etc. In practice, procedures may be
+          named based on what they measure, with the "measurement" part left implicit.
+      object:
+        range: ClinicalAttribute
+        multivalued: true
+        description: >-
+          Any measurable clinical attribute.
+      predicate:
+        range: ProcedureToAttributePredicate
+        description: The relationship type, e.g. RELATED_TO
+      subject_qualifier:
+        range: NamedEntity
+        description: >-
+          An optional qualifier or modifier for the procedure.
+      object_qualifier:
+        range: Quality
+        description: >-
+          An optional qualifier or modifier for the phenotype.
+
+  DiagnosticProcedure:
+    is_a: NamedEntity
+    annotations:
+      annotators: bioportal:loinc, sqlite:obo:ncit
+    id_prefixes:
+      - LOINC
+
+  Phenotype:
+    is_a: NamedEntity
+    annotations:
+      annotators: sqlite:obo:hp
+    id_prefixes:
+      - HP
+
+  ClinicalAttribute:
+    is_a: NamedEntity
+    attributes:
+      unit:
+        description: the unit used to measure the attribute
+        range: Unit
+    annotations:
+      annotators: sqlite:obo:oba, sqlite:obo:ncit
+    id_prefixes:
+      - OBA
+
+  Quality:
+    is_a: NamedEntity
+    annotations:
+      annotators: sqlite:obo:pato
+    id_prefixes:
+      - PATO
+
+  ProcedureToPhenotypePredicate:
+    is_a: RelationshipType
+    description: >-
+      A predicate for procedure to phenotype relationships,
+      defining "this procedure is intended to provide support
+      for/against this phenotype".
+
+  ProcedureToAttributePredicate:
+    is_a: RelationshipType
+    description: >-
+      A predicate for procedure to attribute relationships,
+      defining "this procedure is a measurement of this
+      attribute".
+
+  Unit:
+    is_a: NamedEntity
+    id_prefixes:
+      - UO
+    annotations:
+      annotators: sqlite:obo:uo
