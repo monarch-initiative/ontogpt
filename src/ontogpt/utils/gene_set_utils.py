@@ -1,4 +1,5 @@
 """Utilities for handling gene sets."""
+import csv
 import glob
 import json
 import logging
@@ -85,7 +86,10 @@ def parse_gene_set(input_path: Union[str, Path], format: str = None) -> GeneSet:
     if isinstance(input_path, Path):
         input_path = str(input_path)
     if format is None:
-        format = input_path.split(".")[-1]
+        if "gene_export_geneset" in input_path:
+            format = "geneweaver"
+        else:
+            format = input_path.split(".")[-1]
     if format == "yaml":
         with open(input_path, "r") as f:
             gene_set = GeneSet(**yaml.safe_load(f))
@@ -93,6 +97,8 @@ def parse_gene_set(input_path: Union[str, Path], format: str = None) -> GeneSet:
         with open(input_path, "r") as f:
             name, msig = list(json.load(f).items())[0]
             gene_set = GeneSet(name=name, gene_symbols=msig["geneSymbols"])
+    elif format == "geneweaver":
+        gene_set = parse_geneweaver(input_path)
     elif format == "txt":
         with open(input_path, "r") as f:
             gene_symbols = [line.strip() for line in f.readlines()]
@@ -100,6 +106,42 @@ def parse_gene_set(input_path: Union[str, Path], format: str = None) -> GeneSet:
     else:
         raise ValueError(f"Unknown format {format}")
     return gene_set
+
+
+def parse_geneweaver(path: str) -> GeneSet:
+    gene_set = GeneSet(name=Path(path).stem, source="geneweaver", gene_ids=[], gene_symbols=[])
+    col2sp = {
+        "Wormbase": "C elegans",
+        "ZFIN": "Danio rerio",
+    }
+    fix = {
+        "Wormbase": "WB",
+    }
+    with open(path, "r") as f:
+        reader = csv.DictReader(f, delimiter="\t")
+        col = None
+        sp = None
+        for row in reader:
+            sym = row["Gene Symbol"]
+            if not col:
+                for k, v in col2sp.items():
+                    if row.get(k, None):
+                        col = k
+                        db = col
+                        gene_set.taxon = v
+                        if col in fix:
+                            db = fix[col]
+                        break
+            if not col:
+                raise ValueError("Unknown column")
+
+            id = f"{db}:{row[col]}"
+            gene = Gene(id=id, symbol=sym)
+            gene_set.gene_ids.append(id)
+            gene_set.gene_symbols.append(sym)
+            gene_set.gene_ids.append(id)
+    return gene_set
+
 
 
 def load_gene_sets(
