@@ -11,7 +11,7 @@ from jinja2 import Template
 from oaklib import BasicOntologyInterface, get_adapter
 from pydantic import BaseModel
 
-from ontogpt.engines.knowledge_engine import KnowledgeEngine
+from ontogpt.engines.knowledge_engine import KnowledgeEngine, MODEL_GPT_4
 from ontogpt.prompts.enrichment import DEFAULT_ENRICHMENT_PROMPT
 from ontogpt.templates.class_enrichment import ClassEnrichmentResult
 from ontogpt.templates.gene_description_term import GeneDescriptionTerm
@@ -248,7 +248,10 @@ class EnrichmentEngine(KnowledgeEngine):
         logging.info(f"Prompt [{truncation_factor}] Length: {len(prompt)}")
         # https://help.openai.com/en/articles/4936856-what-are-tokens-and-how-to-count-them
         prompt_length = len(self.encoding.encode(prompt)) + 10
-        max_len = 4097 - self.completion_length
+        max_len_total = 4097
+        if self.model == MODEL_GPT_4:
+            max_len_total = 8193
+        max_len = max_len_total - self.completion_length
         logging.info(
             f"Prompt [{truncation_factor}] Toks: {prompt_length} / {max_len} Str={len(prompt)}"
         )

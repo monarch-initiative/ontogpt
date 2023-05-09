@@ -351,19 +351,17 @@ TODO
 Given a set of genes, OntoGPT can find similarities among them.
 
 Example:
-```
-ontogpt enrichment -r sqlite:obo:hgnc  -U tests/input/genesets/sensory-ataxia.yaml
-```
-
-This gives both a narrative summary:
-
-__
-
-and structured term list:
 
 ```
-
+ontogpt  enrichment -U tests/input/genesets/sensory-ataxia.yaml
 ```
+
+The default is to use ontological gene function synopses (via the Alliance API).
+
+To use narrative/RefSeq summaries, use the `--no-ontological-synopses` flag.
+
+To run without any gene descriptions, use the `--no-annotations` flag.
+
 
 ## OntoGPT Limitations
 
