@@ -1,0 +1,182 @@
+id: http://w3id.org/ontogpt/composite_disease
+name: composite_disease
+title: Composite Disease
+description: >-
+  A template for representing composite disease concepts
+license: https://creativecommons.org/publicdomain/zero/1.0/
+prefixes:
+  linkml: https://w3id.org/linkml/
+  composite_disease: http://w3id.org/ontogpt/composite_disease/
+keywords:
+  - disease
+  - indication
+
+default_prefix: composite_disease
+default_range: string
+
+imports:
+  - linkml:types
+  - core
+
+classes:
+  CompositeDisease:
+    tree_root: true
+    attributes:
+      main_disease:
+        description: the name of the disease that is treated.
+        range: Disease
+
+      drugs:
+        description: semicolon-separated list of named small molecule drugs
+        multivalued: true
+        range: Drug
+
+      treatments:
+        description: >-
+          semicolon-separated list of therapies and treatments are indicated for treating the disease.
+        annotations:
+          prompt.examples: Imatinib, exercise, surgery
+        multivalued: true
+        range: Treatment
+
+      contraindications:
+        description: >-
+          semicolon-separated list of therapies and treatments that are contra-indicated for the disease,
+          and should not be used, due to risk of adverse effects.
+        annotations:
+          prompt.examples: Beta-blockers, exercise, surgery
+        multivalued: true
+        range: Treatment
+
+      treatment_mechanisms:
+        description: semicolon-separated list of treatment to asterisk-separated mechanism associations
+        multivalued: true
+        range: TreatmentMechanism
+        annotations:
+          prompt.separator: "*"
+
+      treatment_efficacies:
+        description: semicolon-separated list of treatment to efficacy associations, e.g. Imatinib*effective
+        multivalued: true
+        range: TreatmentEfficacy
+        annotations:
+          prompt.separator: "*"
+
+      treatment_adverse_effects:
+        description: semicolon-separated list of treatment to adverse effect associations, e.g. Imatinib*nausea
+        multivalued: true
+        range: TreatmentAdverseEffect
+        annotations:
+          prompt.separator: "*"
+
+  Gene:
+    is_a: NamedEntity
+    id_prefixes:
+      - HGNC
+    annotations:
+      annotators: gilda:, obo:sql:hgnc, bioportal:hgnc-nr
+
+  Symptom:
+    is_a: NamedEntity
+    id_prefixes:
+      - HP
+    annotations:
+      annotators: sqlite:obo:hp
+
+  Disease:
+    is_a: NamedEntity
+    annotations:
+      annotators: sqlite:obo:mondo
+
+  AdverseEffect:
+    is_a: NamedEntity
+    annotations:
+      annotators: sqlite:obo:hp, sqlite:obo:ncit
+
+  Treatment:
+    is_a: NamedEntity
+    annotations:
+      annotators: sqlite:obo:maxo, sqlite:obo:ncit, sqlite:obo:mesh, sqlite:obo:chebi
+    values_from:
+      - NCITDrugType
+      - NCITTreatmentType
+      - NCITActivityType
+      - MAXOTreatmentType
+      - MESHTherapeuticType
+      - CHEBIDrugType
+
+  Mechanism:
+    is_a: NamedEntity
+    annotations:
+      annotators: sqlite:obo:go, sqlite:obo:ncit, sqlite:obo:mesh
+
+  Drug:
+    is_a: NamedEntity
+    annotations:
+      annotators: sqlite:obo:chebi, sqlite:obo:drugbank
+
+  TreatmentMechanism:
+    is_a:   CompoundExpression
+    attributes:
+      treatment:
+        range: Treatment
+      mechanism:
+        range: Mechanism
+
+  TreatmentAdverseEffect:
+    is_a: CompoundExpression
+    attributes:
+      treatment:
+        range: Treatment
+      adverse_effects:
+        range: AdverseEffect
+        multivalued: true
+
+  TreatmentEfficacy:
+    is_a:   CompoundExpression
+    attributes:
+      treatment:
+        range: Treatment
+      efficacy:
+        range: string
+
+enums:
+
+  NCITDrugType:
+    reachable_from:
+      source_ontology: obo:ncit
+      source_nodes:
+        - NCIT:C1908 ## Drug, Food, Chemical or Biomedical Material
+
+  NCITTreatmentType:
+    reachable_from:
+      source_ontology: obo:ncit
+      source_nodes:
+        - NCIT:C25218 ## Intervention or Procedure
+
+  NCITTActivityType:
+    reachable_from:
+      source_ontology: obo:ncit
+      source_nodes:
+        - NCIT:C43431 ## Activity
+
+  MAXOActionType:
+    reachable_from:
+      source_ontology: obo:maxo
+      source_nodes:
+        - MAXO:0000001 ## Medical Action
+
+  MESHTherapeuticType:
+    reachable_from:
+      source_ontology: obo:mesh
+      source_nodes:
+        - MESH:D013812 ## Therapeutics
+
+  CHEBIDrugType:
+    reachable_from:
+      source_ontology: obo:chebi
+      source_nodes:
+        - CHEBI:23888 ## drug
+      relationship_types:
+        - rdfs:subClassOf
+        - RO:0000087
