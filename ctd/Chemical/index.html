@@ -146,13 +146,18 @@
         </label>
 <ul class="md-nav__list" data-md-scrollfix="">
 <li class="md-nav__item">
-<a class="md-nav__link" href="../../recipe/">
-        Recipes
+<a class="md-nav__link" href="../../core/">
+        Core Upper Level Schema
       </a>
 </li>
 <li class="md-nav__item">
-<a class="md-nav__link" href="../../gocam/">
-        Pathways
+<a class="md-nav__link" href="../../reaction/">
+        Biochemical Reactions
+      </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../biological_process/">
+        Biological Processes
       </a>
 </li>
 <li class="md-nav__item">
@@ -161,13 +166,43 @@
       </a>
 </li>
 <li class="md-nav__item">
+<a class="md-nav__link" href="../../diagnostic_procedure/">
+        Diagnostic Procedures
+      </a>
+</li>
+<li class="md-nav__item">
 <a class="md-nav__link" href="../../drug/">
         Drugs and Mechanisms
       </a>
 </li>
 <li class="md-nav__item">
-<a class="md-nav__link" href="../../reaction/">
-        Biochemical Reactions
+<a class="md-nav__link" href="../../environmental_sample/">
+        Environmental Samples
+      </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../mendelian_disease/">
+        Mendelian Diseases
+      </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../metabolic_process/">
+        Metabolic Processes
+      </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../metagenome_study/">
+        Metagenome Studies
+      </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../gocam/">
+        Pathways
+      </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../recipe/">
+        Recipes
       </a>
 </li>
 <li class="md-nav__item">
@@ -298,13 +333,13 @@ Chemical {
 <tbody>
 <tr>
 <td><a href="../id/">id</a></td>
-<td>0..1 <br/> NONE</td>
-<td></td>
+<td>1..1 <br/> <a href="../String/">String</a></td>
+<td>A unique identifier for the named entity</td>
 <td><a href="../NamedEntity/">NamedEntity</a></td>
 </tr>
 <tr>
 <td><a href="../label/">label</a></td>
-<td>0..1 <br/> <a href="xsd:string">xsd:string</a></td>
+<td>0..1 <br/> <a href="../String/">String</a></td>
 <td>The label (name) of the named thing</td>
 <td><a href="../NamedEntity/">NamedEntity</a></td>
 </tr>
@@ -399,16 +434,6 @@ slot_usage:
     domain_of:
     - NamedEntity
     - Publication
-    - NamedEntity
-    - Publication
-    - NamedEntity
-    - Publication
-    - NamedEntity
-    - Publication
-    - NamedEntity
-    - Publication
-    - NamedEntity
-    - Publication
     pattern: ^MESH:[CD][0-9]{6}$
 
 </code></pre>
@@ -437,22 +462,12 @@ slot_usage:
     domain_of:
     - NamedEntity
     - Publication
-    - NamedEntity
-    - Publication
-    - NamedEntity
-    - Publication
-    - NamedEntity
-    - Publication
-    - NamedEntity
-    - Publication
-    - NamedEntity
-    - Publication
     pattern: ^MESH:[CD][0-9]{6}$
 attributes:
   id:
     name: id
     description: A unique identifier for the named entity
-    from_schema: http://w3id.org/ontogpt/core
+    from_schema: http://w3id.org/ontogpt/ctd
     rank: 1000
     values_from:
     - MeshChemicalIdentifier
@@ -462,25 +477,20 @@ attributes:
     domain_of:
     - NamedEntity
     - Publication
-    - NamedEntity
-    - Publication
-    - NamedEntity
-    - Publication
-    - NamedEntity
-    - Publication
-    - NamedEntity
-    - Publication
-    - NamedEntity
-    - Publication
     range: string
     pattern: ^MESH:[CD][0-9]{6}$
   label:
     name: label
+    annotations:
+      owl:
+        tag: owl
+        value: AnnotationProperty, AnnotationAssertion
     description: The label (name) of the named thing
-    from_schema: http://w3id.org/ontogpt/core
+    from_schema: http://w3id.org/ontogpt/ctd
     aliases:
     - name
     rank: 1000
+    slot_uri: rdfs:label
     alias: label
     owner: Chemical
     domain_of:

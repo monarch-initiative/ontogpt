@@ -146,13 +146,18 @@
         </label>
 <ul class="md-nav__list" data-md-scrollfix="">
 <li class="md-nav__item">
-<a class="md-nav__link" href="../../recipe/">
-        Recipes
+<a class="md-nav__link" href="../../core/">
+        Core Upper Level Schema
       </a>
 </li>
 <li class="md-nav__item">
-<a class="md-nav__link" href="../../gocam/">
-        Pathways
+<a class="md-nav__link" href="../../reaction/">
+        Biochemical Reactions
+      </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../biological_process/">
+        Biological Processes
       </a>
 </li>
 <li class="md-nav__item">
@@ -161,13 +166,43 @@
       </a>
 </li>
 <li class="md-nav__item">
+<a class="md-nav__link" href="../../diagnostic_procedure/">
+        Diagnostic Procedures
+      </a>
+</li>
+<li class="md-nav__item">
 <a class="md-nav__link" href="../../drug/">
         Drugs and Mechanisms
       </a>
 </li>
 <li class="md-nav__item">
-<a class="md-nav__link" href="../../reaction/">
-        Biochemical Reactions
+<a class="md-nav__link" href="../../environmental_sample/">
+        Environmental Samples
+      </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../mendelian_disease/">
+        Mendelian Diseases
+      </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../metabolic_process/">
+        Metabolic Processes
+      </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../metagenome_study/">
+        Metagenome Studies
+      </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../gocam/">
+        Pathways
+      </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../recipe/">
+        Recipes
       </a>
 </li>
 <li class="md-nav__item">
@@ -314,14 +349,14 @@ ChemicalToDiseaseRelationship ||--|o NamedEntity : "object_qualifier"
 </thead>
 <tbody>
 <tr>
-<td><a href="publication.md">publication</a></td>
+<td><a href="../publication/">publication</a></td>
 <td>0..1 <br/> <a href="../Publication/">Publication</a></td>
 <td></td>
 <td><a href="../TextWithTriples/">TextWithTriples</a></td>
 </tr>
 <tr>
 <td><a href="../triples/">triples</a></td>
-<td>0..* <br/> <a href="../Triple/">Triple</a></td>
+<td>0..* <br/> <a href="../ChemicalToDiseaseRelationship/">ChemicalToDiseaseRelationship</a></td>
 <td></td>
 <td><a href="../TextWithTriples/">TextWithTriples</a></td>
 </tr>
@@ -377,9 +412,6 @@ slot_usage:
           Headache, Imatinib, cancer
     domain_of:
     - TextWithTriples
-    - TextWithTriples
-    - TextWithTriples
-    - TextWithTriples
     range: ChemicalToDiseaseRelationship
 
 </code></pre>
@@ -408,9 +440,6 @@ slot_usage:
           Headache, Imatinib, cancer
     domain_of:
     - TextWithTriples
-    - TextWithTriples
-    - TextWithTriples
-    - TextWithTriples
     range: ChemicalToDiseaseRelationship
 attributes:
   publication:
@@ -419,7 +448,7 @@ attributes:
       prompt.skip:
         tag: prompt.skip
         value: 'true'
-    from_schema: http://w3id.org/ontogpt/core
+    from_schema: http://w3id.org/ontogpt/ctd
     rank: 1000
     alias: publication
     owner: ChemicalToDiseaseDocument
@@ -441,14 +470,12 @@ attributes:
         tag: exclude
         value: Lidocaine, cardiac asystole, Hydroxychloroquine, COVID-19, Methyldopa,
           Headache, Imatinib, cancer
-    from_schema: http://w3id.org/ontogpt/core
+    from_schema: http://w3id.org/ontogpt/ctd
     rank: 1000
     multivalued: true
     alias: triples
     owner: ChemicalToDiseaseDocument
     domain_of:
-    - TextWithTriples
-    - TextWithTriples
     - TextWithTriples
     range: ChemicalToDiseaseRelationship
     inlined: true

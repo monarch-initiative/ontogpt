@@ -146,13 +146,18 @@
         </label>
 <ul class="md-nav__list" data-md-scrollfix="">
 <li class="md-nav__item">
-<a class="md-nav__link" href="../../recipe/">
-        Recipes
+<a class="md-nav__link" href="../../core/">
+        Core Upper Level Schema
       </a>
 </li>
 <li class="md-nav__item">
-<a class="md-nav__link" href="../../gocam/">
-        Pathways
+<a class="md-nav__link" href="../">
+        Biochemical Reactions
+      </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../biological_process/">
+        Biological Processes
       </a>
 </li>
 <li class="md-nav__item">
@@ -161,13 +166,43 @@
       </a>
 </li>
 <li class="md-nav__item">
+<a class="md-nav__link" href="../../diagnostic_procedure/">
+        Diagnostic Procedures
+      </a>
+</li>
+<li class="md-nav__item">
 <a class="md-nav__link" href="../../drug/">
         Drugs and Mechanisms
       </a>
 </li>
 <li class="md-nav__item">
-<a class="md-nav__link" href="../">
-        Biochemical Reactions
+<a class="md-nav__link" href="../../environmental_sample/">
+        Environmental Samples
+      </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../mendelian_disease/">
+        Mendelian Diseases
+      </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../metabolic_process/">
+        Metabolic Processes
+      </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../metagenome_study/">
+        Metagenome Studies
+      </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../gocam/">
+        Pathways
+      </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../recipe/">
+        Recipes
       </a>
 </li>
 <li class="md-nav__item">
@@ -256,7 +291,7 @@
 <ul>
 <li><strong>NOTE</strong>: this is an abstract class and should not be instantiated directly</li>
 </ul>
-<p>URI: <a href="http://w3id.org/ontogpt/core/CompoundExpression">core:CompoundExpression</a></p>
+<p>URI: <a href="http://w3id.org/ontogpt/reaction/CompoundExpression">reaction:CompoundExpression</a></p>
 <div class="mermaid">erDiagram
 CompoundExpression {
 
@@ -295,7 +330,7 @@ CompoundExpression {
 <h2 id="identifier-and-mapping-information">Identifier and Mapping Information</h2>
 <h3 id="schema-source">Schema Source</h3>
 <ul>
-<li>from schema: http://w3id.org/ontogpt/core</li>
+<li>from schema: https://w3id.org/ontogpt/reaction</li>
 </ul>
 <h2 id="mappings">Mappings</h2>
 <table>
@@ -308,11 +343,11 @@ CompoundExpression {
 <tbody>
 <tr>
 <td>self</td>
-<td>core:CompoundExpression</td>
+<td>reaction:CompoundExpression</td>
 </tr>
 <tr>
 <td>native</td>
-<td>core:CompoundExpression</td>
+<td>reaction:CompoundExpression</td>
 </tr>
 </tbody>
 </table>
@@ -321,7 +356,7 @@ CompoundExpression {
 <h3 id="direct">Direct</h3>
 <details>
 <pre><code class="language-yaml">name: CompoundExpression
-from_schema: http://w3id.org/ontogpt/core
+from_schema: https://w3id.org/ontogpt/reaction
 rank: 1000
 abstract: true
 
@@ -330,7 +365,7 @@ abstract: true
 <h3 id="induced">Induced</h3>
 <details>
 <pre><code class="language-yaml">name: CompoundExpression
-from_schema: http://w3id.org/ontogpt/core
+from_schema: https://w3id.org/ontogpt/reaction
 rank: 1000
 abstract: true
 

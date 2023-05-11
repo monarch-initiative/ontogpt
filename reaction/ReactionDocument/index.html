@@ -146,13 +146,18 @@
         </label>
 <ul class="md-nav__list" data-md-scrollfix="">
 <li class="md-nav__item">
-<a class="md-nav__link" href="../../recipe/">
-        Recipes
+<a class="md-nav__link" href="../../core/">
+        Core Upper Level Schema
       </a>
 </li>
 <li class="md-nav__item">
-<a class="md-nav__link" href="../../gocam/">
-        Pathways
+<a class="md-nav__link" href="../">
+        Biochemical Reactions
+      </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../biological_process/">
+        Biological Processes
       </a>
 </li>
 <li class="md-nav__item">
@@ -161,13 +166,43 @@
       </a>
 </li>
 <li class="md-nav__item">
+<a class="md-nav__link" href="../../diagnostic_procedure/">
+        Diagnostic Procedures
+      </a>
+</li>
+<li class="md-nav__item">
 <a class="md-nav__link" href="../../drug/">
         Drugs and Mechanisms
       </a>
 </li>
 <li class="md-nav__item">
-<a class="md-nav__link" href="../">
-        Biochemical Reactions
+<a class="md-nav__link" href="../../environmental_sample/">
+        Environmental Samples
+      </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../mendelian_disease/">
+        Mendelian Diseases
+      </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../metabolic_process/">
+        Metabolic Processes
+      </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../metagenome_study/">
+        Metagenome Studies
+      </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../gocam/">
+        Pathways
+      </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../recipe/">
+        Recipes
       </a>
 </li>
 <li class="md-nav__item">
@@ -253,6 +288,10 @@
 ReactionDocument {
 
 }
+Evidence {
+    string id  
+    string label  
+}
 Organism {
     string id  
     string label  
@@ -275,6 +314,7 @@ ReactionDocument ||--}o Gene : "genes"
 ReactionDocument ||--}o Reaction : "reactions"
 ReactionDocument ||--}o GeneReactionPairing : "gene_reaction_pairings"
 ReactionDocument ||--|o Organism : "organism"
+ReactionDocument ||--}o Evidence : "has_evidence"
 GeneReactionPairing ||--|o Gene : "gene"
 GeneReactionPairing ||--|o Reaction : "reaction"
 Reaction ||--|o ReactionGrouping : "subclass_of"
@@ -302,7 +342,7 @@ Reaction ||--}o ChemicalEntity : "right_side"
 </tr>
 <tr>
 <td><a href="../reactions/">reactions</a></td>
-<td>0..1 <br/> NONE</td>
+<td>0..1 <br/> <a href="../String/">String</a></td>
 <td></td>
 <td>direct</td>
 </tr>
@@ -313,9 +353,15 @@ Reaction ||--}o ChemicalEntity : "right_side"
 <td>direct</td>
 </tr>
 <tr>
-<td><a href="organism.md">organism</a></td>
-<td>0..1 <br/> NONE</td>
+<td><a href="../organism/">organism</a></td>
+<td>0..1 <br/> <a href="../String/">String</a></td>
 <td></td>
+<td>direct</td>
+</tr>
+<tr>
+<td><a href="../has_evidence/">has_evidence</a></td>
+<td>0..* <br/> <a href="../Evidence/">Evidence</a></td>
+<td>evidence for the reaction</td>
 <td>direct</td>
 </tr>
 </tbody>
@@ -379,6 +425,13 @@ attributes:
     name: organism
     from_schema: https://w3id.org/ontogpt/reaction
     range: Organism
+  has_evidence:
+    name: has_evidence
+    description: evidence for the reaction
+    from_schema: https://w3id.org/ontogpt/reaction
+    rank: 1000
+    multivalued: true
+    range: Evidence
 
 </code></pre>
 </details>
@@ -433,6 +486,17 @@ attributes:
     - GeneToReaction
     - ReactionDocument
     range: Organism
+  has_evidence:
+    name: has_evidence
+    description: evidence for the reaction
+    from_schema: https://w3id.org/ontogpt/reaction
+    rank: 1000
+    multivalued: true
+    alias: has_evidence
+    owner: ReactionDocument
+    domain_of:
+    - ReactionDocument
+    range: Evidence
 
 </code></pre>
 </details>

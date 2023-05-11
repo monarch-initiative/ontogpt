@@ -146,13 +146,18 @@
         </label>
 <ul class="md-nav__list" data-md-scrollfix="">
 <li class="md-nav__item">
-<a class="md-nav__link" href="../../recipe/">
-        Recipes
+<a class="md-nav__link" href="../../core/">
+        Core Upper Level Schema
       </a>
 </li>
 <li class="md-nav__item">
-<a class="md-nav__link" href="../../gocam/">
-        Pathways
+<a class="md-nav__link" href="../../reaction/">
+        Biochemical Reactions
+      </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../biological_process/">
+        Biological Processes
       </a>
 </li>
 <li class="md-nav__item">
@@ -161,13 +166,43 @@
       </a>
 </li>
 <li class="md-nav__item">
+<a class="md-nav__link" href="../../diagnostic_procedure/">
+        Diagnostic Procedures
+      </a>
+</li>
+<li class="md-nav__item">
 <a class="md-nav__link" href="../../drug/">
         Drugs and Mechanisms
       </a>
 </li>
 <li class="md-nav__item">
-<a class="md-nav__link" href="../../reaction/">
-        Biochemical Reactions
+<a class="md-nav__link" href="../../environmental_sample/">
+        Environmental Samples
+      </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../mendelian_disease/">
+        Mendelian Diseases
+      </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../metabolic_process/">
+        Metabolic Processes
+      </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../metagenome_study/">
+        Metagenome Studies
+      </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../gocam/">
+        Pathways
+      </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../recipe/">
+        Recipes
       </a>
 </li>
 <li class="md-nav__item">
@@ -302,19 +337,19 @@ LogicalDefinition ||--}o OntologyClass : "differentiating_characteristic_parents
 <tbody>
 <tr>
 <td><a href="../label/">label</a></td>
-<td>0..1 <br/> NONE</td>
+<td>0..1 <br/> <a href="../String/">String</a></td>
 <td></td>
 <td>direct</td>
 </tr>
 <tr>
 <td><a href="../description/">description</a></td>
-<td>0..1 <br/> NONE</td>
+<td>0..1 <br/> <a href="../String/">String</a></td>
 <td>a textual description of the entity</td>
 <td>direct</td>
 </tr>
 <tr>
 <td><a href="../synonyms/">synonyms</a></td>
-<td>0..* <br/> NONE</td>
+<td>0..* <br/> <a href="../String/">String</a></td>
 <td>alternative names of the entity</td>
 <td>direct</td>
 </tr>
@@ -338,8 +373,8 @@ LogicalDefinition ||--}o OntologyClass : "differentiating_characteristic_parents
 </tr>
 <tr>
 <td><a href="../id/">id</a></td>
-<td>0..1 <br/> NONE</td>
-<td></td>
+<td>1..1 <br/> <a href="../String/">String</a></td>
+<td>A unique identifier for the named entity</td>
 <td><a href="../NamedEntity/">NamedEntity</a></td>
 </tr>
 </tbody>
@@ -416,7 +451,7 @@ is_a: NamedEntity
 attributes:
   label:
     name: label
-    description: the name of the entity
+    description: the name of the main entity being defined
     from_schema: https://w3id.org/ontogpt/ontology_class
     rank: 1000
   description:
@@ -435,8 +470,10 @@ attributes:
     annotations:
       prompt:
         tag: prompt
-        value: semicolon-separated list of categories to which the entity belongs
-    description: the categories to which this entity belongs
+        value: semicolon-separated list of categories to which the entity belongs.
+          These may be taken from an upper level ontology such as COB, BioLink, or
+          UMLS semantic types.
+    description: the categories to which this entity belongs.
     from_schema: https://w3id.org/ontogpt/ontology_class
     rank: 1000
     multivalued: true
@@ -446,7 +483,8 @@ attributes:
     annotations:
       prompt:
         tag: prompt
-        value: semicolon-separated list of parent classes
+        value: semicolon-separated list of parent classes, indicating broader concepts.
+          E.g. if the input text is "a type of bone", then the parent class is "bone"
     from_schema: https://w3id.org/ontogpt/ontology_class
     rank: 1000
     multivalued: true
@@ -464,6 +502,7 @@ attributes:
     from_schema: https://w3id.org/ontogpt/ontology_class
     rank: 1000
     range: LogicalDefinition
+tree_root: true
 
 </code></pre>
 </details>
@@ -476,7 +515,7 @@ is_a: NamedEntity
 attributes:
   label:
     name: label
-    description: the name of the entity
+    description: the name of the main entity being defined
     from_schema: https://w3id.org/ontogpt/ontology_class
     rank: 1000
     alias: label
@@ -511,8 +550,10 @@ attributes:
     annotations:
       prompt:
         tag: prompt
-        value: semicolon-separated list of categories to which the entity belongs
-    description: the categories to which this entity belongs
+        value: semicolon-separated list of categories to which the entity belongs.
+          These may be taken from an upper level ontology such as COB, BioLink, or
+          UMLS semantic types.
+    description: the categories to which this entity belongs.
     from_schema: https://w3id.org/ontogpt/ontology_class
     rank: 1000
     multivalued: true
@@ -526,7 +567,8 @@ attributes:
     annotations:
       prompt:
         tag: prompt
-        value: semicolon-separated list of parent classes
+        value: semicolon-separated list of parent classes, indicating broader concepts.
+          E.g. if the input text is "a type of bone", then the parent class is "bone"
     from_schema: https://w3id.org/ontogpt/ontology_class
     rank: 1000
     multivalued: true
@@ -561,7 +603,7 @@ attributes:
     description: A unique identifier for the named entity
     comments:
     - this is populated during the grounding and normalization step
-    from_schema: http://w3id.org/ontogpt/core
+    from_schema: https://w3id.org/ontogpt/ontology_class
     rank: 1000
     identifier: true
     alias: id
@@ -570,6 +612,7 @@ attributes:
     - NamedEntity
     - Publication
     range: string
+tree_root: true
 
 </code></pre>
 </details>

@@ -274,8 +274,8 @@
   
   
     <li class="md-nav__item">
-      <a href="../../recipe/" class="md-nav__link">
-        Recipes
+      <a href="../../core/" class="md-nav__link">
+        Core Upper Level Schema
       </a>
     </li>
   
@@ -288,8 +288,22 @@
   
   
     <li class="md-nav__item">
-      <a href="../../gocam/" class="md-nav__link">
-        Pathways
+      <a href="../../reaction/" class="md-nav__link">
+        Biochemical Reactions
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../biological_process/" class="md-nav__link">
+        Biological Processes
       </a>
     </li>
   
@@ -316,6 +330,20 @@
   
   
     <li class="md-nav__item">
+      <a href="../../diagnostic_procedure/" class="md-nav__link">
+        Diagnostic Procedures
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../../drug/" class="md-nav__link">
         Drugs and Mechanisms
       </a>
@@ -330,8 +358,78 @@
   
   
     <li class="md-nav__item">
-      <a href="../../reaction/" class="md-nav__link">
-        Biochemical Reactions
+      <a href="../../environmental_sample/" class="md-nav__link">
+        Environmental Samples
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../mendelian_disease/" class="md-nav__link">
+        Mendelian Diseases
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../metabolic_process/" class="md-nav__link">
+        Metabolic Processes
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../metagenome_study/" class="md-nav__link">
+        Metagenome Studies
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../gocam/" class="md-nav__link">
+        Pathways
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../recipe/" class="md-nav__link">
+        Recipes
       </a>
     </li>
   
@@ -502,7 +600,7 @@
 <tbody>
 <tr>
 <td>prompt</td>
-<td>semicolon-separated list of parent classes</td>
+<td>semicolon-separated list of parent classes, indicating broader concepts. E.g. if the input text is "a type of bone", then the parent class is "bone"</td>
 </tr>
 </tbody>
 </table>
@@ -517,7 +615,8 @@
 annotations:
   prompt:
     tag: prompt
-    value: semicolon-separated list of parent classes
+    value: semicolon-separated list of parent classes, indicating broader concepts.
+      E.g. if the input text is &quot;a type of bone&quot;, then the parent class is &quot;bone&quot;
 from_schema: https://w3id.org/ontogpt/ontology_class
 rank: 1000
 multivalued: true

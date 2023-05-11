@@ -274,8 +274,8 @@
   
   
     <li class="md-nav__item">
-      <a href="../" class="md-nav__link">
-        Recipes
+      <a href="../../core/" class="md-nav__link">
+        Core Upper Level Schema
       </a>
     </li>
   
@@ -288,8 +288,22 @@
   
   
     <li class="md-nav__item">
-      <a href="../../gocam/" class="md-nav__link">
-        Pathways
+      <a href="../../reaction/" class="md-nav__link">
+        Biochemical Reactions
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../biological_process/" class="md-nav__link">
+        Biological Processes
       </a>
     </li>
   
@@ -316,6 +330,20 @@
   
   
     <li class="md-nav__item">
+      <a href="../../diagnostic_procedure/" class="md-nav__link">
+        Diagnostic Procedures
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../../drug/" class="md-nav__link">
         Drugs and Mechanisms
       </a>
@@ -330,8 +358,78 @@
   
   
     <li class="md-nav__item">
-      <a href="../../reaction/" class="md-nav__link">
-        Biochemical Reactions
+      <a href="../../environmental_sample/" class="md-nav__link">
+        Environmental Samples
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../mendelian_disease/" class="md-nav__link">
+        Mendelian Diseases
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../metabolic_process/" class="md-nav__link">
+        Metabolic Processes
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../metagenome_study/" class="md-nav__link">
+        Metagenome Studies
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../gocam/" class="md-nav__link">
+        Pathways
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../" class="md-nav__link">
+        Recipes
       </a>
     </li>
   
@@ -422,6 +520,13 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
+  <a href="#annotations" class="md-nav__link">
+    Annotations
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#schema-source" class="md-nav__link">
     Schema Source
   </a>
@@ -461,7 +566,7 @@
 
 <h1 id="slot-ingredients">Slot: ingredients</h1>
 <p><em>a semicolon separated list of the ingredients plus quantities of the recipe</em></p>
-<p>URI: <a href="http://w3id.org/ontogpt/recipe/ingredients">recipe:ingredients</a></p>
+<p>URI: <a href="http://purl.obolibrary.org/obo/FOODON_00002420">FOODON:00002420</a></p>
 <!-- no inheritance hierarchy -->
 
 <h2 id="applicable-classes">Applicable Classes</h2>
@@ -474,7 +579,7 @@
 </thead>
 <tbody>
 <tr>
-<td><a href="Recipe.md">Recipe</a></td>
+<td><a href="../Recipe/">Recipe</a></td>
 <td></td>
 </tr>
 </tbody>
@@ -485,6 +590,21 @@
 <li>Multivalued: True</li>
 </ul>
 <h2 id="identifier-and-mapping-information">Identifier and Mapping Information</h2>
+<h3 id="annotations">Annotations</h3>
+<table>
+<thead>
+<tr>
+<th>property</th>
+<th>value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>owl</td>
+<td>ObjectProperty, ObjectSomeValuesFrom</td>
+</tr>
+</tbody>
+</table>
 <h3 id="schema-source">Schema Source</h3>
 <ul>
 <li>from schema: https://w3id.org/ontogpt/recipe</li>
@@ -493,12 +613,18 @@
 <details>
 
 <pre><code class="language-yaml">name: ingredients
+annotations:
+  owl:
+    tag: owl
+    value: ObjectProperty, ObjectSomeValuesFrom
 description: a semicolon separated list of the ingredients plus quantities of the
   recipe
 from_schema: https://w3id.org/ontogpt/recipe
 rank: 1000
+slot_uri: FOODON:00002420
 multivalued: true
 alias: ingredients
+owner: Recipe
 domain_of:
 - Recipe
 range: Ingredient

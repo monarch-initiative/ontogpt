@@ -146,13 +146,18 @@
         </label>
 <ul class="md-nav__list" data-md-scrollfix="">
 <li class="md-nav__item">
-<a class="md-nav__link" href="../">
-        Recipes
+<a class="md-nav__link" href="../../core/">
+        Core Upper Level Schema
       </a>
 </li>
 <li class="md-nav__item">
-<a class="md-nav__link" href="../../gocam/">
-        Pathways
+<a class="md-nav__link" href="../../reaction/">
+        Biochemical Reactions
+      </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../biological_process/">
+        Biological Processes
       </a>
 </li>
 <li class="md-nav__item">
@@ -161,13 +166,43 @@
       </a>
 </li>
 <li class="md-nav__item">
+<a class="md-nav__link" href="../../diagnostic_procedure/">
+        Diagnostic Procedures
+      </a>
+</li>
+<li class="md-nav__item">
 <a class="md-nav__link" href="../../drug/">
         Drugs and Mechanisms
       </a>
 </li>
 <li class="md-nav__item">
-<a class="md-nav__link" href="../../reaction/">
-        Biochemical Reactions
+<a class="md-nav__link" href="../../environmental_sample/">
+        Environmental Samples
+      </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../mendelian_disease/">
+        Mendelian Diseases
+      </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../metabolic_process/">
+        Metabolic Processes
+      </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../metagenome_study/">
+        Metagenome Studies
+      </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../gocam/">
+        Pathways
+      </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../">
+        Recipes
       </a>
 </li>
 <li class="md-nav__item">
@@ -219,6 +254,11 @@
 <nav aria-label="Identifier and Mapping Information" class="md-nav">
 <ul class="md-nav__list">
 <li class="md-nav__item">
+<a class="md-nav__link" href="#annotations">
+    Annotations
+  </a>
+</li>
+<li class="md-nav__item">
 <a class="md-nav__link" href="#schema-source">
     Schema Source
   </a>
@@ -258,7 +298,7 @@
 <div class="md-content" data-md-component="content">
 <article class="md-content__inner md-typeset">
 <h1 id="class-step">Class: Step</h1>
-<p>URI: <a href="http://w3id.org/ontogpt/recipe/Step">recipe:Step</a></p>
+<p>URI: <a href="http://purl.obolibrary.org/obo/FOODON_00004087">FOODON:00004087</a></p>
 <div class="mermaid">erDiagram
 Step {
 
@@ -305,7 +345,7 @@ FoodItem ||--|o FoodType : "food"
 </thead>
 <tbody>
 <tr>
-<td><a href="action.md">action</a></td>
+<td><a href="../action/">action</a></td>
 <td>0..1 <br/> <a href="../Action/">Action</a></td>
 <td>the action taken in this step (e</td>
 <td>direct</td>
@@ -323,8 +363,8 @@ FoodItem ||--|o FoodType : "food"
 <td>direct</td>
 </tr>
 <tr>
-<td><a href="utensils.md">utensils</a></td>
-<td>0..* <br/> <a href="UtensilType.md">UtensilType</a></td>
+<td><a href="../utensils/">utensils</a></td>
+<td>0..* <br/> <a href="../UtensilType/">UtensilType</a></td>
 <td>the kitchen utensil used in this step (e</td>
 <td>direct</td>
 </tr>
@@ -342,7 +382,7 @@ FoodItem ||--|o FoodType : "food"
 </thead>
 <tbody>
 <tr>
-<td><a href="Recipe.md">Recipe</a></td>
+<td><a href="../Recipe/">Recipe</a></td>
 <td><a href="../steps/">steps</a></td>
 <td>range</td>
 <td><a href="./">Step</a></td>
@@ -350,6 +390,21 @@ FoodItem ||--|o FoodType : "food"
 </tbody>
 </table>
 <h2 id="identifier-and-mapping-information">Identifier and Mapping Information</h2>
+<h3 id="annotations">Annotations</h3>
+<table>
+<thead>
+<tr>
+<th>property</th>
+<th>value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>owl</td>
+<td>IntersectionOf</td>
+</tr>
+</tbody>
+</table>
 <h3 id="schema-source">Schema Source</h3>
 <ul>
 <li>from schema: https://w3id.org/ontogpt/recipe</li>
@@ -365,7 +420,7 @@ FoodItem ||--|o FoodType : "food"
 <tbody>
 <tr>
 <td>self</td>
-<td>recipe:Step</td>
+<td>FOODON:00004087</td>
 </tr>
 <tr>
 <td>native</td>
@@ -378,6 +433,10 @@ FoodItem ||--|o FoodType : "food"
 <h3 id="direct">Direct</h3>
 <details>
 <pre><code class="language-yaml">name: Step
+annotations:
+  owl:
+    tag: owl
+    value: IntersectionOf
 from_schema: https://w3id.org/ontogpt/recipe
 rank: 1000
 is_a: CompoundExpression
@@ -390,31 +449,51 @@ attributes:
     range: Action
   inputs:
     name: inputs
+    annotations:
+      owl:
+        tag: owl
+        value: ObjectProperty, ObjectSomeValuesFrom
     description: a semicolon separated list of the inputs of this step
     from_schema: https://w3id.org/ontogpt/recipe
     rank: 1000
+    slot_uri: RO:0002233
     multivalued: true
     range: FoodItem
   outputs:
     name: outputs
+    annotations:
+      owl:
+        tag: owl
+        value: ObjectProperty, ObjectSomeValuesFrom
     description: a semicolon separated list of the outputs of this step
     from_schema: https://w3id.org/ontogpt/recipe
     rank: 1000
+    slot_uri: RO:0002234
     multivalued: true
     range: FoodItem
   utensils:
     name: utensils
+    annotations:
+      owl:
+        tag: owl
+        value: ObjectProperty, ObjectSomeValuesFrom
     description: the kitchen utensil used in this step (e.g. pan, bowl)
     from_schema: https://w3id.org/ontogpt/recipe
     rank: 1000
+    slot_uri: RO:0002500
     multivalued: true
     range: UtensilType
+class_uri: FOODON:00004087
 
 </code></pre>
 </details>
 <h3 id="induced">Induced</h3>
 <details>
 <pre><code class="language-yaml">name: Step
+annotations:
+  owl:
+    tag: owl
+    value: IntersectionOf
 from_schema: https://w3id.org/ontogpt/recipe
 rank: 1000
 is_a: CompoundExpression
@@ -431,9 +510,14 @@ attributes:
     range: Action
   inputs:
     name: inputs
+    annotations:
+      owl:
+        tag: owl
+        value: ObjectProperty, ObjectSomeValuesFrom
     description: a semicolon separated list of the inputs of this step
     from_schema: https://w3id.org/ontogpt/recipe
     rank: 1000
+    slot_uri: RO:0002233
     multivalued: true
     alias: inputs
     owner: Step
@@ -442,9 +526,14 @@ attributes:
     range: FoodItem
   outputs:
     name: outputs
+    annotations:
+      owl:
+        tag: owl
+        value: ObjectProperty, ObjectSomeValuesFrom
     description: a semicolon separated list of the outputs of this step
     from_schema: https://w3id.org/ontogpt/recipe
     rank: 1000
+    slot_uri: RO:0002234
     multivalued: true
     alias: outputs
     owner: Step
@@ -453,15 +542,21 @@ attributes:
     range: FoodItem
   utensils:
     name: utensils
+    annotations:
+      owl:
+        tag: owl
+        value: ObjectProperty, ObjectSomeValuesFrom
     description: the kitchen utensil used in this step (e.g. pan, bowl)
     from_schema: https://w3id.org/ontogpt/recipe
     rank: 1000
+    slot_uri: RO:0002500
     multivalued: true
     alias: utensils
     owner: Step
     domain_of:
     - Step
     range: UtensilType
+class_uri: FOODON:00004087
 
 </code></pre>
 </details>

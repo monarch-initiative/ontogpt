@@ -274,8 +274,8 @@
   
   
     <li class="md-nav__item">
-      <a href="../../recipe/" class="md-nav__link">
-        Recipes
+      <a href="../../core/" class="md-nav__link">
+        Core Upper Level Schema
       </a>
     </li>
   
@@ -288,8 +288,22 @@
   
   
     <li class="md-nav__item">
-      <a href="../../gocam/" class="md-nav__link">
-        Pathways
+      <a href="../../reaction/" class="md-nav__link">
+        Biochemical Reactions
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../biological_process/" class="md-nav__link">
+        Biological Processes
       </a>
     </li>
   
@@ -316,6 +330,20 @@
   
   
     <li class="md-nav__item">
+      <a href="../../diagnostic_procedure/" class="md-nav__link">
+        Diagnostic Procedures
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../../drug/" class="md-nav__link">
         Drugs and Mechanisms
       </a>
@@ -330,8 +358,78 @@
   
   
     <li class="md-nav__item">
-      <a href="../../reaction/" class="md-nav__link">
-        Biochemical Reactions
+      <a href="../../environmental_sample/" class="md-nav__link">
+        Environmental Samples
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../mendelian_disease/" class="md-nav__link">
+        Mendelian Diseases
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../metabolic_process/" class="md-nav__link">
+        Metabolic Processes
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../metagenome_study/" class="md-nav__link">
+        Metagenome Studies
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../gocam/" class="md-nav__link">
+        Pathways
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../recipe/" class="md-nav__link">
+        Recipes
       </a>
     </li>
   
@@ -467,7 +565,7 @@
 
 
 <h1 id="slot-categories">Slot: categories</h1>
-<p><em>the categories to which this entity belongs</em></p>
+<p><em>the categories to which this entity belongs.</em></p>
 <p>URI: <a href="http://w3id.org/ontogpt/ontology-class-templatecategories">oc:categories</a></p>
 <!-- no inheritance hierarchy -->
 
@@ -503,7 +601,7 @@
 <tbody>
 <tr>
 <td>prompt</td>
-<td>semicolon-separated list of categories to which the entity belongs</td>
+<td>semicolon-separated list of categories to which the entity belongs. These may be taken from an upper level ontology such as COB, BioLink, or UMLS semantic types.</td>
 </tr>
 </tbody>
 </table>
@@ -518,8 +616,10 @@
 annotations:
   prompt:
     tag: prompt
-    value: semicolon-separated list of categories to which the entity belongs
-description: the categories to which this entity belongs
+    value: semicolon-separated list of categories to which the entity belongs. These
+      may be taken from an upper level ontology such as COB, BioLink, or UMLS semantic
+      types.
+description: the categories to which this entity belongs.
 from_schema: https://w3id.org/ontogpt/ontology_class
 rank: 1000
 multivalued: true

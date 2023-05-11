@@ -146,13 +146,18 @@
         </label>
 <ul class="md-nav__list" data-md-scrollfix="">
 <li class="md-nav__item">
-<a class="md-nav__link" href="../../recipe/">
-        Recipes
+<a class="md-nav__link" href="../../core/">
+        Core Upper Level Schema
       </a>
 </li>
 <li class="md-nav__item">
-<a class="md-nav__link" href="../../gocam/">
-        Pathways
+<a class="md-nav__link" href="../">
+        Biochemical Reactions
+      </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../biological_process/">
+        Biological Processes
       </a>
 </li>
 <li class="md-nav__item">
@@ -161,13 +166,43 @@
       </a>
 </li>
 <li class="md-nav__item">
+<a class="md-nav__link" href="../../diagnostic_procedure/">
+        Diagnostic Procedures
+      </a>
+</li>
+<li class="md-nav__item">
 <a class="md-nav__link" href="../../drug/">
         Drugs and Mechanisms
       </a>
 </li>
 <li class="md-nav__item">
-<a class="md-nav__link" href="../">
-        Biochemical Reactions
+<a class="md-nav__link" href="../../environmental_sample/">
+        Environmental Samples
+      </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../mendelian_disease/">
+        Mendelian Diseases
+      </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../metabolic_process/">
+        Metabolic Processes
+      </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../metagenome_study/">
+        Metagenome Studies
+      </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../gocam/">
+        Pathways
+      </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../recipe/">
+        Recipes
       </a>
 </li>
 <li class="md-nav__item">
@@ -249,7 +284,7 @@
 <article class="md-content__inner md-typeset">
 <h1 id="class-extractionresult">Class: ExtractionResult</h1>
 <p><em>A result of extracting knowledge on text</em></p>
-<p>URI: <a href="http://w3id.org/ontogpt/core/ExtractionResult">core:ExtractionResult</a></p>
+<p>URI: <a href="http://w3id.org/ontogpt/reaction/ExtractionResult">reaction:ExtractionResult</a></p>
 <div class="mermaid">erDiagram
 ExtractionResult {
     string input_id  
@@ -280,31 +315,31 @@ ExtractionResult ||--}o Any : "named_entities"
 <tbody>
 <tr>
 <td><a href="../input_id/">input_id</a></td>
-<td>0..1 <br/> NONE</td>
+<td>0..1 <br/> <a href="../String/">String</a></td>
 <td></td>
 <td>direct</td>
 </tr>
 <tr>
 <td><a href="../input_title/">input_title</a></td>
-<td>0..1 <br/> NONE</td>
+<td>0..1 <br/> <a href="../String/">String</a></td>
 <td></td>
 <td>direct</td>
 </tr>
 <tr>
 <td><a href="../input_text/">input_text</a></td>
-<td>0..1 <br/> NONE</td>
+<td>0..1 <br/> <a href="../String/">String</a></td>
 <td></td>
 <td>direct</td>
 </tr>
 <tr>
 <td><a href="../raw_completion_output/">raw_completion_output</a></td>
-<td>0..1 <br/> NONE</td>
+<td>0..1 <br/> <a href="../String/">String</a></td>
 <td></td>
 <td>direct</td>
 </tr>
 <tr>
 <td><a href="../prompt/">prompt</a></td>
-<td>0..1 <br/> NONE</td>
+<td>0..1 <br/> <a href="../String/">String</a></td>
 <td></td>
 <td>direct</td>
 </tr>
@@ -325,7 +360,7 @@ ExtractionResult ||--}o Any : "named_entities"
 <h2 id="identifier-and-mapping-information">Identifier and Mapping Information</h2>
 <h3 id="schema-source">Schema Source</h3>
 <ul>
-<li>from schema: http://w3id.org/ontogpt/core</li>
+<li>from schema: https://w3id.org/ontogpt/reaction</li>
 </ul>
 <h2 id="mappings">Mappings</h2>
 <table>
@@ -338,11 +373,11 @@ ExtractionResult ||--}o Any : "named_entities"
 <tbody>
 <tr>
 <td>self</td>
-<td>core:ExtractionResult</td>
+<td>reaction:ExtractionResult</td>
 </tr>
 <tr>
 <td>native</td>
-<td>core:ExtractionResult</td>
+<td>reaction:ExtractionResult</td>
 </tr>
 </tbody>
 </table>
@@ -352,40 +387,40 @@ ExtractionResult ||--}o Any : "named_entities"
 <details>
 <pre><code class="language-yaml">name: ExtractionResult
 description: A result of extracting knowledge on text
-from_schema: http://w3id.org/ontogpt/core
+from_schema: https://w3id.org/ontogpt/reaction
 rank: 1000
 attributes:
   input_id:
     name: input_id
-    from_schema: http://w3id.org/ontogpt/core
+    from_schema: https://w3id.org/ontogpt/reaction
     rank: 1000
   input_title:
     name: input_title
-    from_schema: http://w3id.org/ontogpt/core
+    from_schema: https://w3id.org/ontogpt/reaction
     rank: 1000
   input_text:
     name: input_text
-    from_schema: http://w3id.org/ontogpt/core
+    from_schema: https://w3id.org/ontogpt/reaction
     rank: 1000
   raw_completion_output:
     name: raw_completion_output
-    from_schema: http://w3id.org/ontogpt/core
+    from_schema: https://w3id.org/ontogpt/reaction
     rank: 1000
   prompt:
     name: prompt
-    from_schema: http://w3id.org/ontogpt/core
+    from_schema: https://w3id.org/ontogpt/reaction
     rank: 1000
   extracted_object:
     name: extracted_object
     description: The complex objects extracted from the text
-    from_schema: http://w3id.org/ontogpt/core
+    from_schema: https://w3id.org/ontogpt/reaction
     rank: 1000
     range: Any
     inlined: true
   named_entities:
     name: named_entities
     description: Named entities extracted from the text
-    from_schema: http://w3id.org/ontogpt/core
+    from_schema: https://w3id.org/ontogpt/reaction
     rank: 1000
     multivalued: true
     range: Any
@@ -398,12 +433,12 @@ attributes:
 <details>
 <pre><code class="language-yaml">name: ExtractionResult
 description: A result of extracting knowledge on text
-from_schema: http://w3id.org/ontogpt/core
+from_schema: https://w3id.org/ontogpt/reaction
 rank: 1000
 attributes:
   input_id:
     name: input_id
-    from_schema: http://w3id.org/ontogpt/core
+    from_schema: https://w3id.org/ontogpt/reaction
     rank: 1000
     alias: input_id
     owner: ExtractionResult
@@ -412,7 +447,7 @@ attributes:
     range: string
   input_title:
     name: input_title
-    from_schema: http://w3id.org/ontogpt/core
+    from_schema: https://w3id.org/ontogpt/reaction
     rank: 1000
     alias: input_title
     owner: ExtractionResult
@@ -421,7 +456,7 @@ attributes:
     range: string
   input_text:
     name: input_text
-    from_schema: http://w3id.org/ontogpt/core
+    from_schema: https://w3id.org/ontogpt/reaction
     rank: 1000
     alias: input_text
     owner: ExtractionResult
@@ -430,7 +465,7 @@ attributes:
     range: string
   raw_completion_output:
     name: raw_completion_output
-    from_schema: http://w3id.org/ontogpt/core
+    from_schema: https://w3id.org/ontogpt/reaction
     rank: 1000
     alias: raw_completion_output
     owner: ExtractionResult
@@ -439,7 +474,7 @@ attributes:
     range: string
   prompt:
     name: prompt
-    from_schema: http://w3id.org/ontogpt/core
+    from_schema: https://w3id.org/ontogpt/reaction
     rank: 1000
     alias: prompt
     owner: ExtractionResult
@@ -449,7 +484,7 @@ attributes:
   extracted_object:
     name: extracted_object
     description: The complex objects extracted from the text
-    from_schema: http://w3id.org/ontogpt/core
+    from_schema: https://w3id.org/ontogpt/reaction
     rank: 1000
     alias: extracted_object
     owner: ExtractionResult
@@ -460,7 +495,7 @@ attributes:
   named_entities:
     name: named_entities
     description: Named entities extracted from the text
-    from_schema: http://w3id.org/ontogpt/core
+    from_schema: https://w3id.org/ontogpt/reaction
     rank: 1000
     multivalued: true
     alias: named_entities

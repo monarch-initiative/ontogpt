@@ -146,13 +146,18 @@
         </label>
 <ul class="md-nav__list" data-md-scrollfix="">
 <li class="md-nav__item">
-<a class="md-nav__link" href="../../recipe/">
-        Recipes
+<a class="md-nav__link" href="../../core/">
+        Core Upper Level Schema
       </a>
 </li>
 <li class="md-nav__item">
-<a class="md-nav__link" href="../../gocam/">
-        Pathways
+<a class="md-nav__link" href="../../reaction/">
+        Biochemical Reactions
+      </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../biological_process/">
+        Biological Processes
       </a>
 </li>
 <li class="md-nav__item">
@@ -161,13 +166,43 @@
       </a>
 </li>
 <li class="md-nav__item">
+<a class="md-nav__link" href="../../diagnostic_procedure/">
+        Diagnostic Procedures
+      </a>
+</li>
+<li class="md-nav__item">
 <a class="md-nav__link" href="../../drug/">
         Drugs and Mechanisms
       </a>
 </li>
 <li class="md-nav__item">
-<a class="md-nav__link" href="../../reaction/">
-        Biochemical Reactions
+<a class="md-nav__link" href="../../environmental_sample/">
+        Environmental Samples
+      </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../mendelian_disease/">
+        Mendelian Diseases
+      </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../metabolic_process/">
+        Metabolic Processes
+      </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../metagenome_study/">
+        Metagenome Studies
+      </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../gocam/">
+        Pathways
+      </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../recipe/">
+        Recipes
       </a>
 </li>
 <li class="md-nav__item">
@@ -306,9 +341,45 @@ OntologyElement ||--}o OntologyElement : "parts"
 </thead>
 <tbody>
 <tr>
+<td><a href="../name/">name</a></td>
+<td>1..1 <br/> <a href="../String/">String</a></td>
+<td>the name of the entity</td>
+<td><a href="../OntologyElement/">OntologyElement</a></td>
+</tr>
+<tr>
 <td><a href="../context/">context</a></td>
-<td>0..1 <br/> NONE</td>
+<td>0..1 <br/> <a href="../String/">String</a></td>
 <td>the ontology to which this belongs (single-valued)</td>
+<td><a href="../OntologyElement/">OntologyElement</a></td>
+</tr>
+<tr>
+<td><a href="../description/">description</a></td>
+<td>0..1 <br/> <a href="../String/">String</a></td>
+<td>a textual description of the entity (single-valued)</td>
+<td><a href="../OntologyElement/">OntologyElement</a></td>
+</tr>
+<tr>
+<td><a href="../synonyms/">synonyms</a></td>
+<td>0..* <br/> <a href="../String/">String</a></td>
+<td>a list of alternative names of the entity</td>
+<td><a href="../OntologyElement/">OntologyElement</a></td>
+</tr>
+<tr>
+<td><a href="../categories/">categories</a></td>
+<td>0..* <br/> <a href="./">Category</a></td>
+<td>a list of the categories to which this entity belongs</td>
+<td><a href="../OntologyElement/">OntologyElement</a></td>
+</tr>
+<tr>
+<td><a href="../subclass_of/">subclass_of</a></td>
+<td>0..* <br/> <a href="../OntologyElement/">OntologyElement</a></td>
+<td>a list of parent class (superclasses) of this entity</td>
+<td><a href="../OntologyElement/">OntologyElement</a></td>
+</tr>
+<tr>
+<td><a href="../part_of/">part_of</a></td>
+<td>0..* <br/> <a href="../OntologyElement/">OntologyElement</a></td>
+<td>a list of things this element is part of</td>
 <td><a href="../OntologyElement/">OntologyElement</a></td>
 </tr>
 <tr>
@@ -324,45 +395,9 @@ OntologyElement ||--}o OntologyElement : "parts"
 <td><a href="../OntologyElement/">OntologyElement</a></td>
 </tr>
 <tr>
-<td><a href="../subclass_of/">subclass_of</a></td>
-<td>0..* <br/> <a href="../OntologyElement/">OntologyElement</a></td>
-<td>a list of parent class (superclasses) of this entity</td>
-<td><a href="../OntologyElement/">OntologyElement</a></td>
-</tr>
-<tr>
-<td><a href="../name/">name</a></td>
-<td>1..1 <br/> NONE</td>
-<td>the name of the entity</td>
-<td><a href="../OntologyElement/">OntologyElement</a></td>
-</tr>
-<tr>
-<td><a href="../synonyms/">synonyms</a></td>
-<td>0..* <br/> NONE</td>
-<td>a list of alternative names of the entity</td>
-<td><a href="../OntologyElement/">OntologyElement</a></td>
-</tr>
-<tr>
-<td><a href="../part_of/">part_of</a></td>
-<td>0..* <br/> <a href="../OntologyElement/">OntologyElement</a></td>
-<td>a list of things this element is part of</td>
-<td><a href="../OntologyElement/">OntologyElement</a></td>
-</tr>
-<tr>
-<td><a href="../description/">description</a></td>
-<td>0..1 <br/> NONE</td>
-<td>a textual description of the entity (single-valued)</td>
-<td><a href="../OntologyElement/">OntologyElement</a></td>
-</tr>
-<tr>
 <td><a href="../equivalent_to/">equivalent_to</a></td>
-<td>0..1 <br/> <a href="xsd:string">xsd:string</a></td>
+<td>0..1 <br/> <a href="../String/">String</a></td>
 <td>an OWL class expression with the necessary and sufficient conditions for this...</td>
-<td><a href="../OntologyElement/">OntologyElement</a></td>
-</tr>
-<tr>
-<td><a href="../categories/">categories</a></td>
-<td>0..* <br/> <a href="./">Category</a></td>
-<td>a list of the categories to which this entity belongs</td>
 <td><a href="../OntologyElement/">OntologyElement</a></td>
 </tr>
 </tbody>

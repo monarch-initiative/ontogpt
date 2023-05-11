@@ -146,13 +146,18 @@
         </label>
 <ul class="md-nav__list" data-md-scrollfix="">
 <li class="md-nav__item">
-<a class="md-nav__link" href="../../recipe/">
-        Recipes
+<a class="md-nav__link" href="../../core/">
+        Core Upper Level Schema
       </a>
 </li>
 <li class="md-nav__item">
-<a class="md-nav__link" href="../../gocam/">
-        Pathways
+<a class="md-nav__link" href="../../reaction/">
+        Biochemical Reactions
+      </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../biological_process/">
+        Biological Processes
       </a>
 </li>
 <li class="md-nav__item">
@@ -161,13 +166,43 @@
       </a>
 </li>
 <li class="md-nav__item">
+<a class="md-nav__link" href="../../diagnostic_procedure/">
+        Diagnostic Procedures
+      </a>
+</li>
+<li class="md-nav__item">
 <a class="md-nav__link" href="../../drug/">
         Drugs and Mechanisms
       </a>
 </li>
 <li class="md-nav__item">
-<a class="md-nav__link" href="../../reaction/">
-        Biochemical Reactions
+<a class="md-nav__link" href="../../environmental_sample/">
+        Environmental Samples
+      </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../mendelian_disease/">
+        Mendelian Diseases
+      </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../metabolic_process/">
+        Metabolic Processes
+      </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../metagenome_study/">
+        Metagenome Studies
+      </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../gocam/">
+        Pathways
+      </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../recipe/">
+        Recipes
       </a>
 </li>
 <li class="md-nav__item">
@@ -253,12 +288,19 @@
 DiseaseTreatmentSummary {
 
 }
-TreatmentEfficacy {
-    string efficacy  
+TreatmentAdverseEffect {
+
+}
+AdverseEffect {
+    string id  
+    string label  
 }
 Treatment {
     string id  
     string label  
+}
+TreatmentEfficacy {
+    string efficacy  
 }
 TreatmentMechanism {
 
@@ -279,8 +321,12 @@ Disease {
 DiseaseTreatmentSummary ||--|o Disease : "disease"
 DiseaseTreatmentSummary ||--}o Drug : "drugs"
 DiseaseTreatmentSummary ||--}o Treatment : "treatments"
+DiseaseTreatmentSummary ||--}o Treatment : "contraindications"
 DiseaseTreatmentSummary ||--}o TreatmentMechanism : "treatment_mechanisms"
 DiseaseTreatmentSummary ||--}o TreatmentEfficacy : "treatment_efficacies"
+DiseaseTreatmentSummary ||--}o TreatmentAdverseEffect : "treatment_adverse_effects"
+TreatmentAdverseEffect ||--|o Treatment : "treatment"
+TreatmentAdverseEffect ||--}o AdverseEffect : "adverse_effects"
 TreatmentEfficacy ||--|o Treatment : "treatment"
 TreatmentMechanism ||--|o Treatment : "treatment"
 TreatmentMechanism ||--|o Mechanism : "mechanism"
@@ -299,7 +345,7 @@ TreatmentMechanism ||--|o Mechanism : "mechanism"
 </thead>
 <tbody>
 <tr>
-<td><a href="disease.md">disease</a></td>
+<td><a href="../disease/">disease</a></td>
 <td>0..1 <br/> <a href="../Disease/">Disease</a></td>
 <td>the name of the disease that is treated</td>
 <td>direct</td>
@@ -312,8 +358,14 @@ TreatmentMechanism ||--|o Mechanism : "mechanism"
 </tr>
 <tr>
 <td><a href="../treatments/">treatments</a></td>
-<td>0..* <br/> <a href="Treatment.md">Treatment</a></td>
-<td>semicolon-separated list of therapies and treatments</td>
+<td>0..* <br/> <a href="../Treatment/">Treatment</a></td>
+<td>semicolon-separated list of therapies and treatments are indicated for treati...</td>
+<td>direct</td>
+</tr>
+<tr>
+<td><a href="../contraindications/">contraindications</a></td>
+<td>0..* <br/> <a href="../Treatment/">Treatment</a></td>
+<td>semicolon-separated list of therapies and treatments that are contra-indicate...</td>
 <td>direct</td>
 </tr>
 <tr>
@@ -326,6 +378,12 @@ TreatmentMechanism ||--|o Mechanism : "mechanism"
 <td><a href="../treatment_efficacies/">treatment_efficacies</a></td>
 <td>0..* <br/> <a href="../TreatmentEfficacy/">TreatmentEfficacy</a></td>
 <td>semicolon-separated list of treatment to efficacy associations, e</td>
+<td>direct</td>
+</tr>
+<tr>
+<td><a href="../treatment_adverse_effects/">treatment_adverse_effects</a></td>
+<td>0..* <br/> <a href="../TreatmentAdverseEffect/">TreatmentAdverseEffect</a></td>
+<td>semicolon-separated list of treatment to adverse effect associations, e</td>
 <td>direct</td>
 </tr>
 </tbody>
@@ -364,7 +422,7 @@ rank: 1000
 attributes:
   disease:
     name: disease
-    description: the name of the disease that is treated
+    description: the name of the disease that is treated.
     from_schema: http://w3id.org/ontogpt/treatment
     rank: 1000
     range: Disease
@@ -377,7 +435,24 @@ attributes:
     range: Drug
   treatments:
     name: treatments
-    description: semicolon-separated list of therapies and treatments
+    annotations:
+      prompt.examples:
+        tag: prompt.examples
+        value: Imatinib, exercise, surgery
+    description: semicolon-separated list of therapies and treatments are indicated
+      for treating the disease.
+    from_schema: http://w3id.org/ontogpt/treatment
+    rank: 1000
+    multivalued: true
+    range: Treatment
+  contraindications:
+    name: contraindications
+    annotations:
+      prompt.examples:
+        tag: prompt.examples
+        value: Beta-blockers, exercise, surgery
+    description: semicolon-separated list of therapies and treatments that are contra-indicated
+      for the disease, and should not be used, due to risk of adverse effects.
     from_schema: http://w3id.org/ontogpt/treatment
     rank: 1000
     multivalued: true
@@ -406,6 +481,19 @@ attributes:
     rank: 1000
     multivalued: true
     range: TreatmentEfficacy
+  treatment_adverse_effects:
+    name: treatment_adverse_effects
+    annotations:
+      prompt.separator:
+        tag: prompt.separator
+        value: '*'
+    description: semicolon-separated list of treatment to adverse effect associations,
+      e.g. Imatinib*nausea
+    from_schema: http://w3id.org/ontogpt/treatment
+    rank: 1000
+    multivalued: true
+    range: TreatmentAdverseEffect
+tree_root: true
 
 </code></pre>
 </details>
@@ -417,7 +505,7 @@ rank: 1000
 attributes:
   disease:
     name: disease
-    description: the name of the disease that is treated
+    description: the name of the disease that is treated.
     from_schema: http://w3id.org/ontogpt/treatment
     rank: 1000
     alias: disease
@@ -438,11 +526,32 @@ attributes:
     range: Drug
   treatments:
     name: treatments
-    description: semicolon-separated list of therapies and treatments
+    annotations:
+      prompt.examples:
+        tag: prompt.examples
+        value: Imatinib, exercise, surgery
+    description: semicolon-separated list of therapies and treatments are indicated
+      for treating the disease.
     from_schema: http://w3id.org/ontogpt/treatment
     rank: 1000
     multivalued: true
     alias: treatments
+    owner: DiseaseTreatmentSummary
+    domain_of:
+    - DiseaseTreatmentSummary
+    range: Treatment
+  contraindications:
+    name: contraindications
+    annotations:
+      prompt.examples:
+        tag: prompt.examples
+        value: Beta-blockers, exercise, surgery
+    description: semicolon-separated list of therapies and treatments that are contra-indicated
+      for the disease, and should not be used, due to risk of adverse effects.
+    from_schema: http://w3id.org/ontogpt/treatment
+    rank: 1000
+    multivalued: true
+    alias: contraindications
     owner: DiseaseTreatmentSummary
     domain_of:
     - DiseaseTreatmentSummary
@@ -479,6 +588,23 @@ attributes:
     domain_of:
     - DiseaseTreatmentSummary
     range: TreatmentEfficacy
+  treatment_adverse_effects:
+    name: treatment_adverse_effects
+    annotations:
+      prompt.separator:
+        tag: prompt.separator
+        value: '*'
+    description: semicolon-separated list of treatment to adverse effect associations,
+      e.g. Imatinib*nausea
+    from_schema: http://w3id.org/ontogpt/treatment
+    rank: 1000
+    multivalued: true
+    alias: treatment_adverse_effects
+    owner: DiseaseTreatmentSummary
+    domain_of:
+    - DiseaseTreatmentSummary
+    range: TreatmentAdverseEffect
+tree_root: true
 
 </code></pre>
 </details>

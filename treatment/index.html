@@ -6,7 +6,7 @@
 <meta charset="utf-8"/>
 <meta content="width=device-width,initial-scale=1" name="viewport"/>
 <link href="https://monarch-initiative.github.io/ontogpt/treatment/" rel="canonical"/>
-<link href="../reaction/" rel="prev"/>
+<link href="../recipe/" rel="prev"/>
 <link href="../halo/" rel="next"/>
 <link href="../assets/images/favicon.png" rel="icon"/>
 <meta content="mkdocs-1.4.2, mkdocs-material-9.0.10" name="generator"/>
@@ -148,13 +148,18 @@
         </label>
 <ul class="md-nav__list" data-md-scrollfix="">
 <li class="md-nav__item">
-<a class="md-nav__link" href="../recipe/">
-        Recipes
+<a class="md-nav__link" href="../core/">
+        Core Upper Level Schema
       </a>
 </li>
 <li class="md-nav__item">
-<a class="md-nav__link" href="../gocam/">
-        Pathways
+<a class="md-nav__link" href="../reaction/">
+        Biochemical Reactions
+      </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../biological_process/">
+        Biological Processes
       </a>
 </li>
 <li class="md-nav__item">
@@ -163,13 +168,43 @@
       </a>
 </li>
 <li class="md-nav__item">
+<a class="md-nav__link" href="../diagnostic_procedure/">
+        Diagnostic Procedures
+      </a>
+</li>
+<li class="md-nav__item">
 <a class="md-nav__link" href="../drug/">
         Drugs and Mechanisms
       </a>
 </li>
 <li class="md-nav__item">
-<a class="md-nav__link" href="../reaction/">
-        Biochemical Reactions
+<a class="md-nav__link" href="../environmental_sample/">
+        Environmental Samples
+      </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../mendelian_disease/">
+        Mendelian Diseases
+      </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../metabolic_process/">
+        Metabolic Processes
+      </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../metagenome_study/">
+        Metagenome Studies
+      </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../gocam/">
+        Pathways
+      </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../recipe/">
+        Recipes
       </a>
 </li>
 <li class="md-nav__item md-nav__item--active">
@@ -288,21 +323,22 @@ Name: treatment-template</p>
 DiseaseTreatmentSummary {
 
 }
-Gene {
-    string id  
-    string label  
+TreatmentAdverseEffect {
+
 }
-Symptom {
-    string id  
-    string label  
-}
-Disease {
+AdverseEffect {
     string id  
     string label  
 }
 Treatment {
     string id  
     string label  
+}
+TreatmentEfficacy {
+    string efficacy  
+}
+TreatmentMechanism {
+
 }
 Mechanism {
     string id  
@@ -312,69 +348,23 @@ Drug {
     string id  
     string label  
 }
-TreatmentMechanism {
-
-}
-TreatmentEfficacy {
-    string efficacy  
-}
-Any {
-
-}
-ExtractionResult {
-    string input_id  
-    string input_title  
-    string input_text  
-    string raw_completion_output  
-    string prompt  
-}
-NamedEntity {
+Disease {
     string id  
     string label  
-}
-CompoundExpression {
-
-}
-Triple {
-    string qualifier  
-}
-TextWithTriples {
-
-}
-RelationshipType {
-    string id  
-    string label  
-}
-Publication {
-    string id  
-    string title  
-    string abstract  
-    string combined_text  
-    string full_text  
-}
-AnnotatorResult {
-    string subject_text  
-    string object_id  
-    string object_text  
 }
 
 DiseaseTreatmentSummary ||--|o Disease : "disease"
 DiseaseTreatmentSummary ||--}o Drug : "drugs"
 DiseaseTreatmentSummary ||--}o Treatment : "treatments"
+DiseaseTreatmentSummary ||--}o Treatment : "contraindications"
 DiseaseTreatmentSummary ||--}o TreatmentMechanism : "treatment_mechanisms"
 DiseaseTreatmentSummary ||--}o TreatmentEfficacy : "treatment_efficacies"
+DiseaseTreatmentSummary ||--}o TreatmentAdverseEffect : "treatment_adverse_effects"
+TreatmentAdverseEffect ||--|o Treatment : "treatment"
+TreatmentAdverseEffect ||--}o AdverseEffect : "adverse_effects"
+TreatmentEfficacy ||--|o Treatment : "treatment"
 TreatmentMechanism ||--|o Treatment : "treatment"
 TreatmentMechanism ||--|o Mechanism : "mechanism"
-TreatmentEfficacy ||--|o Treatment : "treatment"
-ExtractionResult ||--|o Any : "extracted_object"
-ExtractionResult ||--}o Any : "named_entities"
-Triple ||--|o NamedEntity : "subject"
-Triple ||--|o RelationshipType : "predicate"
-Triple ||--|o NamedEntity : "object"
-Triple ||--|o NamedEntity : "subject_qualifier"
-Triple ||--|o NamedEntity : "object_qualifier"
-TextWithTriples ||--|o Publication : "publication"
-TextWithTriples ||--}o Triple : "triples"
 
 </div>
 <h2 id="classes">Classes</h2>
@@ -386,6 +376,10 @@ TextWithTriples ||--}o Triple : "triples"
 </tr>
 </thead>
 <tbody>
+<tr>
+<td><a href="AdverseEffect/">AdverseEffect</a></td>
+<td></td>
+</tr>
 <tr>
 <td><a href="AnnotatorResult/">AnnotatorResult</a></td>
 <td></td>
@@ -443,7 +437,11 @@ TextWithTriples ||--}o Triple : "triples"
 <td></td>
 </tr>
 <tr>
-<td><a href="Treatment.md">Treatment</a></td>
+<td><a href="Treatment/">Treatment</a></td>
+<td></td>
+</tr>
+<tr>
+<td><a href="TreatmentAdverseEffect/">TreatmentAdverseEffect</a></td>
 <td></td>
 </tr>
 <tr>
@@ -474,11 +472,19 @@ TextWithTriples ||--}o Triple : "triples"
 <td>The abstract of the publication</td>
 </tr>
 <tr>
+<td><a href="adverse_effects/">adverse_effects</a></td>
+<td></td>
+</tr>
+<tr>
 <td><a href="combined_text/">combined_text</a></td>
 <td></td>
 </tr>
 <tr>
-<td><a href="disease.md">disease</a></td>
+<td><a href="contraindications/">contraindications</a></td>
+<td>semicolon-separated list of therapies and treatments that are contra-indicate...</td>
+</tr>
+<tr>
+<td><a href="disease/">disease</a></td>
 <td>the name of the disease that is treated</td>
 </tr>
 <tr>
@@ -518,7 +524,7 @@ TextWithTriples ||--}o Triple : "triples"
 <td>The label (name) of the named thing</td>
 </tr>
 <tr>
-<td><a href="mechanism.md">mechanism</a></td>
+<td><a href="mechanism/">mechanism</a></td>
 <td></td>
 </tr>
 <tr>
@@ -550,7 +556,7 @@ TextWithTriples ||--}o Triple : "triples"
 <td></td>
 </tr>
 <tr>
-<td><a href="publication.md">publication</a></td>
+<td><a href="publication/">publication</a></td>
 <td></td>
 </tr>
 <tr>
@@ -582,6 +588,10 @@ TextWithTriples ||--}o Triple : "triples"
 <td></td>
 </tr>
 <tr>
+<td><a href="treatment_adverse_effects/">treatment_adverse_effects</a></td>
+<td>semicolon-separated list of treatment to adverse effect associations, e</td>
+</tr>
+<tr>
 <td><a href="treatment_efficacies/">treatment_efficacies</a></td>
 <td>semicolon-separated list of treatment to efficacy associations, e</td>
 </tr>
@@ -591,7 +601,7 @@ TextWithTriples ||--}o Triple : "triples"
 </tr>
 <tr>
 <td><a href="treatments/">treatments</a></td>
-<td>semicolon-separated list of therapies and treatments</td>
+<td>semicolon-separated list of therapies and treatments are indicated for treati...</td>
 </tr>
 <tr>
 <td><a href="triples/">triples</a></td>
@@ -609,7 +619,27 @@ TextWithTriples ||--}o Triple : "triples"
 </thead>
 <tbody>
 <tr>
+<td><a href="CHEBIDrugType/">CHEBIDrugType</a></td>
 <td></td>
+</tr>
+<tr>
+<td><a href="MAXOActionType/">MAXOActionType</a></td>
+<td></td>
+</tr>
+<tr>
+<td><a href="MESHTherapeuticType/">MESHTherapeuticType</a></td>
+<td></td>
+</tr>
+<tr>
+<td><a href="NCITDrugType/">NCITDrugType</a></td>
+<td></td>
+</tr>
+<tr>
+<td><a href="NCITTActivityType/">NCITTActivityType</a></td>
+<td></td>
+</tr>
+<tr>
+<td><a href="NCITTreatmentType/">NCITTreatmentType</a></td>
 <td></td>
 </tr>
 </tbody>
@@ -624,63 +654,63 @@ TextWithTriples ||--}o Triple : "triples"
 </thead>
 <tbody>
 <tr>
-<td><a href="xsd:boolean">xsd:boolean</a></td>
+<td><a href="Boolean/">Boolean</a></td>
 <td>A binary (true or false) value</td>
 </tr>
 <tr>
-<td><a href="xsd:date">xsd:date</a></td>
+<td><a href="Date/">Date</a></td>
 <td>a date (year, month and day) in an idealized calendar</td>
 </tr>
 <tr>
-<td><a href="https://w3id.org/linkml/DateOrDatetime">linkml:DateOrDatetime</a></td>
+<td><a href="DateOrDatetime/">DateOrDatetime</a></td>
 <td>Either a date or a datetime</td>
 </tr>
 <tr>
-<td><a href="xsd:dateTime">xsd:dateTime</a></td>
+<td><a href="Datetime/">Datetime</a></td>
 <td>The combination of a date and time</td>
 </tr>
 <tr>
-<td><a href="xsd:decimal">xsd:decimal</a></td>
+<td><a href="Decimal/">Decimal</a></td>
 <td>A real number with arbitrary precision that conforms to the xsd:decimal speci...</td>
 </tr>
 <tr>
-<td><a href="xsd:double">xsd:double</a></td>
+<td><a href="Double/">Double</a></td>
 <td>A real number that conforms to the xsd:double specification</td>
 </tr>
 <tr>
-<td><a href="xsd:float">xsd:float</a></td>
+<td><a href="Float/">Float</a></td>
 <td>A real number that conforms to the xsd:float specification</td>
 </tr>
 <tr>
-<td><a href="xsd:integer">xsd:integer</a></td>
+<td><a href="Integer/">Integer</a></td>
 <td>An integer</td>
 </tr>
 <tr>
-<td><a href="xsd:string">xsd:string</a></td>
+<td><a href="Ncname/">Ncname</a></td>
 <td>Prefix part of CURIE</td>
 </tr>
 <tr>
-<td><a href="shex:nonLiteral">shex:nonLiteral</a></td>
+<td><a href="Nodeidentifier/">Nodeidentifier</a></td>
 <td>A URI, CURIE or BNODE that represents a node in a model</td>
 </tr>
 <tr>
-<td><a href="shex:iri">shex:iri</a></td>
+<td><a href="Objectidentifier/">Objectidentifier</a></td>
 <td>A URI or CURIE that represents an object in the model</td>
 </tr>
 <tr>
-<td><a href="xsd:string">xsd:string</a></td>
+<td><a href="String/">String</a></td>
 <td>A character string</td>
 </tr>
 <tr>
-<td><a href="xsd:dateTime">xsd:dateTime</a></td>
+<td><a href="Time/">Time</a></td>
 <td>A time object represents a (local) time of day, independent of any particular...</td>
 </tr>
 <tr>
-<td><a href="xsd:anyURI">xsd:anyURI</a></td>
+<td><a href="Uri/">Uri</a></td>
 <td>a complete URI</td>
 </tr>
 <tr>
-<td><a href="xsd:anyURI">xsd:anyURI</a></td>
+<td><a href="Uriorcurie/">Uriorcurie</a></td>
 <td>a URI or a CURIE</td>
 </tr>
 </tbody>

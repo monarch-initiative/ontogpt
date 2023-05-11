@@ -146,13 +146,18 @@
         </label>
 <ul class="md-nav__list" data-md-scrollfix="">
 <li class="md-nav__item">
-<a class="md-nav__link" href="../../recipe/">
-        Recipes
+<a class="md-nav__link" href="../../core/">
+        Core Upper Level Schema
       </a>
 </li>
 <li class="md-nav__item">
-<a class="md-nav__link" href="../../gocam/">
-        Pathways
+<a class="md-nav__link" href="../../reaction/">
+        Biochemical Reactions
+      </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../biological_process/">
+        Biological Processes
       </a>
 </li>
 <li class="md-nav__item">
@@ -161,13 +166,43 @@
       </a>
 </li>
 <li class="md-nav__item">
+<a class="md-nav__link" href="../../diagnostic_procedure/">
+        Diagnostic Procedures
+      </a>
+</li>
+<li class="md-nav__item">
 <a class="md-nav__link" href="../../drug/">
         Drugs and Mechanisms
       </a>
 </li>
 <li class="md-nav__item">
-<a class="md-nav__link" href="../../reaction/">
-        Biochemical Reactions
+<a class="md-nav__link" href="../../environmental_sample/">
+        Environmental Samples
+      </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../mendelian_disease/">
+        Mendelian Diseases
+      </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../">
+        Metabolic Processes
+      </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../metagenome_study/">
+        Metagenome Studies
+      </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../gocam/">
+        Pathways
+      </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../recipe/">
+        Recipes
       </a>
 </li>
 <li class="md-nav__item">
@@ -261,7 +296,7 @@
 <ul>
 <li><strong>NOTE</strong>: this is an abstract class and should not be instantiated directly</li>
 </ul>
-<p>URI: <a href="http://w3id.org/ontogpt/core/NamedEntity">core:NamedEntity</a></p>
+<p>URI: <a href="http://w3id.org/ontogpt/metabolic-process-templateNamedEntity">bp:NamedEntity</a></p>
 <div class="mermaid">erDiagram
 NamedEntity {
     string id  
@@ -294,13 +329,13 @@ NamedEntity {
 <tbody>
 <tr>
 <td><a href="../id/">id</a></td>
-<td>0..1 <br/> NONE</td>
+<td>0..1 <br/> <a href="../String/">String</a></td>
 <td></td>
 <td>direct</td>
 </tr>
 <tr>
 <td><a href="../label/">label</a></td>
-<td>0..1 <br/> NONE</td>
+<td>0..1 <br/> <a href="../String/">String</a></td>
 <td></td>
 <td>direct</td>
 </tr>
@@ -346,7 +381,7 @@ NamedEntity {
 <h2 id="identifier-and-mapping-information">Identifier and Mapping Information</h2>
 <h3 id="schema-source">Schema Source</h3>
 <ul>
-<li>from schema: http://w3id.org/ontogpt/core</li>
+<li>from schema: https://w3id.org/ontogpt/metabolic_process</li>
 </ul>
 <h2 id="mappings">Mappings</h2>
 <table>
@@ -359,11 +394,11 @@ NamedEntity {
 <tbody>
 <tr>
 <td>self</td>
-<td>core:NamedEntity</td>
+<td>bp:NamedEntity</td>
 </tr>
 <tr>
 <td>native</td>
-<td>core:NamedEntity</td>
+<td>bp:NamedEntity</td>
 </tr>
 </tbody>
 </table>
@@ -372,7 +407,7 @@ NamedEntity {
 <h3 id="direct">Direct</h3>
 <details>
 <pre><code class="language-yaml">name: NamedEntity
-from_schema: http://w3id.org/ontogpt/core
+from_schema: https://w3id.org/ontogpt/metabolic_process
 rank: 1000
 abstract: true
 attributes:
@@ -385,15 +420,20 @@ attributes:
     description: A unique identifier for the named entity
     comments:
     - this is populated during the grounding and normalization step
-    from_schema: http://w3id.org/ontogpt/core
+    from_schema: https://w3id.org/ontogpt/metabolic_process
     rank: 1000
     identifier: true
   label:
     name: label
+    annotations:
+      owl:
+        tag: owl
+        value: AnnotationProperty, AnnotationAssertion
     description: The label (name) of the named thing
-    from_schema: http://w3id.org/ontogpt/core
+    from_schema: https://w3id.org/ontogpt/metabolic_process
     aliases:
     - name
+    slot_uri: rdfs:label
     range: string
 
 </code></pre>
@@ -401,7 +441,7 @@ attributes:
 <h3 id="induced">Induced</h3>
 <details>
 <pre><code class="language-yaml">name: NamedEntity
-from_schema: http://w3id.org/ontogpt/core
+from_schema: https://w3id.org/ontogpt/metabolic_process
 rank: 1000
 abstract: true
 attributes:
@@ -414,7 +454,7 @@ attributes:
     description: A unique identifier for the named entity
     comments:
     - this is populated during the grounding and normalization step
-    from_schema: http://w3id.org/ontogpt/core
+    from_schema: https://w3id.org/ontogpt/metabolic_process
     rank: 1000
     identifier: true
     alias: id
@@ -425,10 +465,15 @@ attributes:
     range: string
   label:
     name: label
+    annotations:
+      owl:
+        tag: owl
+        value: AnnotationProperty, AnnotationAssertion
     description: The label (name) of the named thing
-    from_schema: http://w3id.org/ontogpt/core
+    from_schema: https://w3id.org/ontogpt/metabolic_process
     aliases:
     - name
+    slot_uri: rdfs:label
     alias: label
     owner: NamedEntity
     domain_of:

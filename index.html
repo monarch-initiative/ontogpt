@@ -12,7 +12,7 @@
       
       
       
-        <link rel="next" href="recipe/">
+        <link rel="next" href="core/">
       
       <link rel="icon" href="assets/images/favicon.png">
       <meta name="generator" content="mkdocs-1.4.2, mkdocs-material-9.0.10">
@@ -433,8 +433,8 @@
   
   
     <li class="md-nav__item">
-      <a href="recipe/" class="md-nav__link">
-        Recipes
+      <a href="core/" class="md-nav__link">
+        Core Upper Level Schema
       </a>
     </li>
   
@@ -447,8 +447,22 @@
   
   
     <li class="md-nav__item">
-      <a href="gocam/" class="md-nav__link">
-        Pathways
+      <a href="reaction/" class="md-nav__link">
+        Biochemical Reactions
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="biological_process/" class="md-nav__link">
+        Biological Processes
       </a>
     </li>
   
@@ -475,6 +489,20 @@
   
   
     <li class="md-nav__item">
+      <a href="diagnostic_procedure/" class="md-nav__link">
+        Diagnostic Procedures
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
       <a href="drug/" class="md-nav__link">
         Drugs and Mechanisms
       </a>
@@ -489,8 +517,78 @@
   
   
     <li class="md-nav__item">
-      <a href="reaction/" class="md-nav__link">
-        Biochemical Reactions
+      <a href="environmental_sample/" class="md-nav__link">
+        Environmental Samples
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="mendelian_disease/" class="md-nav__link">
+        Mendelian Diseases
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="metabolic_process/" class="md-nav__link">
+        Metabolic Processes
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="metagenome_study/" class="md-nav__link">
+        Metagenome Studies
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="gocam/" class="md-nav__link">
+        Pathways
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="recipe/" class="md-nav__link">
+        Recipes
       </a>
     </li>
   
@@ -702,21 +800,18 @@
 
 <h1 id="ontogpt">OntoGPT</h1>
 <p>Generation of Ontologies and Knowledge Bases using GPT</p>
-<p>A knowledge extraction tool that uses a large language model to extract semantic information from text.</p>
-<p>This exploits the ability of ultra-LLMs such as GPT-3 to return user-defined data structures
-as a response.</p>
+<p>A knowledge extraction tool that uses a large language model (LLM) to extract semantic information from text.</p>
+<p>This exploits the ability of LLMs such as GPT-3 to return user-defined data structures as a response.</p>
 <p>Currently there are two different pipelines implemented:</p>
 <ul>
 <li>SPIRES: Structured Prompt Interrogation and Recursive Extraction of Semantics<ul>
 <li>Zero-shot learning approach to extracting nested semantic structures from text</li>
 <li>Inputs: LinkML schema + text</li>
 <li>Outputs: JSON, YAML, or RDF or OWL that conforms to the schema</li>
-<li>Uses text-davinci-003</li>
 </ul>
 </li>
 <li>HALO: HAllucinating Latent Ontologies <ul>
 <li>Few-shot learning approach to generating/hallucinating a domain ontology given a few examples</li>
-<li>Uses code-davinci-002</li>
 </ul>
 </li>
 </ul>
@@ -735,20 +830,20 @@ as a response.</p>
 ...
 ...</p>
 </blockquote>
-<p>(see <a href="tests/input/cases/gocam-betacat.txt">full input</a>)</p>
-<p>We can extract this into the <a href="src/ontogpt/templates/gocam.yaml">GO pathway datamodel</a>:</p>
+<p>(see <a href="https://github.com/monarch-initiative/ontogpt/blob/main/tests/input/cases/gocam-betacat.txt">full input</a>)</p>
+<p>We can extract this into the <a href="https://github.com/monarch-initiative/ontogpt/blob/main/src/ontogpt/templates/gocam.yaml">GO pathway datamodel</a>:</p>
 <pre><code class="language-bash">ontogpt extract -t gocam.GoCamAnnotations abstract.txt
 </code></pre>
-<p>Giving schema-compliant yaml such as:</p>
+<p>Giving schema-compliant YAML such as:</p>
 <pre><code class="language-yaml">genes:
 - HGNC:2514
 - HGNC:21367
 - HGNC:27962
-- US3
+- AUTO:US3
 - FPLX:Interferon
-- ISG
+- AUTO:ISG
 gene_gene_interactions:
-- gene1: US3
+- gene1: AUTO:US3
   gene2: HGNC:2514
 gene_localizations:
 - gene: HGNC:2514
@@ -760,18 +855,18 @@ gene_functions:
   molecular_activity: Production
 ...
 </code></pre>
-<p>See <a href="tests/output/gocam-betacat.yaml">full output</a></p>
-<p>note in the above the grounding is very preliminary and can be improved. Ungrounded NamedEntities appear as text.</p>
+<p>See <a href="https://github.com/monarch-initiative/ontogpt/blob/main/tests/output/gocam-betacat.yaml">full output</a>.</p>
+<p>Ungrounded named entities appear as text preceded by AUTO (or your preferred prefix, provided with the --auto-prefix option when using the extract command).</p>
 <h2 id="how-it-works">How it works</h2>
 <ol>
 <li>You provide an arbitrary data model, describing the structure you want to extract text into<ul>
 <li>this can be nested (but see limitations below)</li>
 </ul>
 </li>
-<li>provide your preferred annotations for grounding NamedEntity fields</li>
-<li>semantic-llama will:<ul>
+<li>Provide your preferred annotations for grounding NamedEntity fields</li>
+<li>OntoGPT will:<ul>
 <li>generate a prompt</li>
-<li>feed the prompt to a language model (currently OpenAI)</li>
+<li>feed the prompt to a language model (currently one of OpenAI's models)</li>
 <li>parse the results into a dictionary structure</li>
 <li>ground the results using a preferred annotator</li>
 </ul>
@@ -779,18 +874,18 @@ gene_functions:
 </ol>
 <h2 id="pre-requisites">Pre-requisites</h2>
 <ul>
-<li>python 3.9+</li>
+<li>Python 3.9+</li>
 <li>an OpenAI account</li>
 <li>a BioPortal account (optional, for grounding)</li>
 </ul>
-<p>You will need to set both API keys using OAK (which is a dependency of this project)</p>
+<p>You will need to set both API keys using OAK (which is a dependency of this project) as:</p>
 <pre><code>poetry run runoak set-apikey -e openai &lt;your openai api key&gt;
 poetry run runoak set-apikey -e bioportal &lt;your bioportal api key&gt;
 </code></pre>
 <h2 id="how-to-define-your-own-extraction-data-model">How to define your own extraction data model</h2>
 <h3 id="step-1-define-a-schema">Step 1: Define a schema</h3>
-<p>See <a href="src/ontogpt/templates/">src/semantic_llama/templates/</a> for examples.</p>
-<p>Define a schema (using a subset of LinkML) that describes the structure you want to extract from your text.</p>
+<p>See <a href="https://github.com/monarch-initiative/ontogpt/tree/main/src/ontogpt/templates">src/ontogpt/templates/</a> for examples.</p>
+<p>Define a schema (using a subset of <a href="https://linkml.io/">LinkML</a>) that describes the structure you want to extract from your text.</p>
 <pre><code class="language-yaml">classes:
   MendelianDisease:
     attributes:
@@ -853,31 +948,37 @@ poetry run runoak set-apikey -e bioportal &lt;your bioportal api key&gt;
       annotators: sqlite:obo:hp
 </code></pre>
 <ul>
-<li>the schema is defined in LinkML</li>
-<li>prompt hints can be specified using the <code>prompt</code> annotation (otherwise description is used)</li>
-<li>multivalued fields are supported</li>
-<li>the default range is string - these are not grounded. E.g. disease name, synonyms</li>
-<li>define a class for each NamedEntity</li>
-<li>for any NamedEntity, you can specify a preferred annotator using the <code>annotators</code> annotation</li>
+<li>The schema is defined in LinkML.</li>
+<li>Prompt hints can be specified using the <code>prompt</code> annotation (otherwise description is used).</li>
+<li>Multivalued fields are supported.</li>
+<li>The default range is string - these are not grounded, e.g., disease name, synonyms.</li>
+<li>Define a class for each NamedEntity.</li>
+<li>For any NamedEntity, you can specify one or more preferred annotators using the <code>annotators</code> annotation.</li>
 </ul>
-<p>We recommend following an established schema like biolink, but you can define your own.</p>
+<p>We recommend following an established schema like <a href="https://biolink.github.io/biolink-model/">Biolink Model</a>, but you can define your own.</p>
 <h3 id="step-2-compile-the-schema">Step 2: Compile the schema</h3>
-<p>Run the <code>make</code> command at the top level. This will compile the schema to pedantic</p>
+<p>Run the <code>make</code> command at the top level. This will compile the schemas in the templates directory to Pydantic classes.</p>
+<p>Alternatively, run <code>make src/templates/{name_of_schema}.py</code> to compile just this schema.
+For example, if your schema is defined within <code>entities.yaml</code>, run <code>make src/templates/entities.py</code>.</p>
 <h3 id="step-3-run-the-command-line">Step 3: Run the command line</h3>
 <p>e.g.</p>
-<pre><code>emllama extract -t  mendelian_disease.MendelianDisease marfan-wikipedia.txt
+<pre><code>ontogpt extract -t mendelian_disease.MendelianDisease marfan-wikipedia.txt
 </code></pre>
 <h2 id="web-application">Web Application</h2>
-<p>There is a bare bones web application</p>
+<p>There is a bare bones web application for running OntoGPT and viewing results.</p>
+<p>Install the required dependencies first with the following command:</p>
+<pre><code>poetry install -E web
+</code></pre>
+<p>Then run the following command to start the web application:</p>
 <pre><code>poetry run web-ontogpt
 </code></pre>
 <p>Note that the agent running uvicorn must have the API key set, so for obvious reasons
-don't host this publicly without authentication, unless you want your credits drained. </p>
+don't host this publicly without authentication, unless you want your credits drained.</p>
 <h2 id="features">Features</h2>
 <h3 id="multiple-levels-of-nesting">Multiple Levels of nesting</h3>
 <p>Currently no more than two levels of nesting are recommended.</p>
 <p>If a field has a range which is itself a class and not a primitive, it will attempt to nest</p>
-<p>E.g. the gocam schema has an attribute:</p>
+<p>E.g. the <a href="http://geneontology.org/docs/gocam-overview/">GO-CAM</a> schema has an attribute:</p>
 <pre><code class="language-yaml">  attributes:
       ...
       gene_functions:
@@ -885,7 +986,7 @@ don't host this publicly without authentication, unless you want your credits dr
         multivalued: true
         range: GeneMolecularActivityRelationship
 </code></pre>
-<p>Because GeneMolecularActivityRelationship is <em>inlined</em> it will nest</p>
+<p>Because GeneMolecularActivityRelationship is <em>inlined</em> it will nest.</p>
 <p>The generated prompt is:</p>
 <p><code>gene_functions : &lt;semicolon-separated list of gene to molecular activities relationships&gt;</code></p>
 <p>The output of this is then passed through further llama iterations.</p>
@@ -900,7 +1001,7 @@ but more experiments need to be done to determined how reliable this is.</p>
 <h3 id="non-deterministic">Non-deterministic</h3>
 <p>This relies on an existing LLM, and LLMs can be fickle in their responses.</p>
 <h3 id="coupled-to-openai">Coupled to OpenAI</h3>
-<p>You will need an openai account. In theory any LLM can be used but in practice the parser is tuned for OpenAI</p>
+<p>At present, you will need an OpenAI account.</p>
 <h1 id="acknowledgements">Acknowledgements</h1>
 <p>This <a href="https://cookiecutter.readthedocs.io/en/stable/README.html">cookiecutter</a> project was developed from the <a href="https://github.com/hrshdhgd/sphintoxetry-cookiecutter">sphintoxetry-cookiecutter</a> template and will be kept up-to-date using <a href="https://cruft.github.io/cruft/">cruft</a>.</p>
 

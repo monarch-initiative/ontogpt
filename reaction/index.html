@@ -6,8 +6,8 @@
 <meta charset="utf-8"/>
 <meta content="width=device-width,initial-scale=1" name="viewport"/>
 <link href="https://monarch-initiative.github.io/ontogpt/reaction/" rel="canonical"/>
-<link href="../drug/" rel="prev"/>
-<link href="../treatment/" rel="next"/>
+<link href="../core/" rel="prev"/>
+<link href="../biological_process/" rel="next"/>
 <link href="../assets/images/favicon.png" rel="icon"/>
 <meta content="mkdocs-1.4.2, mkdocs-material-9.0.10" name="generator"/>
 <title>Biochemical Reactions - OntoGPT</title>
@@ -148,23 +148,8 @@
         </label>
 <ul class="md-nav__list" data-md-scrollfix="">
 <li class="md-nav__item">
-<a class="md-nav__link" href="../recipe/">
-        Recipes
-      </a>
-</li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="../gocam/">
-        Pathways
-      </a>
-</li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="../ctd/">
-        Chemical to Disease
-      </a>
-</li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="../drug/">
-        Drugs and Mechanisms
+<a class="md-nav__link" href="../core/">
+        Core Upper Level Schema
       </a>
 </li>
 <li class="md-nav__item md-nav__item--active">
@@ -214,6 +199,56 @@
 </li>
 </ul>
 </nav>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../biological_process/">
+        Biological Processes
+      </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../ctd/">
+        Chemical to Disease
+      </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../diagnostic_procedure/">
+        Diagnostic Procedures
+      </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../drug/">
+        Drugs and Mechanisms
+      </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../environmental_sample/">
+        Environmental Samples
+      </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../mendelian_disease/">
+        Mendelian Diseases
+      </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../metabolic_process/">
+        Metabolic Processes
+      </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../metagenome_study/">
+        Metagenome Studies
+      </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../gocam/">
+        Pathways
+      </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../recipe/">
+        Recipes
+      </a>
 </li>
 <li class="md-nav__item">
 <a class="md-nav__link" href="../treatment/">
@@ -308,6 +343,10 @@ ChemicalEntity {
     string id  
     string label  
 }
+Evidence {
+    string id  
+    string label  
+}
 Gene {
     string id  
     string label  
@@ -366,6 +405,7 @@ ReactionDocument ||--}o Gene : "genes"
 ReactionDocument ||--}o Reaction : "reactions"
 ReactionDocument ||--}o GeneReactionPairing : "gene_reaction_pairings"
 ReactionDocument ||--|o Organism : "organism"
+ReactionDocument ||--}o Evidence : "has_evidence"
 GeneReactionPairing ||--|o Gene : "gene"
 GeneReactionPairing ||--|o Reaction : "reaction"
 ExtractionResult ||--|o Any : "extracted_object"
@@ -405,6 +445,10 @@ TextWithTriples ||--}o Triple : "triples"
 <td></td>
 </tr>
 <tr>
+<td><a href="Evidence/">Evidence</a></td>
+<td></td>
+</tr>
+<tr>
 <td><a href="ExtractionResult/">ExtractionResult</a></td>
 <td>A result of extracting knowledge on text</td>
 </tr>
@@ -433,7 +477,7 @@ TextWithTriples ||--}o Triple : "triples"
 <td></td>
 </tr>
 <tr>
-<td><a href="Reaction.md">Reaction</a></td>
+<td><a href="Reaction/">Reaction</a></td>
 <td></td>
 </tr>
 <tr>
@@ -488,7 +532,7 @@ TextWithTriples ||--}o Triple : "triples"
 <td>The full text of the publication</td>
 </tr>
 <tr>
-<td><a href="gene.md">gene</a></td>
+<td><a href="gene/">gene</a></td>
 <td>name of the gene that catalyzes the reaction</td>
 </tr>
 <tr>
@@ -498,6 +542,10 @@ TextWithTriples ||--}o Triple : "triples"
 <tr>
 <td><a href="genes/">genes</a></td>
 <td>semicolon separated list of genes that catalyzes the mentioned reactions</td>
+</tr>
+<tr>
+<td><a href="has_evidence/">has_evidence</a></td>
+<td>evidence for the reaction</td>
 </tr>
 <tr>
 <td><a href="id/">id</a></td>
@@ -544,7 +592,7 @@ TextWithTriples ||--}o Triple : "triples"
 <td></td>
 </tr>
 <tr>
-<td><a href="organism.md">organism</a></td>
+<td><a href="organism/">organism</a></td>
 <td></td>
 </tr>
 <tr>
@@ -556,7 +604,7 @@ TextWithTriples ||--}o Triple : "triples"
 <td></td>
 </tr>
 <tr>
-<td><a href="publication.md">publication</a></td>
+<td><a href="publication/">publication</a></td>
 <td></td>
 </tr>
 <tr>
@@ -634,63 +682,63 @@ TextWithTriples ||--}o Triple : "triples"
 </thead>
 <tbody>
 <tr>
-<td><a href="xsd:boolean">xsd:boolean</a></td>
+<td><a href="Boolean/">Boolean</a></td>
 <td>A binary (true or false) value</td>
 </tr>
 <tr>
-<td><a href="xsd:date">xsd:date</a></td>
+<td><a href="Date/">Date</a></td>
 <td>a date (year, month and day) in an idealized calendar</td>
 </tr>
 <tr>
-<td><a href="https://w3id.org/linkml/DateOrDatetime">linkml:DateOrDatetime</a></td>
+<td><a href="DateOrDatetime/">DateOrDatetime</a></td>
 <td>Either a date or a datetime</td>
 </tr>
 <tr>
-<td><a href="xsd:dateTime">xsd:dateTime</a></td>
+<td><a href="Datetime/">Datetime</a></td>
 <td>The combination of a date and time</td>
 </tr>
 <tr>
-<td><a href="xsd:decimal">xsd:decimal</a></td>
+<td><a href="Decimal/">Decimal</a></td>
 <td>A real number with arbitrary precision that conforms to the xsd:decimal speci...</td>
 </tr>
 <tr>
-<td><a href="xsd:double">xsd:double</a></td>
+<td><a href="Double/">Double</a></td>
 <td>A real number that conforms to the xsd:double specification</td>
 </tr>
 <tr>
-<td><a href="xsd:float">xsd:float</a></td>
+<td><a href="Float/">Float</a></td>
 <td>A real number that conforms to the xsd:float specification</td>
 </tr>
 <tr>
-<td><a href="xsd:integer">xsd:integer</a></td>
+<td><a href="Integer/">Integer</a></td>
 <td>An integer</td>
 </tr>
 <tr>
-<td><a href="xsd:string">xsd:string</a></td>
+<td><a href="Ncname/">Ncname</a></td>
 <td>Prefix part of CURIE</td>
 </tr>
 <tr>
-<td><a href="shex:nonLiteral">shex:nonLiteral</a></td>
+<td><a href="Nodeidentifier/">Nodeidentifier</a></td>
 <td>A URI, CURIE or BNODE that represents a node in a model</td>
 </tr>
 <tr>
-<td><a href="shex:iri">shex:iri</a></td>
+<td><a href="Objectidentifier/">Objectidentifier</a></td>
 <td>A URI or CURIE that represents an object in the model</td>
 </tr>
 <tr>
-<td><a href="xsd:string">xsd:string</a></td>
+<td><a href="String/">String</a></td>
 <td>A character string</td>
 </tr>
 <tr>
-<td><a href="xsd:dateTime">xsd:dateTime</a></td>
+<td><a href="Time/">Time</a></td>
 <td>A time object represents a (local) time of day, independent of any particular...</td>
 </tr>
 <tr>
-<td><a href="xsd:anyURI">xsd:anyURI</a></td>
+<td><a href="Uri/">Uri</a></td>
 <td>a complete URI</td>
 </tr>
 <tr>
-<td><a href="xsd:anyURI">xsd:anyURI</a></td>
+<td><a href="Uriorcurie/">Uriorcurie</a></td>
 <td>a URI or a CURIE</td>
 </tr>
 </tbody>
