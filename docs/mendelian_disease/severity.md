@@ -22,7 +22,7 @@ URI: [mendelian_disease:severity](http://w3id.org/ontogpt/mendelian_disease/seve
 
 ## Properties
 
-* Range: [xsd:string](xsd:string)
+* Range: [String](String.md)
 
 
 

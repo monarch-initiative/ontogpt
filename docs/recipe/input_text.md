@@ -1,6 +1,6 @@
 # Slot: input_text
 
-URI: [core:input_text](http://w3id.org/ontogpt/core/input_text)
+URI: [recipe:input_text](http://w3id.org/ontogpt/recipe/input_text)
 
 
 
@@ -22,7 +22,7 @@ URI: [core:input_text](http://w3id.org/ontogpt/core/input_text)
 
 ## Properties
 
-* Range: [xsd:string](xsd:string)
+* Range: [String](String.md)
 
 
 
@@ -41,7 +41,7 @@ URI: [core:input_text](http://w3id.org/ontogpt/core/input_text)
 ### Schema Source
 
 
-* from schema: http://w3id.org/ontogpt/core
+* from schema: https://w3id.org/ontogpt/recipe
 
 
 
@@ -51,9 +51,10 @@ URI: [core:input_text](http://w3id.org/ontogpt/core/input_text)
 <details>
 ```yaml
 name: input_text
-from_schema: http://w3id.org/ontogpt/core
+from_schema: https://w3id.org/ontogpt/recipe
 rank: 1000
 alias: input_text
+owner: ExtractionResult
 domain_of:
 - ExtractionResult
 range: string

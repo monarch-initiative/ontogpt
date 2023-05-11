@@ -1,6 +1,6 @@
 # Slot: id
 
-URI: [core:id](http://w3id.org/ontogpt/core/id)
+URI: [eg:id](http://w3id.org/ontogpt/environmental-metagenome/id)
 
 
 
@@ -32,7 +32,7 @@ URI: [core:id](http://w3id.org/ontogpt/core/id)
 
 ## Properties
 
-* Range: [xsd:string](xsd:string)
+* Range: [String](String.md)
 
 
 

@@ -22,7 +22,7 @@ URI: [mendelian_disease:synonyms](http://w3id.org/ontogpt/mendelian_disease/syno
 
 ## Properties
 
-* Range: [xsd:string](xsd:string)
+* Range: [String](String.md)
 * Multivalued: True
 
 

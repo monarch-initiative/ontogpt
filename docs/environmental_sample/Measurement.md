@@ -32,7 +32,7 @@ Measurement ||--|o Unit : "unit"
 
 | Name | Cardinality and Range | Description | Inheritance |
 | ---  | --- | --- | --- |
-| [value](value.md) | 0..1 <br/> NONE | the value of the measurement | direct |
+| [value](value.md) | 0..1 <br/> [String](String.md) | the value of the measurement | direct |
 | [unit](unit.md) | 0..1 <br/> [Unit](Unit.md) | the unit of the measurement | direct |
 
 
@@ -73,6 +73,9 @@ Measurement ||--|o Unit : "unit"
 | ---  | ---  |
 | self | sample:Measurement |
 | native | sample:Measurement |
+
+
+
 
 
 ## LinkML Source

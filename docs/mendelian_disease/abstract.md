@@ -2,7 +2,7 @@
 _The abstract of the publication_
 
 
-URI: [core:abstract](http://w3id.org/ontogpt/core/abstract)
+URI: [mendelian_disease:abstract](http://w3id.org/ontogpt/mendelian_disease/abstract)
 
 
 
@@ -24,7 +24,7 @@ URI: [core:abstract](http://w3id.org/ontogpt/core/abstract)
 
 ## Properties
 
-* Range: [xsd:string](xsd:string)
+* Range: [String](String.md)
 
 
 
@@ -43,7 +43,7 @@ URI: [core:abstract](http://w3id.org/ontogpt/core/abstract)
 ### Schema Source
 
 
-* from schema: http://w3id.org/ontogpt/core
+* from schema: http://w3id.org/ontogpt/mendelian_disease
 
 
 
@@ -54,7 +54,7 @@ URI: [core:abstract](http://w3id.org/ontogpt/core/abstract)
 ```yaml
 name: abstract
 description: The abstract of the publication
-from_schema: http://w3id.org/ontogpt/core
+from_schema: http://w3id.org/ontogpt/mendelian_disease
 rank: 1000
 alias: abstract
 owner: Publication

@@ -29,8 +29,8 @@ Chemical {
 
 | Name | Cardinality and Range | Description | Inheritance |
 | ---  | --- | --- | --- |
-| [id](id.md) | 0..1 <br/> NONE |  | [NamedEntity](NamedEntity.md) |
-| [label](label.md) | 0..1 <br/> [xsd:string](xsd:string) | The label (name) of the named thing | [NamedEntity](NamedEntity.md) |
+| [id](id.md) | 1..1 <br/> [String](String.md) | A unique identifier for the named entity | [NamedEntity](NamedEntity.md) |
+| [label](label.md) | 0..1 <br/> [String](String.md) | The label (name) of the named thing | [NamedEntity](NamedEntity.md) |
 
 
 
@@ -86,6 +86,9 @@ Instances of this class *should* have identifiers with one of the following pref
 | native | drug:Chemical |
 
 
+
+
+
 ## LinkML Source
 
 <!-- TODO: investigate https://stackoverflow.com/questions/37606292/how-to-create-tabbed-code-blocks-in-mkdocs-or-sphinx -->
@@ -114,16 +117,6 @@ slot_usage:
     values_from:
     - MeshChemicalIdentifier
     domain_of:
-    - NamedEntity
-    - Publication
-    - NamedEntity
-    - Publication
-    - NamedEntity
-    - Publication
-    - NamedEntity
-    - Publication
-    - NamedEntity
-    - Publication
     - NamedEntity
     - Publication
     pattern: ^MESH:[CD][0-9]{6}$
@@ -157,22 +150,12 @@ slot_usage:
     domain_of:
     - NamedEntity
     - Publication
-    - NamedEntity
-    - Publication
-    - NamedEntity
-    - Publication
-    - NamedEntity
-    - Publication
-    - NamedEntity
-    - Publication
-    - NamedEntity
-    - Publication
     pattern: ^MESH:[CD][0-9]{6}$
 attributes:
   id:
     name: id
     description: A unique identifier for the named entity
-    from_schema: http://w3id.org/ontogpt/core
+    from_schema: http://w3id.org/ontogpt/ctd
     rank: 1000
     values_from:
     - MeshChemicalIdentifier
@@ -182,25 +165,20 @@ attributes:
     domain_of:
     - NamedEntity
     - Publication
-    - NamedEntity
-    - Publication
-    - NamedEntity
-    - Publication
-    - NamedEntity
-    - Publication
-    - NamedEntity
-    - Publication
-    - NamedEntity
-    - Publication
     range: string
     pattern: ^MESH:[CD][0-9]{6}$
   label:
     name: label
+    annotations:
+      owl:
+        tag: owl
+        value: AnnotationProperty, AnnotationAssertion
     description: The label (name) of the named thing
-    from_schema: http://w3id.org/ontogpt/core
+    from_schema: http://w3id.org/ontogpt/ctd
     aliases:
     - name
     rank: 1000
+    slot_uri: rdfs:label
     alias: label
     owner: Chemical
     domain_of:

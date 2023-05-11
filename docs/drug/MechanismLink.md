@@ -38,9 +38,9 @@ MechanismLink ||--|o MechanismElement : "object"
 
 | Name | Cardinality and Range | Description | Inheritance |
 | ---  | --- | --- | --- |
-| [subject](subject.md) | 0..1 <br/> NONE |  | direct |
-| [predicate](predicate.md) | 0..1 <br/> NONE |  | direct |
-| [object](object.md) | 0..1 <br/> NONE |  | direct |
+| [subject](subject.md) | 0..1 <br/> [String](String.md) |  | direct |
+| [predicate](predicate.md) | 0..1 <br/> [String](String.md) |  | direct |
+| [object](object.md) | 0..1 <br/> [String](String.md) |  | direct |
 
 
 
@@ -80,6 +80,9 @@ MechanismLink ||--|o MechanismElement : "object"
 | ---  | ---  |
 | self | drug:MechanismLink |
 | native | drug:MechanismLink |
+
+
+
 
 
 ## LinkML Source

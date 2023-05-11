@@ -22,7 +22,7 @@ URI: [mendelian_disease:characteristic](http://w3id.org/ontogpt/mendelian_diseas
 
 ## Properties
 
-* Range: [xsd:string](xsd:string)
+* Range: [String](String.md)
 
 
 

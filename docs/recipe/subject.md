@@ -1,6 +1,6 @@
 # Slot: subject
 
-URI: [core:subject](http://w3id.org/ontogpt/core/subject)
+URI: [recipe:subject](http://w3id.org/ontogpt/recipe/subject)
 
 
 
@@ -41,7 +41,7 @@ URI: [core:subject](http://w3id.org/ontogpt/core/subject)
 ### Schema Source
 
 
-* from schema: http://w3id.org/ontogpt/core
+* from schema: https://w3id.org/ontogpt/recipe
 
 
 
@@ -51,9 +51,10 @@ URI: [core:subject](http://w3id.org/ontogpt/core/subject)
 <details>
 ```yaml
 name: subject
-from_schema: http://w3id.org/ontogpt/core
+from_schema: https://w3id.org/ontogpt/recipe
 rank: 1000
 alias: subject
+owner: Triple
 domain_of:
 - Triple
 range: NamedEntity

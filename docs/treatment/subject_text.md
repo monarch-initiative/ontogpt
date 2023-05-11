@@ -1,6 +1,6 @@
 # Slot: subject_text
 
-URI: [core:subject_text](http://w3id.org/ontogpt/core/subject_text)
+URI: [treatment:subject_text](http://w3id.org/ontogpt/treatments/subject_text)
 
 
 
@@ -22,7 +22,7 @@ URI: [core:subject_text](http://w3id.org/ontogpt/core/subject_text)
 
 ## Properties
 
-* Range: [xsd:string](xsd:string)
+* Range: [String](String.md)
 
 
 
@@ -41,7 +41,7 @@ URI: [core:subject_text](http://w3id.org/ontogpt/core/subject_text)
 ### Schema Source
 
 
-* from schema: http://w3id.org/ontogpt/core
+* from schema: http://w3id.org/ontogpt/treatment
 
 
 
@@ -51,7 +51,7 @@ URI: [core:subject_text](http://w3id.org/ontogpt/core/subject_text)
 <details>
 ```yaml
 name: subject_text
-from_schema: http://w3id.org/ontogpt/core
+from_schema: http://w3id.org/ontogpt/treatment
 rank: 1000
 alias: subject_text
 owner: AnnotatorResult

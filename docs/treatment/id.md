@@ -1,6 +1,6 @@
 # Slot: id
 
-URI: [core:id](http://w3id.org/ontogpt/core/id)
+URI: [treatment:id](http://w3id.org/ontogpt/treatments/id)
 
 
 
@@ -16,6 +16,7 @@ URI: [core:id](http://w3id.org/ontogpt/core/id)
 [Gene](Gene.md) | 
 [Symptom](Symptom.md) | 
 [Disease](Disease.md) | 
+[AdverseEffect](AdverseEffect.md) | 
 [Treatment](Treatment.md) | 
 [Mechanism](Mechanism.md) | 
 [Drug](Drug.md) | 
@@ -30,7 +31,7 @@ URI: [core:id](http://w3id.org/ontogpt/core/id)
 
 ## Properties
 
-* Range: [xsd:string](xsd:string)
+* Range: [String](String.md)
 
 
 

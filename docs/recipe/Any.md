@@ -52,7 +52,7 @@ Any {
 ### Schema Source
 
 
-* from schema: http://w3id.org/ontogpt/core
+* from schema: https://w3id.org/ontogpt/recipe
 
 
 
@@ -63,7 +63,10 @@ Any {
 | Mapping Type | Mapped Value |
 | ---  | ---  |
 | self | linkml:Any |
-| native | core:Any |
+| native | recipe:Any |
+
+
+
 
 
 ## LinkML Source
@@ -75,7 +78,7 @@ Any {
 <details>
 ```yaml
 name: Any
-from_schema: http://w3id.org/ontogpt/core
+from_schema: https://w3id.org/ontogpt/recipe
 rank: 1000
 class_uri: linkml:Any
 
@@ -87,7 +90,7 @@ class_uri: linkml:Any
 <details>
 ```yaml
 name: Any
-from_schema: http://w3id.org/ontogpt/core
+from_schema: https://w3id.org/ontogpt/recipe
 rank: 1000
 class_uri: linkml:Any
 

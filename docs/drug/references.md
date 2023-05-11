@@ -22,7 +22,7 @@ URI: [drug:references](http://w3id.org/ontogpt/drug/references)
 
 ## Properties
 
-* Range: [xsd:string](xsd:string)
+* Range: [String](String.md)
 * Multivalued: True
 
 

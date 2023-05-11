@@ -37,7 +37,7 @@ TreatmentMechanism ||--|o Mechanism : "mechanism"
 
 | Name | Cardinality and Range | Description | Inheritance |
 | ---  | --- | --- | --- |
-| [treatment](treatment.md) | 0..1 <br/> NONE |  | direct |
+| [treatment](treatment.md) | 0..1 <br/> [String](String.md) |  | direct |
 | [mechanism](mechanism.md) | 0..1 <br/> [Mechanism](Mechanism.md) |  | direct |
 
 
@@ -78,6 +78,9 @@ TreatmentMechanism ||--|o Mechanism : "mechanism"
 | ---  | ---  |
 | self | treatment:TreatmentMechanism |
 | native | treatment:TreatmentMechanism |
+
+
+
 
 
 ## LinkML Source
@@ -124,6 +127,7 @@ attributes:
     owner: TreatmentMechanism
     domain_of:
     - TreatmentMechanism
+    - TreatmentAdverseEffect
     - TreatmentEfficacy
     range: Treatment
   mechanism:

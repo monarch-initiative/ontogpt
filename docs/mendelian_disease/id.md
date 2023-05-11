@@ -1,6 +1,6 @@
 # Slot: id
 
-URI: [core:id](http://w3id.org/ontogpt/core/id)
+URI: [mendelian_disease:id](http://w3id.org/ontogpt/mendelian_disease/id)
 
 
 
@@ -30,7 +30,7 @@ URI: [core:id](http://w3id.org/ontogpt/core/id)
 
 ## Properties
 
-* Range: [xsd:string](xsd:string)
+* Range: [String](String.md)
 
 
 

@@ -2,7 +2,7 @@
 
 
 
-URI: [core:RelationshipType](http://w3id.org/ontogpt/core/RelationshipType)
+URI: [bp:RelationshipType](http://w3id.org/ontogpt/metabolic-process-templateRelationshipType)
 
 
 ```mermaid
@@ -29,8 +29,8 @@ RelationshipType {
 
 | Name | Cardinality and Range | Description | Inheritance |
 | ---  | --- | --- | --- |
-| [id](id.md) | 0..1 <br/> NONE |  | [NamedEntity](NamedEntity.md) |
-| [label](label.md) | 0..1 <br/> NONE |  | [NamedEntity](NamedEntity.md) |
+| [id](id.md) | 1..1 <br/> [String](String.md) | A unique identifier for the named entity | [NamedEntity](NamedEntity.md) |
+| [label](label.md) | 0..1 <br/> [String](String.md) | The label (name) of the named thing | [NamedEntity](NamedEntity.md) |
 
 
 
@@ -68,7 +68,7 @@ Instances of this class *should* have identifiers with one of the following pref
 ### Schema Source
 
 
-* from schema: http://w3id.org/ontogpt/core
+* from schema: https://w3id.org/ontogpt/metabolic_process
 
 
 
@@ -78,8 +78,11 @@ Instances of this class *should* have identifiers with one of the following pref
 
 | Mapping Type | Mapped Value |
 | ---  | ---  |
-| self | core:RelationshipType |
-| native | core:RelationshipType |
+| self | bp:RelationshipType |
+| native | bp:RelationshipType |
+
+
+
 
 
 ## LinkML Source
@@ -94,7 +97,7 @@ name: RelationshipType
 id_prefixes:
 - RO
 - biolink
-from_schema: http://w3id.org/ontogpt/core
+from_schema: https://w3id.org/ontogpt/metabolic_process
 rank: 1000
 is_a: NamedEntity
 
@@ -109,7 +112,7 @@ name: RelationshipType
 id_prefixes:
 - RO
 - biolink
-from_schema: http://w3id.org/ontogpt/core
+from_schema: https://w3id.org/ontogpt/metabolic_process
 rank: 1000
 is_a: NamedEntity
 attributes:
@@ -122,7 +125,7 @@ attributes:
     description: A unique identifier for the named entity
     comments:
     - this is populated during the grounding and normalization step
-    from_schema: http://w3id.org/ontogpt/core
+    from_schema: https://w3id.org/ontogpt/metabolic_process
     rank: 1000
     identifier: true
     alias: id
@@ -133,10 +136,15 @@ attributes:
     range: string
   label:
     name: label
+    annotations:
+      owl:
+        tag: owl
+        value: AnnotationProperty, AnnotationAssertion
     description: The label (name) of the named thing
-    from_schema: http://w3id.org/ontogpt/core
+    from_schema: https://w3id.org/ontogpt/metabolic_process
     aliases:
     - name
+    slot_uri: rdfs:label
     alias: label
     owner: RelationshipType
     domain_of:

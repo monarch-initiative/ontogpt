@@ -22,7 +22,7 @@ URI: [mendelian_disease:juvenile_or_adult](http://w3id.org/ontogpt/mendelian_dis
 
 ## Properties
 
-* Range: [xsd:string](xsd:string)
+* Range: [String](String.md)
 
 
 

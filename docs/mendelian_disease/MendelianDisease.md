@@ -71,17 +71,17 @@ Symptom ||--|o Onset : "onset_of_symptom"
 
 | Name | Cardinality and Range | Description | Inheritance |
 | ---  | --- | --- | --- |
-| [name](name.md) | 0..1 <br/> NONE | the name of the disease | direct |
-| [description](description.md) | 0..1 <br/> NONE | a description of the disease | direct |
-| [synonyms](synonyms.md) | 0..* <br/> NONE |  | direct |
+| [name](name.md) | 0..1 <br/> [String](String.md) | the name of the disease | direct |
+| [description](description.md) | 0..1 <br/> [String](String.md) | a description of the disease | direct |
+| [synonyms](synonyms.md) | 0..* <br/> [String](String.md) |  | direct |
 | [subclass_of](subclass_of.md) | 0..* <br/> [DiseaseCategory](DiseaseCategory.md) |  | direct |
 | [symptoms](symptoms.md) | 0..* <br/> [Symptom](Symptom.md) |  | direct |
 | [inheritance](inheritance.md) | 0..1 <br/> [Inheritance](Inheritance.md) |  | direct |
 | [genes](genes.md) | 0..* <br/> [Gene](Gene.md) |  | direct |
 | [disease_onsets](disease_onsets.md) | 0..* <br/> [Onset](Onset.md) |  | direct |
 | [publications](publications.md) | 0..* <br/> [Publication](Publication.md) |  | direct |
-| [id](id.md) | 0..1 <br/> NONE |  | [NamedEntity](NamedEntity.md) |
-| [label](label.md) | 0..1 <br/> [xsd:string](xsd:string) | The label (name) of the named thing | [NamedEntity](NamedEntity.md) |
+| [id](id.md) | 1..1 <br/> [String](String.md) | A unique identifier for the named entity | [NamedEntity](NamedEntity.md) |
+| [label](label.md) | 0..1 <br/> [String](String.md) | The label (name) of the named thing | [NamedEntity](NamedEntity.md) |
 
 
 
@@ -114,6 +114,9 @@ Symptom ||--|o Onset : "onset_of_symptom"
 | ---  | ---  |
 | self | mendelian_disease:MendelianDisease |
 | native | mendelian_disease:MendelianDisease |
+
+
+
 
 
 ## LinkML Source
@@ -362,7 +365,7 @@ attributes:
     description: A unique identifier for the named entity
     comments:
     - this is populated during the grounding and normalization step
-    from_schema: http://w3id.org/ontogpt/core
+    from_schema: http://w3id.org/ontogpt/mendelian_disease
     rank: 1000
     identifier: true
     alias: id
@@ -373,11 +376,16 @@ attributes:
     range: string
   label:
     name: label
+    annotations:
+      owl:
+        tag: owl
+        value: AnnotationProperty, AnnotationAssertion
     description: The label (name) of the named thing
-    from_schema: http://w3id.org/ontogpt/core
+    from_schema: http://w3id.org/ontogpt/mendelian_disease
     aliases:
     - name
     rank: 1000
+    slot_uri: rdfs:label
     alias: label
     owner: MendelianDisease
     domain_of:

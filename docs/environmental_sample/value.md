@@ -24,7 +24,7 @@ URI: [sample:value](http://w3id.org/ontogpt/environmental-sample/value)
 
 ## Properties
 
-* Range: [xsd:string](xsd:string)
+* Range: [String](String.md)
 
 
 

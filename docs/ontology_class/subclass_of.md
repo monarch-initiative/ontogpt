@@ -42,7 +42,7 @@ URI: [oc:subclass_of](http://w3id.org/ontogpt/ontology-class-templatesubclass_of
 
 | property | value |
 | --- | --- |
-| prompt | semicolon-separated list of parent classes |
+| prompt | semicolon-separated list of parent classes, indicating broader concepts. E.g. if the input text is "a type of bone", then the parent class is "bone" |
 
 
 
@@ -62,7 +62,8 @@ name: subclass_of
 annotations:
   prompt:
     tag: prompt
-    value: semicolon-separated list of parent classes
+    value: semicolon-separated list of parent classes, indicating broader concepts.
+      E.g. if the input text is "a type of bone", then the parent class is "bone"
 from_schema: https://w3id.org/ontogpt/ontology_class
 rank: 1000
 multivalued: true

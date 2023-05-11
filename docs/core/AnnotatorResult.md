@@ -26,9 +26,9 @@ AnnotatorResult {
 
 | Name | Cardinality and Range | Description | Inheritance |
 | ---  | --- | --- | --- |
-| [subject_text](subject_text.md) | 0..1 <br/> [xsd:string](xsd:string) |  | direct |
-| [object_id](object_id.md) | 0..1 <br/> [xsd:string](xsd:string) |  | direct |
-| [object_text](object_text.md) | 0..1 <br/> [xsd:string](xsd:string) |  | direct |
+| [subject_text](subject_text.md) | 0..1 <br/> [String](String.md) |  | direct |
+| [object_id](object_id.md) | 0..1 <br/> [String](String.md) |  | direct |
+| [object_text](object_text.md) | 0..1 <br/> [String](String.md) |  | direct |
 
 
 

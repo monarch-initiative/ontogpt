@@ -584,11 +584,11 @@ def enrichment(
 
     Usage:
 
-        ontogpt enrichment -r sqlite:obo:hgnc -U tests/input/human-genes.txt
+        ontogpt enrichment -r sqlite:obo:hgnc -U tests/input/genesets/dopamine.yaml
 
     Usage:
 
-        ontogpt enrichment -r sqlite:obo:hgnc -U tests/input/human-genes.txt
+        ontogpt enrichment -r sqlite:obo:hgnc -U tests/input/genesets/dopamine.yaml
 
     """
     if not genes and not input_file:

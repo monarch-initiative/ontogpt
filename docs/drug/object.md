@@ -1,6 +1,6 @@
 # Slot: object
 
-URI: [core:object](http://w3id.org/ontogpt/core/object)
+URI: [drug:object](http://w3id.org/ontogpt/drug/object)
 
 
 
@@ -23,7 +23,7 @@ URI: [core:object](http://w3id.org/ontogpt/core/object)
 
 ## Properties
 
-* Range: [xsd:string](xsd:string)
+* Range: [String](String.md)
 
 
 

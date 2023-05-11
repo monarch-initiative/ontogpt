@@ -2,7 +2,7 @@
 _A qualifier for the statements, e.g. "NOT" for negation_
 
 
-URI: [core:qualifier](http://w3id.org/ontogpt/core/qualifier)
+URI: [sample:qualifier](http://w3id.org/ontogpt/environmental-sample/qualifier)
 
 
 
@@ -24,7 +24,7 @@ URI: [core:qualifier](http://w3id.org/ontogpt/core/qualifier)
 
 ## Properties
 
-* Range: [xsd:string](xsd:string)
+* Range: [String](String.md)
 
 
 
@@ -43,7 +43,7 @@ URI: [core:qualifier](http://w3id.org/ontogpt/core/qualifier)
 ### Schema Source
 
 
-* from schema: http://w3id.org/ontogpt/core
+* from schema: http://w3id.org/ontogpt/environmental-sample
 
 
 
@@ -54,7 +54,7 @@ URI: [core:qualifier](http://w3id.org/ontogpt/core/qualifier)
 ```yaml
 name: qualifier
 description: A qualifier for the statements, e.g. "NOT" for negation
-from_schema: http://w3id.org/ontogpt/core
+from_schema: http://w3id.org/ontogpt/environmental-sample
 rank: 1000
 alias: qualifier
 owner: Triple

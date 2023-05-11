@@ -27,11 +27,18 @@ plugins:
 nav:
   - About: index.md
   - SPIRES Templates:
-      - Recipes: recipe/index.md
-      - Pathways: gocam/index.md
-      - Chemical to Disease: ctd/index.md
-      - Drugs and Mechanisms: drug/index.md
+      - Core Upper Level Schema: core/index.md
       - Biochemical Reactions: reaction/index.md
+      - Biological Processes: biological_process/index.md
+      - Chemical to Disease: ctd/index.md
+      - Diagnostic Procedures: diagnostic_procedure/index.md
+      - Drugs and Mechanisms: drug/index.md
+      - Environmental Samples: environmental_sample/index.md
+      - Mendelian Diseases: mendelian_disease/index.md
+      - Metabolic Processes: metabolic_process/index.md
+      - Metagenome Studies: metagenome_study/index.md
+      - Pathways: gocam/index.md
+      - Recipes: recipe/index.md
       - Treatments: treatment/index.md
   - HALO Schema: halo/index.md
 site_url: https://monarch-initiative.github.io/ontogpt/

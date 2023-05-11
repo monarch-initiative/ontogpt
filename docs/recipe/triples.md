@@ -1,6 +1,6 @@
 # Slot: triples
 
-URI: [core:triples](http://w3id.org/ontogpt/core/triples)
+URI: [recipe:triples](http://w3id.org/ontogpt/recipe/triples)
 
 
 
@@ -43,7 +43,7 @@ URI: [core:triples](http://w3id.org/ontogpt/core/triples)
 ### Schema Source
 
 
-* from schema: http://w3id.org/ontogpt/core
+* from schema: https://w3id.org/ontogpt/recipe
 
 
 
@@ -53,10 +53,11 @@ URI: [core:triples](http://w3id.org/ontogpt/core/triples)
 <details>
 ```yaml
 name: triples
-from_schema: http://w3id.org/ontogpt/core
+from_schema: https://w3id.org/ontogpt/recipe
 rank: 1000
 multivalued: true
 alias: triples
+owner: TextWithTriples
 domain_of:
 - TextWithTriples
 range: Triple

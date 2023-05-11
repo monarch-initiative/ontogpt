@@ -2,7 +2,7 @@
 _The full text of the publication_
 
 
-URI: [core:full_text](http://w3id.org/ontogpt/core/full_text)
+URI: [oc:full_text](http://w3id.org/ontogpt/ontology-class-templatefull_text)
 
 
 
@@ -24,7 +24,7 @@ URI: [core:full_text](http://w3id.org/ontogpt/core/full_text)
 
 ## Properties
 
-* Range: [xsd:string](xsd:string)
+* Range: [String](String.md)
 
 
 
@@ -43,7 +43,7 @@ URI: [core:full_text](http://w3id.org/ontogpt/core/full_text)
 ### Schema Source
 
 
-* from schema: http://w3id.org/ontogpt/core
+* from schema: https://w3id.org/ontogpt/ontology_class
 
 
 
@@ -54,7 +54,7 @@ URI: [core:full_text](http://w3id.org/ontogpt/core/full_text)
 ```yaml
 name: full_text
 description: The full text of the publication
-from_schema: http://w3id.org/ontogpt/core
+from_schema: https://w3id.org/ontogpt/ontology_class
 rank: 1000
 alias: full_text
 owner: Publication

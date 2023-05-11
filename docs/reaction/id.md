@@ -1,6 +1,6 @@
 # Slot: id
 
-URI: [core:id](http://w3id.org/ontogpt/core/id)
+URI: [reaction:id](http://w3id.org/ontogpt/reaction/id)
 
 
 
@@ -16,6 +16,7 @@ URI: [core:id](http://w3id.org/ontogpt/core/id)
 [Reaction](Reaction.md) | 
 [ReactionGrouping](ReactionGrouping.md) | 
 [ChemicalEntity](ChemicalEntity.md) | 
+[Evidence](Evidence.md) | 
 [Gene](Gene.md) | 
 [Organism](Organism.md) | 
 [NamedEntity](NamedEntity.md) | 
@@ -29,7 +30,7 @@ URI: [core:id](http://w3id.org/ontogpt/core/id)
 
 ## Properties
 
-* Range: [xsd:string](xsd:string)
+* Range: [String](String.md)
 
 
 

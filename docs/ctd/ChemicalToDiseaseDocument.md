@@ -63,7 +63,7 @@ ChemicalToDiseaseRelationship ||--|o NamedEntity : "object_qualifier"
 | Name | Cardinality and Range | Description | Inheritance |
 | ---  | --- | --- | --- |
 | [publication](publication.md) | 0..1 <br/> [Publication](Publication.md) |  | [TextWithTriples](TextWithTriples.md) |
-| [triples](triples.md) | 0..* <br/> [Triple](Triple.md) |  | [TextWithTriples](TextWithTriples.md) |
+| [triples](triples.md) | 0..* <br/> [ChemicalToDiseaseRelationship](ChemicalToDiseaseRelationship.md) |  | [TextWithTriples](TextWithTriples.md) |
 
 
 
@@ -98,6 +98,9 @@ ChemicalToDiseaseRelationship ||--|o NamedEntity : "object_qualifier"
 | native | drug:ChemicalToDiseaseDocument |
 
 
+
+
+
 ## LinkML Source
 
 <!-- TODO: investigate https://stackoverflow.com/questions/37606292/how-to-create-tabbed-code-blocks-in-mkdocs-or-sphinx -->
@@ -127,9 +130,6 @@ slot_usage:
         value: Lidocaine, cardiac asystole, Hydroxychloroquine, COVID-19, Methyldopa,
           Headache, Imatinib, cancer
     domain_of:
-    - TextWithTriples
-    - TextWithTriples
-    - TextWithTriples
     - TextWithTriples
     range: ChemicalToDiseaseRelationship
 
@@ -162,9 +162,6 @@ slot_usage:
           Headache, Imatinib, cancer
     domain_of:
     - TextWithTriples
-    - TextWithTriples
-    - TextWithTriples
-    - TextWithTriples
     range: ChemicalToDiseaseRelationship
 attributes:
   publication:
@@ -173,7 +170,7 @@ attributes:
       prompt.skip:
         tag: prompt.skip
         value: 'true'
-    from_schema: http://w3id.org/ontogpt/core
+    from_schema: http://w3id.org/ontogpt/ctd
     rank: 1000
     alias: publication
     owner: ChemicalToDiseaseDocument
@@ -195,14 +192,12 @@ attributes:
         tag: exclude
         value: Lidocaine, cardiac asystole, Hydroxychloroquine, COVID-19, Methyldopa,
           Headache, Imatinib, cancer
-    from_schema: http://w3id.org/ontogpt/core
+    from_schema: http://w3id.org/ontogpt/ctd
     rank: 1000
     multivalued: true
     alias: triples
     owner: ChemicalToDiseaseDocument
     domain_of:
-    - TextWithTriples
-    - TextWithTriples
     - TextWithTriples
     range: ChemicalToDiseaseRelationship
     inlined: true

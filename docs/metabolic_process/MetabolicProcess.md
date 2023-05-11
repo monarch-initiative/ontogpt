@@ -42,14 +42,14 @@ MetabolicProcess ||--}o ChemicalEntity : "outputs"
 
 | Name | Cardinality and Range | Description | Inheritance |
 | ---  | --- | --- | --- |
-| [label](label.md) | 0..1 <br/> NONE |  | direct |
-| [description](description.md) | 0..1 <br/> NONE | a textual description of the metabolic process | direct |
-| [synonyms](synonyms.md) | 0..* <br/> NONE | alternative names of the metabolic process | direct |
+| [label](label.md) | 0..1 <br/> [String](String.md) |  | direct |
+| [description](description.md) | 0..1 <br/> [String](String.md) | a textual description of the metabolic process | direct |
+| [synonyms](synonyms.md) | 0..* <br/> [String](String.md) | alternative names of the metabolic process | direct |
 | [subclass_of](subclass_of.md) | 0..* <br/> [MetabolicProcessCategory](MetabolicProcessCategory.md) | a semicolon separated list of broader metabolic processes which this is a sub... | direct |
 | [category](category.md) | 0..1 <br/> [MetabolicProcessCategory](MetabolicProcessCategory.md) | the category of metabolic process, e | direct |
 | [inputs](inputs.md) | 0..* <br/> [ChemicalEntity](ChemicalEntity.md) | the inputs of the metabolic process | direct |
 | [outputs](outputs.md) | 0..* <br/> [ChemicalEntity](ChemicalEntity.md) | the outputs of the metabolic process | direct |
-| [id](id.md) | 0..1 <br/> NONE |  | [NamedEntity](NamedEntity.md) |
+| [id](id.md) | 1..1 <br/> [String](String.md) | A unique identifier for the named entity | [NamedEntity](NamedEntity.md) |
 
 
 
@@ -82,6 +82,9 @@ MetabolicProcess ||--}o ChemicalEntity : "outputs"
 | ---  | ---  |
 | self | bp:MetabolicProcess |
 | native | bp:MetabolicProcess |
+
+
+
 
 
 ## LinkML Source
@@ -241,7 +244,7 @@ attributes:
     description: A unique identifier for the named entity
     comments:
     - this is populated during the grounding and normalization step
-    from_schema: http://w3id.org/ontogpt/core
+    from_schema: https://w3id.org/ontogpt/metabolic_process
     rank: 1000
     identifier: true
     alias: id

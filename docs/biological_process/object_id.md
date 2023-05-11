@@ -1,6 +1,6 @@
 # Slot: object_id
 
-URI: [core:object_id](http://w3id.org/ontogpt/core/object_id)
+URI: [bp:object_id](http://w3id.org/ontogpt/biological-process-templateobject_id)
 
 
 
@@ -22,7 +22,7 @@ URI: [core:object_id](http://w3id.org/ontogpt/core/object_id)
 
 ## Properties
 
-* Range: [xsd:string](xsd:string)
+* Range: [String](String.md)
 
 
 
@@ -41,7 +41,7 @@ URI: [core:object_id](http://w3id.org/ontogpt/core/object_id)
 ### Schema Source
 
 
-* from schema: http://w3id.org/ontogpt/core
+* from schema: https://w3id.org/ontogpt/biological_process
 
 
 
@@ -51,7 +51,7 @@ URI: [core:object_id](http://w3id.org/ontogpt/core/object_id)
 <details>
 ```yaml
 name: object_id
-from_schema: http://w3id.org/ontogpt/core
+from_schema: https://w3id.org/ontogpt/biological_process
 rank: 1000
 alias: object_id
 owner: AnnotatorResult

@@ -32,8 +32,8 @@ TreatmentEfficacy ||--|o Treatment : "treatment"
 
 | Name | Cardinality and Range | Description | Inheritance |
 | ---  | --- | --- | --- |
-| [treatment](treatment.md) | 0..1 <br/> NONE |  | direct |
-| [efficacy](efficacy.md) | 0..1 <br/> [xsd:string](xsd:string) |  | direct |
+| [treatment](treatment.md) | 0..1 <br/> [String](String.md) |  | direct |
+| [efficacy](efficacy.md) | 0..1 <br/> [String](String.md) |  | direct |
 
 
 
@@ -73,6 +73,9 @@ TreatmentEfficacy ||--|o Treatment : "treatment"
 | ---  | ---  |
 | self | treatment:TreatmentEfficacy |
 | native | treatment:TreatmentEfficacy |
+
+
+
 
 
 ## LinkML Source
@@ -117,6 +120,7 @@ attributes:
     owner: TreatmentEfficacy
     domain_of:
     - TreatmentMechanism
+    - TreatmentAdverseEffect
     - TreatmentEfficacy
     range: Treatment
   efficacy:

@@ -24,7 +24,7 @@ URI: [bp:description](http://w3id.org/ontogpt/biological-process-templatedescrip
 
 ## Properties
 
-* Range: [xsd:string](xsd:string)
+* Range: [String](String.md)
 
 
 

@@ -1,31 +1,46 @@
-# Slot: disease
-_the name of the disease that is treated_
-
-
-URI: [treatment:disease](http://w3id.org/ontogpt/treatments/disease)
+# Class: Disease
 
 
 
-<!-- no inheritance hierarchy -->
+URI: [treatment:Disease](http://w3id.org/ontogpt/treatments/Disease)
+
+
+```mermaid
+erDiagram
+Disease {
+    string id  
+    string label  
+}
 
 
 
-
-## Applicable Classes
-
-| Name | Description |
-| --- | --- |
-[DiseaseTreatmentSummary](DiseaseTreatmentSummary.md) | 
-
-
+```
 
 
 
 
-## Properties
+## Inheritance
+* [NamedEntity](NamedEntity.md)
+    * **Disease**
 
-* Range: [Disease](Disease.md)
 
+
+## Slots
+
+| Name | Cardinality and Range | Description | Inheritance |
+| ---  | --- | --- | --- |
+| [id](id.md) | 1..1 <br/> [String](String.md) | A unique identifier for the named entity | [NamedEntity](NamedEntity.md) |
+| [label](label.md) | 0..1 <br/> [String](String.md) | The label (name) of the named thing | [NamedEntity](NamedEntity.md) |
+
+
+
+
+
+## Usages
+
+| used by | used in | type | used |
+| ---  | --- | --- | --- |
+| [DiseaseTreatmentSummary](DiseaseTreatmentSummary.md) | [disease](disease.md) | range | [Disease](Disease.md) |
 
 
 
@@ -38,6 +53,12 @@ URI: [treatment:disease](http://w3id.org/ontogpt/treatments/disease)
 
 
 
+### Annotations
+
+| property | value |
+| --- | --- |
+| annotators | sqlite:obo:mondo |
+
 
 
 ### Schema Source
@@ -48,19 +69,86 @@ URI: [treatment:disease](http://w3id.org/ontogpt/treatments/disease)
 
 
 
+
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | treatment:Disease |
+| native | treatment:Disease |
+
+
+
+
+
 ## LinkML Source
+
+<!-- TODO: investigate https://stackoverflow.com/questions/37606292/how-to-create-tabbed-code-blocks-in-mkdocs-or-sphinx -->
+
+### Direct
 
 <details>
 ```yaml
-name: disease
-description: the name of the disease that is treated
+name: Disease
+annotations:
+  annotators:
+    tag: annotators
+    value: sqlite:obo:mondo
 from_schema: http://w3id.org/ontogpt/treatment
 rank: 1000
-alias: disease
-owner: DiseaseTreatmentSummary
-domain_of:
-- DiseaseTreatmentSummary
-range: Disease
+is_a: NamedEntity
+
+```
+</details>
+
+### Induced
+
+<details>
+```yaml
+name: Disease
+annotations:
+  annotators:
+    tag: annotators
+    value: sqlite:obo:mondo
+from_schema: http://w3id.org/ontogpt/treatment
+rank: 1000
+is_a: NamedEntity
+attributes:
+  id:
+    name: id
+    annotations:
+      prompt.skip:
+        tag: prompt.skip
+        value: 'true'
+    description: A unique identifier for the named entity
+    comments:
+    - this is populated during the grounding and normalization step
+    from_schema: http://w3id.org/ontogpt/treatment
+    rank: 1000
+    identifier: true
+    alias: id
+    owner: Disease
+    domain_of:
+    - NamedEntity
+    - Publication
+    range: string
+  label:
+    name: label
+    annotations:
+      owl:
+        tag: owl
+        value: AnnotationProperty, AnnotationAssertion
+    description: The label (name) of the named thing
+    from_schema: http://w3id.org/ontogpt/treatment
+    aliases:
+    - name
+    rank: 1000
+    slot_uri: rdfs:label
+    alias: label
+    owner: Disease
+    domain_of:
+    - NamedEntity
+    range: string
 
 ```
 </details>

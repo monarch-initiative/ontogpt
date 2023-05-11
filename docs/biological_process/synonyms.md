@@ -24,7 +24,7 @@ URI: [bp:synonyms](http://w3id.org/ontogpt/biological-process-templatesynonyms)
 
 ## Properties
 
-* Range: [xsd:string](xsd:string)
+* Range: [String](String.md)
 * Multivalued: True
 
 

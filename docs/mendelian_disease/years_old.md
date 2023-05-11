@@ -22,7 +22,7 @@ URI: [mendelian_disease:years_old](http://w3id.org/ontogpt/mendelian_disease/yea
 
 ## Properties
 
-* Range: [xsd:string](xsd:string)
+* Range: [String](String.md)
 
 
 

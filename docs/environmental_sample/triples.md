@@ -1,6 +1,6 @@
 # Slot: triples
 
-URI: [core:triples](http://w3id.org/ontogpt/core/triples)
+URI: [sample:triples](http://w3id.org/ontogpt/environmental-sample/triples)
 
 
 
@@ -43,7 +43,7 @@ URI: [core:triples](http://w3id.org/ontogpt/core/triples)
 ### Schema Source
 
 
-* from schema: http://w3id.org/ontogpt/core
+* from schema: http://w3id.org/ontogpt/environmental-sample
 
 
 
@@ -53,7 +53,7 @@ URI: [core:triples](http://w3id.org/ontogpt/core/triples)
 <details>
 ```yaml
 name: triples
-from_schema: http://w3id.org/ontogpt/core
+from_schema: http://w3id.org/ontogpt/environmental-sample
 rank: 1000
 multivalued: true
 alias: triples

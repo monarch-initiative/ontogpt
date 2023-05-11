@@ -50,7 +50,7 @@ Reaction ||--}o ChemicalEntity : "right_side"
 
 | Name | Cardinality and Range | Description | Inheritance |
 | ---  | --- | --- | --- |
-| [gene](gene.md) | 0..1 <br/> NONE |  | direct |
+| [gene](gene.md) | 0..1 <br/> [String](String.md) |  | direct |
 | [reaction](reaction.md) | 0..1 <br/> [Reaction](Reaction.md) | equation describing the reaction (e | direct |
 
 
@@ -91,6 +91,9 @@ Reaction ||--}o ChemicalEntity : "right_side"
 | ---  | ---  |
 | self | reaction:GeneReactionPairing |
 | native | reaction:GeneReactionPairing |
+
+
+
 
 
 ## LinkML Source

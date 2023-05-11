@@ -14,21 +14,22 @@ erDiagram
 DiseaseTreatmentSummary {
 
 }
-Gene {
-    string id  
-    string label  
+TreatmentAdverseEffect {
+
 }
-Symptom {
-    string id  
-    string label  
-}
-Disease {
+AdverseEffect {
     string id  
     string label  
 }
 Treatment {
     string id  
     string label  
+}
+TreatmentEfficacy {
+    string efficacy  
+}
+TreatmentMechanism {
+
 }
 Mechanism {
     string id  
@@ -38,69 +39,23 @@ Drug {
     string id  
     string label  
 }
-TreatmentMechanism {
-
-}
-TreatmentEfficacy {
-    string efficacy  
-}
-Any {
-
-}
-ExtractionResult {
-    string input_id  
-    string input_title  
-    string input_text  
-    string raw_completion_output  
-    string prompt  
-}
-NamedEntity {
+Disease {
     string id  
     string label  
-}
-CompoundExpression {
-
-}
-Triple {
-    string qualifier  
-}
-TextWithTriples {
-
-}
-RelationshipType {
-    string id  
-    string label  
-}
-Publication {
-    string id  
-    string title  
-    string abstract  
-    string combined_text  
-    string full_text  
-}
-AnnotatorResult {
-    string subject_text  
-    string object_id  
-    string object_text  
 }
 
 DiseaseTreatmentSummary ||--|o Disease : "disease"
 DiseaseTreatmentSummary ||--}o Drug : "drugs"
 DiseaseTreatmentSummary ||--}o Treatment : "treatments"
+DiseaseTreatmentSummary ||--}o Treatment : "contraindications"
 DiseaseTreatmentSummary ||--}o TreatmentMechanism : "treatment_mechanisms"
 DiseaseTreatmentSummary ||--}o TreatmentEfficacy : "treatment_efficacies"
+DiseaseTreatmentSummary ||--}o TreatmentAdverseEffect : "treatment_adverse_effects"
+TreatmentAdverseEffect ||--|o Treatment : "treatment"
+TreatmentAdverseEffect ||--}o AdverseEffect : "adverse_effects"
+TreatmentEfficacy ||--|o Treatment : "treatment"
 TreatmentMechanism ||--|o Treatment : "treatment"
 TreatmentMechanism ||--|o Mechanism : "mechanism"
-TreatmentEfficacy ||--|o Treatment : "treatment"
-ExtractionResult ||--|o Any : "extracted_object"
-ExtractionResult ||--}o Any : "named_entities"
-Triple ||--|o NamedEntity : "subject"
-Triple ||--|o RelationshipType : "predicate"
-Triple ||--|o NamedEntity : "object"
-Triple ||--|o NamedEntity : "subject_qualifier"
-Triple ||--|o NamedEntity : "object_qualifier"
-TextWithTriples ||--|o Publication : "publication"
-TextWithTriples ||--}o Triple : "triples"
 
 ```
 
@@ -109,6 +64,7 @@ TextWithTriples ||--}o Triple : "triples"
 
 | Class | Description |
 | --- | --- |
+| [AdverseEffect](AdverseEffect.md) |  |
 | [AnnotatorResult](AnnotatorResult.md) |  |
 | [Any](Any.md) |  |
 | [CompoundExpression](CompoundExpression.md) |  |
@@ -124,6 +80,7 @@ TextWithTriples ||--}o Triple : "triples"
 | [Symptom](Symptom.md) |  |
 | [TextWithTriples](TextWithTriples.md) |  |
 | [Treatment](Treatment.md) |  |
+| [TreatmentAdverseEffect](TreatmentAdverseEffect.md) |  |
 | [TreatmentEfficacy](TreatmentEfficacy.md) |  |
 | [TreatmentMechanism](TreatmentMechanism.md) |  |
 | [Triple](Triple.md) | Abstract parent for Relation Extraction tasks |
@@ -134,7 +91,9 @@ TextWithTriples ||--}o Triple : "triples"
 | Slot | Description |
 | --- | --- |
 | [abstract](abstract.md) | The abstract of the publication |
+| [adverse_effects](adverse_effects.md) |  |
 | [combined_text](combined_text.md) |  |
+| [contraindications](contraindications.md) | semicolon-separated list of therapies and treatments that are contra-indicate... |
 | [disease](disease.md) | the name of the disease that is treated |
 | [drugs](drugs.md) | semicolon-separated list of named small molecule drugs |
 | [efficacy](efficacy.md) |  |
@@ -161,9 +120,10 @@ TextWithTriples ||--}o Triple : "triples"
 | [subject_text](subject_text.md) |  |
 | [title](title.md) | The title of the publication |
 | [treatment](treatment.md) |  |
+| [treatment_adverse_effects](treatment_adverse_effects.md) | semicolon-separated list of treatment to adverse effect associations, e |
 | [treatment_efficacies](treatment_efficacies.md) | semicolon-separated list of treatment to efficacy associations, e |
 | [treatment_mechanisms](treatment_mechanisms.md) | semicolon-separated list of treatment to asterisk-separated mechanism associa... |
-| [treatments](treatments.md) | semicolon-separated list of therapies and treatments |
+| [treatments](treatments.md) | semicolon-separated list of therapies and treatments are indicated for treati... |
 | [triples](triples.md) |  |
 
 
@@ -171,27 +131,33 @@ TextWithTriples ||--}o Triple : "triples"
 
 | Enumeration | Description |
 | --- | --- |
+| [CHEBIDrugType](CHEBIDrugType.md) |  |
+| [MAXOActionType](MAXOActionType.md) |  |
+| [MESHTherapeuticType](MESHTherapeuticType.md) |  |
+| [NCITDrugType](NCITDrugType.md) |  |
+| [NCITTActivityType](NCITTActivityType.md) |  |
+| [NCITTreatmentType](NCITTreatmentType.md) |  |
 
 
 ## Types
 
 | Type | Description |
 | --- | --- |
-| [xsd:boolean](xsd:boolean) | A binary (true or false) value |
-| [xsd:date](xsd:date) | a date (year, month and day) in an idealized calendar |
-| [linkml:DateOrDatetime](https://w3id.org/linkml/DateOrDatetime) | Either a date or a datetime |
-| [xsd:dateTime](xsd:dateTime) | The combination of a date and time |
-| [xsd:decimal](xsd:decimal) | A real number with arbitrary precision that conforms to the xsd:decimal speci... |
-| [xsd:double](xsd:double) | A real number that conforms to the xsd:double specification |
-| [xsd:float](xsd:float) | A real number that conforms to the xsd:float specification |
-| [xsd:integer](xsd:integer) | An integer |
-| [xsd:string](xsd:string) | Prefix part of CURIE |
-| [shex:nonLiteral](shex:nonLiteral) | A URI, CURIE or BNODE that represents a node in a model |
-| [shex:iri](shex:iri) | A URI or CURIE that represents an object in the model |
-| [xsd:string](xsd:string) | A character string |
-| [xsd:dateTime](xsd:dateTime) | A time object represents a (local) time of day, independent of any particular... |
-| [xsd:anyURI](xsd:anyURI) | a complete URI |
-| [xsd:anyURI](xsd:anyURI) | a URI or a CURIE |
+| [Boolean](Boolean.md) | A binary (true or false) value |
+| [Date](Date.md) | a date (year, month and day) in an idealized calendar |
+| [DateOrDatetime](DateOrDatetime.md) | Either a date or a datetime |
+| [Datetime](Datetime.md) | The combination of a date and time |
+| [Decimal](Decimal.md) | A real number with arbitrary precision that conforms to the xsd:decimal speci... |
+| [Double](Double.md) | A real number that conforms to the xsd:double specification |
+| [Float](Float.md) | A real number that conforms to the xsd:float specification |
+| [Integer](Integer.md) | An integer |
+| [Ncname](Ncname.md) | Prefix part of CURIE |
+| [Nodeidentifier](Nodeidentifier.md) | A URI, CURIE or BNODE that represents a node in a model |
+| [Objectidentifier](Objectidentifier.md) | A URI or CURIE that represents an object in the model |
+| [String](String.md) | A character string |
+| [Time](Time.md) | A time object represents a (local) time of day, independent of any particular... |
+| [Uri](Uri.md) | a complete URI |
+| [Uriorcurie](Uriorcurie.md) | a URI or a CURIE |
 
 
 ## Subsets

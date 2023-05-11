@@ -1,6 +1,6 @@
 # Slot: label
 
-URI: [core:label](http://w3id.org/ontogpt/core/label)
+URI: [oc:label](http://w3id.org/ontogpt/ontology-class-templatelabel)
 
 
 
@@ -25,7 +25,7 @@ URI: [core:label](http://w3id.org/ontogpt/core/label)
 
 ## Properties
 
-* Range: [xsd:string](xsd:string)
+* Range: [String](String.md)
 
 
 

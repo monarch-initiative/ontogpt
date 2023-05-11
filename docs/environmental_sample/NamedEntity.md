@@ -4,7 +4,7 @@
 * __NOTE__: this is an abstract class and should not be instantiated directly
 
 
-URI: [core:NamedEntity](http://w3id.org/ontogpt/core/NamedEntity)
+URI: [sample:NamedEntity](http://w3id.org/ontogpt/environmental-sample/NamedEntity)
 
 
 ```mermaid
@@ -36,8 +36,8 @@ NamedEntity {
 
 | Name | Cardinality and Range | Description | Inheritance |
 | ---  | --- | --- | --- |
-| [id](id.md) | 0..1 <br/> NONE |  | direct |
-| [label](label.md) | 0..1 <br/> [xsd:string](xsd:string) | The label (name) of the named thing | direct |
+| [id](id.md) | 0..1 <br/> [String](String.md) |  | direct |
+| [label](label.md) | 0..1 <br/> [String](String.md) | The label (name) of the named thing | direct |
 
 
 
@@ -68,7 +68,7 @@ NamedEntity {
 ### Schema Source
 
 
-* from schema: http://w3id.org/ontogpt/core
+* from schema: http://w3id.org/ontogpt/environmental-sample
 
 
 
@@ -78,8 +78,11 @@ NamedEntity {
 
 | Mapping Type | Mapped Value |
 | ---  | ---  |
-| self | core:NamedEntity |
-| native | core:NamedEntity |
+| self | sample:NamedEntity |
+| native | sample:NamedEntity |
+
+
+
 
 
 ## LinkML Source
@@ -91,7 +94,7 @@ NamedEntity {
 <details>
 ```yaml
 name: NamedEntity
-from_schema: http://w3id.org/ontogpt/core
+from_schema: http://w3id.org/ontogpt/environmental-sample
 rank: 1000
 abstract: true
 attributes:
@@ -104,16 +107,21 @@ attributes:
     description: A unique identifier for the named entity
     comments:
     - this is populated during the grounding and normalization step
-    from_schema: http://w3id.org/ontogpt/core
+    from_schema: http://w3id.org/ontogpt/environmental-sample
     rank: 1000
     identifier: true
   label:
     name: label
+    annotations:
+      owl:
+        tag: owl
+        value: AnnotationProperty, AnnotationAssertion
     description: The label (name) of the named thing
-    from_schema: http://w3id.org/ontogpt/core
+    from_schema: http://w3id.org/ontogpt/environmental-sample
     aliases:
     - name
     rank: 1000
+    slot_uri: rdfs:label
     range: string
 
 ```
@@ -124,7 +132,7 @@ attributes:
 <details>
 ```yaml
 name: NamedEntity
-from_schema: http://w3id.org/ontogpt/core
+from_schema: http://w3id.org/ontogpt/environmental-sample
 rank: 1000
 abstract: true
 attributes:
@@ -137,7 +145,7 @@ attributes:
     description: A unique identifier for the named entity
     comments:
     - this is populated during the grounding and normalization step
-    from_schema: http://w3id.org/ontogpt/core
+    from_schema: http://w3id.org/ontogpt/environmental-sample
     rank: 1000
     identifier: true
     alias: id
@@ -148,11 +156,16 @@ attributes:
     range: string
   label:
     name: label
+    annotations:
+      owl:
+        tag: owl
+        value: AnnotationProperty, AnnotationAssertion
     description: The label (name) of the named thing
-    from_schema: http://w3id.org/ontogpt/core
+    from_schema: http://w3id.org/ontogpt/environmental-sample
     aliases:
     - name
     rank: 1000
+    slot_uri: rdfs:label
     alias: label
     owner: NamedEntity
     domain_of:

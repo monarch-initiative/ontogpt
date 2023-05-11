@@ -1,29 +1,47 @@
-# Slot: gene
-
-URI: [bp:gene](http://w3id.org/ontogpt/biological-process-templategene)
+# Class: Gene
 
 
 
-<!-- no inheritance hierarchy -->
+URI: [bp:Gene](http://w3id.org/ontogpt/biological-process-templateGene)
+
+
+```mermaid
+erDiagram
+Gene {
+    string id  
+    string label  
+}
+
+
+
+```
 
 
 
 
-## Applicable Classes
-
-| Name | Description |
-| --- | --- |
-[GeneMolecularActivityRelationship](GeneMolecularActivityRelationship.md) | 
+## Inheritance
+* [NamedEntity](NamedEntity.md)
+    * **Gene**
 
 
 
+## Slots
+
+| Name | Cardinality and Range | Description | Inheritance |
+| ---  | --- | --- | --- |
+| [id](id.md) | 1..1 <br/> [String](String.md) | A unique identifier for the named entity | [NamedEntity](NamedEntity.md) |
+| [label](label.md) | 0..1 <br/> [String](String.md) | The label (name) of the named thing | [NamedEntity](NamedEntity.md) |
 
 
 
-## Properties
 
-* Range: [Gene](Gene.md)
 
+## Usages
+
+| used by | used in | type | used |
+| ---  | --- | --- | --- |
+| [BiologicalProcess](BiologicalProcess.md) | [genes](genes.md) | range | [Gene](Gene.md) |
+| [GeneMolecularActivityRelationship](GeneMolecularActivityRelationship.md) | [gene](gene.md) | range | [Gene](Gene.md) |
 
 
 
@@ -33,8 +51,22 @@ URI: [bp:gene](http://w3id.org/ontogpt/biological-process-templategene)
 ## Identifier and Mapping Information
 
 
+### Valid ID Prefixes
+
+Instances of this class *should* have identifiers with one of the following prefixes:
+
+* HGNC
 
 
+
+
+
+
+### Annotations
+
+| property | value |
+| --- | --- |
+| annotators | sqlite:obo:hgnc |
 
 
 
@@ -46,18 +78,90 @@ URI: [bp:gene](http://w3id.org/ontogpt/biological-process-templategene)
 
 
 
+
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | bp:Gene |
+| native | bp:Gene |
+
+
+
+
+
 ## LinkML Source
+
+<!-- TODO: investigate https://stackoverflow.com/questions/37606292/how-to-create-tabbed-code-blocks-in-mkdocs-or-sphinx -->
+
+### Direct
 
 <details>
 ```yaml
-name: gene
+name: Gene
+id_prefixes:
+- HGNC
+annotations:
+  annotators:
+    tag: annotators
+    value: sqlite:obo:hgnc
 from_schema: https://w3id.org/ontogpt/biological_process
 rank: 1000
-alias: gene
-owner: GeneMolecularActivityRelationship
-domain_of:
-- GeneMolecularActivityRelationship
-range: Gene
+is_a: NamedEntity
+
+```
+</details>
+
+### Induced
+
+<details>
+```yaml
+name: Gene
+id_prefixes:
+- HGNC
+annotations:
+  annotators:
+    tag: annotators
+    value: sqlite:obo:hgnc
+from_schema: https://w3id.org/ontogpt/biological_process
+rank: 1000
+is_a: NamedEntity
+attributes:
+  id:
+    name: id
+    annotations:
+      prompt.skip:
+        tag: prompt.skip
+        value: 'true'
+    description: A unique identifier for the named entity
+    comments:
+    - this is populated during the grounding and normalization step
+    from_schema: https://w3id.org/ontogpt/biological_process
+    rank: 1000
+    identifier: true
+    alias: id
+    owner: Gene
+    domain_of:
+    - NamedEntity
+    - Publication
+    range: string
+  label:
+    name: label
+    annotations:
+      owl:
+        tag: owl
+        value: AnnotationProperty, AnnotationAssertion
+    description: The label (name) of the named thing
+    from_schema: https://w3id.org/ontogpt/biological_process
+    aliases:
+    - name
+    slot_uri: rdfs:label
+    alias: label
+    owner: Gene
+    domain_of:
+    - BiologicalProcess
+    - NamedEntity
+    range: string
 
 ```
 </details>

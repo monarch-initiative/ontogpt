@@ -1,6 +1,6 @@
 # Slot: subject
 
-URI: [core:subject](http://w3id.org/ontogpt/core/subject)
+URI: [oc:subject](http://w3id.org/ontogpt/ontology-class-templatesubject)
 
 
 
@@ -41,7 +41,7 @@ URI: [core:subject](http://w3id.org/ontogpt/core/subject)
 ### Schema Source
 
 
-* from schema: http://w3id.org/ontogpt/core
+* from schema: https://w3id.org/ontogpt/halo
 
 
 
@@ -51,7 +51,7 @@ URI: [core:subject](http://w3id.org/ontogpt/core/subject)
 <details>
 ```yaml
 name: subject
-from_schema: http://w3id.org/ontogpt/core
+from_schema: https://w3id.org/ontogpt/halo
 rank: 1000
 alias: subject
 owner: Triple

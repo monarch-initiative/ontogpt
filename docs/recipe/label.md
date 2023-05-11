@@ -1,6 +1,4 @@
 # Slot: label
-_the name of the recipe_
-
 
 URI: [recipe:label](http://w3id.org/ontogpt/recipe/label)
 
@@ -31,7 +29,7 @@ URI: [recipe:label](http://w3id.org/ontogpt/recipe/label)
 
 ## Properties
 
-* Range: [xsd:string](xsd:string)
+* Range: [String](String.md)
 
 
 
@@ -47,22 +45,12 @@ URI: [recipe:label](http://w3id.org/ontogpt/recipe/label)
 
 
 
-### Schema Source
-
-
-* from schema: https://w3id.org/ontogpt/recipe
-
-
-
 
 ## LinkML Source
 
 <details>
 ```yaml
 name: label
-description: the name of the recipe
-from_schema: https://w3id.org/ontogpt/recipe
-rank: 1000
 alias: label
 domain_of:
 - Recipe

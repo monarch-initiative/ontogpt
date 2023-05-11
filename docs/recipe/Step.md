@@ -2,7 +2,7 @@
 
 
 
-URI: [recipe:Step](http://w3id.org/ontogpt/recipe/Step)
+URI: [FOODON:00004087](http://purl.obolibrary.org/obo/FOODON_00004087)
 
 
 ```mermaid
@@ -73,6 +73,12 @@ FoodItem ||--|o FoodType : "food"
 
 
 
+### Annotations
+
+| property | value |
+| --- | --- |
+| owl | IntersectionOf |
+
 
 
 ### Schema Source
@@ -88,8 +94,11 @@ FoodItem ||--|o FoodType : "food"
 
 | Mapping Type | Mapped Value |
 | ---  | ---  |
-| self | recipe:Step |
+| self | FOODON:00004087 |
 | native | recipe:Step |
+
+
+
 
 
 ## LinkML Source
@@ -101,6 +110,10 @@ FoodItem ||--|o FoodType : "food"
 <details>
 ```yaml
 name: Step
+annotations:
+  owl:
+    tag: owl
+    value: IntersectionOf
 from_schema: https://w3id.org/ontogpt/recipe
 rank: 1000
 is_a: CompoundExpression
@@ -113,25 +126,41 @@ attributes:
     range: Action
   inputs:
     name: inputs
+    annotations:
+      owl:
+        tag: owl
+        value: ObjectProperty, ObjectSomeValuesFrom
     description: a semicolon separated list of the inputs of this step
     from_schema: https://w3id.org/ontogpt/recipe
     rank: 1000
+    slot_uri: RO:0002233
     multivalued: true
     range: FoodItem
   outputs:
     name: outputs
+    annotations:
+      owl:
+        tag: owl
+        value: ObjectProperty, ObjectSomeValuesFrom
     description: a semicolon separated list of the outputs of this step
     from_schema: https://w3id.org/ontogpt/recipe
     rank: 1000
+    slot_uri: RO:0002234
     multivalued: true
     range: FoodItem
   utensils:
     name: utensils
+    annotations:
+      owl:
+        tag: owl
+        value: ObjectProperty, ObjectSomeValuesFrom
     description: the kitchen utensil used in this step (e.g. pan, bowl)
     from_schema: https://w3id.org/ontogpt/recipe
     rank: 1000
+    slot_uri: RO:0002500
     multivalued: true
     range: UtensilType
+class_uri: FOODON:00004087
 
 ```
 </details>
@@ -141,6 +170,10 @@ attributes:
 <details>
 ```yaml
 name: Step
+annotations:
+  owl:
+    tag: owl
+    value: IntersectionOf
 from_schema: https://w3id.org/ontogpt/recipe
 rank: 1000
 is_a: CompoundExpression
@@ -157,9 +190,14 @@ attributes:
     range: Action
   inputs:
     name: inputs
+    annotations:
+      owl:
+        tag: owl
+        value: ObjectProperty, ObjectSomeValuesFrom
     description: a semicolon separated list of the inputs of this step
     from_schema: https://w3id.org/ontogpt/recipe
     rank: 1000
+    slot_uri: RO:0002233
     multivalued: true
     alias: inputs
     owner: Step
@@ -168,9 +206,14 @@ attributes:
     range: FoodItem
   outputs:
     name: outputs
+    annotations:
+      owl:
+        tag: owl
+        value: ObjectProperty, ObjectSomeValuesFrom
     description: a semicolon separated list of the outputs of this step
     from_schema: https://w3id.org/ontogpt/recipe
     rank: 1000
+    slot_uri: RO:0002234
     multivalued: true
     alias: outputs
     owner: Step
@@ -179,15 +222,21 @@ attributes:
     range: FoodItem
   utensils:
     name: utensils
+    annotations:
+      owl:
+        tag: owl
+        value: ObjectProperty, ObjectSomeValuesFrom
     description: the kitchen utensil used in this step (e.g. pan, bowl)
     from_schema: https://w3id.org/ontogpt/recipe
     rank: 1000
+    slot_uri: RO:0002500
     multivalued: true
     alias: utensils
     owner: Step
     domain_of:
     - Step
     range: UtensilType
+class_uri: FOODON:00004087
 
 ```
 </details>

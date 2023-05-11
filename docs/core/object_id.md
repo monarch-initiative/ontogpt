@@ -22,7 +22,7 @@ URI: [core:object_id](http://w3id.org/ontogpt/core/object_id)
 
 ## Properties
 
-* Range: [xsd:string](xsd:string)
+* Range: [String](String.md)
 
 
 
@@ -54,6 +54,7 @@ name: object_id
 from_schema: http://w3id.org/ontogpt/core
 rank: 1000
 alias: object_id
+owner: AnnotatorResult
 domain_of:
 - AnnotatorResult
 range: string

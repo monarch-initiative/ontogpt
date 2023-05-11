@@ -51,12 +51,12 @@ ChemicalToDiseaseRelationship ||--|o NamedEntity : "object_qualifier"
 
 | Name | Cardinality and Range | Description | Inheritance |
 | ---  | --- | --- | --- |
-| [predicate](predicate.md) | 0..1 <br/> [RelationshipType](RelationshipType.md) |  | [Triple](Triple.md) |
-| [object_qualifier](object_qualifier.md) | 0..1 <br/> [NamedEntity](NamedEntity.md) | An optional qualifier or modifier for the object of the statement, e | [Triple](Triple.md) |
-| [object](object.md) | 0..1 <br/> [NamedEntity](NamedEntity.md) |  | [Triple](Triple.md) |
-| [subject](subject.md) | 0..1 <br/> [NamedEntity](NamedEntity.md) |  | [Triple](Triple.md) |
-| [subject_qualifier](subject_qualifier.md) | 0..1 <br/> [NamedEntity](NamedEntity.md) | An optional qualifier or modifier for the subject of the statement, e | [Triple](Triple.md) |
-| [qualifier](qualifier.md) | 0..1 <br/> [xsd:string](xsd:string) | A qualifier for the statements, e | [Triple](Triple.md) |
+| [subject](subject.md) | 0..1 <br/> [Chemical](Chemical.md) | The chemical substance, drug, or small molecule | [Triple](Triple.md) |
+| [predicate](predicate.md) | 0..1 <br/> [ChemicalToDiseasePredicate](ChemicalToDiseasePredicate.md) | The relationship type, e | [Triple](Triple.md) |
+| [object](object.md) | 0..1 <br/> [Disease](Disease.md) | The disease or condition that is being treated or induced by the chemical | [Triple](Triple.md) |
+| [qualifier](qualifier.md) | 0..1 <br/> [String](String.md) | A qualifier for the statements, e | [Triple](Triple.md) |
+| [subject_qualifier](subject_qualifier.md) | 0..1 <br/> [NamedEntity](NamedEntity.md) | An optional qualifier or modifier for the chemical, e | [Triple](Triple.md) |
+| [object_qualifier](object_qualifier.md) | 0..1 <br/> [NamedEntity](NamedEntity.md) | An optional qualifier or modifier for the disease, e | [Triple](Triple.md) |
 
 
 
@@ -98,6 +98,9 @@ ChemicalToDiseaseRelationship ||--|o NamedEntity : "object_qualifier"
 | native | drug:ChemicalToDiseaseRelationship |
 
 
+
+
+
 ## LinkML Source
 
 <!-- TODO: investigate https://stackoverflow.com/questions/37606292/how-to-create-tabbed-code-blocks-in-mkdocs-or-sphinx -->
@@ -114,13 +117,9 @@ is_a: Triple
 slot_usage:
   subject:
     name: subject
-    description: 'The chemical substance, drug, or small molecule.  or example: Lidocaine,
+    description: 'The chemical substance, drug, or small molecule.  For example: Lidocaine,
       Monosodium Glutamate, Imatinib.'
     domain_of:
-    - Triple
-    - Triple
-    - Triple
-    - Triple
     - Triple
     range: Chemical
   object:
@@ -130,19 +129,11 @@ slot_usage:
       Headache.
     domain_of:
     - Triple
-    - Triple
-    - Triple
-    - Triple
-    - Triple
     range: Disease
   predicate:
     name: predicate
     description: The relationship type, e.g. INDUCES, TREATS.
     domain_of:
-    - Triple
-    - Triple
-    - Triple
-    - Triple
     - Triple
     range: ChemicalToDiseasePredicate
   subject_qualifier:
@@ -151,20 +142,12 @@ slot_usage:
       or "intravenously administered"
     domain_of:
     - Triple
-    - Triple
-    - Triple
-    - Triple
-    - Triple
     range: NamedEntity
   object_qualifier:
     name: object_qualifier
     description: An optional qualifier or modifier for the disease, e.g. "severe"
       or "with additional complications"
     domain_of:
-    - Triple
-    - Triple
-    - Triple
-    - Triple
     - Triple
     range: NamedEntity
 
@@ -183,13 +166,9 @@ is_a: Triple
 slot_usage:
   subject:
     name: subject
-    description: 'The chemical substance, drug, or small molecule.  or example: Lidocaine,
+    description: 'The chemical substance, drug, or small molecule.  For example: Lidocaine,
       Monosodium Glutamate, Imatinib.'
     domain_of:
-    - Triple
-    - Triple
-    - Triple
-    - Triple
     - Triple
     range: Chemical
   object:
@@ -199,19 +178,11 @@ slot_usage:
       Headache.
     domain_of:
     - Triple
-    - Triple
-    - Triple
-    - Triple
-    - Triple
     range: Disease
   predicate:
     name: predicate
     description: The relationship type, e.g. INDUCES, TREATS.
     domain_of:
-    - Triple
-    - Triple
-    - Triple
-    - Triple
     - Triple
     range: ChemicalToDiseasePredicate
   subject_qualifier:
@@ -220,10 +191,6 @@ slot_usage:
       or "intravenously administered"
     domain_of:
     - Triple
-    - Triple
-    - Triple
-    - Triple
-    - Triple
     range: NamedEntity
   object_qualifier:
     name: object_qualifier
@@ -231,39 +198,27 @@ slot_usage:
       or "with additional complications"
     domain_of:
     - Triple
-    - Triple
-    - Triple
-    - Triple
-    - Triple
     range: NamedEntity
 attributes:
   subject:
     name: subject
-    description: 'The chemical substance, drug, or small molecule.  or example: Lidocaine,
+    description: 'The chemical substance, drug, or small molecule.  For example: Lidocaine,
       Monosodium Glutamate, Imatinib.'
-    from_schema: http://w3id.org/ontogpt/core
+    from_schema: http://w3id.org/ontogpt/ctd
     rank: 1000
     alias: subject
     owner: ChemicalToDiseaseRelationship
     domain_of:
     - Triple
-    - Triple
-    - Triple
-    - Triple
-    - Triple
     range: Chemical
   predicate:
     name: predicate
     description: The relationship type, e.g. INDUCES, TREATS.
-    from_schema: http://w3id.org/ontogpt/core
+    from_schema: http://w3id.org/ontogpt/ctd
     rank: 1000
     alias: predicate
     owner: ChemicalToDiseaseRelationship
     domain_of:
-    - Triple
-    - Triple
-    - Triple
-    - Triple
     - Triple
     range: ChemicalToDiseasePredicate
   object:
@@ -271,21 +226,17 @@ attributes:
     description: The disease or condition that is being treated or induced by the
       chemical. For example, asthma, cancer, covid-19, cardiac asystole, Hypotension,
       Headache.
-    from_schema: http://w3id.org/ontogpt/core
+    from_schema: http://w3id.org/ontogpt/ctd
     rank: 1000
     alias: object
     owner: ChemicalToDiseaseRelationship
     domain_of:
     - Triple
-    - Triple
-    - Triple
-    - Triple
-    - Triple
     range: Disease
   qualifier:
     name: qualifier
     description: A qualifier for the statements, e.g. "NOT" for negation
-    from_schema: http://w3id.org/ontogpt/core
+    from_schema: http://w3id.org/ontogpt/ctd
     rank: 1000
     alias: qualifier
     owner: ChemicalToDiseaseRelationship
@@ -296,30 +247,22 @@ attributes:
     name: subject_qualifier
     description: An optional qualifier or modifier for the chemical, e.g. "high dose"
       or "intravenously administered"
-    from_schema: http://w3id.org/ontogpt/core
+    from_schema: http://w3id.org/ontogpt/ctd
     rank: 1000
     alias: subject_qualifier
     owner: ChemicalToDiseaseRelationship
     domain_of:
-    - Triple
-    - Triple
-    - Triple
-    - Triple
     - Triple
     range: NamedEntity
   object_qualifier:
     name: object_qualifier
     description: An optional qualifier or modifier for the disease, e.g. "severe"
       or "with additional complications"
-    from_schema: http://w3id.org/ontogpt/core
+    from_schema: http://w3id.org/ontogpt/ctd
     rank: 1000
     alias: object_qualifier
     owner: ChemicalToDiseaseRelationship
     domain_of:
-    - Triple
-    - Triple
-    - Triple
-    - Triple
     - Triple
     range: NamedEntity
 

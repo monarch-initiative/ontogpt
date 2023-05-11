@@ -1,6 +1,6 @@
 # Slot: combined_text
 
-URI: [core:combined_text](http://w3id.org/ontogpt/core/combined_text)
+URI: [recipe:combined_text](http://w3id.org/ontogpt/recipe/combined_text)
 
 
 
@@ -22,7 +22,7 @@ URI: [core:combined_text](http://w3id.org/ontogpt/core/combined_text)
 
 ## Properties
 
-* Range: [xsd:string](xsd:string)
+* Range: [String](String.md)
 
 
 
@@ -41,7 +41,7 @@ URI: [core:combined_text](http://w3id.org/ontogpt/core/combined_text)
 ### Schema Source
 
 
-* from schema: http://w3id.org/ontogpt/core
+* from schema: https://w3id.org/ontogpt/recipe
 
 
 
@@ -51,9 +51,10 @@ URI: [core:combined_text](http://w3id.org/ontogpt/core/combined_text)
 <details>
 ```yaml
 name: combined_text
-from_schema: http://w3id.org/ontogpt/core
+from_schema: https://w3id.org/ontogpt/recipe
 rank: 1000
 alias: combined_text
+owner: Publication
 domain_of:
 - Publication
 range: string

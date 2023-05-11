@@ -1,5 +1,5 @@
 # Slot: categories
-_the categories to which this entity belongs_
+_the categories to which this entity belongs._
 
 
 URI: [oc:categories](http://w3id.org/ontogpt/ontology-class-templatecategories)
@@ -44,7 +44,7 @@ URI: [oc:categories](http://w3id.org/ontogpt/ontology-class-templatecategories)
 
 | property | value |
 | --- | --- |
-| prompt | semicolon-separated list of categories to which the entity belongs |
+| prompt | semicolon-separated list of categories to which the entity belongs. These may be taken from an upper level ontology such as COB, BioLink, or UMLS semantic types. |
 
 
 
@@ -64,8 +64,10 @@ name: categories
 annotations:
   prompt:
     tag: prompt
-    value: semicolon-separated list of categories to which the entity belongs
-description: the categories to which this entity belongs
+    value: semicolon-separated list of categories to which the entity belongs. These
+      may be taken from an upper level ontology such as COB, BioLink, or UMLS semantic
+      types.
+description: the categories to which this entity belongs.
 from_schema: https://w3id.org/ontogpt/ontology_class
 rank: 1000
 multivalued: true

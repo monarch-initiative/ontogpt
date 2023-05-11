@@ -24,7 +24,7 @@ URI: [reaction:synonyms](http://w3id.org/ontogpt/reaction/synonyms)
 
 ## Properties
 
-* Range: [xsd:string](xsd:string)
+* Range: [String](String.md)
 * Multivalued: True
 
 

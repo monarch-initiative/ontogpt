@@ -1,6 +1,6 @@
 # Slot: object
 
-URI: [core:object](http://w3id.org/ontogpt/core/object)
+URI: [drug:object](http://w3id.org/ontogpt/drug/object)
 
 
 
@@ -42,7 +42,7 @@ URI: [core:object](http://w3id.org/ontogpt/core/object)
 ### Schema Source
 
 
-* from schema: http://w3id.org/ontogpt/core
+* from schema: http://w3id.org/ontogpt/ctd
 
 
 
@@ -52,7 +52,7 @@ URI: [core:object](http://w3id.org/ontogpt/core/object)
 <details>
 ```yaml
 name: object
-from_schema: http://w3id.org/ontogpt/core
+from_schema: http://w3id.org/ontogpt/ctd
 rank: 1000
 alias: object
 owner: Triple

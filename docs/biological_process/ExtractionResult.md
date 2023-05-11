@@ -4,7 +4,7 @@ _A result of extracting knowledge on text_
 
 
 
-URI: [core:ExtractionResult](http://w3id.org/ontogpt/core/ExtractionResult)
+URI: [bp:ExtractionResult](http://w3id.org/ontogpt/biological-process-templateExtractionResult)
 
 
 ```mermaid
@@ -34,11 +34,11 @@ ExtractionResult ||--}o Any : "named_entities"
 
 | Name | Cardinality and Range | Description | Inheritance |
 | ---  | --- | --- | --- |
-| [input_id](input_id.md) | 0..1 <br/> NONE |  | direct |
-| [input_title](input_title.md) | 0..1 <br/> NONE |  | direct |
-| [input_text](input_text.md) | 0..1 <br/> NONE |  | direct |
-| [raw_completion_output](raw_completion_output.md) | 0..1 <br/> NONE |  | direct |
-| [prompt](prompt.md) | 0..1 <br/> NONE |  | direct |
+| [input_id](input_id.md) | 0..1 <br/> [String](String.md) |  | direct |
+| [input_title](input_title.md) | 0..1 <br/> [String](String.md) |  | direct |
+| [input_text](input_text.md) | 0..1 <br/> [String](String.md) |  | direct |
+| [raw_completion_output](raw_completion_output.md) | 0..1 <br/> [String](String.md) |  | direct |
+| [prompt](prompt.md) | 0..1 <br/> [String](String.md) |  | direct |
 | [extracted_object](extracted_object.md) | 0..1 <br/> [Any](Any.md) | The complex objects extracted from the text | direct |
 | [named_entities](named_entities.md) | 0..* <br/> [Any](Any.md) | Named entities extracted from the text | direct |
 
@@ -61,7 +61,7 @@ ExtractionResult ||--}o Any : "named_entities"
 ### Schema Source
 
 
-* from schema: http://w3id.org/ontogpt/core
+* from schema: https://w3id.org/ontogpt/biological_process
 
 
 
@@ -71,8 +71,11 @@ ExtractionResult ||--}o Any : "named_entities"
 
 | Mapping Type | Mapped Value |
 | ---  | ---  |
-| self | core:ExtractionResult |
-| native | core:ExtractionResult |
+| self | bp:ExtractionResult |
+| native | bp:ExtractionResult |
+
+
+
 
 
 ## LinkML Source
@@ -85,40 +88,40 @@ ExtractionResult ||--}o Any : "named_entities"
 ```yaml
 name: ExtractionResult
 description: A result of extracting knowledge on text
-from_schema: http://w3id.org/ontogpt/core
+from_schema: https://w3id.org/ontogpt/biological_process
 rank: 1000
 attributes:
   input_id:
     name: input_id
-    from_schema: http://w3id.org/ontogpt/core
+    from_schema: https://w3id.org/ontogpt/biological_process
     rank: 1000
   input_title:
     name: input_title
-    from_schema: http://w3id.org/ontogpt/core
+    from_schema: https://w3id.org/ontogpt/biological_process
     rank: 1000
   input_text:
     name: input_text
-    from_schema: http://w3id.org/ontogpt/core
+    from_schema: https://w3id.org/ontogpt/biological_process
     rank: 1000
   raw_completion_output:
     name: raw_completion_output
-    from_schema: http://w3id.org/ontogpt/core
+    from_schema: https://w3id.org/ontogpt/biological_process
     rank: 1000
   prompt:
     name: prompt
-    from_schema: http://w3id.org/ontogpt/core
+    from_schema: https://w3id.org/ontogpt/biological_process
     rank: 1000
   extracted_object:
     name: extracted_object
     description: The complex objects extracted from the text
-    from_schema: http://w3id.org/ontogpt/core
+    from_schema: https://w3id.org/ontogpt/biological_process
     rank: 1000
     range: Any
     inlined: true
   named_entities:
     name: named_entities
     description: Named entities extracted from the text
-    from_schema: http://w3id.org/ontogpt/core
+    from_schema: https://w3id.org/ontogpt/biological_process
     rank: 1000
     multivalued: true
     range: Any
@@ -134,12 +137,12 @@ attributes:
 ```yaml
 name: ExtractionResult
 description: A result of extracting knowledge on text
-from_schema: http://w3id.org/ontogpt/core
+from_schema: https://w3id.org/ontogpt/biological_process
 rank: 1000
 attributes:
   input_id:
     name: input_id
-    from_schema: http://w3id.org/ontogpt/core
+    from_schema: https://w3id.org/ontogpt/biological_process
     rank: 1000
     alias: input_id
     owner: ExtractionResult
@@ -148,7 +151,7 @@ attributes:
     range: string
   input_title:
     name: input_title
-    from_schema: http://w3id.org/ontogpt/core
+    from_schema: https://w3id.org/ontogpt/biological_process
     rank: 1000
     alias: input_title
     owner: ExtractionResult
@@ -157,7 +160,7 @@ attributes:
     range: string
   input_text:
     name: input_text
-    from_schema: http://w3id.org/ontogpt/core
+    from_schema: https://w3id.org/ontogpt/biological_process
     rank: 1000
     alias: input_text
     owner: ExtractionResult
@@ -166,7 +169,7 @@ attributes:
     range: string
   raw_completion_output:
     name: raw_completion_output
-    from_schema: http://w3id.org/ontogpt/core
+    from_schema: https://w3id.org/ontogpt/biological_process
     rank: 1000
     alias: raw_completion_output
     owner: ExtractionResult
@@ -175,7 +178,7 @@ attributes:
     range: string
   prompt:
     name: prompt
-    from_schema: http://w3id.org/ontogpt/core
+    from_schema: https://w3id.org/ontogpt/biological_process
     rank: 1000
     alias: prompt
     owner: ExtractionResult
@@ -185,7 +188,7 @@ attributes:
   extracted_object:
     name: extracted_object
     description: The complex objects extracted from the text
-    from_schema: http://w3id.org/ontogpt/core
+    from_schema: https://w3id.org/ontogpt/biological_process
     rank: 1000
     alias: extracted_object
     owner: ExtractionResult
@@ -196,7 +199,7 @@ attributes:
   named_entities:
     name: named_entities
     description: Named entities extracted from the text
-    from_schema: http://w3id.org/ontogpt/core
+    from_schema: https://w3id.org/ontogpt/biological_process
     rank: 1000
     multivalued: true
     alias: named_entities

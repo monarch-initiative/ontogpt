@@ -48,16 +48,16 @@ OntologyElement ||--}o OntologyElement : "parts"
 
 | Name | Cardinality and Range | Description | Inheritance |
 | ---  | --- | --- | --- |
-| [context](context.md) | 0..1 <br/> NONE | the ontology to which this belongs (single-valued) | [OntologyElement](OntologyElement.md) |
+| [name](name.md) | 1..1 <br/> [String](String.md) | the name of the entity | [OntologyElement](OntologyElement.md) |
+| [context](context.md) | 0..1 <br/> [String](String.md) | the ontology to which this belongs (single-valued) | [OntologyElement](OntologyElement.md) |
+| [description](description.md) | 0..1 <br/> [String](String.md) | a textual description of the entity (single-valued) | [OntologyElement](OntologyElement.md) |
+| [synonyms](synonyms.md) | 0..* <br/> [String](String.md) | a list of alternative names of the entity | [OntologyElement](OntologyElement.md) |
+| [categories](categories.md) | 0..* <br/> [Category](Category.md) | a list of the categories to which this entity belongs | [OntologyElement](OntologyElement.md) |
+| [subclass_of](subclass_of.md) | 0..* <br/> [OntologyElement](OntologyElement.md) | a list of parent class (superclasses) of this entity | [OntologyElement](OntologyElement.md) |
+| [part_of](part_of.md) | 0..* <br/> [OntologyElement](OntologyElement.md) | a list of things this element is part of | [OntologyElement](OntologyElement.md) |
 | [subtypes](subtypes.md) | 0..* <br/> [OntologyElement](OntologyElement.md) | a list of child classes (subclasses) of this entity | [OntologyElement](OntologyElement.md) |
 | [parts](parts.md) | 0..* <br/> [OntologyElement](OntologyElement.md) | a list of names of things this element has as parts (components) | [OntologyElement](OntologyElement.md) |
-| [subclass_of](subclass_of.md) | 0..* <br/> [OntologyElement](OntologyElement.md) | a list of parent class (superclasses) of this entity | [OntologyElement](OntologyElement.md) |
-| [name](name.md) | 1..1 <br/> NONE | the name of the entity | [OntologyElement](OntologyElement.md) |
-| [synonyms](synonyms.md) | 0..* <br/> NONE | a list of alternative names of the entity | [OntologyElement](OntologyElement.md) |
-| [part_of](part_of.md) | 0..* <br/> [OntologyElement](OntologyElement.md) | a list of things this element is part of | [OntologyElement](OntologyElement.md) |
-| [description](description.md) | 0..1 <br/> NONE | a textual description of the entity (single-valued) | [OntologyElement](OntologyElement.md) |
-| [equivalent_to](equivalent_to.md) | 0..1 <br/> [xsd:string](xsd:string) | an OWL class expression with the necessary and sufficient conditions for this... | [OntologyElement](OntologyElement.md) |
-| [categories](categories.md) | 0..* <br/> [Category](Category.md) | a list of the categories to which this entity belongs | [OntologyElement](OntologyElement.md) |
+| [equivalent_to](equivalent_to.md) | 0..1 <br/> [String](String.md) | an OWL class expression with the necessary and sufficient conditions for this... | [OntologyElement](OntologyElement.md) |
 
 
 
@@ -98,6 +98,9 @@ OntologyElement ||--}o OntologyElement : "parts"
 | ---  | ---  |
 | self | oc:Category |
 | native | oc:Category |
+
+
+
 
 
 ## LinkML Source

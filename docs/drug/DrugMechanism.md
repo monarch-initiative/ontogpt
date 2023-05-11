@@ -52,8 +52,8 @@ MechanismLink ||--|o MechanismElement : "object"
 | [disease](disease.md) | 0..1 <br/> [Disease](Disease.md) | the name of the disease that is treated | direct |
 | [drug](drug.md) | 0..1 <br/> [Drug](Drug.md) | the name of the drug that treats the disease | direct |
 | [mechanism_links](mechanism_links.md) | 0..* <br/> [MechanismLink](MechanismLink.md) | semicolon-separated list of links, where each link is a triple connecting two... | direct |
-| [references](references.md) | 0..* <br/> [xsd:string](xsd:string) |  | direct |
-| [source_text](source_text.md) | 0..1 <br/> [xsd:string](xsd:string) |  | direct |
+| [references](references.md) | 0..* <br/> [String](String.md) |  | direct |
+| [source_text](source_text.md) | 0..1 <br/> [String](String.md) |  | direct |
 
 
 
@@ -86,6 +86,9 @@ MechanismLink ||--|o MechanismElement : "object"
 | ---  | ---  |
 | self | drug:DrugMechanism |
 | native | drug:DrugMechanism |
+
+
+
 
 
 ## LinkML Source
@@ -139,6 +142,7 @@ attributes:
     from_schema: http://w3id.org/ontogpt/drug
     rank: 1000
     range: string
+tree_root: true
 
 ```
 </details>
@@ -210,6 +214,7 @@ attributes:
     domain_of:
     - DrugMechanism
     range: string
+tree_root: true
 
 ```
 </details>

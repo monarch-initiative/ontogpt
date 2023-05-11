@@ -25,7 +25,7 @@ URI: [oc:equivalent_to](http://w3id.org/ontogpt/ontology-class-templateequivalen
 
 ## Properties
 
-* Range: [xsd:string](xsd:string)
+* Range: [String](String.md)
 
 
 

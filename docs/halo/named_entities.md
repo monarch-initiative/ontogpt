@@ -2,7 +2,7 @@
 _Named entities extracted from the text_
 
 
-URI: [core:named_entities](http://w3id.org/ontogpt/core/named_entities)
+URI: [oc:named_entities](http://w3id.org/ontogpt/ontology-class-templatenamed_entities)
 
 
 
@@ -45,7 +45,7 @@ URI: [core:named_entities](http://w3id.org/ontogpt/core/named_entities)
 ### Schema Source
 
 
-* from schema: http://w3id.org/ontogpt/core
+* from schema: https://w3id.org/ontogpt/halo
 
 
 
@@ -56,7 +56,7 @@ URI: [core:named_entities](http://w3id.org/ontogpt/core/named_entities)
 ```yaml
 name: named_entities
 description: Named entities extracted from the text
-from_schema: http://w3id.org/ontogpt/core
+from_schema: https://w3id.org/ontogpt/halo
 rank: 1000
 multivalued: true
 alias: named_entities

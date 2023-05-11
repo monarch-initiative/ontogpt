@@ -22,7 +22,7 @@ URI: [core:combined_text](http://w3id.org/ontogpt/core/combined_text)
 
 ## Properties
 
-* Range: [xsd:string](xsd:string)
+* Range: [String](String.md)
 
 
 
@@ -54,6 +54,7 @@ name: combined_text
 from_schema: http://w3id.org/ontogpt/core
 rank: 1000
 alias: combined_text
+owner: Publication
 domain_of:
 - Publication
 range: string

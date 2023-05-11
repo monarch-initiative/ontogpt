@@ -1,6 +1,6 @@
 # Slot: subject
 
-URI: [core:subject](http://w3id.org/ontogpt/core/subject)
+URI: [drug:subject](http://w3id.org/ontogpt/drug/subject)
 
 
 
@@ -23,7 +23,7 @@ URI: [core:subject](http://w3id.org/ontogpt/core/subject)
 
 ## Properties
 
-* Range: [xsd:string](xsd:string)
+* Range: [String](String.md)
 
 
 

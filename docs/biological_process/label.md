@@ -1,6 +1,6 @@
 # Slot: label
 
-URI: [core:label](http://w3id.org/ontogpt/core/label)
+URI: [bp:label](http://w3id.org/ontogpt/biological-process-templatelabel)
 
 
 
@@ -27,7 +27,7 @@ URI: [core:label](http://w3id.org/ontogpt/core/label)
 
 ## Properties
 
-* Range: [xsd:string](xsd:string)
+* Range: [String](String.md)
 
 
 

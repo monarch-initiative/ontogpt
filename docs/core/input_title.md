@@ -22,7 +22,7 @@ URI: [core:input_title](http://w3id.org/ontogpt/core/input_title)
 
 ## Properties
 
-* Range: [xsd:string](xsd:string)
+* Range: [String](String.md)
 
 
 
@@ -54,6 +54,7 @@ name: input_title
 from_schema: http://w3id.org/ontogpt/core
 rank: 1000
 alias: input_title
+owner: ExtractionResult
 domain_of:
 - ExtractionResult
 range: string
