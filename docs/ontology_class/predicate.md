@@ -1,6 +1,6 @@
 # Slot: predicate
 
-URI: [core:predicate](http://w3id.org/ontogpt/core/predicate)
+URI: [oc:predicate](http://w3id.org/ontogpt/ontology-class-templatepredicate)
 
 
 
@@ -41,7 +41,7 @@ URI: [core:predicate](http://w3id.org/ontogpt/core/predicate)
 ### Schema Source
 
 
-* from schema: http://w3id.org/ontogpt/core
+* from schema: https://w3id.org/ontogpt/ontology_class
 
 
 
@@ -51,7 +51,7 @@ URI: [core:predicate](http://w3id.org/ontogpt/core/predicate)
 <details>
 ```yaml
 name: predicate
-from_schema: http://w3id.org/ontogpt/core
+from_schema: https://w3id.org/ontogpt/ontology_class
 rank: 1000
 alias: predicate
 owner: Triple

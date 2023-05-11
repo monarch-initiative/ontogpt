@@ -22,7 +22,7 @@ URI: [drug:source_text](http://w3id.org/ontogpt/drug/source_text)
 
 ## Properties
 
-* Range: [xsd:string](xsd:string)
+* Range: [String](String.md)
 
 
 

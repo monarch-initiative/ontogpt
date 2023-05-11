@@ -1,6 +1,6 @@
 # Slot: predicate
 
-URI: [core:predicate](http://w3id.org/ontogpt/core/predicate)
+URI: [recipe:predicate](http://w3id.org/ontogpt/recipe/predicate)
 
 
 
@@ -41,7 +41,7 @@ URI: [core:predicate](http://w3id.org/ontogpt/core/predicate)
 ### Schema Source
 
 
-* from schema: http://w3id.org/ontogpt/core
+* from schema: https://w3id.org/ontogpt/recipe
 
 
 
@@ -51,9 +51,10 @@ URI: [core:predicate](http://w3id.org/ontogpt/core/predicate)
 <details>
 ```yaml
 name: predicate
-from_schema: http://w3id.org/ontogpt/core
+from_schema: https://w3id.org/ontogpt/recipe
 rank: 1000
 alias: predicate
+owner: Triple
 domain_of:
 - Triple
 range: RelationshipType

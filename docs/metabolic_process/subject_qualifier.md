@@ -2,7 +2,7 @@
 _An optional qualifier or modifier for the subject of the statement, e.g. "high dose" or "intravenously administered"_
 
 
-URI: [core:subject_qualifier](http://w3id.org/ontogpt/core/subject_qualifier)
+URI: [bp:subject_qualifier](http://w3id.org/ontogpt/metabolic-process-templatesubject_qualifier)
 
 
 
@@ -43,7 +43,7 @@ URI: [core:subject_qualifier](http://w3id.org/ontogpt/core/subject_qualifier)
 ### Schema Source
 
 
-* from schema: http://w3id.org/ontogpt/core
+* from schema: https://w3id.org/ontogpt/metabolic_process
 
 
 
@@ -55,7 +55,7 @@ URI: [core:subject_qualifier](http://w3id.org/ontogpt/core/subject_qualifier)
 name: subject_qualifier
 description: An optional qualifier or modifier for the subject of the statement, e.g.
   "high dose" or "intravenously administered"
-from_schema: http://w3id.org/ontogpt/core
+from_schema: https://w3id.org/ontogpt/metabolic_process
 rank: 1000
 alias: subject_qualifier
 owner: Triple

@@ -1,6 +1,6 @@
 # Slot: prompt
 
-URI: [core:prompt](http://w3id.org/ontogpt/core/prompt)
+URI: [treatment:prompt](http://w3id.org/ontogpt/treatments/prompt)
 
 
 
@@ -22,7 +22,7 @@ URI: [core:prompt](http://w3id.org/ontogpt/core/prompt)
 
 ## Properties
 
-* Range: [xsd:string](xsd:string)
+* Range: [String](String.md)
 
 
 
@@ -41,7 +41,7 @@ URI: [core:prompt](http://w3id.org/ontogpt/core/prompt)
 ### Schema Source
 
 
-* from schema: http://w3id.org/ontogpt/core
+* from schema: http://w3id.org/ontogpt/treatment
 
 
 
@@ -51,7 +51,7 @@ URI: [core:prompt](http://w3id.org/ontogpt/core/prompt)
 <details>
 ```yaml
 name: prompt
-from_schema: http://w3id.org/ontogpt/core
+from_schema: http://w3id.org/ontogpt/treatment
 rank: 1000
 alias: prompt
 owner: ExtractionResult

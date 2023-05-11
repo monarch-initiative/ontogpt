@@ -2,7 +2,7 @@
 _The complex objects extracted from the text_
 
 
-URI: [core:extracted_object](http://w3id.org/ontogpt/core/extracted_object)
+URI: [eg:extracted_object](http://w3id.org/ontogpt/environmental-metagenome/extracted_object)
 
 
 
@@ -43,7 +43,7 @@ URI: [core:extracted_object](http://w3id.org/ontogpt/core/extracted_object)
 ### Schema Source
 
 
-* from schema: http://w3id.org/ontogpt/core
+* from schema: http://w3id.org/ontogpt/metagenome
 
 
 
@@ -54,7 +54,7 @@ URI: [core:extracted_object](http://w3id.org/ontogpt/core/extracted_object)
 ```yaml
 name: extracted_object
 description: The complex objects extracted from the text
-from_schema: http://w3id.org/ontogpt/core
+from_schema: http://w3id.org/ontogpt/metagenome
 rank: 1000
 alias: extracted_object
 owner: ExtractionResult

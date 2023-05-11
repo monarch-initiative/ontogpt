@@ -1,6 +1,6 @@
 # Slot: raw_completion_output
 
-URI: [core:raw_completion_output](http://w3id.org/ontogpt/core/raw_completion_output)
+URI: [reaction:raw_completion_output](http://w3id.org/ontogpt/reaction/raw_completion_output)
 
 
 
@@ -22,7 +22,7 @@ URI: [core:raw_completion_output](http://w3id.org/ontogpt/core/raw_completion_ou
 
 ## Properties
 
-* Range: [xsd:string](xsd:string)
+* Range: [String](String.md)
 
 
 
@@ -41,7 +41,7 @@ URI: [core:raw_completion_output](http://w3id.org/ontogpt/core/raw_completion_ou
 ### Schema Source
 
 
-* from schema: http://w3id.org/ontogpt/core
+* from schema: https://w3id.org/ontogpt/reaction
 
 
 
@@ -51,7 +51,7 @@ URI: [core:raw_completion_output](http://w3id.org/ontogpt/core/raw_completion_ou
 <details>
 ```yaml
 name: raw_completion_output
-from_schema: http://w3id.org/ontogpt/core
+from_schema: https://w3id.org/ontogpt/reaction
 rank: 1000
 alias: raw_completion_output
 owner: ExtractionResult

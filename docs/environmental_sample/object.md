@@ -1,6 +1,6 @@
 # Slot: object
 
-URI: [core:object](http://w3id.org/ontogpt/core/object)
+URI: [sample:object](http://w3id.org/ontogpt/environmental-sample/object)
 
 
 
@@ -41,7 +41,7 @@ URI: [core:object](http://w3id.org/ontogpt/core/object)
 ### Schema Source
 
 
-* from schema: http://w3id.org/ontogpt/core
+* from schema: http://w3id.org/ontogpt/environmental-sample
 
 
 
@@ -51,7 +51,7 @@ URI: [core:object](http://w3id.org/ontogpt/core/object)
 <details>
 ```yaml
 name: object
-from_schema: http://w3id.org/ontogpt/core
+from_schema: http://w3id.org/ontogpt/environmental-sample
 rank: 1000
 alias: object
 owner: Triple

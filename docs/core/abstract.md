@@ -24,7 +24,7 @@ URI: [core:abstract](http://w3id.org/ontogpt/core/abstract)
 
 ## Properties
 
-* Range: [xsd:string](xsd:string)
+* Range: [String](String.md)
 
 
 
@@ -57,6 +57,7 @@ description: The abstract of the publication
 from_schema: http://w3id.org/ontogpt/core
 rank: 1000
 alias: abstract
+owner: Publication
 domain_of:
 - Publication
 range: string

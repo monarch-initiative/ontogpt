@@ -2,7 +2,7 @@
 _a semicolon separated list of the outputs of this step_
 
 
-URI: [recipe:outputs](http://w3id.org/ontogpt/recipe/outputs)
+URI: [RO:0002234](http://purl.obolibrary.org/obo/RO_0002234)
 
 
 
@@ -40,6 +40,12 @@ URI: [recipe:outputs](http://w3id.org/ontogpt/recipe/outputs)
 
 
 
+### Annotations
+
+| property | value |
+| --- | --- |
+| owl | ObjectProperty, ObjectSomeValuesFrom |
+
 
 
 ### Schema Source
@@ -55,11 +61,17 @@ URI: [recipe:outputs](http://w3id.org/ontogpt/recipe/outputs)
 <details>
 ```yaml
 name: outputs
+annotations:
+  owl:
+    tag: owl
+    value: ObjectProperty, ObjectSomeValuesFrom
 description: a semicolon separated list of the outputs of this step
 from_schema: https://w3id.org/ontogpt/recipe
 rank: 1000
+slot_uri: RO:0002234
 multivalued: true
 alias: outputs
+owner: Step
 domain_of:
 - Step
 range: FoodItem

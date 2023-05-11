@@ -1,6 +1,6 @@
 # Slot: id
 
-URI: [core:id](http://w3id.org/ontogpt/core/id)
+URI: [oc:id](http://w3id.org/ontogpt/ontology-class-templateid)
 
 
 
@@ -26,7 +26,7 @@ URI: [core:id](http://w3id.org/ontogpt/core/id)
 
 ## Properties
 
-* Range: [xsd:string](xsd:string)
+* Range: [String](String.md)
 
 
 

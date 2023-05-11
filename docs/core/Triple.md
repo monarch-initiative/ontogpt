@@ -47,7 +47,7 @@ Triple ||--|o NamedEntity : "object_qualifier"
 | [subject](subject.md) | 0..1 <br/> [NamedEntity](NamedEntity.md) |  | direct |
 | [predicate](predicate.md) | 0..1 <br/> [RelationshipType](RelationshipType.md) |  | direct |
 | [object](object.md) | 0..1 <br/> [NamedEntity](NamedEntity.md) |  | direct |
-| [qualifier](qualifier.md) | 0..1 <br/> [xsd:string](xsd:string) | A qualifier for the statements, e | direct |
+| [qualifier](qualifier.md) | 0..1 <br/> [String](String.md) | A qualifier for the statements, e | direct |
 | [subject_qualifier](subject_qualifier.md) | 0..1 <br/> [NamedEntity](NamedEntity.md) | An optional qualifier or modifier for the subject of the statement, e | direct |
 | [object_qualifier](object_qualifier.md) | 0..1 <br/> [NamedEntity](NamedEntity.md) | An optional qualifier or modifier for the object of the statement, e | direct |
 

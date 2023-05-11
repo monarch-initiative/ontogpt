@@ -34,6 +34,10 @@ ChemicalEntity {
     string id  
     string label  
 }
+Evidence {
+    string id  
+    string label  
+}
 Gene {
     string id  
     string label  
@@ -92,6 +96,7 @@ ReactionDocument ||--}o Gene : "genes"
 ReactionDocument ||--}o Reaction : "reactions"
 ReactionDocument ||--}o GeneReactionPairing : "gene_reaction_pairings"
 ReactionDocument ||--|o Organism : "organism"
+ReactionDocument ||--}o Evidence : "has_evidence"
 GeneReactionPairing ||--|o Gene : "gene"
 GeneReactionPairing ||--|o Reaction : "reaction"
 ExtractionResult ||--|o Any : "extracted_object"
@@ -115,6 +120,7 @@ TextWithTriples ||--}o Triple : "triples"
 | [Any](Any.md) |  |
 | [ChemicalEntity](ChemicalEntity.md) |  |
 | [CompoundExpression](CompoundExpression.md) |  |
+| [Evidence](Evidence.md) |  |
 | [ExtractionResult](ExtractionResult.md) | A result of extracting knowledge on text |
 | [Gene](Gene.md) |  |
 | [GeneReactionPairing](GeneReactionPairing.md) |  |
@@ -142,6 +148,7 @@ TextWithTriples ||--}o Triple : "triples"
 | [gene](gene.md) | name of the gene that catalyzes the reaction |
 | [gene_reaction_pairings](gene_reaction_pairings.md) | semicolon separated list of gene to reaction pairings |
 | [genes](genes.md) | semicolon separated list of genes that catalyzes the mentioned reactions |
+| [has_evidence](has_evidence.md) | evidence for the reaction |
 | [id](id.md) | A unique identifier for the named entity |
 | [input_id](input_id.md) |  |
 | [input_text](input_text.md) |  |
@@ -181,21 +188,21 @@ TextWithTriples ||--}o Triple : "triples"
 
 | Type | Description |
 | --- | --- |
-| [xsd:boolean](xsd:boolean) | A binary (true or false) value |
-| [xsd:date](xsd:date) | a date (year, month and day) in an idealized calendar |
-| [linkml:DateOrDatetime](https://w3id.org/linkml/DateOrDatetime) | Either a date or a datetime |
-| [xsd:dateTime](xsd:dateTime) | The combination of a date and time |
-| [xsd:decimal](xsd:decimal) | A real number with arbitrary precision that conforms to the xsd:decimal speci... |
-| [xsd:double](xsd:double) | A real number that conforms to the xsd:double specification |
-| [xsd:float](xsd:float) | A real number that conforms to the xsd:float specification |
-| [xsd:integer](xsd:integer) | An integer |
-| [xsd:string](xsd:string) | Prefix part of CURIE |
-| [shex:nonLiteral](shex:nonLiteral) | A URI, CURIE or BNODE that represents a node in a model |
-| [shex:iri](shex:iri) | A URI or CURIE that represents an object in the model |
-| [xsd:string](xsd:string) | A character string |
-| [xsd:dateTime](xsd:dateTime) | A time object represents a (local) time of day, independent of any particular... |
-| [xsd:anyURI](xsd:anyURI) | a complete URI |
-| [xsd:anyURI](xsd:anyURI) | a URI or a CURIE |
+| [Boolean](Boolean.md) | A binary (true or false) value |
+| [Date](Date.md) | a date (year, month and day) in an idealized calendar |
+| [DateOrDatetime](DateOrDatetime.md) | Either a date or a datetime |
+| [Datetime](Datetime.md) | The combination of a date and time |
+| [Decimal](Decimal.md) | A real number with arbitrary precision that conforms to the xsd:decimal speci... |
+| [Double](Double.md) | A real number that conforms to the xsd:double specification |
+| [Float](Float.md) | A real number that conforms to the xsd:float specification |
+| [Integer](Integer.md) | An integer |
+| [Ncname](Ncname.md) | Prefix part of CURIE |
+| [Nodeidentifier](Nodeidentifier.md) | A URI, CURIE or BNODE that represents a node in a model |
+| [Objectidentifier](Objectidentifier.md) | A URI or CURIE that represents an object in the model |
+| [String](String.md) | A character string |
+| [Time](Time.md) | A time object represents a (local) time of day, independent of any particular... |
+| [Uri](Uri.md) | a complete URI |
+| [Uriorcurie](Uriorcurie.md) | a URI or a CURIE |
 
 
 ## Subsets

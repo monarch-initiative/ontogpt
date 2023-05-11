@@ -32,11 +32,11 @@ Onset {
 
 | Name | Cardinality and Range | Description | Inheritance |
 | ---  | --- | --- | --- |
-| [years_old](years_old.md) | 0..1 <br/> NONE |  | direct |
-| [decades](decades.md) | 0..* <br/> NONE |  | direct |
-| [juvenile_or_adult](juvenile_or_adult.md) | 0..1 <br/> NONE |  | direct |
-| [id](id.md) | 0..1 <br/> NONE |  | [NamedEntity](NamedEntity.md) |
-| [label](label.md) | 0..1 <br/> [xsd:string](xsd:string) | The label (name) of the named thing | [NamedEntity](NamedEntity.md) |
+| [years_old](years_old.md) | 0..1 <br/> [String](String.md) |  | direct |
+| [decades](decades.md) | 0..* <br/> [String](String.md) |  | direct |
+| [juvenile_or_adult](juvenile_or_adult.md) | 0..1 <br/> [String](String.md) |  | direct |
+| [id](id.md) | 1..1 <br/> [String](String.md) | A unique identifier for the named entity | [NamedEntity](NamedEntity.md) |
+| [label](label.md) | 0..1 <br/> [String](String.md) | The label (name) of the named thing | [NamedEntity](NamedEntity.md) |
 
 
 
@@ -91,6 +91,9 @@ Instances of this class *should* have identifiers with one of the following pref
 | ---  | ---  |
 | self | mendelian_disease:Onset |
 | native | mendelian_disease:Onset |
+
+
+
 
 
 ## LinkML Source
@@ -181,7 +184,7 @@ attributes:
     description: A unique identifier for the named entity
     comments:
     - this is populated during the grounding and normalization step
-    from_schema: http://w3id.org/ontogpt/core
+    from_schema: http://w3id.org/ontogpt/mendelian_disease
     rank: 1000
     identifier: true
     alias: id
@@ -192,11 +195,16 @@ attributes:
     range: string
   label:
     name: label
+    annotations:
+      owl:
+        tag: owl
+        value: AnnotationProperty, AnnotationAssertion
     description: The label (name) of the named thing
-    from_schema: http://w3id.org/ontogpt/core
+    from_schema: http://w3id.org/ontogpt/mendelian_disease
     aliases:
     - name
     rank: 1000
+    slot_uri: rdfs:label
     alias: label
     owner: Onset
     domain_of:

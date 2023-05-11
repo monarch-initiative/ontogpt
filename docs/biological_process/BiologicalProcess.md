@@ -53,16 +53,16 @@ GeneMolecularActivityRelationship ||--|o MolecularActivity : "molecular_activity
 
 | Name | Cardinality and Range | Description | Inheritance |
 | ---  | --- | --- | --- |
-| [label](label.md) | 0..1 <br/> NONE |  | direct |
-| [description](description.md) | 0..1 <br/> NONE | a textual description of the biological process | direct |
-| [synonyms](synonyms.md) | 0..* <br/> NONE | alternative names of the biological process | direct |
+| [label](label.md) | 0..1 <br/> [String](String.md) |  | direct |
+| [description](description.md) | 0..1 <br/> [String](String.md) | a textual description of the biological process | direct |
+| [synonyms](synonyms.md) | 0..* <br/> [String](String.md) | alternative names of the biological process | direct |
 | [subclass_of](subclass_of.md) | 0..1 <br/> [BiologicalProcess](BiologicalProcess.md) | the category to which this biological process belongs | direct |
 | [inputs](inputs.md) | 0..* <br/> [ChemicalEntity](ChemicalEntity.md) | the inputs of the biological process | direct |
 | [outputs](outputs.md) | 0..* <br/> [ChemicalEntity](ChemicalEntity.md) | the outputs of the biological process | direct |
 | [steps](steps.md) | 0..* <br/> [MolecularActivity](MolecularActivity.md) | the steps involved in this biological process | direct |
 | [genes](genes.md) | 0..* <br/> [Gene](Gene.md) |  | direct |
 | [gene_activities](gene_activities.md) | 0..* <br/> [GeneMolecularActivityRelationship](GeneMolecularActivityRelationship.md) | semicolon-separated list of gene to molecular activity relationships | direct |
-| [id](id.md) | 0..1 <br/> NONE |  | [NamedEntity](NamedEntity.md) |
+| [id](id.md) | 1..1 <br/> [String](String.md) | A unique identifier for the named entity | [NamedEntity](NamedEntity.md) |
 
 
 
@@ -102,6 +102,9 @@ GeneMolecularActivityRelationship ||--|o MolecularActivity : "molecular_activity
 | ---  | ---  |
 | self | bp:BiologicalProcess |
 | native | bp:BiologicalProcess |
+
+
+
 
 
 ## LinkML Source
@@ -173,6 +176,7 @@ attributes:
     rank: 1000
     multivalued: true
     range: GeneMolecularActivityRelationship
+tree_root: true
 
 ```
 </details>
@@ -291,7 +295,7 @@ attributes:
     description: A unique identifier for the named entity
     comments:
     - this is populated during the grounding and normalization step
-    from_schema: http://w3id.org/ontogpt/core
+    from_schema: https://w3id.org/ontogpt/biological_process
     rank: 1000
     identifier: true
     alias: id
@@ -300,6 +304,7 @@ attributes:
     - NamedEntity
     - Publication
     range: string
+tree_root: true
 
 ```
 </details>

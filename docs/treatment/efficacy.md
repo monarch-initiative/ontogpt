@@ -22,7 +22,7 @@ URI: [treatment:efficacy](http://w3id.org/ontogpt/treatments/efficacy)
 
 ## Properties
 
-* Range: [xsd:string](xsd:string)
+* Range: [String](String.md)
 
 
 

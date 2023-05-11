@@ -22,7 +22,7 @@ URI: [core:prompt](http://w3id.org/ontogpt/core/prompt)
 
 ## Properties
 
-* Range: [xsd:string](xsd:string)
+* Range: [String](String.md)
 
 
 
@@ -54,6 +54,7 @@ name: prompt
 from_schema: http://w3id.org/ontogpt/core
 rank: 1000
 alias: prompt
+owner: ExtractionResult
 domain_of:
 - ExtractionResult
 range: string

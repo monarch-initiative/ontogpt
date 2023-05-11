@@ -6,7 +6,7 @@ _Abstract parent for Relation Extraction tasks_
 * __NOTE__: this is an abstract class and should not be instantiated directly
 
 
-URI: [core:Triple](http://w3id.org/ontogpt/core/Triple)
+URI: [drug:Triple](http://w3id.org/ontogpt/drug/Triple)
 
 
 ```mermaid
@@ -44,10 +44,10 @@ Triple ||--|o NamedEntity : "object_qualifier"
 
 | Name | Cardinality and Range | Description | Inheritance |
 | ---  | --- | --- | --- |
-| [subject](subject.md) | 0..1 <br/> NONE |  | direct |
-| [predicate](predicate.md) | 0..1 <br/> NONE |  | direct |
-| [object](object.md) | 0..1 <br/> NONE |  | direct |
-| [qualifier](qualifier.md) | 0..1 <br/> [xsd:string](xsd:string) | A qualifier for the statements, e | direct |
+| [subject](subject.md) | 0..1 <br/> [String](String.md) |  | direct |
+| [predicate](predicate.md) | 0..1 <br/> [String](String.md) |  | direct |
+| [object](object.md) | 0..1 <br/> [String](String.md) |  | direct |
+| [qualifier](qualifier.md) | 0..1 <br/> [String](String.md) | A qualifier for the statements, e | direct |
 | [subject_qualifier](subject_qualifier.md) | 0..1 <br/> [NamedEntity](NamedEntity.md) | An optional qualifier or modifier for the subject of the statement, e | direct |
 | [object_qualifier](object_qualifier.md) | 0..1 <br/> [NamedEntity](NamedEntity.md) | An optional qualifier or modifier for the object of the statement, e | direct |
 
@@ -77,7 +77,7 @@ Triple ||--|o NamedEntity : "object_qualifier"
 ### Schema Source
 
 
-* from schema: http://w3id.org/ontogpt/core
+* from schema: http://w3id.org/ontogpt/drug
 
 
 
@@ -87,8 +87,11 @@ Triple ||--|o NamedEntity : "object_qualifier"
 
 | Mapping Type | Mapped Value |
 | ---  | ---  |
-| self | core:Triple |
-| native | core:Triple |
+| self | drug:Triple |
+| native | drug:Triple |
+
+
+
 
 
 ## LinkML Source
@@ -101,41 +104,41 @@ Triple ||--|o NamedEntity : "object_qualifier"
 ```yaml
 name: Triple
 description: Abstract parent for Relation Extraction tasks
-from_schema: http://w3id.org/ontogpt/core
+from_schema: http://w3id.org/ontogpt/drug
 rank: 1000
 is_a: CompoundExpression
 abstract: true
 attributes:
   subject:
     name: subject
-    from_schema: http://w3id.org/ontogpt/core
+    from_schema: http://w3id.org/ontogpt/drug
     range: NamedEntity
   predicate:
     name: predicate
-    from_schema: http://w3id.org/ontogpt/core
+    from_schema: http://w3id.org/ontogpt/drug
     range: RelationshipType
   object:
     name: object
-    from_schema: http://w3id.org/ontogpt/core
+    from_schema: http://w3id.org/ontogpt/drug
     range: NamedEntity
   qualifier:
     name: qualifier
     description: A qualifier for the statements, e.g. "NOT" for negation
-    from_schema: http://w3id.org/ontogpt/core
+    from_schema: http://w3id.org/ontogpt/drug
     rank: 1000
     range: string
   subject_qualifier:
     name: subject_qualifier
     description: An optional qualifier or modifier for the subject of the statement,
       e.g. "high dose" or "intravenously administered"
-    from_schema: http://w3id.org/ontogpt/core
+    from_schema: http://w3id.org/ontogpt/drug
     rank: 1000
     range: NamedEntity
   object_qualifier:
     name: object_qualifier
     description: An optional qualifier or modifier for the object of the statement,
       e.g. "severe" or "with additional complications"
-    from_schema: http://w3id.org/ontogpt/core
+    from_schema: http://w3id.org/ontogpt/drug
     rank: 1000
     range: NamedEntity
 
@@ -148,14 +151,14 @@ attributes:
 ```yaml
 name: Triple
 description: Abstract parent for Relation Extraction tasks
-from_schema: http://w3id.org/ontogpt/core
+from_schema: http://w3id.org/ontogpt/drug
 rank: 1000
 is_a: CompoundExpression
 abstract: true
 attributes:
   subject:
     name: subject
-    from_schema: http://w3id.org/ontogpt/core
+    from_schema: http://w3id.org/ontogpt/drug
     alias: subject
     owner: Triple
     domain_of:
@@ -164,7 +167,7 @@ attributes:
     range: NamedEntity
   predicate:
     name: predicate
-    from_schema: http://w3id.org/ontogpt/core
+    from_schema: http://w3id.org/ontogpt/drug
     alias: predicate
     owner: Triple
     domain_of:
@@ -173,7 +176,7 @@ attributes:
     range: RelationshipType
   object:
     name: object
-    from_schema: http://w3id.org/ontogpt/core
+    from_schema: http://w3id.org/ontogpt/drug
     alias: object
     owner: Triple
     domain_of:
@@ -183,7 +186,7 @@ attributes:
   qualifier:
     name: qualifier
     description: A qualifier for the statements, e.g. "NOT" for negation
-    from_schema: http://w3id.org/ontogpt/core
+    from_schema: http://w3id.org/ontogpt/drug
     rank: 1000
     alias: qualifier
     owner: Triple
@@ -194,7 +197,7 @@ attributes:
     name: subject_qualifier
     description: An optional qualifier or modifier for the subject of the statement,
       e.g. "high dose" or "intravenously administered"
-    from_schema: http://w3id.org/ontogpt/core
+    from_schema: http://w3id.org/ontogpt/drug
     rank: 1000
     alias: subject_qualifier
     owner: Triple
@@ -205,7 +208,7 @@ attributes:
     name: object_qualifier
     description: An optional qualifier or modifier for the object of the statement,
       e.g. "severe" or "with additional complications"
-    from_schema: http://w3id.org/ontogpt/core
+    from_schema: http://w3id.org/ontogpt/drug
     rank: 1000
     alias: object_qualifier
     owner: Triple

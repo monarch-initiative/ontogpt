@@ -10,12 +10,19 @@ erDiagram
 DiseaseTreatmentSummary {
 
 }
-TreatmentEfficacy {
-    string efficacy  
+TreatmentAdverseEffect {
+
+}
+AdverseEffect {
+    string id  
+    string label  
 }
 Treatment {
     string id  
     string label  
+}
+TreatmentEfficacy {
+    string efficacy  
 }
 TreatmentMechanism {
 
@@ -36,8 +43,12 @@ Disease {
 DiseaseTreatmentSummary ||--|o Disease : "disease"
 DiseaseTreatmentSummary ||--}o Drug : "drugs"
 DiseaseTreatmentSummary ||--}o Treatment : "treatments"
+DiseaseTreatmentSummary ||--}o Treatment : "contraindications"
 DiseaseTreatmentSummary ||--}o TreatmentMechanism : "treatment_mechanisms"
 DiseaseTreatmentSummary ||--}o TreatmentEfficacy : "treatment_efficacies"
+DiseaseTreatmentSummary ||--}o TreatmentAdverseEffect : "treatment_adverse_effects"
+TreatmentAdverseEffect ||--|o Treatment : "treatment"
+TreatmentAdverseEffect ||--}o AdverseEffect : "adverse_effects"
 TreatmentEfficacy ||--|o Treatment : "treatment"
 TreatmentMechanism ||--|o Treatment : "treatment"
 TreatmentMechanism ||--|o Mechanism : "mechanism"
@@ -55,9 +66,11 @@ TreatmentMechanism ||--|o Mechanism : "mechanism"
 | ---  | --- | --- | --- |
 | [disease](disease.md) | 0..1 <br/> [Disease](Disease.md) | the name of the disease that is treated | direct |
 | [drugs](drugs.md) | 0..* <br/> [Drug](Drug.md) | semicolon-separated list of named small molecule drugs | direct |
-| [treatments](treatments.md) | 0..* <br/> [Treatment](Treatment.md) | semicolon-separated list of therapies and treatments | direct |
+| [treatments](treatments.md) | 0..* <br/> [Treatment](Treatment.md) | semicolon-separated list of therapies and treatments are indicated for treati... | direct |
+| [contraindications](contraindications.md) | 0..* <br/> [Treatment](Treatment.md) | semicolon-separated list of therapies and treatments that are contra-indicate... | direct |
 | [treatment_mechanisms](treatment_mechanisms.md) | 0..* <br/> [TreatmentMechanism](TreatmentMechanism.md) | semicolon-separated list of treatment to asterisk-separated mechanism associa... | direct |
 | [treatment_efficacies](treatment_efficacies.md) | 0..* <br/> [TreatmentEfficacy](TreatmentEfficacy.md) | semicolon-separated list of treatment to efficacy associations, e | direct |
+| [treatment_adverse_effects](treatment_adverse_effects.md) | 0..* <br/> [TreatmentAdverseEffect](TreatmentAdverseEffect.md) | semicolon-separated list of treatment to adverse effect associations, e | direct |
 
 
 
@@ -92,6 +105,9 @@ TreatmentMechanism ||--|o Mechanism : "mechanism"
 | native | treatment:DiseaseTreatmentSummary |
 
 
+
+
+
 ## LinkML Source
 
 <!-- TODO: investigate https://stackoverflow.com/questions/37606292/how-to-create-tabbed-code-blocks-in-mkdocs-or-sphinx -->
@@ -106,7 +122,7 @@ rank: 1000
 attributes:
   disease:
     name: disease
-    description: the name of the disease that is treated
+    description: the name of the disease that is treated.
     from_schema: http://w3id.org/ontogpt/treatment
     rank: 1000
     range: Disease
@@ -119,7 +135,24 @@ attributes:
     range: Drug
   treatments:
     name: treatments
-    description: semicolon-separated list of therapies and treatments
+    annotations:
+      prompt.examples:
+        tag: prompt.examples
+        value: Imatinib, exercise, surgery
+    description: semicolon-separated list of therapies and treatments are indicated
+      for treating the disease.
+    from_schema: http://w3id.org/ontogpt/treatment
+    rank: 1000
+    multivalued: true
+    range: Treatment
+  contraindications:
+    name: contraindications
+    annotations:
+      prompt.examples:
+        tag: prompt.examples
+        value: Beta-blockers, exercise, surgery
+    description: semicolon-separated list of therapies and treatments that are contra-indicated
+      for the disease, and should not be used, due to risk of adverse effects.
     from_schema: http://w3id.org/ontogpt/treatment
     rank: 1000
     multivalued: true
@@ -148,6 +181,19 @@ attributes:
     rank: 1000
     multivalued: true
     range: TreatmentEfficacy
+  treatment_adverse_effects:
+    name: treatment_adverse_effects
+    annotations:
+      prompt.separator:
+        tag: prompt.separator
+        value: '*'
+    description: semicolon-separated list of treatment to adverse effect associations,
+      e.g. Imatinib*nausea
+    from_schema: http://w3id.org/ontogpt/treatment
+    rank: 1000
+    multivalued: true
+    range: TreatmentAdverseEffect
+tree_root: true
 
 ```
 </details>
@@ -162,7 +208,7 @@ rank: 1000
 attributes:
   disease:
     name: disease
-    description: the name of the disease that is treated
+    description: the name of the disease that is treated.
     from_schema: http://w3id.org/ontogpt/treatment
     rank: 1000
     alias: disease
@@ -183,11 +229,32 @@ attributes:
     range: Drug
   treatments:
     name: treatments
-    description: semicolon-separated list of therapies and treatments
+    annotations:
+      prompt.examples:
+        tag: prompt.examples
+        value: Imatinib, exercise, surgery
+    description: semicolon-separated list of therapies and treatments are indicated
+      for treating the disease.
     from_schema: http://w3id.org/ontogpt/treatment
     rank: 1000
     multivalued: true
     alias: treatments
+    owner: DiseaseTreatmentSummary
+    domain_of:
+    - DiseaseTreatmentSummary
+    range: Treatment
+  contraindications:
+    name: contraindications
+    annotations:
+      prompt.examples:
+        tag: prompt.examples
+        value: Beta-blockers, exercise, surgery
+    description: semicolon-separated list of therapies and treatments that are contra-indicated
+      for the disease, and should not be used, due to risk of adverse effects.
+    from_schema: http://w3id.org/ontogpt/treatment
+    rank: 1000
+    multivalued: true
+    alias: contraindications
     owner: DiseaseTreatmentSummary
     domain_of:
     - DiseaseTreatmentSummary
@@ -224,6 +291,23 @@ attributes:
     domain_of:
     - DiseaseTreatmentSummary
     range: TreatmentEfficacy
+  treatment_adverse_effects:
+    name: treatment_adverse_effects
+    annotations:
+      prompt.separator:
+        tag: prompt.separator
+        value: '*'
+    description: semicolon-separated list of treatment to adverse effect associations,
+      e.g. Imatinib*nausea
+    from_schema: http://w3id.org/ontogpt/treatment
+    rank: 1000
+    multivalued: true
+    alias: treatment_adverse_effects
+    owner: DiseaseTreatmentSummary
+    domain_of:
+    - DiseaseTreatmentSummary
+    range: TreatmentAdverseEffect
+tree_root: true
 
 ```
 </details>

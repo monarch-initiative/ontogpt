@@ -33,7 +33,7 @@ FoodItem ||--|o FoodType : "food"
 | Name | Cardinality and Range | Description | Inheritance |
 | ---  | --- | --- | --- |
 | [food](food.md) | 0..1 <br/> [FoodType](FoodType.md) | the food item | direct |
-| [state](state.md) | 0..1 <br/> NONE | the state of the food item (e | direct |
+| [state](state.md) | 0..1 <br/> [String](String.md) | the state of the food item (e | direct |
 
 
 
@@ -58,6 +58,12 @@ FoodItem ||--|o FoodType : "food"
 
 
 
+### Annotations
+
+| property | value |
+| --- | --- |
+| owl | IntersectionOf |
+
 
 
 ### Schema Source
@@ -77,6 +83,9 @@ FoodItem ||--|o FoodType : "food"
 | native | recipe:FoodItem |
 
 
+
+
+
 ## LinkML Source
 
 <!-- TODO: investigate https://stackoverflow.com/questions/37606292/how-to-create-tabbed-code-blocks-in-mkdocs-or-sphinx -->
@@ -86,18 +95,31 @@ FoodItem ||--|o FoodType : "food"
 <details>
 ```yaml
 name: FoodItem
+annotations:
+  owl:
+    tag: owl
+    value: IntersectionOf
 from_schema: https://w3id.org/ontogpt/recipe
 rank: 1000
 is_a: CompoundExpression
 attributes:
   food:
     name: food
+    annotations:
+      owl:
+        tag: owl
+        value: ObjectProperty, ObjectSomeValuesFrom
     description: the food item
     from_schema: https://w3id.org/ontogpt/recipe
     rank: 1000
+    slot_uri: BFO:0000051
     range: FoodType
   state:
     name: state
+    annotations:
+      owl:
+        tag: owl
+        value: DataProperty, DataHasValue
     description: the state of the food item (e.g. chopped, diced)
     from_schema: https://w3id.org/ontogpt/recipe
     rank: 1000
@@ -110,15 +132,24 @@ attributes:
 <details>
 ```yaml
 name: FoodItem
+annotations:
+  owl:
+    tag: owl
+    value: IntersectionOf
 from_schema: https://w3id.org/ontogpt/recipe
 rank: 1000
 is_a: CompoundExpression
 attributes:
   food:
     name: food
+    annotations:
+      owl:
+        tag: owl
+        value: ObjectProperty, ObjectSomeValuesFrom
     description: the food item
     from_schema: https://w3id.org/ontogpt/recipe
     rank: 1000
+    slot_uri: BFO:0000051
     alias: food
     owner: FoodItem
     domain_of:
@@ -126,6 +157,10 @@ attributes:
     range: FoodType
   state:
     name: state
+    annotations:
+      owl:
+        tag: owl
+        value: DataProperty, DataHasValue
     description: the state of the food item (e.g. chopped, diced)
     from_schema: https://w3id.org/ontogpt/recipe
     rank: 1000

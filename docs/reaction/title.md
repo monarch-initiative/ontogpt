@@ -2,7 +2,7 @@
 _The title of the publication_
 
 
-URI: [core:title](http://w3id.org/ontogpt/core/title)
+URI: [reaction:title](http://w3id.org/ontogpt/reaction/title)
 
 
 
@@ -24,7 +24,7 @@ URI: [core:title](http://w3id.org/ontogpt/core/title)
 
 ## Properties
 
-* Range: [xsd:string](xsd:string)
+* Range: [String](String.md)
 
 
 
@@ -43,7 +43,7 @@ URI: [core:title](http://w3id.org/ontogpt/core/title)
 ### Schema Source
 
 
-* from schema: http://w3id.org/ontogpt/core
+* from schema: https://w3id.org/ontogpt/reaction
 
 
 
@@ -54,7 +54,7 @@ URI: [core:title](http://w3id.org/ontogpt/core/title)
 ```yaml
 name: title
 description: The title of the publication
-from_schema: http://w3id.org/ontogpt/core
+from_schema: https://w3id.org/ontogpt/reaction
 rank: 1000
 alias: title
 owner: Publication

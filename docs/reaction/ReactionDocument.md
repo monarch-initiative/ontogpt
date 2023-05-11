@@ -10,6 +10,10 @@ erDiagram
 ReactionDocument {
 
 }
+Evidence {
+    string id  
+    string label  
+}
 Organism {
     string id  
     string label  
@@ -32,6 +36,7 @@ ReactionDocument ||--}o Gene : "genes"
 ReactionDocument ||--}o Reaction : "reactions"
 ReactionDocument ||--}o GeneReactionPairing : "gene_reaction_pairings"
 ReactionDocument ||--|o Organism : "organism"
+ReactionDocument ||--}o Evidence : "has_evidence"
 GeneReactionPairing ||--|o Gene : "gene"
 GeneReactionPairing ||--|o Reaction : "reaction"
 Reaction ||--|o ReactionGrouping : "subclass_of"
@@ -50,9 +55,10 @@ Reaction ||--}o ChemicalEntity : "right_side"
 | Name | Cardinality and Range | Description | Inheritance |
 | ---  | --- | --- | --- |
 | [genes](genes.md) | 0..* <br/> [Gene](Gene.md) | semicolon separated list of genes that catalyzes the mentioned reactions | direct |
-| [reactions](reactions.md) | 0..1 <br/> NONE |  | direct |
+| [reactions](reactions.md) | 0..1 <br/> [String](String.md) |  | direct |
 | [gene_reaction_pairings](gene_reaction_pairings.md) | 0..* <br/> [GeneReactionPairing](GeneReactionPairing.md) | semicolon separated list of gene to reaction pairings | direct |
-| [organism](organism.md) | 0..1 <br/> NONE |  | direct |
+| [organism](organism.md) | 0..1 <br/> [String](String.md) |  | direct |
+| [has_evidence](has_evidence.md) | 0..* <br/> [Evidence](Evidence.md) | evidence for the reaction | direct |
 
 
 
@@ -85,6 +91,9 @@ Reaction ||--}o ChemicalEntity : "right_side"
 | ---  | ---  |
 | self | reaction:ReactionDocument |
 | native | reaction:ReactionDocument |
+
+
+
 
 
 ## LinkML Source
@@ -126,6 +135,13 @@ attributes:
     name: organism
     from_schema: https://w3id.org/ontogpt/reaction
     range: Organism
+  has_evidence:
+    name: has_evidence
+    description: evidence for the reaction
+    from_schema: https://w3id.org/ontogpt/reaction
+    rank: 1000
+    multivalued: true
+    range: Evidence
 
 ```
 </details>
@@ -183,6 +199,17 @@ attributes:
     - GeneToReaction
     - ReactionDocument
     range: Organism
+  has_evidence:
+    name: has_evidence
+    description: evidence for the reaction
+    from_schema: https://w3id.org/ontogpt/reaction
+    rank: 1000
+    multivalued: true
+    alias: has_evidence
+    owner: ReactionDocument
+    domain_of:
+    - ReactionDocument
+    range: Evidence
 
 ```
 </details>

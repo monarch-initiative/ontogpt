@@ -2,7 +2,7 @@
 _a brief textual description of the recipe_
 
 
-URI: [recipe:description](http://w3id.org/ontogpt/recipe/description)
+URI: [dcterms:description](http://purl.org/dc/terms/description)
 
 
 
@@ -24,7 +24,7 @@ URI: [recipe:description](http://w3id.org/ontogpt/recipe/description)
 
 ## Properties
 
-* Range: [xsd:string](xsd:string)
+* Range: [String](String.md)
 
 
 
@@ -37,6 +37,12 @@ URI: [recipe:description](http://w3id.org/ontogpt/recipe/description)
 
 
 
+
+### Annotations
+
+| property | value |
+| --- | --- |
+| owl | AnnotationProperty, AnnotationAssertion |
 
 
 
@@ -53,10 +59,16 @@ URI: [recipe:description](http://w3id.org/ontogpt/recipe/description)
 <details>
 ```yaml
 name: description
+annotations:
+  owl:
+    tag: owl
+    value: AnnotationProperty, AnnotationAssertion
 description: a brief textual description of the recipe
 from_schema: https://w3id.org/ontogpt/recipe
 rank: 1000
+slot_uri: dcterms:description
 alias: description
+owner: Recipe
 domain_of:
 - Recipe
 range: string

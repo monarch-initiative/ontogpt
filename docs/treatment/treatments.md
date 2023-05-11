@@ -1,5 +1,5 @@
 # Slot: treatments
-_semicolon-separated list of therapies and treatments_
+_semicolon-separated list of therapies and treatments are indicated for treating the disease._
 
 
 URI: [treatment:treatments](http://w3id.org/ontogpt/treatments/treatments)
@@ -40,6 +40,12 @@ URI: [treatment:treatments](http://w3id.org/ontogpt/treatments/treatments)
 
 
 
+### Annotations
+
+| property | value |
+| --- | --- |
+| prompt.examples | Imatinib, exercise, surgery |
+
 
 
 ### Schema Source
@@ -55,7 +61,12 @@ URI: [treatment:treatments](http://w3id.org/ontogpt/treatments/treatments)
 <details>
 ```yaml
 name: treatments
-description: semicolon-separated list of therapies and treatments
+annotations:
+  prompt.examples:
+    tag: prompt.examples
+    value: Imatinib, exercise, surgery
+description: semicolon-separated list of therapies and treatments are indicated for
+  treating the disease.
 from_schema: http://w3id.org/ontogpt/treatment
 rank: 1000
 multivalued: true

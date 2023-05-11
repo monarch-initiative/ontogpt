@@ -2,7 +2,7 @@
 
 
 
-URI: [core:TextWithTriples](http://w3id.org/ontogpt/core/TextWithTriples)
+URI: [eg:TextWithTriples](http://w3id.org/ontogpt/environmental-metagenome/TextWithTriples)
 
 
 ```mermaid
@@ -70,7 +70,7 @@ Triple ||--|o NamedEntity : "object_qualifier"
 ### Schema Source
 
 
-* from schema: http://w3id.org/ontogpt/core
+* from schema: http://w3id.org/ontogpt/metagenome
 
 
 
@@ -80,8 +80,11 @@ Triple ||--|o NamedEntity : "object_qualifier"
 
 | Mapping Type | Mapped Value |
 | ---  | ---  |
-| self | core:TextWithTriples |
-| native | core:TextWithTriples |
+| self | eg:TextWithTriples |
+| native | eg:TextWithTriples |
+
+
+
 
 
 ## LinkML Source
@@ -93,7 +96,7 @@ Triple ||--|o NamedEntity : "object_qualifier"
 <details>
 ```yaml
 name: TextWithTriples
-from_schema: http://w3id.org/ontogpt/core
+from_schema: http://w3id.org/ontogpt/metagenome
 rank: 1000
 attributes:
   publication:
@@ -102,13 +105,13 @@ attributes:
       prompt.skip:
         tag: prompt.skip
         value: 'true'
-    from_schema: http://w3id.org/ontogpt/core
+    from_schema: http://w3id.org/ontogpt/metagenome
     rank: 1000
     range: Publication
     inlined: true
   triples:
     name: triples
-    from_schema: http://w3id.org/ontogpt/core
+    from_schema: http://w3id.org/ontogpt/metagenome
     rank: 1000
     multivalued: true
     range: Triple
@@ -123,7 +126,7 @@ attributes:
 <details>
 ```yaml
 name: TextWithTriples
-from_schema: http://w3id.org/ontogpt/core
+from_schema: http://w3id.org/ontogpt/metagenome
 rank: 1000
 attributes:
   publication:
@@ -132,7 +135,7 @@ attributes:
       prompt.skip:
         tag: prompt.skip
         value: 'true'
-    from_schema: http://w3id.org/ontogpt/core
+    from_schema: http://w3id.org/ontogpt/metagenome
     rank: 1000
     alias: publication
     owner: TextWithTriples
@@ -142,7 +145,7 @@ attributes:
     inlined: true
   triples:
     name: triples
-    from_schema: http://w3id.org/ontogpt/core
+    from_schema: http://w3id.org/ontogpt/metagenome
     rank: 1000
     multivalued: true
     alias: triples

@@ -1,6 +1,6 @@
 # Slot: subject
 
-URI: [core:subject](http://w3id.org/ontogpt/core/subject)
+URI: [drug:subject](http://w3id.org/ontogpt/drug/subject)
 
 
 
@@ -42,7 +42,7 @@ URI: [core:subject](http://w3id.org/ontogpt/core/subject)
 ### Schema Source
 
 
-* from schema: http://w3id.org/ontogpt/core
+* from schema: http://w3id.org/ontogpt/ctd
 
 
 
@@ -52,7 +52,7 @@ URI: [core:subject](http://w3id.org/ontogpt/core/subject)
 <details>
 ```yaml
 name: subject
-from_schema: http://w3id.org/ontogpt/core
+from_schema: http://w3id.org/ontogpt/ctd
 rank: 1000
 alias: subject
 owner: Triple

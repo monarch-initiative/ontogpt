@@ -1,6 +1,6 @@
 # Slot: input_title
 
-URI: [core:input_title](http://w3id.org/ontogpt/core/input_title)
+URI: [reaction:input_title](http://w3id.org/ontogpt/reaction/input_title)
 
 
 
@@ -22,7 +22,7 @@ URI: [core:input_title](http://w3id.org/ontogpt/core/input_title)
 
 ## Properties
 
-* Range: [xsd:string](xsd:string)
+* Range: [String](String.md)
 
 
 
@@ -41,7 +41,7 @@ URI: [core:input_title](http://w3id.org/ontogpt/core/input_title)
 ### Schema Source
 
 
-* from schema: http://w3id.org/ontogpt/core
+* from schema: https://w3id.org/ontogpt/reaction
 
 
 
@@ -51,7 +51,7 @@ URI: [core:input_title](http://w3id.org/ontogpt/core/input_title)
 <details>
 ```yaml
 name: input_title
-from_schema: http://w3id.org/ontogpt/core
+from_schema: https://w3id.org/ontogpt/reaction
 rank: 1000
 alias: input_title
 owner: ExtractionResult

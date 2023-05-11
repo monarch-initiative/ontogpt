@@ -1,6 +1,6 @@
 # Slot: predicate
 
-URI: [core:predicate](http://w3id.org/ontogpt/core/predicate)
+URI: [drug:predicate](http://w3id.org/ontogpt/drug/predicate)
 
 
 
@@ -42,7 +42,7 @@ URI: [core:predicate](http://w3id.org/ontogpt/core/predicate)
 ### Schema Source
 
 
-* from schema: http://w3id.org/ontogpt/core
+* from schema: http://w3id.org/ontogpt/ctd
 
 
 
@@ -52,7 +52,7 @@ URI: [core:predicate](http://w3id.org/ontogpt/core/predicate)
 <details>
 ```yaml
 name: predicate
-from_schema: http://w3id.org/ontogpt/core
+from_schema: http://w3id.org/ontogpt/ctd
 rank: 1000
 alias: predicate
 owner: Triple

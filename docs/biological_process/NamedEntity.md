@@ -4,7 +4,7 @@
 * __NOTE__: this is an abstract class and should not be instantiated directly
 
 
-URI: [core:NamedEntity](http://w3id.org/ontogpt/core/NamedEntity)
+URI: [bp:NamedEntity](http://w3id.org/ontogpt/biological-process-templateNamedEntity)
 
 
 ```mermaid
@@ -35,8 +35,8 @@ NamedEntity {
 
 | Name | Cardinality and Range | Description | Inheritance |
 | ---  | --- | --- | --- |
-| [id](id.md) | 0..1 <br/> NONE |  | direct |
-| [label](label.md) | 0..1 <br/> NONE |  | direct |
+| [id](id.md) | 0..1 <br/> [String](String.md) |  | direct |
+| [label](label.md) | 0..1 <br/> [String](String.md) |  | direct |
 
 
 
@@ -67,7 +67,7 @@ NamedEntity {
 ### Schema Source
 
 
-* from schema: http://w3id.org/ontogpt/core
+* from schema: https://w3id.org/ontogpt/biological_process
 
 
 
@@ -77,8 +77,11 @@ NamedEntity {
 
 | Mapping Type | Mapped Value |
 | ---  | ---  |
-| self | core:NamedEntity |
-| native | core:NamedEntity |
+| self | bp:NamedEntity |
+| native | bp:NamedEntity |
+
+
+
 
 
 ## LinkML Source
@@ -90,7 +93,7 @@ NamedEntity {
 <details>
 ```yaml
 name: NamedEntity
-from_schema: http://w3id.org/ontogpt/core
+from_schema: https://w3id.org/ontogpt/biological_process
 rank: 1000
 abstract: true
 attributes:
@@ -103,15 +106,20 @@ attributes:
     description: A unique identifier for the named entity
     comments:
     - this is populated during the grounding and normalization step
-    from_schema: http://w3id.org/ontogpt/core
+    from_schema: https://w3id.org/ontogpt/biological_process
     rank: 1000
     identifier: true
   label:
     name: label
+    annotations:
+      owl:
+        tag: owl
+        value: AnnotationProperty, AnnotationAssertion
     description: The label (name) of the named thing
-    from_schema: http://w3id.org/ontogpt/core
+    from_schema: https://w3id.org/ontogpt/biological_process
     aliases:
     - name
+    slot_uri: rdfs:label
     range: string
 
 ```
@@ -122,7 +130,7 @@ attributes:
 <details>
 ```yaml
 name: NamedEntity
-from_schema: http://w3id.org/ontogpt/core
+from_schema: https://w3id.org/ontogpt/biological_process
 rank: 1000
 abstract: true
 attributes:
@@ -135,7 +143,7 @@ attributes:
     description: A unique identifier for the named entity
     comments:
     - this is populated during the grounding and normalization step
-    from_schema: http://w3id.org/ontogpt/core
+    from_schema: https://w3id.org/ontogpt/biological_process
     rank: 1000
     identifier: true
     alias: id
@@ -146,10 +154,15 @@ attributes:
     range: string
   label:
     name: label
+    annotations:
+      owl:
+        tag: owl
+        value: AnnotationProperty, AnnotationAssertion
     description: The label (name) of the named thing
-    from_schema: http://w3id.org/ontogpt/core
+    from_schema: https://w3id.org/ontogpt/biological_process
     aliases:
     - name
+    slot_uri: rdfs:label
     alias: label
     owner: NamedEntity
     domain_of:

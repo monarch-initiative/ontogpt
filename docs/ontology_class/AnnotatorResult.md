@@ -2,7 +2,7 @@
 
 
 
-URI: [core:AnnotatorResult](http://w3id.org/ontogpt/core/AnnotatorResult)
+URI: [oc:AnnotatorResult](http://w3id.org/ontogpt/ontology-class-templateAnnotatorResult)
 
 
 ```mermaid
@@ -26,9 +26,9 @@ AnnotatorResult {
 
 | Name | Cardinality and Range | Description | Inheritance |
 | ---  | --- | --- | --- |
-| [subject_text](subject_text.md) | 0..1 <br/> NONE |  | direct |
-| [object_id](object_id.md) | 0..1 <br/> NONE |  | direct |
-| [object_text](object_text.md) | 0..1 <br/> NONE |  | direct |
+| [subject_text](subject_text.md) | 0..1 <br/> [String](String.md) |  | direct |
+| [object_id](object_id.md) | 0..1 <br/> [String](String.md) |  | direct |
+| [object_text](object_text.md) | 0..1 <br/> [String](String.md) |  | direct |
 
 
 
@@ -49,7 +49,7 @@ AnnotatorResult {
 ### Schema Source
 
 
-* from schema: http://w3id.org/ontogpt/core
+* from schema: https://w3id.org/ontogpt/ontology_class
 
 
 
@@ -59,8 +59,11 @@ AnnotatorResult {
 
 | Mapping Type | Mapped Value |
 | ---  | ---  |
-| self | core:AnnotatorResult |
-| native | core:AnnotatorResult |
+| self | oc:AnnotatorResult |
+| native | oc:AnnotatorResult |
+
+
+
 
 
 ## LinkML Source
@@ -72,20 +75,20 @@ AnnotatorResult {
 <details>
 ```yaml
 name: AnnotatorResult
-from_schema: http://w3id.org/ontogpt/core
+from_schema: https://w3id.org/ontogpt/ontology_class
 rank: 1000
 attributes:
   subject_text:
     name: subject_text
-    from_schema: http://w3id.org/ontogpt/core
+    from_schema: https://w3id.org/ontogpt/ontology_class
     rank: 1000
   object_id:
     name: object_id
-    from_schema: http://w3id.org/ontogpt/core
+    from_schema: https://w3id.org/ontogpt/ontology_class
     rank: 1000
   object_text:
     name: object_text
-    from_schema: http://w3id.org/ontogpt/core
+    from_schema: https://w3id.org/ontogpt/ontology_class
     rank: 1000
 
 ```
@@ -96,12 +99,12 @@ attributes:
 <details>
 ```yaml
 name: AnnotatorResult
-from_schema: http://w3id.org/ontogpt/core
+from_schema: https://w3id.org/ontogpt/ontology_class
 rank: 1000
 attributes:
   subject_text:
     name: subject_text
-    from_schema: http://w3id.org/ontogpt/core
+    from_schema: https://w3id.org/ontogpt/ontology_class
     rank: 1000
     alias: subject_text
     owner: AnnotatorResult
@@ -110,7 +113,7 @@ attributes:
     range: string
   object_id:
     name: object_id
-    from_schema: http://w3id.org/ontogpt/core
+    from_schema: https://w3id.org/ontogpt/ontology_class
     rank: 1000
     alias: object_id
     owner: AnnotatorResult
@@ -119,7 +122,7 @@ attributes:
     range: string
   object_text:
     name: object_text
-    from_schema: http://w3id.org/ontogpt/core
+    from_schema: https://w3id.org/ontogpt/ontology_class
     rank: 1000
     alias: object_text
     owner: AnnotatorResult

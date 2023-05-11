@@ -2,7 +2,7 @@
 _a semicolon separated list of the inputs of this step_
 
 
-URI: [recipe:inputs](http://w3id.org/ontogpt/recipe/inputs)
+URI: [RO:0002233](http://purl.obolibrary.org/obo/RO_0002233)
 
 
 
@@ -40,6 +40,12 @@ URI: [recipe:inputs](http://w3id.org/ontogpt/recipe/inputs)
 
 
 
+### Annotations
+
+| property | value |
+| --- | --- |
+| owl | ObjectProperty, ObjectSomeValuesFrom |
+
 
 
 ### Schema Source
@@ -55,11 +61,17 @@ URI: [recipe:inputs](http://w3id.org/ontogpt/recipe/inputs)
 <details>
 ```yaml
 name: inputs
+annotations:
+  owl:
+    tag: owl
+    value: ObjectProperty, ObjectSomeValuesFrom
 description: a semicolon separated list of the inputs of this step
 from_schema: https://w3id.org/ontogpt/recipe
 rank: 1000
+slot_uri: RO:0002233
 multivalued: true
 alias: inputs
+owner: Step
 domain_of:
 - Step
 range: FoodItem

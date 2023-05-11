@@ -4,7 +4,7 @@
 * __NOTE__: this is an abstract class and should not be instantiated directly
 
 
-URI: [core:CompoundExpression](http://w3id.org/ontogpt/core/CompoundExpression)
+URI: [recipe:CompoundExpression](http://w3id.org/ontogpt/recipe/CompoundExpression)
 
 
 ```mermaid
@@ -54,7 +54,7 @@ CompoundExpression {
 ### Schema Source
 
 
-* from schema: http://w3id.org/ontogpt/core
+* from schema: https://w3id.org/ontogpt/recipe
 
 
 
@@ -64,8 +64,11 @@ CompoundExpression {
 
 | Mapping Type | Mapped Value |
 | ---  | ---  |
-| self | core:CompoundExpression |
-| native | core:CompoundExpression |
+| self | recipe:CompoundExpression |
+| native | recipe:CompoundExpression |
+
+
+
 
 
 ## LinkML Source
@@ -77,7 +80,7 @@ CompoundExpression {
 <details>
 ```yaml
 name: CompoundExpression
-from_schema: http://w3id.org/ontogpt/core
+from_schema: https://w3id.org/ontogpt/recipe
 rank: 1000
 abstract: true
 
@@ -89,7 +92,7 @@ abstract: true
 <details>
 ```yaml
 name: CompoundExpression
-from_schema: http://w3id.org/ontogpt/core
+from_schema: https://w3id.org/ontogpt/recipe
 rank: 1000
 abstract: true
 

@@ -48,16 +48,16 @@ Category ||--}o OntologyElement : "parts"
 
 | Name | Cardinality and Range | Description | Inheritance |
 | ---  | --- | --- | --- |
-| [name](name.md) | 1..1 <br/> NONE | the name of the entity | direct |
-| [context](context.md) | 0..1 <br/> NONE | the ontology to which this belongs (single-valued) | direct |
-| [description](description.md) | 0..1 <br/> NONE | a textual description of the entity (single-valued) | direct |
-| [synonyms](synonyms.md) | 0..* <br/> NONE | a list of alternative names of the entity | direct |
+| [name](name.md) | 1..1 <br/> [String](String.md) | the name of the entity | direct |
+| [context](context.md) | 0..1 <br/> [String](String.md) | the ontology to which this belongs (single-valued) | direct |
+| [description](description.md) | 0..1 <br/> [String](String.md) | a textual description of the entity (single-valued) | direct |
+| [synonyms](synonyms.md) | 0..* <br/> [String](String.md) | a list of alternative names of the entity | direct |
 | [categories](categories.md) | 0..* <br/> [Category](Category.md) | a list of the categories to which this entity belongs | direct |
 | [subclass_of](subclass_of.md) | 0..* <br/> [OntologyElement](OntologyElement.md) | a list of parent class (superclasses) of this entity | direct |
 | [part_of](part_of.md) | 0..* <br/> [OntologyElement](OntologyElement.md) | a list of things this element is part of | direct |
 | [subtypes](subtypes.md) | 0..* <br/> [OntologyElement](OntologyElement.md) | a list of child classes (subclasses) of this entity | direct |
 | [parts](parts.md) | 0..* <br/> [OntologyElement](OntologyElement.md) | a list of names of things this element has as parts (components) | direct |
-| [equivalent_to](equivalent_to.md) | 0..1 <br/> [xsd:string](xsd:string) | an OWL class expression with the necessary and sufficient conditions for this... | direct |
+| [equivalent_to](equivalent_to.md) | 0..1 <br/> [String](String.md) | an OWL class expression with the necessary and sufficient conditions for this... | direct |
 
 
 
@@ -105,6 +105,9 @@ Category ||--}o OntologyElement : "parts"
 | ---  | ---  |
 | self | oc:OntologyElement |
 | native | oc:OntologyElement |
+
+
+
 
 
 ## LinkML Source

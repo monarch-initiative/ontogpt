@@ -51,9 +51,9 @@ Reaction ||--}o ChemicalEntity : "right_side"
 
 | Name | Cardinality and Range | Description | Inheritance |
 | ---  | --- | --- | --- |
-| [gene](gene.md) | 0..1 <br/> NONE |  | direct |
-| [reactions](reactions.md) | 0..1 <br/> NONE |  | direct |
-| [organism](organism.md) | 0..1 <br/> NONE |  | direct |
+| [gene](gene.md) | 0..1 <br/> [String](String.md) |  | direct |
+| [reactions](reactions.md) | 0..1 <br/> [String](String.md) |  | direct |
+| [organism](organism.md) | 0..1 <br/> [String](String.md) |  | direct |
 
 
 
@@ -86,6 +86,9 @@ Reaction ||--}o ChemicalEntity : "right_side"
 | ---  | ---  |
 | self | reaction:GeneToReaction |
 | native | reaction:GeneToReaction |
+
+
+
 
 
 ## LinkML Source

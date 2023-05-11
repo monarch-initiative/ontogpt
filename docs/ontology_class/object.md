@@ -1,6 +1,6 @@
 # Slot: object
 
-URI: [core:object](http://w3id.org/ontogpt/core/object)
+URI: [oc:object](http://w3id.org/ontogpt/ontology-class-templateobject)
 
 
 
@@ -41,7 +41,7 @@ URI: [core:object](http://w3id.org/ontogpt/core/object)
 ### Schema Source
 
 
-* from schema: http://w3id.org/ontogpt/core
+* from schema: https://w3id.org/ontogpt/ontology_class
 
 
 
@@ -51,7 +51,7 @@ URI: [core:object](http://w3id.org/ontogpt/core/object)
 <details>
 ```yaml
 name: object
-from_schema: http://w3id.org/ontogpt/core
+from_schema: https://w3id.org/ontogpt/ontology_class
 rank: 1000
 alias: object
 owner: Triple

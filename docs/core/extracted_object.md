@@ -57,6 +57,7 @@ description: The complex objects extracted from the text
 from_schema: http://w3id.org/ontogpt/core
 rank: 1000
 alias: extracted_object
+owner: ExtractionResult
 domain_of:
 - ExtractionResult
 range: Any

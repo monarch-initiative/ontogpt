@@ -1,6 +1,6 @@
 # Slot: predicate
 
-URI: [core:predicate](http://w3id.org/ontogpt/core/predicate)
+URI: [mendelian_disease:predicate](http://w3id.org/ontogpt/mendelian_disease/predicate)
 
 
 
@@ -41,7 +41,7 @@ URI: [core:predicate](http://w3id.org/ontogpt/core/predicate)
 ### Schema Source
 
 
-* from schema: http://w3id.org/ontogpt/core
+* from schema: http://w3id.org/ontogpt/mendelian_disease
 
 
 
@@ -51,7 +51,7 @@ URI: [core:predicate](http://w3id.org/ontogpt/core/predicate)
 <details>
 ```yaml
 name: predicate
-from_schema: http://w3id.org/ontogpt/core
+from_schema: http://w3id.org/ontogpt/mendelian_disease
 rank: 1000
 alias: predicate
 owner: Triple

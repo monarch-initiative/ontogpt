@@ -23,7 +23,7 @@ URI: [reaction:reactions](http://w3id.org/ontogpt/reaction/reactions)
 
 ## Properties
 
-* Range: [xsd:string](xsd:string)
+* Range: [String](String.md)
 
 
 

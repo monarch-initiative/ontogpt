@@ -14,6 +14,7 @@ URI: [treatment:treatment](http://w3id.org/ontogpt/treatments/treatment)
 | Name | Description |
 | --- | --- |
 [TreatmentMechanism](TreatmentMechanism.md) | 
+[TreatmentAdverseEffect](TreatmentAdverseEffect.md) | 
 [TreatmentEfficacy](TreatmentEfficacy.md) | 
 
 
@@ -23,7 +24,7 @@ URI: [treatment:treatment](http://w3id.org/ontogpt/treatments/treatment)
 
 ## Properties
 
-* Range: [xsd:string](xsd:string)
+* Range: [String](String.md)
 
 
 
@@ -48,6 +49,7 @@ name: treatment
 alias: treatment
 domain_of:
 - TreatmentMechanism
+- TreatmentAdverseEffect
 - TreatmentEfficacy
 range: string
 

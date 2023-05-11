@@ -1,6 +1,6 @@
 # Slot: label
 
-URI: [core:label](http://w3id.org/ontogpt/core/label)
+URI: [reaction:label](http://w3id.org/ontogpt/reaction/label)
 
 
 
@@ -16,6 +16,7 @@ URI: [core:label](http://w3id.org/ontogpt/core/label)
 [Reaction](Reaction.md) | 
 [ReactionGrouping](ReactionGrouping.md) | 
 [ChemicalEntity](ChemicalEntity.md) | 
+[Evidence](Evidence.md) | 
 [Gene](Gene.md) | 
 [Organism](Organism.md) | 
 [NamedEntity](NamedEntity.md) | 
@@ -28,7 +29,7 @@ URI: [core:label](http://w3id.org/ontogpt/core/label)
 
 ## Properties
 
-* Range: [xsd:string](xsd:string)
+* Range: [String](String.md)
 
 
 

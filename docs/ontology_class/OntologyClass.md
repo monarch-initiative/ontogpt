@@ -43,13 +43,13 @@ LogicalDefinition ||--}o OntologyClass : "differentiating_characteristic_parents
 
 | Name | Cardinality and Range | Description | Inheritance |
 | ---  | --- | --- | --- |
-| [label](label.md) | 0..1 <br/> NONE |  | direct |
-| [description](description.md) | 0..1 <br/> NONE | a textual description of the entity | direct |
-| [synonyms](synonyms.md) | 0..* <br/> NONE | alternative names of the entity | direct |
+| [label](label.md) | 0..1 <br/> [String](String.md) |  | direct |
+| [description](description.md) | 0..1 <br/> [String](String.md) | a textual description of the entity | direct |
+| [synonyms](synonyms.md) | 0..* <br/> [String](String.md) | alternative names of the entity | direct |
 | [categories](categories.md) | 0..* <br/> [OntologyClass](OntologyClass.md) | the categories to which this entity belongs | direct |
 | [subclass_of](subclass_of.md) | 0..* <br/> [OntologyClass](OntologyClass.md) |  | direct |
 | [logical_definition](logical_definition.md) | 0..1 <br/> [LogicalDefinition](LogicalDefinition.md) | the necessary and sufficient conditions for this entity to be an instance of ... | direct |
-| [id](id.md) | 0..1 <br/> NONE |  | [NamedEntity](NamedEntity.md) |
+| [id](id.md) | 1..1 <br/> [String](String.md) | A unique identifier for the named entity | [NamedEntity](NamedEntity.md) |
 
 
 
@@ -94,6 +94,9 @@ LogicalDefinition ||--}o OntologyClass : "differentiating_characteristic_parents
 | native | oc:OntologyClass |
 
 
+
+
+
 ## LinkML Source
 
 <!-- TODO: investigate https://stackoverflow.com/questions/37606292/how-to-create-tabbed-code-blocks-in-mkdocs-or-sphinx -->
@@ -109,7 +112,7 @@ is_a: NamedEntity
 attributes:
   label:
     name: label
-    description: the name of the entity
+    description: the name of the main entity being defined
     from_schema: https://w3id.org/ontogpt/ontology_class
     rank: 1000
   description:
@@ -128,8 +131,10 @@ attributes:
     annotations:
       prompt:
         tag: prompt
-        value: semicolon-separated list of categories to which the entity belongs
-    description: the categories to which this entity belongs
+        value: semicolon-separated list of categories to which the entity belongs.
+          These may be taken from an upper level ontology such as COB, BioLink, or
+          UMLS semantic types.
+    description: the categories to which this entity belongs.
     from_schema: https://w3id.org/ontogpt/ontology_class
     rank: 1000
     multivalued: true
@@ -139,7 +144,8 @@ attributes:
     annotations:
       prompt:
         tag: prompt
-        value: semicolon-separated list of parent classes
+        value: semicolon-separated list of parent classes, indicating broader concepts.
+          E.g. if the input text is "a type of bone", then the parent class is "bone"
     from_schema: https://w3id.org/ontogpt/ontology_class
     rank: 1000
     multivalued: true
@@ -157,6 +163,7 @@ attributes:
     from_schema: https://w3id.org/ontogpt/ontology_class
     rank: 1000
     range: LogicalDefinition
+tree_root: true
 
 ```
 </details>
@@ -172,7 +179,7 @@ is_a: NamedEntity
 attributes:
   label:
     name: label
-    description: the name of the entity
+    description: the name of the main entity being defined
     from_schema: https://w3id.org/ontogpt/ontology_class
     rank: 1000
     alias: label
@@ -207,8 +214,10 @@ attributes:
     annotations:
       prompt:
         tag: prompt
-        value: semicolon-separated list of categories to which the entity belongs
-    description: the categories to which this entity belongs
+        value: semicolon-separated list of categories to which the entity belongs.
+          These may be taken from an upper level ontology such as COB, BioLink, or
+          UMLS semantic types.
+    description: the categories to which this entity belongs.
     from_schema: https://w3id.org/ontogpt/ontology_class
     rank: 1000
     multivalued: true
@@ -222,7 +231,8 @@ attributes:
     annotations:
       prompt:
         tag: prompt
-        value: semicolon-separated list of parent classes
+        value: semicolon-separated list of parent classes, indicating broader concepts.
+          E.g. if the input text is "a type of bone", then the parent class is "bone"
     from_schema: https://w3id.org/ontogpt/ontology_class
     rank: 1000
     multivalued: true
@@ -257,7 +267,7 @@ attributes:
     description: A unique identifier for the named entity
     comments:
     - this is populated during the grounding and normalization step
-    from_schema: http://w3id.org/ontogpt/core
+    from_schema: https://w3id.org/ontogpt/ontology_class
     rank: 1000
     identifier: true
     alias: id
@@ -266,6 +276,7 @@ attributes:
     - NamedEntity
     - Publication
     range: string
+tree_root: true
 
 ```
 </details>

@@ -1,6 +1,6 @@
 # Slot: object_text
 
-URI: [core:object_text](http://w3id.org/ontogpt/core/object_text)
+URI: [recipe:object_text](http://w3id.org/ontogpt/recipe/object_text)
 
 
 
@@ -22,7 +22,7 @@ URI: [core:object_text](http://w3id.org/ontogpt/core/object_text)
 
 ## Properties
 
-* Range: [xsd:string](xsd:string)
+* Range: [String](String.md)
 
 
 
@@ -41,7 +41,7 @@ URI: [core:object_text](http://w3id.org/ontogpt/core/object_text)
 ### Schema Source
 
 
-* from schema: http://w3id.org/ontogpt/core
+* from schema: https://w3id.org/ontogpt/recipe
 
 
 
@@ -51,9 +51,10 @@ URI: [core:object_text](http://w3id.org/ontogpt/core/object_text)
 <details>
 ```yaml
 name: object_text
-from_schema: http://w3id.org/ontogpt/core
+from_schema: https://w3id.org/ontogpt/recipe
 rank: 1000
 alias: object_text
+owner: AnnotatorResult
 domain_of:
 - AnnotatorResult
 range: string

@@ -24,7 +24,7 @@ URI: [reaction:description](http://w3id.org/ontogpt/reaction/description)
 
 ## Properties
 
-* Range: [xsd:string](xsd:string)
+* Range: [String](String.md)
 
 
 

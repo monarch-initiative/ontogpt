@@ -2,7 +2,7 @@
 _An optional qualifier or modifier for the object of the statement, e.g. "severe" or "with additional complications"_
 
 
-URI: [core:object_qualifier](http://w3id.org/ontogpt/core/object_qualifier)
+URI: [sample:object_qualifier](http://w3id.org/ontogpt/environmental-sample/object_qualifier)
 
 
 
@@ -43,7 +43,7 @@ URI: [core:object_qualifier](http://w3id.org/ontogpt/core/object_qualifier)
 ### Schema Source
 
 
-* from schema: http://w3id.org/ontogpt/core
+* from schema: http://w3id.org/ontogpt/environmental-sample
 
 
 
@@ -55,7 +55,7 @@ URI: [core:object_qualifier](http://w3id.org/ontogpt/core/object_qualifier)
 name: object_qualifier
 description: An optional qualifier or modifier for the object of the statement, e.g.
   "severe" or "with additional complications"
-from_schema: http://w3id.org/ontogpt/core
+from_schema: http://w3id.org/ontogpt/environmental-sample
 rank: 1000
 alias: object_qualifier
 owner: Triple

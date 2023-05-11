@@ -116,6 +116,9 @@ CausalRelationship ||--|o Variable : "effect"
 | native | eg:Study |
 
 
+
+
+
 ## LinkML Source
 
 <!-- TODO: investigate https://stackoverflow.com/questions/37606292/how-to-create-tabbed-code-blocks-in-mkdocs-or-sphinx -->

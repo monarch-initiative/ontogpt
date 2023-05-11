@@ -25,7 +25,7 @@ URI: [oc:context](http://w3id.org/ontogpt/ontology-class-templatecontext)
 
 ## Properties
 
-* Range: [xsd:string](xsd:string)
+* Range: [String](String.md)
 
 
 

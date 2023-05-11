@@ -22,7 +22,7 @@ URI: [mendelian_disease:decades](http://w3id.org/ontogpt/mendelian_disease/decad
 
 ## Properties
 
-* Range: [xsd:string](xsd:string)
+* Range: [String](String.md)
 * Multivalued: True
 
 

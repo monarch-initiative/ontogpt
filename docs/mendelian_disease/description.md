@@ -24,7 +24,7 @@ URI: [mendelian_disease:description](http://w3id.org/ontogpt/mendelian_disease/d
 
 ## Properties
 
-* Range: [xsd:string](xsd:string)
+* Range: [String](String.md)
 
 
 

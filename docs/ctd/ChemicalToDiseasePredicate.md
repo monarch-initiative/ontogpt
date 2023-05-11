@@ -32,8 +32,8 @@ ChemicalToDiseasePredicate {
 
 | Name | Cardinality and Range | Description | Inheritance |
 | ---  | --- | --- | --- |
-| [id](id.md) | 0..1 <br/> NONE |  | [NamedEntity](NamedEntity.md) |
-| [label](label.md) | 0..1 <br/> [xsd:string](xsd:string) | The label (name) of the named thing | [NamedEntity](NamedEntity.md) |
+| [id](id.md) | 1..1 <br/> [String](String.md) | A unique identifier for the named entity | [NamedEntity](NamedEntity.md) |
+| [label](label.md) | 0..1 <br/> [String](String.md) | The label (name) of the named thing | [NamedEntity](NamedEntity.md) |
 
 
 
@@ -79,6 +79,9 @@ ChemicalToDiseasePredicate {
 | native | drug:ChemicalToDiseasePredicate |
 
 
+
+
+
 ## LinkML Source
 
 <!-- TODO: investigate https://stackoverflow.com/questions/37606292/how-to-create-tabbed-code-blocks-in-mkdocs-or-sphinx -->
@@ -121,7 +124,7 @@ attributes:
     description: A unique identifier for the named entity
     comments:
     - this is populated during the grounding and normalization step
-    from_schema: http://w3id.org/ontogpt/core
+    from_schema: http://w3id.org/ontogpt/ctd
     rank: 1000
     identifier: true
     alias: id
@@ -132,11 +135,16 @@ attributes:
     range: string
   label:
     name: label
+    annotations:
+      owl:
+        tag: owl
+        value: AnnotationProperty, AnnotationAssertion
     description: The label (name) of the named thing
-    from_schema: http://w3id.org/ontogpt/core
+    from_schema: http://w3id.org/ontogpt/ctd
     aliases:
     - name
     rank: 1000
+    slot_uri: rdfs:label
     alias: label
     owner: ChemicalToDiseasePredicate
     domain_of:

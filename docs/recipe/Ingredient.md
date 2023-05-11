@@ -2,7 +2,7 @@
 
 
 
-URI: [recipe:Ingredient](http://w3id.org/ontogpt/recipe/Ingredient)
+URI: [FOODON:00004085](http://purl.obolibrary.org/obo/FOODON_00004085)
 
 
 ```mermaid
@@ -69,6 +69,12 @@ FoodItem ||--|o FoodType : "food"
 
 
 
+### Annotations
+
+| property | value |
+| --- | --- |
+| owl | IntersectionOf |
+
 
 
 ### Schema Source
@@ -84,8 +90,11 @@ FoodItem ||--|o FoodType : "food"
 
 | Mapping Type | Mapped Value |
 | ---  | ---  |
-| self | recipe:Ingredient |
+| self | FOODON:00004085 |
 | native | recipe:Ingredient |
+
+
+
 
 
 ## LinkML Source
@@ -97,22 +106,35 @@ FoodItem ||--|o FoodType : "food"
 <details>
 ```yaml
 name: Ingredient
+annotations:
+  owl:
+    tag: owl
+    value: IntersectionOf
 from_schema: https://w3id.org/ontogpt/recipe
 rank: 1000
 is_a: CompoundExpression
 attributes:
   food_item:
     name: food_item
+    annotations:
+      owl:
+        tag: owl
+        value: ObjectProperty, ObjectSomeValuesFrom
     description: the food item
     from_schema: https://w3id.org/ontogpt/recipe
     rank: 1000
     range: FoodItem
   amount:
     name: amount
+    annotations:
+      owl:
+        tag: owl
+        value: ObjectProperty, ObjectSomeValuesFrom
     description: the quantity of the ingredient, e.g. 2 lbs
     from_schema: https://w3id.org/ontogpt/recipe
     rank: 1000
     range: Quantity
+class_uri: FOODON:00004085
 
 ```
 </details>
@@ -122,12 +144,20 @@ attributes:
 <details>
 ```yaml
 name: Ingredient
+annotations:
+  owl:
+    tag: owl
+    value: IntersectionOf
 from_schema: https://w3id.org/ontogpt/recipe
 rank: 1000
 is_a: CompoundExpression
 attributes:
   food_item:
     name: food_item
+    annotations:
+      owl:
+        tag: owl
+        value: ObjectProperty, ObjectSomeValuesFrom
     description: the food item
     from_schema: https://w3id.org/ontogpt/recipe
     rank: 1000
@@ -138,6 +168,10 @@ attributes:
     range: FoodItem
   amount:
     name: amount
+    annotations:
+      owl:
+        tag: owl
+        value: ObjectProperty, ObjectSomeValuesFrom
     description: the quantity of the ingredient, e.g. 2 lbs
     from_schema: https://w3id.org/ontogpt/recipe
     rank: 1000
@@ -146,6 +180,7 @@ attributes:
     domain_of:
     - Ingredient
     range: Quantity
+class_uri: FOODON:00004085
 
 ```
 </details>

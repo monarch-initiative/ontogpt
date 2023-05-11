@@ -2,7 +2,7 @@
 _The label (name) of the named thing_
 
 
-URI: [core:label](http://w3id.org/ontogpt/core/label)
+URI: [rdfs:label](rdfs:label)
 
 
 
@@ -33,7 +33,7 @@ URI: [core:label](http://w3id.org/ontogpt/core/label)
 
 ## Properties
 
-* Range: [xsd:string](xsd:string)
+* Range: [String](String.md)
 
 
 
@@ -52,12 +52,18 @@ URI: [core:label](http://w3id.org/ontogpt/core/label)
 
 
 
+### Annotations
+
+| property | value |
+| --- | --- |
+| owl | AnnotationProperty, AnnotationAssertion |
+
 
 
 ### Schema Source
 
 
-* from schema: http://w3id.org/ontogpt/core
+* from schema: http://w3id.org/ontogpt/metagenome
 
 
 
@@ -67,11 +73,16 @@ URI: [core:label](http://w3id.org/ontogpt/core/label)
 <details>
 ```yaml
 name: label
+annotations:
+  owl:
+    tag: owl
+    value: AnnotationProperty, AnnotationAssertion
 description: The label (name) of the named thing
-from_schema: http://w3id.org/ontogpt/core
+from_schema: http://w3id.org/ontogpt/metagenome
 aliases:
 - name
 rank: 1000
+slot_uri: rdfs:label
 alias: label
 owner: NamedEntity
 domain_of:

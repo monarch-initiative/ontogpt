@@ -24,7 +24,7 @@ URI: [eg:value](http://w3id.org/ontogpt/environmental-metagenome/value)
 
 ## Properties
 
-* Range: [xsd:string](xsd:string)
+* Range: [String](String.md)
 
 
 

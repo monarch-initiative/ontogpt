@@ -25,7 +25,7 @@ URI: [oc:synonyms](http://w3id.org/ontogpt/ontology-class-templatesynonyms)
 
 ## Properties
 
-* Range: [xsd:string](xsd:string)
+* Range: [String](String.md)
 * Multivalued: True
 
 

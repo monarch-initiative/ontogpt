@@ -4,7 +4,7 @@
 * __NOTE__: this is an abstract class and should not be instantiated directly
 
 
-URI: [core:CompoundExpression](http://w3id.org/ontogpt/core/CompoundExpression)
+URI: [treatment:CompoundExpression](http://w3id.org/ontogpt/treatments/CompoundExpression)
 
 
 ```mermaid
@@ -23,6 +23,7 @@ CompoundExpression {
 ## Inheritance
 * **CompoundExpression**
     * [TreatmentMechanism](TreatmentMechanism.md)
+    * [TreatmentAdverseEffect](TreatmentAdverseEffect.md)
     * [TreatmentEfficacy](TreatmentEfficacy.md)
     * [Triple](Triple.md)
 
@@ -52,7 +53,7 @@ CompoundExpression {
 ### Schema Source
 
 
-* from schema: http://w3id.org/ontogpt/core
+* from schema: http://w3id.org/ontogpt/treatment
 
 
 
@@ -62,8 +63,11 @@ CompoundExpression {
 
 | Mapping Type | Mapped Value |
 | ---  | ---  |
-| self | core:CompoundExpression |
-| native | core:CompoundExpression |
+| self | treatment:CompoundExpression |
+| native | treatment:CompoundExpression |
+
+
+
 
 
 ## LinkML Source
@@ -75,7 +79,7 @@ CompoundExpression {
 <details>
 ```yaml
 name: CompoundExpression
-from_schema: http://w3id.org/ontogpt/core
+from_schema: http://w3id.org/ontogpt/treatment
 rank: 1000
 abstract: true
 
@@ -87,7 +91,7 @@ abstract: true
 <details>
 ```yaml
 name: CompoundExpression
-from_schema: http://w3id.org/ontogpt/core
+from_schema: http://w3id.org/ontogpt/treatment
 rank: 1000
 abstract: true
 

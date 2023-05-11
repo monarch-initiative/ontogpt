@@ -54,6 +54,7 @@ name: subject
 from_schema: http://w3id.org/ontogpt/core
 rank: 1000
 alias: subject
+owner: Triple
 domain_of:
 - Triple
 range: NamedEntity

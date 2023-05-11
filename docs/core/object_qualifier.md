@@ -58,6 +58,7 @@ description: An optional qualifier or modifier for the object of the statement, 
 from_schema: http://w3id.org/ontogpt/core
 rank: 1000
 alias: object_qualifier
+owner: Triple
 domain_of:
 - Triple
 range: NamedEntity

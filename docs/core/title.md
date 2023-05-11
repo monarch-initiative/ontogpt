@@ -24,7 +24,7 @@ URI: [core:title](http://w3id.org/ontogpt/core/title)
 
 ## Properties
 
-* Range: [xsd:string](xsd:string)
+* Range: [String](String.md)
 
 
 
@@ -57,6 +57,7 @@ description: The title of the publication
 from_schema: http://w3id.org/ontogpt/core
 rank: 1000
 alias: title
+owner: Publication
 domain_of:
 - Publication
 range: string
