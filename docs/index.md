@@ -36,9 +36,9 @@ Given a short text `abstract.txt` with content such as:
    > ...
    > ...
 
-(see [full input](tests/input/cases/gocam-betacat.txt))
+(see [full input](https://github.com/monarch-initiative/ontogpt/blob/main/tests/input/cases/gocam-betacat.txt))
 
-We can extract this into the [GO pathway datamodel](src/ontogpt/templates/gocam.yaml):
+We can extract this into the [GO pathway datamodel](https://github.com/monarch-initiative/ontogpt/blob/main/src/ontogpt/templates/gocam.yaml):
 
 ```bash
 ontogpt extract -t gocam.GoCamAnnotations abstract.txt
@@ -68,7 +68,7 @@ gene_functions:
 ...
 ```
 
-See [full output](tests/output/gocam-betacat.yaml)
+See [full output](https://github.com/monarch-initiative/ontogpt/blob/main/tests/output/gocam-betacat.yaml)
 
 note in the above the grounding is very preliminary and can be improved. Ungrounded NamedEntities appear as text.
 
@@ -100,7 +100,7 @@ poetry run runoak set-apikey -e bioportal <your bioportal api key>
 
 ### Step 1: Define a schema
 
-See [src/semantic_llama/templates/](src/ontogpt/templates/) for examples.
+See [src/ontogpt/templates/](https://github.com/monarch-initiative/ontogpt/tree/main/src/ontogpt/templates) for examples.
 
 Define a schema (using a subset of LinkML) that describes the structure you want to extract from your text.
 
@@ -185,7 +185,7 @@ Run the `make` command at the top level. This will compile the schema to pedanti
 e.g.
 
 ```
-emllama extract -t  mendelian_disease.MendelianDisease marfan-wikipedia.txt
+ontogpt extract -t  mendelian_disease.MendelianDisease marfan-wikipedia.txt
 ```
 
 ## Web Application
