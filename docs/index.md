@@ -2,10 +2,9 @@
 
 Generation of Ontologies and Knowledge Bases using GPT
 
-A knowledge extraction tool that uses a large language model to extract semantic information from text.
+A knowledge extraction tool that uses a large language model (LLM) to extract semantic information from text.
 
-This exploits the ability of ultra-LLMs such as GPT-3 to return user-defined data structures
-as a response.
+This exploits the ability of LLMs such as GPT-3 to return user-defined data structures as a response.
 
 Currently there are two different pipelines implemented:
 
@@ -13,10 +12,8 @@ Currently there are two different pipelines implemented:
     - Zero-shot learning approach to extracting nested semantic structures from text
     - Inputs: LinkML schema + text
     - Outputs: JSON, YAML, or RDF or OWL that conforms to the schema
-    - Uses text-davinci-003
 - HALO: HAllucinating Latent Ontologies 
     - Few-shot learning approach to generating/hallucinating a domain ontology given a few examples
-    - Uses code-davinci-002
 
 ## SPIRES: Usage
 
@@ -44,18 +41,18 @@ We can extract this into the [GO pathway datamodel](https://github.com/monarch-i
 ontogpt extract -t gocam.GoCamAnnotations abstract.txt
 ```
 
-Giving schema-compliant yaml such as:
+Giving schema-compliant YAML such as:
 
 ```yaml
 genes:
 - HGNC:2514
 - HGNC:21367
 - HGNC:27962
-- US3
+- AUTO:US3
 - FPLX:Interferon
-- ISG
+- AUTO:ISG
 gene_gene_interactions:
-- gene1: US3
+- gene1: AUTO:US3
   gene2: HGNC:2514
 gene_localizations:
 - gene: HGNC:2514
@@ -68,28 +65,28 @@ gene_functions:
 ...
 ```
 
-See [full output](https://github.com/monarch-initiative/ontogpt/blob/main/tests/output/gocam-betacat.yaml)
+See [full output](https://github.com/monarch-initiative/ontogpt/blob/main/tests/output/gocam-betacat.yaml).
 
-note in the above the grounding is very preliminary and can be improved. Ungrounded NamedEntities appear as text.
+Ungrounded named entities appear as text preceded by AUTO (or your preferred prefix, provided with the --auto-prefix option when using the extract command).
 
 ## How it works
 
 1. You provide an arbitrary data model, describing the structure you want to extract text into
     - this can be nested (but see limitations below)
-2. provide your preferred annotations for grounding NamedEntity fields
-3. semantic-llama will:
+2. Provide your preferred annotations for grounding NamedEntity fields
+3. OntoGPT will:
     - generate a prompt
-    - feed the prompt to a language model (currently OpenAI)
+    - feed the prompt to a language model (currently one of OpenAI's models)
     - parse the results into a dictionary structure
     - ground the results using a preferred annotator
 
 ## Pre-requisites
 
-- python 3.9+
+- Python 3.9+
 - an OpenAI account
 - a BioPortal account (optional, for grounding)
 
-You will need to set both API keys using OAK (which is a dependency of this project)
+You will need to set both API keys using OAK (which is a dependency of this project) as:
 
 ```
 poetry run runoak set-apikey -e openai <your openai api key>
@@ -102,7 +99,7 @@ poetry run runoak set-apikey -e bioportal <your bioportal api key>
 
 See [src/ontogpt/templates/](https://github.com/monarch-initiative/ontogpt/tree/main/src/ontogpt/templates) for examples.
 
-Define a schema (using a subset of LinkML) that describes the structure you want to extract from your text.
+Define a schema (using a subset of [LinkML](https://linkml.io/)) that describes the structure you want to extract from your text.
 
 ```yaml
 classes:
@@ -167,37 +164,40 @@ classes:
       annotators: sqlite:obo:hp
 ```
 
-- the schema is defined in LinkML
-- prompt hints can be specified using the `prompt` annotation (otherwise description is used)
-- multivalued fields are supported
-- the default range is string - these are not grounded. E.g. disease name, synonyms
-- define a class for each NamedEntity
-- for any NamedEntity, you can specify a preferred annotator using the `annotators` annotation
+- The schema is defined in LinkML.
+- Prompt hints can be specified using the `prompt` annotation (otherwise description is used).
+- Multivalued fields are supported.
+- The default range is string - these are not grounded, e.g., disease name, synonyms.
+- Define a class for each NamedEntity.
+- For any NamedEntity, you can specify one or more preferred annotators using the `annotators` annotation.
 
-We recommend following an established schema like biolink, but you can define your own.
+We recommend following an established schema like [Biolink Model](https://biolink.github.io/biolink-model/), but you can define your own.
 
 ### Step 2: Compile the schema
 
-Run the `make` command at the top level. This will compile the schema to pedantic
+Run the `make` command at the top level. This will compile the schemas in the templates directory to Pydantic classes.
+
+Alternatively, run `make src/templates/{name_of_schema}.py` to compile just this schema.
+For example, if your schema is defined within `entities.yaml`, run `make src/templates/entities.py`.
 
 ### Step 3: Run the command line
 
 e.g.
 
 ```
-ontogpt extract -t  mendelian_disease.MendelianDisease marfan-wikipedia.txt
+ontogpt extract -t mendelian_disease.MendelianDisease marfan-wikipedia.txt
 ```
 
 ## Web Application
 
-There is a bare bones web application
+There is a bare bones web application:
 
 ```
 poetry run web-ontogpt
 ```
 
 Note that the agent running uvicorn must have the API key set, so for obvious reasons
-don't host this publicly without authentication, unless you want your credits drained. 
+don't host this publicly without authentication, unless you want your credits drained.
 
 ## Features
 
@@ -207,7 +207,7 @@ Currently no more than two levels of nesting are recommended.
 
 If a field has a range which is itself a class and not a primitive, it will attempt to nest
 
-E.g. the gocam schema has an attribute:
+E.g. the [GO-CAM](http://geneontology.org/docs/gocam-overview/) schema has an attribute:
 
 ```yaml
   attributes:
@@ -218,7 +218,7 @@ E.g. the gocam schema has an attribute:
         range: GeneMolecularActivityRelationship
 ```
 
-Because GeneMolecularActivityRelationship is *inlined* it will nest
+Because GeneMolecularActivityRelationship is *inlined* it will nest.
 
 The generated prompt is:
 
@@ -247,8 +247,7 @@ This relies on an existing LLM, and LLMs can be fickle in their responses.
 
 ### Coupled to OpenAI
 
-You will need an openai account. In theory any LLM can be used but in practice the parser is tuned for OpenAI
-
+At present, you will need an OpenAI account.
 
 
 # Acknowledgements
