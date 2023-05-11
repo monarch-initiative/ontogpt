@@ -190,7 +190,14 @@ ontogpt extract -t mendelian_disease.MendelianDisease marfan-wikipedia.txt
 
 ## Web Application
 
-There is a bare bones web application:
+There is a bare bones web application for running OntoGPT and viewing results.
+
+Install the required dependencies first with the following command:
+```
+poetry install -E web
+```
+
+Then run the following command to start the web application:
 
 ```
 poetry run web-ontogpt
