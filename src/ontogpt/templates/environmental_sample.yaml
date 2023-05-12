@@ -17,6 +17,7 @@ imports:
 
 classes:
   Study:
+    tree_root: true
     attributes:
       location:
         description: the sites at which the study was conducted
@@ -46,7 +47,13 @@ classes:
 
       variables:
         annotations:
-          prompt: semicolon-separated list of study variables
+          prompt: >- 
+            semicolon-separated list of study experimental factors. 
+            these should be terms from the genomics standards consortium MIxS metadata standard 
+            as defined by the people at https://www.gensc.org/
+
+            examples: depth; lat_lon; alt; elev; tot_org_carb; tot_nitro_content
+          exclude: depth, lat_lon, alt, elev, tot_org_carb, tot_nitro_content
         range: Variable
         multivalued: true
 
