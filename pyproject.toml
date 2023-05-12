@@ -45,6 +45,7 @@ cachier = "^2.1.0"
 wikipedia-api = "^0.5.8"
 rustsim = "^0.1.8"
 requests-cache = "^1.0.1"
+langchain = "^0.0.167"
 
 [tool.poetry.dev-dependencies]
 pytest = "^7.1.2"
