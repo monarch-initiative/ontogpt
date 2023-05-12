@@ -323,9 +323,19 @@ Name: gocam-template</p>
 GoCamAnnotations {
 
 }
+GeneSubcellularLocalizationRelationship {
+
+}
+GeneLocation {
+    string id  
+    string label  
+}
 Gene {
     string id  
     string label  
+}
+GeneGeneInteraction {
+
 }
 Pathway {
     string id  
@@ -335,75 +345,19 @@ CellularProcess {
     string id  
     string label  
 }
+GeneMolecularActivityRelationship {
+
+}
 MolecularActivity {
-    string id  
-    string label  
-}
-GeneLocation {
-    string id  
-    string label  
-}
-Organism {
-    string id  
-    string label  
-}
-Molecule {
     string id  
     string label  
 }
 GeneOrganismRelationship {
 
 }
-GeneMolecularActivityRelationship {
-
-}
-GeneMolecularActivityRelationship2 {
-
-}
-GeneSubcellularLocalizationRelationship {
-
-}
-GeneGeneInteraction {
-
-}
-Any {
-
-}
-ExtractionResult {
-    string input_id  
-    string input_title  
-    string input_text  
-    string raw_completion_output  
-    string prompt  
-}
-NamedEntity {
+Organism {
     string id  
     string label  
-}
-CompoundExpression {
-
-}
-Triple {
-    string qualifier  
-}
-TextWithTriples {
-
-}
-RelationshipType {
-    string id  
-    string label  
-}
-Publication {
-    string id  
-    string title  
-    string abstract  
-    string combined_text  
-    string full_text  
-}
-AnnotatorResult {
-    string subject_text  
-    string object_id  
-    string object_text  
 }
 
 GoCamAnnotations ||--}o Gene : "genes"
@@ -415,26 +369,14 @@ GoCamAnnotations ||--}o CellularProcess : "cellular_processes"
 GoCamAnnotations ||--}o Pathway : "pathways"
 GoCamAnnotations ||--}o GeneGeneInteraction : "gene_gene_interactions"
 GoCamAnnotations ||--}o GeneSubcellularLocalizationRelationship : "gene_localizations"
-GeneOrganismRelationship ||--|o Gene : "gene"
-GeneOrganismRelationship ||--|o Organism : "organism"
-GeneMolecularActivityRelationship ||--|o Gene : "gene"
-GeneMolecularActivityRelationship ||--|o MolecularActivity : "molecular_activity"
-GeneMolecularActivityRelationship2 ||--|o Gene : "gene"
-GeneMolecularActivityRelationship2 ||--|o MolecularActivity : "molecular_activity"
-GeneMolecularActivityRelationship2 ||--|o Molecule : "target"
 GeneSubcellularLocalizationRelationship ||--|o Gene : "gene"
 GeneSubcellularLocalizationRelationship ||--|o GeneLocation : "location"
 GeneGeneInteraction ||--|o Gene : "gene1"
 GeneGeneInteraction ||--|o Gene : "gene2"
-ExtractionResult ||--|o Any : "extracted_object"
-ExtractionResult ||--}o Any : "named_entities"
-Triple ||--|o NamedEntity : "subject"
-Triple ||--|o RelationshipType : "predicate"
-Triple ||--|o NamedEntity : "object"
-Triple ||--|o NamedEntity : "subject_qualifier"
-Triple ||--|o NamedEntity : "object_qualifier"
-TextWithTriples ||--|o Publication : "publication"
-TextWithTriples ||--}o Triple : "triples"
+GeneMolecularActivityRelationship ||--|o Gene : "gene"
+GeneMolecularActivityRelationship ||--|o MolecularActivity : "molecular_activity"
+GeneOrganismRelationship ||--|o Gene : "gene"
+GeneOrganismRelationship ||--|o Organism : "organism"
 
 </div>
 <h2 id="classes">Classes</h2>
@@ -475,7 +417,7 @@ TextWithTriples ||--}o Triple : "triples"
 <td></td>
 </tr>
 <tr>
-<td><a href="GeneLocation.md">GeneLocation</a></td>
+<td><a href="GeneLocation/">GeneLocation</a></td>
 <td></td>
 </tr>
 <tr>
@@ -570,7 +512,7 @@ TextWithTriples ||--}o Triple : "triples"
 <td>The full text of the publication</td>
 </tr>
 <tr>
-<td><a href="gene.md">gene</a></td>
+<td><a href="gene/">gene</a></td>
 <td></td>
 </tr>
 <tr>
@@ -650,7 +592,7 @@ TextWithTriples ||--}o Triple : "triples"
 <td></td>
 </tr>
 <tr>
-<td><a href="organism.md">organism</a></td>
+<td><a href="organism/">organism</a></td>
 <td></td>
 </tr>
 <tr>
@@ -670,7 +612,7 @@ TextWithTriples ||--}o Triple : "triples"
 <td></td>
 </tr>
 <tr>
-<td><a href="publication.md">publication</a></td>
+<td><a href="publication/">publication</a></td>
 <td></td>
 </tr>
 <tr>
@@ -717,15 +659,15 @@ TextWithTriples ||--}o Triple : "triples"
 </thead>
 <tbody>
 <tr>
-<td><a href="CellType.md">CellType</a></td>
+<td><a href="CellType/">CellType</a></td>
 <td></td>
 </tr>
 <tr>
-<td><a href="GeneLocationEnum.md">GeneLocationEnum</a></td>
+<td><a href="GeneLocationEnum/">GeneLocationEnum</a></td>
 <td></td>
 </tr>
 <tr>
-<td><a href="GOCellComponentType.md">GOCellComponentType</a></td>
+<td><a href="GOCellComponentType/">GOCellComponentType</a></td>
 <td></td>
 </tr>
 </tbody>
@@ -740,67 +682,63 @@ TextWithTriples ||--}o Triple : "triples"
 </thead>
 <tbody>
 <tr>
-<td><a href="xsd:boolean">xsd:boolean</a></td>
+<td><a href="Boolean/">Boolean</a></td>
 <td>A binary (true or false) value</td>
 </tr>
 <tr>
-<td><a href="xsd:string">xsd:string</a></td>
-<td>a compact URI</td>
-</tr>
-<tr>
-<td><a href="xsd:date">xsd:date</a></td>
+<td><a href="Date/">Date</a></td>
 <td>a date (year, month and day) in an idealized calendar</td>
 </tr>
 <tr>
-<td><a href="https://w3id.org/linkml/DateOrDatetime">linkml:DateOrDatetime</a></td>
+<td><a href="DateOrDatetime/">DateOrDatetime</a></td>
 <td>Either a date or a datetime</td>
 </tr>
 <tr>
-<td><a href="xsd:dateTime">xsd:dateTime</a></td>
+<td><a href="Datetime/">Datetime</a></td>
 <td>The combination of a date and time</td>
 </tr>
 <tr>
-<td><a href="xsd:decimal">xsd:decimal</a></td>
+<td><a href="Decimal/">Decimal</a></td>
 <td>A real number with arbitrary precision that conforms to the xsd:decimal speci...</td>
 </tr>
 <tr>
-<td><a href="xsd:double">xsd:double</a></td>
+<td><a href="Double/">Double</a></td>
 <td>A real number that conforms to the xsd:double specification</td>
 </tr>
 <tr>
-<td><a href="xsd:float">xsd:float</a></td>
+<td><a href="Float/">Float</a></td>
 <td>A real number that conforms to the xsd:float specification</td>
 </tr>
 <tr>
-<td><a href="xsd:integer">xsd:integer</a></td>
+<td><a href="Integer/">Integer</a></td>
 <td>An integer</td>
 </tr>
 <tr>
-<td><a href="xsd:string">xsd:string</a></td>
+<td><a href="Ncname/">Ncname</a></td>
 <td>Prefix part of CURIE</td>
 </tr>
 <tr>
-<td><a href="shex:nonLiteral">shex:nonLiteral</a></td>
+<td><a href="Nodeidentifier/">Nodeidentifier</a></td>
 <td>A URI, CURIE or BNODE that represents a node in a model</td>
 </tr>
 <tr>
-<td><a href="shex:iri">shex:iri</a></td>
+<td><a href="Objectidentifier/">Objectidentifier</a></td>
 <td>A URI or CURIE that represents an object in the model</td>
 </tr>
 <tr>
-<td><a href="xsd:string">xsd:string</a></td>
+<td><a href="String/">String</a></td>
 <td>A character string</td>
 </tr>
 <tr>
-<td><a href="xsd:dateTime">xsd:dateTime</a></td>
+<td><a href="Time/">Time</a></td>
 <td>A time object represents a (local) time of day, independent of any particular...</td>
 </tr>
 <tr>
-<td><a href="xsd:anyURI">xsd:anyURI</a></td>
+<td><a href="Uri/">Uri</a></td>
 <td>a complete URI</td>
 </tr>
 <tr>
-<td><a href="xsd:anyURI">xsd:anyURI</a></td>
+<td><a href="Uriorcurie/">Uriorcurie</a></td>
 <td>a URI or a CURIE</td>
 </tr>
 </tbody>

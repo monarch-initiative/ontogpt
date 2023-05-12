@@ -516,26 +516,6 @@
     Identifier and Mapping Information
   </a>
   
-    <nav class="md-nav" aria-label="Identifier and Mapping Information">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#annotations" class="md-nav__link">
-    Annotations
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#schema-source" class="md-nav__link">
-    Schema Source
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
 </li>
       
         <li class="md-nav__item">
@@ -589,44 +569,18 @@
 </table>
 <h2 id="properties">Properties</h2>
 <ul>
-<li>Range: <a href="../MolecularActivity/">MolecularActivity</a></li>
+<li>Range: <a href="../String/">String</a></li>
 </ul>
 <h2 id="identifier-and-mapping-information">Identifier and Mapping Information</h2>
-<h3 id="annotations">Annotations</h3>
-<table>
-<thead>
-<tr>
-<th>property</th>
-<th>value</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>prompt</td>
-<td>the name of the molecular function in the pair. This comes second. May be a GO term.</td>
-</tr>
-</tbody>
-</table>
-<h3 id="schema-source">Schema Source</h3>
-<ul>
-<li>from schema: http://w3id.org/ontogpt/gocam</li>
-</ul>
 <h2 id="linkml-source">LinkML Source</h2>
 <details>
 
 <pre><code class="language-yaml">name: molecular_activity
-annotations:
-  prompt:
-    tag: prompt
-    value: the name of the molecular function in the pair. This comes second. May
-      be a GO term.
-from_schema: http://w3id.org/ontogpt/gocam
-rank: 1000
 alias: molecular_activity
 domain_of:
 - GeneMolecularActivityRelationship
 - GeneMolecularActivityRelationship2
-range: MolecularActivity
+range: string
 
 </code></pre>
 

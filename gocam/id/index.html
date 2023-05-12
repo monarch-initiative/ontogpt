@@ -512,36 +512,9 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#comments" class="md-nav__link">
-    Comments
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
   <a href="#identifier-and-mapping-information" class="md-nav__link">
     Identifier and Mapping Information
   </a>
-  
-    <nav class="md-nav" aria-label="Identifier and Mapping Information">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#annotations" class="md-nav__link">
-    Annotations
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#schema-source" class="md-nav__link">
-    Schema Source
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
   
 </li>
       
@@ -572,8 +545,7 @@
 
 
 <h1 id="slot-id">Slot: id</h1>
-<p><em>A unique identifier for the named entity</em></p>
-<p>URI: <a href="http://w3id.org/ontogpt/core/id">core:id</a></p>
+<p>URI: <a href="http://w3id.org/ontogpt/gocam/id">gocam:id</a></p>
 <!-- no inheritance hierarchy -->
 
 <h2 id="applicable-classes">Applicable Classes</h2>
@@ -602,7 +574,7 @@
 <td></td>
 </tr>
 <tr>
-<td><a href="GeneLocation.md">GeneLocation</a></td>
+<td><a href="../GeneLocation/">GeneLocation</a></td>
 <td></td>
 </tr>
 <tr>
@@ -629,46 +601,13 @@
 </table>
 <h2 id="properties">Properties</h2>
 <ul>
-<li>Range: <a href="xsd:string">xsd:string</a></li>
-</ul>
-<h2 id="comments">Comments</h2>
-<ul>
-<li>this is populated during the grounding and normalization step</li>
+<li>Range: <a href="../String/">String</a></li>
 </ul>
 <h2 id="identifier-and-mapping-information">Identifier and Mapping Information</h2>
-<h3 id="annotations">Annotations</h3>
-<table>
-<thead>
-<tr>
-<th>property</th>
-<th>value</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>prompt.skip</td>
-<td>true</td>
-</tr>
-</tbody>
-</table>
-<h3 id="schema-source">Schema Source</h3>
-<ul>
-<li>from schema: http://w3id.org/ontogpt/core</li>
-</ul>
 <h2 id="linkml-source">LinkML Source</h2>
 <details>
 
 <pre><code class="language-yaml">name: id
-annotations:
-  prompt.skip:
-    tag: prompt.skip
-    value: 'true'
-description: A unique identifier for the named entity
-comments:
-- this is populated during the grounding and normalization step
-from_schema: http://w3id.org/ontogpt/core
-rank: 1000
-identifier: true
 alias: id
 domain_of:
 - NamedEntity

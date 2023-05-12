@@ -333,13 +333,13 @@ MolecularActivity {
 <tbody>
 <tr>
 <td><a href="../id/">id</a></td>
-<td>1..1 <br/> <a href="xsd:string">xsd:string</a></td>
+<td>1..1 <br/> <a href="../String/">String</a></td>
 <td>A unique identifier for the named entity</td>
 <td><a href="../NamedEntity/">NamedEntity</a></td>
 </tr>
 <tr>
 <td><a href="../label/">label</a></td>
-<td>0..1 <br/> <a href="xsd:string">xsd:string</a></td>
+<td>0..1 <br/> <a href="../String/">String</a></td>
 <td>The label (name) of the named thing</td>
 <td><a href="../NamedEntity/">NamedEntity</a></td>
 </tr>
@@ -459,7 +459,7 @@ attributes:
     description: A unique identifier for the named entity
     comments:
     - this is populated during the grounding and normalization step
-    from_schema: http://w3id.org/ontogpt/core
+    from_schema: http://w3id.org/ontogpt/gocam
     rank: 1000
     identifier: true
     alias: id
@@ -470,11 +470,16 @@ attributes:
     range: string
   label:
     name: label
+    annotations:
+      owl:
+        tag: owl
+        value: AnnotationProperty, AnnotationAssertion
     description: The label (name) of the named thing
-    from_schema: http://w3id.org/ontogpt/core
+    from_schema: http://w3id.org/ontogpt/gocam
     aliases:
     - name
     rank: 1000
+    slot_uri: rdfs:label
     alias: label
     owner: MolecularActivity
     domain_of:
