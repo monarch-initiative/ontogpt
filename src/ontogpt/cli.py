@@ -910,8 +910,8 @@ def fill(template, object: str, examples, output, output_format, **kwargs):
 
 
 @main.command()
-def models(**kwargs):
-    """Prompt completion."""
+def openai_models(**kwargs):
+    """List OpenAI models for prompt completion."""
     ai = OpenAIClient()
     for model in openai.Model.list():
         print(model)
