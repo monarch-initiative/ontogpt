@@ -27,6 +27,7 @@ from ontogpt.engines.embedding_similarity_engine import SimilarityEngine
 from ontogpt.engines.enrichment import EnrichmentEngine
 from ontogpt.engines.halo_engine import HALOEngine
 from ontogpt.engines.knowledge_engine import KnowledgeEngine
+from ontogpt.engines.models import MODELS
 from ontogpt.engines.spires_engine import SPIRESEngine
 from ontogpt.engines.synonym_engine import SynonymEngine
 from ontogpt.evaluation.enrichment.eval_enrichment import EvalEnrichment
@@ -1051,6 +1052,12 @@ def list_templates():
     """List the templates."""
     print("TODO")
 
+
+@main.command()
+def list_models():
+    """List all available models."""
+    for modelname in MODELS:
+        print(modelname)
 
 if __name__ == "__main__":
     main()
