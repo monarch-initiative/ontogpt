@@ -152,14 +152,18 @@ class KnowledgeEngine(ABC):
             self.model = DEFAULT_MODEL
         
         # Identify model source (e.g., OpenAI)
+        # TODO: move this to its own function
         if self.model.startswith('openai'):
             modelname = "-".join((self.model.split("-"))[1:])
             self.client = OpenAIClient(model=modelname)
             logging.info("Setting up OpenAI client API Key")
             self.api_key = self._get_openai_api_key()
             openai.api_key = self.api_key
+        elif self.model.startswith('ggml'):
+            modelname = "-".join((self.model.split("-"))[1:])
+            raise NotImplementedError("GPT4ALL models - work in progress")
         else:
-            raise NotImplementedError("Other models not yet supported.")
+            raise NotImplementedError("Other models not yet supported. See all models with `ontogpt list-models`")
         if self.mappers is None:
             logging.info("Using mappers (currently hardcoded)")
             self.mappers = [get_adapter("translator:")]
