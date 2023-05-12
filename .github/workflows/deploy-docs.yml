@@ -40,5 +40,5 @@ jobs:
     - name: Create local docs
       run: |
         touch docs/.nojekyll
-        make all_docs
-        make gh-deploy
+        poetry run make all_docs
+        poetry run make gh-deploy
