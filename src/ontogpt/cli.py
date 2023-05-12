@@ -111,7 +111,13 @@ interactive_option = click.option(
     show_default=True,
     help="Interactive mode - rather than call the LLM API it will prompt you do this.",
 )
-model_option = click.option("-m", "--model", help="Engine to use, e.g. text-davinci-003.")
+model_option = click.option(
+    "-m",
+    "--model",
+    help="Model name to use, e.g. openai-text-davinci-003."
+         " The first part of this name must be the source of the model."
+         " The second part must be the model name.",
+)
 prompt_template_option = click.option(
     "--prompt-template", help="Path to a file containing the prompt."
 )
