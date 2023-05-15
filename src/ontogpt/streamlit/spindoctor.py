@@ -38,15 +38,23 @@ source = col1.selectbox(
     ),
 )
 
+openai_api_key = col1.text_input(
+    "OpenAI API Key:",
+    placeholder="(sk-...) Press [Enter] to submit.",
+)
+
 
 # Button for parsing and displaying the names
 if col1.button("Summarize genes"):
     gene_symbols = [symbol.strip() for symbol in re.split(r"[\-,;\s]+", gene_symbols)]
     gene_set = GeneSet(name="TEMP", gene_symbols=gene_symbols)
     ke = create_engine(None, EnrichmentEngine, model=model)
+    if openai_api_key:
+        ke.set_api_key(openai_api_key)
     if not isinstance(ke, EnrichmentEngine):
         raise ValueError(f"Expected EnrichmentEngine, got {type(ke)}")
     source_pv = GeneDescriptionSource(source)
+    col1.write("Analyzing, please wait...")
     results = ke.summarize(gene_set, gene_description_source=source_pv)
     col1.header("Genes")
     for gene_id in gene_set.gene_ids:
