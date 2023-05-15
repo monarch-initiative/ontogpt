@@ -2685,37 +2685,36 @@ files = [
 
 [[package]]
 name = "kgcl-rdflib"
-version = "0.3.0"
-description = "Schema fro the KGCL project."
-category = "main"
-optional = false
-python-versions = ">=3.8,<4.0"
-files = [
-    {file = "kgcl-rdflib-0.3.0.tar.gz", hash = "sha256:3a290942d96036bdb6e1ed0ee7131d89b6d9266a0e7bfcfc83bffc4af43d1d53"},
-    {file = "kgcl_rdflib-0.3.0-py3-none-any.whl", hash = "sha256:0d81571187c2ae5b455e7699f27deb87f6f31ea41e94996d9a3ec07374790283"},
-]
-
-[package.dependencies]
-kgcl-schema = ">=0.3.0,<0.4.0"
-lark = ">=1.1.2,<2.0.0"
-linkml-runtime = ">=1.1.24,<2.0.0"
-
-[[package]]
-name = "kgcl-schema"
-version = "0.3.6"
+version = "0.5.0"
 description = "Schema for the KGCL project."
 category = "main"
 optional = false
 python-versions = ">=3.8,<4.0"
 files = [
-    {file = "kgcl_schema-0.3.6-py3-none-any.whl", hash = "sha256:270a5bbb2af10f6566763d676f505b81a2369eec7fec2e436c322ded1b62efbf"},
-    {file = "kgcl_schema-0.3.6.tar.gz", hash = "sha256:090a8135650e88442f5ca36f0b67e6261be2406f7eefd1bdb3cb45fbc2dc60c6"},
+    {file = "kgcl_rdflib-0.5.0-py3-none-any.whl", hash = "sha256:214c011eac692384dd18397e455af2a7375f6a2f71fa318df245e8826678f454"},
+    {file = "kgcl_rdflib-0.5.0.tar.gz", hash = "sha256:19e34690316714b9c500e1749a35d1a0d17282f2a38cd2b1fd3d7d8cf5e6013d"},
 ]
 
 [package.dependencies]
-bioregistry = ">=0.6.0,<0.7.0"
-lark = ">=1.1.2,<2.0.0"
-linkml-runtime = ">=1.1.24,<2.0.0"
+kgcl-schema = ">=0.5.0"
+linkml-runtime = ">=1.1.24"
+
+[[package]]
+name = "kgcl-schema"
+version = "0.5.0"
+description = "Schema for the KGCL project."
+category = "main"
+optional = false
+python-versions = ">=3.8,<4.0"
+files = [
+    {file = "kgcl_schema-0.5.0-py3-none-any.whl", hash = "sha256:e3fde6f2e26fbc89dd28029262785c41126cb6dd609c2f8f259d99ee0819b130"},
+    {file = "kgcl_schema-0.5.0.tar.gz", hash = "sha256:97296737684065be88a5e522f20aebfe66e97ca391afa06e6112d3285d68fb45"},
+]
+
+[package.dependencies]
+bioregistry = ">=0.6.0"
+lark = ">=1.1.2"
+linkml-runtime = ">=1.1.24"
 
 [[package]]
 name = "kiwisolver"
@@ -3810,14 +3809,14 @@ files = [
 
 [[package]]
 name = "oaklib"
-version = "0.5.4"
+version = "0.5.6"
 description = "Ontology Access Kit: Python library for common ontology operations over a variety of backends"
 category = "main"
 optional = false
 python-versions = ">=3.9,<4.0.0"
 files = [
-    {file = "oaklib-0.5.4-py3-none-any.whl", hash = "sha256:20b94ffeb3d20c164732c50da8e3c7ae832a6f56bb18f6ad8c3f69728d1818bd"},
-    {file = "oaklib-0.5.4.tar.gz", hash = "sha256:7cfe6a93cc9334dfb0074ed72f749861002fa6e6d4c4da6aa970620b82c9c259"},
+    {file = "oaklib-0.5.6-py3-none-any.whl", hash = "sha256:f3445f3e0b29b49ab7da49d156faee747c696bd8e6762589655ac9ac9f84a1a0"},
+    {file = "oaklib-0.5.6.tar.gz", hash = "sha256:0fb1c6b0fa863584f03271fe955aea4a243196b7a4020384b55ae8bbe8c17a09"},
 ]
 
 [package.dependencies]
@@ -3829,8 +3828,8 @@ click = "*"
 curies = ">=0.4.0"
 eutils = ">=0.6.0"
 funowl = ">=0.1.12"
-kgcl-rdflib = ">=0.3.0,<0.4.0"
-kgcl-schema = ">=0.3.5"
+kgcl-rdflib = "0.5.0"
+kgcl-schema = "0.5.0"
 lark = ">=1.1.2"
 linkml-renderer = ">=0.1.2"
 linkml-runtime = ">=1.2.15"
@@ -3844,7 +3843,7 @@ pysolr = ">=3.9.0,<4.0.0"
 pystow = ">=0.5.0"
 ratelimit = ">=2.2.1"
 requests-cache = ">=1.0.1,<2.0.0"
-rustsim = ">=0.1.6"
+semsimian = ">=0.1.13"
 semsql = ">=0.3.1"
 SPARQLWrapper = "*"
 SQLAlchemy = ">=1.4.32"
@@ -5686,6 +5685,51 @@ docs = ["ipykernel", "nbconvert", "numpydoc", "pydata_sphinx_theme (==0.10.0rc2)
 stats = ["scipy (>=1.3)", "statsmodels (>=0.10)"]
 
 [[package]]
+name = "semsimian"
+version = "0.1.13"
+description = ""
+category = "main"
+optional = false
+python-versions = ">=3.7"
+files = [
+    {file = "semsimian-0.1.13-cp310-cp310-macosx_10_7_x86_64.whl", hash = "sha256:b1a33768ce0291976ede60899b483991a24f098d8086b95f55233afc66222027"},
+    {file = "semsimian-0.1.13-cp310-cp310-macosx_10_9_x86_64.macosx_11_0_arm64.macosx_10_9_universal2.whl", hash = "sha256:a4f4c9300ee9471ecc7d790813eea1c1e5516782f41e05ad893a859622b0bcdc"},
+    {file = "semsimian-0.1.13-cp310-cp310-manylinux_2_17_aarch64.manylinux2014_aarch64.whl", hash = "sha256:b80e32b7785a4b50fe0c67587c4ebbc316082b575dfe05d2912cb2486a2b9c6c"},
+    {file = "semsimian-0.1.13-cp310-cp310-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:e6e9bf3c9056a52931ba04033633f508434482f6989f3f86e3984c9c38ff8bb8"},
+    {file = "semsimian-0.1.13-cp310-cp310-musllinux_1_2_aarch64.whl", hash = "sha256:bb6d5adcdda6b150354f6c132639b2cc808a9e2b20f050bb674c28ed82e96fc9"},
+    {file = "semsimian-0.1.13-cp310-cp310-musllinux_1_2_x86_64.whl", hash = "sha256:fdc625e1d3a57c82adf12d5874ab30c94e173c6bd746115b4a01a72aecc5e745"},
+    {file = "semsimian-0.1.13-cp310-none-win_amd64.whl", hash = "sha256:25b9c105e50317547e4bcbc8acd84222e03d6c884ab795e8e60296403345f91a"},
+    {file = "semsimian-0.1.13-cp311-cp311-macosx_10_7_x86_64.whl", hash = "sha256:e7f53929d0972ed758435100ff13235d150f14ca43ee1d8e3063b15a0f68af82"},
+    {file = "semsimian-0.1.13-cp311-cp311-macosx_10_9_x86_64.macosx_11_0_arm64.macosx_10_9_universal2.whl", hash = "sha256:5bb06176ecb2ab15e1f3878c4975db080a0abced0d90e43233ebeda957196846"},
+    {file = "semsimian-0.1.13-cp311-cp311-manylinux_2_17_aarch64.manylinux2014_aarch64.whl", hash = "sha256:67d750dcdb2910737957c526c5fa62418266d1e6cc379fd9e6e69105a251d5f7"},
+    {file = "semsimian-0.1.13-cp311-cp311-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:1dcb9e9474766595b8dc16c2d26ceea956b9cf49451644042fb8f51adfbd0c52"},
+    {file = "semsimian-0.1.13-cp311-cp311-musllinux_1_2_aarch64.whl", hash = "sha256:3f72bab319bff119805173cfab39aaf3f15ccb8a85a273806fe51973e9927f5b"},
+    {file = "semsimian-0.1.13-cp311-cp311-musllinux_1_2_x86_64.whl", hash = "sha256:a58449922fcc978566b7bb425968dffb68c64006f0418e0d651773030d237367"},
+    {file = "semsimian-0.1.13-cp311-none-win_amd64.whl", hash = "sha256:32ba5e51ffe2f336fb51855de616602dfef6c5e238b5f9e7544822d3fa88eb4f"},
+    {file = "semsimian-0.1.13-cp37-cp37m-macosx_10_7_x86_64.whl", hash = "sha256:60f0160cc476db5dfdb3e9bd415245c22a21a1c62e7ee097e3836325b7329d22"},
+    {file = "semsimian-0.1.13-cp37-cp37m-macosx_10_9_x86_64.macosx_11_0_arm64.macosx_10_9_universal2.whl", hash = "sha256:52fc7f44ce8b27f3640107a6d717e36399e1527925bb3f21dc189d6c089296cb"},
+    {file = "semsimian-0.1.13-cp37-cp37m-manylinux_2_17_aarch64.manylinux2014_aarch64.whl", hash = "sha256:e3552b5ca62317530e4ca4a25b7623f078e6d5d60159793d02ecc50d0c31c443"},
+    {file = "semsimian-0.1.13-cp37-cp37m-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:8e39c281e6f7a7a36ee9a910eafeed425b52cd860278545c9f8545178be48635"},
+    {file = "semsimian-0.1.13-cp37-cp37m-musllinux_1_2_aarch64.whl", hash = "sha256:67f39b5f934ec3038697285cd777fe18d86be42d28261eed1603d3360e695e8c"},
+    {file = "semsimian-0.1.13-cp37-cp37m-musllinux_1_2_x86_64.whl", hash = "sha256:d7140b524d5f2fd7165e40298d5931351d7471d7500908d8b211b4d5879ec23f"},
+    {file = "semsimian-0.1.13-cp37-none-win_amd64.whl", hash = "sha256:f1a4d05df296259cffbc2a570f566a1057629e8502c817de1d2ff57e193bb126"},
+    {file = "semsimian-0.1.13-cp38-cp38-macosx_10_7_x86_64.whl", hash = "sha256:099e365e3dc8c666876b3f840806553247efd1e16edac97a33ad85354c145fdb"},
+    {file = "semsimian-0.1.13-cp38-cp38-macosx_10_9_x86_64.macosx_11_0_arm64.macosx_10_9_universal2.whl", hash = "sha256:5c28ec137f1c4522012e06943d487bb5b387bff61e31fe4a603ba37e5deefb83"},
+    {file = "semsimian-0.1.13-cp38-cp38-manylinux_2_17_aarch64.manylinux2014_aarch64.whl", hash = "sha256:264f3b5779dcc5a69e34f476765e1bc039fa37c5dcdf30a3da8bbbc50ee008e5"},
+    {file = "semsimian-0.1.13-cp38-cp38-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:e6b2c2767ccba6c07a3da03171bc1dc1e96566146623fe2f16bfdc3c8e68e463"},
+    {file = "semsimian-0.1.13-cp38-cp38-musllinux_1_2_aarch64.whl", hash = "sha256:7b41e3f22a823e8897f47f951bf4b805367b39f6d11d04a3c670ca5ebe6dfa26"},
+    {file = "semsimian-0.1.13-cp38-cp38-musllinux_1_2_x86_64.whl", hash = "sha256:ad092e25be34509bfbedb7f6f908910f6b964fa5e37ae4ae5786c5083cb222a5"},
+    {file = "semsimian-0.1.13-cp38-none-win_amd64.whl", hash = "sha256:d3793230e9f13e96225f68ec6caf04246e612bd60e50a763cde4e5e4d09dd48f"},
+    {file = "semsimian-0.1.13-cp39-cp39-macosx_10_7_x86_64.whl", hash = "sha256:0545310e3ebd2a4c6c015c1b4ead4e7d4857217f8f3864bae6852263c714efdb"},
+    {file = "semsimian-0.1.13-cp39-cp39-macosx_10_9_x86_64.macosx_11_0_arm64.macosx_10_9_universal2.whl", hash = "sha256:a03f68278ef2069c725ca55586abc13d95a5c25f4e2cdbb94c150d98763f4b31"},
+    {file = "semsimian-0.1.13-cp39-cp39-manylinux_2_17_aarch64.manylinux2014_aarch64.whl", hash = "sha256:d2ef078da4241349bfa449b21d85673d66d86842ae21ddbdea45d6250196b4d3"},
+    {file = "semsimian-0.1.13-cp39-cp39-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:3d54345255d06d8af264abc522bf476212321c973904765f98948fedf8382ce5"},
+    {file = "semsimian-0.1.13-cp39-cp39-musllinux_1_2_aarch64.whl", hash = "sha256:4fe3f2dff580f83fc5a59e381ac7d1b73b2e112597bcedaa5a1ea6d8f38cea3a"},
+    {file = "semsimian-0.1.13-cp39-cp39-musllinux_1_2_x86_64.whl", hash = "sha256:36358fc5f199227f64a5e743752cca6bb4fcb78e0f62eadd4a074e1382f87c86"},
+    {file = "semsimian-0.1.13-cp39-none-win_amd64.whl", hash = "sha256:4a3ae060ff17486ef38f902547d476d38464a72e26d7972a52feedb478b5dff9"},
+]
+
+[[package]]
 name = "semsql"
 version = "0.3.2"
 description = ""
@@ -7124,4 +7168,4 @@ web = ["Jinja2", "fastapi", "uvicorn"]
 [metadata]
 lock-version = "2.0"
 python-versions = ">=3.9,<3.9.7 || >3.9.7,<4.0"
-content-hash = "d6287c76bbd04d41d3db3de21e6e275adcedc535523268ee2415221acead8f9f"
+content-hash = "3db9b8ce6474a774cfe6af875a1f4d1cb79bc8bf756a0950fb41d07c5a3d5d1a"

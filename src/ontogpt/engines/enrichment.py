@@ -11,7 +11,7 @@ from jinja2 import Template
 from oaklib import BasicOntologyInterface, get_adapter
 from pydantic import BaseModel
 
-from ontogpt.engines.knowledge_engine import KnowledgeEngine, MODEL_GPT_4
+from ontogpt.engines.knowledge_engine import MODEL_GPT_4, KnowledgeEngine
 from ontogpt.prompts.enrichment import DEFAULT_ENRICHMENT_PROMPT
 from ontogpt.templates.class_enrichment import ClassEnrichmentResult
 from ontogpt.templates.gene_description_term import GeneDescriptionTerm
