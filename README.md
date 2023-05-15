@@ -362,6 +362,13 @@ To use narrative/RefSeq summaries, use the `--no-ontological-synopses` flag.
 
 To run without any gene descriptions, use the `--no-annotations` flag.
 
+### SPINDOCTOR web app
+
+To start:
+
+```
+poetry run streamlit run src/ontogpt/streamlit/spindoctor.py
+```
 
 ## OntoGPT Limitations
 
