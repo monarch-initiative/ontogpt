@@ -369,9 +369,17 @@ Note: The agent running uvicorn must have the API key set, so for obvious reason
 
 1. Non-deterministic
   * This relies on an existing LLM, and LLMs can be fickle in their responses
-
 2. Coupled to OpenAI
   * You will need an OpenAI account to use their API. In theory any LLM can be used but in practice the parser is tuned for OpenAI's models
+
+### SPINDOCTOR web app
+
+To start:
+
+```
+poetry run streamlit run src/ontogpt/streamlit/spindoctor.py
+```
+
 
 ## Citation
 
