@@ -1,3 +1,4 @@
+"""Streamlist web app for spindoctor."""
 # Import necessary libraries
 import re
 
