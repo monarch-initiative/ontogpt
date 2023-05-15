@@ -17,6 +17,7 @@ imports:
 
 classes:
   Study:
+    tree_root: true
     attributes:
       location:
         description: the sites at which the study was conducted
