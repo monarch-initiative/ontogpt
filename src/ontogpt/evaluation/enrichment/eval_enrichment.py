@@ -93,7 +93,8 @@ class EvalEnrichment(EvaluationEngine):
             raise TypeError
         self.ontology: ClassEnrichmentCalculationInterface = ontology
         self.engine: EnrichmentEngine = create_engine(None, EnrichmentEngine, model=self.model)
-        for model in ENRICHMENT_MODELS:
+        for modelname in ENRICHMENT_MODELS:
+            model = modelname[0]
             self.engines[model] = create_engine(None, EnrichmentEngine, model=model)
             self.engines[model].add_resolver("sqlite:obo:hgnc")
         self.engine.add_resolver("sqlite:obo:hgnc")
@@ -134,8 +135,8 @@ class EvalEnrichment(EvaluationEngine):
         """Compare OntoGPT enrichment vs standard."""
         payloads = {}
         logger.info(f"Gene symbols: {gene_set.gene_symbols}")
-        for model in ENRICHMENT_MODELS:
-            engine = self.engines[model]
+        for modelname in ENRICHMENT_MODELS:
+            engine = self.engines[modelname[0]]
             for method in [NO_SYNOPSIS, ONTOLOGICAL_SYNOPSIS, NARRATIVE_SYNOPSIS]:
                 if method == ONTOLOGICAL_SYNOPSIS:
                     args = dict(ontological_synopsis=True)

@@ -1056,8 +1056,13 @@ def list_templates():
 @main.command()
 def list_models():
     """List all available models."""
+    print("Model Name\tAlternatives")
     for modelname in MODELS:
-        print(modelname)
+        if len(modelname) > 1:
+            alternative_names = " ".join(modelname[1:])
+            print(f"{modelname[0]}\t{alternative_names}")
+        else:
+            print(modelname[0])
 
 if __name__ == "__main__":
     main()

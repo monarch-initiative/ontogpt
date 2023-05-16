@@ -153,7 +153,7 @@ class KnowledgeEngine(ABC):
         
         # Identify model source (e.g., OpenAI)
         # TODO: move this to its own function
-        if self.model.startswith('openai'):
+        if self.model in ('openai'):
             modelname = "-".join((self.model.split("-"))[1:])
             self.client = OpenAIClient(model=modelname)
             logging.info("Setting up OpenAI client API Key")

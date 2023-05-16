@@ -64,8 +64,9 @@ def form_post(request: Request, datamodel: str = Form(...), text: str = Form(...
 
 @app.get("/spindoctor")
 def sd_read_root(request: Request):
+    all_models = [modelname for model in MODELS for modelname in model]
     return templates.TemplateResponse(
-        "spindoctor/form.html", context={"request": request, "models": MODELS}
+        "spindoctor/form.html", context={"request": request, "models": all_models}
     )
 
 
