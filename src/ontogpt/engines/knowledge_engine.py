@@ -163,6 +163,7 @@ class KnowledgeEngine(ABC):
                 self.api_key = self._get_openai_api_key()
                 openai.api_key = self.api_key
             elif self.model in all_ggml_models:
+                # TODO: optional dependencies here, so catch exception if needed
                 raise NotImplementedError("GPT4ALL models - work in progress")
         else:
             raise NotImplementedError(
