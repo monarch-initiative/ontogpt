@@ -1,0 +1,66 @@
+id: https://w3id.org/ontogpt/biotic_interaction
+name: biotic-interaction-template
+title: Biotic Interaction Template
+description: >-
+  A template for biotic interactions
+license: https://creativecommons.org/publicdomain/zero/1.0/
+prefixes:
+  linkml: https://w3id.org/linkml/
+  bp: http://w3id.org/ontogpt/biotic-interaction-template
+
+default_prefix: bp
+default_range: string
+
+imports:
+  - linkml:types
+  - core
+
+classes:
+  BioticInteraction:
+    tree_root: true
+    is_a: NamedEntity
+    attributes:
+      label:
+        description: the name of the interaction
+      source_taxon:
+        description: the taxon that is the subject of the interaction
+        range: SourceTaxon
+      target_taxon:
+        description: the taxon that is the object of the ineteraction
+        range: TargetTaxon
+      interaction_type:
+        description: the type of interaction
+        range: Interaction
+
+  SourceTaxon:
+    is_a: NamedEntity
+    id_prefixes:
+      - EOL
+      - COL
+      - W
+      - WD
+      - ITIS
+      - OTT 
+      - NCBITaxon
+    annotations:
+      annotators: gnrd
+
+  Interaction:
+    is_a: NamedEntity
+    id_prefixes:
+      - RO
+    annotations:
+      annotators: sqlite:obo:go
+
+  TargetTaxon:
+    is_a: NamedEntity
+    id_prefixes:
+      - EOL
+      - COL
+      - W
+      - WD
+      - ITIS
+      - OTT 
+      - NCBITaxon
+    annotations:
+      annotators: gnrd
