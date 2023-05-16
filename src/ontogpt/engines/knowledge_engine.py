@@ -24,7 +24,7 @@ from oaklib.utilities.apikey_manager import get_apikey_value
 from oaklib.utilities.subsets.value_set_expander import ValueSetExpander
 
 from ontogpt.clients import OpenAIClient
-from ontogpt.engines.models import DEFAULT_MODEL
+from ontogpt.engines.models import DEFAULT_MODEL, GGML_MODELS, MODELS, OPENAI_MODELS
 from ontogpt.templates.core import ExtractionResult, NamedEntity
 
 this_path = Path(__file__).parent
@@ -150,20 +150,24 @@ class KnowledgeEngine(ABC):
             logging.info(f"Using template {self.template_class.name}")
         if not self.model:
             self.model = DEFAULT_MODEL
-        
+
         # Identify model source (e.g., OpenAI)
         # TODO: move this to its own function
-        if self.model in ('openai'):
-            modelname = "-".join((self.model.split("-"))[1:])
-            self.client = OpenAIClient(model=modelname)
-            logging.info("Setting up OpenAI client API Key")
-            self.api_key = self._get_openai_api_key()
-            openai.api_key = self.api_key
-        elif self.model.startswith('ggml'):
-            modelname = "-".join((self.model.split("-"))[1:])
-            raise NotImplementedError("GPT4ALL models - work in progress")
+        all_models = [modelname for model in MODELS for modelname in model]
+        if self.model in all_models:
+            all_openai_models = [modelname for model in OPENAI_MODELS for modelname in model]
+            all_ggml_models = [modelname for model in GGML_MODELS for modelname in model]
+            if self.model in all_openai_models:
+                self.client = OpenAIClient(model=self.model)
+                logging.info("Setting up OpenAI client API Key")
+                self.api_key = self._get_openai_api_key()
+                openai.api_key = self.api_key
+            elif self.model in all_ggml_models:
+                raise NotImplementedError("GPT4ALL models - work in progress")
         else:
-            raise NotImplementedError("Other models not yet supported. See all models with `ontogpt list-models`")
+            raise NotImplementedError(
+                "Model name not recognized or not supported yet. See all models with `ontogpt list-models`"
+            )
         if self.mappers is None:
             logging.info("Using mappers (currently hardcoded)")
             self.mappers = [get_adapter("translator:")]
