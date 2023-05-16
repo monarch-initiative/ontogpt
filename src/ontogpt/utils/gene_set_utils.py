@@ -143,9 +143,11 @@ def parse_geneweaver(path: str) -> GeneSet:
     return gene_set
 
 
-
 def load_gene_sets(
-    path: str, ontology_adapter: BasicOntologyInterface = None, strict=False, fill_missing=True,
+    path: str,
+    ontology_adapter: BasicOntologyInterface = None,
+    strict=False,
+    fill_missing=True,
 ) -> GeneSetCollection:
     """Load collection of gene sets from a folder.
 

@@ -173,6 +173,10 @@ class KnowledgeEngine(ABC):
             self.mappers = [get_adapter("translator:")]
         self.encoding = tiktoken.encoding_for_model(self.client.model)
 
+    def set_api_key(self, key: str):
+        self.api_key = key
+        openai.api_key = key
+
     def extract_from_text(
         self, text: str, cls: ClassDefinition = None, object: OBJECT = None
     ) -> ExtractionResult:

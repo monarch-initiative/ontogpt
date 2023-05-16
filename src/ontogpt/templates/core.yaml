@@ -5,6 +5,8 @@ license: https://creativecommons.org/publicdomain/zero/1.0/
 prefixes:
   linkml: https://w3id.org/linkml/
   core: http://w3id.org/ontogpt/core/
+  NCIT: http://purl.obolibrary.org/obo/NCIT_
+  RO: http://purl.obolibrary.org/obo/RO_
 description: Core upper level
 
 default_prefix: core
@@ -127,3 +129,16 @@ classes:
       subject_text:
       object_id:
       object_text:
+
+enums:
+
+  NullDataOptions:
+    permissible_values:
+      UNSPECIFIED_METHOD_OF_ADMINISTRATION:
+        meaning: NCIT:C149701
+      NOT_APPLICABLE:
+        meaning: NCIT:C18902
+        aliases:
+          - "not applicable"
+          - "N/A"
+      NOT_MENTIONED:
