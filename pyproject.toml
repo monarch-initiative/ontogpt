@@ -18,7 +18,7 @@ python-multipart = "^0.0.5"
 linkml-owl = "^0.2.7"
 beautifulsoup4 = "^4.11.1"
 eutils = "^0.6.0"
-class-resolver = "*"
+class-resolver = ">=0.4.2"
 inflect = "^6.0.2"
 bioc = "^2.0.post5"
 linkml = "^1.4.10"
@@ -43,7 +43,7 @@ myst-parser = {version = "^0.18.1", extras = ["docs"], optional = true}
 recipe-scrapers = {version = "^14.35.0", extras = ["recipes"], optional = true}
 cachier = "^2.1.0"
 wikipedia-api = "^0.5.8"
-rustsim = "^0.1.8"
+semsimian = ">=0.1.13"
 requests-cache = "^1.0.1"
 langchain = "^0.0.167"
 pygpt4all = {version = "^1.1.0", extras = ["gpt4all"], optional = true}
