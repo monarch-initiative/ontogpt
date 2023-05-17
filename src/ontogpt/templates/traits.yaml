@@ -1,0 +1,43 @@
+id: http://w3id.org/ontogpt/traits
+name: traits
+title: Traits Template
+description: >-
+  A template for Traits
+license: https://creativecommons.org/publicdomain/zero/1.0/
+prefixes:
+  linkml: https://w3id.org/linkml/
+  traits: http://w3id.org/ontogpt/traits/
+
+default_prefix: traits
+default_range: string
+
+imports:
+  - linkml:types
+  - core
+
+classes:
+  Taxon:
+    tree_root: true
+    attributes:
+      # name:
+      #   description: The name of the taxon.
+      #   annotations:
+      #     prompt: The name of the taxon.
+      #   range: string
+      traits:
+        description: The traits for the taxon.
+        annotations:
+          prompt: a semi-colon delimited list of every specific organism characteristic
+        range: Trait
+        multivalued: true
+
+  Trait:
+    is_a: NamedEntity
+    id_prefixes:
+      - ECOCORE
+      - PATO
+      - GO
+      - ENVTHES
+      - OBA
+    annotations:
+      annotators: sqlite:obo:ecocore, sqlite:obo:pato, sqlite:obo:go, sqlite:obo:oba, bioportal:envthes
