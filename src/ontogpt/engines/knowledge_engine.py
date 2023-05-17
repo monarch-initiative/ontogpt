@@ -167,7 +167,8 @@ class KnowledgeEngine(ABC):
                 raise NotImplementedError("GPT4ALL models - work in progress")
         else:
             raise NotImplementedError(
-                "Model name not recognized or not supported yet. See all models with `ontogpt list-models`"
+                "Model name not recognized or not supported yet."
+                " See all models with `ontogpt list-models`"
             )
         if self.mappers is None:
             logging.info("Using mappers (currently hardcoded)")
