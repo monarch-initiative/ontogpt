@@ -415,7 +415,7 @@ def recipe_extract(url, recipes_urls_file, dictionary, output, output_format, **
     if settings.cache_db:
         ke.client.cache_db_path = settings.cache_db
     if settings.skip_annotators:
-        ke.client.skip_annotators = settings.skip_annotators
+        ke.skip_annotators = settings.skip_annotators
     if dictionary:
         ke.load_dictionary(dictionary)
     ingredients = "\n".join(scraper.ingredients())
