@@ -30,7 +30,15 @@ class NullDataOptions(str, Enum):
 
 class Taxon(ConfiguredBaseModel):
     
-    traits: Optional[List[str]] = Field(default_factory=list, description="""The traits for the taxon.""")
+    metabolic_traits: Optional[List[str]] = Field(default_factory=list, description="""The metabolic traits for the taxon.""")
+    morphological_traits: Optional[List[str]] = Field(default_factory=list, description="""The morphological traits for the taxon.""")
+    genetic_traits: Optional[List[str]] = Field(default_factory=list, description="""The genetic traits for the taxon.""")
+    cellular_traits: Optional[List[str]] = Field(default_factory=list, description="""The cellular traits for the taxon.""")
+    ecological_traits: Optional[List[str]] = Field(default_factory=list, description="""The ecological traits for the taxon.""")
+    reproductive_traits: Optional[List[str]] = Field(default_factory=list, description="""The reproductive traits for the taxon.""")
+    survival_traits: Optional[List[str]] = Field(default_factory=list, description="""The survival traits for the taxon.""")
+    phenotypic_plasticiticy_traits: Optional[List[str]] = Field(default_factory=list, description="""The phenotypic plasticiticy traits for the taxon.""")
+    preferred_environments: Optional[List[str]] = Field(default_factory=list, description="""The preferred environments for the taxon.""")
     
 
 
