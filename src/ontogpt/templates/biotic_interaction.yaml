@@ -35,13 +35,10 @@ classes:
   SourceTaxon:
     is_a: NamedEntity
     id_prefixes:
-      - EOL
-      - COL
-      - W
-      - WD
-      - ITIS
-      - OTT 
       - NCBITaxon
+      - COL
+      - ITIS
+      - GBIF
     annotations:
       annotators: sqlite:obo:ncbitaxon
       # gnrd
@@ -57,13 +54,10 @@ classes:
   TargetTaxon:
     is_a: NamedEntity
     id_prefixes:
-      - EOL
-      - COL
-      - W
-      - WD
-      - ITIS
-      - OTT
       - NCBITaxon
+      - COL
+      - ITIS
+      - GBIF
     annotations:
       annotators: sqlite:obo:ncbitaxon
       # gnrd
