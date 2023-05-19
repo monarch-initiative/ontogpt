@@ -43,14 +43,16 @@ classes:
       - OTT 
       - NCBITaxon
     annotations:
-      annotators: gnrd
+      annotators: sqlite:obo:ncbitaxon
+      # gnrd
 
   Interaction:
     is_a: NamedEntity
     id_prefixes:
       - RO
+      - MESH
     annotations:
-      annotators: sqlite:obo:go
+      annotators: sqlite:obo:go, sqlite:obo:ro, sqlite:obo:bero
 
   TargetTaxon:
     is_a: NamedEntity
@@ -60,7 +62,8 @@ classes:
       - W
       - WD
       - ITIS
-      - OTT 
+      - OTT
       - NCBITaxon
     annotations:
-      annotators: gnrd
+      annotators: sqlite:obo:ncbitaxon
+      # gnrd
