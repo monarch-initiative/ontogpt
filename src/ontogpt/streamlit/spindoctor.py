@@ -43,7 +43,6 @@ openai_api_key = col1.text_input(
     placeholder="(sk-...) Press [Enter] to submit.",
 )
 
-
 # Button for parsing and displaying the names
 if col1.button("Summarize genes"):
     gene_symbols = [symbol.strip() for symbol in re.split(r"[\-,;\s]+", gene_symbols)]
