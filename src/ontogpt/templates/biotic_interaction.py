@@ -28,6 +28,20 @@ class NullDataOptions(str, Enum):
     
     
 
+class Container(ConfiguredBaseModel):
+    
+    interactions: Optional[List[BioticInteraction]] = Field(default_factory=list)
+    
+
+
+class BioticInteraction(ConfiguredBaseModel):
+    
+    source_taxon: Optional[str] = Field(None, description="""the taxon that is the subject of the interaction""")
+    target_taxon: Optional[str] = Field(None, description="""the taxon that is the object of the ineteraction""")
+    interaction_type: Optional[str] = Field(None, description="""the type of interaction""")
+    
+
+
 class ExtractionResult(ConfiguredBaseModel):
     """
     A result of extracting knowledge on text
@@ -49,31 +63,14 @@ class NamedEntity(ConfiguredBaseModel):
     
 
 
-class BioticInteraction(NamedEntity):
-    
-    label: Optional[str] = Field(None, description="""the name of the interaction""")
-    source_taxon: Optional[str] = Field(None, description="""the taxon that is the subject of the interaction""")
-    target_taxon: Optional[str] = Field(None, description="""the taxon that is the object of the ineteraction""")
-    interaction_type: Optional[str] = Field(None, description="""the type of interaction""")
-    id: Optional[str] = Field(None, description="""A unique identifier for the named entity""")
-    
-
-
-class SourceTaxon(NamedEntity):
+class Taxon(NamedEntity):
     
     id: Optional[str] = Field(None, description="""A unique identifier for the named entity""")
     label: Optional[str] = Field(None, description="""The label (name) of the named thing""")
     
 
 
-class Interaction(NamedEntity):
-    
-    id: Optional[str] = Field(None, description="""A unique identifier for the named entity""")
-    label: Optional[str] = Field(None, description="""The label (name) of the named thing""")
-    
-
-
-class TargetTaxon(NamedEntity):
+class InteractionType(NamedEntity):
     
     id: Optional[str] = Field(None, description="""A unique identifier for the named entity""")
     label: Optional[str] = Field(None, description="""The label (name) of the named thing""")
@@ -134,12 +131,12 @@ class AnnotatorResult(ConfiguredBaseModel):
 
 # Update forward refs
 # see https://pydantic-docs.helpmanual.io/usage/postponed_annotations/
+Container.update_forward_refs()
+BioticInteraction.update_forward_refs()
 ExtractionResult.update_forward_refs()
 NamedEntity.update_forward_refs()
-BioticInteraction.update_forward_refs()
-SourceTaxon.update_forward_refs()
-Interaction.update_forward_refs()
-TargetTaxon.update_forward_refs()
+Taxon.update_forward_refs()
+InteractionType.update_forward_refs()
 CompoundExpression.update_forward_refs()
 Triple.update_forward_refs()
 TextWithTriples.update_forward_refs()
