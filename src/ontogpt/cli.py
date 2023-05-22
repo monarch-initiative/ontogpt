@@ -15,8 +15,10 @@ import openai
 import yaml
 from oaklib import get_adapter
 from oaklib.cli import query_terms_iterator
+from oaklib.interfaces import OboGraphInterface
 from oaklib.io.streaming_csv_writer import StreamingCsvWriter
 
+import ontogpt.ontex.extractor as extractor
 from ontogpt import __version__
 from ontogpt.clients import OpenAIClient
 from ontogpt.clients.pubmed_client import PubmedClient
@@ -27,6 +29,7 @@ from ontogpt.engines.embedding_similarity_engine import SimilarityEngine
 from ontogpt.engines.enrichment import EnrichmentEngine
 from ontogpt.engines.halo_engine import HALOEngine
 from ontogpt.engines.knowledge_engine import KnowledgeEngine
+from ontogpt.engines.reasoner_engine import ReasonerEngine
 from ontogpt.engines.spires_engine import SPIRESEngine
 from ontogpt.engines.synonym_engine import SynonymEngine
 from ontogpt.evaluation.enrichment.eval_enrichment import EvalEnrichment
@@ -799,6 +802,26 @@ def entity_similarity(terms, ontology, output, model, output_format, **kwargs):
         sims = engine.search(e1, entities2)
         for sim in sims:
             writer.emit(sim)
+
+
+@main.command()
+@inputfile_option
+@click.option("--task-type")
+@click.option("--explain/--no-explain", default=False)
+@click.argument("terms", nargs=-1)
+def reason(terms, inputfile, explain, task_type, **kwargs):
+    """Reason."""
+    reasoner = ReasonerEngine()
+    adapter = get_adapter(inputfile)
+    if not isinstance(adapter, OboGraphInterface):
+        raise ValueError("Only OBO graphs supported")
+    ex = extractor.OntologyExtractor(adapter=adapter)
+    # ex.use_identifiers = True
+    task = ex.create_task(task_type=task_type, parameters=list(terms))
+    task.include_explanations = explain
+    print(yaml.dump(task.dict(), sort_keys=False))
+    result = reasoner.reason(task=task)
+    print(yaml.dump(result.dict(), sort_keys=False))
 
 
 @main.command()

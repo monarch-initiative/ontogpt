@@ -3,7 +3,7 @@ import logging
 import re
 from dataclasses import dataclass
 from pathlib import Path
-from typing import List, Optional
+from typing import List, Optional, Union
 
 from jinja2 import Template
 from pydantic import BaseModel
@@ -16,15 +16,30 @@ from ontogpt.utils.parse_utils import split_on_one_of
 logger = logging.getLogger(__name__)
 
 
+def flatten_list(lst):
+    flat_list = []
+    for item in lst:
+        if isinstance(item, list):
+            flat_list.extend(flatten_list(item))
+        else:
+            flat_list.append(item)
+    return flat_list
+
+
 class ReasonerResult(BaseModel):
     """The result of a reason query."""
 
+    name: Optional[str] = None
+    task_name: Optional[str] = None
+    description: Optional[str] = None
     answers: Optional[List[Answer]] = None
     prompt: Optional[str] = None
     completion: Optional[str] = None
     jaccard_score: Optional[float] = None
     false_positives: Optional[List[str]] = None
     false_negatives: Optional[List[str]] = None
+    num_false_positives: Optional[int] = None
+    num_false_negatives: Optional[int] = None
 
 
 @dataclass
@@ -115,19 +130,46 @@ class ReasonerEngine(KnowledgeEngine):
         payload = self.client.complete(prompt)
         if task.has_multiple_answers:
             elements = payload.split("- ")
-            answers = [self._parse(e) for e in elements]
+            answers = [self._parse_single_answer(e, task) for e in elements]
         else:
-            answers = [self._parse(payload)]
+            answers = [self._parse_single_answer(payload, task)]
+        answers = flatten_list(answers)
         rr = ReasonerResult(prompt=prompt, completion=payload, answers=[a for a in answers if a])
-        self.evaluate(rr, task)
+        if task.answers is not None:
+            self.evaluate(rr, task)
         return rr
 
-    def _parse(self, payload: str) -> Optional[Answer]:
-        """Parse answer from payload."""
+    def _parse_single_answer(
+        self, payload: str, task: Task
+    ) -> Optional[Union[Answer, List[Answer]]]:
+        """Parse single answer from payload.
+
+        In some cases for COT reasoning the model may compress multiple
+        answers into a single answer line.
+        """
         payload = payload.strip()
         if not payload:
             return None
         payload = payload.replace("\n", " ")
+        if task.chain_of_thought:
+            pattern = r"^REASONING:\s*\[\s*(.*?)\s*\]\s*CONCLUSION:\s*(.*?)$"
+            match = re.match(pattern, payload)
+            print(f"CHAIN OF THOUGHT: {payload}")
+            if match:
+                print(f"MATCH: {match.groups()}")
+                explanation = match.group(1)
+                text = match.group(2)
+                # rest = match.group(3)
+                axioms = [x.strip() for x in split_on_one_of(explanation, [";", ","])]
+                explanation = Explanation(axioms=[Axiom(text=a) for a in axioms if a])
+                axiom_texts = split_on_one_of(text, [";", ","])
+                if len(axiom_texts) == 1:
+                    return Answer(text=text, explanations=[explanation])
+                else:
+                    return [
+                        Answer(text=axiom_text, explanations=[explanation])
+                        for axiom_text in axiom_texts
+                    ]
         pattern = r"^(.*?)\s*\[\s*(.*?)\s*\]\s*(.*?)$"
         match = re.match(pattern, payload)
         if match:
@@ -148,7 +190,20 @@ class ReasonerEngine(KnowledgeEngine):
         result_answer_texts = {a.text for a in result.answers}
         ixn = task_answer_texts.intersection(result_answer_texts)
         all_texts = task_answer_texts.union(result_answer_texts)
-        j_score = len(ixn) / len(all_texts)
+        if len(all_texts) == 0:
+            j_score = 0.0
+        else:
+            j_score = len(ixn) / len(all_texts)
         result.jaccard_score = j_score
         result.false_positives = list(result_answer_texts - task_answer_texts)
         result.false_negatives = list(task_answer_texts - result_answer_texts)
+        result.num_false_positives = len(result.false_positives)
+        result.num_false_negatives = len(result.false_negatives)
+        if not result.task_name:
+            result.task_name = task.name
+        if not result.name:
+            result.name = task.name
+            if task.chain_of_thought:
+                result.name += "-cot"
+            if task.include_explanations:
+                result.name += "-expl"

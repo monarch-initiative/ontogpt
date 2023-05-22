@@ -4,21 +4,23 @@ import unittest
 from typing import Iterator, List, Tuple
 
 import yaml
-from oaklib import get_adapter, get_implementation_from_shorthand
+from oaklib import get_adapter
 from oaklib.datamodels.vocabulary import IS_A, PART_OF
 from oaklib.interfaces.obograph_interface import OboGraphInterface
 
-from ontogpt.io.yaml_wrapper import dump_minimal_yaml
 from ontogpt.ontex import extractor
 from ontogpt.ontex.extractor import OntologyExtractor, Task
 from tests import (
+    CELLULAR_ANATOMICAL_ENTITY,
+    ENVELOPE,
     INPUT_DIR,
     INTRACELLULAR_ORGANELLE,
     MEMBRANE_BOUNDED_ORGANELLE,
+    NUCLEAR_ENVELOPE,
+    NUCLEAR_MEMBRANE,
     NUCLEUS,
     ORGANELLE,
-    OUTPUT_DIR,
-    VACUOLE, CELLULAR_ANATOMICAL_ENTITY, ENVELOPE, NUCLEAR_MEMBRANE,
+    VACUOLE,
 )
 
 TEST_ONTOLOGY_OAK = INPUT_DIR / "go-nucleus.db"
@@ -44,10 +46,17 @@ class TestOntologyExtractor(unittest.TestCase):
             subclass=NUCLEUS, siblings=[VACUOLE], roots=[ORGANELLE]
         ), [ORGANELLE, INTRACELLULAR_ORGANELLE, MEMBRANE_BOUNDED_ORGANELLE]
         yield extractor.extract_incoherent_ontology_task(
-            incoherents=[NUCLEUS], siblings=[VACUOLE], disjoints=[(ORGANELLE, ENVELOPE)],
+            incoherents=[NUCLEUS],
+            siblings=[VACUOLE],
+            disjoints=[(ORGANELLE, ENVELOPE)],
             spiked_relationships=[(NUCLEUS, IS_A, NUCLEAR_MEMBRANE)],
-            roots=[CELLULAR_ANATOMICAL_ENTITY]
+            roots=[CELLULAR_ANATOMICAL_ENTITY],
         ), [NUCLEUS]
+        yield extractor.extract_subclass_of_expression_task(
+            superclass=NUCLEUS,
+            predicate=PART_OF,
+            siblings=[VACUOLE],
+        ), [NUCLEAR_MEMBRANE, NUCLEAR_ENVELOPE]
 
     def test_extract(self):
         """Test extract seed ontology."""

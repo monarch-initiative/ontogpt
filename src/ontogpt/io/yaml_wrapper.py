@@ -1,8 +1,11 @@
 """YAML Wrapper."""
+import logging
 from typing import Any
 
 import pydantic
 import yaml
+
+logger = logging.getLogger(__name__)
 
 
 def eliminate_empty(obj: Any, preserve=False) -> Any:
