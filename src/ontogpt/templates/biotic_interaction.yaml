@@ -7,10 +7,10 @@ license: https://creativecommons.org/publicdomain/zero/1.0/
 prefixes:
   linkml: https://w3id.org/linkml/
   bp: http://w3id.org/ontogpt/biotic-interaction-template
-  NCBITaxon: http://purl.obolibrary.org/obo/
-  col: https://bioregistry.io/
-  itis: https://bioregistry.io/
-  gbif: https://bioregistry.io/
+  NCBITaxon: http://purl.obolibrary.org/obo/NCBITAXON_
+  col: https://www.catalogueoflife.org/data/taxon/
+  itis: https://www.itis.gov/servlet/SingleRpt/SingleRpt?search_topic=TSN&search_value=
+  gbif: https://www.gbif.org/species/
 
 default_prefix: bp
 default_range: string
