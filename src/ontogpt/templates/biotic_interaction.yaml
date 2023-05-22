@@ -7,6 +7,10 @@ license: https://creativecommons.org/publicdomain/zero/1.0/
 prefixes:
   linkml: https://w3id.org/linkml/
   bp: http://w3id.org/ontogpt/biotic-interaction-template
+  NCBITaxon: http://purl.obolibrary.org/obo/
+  col: https://bioregistry.io/
+  itis: https://bioregistry.io/
+  gbif: https://bioregistry.io/
 
 default_prefix: bp
 default_range: string
@@ -16,23 +20,32 @@ imports:
   - core
 
 classes:
-  BioticInteraction:
+  Container:
     tree_root: true
-    is_a: NamedEntity
     attributes:
-      label:
-        description: the name of the interaction
+      interactions:
+        range: BioticInteraction
+        multivalued: true
+        inlined_as_list: true
+
+  BioticInteraction:
+    attributes:
       source_taxon:
         description: the taxon that is the subject of the interaction
-        range: SourceTaxon
+        range: Taxon
       target_taxon:
         description: the taxon that is the object of the ineteraction
-        range: TargetTaxon
+        range: Taxon
       interaction_type:
         description: the type of interaction
-        range: Interaction
+        range: InteractionType
+      prompt: >-
+        A semi-colon separated list of taxon to taxon relationships
+        for example: Carcharodon carcharias eats elephant seal;
+        Pandarus sinuatus parasitizes Carcharodon carcharias;
+        orca eats Carcharodon carcharias
 
-  SourceTaxon:
+  Taxon:
     is_a: NamedEntity
     id_prefixes:
       - NCBITaxon
@@ -41,23 +54,13 @@ classes:
       - GBIF
     annotations:
       annotators: sqlite:obo:ncbitaxon
-      # gnrd
+      prompt.example: shark, Carcharodon carcharias, elephant seal, Pandarus sinuatus, orca
 
-  Interaction:
+  InteractionType:
     is_a: NamedEntity
     id_prefixes:
       - RO
       - MESH
     annotations:
       annotators: sqlite:obo:go, sqlite:obo:ro, sqlite:obo:bero
-
-  TargetTaxon:
-    is_a: NamedEntity
-    id_prefixes:
-      - NCBITaxon
-      - COL
-      - ITIS
-      - GBIF
-    annotations:
-      annotators: sqlite:obo:ncbitaxon
-      # gnrd
+      prompt.example: eats, competes with, parasitizes
