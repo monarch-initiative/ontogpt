@@ -39,11 +39,9 @@ classes:
       interaction_type:
         description: the type of interaction
         range: InteractionType
-      prompt: >-
-        A semi-colon separated list of taxon to taxon relationships
-        for example: Carcharodon carcharias eats elephant seal;
-        Pandarus sinuatus parasitizes Carcharodon carcharias;
-        orca eats Carcharodon carcharias
+    annotations:
+      prompt: A semi-colon separated list of taxon to taxon relationships
+      prompt.example: Carcharodon carcharias eats elephant seal; Pandarus sinuatus parasitizes Carcharodon carcharias; orca eats Carcharodon carcharias
 
   Taxon:
     is_a: NamedEntity
