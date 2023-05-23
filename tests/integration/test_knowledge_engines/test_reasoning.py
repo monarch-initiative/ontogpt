@@ -68,6 +68,10 @@ class TestReasoning(unittest.TestCase):
     def tasks(self) -> Iterator[Task]:
         extractor = self.extractor
         yield extractor.extract_indirect_superclasses_task(
+            name="random",
+            select_random=True,
+        )
+        yield extractor.extract_indirect_superclasses_task(
             name="ancestor-nucleus", subclass=NUCLEUS, siblings=[VACUOLE], roots=[ORGANELLE]
         )
         yield extractor.extract_indirect_superclasses_task(
@@ -87,6 +91,10 @@ class TestReasoning(unittest.TestCase):
             subclass=IMBO,
             siblings=[NUCLEUS],
             roots=[ORGANELLE, BIOLOGICAL_PROCESS],
+        )
+        yield extractor.extract_most_recent_common_subsumers_task(
+            name="mrca-nucleus-vacuole",
+            subclass1=NUCLEUS, subclass2=VACUOLE, siblings=[NUCLEAR_MEMBRANE], roots=[]
         )
         yield extractor.extract_subclass_of_expression_task(
             name="subclass-of-part-of-nuclear-envelope",

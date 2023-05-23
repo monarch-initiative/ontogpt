@@ -1,4 +1,5 @@
 """Tools to extract sub-ontologies and reasoner tasks."""
+import random
 import re
 from dataclasses import dataclass
 from typing import Any, ClassVar, List, Optional, Tuple, Type, Union
@@ -8,6 +9,7 @@ from oaklib.datamodels.vocabulary import DISJOINT_WITH, IS_A, OWL_CLASS
 from oaklib.interfaces import OboGraphInterface
 from oaklib.interfaces.basic_ontology_interface import RELATIONSHIP
 from oaklib.interfaces.obograph_interface import GraphTraversalMethod
+from oaklib.interfaces.semsim_interface import SemanticSimilarityInterface
 from oaklib.types import CURIE, PRED_CURIE
 from pydantic import BaseModel
 
@@ -441,6 +443,10 @@ class MostRecentCommonSubsumerTask(Task):
                             text="B",
                             explanations=[
                                 Explanation(
+                                    text="""B is the most specific common entailed superclass
+                                    of E2 and D because E2 is a SubClassOf B via E, and D is
+                                    a direct SubClassOf B, and there are no more specific common
+                                    ancestors.""",
                                     axioms=[
                                         Axiom(text="E2 SubClassOf E"),
                                         Axiom(text="E SubClassOf B"),
@@ -458,6 +464,10 @@ class MostRecentCommonSubsumerTask(Task):
                             text="A",
                             explanations=[
                                 Explanation(
+                                    text="""A is the most specific common entailed superclass
+                                    of E2 and C because E2 is a SubClassOf A via E then B, and C is
+                                    a SubClassOf A via B, and there are no more specific common
+                                    ancestors.""",
                                     axioms=[
                                         Axiom(text="E2 SubClassOf E"),
                                         Axiom(text="E SubClassOf B"),
@@ -471,26 +481,15 @@ class MostRecentCommonSubsumerTask(Task):
                     ],
                 ),
                 ExampleQueryAnswers(
-                    query=Query(parameters=["E2"]),
+                    query=Query(parameters=["E2", "E"]),
                     answers=[
                         ClassAnswer(
-                            text="A",
+                            text="E",
                             explanations=[
                                 Explanation(
+                                    text="""E is the most specific common entailed superclass of E2 and E because
+                                    trivially E2 SubClassOf E""",
                                     axioms=[
-                                        Axiom(text="E2 SubClassOf E"),
-                                        Axiom(text="E SubClassOf B"),
-                                        Axiom(text="B SubClassOf A"),
-                                    ]
-                                )
-                            ],
-                        ),
-                        ClassAnswer(
-                            text="B",
-                            explanations=[
-                                Explanation(
-                                    axioms=[
-                                        Axiom(text="E SubClassOf B"),
                                         Axiom(text="E2 SubClassOf E"),
                                     ]
                                 )
@@ -581,10 +580,11 @@ class OntologyExtractor:
 
     def extract_indirect_superclasses_task(
         self,
-        subclass: CURIE,
-        siblings: List[CURIE],
+        subclass: CURIE = None,
+        siblings: List[CURIE] = None,
         roots: Optional[List[CURIE]] = None,
         predicates: Optional[List[PRED_CURIE]] = None,
+        select_random=False,
         **kwargs,
     ) -> EntailedIndirectSuperClassTask:
         """
@@ -606,6 +606,10 @@ class OntologyExtractor:
         if predicates is None:
             predicates = [IS_A]
         adapter = self.adapter
+        if select_random:
+            all_classes = list(adapter.entities(filter_obsoletes=True, owl_type=OWL_CLASS))
+            subclass = random.choice(all_classes)
+            siblings = random.sample(all_classes, 3)
         subclass_ancestors = list(adapter.ancestors(subclass, predicates=predicates))
         terms = [subclass] + siblings
         ontology = self.extract_ontology(terms, roots)
@@ -629,6 +633,45 @@ class OntologyExtractor:
         task = EntailedIndirectSuperClassTask(
             ontology=ontology,
             query=Query(parameters=[self._name(subclass)]),
+            answers=answers,
+            **kwargs,
+        )
+        task.populate()
+        return task
+
+
+    def extract_most_recent_common_subsumers_task(
+        self,
+        subclass1: CURIE,
+        subclass2: CURIE,
+        siblings: List[CURIE],
+        roots: Optional[List[CURIE]] = None,
+        predicates: Optional[List[PRED_CURIE]] = None,
+        **kwargs,
+    ) -> MostRecentCommonSubsumerTask:
+        """
+        Extract a task for finding all MRCAs of a pair of classes.
+
+        """
+        if predicates is None:
+            predicates = [IS_A]
+        adapter = self.adapter
+        subclass1_ancestors = list(adapter.ancestors(subclass1, predicates=predicates))
+        subclass2_ancestors = list(adapter.ancestors(subclass2, predicates=predicates))
+        terms = [subclass1, subclass2] + siblings
+        ontology = self.extract_ontology(terms, roots)
+        answers = []
+        if not isinstance(adapter, SemanticSimilarityInterface):
+            raise ValueError("Adapter must implement SemanticSimilarityInterface")
+        mrcas = list(adapter.most_recent_common_ancestors(subclass1, subclass2, predicates=predicates))
+        for mrca in mrcas:
+            explanations = [
+                Explanation(axioms=[self._axiom((mrca, IS_A, subclass1)), self._axiom((mrca, IS_A, subclass2))])
+            ]
+            answers.append(ClassAnswer(text=self._name(mrca), explanations=explanations))
+        task = MostRecentCommonSubsumerTask(
+            ontology=ontology,
+            query=Query(parameters=[self._name(subclass1), self._name(subclass2)]),
             answers=answers,
             **kwargs,
         )

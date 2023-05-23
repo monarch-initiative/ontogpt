@@ -1013,26 +1013,28 @@ test-no-images = ["pytest"]
 
 [[package]]
 name = "curies"
-version = "0.4.2"
+version = "0.5.5"
 description = "Idiomatic conversion between URIs and compact URIs (CURIEs)."
 category = "main"
 optional = false
 python-versions = ">=3.7"
 files = [
-    {file = "curies-0.4.2-py3-none-any.whl", hash = "sha256:91d6993a59270c3c280d3689e26001eb7c098d319f9a9f102c060943fa2bc44b"},
-    {file = "curies-0.4.2.tar.gz", hash = "sha256:bdf862d9320b3f0c1d4a81532b07457da5370aa72bc6189099480ac0db80a6f7"},
+    {file = "curies-0.5.5-py3-none-any.whl", hash = "sha256:265ab8c95a2a6478ca22a1f9a2fac2902d71fa7737534b6380297e4dc49decd6"},
+    {file = "curies-0.5.5.tar.gz", hash = "sha256:4c1ddf6e7be2afdccb8e9dad76e4c22c4f9d506bbe0dbb1cfaf2cf29fc488ce2"},
 ]
 
 [package.dependencies]
+pydantic = "*"
 pytrie = "*"
 requests = "*"
 
 [package.extras]
 bioregistry = ["bioregistry (>=0.5.136)"]
 docs = ["sphinx", "sphinx-autodoc-typehints", "sphinx-automodapi", "sphinx-rtd-theme"]
-fastapi = ["fastapi", "httpx"]
-flask = ["flask"]
+fastapi = ["defusedxml", "fastapi", "httpx", "python-multipart", "uvicorn"]
+flask = ["defusedxml", "flask"]
 pandas = ["pandas"]
+rdflib = ["rdflib"]
 tests = ["coverage", "pytest"]
 
 [[package]]
@@ -2958,19 +2960,19 @@ docs = ["myst-parser[docs] (>=0.18.1,<0.19.0)", "sphinx-autodoc-typehints[docs] 
 
 [[package]]
 name = "linkml-runtime"
-version = "1.4.9"
+version = "1.5.3"
 description = "Runtime environment for LinkML, the Linked open data modeling language"
 category = "main"
 optional = false
 python-versions = ">=3.7.6,<4.0.0"
 files = [
-    {file = "linkml_runtime-1.4.9-py3-none-any.whl", hash = "sha256:62bf8618ddf362be0f173f2fa1821c3e29309c897b8f1e2f83fb41dc599e72a6"},
-    {file = "linkml_runtime-1.4.9.tar.gz", hash = "sha256:64c383ce05351b0dce18fcbbdb38884f180466968dcf09c90689e1bfa72d4aa4"},
+    {file = "linkml_runtime-1.5.3-py3-none-any.whl", hash = "sha256:e8f82ebce2af7e71998a7fca0cf9d37eabfa18c21efe34393b698074da430bbb"},
+    {file = "linkml_runtime-1.5.3.tar.gz", hash = "sha256:b53876389cd88fcf9d259079f46edfc8e59665fbed71934c40db04908ddaf937"},
 ]
 
 [package.dependencies]
 click = "*"
-curies = ">=0.4.0,<0.5.0"
+curies = ">=0.5.4"
 deprecated = "*"
 hbreader = "*"
 json-flattener = ">=0.1.9"
@@ -2978,6 +2980,7 @@ jsonasobj2 = ">=1.0.4,<2.0.0"
 jsonschema = ">=3.2.0"
 prefixcommons = ">=0.1.12"
 prefixmaps = ">=0.1.4"
+pydantic = ">=1.10.2,<2.0.0"
 pyyaml = "*"
 rdflib = ">=6.0.0"
 requests = "*"
@@ -7295,4 +7298,4 @@ web = ["Jinja2", "fastapi", "uvicorn"]
 [metadata]
 lock-version = "2.0"
 python-versions = ">=3.9,<3.9.7 || >3.9.7,<4.0"
-content-hash = "719a40118a3cc88a877b9a30cc576b5772d73bceaf428287e49f5436488bdb94"
+content-hash = "3bb55a017f633b20216643c4bb27f44e960245159c8ffb75b639ee6c046cd86d"

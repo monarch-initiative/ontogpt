@@ -30,7 +30,7 @@ greenlet = "!=2.0.2"
 httpx = "^0.23.3"
 aiohttp = "^3.8.4"
 inflection = "^0.5.1"
-linkml-runtime = "^1.4.9"
+linkml-runtime = "^1.5.3"
 nlpcloud = "^1.0.39"
 fastapi = {version = "^0.88.0", optional = true}
 uvicorn = {version = "^0.20.0", optional = true}
