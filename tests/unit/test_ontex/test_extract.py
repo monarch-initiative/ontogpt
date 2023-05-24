@@ -28,6 +28,7 @@ from tests import (
 )
 
 TEST_ONTOLOGY_OAK = INPUT_DIR / "go-nucleus.db"
+TEST_ONTOLOGY_ABOX = INPUT_DIR / "fhkb.db"
 
 
 logger = logging.getLogger(extractor.__name__)
@@ -40,9 +41,11 @@ class TestOntologyExtractor(unittest.TestCase):
     def setUp(self) -> None:
         """Set up."""
         self.adapter = get_adapter(str(TEST_ONTOLOGY_OAK))
+        self.abox_adapter = get_adapter(str(TEST_ONTOLOGY_ABOX))
         if not isinstance(self.adapter, OboGraphInterface):
             raise ValueError("Not an OboGraphInterface")
         self.extractor = OntologyExtractor(adapter=self.adapter)
+        self.abox_extractor = OntologyExtractor(adapter=self.abox_adapter)
 
     def cases(self) -> Iterator[Tuple[Task, List[str]]]:
         extractor = self.extractor
@@ -88,7 +91,10 @@ class TestOntologyExtractor(unittest.TestCase):
     def test_random(self):
         """Test extract random tasks."""
         extractor = self.extractor
-        tc = extractor.create_random_tasks(20)
+        abox_extractor = self.abox_extractor
+        abox_tc = abox_extractor.create_random_tasks(20, abox=True)
+        tc = extractor.create_random_tasks(20, abox=False)
+        tc.tasks.extend(abox_tc.tasks)
         for task in tc.tasks:
             if not task.answers:
                 print(f"Task {task} has no answers")
@@ -103,4 +109,5 @@ class TestOntologyExtractor(unittest.TestCase):
         task_types = {type(obj) for obj in tc.tasks}
         print(len(tc.tasks))
         print(task_types)
-        self.assertEqual(len(task_types), 5)
+        # increase this every time you add a new task type
+        self.assertEqual(len(task_types), 6)

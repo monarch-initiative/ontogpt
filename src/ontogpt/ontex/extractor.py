@@ -12,7 +12,8 @@ from typing import Any, ClassVar, List, Literal, Optional, TextIO, Tuple, Type, 
 
 import inflection
 import yaml
-from oaklib.datamodels.vocabulary import DISJOINT_WITH, IS_A, OWL_CLASS, PART_OF
+from oaklib.datamodels.vocabulary import DISJOINT_WITH, IS_A, OWL_CLASS, PART_OF, OWL_NAMED_INDIVIDUAL, \
+    OWL_OBJECT_PROPERTY
 from oaklib.interfaces import OboGraphInterface
 from oaklib.interfaces.basic_ontology_interface import RELATIONSHIP
 from oaklib.interfaces.obograph_interface import GraphTraversalMethod
@@ -695,7 +696,7 @@ class MostRecentCommonSubsumerTask(Task):
     ]
 
 
-class ABoxPropertyChainPlusTransitivityTask(Task):
+class ABoxTask(Task):
     """A task to infer assertions over property chains and transitvity in aboxes."""
 
     _query_format = """
@@ -708,7 +709,7 @@ class ABoxPropertyChainPlusTransitivityTask(Task):
     This means that if x PROPERTY y and y PROPERTY z then x PROPERTY z.
     """
 
-    type: Literal["ABoxPropertyChainTask"] = Field("ABoxPropertyChainTask")
+    type: Literal["ABoxTask"] = Field("ABoxTask")
 
     answers: Optional[List[InstanceAnswer]] = None
 
@@ -879,16 +880,21 @@ class OntologyExtractor:
         return task
 
     def create_random_tasks(
-        self, num_tasks_per_type: int = 10, methods: List = None
+        self, num_tasks_per_type: int = 10, methods: List = None, abox=False,
     ) -> TaskCollection:
         if methods is None:
-            methods = [
-                self.extract_indirect_superclasses_task,
-                self.extract_transitive_superclasses_task,
-                self.extract_most_recent_common_subsumers_task,
-                self.extract_subclass_of_expression_task,
-                self.extract_incoherent_ontology_task,
-            ]
+            if abox:
+                methods = [
+                    self.extract_abox_task,
+                ]
+            else:
+                methods = [
+                    self.extract_indirect_superclasses_task,
+                    self.extract_transitive_superclasses_task,
+                    self.extract_most_recent_common_subsumers_task,
+                    self.extract_subclass_of_expression_task,
+                    self.extract_incoherent_ontology_task,
+                ]
         objs = []
         for method in methods:
             for _n in range(num_tasks_per_type):
@@ -902,6 +908,7 @@ class OntologyExtractor:
         terms: List[CURIE],
         roots: Optional[List[CURIE]] = None,
         predicates: Optional[List[PRED_CURIE]] = None,
+        include_abox=False,
     ) -> Ontology:
         """
         Extract an ontology module following specified terms up the hierarchy.
@@ -911,7 +918,7 @@ class OntologyExtractor:
         :param predicates: defaults to IS_A
         :return:
         """
-        if predicates is None:
+        if predicates is None and not include_abox:
             predicates = [IS_A]
         adapter = self.adapter
         onts = list(adapter.ontologies())
@@ -928,7 +935,7 @@ class OntologyExtractor:
         if not ancs:
             raise ValueError(f"No ancestors found for {terms} over {predicates}")
         for t in ancs:
-            for rel in adapter.relationships([t], predicates=predicates):
+            for rel in adapter.relationships([t], predicates=predicates, include_abox=include_abox):
                 if rel in already_have:
                     continue
                 s, p, o = rel
@@ -939,7 +946,7 @@ class OntologyExtractor:
                     roots
                 ):
                     continue
-                axioms.append(self._axiom(rel))
+                axioms.append(self._axiom(rel, tbox=not include_abox))
                 already_have.add(rel)
         if not axioms:
             raise ValueError(
@@ -1072,6 +1079,47 @@ class OntologyExtractor:
         task = EntailedTransitiveSuperClassTask(
             ontology=ontology,
             query=Query(parameters=[self._name(subclass)]),
+            answers=answers,
+            **kwargs,
+        )
+        task.populate()
+        return task
+
+    def extract_abox_task(
+        self,
+        subject: CURIE = None,
+        siblings: List[CURIE] = None,
+        predicate: PRED_CURIE = None,
+        select_random=False,
+        **kwargs,
+    ) -> ABoxTask:
+        """Extract a task for finding all entailed edges."""
+        adapter = self.adapter
+        # TODO: this is currently necessary to get all entailed abox relationships
+        include_tbox = True
+        if select_random:
+            all_entities = list(adapter.entities(filter_obsoletes=True, owl_type=OWL_NAMED_INDIVIDUAL))
+            all_direct_rels = list(adapter.relationships(include_abox=True, include_tbox=include_tbox, include_entailed=False))
+            all_rels = list(adapter.relationships(include_abox=True, include_tbox=include_tbox, include_entailed=True))
+            all_rels = [r for r in all_rels if r[2] in all_entities]
+            # for r in all_rels:
+            #     print(r)
+            all_indirect_rels = [r for r in all_rels if r not in all_direct_rels]
+            candidate_rel = random.choice(all_indirect_rels)
+            subject = candidate_rel[0]
+            predicate = candidate_rel[1]
+            siblings = random.sample(all_entities, 3)
+        predicates = [predicate]
+        relationships = list(adapter.relationships([subject], predicates=predicates, include_abox=True, include_tbox=include_tbox, include_entailed=True))
+        terms = [subject] + siblings
+        # note: we need to extract over all predicates
+        ontology = self.extract_ontology(terms, predicates=None, include_abox=True)
+        # exclude reflexive
+        ancestors = [r[2] for r in relationships if r[2] != subject]
+        answers = self._answers_from_ancestors(subject, ancestors, predicates=predicates)
+        task = ABoxTask(
+            ontology=ontology,
+            query=Query(parameters=[self._name(subject), self._name(predicate)]),
             answers=answers,
             **kwargs,
         )
@@ -1282,7 +1330,7 @@ class OntologyExtractor:
         elif tbox:
             return Axiom(text=f"{s_n} SubClassOf {p_n} Some {o_n}")
         else:
-            raise ValueError(f"Cannot translate {rel}")
+            return Axiom(text=f"{s_n} {p_n} {o_n}")
 
     def _name(self, curie: CURIE) -> str:
         if self.use_identifiers:
