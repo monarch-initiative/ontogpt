@@ -3,7 +3,7 @@ import codecs
 import logging
 import pickle
 import sys
-from copy import copy
+from copy import copy, deepcopy
 from dataclasses import dataclass
 from io import BytesIO, TextIOWrapper
 from pathlib import Path
@@ -34,6 +34,7 @@ from ontogpt.engines.spires_engine import SPIRESEngine
 from ontogpt.engines.synonym_engine import SynonymEngine
 from ontogpt.evaluation.enrichment.eval_enrichment import EvalEnrichment
 from ontogpt.evaluation.resolver import create_evaluator
+from ontogpt.io.csv_wrapper import write_obj_as_csv
 from ontogpt.io.html_exporter import HTMLExporter
 from ontogpt.io.markdown_exporter import MarkdownExporter
 from ontogpt.utils.gene_set_utils import (
@@ -136,7 +137,7 @@ output_option_txt = click.option(
 output_format_options = click.option(
     "-O",
     "--output-format",
-    type=click.Choice(["json", "yaml", "pickle", "md", "html", "owl", "turtle"]),
+    type=click.Choice(["json", "yaml", "pickle", "md", "html", "owl", "turtle", "jsonl"]),
     default="yaml",
     help="Output format.",
 )
@@ -806,22 +807,59 @@ def entity_similarity(terms, ontology, output, model, output_format, **kwargs):
 
 @main.command()
 @inputfile_option
+@output_option_txt
+@model_option
+@click.option("--task-file")
 @click.option("--task-type")
+@click.option("--tsv-output")
+@click.option("--all-methods/--no-all-methods", default=False)
 @click.option("--explain/--no-explain", default=False)
+@click.option("--evaluate/--no-evaluate", default=False)
 @click.argument("terms", nargs=-1)
-def reason(terms, inputfile, explain, task_type, **kwargs):
+def reason(
+    terms,
+    inputfile,
+    model,
+    task_file,
+    explain,
+    task_type,
+    output,
+    tsv_output,
+    all_methods,
+    evaluate,
+    **kwargs,
+):
     """Reason."""
-    reasoner = ReasonerEngine()
-    adapter = get_adapter(inputfile)
-    if not isinstance(adapter, OboGraphInterface):
-        raise ValueError("Only OBO graphs supported")
-    ex = extractor.OntologyExtractor(adapter=adapter)
-    # ex.use_identifiers = True
-    task = ex.create_task(task_type=task_type, parameters=list(terms))
-    task.include_explanations = explain
-    print(yaml.dump(task.dict(), sort_keys=False))
-    result = reasoner.reason(task=task)
-    print(yaml.dump(result.dict(), sort_keys=False))
+    reasoner = ReasonerEngine(model=model)
+    if task_file:
+        tc = extractor.TaskCollection.load(task_file)
+    else:
+        adapter = get_adapter(inputfile)
+        if not isinstance(adapter, OboGraphInterface):
+            raise ValueError("Only OBO graphs supported")
+        ex = extractor.OntologyExtractor(adapter=adapter)
+        # ex.use_identifiers = True
+        task = ex.create_task(task_type=task_type, parameters=list(terms))
+        tc = extractor.TaskCollection(tasks=[task])
+    if all_methods:
+        tasks = []
+        print(f"Cloning {len(tc.tasks)} tasks")
+        for core_task in tc.tasks:
+            for m in extractor.GPTReasonMethodType:
+                print(f"Cloning {m}")
+                task = deepcopy(core_task)
+                task.method = m
+                task.init_method()
+                tasks.append(task)
+        tc.tasks = tasks
+        print(f"New {len(tc.tasks)} tasks")
+    else:
+        for task in tc.tasks:
+            task.include_explanations = explain
+    resultset = reasoner.reason_multiple(tc, evaluate=evaluate)
+    dump_minimal_yaml(resultset.dict(), file=output)
+    if tsv_output:
+        write_obj_as_csv(resultset.results, tsv_output)
 
 
 @main.command()
@@ -979,20 +1017,19 @@ def parse(template, input):
 @model_option
 @click.option("-m", "match", help="Match string to use for filtering.")
 @click.option("-D", "database", help="Path to sqlite database.")
-def dump_completions(engine, match, database, output, output_format):
+def dump_completions(model, match, database, output, output_format):
     """Dump cached completions."""
-    logging.info(f"Creating for {engine}")
     client = OpenAIClient()
     if database:
         client.cache_db_path = database
     if output_format == "jsonl":
         writer = jsonlines.Writer(output)
-        for engine, prompt, completion in client.cached_completions(match):
-            writer.write(dict(engine=engine, prompt=prompt, completion=completion))
+        for _engine, prompt, completion in client.cached_completions(match):
+            writer.write(dict(engine=model, prompt=prompt, completion=completion))
     elif output_format == "yaml":
-        for engine, prompt, completion in client.cached_completions(match):
+        for _engine, prompt, completion in client.cached_completions(match):
             output.write(
-                dump_minimal_yaml(dict(engine=engine, prompt=prompt, completion=completion))
+                dump_minimal_yaml(dict(engine=model, prompt=prompt, completion=completion))
             )
     else:
         output.write("# Cached Completions:\n")

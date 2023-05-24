@@ -1,7 +1,7 @@
 """YAML Wrapper."""
 import io
 import logging
-from typing import Any
+from typing import Any, Optional, TextIO
 
 import pydantic
 from ruamel.yaml import YAML, RoundTripRepresenter
@@ -34,18 +34,20 @@ def eliminate_empty(obj: Any, preserve=False) -> Any:
 
 
 def repr_str(dumper: RoundTripRepresenter, data: str):
-    if '\n' in data:
-        return dumper.represent_scalar('tag:yaml.org,2002:str', data, style='|')
-    return dumper.represent_scalar('tag:yaml.org,2002:str', data)
+    if "\n" in data:
+        return dumper.represent_scalar("tag:yaml.org,2002:str", data, style="|")
+    return dumper.represent_scalar("tag:yaml.org,2002:str", data)
 
 
-def dump_minimal_yaml(obj: Any, minimize=True) -> str:
+def dump_minimal_yaml(obj: Any, minimize=True, file: Optional[TextIO] = None) -> Optional[str]:
     """Dump a YAML string, but eliminating Nones and empty lists and dicts."""
     yaml = YAML()
     yaml.representer.add_representer(str, repr_str)
     yaml.default_flow_style = False
     yaml.indent(sequence=4, offset=2)
-    f = io.StringIO()
-    yaml.dump(eliminate_empty(obj, not minimize), f)
-    return f.getvalue()
-
+    if not file:
+        file = io.StringIO()
+        yaml.dump(eliminate_empty(obj, not minimize), file)
+        return file.getvalue()
+    else:
+        yaml.dump(eliminate_empty(obj, not minimize), file)

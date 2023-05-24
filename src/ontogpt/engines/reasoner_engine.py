@@ -8,8 +8,15 @@ from typing import List, Optional, Union
 from jinja2 import Template
 from pydantic import BaseModel
 
-from ontogpt.engines.knowledge_engine import KnowledgeEngine
-from ontogpt.ontex.extractor import Answer, Axiom, Explanation, Task
+from ontogpt.engines.knowledge_engine import MODEL_GPT_4, KnowledgeEngine
+from ontogpt.ontex.extractor import (
+    Answer,
+    Axiom,
+    Explanation,
+    GPTReasonMethodType,
+    Task,
+    TaskCollection,
+)
 from ontogpt.prompts.reasoning import DEFAULT_REASONING_PROMPT
 from ontogpt.utils.parse_utils import split_on_one_of
 
@@ -30,7 +37,11 @@ class ReasonerResult(BaseModel):
     """The result of a reason query."""
 
     name: Optional[str] = None
+    completed: Optional[bool] = True
     task_name: Optional[str] = None
+    task_type: Optional[str] = None
+    method: Optional[GPTReasonMethodType] = None
+    model: Optional[str] = None
     description: Optional[str] = None
     answers: Optional[List[Answer]] = None
     prompt: Optional[str] = None
@@ -40,6 +51,22 @@ class ReasonerResult(BaseModel):
     false_negatives: Optional[List[str]] = None
     num_false_positives: Optional[int] = None
     num_false_negatives: Optional[int] = None
+    num_true_positives: Optional[int] = None
+    num_true_negatives: Optional[int] = None
+    precision: Optional[float] = None
+    recall: Optional[float] = None
+    f1_score: Optional[float] = None
+    len_shortest_explanation: Optional[int] = None
+
+    class Config:
+        """Pydantic config."""
+
+        use_enum_values = True
+
+
+class ReasonerResultSet(BaseModel):
+    name: str = None
+    results: List[ReasonerResult]
 
 
 @dataclass
@@ -109,7 +136,11 @@ class ReasonerEngine(KnowledgeEngine):
 
     """
 
-    def reason(self, task: Task, template_path=None) -> ReasonerResult:
+    completion_length = 250
+
+    def reason(
+        self, task: Task, template_path=None, strict=False, evaluate: bool = None
+    ) -> ReasonerResult:
         """Reason over axioms and query entailments."""
         if template_path is None:
             template_path = DEFAULT_REASONING_PROMPT
@@ -126,18 +157,60 @@ class ReasonerEngine(KnowledgeEngine):
             query=task.query,
             examples=task.examples,
         )
+        completion_length = self.completion_length
+        if task.method == GPTReasonMethodType.EXPLANATION:
+            completion_length *= 2
+        elif task.method == GPTReasonMethodType.CHAIN_OF_THOUGHT:
+            completion_length *= 2
         logger.info(f"Prompt: {prompt}")
-        payload = self.client.complete(prompt)
-        if task.has_multiple_answers:
-            elements = payload.split("- ")
-            answers = [self._parse_single_answer(e, task) for e in elements]
+        prompt_length = len(self.encoding.encode(prompt)) + 10
+        max_len_total = 4097
+        if self.model == MODEL_GPT_4:
+            max_len_total = 8193
+        max_len = max_len_total - completion_length
+        completed = True
+        logger.info(f"PROMPT LENGTH: {prompt_length} [max={max_len}]")
+        if prompt_length > max_len:
+            if strict:
+                raise ValueError(f"Prompt length ({prompt_length}) exceeds maximum ({max_len})")
+            answers = []
+            completed = False
         else:
-            answers = [self._parse_single_answer(payload, task)]
-        answers = flatten_list(answers)
-        rr = ReasonerResult(prompt=prompt, completion=payload, answers=[a for a in answers if a])
+            payload = self.client.complete(prompt, max_tokens=completion_length)
+            if task.has_multiple_answers:
+                elements = payload.split("- ")
+                answers = [self._parse_single_answer(e, task) for e in elements]
+            else:
+                answers = [self._parse_single_answer(payload, task)]
+            answers = flatten_list(answers)
+        result = ReasonerResult(
+            completed=completed,
+            task_name=task.name,
+            task_type=task.type,
+            method=task.method,
+            len_shortest_explanation=task.len_shortest_explanation,
+            model=self.model,
+            prompt=prompt,
+            completion=payload,
+            answers=[a for a in answers if a],
+        )
+        result.name = f"{task.name}-{task.method.value}-{self.model}"
+        if not task.answers and evaluate:
+            raise ValueError(f"Cannot evaluate without expected answers: {task}")
         if task.answers is not None:
-            self.evaluate(rr, task)
-        return rr
+            self.evaluate(result, task)
+        return result
+
+    def reason_multiple(self, task_collection: TaskCollection, **kwargs) -> ReasonerResultSet:
+        """
+        Reason over multiple tasks.
+
+        :param task_collection:
+        :param kwargs:
+        :return:
+        """
+        results = [self.reason(task, **kwargs) for task in task_collection.tasks]
+        return ReasonerResultSet(results=results)
 
     def _parse_single_answer(
         self, payload: str, task: Task
@@ -186,24 +259,26 @@ class ReasonerEngine(KnowledgeEngine):
 
     def evaluate(self, result: ReasonerResult, task: Task):
         """Evaluate result against task."""
-        task_answer_texts = {t.text for t in task.answers}
+        positives = {t.text for t in task.answers}
         result_answer_texts = {a.text for a in result.answers}
-        ixn = task_answer_texts.intersection(result_answer_texts)
-        all_texts = task_answer_texts.union(result_answer_texts)
-        if len(all_texts) == 0:
-            j_score = 0.0
-        else:
-            j_score = len(ixn) / len(all_texts)
-        result.jaccard_score = j_score
-        result.false_positives = list(result_answer_texts - task_answer_texts)
-        result.false_negatives = list(task_answer_texts - result_answer_texts)
+        ixn = positives.intersection(result_answer_texts)
+        all_texts = positives.union(result_answer_texts)
+        result.false_positives = list(result_answer_texts - positives)
+        result.false_negatives = list(positives - result_answer_texts)
         result.num_false_positives = len(result.false_positives)
         result.num_false_negatives = len(result.false_negatives)
-        if not result.task_name:
-            result.task_name = task.name
-        if not result.name:
-            result.name = task.name
-            if task.chain_of_thought:
-                result.name += "-cot"
-            if task.include_explanations:
-                result.name += "-expl"
+        result.num_true_positives = len(ixn)
+        result.precision = result.num_true_positives / (
+            result.num_true_positives + result.num_false_positives
+        )
+        result.recall = result.num_true_positives / len(positives)
+        if len(all_texts) == 0:
+            result.jaccard_score = 0.0
+        else:
+            result.jaccard_score = len(ixn) / len(all_texts)
+        if result.num_true_positives == 0:
+            result.f1_score = 0.0
+        else:
+            result.f1_score = (
+                2 * (result.precision * result.recall) / (result.precision + result.recall)
+            )

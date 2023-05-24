@@ -7,9 +7,8 @@ import yaml
 from oaklib import get_adapter
 from oaklib.datamodels.vocabulary import IS_A, PART_OF
 from oaklib.interfaces.obograph_interface import OboGraphInterface
-from pydantic import BaseModel
 
-from ontogpt.engines.reasoner_engine import ReasonerEngine, ReasonerResult
+from ontogpt.engines.reasoner_engine import ReasonerEngine, ReasonerResult, ReasonerResultSet
 from ontogpt.io.csv_wrapper import write_obj_as_csv
 from ontogpt.io.yaml_wrapper import dump_minimal_yaml
 from ontogpt.ontex import extractor
@@ -40,11 +39,6 @@ logger = logging.getLogger(extractor.__name__)
 logger.setLevel(level=logging.INFO)
 
 
-class ReasonerResultSet(BaseModel):
-    name: str
-    results: List[ReasonerResult]
-
-
 class TestReasoning(unittest.TestCase):
     """Test ability to convert from OAK to native HALO form."""
 
@@ -67,15 +61,30 @@ class TestReasoning(unittest.TestCase):
 
     def tasks(self) -> Iterator[Task]:
         extractor = self.extractor
-        yield extractor.extract_indirect_superclasses_task(
-            name="random",
-            select_random=True,
+        # yield extractor.extract_indirect_superclasses_task(
+        #     name="random",
+        #     select_random=True,
+        # )
+        yield extractor.extract_transitive_superclasses_task(
+            name="transitive-ancestor-nucleus",
+            subclass=NUCLEUS,
+            siblings=[VACUOLE],
+            roots=[ORGANELLE],
         )
         yield extractor.extract_indirect_superclasses_task(
-            name="ancestor-nucleus", subclass=NUCLEUS, siblings=[VACUOLE], roots=[ORGANELLE]
+            name="indirect-ancestor-nucleus",
+            subclass=NUCLEUS,
+            siblings=[VACUOLE],
+            roots=[ORGANELLE],
+        )
+        yield extractor.extract_transitive_superclasses_task(
+            name="transitive-ancestor-nuclear-membrane",
+            subclass=IMBO,
+            siblings=[NUCLEUS],
+            roots=[ORGANELLE, BIOLOGICAL_PROCESS],
         )
         yield extractor.extract_indirect_superclasses_task(
-            name="ancestor-nuclear-membrane",
+            name="indirect-ancestor-nuclear-membrane",
             subclass=IMBO,
             siblings=[NUCLEUS],
             roots=[ORGANELLE, BIOLOGICAL_PROCESS],
@@ -94,7 +103,10 @@ class TestReasoning(unittest.TestCase):
         )
         yield extractor.extract_most_recent_common_subsumers_task(
             name="mrca-nucleus-vacuole",
-            subclass1=NUCLEUS, subclass2=VACUOLE, siblings=[NUCLEAR_MEMBRANE], roots=[]
+            subclass1=NUCLEUS,
+            subclass2=VACUOLE,
+            siblings=[NUCLEAR_MEMBRANE],
+            roots=[],
         )
         yield extractor.extract_subclass_of_expression_task(
             name="subclass-of-part-of-nuclear-envelope",
@@ -136,6 +148,7 @@ class TestReasoning(unittest.TestCase):
             print(yaml.dump(result.dict(), sort_keys=False))
             print(result.prompt)
             results.append(result)
+            ReasonerResultSet(results=[result])
         for result in results:
             print(
                 f"Result: {result.jaccard_score} {result.false_positives} {result.false_negatives}"
