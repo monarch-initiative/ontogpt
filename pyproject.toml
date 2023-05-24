@@ -30,7 +30,7 @@ greenlet = "!=2.0.2"
 httpx = "^0.23.3"
 aiohttp = "^3.8.4"
 inflection = "^0.5.1"
-linkml-runtime = "^1.4.9"
+linkml-runtime = "^1.5.3"
 nlpcloud = "^1.0.39"
 fastapi = {version = "^0.88.0", optional = true}
 uvicorn = {version = "^0.20.0", optional = true}
@@ -41,6 +41,7 @@ sphinx-autodoc-typehints = {version = "^1.19.4", extras = ["docs"], optional = t
 sphinx-click = {version = "^4.3.0", extras = ["docs"], optional = true}
 myst-parser = {version = "^0.18.1", extras = ["docs"], optional = true}
 recipe-scrapers = {version = "^14.35.0", extras = ["recipes"], optional = true}
+textract = {version = "*", extras = ["textract"], optional = true}
 cachier = "^2.1.0"
 wikipedia-api = "^0.5.8"
 rustsim = "^0.1.8"
@@ -73,6 +74,9 @@ web = [
 ]
 recipes = [
     "recipe-scrapers"
+]
+textract = [
+    "textract"
 ]
 
 [tool.poetry.group.dev.dependencies]
