@@ -12,8 +12,13 @@ from typing import Any, ClassVar, List, Literal, Optional, TextIO, Tuple, Type, 
 
 import inflection
 import yaml
-from oaklib.datamodels.vocabulary import DISJOINT_WITH, IS_A, OWL_CLASS, PART_OF, OWL_NAMED_INDIVIDUAL, \
-    OWL_OBJECT_PROPERTY
+from oaklib.datamodels.vocabulary import (
+    DISJOINT_WITH,
+    IS_A,
+    OWL_CLASS,
+    OWL_NAMED_INDIVIDUAL,
+    PART_OF,
+)
 from oaklib.interfaces import OboGraphInterface
 from oaklib.interfaces.basic_ontology_interface import RELATIONSHIP
 from oaklib.interfaces.obograph_interface import GraphTraversalMethod
@@ -880,7 +885,10 @@ class OntologyExtractor:
         return task
 
     def create_random_tasks(
-        self, num_tasks_per_type: int = 10, methods: List = None, abox=False,
+        self,
+        num_tasks_per_type: int = 10,
+        methods: List = None,
+        abox=False,
     ) -> TaskCollection:
         if methods is None:
             if abox:
@@ -1098,9 +1106,19 @@ class OntologyExtractor:
         # TODO: this is currently necessary to get all entailed abox relationships
         include_tbox = True
         if select_random:
-            all_entities = list(adapter.entities(filter_obsoletes=True, owl_type=OWL_NAMED_INDIVIDUAL))
-            all_direct_rels = list(adapter.relationships(include_abox=True, include_tbox=include_tbox, include_entailed=False))
-            all_rels = list(adapter.relationships(include_abox=True, include_tbox=include_tbox, include_entailed=True))
+            all_entities = list(
+                adapter.entities(filter_obsoletes=True, owl_type=OWL_NAMED_INDIVIDUAL)
+            )
+            all_direct_rels = list(
+                adapter.relationships(
+                    include_abox=True, include_tbox=include_tbox, include_entailed=False
+                )
+            )
+            all_rels = list(
+                adapter.relationships(
+                    include_abox=True, include_tbox=include_tbox, include_entailed=True
+                )
+            )
             all_rels = [r for r in all_rels if r[2] in all_entities]
             # for r in all_rels:
             #     print(r)
@@ -1110,7 +1128,15 @@ class OntologyExtractor:
             predicate = candidate_rel[1]
             siblings = random.sample(all_entities, 3)
         predicates = [predicate]
-        relationships = list(adapter.relationships([subject], predicates=predicates, include_abox=True, include_tbox=include_tbox, include_entailed=True))
+        relationships = list(
+            adapter.relationships(
+                [subject],
+                predicates=predicates,
+                include_abox=True,
+                include_tbox=include_tbox,
+                include_entailed=True,
+            )
+        )
         terms = [subject] + siblings
         # note: we need to extract over all predicates
         ontology = self.extract_ontology(terms, predicates=None, include_abox=True)
