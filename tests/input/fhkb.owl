@@ -1,0 +1,625 @@
+<?xml version="1.0"?>
+
+
+<!DOCTYPE Ontology [
+    <!ENTITY xsd "http://www.w3.org/2001/XMLSchema#" >
+    <!ENTITY xml "http://www.w3.org/XML/1998/namespace" >
+    <!ENTITY rdfs "http://www.w3.org/2000/01/rdf-schema#" >
+    <!ENTITY rdf "http://www.w3.org/1999/02/22-rdf-syntax-ns#" >
+]>
+
+
+<Ontology xmlns="http://www.w3.org/2002/07/owl#"
+     xml:base="http://owl.cs.manchester.ac.uk/tutorials/fhkbtutorial/fhkb_chapter_10.owl"
+     xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+     xmlns:xml="http://www.w3.org/XML/1998/namespace"
+     xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
+     xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
+     ontologyIRI="http://owl.cs.manchester.ac.uk/tutorials/fhkbtutorial/fhkb_chapter_10.owl">
+    <Prefix name="rdf" IRI="http://www.w3.org/1999/02/22-rdf-syntax-ns#"/>
+    <Prefix name="rdfs" IRI="http://www.w3.org/2000/01/rdf-schema#"/>
+    <Prefix name="xsd" IRI="http://www.w3.org/2001/XMLSchema#"/>
+    <Prefix name="owl" IRI="http://www.w3.org/2002/07/owl#"/>
+    <Import>http://mowl-power.cs.man.ac.uk/fhkbtutorial/1.1/ontology/fhkb_chapter_9.owl</Import>
+    <Declaration>
+        <Class IRI="#Aunt"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#AuntInLaw"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#Bloodrelation"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#Brother"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#BrotherInLaw"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#Child"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#Daughter"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#FatherInLaw"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#FirstCousin"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#FirstCousinOnceRemoved"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#Forefather"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#Foremother"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#Grandfather"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#Grandmother"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#Grandparent"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#GreatAunt"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#GreatGrandFather"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#GreatGrandFatherOfRobert"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#GreatGrandMother"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#GreatGrandMotherOfRobert"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#GreatGrandParent"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#GreatGrandParentOfRobert"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#GreatUncle"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#InLaw"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#MotherInLaw"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#ParentInLaw"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#Relation"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#SecondCousin"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#SiblingInLaw"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#Sister"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#SisterInLaw"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#Son"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#Uncle"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#UncleInLaw"/>
+    </Declaration>
+    <EquivalentClasses>
+        <Class IRI="#Aunt"/>
+        <ObjectIntersectionOf>
+            <Class IRI="http://owl.cs.manchester.ac.uk/tutorials/fhkbtutorial/fhkb_chapter_4.owl#Person"/>
+            <ObjectSomeValuesFrom>
+                <ObjectProperty IRI="http://owl.cs.manchester.ac.uk/tutorials/fhkbtutorial/fhkb_chapter_5.owl#isAuntOf"/>
+                <Class IRI="http://owl.cs.manchester.ac.uk/tutorials/fhkbtutorial/fhkb_chapter_4.owl#Person"/>
+            </ObjectSomeValuesFrom>
+        </ObjectIntersectionOf>
+    </EquivalentClasses>
+    <EquivalentClasses>
+        <Class IRI="#AuntInLaw"/>
+        <ObjectIntersectionOf>
+            <Class IRI="http://owl.cs.manchester.ac.uk/tutorials/fhkbtutorial/fhkb_chapter_4.owl#Person"/>
+            <ObjectSomeValuesFrom>
+                <ObjectProperty IRI="http://owl.cs.manchester.ac.uk/tutorials/fhkbtutorial/fhkb_chapter_9.owl#isAuntInLawOf"/>
+                <Class IRI="http://owl.cs.manchester.ac.uk/tutorials/fhkbtutorial/fhkb_chapter_4.owl#Person"/>
+            </ObjectSomeValuesFrom>
+        </ObjectIntersectionOf>
+    </EquivalentClasses>
+    <EquivalentClasses>
+        <Class IRI="#Bloodrelation"/>
+        <ObjectIntersectionOf>
+            <Class IRI="http://owl.cs.manchester.ac.uk/tutorials/fhkbtutorial/fhkb_chapter_4.owl#Person"/>
+            <ObjectSomeValuesFrom>
+                <ObjectProperty IRI="http://owl.cs.manchester.ac.uk/tutorials/fhkbtutorial/fhkb_chapter_5.owl#hasBloodrelation"/>
+                <Class IRI="http://owl.cs.manchester.ac.uk/tutorials/fhkbtutorial/fhkb_chapter_4.owl#Person"/>
+            </ObjectSomeValuesFrom>
+        </ObjectIntersectionOf>
+    </EquivalentClasses>
+    <EquivalentClasses>
+        <Class IRI="#Brother"/>
+        <ObjectIntersectionOf>
+            <Class IRI="http://owl.cs.manchester.ac.uk/tutorials/fhkbtutorial/fhkb_chapter_4.owl#Person"/>
+            <ObjectSomeValuesFrom>
+                <ObjectProperty IRI="http://owl.cs.manchester.ac.uk/tutorials/fhkbtutorial/fhkb_chapter_5.owl#isBrotherOf"/>
+                <Class IRI="http://owl.cs.manchester.ac.uk/tutorials/fhkbtutorial/fhkb_chapter_4.owl#Person"/>
+            </ObjectSomeValuesFrom>
+        </ObjectIntersectionOf>
+    </EquivalentClasses>
+    <EquivalentClasses>
+        <Class IRI="#BrotherInLaw"/>
+        <ObjectIntersectionOf>
+            <Class IRI="http://owl.cs.manchester.ac.uk/tutorials/fhkbtutorial/fhkb_chapter_4.owl#Person"/>
+            <ObjectSomeValuesFrom>
+                <ObjectProperty IRI="http://owl.cs.manchester.ac.uk/tutorials/fhkbtutorial/fhkb_chapter_9.owl#isBrotherInLawOf"/>
+                <Class IRI="http://owl.cs.manchester.ac.uk/tutorials/fhkbtutorial/fhkb_chapter_4.owl#Person"/>
+            </ObjectSomeValuesFrom>
+        </ObjectIntersectionOf>
+    </EquivalentClasses>
+    <EquivalentClasses>
+        <Class IRI="#Child"/>
+        <ObjectIntersectionOf>
+            <Class IRI="http://owl.cs.manchester.ac.uk/tutorials/fhkbtutorial/fhkb_chapter_4.owl#Person"/>
+            <ObjectSomeValuesFrom>
+                <ObjectProperty IRI="http://owl.cs.manchester.ac.uk/tutorials/fhkbtutorial/fhkb_chapter_5.owl#isChildOf"/>
+                <Class IRI="http://owl.cs.manchester.ac.uk/tutorials/fhkbtutorial/fhkb_chapter_4.owl#Person"/>
+            </ObjectSomeValuesFrom>
+        </ObjectIntersectionOf>
+    </EquivalentClasses>
+    <EquivalentClasses>
+        <Class IRI="#Daughter"/>
+        <ObjectIntersectionOf>
+            <Class IRI="http://owl.cs.manchester.ac.uk/tutorials/fhkbtutorial/fhkb_chapter_4.owl#Person"/>
+            <ObjectSomeValuesFrom>
+                <ObjectProperty IRI="http://owl.cs.manchester.ac.uk/tutorials/fhkbtutorial/fhkb_chapter_5.owl#isDaughterOf"/>
+                <Class IRI="http://owl.cs.manchester.ac.uk/tutorials/fhkbtutorial/fhkb_chapter_4.owl#Person"/>
+            </ObjectSomeValuesFrom>
+        </ObjectIntersectionOf>
+    </EquivalentClasses>
+    <EquivalentClasses>
+        <Class IRI="#FatherInLaw"/>
+        <ObjectIntersectionOf>
+            <Class IRI="http://owl.cs.manchester.ac.uk/tutorials/fhkbtutorial/fhkb_chapter_4.owl#Person"/>
+            <ObjectSomeValuesFrom>
+                <ObjectProperty IRI="http://owl.cs.manchester.ac.uk/tutorials/fhkbtutorial/fhkb_chapter_9.owl#isFatherInLawOf"/>
+                <Class IRI="http://owl.cs.manchester.ac.uk/tutorials/fhkbtutorial/fhkb_chapter_4.owl#Person"/>
+            </ObjectSomeValuesFrom>
+        </ObjectIntersectionOf>
+    </EquivalentClasses>
+    <EquivalentClasses>
+        <Class IRI="#FirstCousin"/>
+        <ObjectIntersectionOf>
+            <Class IRI="http://owl.cs.manchester.ac.uk/tutorials/fhkbtutorial/fhkb_chapter_4.owl#Person"/>
+            <ObjectSomeValuesFrom>
+                <ObjectProperty IRI="http://owl.cs.manchester.ac.uk/tutorials/fhkbtutorial/fhkb_chapter_9.owl#hasFirstCousin"/>
+                <Class IRI="http://owl.cs.manchester.ac.uk/tutorials/fhkbtutorial/fhkb_chapter_4.owl#Person"/>
+            </ObjectSomeValuesFrom>
+        </ObjectIntersectionOf>
+    </EquivalentClasses>
+    <EquivalentClasses>
+        <Class IRI="#FirstCousinOnceRemoved"/>
+        <ObjectIntersectionOf>
+            <Class IRI="http://owl.cs.manchester.ac.uk/tutorials/fhkbtutorial/fhkb_chapter_4.owl#Person"/>
+            <ObjectSomeValuesFrom>
+                <ObjectProperty IRI="http://owl.cs.manchester.ac.uk/tutorials/fhkbtutorial/fhkb_chapter_9.owl#hasFirstCousinOnceRemoved"/>
+                <Class IRI="http://owl.cs.manchester.ac.uk/tutorials/fhkbtutorial/fhkb_chapter_4.owl#Person"/>
+            </ObjectSomeValuesFrom>
+        </ObjectIntersectionOf>
+    </EquivalentClasses>
+    <EquivalentClasses>
+        <Class IRI="#Forefather"/>
+        <ObjectIntersectionOf>
+            <Class IRI="http://owl.cs.manchester.ac.uk/tutorials/fhkbtutorial/fhkb_chapter_4.owl#Man"/>
+            <ObjectSomeValuesFrom>
+                <ObjectProperty IRI="http://owl.cs.manchester.ac.uk/tutorials/fhkbtutorial/fhkb_chapter_3.owl#isAncestorOf"/>
+                <Class IRI="http://owl.cs.manchester.ac.uk/tutorials/fhkbtutorial/fhkb_chapter_4.owl#Person"/>
+            </ObjectSomeValuesFrom>
+        </ObjectIntersectionOf>
+    </EquivalentClasses>
+    <EquivalentClasses>
+        <Class IRI="#Foremother"/>
+        <ObjectIntersectionOf>
+            <Class IRI="http://owl.cs.manchester.ac.uk/tutorials/fhkbtutorial/fhkb_chapter_4.owl#Woman"/>
+            <ObjectSomeValuesFrom>
+                <ObjectProperty IRI="http://owl.cs.manchester.ac.uk/tutorials/fhkbtutorial/fhkb_chapter_3.owl#isAncestorOf"/>
+                <Class IRI="http://owl.cs.manchester.ac.uk/tutorials/fhkbtutorial/fhkb_chapter_4.owl#Person"/>
+            </ObjectSomeValuesFrom>
+        </ObjectIntersectionOf>
+    </EquivalentClasses>
+    <EquivalentClasses>
+        <Class IRI="#Grandfather"/>
+        <ObjectIntersectionOf>
+            <Class IRI="http://owl.cs.manchester.ac.uk/tutorials/fhkbtutorial/fhkb_chapter_4.owl#Person"/>
+            <ObjectSomeValuesFrom>
+                <ObjectProperty IRI="http://owl.cs.manchester.ac.uk/tutorials/fhkbtutorial/fhkb_chapter_3.owl#isGrandfatherOf"/>
+                <Class IRI="http://owl.cs.manchester.ac.uk/tutorials/fhkbtutorial/fhkb_chapter_4.owl#Person"/>
+            </ObjectSomeValuesFrom>
+        </ObjectIntersectionOf>
+    </EquivalentClasses>
+    <EquivalentClasses>
+        <Class IRI="#Grandmother"/>
+        <ObjectIntersectionOf>
+            <Class IRI="http://owl.cs.manchester.ac.uk/tutorials/fhkbtutorial/fhkb_chapter_4.owl#Person"/>
+            <ObjectSomeValuesFrom>
+                <ObjectProperty IRI="http://owl.cs.manchester.ac.uk/tutorials/fhkbtutorial/fhkb_chapter_3.owl#isGrandmotherOf"/>
+                <Class IRI="http://owl.cs.manchester.ac.uk/tutorials/fhkbtutorial/fhkb_chapter_4.owl#Person"/>
+            </ObjectSomeValuesFrom>
+        </ObjectIntersectionOf>
+    </EquivalentClasses>
+    <EquivalentClasses>
+        <Class IRI="#Grandparent"/>
+        <ObjectIntersectionOf>
+            <Class IRI="http://owl.cs.manchester.ac.uk/tutorials/fhkbtutorial/fhkb_chapter_4.owl#Person"/>
+            <ObjectSomeValuesFrom>
+                <ObjectProperty IRI="http://owl.cs.manchester.ac.uk/tutorials/fhkbtutorial/fhkb_chapter_3.owl#isGrandparentOf"/>
+                <Class IRI="http://owl.cs.manchester.ac.uk/tutorials/fhkbtutorial/fhkb_chapter_4.owl#Person"/>
+            </ObjectSomeValuesFrom>
+        </ObjectIntersectionOf>
+    </EquivalentClasses>
+    <EquivalentClasses>
+        <Class IRI="#GreatAunt"/>
+        <ObjectIntersectionOf>
+            <Class IRI="http://owl.cs.manchester.ac.uk/tutorials/fhkbtutorial/fhkb_chapter_4.owl#Person"/>
+            <ObjectSomeValuesFrom>
+                <ObjectProperty IRI="http://owl.cs.manchester.ac.uk/tutorials/fhkbtutorial/fhkb_chapter_5.owl#isGreatAuntOf"/>
+                <Class IRI="http://owl.cs.manchester.ac.uk/tutorials/fhkbtutorial/fhkb_chapter_4.owl#Person"/>
+            </ObjectSomeValuesFrom>
+        </ObjectIntersectionOf>
+    </EquivalentClasses>
+    <EquivalentClasses>
+        <Class IRI="#GreatGrandFather"/>
+        <ObjectIntersectionOf>
+            <Class IRI="http://owl.cs.manchester.ac.uk/tutorials/fhkbtutorial/fhkb_chapter_4.owl#Person"/>
+            <ObjectSomeValuesFrom>
+                <ObjectProperty IRI="http://owl.cs.manchester.ac.uk/tutorials/fhkbtutorial/fhkb_chapter_3.owl#isGrandfatherOf"/>
+                <ObjectSomeValuesFrom>
+                    <ObjectProperty IRI="http://owl.cs.manchester.ac.uk/tutorials/fhkbtutorial/fhkb_chapter_2.owl#isParentOf"/>
+                    <Class IRI="http://owl.cs.manchester.ac.uk/tutorials/fhkbtutorial/fhkb_chapter_4.owl#Person"/>
+                </ObjectSomeValuesFrom>
+            </ObjectSomeValuesFrom>
+        </ObjectIntersectionOf>
+    </EquivalentClasses>
+    <EquivalentClasses>
+        <Class IRI="#GreatGrandFatherOfRobert"/>
+        <ObjectIntersectionOf>
+            <Class IRI="http://owl.cs.manchester.ac.uk/tutorials/fhkbtutorial/fhkb_chapter_4.owl#Person"/>
+            <ObjectSomeValuesFrom>
+                <ObjectProperty IRI="http://owl.cs.manchester.ac.uk/tutorials/fhkbtutorial/fhkb_chapter_3.owl#isGrandfatherOf"/>
+                <ObjectHasValue>
+                    <ObjectProperty IRI="http://owl.cs.manchester.ac.uk/tutorials/fhkbtutorial/fhkb_chapter_2.owl#isParentOf"/>
+                    <NamedIndividual IRI="http://owl.cs.manchester.ac.uk/tutorials/fhkbtutorial/fhkb_chapter_2.owl#Robert_David_Bright_1965"/>
+                </ObjectHasValue>
+            </ObjectSomeValuesFrom>
+        </ObjectIntersectionOf>
+    </EquivalentClasses>
+    <EquivalentClasses>
+        <Class IRI="#GreatGrandMother"/>
+        <ObjectIntersectionOf>
+            <Class IRI="http://owl.cs.manchester.ac.uk/tutorials/fhkbtutorial/fhkb_chapter_4.owl#Person"/>
+            <ObjectSomeValuesFrom>
+                <ObjectProperty IRI="http://owl.cs.manchester.ac.uk/tutorials/fhkbtutorial/fhkb_chapter_3.owl#isGrandmotherOf"/>
+                <ObjectSomeValuesFrom>
+                    <ObjectProperty IRI="http://owl.cs.manchester.ac.uk/tutorials/fhkbtutorial/fhkb_chapter_2.owl#isParentOf"/>
+                    <Class IRI="http://owl.cs.manchester.ac.uk/tutorials/fhkbtutorial/fhkb_chapter_4.owl#Person"/>
+                </ObjectSomeValuesFrom>
+            </ObjectSomeValuesFrom>
+        </ObjectIntersectionOf>
+    </EquivalentClasses>
+    <EquivalentClasses>
+        <Class IRI="#GreatGrandMotherOfRobert"/>
+        <ObjectIntersectionOf>
+            <Class IRI="http://owl.cs.manchester.ac.uk/tutorials/fhkbtutorial/fhkb_chapter_4.owl#Person"/>
+            <ObjectSomeValuesFrom>
+                <ObjectProperty IRI="http://owl.cs.manchester.ac.uk/tutorials/fhkbtutorial/fhkb_chapter_3.owl#isGrandmotherOf"/>
+                <ObjectHasValue>
+                    <ObjectProperty IRI="http://owl.cs.manchester.ac.uk/tutorials/fhkbtutorial/fhkb_chapter_2.owl#isParentOf"/>
+                    <NamedIndividual IRI="http://owl.cs.manchester.ac.uk/tutorials/fhkbtutorial/fhkb_chapter_2.owl#Robert_David_Bright_1965"/>
+                </ObjectHasValue>
+            </ObjectSomeValuesFrom>
+        </ObjectIntersectionOf>
+    </EquivalentClasses>
+    <EquivalentClasses>
+        <Class IRI="#GreatGrandParent"/>
+        <ObjectIntersectionOf>
+            <Class IRI="http://owl.cs.manchester.ac.uk/tutorials/fhkbtutorial/fhkb_chapter_4.owl#Person"/>
+            <ObjectSomeValuesFrom>
+                <ObjectProperty IRI="http://owl.cs.manchester.ac.uk/tutorials/fhkbtutorial/fhkb_chapter_3.owl#isGrandparentOf"/>
+                <ObjectSomeValuesFrom>
+                    <ObjectProperty IRI="http://owl.cs.manchester.ac.uk/tutorials/fhkbtutorial/fhkb_chapter_2.owl#isParentOf"/>
+                    <Class IRI="http://owl.cs.manchester.ac.uk/tutorials/fhkbtutorial/fhkb_chapter_4.owl#Person"/>
+                </ObjectSomeValuesFrom>
+            </ObjectSomeValuesFrom>
+        </ObjectIntersectionOf>
+    </EquivalentClasses>
+    <EquivalentClasses>
+        <Class IRI="#GreatGrandParentOfRobert"/>
+        <ObjectIntersectionOf>
+            <Class IRI="http://owl.cs.manchester.ac.uk/tutorials/fhkbtutorial/fhkb_chapter_4.owl#Person"/>
+            <ObjectSomeValuesFrom>
+                <ObjectProperty IRI="http://owl.cs.manchester.ac.uk/tutorials/fhkbtutorial/fhkb_chapter_3.owl#isGrandparentOf"/>
+                <ObjectHasValue>
+                    <ObjectProperty IRI="http://owl.cs.manchester.ac.uk/tutorials/fhkbtutorial/fhkb_chapter_2.owl#isParentOf"/>
+                    <NamedIndividual IRI="http://owl.cs.manchester.ac.uk/tutorials/fhkbtutorial/fhkb_chapter_2.owl#Robert_David_Bright_1965"/>
+                </ObjectHasValue>
+            </ObjectSomeValuesFrom>
+        </ObjectIntersectionOf>
+    </EquivalentClasses>
+    <EquivalentClasses>
+        <Class IRI="#GreatUncle"/>
+        <ObjectIntersectionOf>
+            <Class IRI="http://owl.cs.manchester.ac.uk/tutorials/fhkbtutorial/fhkb_chapter_4.owl#Person"/>
+            <ObjectSomeValuesFrom>
+                <ObjectProperty IRI="http://owl.cs.manchester.ac.uk/tutorials/fhkbtutorial/fhkb_chapter_5.owl#isGreatUncleOf"/>
+                <Class IRI="http://owl.cs.manchester.ac.uk/tutorials/fhkbtutorial/fhkb_chapter_4.owl#Person"/>
+            </ObjectSomeValuesFrom>
+        </ObjectIntersectionOf>
+    </EquivalentClasses>
+    <EquivalentClasses>
+        <Class IRI="#InLaw"/>
+        <ObjectIntersectionOf>
+            <Class IRI="http://owl.cs.manchester.ac.uk/tutorials/fhkbtutorial/fhkb_chapter_4.owl#Person"/>
+            <ObjectSomeValuesFrom>
+                <ObjectProperty IRI="http://owl.cs.manchester.ac.uk/tutorials/fhkbtutorial/fhkb_chapter_9.owl#hasInLaw"/>
+                <Class IRI="http://owl.cs.manchester.ac.uk/tutorials/fhkbtutorial/fhkb_chapter_4.owl#Person"/>
+            </ObjectSomeValuesFrom>
+        </ObjectIntersectionOf>
+    </EquivalentClasses>
+    <EquivalentClasses>
+        <Class IRI="#MotherInLaw"/>
+        <ObjectIntersectionOf>
+            <Class IRI="http://owl.cs.manchester.ac.uk/tutorials/fhkbtutorial/fhkb_chapter_4.owl#Person"/>
+            <ObjectSomeValuesFrom>
+                <ObjectProperty IRI="http://owl.cs.manchester.ac.uk/tutorials/fhkbtutorial/fhkb_chapter_9.owl#isMotherInLawOf"/>
+                <Class IRI="http://owl.cs.manchester.ac.uk/tutorials/fhkbtutorial/fhkb_chapter_4.owl#Person"/>
+            </ObjectSomeValuesFrom>
+        </ObjectIntersectionOf>
+    </EquivalentClasses>
+    <EquivalentClasses>
+        <Class IRI="#ParentInLaw"/>
+        <ObjectIntersectionOf>
+            <Class IRI="http://owl.cs.manchester.ac.uk/tutorials/fhkbtutorial/fhkb_chapter_4.owl#Person"/>
+            <ObjectSomeValuesFrom>
+                <ObjectProperty IRI="http://owl.cs.manchester.ac.uk/tutorials/fhkbtutorial/fhkb_chapter_9.owl#isParentInLawOf"/>
+                <Class IRI="http://owl.cs.manchester.ac.uk/tutorials/fhkbtutorial/fhkb_chapter_4.owl#Person"/>
+            </ObjectSomeValuesFrom>
+        </ObjectIntersectionOf>
+    </EquivalentClasses>
+    <EquivalentClasses>
+        <Class IRI="#Relation"/>
+        <ObjectIntersectionOf>
+            <Class IRI="http://owl.cs.manchester.ac.uk/tutorials/fhkbtutorial/fhkb_chapter_4.owl#Person"/>
+            <ObjectSomeValuesFrom>
+                <ObjectProperty IRI="http://owl.cs.manchester.ac.uk/tutorials/fhkbtutorial/fhkb_chapter_3.owl#hasRelation"/>
+                <Class IRI="http://owl.cs.manchester.ac.uk/tutorials/fhkbtutorial/fhkb_chapter_4.owl#Person"/>
+            </ObjectSomeValuesFrom>
+        </ObjectIntersectionOf>
+    </EquivalentClasses>
+    <EquivalentClasses>
+        <Class IRI="#SecondCousin"/>
+        <ObjectIntersectionOf>
+            <Class IRI="http://owl.cs.manchester.ac.uk/tutorials/fhkbtutorial/fhkb_chapter_4.owl#Person"/>
+            <ObjectSomeValuesFrom>
+                <ObjectProperty IRI="http://owl.cs.manchester.ac.uk/tutorials/fhkbtutorial/fhkb_chapter_9.owl#hasSecondCousin"/>
+                <Class IRI="http://owl.cs.manchester.ac.uk/tutorials/fhkbtutorial/fhkb_chapter_4.owl#Person"/>
+            </ObjectSomeValuesFrom>
+        </ObjectIntersectionOf>
+    </EquivalentClasses>
+    <EquivalentClasses>
+        <Class IRI="#SiblingInLaw"/>
+        <ObjectIntersectionOf>
+            <Class IRI="http://owl.cs.manchester.ac.uk/tutorials/fhkbtutorial/fhkb_chapter_4.owl#Person"/>
+            <ObjectSomeValuesFrom>
+                <ObjectProperty IRI="http://owl.cs.manchester.ac.uk/tutorials/fhkbtutorial/fhkb_chapter_9.owl#isSiblingInLawOf"/>
+                <Class IRI="http://owl.cs.manchester.ac.uk/tutorials/fhkbtutorial/fhkb_chapter_4.owl#Person"/>
+            </ObjectSomeValuesFrom>
+        </ObjectIntersectionOf>
+    </EquivalentClasses>
+    <EquivalentClasses>
+        <Class IRI="#Sister"/>
+        <ObjectIntersectionOf>
+            <Class IRI="http://owl.cs.manchester.ac.uk/tutorials/fhkbtutorial/fhkb_chapter_4.owl#Person"/>
+            <ObjectSomeValuesFrom>
+                <ObjectProperty IRI="http://owl.cs.manchester.ac.uk/tutorials/fhkbtutorial/fhkb_chapter_5.owl#isSisterOf"/>
+                <Class IRI="http://owl.cs.manchester.ac.uk/tutorials/fhkbtutorial/fhkb_chapter_4.owl#Person"/>
+            </ObjectSomeValuesFrom>
+        </ObjectIntersectionOf>
+    </EquivalentClasses>
+    <EquivalentClasses>
+        <Class IRI="#SisterInLaw"/>
+        <ObjectIntersectionOf>
+            <Class IRI="http://owl.cs.manchester.ac.uk/tutorials/fhkbtutorial/fhkb_chapter_4.owl#Person"/>
+            <ObjectSomeValuesFrom>
+                <ObjectProperty IRI="http://owl.cs.manchester.ac.uk/tutorials/fhkbtutorial/fhkb_chapter_9.owl#isSisterInLawOf"/>
+                <Class IRI="http://owl.cs.manchester.ac.uk/tutorials/fhkbtutorial/fhkb_chapter_4.owl#Person"/>
+            </ObjectSomeValuesFrom>
+        </ObjectIntersectionOf>
+    </EquivalentClasses>
+    <EquivalentClasses>
+        <Class IRI="#Son"/>
+        <ObjectIntersectionOf>
+            <Class IRI="http://owl.cs.manchester.ac.uk/tutorials/fhkbtutorial/fhkb_chapter_4.owl#Person"/>
+            <ObjectSomeValuesFrom>
+                <ObjectProperty IRI="http://owl.cs.manchester.ac.uk/tutorials/fhkbtutorial/fhkb_chapter_5.owl#isSonOf"/>
+                <Class IRI="http://owl.cs.manchester.ac.uk/tutorials/fhkbtutorial/fhkb_chapter_4.owl#Person"/>
+            </ObjectSomeValuesFrom>
+        </ObjectIntersectionOf>
+    </EquivalentClasses>
+    <EquivalentClasses>
+        <Class IRI="#Uncle"/>
+        <ObjectIntersectionOf>
+            <Class IRI="http://owl.cs.manchester.ac.uk/tutorials/fhkbtutorial/fhkb_chapter_4.owl#Person"/>
+            <ObjectSomeValuesFrom>
+                <ObjectProperty IRI="http://owl.cs.manchester.ac.uk/tutorials/fhkbtutorial/fhkb_chapter_5.owl#isUncleOf"/>
+                <Class IRI="http://owl.cs.manchester.ac.uk/tutorials/fhkbtutorial/fhkb_chapter_4.owl#Person"/>
+            </ObjectSomeValuesFrom>
+        </ObjectIntersectionOf>
+    </EquivalentClasses>
+    <EquivalentClasses>
+        <Class IRI="#UncleInLaw"/>
+        <ObjectIntersectionOf>
+            <Class IRI="http://owl.cs.manchester.ac.uk/tutorials/fhkbtutorial/fhkb_chapter_4.owl#Person"/>
+            <ObjectSomeValuesFrom>
+                <ObjectProperty IRI="http://owl.cs.manchester.ac.uk/tutorials/fhkbtutorial/fhkb_chapter_9.owl#isUncleInLawOf"/>
+                <Class IRI="http://owl.cs.manchester.ac.uk/tutorials/fhkbtutorial/fhkb_chapter_4.owl#Person"/>
+            </ObjectSomeValuesFrom>
+        </ObjectIntersectionOf>
+    </EquivalentClasses>
+    <SubClassOf>
+        <Class IRI="#Aunt"/>
+        <Class IRI="http://owl.cs.manchester.ac.uk/tutorials/fhkbtutorial/fhkb_chapter_4.owl#DomainEntity"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#AuntInLaw"/>
+        <Class IRI="http://owl.cs.manchester.ac.uk/tutorials/fhkbtutorial/fhkb_chapter_4.owl#DomainEntity"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#Bloodrelation"/>
+        <Class IRI="http://owl.cs.manchester.ac.uk/tutorials/fhkbtutorial/fhkb_chapter_4.owl#DomainEntity"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#Brother"/>
+        <Class IRI="http://owl.cs.manchester.ac.uk/tutorials/fhkbtutorial/fhkb_chapter_4.owl#DomainEntity"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#BrotherInLaw"/>
+        <Class IRI="http://owl.cs.manchester.ac.uk/tutorials/fhkbtutorial/fhkb_chapter_4.owl#DomainEntity"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#Child"/>
+        <Class IRI="http://owl.cs.manchester.ac.uk/tutorials/fhkbtutorial/fhkb_chapter_4.owl#DomainEntity"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#Daughter"/>
+        <Class IRI="http://owl.cs.manchester.ac.uk/tutorials/fhkbtutorial/fhkb_chapter_4.owl#DomainEntity"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#FatherInLaw"/>
+        <Class IRI="http://owl.cs.manchester.ac.uk/tutorials/fhkbtutorial/fhkb_chapter_4.owl#DomainEntity"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#FirstCousin"/>
+        <Class IRI="http://owl.cs.manchester.ac.uk/tutorials/fhkbtutorial/fhkb_chapter_4.owl#DomainEntity"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#FirstCousinOnceRemoved"/>
+        <Class IRI="http://owl.cs.manchester.ac.uk/tutorials/fhkbtutorial/fhkb_chapter_4.owl#DomainEntity"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#Forefather"/>
+        <Class IRI="http://owl.cs.manchester.ac.uk/tutorials/fhkbtutorial/fhkb_chapter_4.owl#DomainEntity"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#Foremother"/>
+        <Class IRI="http://owl.cs.manchester.ac.uk/tutorials/fhkbtutorial/fhkb_chapter_4.owl#DomainEntity"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#Grandfather"/>
+        <Class IRI="http://owl.cs.manchester.ac.uk/tutorials/fhkbtutorial/fhkb_chapter_4.owl#DomainEntity"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#Grandmother"/>
+        <Class IRI="http://owl.cs.manchester.ac.uk/tutorials/fhkbtutorial/fhkb_chapter_4.owl#DomainEntity"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#Grandparent"/>
+        <Class IRI="http://owl.cs.manchester.ac.uk/tutorials/fhkbtutorial/fhkb_chapter_4.owl#DomainEntity"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#GreatAunt"/>
+        <Class IRI="http://owl.cs.manchester.ac.uk/tutorials/fhkbtutorial/fhkb_chapter_4.owl#DomainEntity"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#GreatGrandFather"/>
+        <Class IRI="http://owl.cs.manchester.ac.uk/tutorials/fhkbtutorial/fhkb_chapter_4.owl#DomainEntity"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#GreatGrandFatherOfRobert"/>
+        <Class IRI="http://owl.cs.manchester.ac.uk/tutorials/fhkbtutorial/fhkb_chapter_4.owl#DomainEntity"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#GreatGrandMother"/>
+        <Class IRI="http://owl.cs.manchester.ac.uk/tutorials/fhkbtutorial/fhkb_chapter_4.owl#DomainEntity"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#GreatGrandMotherOfRobert"/>
+        <Class IRI="http://owl.cs.manchester.ac.uk/tutorials/fhkbtutorial/fhkb_chapter_4.owl#DomainEntity"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#GreatGrandParent"/>
+        <Class IRI="http://owl.cs.manchester.ac.uk/tutorials/fhkbtutorial/fhkb_chapter_4.owl#DomainEntity"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#GreatGrandParentOfRobert"/>
+        <Class IRI="http://owl.cs.manchester.ac.uk/tutorials/fhkbtutorial/fhkb_chapter_4.owl#DomainEntity"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#GreatUncle"/>
+        <Class IRI="http://owl.cs.manchester.ac.uk/tutorials/fhkbtutorial/fhkb_chapter_4.owl#DomainEntity"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#InLaw"/>
+        <Class IRI="http://owl.cs.manchester.ac.uk/tutorials/fhkbtutorial/fhkb_chapter_4.owl#DomainEntity"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#MotherInLaw"/>
+        <Class IRI="http://owl.cs.manchester.ac.uk/tutorials/fhkbtutorial/fhkb_chapter_4.owl#DomainEntity"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#ParentInLaw"/>
+        <Class IRI="http://owl.cs.manchester.ac.uk/tutorials/fhkbtutorial/fhkb_chapter_4.owl#DomainEntity"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#Relation"/>
+        <Class IRI="http://owl.cs.manchester.ac.uk/tutorials/fhkbtutorial/fhkb_chapter_4.owl#DomainEntity"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#SecondCousin"/>
+        <Class IRI="http://owl.cs.manchester.ac.uk/tutorials/fhkbtutorial/fhkb_chapter_4.owl#DomainEntity"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#SiblingInLaw"/>
+        <Class IRI="http://owl.cs.manchester.ac.uk/tutorials/fhkbtutorial/fhkb_chapter_4.owl#DomainEntity"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#Sister"/>
+        <Class IRI="http://owl.cs.manchester.ac.uk/tutorials/fhkbtutorial/fhkb_chapter_4.owl#DomainEntity"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#SisterInLaw"/>
+        <Class IRI="http://owl.cs.manchester.ac.uk/tutorials/fhkbtutorial/fhkb_chapter_4.owl#DomainEntity"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#Son"/>
+        <Class IRI="http://owl.cs.manchester.ac.uk/tutorials/fhkbtutorial/fhkb_chapter_4.owl#DomainEntity"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#Uncle"/>
+        <Class IRI="http://owl.cs.manchester.ac.uk/tutorials/fhkbtutorial/fhkb_chapter_4.owl#DomainEntity"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#UncleInLaw"/>
+        <Class IRI="http://owl.cs.manchester.ac.uk/tutorials/fhkbtutorial/fhkb_chapter_4.owl#DomainEntity"/>
+    </SubClassOf>
+</Ontology>
+
+
+
+<!-- Generated by the OWL API (version 3.5.1) http://owlapi.sourceforge.net -->
+
