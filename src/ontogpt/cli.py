@@ -148,7 +148,9 @@ output_format_options = click.option(
 @click.option("-q", "--quiet")
 @click.option("--cache-db", help="Path to sqlite database to cache prompt-completion results")
 @click.option(
-    "--skip-annotator", multiple=True, help="Skip one or more annotators (e.g. --skip-annotator gilda)"
+    "--skip-annotator",
+    multiple=True,
+    help="Skip one or more annotators (e.g. --skip-annotator gilda)",
 )
 @click.version_option(__version__)
 def main(verbose: int, quiet: bool, cache_db: str, skip_annotator):
@@ -183,7 +185,11 @@ def main(verbose: int, quiet: bool, cache_db: str, skip_annotator):
 @click.option("--dictionary")
 @output_format_options
 @use_textract_options
-@click.option("--auto-prefix", default="AUTO", help="Prefix to use for auto-generated classes. Default is AUTO.")
+@click.option(
+    "--auto-prefix",
+    default="AUTO",
+    help="Prefix to use for auto-generated classes. Default is AUTO.",
+)
 @click.option(
     "--set-slot-value",
     "-S",
@@ -587,7 +593,7 @@ def enrichment(
     randomize_gene_descriptions_using_file,
     **kwargs,
 ):
-    """Gene class enrichment (SPINDOCTOR).
+    """Gene class summary enriching (SPINDOCTOR).
 
     Algorithm:
 
