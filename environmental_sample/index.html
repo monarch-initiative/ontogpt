@@ -323,15 +323,10 @@ Name: environmental-sample</p>
 Study {
 
 }
-Location {
-    string id  
-    string label  
+Measurement {
+    string value  
 }
-EnvironmentalMaterial {
-    string id  
-    string label  
-}
-Environment {
+Unit {
     string id  
     string label  
 }
@@ -339,54 +334,20 @@ Variable {
     string id  
     string label  
 }
-Unit {
-    string id  
-    string label  
-}
-Measurement {
-    string value  
-}
 CausalRelationship {
 
 }
-Any {
-
-}
-ExtractionResult {
-    string input_id  
-    string input_title  
-    string input_text  
-    string raw_completion_output  
-    string prompt  
-}
-NamedEntity {
+Environment {
     string id  
     string label  
 }
-CompoundExpression {
-
-}
-Triple {
-    string qualifier  
-}
-TextWithTriples {
-
-}
-RelationshipType {
+EnvironmentalMaterial {
     string id  
     string label  
 }
-Publication {
+Location {
     string id  
-    string title  
-    string abstract  
-    string combined_text  
-    string full_text  
-}
-AnnotatorResult {
-    string subject_text  
-    string object_id  
-    string object_text  
+    string label  
 }
 
 Study ||--}o Location : "location"
@@ -398,15 +359,6 @@ Study ||--}o Measurement : "measurements"
 Measurement ||--|o Unit : "unit"
 CausalRelationship ||--|o Variable : "cause"
 CausalRelationship ||--|o Variable : "effect"
-ExtractionResult ||--|o Any : "extracted_object"
-ExtractionResult ||--}o Any : "named_entities"
-Triple ||--|o NamedEntity : "subject"
-Triple ||--|o RelationshipType : "predicate"
-Triple ||--|o NamedEntity : "object"
-Triple ||--|o NamedEntity : "subject_qualifier"
-Triple ||--|o NamedEntity : "object_qualifier"
-TextWithTriples ||--|o Publication : "publication"
-TextWithTriples ||--}o Triple : "triples"
 
 </div>
 <h2 id="classes">Classes</h2>
@@ -645,7 +597,7 @@ TextWithTriples ||--}o Triple : "triples"
 </thead>
 <tbody>
 <tr>
-<td></td>
+<td><a href="NullDataOptions/">NullDataOptions</a></td>
 <td></td>
 </tr>
 </tbody>
@@ -662,6 +614,10 @@ TextWithTriples ||--}o Triple : "triples"
 <tr>
 <td><a href="Boolean/">Boolean</a></td>
 <td>A binary (true or false) value</td>
+</tr>
+<tr>
+<td><a href="Curie/">Curie</a></td>
+<td>a compact URI</td>
 </tr>
 <tr>
 <td><a href="Date/">Date</a></td>
