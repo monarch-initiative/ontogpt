@@ -1,4 +1,4 @@
-"""Command line interface for oak-ai."""
+"""Command line interface for ontogpt."""
 import codecs
 import logging
 import pickle
@@ -152,7 +152,7 @@ output_format_options = click.option(
 )
 @click.version_option(__version__)
 def main(verbose: int, quiet: bool, cache_db: str, skip_annotator):
-    """CLI for oak-ai.
+    """CLI for ontogpt.
 
     :param verbose: Verbosity while running.
     :param quiet: Boolean to be quiet or verbose.
