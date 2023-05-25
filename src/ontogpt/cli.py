@@ -148,7 +148,7 @@ output_format_options = click.option(
 @click.option("-q", "--quiet")
 @click.option("--cache-db", help="Path to sqlite database to cache prompt-completion results")
 @click.option(
-    "--skip-annotator", multiple=True, help="Skip annotator (e.g. --skip-annotator gilda)"
+    "--skip-annotator", multiple=True, help="Skip one or more annotators (e.g. --skip-annotator gilda)"
 )
 @click.version_option(__version__)
 def main(verbose: int, quiet: bool, cache_db: str, skip_annotator):
@@ -183,7 +183,7 @@ def main(verbose: int, quiet: bool, cache_db: str, skip_annotator):
 @click.option("--dictionary")
 @output_format_options
 @use_textract_options
-@click.option("--auto-prefix", default="AUTO", help="Prefix to use for auto-generated classes.")
+@click.option("--auto-prefix", default="AUTO", help="Prefix to use for auto-generated classes. Default is AUTO.")
 @click.option(
     "--set-slot-value",
     "-S",
@@ -263,7 +263,7 @@ def extract(
 @output_format_options
 @click.argument("pmid")
 def pubmed_extract(pmid, template, output, output_format, **kwargs):
-    """Extract knowledge from a pubmed ID."""
+    """Extract knowledge from a PubMed ID."""
     logging.info(f"Creating for {template}")
     pmc = PubmedClient()
     text = pmc.text(pmid)
@@ -282,7 +282,7 @@ def pubmed_extract(pmid, template, output, output_format, **kwargs):
 @click.option("--auto-prefix", default="AUTO", help="Prefix to use for auto-generated classes.")
 @click.argument("article")
 def wikipedia_extract(article, template, output, output_format, **kwargs):
-    """Extract knowledge from a wikipedia page."""
+    """Extract knowledge from a Wikipedia page."""
     logging.info(f"Creating for {template} => {article}")
     client = WikipediaClient()
     text = client.text(article)
@@ -306,7 +306,7 @@ def wikipedia_extract(article, template, output, output_format, **kwargs):
 )
 @click.argument("topic")
 def wikipedia_search(topic, keyword, template, output, output_format, **kwargs):
-    """Extract knowledge from a wikipedia page."""
+    """Extract knowledge from a Wikipedia page."""
     logging.info(f"Creating for {template} => {topic}")
     client = WikipediaClient()
     keywords = list(keyword) if keyword else []
@@ -336,7 +336,7 @@ def wikipedia_search(topic, keyword, template, output, output_format, **kwargs):
 @output_format_options
 @click.argument("pmcid")
 def pmc_extract(pmcid, template, output, output_format, **kwargs):
-    """Extract knowledge from PMC (TODO)."""
+    """Extract knowledge from PubMed Central texts (TODO)."""
     logging.info(f"Creating for {template}")
     pmc = PubmedClient()
     ec = pmc.entrez_client
@@ -362,7 +362,7 @@ def pmc_extract(pmcid, template, output, output_format, **kwargs):
 )
 @click.argument("term_tokens", nargs=-1)
 def search_and_extract(term_tokens, keyword, template, output, output_format, **kwargs):
-    """Search for relevant literature and extracts knowledge from it."""
+    """Search for relevant literature and extract knowledge from it."""
     term = " ".join(term_tokens)
     logging.info(f"Creating for {template}; search={term} kw={keyword}")
     ke = SPIRESEngine(template, **kwargs)
@@ -546,7 +546,7 @@ def convert_geneset(input_file, output, output_format, fill, **kwargs):
 )
 @click.option(
     "--randomize-gene-descriptions-using-file",
-    help="FOR EVALUATION ONLY. swap out gene descriptions with genes from this gene set filefile",
+    help="FOR EVALUATION ONLY. Swap out gene descriptions with genes from this gene set filefile",
 )
 @click.option(
     "--ontological-synopsis/--no-ontological-synopsis",
@@ -587,7 +587,7 @@ def enrichment(
     randomize_gene_descriptions_using_file,
     **kwargs,
 ):
-    """Gene class enrichment.
+    """Gene class enrichment (SPINDOCTOR).
 
     Algorithm:
 
@@ -597,7 +597,7 @@ def enrichment(
 
     Limitations:
 
-    It is very easy to exceed the max token length; resolved in GPT-4?
+    It is very easy to exceed the max token length with GPT-3 models.
 
     Usage:
 
@@ -779,7 +779,7 @@ def text_distance(text, context, output, model, output_format, **kwargs):
 def entity_similarity(terms, ontology, output, model, output_format, **kwargs):
     """Embed text.
 
-    Uses ada by default, currently: $0.0004 / 1K tokens
+    Uses the OpenAI ada embedding model by default, currently: $0.0004 / 1K tokens
     """
     if not terms:
         raise ValueError("terms must be passed")
@@ -1001,7 +1001,7 @@ def complete(input, output, output_format, **kwargs):
 @template_option
 @click.option("--input", "-i", type=click.File("r"), default=sys.stdin, help="Input file")
 def parse(template, input):
-    """Parse openai results."""
+    """Parse OpenAI results."""
     logging.info(f"Creating for {template}")
     ke = SPIRESEngine(template)
     text = input.read()
