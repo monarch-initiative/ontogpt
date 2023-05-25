@@ -52,7 +52,7 @@ classes:
       - GBIF
     annotations:
       annotators: sqlite:obo:ncbitaxon
-      prompt.example: shark, Carcharodon carcharias, elephant seal, Pandarus sinuatus, orca
+      prompt.example: shark, Carcharodon carcharias, elephant seal, Pandarus sinuatus, orca, Panthera leo, lion, ungulates
 
   InteractionType:
     is_a: NamedEntity
@@ -61,4 +61,4 @@ classes:
       - MESH
     annotations:
       annotators: sqlite:obo:go, sqlite:obo:ro, sqlite:obo:bero
-      prompt.example: eats, competes with, parasitizes
+      prompt.example: eat, competes with, parasitizes, subsist on a diet, kill, compete, prey consists, hunting, killed by, compete for, dominate, competitors
