@@ -1,0 +1,50 @@
+{% macro write_axiom(axiom) %}{{ axiom.text }}{% endmacro %}
+{% macro write_explanation_as_axioms(explanation) -%}
+{% for axiom in explanation.axioms %} {{ write_axiom(axiom) }} ; {% endfor %}
+{%- endmacro %}
+
+I will provide an ontology as a list of axioms using OWL syntax.
+I will then ask a question about the ontology.
+Answer the question, after performing reasoning over the ontology.
+If there are multiple answers, list them all each on a separate line starting with the minus symbol ("-"),
+like a markdown list.
+{%- if task.include_explanations %} include explanations with each answer.
+Each explanation must be an OWL axiom. Do not include narrative text.
+{% endif -%}
+
+{% if examples %}
+Here are some examples:
+
+{% for example in examples %}
+## EXAMPLE ONTOLOGY:
+{% for axiom in example.ontology.axioms %}
+- {{ axiom.text }}
+{%- endfor %}
+
+{% for qa in example.query_answers %}
+QUERY: {{ qa.query.text }}
+ANSWERS:
+{% for answer in qa.answers -%}
+{% if task.chain_of_thought -%}
+- REASONING: [ {% for e in answer.explanations %}{{ e.text }}{% endfor %} ] CONCLUSION: {{ answer.text }}
+{% elif task.include_explanations -%}
+- {{ answer.text }} [ {% for e in answer.explanations %}{{ write_explanation_as_axioms(e) }}{% endfor %}]
+{% else -%}
+- {{ answer.text }}
+{%- endif %}
+{%- endfor %}
+{% endfor %}
+
+{% endfor %}
+{% endif %}
+
+---
+Here is the actual ontology:
+
+{% for axiom in ontology.axioms %}
+- {{ axiom.text }}
+{%- endfor %}
+
+QUERY: {{ query.text }}
+
+ANSWERS:

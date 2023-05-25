@@ -1,0 +1,101 @@
+id: http://w3id.org/ontogpt/traits
+name: traits
+title: Traits Template
+description: >-
+  A template for Traits
+license: https://creativecommons.org/publicdomain/zero/1.0/
+prefixes:
+  linkml: https://w3id.org/linkml/
+  traits: http://w3id.org/ontogpt/traits/
+
+default_prefix: traits
+default_range: string
+
+imports:
+  - linkml:types
+  - core
+
+classes:
+  Taxon:
+    tree_root: true
+    attributes:
+      # name:
+      #   description: The name of the taxon.
+      #   annotations:
+      #     prompt: The name of the taxon.
+      #   range: string
+      #traits:
+      #  description: The traits for the taxon.
+      #  annotations:
+        #  prompt: a semicolon separated list of every specific organism characteristic such as metabolic or cellular
+        #  prompt: List every specific characteristic measured of the target organism by the described research. Include both common and novel microbial traits. A semicolon separated list.
+      #  range: Trait
+      #  multivalued: true
+      metabolic_traits:
+        description: The metabolic traits for the taxon.
+        annotations:
+          prompt: a semicolon separated list of every specific organism metabolic trait
+        range: Trait
+        multivalued: true
+      morphological_traits:
+        description: The morphological traits for the taxon.
+        annotations:
+          prompt: a semicolon separated list of every specific organism morphological trait
+        range: Trait
+        multivalued: true
+      genetic_traits:
+        description: The genetic traits for the taxon.
+        annotations:
+          prompt: a semicolon separated list of every specific organism genetic trait
+        range: Trait
+        multivalued: true
+      cellular_traits:
+        description: The cellular traits for the taxon.
+        annotations:
+          prompt: a semicolon separated list of every specific organism cellular trait
+        range: Trait
+        multivalued: true
+      ecological_traits:
+        description: The ecological traits for the taxon.
+        annotations:
+          prompt: a semicolon separated list of every specific organism ecological trait
+        range: Trait
+        multivalued: true
+      reproductive_traits:
+        description: The reproductive traits for the taxon.
+        annotations:
+          prompt: a semicolon separated list of every specific organism reproductive trait
+        range: Trait
+        multivalued: true
+      survival_traits:
+        description: The survival traits for the taxon.
+        annotations:
+          prompt: a semicolon separated list of every specific organism survival trait
+        range: Trait
+        multivalued: true
+      phenotypic_plasticiticy_traits:
+        description: The phenotypic plasticiticy traits for the taxon.
+        annotations:
+          prompt: a semicolon separated list of every specific organism phenotypic plasticiticy trait
+        range: Trait
+        multivalued: true
+      preferred_environments:
+        description: The preferred environments for the taxon.
+        annotations:
+          prompt: a semicolon separated list of the environments the organism is typically found in or isolated from
+        range: Trait
+        multivalued: true
+
+
+  Trait:
+    is_a: NamedEntity
+    id_prefixes:
+      - ECOCORE
+      - PATO
+      - GO
+      #- ENVTHES
+      - OBA
+      - BIODIVTHES
+    annotations:
+      annotators: sqlite:obo:ecocore, sqlite:obo:pato, sqlite:obo:go, sqlite:obo:oba, bioportal:biodivthes
+      #bioportal:envthes, 

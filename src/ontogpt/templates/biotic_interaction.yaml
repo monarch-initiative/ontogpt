@@ -1,0 +1,64 @@
+id: https://w3id.org/ontogpt/biotic_interaction
+name: biotic-interaction-template
+title: Biotic Interaction Template
+description: >-
+  A template for biotic interactions
+license: https://creativecommons.org/publicdomain/zero/1.0/
+prefixes:
+  linkml: https://w3id.org/linkml/
+  bp: http://w3id.org/ontogpt/biotic-interaction-template
+  NCBITaxon: http://purl.obolibrary.org/obo/NCBITAXON_
+  col: https://www.catalogueoflife.org/data/taxon/
+  itis: https://www.itis.gov/servlet/SingleRpt/SingleRpt?search_topic=TSN&search_value=
+  gbif: https://www.gbif.org/species/
+
+default_prefix: bp
+default_range: string
+
+imports:
+  - linkml:types
+  - core
+
+classes:
+  Container:
+    tree_root: true
+    attributes:
+      interactions:
+        range: BioticInteraction
+        multivalued: true
+        inlined_as_list: true
+
+  BioticInteraction:
+    attributes:
+      source_taxon:
+        description: the taxon that is the subject of the interaction
+        range: Taxon
+      target_taxon:
+        description: the taxon that is the object of the ineteraction
+        range: Taxon
+      interaction_type:
+        description: the type of interaction
+        range: InteractionType
+    annotations:
+      prompt: A semi-colon separated list of taxon to taxon relationships
+      prompt.example: Carcharodon carcharias eats elephant seal; Pandarus sinuatus parasitizes Carcharodon carcharias; orca eats Carcharodon carcharias
+
+  Taxon:
+    is_a: NamedEntity
+    id_prefixes:
+      - NCBITaxon
+      - COL
+      - ITIS
+      - GBIF
+    annotations:
+      annotators: sqlite:obo:ncbitaxon
+      prompt.example: shark, Carcharodon carcharias, elephant seal, Pandarus sinuatus, orca
+
+  InteractionType:
+    is_a: NamedEntity
+    id_prefixes:
+      - RO
+      - MESH
+    annotations:
+      annotators: sqlite:obo:go, sqlite:obo:ro, sqlite:obo:bero
+      prompt.example: eats, competes with, parasitizes
