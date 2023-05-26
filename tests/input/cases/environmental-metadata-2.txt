@@ -1,0 +1,11 @@
+"edi.1004","Soil nitrous oxide (N2O) and carbon dioxide (CO2) flux from a Central Iowa crop field and accompanying soil edaphic and climatic variables.","Nitrous Oxide,Carbon Dioxide,N2O,CO2,Greenhouse Gas,Iowa,Central Iowa,Agriculture,Corn,Zea mays,Soy,Glycine max,Soil,Nitrogen,Soil Carbon,Soil Moisture,Prairie Pothole,Trace Gas Emissions,Denitrification,Soil Drainage","
+To quantify the magnitude of soil nitrous oxide flux and the drivers
+of nitrous oxide emissions in a representative central Iowa
+corn-soybean agricultural system, we measured greenhouse gas
+emissions (N2O and
+CO2) from 2017 to 2019 (primarily using
+custom automated chambers) along with soil chemical and physical
+parameters across a topographic gradient in a typically managed
+agricultural field near Ames, Iowa, USA. More details can be found
+in the associated manuscript, Lawrence et al. (2021).
+"
