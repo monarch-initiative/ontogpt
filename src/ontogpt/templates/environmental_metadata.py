@@ -31,8 +31,11 @@ class NullDataOptions(str, Enum):
 class Dataset(ConfiguredBaseModel):
     
     packageid: Optional[str] = Field(None, description="""The internal identifier for the dataset""")
+    topic: Optional[List[str]] = Field(default_factory=list, description="""the general scientific area of study concerning the sample(s)""")
+    location: Optional[List[str]] = Field(default_factory=list, description="""the geographic location where the sample was isolated""")
     environmental_material: Optional[List[str]] = Field(default_factory=list, description="""the environmental material that was sampled""")
-    environments: Optional[List[str]] = Field(default_factory=list)
+    environments: Optional[List[str]] = Field(default_factory=list, description="""the environmental context in which the study was conducted""")
+    methods: Optional[List[str]] = Field(default_factory=list)
     
 
 
@@ -51,6 +54,13 @@ class ExtractionResult(ConfiguredBaseModel):
 
 
 class NamedEntity(ConfiguredBaseModel):
+    
+    id: Optional[str] = Field(None, description="""A unique identifier for the named entity""")
+    label: Optional[str] = Field(None, description="""The label (name) of the named thing""")
+    
+
+
+class Topic(NamedEntity):
     
     id: Optional[str] = Field(None, description="""A unique identifier for the named entity""")
     label: Optional[str] = Field(None, description="""The label (name) of the named thing""")
@@ -78,7 +88,7 @@ class Environment(NamedEntity):
     
 
 
-class Variable(NamedEntity):
+class Method(NamedEntity):
     
     id: Optional[str] = Field(None, description="""A unique identifier for the named entity""")
     label: Optional[str] = Field(None, description="""The label (name) of the named thing""")
@@ -142,10 +152,11 @@ class AnnotatorResult(ConfiguredBaseModel):
 Dataset.update_forward_refs()
 ExtractionResult.update_forward_refs()
 NamedEntity.update_forward_refs()
+Topic.update_forward_refs()
 Location.update_forward_refs()
 EnvironmentalMaterial.update_forward_refs()
 Environment.update_forward_refs()
-Variable.update_forward_refs()
+Method.update_forward_refs()
 CompoundExpression.update_forward_refs()
 Triple.update_forward_refs()
 TextWithTriples.update_forward_refs()

@@ -9,7 +9,7 @@ prefixes:
   linkml: https://w3id.org/linkml/
   envmd: http://w3id.org/ontogpt/environmental-metadata
 
-default_prefix: sample
+default_prefix: envmd
 default_range: string
 
 imports:
@@ -27,6 +27,20 @@ classes:
         range: string
         multivalued: false
 
+      topic:
+        description: the general scientific area of study concerning the sample(s)
+        annotations:
+          prompt: semicolon-separated list of scientific areas of study concerning the sample(s)
+        range: Topic
+        multivalued: true
+
+      location:
+        description: the geographic location where the sample was isolated
+        annotations:
+          prompt: semicolon-separated list of geographic locations of sample isolations
+        range: Location
+        multivalued: true
+
       environmental_material:
         description: the environmental material that was sampled
         annotations:
@@ -35,10 +49,24 @@ classes:
         multivalued: true
 
       environments:
+        description: the environmental context in which the study was conducted
         annotations:
           prompt: semicolon-separated list of environmental contexts in which the study was conducted
-        multivalued: true
         range: Environment
+        multivalued: true
+
+      methods:
+        annotations:
+          prompt: semicolon-separated list of methods used in measuring sample variables
+        range: Method
+        multivalued: true
+
+  Topic:
+    is_a: NamedEntity
+    id_prefixes:
+      - ENVTHES
+    annotations:
+      annotators: bioportal:ENVTHES
 
   Location:
     is_a: NamedEntity
@@ -46,25 +74,27 @@ classes:
       - ENVO
       - GAZ
     annotations:
-      annotators: sqlite:obo:envo, bioportal:gaz
+      annotators: sqlite:obo:envo, bioportal:GAZ
 
   EnvironmentalMaterial:
     is_a: NamedEntity
     id_prefixes:
       - ENVO
+      - ENVTHES
     annotations:
-      annotators: sqlite:obo:envo
+      annotators: sqlite:obo:envo, bioportal:ENVTHES
 
   Environment:
     is_a: NamedEntity
     id_prefixes:
       - ENVO
+      - ENVTHES
     annotations:
-      annotators: sqlite:obo:envo
+      annotators: sqlite:obo:envo, bioportal:ENVTHES
 
-  Variable:
+  Method:
     is_a: NamedEntity
     id_prefixes:
-      - ENVO
+      - ENVTHES
     annotations:
-      annotators: sqlite:obo:envo
+      annotators: bioportal:ENVTHES
