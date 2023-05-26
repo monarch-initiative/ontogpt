@@ -59,6 +59,7 @@ classes:
     id_prefixes:
       - RO
       - MESH
+      - ECOCORE
     annotations:
       annotators: sqlite:obo:go, sqlite:obo:ro, sqlite:obo:bero
       prompt.example: eat, competes with, parasitizes, subsist on a diet, kill, compete, prey consists, hunting, killed by, compete for, dominate, competitors
