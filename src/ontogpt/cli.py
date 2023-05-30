@@ -893,7 +893,7 @@ def categorize_mappings(
     evaluate,
     **kwargs,
 ):
-    """Mapping Engine."""
+    """Categorize a collection of SSSOM mappings."""
     mapper = MappingEngine(model=model)
     tc = mapper.from_sssom(inputfile)
     for cm in mapper.run_tasks(tc, evaluate=evaluate):
@@ -901,6 +901,7 @@ def categorize_mappings(
     # dump_minimal_yaml(cm.dict(), file=output)
     if tsv_output:
         write_obj_as_csv(resultset.results, tsv_output)
+
 
 @main.command()
 @output_option_txt

@@ -3,7 +3,7 @@ import logging
 from dataclasses import dataclass
 from enum import Enum
 from pathlib import Path
-from typing import List, Tuple, Iterator, Union, Optional, Dict, Callable, ClassVar
+from typing import Callable, Dict, Iterator, List, Optional, Union
 
 import yaml
 from jinja2 import Template
@@ -17,11 +17,12 @@ from sssom.parsers import parse_sssom_table, to_mapping_set_document
 from ontogpt.engines.knowledge_engine import KnowledgeEngine
 from ontogpt.prompts.mapping import DEFAULT_MAPPING_EVAL_PROMPT
 
-
 logger = logging.getLogger(__name__)
+
 
 class MappingPredicate(str, Enum):
     """Mapping predicates."""
+
     EXACT_MATCH = "exact_match"
     CLOSE_MATCH = "close_match"
     BROADER_THAN = "broader_than"
@@ -41,12 +42,13 @@ class MappingPredicate(str, Enum):
         }
 
 
-
 class Confidence(str, Enum):
     """Confidence levels."""
+
     HIGH = "high"
     MEDIUM = "medium"
     LOW = "low"
+
 
 class CategorizedMapping(BaseModel):
     subject: CURIE = None
@@ -80,6 +82,7 @@ class MappingTaskCollection(BaseModel):
     source_adapters: Optional[Dict[str, str]] = None
     tasks: List[MappingTask] = []
 
+
 class Relationship(BaseModel):
     predicate: CURIE
     predicate_label: str
@@ -100,10 +103,13 @@ class Concept(BaseModel):
 @dataclass
 class MappingEngine(KnowledgeEngine):
     """Engine for generating and resolving mappings."""
+
     subject_adapter: BasicOntologyInterface = None
     object_adapter: BasicOntologyInterface = None
 
-    def categorize_mapping(self, subject: CURIE, object: CURIE, template_path: str = None) -> CategorizedMapping:
+    def categorize_mapping(
+        self, subject: CURIE, object: CURIE, template_path: str = None
+    ) -> CategorizedMapping:
         if template_path is None:
             template_path = DEFAULT_MAPPING_EVAL_PROMPT
         if isinstance(template_path, Path):
@@ -133,10 +139,12 @@ class MappingEngine(KnowledgeEngine):
         cm = CategorizedMapping(
             completion=payload,
         )
+
         def _split(s: str, sep: str = ";") -> List[str]:
             if s is None:
                 return []
             return [s.strip() for s in s.split(sep)]
+
         lines = payload.split("\n")
         for line in lines:
             if ":" not in line:
@@ -147,15 +155,15 @@ class MappingEngine(KnowledgeEngine):
             value = value.strip()
             if key == "category":
                 cm.predicate = value
-                #try:
+                # try:
                 #    cm.predicate = MappingPredicate[value]
-                #except KeyError:
+                # except KeyError:
                 #    cm.predicate = value
             elif key == "confidence":
                 cm.confidence = value
-                #try:
+                # try:
                 #    cm.confidence = Confidence[value]
-                #except KeyError:
+                # except KeyError:
                 #    cm.confidence = value
             elif key == "similarities":
                 cm.similarities = _split(value)
@@ -165,7 +173,9 @@ class MappingEngine(KnowledgeEngine):
                 logger.warning(f"Unknown key {key} in mapping response")
         return cm
 
-    def categorize_mappings(self, subjects: List[CURIE], object_sources: List[CURIE] = None) -> Iterator[CategorizedMapping]:
+    def categorize_mappings(
+        self, subjects: List[CURIE], object_sources: List[CURIE] = None
+    ) -> Iterator[CategorizedMapping]:
         sa = self.subject_adapter
         if not isinstance(sa, MappingProviderInterface):
             raise TypeError(f"subject adapter {sa} must implement MappingProviderInterface")
@@ -175,7 +185,9 @@ class MappingEngine(KnowledgeEngine):
                 print(f" MAP: {mapping}")
                 yield self.categorize_mapping(mapping.subject_id, mapping.object_id)
 
-    def run_tasks(self, task_collection: MappingTaskCollection, evaluate: bool = False) -> Iterator[CategorizedMapping]:
+    def run_tasks(
+        self, task_collection: MappingTaskCollection, evaluate: bool = False
+    ) -> Iterator[CategorizedMapping]:
         for task in task_collection.tasks:
             if task.subject_adapter:
                 # TODO: do not mutate.
@@ -186,16 +198,23 @@ class MappingEngine(KnowledgeEngine):
             cm = self.categorize_mapping(task.subject, task.object)
             yield cm
 
-    def generate_tasks(self, task_collection: MappingTaskCollection = None, subjects: List[CURIE] = None, object_sources: List[CURIE] = None) -> Iterator[MappingTask]:
+    def generate_tasks(
+        self,
+        task_collection: MappingTaskCollection = None,
+        subjects: List[CURIE] = None,
+        object_sources: List[CURIE] = None,
+    ) -> Iterator[MappingTask]:
         sa = self.subject_adapter
         if task_collection:
             if task_collection.object_sources:
                 if object_sources:
-                    raise ValueError("object_sources cannot be specified in both task_collection and as an argument")
+                    raise ValueError("object_sources specified twice")
                 object_sources = task_collection.object_sources
             if task_collection.subjects:
                 if subjects:
-                    raise ValueError("subjects cannot be specified in both task_collection and as an argument")
+                    raise ValueError(
+                        "subjects cannot be specified in both task_collection and as an argument"
+                    )
                 subjects = task_collection.subjects
         if not isinstance(sa, MappingProviderInterface):
             raise TypeError(f"subject adapter {sa} must implement MappingProviderInterface")
@@ -210,7 +229,9 @@ class MappingEngine(KnowledgeEngine):
                     object_adapter=f"sqlite:obo:{mapping.object_source.lower()}",
                 )
 
-    def from_sssom(self, path: Union[str, Path], exclude_functions: Optional[List[Callable]] = None) -> MappingTaskCollection:
+    def from_sssom(
+        self, path: Union[str, Path], exclude_functions: Optional[List[Callable]] = None
+    ) -> MappingTaskCollection:
         """Generate tasks from an SSSOM file."""
         msdf = parse_sssom_table(path)
         msd = to_mapping_set_document(msdf)
@@ -225,8 +246,10 @@ class MappingEngine(KnowledgeEngine):
                         break
             if exclude:
                 continue
+
             def _get_source(curie: CURIE) -> str:
                 return curie.split(":")[0]
+
             mapping.subject_source = _get_source(mapping.subject_id)
             mapping.object_source = _get_source(mapping.object_id)
             task = MappingTask(
@@ -247,8 +270,10 @@ class MappingEngine(KnowledgeEngine):
 
     def _concept(self, curie: CURIE, adapter: BasicOntologyInterface) -> Concept:
         """Get a concept."""
+
         def _label(curie: CURIE) -> str:
             return adapter.label(curie)
+
         def _relationship(p, o) -> Relationship:
             return Relationship(
                 predicate=p,
@@ -256,8 +281,16 @@ class MappingEngine(KnowledgeEngine):
                 object=o,
                 object_label=_label(o),
             )
-        parents = [_label(rel[2]) for rel in sorted(list(adapter.relationships([curie], predicates=[IS_A])))]
-        rels = [_relationship(p, o) for _, p, o in sorted(list(adapter.relationships([curie]))) if p != IS_A]
+
+        parents = [
+            _label(rel[2])
+            for rel in sorted(list(adapter.relationships([curie], predicates=[IS_A])))
+        ]
+        rels = [
+            _relationship(p, o)
+            for _, p, o in sorted(list(adapter.relationships([curie])))
+            if p != IS_A
+        ]
         label = adapter.label(curie)
         if not label:
             logger.warning(f"Could not find label for {curie} in {adapter}")

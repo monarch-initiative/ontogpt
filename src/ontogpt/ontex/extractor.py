@@ -9,16 +9,32 @@ from collections import defaultdict
 from dataclasses import dataclass, field
 from enum import Enum
 from pathlib import Path
-from typing import Any, ClassVar, List, Literal, Optional, TextIO, Tuple, Type, Union, Iterable, Mapping
+from typing import (
+    Any,
+    ClassVar,
+    Iterable,
+    List,
+    Literal,
+    Mapping,
+    Optional,
+    TextIO,
+    Tuple,
+    Type,
+    Union,
+)
 
 import inflection
 import yaml
 from oaklib.datamodels.vocabulary import (
     DISJOINT_WITH,
+    INVERSE_OF,
     IS_A,
     OWL_CLASS,
     OWL_NAMED_INDIVIDUAL,
-    PART_OF, OWL_TRANSITIVE_PROPERTY, OWL_SYMMETRIC_PROPERTY, SUBPROPERTY_OF, INVERSE_OF,
+    OWL_SYMMETRIC_PROPERTY,
+    OWL_TRANSITIVE_PROPERTY,
+    PART_OF,
+    SUBPROPERTY_OF,
 )
 from oaklib.implementations import SqlImplementation
 from oaklib.interfaces import OboGraphInterface
@@ -28,12 +44,13 @@ from oaklib.interfaces.semsim_interface import SemanticSimilarityInterface
 from oaklib.types import CURIE, PRED_CURIE
 from oaklib.utilities.obograph_utils import shortest_paths
 from pydantic import BaseModel, Field
-from semsql.sqla.semsql import Statements, RdfTypeStatement, RdfListMemberStatement
+from semsql.sqla.semsql import RdfListMemberStatement, RdfTypeStatement, Statements
 
 logger = logging.getLogger(__name__)
 
 
 OBFUSCATED_ID = "str"
+
 
 class Axiom(BaseModel):
     """Represents an individual logical axiom."""
@@ -852,7 +869,6 @@ class TaskCollection(BaseModel):
     obfuscated_curie_map: Optional[Mapping[str, str]] = None
     name_map: Optional[Mapping[str, str]] = None
 
-
     @staticmethod
     def load(file_or_object: Union[dict, str, Path, TextIO]):
         if isinstance(file_or_object, Path):
@@ -901,7 +917,9 @@ class OntologyExtractor:
     use_identifiers: bool = False
     name_map: Optional[Mapping[CURIE, OBFUSCATED_ID]] = field(default_factory=lambda: {})
     obfuscate: bool = False
-    obfuscated_curie_map: Optional[Mapping[OBFUSCATED_ID, CURIE]] = field(default_factory=lambda: {})
+    obfuscated_curie_map: Optional[Mapping[OBFUSCATED_ID, CURIE]] = field(
+        default_factory=lambda: {}
+    )
 
     def create_task(
         self, task_type: Union[str, Type[Task]], parameters: Optional[List[Any]] = None, **kwargs
@@ -1411,41 +1429,36 @@ class OntologyExtractor:
         if self.use_identifiers:
             return curie
         elif self.obfuscate:
-            obfuscated = base64.b64encode(curie.encode('utf-8')).decode('utf-8')
+            obfuscated = base64.b64encode(curie.encode("utf-8")).decode("utf-8")
             self.obfuscated_curie_map[obfuscated] = curie
             return obfuscated
         else:
-                return lbl
+            return lbl
 
     def extract_rbox(self) -> Iterable[Axiom]:
         if not isinstance(self.adapter, SqlImplementation):
             raise ValueError("Only SQL adapters supported")
         session = self.adapter.session
-        for name, curie in [("TransitiveProperty", OWL_TRANSITIVE_PROPERTY),
-                          ("SymmetricProperty", OWL_SYMMETRIC_PROPERTY)]:
-            q = session.query(RdfTypeStatement).filter(
-                RdfTypeStatement.object == curie
-            )
+        for name, curie in [
+            ("TransitiveProperty", OWL_TRANSITIVE_PROPERTY),
+            ("SymmetricProperty", OWL_SYMMETRIC_PROPERTY),
+        ]:
+            q = session.query(RdfTypeStatement).filter(RdfTypeStatement.object == curie)
             for row in q:
                 yield Axiom(text=f"{self._name(row.subject)} type {name}")
-        for row in session.query(Statements).filter(
-                Statements.predicate == SUBPROPERTY_OF
-        ):
+        for row in session.query(Statements).filter(Statements.predicate == SUBPROPERTY_OF):
+            yield Axiom(text=f"{self._name(row.subject)} SubPropertyOf {self._name(row.object)}")
+        for row in session.query(Statements).filter(Statements.predicate == INVERSE_OF):
             yield Axiom(text=f"{self._name(row.subject)} SubPropertyOf {self._name(row.object)}")
         for row in session.query(Statements).filter(
-                Statements.predicate == INVERSE_OF
-        ):
-            yield Axiom(text=f"{self._name(row.subject)} SubPropertyOf {self._name(row.object)}")
-        for row in session.query(Statements).filter(
-                Statements.predicate == "owl:propertyChainAxiom"
+            Statements.predicate == "owl:propertyChainAxiom"
         ):
             entailed_pred = row.subject
             bnode = row.object
             chain = []
             for inner_row in session.query(RdfListMemberStatement.object).filter(
-                    RdfListMemberStatement.subject == bnode
+                RdfListMemberStatement.subject == bnode
             ):
                 chain.append(inner_row[0])
-            expr = ' o '.join(self._name(p) for p in chain)
+            expr = " o ".join(self._name(p) for p in chain)
             yield Axiom(text=f"{expr} SubPropertyOf {self._name(entailed_pred)}")
-

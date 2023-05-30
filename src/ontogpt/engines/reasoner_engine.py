@@ -178,7 +178,7 @@ class ReasonerEngine(KnowledgeEngine):
             logger.warning(f"Prompt length ({prompt_length}) exceeds maximum ({max_len})")
             answers = []
             completed = False
-            payload=""
+            payload = ""
         else:
             payload = self.client.complete(prompt, max_tokens=completion_length)
             if task.has_multiple_answers:

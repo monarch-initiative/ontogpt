@@ -2,13 +2,12 @@
 import logging
 import unittest
 
-import yaml
 from oaklib import get_adapter
 from sssom_schema import Mapping
 
 from ontogpt.clients import openai_client
 from ontogpt.engines import mapping_engine
-from ontogpt.engines.mapping_engine import MappingEngine, CategorizedMapping, MappingTaskCollection
+from ontogpt.engines.mapping_engine import CategorizedMapping, MappingEngine, MappingTaskCollection
 from ontogpt.io.yaml_wrapper import dump_minimal_yaml
 from tests import INPUT_DIR
 
@@ -19,15 +18,16 @@ NECK_OF_ORGAN = "UBERON:0001560"
 MA_NECK_ORGAN = "MA:0000589"
 MA_HEART = "MA:0000072"
 
-ENVO_MOUTH = "ENVO:00000479" # river mouth
-WIKIDATA_MOUTH = "wikidata:Q9635" # anatomical mouth
-UBERON_MOUTH = "UBERON:0000165" # anatomical mouth
+ENVO_MOUTH = "ENVO:00000479"  # river mouth
+WIKIDATA_MOUTH = "wikidata:Q9635"  # anatomical mouth
+UBERON_MOUTH = "UBERON:0000165"  # anatomical mouth
 UBERON_ORAL_OPENING = "UBERON:0000166"
 
 logger = logging.getLogger(mapping_engine.__name__)
 client_logger = logging.getLogger(openai_client.__name__)
 
 client_logger.setLevel(logging.DEBUG)
+
 
 def _show(mapping_eval: CategorizedMapping):
     print(f"{mapping_eval.subject} -> {mapping_eval.object}")
@@ -44,7 +44,6 @@ class TestMapping(unittest.TestCase):
         object_adapter = get_adapter("sqlite:obo:zfa")
         self.mapper = MappingEngine(subject_adapter=subject_adapter, object_adapter=object_adapter)
 
-
     def test_generate(self):
         mapper = self.mapper
         subjects = [HEART]
@@ -52,16 +51,20 @@ class TestMapping(unittest.TestCase):
         tasks = list(mapper.generate_tasks(tc))
         for task in tasks:
             print(dump_minimal_yaml(task.dict()))
-        tc.tasks=tasks
+        tc.tasks = tasks
         results = list(mapper.run_tasks(tc))
         for result in results:
             print(dump_minimal_yaml(result.dict()))
 
     def test_from_sssom(self):
         mapper = self.mapper
+
         def _exclude_trivial(m: Mapping) -> bool:
             return m.subject_label.lower() == m.object_label.lower()
-        tc = mapper.from_sssom(INPUT_DIR / "mondo-exact-ncit.sssom.tsv", exclude_functions=[_exclude_trivial])
+
+        tc = mapper.from_sssom(
+            INPUT_DIR / "mondo-exact-ncit.sssom.tsv", exclude_functions=[_exclude_trivial]
+        )
         # print(dump_minimal_yaml(tc.dict()))
         results = list(mapper.run_tasks(tc))
         for result in results:
@@ -75,9 +78,9 @@ class TestMapping(unittest.TestCase):
             _show(meval)
 
     def test_different_from(self):
-        mapper =  MappingEngine(
+        mapper = MappingEngine(
             subject_adapter=get_adapter("sqlite:obo:uberon"),
-            object_adapter=get_adapter("sqlite:obo:ma")
+            object_adapter=get_adapter("sqlite:obo:ma"),
         )
         subjects = [NECK_OF_ORGAN]
         objects = [MA_NECK_ORGAN]
@@ -87,9 +90,9 @@ class TestMapping(unittest.TestCase):
                 _show(meval)
 
     def test_very_different_from(self):
-        mapper =  MappingEngine(
+        mapper = MappingEngine(
             subject_adapter=get_adapter("sqlite:obo:uberon"),
-            object_adapter=get_adapter("sqlite:obo:ma")
+            object_adapter=get_adapter("sqlite:obo:ma"),
         )
         subjects = [HEART]
         objects = [MA_NECK_ORGAN]
@@ -99,9 +102,9 @@ class TestMapping(unittest.TestCase):
                 _show(meval)
 
     def test_very_different_from2(self):
-        mapper =  MappingEngine(
+        mapper = MappingEngine(
             subject_adapter=get_adapter("sqlite:obo:uberon"),
-            object_adapter=get_adapter("sqlite:obo:envo")
+            object_adapter=get_adapter("sqlite:obo:envo"),
         )
         subjects = [UBERON_MOUTH, UBERON_ORAL_OPENING]
         objects = [ENVO_MOUTH]
@@ -111,9 +114,9 @@ class TestMapping(unittest.TestCase):
                 _show(meval)
 
     def test_species_identical(self):
-        mapper =  MappingEngine(
+        mapper = MappingEngine(
             subject_adapter=get_adapter("sqlite:obo:uberon"),
-            object_adapter=get_adapter("sqlite:obo:ma")
+            object_adapter=get_adapter("sqlite:obo:ma"),
         )
         subjects = [HEART]
         objects = [MA_HEART]
@@ -124,9 +127,8 @@ class TestMapping(unittest.TestCase):
 
     @unittest.skip("Requires new OAK release")
     def test_wikidata(self):
-        mapper =  MappingEngine(
-            subject_adapter=get_adapter("sqlite:obo:envo"),
-            object_adapter=get_adapter("wikidata:")
+        mapper = MappingEngine(
+            subject_adapter=get_adapter("sqlite:obo:envo"), object_adapter=get_adapter("wikidata:")
         )
         subjects = [ENVO_MOUTH]
         objects = [WIKIDATA_MOUTH]

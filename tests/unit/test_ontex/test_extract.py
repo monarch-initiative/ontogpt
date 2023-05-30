@@ -11,7 +11,7 @@ from oaklib.interfaces.obograph_interface import OboGraphInterface
 
 from ontogpt.io.yaml_wrapper import dump_minimal_yaml
 from ontogpt.ontex import extractor
-from ontogpt.ontex.extractor import OntologyExtractor, Task, TaskCollection, Axiom
+from ontogpt.ontex.extractor import OntologyExtractor, Task, TaskCollection
 from tests import (
     CELLULAR_ANATOMICAL_ENTITY,
     ENVELOPE,
@@ -58,9 +58,7 @@ class TestOntologyExtractor(unittest.TestCase):
             raise ValueError("Not an OboGraphInterface")
         self.extractor = OntologyExtractor(adapter=self.adapter)
         self.abox_extractor = OntologyExtractor(adapter=self.abox_adapter)
-        self.abox_extractor.query_predicates = [
-            HAS_ANCESTOR, HAS_SIBLING
-        ]
+        self.abox_extractor.query_predicates = [HAS_ANCESTOR, HAS_SIBLING]
 
     def cases(self) -> Iterator[Tuple[Task, List[str]]]:
         extractor = self.extractor
