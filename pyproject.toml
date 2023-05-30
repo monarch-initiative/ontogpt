@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "ontogpt"
-version = "0.2.4.post38.dev0+2a814a3a"
+version = "0.0.0"
 description = "OntoGPT"
 authors = ["Chris Mungall <cjmungall@lbl.gov>"]
 license = "BSD-3"
@@ -90,7 +90,7 @@ seaborn = "^0.12.2"
 papermill = "^2.4.0"
 
 [tool.poetry-dynamic-versioning]
-enable = false
+enable = true
 vcs = "git"
 style = "pep440"
 
