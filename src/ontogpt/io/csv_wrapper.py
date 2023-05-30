@@ -29,6 +29,10 @@ def write_obj_as_csv(obj: Any, file, minimize=True, index_field=None) -> None:
     writer = csv.DictWriter(file, fieldnames=rows[0].keys(), delimiter="\t")
     writer.writeheader()
     for row in rows:
+        def _str(s):
+            if s is None:
+                return ""
+            return str(s)
         # row = {k: v for k, v in row.items() if "\n" not in str(v)}
-        row = {k: str(v).replace("\n", r"\n") for k, v in row.items()}
+        row = {k: _str(v).replace("\n", r"\n") for k, v in row.items()}
         writer.writerow(row)

@@ -141,6 +141,9 @@ analysis/enrichment/yeast/%-results-$(N).yaml: tests/input/genesets/yeast/%.yaml
 	$(RUN) ontogpt -vv eval-enrichment -n $(N) -U $< -A tests/input/sgd.gaf -o $@.tmp && mv $@.tmp $@
 
 
+analysis/enrichment/gpt4/%-results-$(N).yaml: tests/input/genesets/%.yaml analysis/enrichment/TRIGGER-REANALYSIS
+	$(RUN) ontogpt  -v eval-enrichment  --model gpt-4 -n $(N) -U $< -o $@.tmp && mv $@.tmp $@
+
 analysis/enrichment/%-results-$(N).yaml: tests/input/genesets/%.yaml analysis/enrichment/TRIGGER-REANALYSIS
 	$(RUN) ontogpt -v eval-enrichment -n $(N) -U $< -o $@.tmp && mv $@.tmp $@
 
@@ -164,3 +167,4 @@ analysis/gpt4-enrichment-summary-$(N).yaml:
 all_enrich: $(patsubst %, analysis/enrichment/%-results-$(N).yaml, $(GENE_SETS))
 all_zfin_enrich: $(patsubst %, analysis/enrichment/zebrafish/%-results-$(N).yaml, $(ZFIN_GENE_SETS))
 all_sgd_enrich: $(patsubst %, analysis/enrichment/yeast/%-results-$(N).yaml, $(SGD_GENE_SETS))
+all_gpt4_enrich: $(patsubst %, analysis/enrichment/gpt4/%-results-$(N).yaml, $(GENE_SETS))
