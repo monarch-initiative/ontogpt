@@ -29,7 +29,7 @@ from ontogpt.engines.embedding_similarity_engine import SimilarityEngine
 from ontogpt.engines.enrichment import EnrichmentEngine
 from ontogpt.engines.halo_engine import HALOEngine
 from ontogpt.engines.knowledge_engine import KnowledgeEngine
-from ontogpt.engines.models import MODELS
+from ontogpt.engines.mapping_engine import MappingEngine, MappingTaskCollection
 from ontogpt.engines.reasoner_engine import ReasonerEngine
 from ontogpt.engines.spires_engine import SPIRESEngine
 from ontogpt.engines.synonym_engine import SynonymEngine
@@ -839,7 +839,7 @@ def reason(
     """Reason."""
     reasoner = ReasonerEngine(model=model)
     if task_file:
-        tc = extractor.TaskCollection.load(task_file)
+        tc = MappingTaskCollection.load(task_file)
     else:
         adapter = get_adapter(inputfile)
         if not isinstance(adapter, OboGraphInterface):
@@ -865,6 +865,40 @@ def reason(
             task.include_explanations = explain
     resultset = reasoner.reason_multiple(tc, evaluate=evaluate)
     dump_minimal_yaml(resultset.dict(), file=output)
+    if tsv_output:
+        write_obj_as_csv(resultset.results, tsv_output)
+
+
+@main.command()
+@inputfile_option
+@output_option_txt
+@model_option
+@click.option("--task-file")
+@click.option("--task-type")
+@click.option("--tsv-output")
+@click.option("--all-methods/--no-all-methods", default=False)
+@click.option("--explain/--no-explain", default=False)
+@click.option("--evaluate/--no-evaluate", default=False)
+@click.argument("terms", nargs=-1)
+def categorize_mappings(
+    terms,
+    inputfile,
+    model,
+    task_file,
+    explain,
+    task_type,
+    output,
+    tsv_output,
+    all_methods,
+    evaluate,
+    **kwargs,
+):
+    """Categorize a collection of SSSOM mappings."""
+    mapper = MappingEngine(model=model)
+    tc = mapper.from_sssom(inputfile)
+    for cm in mapper.run_tasks(tc, evaluate=evaluate):
+        print(dump_minimal_yaml(cm.dict()))
+    # dump_minimal_yaml(cm.dict(), file=output)
     if tsv_output:
         write_obj_as_csv(resultset.results, tsv_output)
 
@@ -916,8 +950,9 @@ def reason(
     "-A",
     help="Path to annotations",
 )
+@model_option
 @click.argument("genes", nargs=-1)
-def eval_enrichment(genes, input_file, number_to_drop, annotations_path, output, **kwargs):
+def eval_enrichment(genes, input_file, number_to_drop, annotations_path, model, output, **kwargs):
     """Run enrichment using multiple methods."""
     if not genes and not input_file:
         raise ValueError("Either genes or input file must be passed")
@@ -934,7 +969,7 @@ def eval_enrichment(genes, input_file, number_to_drop, annotations_path, output,
         if not _is_human(gene_set):
             raise ValueError("No annotations path passed")
         annotations_path = "tests/input/genes2go.tsv.gz"
-    eval_engine = EvalEnrichment()
+    eval_engine = EvalEnrichment(model=model)
     eval_engine.load_annotations(annotations_path)
     comps = eval_engine.evaluate_methods_on_gene_set(gene_set, n=number_to_drop, **kwargs)
     output.write(dump_minimal_yaml(comps))

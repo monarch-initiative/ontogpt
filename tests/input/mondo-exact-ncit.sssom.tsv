@@ -1,0 +1,300 @@
+# curie_map:
+#   MONDO: http://purl.obolibrary.org/obo/MONDO_
+#   NCIT: http://purl.obolibrary.org/obo/NCIT_
+#   owl: http://www.w3.org/2002/07/owl#
+#   rdf: http://www.w3.org/1999/02/22-rdf-syntax-ns#
+#   rdfs: http://www.w3.org/2000/01/rdf-schema#
+#   semapv: https://w3id.org/semapv/
+#   skos: http://www.w3.org/2004/02/skos/core#
+#   sssom: https://w3id.org/sssom/
+# license: https://creativecommons.org/publicdomain/zero/1.0/
+# mapping_date: '2018-06-14'
+# mapping_set_id: http://purl.obolibrary.org/obo/mondo/mappings/mondo_exactmatch_ncit.sssom.tsv
+# mapping_set_version: http://purl.obolibrary.org/obo/mondo/releases/2023-05-01/mappings/mondo_exactmatch_ncit.sssom.tsv
+# object_source: http://purl.obolibrary.org/obo/ncit.owl
+# object_source_version: http://purl.obolibrary.org/obo/ncit/releases/2018-06-14/ncit.owl
+# subject_source: http://purl.obolibrary.org/obo/mondo.owl
+subject_id	subject_label	predicate_id	object_id	object_label	mapping_justification
+MONDO:0000001	disease	skos:exactMatch	NCIT:C2991	Disease or Disorder	semapv:ManualMappingCuration
+MONDO:0000004	adrenocortical insufficiency	skos:exactMatch	NCIT:C26691	Adrenocortical Insufficiency	semapv:ManualMappingCuration
+MONDO:0000022	nocturnal enuresis	skos:exactMatch	NCIT:C118172	Nocturnal Enuresis	semapv:ManualMappingCuration
+MONDO:0000087	polymicrogyria	skos:exactMatch	NCIT:C116936	Polymicrogyria	semapv:ManualMappingCuration
+MONDO:0000088	precocious puberty	skos:exactMatch	NCIT:C79704	Precocious Puberty	semapv:ManualMappingCuration
+MONDO:0000115	Chiari malformation	skos:exactMatch	NCIT:C84570	Arnold-Chiari Malformation	semapv:ManualMappingCuration
+MONDO:0000128	giant axonal neuropathy	skos:exactMatch	NCIT:C84728	Giant Axonal Neuropathy	semapv:ManualMappingCuration
+MONDO:0000141	mosaic variegated aneuploidy syndrome	skos:exactMatch	NCIT:C128192	Mosaic Variegated Aneuploidy Syndrome 1	semapv:ManualMappingCuration
+MONDO:0000147	polyposis	skos:exactMatch	NCIT:C4089	Polyposis	semapv:ManualMappingCuration
+MONDO:0000153	transposition of the great arteries	skos:exactMatch	NCIT:C84742	Transposition of Great Vessels	semapv:ManualMappingCuration
+MONDO:0000159	bone marrow failure syndrome	skos:exactMatch	NCIT:C165614	Bone Marrow Failure Syndrome	semapv:ManualMappingCuration
+MONDO:0000171	muscular dystrophy-dystroglycanopathy, type A	skos:exactMatch	NCIT:C99109	Walker-Warburg Syndrome	semapv:ManualMappingCuration
+MONDO:0000179	Neu-Laxova syndrome	skos:exactMatch	NCIT:C14089	Nuclear Localization Signal	semapv:ManualMappingCuration
+MONDO:0000190	ventricular fibrillation	skos:exactMatch	NCIT:C50799	Ventricular Fibrillation	semapv:ManualMappingCuration
+MONDO:0000212	hypercalcemia, infantile	skos:exactMatch	NCIT:C129734	Autosomal Recessive Infantile Hypercalcemia	semapv:ManualMappingCuration
+MONDO:0000297	baylisascariasis	skos:exactMatch	NCIT:C128397	Baylisascariasis	semapv:ManualMappingCuration
+MONDO:0000313	hypophosphatemia	skos:exactMatch	NCIT:C37977	Hypophosphatemia	semapv:ManualMappingCuration
+MONDO:0000327	Buruli ulcer disease	skos:exactMatch	NCIT:C84604	Buruli Ulcer	semapv:ManualMappingCuration
+MONDO:0000330	endemic typhus	skos:exactMatch	NCIT:C84688	Endemic Typhus Fever	semapv:ManualMappingCuration
+MONDO:0000334	multinodular goiter	skos:exactMatch	NCIT:C131438	Multinodular Goiter	semapv:ManualMappingCuration
+MONDO:0000337	exanthema subitum	skos:exactMatch	NCIT:C128420	Roseola Infantum	semapv:ManualMappingCuration
+MONDO:0000355	Ullrich congenital muscular dystrophy	skos:exactMatch	NCIT:C123438	Ullrich Congenital Muscular Dystrophy	semapv:ManualMappingCuration
+MONDO:0000359	spondylocostal dysostosis	skos:exactMatch	NCIT:C125598	Spondylocostal Dysostosis	semapv:ManualMappingCuration
+MONDO:0000365	primary congenital glaucoma	skos:exactMatch	NCIT:C150251	Primary Congenital Glaucoma	semapv:ManualMappingCuration
+MONDO:0000367	taeniasis	skos:exactMatch	NCIT:C85180	Taeniasis	semapv:ManualMappingCuration
+MONDO:0000371	oral cavity carcinoma in situ	skos:exactMatch	NCIT:C4587	Stage 0 Oral Cavity Cancer AJCC v6 and v7	semapv:ManualMappingCuration
+MONDO:0000372	pharynx carcinoma in situ	skos:exactMatch	NCIT:C4942	Stage 0 Pharyngeal Cancer	semapv:ManualMappingCuration
+MONDO:0000377	malignant Leydig cell tumor	skos:exactMatch	NCIT:C4213	Malignant Leydig Cell Tumor	semapv:ManualMappingCuration
+MONDO:0000378	malignant Sertoli cell tumor	skos:exactMatch	NCIT:C67006	Malignant Sertoli Cell Tumor	semapv:ManualMappingCuration
+MONDO:0000380	paranasal sinus carcinoma	skos:exactMatch	NCIT:C6014	Paranasal Sinus Carcinoma	semapv:ManualMappingCuration
+MONDO:0000383	benign reproductive system neoplasm	skos:exactMatch	NCIT:C7617	Benign Reproductive System Neoplasm	semapv:ManualMappingCuration
+MONDO:0000384	bladder benign neoplasm	skos:exactMatch	NCIT:C3618	Benign Bladder Neoplasm	semapv:ManualMappingCuration
+MONDO:0000385	benign digestive system neoplasm	skos:exactMatch	NCIT:C4787	Benign Digestive System Neoplasm	semapv:ManualMappingCuration
+MONDO:0000386	digestive system neuroendocrine tumor, grade 1/2	skos:exactMatch	NCIT:C95404	Digestive System Neuroendocrine Tumor	semapv:ManualMappingCuration
+MONDO:0000390	vitelliform macular dystrophy	skos:exactMatch	NCIT:C118788	Vitelliform Macular Dystrophy	semapv:ManualMappingCuration
+MONDO:0000395	alcohol-related birth defect	skos:exactMatch	NCIT:C92727	Alcohol Related Birth Defect	semapv:ManualMappingCuration
+MONDO:0000396	spastic cerebral palsy	skos:exactMatch	NCIT:C116903	Spastic Cerebral Palsy	semapv:ManualMappingCuration
+MONDO:0000397	ataxic cerebral palsy	skos:exactMatch	NCIT:C97168	Ataxic Cerebral Palsy	semapv:ManualMappingCuration
+MONDO:0000400	mixed cerebral palsy	skos:exactMatch	NCIT:C97177	Mixed Cerebral Palsy	semapv:ManualMappingCuration
+MONDO:0000402	small cell carcinoma	skos:exactMatch	NCIT:C3915	Small Cell Neuroendocrine Carcinoma	semapv:ManualMappingCuration
+MONDO:0000408	fetal alcohol spectrum disorder	skos:exactMatch	NCIT:C92780	Fetal Alcohol Spectrum Disorder	semapv:ManualMappingCuration
+MONDO:0000409	chorioamnionitis	skos:exactMatch	NCIT:C26720	Chorioamnionitis	semapv:ManualMappingCuration
+MONDO:0000410	funisitis	skos:exactMatch	NCIT:C97077	Funisitis	semapv:ManualMappingCuration
+MONDO:0000425	X-linked disease	skos:exactMatch	NCIT:C85865	X-Linked Inherited Disorder	semapv:ManualMappingCuration
+MONDO:0000430	mature T-cell and NK-cell non-Hodgkin lymphoma	skos:exactMatch	NCIT:C3468	Mature T-Cell and NK-Cell Non-Hodgkin Lymphoma	semapv:ManualMappingCuration
+MONDO:0000432	lymphoplasmacytic lymphoma	skos:exactMatch	NCIT:C3212	Lymphoplasmacytic Lymphoma	semapv:ManualMappingCuration
+MONDO:0000437	cerebellar ataxia	skos:exactMatch	NCIT:C82341	Spinocerebellar Ataxia	semapv:ManualMappingCuration
+MONDO:0000447	autosomal dominant polycystic liver disease	skos:exactMatch	NCIT:C82833	Polycystic Liver Disease	semapv:ManualMappingCuration
+MONDO:0000448	paraganglioma	skos:exactMatch	NCIT:C3308	Paraganglioma	semapv:ManualMappingCuration
+MONDO:0000453	short QT syndrome	skos:exactMatch	NCIT:C71060	Short QT Syndrome	semapv:ManualMappingCuration
+MONDO:0000457	classical glioblastoma	skos:exactMatch	NCIT:C111694	Classical Glioblastoma	semapv:ManualMappingCuration
+MONDO:0000458	proneural glioblastoma	skos:exactMatch	NCIT:C111692	Proneural Glioblastoma	semapv:ManualMappingCuration
+MONDO:0000459	mesenchymal glioblastoma	skos:exactMatch	NCIT:C111695	Mesenchymal Glioblastoma	semapv:ManualMappingCuration
+MONDO:0000460	neural glioblastoma	skos:exactMatch	NCIT:C111693	Neural Glioblastoma	semapv:ManualMappingCuration
+MONDO:0000466	first-degree atrioventricular block	skos:exactMatch	NCIT:C62015	AV Block First Degree	semapv:ManualMappingCuration
+MONDO:0000467	second-degree atrioventricular block	skos:exactMatch	NCIT:C111119	AV Block Second Degree	semapv:ManualMappingCuration
+MONDO:0000468	third-degree atrioventricular block	skos:exactMatch	NCIT:C50501	Complete Atrioventricular Block	semapv:ManualMappingCuration
+MONDO:0000471	tricuspid valve disorder	skos:exactMatch	NCIT:C78649	Tricuspid Valve Disorder	semapv:ManualMappingCuration
+MONDO:0000473	arterial disorder	skos:exactMatch	NCIT:C35317	Arterial Disorder	semapv:ManualMappingCuration
+MONDO:0000481	cervical dystonia	skos:exactMatch	NCIT:C85072	Spasmodic Torticollis	semapv:ManualMappingCuration
+MONDO:0000490	glomerulosclerosis	skos:exactMatch	NCIT:C120888	Glomerulosclerosis	semapv:ManualMappingCuration
+MONDO:0000495	oppositional defiant disorder	skos:exactMatch	NCIT:C92565	Oppositional Defiant Disorder	semapv:ManualMappingCuration
+MONDO:0000496	hemorrhagic cystitis	skos:exactMatch	NCIT:C114666	Hemorrhagic Cystitis	semapv:ManualMappingCuration
+MONDO:0000497	pyometritis	skos:exactMatch	NCIT:C121207	Pyometra	semapv:ManualMappingCuration
+MONDO:0000500	tongue squamous cell carcinoma	skos:exactMatch	NCIT:C4648	Tongue Squamous Cell Carcinoma	semapv:ManualMappingCuration
+MONDO:0000502	villous adenoma	skos:exactMatch	NCIT:C7399	Villous Adenoma	semapv:ManualMappingCuration
+MONDO:0000503	lung adenocarcinoma in situ	skos:exactMatch	NCIT:C136486	Lung Adenocarcinoma In Situ	semapv:ManualMappingCuration
+MONDO:0000520	parietal lobe ependymal tumor	skos:exactMatch	NCIT:C131575	Parietal Lobe Ependymal Tumor	semapv:ManualMappingCuration
+MONDO:0000521	salivary gland carcinoma	skos:exactMatch	NCIT:C9272	Salivary Gland Carcinoma	semapv:ManualMappingCuration
+MONDO:0000525	cecum villous adenoma	skos:exactMatch	NCIT:C5520	Cecum Villous Adenoma	semapv:ManualMappingCuration
+MONDO:0000527	colon adenoma	skos:exactMatch	NCIT:C3864	Colon Adenoma	semapv:ManualMappingCuration
+MONDO:0000530	rectum adenoma	skos:exactMatch	NCIT:C5546	Rectal Adenoma	semapv:ManualMappingCuration
+MONDO:0000536	pharyngeal squamous cell carcinoma	skos:exactMatch	NCIT:C102872	Pharyngeal Squamous Cell Carcinoma	semapv:ManualMappingCuration
+MONDO:0000540	small intestinal neuroendocrine tumor G1	skos:exactMatch	NCIT:C4638	Small Intestinal Neuroendocrine Tumor G1	semapv:ManualMappingCuration
+MONDO:0000541	jejunal adenocarcinoma	skos:exactMatch	NCIT:C181158	Jejunal Adenocarcinoma	semapv:ManualMappingCuration
+MONDO:0000543	ovarian melanoma	skos:exactMatch	NCIT:C178441	Ovarian Melanoma	semapv:ManualMappingCuration
+MONDO:0000544	mucosal melanoma	skos:exactMatch	NCIT:C114828	Mucosal Melanoma	semapv:ManualMappingCuration
+MONDO:0000548	ovarian clear cell cancer	skos:exactMatch	NCIT:C40077	Malignant Ovarian Clear Cell Tumor	semapv:ManualMappingCuration
+MONDO:0000550	extra-adrenal sympathetic paraganglioma	skos:exactMatch	NCIT:C48576	Extra-Adrenal Sympathetic Paraganglioma	semapv:ManualMappingCuration
+MONDO:0000552	breast lobular carcinoma	skos:exactMatch	NCIT:C3771	Breast Lobular Carcinoma	semapv:ManualMappingCuration
+MONDO:0000554	endocervical adenocarcinoma	skos:exactMatch	NCIT:C127907	Endocervical Adenocarcinoma, Usual-Type	semapv:ManualMappingCuration
+MONDO:0000565	infective endocarditis	skos:exactMatch	NCIT:C78265	Infective Endocarditis	semapv:ManualMappingCuration
+MONDO:0000577	congenital anemia	skos:exactMatch	NCIT:C35228	Congenital Anemia	semapv:ManualMappingCuration
+MONDO:0000594	pervasive developmental disorder	skos:exactMatch	NCIT:C97179	Pervasive Developmental Disorder	semapv:ManualMappingCuration
+MONDO:0000595	sexual and gender identity disorders	skos:exactMatch	NCIT:C92202	Sexual and Gender Identity Disorders	semapv:ManualMappingCuration
+MONDO:0000605	hypersensitivity reaction disease	skos:exactMatch	NCIT:C3114	Hypersensitivity	semapv:ManualMappingCuration
+MONDO:0000607	primary cutaneous T-cell non-Hodgkin lymphoma	skos:exactMatch	NCIT:C3467	Primary Cutaneous T-Cell Non-Hodgkin Lymphoma	semapv:ManualMappingCuration
+MONDO:0000618	Her2-receptor negative breast cancer	skos:exactMatch	NCIT:C168519	HER2-Negative Breast Carcinoma	semapv:ManualMappingCuration
+MONDO:0000620	breast benign neoplasm	skos:exactMatch	NCIT:C4505	Benign Breast Neoplasm	semapv:ManualMappingCuration
+MONDO:0000624	benign female reproductive system neoplasm	skos:exactMatch	NCIT:C4934	Benign Female Reproductive System Neoplasm	semapv:ManualMappingCuration
+MONDO:0000625	benign male reproductive system neoplasm	skos:exactMatch	NCIT:C4777	Benign Male Reproductive System Neoplasm	semapv:ManualMappingCuration
+MONDO:0000627	benign endocrine neoplasm	skos:exactMatch	NCIT:C4621	Benign Endocrine Neoplasm	semapv:ManualMappingCuration
+MONDO:0000631	bone benign neoplasm	skos:exactMatch	NCIT:C4880	Benign Bone Neoplasm	semapv:ManualMappingCuration
+MONDO:0000632	uterine benign neoplasm	skos:exactMatch	NCIT:C3609	Benign Uterine Neoplasm	semapv:ManualMappingCuration
+MONDO:0000634	thoracic benign neoplasm	skos:exactMatch	NCIT:C4565	Benign Thoracic Neoplasm	semapv:ManualMappingCuration
+MONDO:0000640	central nervous system primitive neuroectodermal neoplasm	skos:exactMatch	NCIT:C5398	Central Nervous System Embryonal Tumor, Not Otherwise Specified	semapv:ManualMappingCuration
+MONDO:0000643	vulvar benign neoplasm	skos:exactMatch	NCIT:C3611	Benign Vulvar Neoplasm	semapv:ManualMappingCuration
+MONDO:0000644	cervical benign neoplasm	skos:exactMatch	NCIT:C3607	Benign Cervical Neoplasm	semapv:ManualMappingCuration
+MONDO:0000645	fallopian tube benign neoplasm	skos:exactMatch	NCIT:C4517	Benign Fallopian Tube Neoplasm	semapv:ManualMappingCuration
+MONDO:0000646	ovarian benign neoplasm	skos:exactMatch	NCIT:C2895	Benign Ovarian Neoplasm	semapv:ManualMappingCuration
+MONDO:0000647	benign vaginal neoplasm	skos:exactMatch	NCIT:C3610	Benign Vaginal Neoplasm	semapv:ManualMappingCuration
+MONDO:0000648	nervous system benign neoplasm	skos:exactMatch	NCIT:C4789	Benign Nervous System Neoplasm	semapv:ManualMappingCuration
+MONDO:0000650	peritoneal benign neoplasm	skos:exactMatch	NCIT:C8612	Benign Peritoneal Neoplasm	semapv:ManualMappingCuration
+MONDO:0000651	obsolete thoracic disorder	skos:exactMatch	NCIT:C35742	Thoracic Disorder	semapv:ManualMappingCuration
+MONDO:0000654	benign connective and soft tissue neoplasm	skos:exactMatch	NCIT:C53684	Benign Connective and Soft Tissue Neoplasm	semapv:ManualMappingCuration
+MONDO:0000665	apraxia	skos:exactMatch	NCIT:C180557	Apraxia	semapv:ManualMappingCuration
+MONDO:0000675	pain agnosia	skos:exactMatch	NCIT:C125664	Pain Agnosia	semapv:ManualMappingCuration
+MONDO:0000685	visual agnosia	skos:exactMatch	NCIT:C35276	Visual Agnosia	semapv:ManualMappingCuration
+MONDO:0000688	inborn organic aciduria	skos:exactMatch	NCIT:C101334	Organic Acid Metabolism Disorder	semapv:ManualMappingCuration
+MONDO:0000700	familial hemiplegic migraine	skos:exactMatch	NCIT:C117009	Familial Hemiplegic Migraine	semapv:ManualMappingCuration
+MONDO:0000702	microscopic colitis	skos:exactMatch	NCIT:C38504	Microscopic Colitis	semapv:ManualMappingCuration
+MONDO:0000703	collagenous colitis	skos:exactMatch	NCIT:C27021	Collagenous Colitis	semapv:ManualMappingCuration
+MONDO:0000704	lymphocytic colitis	skos:exactMatch	NCIT:C27147	Lymphocytic Colitis	semapv:ManualMappingCuration
+MONDO:0000705	Clostridium difficile colitis	skos:exactMatch	NCIT:C35286	Clostridium difficile Colitis	semapv:ManualMappingCuration
+MONDO:0000709	Crohn ileitis	skos:exactMatch	NCIT:C35329	Crohn Ileitis	semapv:ManualMappingCuration
+MONDO:0000723	stutter disorder	skos:exactMatch	NCIT:C35043	Stutter	semapv:ManualMappingCuration
+MONDO:0000728	ptosis	skos:exactMatch	NCIT:C27298	Ptosis	semapv:ManualMappingCuration
+MONDO:0000736	dyschromatosis universalis hereditaria	skos:exactMatch	NCIT:C173131	Dyschromatosis Universalis Hereditaria	semapv:ManualMappingCuration
+MONDO:0000739	uvulitis	skos:exactMatch	NCIT:C128385	Uvulitis	semapv:ManualMappingCuration
+MONDO:0000741	angular cheilitis	skos:exactMatch	NCIT:C112198	Angular Cheilitis	semapv:ManualMappingCuration
+MONDO:0000743	oral hairy leukoplakia	skos:exactMatch	NCIT:C3722	Oral Cavity Hairy Leukoplakia	semapv:ManualMappingCuration
+MONDO:0000744	lung abscess	skos:exactMatch	NCIT:C99090	Lung Abscess	semapv:ManualMappingCuration
+MONDO:0000746	obsolete inguinal hernia	skos:exactMatch	NCIT:C34690	Inguinal Hernia	semapv:ManualMappingCuration
+MONDO:0000747	obsolete umbilical hernia	skos:exactMatch	NCIT:C118375	Umbilical Hernia	semapv:ManualMappingCuration
+MONDO:0000748	mastoiditis	skos:exactMatch	NCIT:C128368	Mastoiditis	semapv:ManualMappingCuration
+MONDO:0000751	cervical polyp	skos:exactMatch	NCIT:C2939	Cervical Polyp	semapv:ManualMappingCuration
+MONDO:0000754	anal fistula	skos:exactMatch	NCIT:C60785	Anorectal Fistula	semapv:ManualMappingCuration
+MONDO:0000755	ectopic pregnancy	skos:exactMatch	NCIT:C34945	Ectopic Pregnancy	semapv:ManualMappingCuration
+MONDO:0000758	bacillary angiomatosis	skos:exactMatch	NCIT:C3477	Bacillary Angiomatosis	semapv:ManualMappingCuration
+MONDO:0000770	shellfish allergy	skos:exactMatch	NCIT:C172320	Shellfish Allergy	semapv:ManualMappingCuration
+MONDO:0000778	fruit allergy	skos:exactMatch	NCIT:C172316	Fruit Allergy	semapv:ManualMappingCuration
+MONDO:0000795	obsolete penicillin allergy	skos:exactMatch	NCIT:C34911	Penicillin Allergy	semapv:ManualMappingCuration
+MONDO:0000814	B-cell adult acute lymphocytic leukemia	skos:exactMatch	NCIT:C9143	Adult B Acute Lymphoblastic Leukemia	semapv:ManualMappingCuration
+MONDO:0000816	abdominal obesity-metabolic syndrome	skos:exactMatch	NCIT:C84442	Metabolic Syndrome	semapv:ManualMappingCuration
+MONDO:0000819	anencephaly	skos:exactMatch	NCIT:C84560	Anencephaly	semapv:ManualMappingCuration
+MONDO:0000820	cerebral cavernous malformation	skos:exactMatch	NCIT:C84626	Cerebral Cavernous Malformation	semapv:ManualMappingCuration
+MONDO:0000827	salmonellosis	skos:exactMatch	NCIT:C157974	Salmonellosis	semapv:ManualMappingCuration
+MONDO:0000831	thrombotic disease	skos:exactMatch	NCIT:C26891	Thrombosis	semapv:ManualMappingCuration
+MONDO:0000839	obsolete congenital abnormality	skos:exactMatch	NCIT:C2849	Congenital Abnormality	semapv:ManualMappingCuration
+MONDO:0000845	fibrous dysplasia	skos:exactMatch	NCIT:C34609	Fibrous Dysplasia	semapv:ManualMappingCuration
+MONDO:0000859	spina bifida occulta	skos:exactMatch	NCIT:C101044	Spina Bifida Occulta	semapv:ManualMappingCuration
+MONDO:0000866	hereditary myoglobinuria	skos:exactMatch	NCIT:C114705	Myoglobinuria	semapv:ManualMappingCuration
+MONDO:0000870	childhood acute lymphoblastic leukemia	skos:exactMatch	NCIT:C3168	Childhood Acute Lymphoblastic Leukemia	semapv:ManualMappingCuration
+MONDO:0000871	T-cell childhood acute lymphocytic leukemia	skos:exactMatch	NCIT:C7953	Childhood T Acute Lymphoblastic Leukemia	semapv:ManualMappingCuration
+MONDO:0000872	B-cell childhood acute lymphoblastic leukemia	skos:exactMatch	NCIT:C9140	Childhood B Acute Lymphoblastic Leukemia	semapv:ManualMappingCuration
+MONDO:0000873	lymphoblastic lymphoma	skos:exactMatch	NCIT:C9360	Lymphoblastic Lymphoma	semapv:ManualMappingCuration
+MONDO:0000874	T-cell childhood lymphoblastic lymphoma	skos:exactMatch	NCIT:C7210	Childhood T Lymphoblastic Lymphoma	semapv:ManualMappingCuration
+MONDO:0000875	adult acute monocytic leukemia	skos:exactMatch	NCIT:C8263	Adult Acute Monocytic Leukemia	semapv:ManualMappingCuration
+MONDO:0000878	cytomegalovirus retinitis	skos:exactMatch	NCIT:C50521	Cytomegaloviral Retinitis	semapv:ManualMappingCuration
+MONDO:0000888	gastrointestinal mucositis	skos:exactMatch	NCIT:C3853	Gastrointestinal Mucositis	semapv:ManualMappingCuration
+MONDO:0000892	colon medullary carcinoma	skos:exactMatch	NCIT:C60641	Colon Medullary Carcinoma	semapv:ManualMappingCuration
+MONDO:0000893	mixed mucinous and nonmucinous bronchioloalveolar adenocarcinoma	skos:exactMatch	NCIT:C7270	Minimally Invasive Lung Mixed Non-Mucinous and Mucinous Adenocarcinoma	semapv:ManualMappingCuration
+MONDO:0000914	cerebral arteriopathy, autosomal dominant, with subcortical infarcts and leukoencephalopathy, type 1	skos:exactMatch	NCIT:C84606	CADASIL Syndrome	semapv:ManualMappingCuration
+MONDO:0000918	endometritis	skos:exactMatch	NCIT:C26764	Endometritis	semapv:ManualMappingCuration
+MONDO:0000919	ampulla of vater cancer	skos:exactMatch	NCIT:C3536	Malignant Ampulla of Vater Neoplasm	semapv:ManualMappingCuration
+MONDO:0000920	duodenum cancer	skos:exactMatch	NCIT:C9328	Malignant Duodenal Neoplasm	semapv:ManualMappingCuration
+MONDO:0000921	ampulla of vater neoplasm	skos:exactMatch	NCIT:C4443	Ampulla of Vater Neoplasm	semapv:ManualMappingCuration
+MONDO:0000922	pelvic inflammatory disease	skos:exactMatch	NCIT:C3889	Pelvic Inflammatory Disease	semapv:ManualMappingCuration
+MONDO:0000923	interstitial emphysema	skos:exactMatch	NCIT:C34571	Pulmonary Interstitial Emphysema	semapv:ManualMappingCuration
+MONDO:0000928	eyelid melanoma	skos:exactMatch	NCIT:C4358	Eyelid Melanoma	semapv:ManualMappingCuration
+MONDO:0000929	balloon cell malignant melanoma	skos:exactMatch	NCIT:C4227	Balloon Cell Melanoma	semapv:ManualMappingCuration
+MONDO:0000930	nodular malignant melanoma	skos:exactMatch	NCIT:C4225	Cutaneous Nodular Melanoma	semapv:ManualMappingCuration
+MONDO:0000931	endometrial disorder	skos:exactMatch	NCIT:C3504	Endometrial Disorder	semapv:ManualMappingCuration
+MONDO:0000933	subglottis neoplasm	skos:exactMatch	NCIT:C4426	Subglottis Neoplasm	semapv:ManualMappingCuration
+MONDO:0000934	laryngeal leiomyoma	skos:exactMatch	NCIT:C6027	Laryngeal Leiomyoma	semapv:ManualMappingCuration
+MONDO:0000935	larynx squamous papilloma	skos:exactMatch	NCIT:C7742	Laryngeal Squamous Cell Papilloma	semapv:ManualMappingCuration
+MONDO:0000938	gastric leiomyoma	skos:exactMatch	NCIT:C3876	Gastric Leiomyoma	semapv:ManualMappingCuration
+MONDO:0000939	intracranial abscess	skos:exactMatch	NCIT:C34734	Intracranial Abscess	semapv:ManualMappingCuration
+MONDO:0000942	corneal disorder	skos:exactMatch	NCIT:C26731	Corneal Disorder	semapv:ManualMappingCuration
+MONDO:0000948	xerophthalmia	skos:exactMatch	NCIT:C34503	Xerophthalmia	semapv:ManualMappingCuration
+MONDO:0000951	thymus lymphoma	skos:exactMatch	NCIT:C6451	Thymic Lymphoma	semapv:ManualMappingCuration
+MONDO:0000956	small intestine cancer	skos:exactMatch	NCIT:C7523	Malignant Small Intestinal Neoplasm	semapv:ManualMappingCuration
+MONDO:0000960	diabetic peripheral angiopathy	skos:exactMatch	NCIT:C35610	Diabetic Vascular Disorder	semapv:ManualMappingCuration
+MONDO:0000961	endobronchial lipoma	skos:exactMatch	NCIT:C5063	Endobronchial Lipoma	semapv:ManualMappingCuration
+MONDO:0000962	spindle cell lipoma	skos:exactMatch	NCIT:C4254	Spindle Cell Lipoma	semapv:ManualMappingCuration
+MONDO:0000963	esophageal lipoma	skos:exactMatch	NCIT:C5701	Esophageal Lipoma	semapv:ManualMappingCuration
+MONDO:0000964	skin lipoma	skos:exactMatch	NCIT:C4616	Skin Lipoma	semapv:ManualMappingCuration
+MONDO:0000965	liver lipoma	skos:exactMatch	NCIT:C5750	Liver Lipoma	semapv:ManualMappingCuration
+MONDO:0000966	pleomorphic lipoma	skos:exactMatch	NCIT:C3703	Pleomorphic Lipoma	semapv:ManualMappingCuration
+MONDO:0000967	conventional lipoma	skos:exactMatch	NCIT:C27530	Conventional Lipoma	semapv:ManualMappingCuration
+MONDO:0000968	kidney lipoma	skos:exactMatch	NCIT:C5101	Kidney Lipoma	semapv:ManualMappingCuration
+MONDO:0000969	pleural lipoma	skos:exactMatch	NCIT:C6644	Pleural Lipoma	semapv:ManualMappingCuration
+MONDO:0000970	breast lipoma	skos:exactMatch	NCIT:C4647	Breast Lipoma	semapv:ManualMappingCuration
+MONDO:0000971	chest wall lipoma	skos:exactMatch	NCIT:C6719	Chest Wall Lipoma	semapv:ManualMappingCuration
+MONDO:0000972	gallbladder lipoma	skos:exactMatch	NCIT:C5835	Gallbladder Lipoma	semapv:ManualMappingCuration
+MONDO:0000973	external ear lipoma	skos:exactMatch	NCIT:C4618	External Ear Lipoma	semapv:ManualMappingCuration
+MONDO:0000974	axillary lipoma	skos:exactMatch	NCIT:C35419	Axillary Lipoma	semapv:ManualMappingCuration
+MONDO:0000975	lipoma of spermatic cord	skos:exactMatch	NCIT:C3606	Spermatic Cord Lipoma	semapv:ManualMappingCuration
+MONDO:0000976	paratesticular lipoma	skos:exactMatch	NCIT:C6384	Paratesticular Lipoma	semapv:ManualMappingCuration
+MONDO:0000977	chondroid lipoma	skos:exactMatch	NCIT:C6503	Chondroid Lipoma	semapv:ManualMappingCuration
+MONDO:0000978	extrahepatic bile duct lipoma	skos:exactMatch	NCIT:C5854	Extrahepatic Bile Duct Lipoma	semapv:ManualMappingCuration
+MONDO:0000979	pinta disease	skos:exactMatch	NCIT:C85011	Pinta	semapv:ManualMappingCuration
+MONDO:0000983	exhibitionism	skos:exactMatch	NCIT:C94352	Exhibitionism	semapv:ManualMappingCuration
+MONDO:0000984	thalassemia	skos:exactMatch	NCIT:C35069	Thalassemia	semapv:ManualMappingCuration
+MONDO:0000986	pleurisy	skos:exactMatch	NCIT:C26860	Pleuritis	semapv:ManualMappingCuration
+MONDO:0000989	mumps infectious disease	skos:exactMatch	NCIT:C29888	Mumps	semapv:ManualMappingCuration
+MONDO:0000993	prostate squamous cell carcinoma	skos:exactMatch	NCIT:C5536	Prostate Squamous Cell Carcinoma	semapv:ManualMappingCuration
+MONDO:0000994	malignant prostate phyllodes tumor	skos:exactMatch	NCIT:C5531	Malignant Prostate Phyllodes Tumor	semapv:ManualMappingCuration
+MONDO:0000995	familial periodic paralysis	skos:exactMatch	NCIT:C84709	Familial Periodic Paralysis	semapv:ManualMappingCuration
+MONDO:0000996	prostate lymphoma	skos:exactMatch	NCIT:C5533	Prostate Lymphoma	semapv:ManualMappingCuration
+MONDO:0001000	mixed mineral dust pneumoconiosis	skos:exactMatch	NCIT:C27559	Mixed Mineral Dust Pneumoconiosis	semapv:ManualMappingCuration
+MONDO:0001001	baritosis	skos:exactMatch	NCIT:C34410	Baritosis	semapv:ManualMappingCuration
+MONDO:0001003	pneumoconiosis due to talc	skos:exactMatch	NCIT:C27026	Talc Pneumoconiosis	semapv:ManualMappingCuration
+MONDO:0001004	slate pneumoconiosis	skos:exactMatch	NCIT:C35397	Slate Pneumoconiosis	semapv:ManualMappingCuration
+MONDO:0001005	kaolin pneumoconiosis	skos:exactMatch	NCIT:C35315	Kaolin Pneumoconiosis	semapv:ManualMappingCuration
+MONDO:0001014	chronic leukemia	skos:exactMatch	NCIT:C3483	Chronic Leukemia	semapv:ManualMappingCuration
+MONDO:0001015	eosinophilic meningitis	skos:exactMatch	NCIT:C128374	Eosinophilic Meningitis	semapv:ManualMappingCuration
+MONDO:0001016	epididymis cancer	skos:exactMatch	NCIT:C3558	Malignant Epididymal Neoplasm	semapv:ManualMappingCuration
+MONDO:0001017	epididymal adenocarcinoma	skos:exactMatch	NCIT:C39957	Epididymal Adenocarcinoma	semapv:ManualMappingCuration
+MONDO:0001020	amblyopia	skos:exactMatch	NCIT:C118764	Amblyopia	semapv:ManualMappingCuration
+MONDO:0001023	prolymphocytic leukemia	skos:exactMatch	NCIT:C3181	Prolymphocytic Leukemia	semapv:ManualMappingCuration
+MONDO:0001028	acute pericementitis	skos:exactMatch	NCIT:C34354	Acute Periodontitis	semapv:ManualMappingCuration
+MONDO:0001029	Klippel-Feil syndrome	skos:exactMatch	NCIT:C98967	Klippel-Feil Syndrome	semapv:ManualMappingCuration
+MONDO:0001036	hypopyon	skos:exactMatch	NCIT:C50593	Hypopyon	semapv:ManualMappingCuration
+MONDO:0001039	tonsillitis	skos:exactMatch	NCIT:C116006	Tonsillitis	semapv:ManualMappingCuration
+MONDO:0001040	nasopharyngitis	skos:exactMatch	NCIT:C34837	Nasopharyngitis	semapv:ManualMappingCuration
+MONDO:0001044	esophageal atresia	skos:exactMatch	NCIT:C87072	Esophageal Atresia	semapv:ManualMappingCuration
+MONDO:0001045	intestinal atresia	skos:exactMatch	NCIT:C84790	Intestinal Atresia	semapv:ManualMappingCuration
+MONDO:0001046	imperforate anus	skos:exactMatch	NCIT:C84784	Imperforate Anus	semapv:ManualMappingCuration
+MONDO:0001056	gastric cancer	skos:exactMatch	NCIT:C9331	Malignant Gastric Neoplasm	semapv:ManualMappingCuration
+MONDO:0001057	malignant gastric granular cell tumor	skos:exactMatch	NCIT:C5484	Malignant Gastric Granular Cell Tumor	semapv:ManualMappingCuration
+MONDO:0001059	gastric lymphoma	skos:exactMatch	NCIT:C4636	Gastric Lymphoma	semapv:ManualMappingCuration
+MONDO:0001060	microinvasive gastric cancer	skos:exactMatch	NCIT:C27131	Early Gastric Cancer	semapv:ManualMappingCuration
+MONDO:0001066	late yaws	skos:exactMatch	NCIT:C41354	Late Yaws	semapv:ManualMappingCuration
+MONDO:0001067	early yaws	skos:exactMatch	NCIT:C41352	Early Yaws	semapv:ManualMappingCuration
+MONDO:0001068	osteomalacia	skos:exactMatch	NCIT:C26838	Osteomalacia	semapv:ManualMappingCuration
+MONDO:0001071	intellectual disability	skos:exactMatch	NCIT:C97250	Intellectual Disability	semapv:ManualMappingCuration
+MONDO:0001074	chronic tic disorder	skos:exactMatch	NCIT:C116768	Chronic Tic Disorder	semapv:ManualMappingCuration
+MONDO:0001075	steatorrhea	skos:exactMatch	NCIT:C86917	Steatorrhea	semapv:ManualMappingCuration
+MONDO:0001076	glucose intolerance	skos:exactMatch	NCIT:C34646	Glucose Intolerance	semapv:ManualMappingCuration
+MONDO:0001078	tropical sprue	skos:exactMatch	NCIT:C45428	Tropical Sprue	semapv:ManualMappingCuration
+MONDO:0001081	acute cervicitis	skos:exactMatch	NCIT:C27056	Acute Cervicitis	semapv:ManualMappingCuration
+MONDO:0001082	lymph node cancer	skos:exactMatch	NCIT:C35812	Malignant Lymph Node Neoplasm	semapv:ManualMappingCuration
+MONDO:0001083	Fanconi renotubular syndrome	skos:exactMatch	NCIT:C3034	Fanconi Syndrome	semapv:ManualMappingCuration
+MONDO:0001085	interstitial nephritis	skos:exactMatch	NCIT:C26834	Interstitial Nephritis	semapv:ManualMappingCuration
+MONDO:0001087	schizotypal personality disorder	skos:exactMatch	NCIT:C92632	Schizotypal Personality Disorder	semapv:ManualMappingCuration
+MONDO:0001091	lipoma of colon	skos:exactMatch	NCIT:C5493	Colon Lipoma	semapv:ManualMappingCuration
+MONDO:0001092	colon leiomyoma	skos:exactMatch	NCIT:C5492	Colon Leiomyoma	semapv:ManualMappingCuration
+MONDO:0001093	colonic lymphangioma	skos:exactMatch	NCIT:C5500	Colon Lymphangioma	semapv:ManualMappingCuration
+MONDO:0001095	mediastinum neuroblastoma	skos:exactMatch	NCIT:C6628	Mediastinal Neuroblastoma	semapv:ManualMappingCuration
+MONDO:0001096	mediastinum ganglioneuroblastoma	skos:exactMatch	NCIT:C6627	Mediastinal Ganglioneuroblastoma	semapv:ManualMappingCuration
+MONDO:0001098	separation anxiety disorder	skos:exactMatch	NCIT:C35014	Separation Anxiety Disorder	semapv:ManualMappingCuration
+MONDO:0001099	lactocele	skos:exactMatch	NCIT:C3515	Galactocele	semapv:ManualMappingCuration
+MONDO:0001100	hypertrophy of breast	skos:exactMatch	NCIT:C3125	Breast Hypertrophy	semapv:ManualMappingCuration
+MONDO:0001101	fat necrosis of breast	skos:exactMatch	NCIT:C3661	Breast Fat Necrosis	semapv:ManualMappingCuration
+MONDO:0001106	kidney failure	skos:exactMatch	NCIT:C4376	Renal Failure	semapv:ManualMappingCuration
+MONDO:0001110	chronic pyelonephritis	skos:exactMatch	NCIT:C123216	Chronic Pyelonephritis	semapv:ManualMappingCuration
+MONDO:0001114	bacterial myocarditis	skos:exactMatch	NCIT:C128380	Bacterial Myocarditis	semapv:ManualMappingCuration
+MONDO:0001115	familial polycythemia	skos:exactMatch	NCIT:C26955	Familial Polycythemia	semapv:ManualMappingCuration
+MONDO:0001116	mesenteric lymphadenitis	skos:exactMatch	NCIT:C26830	Mesenteric Lymphadenitis	semapv:ManualMappingCuration
+MONDO:0001117	methemoglobinemia	skos:exactMatch	NCIT:C34817	Methemoglobinemia	semapv:ManualMappingCuration
+MONDO:0001119	premature menopause	skos:exactMatch	NCIT:C80099	Premature Menopause	semapv:ManualMappingCuration
+MONDO:0001120	chronic frontal sinusitis	skos:exactMatch	NCIT:C34473	Chronic Frontal Sinusitis	semapv:ManualMappingCuration
+MONDO:0001121	frontal sinusitis	skos:exactMatch	NCIT:C34626	Frontal Sinusitis	semapv:ManualMappingCuration
+MONDO:0001122	chronic maxillary sinusitis	skos:exactMatch	NCIT:C34477	Chronic Maxillary Sinusitis	semapv:ManualMappingCuration
+MONDO:0001123	chronic sphenoidal sinusitis	skos:exactMatch	NCIT:C34480	Chronic Sphenoidal Sinusitis	semapv:ManualMappingCuration
+MONDO:0001126	gastric ulcer	skos:exactMatch	NCIT:C3388	Gastric Ulcer	semapv:ManualMappingCuration
+MONDO:0001128	nasal cavity cancer	skos:exactMatch	NCIT:C4918	Malignant Nasal Cavity Neoplasm	semapv:ManualMappingCuration
+MONDO:0001129	nasal cavity olfactory neuroblastoma	skos:exactMatch	NCIT:C7604	Nasal Cavity Olfactory Neuroblastoma	semapv:ManualMappingCuration
+MONDO:0001130	nasal cavity lymphoma	skos:exactMatch	NCIT:C6074	Nasal Cavity Lymphoma	semapv:ManualMappingCuration
+MONDO:0001132	sexual sadism disorder	skos:exactMatch	NCIT:C94358	Sexual Sadism	semapv:ManualMappingCuration
+MONDO:0001133	malignant essential hypertension	skos:exactMatch	NCIT:C34802	Malignant Essential Hypertension	semapv:ManualMappingCuration
+MONDO:0001135	voyeurism	skos:exactMatch	NCIT:C94360	Voyeurism	semapv:ManualMappingCuration
+MONDO:0001139	sexual masochism disorder	skos:exactMatch	NCIT:C94356	Sexual Masochism	semapv:ManualMappingCuration
+MONDO:0001142	salivary gland disorder	skos:exactMatch	NCIT:C26879	Salivary Gland Disorder	semapv:ManualMappingCuration
+MONDO:0001147	meningocele	skos:exactMatch	NCIT:C101209	Spinal Meningocele	semapv:ManualMappingCuration
+MONDO:0001147	meningocele	skos:exactMatch	NCIT:C105595	Meningocele	semapv:ManualMappingCuration
+MONDO:0001149	microcephaly	skos:exactMatch	NCIT:C85874	Microcephaly	semapv:ManualMappingCuration
+MONDO:0001150	hydrocephalus	skos:exactMatch	NCIT:C3111	Hydrocephalus	semapv:ManualMappingCuration
+MONDO:0001156	borderline personality disorder	skos:exactMatch	NCIT:C92633	Borderline Personality Disorder	semapv:ManualMappingCuration
+MONDO:0001157	dependent personality disorder	skos:exactMatch	NCIT:C92637	Dependent Personality Disorder	semapv:ManualMappingCuration
+MONDO:0001158	obsessive-compulsive personality disorder	skos:exactMatch	NCIT:C92638	Obsessive-Compulsive Personality Disorder	semapv:ManualMappingCuration
+MONDO:0001159	multiple personality disorder	skos:exactMatch	NCIT:C94330	Dissociative Identity Disorder	semapv:ManualMappingCuration
+MONDO:0001160	dissociative disorder	skos:exactMatch	NCIT:C92197	Dissociative Disorder	semapv:ManualMappingCuration
+MONDO:0001161	schizoid personality disorder	skos:exactMatch	NCIT:C92631	Schizoid Personality Disorder	semapv:ManualMappingCuration
+MONDO:0001162	impulse control disorder	skos:exactMatch	NCIT:C34723	Impulse-Control Disorder	semapv:ManualMappingCuration
+MONDO:0001163	paranoid personality disorder	skos:exactMatch	NCIT:C92630	Paranoid Personality Disorder	semapv:ManualMappingCuration
+MONDO:0001164	antisocial personality disorder	skos:exactMatch	NCIT:C88413	Antisocial Personality Disorder	semapv:ManualMappingCuration
+MONDO:0001165	tongue disorder	skos:exactMatch	NCIT:C173793	Tongue Disorder	semapv:ManualMappingCuration
+MONDO:0001166	nephritis	skos:exactMatch	NCIT:C26833	Nephritis	semapv:ManualMappingCuration
+MONDO:0001167	spastic diplegia	skos:exactMatch	NCIT:C34781	Spastic Diplegia	semapv:ManualMappingCuration
+MONDO:0001168	spastic hemiplegia	skos:exactMatch	NCIT:C116905	Spastic Hemiplegia	semapv:ManualMappingCuration
+MONDO:0001172	salpingo-oophoritis	skos:exactMatch	NCIT:C171201	Salpingo-Oophoritis	semapv:ManualMappingCuration
