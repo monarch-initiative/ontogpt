@@ -5,7 +5,7 @@ This works by recursively constructing structured prompt-completions where
 a pseudo-YAML structure is requested, where the YAML
 structure corresponds to a template class.
 
-Describes in the SPIRES manuscript
+Describe in the SPIRES manuscript
 TODO: add link
 """
 import logging
@@ -38,7 +38,7 @@ RESPONSE_DICT = Dict[FIELD, Union[RESPONSE_ATOM, List[RESPONSE_ATOM]]]
 class SPIRESEngine(KnowledgeEngine):
     """Knowledge extractor."""
 
-    engine: str = "text-davinci-003"
+    engine: str = "openai-text-davinci-003"
     recurse: bool = True
     """If true, then complex non-named entity objects are always recursively parsed.
     If this is false AND the complex object is a pair, then token-based splitting is

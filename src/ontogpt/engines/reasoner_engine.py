@@ -8,7 +8,8 @@ from typing import List, Optional, Union
 from jinja2 import Template
 from pydantic import BaseModel
 
-from ontogpt.engines.knowledge_engine import MODEL_GPT_4, KnowledgeEngine
+from ontogpt.engines.knowledge_engine import KnowledgeEngine
+from ontogpt.engines.models import MODEL_GPT_4
 from ontogpt.ontex.extractor import (
     Answer,
     Axiom,

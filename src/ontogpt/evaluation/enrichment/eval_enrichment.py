@@ -25,12 +25,8 @@ from tiktoken import Encoding
 
 from ontogpt.engines import create_engine
 from ontogpt.engines.enrichment import ENTITY_ID, EnrichmentEngine, EnrichmentPayload
-from ontogpt.engines.knowledge_engine import (
-    MODEL_GPT_3_5_TURBO,
-    MODEL_GPT_4,
-    MODEL_NAME,
-    MODEL_TEXT_DAVINCI_003,
-)
+from ontogpt.engines.knowledge_engine import MODEL_NAME
+from ontogpt.engines.models import MODEL_GPT_3_5_TURBO, MODEL_GPT_4, MODEL_TEXT_DAVINCI_003
 from ontogpt.evaluation.evaluation_engine import EvaluationEngine
 from ontogpt.templates.class_enrichment import ClassEnrichmentResult
 from ontogpt.utils.gene_set_utils import SYMBOL, GeneSet, drop_genes_from_gene_set, gene_info
@@ -97,7 +93,8 @@ class EvalEnrichment(EvaluationEngine):
             raise TypeError
         self.ontology: ClassEnrichmentCalculationInterface = ontology
         self.engine: EnrichmentEngine = create_engine(None, EnrichmentEngine, model=self.model)
-        for model in ENRICHMENT_MODELS:
+        for modelname in ENRICHMENT_MODELS:
+            model = modelname[0]
             self.engines[model] = create_engine(None, EnrichmentEngine, model=model)
             self.engines[model].add_resolver("sqlite:obo:hgnc")
         self.engine.add_resolver("sqlite:obo:hgnc")
@@ -138,8 +135,8 @@ class EvalEnrichment(EvaluationEngine):
         """Compare OntoGPT enrichment vs standard."""
         payloads = {}
         logger.info(f"Gene symbols: {gene_set.gene_symbols}")
-        for model in ENRICHMENT_MODELS:
-            engine = self.engines[model]
+        for modelname in ENRICHMENT_MODELS:
+            engine = self.engines[modelname[0]]
             for method in [NO_SYNOPSIS, ONTOLOGICAL_SYNOPSIS, NARRATIVE_SYNOPSIS]:
                 if method == ONTOLOGICAL_SYNOPSIS:
                     args = dict(ontological_synopsis=True)
