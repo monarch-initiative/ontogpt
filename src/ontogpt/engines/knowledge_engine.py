@@ -24,6 +24,7 @@ from oaklib.utilities.apikey_manager import get_apikey_value
 from oaklib.utilities.subsets.value_set_expander import ValueSetExpander
 
 from ontogpt.clients import OpenAIClient
+from ontogpt.engines.models import DEFAULT_MODEL, GGML_MODELS, MODELS, OPENAI_MODELS
 from ontogpt.templates.core import ExtractionResult, NamedEntity
 
 this_path = Path(__file__).parent
@@ -42,13 +43,6 @@ ANNOTATION_KEY_PROMPT_SKIP = "prompt.skip"
 ANNOTATION_KEY_ANNOTATORS = "annotators"
 ANNOTATION_KEY_RECURSE = "ner.recurse"
 ANNOTATION_KEY_EXAMPLES = "prompt.examples"
-
-MODEL_GPT_3_5_TURBO = "gpt-3.5-turbo"
-MODEL_TEXT_DAVINCI_003 = "text-davinci-003"
-MODEL_GPT_4 = "gpt-4"
-MODELS = [MODEL_GPT_3_5_TURBO, MODEL_TEXT_DAVINCI_003, MODEL_GPT_4]
-
-DEFAULT_MODEL = MODEL_GPT_3_5_TURBO
 
 # TODO: introspect
 DATAMODELS = [
@@ -103,7 +97,7 @@ class KnowledgeEngine(ABC):
     """OpenAI API key."""
 
     model: MODEL_NAME = None
-    """OpenAI Model. This should be overridden in subclasses"""
+    """Language Model. This should be overridden in subclasses"""
 
     # annotator: TextAnnotatorInterface = None
     # """Default annotator. TODO: deprecate?"""
@@ -156,10 +150,26 @@ class KnowledgeEngine(ABC):
             logging.info(f"Using template {self.template_class.name}")
         if not self.model:
             self.model = DEFAULT_MODEL
-        self.client = OpenAIClient(model=self.model)
-        logging.info("Setting up OpenAI client API Key")
-        self.api_key = self._get_openai_api_key()
-        openai.api_key = self.api_key
+
+        # Identify model source (e.g., OpenAI)
+        # TODO: move this to its own function
+        all_models = [modelname for model in MODELS for modelname in model]
+        if self.model in all_models:
+            all_openai_models = [modelname for model in OPENAI_MODELS for modelname in model]
+            all_ggml_models = [modelname for model in GGML_MODELS for modelname in model]
+            if self.model in all_openai_models:
+                self.client = OpenAIClient(model=self.model)
+                logging.info("Setting up OpenAI client API Key")
+                self.api_key = self._get_openai_api_key()
+                openai.api_key = self.api_key
+            elif self.model in all_ggml_models:
+                # TODO: optional dependencies here, so catch exception if needed
+                raise NotImplementedError("GPT4ALL models - work in progress")
+        else:
+            raise NotImplementedError(
+                "Model name not recognized or not supported yet."
+                " See all models with `ontogpt list-models`"
+            )
         if self.mappers is None:
             logging.info("Using mappers (currently hardcoded)")
             self.mappers = [get_adapter("translator:")]

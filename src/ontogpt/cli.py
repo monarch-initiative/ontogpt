@@ -29,6 +29,7 @@ from ontogpt.engines.embedding_similarity_engine import SimilarityEngine
 from ontogpt.engines.enrichment import EnrichmentEngine
 from ontogpt.engines.halo_engine import HALOEngine
 from ontogpt.engines.knowledge_engine import KnowledgeEngine
+from ontogpt.engines.models import MODELS
 from ontogpt.engines.reasoner_engine import ReasonerEngine
 from ontogpt.engines.spires_engine import SPIRESEngine
 from ontogpt.engines.synonym_engine import SynonymEngine
@@ -115,7 +116,13 @@ interactive_option = click.option(
     show_default=True,
     help="Interactive mode - rather than call the LLM API it will prompt you do this.",
 )
-model_option = click.option("-m", "--model", help="Engine to use, e.g. text-davinci-003.")
+model_option = click.option(
+    "-m",
+    "--model",
+    help="Model name to use, e.g. openai-text-davinci-003."
+         " The first part of this name must be the source of the model."
+         " The second part must be the model name.",
+)
 prompt_template_option = click.option(
     "--prompt-template", help="Path to a file containing the prompt."
 )
@@ -977,8 +984,8 @@ def fill(template, object: str, examples, output, output_format, **kwargs):
 
 
 @main.command()
-def models(**kwargs):
-    """Prompt completion."""
+def openai_models(**kwargs):
+    """List OpenAI models for prompt completion."""
     ai = OpenAIClient()
     for model in openai.Model.list():
         print(model)
@@ -1118,6 +1125,17 @@ def list_templates():
     """List the templates."""
     print("TODO")
 
+
+@main.command()
+def list_models():
+    """List all available models."""
+    print("Model Name\tAlternatives")
+    for modelname in MODELS:
+        if len(modelname) > 1:
+            alternative_names = " ".join(modelname[1:])
+            print(f"{modelname[0]}\t{alternative_names}")
+        else:
+            print(modelname[0])
 
 if __name__ == "__main__":
     main()
