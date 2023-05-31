@@ -2074,17 +2074,6 @@ files = [
 ]
 
 [[package]]
-name = "importlib"
-version = "1.0.4"
-description = "Backport of importlib.import_module() from Python 2.7"
-category = "main"
-optional = false
-python-versions = "*"
-files = [
-    {file = "importlib-1.0.4.zip", hash = "sha256:b6ee7066fea66e35f8d0acee24d98006de1a0a8a94a8ce6efe73a9a23c8d9826"},
-]
-
-[[package]]
 name = "importlib-metadata"
 version = "4.13.0"
 description = "Read metadata from Python packages"
@@ -7573,5 +7562,4 @@ web = ["Jinja2", "fastapi", "uvicorn"]
 [metadata]
 lock-version = "2.0"
 python-versions = ">=3.9,<3.9.7 || >3.9.7,<4.0"
-
-content-hash = "3bb55a017f633b20216643c4bb27f44e960245159c8ffb75b639ee6c046cd86d"
+content-hash = "7a174d24aee069c3083b1bcd0df4c569a86d05712d9785f93ba5590175839e0b"
