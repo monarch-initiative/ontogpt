@@ -26,6 +26,7 @@ from oaklib.utilities.subsets.value_set_expander import ValueSetExpander
 from ontogpt.clients import OpenAIClient
 from ontogpt.engines.models import DEFAULT_MODEL, GGML_MODELS, MODELS, OPENAI_MODELS
 from ontogpt.templates.core import ExtractionResult, NamedEntity
+from ontogpt.utils.model_utils import get_model
 
 this_path = Path(__file__).parent
 logger = logging.getLogger(__name__)
