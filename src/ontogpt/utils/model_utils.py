@@ -13,7 +13,8 @@ def get_model(url: str) -> PosixPath:
     Returns the Path for the retrieved file,
     or the path to where it already exists.
     """
-    logging.info(f"Retrieving model from {url}")
+    logging.info(f"Retrieving model from {url} if needed...")
     mod_path = ONTOGPT_MODULE.ensure(url=url, force=False, download_kwargs={"backend": "requests"})
+    logging.info(f"Model now at {mod_path}")
 
     return mod_path

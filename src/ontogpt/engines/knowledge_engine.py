@@ -170,6 +170,7 @@ class KnowledgeEngine(ABC):
                         break
                 for mod_url in mod_urls:
                     get_model(mod_url)
+                raise NotImplementedError("GGML models not implemented yet.")
         else:
             raise NotImplementedError(
                 "Model name not recognized or not supported yet."
