@@ -1,1 +1,53 @@
-lorem_ipsum
+id: http://w3id.org/ontogpt/ibd_literature
+name: ibd-literature-template
+title: IBD Literature Template
+description: >-
+  A template for extracting information from IBD literature
+license: https://creativecommons.org/publicdomain/zero/1.0/
+
+imports:
+  - linkml:types
+  - core
+
+classes:
+  IBDAnnotations:
+    tree_root: true
+    attributes:
+      genes:
+        description: semicolon-separated list of genes
+        multivalued: true
+        range: Gene
+      exposures:
+        description: semicolon-separated list of exposures
+        multivalued: true
+        range: Exposure
+      gene_exposures_relationships:
+        description: semicolon-separated list of gene to molecular activity relationships
+        multivalued: true
+        range: GeneExposureRelationship
+
+  Gene:
+    is_a: NamedEntity
+    id_prefixes:
+      - HGNC
+    annotations:
+      annotators: bioportal:hgnc-nr, sqlite:obo:pr
+
+  Exposure:
+    is_a: NamedEntity
+    id_prefixes:
+      - NCIT
+    annotations:
+      annotators: sqlite:obo:ecto
+
+  GeneExposureRelationship:
+    is_a:   CompoundExpression
+    attributes:
+      molecular_activity:
+        range: Exposure
+        annotations:
+          prompt: the name of the exposure, such as a exposure to a chemical toxin. This is an ECTO term.
+      gene:
+        range: Gene
+        annotations:
+          prompt: the name of the gene in the pair. This comes second in the pair.
