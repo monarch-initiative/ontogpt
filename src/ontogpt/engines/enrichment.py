@@ -250,7 +250,7 @@ class EnrichmentEngine(KnowledgeEngine):
         # https://help.openai.com/en/articles/4936856-what-are-tokens-and-how-to-count-them
         prompt_length = len(self.encoding.encode(prompt)) + 10
         max_len_total = 4097
-        if self.model in MODEL_GPT_4:
+        if self.model in MODEL_GPT_4["names"]:
             max_len_total = 8193
         max_len = max_len_total - self.completion_length
         logging.info(

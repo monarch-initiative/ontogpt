@@ -94,7 +94,7 @@ class EvalEnrichment(EvaluationEngine):
         self.ontology: ClassEnrichmentCalculationInterface = ontology
         self.engine: EnrichmentEngine = create_engine(None, EnrichmentEngine, model=self.model)
         for modelname in ENRICHMENT_MODELS:
-            model = modelname[0]
+            model = modelname["names"][0]
             self.engines[model] = create_engine(None, EnrichmentEngine, model=model)
             self.engines[model].add_resolver("sqlite:obo:hgnc")
         self.engine.add_resolver("sqlite:obo:hgnc")

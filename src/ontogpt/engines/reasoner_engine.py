@@ -167,7 +167,7 @@ class ReasonerEngine(KnowledgeEngine):
         logger.info(f"Prompt: {prompt}")
         prompt_length = len(self.encoding.encode(prompt)) + 10
         max_len_total = 4097
-        if self.model == MODEL_GPT_4:
+        if self.model in MODEL_GPT_4["names"]:
             max_len_total = 8193
         max_len = max_len_total - completion_length
         completed = True

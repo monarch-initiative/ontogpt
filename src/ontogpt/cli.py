@@ -1167,11 +1167,12 @@ def list_models():
     """List all available models."""
     print("Model Name\tAlternatives")
     for modelname in MODELS:
-        if len(modelname) > 1:
-            alternative_names = " ".join(modelname[1:])
-            print(f"{modelname[0]}\t{alternative_names}")
+        if len(modelname["names"]) > 1:
+            primary_name = modelname["names"][0]
+            alternative_names = " ".join(modelname["names"][1:])
+            print(f"{primary_name}\t{alternative_names}")
         else:
-            print(modelname[0])
+            print(modelname["names"][0])
 
 if __name__ == "__main__":
     main()
