@@ -14,6 +14,6 @@ def get_model(url: str) -> PosixPath:
     or the path to where it already exists.
     """
     logging.info(f"Retrieving model from {url}")
-    mod_path = ONTOGPT_MODULE.ensure(url=url, force=False)
+    mod_path = ONTOGPT_MODULE.ensure(url=url, force=False, download_kwargs={"backend": "requests"})
 
     return mod_path
