@@ -152,25 +152,15 @@ class KnowledgeEngine(ABC):
         if not self.model:
             self.model = DEFAULT_MODEL
 
-        # Identify model source (e.g., OpenAI)
-        # TODO: move this to its own function
+        # Identify model provider (e.g., OpenAI)
         all_models = [modelname for modelvals in MODELS for modelname in modelvals["names"]]
         if self.model in all_models:
             all_openai_models = [modelname for modelvals in OPENAI_MODELS for modelname in modelvals["names"]]
             all_ggml_models = [modelname for modelvals in GGML_MODELS for modelname in modelvals["names"]]
             if self.model in all_openai_models:
-                self.client = OpenAIClient(model=self.model)
-                logging.info("Setting up OpenAI client API Key")
-                self.api_key = self._get_openai_api_key()
-                openai.api_key = self.api_key
+                self.set_up_client()
             elif self.model in all_ggml_models:
-                for modelvals in GGML_MODELS:
-                    if self.model in modelvals["names"]:
-                        mod_urls = modelvals["sources"]
-                        break
-                for mod_url in mod_urls:
-                    get_model(mod_url)
-                raise NotImplementedError("GGML models not implemented yet.")
+                self.set_up_local_model()
         else:
             raise NotImplementedError(
                 "Model name not recognized or not supported yet."
@@ -605,3 +595,18 @@ class KnowledgeEngine(ABC):
                     if v:
                         setattr(result, k, v)
         return resultset[0]
+
+    def set_up_client(self):
+        self.client = OpenAIClient(model=self.model)
+        logging.info("Setting up OpenAI client API Key")
+        self.api_key = self._get_openai_api_key()
+        openai.api_key = self.api_key
+
+    def set_up_local_model(self):
+        for modelvals in GGML_MODELS:
+            if self.model in modelvals["names"]:
+                mod_urls = modelvals["sources"]
+                break
+        for mod_url in mod_urls:
+            get_model(mod_url)
+        raise NotImplementedError("GGML models not implemented yet.")
