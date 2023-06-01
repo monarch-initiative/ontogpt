@@ -56,6 +56,46 @@ GGML_MODELS = [
     WIZARDLM_7B_Q4_2,
 ]
 
+# Google FLAN models
+# See https://huggingface.co/docs/transformers/model_doc/flan-t5
+# Sources not provided as these are retrieved from HuggingFace Hub
+FLAN_T5_SMALL = {
+    "names": ["flan-t5-small", "google-flan-t5-small", "google/flan-t5-small"],
+    "sources": [""],
+}
+FLAN_T5_BASE = {
+    "names": ["flan-t5-base", "google-flan-t5-small", "google/flan-t5-base"],
+    "sources": [""],
+}
+FLAN_T5_LARGE = {
+    "names": ["flan-t5-large", "google-flan-t5-large", "google/flan-t5-large"],
+    "sources": [""],
+}
+FLAN_T5_XL = {
+    "names": ["flan-t5-xl", "google-flan-t5-xl", "google/flan-t5-xl"],
+    "sources": [""],
+}
+FLAN_T5_XXL = {
+    "names": ["flan-t5-xxl", "google-flan-t5-xxl", "google/flan-t5-xxl"],
+    "sources": [""],
+}
+FLAN_UL2 = {
+    "names": ["flan-ul2", "google-flan-ul2", "google/flan-ul2"],
+    "sources": [""],
+}
+FLAN_MODELS = [
+    FLAN_T5_SMALL,
+    FLAN_T5_BASE,
+    FLAN_T5_LARGE,
+    FLAN_T5_XL,
+    FLAN_T5_XXL,
+    FLAN_UL2
+]
+
+# TODO: Databricks Dolly models (see https://huggingface.co/databricks)
+# TODO: TII FALCON models (see https://huggingface.co/tiiuae/falcon-40b)
+
+# All Models
 MODELS = [
     MODEL_GPT_3_5_TURBO,
     MODEL_TEXT_DAVINCI_003,
