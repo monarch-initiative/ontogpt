@@ -48,7 +48,7 @@ WIZARDLM_7B_Q4_2 = {
     "names": ["ggml-wizardLM-7B.q4_2"],
     "sources": ["https://gpt4all.io/models/ggml-wizardLM-7B.q4_2.bin"],
 }
-GGML_MODELS = [
+GPT4ALL_MODELS = [
     GPT_4_ALL_J_1_3_GROOVY,
     GPT_4_ALL_L13B_SNOOZY,
     MPT_7B_CHAT,

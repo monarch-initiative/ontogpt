@@ -24,7 +24,7 @@ from oaklib.utilities.apikey_manager import get_apikey_value
 from oaklib.utilities.subsets.value_set_expander import ValueSetExpander
 
 from ontogpt.clients import OpenAIClient
-from ontogpt.engines.models import DEFAULT_MODEL, FLAN_MODELS, GGML_MODELS, MODELS, OPENAI_MODELS
+from ontogpt.engines.models import DEFAULT_MODEL, FLAN_MODELS, GPT4ALL_MODELS, MODELS, OPENAI_MODELS
 from ontogpt.templates.core import ExtractionResult, NamedEntity
 from ontogpt.utils.model_utils import get_model
 
@@ -158,16 +158,16 @@ class KnowledgeEngine(ABC):
             all_openai_models = [
                 modelname for modelvals in OPENAI_MODELS for modelname in modelvals["names"]
             ]
-            all_ggml_models = [
-                modelname for modelvals in GGML_MODELS for modelname in modelvals["names"]
+            all_gpt4all_models = [
+                modelname for modelvals in GPT4ALL_MODELS for modelname in modelvals["names"]
             ]
             all_flan_models = [
                 modelname for modelvals in FLAN_MODELS for modelname in modelvals["names"]
             ]
             if self.model in all_openai_models:
                 self.set_up_client()
-            elif self.model in all_ggml_models:
-                self.set_up_local_model()
+            elif self.model in all_gpt4all_models:
+                self.set_up_local_model(model_set="gpt4all")
             elif self.model in all_flan_models:
                 raise NotImplementedError("FLAN models are work in progress. Watch this space.")
         else:
@@ -611,11 +611,12 @@ class KnowledgeEngine(ABC):
         self.api_key = self._get_openai_api_key()
         openai.api_key = self.api_key
 
-    def set_up_local_model(self):
-        for modelvals in GGML_MODELS:
+    def set_up_local_model(self, model_set: str):
+        """Prepare a local model to be run through langchain."""
+        for modelvals in GPT4ALL_MODELS:
             if self.model in modelvals["names"]:
                 mod_urls = modelvals["sources"]
                 break
         for mod_url in mod_urls:
             get_model(mod_url)
-        raise NotImplementedError("GGML models not implemented yet.")
+        
