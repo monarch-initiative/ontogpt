@@ -26,6 +26,7 @@ from oaklib.utilities.subsets.value_set_expander import ValueSetExpander
 from ontogpt.clients import OpenAIClient
 from ontogpt.engines.models import DEFAULT_MODEL, FLAN_MODELS, GPT4ALL_MODELS, MODELS, OPENAI_MODELS
 from ontogpt.templates.core import ExtractionResult, NamedEntity
+from ontogpt.utils.gpt4all_runner import set_up_gpt4all_model, chain_gpt4all_model
 from ontogpt.utils.model_utils import get_model
 
 this_path = Path(__file__).parent
@@ -613,10 +614,18 @@ class KnowledgeEngine(ABC):
 
     def set_up_local_model(self, model_set: str):
         """Prepare a local model to be run through langchain."""
-        for modelvals in GPT4ALL_MODELS:
-            if self.model in modelvals["names"]:
-                mod_urls = modelvals["sources"]
-                break
-        for mod_url in mod_urls:
-            get_model(mod_url)
-        
+
+        if model_set == "gpt4all":
+            for modelvals in GPT4ALL_MODELS:
+                if self.model in modelvals["names"]:
+                    mod_urls = modelvals["sources"]
+                    break
+
+            for mod_url in mod_urls:
+                # This is set up to get multiple files if needed,
+                # but GPT4ALL just wants binary
+                model_path = get_model(mod_url)
+
+            this_model = set_up_gpt4all_model(model_path)
+            
+            chain_gpt4all_model(this_model)
