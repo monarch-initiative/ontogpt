@@ -24,7 +24,7 @@ from oaklib.utilities.apikey_manager import get_apikey_value
 from oaklib.utilities.subsets.value_set_expander import ValueSetExpander
 
 from ontogpt.clients import OpenAIClient
-from ontogpt.engines.models import DEFAULT_MODEL, GGML_MODELS, MODELS, OPENAI_MODELS
+from ontogpt.engines.models import DEFAULT_MODEL, FLAN_MODELS, GGML_MODELS, MODELS, OPENAI_MODELS
 from ontogpt.templates.core import ExtractionResult, NamedEntity
 from ontogpt.utils.model_utils import get_model
 
@@ -155,9 +155,15 @@ class KnowledgeEngine(ABC):
         # Identify model provider (e.g., OpenAI)
         all_models = [modelname for modelvals in MODELS for modelname in modelvals["names"]]
         if self.model in all_models:
-            all_openai_models = [modelname for modelvals in OPENAI_MODELS for modelname in modelvals["names"]]
-            all_ggml_models = [modelname for modelvals in GGML_MODELS for modelname in modelvals["names"]]
-            all_flan_models = [modelname for modelvals in FLAN_MODELS for modelname in modelvals["names"]]
+            all_openai_models = [
+                modelname for modelvals in OPENAI_MODELS for modelname in modelvals["names"]
+            ]
+            all_ggml_models = [
+                modelname for modelvals in GGML_MODELS for modelname in modelvals["names"]
+            ]
+            all_flan_models = [
+                modelname for modelvals in FLAN_MODELS for modelname in modelvals["names"]
+            ]
             if self.model in all_openai_models:
                 self.set_up_client()
             elif self.model in all_ggml_models:
