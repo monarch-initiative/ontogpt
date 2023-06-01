@@ -157,10 +157,13 @@ class KnowledgeEngine(ABC):
         if self.model in all_models:
             all_openai_models = [modelname for modelvals in OPENAI_MODELS for modelname in modelvals["names"]]
             all_ggml_models = [modelname for modelvals in GGML_MODELS for modelname in modelvals["names"]]
+            all_flan_models = [modelname for modelvals in FLAN_MODELS for modelname in modelvals["names"]]
             if self.model in all_openai_models:
                 self.set_up_client()
             elif self.model in all_ggml_models:
                 self.set_up_local_model()
+            elif self.model in all_flan_models:
+                raise NotImplementedError("FLAN models are work in progress. Watch this space.")
         else:
             raise NotImplementedError(
                 "Model name not recognized or not supported yet."
