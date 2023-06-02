@@ -37,7 +37,7 @@ class Container(ConfiguredBaseModel):
 class BioticInteraction(ConfiguredBaseModel):
     
     source_taxon: Optional[str] = Field(None, description="""the taxon that is the subject of the interaction""")
-    target_taxon: Optional[str] = Field(None, description="""the taxon that is the object of the ineteraction""")
+    target_taxon: Optional[str] = Field(None, description="""the taxon that is the object of the interaction""")
     interaction_type: Optional[str] = Field(None, description="""the type of interaction""")
     
 
@@ -58,21 +58,21 @@ class ExtractionResult(ConfiguredBaseModel):
 
 class NamedEntity(ConfiguredBaseModel):
     
-    id: Optional[str] = Field(None, description="""A unique identifier for the named entity""")
+    id: str = Field(None, description="""A unique identifier for the named entity""")
     label: Optional[str] = Field(None, description="""The label (name) of the named thing""")
     
 
 
 class Taxon(NamedEntity):
     
-    id: Optional[str] = Field(None, description="""A unique identifier for the named entity""")
+    id: str = Field(None, description="""A unique identifier for the named entity""")
     label: Optional[str] = Field(None, description="""The label (name) of the named thing""")
     
 
 
 class InteractionType(NamedEntity):
     
-    id: Optional[str] = Field(None, description="""A unique identifier for the named entity""")
+    id: str = Field(None, description="""A unique identifier for the named entity""")
     label: Optional[str] = Field(None, description="""The label (name) of the named thing""")
     
 
@@ -105,7 +105,7 @@ class TextWithTriples(ConfiguredBaseModel):
 
 class RelationshipType(NamedEntity):
     
-    id: Optional[str] = Field(None, description="""A unique identifier for the named entity""")
+    id: str = Field(None, description="""A unique identifier for the named entity""")
     label: Optional[str] = Field(None, description="""The label (name) of the named thing""")
     
 
