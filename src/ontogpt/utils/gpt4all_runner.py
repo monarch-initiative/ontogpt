@@ -22,31 +22,15 @@ def set_up_gpt4all_model(modelpath, backend="gptj"):
     return llm
 
 
-def chain_gpt4all_model(llm):
+def chain_gpt4all_model(llm, prompt_text):
     """Interact with a GPT4All model."""
 
-    # TODO: pass prompt text to this function
+    template = """{prompt_text}"""
 
-    template = """From the text below, extract the following entities in the following format: {entities}
-    {input_text}"""
-
-    prompt = PromptTemplate(template=template, input_variables=["entities", "input_text"])
+    prompt = PromptTemplate(template=template, input_variables=["prompt_text"])
 
     llm_chain = LLMChain(prompt=prompt, llm=llm)
 
-    entities = """  name: <the name of the disease>
-  description: <a description of the disease>
-  synonyms: <semicolon-separated list of synonymss>
-  subclass_of: <semicolon-separated list of subclass_ofs>
-  symptoms: <semicolon-separated list of symptomss>
-  inheritance: <the value for inheritance>
-  genes: <semicolon separated list of gene symbols; for example: PEX1; PEX2; PEX3>
-  disease_onsets: <semi-colon separated list of onsets at which the disease occurs, for example: adult; juvenile; first decade>
-  label: <The label (name) of the named thing>"""
+    raw_output = llm_chain.run({"prompt_text":prompt_text})
 
-    input_text = """Text:
-  Sly syndrome, also called mucopolysaccharidosis type VII (MPS-VII), is an autosomal recessive lysosomal storage disease caused by a deficiency of the enzyme β-glucuronidase. This enzyme is responsible for breaking down large sugar molecules called glycosaminoglycans (AKA GAGs, or mucopolysaccharides). The inability to break down GAGs leads to a buildup in many tissues and organs of the body. The severity of the disease can vary widely."
-"""
-
-    llm_chain.run({"entities":entities, "input_text":input_text})
-
+    return raw_output

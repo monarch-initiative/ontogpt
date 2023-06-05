@@ -59,6 +59,10 @@ class GGMLEngine(KnowledgeEngine):
     def __post_init__(self, local_model):
         self.local_model = local_model
         self.loaded_model = set_up_gpt4all_model(self.local_model)
+        if self.template:
+            self.template_class = self._get_template_class(self.template)
+        if self.template_class:
+            logging.info(f"Using template {self.template_class.name}")
 
     def extract_from_text(
         self, text: str, cls: ClassDefinition = None, object: OBJECT = None
@@ -255,7 +259,7 @@ class GGMLEngine(KnowledgeEngine):
         """
         prompt = self.get_completion_prompt(cls, text, object=object)
         self.last_prompt = prompt
-        payload = self.client.complete(prompt)
+        payload = chain_gpt4all_model(self.loaded_model, prompt)
         return payload
 
     def get_completion_prompt(
