@@ -23,9 +23,6 @@ classes:
       synonyms:
         description: alternative names of the miRNA
         multivalued: true
-      disease:
-        range: Disease
-        multivalued: true
       miRNA_disease:
         description: semicolon-separated list of miRNA to disease relationships
         multivalued: true
