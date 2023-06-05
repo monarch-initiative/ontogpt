@@ -41,12 +41,6 @@ classes:
       synonyms:
         description: alternative names of the gene
         multivalued: true
-      miRNAs:
-        range: miRNA
-        multivalued: true
-      disease:
-        range: Disease
-        multivalued: true    
       gene_miRNA:
         description: semicolon-separated list of gene to miRNA relationships
         multivalued: true
