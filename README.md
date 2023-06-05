@@ -380,6 +380,19 @@ To start:
 poetry run streamlit run src/ontogpt/streamlit/spindoctor.py
 ```
 
+### Using local models
+
+OntoGPT supports using language models released by [GPT4All](https://gpt4all.io/).
+
+Specify the name of a model when using the `extract` command with the `-m` or `--model` option and OntoGPT will retrieve the model.
+
+For example:
+
+```
+ontogpt --verbose extract -t mendelian_disease.MendelianDisease -i mendelian-disease-sly.txt -m ggml-gpt4all-j-v1.3-groovy
+```
+
+will download the `ggml-gpt4all-j-v1.3-groovy.bin` file, generate a prompt, and try that prompt against the specified model.
 
 ## Citation
 
