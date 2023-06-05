@@ -20,6 +20,42 @@ class ConfiguredBaseModel(WeakRefShimBaseModel,
     pass                    
 
 
+class NCITDrugType(str, Enum):
+    
+    
+    dummy = "dummy"
+    
+
+class NCITTreatmentType(str, Enum):
+    
+    
+    dummy = "dummy"
+    
+
+class NCITTActivityType(str, Enum):
+    
+    
+    dummy = "dummy"
+    
+
+class MAXOActionType(str, Enum):
+    
+    
+    dummy = "dummy"
+    
+
+class MESHTherapeuticType(str, Enum):
+    
+    
+    dummy = "dummy"
+    
+
+class CHEBIDrugType(str, Enum):
+    
+    
+    dummy = "dummy"
+    
+
 class NullDataOptions(str, Enum):
     
     UNSPECIFIED_METHOD_OF_ADMINISTRATION = "UNSPECIFIED_METHOD_OF_ADMINISTRATION"
@@ -28,14 +64,15 @@ class NullDataOptions(str, Enum):
     
     
 
-class Study(ConfiguredBaseModel):
+class CompositeDisease(ConfiguredBaseModel):
     
-    location: Optional[List[str]] = Field(default_factory=list, description="""the sites at which the study was conducted""")
-    environmental_material: Optional[List[str]] = Field(default_factory=list, description="""the environmental material that was sampled""")
-    environments: Optional[List[str]] = Field(default_factory=list)
-    causal_relationships: Optional[List[CausalRelationship]] = Field(default_factory=list)
-    variables: Optional[List[str]] = Field(default_factory=list)
-    measurements: Optional[List[Measurement]] = Field(default_factory=list)
+    main_disease: Optional[str] = Field(None, description="""the name of the disease that is treated.""")
+    drugs: Optional[List[str]] = Field(default_factory=list, description="""semicolon-separated list of named small molecule drugs""")
+    treatments: Optional[List[str]] = Field(default_factory=list, description="""semicolon-separated list of therapies and treatments are indicated for treating the disease.""")
+    contraindications: Optional[List[str]] = Field(default_factory=list, description="""semicolon-separated list of therapies and treatments that are contra-indicated for the disease, and should not be used, due to risk of adverse effects.""")
+    treatment_mechanisms: Optional[List[TreatmentMechanism]] = Field(default_factory=list, description="""semicolon-separated list of treatment to asterisk-separated mechanism associations""")
+    treatment_efficacies: Optional[List[TreatmentEfficacy]] = Field(default_factory=list, description="""semicolon-separated list of treatment to efficacy associations, e.g. Imatinib*effective""")
+    treatment_adverse_effects: Optional[List[TreatmentAdverseEffect]] = Field(default_factory=list, description="""semicolon-separated list of treatment to adverse effect associations, e.g. Imatinib*nausea""")
     
 
 
@@ -60,35 +97,49 @@ class NamedEntity(ConfiguredBaseModel):
     
 
 
-class Location(NamedEntity):
+class Gene(NamedEntity):
     
     id: Optional[str] = Field(None, description="""A unique identifier for the named entity""")
     label: Optional[str] = Field(None, description="""The label (name) of the named thing""")
     
 
 
-class EnvironmentalMaterial(NamedEntity):
+class Symptom(NamedEntity):
     
     id: Optional[str] = Field(None, description="""A unique identifier for the named entity""")
     label: Optional[str] = Field(None, description="""The label (name) of the named thing""")
     
 
 
-class Environment(NamedEntity):
+class Disease(NamedEntity):
     
     id: Optional[str] = Field(None, description="""A unique identifier for the named entity""")
     label: Optional[str] = Field(None, description="""The label (name) of the named thing""")
     
 
 
-class Variable(NamedEntity):
+class AdverseEffect(NamedEntity):
     
     id: Optional[str] = Field(None, description="""A unique identifier for the named entity""")
     label: Optional[str] = Field(None, description="""The label (name) of the named thing""")
     
 
 
-class Unit(NamedEntity):
+class Treatment(NamedEntity):
+    
+    id: Optional[str] = Field(None, description="""A unique identifier for the named entity""")
+    label: Optional[str] = Field(None, description="""The label (name) of the named thing""")
+    
+
+
+class Mechanism(NamedEntity):
+    
+    id: Optional[str] = Field(None, description="""A unique identifier for the named entity""")
+    label: Optional[str] = Field(None, description="""The label (name) of the named thing""")
+    
+
+
+class Drug(NamedEntity):
     
     id: Optional[str] = Field(None, description="""A unique identifier for the named entity""")
     label: Optional[str] = Field(None, description="""The label (name) of the named thing""")
@@ -101,17 +152,24 @@ class CompoundExpression(ConfiguredBaseModel):
     
 
 
-class Measurement(CompoundExpression):
+class TreatmentMechanism(CompoundExpression):
     
-    value: Optional[str] = Field(None, description="""the value of the measurement""")
-    unit: Optional[str] = Field(None, description="""the unit of the measurement""")
+    treatment: Optional[str] = Field(None)
+    mechanism: Optional[str] = Field(None)
     
 
 
-class CausalRelationship(CompoundExpression):
+class TreatmentAdverseEffect(CompoundExpression):
     
-    cause: Optional[str] = Field(None, description="""the variable that is the cause of the effect""")
-    effect: Optional[str] = Field(None, description="""the things that is affected""")
+    treatment: Optional[str] = Field(None)
+    adverse_effects: Optional[List[str]] = Field(default_factory=list)
+    
+
+
+class TreatmentEfficacy(CompoundExpression):
+    
+    treatment: Optional[str] = Field(None)
+    efficacy: Optional[str] = Field(None)
     
 
 
@@ -163,17 +221,20 @@ class AnnotatorResult(ConfiguredBaseModel):
 
 # Update forward refs
 # see https://pydantic-docs.helpmanual.io/usage/postponed_annotations/
-Study.update_forward_refs()
+CompositeDisease.update_forward_refs()
 ExtractionResult.update_forward_refs()
 NamedEntity.update_forward_refs()
-Location.update_forward_refs()
-EnvironmentalMaterial.update_forward_refs()
-Environment.update_forward_refs()
-Variable.update_forward_refs()
-Unit.update_forward_refs()
+Gene.update_forward_refs()
+Symptom.update_forward_refs()
+Disease.update_forward_refs()
+AdverseEffect.update_forward_refs()
+Treatment.update_forward_refs()
+Mechanism.update_forward_refs()
+Drug.update_forward_refs()
 CompoundExpression.update_forward_refs()
-Measurement.update_forward_refs()
-CausalRelationship.update_forward_refs()
+TreatmentMechanism.update_forward_refs()
+TreatmentAdverseEffect.update_forward_refs()
+TreatmentEfficacy.update_forward_refs()
 Triple.update_forward_refs()
 TextWithTriples.update_forward_refs()
 RelationshipType.update_forward_refs()
