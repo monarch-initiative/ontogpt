@@ -24,10 +24,8 @@ from oaklib.utilities.apikey_manager import get_apikey_value
 from oaklib.utilities.subsets.value_set_expander import ValueSetExpander
 
 from ontogpt.clients import OpenAIClient
-from ontogpt.engines.models import DEFAULT_MODEL, FLAN_MODELS, GPT4ALL_MODELS, MODELS, OPENAI_MODELS
+from ontogpt.engines.models import DEFAULT_MODEL
 from ontogpt.templates.core import ExtractionResult, NamedEntity
-from ontogpt.utils.gpt4all_runner import set_up_gpt4all_model, chain_gpt4all_model
-from ontogpt.utils.model_utils import get_model
 
 this_path = Path(__file__).parent
 logger = logging.getLogger(__name__)
@@ -99,7 +97,7 @@ class KnowledgeEngine(ABC):
     """OpenAI API key."""
 
     model: MODEL_NAME = None
-    """Language Model. This should be overridden in subclasses"""
+    """Language Model. This may be overridden in subclasses."""
 
     # annotator: TextAnnotatorInterface = None
     # """Default annotator. TODO: deprecate?"""
@@ -145,6 +143,9 @@ class KnowledgeEngine(ABC):
 
     encoding = None
 
+    local_model = None
+    """Cached local model, as per Langchain"""
+
     def __post_init__(self):
         if self.template:
             self.template_class = self._get_template_class(self.template)
@@ -152,33 +153,11 @@ class KnowledgeEngine(ABC):
             logging.info(f"Using template {self.template_class.name}")
         if not self.model:
             self.model = DEFAULT_MODEL
-
-        # Identify model provider (e.g., OpenAI)
-        all_models = [modelname for modelvals in MODELS for modelname in modelvals["names"]]
-        if self.model in all_models:
-            all_openai_models = [
-                modelname for modelvals in OPENAI_MODELS for modelname in modelvals["names"]
-            ]
-            all_gpt4all_models = [
-                modelname for modelvals in GPT4ALL_MODELS for modelname in modelvals["names"]
-            ]
-            all_flan_models = [
-                modelname for modelvals in FLAN_MODELS for modelname in modelvals["names"]
-            ]
-            if self.model in all_openai_models:
-                self.set_up_client()
-            elif self.model in all_gpt4all_models:
-                self.set_up_local_model(model_set="gpt4all")
-            elif self.model in all_flan_models:
-                raise NotImplementedError("FLAN models are work in progress. Watch this space.")
-        else:
-            raise NotImplementedError(
-                "Model name not recognized or not supported yet."
-                " See all models with `ontogpt list-models`"
-            )
         if self.mappers is None:
             logging.info("Using mappers (currently hardcoded)")
             self.mappers = [get_adapter("translator:")]
+
+        self.set_up_client()
         self.encoding = tiktoken.encoding_for_model(self.client.model)
 
     def set_api_key(self, key: str):
@@ -611,21 +590,3 @@ class KnowledgeEngine(ABC):
         logging.info("Setting up OpenAI client API Key")
         self.api_key = self._get_openai_api_key()
         openai.api_key = self.api_key
-
-    def set_up_local_model(self, model_set: str):
-        """Prepare a local model to be run through langchain."""
-
-        if model_set == "gpt4all":
-            for modelvals in GPT4ALL_MODELS:
-                if self.model in modelvals["names"]:
-                    mod_urls = modelvals["sources"]
-                    break
-
-            for mod_url in mod_urls:
-                # This is set up to get multiple files if needed,
-                # but GPT4ALL just wants binary
-                model_path = get_model(mod_url)
-
-            this_model = set_up_gpt4all_model(model_path)
-            
-            chain_gpt4all_model(this_model)
