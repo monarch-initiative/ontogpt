@@ -143,9 +143,6 @@ class KnowledgeEngine(ABC):
 
     encoding = None
 
-    local_model = None
-    """Cached local model, as per Langchain"""
-
     def __post_init__(self):
         if self.template:
             self.template_class = self._get_template_class(self.template)

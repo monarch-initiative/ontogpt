@@ -27,7 +27,7 @@ from ontogpt.engines.knowledge_engine import (
     chunk_text,
 )
 from ontogpt.templates.core import ExtractionResult
-from ontogpt.utils.gpt4all_runner import chain_gpt4all_model
+from ontogpt.utils.gpt4all_runner import chain_gpt4all_model, set_up_gpt4all_model
 
 this_path = Path(__file__).parent
 
@@ -44,6 +44,21 @@ class GGMLEngine(KnowledgeEngine):
     """If set, this will split the text into chains of sentences,
     where this determines the maximum number of sentences per chain.
     The results are then merged together."""
+
+    recurse: bool = True
+    """If true, then complex non-named entity objects are always recursively parsed.
+    If this is false AND the complex object is a pair, then token-based splitting is
+    instead used."""
+
+    local_model = None
+    """Cached local model path."""
+
+    loaded_model = None
+    """Langchain loaded model object."""
+
+    def __post_init__(self, local_model):
+        self.local_model = local_model
+        self.loaded_model = set_up_gpt4all_model(self.local_model)
 
     def extract_from_text(
         self, text: str, cls: ClassDefinition = None, object: OBJECT = None

@@ -27,6 +27,7 @@ from ontogpt.clients.wikipedia_client import WikipediaClient
 from ontogpt.engines import create_engine
 from ontogpt.engines.embedding_similarity_engine import SimilarityEngine
 from ontogpt.engines.enrichment import EnrichmentEngine
+from ontogpt.engines.ggml_engine import GGMLEngine
 from ontogpt.engines.halo_engine import HALOEngine
 from ontogpt.engines.knowledge_engine import KnowledgeEngine
 from ontogpt.engines.mapping_engine import MappingEngine, MappingTaskCollection
@@ -45,7 +46,6 @@ from ontogpt.utils.gene_set_utils import (
     fill_missing_gene_set_values,
     parse_gene_set,
 )
-from ontogpt.utils.gpt4all_runner import set_up_gpt4all_model
 from ontogpt.utils.model_utils import get_model
 
 __all__ = [
@@ -250,7 +250,6 @@ def extract(
                 model_source = "openai"
             elif model in all_gpt4all_models:
                 model_source = "gpt4all"
-                # self.local_model = self.set_up_local_model(model_set="gpt4all")
             elif model in all_flan_models:
                 model_source = "flan"
                 raise NotImplementedError("FLAN models are work in progress. Watch this space.")
@@ -263,38 +262,25 @@ def extract(
         model = DEFAULT_MODEL
         model_source = "openai"
 
+    if not inputfile or inputfile == "-":
+        text = sys.stdin.read()
+    if inputfile and Path(inputfile).exists():
+        logging.info(f"Input file: {inputfile}")
+        if use_textract:
+            import textract
+            text = textract.process(inputfile).decode("utf-8")
+        else:
+            text = open(inputfile, "r").read()
+        logging.info(f"Input text: {text}")
+    elif inputfile and not Path(inputfile).exists():
+        raise FileNotFoundError(f"Cannot find input file {inputfile}")
+
     if model_source == "openai":
         ke = SPIRESEngine(template, **kwargs)
         if settings.cache_db:
             ke.client.cache_db_path = settings.cache_db
         if settings.skip_annotators:
             ke.client.skip_annotators = settings.skip_annotators
-        if dictionary:
-            ke.load_dictionary(dictionary)
-        if inputfile and Path(inputfile).exists():
-            if use_textract:
-                import textract
-
-                text = textract.process(inputfile).decode("utf-8")
-            else:
-                text = open(inputfile, "r").read()
-        elif inputfile and not Path(inputfile).exists():
-            raise FileNotFoundError(f"Cannot find input file {inputfile}")
-        elif input:
-            text = input
-        elif not input or input == "-":
-            text = sys.stdin.read()
-        logging.info(f"Input text: {text}")
-        if target_class:
-            target_class_def = ke.schemaview.get_class(target_class)
-        else:
-            target_class_def = None
-        results = ke.extract_from_text(text, target_class_def)
-        if set_slot_value:
-            for slot_value in set_slot_value:
-                slot, value = slot_value.split("=")
-                setattr(results.extracted_object, slot, value)
-        write_extraction(results, output, output_format, ke)
 
     elif model_source == "gpt4all":
         for modelvals in GPT4ALL_MODELS:
@@ -307,7 +293,20 @@ def extract(
             # but GPT4ALL just wants binary
             model_path = get_model(mod_url)
 
-        this_model = set_up_gpt4all_model(model_path)
+        ke = GGMLEngine(template=template, local_model=model_path, **kwargs)
+
+    if dictionary:
+        ke.load_dictionary(dictionary)
+    if target_class:
+        target_class_def = ke.schemaview.get_class(target_class)
+    else:
+        target_class_def = None
+    results = ke.extract_from_text(text, target_class_def)
+    if set_slot_value:
+        for slot_value in set_slot_value:
+            slot, value = slot_value.split("=")
+            setattr(results.extracted_object, slot, value)
+    write_extraction(results, output, output_format, ke)
 
 
 @main.command()
