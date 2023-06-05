@@ -228,7 +228,6 @@ def extract(
         ontogpt -extract -t gocam.GoCamAnnotations -T GeneOrganismRelationship "the mouse Shh gene"
 
     """
-
     # TODO: compress this as it's more complex than it needs to be
 
     logging.info(f"Creating for {template}")

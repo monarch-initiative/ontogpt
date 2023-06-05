@@ -31,6 +31,6 @@ def chain_gpt4all_model(llm, prompt_text):
 
     llm_chain = LLMChain(prompt=prompt, llm=llm)
 
-    raw_output = llm_chain.run({"prompt_text":prompt_text})
+    raw_output = llm_chain.run({"prompt_text": prompt_text})
 
     return raw_output
