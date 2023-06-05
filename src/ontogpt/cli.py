@@ -207,6 +207,7 @@ def extract(
     output_format,
     set_slot_value,
     use_textract,
+    model,
     **kwargs,
 ):
     """Extract knowledge from text guided by schema, using SPIRES engine.
@@ -234,8 +235,8 @@ def extract(
 
     # Identify model provider (e.g., OpenAI)
     all_models = [modelname for modelvals in MODELS for modelname in modelvals["names"]]
-    if model_option:  # extract defaults to using default SPIRES and OpenAI
-        if model_option in all_models:
+    if model:  # extract defaults to using default SPIRES and OpenAI
+        if model in all_models:
             all_openai_models = [
                 modelname for modelvals in OPENAI_MODELS for modelname in modelvals["names"]
             ]
@@ -245,12 +246,12 @@ def extract(
             all_flan_models = [
                 modelname for modelvals in FLAN_MODELS for modelname in modelvals["names"]
             ]
-            if model_option in all_openai_models:
+            if model in all_openai_models:
                 model_source = "openai"
-            elif model_option in all_gpt4all_models:
+            elif model in all_gpt4all_models:
                 model_source = "gpt4all"
                 # self.local_model = self.set_up_local_model(model_set="gpt4all")
-            elif model_option in all_flan_models:
+            elif model in all_flan_models:
                 model_source = "flan"
                 raise NotImplementedError("FLAN models are work in progress. Watch this space.")
         else:
@@ -259,7 +260,8 @@ def extract(
                 " See all models with `ontogpt list-models`"
             )
     else:
-        model_option = DEFAULT_MODEL
+        model = DEFAULT_MODEL
+        model_source = "openai"
 
     if model_source == "openai":
         ke = SPIRESEngine(template, **kwargs)
@@ -296,7 +298,7 @@ def extract(
 
     elif model_source == "gpt4all":
         for modelvals in GPT4ALL_MODELS:
-            if model_option in modelvals["names"]:
+            if model in modelvals["names"]:
                 mod_urls = modelvals["sources"]
                 break
 
