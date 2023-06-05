@@ -9,7 +9,6 @@ from langchain.llms import GPT4All
 
 def set_up_gpt4all_model(modelpath, backend="gptj"):
     """Prepare a GGML-formatted GPT4All model for LLM interaction."""
-
     # TODO: change backend as needed
     # see https://docs.gpt4all.io/gpt4all_python.html
 
@@ -24,7 +23,6 @@ def set_up_gpt4all_model(modelpath, backend="gptj"):
 
 def chain_gpt4all_model(llm, prompt_text):
     """Interact with a GPT4All model."""
-
     template = """{prompt_text}"""
 
     prompt = PromptTemplate(template=template, input_variables=["prompt_text"])
