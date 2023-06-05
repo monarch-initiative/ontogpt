@@ -75,7 +75,6 @@ class MiRNA(NamedEntity):
     label: Optional[str] = Field(None, description="""the name of the miRNA""")
     description: Optional[str] = Field(None, description="""a textual description of the miRNA""")
     synonyms: Optional[List[str]] = Field(default_factory=list, description="""alternative names of the miRNA""")
-    disease: Optional[List[str]] = Field(default_factory=list)
     miRNA_disease: Optional[List[MiRNADiseaseRelationship]] = Field(default_factory=list, description="""semicolon-separated list of miRNA to disease relationships""")
     id: Optional[str] = Field(None, description="""A unique identifier for the named entity""")
     
@@ -86,8 +85,6 @@ class Gene(NamedEntity):
     label: Optional[str] = Field(None, description="""the name of the gene""")
     description: Optional[str] = Field(None, description="""a textual description of the gene""")
     synonyms: Optional[List[str]] = Field(default_factory=list, description="""alternative names of the gene""")
-    miRNAs: Optional[List[str]] = Field(default_factory=list)
-    disease: Optional[List[str]] = Field(default_factory=list)
     gene_miRNA: Optional[List[GenemiRNARelationship]] = Field(default_factory=list, description="""semicolon-separated list of gene to miRNA relationships""")
     gene_disease: Optional[List[GeneDiseaseRelationship]] = Field(default_factory=list, description="""semicolon-separated list of gene to disease relationships""")
     id: Optional[str] = Field(None, description="""A unique identifier for the named entity""")

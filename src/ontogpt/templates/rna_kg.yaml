@@ -30,6 +30,10 @@ classes:
 
   Gene:
     is_a: NamedEntity
+    id_prefixes:
+      - HGNC
+    annotations:
+      annotators: bioportal:hgnc-nr
     attributes:
       label:
         description: the name of the gene
