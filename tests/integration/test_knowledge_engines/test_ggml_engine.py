@@ -26,7 +26,7 @@ The inability to break down GAGs leads to a buildup in many tissues and organs o
 The severity of the disease can vary widely.
 """
 
-# @unittest.skip("GGML/GPT4ALL tests not run by default")
+@unittest.skip("GGML/GPT4ALL tests not run by default")
 class TestCore(unittest.TestCase):
     """Test annotation."""
 
