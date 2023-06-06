@@ -1,0 +1,18 @@
+Abstract
+Inflammatory Bowel Diseases (IBD), represented by Crohn’s Disease (CD) and Ulcerative
+Colitis (UC), are associated with significant morbidity in western countries and with
+increasing incidence in the developing world. While analysis of the genome of IBD
+patients, especially through genome-wide association studies, has unraveled multiple
+pathways involved in IBD pathogenesis only part of IBD heritability has been explained
+by genetic studies. This has demonstrated that environmental factors also play a
+significant role in promoting intestinal inflammation, mostly through their effects in
+the composition of the microbiome. However, in order for microbial dysbiosis to result
+in uncontrolled intestinal inflammation, the intestinal barrier formed by intestinal
+epithelial cells and the innate immune system should also be compromised. Finally,
+activation of the immune system depends on the working balance between effector and
+regulatory cells present in the intestinal mucosa, which have also been shown to be
+dysregulated in this patient population. Therefore, IBD pathogenesis is a result of the
+interplay of genetic susceptibility, environmental impact on the microbiome that through
+a weakened intestinal barrier will lead to inappropriate intestinal immune activation.
+In this review, we will approach the mechanisms proposed to cause IBD from the genetic,
+environmental, intestinal barrier and the immunologic perspectives.
