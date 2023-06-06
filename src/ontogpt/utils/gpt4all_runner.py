@@ -9,9 +9,6 @@ from langchain.llms import GPT4All
 
 def set_up_gpt4all_model(modelpath):
     """Prepare a GGML-formatted GPT4All model for LLM interaction."""
-
-    # see https://docs.gpt4all.io/gpt4all_python.html
-
     logging.info(f"Preparing {modelpath}...")
     local_path = str(modelpath)
 
