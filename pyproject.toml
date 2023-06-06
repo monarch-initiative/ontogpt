@@ -45,11 +45,11 @@ cachier = "^2.1.0"
 wikipedia-api = "^0.5.8"
 semsimian = ">=0.1.13"
 requests-cache = "^1.0.1"
-pygpt4all = {version = "^1.1.0", extras = ["gpt4all"], optional = true}
 streamlit = "^1.22.0"
 gpt4 = "^0.0.1"
 pystow = "^0.5.0"
 langchain = "^0.0.191"
+gpt4all = {version = "^0.3.0", extras = ["gpt4all"], optional = true}
 
 [tool.poetry.dev-dependencies]
 pytest = "^7.1.2"
@@ -78,7 +78,7 @@ recipes = [
     "recipe-scrapers"
 ]
 gpt4all = [
-    "pygpt4all"
+    "gpt4all"
 ]
 textract = [
     "textract"
