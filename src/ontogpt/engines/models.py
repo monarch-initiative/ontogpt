@@ -40,6 +40,10 @@ MPT_7B_CHAT = {
     "names": ["ggml-mpt-7b-chat"],
     "sources": ["https://gpt4all.io/models/ggml-mpt-7b-chat.bin"],
 }
+MPT_7B_INSTRUCT = {
+    "names": ["ggml-mpt-7b-instruct"],
+    "sources": ["https://gpt4all.io/models/ggml-mpt-7b-instruct.bin"],
+}
 VICUNA_13B_Q4_2 = {
     "names": ["ggml-stable-vicuna-13B.q4_2"],
     "sources": ["https://gpt4all.io/models/ggml-stable-vicuna-13B.q4_2.bin"],
@@ -52,6 +56,7 @@ GPT4ALL_MODELS = [
     GPT_4_ALL_J_1_3_GROOVY,
     GPT_4_ALL_L13B_SNOOZY,
     MPT_7B_CHAT,
+    MPT_7B_INSTRUCT,
     VICUNA_13B_Q4_2,
     WIZARDLM_7B_Q4_2,
 ]
@@ -109,6 +114,7 @@ MODELS = [
     MODEL_GPT_4,
     MODEL_TEXT_DAVINCI_003,
     MPT_7B_CHAT,
+    MPT_7B_INSTRUCT,
     VICUNA_13B_Q4_2,
     WIZARDLM_7B_Q4_2,
 ]
