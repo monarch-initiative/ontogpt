@@ -7,16 +7,20 @@ from langchain.callbacks.streaming_stdout import StreamingStdOutCallbackHandler
 from langchain.llms import GPT4All
 
 
-def set_up_gpt4all_model(modelpath, backend="gptj"):
+def set_up_gpt4all_model(modelpath):
     """Prepare a GGML-formatted GPT4All model for LLM interaction."""
-    # TODO: change backend as needed
+
     # see https://docs.gpt4all.io/gpt4all_python.html
 
     logging.info(f"Preparing {modelpath}...")
     local_path = str(modelpath)
 
     callbacks = [StreamingStdOutCallbackHandler()]
-    llm = GPT4All(model=local_path, backend=backend, callbacks=callbacks, verbose=True)
+    if local_path.endswith("ggml-gpt4all-j-v1.3-groovy.bin"):
+        backend = "gptj"
+        llm = GPT4All(model=local_path, backend=backend, callbacks=callbacks, verbose=True)
+    else:
+        llm = GPT4All(model=local_path, callbacks=callbacks, verbose=True)
 
     return llm
 
