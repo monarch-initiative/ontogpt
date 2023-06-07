@@ -31,7 +31,7 @@ classes:
     id_prefixes:
       - HGNC
     annotations:
-      annotators: bioportal:hgnc-nr, sqlite:obo:pr
+      annotators: sqlite:obo:hgnc, sqlite:obo:pr
 
   Exposure:
     is_a: NamedEntity
