@@ -49,6 +49,7 @@ langchain = "^0.0.167"
 pygpt4all = {version = "^1.1.0", extras = ["gpt4all"], optional = true}
 streamlit = "^1.22.0"
 gpt4 = "^0.0.1"
+"ruamel.yaml" = ">=0.17.31"
 
 [tool.poetry.dev-dependencies]
 pytest = "^7.1.2"
