@@ -44,6 +44,17 @@ class PubmedClient:
     entrez_client: Client = field(default_factory=lambda: Client())
     max_text_length = 3000
 
+    def get_pmids(self, term: str) -> List[str]:
+        """Search PubMed and retrieve a list of PMIDs matching the search term.
+
+        :param term: The search term to query PubMed.
+        :return: A list of PMIDs matching the search term.
+        """
+        ec = self.entrez_client
+        response = ec.esearch(db='pubmed', term=term)
+        pmids = response.ids
+        return pmids
+
     def text(self, id: PMID, autoformat=True) -> str:
         """Get the text of a paper from its PMID.
 

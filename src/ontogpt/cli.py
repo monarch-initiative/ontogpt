@@ -286,6 +286,26 @@ def pubmed_extract(pmid, template, output, output_format, **kwargs):
 @recurse_option
 @output_option_wb
 @output_format_options
+@click.argument("search")
+def pubmed_annotate(search, template, output, output_format, **kwargs):
+    """Retrieve pubmed IDs for a search term, then annotate them using a template"""
+    logging.info(f"Creating for {template}")
+    pmc = PubmedClient()
+    pmids = pmc.get_pmids(search)
+    for pmid in pmids:
+        text = pmc.text(str(pmid))
+        ke = SPIRESEngine(template, **kwargs)
+        logging.debug(f"Input text: {text}")
+        results = ke.extract_from_text(text)
+        write_extraction(results, output, output_format)
+
+
+@main.command()
+@template_option
+@model_option
+@recurse_option
+@output_option_wb
+@output_format_options
 @click.option("--auto-prefix", default="AUTO", help="Prefix to use for auto-generated classes.")
 @click.argument("article")
 def wikipedia_extract(article, template, output, output_format, **kwargs):
