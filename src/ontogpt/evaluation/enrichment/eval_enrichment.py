@@ -26,7 +26,7 @@ from tiktoken import Encoding
 from ontogpt.engines import create_engine
 from ontogpt.engines.enrichment import ENTITY_ID, EnrichmentEngine, EnrichmentPayload
 from ontogpt.engines.knowledge_engine import MODEL_NAME
-from ontogpt.engines.models import MODEL_GPT_3_5_TURBO, MODEL_GPT_4, MODEL_TEXT_DAVINCI_003
+from ontogpt import MODELS
 from ontogpt.evaluation.evaluation_engine import EvaluationEngine
 from ontogpt.templates.class_enrichment import ClassEnrichmentResult
 from ontogpt.utils.gene_set_utils import SYMBOL, GeneSet, drop_genes_from_gene_set, gene_info
@@ -43,7 +43,10 @@ RANDOM = "random"
 RANK_BASED = "rank_based"
 CLOSURE = "closure"
 
-ENRICHMENT_MODELS = [MODEL_GPT_4, MODEL_GPT_3_5_TURBO, MODEL_TEXT_DAVINCI_003]
+# Set up enrichment-appropriate models
+ENRICHMENT_MODELS = [
+    model["alternative_names"][0] for model in MODELS if model["provider"] == "OpenAI"
+]
 
 
 logger = logging.getLogger(__name__)

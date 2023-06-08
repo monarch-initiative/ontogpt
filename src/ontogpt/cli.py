@@ -19,7 +19,7 @@ from oaklib.interfaces import OboGraphInterface
 from oaklib.io.streaming_csv_writer import StreamingCsvWriter
 
 import ontogpt.ontex.extractor as extractor
-from ontogpt import MODELS, __version__
+from ontogpt import MODELS, DEFAULT_MODEL, __version__
 from ontogpt.clients import OpenAIClient
 from ontogpt.clients.pubmed_client import PubmedClient
 from ontogpt.clients.soup_client import SoupClient
@@ -31,7 +31,6 @@ from ontogpt.engines.ggml_engine import GGMLEngine
 from ontogpt.engines.halo_engine import HALOEngine
 from ontogpt.engines.knowledge_engine import KnowledgeEngine
 from ontogpt.engines.mapping_engine import MappingEngine, MappingTaskCollection
-from ontogpt.engines.models import DEFAULT_MODEL, FLAN_MODELS, GPT4ALL_MODELS, OPENAI_MODELS
 from ontogpt.engines.reasoner_engine import ReasonerEngine
 from ontogpt.engines.spires_engine import SPIRESEngine
 from ontogpt.engines.synonym_engine import SynonymEngine
@@ -228,38 +227,22 @@ def extract(
         ontogpt -extract -t gocam.GoCamAnnotations -T GeneOrganismRelationship "the mouse Shh gene"
 
     """
-    # TODO: compress this as it's more complex than it needs to be
 
     logging.info(f"Creating for {template}")
 
-    # Identify model provider (e.g., OpenAI)
-    all_models = [modelname for modelvals in MODELS for modelname in modelvals["names"]]
-    if model:  # extract defaults to using default SPIRES and OpenAI
-        if model in all_models:
-            all_openai_models = [
-                modelname for modelvals in OPENAI_MODELS for modelname in modelvals["names"]
-            ]
-            all_gpt4all_models = [
-                modelname for modelvals in GPT4ALL_MODELS for modelname in modelvals["names"]
-            ]
-            all_flan_models = [
-                modelname for modelvals in FLAN_MODELS for modelname in modelvals["names"]
-            ]
-            if model in all_openai_models:
-                model_source = "openai"
-            elif model in all_gpt4all_models:
-                model_source = "gpt4all"
-            elif model in all_flan_models:
-                model_source = "flan"
-                raise NotImplementedError("FLAN models are work in progress. Watch this space.")
-        else:
-            raise NotImplementedError(
-                "Model name not recognized or not supported yet."
-                " See all models with `ontogpt list-models`"
-            )
-    else:
-        model = DEFAULT_MODEL
-        model_source = "openai"
+    # Choose model based on input, or use the default
+    model_source = "OpenAI"
+    found = False
+    for knownmodel in MODELS:
+        if model in knownmodel["alternative_names"] or model == knownmodel["name"]:
+            selectmodel = knownmodel
+            model_source = selectmodel["provider"]
+            break
+    if model and not found:
+        logging.info(
+            f"""Model name not recognized or not supported yet. Using default, {DEFAULT_MODEL}. 
+            See all models with `ontogpt list-models`"""
+        )
 
     if not inputfile or inputfile == "-":
         text = sys.stdin.read()
@@ -275,24 +258,15 @@ def extract(
     elif inputfile and not Path(inputfile).exists():
         raise FileNotFoundError(f"Cannot find input file {inputfile}")
 
-    if model_source == "openai":
+    if model_source == "OpenAI":
         ke = SPIRESEngine(template, **kwargs)
         if settings.cache_db:
             ke.client.cache_db_path = settings.cache_db
         if settings.skip_annotators:
             ke.client.skip_annotators = settings.skip_annotators
 
-    elif model_source == "gpt4all":
-        for modelvals in GPT4ALL_MODELS:
-            if model in modelvals["names"]:
-                mod_urls = modelvals["sources"]
-                break
-
-        for mod_url in mod_urls:
-            # This is set up to get multiple files if needed,
-            # but GPT4ALL just wants binary
-            model_path = get_model(mod_url)
-
+    elif model_source == "GPT4All":
+        model_path = get_model(selectmodel["url"])
         ke = GGMLEngine(template=template, local_model=model_path, **kwargs)
 
     if dictionary:

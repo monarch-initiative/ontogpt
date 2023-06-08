@@ -23,8 +23,8 @@ from oaklib.interfaces import MappingProviderInterface, TextAnnotatorInterface
 from oaklib.utilities.apikey_manager import get_apikey_value
 from oaklib.utilities.subsets.value_set_expander import ValueSetExpander
 
+from ontogpt import DEFAULT_MODEL
 from ontogpt.clients import OpenAIClient
-from ontogpt.engines.models import DEFAULT_MODEL
 from ontogpt.templates.core import ExtractionResult, NamedEntity
 
 this_path = Path(__file__).parent

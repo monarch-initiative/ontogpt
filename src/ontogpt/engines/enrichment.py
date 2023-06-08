@@ -11,8 +11,8 @@ from jinja2 import Template
 from oaklib import BasicOntologyInterface, get_adapter
 from pydantic import BaseModel
 
+from ontogpt import MODELS
 from ontogpt.engines.knowledge_engine import KnowledgeEngine
-from ontogpt.engines.models import MODEL_GPT_4
 from ontogpt.prompts.enrichment import DEFAULT_ENRICHMENT_PROMPT
 from ontogpt.templates.class_enrichment import ClassEnrichmentResult
 from ontogpt.templates.gene_description_term import GeneDescriptionTerm
@@ -25,6 +25,10 @@ from ontogpt.utils.gene_set_utils import (
 
 logger = logging.getLogger(__name__)
 
+
+MODEL_GPT_4_NAMES = [
+    model["alternative_names"][0] for model in MODELS if model["name"] == "MODEL_GPT_4"
+][0]
 
 SUMMARY_KEYWORD = "Summary"
 MECHANISM_KEYWORD = "Mechanism"
@@ -250,7 +254,7 @@ class EnrichmentEngine(KnowledgeEngine):
         # https://help.openai.com/en/articles/4936856-what-are-tokens-and-how-to-count-them
         prompt_length = len(self.encoding.encode(prompt)) + 10
         max_len_total = 4097
-        if self.model in MODEL_GPT_4["names"]:
+        if self.model in MODEL_GPT_4_NAMES:
             max_len_total = 8193
         max_len = max_len_total - self.completion_length
         logging.info(
