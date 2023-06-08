@@ -149,3 +149,36 @@ models:
     creators:
       - "Google Research"
     not_implemented: true
+
+  - name: FALCON_40B_INSTRUCT
+    alternative_names:
+      - "falcon-40b-instruct"
+      - "tii-falcon-40b-instruct"
+      - "tii/falcon-40b-instruct"
+      - "tiiuae/falcon-40b-instruct"
+    provider: "HuggingFace Hub"
+    creators:
+      - "Technology Innovation Institute"
+    not_implemented: true
+
+  - name: FALCON_7B_INSTRUCT
+    alternative_names:
+      - "falcon-7b-instruct"
+      - "tii-falcon-7b-instruct"
+      - "tii/falcon-7b-instruct"
+      - "tiiuae/falcon-7b-instruct"
+    provider: "HuggingFace Hub"
+    creators:
+      - "Technology Innovation Institute"
+    not_implemented: true
+
+  - name: 30B-LAZARUS
+    alternative_names:
+      - "30B-Lazarus"
+      - "30b-lazarus"
+      - "lazarus"
+      - "CalderaAI/30B-Lazarus"
+    provider: "HuggingFace Hub"
+    creators:
+      - "CalderaAI"
+    not_implemented: true
