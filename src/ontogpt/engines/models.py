@@ -29,7 +29,7 @@ OPENAI_MODELS = [
 # GPT4ALL Models
 # See https://gpt4all.io/
 GPT_4_ALL_J_1_3_GROOVY = {
-    "names": ["ggml-gpt4all-j-v1.3-groovy"],
+    "names": ["ggml-gpt4all-j-v1.3-groovy", "gpt4all-j"],
     "sources": ["https://gpt4all.io/models/ggml-gpt4all-j-v1.3-groovy.bin"],
 }
 GPT_4_ALL_L13B_SNOOZY = {
@@ -37,11 +37,11 @@ GPT_4_ALL_L13B_SNOOZY = {
     "sources": ["https://gpt4all.io/models/ggml-gpt4all-l13b-snoozy.bin"],
 }
 MPT_7B_CHAT = {
-    "names": ["ggml-mpt-7b-chat"],
+    "names": ["ggml-mpt-7b-chat", "mpt7bchat"],
     "sources": ["https://gpt4all.io/models/ggml-mpt-7b-chat.bin"],
 }
 MPT_7B_INSTRUCT = {
-    "names": ["ggml-mpt-7b-instruct"],
+    "names": ["ggml-mpt-7b-instruct", "mpt7binstruct"],
     "sources": ["https://gpt4all.io/models/ggml-mpt-7b-instruct.bin"],
 }
 VICUNA_13B_Q4_2 = {
