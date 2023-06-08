@@ -1,0 +1,144 @@
+models:
+  - name: MODEL_GPT_3_5_TURBO
+    alternative_names:
+      - "gpt-3.5-turbo"
+      - "openai-gpt-3.5-turbo"
+    provider: OpenAI
+    creators:
+      - OpenAI
+
+  - name: MODEL_TEXT_DAVINCI_003
+    alternative_names:
+      - "text-davinci-003"
+      - "openai-text-davinci-003"
+    provider: OpenAI
+    creators:
+      - OpenAI
+
+  - name: MODEL_GPT_4
+    alternative_names:
+      - "gpt-4"
+      - "openai-gpt-4"
+    provider: OpenAI
+    creators:
+      - OpenAI
+
+  - name: GPT_4_ALL_J_1_3_GROOVY
+    alternative_names:
+      - "ggml-gpt4all-j-v1.3-groovy"
+      - "gpt4all-j"
+    provider: GPT4All
+    creators:
+      - "Nomic AI"
+    url: "https://gpt4all.io/models/ggml-gpt4all-j-v1.3-groovy.bin"
+
+  - name: GPT_4_ALL_L13B_SNOOZY
+    alternative_names:
+      - "ggml-gpt4all-l13b-snoozy"
+    provider: GPT4All
+    creators:
+      - "Nomic AI"
+    url: "https://gpt4all.io/models/ggml-gpt4all-l13b-snoozy.bin"
+
+  - name: MPT_7B_CHAT
+    alternative_names:
+      - "ggml-mpt-7b-chat"
+      - "mpt7bchat"
+    provider: GPT4All
+    creators:
+      - "Mosaic ML"
+    url: "https://gpt4all.io/models/ggml-mpt-7b-chat.bin"
+
+  - name: MPT_7B_INSTRUCT
+    alternative_names:
+      - "ggml-mpt-7b-instruct"
+      - "mpt7binstruct"
+    provider: GPT4All
+    creators:
+      - "Mosaic ML"
+    url: "https://gpt4all.io/models/ggml-mpt-7b-instruct.bin"
+
+  - name: VICUNA_13B_Q4_2
+    alternative_names:
+      - "ggml-stable-vicuna-13B.q4_2"
+    provider: GPT4All
+    creators:
+      - "UC Berkeley"
+      - "Carnegie Mellon University"
+      - "Stanford University"
+      - "Mohamed bin Zayed University of Artificial Intelligence"
+      - "UC San Diego"
+    url: "https://gpt4all.io/models/ggml-stable-vicuna-13B.q4_2.bin"
+
+  - name: WIZARDLM_7B_Q4_2
+    alternative_names:
+      - "ggml-wizardLM-7B.q4_2"
+    provider: GPT4All
+    creators:
+      - "Microsoft"
+      - "Peking University"
+    url: "https://gpt4all.io/models/ggml-wizardLM-7B.q4_2.bin"
+
+  - name: HERMES_13B_Q5_1
+    alternative_names:
+      - "ggml-v3-13b-hermes-q5_1"
+    provider: GPT4All
+    creators:
+      - "Nous Research"
+      - "Teknium"
+      - "Karan4D"
+    url: "https://gpt4all.io/models/ggml-v3-13b-hermes-q5_1.bin"
+
+  - name: FLAN_T5_SMALL
+    alternative_names:
+      - "flan-t5-small"
+      - "google-flan-t5-small"
+      - "google/flan-t5-small"
+    provider: "HuggingFace Hub"
+    creators:
+      - "Google Research"
+
+  - name: FLAN_T5_BASE
+    alternative_names:
+      - "flan-t5-base"
+      - "google-flan-t5-small"
+      - "google/flan-t5-base"
+    provider: "HuggingFace Hub"
+    creators:
+      - "Google Research"
+
+  - name: FLAN_T5_LARGE
+    alternative_names:
+      - "flan-t5-large"
+      - "google-flan-t5-large"
+      - "google/flan-t5-large"
+    provider: "HuggingFace Hub"
+    creators:
+      - "Google Research"
+
+  - name: FLAN_T5_XL
+    alternative_names:
+      - "flan-t5-xl"
+      - "google-flan-t5-xl"
+      - "google/flan-t5-xl"
+    provider: "HuggingFace Hub"
+    creators:
+      - "Google Research"
+
+  - name: FLAN_T5_XXL
+    alternative_names:
+      - "flan-t5-xxl"
+      - "google-flan-t5-xxl"
+      - "google/flan-t5-xxl"
+    provider: "HuggingFace Hub"
+    creators:
+      - "Google Research"
+
+  - name: FLAN_UL2
+    alternative_names:
+      - "flan-ul2"
+      - "google-flan-ul2"
+      - "google/flan-ul2"
+    provider: "HuggingFace Hub"
+    creators:
+      - "Google Research"
