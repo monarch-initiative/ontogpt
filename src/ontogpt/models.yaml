@@ -6,6 +6,7 @@ models:
     provider: OpenAI
     creators:
       - OpenAI
+    is_default: true
 
   - name: MODEL_TEXT_DAVINCI_003
     alternative_names:

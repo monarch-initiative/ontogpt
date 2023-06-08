@@ -19,7 +19,7 @@ from oaklib.interfaces import OboGraphInterface
 from oaklib.io.streaming_csv_writer import StreamingCsvWriter
 
 import ontogpt.ontex.extractor as extractor
-from ontogpt import __version__
+from ontogpt import MODELS, __version__
 from ontogpt.clients import OpenAIClient
 from ontogpt.clients.pubmed_client import PubmedClient
 from ontogpt.clients.soup_client import SoupClient
@@ -31,7 +31,7 @@ from ontogpt.engines.ggml_engine import GGMLEngine
 from ontogpt.engines.halo_engine import HALOEngine
 from ontogpt.engines.knowledge_engine import KnowledgeEngine
 from ontogpt.engines.mapping_engine import MappingEngine, MappingTaskCollection
-from ontogpt.engines.models import DEFAULT_MODEL, FLAN_MODELS, GPT4ALL_MODELS, MODELS, OPENAI_MODELS
+from ontogpt.engines.models import DEFAULT_MODEL, FLAN_MODELS, GPT4ALL_MODELS, OPENAI_MODELS
 from ontogpt.engines.reasoner_engine import ReasonerEngine
 from ontogpt.engines.spires_engine import SPIRESEngine
 from ontogpt.engines.synonym_engine import SynonymEngine
@@ -267,6 +267,7 @@ def extract(
         logging.info(f"Input file: {inputfile}")
         if use_textract:
             import textract
+
             text = textract.process(inputfile).decode("utf-8")
         else:
             text = open(inputfile, "r").read()
@@ -1210,14 +1211,14 @@ def list_templates():
 @main.command()
 def list_models():
     """List all available models."""
-    print("Model Name\tAlternatives")
-    for modelname in MODELS:
-        if len(modelname["names"]) > 1:
-            primary_name = modelname["names"][0]
-            alternative_names = " ".join(modelname["names"][1:])
-            print(f"{primary_name}\t{alternative_names}")
-        else:
-            print(modelname["names"][0])
+    print("Model Name\tProvider\tAlternative Names")
+    for model in MODELS:
+        primary_name = model["name"]
+        provider = model["provider"]
+        alternative_names = (
+            " ".join(model["alternative_names"]) if model["alternative_names"] else ""
+        )
+        print(f"{primary_name}\t{provider}\t{alternative_names}")
 
 
 if __name__ == "__main__":

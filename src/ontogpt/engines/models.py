@@ -1,10 +1,7 @@
-"""Model names to be used by the class KnowledgeEngine class."""
+"""Model names to be used by the KnowledgeEngine class."""
 
-# Each is a dict:
-# names: a list of potential synonyms for the model.
-# sources: a list of one or more URLs of the source model file(s), if available.
-
-# TODO: restructure into external format, perhaps a TSV or YAML
+# Constants for cases where a specific model is required.
+# The list of all available models is in src/ontogpt/models.yaml
 
 # OpenAI Models
 # See https://platform.openai.com/docs/models/overview
