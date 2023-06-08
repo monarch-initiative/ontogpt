@@ -1,4 +1,4 @@
-"""Tests for using local GGML models provided by GPT4All."""
+"""Tests for using local GGML models."""
 import unittest
 
 import yaml
@@ -9,8 +9,10 @@ from ontogpt.utils.model_utils import get_model
 
 TEMPLATE = "mendelian_disease.MendelianDisease"
 
-# This is a very small model used for testing purposes only
-TEST_MODEL_URL = "https://gpt4all.io/models/ggml-v3-13b-hermes-q5_1.bin"
+# This is a full-size model - unfortunately smaller models
+# don't provide the results sufficient for a meaningful test.
+# That's why these tests are skipped by default - the model is > 3 Gb
+TEST_MODEL_URL = "https://gpt4all.io/models/ggml-gpt4all-j-v1.3-groovy.bin"
 MODEL_PATH = get_model(TEST_MODEL_URL)
 
 PAPER = """
@@ -23,6 +25,7 @@ The severity of the disease can vary widely.
 """
 
 
+@unittest.skip("GGML/GPT4ALL tests not run by default")
 class TestCore(unittest.TestCase):
     """Test annotation."""
 
