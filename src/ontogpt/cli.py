@@ -236,6 +236,7 @@ def extract(
         if model in knownmodel["alternative_names"] or model == knownmodel["name"]:
             selectmodel = knownmodel
             model_source = selectmodel["provider"]
+            found = True
             break
     if model and not found:
         logging.info(
