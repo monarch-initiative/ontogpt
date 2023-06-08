@@ -1185,14 +1185,19 @@ def list_templates():
 @main.command()
 def list_models():
     """List all available models."""
-    print("Model Name\tProvider\tAlternative Names")
+    print("Model Name\tProvider\tAlternative Names\tStatus")
     for model in MODELS:
         primary_name = model["name"]
         provider = model["provider"]
         alternative_names = (
             " ".join(model["alternative_names"]) if model["alternative_names"] else ""
         )
-        print(f"{primary_name}\t{provider}\t{alternative_names}")
+        if "not_implemented" in model:
+            status = "Not Implemented"
+        else:
+            status = "Implemented"
+
+        print(f"{primary_name}\t{provider}\t{alternative_names}\t{status}")
 
 
 if __name__ == "__main__":

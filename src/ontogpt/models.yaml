@@ -98,6 +98,7 @@ models:
     provider: "HuggingFace Hub"
     creators:
       - "Google Research"
+    not_implemented: true
 
   - name: FLAN_T5_BASE
     alternative_names:
@@ -107,6 +108,7 @@ models:
     provider: "HuggingFace Hub"
     creators:
       - "Google Research"
+    not_implemented: true
 
   - name: FLAN_T5_LARGE
     alternative_names:
@@ -116,6 +118,7 @@ models:
     provider: "HuggingFace Hub"
     creators:
       - "Google Research"
+    not_implemented: true
 
   - name: FLAN_T5_XL
     alternative_names:
@@ -125,6 +128,7 @@ models:
     provider: "HuggingFace Hub"
     creators:
       - "Google Research"
+    not_implemented: true
 
   - name: FLAN_T5_XXL
     alternative_names:
@@ -134,6 +138,7 @@ models:
     provider: "HuggingFace Hub"
     creators:
       - "Google Research"
+    not_implemented: true
 
   - name: FLAN_UL2
     alternative_names:
@@ -143,3 +148,4 @@ models:
     provider: "HuggingFace Hub"
     creators:
       - "Google Research"
+    not_implemented: true
