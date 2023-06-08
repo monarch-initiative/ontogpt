@@ -86,7 +86,7 @@ Note: The value accepted by the `-t` / `--template` argument is the base name of
 
 #### Output
 
-The output returned from the above command is knowledge can be optionally redirected into an output file using the `-o` / `--output`.
+The output returned from the above command can be optionally redirected into an output file using the `-o` / `--output`.
 
 The following is a small part of what the larger schema-compliant output looks like:
 
