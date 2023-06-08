@@ -88,7 +88,7 @@ models:
       - "Nous Research"
       - "Teknium"
       - "Karan4D"
-    url: "https://gpt4all.io/models/ggml-v3-13b-hermes-q5_1.bin"
+    url: "https://huggingface.co/eachadea/ggml-nous-hermes-13b/resolve/main/ggml-v3-13b-hermes-q5_1.bin"
 
   - name: FLAN_T5_SMALL
     alternative_names:
