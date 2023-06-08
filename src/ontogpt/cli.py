@@ -227,7 +227,6 @@ def extract(
         ontogpt -extract -t gocam.GoCamAnnotations -T GeneOrganismRelationship "the mouse Shh gene"
 
     """
-
     logging.info(f"Creating for {template}")
 
     # Choose model based on input, or use the default
@@ -240,7 +239,7 @@ def extract(
             break
     if model and not found:
         logging.info(
-            f"""Model name not recognized or not supported yet. Using default, {DEFAULT_MODEL}. 
+            f"""Model name not recognized or not supported yet. Using default, {DEFAULT_MODEL}.
             See all models with `ontogpt list-models`"""
         )
 
