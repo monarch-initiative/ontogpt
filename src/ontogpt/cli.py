@@ -17,6 +17,8 @@ from oaklib import get_adapter
 from oaklib.cli import query_terms_iterator
 from oaklib.interfaces import OboGraphInterface
 from oaklib.io.streaming_csv_writer import StreamingCsvWriter
+from sssom.parsers import parse_sssom_table, to_mapping_set_document
+from sssom.util import to_mapping_set_dataframe
 
 import ontogpt.ontex.extractor as extractor
 from ontogpt import __version__
@@ -27,9 +29,10 @@ from ontogpt.clients.wikipedia_client import WikipediaClient
 from ontogpt.engines import create_engine
 from ontogpt.engines.embedding_similarity_engine import SimilarityEngine
 from ontogpt.engines.enrichment import EnrichmentEngine
+from ontogpt.engines.generic_engine import GenericEngine, QuestionCollection
 from ontogpt.engines.halo_engine import HALOEngine
 from ontogpt.engines.knowledge_engine import KnowledgeEngine
-from ontogpt.engines.mapping_engine import MappingEngine, MappingTaskCollection
+from ontogpt.engines.mapping_engine import MappingEngine
 from ontogpt.engines.reasoner_engine import ReasonerEngine
 from ontogpt.engines.spires_engine import SPIRESEngine
 from ontogpt.engines.synonym_engine import SynonymEngine
@@ -120,8 +123,8 @@ model_option = click.option(
     "-m",
     "--model",
     help="Model name to use, e.g. openai-text-davinci-003."
-         " The first part of this name must be the source of the model."
-         " The second part must be the model name.",
+    " The first part of this name must be the source of the model."
+    " The second part must be the model name.",
 )
 prompt_template_option = click.option(
     "--prompt-template", help="Path to a file containing the prompt."
@@ -421,6 +424,7 @@ def web_extract(template, url, output, output_format, **kwargs):
     help="File with URLs to recipes to use for extraction",
 )
 @click.option("--auto-prefix", default="AUTO", help="Prefix to use for auto-generated classes.")
+@model_option
 @click.argument("url")
 def recipe_extract(url, recipes_urls_file, dictionary, output, output_format, **kwargs):
     """Extract from recipe on the web."""
@@ -451,6 +455,7 @@ def recipe_extract(url, recipes_urls_file, dictionary, output, output_format, **
     """
     logging.info(f"Input text: {text}")
     results = ke.extract_from_text(text)
+    logging.debug(f"Results: {results}")
     results.extracted_object.url = url
     write_extraction(results, output, output_format, ke)
 
@@ -839,7 +844,7 @@ def reason(
     """Reason."""
     reasoner = ReasonerEngine(model=model)
     if task_file:
-        tc = MappingTaskCollection.load(task_file)
+        tc = extractor.TaskCollection.load(task_file)
     else:
         adapter = get_adapter(inputfile)
         if not isinstance(adapter, OboGraphInterface):
@@ -873,15 +878,40 @@ def reason(
 @inputfile_option
 @output_option_txt
 @model_option
+@click.option("--tsv-output")
+@click.option("--template-path")
+def answer(
+    inputfile,
+    model,
+    template_path,
+    output,
+    tsv_output,
+    **kwargs,
+):
+    qc = QuestionCollection(**yaml.safe_load(open(inputfile)))
+    engine = GenericEngine(model=model)
+    qs = []
+    for q in engine.run(qc, template_path=template_path):
+        print(dump_minimal_yaml(q))
+        qs.append(q)
+    qc.questions = qs
+    output.write(dump_minimal_yaml(qs))
+    if tsv_output:
+        write_obj_as_csv(qs, tsv_output)
+
+
+@main.command()
+@inputfile_option
+@output_option_txt
+@model_option
 @click.option("--task-file")
 @click.option("--task-type")
 @click.option("--tsv-output")
+@click.option("--yaml-output")
 @click.option("--all-methods/--no-all-methods", default=False)
 @click.option("--explain/--no-explain", default=False)
 @click.option("--evaluate/--no-evaluate", default=False)
-@click.argument("terms", nargs=-1)
 def categorize_mappings(
-    terms,
     inputfile,
     model,
     task_file,
@@ -889,18 +919,41 @@ def categorize_mappings(
     task_type,
     output,
     tsv_output,
+    yaml_output,
     all_methods,
     evaluate,
     **kwargs,
 ):
     """Categorize a collection of SSSOM mappings."""
     mapper = MappingEngine(model=model)
-    tc = mapper.from_sssom(inputfile)
-    for cm in mapper.run_tasks(tc, evaluate=evaluate):
-        print(dump_minimal_yaml(cm.dict()))
-    # dump_minimal_yaml(cm.dict(), file=output)
     if tsv_output:
-        write_obj_as_csv(resultset.results, tsv_output)
+        tc = mapper.from_sssom(inputfile)
+        for cm in mapper.run_tasks(tc, evaluate=evaluate):
+            print(dump_minimal_yaml(cm.dict()))
+            # dump_minimal_yaml(cm.dict(), file=output)
+        # write_obj_as_csv(resultset.results, tsv_output)
+    else:
+        import sssom.writers as sssom_writers
+
+        msdf = parse_sssom_table(inputfile)
+        msd = to_mapping_set_document(msdf)
+        mappings = []
+        cms = []
+        done = []
+        for mapping in msd.mapping_set.mappings:
+            pair = mapping.subject_id, mapping.object_id
+            if pair in done:
+                continue
+            mapping, cm = mapper.categorize_sssom_mapping(mapping)
+            mappings.append(mapping)
+            cms.append(cm.dict())
+            done.append(pair)
+        msd.mapping_set.mappings = mappings
+        msdf = to_mapping_set_dataframe(msd)
+        sssom_writers.write_table(msdf, output)
+        if yaml_output:
+            with open(yaml_output, "w") as file:
+                dump_minimal_yaml(cms, file=file)
 
 
 @main.command()
@@ -1171,6 +1224,7 @@ def list_models():
             print(f"{modelname[0]}\t{alternative_names}")
         else:
             print(modelname[0])
+
 
 if __name__ == "__main__":
     main()

@@ -36,5 +36,5 @@ def write_obj_as_csv(obj: Any, file, minimize=True, index_field=None) -> None:
             return str(s)
 
         # row = {k: v for k, v in row.items() if "\n" not in str(v)}
-        row = {k: _str(v).replace("\n", r"\n") for k, v in row.items()}
+        row = {k: _str(v).replace("\n", r"\n").replace("\t", " ") for k, v in row.items()}
         writer.writerow(row)
