@@ -3,6 +3,7 @@ import json
 import logging
 import unittest
 
+import yaml
 from oaklib import get_adapter
 from sssom_schema import Mapping
 
@@ -34,3 +35,9 @@ class TestPhenopackets(unittest.TestCase):
         engine = PhenoEngine()
         result = engine.predict_disease(phenopacket)
         print(result)
+
+    def test_eval(self):
+        phenopacket = json.load(open(PHENOPACKET_FILE))
+        engine = PhenoEngine()
+        results = engine.evaluate([phenopacket])
+        print(dump_minimal_yaml(results))

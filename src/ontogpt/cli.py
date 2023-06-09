@@ -1,5 +1,6 @@
 """Command line interface for oak-ai."""
 import codecs
+import json
 import logging
 import pickle
 import sys
@@ -30,6 +31,7 @@ from ontogpt.engines.enrichment import EnrichmentEngine
 from ontogpt.engines.halo_engine import HALOEngine
 from ontogpt.engines.knowledge_engine import KnowledgeEngine
 from ontogpt.engines.mapping_engine import MappingEngine, MappingTaskCollection
+from ontogpt.engines.pheno_engine import PhenoEngine
 from ontogpt.engines.reasoner_engine import ReasonerEngine
 from ontogpt.engines.spires_engine import SPIRESEngine
 from ontogpt.engines.synonym_engine import SynonymEngine
@@ -868,6 +870,23 @@ def reason(
     if tsv_output:
         write_obj_as_csv(resultset.results, tsv_output)
 
+
+@main.command()
+@output_option_txt
+@model_option
+@click.argument("phenopacket_files", nargs=-1)
+def diagnose(
+    phenopacket_files,
+    model,
+    output,
+    **kwargs,
+):
+    """Diagnose."""
+    phenopackets = [json.load(open(f)) for f in phenopacket_files]
+    engine = PhenoEngine(model=model)
+    results = engine.evaluate(phenopackets)
+    print(dump_minimal_yaml(results))
+    write_obj_as_csv(results, output)
 
 @main.command()
 @inputfile_option
