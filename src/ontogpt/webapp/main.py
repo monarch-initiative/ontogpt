@@ -24,6 +24,7 @@ html_dir = this_path / "html"
 class Query(BaseModel):
     text: str
     datamodel: str
+    model: str
 
 
 app = FastAPI()
@@ -44,7 +45,7 @@ def get_engine(datamodel: str):
 @app.get("/")
 def read_root(request: Request):
     return templates.TemplateResponse(
-        "form.html", context={"request": request, "datamodels": DATAMODELS}
+        "form.html", context={"request": request, "datamodels": DATAMODELS, "models": OPENAI_MODELS}
     )
 
 

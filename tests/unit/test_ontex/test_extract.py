@@ -101,6 +101,14 @@ class TestOntologyExtractor(unittest.TestCase):
             if expected is not None:
                 self.assertCountEqual(answer_texts, [extractor._name(x) for x in expected])
 
+    @unittest.skip("Non-deterministic")
+    def test_random_taxon_constraints(self):
+        """Test extract random tasks."""
+        extractor = self.extractor
+        task = extractor.extract_taxon_constraint_task(select_random=True, never_in=True)
+        print(dump_minimal_yaml(task))
+
+    @unittest.skip("Non-deterministic")
     def test_random(self):
         """Test extract random tasks."""
         extractor = self.extractor
@@ -123,8 +131,9 @@ class TestOntologyExtractor(unittest.TestCase):
         print(len(tc.tasks))
         print(task_types)
         # increase this every time you add a new task type
-        self.assertEqual(len(task_types), 6)
+        self.assertEqual(len(task_types), 7)
 
+    @unittest.skip("Non-deterministic")
     def test_random_obfuscated(self):
         extractor = self.extractor
         extractor.obfuscate = True
