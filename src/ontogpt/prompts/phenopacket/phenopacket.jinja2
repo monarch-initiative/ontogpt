@@ -1,0 +1,10 @@
+I will provide a list of phenotypes. Predict the underlying disease.
+The case is a {{ phenopacket.subject.sex }} of age {{ phenopacket.subject.agr }}.
+
+Phenotypes:
+
+{% for pf in phenopacket.phenotypicFeatures %}
+* {{pf.type.label}}
+{% endfor %}
+
+Provide ranked list of diseases, separated by semicolons:
