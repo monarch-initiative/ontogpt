@@ -52,21 +52,21 @@ class ExtractionResult(ConfiguredBaseModel):
 
 class NamedEntity(ConfiguredBaseModel):
     
-    id: Optional[str] = Field(None, description="""A unique identifier for the named entity""")
+    id: str = Field(None, description="""A unique identifier for the named entity""")
     label: Optional[str] = Field(None, description="""The label (name) of the named thing""")
     
 
 
 class Gene(NamedEntity):
     
-    id: Optional[str] = Field(None, description="""A unique identifier for the named entity""")
+    id: str = Field(None, description="""A unique identifier for the named entity""")
     label: Optional[str] = Field(None, description="""The label (name) of the named thing""")
     
 
 
 class Exposure(NamedEntity):
     
-    id: Optional[str] = Field(None, description="""A unique identifier for the named entity""")
+    id: str = Field(None, description="""A unique identifier for the named entity""")
     label: Optional[str] = Field(None, description="""The label (name) of the named thing""")
     
 
@@ -106,7 +106,7 @@ class TextWithTriples(ConfiguredBaseModel):
 
 class RelationshipType(NamedEntity):
     
-    id: Optional[str] = Field(None, description="""A unique identifier for the named entity""")
+    id: str = Field(None, description="""A unique identifier for the named entity""")
     label: Optional[str] = Field(None, description="""The label (name) of the named thing""")
     
 

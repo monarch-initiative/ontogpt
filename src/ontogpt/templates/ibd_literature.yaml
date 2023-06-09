@@ -36,6 +36,9 @@ classes:
   Exposure:
     is_a: NamedEntity
     id_prefixes:
+      - CHEBI
+      - ECTO
+      - ExO
       - NCIT
     annotations:
       annotators: sqlite:obo:ecto
