@@ -33,7 +33,7 @@ from ontogpt.engines.enrichment import EnrichmentEngine
 from ontogpt.engines.generic_engine import GenericEngine, QuestionCollection
 from ontogpt.engines.halo_engine import HALOEngine
 from ontogpt.engines.knowledge_engine import KnowledgeEngine
-from ontogpt.engines.mapping_engine import MappingEngine, MappingTaskCollection
+from ontogpt.engines.mapping_engine import MappingEngine
 from ontogpt.engines.pheno_engine import PhenoEngine
 from ontogpt.engines.reasoner_engine import ReasonerEngine
 from ontogpt.engines.spires_engine import SPIRESEngine
