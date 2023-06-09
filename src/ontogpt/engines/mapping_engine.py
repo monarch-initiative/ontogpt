@@ -1,23 +1,27 @@
 """Synonym engine."""
 import logging
+from copy import deepcopy
 from dataclasses import dataclass
 from enum import Enum
 from pathlib import Path
-from typing import Callable, Dict, Iterator, List, Optional, Union
+from typing import Callable, Dict, Iterator, List, Optional, Union, Tuple
 
 import yaml
 from jinja2 import Template
 from oaklib import BasicOntologyInterface, get_adapter
-from oaklib.datamodels.vocabulary import IS_A
+from oaklib.datamodels.vocabulary import IS_A, SKOS_RELATED_MATCH
 from oaklib.interfaces import MappingProviderInterface
 from oaklib.types import CURIE
 from pydantic import BaseModel
 from sssom.parsers import parse_sssom_table, to_mapping_set_document
+from sssom_schema import Mapping
 
 from ontogpt.engines.knowledge_engine import KnowledgeEngine
 from ontogpt.prompts.mapping import DEFAULT_MAPPING_EVAL_PROMPT
 
 logger = logging.getLogger(__name__)
+
+MAX_TOKENS = 300
 
 
 class MappingPredicate(str, Enum):
@@ -29,6 +33,7 @@ class MappingPredicate(str, Enum):
     NARROWER_THAN = "narrower_than"
     RELATED_TO = "related_to"
     DIFFERENT_FROM = "different_from"
+    UNCATEGORIZED = "uncategorized"
 
     def mappings() -> Dict[str, str]:
         """Return the mappings for this predicate."""
@@ -38,7 +43,7 @@ class MappingPredicate(str, Enum):
             "skos:broadMatch": "broader_than",
             "skos:narrowMatch": "narrower_than",
             "skos:relatedMatch": "related_to",
-            "owl:differentFrom": "different_from",
+            "owl:differentFrom": "different",
         }
 
 
@@ -121,18 +126,16 @@ class MappingEngine(KnowledgeEngine):
                 template = Template(template_txt)
         subject_concept = self._concept(subject, self.subject_adapter)
         object_concept = self._concept(object, self.object_adapter)
-        print(yaml.dump(subject_concept.dict()))
-        print(yaml.dump(object_concept.dict()))
         prompt = template.render(
             subject=subject_concept,
             object=object_concept,
         )
-        print(prompt)
-        payload = self.client.complete(prompt)
-        print(f"PAYLOAD: {payload}")
+        payload = self.client.complete(prompt, max_tokens=MAX_TOKENS)
         cm = self._parse(payload)
         cm.subject = str(subject)
         cm.object = str(object)
+        if cm.predicate is None:
+            cm.predicate = MappingPredicate.UNCATEGORIZED.value
         return cm
 
     def _parse(self, payload: str):
@@ -267,6 +270,28 @@ class MappingEngine(KnowledgeEngine):
         return MappingTaskCollection(
             tasks=tasks,
         )
+
+    def categorize_sssom_mapping(
+            self, mapping: Mapping,
+    ) -> Iterator[Tuple[Mapping, CategorizedMapping]]:
+        mapping = deepcopy(mapping)
+
+        def _get_source(curie: CURIE) -> str:
+            return curie.split(":")[0]
+
+        def _get_adapter(src: str):
+            return get_adapter(f"sqlite:obo:{src.lower()}")
+
+        mapping.subject_source = _get_source(mapping.subject_id)
+        mapping.object_source = _get_source(mapping.object_id)
+        self.subject_adapter = _get_adapter(mapping.subject_source)
+        self.object_adapter = _get_adapter(mapping.object_source)
+        cm = self.categorize_mapping(mapping.subject_id, mapping.object_id)
+        revmap = {v.upper(): k for k, v in MappingPredicate.mappings().items()}
+        if cm.predicate.upper() not in revmap:
+            logger.warning(f"Unknown predicate {cm.predicate}")
+        mapping.predicate_id = revmap.get(cm.predicate.upper(), SKOS_RELATED_MATCH)
+        return mapping, cm
 
     def _concept(self, curie: CURIE, adapter: BasicOntologyInterface) -> Concept:
         """Get a concept."""

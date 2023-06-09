@@ -11,7 +11,7 @@ from starlette.templating import Jinja2Templates
 
 from ontogpt.engines.enrichment import EnrichmentEngine
 from ontogpt.engines.knowledge_engine import DATAMODELS
-from ontogpt.engines.models import MODELS
+from ontogpt.engines.models import MODELS, MODEL_GPT_3_5_TURBO, MODEL_TEXT_DAVINCI_003, MODEL_GPT_4, OPENAI_MODELS
 from ontogpt.engines.spires_engine import SPIRESEngine
 from ontogpt.io.html_exporter import HTMLExporter
 from ontogpt.utils.gene_set_utils import GeneSet
@@ -24,6 +24,7 @@ html_dir = this_path / "html"
 class Query(BaseModel):
     text: str
     datamodel: str
+    model: str
 
 
 app = FastAPI()
@@ -44,7 +45,7 @@ def get_engine(datamodel: str):
 @app.get("/")
 def read_root(request: Request):
     return templates.TemplateResponse(
-        "form.html", context={"request": request, "datamodels": DATAMODELS}
+        "form.html", context={"request": request, "datamodels": DATAMODELS, "models": OPENAI_MODELS}
     )
 
 

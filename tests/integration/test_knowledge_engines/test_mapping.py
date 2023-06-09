@@ -3,6 +3,7 @@ import logging
 import unittest
 
 from oaklib import get_adapter
+from sssom.parsers import parse_sssom_table, to_mapping_set_document
 from sssom_schema import Mapping
 
 from ontogpt.clients import openai_client
@@ -69,6 +70,24 @@ class TestMapping(unittest.TestCase):
         results = list(mapper.run_tasks(tc))
         for result in results:
             print(dump_minimal_yaml(result.dict()))
+
+    def test_from_sssom2(self):
+        mapper = MappingEngine(
+            subject_adapter=get_adapter("sqlite:obo:mondo"),
+            object_adapter=get_adapter("sqlite:obo:ncit"),
+        )
+
+        msdf = parse_sssom_table(INPUT_DIR / "mondo-exact-ncit.sssom.tsv")
+        msd = to_mapping_set_document(msdf)
+
+        def _exclude_trivial(m: Mapping) -> bool:
+            return m.subject_label.lower() == m.object_label.lower()
+
+        for m in msd.mapping_set.mappings:
+            if _exclude_trivial(m):
+                continue
+            m2 = mapper.categorize_sssom_mapping(m)
+            print(m2)
 
     def test_mapping_eval(self):
         """Test evaluation of mapping on uberon."""
