@@ -3,12 +3,12 @@ import json
 import logging
 from dataclasses import dataclass
 from pathlib import Path
-from typing import List, Optional, Union, Dict, Any
+from typing import Any, Dict, List, Optional, Union
 
 from jinja2 import Template
 from oaklib import get_adapter
 from oaklib.datamodels.text_annotator import TextAnnotationConfiguration
-from oaklib.interfaces import TextAnnotatorInterface, MappingProviderInterface
+from oaklib.interfaces import MappingProviderInterface, TextAnnotatorInterface
 from pydantic import BaseModel
 
 from ontogpt.engines.knowledge_engine import KnowledgeEngine
@@ -22,8 +22,8 @@ logger = logging.getLogger(__name__)
 PHENOPACKET = Dict[str, Any]
 DIAGNOSIS = Dict[str, Any]
 
-class DiagnosisPrediction(BaseModel):
 
+class DiagnosisPrediction(BaseModel):
     case_id: str
     validated_disease_ids: List[str] = None
     validated_disease_labels: List[str] = None
@@ -39,7 +39,6 @@ class DiagnosisPrediction(BaseModel):
 
 @dataclass
 class PhenoEngine(KnowledgeEngine):
-
     completion_length = 850
     _mondo: TextAnnotatorInterface = None
 
@@ -85,7 +84,9 @@ class PhenoEngine(KnowledgeEngine):
             dp = DiagnosisPrediction(case_id=phenopacket["id"], model=self.model)
             validated_disease_ids = {disease["term"]["id"] for disease in phenopacket["diseases"]}
             dp.validated_disease_ids = list(validated_disease_ids)
-            dp.validated_disease_labels = [disease["term"]["label"] for disease in phenopacket["diseases"]]
+            dp.validated_disease_labels = [
+                disease["term"]["label"] for disease in phenopacket["diseases"]
+            ]
             dp.validated_mondo_disease_ids = []
             dp.validated_mondo_disease_labels = []
             for disease_id in validated_disease_ids:
@@ -113,7 +114,6 @@ class PhenoEngine(KnowledgeEngine):
             results.append(dp)
         return results
 
-
     def enhance_payload(self, diagnoses: List[DIAGNOSIS]) -> List[DIAGNOSIS]:
         """Enhance payload with additional information."""
         mondo = self.mondo
@@ -123,8 +123,6 @@ class PhenoEngine(KnowledgeEngine):
         for diagnosis in diagnoses:
             disease_label = diagnosis["disease"]
             anns = list(mondo.annotate_text(disease_label, config))
-            #print(anns)
+            # print(anns)
             diagnosis["disease_ids"] = [ann.object_id for ann in anns]
         return diagnoses
-
-

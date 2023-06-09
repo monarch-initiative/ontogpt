@@ -122,8 +122,8 @@ model_option = click.option(
     "-m",
     "--model",
     help="Model name to use, e.g. openai-text-davinci-003."
-         " The first part of this name must be the source of the model."
-         " The second part must be the model name.",
+    " The first part of this name must be the source of the model."
+    " The second part must be the model name.",
 )
 prompt_template_option = click.option(
     "--prompt-template", help="Path to a file containing the prompt."
@@ -888,6 +888,7 @@ def diagnose(
     print(dump_minimal_yaml(results))
     write_obj_as_csv(results, output)
 
+
 @main.command()
 @inputfile_option
 @output_option_txt
@@ -1190,6 +1191,7 @@ def list_models():
             print(f"{modelname[0]}\t{alternative_names}")
         else:
             print(modelname[0])
+
 
 if __name__ == "__main__":
     main()

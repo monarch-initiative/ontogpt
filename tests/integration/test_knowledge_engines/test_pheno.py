@@ -22,10 +22,7 @@ client_logger = logging.getLogger(openai_client.__name__)
 # client_logger.setLevel(logging.DEBUG)
 
 
-
-
 class TestPhenopackets(unittest.TestCase):
-
     def setUp(self) -> None:
         """Set up OAK adapter, extractor, and reasoner."""
         self.adapter = get_adapter("sqlite:obo:hp")
