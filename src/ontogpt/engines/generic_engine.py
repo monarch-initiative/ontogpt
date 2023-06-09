@@ -4,7 +4,7 @@ from copy import deepcopy
 from dataclasses import dataclass
 from enum import Enum
 from pathlib import Path
-from typing import Callable, Dict, Iterator, List, Optional, Union, Tuple
+from typing import Callable, Dict, Iterator, List, Optional, Tuple, Union
 
 import yaml
 from jinja2 import Template
@@ -42,6 +42,7 @@ class Instruction(BaseModel):
     text: str = None
     template: str = None
 
+
 class QuestionCollection(BaseModel):
     url: str = None
     questions: List[Question] = []
@@ -50,9 +51,10 @@ class QuestionCollection(BaseModel):
 
 @dataclass
 class GenericEngine(KnowledgeEngine):
-
     def run(
-        self, question_collection: QuestionCollection, template_path: str = None,
+        self,
+        question_collection: QuestionCollection,
+        template_path: str = None,
     ) -> Iterator[Question]:
         if template_path is None:
             template_path = GENERIC_QA_PROMPT

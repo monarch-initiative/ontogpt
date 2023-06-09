@@ -29,7 +29,7 @@ from ontogpt.clients.wikipedia_client import WikipediaClient
 from ontogpt.engines import create_engine
 from ontogpt.engines.embedding_similarity_engine import SimilarityEngine
 from ontogpt.engines.enrichment import EnrichmentEngine
-from ontogpt.engines.generic_engine import QuestionCollection, GenericEngine
+from ontogpt.engines.generic_engine import GenericEngine, QuestionCollection
 from ontogpt.engines.halo_engine import HALOEngine
 from ontogpt.engines.knowledge_engine import KnowledgeEngine
 from ontogpt.engines.mapping_engine import MappingEngine, MappingTaskCollection
@@ -123,8 +123,8 @@ model_option = click.option(
     "-m",
     "--model",
     help="Model name to use, e.g. openai-text-davinci-003."
-         " The first part of this name must be the source of the model."
-         " The second part must be the model name.",
+    " The first part of this name must be the source of the model."
+    " The second part must be the model name.",
 )
 prompt_template_option = click.option(
     "--prompt-template", help="Path to a file containing the prompt."
@@ -891,14 +891,13 @@ def answer(
     qc = QuestionCollection(**yaml.safe_load(open(inputfile)))
     engine = GenericEngine(model=model)
     qs = []
-    for q in  engine.run(qc, template_path=template_path):
+    for q in engine.run(qc, template_path=template_path):
         print(dump_minimal_yaml(q))
         qs.append(q)
     qc.questions = qs
     output.write(dump_minimal_yaml(qs))
     if tsv_output:
         write_obj_as_csv(qs, tsv_output)
-
 
 
 @main.command()
@@ -935,6 +934,7 @@ def categorize_mappings(
         # write_obj_as_csv(resultset.results, tsv_output)
     else:
         import sssom.writers as sssom_writers
+
         msdf = parse_sssom_table(inputfile)
         msd = to_mapping_set_document(msdf)
         mappings = []
@@ -1224,6 +1224,7 @@ def list_models():
             print(f"{modelname[0]}\t{alternative_names}")
         else:
             print(modelname[0])
+
 
 if __name__ == "__main__":
     main()

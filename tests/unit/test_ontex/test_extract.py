@@ -101,7 +101,6 @@ class TestOntologyExtractor(unittest.TestCase):
             if expected is not None:
                 self.assertCountEqual(answer_texts, [extractor._name(x) for x in expected])
 
-
     def test_random_taxon_constraints(self):
         """Test extract random tasks."""
         extractor = self.extractor

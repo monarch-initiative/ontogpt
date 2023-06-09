@@ -25,24 +25,27 @@ from typing import (
 
 import inflection
 import yaml
-from oaklib.datamodels.taxon_constraints import SubjectTerm, TaxonConstraint, Taxon
+from oaklib.datamodels.taxon_constraints import SubjectTerm, Taxon, TaxonConstraint
 from oaklib.datamodels.vocabulary import (
     DISJOINT_WITH,
+    IN_TAXON,
     INVERSE_OF,
     IS_A,
+    NEVER_IN_TAXON,
+    ONLY_IN_TAXON,
     OWL_CLASS,
     OWL_NAMED_INDIVIDUAL,
     OWL_SYMMETRIC_PROPERTY,
     OWL_TRANSITIVE_PROPERTY,
     PART_OF,
-    SUBPROPERTY_OF, NEVER_IN_TAXON, ONLY_IN_TAXON, IN_TAXON,
+    SUBPROPERTY_OF,
 )
 from oaklib.implementations import SqlImplementation
 from oaklib.interfaces import OboGraphInterface
 from oaklib.interfaces.basic_ontology_interface import RELATIONSHIP
 from oaklib.interfaces.obograph_interface import GraphTraversalMethod
 from oaklib.interfaces.semsim_interface import SemanticSimilarityInterface
-from oaklib.interfaces.taxon_constraint_interface import TaxonConstraintInterface, TAXON_PREDICATES
+from oaklib.interfaces.taxon_constraint_interface import TAXON_PREDICATES, TaxonConstraintInterface
 from oaklib.types import CURIE, PRED_CURIE
 from oaklib.utilities.obograph_utils import shortest_paths
 from pydantic import BaseModel, Field
@@ -873,11 +876,11 @@ class TaxonConstraintTask(Task):
                                         Axiom(text="Tax1xF SubClassOf Tax1x"),
                                     ],
                                 )
-                            ]
+                            ],
                         ),
                     ],
                 ),
-            ]
+            ],
         )
     ]
 
@@ -1129,7 +1132,9 @@ class OntologyExtractor:
             predicates = [IS_A]
         adapter = self.adapter
         onts = list(adapter.ontologies())
-        ancs = list(adapter.ancestors(terms, predicates=predicates, method=GraphTraversalMethod.HOP))
+        ancs = list(
+            adapter.ancestors(terms, predicates=predicates, method=GraphTraversalMethod.HOP)
+        )
         if NEVER_IN_TAXON in predicates:
             tax_ancs = list(adapter.ancestors(ancs, predicates=[IS_A]))
             ancs.extend(tax_ancs)
@@ -1560,13 +1565,15 @@ class OntologyExtractor:
         term: CURIE = None,
         taxon: CURIE = None,
         siblings: List[CURIE] = None,
-        never_in = False,
+        never_in=False,
         select_random=False,
         **kwargs,
     ) -> TaxonConstraintTask:
         adapter = self.adapter
         taxa = list(adapter.descendants("NCBITaxon:1", predicates=[IS_A]))
-        all_terms = [t for t in adapter.entities(filter_obsoletes=True, owl_type=OWL_CLASS) if t not in taxa]
+        all_terms = [
+            t for t in adapter.entities(filter_obsoletes=True, owl_type=OWL_CLASS) if t not in taxa
+        ]
         true_taxa = [t for t in taxa if not "Union" in t]
         relationships = list(adapter.relationships(predicates=TAXON_PREDICATES))
         never_in = [rel for rel in relationships if rel[1] == NEVER_IN_TAXON]
@@ -1576,13 +1583,15 @@ class OntologyExtractor:
             if never_in or random.choice([True, False]):
                 anc_term, p, direct_taxon = random.choice(never_in)
             else:
-                anc_term, p, direct_taxon = random.choice([r for r in relationships if r[1] != NEVER_IN_TAXON])
+                anc_term, p, direct_taxon = random.choice(
+                    [r for r in relationships if r[1] != NEVER_IN_TAXON]
+                )
             candidates = list(adapter.descendants(anc_term))
             candidate_taxa = list(adapter.descendants(direct_taxon))
             candidate_taxa = [t for t in candidate_taxa if t in true_taxa]
             term = random.choice(candidates)
             taxon = random.choice(candidate_taxa)
-            remaining = list(set(candidates)-set(all_terms))
+            remaining = list(set(candidates) - set(all_terms))
             siblings = random.sample(remaining, min(2, len(remaining)))
         if not term or not taxon:
             raise ValueError("Must specify term and taxon")
@@ -1595,7 +1604,9 @@ class OntologyExtractor:
                 children = list(children)
                 for i in range(len(children)):
                     for j in range(i + 1, len(children)):
-                        ontology.axioms.append(self._axiom((children[i], DISJOINT_WITH, children[j])))
+                        ontology.axioms.append(
+                            self._axiom((children[i], DISJOINT_WITH, children[j]))
+                        )
         if not isinstance(adapter, TaxonConstraintInterface):
             raise ValueError("Cannot evaluate taxon constraints")
         st = SubjectTerm(term, label=adapter.label(term))
@@ -1625,7 +1636,7 @@ class OntologyExtractor:
             return Axiom(text=f"{s_n} DisjointWith {o_n}")
         elif p == NEVER_IN_TAXON:
             return Axiom(text=f"{s_n} never_in_taxon {o_n}")
-        elif p  in [IN_TAXON, ONLY_IN_TAXON]:
+        elif p in [IN_TAXON, ONLY_IN_TAXON]:
             return Axiom(text=f"{s_n} only_in_taxon {o_n}")
         elif tbox:
             return Axiom(text=f"{s_n} SubClassOf {p_n} Some {o_n}")

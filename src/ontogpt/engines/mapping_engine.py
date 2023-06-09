@@ -4,7 +4,7 @@ from copy import deepcopy
 from dataclasses import dataclass
 from enum import Enum
 from pathlib import Path
-from typing import Callable, Dict, Iterator, List, Optional, Union, Tuple
+from typing import Callable, Dict, Iterator, List, Optional, Tuple, Union
 
 import yaml
 from jinja2 import Template
@@ -272,7 +272,8 @@ class MappingEngine(KnowledgeEngine):
         )
 
     def categorize_sssom_mapping(
-            self, mapping: Mapping,
+        self,
+        mapping: Mapping,
     ) -> Iterator[Tuple[Mapping, CategorizedMapping]]:
         mapping = deepcopy(mapping)
 
