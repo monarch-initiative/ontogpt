@@ -3,13 +3,10 @@ import json
 import logging
 import unittest
 
-import yaml
 from oaklib import get_adapter
-from sssom_schema import Mapping
 
 from ontogpt.clients import openai_client
 from ontogpt.engines import mapping_engine
-from ontogpt.engines.mapping_engine import CategorizedMapping, MappingEngine, MappingTaskCollection
 from ontogpt.engines.pheno_engine import PhenoEngine
 from ontogpt.io.yaml_wrapper import dump_minimal_yaml
 from tests import INPUT_DIR
