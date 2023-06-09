@@ -6,7 +6,6 @@ from enum import Enum
 from pathlib import Path
 from typing import Callable, Dict, Iterator, List, Optional, Tuple, Union
 
-import yaml
 from jinja2 import Template
 from oaklib import BasicOntologyInterface, get_adapter
 from oaklib.datamodels.vocabulary import IS_A, SKOS_RELATED_MATCH

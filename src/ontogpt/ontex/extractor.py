@@ -99,7 +99,7 @@ class Query(BaseModel):
 
 
 class Explanation(BaseModel):
-    """The collection of axioms that entail some explained axiom."""
+    """A set of axioms that entail some explained axiom."""
 
     axioms: List[Axiom] = []
     text: Optional[str] = None
@@ -809,8 +809,10 @@ class TaxonConstraintTask(Task):
                             text="INVALID",
                             explanations=[
                                 Explanation(
-                                    text="""Every E2 is part of some E, and E is only found in Tax1,
-                                            and Tax1 is disjoint with Tax2, therefore E2 is invalid for Tax2""",
+                                    text="""Every E2 is part of some E,
+                                            and E is only found in Tax1,
+                                            and Tax1 is disjoint with Tax2,
+                                            therefore E2 is invalid for Tax2""",
                                     axioms=[
                                         Axiom(text="E2 SubClassOf part_of some E"),
                                         Axiom(text="E only_in_taxon Tax1"),
@@ -830,7 +832,8 @@ class TaxonConstraintTask(Task):
                                 Explanation(
                                     text="""Every E2 is part of some E,
                                             E SubClassOf B, B SubClassOf A,
-                                            and there are no conflicting taxon constraints for E2, E, B, or A,
+                                            and there are no conflicting taxon
+                                            constraints for E2, E, B, or A,
                                             therefore E2 is valid for Tax1y""",
                                     axioms=[
                                         Axiom(text="E2 SubClassOf part_of some E"),
@@ -850,7 +853,8 @@ class TaxonConstraintTask(Task):
                             explanations=[
                                 Explanation(
                                     text="""Every D is part of some B, B SubClassOf A,
-                                            and there are no conflicting taxon constraints for D, B, or A,
+                                            and there are no conflicting taxon
+                                            constraints for D, B, or A,
                                             therefore D is valid for Tax1y""",
                                     axioms=[
                                         Axiom(text="D SubClassOf part_of some B"),
@@ -868,8 +872,10 @@ class TaxonConstraintTask(Task):
                             text="INVALID",
                             explanations=[
                                 Explanation(
-                                    text="""Every E2 is part of some E, and E is never found in Tax1x,
-                                            Tax1xF is a subclass of Tax1x, therefore E2 is invalid for Tax1xF""",
+                                    text="""Every E2 is part of some E, and E is never
+                                            found in Tax1x,
+                                            Tax1xF is a subclass of Tax1x,
+                                            therefore E2 is invalid for Tax1xF""",
                                     axioms=[
                                         Axiom(text="E2 SubClassOf part_of some E"),
                                         Axiom(text="E never_in_taxon Tax1x"),
@@ -1574,7 +1580,7 @@ class OntologyExtractor:
         all_terms = [
             t for t in adapter.entities(filter_obsoletes=True, owl_type=OWL_CLASS) if t not in taxa
         ]
-        true_taxa = [t for t in taxa if not "Union" in t]
+        true_taxa = [t for t in taxa if "Union" not in t]
         relationships = list(adapter.relationships(predicates=TAXON_PREDICATES))
         never_in = [rel for rel in relationships if rel[1] == NEVER_IN_TAXON]
         if not never_in:

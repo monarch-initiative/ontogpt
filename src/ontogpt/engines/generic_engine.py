@@ -2,22 +2,13 @@
 import logging
 from copy import deepcopy
 from dataclasses import dataclass
-from enum import Enum
 from pathlib import Path
-from typing import Callable, Dict, Iterator, List, Optional, Tuple, Union
+from typing import Iterator, List
 
-import yaml
 from jinja2 import Template
-from oaklib import BasicOntologyInterface, get_adapter
-from oaklib.datamodels.vocabulary import IS_A, SKOS_RELATED_MATCH
-from oaklib.interfaces import MappingProviderInterface
-from oaklib.types import CURIE
 from pydantic import BaseModel
-from sssom.parsers import parse_sssom_table, to_mapping_set_document
-from sssom_schema import Mapping
 
 from ontogpt.engines.knowledge_engine import KnowledgeEngine
-from ontogpt.prompts.mapping import DEFAULT_MAPPING_EVAL_PROMPT
 from ontogpt.prompts.qa import GENERIC_QA_PROMPT
 
 logger = logging.getLogger(__name__)
