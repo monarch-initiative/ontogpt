@@ -8,8 +8,8 @@ from typing import List, Optional, Union
 from jinja2 import Template
 from pydantic import BaseModel
 
+from ontogpt import MODELS
 from ontogpt.engines.knowledge_engine import KnowledgeEngine
-from ontogpt.engines.models import MODEL_GPT_4
 from ontogpt.ontex.extractor import (
     Answer,
     Axiom,
@@ -23,6 +23,8 @@ from ontogpt.utils.parse_utils import split_on_one_of
 
 logger = logging.getLogger(__name__)
 
+
+MODEL_GPT_4_NAMES = [model["alternative_names"][0] for model in MODELS if model["name"] == "MODEL_GPT_4"][0]
 
 def flatten_list(lst):
     flat_list = []
@@ -167,7 +169,7 @@ class ReasonerEngine(KnowledgeEngine):
         logger.info(f"Prompt: {prompt}")
         prompt_length = len(self.encoding.encode(prompt)) + 10
         max_len_total = 4097
-        if self.model == MODEL_GPT_4:
+        if self.model in MODEL_GPT_4_NAMES:
             max_len_total = 8193
         max_len = max_len_total - completion_length
         completed = True

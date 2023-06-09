@@ -21,7 +21,7 @@ from sssom.parsers import parse_sssom_table, to_mapping_set_document
 from sssom.util import to_mapping_set_dataframe
 
 import ontogpt.ontex.extractor as extractor
-from ontogpt import __version__
+from ontogpt import MODELS, DEFAULT_MODEL, __version__
 from ontogpt.clients import OpenAIClient
 from ontogpt.clients.pubmed_client import PubmedClient
 from ontogpt.clients.soup_client import SoupClient
@@ -29,6 +29,7 @@ from ontogpt.clients.wikipedia_client import WikipediaClient
 from ontogpt.engines import create_engine
 from ontogpt.engines.embedding_similarity_engine import SimilarityEngine
 from ontogpt.engines.enrichment import EnrichmentEngine
+from ontogpt.engines.ggml_engine import GGMLEngine
 from ontogpt.engines.generic_engine import GenericEngine, QuestionCollection
 from ontogpt.engines.halo_engine import HALOEngine
 from ontogpt.engines.knowledge_engine import KnowledgeEngine
@@ -47,6 +48,7 @@ from ontogpt.utils.gene_set_utils import (
     fill_missing_gene_set_values,
     parse_gene_set,
 )
+from ontogpt.utils.model_utils import get_model
 
 __all__ = [
     "main",
@@ -123,8 +125,6 @@ model_option = click.option(
     "-m",
     "--model",
     help="Model name to use, e.g. openai-text-davinci-003."
-    " The first part of this name must be the source of the model."
-    " The second part must be the model name.",
 )
 prompt_template_option = click.option(
     "--prompt-template", help="Path to a file containing the prompt."
@@ -211,6 +211,7 @@ def extract(
     output_format,
     set_slot_value,
     use_textract,
+    model,
     **kwargs,
 ):
     """Extract knowledge from text guided by schema, using SPIRES engine.
@@ -232,27 +233,49 @@ def extract(
 
     """
     logging.info(f"Creating for {template}")
-    ke = SPIRESEngine(template, **kwargs)
-    if settings.cache_db:
-        ke.client.cache_db_path = settings.cache_db
-    if settings.skip_annotators:
-        ke.client.skip_annotators = settings.skip_annotators
-    if dictionary:
-        ke.load_dictionary(dictionary)
+
+    # Choose model based on input, or use the default
+    model_source = "OpenAI"
+    found = False
+    for knownmodel in MODELS:
+        if model in knownmodel["alternative_names"] or model == knownmodel["name"]:
+            selectmodel = knownmodel
+            model_source = selectmodel["provider"]
+            found = True
+            break
+    if model and not found:
+        logging.info(
+            f"""Model name not recognized or not supported yet. Using default, {DEFAULT_MODEL}.
+            See all models with `ontogpt list-models`"""
+        )
+
+    if not inputfile or inputfile == "-":
+        text = sys.stdin.read()
     if inputfile and Path(inputfile).exists():
+        logging.info(f"Input file: {inputfile}")
         if use_textract:
             import textract
 
             text = textract.process(inputfile).decode("utf-8")
         else:
             text = open(inputfile, "r").read()
+        logging.info(f"Input text: {text}")
     elif inputfile and not Path(inputfile).exists():
         raise FileNotFoundError(f"Cannot find input file {inputfile}")
-    elif input:
-        text = input
-    elif not input or input == "-":
-        text = sys.stdin.read()
-    logging.info(f"Input text: {text}")
+
+    if model_source == "OpenAI":
+        ke = SPIRESEngine(template, **kwargs)
+        if settings.cache_db:
+            ke.client.cache_db_path = settings.cache_db
+        if settings.skip_annotators:
+            ke.client.skip_annotators = settings.skip_annotators
+
+    elif model_source == "GPT4All":
+        model_path = get_model(selectmodel["url"])
+        ke = GGMLEngine(template=template, local_model=model_path, **kwargs)
+
+    if dictionary:
+        ke.load_dictionary(dictionary)
     if target_class:
         target_class_def = ke.schemaview.get_class(target_class)
     else:
@@ -1217,13 +1240,20 @@ def list_templates():
 @main.command()
 def list_models():
     """List all available models."""
-    print("Model Name\tAlternatives")
-    for modelname in MODELS:
-        if len(modelname) > 1:
-            alternative_names = " ".join(modelname[1:])
-            print(f"{modelname[0]}\t{alternative_names}")
+    print("Model Name\tProvider\tAlternative Names\tStatus")
+    for model in MODELS:
+        primary_name = model["name"]
+        provider = model["provider"]
+        alternative_names = (
+            " ".join(model["alternative_names"]) if model["alternative_names"] else ""
+        )
+        if "not_implemented" in model:
+            status = "Not Implemented"
         else:
-            print(modelname[0])
+            status = "Implemented"
+
+        print(f"{primary_name}\t{provider}\t{alternative_names}\t{status}")
+
 
 
 if __name__ == "__main__":
