@@ -288,7 +288,7 @@ def pubmed_extract(pmid, template, output, output_format, **kwargs):
 @output_format_options
 @click.argument("search")
 def pubmed_annotate(search, template, output, output_format, **kwargs):
-    """Retrieve pubmed IDs for a search term, then annotate them using a template"""
+    """Retrieve pubmed IDs for a search term, then annotate them using a template."""
     logging.info(f"Creating for {template}")
     pmc = PubmedClient()
     pmids = pmc.get_pmids(search)
