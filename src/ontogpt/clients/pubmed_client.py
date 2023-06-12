@@ -73,6 +73,9 @@ class PubmedClient:
             print("Encountered error in searching PubMed:", response.status_code)
 
         # Now we get the list of PMIDs, iterating as needed
+
+        # TODO: handle error 429 - otherwise results get truncated early
+
         for retstart in range(0, resultcount, batch_size):
             params['retstart'] = retstart
             params['retmax'] = batch_size
@@ -87,27 +90,48 @@ class PubmedClient:
 
         return pmids
 
+    # TODO: parse xml output with beautifulsoup
     # TODO: verify the text() function works as expected for both single and multiple entries
 
-    # def text(self, id: list[PMID], autoformat=True) -> str:
-    #     """Get the text of one or more papers from their PMIDs.
+    def text(self, id: list[PMID], autoformat=True) -> str:
+        """Get the text of one or more papers from their PMIDs.
 
-    #     :param ids: List of PubMed IDs
-    #     :param autoformat: if True include title and abstract concatenated
-    #     :return: the text of a single entry, or concatenated text of multiple entries
-    #     """
-    #     ec = self.entrez_client
-    #     id = id.replace("PMID:", "")
-    #     paset = ec.efetch(db="pubmed", id=id)
-    #     for pa in paset:
-    #         if autoformat:
-    #             txt = f"Title: {pa.title}\nAbstract: {pa.abstract}\nKeywords: {'; '.join(pa.mesh_headings)}"  # noqa
-    #         else:
-    #             txt = pa.full_text
-    #     if len(txt) > self.max_text_length:
-    #         logging.warning(f"Truncating text: {txt[:self.max_text_length]}...")
-    #         txt = txt[0 : self.max_text_length]
-    #     return txt
+        :param ids: List of PubMed IDs
+        :param autoformat: if True include title and abstract concatenated
+        :return: the text of a single entry, or concatenated text of multiple entries
+        """
+
+        fetch_url = EUTILS_URL + "efetch.fcgi"
+        params = {
+            'db': PUBMED,
+            'id': ','.join(id),
+            'rettype': 'xml', 
+            'retmode': 'xml'
+        }
+
+        response = requests.get(fetch_url, params=params)
+
+        if response.status_code == 200:
+            xml_data = response.text
+            print(xml_data)
+        else:
+            print("Encountered error in fetching from PubMed:", response.status_code)
+
+        # TODO: concatenate as needed
+        if len(id) == 1:
+            txt = xml_data
+        else:
+            txt = xml_data
+
+        # for pa in paset:
+        #     if autoformat:
+        #         txt = f"Title: {pa.title}\nAbstract: {pa.abstract}\nKeywords: {'; '.join(pa.mesh_headings)}"  # noqa
+        #     else:
+        #         txt = pa.full_text
+        # if len(txt) > self.max_text_length:
+        #     logging.warning(f"Truncating text: {txt[:self.max_text_length]}...")
+        #     txt = txt[0 : self.max_text_length]
+        return txt
 
     # def search(self, term: str, keywords: List[str] = None) -> Iterator[PMID]:
     #     """Get the text of a paper from its PMID.
