@@ -1,7 +1,7 @@
 """Pubmed Client."""
 import logging
-from dataclasses import dataclass, field
-from typing import Iterator, List
+from dataclasses import dataclass
+from typing import List
 
 import inflection
 import requests
@@ -10,11 +10,13 @@ PMID = str
 TITLE_WEIGHT = 5
 MAX_PMIDS = 50
 
-PUBMED = 'pubmed'
-EUTILS_URL = 'https://eutils.ncbi.nlm.nih.gov/entrez/eutils/'
+PUBMED = "pubmed"
+EUTILS_URL = "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/"
+
 
 def _normalize(s: str) -> str:
     return inflection.singularize(s).lower()
+
 
 # TODO: Add this back
 # def _score_paper(paper: PubmedArticle, keywords: List[str]) -> int:
@@ -44,6 +46,8 @@ class PubmedClient:
 
     max_text_length = 3000
 
+    # TODO: allow passing email since NCBI wants to know
+
     def get_pmids(self, term: str) -> List[str]:
         """Search PubMed and retrieve a list of PMIDs matching the search term.
 
@@ -51,35 +55,46 @@ class PubmedClient:
         :return: A list of PMIDs matching the search term.
         """
 
-        search_url = EUTILS_URL + 'esearch.fcgi'
-        params = {
-            'db': PUBMED,
-            'term': term,
-            'retmode': 'json',
-            'retmax': 1000
-        }
+        pmids = []
+
+        batch_size = 250
+
+        search_url = EUTILS_URL + "esearch.fcgi"
+
+        # If retmax==0, we get only the size of the search result in count of PMIDs
+        params = {"db": PUBMED, "term": term, "retmode": "json", "retmax": 0}
         response = requests.get(search_url, params=params)
 
         if response.status_code == 200:
-
             data = response.json()
-            resultcount = data['esearchresult']['count']
+            resultcount = int(data["esearchresult"]["count"])
             logging.info(f"Search returned {resultcount} PMIDs matching search term {term}")
-            pmids = data['esearchresult']['idlist']
-            
         else:
-            print('Encountered error in searching PubMed:', response.status_code)
+            print("Encountered error in searching PubMed:", response.status_code)
 
-        # TODO: iterate through list if larger than retmax
+        # Now we get the list of PMIDs, iterating as needed
+        for retstart in range(0, resultcount, batch_size):
+            params['retstart'] = retstart
+            params['retmax'] = batch_size
+
+            response = requests.get(search_url, params=params)
+
+            if response.status_code == 200:
+                data = response.json()
+                pmids.extend(data['esearchresult']['idlist'])
+            else:
+                print("Encountered error in searching PubMed:", response.status_code)
 
         return pmids
 
-    # def text(self, id: PMID, autoformat=True) -> str:
-    #     """Get the text of a paper from its PMID.
+    # TODO: verify the text() function works as expected for both single and multiple entries
 
-    #     :param id:
+    # def text(self, id: list[PMID], autoformat=True) -> str:
+    #     """Get the text of one or more papers from their PMIDs.
+
+    #     :param ids: List of PubMed IDs
     #     :param autoformat: if True include title and abstract concatenated
-    #     :return:
+    #     :return: the text of a single entry, or concatenated text of multiple entries
     #     """
     #     ec = self.entrez_client
     #     id = id.replace("PMID:", "")
