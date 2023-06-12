@@ -17,7 +17,6 @@ jsonlines = "^3.1.0"
 python-multipart = "^0.0.5"
 linkml-owl = "^0.2.7"
 beautifulsoup4 = "^4.11.1"
-eutils = "^0.6.0"
 class-resolver = ">=0.4.2"
 inflect = "^6.0.2"
 bioc = "^2.0.post5"
@@ -50,6 +49,7 @@ langchain = "^0.0.167"
 pygpt4all = {version = "^1.1.0", extras = ["gpt4all"], optional = true}
 streamlit = "^1.22.0"
 gpt4 = "^0.0.1"
+requests = "^2.31.0"
 
 [tool.poetry.dev-dependencies]
 pytest = "^7.1.2"
