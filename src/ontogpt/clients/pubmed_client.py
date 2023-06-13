@@ -1,5 +1,6 @@
 """Pubmed Client."""
 import logging
+import time
 from dataclasses import dataclass
 from typing import List
 
@@ -78,6 +79,7 @@ class PubmedClient:
     max_text_length = 3000
 
     # TODO: allow passing email since NCBI wants to know
+    # TODO: allow passing API key
 
     def get_pmids(self, term: str) -> List[str]:
         """Search PubMed and retrieve a list of PMIDs matching the search term.
@@ -90,6 +92,8 @@ class PubmedClient:
 
         batch_size = 250
 
+        retry_max = 2
+
         search_url = EUTILS_URL + "esearch.fcgi"
 
         # If retmax==0, we get only the size of the search result in count of PMIDs
@@ -101,11 +105,9 @@ class PubmedClient:
             resultcount = int(data["esearchresult"]["count"])
             logging.info(f"Search returned {resultcount} PMIDs matching search term {term}")
         else:
-            print("Encountered error in searching PubMed:", response.status_code)
+            logging.error("Encountered error in searching PubMed:", response.status_code)
 
         # Now we get the list of PMIDs, iterating as needed
-
-        # TODO: handle error 429 - otherwise results get truncated early
 
         for retstart in range(0, resultcount, batch_size):
             params["retstart"] = retstart
@@ -113,11 +115,21 @@ class PubmedClient:
 
             response = requests.get(search_url, params=params)
 
-            if response.status_code == 200:
-                data = response.json()
-                pmids.extend(data["esearchresult"]["idlist"])
-            else:
-                print("Encountered error in searching PubMed:", response.status_code)
+            trying = True
+            try_count = 0
+            while trying:
+                if response.status_code == 200:
+                    data = response.json()
+                    pmids.extend(data["esearchresult"]["idlist"])
+                else:
+                    logging.error(f"Encountered error in searching PubMed: {response.status_code}")
+                    try_count = try_count + 1
+                    if try_count < retry_max:
+                        logging.info("Trying again...")
+                        time.sleep(0.5)
+                    else:
+                        logging.info(f"Giving up - last status code {response.status_code}")
+                        trying = False
 
         return pmids
 
