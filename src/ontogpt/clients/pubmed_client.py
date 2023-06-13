@@ -155,21 +155,23 @@ class PubmedClient:
 
         return pmids
 
-    # TODO: verify the text() function works as expected for both single and multiple entries
     # TODO: get multiple batches of records using history server
     # TODO: catch error 414 (URI too long)
-    def text(self, ids: Union[list[PMID], PMID], autoformat=True) -> str:
+    def text(self, ids: Union[list[PMID], PMID], autoformat=True) -> Union[list[str], str]:
         """Get the text of one or more papers from their PMIDs.
 
         :param ids: List of PubMed IDs, or string with single PMID
         :param autoformat: if True include title and abstract concatenated
-        :return: the text of a single entry, or concatenated text of multiple entries
+        :return: the text of a single entry, or a list of strings for text of multiple entries
         """
 
         # Check if the PMID(s) can be parsed
         # and remove prefix if present
         if isinstance(ids, PMID): # If it's a single PMID
-            ids= [ids]
+            ids = [ids]
+            singledoc = True
+        else:
+            singledoc = False
         clean_ids = [id.replace("PMID:", "", 1) for id in ids]
         ids = clean_ids
 
@@ -186,8 +188,6 @@ class PubmedClient:
         else:
             params = {"db": PUBMED, "id": ",".join(ids), "rettype": "xml", "retmode": "xml"}
 
-
-
         response = requests.get(fetch_url, params=params)
 
         if response.status_code == 200:
@@ -197,16 +197,19 @@ class PubmedClient:
 
         # Parse that xml - this returns a list of strings so we concatenate
         these_docs = parse_pmxml(xml_data, autoformat)
-        txt = ""
+        txt = []
         for doc in these_docs:
             if len(doc) > self.max_text_length:
                 logging.warning(
                     f'Truncating entry beginning "{doc[:50]}" to {str(self.max_text_length)}...'
                 )
                 shortdoc = doc[0 : self.max_text_length]
-                txt = f"{txt}{DOCSEP}{shortdoc}"
+                txt.append(shortdoc)
             else:
-                txt = f"{txt}{DOCSEP}{doc}"
+                txt.append(doc)
+            if singledoc:
+                return txt[0]
+        
         return txt
 
     # def search(self, term: str, keywords: List[str] = None) -> Iterator[PMID]:

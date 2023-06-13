@@ -120,8 +120,8 @@ model_option = click.option(
     "-m",
     "--model",
     help="Model name to use, e.g. openai-text-davinci-003."
-         " The first part of this name must be the source of the model."
-         " The second part must be the model name.",
+    " The first part of this name must be the source of the model."
+    " The second part must be the model name.",
 )
 prompt_template_option = click.option(
     "--prompt-template", help="Path to a file containing the prompt."
@@ -270,7 +270,7 @@ def extract(
 @output_format_options
 @click.argument("pmid")
 def pubmed_extract(pmid, template, output, output_format, **kwargs):
-    """Extract knowledge from a pubmed ID."""
+    """Extract knowledge from a single PubMed ID."""
     logging.info(f"Creating for {template}")
     pmc = PubmedClient()
     text = pmc.text(pmid)
@@ -288,7 +288,7 @@ def pubmed_extract(pmid, template, output, output_format, **kwargs):
 @output_format_options
 @click.argument("search")
 def pubmed_annotate(search, template, output, output_format, **kwargs):
-    """Retrieve pubmed IDs for a search term, then annotate them using a template."""
+    """Retrieve a collection of PubMed IDs for a search term, then annotate them using a template."""
     logging.info(f"Creating for {template}")
     pmc = PubmedClient()
     pmids = pmc.get_pmids(search)
@@ -1156,6 +1156,7 @@ def list_models():
             print(f"{modelname[0]}\t{alternative_names}")
         else:
             print(modelname[0])
+
 
 if __name__ == "__main__":
     main()
