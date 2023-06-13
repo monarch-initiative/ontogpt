@@ -15,7 +15,6 @@ MAX_PMIDS = 50
 
 PUBMED = "pubmed"
 EUTILS_URL = "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/"
-DOCSEP = "\n------\n"
 
 
 def _normalize(s: str) -> str:
@@ -101,7 +100,6 @@ class PubmedClient:
         pmids = []
 
         batch_size = 250
-
         retry_max = 2
 
         search_url = EUTILS_URL + "esearch.fcgi"
@@ -155,8 +153,6 @@ class PubmedClient:
 
         return pmids
 
-    # TODO: get multiple batches of records using history server
-    # TODO: catch error 414 (URI too long)
     def text(self, ids: Union[list[PMID], PMID], autoformat=True) -> Union[list[str], str]:
         """Get the text of one or more papers from their PMIDs.
 
@@ -167,7 +163,7 @@ class PubmedClient:
 
         # Check if the PMID(s) can be parsed
         # and remove prefix if present
-        if isinstance(ids, PMID): # If it's a single PMID
+        if isinstance(ids, PMID):  # If it's a single PMID
             ids = [ids]
             singledoc = True
         else:
@@ -175,27 +171,62 @@ class PubmedClient:
         clean_ids = [id.replace("PMID:", "", 1) for id in ids]
         ids = clean_ids
 
+        # Check if we have enough IDs to require epost
+        use_post = False
+        if len(ids) > 9999:
+            use_post = True
+
         fetch_url = EUTILS_URL + "efetch.fcgi"
-        if self.email and self.ncbi_key:
+
+        if not use_post:
+            if self.email and self.ncbi_key:
+                params = {
+                    "db": PUBMED,
+                    "id": ",".join(ids),
+                    "rettype": "xml",
+                    "retmode": "xml",
+                    "email": self.email,
+                    "api_key": self.ncbi_key,
+                }
+            else:
+                params = {"db": PUBMED, "id": ",".join(ids), "rettype": "xml", "retmode": "xml"}
+
+            response = requests.get(fetch_url, params=params)
+
+        else:
+            # Do post request first
+            post_url = EUTILS_URL + "epost.fcgi"
+            if self.email and self.ncbi_key:
+                params = {
+                    "db": PUBMED,
+                    "id": ",".join(ids),
+                    "email": self.email,
+                    "api_key": self.ncbi_key,
+                }
+            else:
+                params = {"db": PUBMED, "id": ",".join(ids)}
+
+            response = requests.post(post_url, params=params)
+
+            webenv = response.text.split("<WebEnv>")[1].split("</WebEnv>")[0]
+            querykey = response.text.split("<QueryKey>")[1].split("</QueryKey>")[0]
+
+            # Not do the fetch
             params = {
                 "db": PUBMED,
-                "id": ",".join(ids),
+                "query_key": querykey,
+                "WebEnv": webenv,
                 "rettype": "xml",
-                "retmode": "xml",
-                "email": self.email,
-                "api_key": self.ncbi_key,
             }
-        else:
-            params = {"db": PUBMED, "id": ",".join(ids), "rettype": "xml", "retmode": "xml"}
 
-        response = requests.get(fetch_url, params=params)
+            response = requests.get(fetch_url, params=params)
 
         if response.status_code == 200:
             xml_data = response.text
         else:
-            print("Encountered error in fetching from PubMed:", response.status_code)
+            logging.error("Encountered error in fetching from PubMed:", response.status_code)
 
-        # Parse that xml - this returns a list of strings so we concatenate
+        # Parse that xml - this returns a list of strings
         these_docs = parse_pmxml(xml_data, autoformat)
         txt = []
         for doc in these_docs:
@@ -209,7 +240,7 @@ class PubmedClient:
                 txt.append(doc)
             if singledoc:
                 return txt[0]
-        
+
         return txt
 
     # def search(self, term: str, keywords: List[str] = None) -> Iterator[PMID]:
