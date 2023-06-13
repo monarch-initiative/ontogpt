@@ -78,6 +78,8 @@ class PubmedClient:
 
     max_text_length = 3000
 
+    logging.basicConfig(level=logging.DEBUG)
+
     # TODO: allow passing email since NCBI wants to know
     # TODO: allow passing API key
 
@@ -121,6 +123,7 @@ class PubmedClient:
                 if response.status_code == 200:
                     data = response.json()
                     pmids.extend(data["esearchresult"]["idlist"])
+                    trying = False
                 else:
                     logging.error(f"Encountered error in searching PubMed: {response.status_code}")
                     try_count = try_count + 1
@@ -130,6 +133,7 @@ class PubmedClient:
                     else:
                         logging.info(f"Giving up - last status code {response.status_code}")
                         trying = False
+            logging.info("Retrieved PMIDs.")
 
         return pmids
 
