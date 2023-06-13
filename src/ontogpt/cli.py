@@ -292,12 +292,13 @@ def pubmed_annotate(search, template, output, output_format, **kwargs):
     logging.info(f"Creating for {template}")
     pmc = PubmedClient()
     pmids = pmc.get_pmids(search)
-    for pmid in pmids:
-        text = pmc.text(str(pmid))
-        ke = SPIRESEngine(template, **kwargs)
-        logging.debug(f"Input text: {text}")
-        results = ke.extract_from_text(text)
-        write_extraction(results, output, output_format)
+    # for pmid in pmids:
+    #     text = pmc.text(pmid)
+    text = pmc.text(pmids[0])
+    ke = SPIRESEngine(template, **kwargs)
+    logging.debug(f"Input text: {text}")
+    results = ke.extract_from_text(text)
+    write_extraction(results, output, output_format)
 
 
 @main.command()
