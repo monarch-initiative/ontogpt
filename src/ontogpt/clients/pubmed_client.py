@@ -2,7 +2,7 @@
 import logging
 import time
 from dataclasses import dataclass
-from typing import List
+from typing import List, Union
 
 import inflection
 import requests
@@ -158,26 +158,35 @@ class PubmedClient:
     # TODO: verify the text() function works as expected for both single and multiple entries
     # TODO: get multiple batches of records using history server
     # TODO: catch error 414 (URI too long)
-    def text(self, id: list[PMID], autoformat=True) -> str:
+    def text(self, ids: Union[list[PMID], PMID], autoformat=True) -> str:
         """Get the text of one or more papers from their PMIDs.
 
-        :param ids: List of PubMed IDs
+        :param ids: List of PubMed IDs, or string with single PMID
         :param autoformat: if True include title and abstract concatenated
         :return: the text of a single entry, or concatenated text of multiple entries
         """
+
+        # Check if the PMID(s) can be parsed
+        # and remove prefix if present
+        if isinstance(ids, PMID): # If it's a single PMID
+            ids= [ids]
+        clean_ids = [id.replace("PMID:", "", 1) for id in ids]
+        ids = clean_ids
 
         fetch_url = EUTILS_URL + "efetch.fcgi"
         if self.email and self.ncbi_key:
             params = {
                 "db": PUBMED,
-                "id": ",".join(id),
+                "id": ",".join(ids),
                 "rettype": "xml",
                 "retmode": "xml",
                 "email": self.email,
                 "api_key": self.ncbi_key,
             }
         else:
-            params = {"db": PUBMED, "id": ",".join(id), "rettype": "xml", "retmode": "xml"}
+            params = {"db": PUBMED, "id": ",".join(ids), "rettype": "xml", "retmode": "xml"}
+
+
 
         response = requests.get(fetch_url, params=params)
 
