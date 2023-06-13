@@ -5,6 +5,7 @@ from typing import List
 
 import inflection
 import requests
+from bs4 import BeautifulSoup
 
 PMID = str
 TITLE_WEIGHT = 5
@@ -12,6 +13,7 @@ MAX_PMIDS = 50
 
 PUBMED = "pubmed"
 EUTILS_URL = "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/"
+DOCSEP = "\n------\n"
 
 
 def _normalize(s: str) -> str:
@@ -35,6 +37,35 @@ def _normalize(s: str) -> str:
 #         if kw in text:
 #             score += 1
 #     return score
+
+
+def parse_pmxml(xml: str, autoformat: bool) -> List[str]:
+    """Extract structured text from  PubMed XML.
+
+    :param xml: One or more xml entries, as string
+    :param autoformat: if True include title and abstract concatenated
+    :return: a list of strings, one per entry
+    """
+
+    docs = []
+
+    soup = BeautifulSoup(xml, "xml")
+
+    for pa in soup.find_all("PubmedArticle"):
+        if autoformat:
+            ti = pa.find("ArticleTitle").text
+            if pa.find("Abstract"): # Document may not have abstract
+                ab = pa.find("Abstract").text
+            if pa.find("KeywordList"): # Document may not have MeSH terms or keywords
+                kw = [tag.text for tag in pa.find_all("Keyword")]
+            else:
+                kw = ""
+            txt = f"Title: {ti}\nAbstract: {ab}\nKeywords: {'; '.join(kw)}"
+        else:
+            txt = soup.get_text()
+        docs.append(txt)
+
+    return docs
 
 
 @dataclass
@@ -77,22 +108,22 @@ class PubmedClient:
         # TODO: handle error 429 - otherwise results get truncated early
 
         for retstart in range(0, resultcount, batch_size):
-            params['retstart'] = retstart
-            params['retmax'] = batch_size
+            params["retstart"] = retstart
+            params["retmax"] = batch_size
 
             response = requests.get(search_url, params=params)
 
             if response.status_code == 200:
                 data = response.json()
-                pmids.extend(data['esearchresult']['idlist'])
+                pmids.extend(data["esearchresult"]["idlist"])
             else:
                 print("Encountered error in searching PubMed:", response.status_code)
 
         return pmids
 
-    # TODO: parse xml output with beautifulsoup
     # TODO: verify the text() function works as expected for both single and multiple entries
-
+    # TODO: get multiple batches of records using history server
+    # TODO: catch error 414 (URI too long)
     def text(self, id: list[PMID], autoformat=True) -> str:
         """Get the text of one or more papers from their PMIDs.
 
@@ -102,35 +133,27 @@ class PubmedClient:
         """
 
         fetch_url = EUTILS_URL + "efetch.fcgi"
-        params = {
-            'db': PUBMED,
-            'id': ','.join(id),
-            'rettype': 'xml', 
-            'retmode': 'xml'
-        }
+        params = {"db": PUBMED, "id": ",".join(id), "rettype": "xml", "retmode": "xml"}
 
         response = requests.get(fetch_url, params=params)
 
         if response.status_code == 200:
             xml_data = response.text
-            print(xml_data)
         else:
             print("Encountered error in fetching from PubMed:", response.status_code)
 
-        # TODO: concatenate as needed
-        if len(id) == 1:
-            txt = xml_data
-        else:
-            txt = xml_data
-
-        # for pa in paset:
-        #     if autoformat:
-        #         txt = f"Title: {pa.title}\nAbstract: {pa.abstract}\nKeywords: {'; '.join(pa.mesh_headings)}"  # noqa
-        #     else:
-        #         txt = pa.full_text
-        # if len(txt) > self.max_text_length:
-        #     logging.warning(f"Truncating text: {txt[:self.max_text_length]}...")
-        #     txt = txt[0 : self.max_text_length]
+        # Parse that xml - this returns a list of strings so we concatenate
+        these_docs = parse_pmxml(xml_data, autoformat)
+        txt = ""
+        for doc in these_docs:
+            if len(doc) > self.max_text_length:
+                logging.warning(
+                    f'Truncating entry beginning "{doc[:50]}" to {str(self.max_text_length)}...'
+                )
+                shortdoc = doc[0 : self.max_text_length]
+                txt = f"{txt}{DOCSEP}{shortdoc}"
+            else:
+                txt = f"{txt}{DOCSEP}{doc}"
         return txt
 
     # def search(self, term: str, keywords: List[str] = None) -> Iterator[PMID]:
