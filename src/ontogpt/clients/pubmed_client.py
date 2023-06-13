@@ -7,6 +7,7 @@ from typing import List
 import inflection
 import requests
 from bs4 import BeautifulSoup
+from oaklib.utilities.apikey_manager import get_apikey_value
 
 PMID = str
 TITLE_WEIGHT = 5
@@ -55,9 +56,9 @@ def parse_pmxml(xml: str, autoformat: bool) -> List[str]:
     for pa in soup.find_all("PubmedArticle"):
         if autoformat:
             ti = pa.find("ArticleTitle").text
-            if pa.find("Abstract"): # Document may not have abstract
+            if pa.find("Abstract"):  # Document may not have abstract
                 ab = pa.find("Abstract").text
-            if pa.find("KeywordList"): # Document may not have MeSH terms or keywords
+            if pa.find("KeywordList"):  # Document may not have MeSH terms or keywords
                 kw = [tag.text for tag in pa.find_all("Keyword")]
             else:
                 kw = ""
@@ -78,10 +79,17 @@ class PubmedClient:
 
     max_text_length = 3000
 
-    logging.basicConfig(level=logging.DEBUG)
+    try:
+        email = get_apikey_value("ncbi-email")
+    except ValueError:
+        email = None
+        logging.info(f"Email for NCBI API not found.")
 
-    # TODO: allow passing email since NCBI wants to know
-    # TODO: allow passing API key
+    try:
+        ncbi_key = get_apikey_value("ncbi-key")
+    except ValueError:
+        ncbi_key = None
+        logging.info(f"NCBI API key not found. Will use no key.")
 
     def get_pmids(self, term: str) -> List[str]:
         """Search PubMed and retrieve a list of PMIDs matching the search term.
@@ -99,7 +107,17 @@ class PubmedClient:
         search_url = EUTILS_URL + "esearch.fcgi"
 
         # If retmax==0, we get only the size of the search result in count of PMIDs
-        params = {"db": PUBMED, "term": term, "retmode": "json", "retmax": 0}
+        if self.email and self.ncbi_key:
+            params = {
+                "db": PUBMED,
+                "term": term,
+                "retmode": "json",
+                "retmax": 0,
+                "email": self.email,
+                "api_key": self.ncbi_key,
+            }
+        else:
+            params = {"db": PUBMED, "term": term, "retmode": "json", "retmax": 0}
         response = requests.get(search_url, params=params)
 
         if response.status_code == 200:
@@ -149,7 +167,17 @@ class PubmedClient:
         """
 
         fetch_url = EUTILS_URL + "efetch.fcgi"
-        params = {"db": PUBMED, "id": ",".join(id), "rettype": "xml", "retmode": "xml"}
+        if self.email and self.ncbi_key:
+            params = {
+                "db": PUBMED,
+                "id": ",".join(id),
+                "rettype": "xml",
+                "retmode": "xml",
+                "email": self.email,
+                "api_key": self.ncbi_key,
+            }
+        else:
+            params = {"db": PUBMED, "id": ",".join(id), "rettype": "xml", "retmode": "xml"}
 
         response = requests.get(fetch_url, params=params)
 
