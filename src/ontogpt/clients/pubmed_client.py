@@ -203,6 +203,7 @@ class PubmedClient:
         ids = clean_ids
 
         # Check if we have enough IDs to require epost
+        # This is stated as being 10000
         use_post = False
         if len(ids) > 9999:
             use_post = True
@@ -255,7 +256,7 @@ class PubmedClient:
         if response.status_code == 200:
             xml_data = response.text
         else:
-            logging.error("Encountered error in fetching from PubMed:", response.status_code)
+            logging.error(f"Encountered error in fetching from PubMed: {response.status_code}")
 
         # Parse that xml - this returns a list of strings
         # if raw is True, the tags are kept, but we still get a list of docs
