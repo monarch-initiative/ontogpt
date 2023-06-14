@@ -293,7 +293,7 @@ def pubmed_annotate(search, template, output, output_format, **kwargs):
     pmc = PubmedClient()
     pmids = pmc.get_pmids(search)
     # for pmid in pmids:
-    for index in range(10):
+    for index in range(25):
         # text = pmc.text(str(pmid))
         text = pmc.text(str(pmids[index]))
         ke = SPIRESEngine(template, **kwargs)
