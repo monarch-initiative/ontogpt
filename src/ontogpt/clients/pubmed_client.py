@@ -32,7 +32,7 @@ def _score_paper(paper: str, keywords: List[str]) -> Tuple[PMID, int]:
 
     # Parse the paper by component first
     soup = BeautifulSoup(paper, "xml")
-    for pa in soup.find_all("PubmedArticle", "PubmedBookArticle"):  # This should be one exactly
+    for pa in soup.find_all(["PubmedArticle", "PubmedBookArticle"]):  # This should be one exactly
         ti = pa.find("ArticleTitle").text
         pmid = pa.find("ArticleId", IdType="pubmed").text
         if pa.find("Abstract"):  # Document may not have abstract
@@ -72,12 +72,11 @@ def parse_pmxml(xml: str, raw: bool, autoformat: bool) -> List[str]:
     :param autoformat: if True include title and abstract concatenated
     :return: a list of strings, one per entry
     """
-
     docs = []
 
     soup = BeautifulSoup(xml, "xml")
 
-    for pa in soup.find_all("PubmedArticle", "PubmedBookArticle"):
+    for pa in soup.find_all(["PubmedArticle", "PubmedBookArticle"]):
         if autoformat and not raw:
             ti = pa.find("ArticleTitle").text
             if pa.find("Abstract"):  # Document may not have abstract
@@ -104,6 +103,8 @@ class PubmedClient:
     """
 
     max_text_length = 3000
+
+    logging.basicConfig(level=logging.DEBUG)
 
     try:
         email = get_apikey_value("ncbi-email")
@@ -259,7 +260,8 @@ class PubmedClient:
         # Parse that xml - this returns a list of strings
         # if raw is True, the tags are kept, but we still get a list of docs
         # and we don't truncate them
-        these_docs = parse_pmxml(xml_data, raw, autoformat)
+        these_docs = parse_pmxml(xml=xml_data, raw=raw, autoformat=autoformat)
+
         txt = []
         for doc in these_docs:
             if len(doc) > self.max_text_length and not raw:
@@ -271,7 +273,8 @@ class PubmedClient:
             else:
                 txt.append(doc)
             if singledoc:
-                return txt[0]
+                onetxt = txt[0]
+                txt = onetxt
 
         return txt
 
