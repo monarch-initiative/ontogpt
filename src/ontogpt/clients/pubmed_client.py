@@ -76,8 +76,19 @@ def parse_pmxml(xml: str, raw: bool, autoformat: bool) -> List[str]:
     """
     docs = []
 
+    # Preprocess the string to ensure it's valid xml
+    if not raw:
+        logging.info(f"Preprocessing all xml entries...")
+        header = "\n".join(xml.split('\n', 3)[0:3])
+        pmas_opener = "<PubmedArticleSet>"
+        pmas_closer = "</PubmedArticleSet>"
+        for remove_string in [header, pmas_opener, pmas_closer]:
+            xml = xml.replace(remove_string, "\n")
+        xml = pmas_opener + xml + pmas_closer
+
     soup = BeautifulSoup(xml, "xml")
 
+    logging.info(f"Parsing all xml entries...")
     for pa in soup.find_all(["PubmedArticle", "PubmedBookArticle"]):
         if autoformat and not raw:
             ti = pa.find("ArticleTitle").text
@@ -208,6 +219,7 @@ class PubmedClient:
         clean_ids = [id.replace("PMID:", "", 1) for id in ids]
         ids = clean_ids
 
+        # this will store the document data
         xml_data = ""
 
         # Check if we have enough IDs to require epost
@@ -244,8 +256,7 @@ class PubmedClient:
                 try_count = 0
                 while trying:
                     if response.status_code == 200:
-                        data = response.text
-                        xml_data = xml_data + "\n" + data
+                        xml_data = xml_data + "\n" + response.text
                         trying = False
                     else:
                         logging.error(
@@ -317,9 +328,9 @@ class PubmedClient:
                 "rettype": "xml",
             }
 
-            i = 0 # Iterate through the query keys we have
-            for retstart in range(0, len(ids), batch_size):
-                params["query_key"] = query_keys[i]
+            # Iterate through the query keys we have
+            for this_key in query_keys:
+                params["query_key"] = this_key
 
                 response = requests.get(fetch_url, params=parse.urlencode(params, safe=","))
 
@@ -327,9 +338,7 @@ class PubmedClient:
                 try_count = 0
                 while trying:
                     if response.status_code == 200:
-                        data = response.text
-                        xml_data = xml_data + "\n" + data
-                        i = i + 1
+                        xml_data = xml_data + "\n" + response.text
                         trying = False
                     else:
                         logging.error(
