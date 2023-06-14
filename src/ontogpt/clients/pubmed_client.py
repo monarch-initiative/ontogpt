@@ -13,6 +13,7 @@ from oaklib.utilities.apikey_manager import get_apikey_value
 PMID = str
 TITLE_WEIGHT = 5
 MAX_PMIDS = 50
+RETRY_MAX = 2
 
 PUBMED = "pubmed"
 EUTILS_URL = "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/"
@@ -129,7 +130,6 @@ class PubmedClient:
         pmids = []
 
         batch_size = 5000
-        retry_max = 2
 
         search_url = EUTILS_URL + "esearch.fcgi"
 
@@ -146,9 +146,9 @@ class PubmedClient:
         else:
             params = {"db": PUBMED, "term": term, "retmode": "json", "retmax": 0}
 
-        # We need to be explicit with the delimiters in this query,
-        # no percent encoding allowed
-        response = requests.get(search_url, params=parse.urlencode(params, safe=','))
+        # We are explicit with the delimiters in this query,
+        # no percent encoding allowed. This mostly just makes it more human readable
+        response = requests.get(search_url, params=parse.urlencode(params, safe=","))
 
         if response.status_code == 200:
             data = response.json()
@@ -163,7 +163,7 @@ class PubmedClient:
             params["retstart"] = retstart
             params["retmax"] = batch_size
 
-            response = requests.get(search_url, params=parse.urlencode(params, safe=','))
+            response = requests.get(search_url, params=parse.urlencode(params, safe=","))
 
             trying = True
             try_count = 0
@@ -175,7 +175,7 @@ class PubmedClient:
                 else:
                     logging.error(f"Encountered error in searching PubMed: {response.status_code}")
                     try_count = try_count + 1
-                    if try_count < retry_max:
+                    if try_count < RETRY_MAX:
                         logging.info("Trying again...")
                         time.sleep(0.5)
                     else:
@@ -196,6 +196,8 @@ class PubmedClient:
         :return: the text of a single entry, or a list of strings for text of multiple entries
         """
 
+        batch_size = 200
+
         # Check if the PMID(s) can be parsed
         # and remove prefix if present
         if isinstance(ids, PMID):  # If it's a single PMID
@@ -206,10 +208,15 @@ class PubmedClient:
         clean_ids = [id.replace("PMID:", "", 1) for id in ids]
         ids = clean_ids
 
+        xml_data = ""
+
         # Check if we have enough IDs to require epost
         # This is stated as being 10000
+        # But in practice, the API won't even accept more than ~2500
+        # chars worth of IDs, or about 280 to 320 PMIDs.
+        # So instead, we iterate.
         use_post = False
-        if len(ids) > 9999:
+        if len(ids) > 275:
             use_post = True
 
         fetch_url = EUTILS_URL + "efetch.fcgi"
@@ -227,40 +234,115 @@ class PubmedClient:
             else:
                 params = {"db": PUBMED, "id": ",".join(ids), "rettype": "xml", "retmode": "xml"}
 
-            response = requests.get(fetch_url, params=parse.urlencode(params, safe=','))
+            for retstart in range(0, len(ids), batch_size):
+                params["retstart"] = retstart
+                params["retmax"] = batch_size
+
+                response = requests.get(fetch_url, params=parse.urlencode(params, safe=","))
+
+                trying = True
+                try_count = 0
+                while trying:
+                    if response.status_code == 200:
+                        data = response.text
+                        xml_data = xml_data + "\n" + data
+                        trying = False
+                    else:
+                        logging.error(
+                            f"Encountered error in fetching from PubMed: {response.status_code}"
+                        )
+                        try_count = try_count + 1
+                        if try_count < RETRY_MAX:
+                            logging.info("Trying again...")
+                            time.sleep(0.5)
+                        else:
+                            logging.info(f"Giving up - last status code {response.status_code}")
+                            trying = False
+            logging.info("Retrieved document data.")
 
         else:
-            # Do post request first
+            # Do post request first, iterating as needed
             post_url = EUTILS_URL + "epost.fcgi"
             if self.email and self.ncbi_key:
                 params = {
                     "db": PUBMED,
-                    "id": ",".join(ids),
+                    "id": "",
                     "email": self.email,
                     "api_key": self.ncbi_key,
+                    "WebEnv": "",
                 }
             else:
                 params = {"db": PUBMED, "id": ",".join(ids)}
 
-            response = requests.post(post_url, params=parse.urlencode(params, safe=','))
+            query_keys = []
 
-            webenv = response.text.split("<WebEnv>")[1].split("</WebEnv>")[0]
-            querykey = response.text.split("<QueryKey>")[1].split("</QueryKey>")[0]
+            # Need to batch the IDs manually for this endpoint
+            id_batches = [ids[pmid : pmid + batch_size] for pmid in range(0, len(ids), batch_size)]
 
-            # Not do the fetch
+            for batch in id_batches:
+                params["id"] = ",".join(batch)
+
+                response = requests.post(post_url, params=parse.urlencode(params, safe=","))
+
+                # Get a webenv the first time, then reuse on subsequent requests
+                if params["WebEnv"] == "":
+                    webenv = response.text.split("<WebEnv>")[1].split("</WebEnv>")[0]
+                    params["WebEnv"] = webenv
+                querykey = response.text.split("<QueryKey>")[1].split("</QueryKey>")[0]
+                query_keys.append(querykey)
+
+                trying = True
+                try_count = 0
+                while trying:
+                    if response.status_code == 200:
+                        trying = False
+                    else:
+                        logging.error(
+                            f"Encountered error in posting IDs to PubMed: {response.status_code}"
+                        )
+                        try_count = try_count + 1
+                        if try_count < RETRY_MAX:
+                            logging.info("Trying again...")
+                            time.sleep(0.5)
+                        else:
+                            logging.info(f"Giving up - last status code {response.status_code}")
+                            trying = False
+            logging.info(f"Posted PMIDs to WebEnv:{webenv}.")
+
+            # Now do the fetch
             params = {
                 "db": PUBMED,
-                "query_key": querykey,
+                "query_key": "",
                 "WebEnv": webenv,
                 "rettype": "xml",
             }
 
-            response = requests.get(fetch_url, params=parse.urlencode(params, safe=','))
+            i = 0 # Iterate through the query keys we have
+            for retstart in range(0, len(ids), batch_size):
+                params["query_key"] = query_keys[i]
 
-        if response.status_code == 200:
-            xml_data = response.text
-        else:
-            logging.error(f"Encountered error in fetching from PubMed: {response.status_code}")
+                response = requests.get(fetch_url, params=parse.urlencode(params, safe=","))
+
+                trying = True
+                try_count = 0
+                while trying:
+                    if response.status_code == 200:
+                        data = response.text
+                        xml_data = xml_data + "\n" + data
+                        i = i + 1
+                        trying = False
+                    else:
+                        logging.error(
+                            f"Encountered error in fetching from PubMed: {response.status_code}"
+                        )
+                        try_count = try_count + 1
+                        if try_count < RETRY_MAX:
+                            logging.info("Trying again...")
+                            time.sleep(0.5)
+                        else:
+                            logging.info(f"Giving up - last status code {response.status_code}")
+                            trying = False
+            logging.info("Retrieved document data.")
 
         # Parse that xml - this returns a list of strings
         # if raw is True, the tags are kept, but we still get a list of docs
@@ -271,7 +353,7 @@ class PubmedClient:
         for doc in these_docs:
             if len(doc) > self.max_text_length and not raw:
                 logging.warning(
-                    f'Truncating entry beginning "{doc[:50]}" to {str(self.max_text_length)}...'
+                    f'Truncating entry beginning "{doc[:50]}" to {str(self.max_text_length)} chars...'
                 )
                 shortdoc = doc[0 : self.max_text_length]
                 txt.append(shortdoc)
