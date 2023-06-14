@@ -21,7 +21,7 @@ def _normalize(s: str) -> str:
     return inflection.singularize(s).lower()
 
 
-def _score_paper(paper: str, keywords: List[str]) -> Tuple(PMID, int):
+def _score_paper(paper: str, keywords: List[str]) -> Tuple[PMID, int]:
     """Assign a quality score to a PubMed entry.
 
     Input needs to be XML so it can be parsed by component.
@@ -34,7 +34,7 @@ def _score_paper(paper: str, keywords: List[str]) -> Tuple(PMID, int):
     soup = BeautifulSoup(paper, "xml")
     for pa in soup.find_all("PubmedArticle"):  # This should be one exactly
         ti = pa.find("ArticleTitle").text
-        pmid = pa.find("ArticleId", IdType="pubmed")
+        pmid = pa.find("ArticleId", IdType="pubmed").text
         if pa.find("Abstract"):  # Document may not have abstract
             ab = pa.find("Abstract").text
         else:
@@ -258,10 +258,11 @@ class PubmedClient:
 
         # Parse that xml - this returns a list of strings
         # if raw is True, the tags are kept, but we still get a list of docs
+        # and we don't truncate them
         these_docs = parse_pmxml(xml_data, raw, autoformat)
         txt = []
         for doc in these_docs:
-            if len(doc) > self.max_text_length:
+            if len(doc) > self.max_text_length and not raw:
                 logging.warning(
                     f'Truncating entry beginning "{doc[:50]}" to {str(self.max_text_length)}...'
                 )
@@ -294,7 +295,7 @@ class PubmedClient:
 
         esr = self.get_pmids(term=term)
 
-        paset = self.text(id=esr[0:MAX_PMIDS], raw=True)
+        paset = self.text(ids=esr[0:MAX_PMIDS], raw=True)
 
         scored_papers = [(_score_paper(paper, keywords), paper) for paper in paset]
         scored_papers.sort(key=lambda x: x[1][0], reverse=True)
