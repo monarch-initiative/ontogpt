@@ -3,6 +3,7 @@ import logging
 import time
 from dataclasses import dataclass
 from typing import List, Tuple, Union
+from urllib import parse
 
 import inflection
 import requests
@@ -144,7 +145,10 @@ class PubmedClient:
             }
         else:
             params = {"db": PUBMED, "term": term, "retmode": "json", "retmax": 0}
-        response = requests.get(search_url, params=params)
+
+        # We need to be explicit with the delimiters in this query,
+        # no percent encoding allowed
+        response = requests.get(search_url, params=parse.urlencode(params, safe=','))
 
         if response.status_code == 200:
             data = response.json()
@@ -159,7 +163,7 @@ class PubmedClient:
             params["retstart"] = retstart
             params["retmax"] = batch_size
 
-            response = requests.get(search_url, params=params)
+            response = requests.get(search_url, params=parse.urlencode(params, safe=','))
 
             trying = True
             try_count = 0
@@ -223,7 +227,7 @@ class PubmedClient:
             else:
                 params = {"db": PUBMED, "id": ",".join(ids), "rettype": "xml", "retmode": "xml"}
 
-            response = requests.get(fetch_url, params=params)
+            response = requests.get(fetch_url, params=parse.urlencode(params, safe=','))
 
         else:
             # Do post request first
@@ -238,7 +242,7 @@ class PubmedClient:
             else:
                 params = {"db": PUBMED, "id": ",".join(ids)}
 
-            response = requests.post(post_url, params=params)
+            response = requests.post(post_url, params=parse.urlencode(params, safe=','))
 
             webenv = response.text.split("<WebEnv>")[1].split("</WebEnv>")[0]
             querykey = response.text.split("<QueryKey>")[1].split("</QueryKey>")[0]
@@ -251,7 +255,7 @@ class PubmedClient:
                 "rettype": "xml",
             }
 
-            response = requests.get(fetch_url, params=params)
+            response = requests.get(fetch_url, params=parse.urlencode(params, safe=','))
 
         if response.status_code == 200:
             xml_data = response.text
