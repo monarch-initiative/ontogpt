@@ -19,8 +19,11 @@ classes:
         range: Gene
       exposures:
         description: semicolon-separated list of exposures
+        annotations:
+          # prompt.example
+          prompt: a chemical or molecule whose direct or indirect effects cause one or more entities to experience biological change
         multivalued: true
-        range: Exposure
+        range: ChemicalExposure
       gene_exposures_relationships:
         description: semicolon-separated list of gene to molecular activity relationships
         multivalued: true
@@ -33,7 +36,7 @@ classes:
     annotations:
       annotators: sqlite:obo:hgnc, sqlite:obo:pr
 
-  Exposure:
+  ChemicalExposure:
     is_a: NamedEntity
     id_prefixes:
       - CHEBI
