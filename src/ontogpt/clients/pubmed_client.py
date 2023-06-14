@@ -2,7 +2,7 @@
 import logging
 import time
 from dataclasses import dataclass
-from typing import List, Union
+from typing import List, Tuple, Union
 
 import inflection
 import requests
@@ -21,29 +21,54 @@ def _normalize(s: str) -> str:
     return inflection.singularize(s).lower()
 
 
-# TODO: Add this back
-# def _score_paper(paper: PubmedArticle, keywords: List[str]) -> int:
-#     title_score = _score_text(paper.title, keywords)
-#     abstract_score = _score_text(paper.abstract, keywords)
-#     logging.info(f"Scored {paper.pmid} {paper.title} with TS={title_score} AS={abstract_score} ")
-#     return title_score * TITLE_WEIGHT + abstract_score
+def _score_paper(paper: str, keywords: List[str]) -> Tuple(PMID, int):
+    """Assign a quality score to a PubMed entry.
+
+    Input needs to be XML so it can be parsed by component.
+    :param paper: string, the text of the paper, as XML
+    :param keywords: list of keywords to use in scoring
+    :return: tuple of article ID (PMID) and score
+    """
+
+    # Parse the paper by component first
+    soup = BeautifulSoup(paper, "xml")
+    for pa in soup.find_all("PubmedArticle"):  # This should be one exactly
+        ti = pa.find("ArticleTitle").text
+        pmid = pa.find("ArticleId", IdType="pubmed")
+        if pa.find("Abstract"):  # Document may not have abstract
+            ab = pa.find("Abstract").text
+        else:
+            ab = ""
+
+    title_score = _score_text(ti, keywords)
+    abstract_score = _score_text(ab, keywords)
+    logging.info(f"Scored {pmid} {ti} with TS={title_score} AS={abstract_score} ")
+    score = title_score * TITLE_WEIGHT + abstract_score
+    return (pmid, score)
 
 
-# def _score_text(text: str, keywords: List[str]) -> int:
-#     text = text.lower()
-#     if not text:
-#         return -100
-#     score = 0
-#     for kw in keywords:
-#         if kw in text:
-#             score += 1
-#     return score
+def _score_text(text: str, keywords: List[str]) -> int:
+    """Assign a quality score to a text entry.
+
+    A text entry not mentioning any of its keywords has a score of zero.
+    Score increases by one for each keyword mentioned in the text.
+    :param text: The text to assign the score to
+    :param keywords: The keywords to use in scoring"""
+    text = text.lower()
+    if not text:
+        return -100
+    score = 0
+    for kw in keywords:
+        if kw in text:
+            score += 1
+    return score
 
 
-def parse_pmxml(xml: str, autoformat: bool) -> List[str]:
-    """Extract structured text from  PubMed XML.
+def parse_pmxml(xml: str, raw: bool, autoformat: bool) -> List[str]:
+    """Extract structured text from PubMed XML.
 
     :param xml: One or more xml entries, as string
+    :param raw: if True, do not parse the xml beyond separating documents
     :param autoformat: if True include title and abstract concatenated
     :return: a list of strings, one per entry
     """
@@ -53,7 +78,7 @@ def parse_pmxml(xml: str, autoformat: bool) -> List[str]:
     soup = BeautifulSoup(xml, "xml")
 
     for pa in soup.find_all("PubmedArticle"):
-        if autoformat:
+        if autoformat and not raw:
             ti = pa.find("ArticleTitle").text
             if pa.find("Abstract"):  # Document may not have abstract
                 ab = pa.find("Abstract").text
@@ -62,6 +87,8 @@ def parse_pmxml(xml: str, autoformat: bool) -> List[str]:
             else:
                 kw = ""
             txt = f"Title: {ti}\nAbstract: {ab}\nKeywords: {'; '.join(kw)}"
+        elif raw:
+            txt = str(pa)
         else:
             txt = soup.get_text()
         docs.append(txt)
@@ -99,7 +126,7 @@ class PubmedClient:
 
         pmids = []
 
-        batch_size = 250
+        batch_size = 5000
         retry_max = 2
 
         search_url = EUTILS_URL + "esearch.fcgi"
@@ -153,10 +180,13 @@ class PubmedClient:
 
         return pmids
 
-    def text(self, ids: Union[list[PMID], PMID], autoformat=True) -> Union[list[str], str]:
+    def text(
+        self, ids: Union[list[PMID], PMID], raw=False, autoformat=True
+    ) -> Union[list[str], str]:
         """Get the text of one or more papers from their PMIDs.
 
         :param ids: List of PubMed IDs, or string with single PMID
+        :param raw: if True, do not parse the xml, just return the raw output with tags
         :param autoformat: if True include title and abstract concatenated
         :return: the text of a single entry, or a list of strings for text of multiple entries
         """
@@ -227,7 +257,8 @@ class PubmedClient:
             logging.error("Encountered error in fetching from PubMed:", response.status_code)
 
         # Parse that xml - this returns a list of strings
-        these_docs = parse_pmxml(xml_data, autoformat)
+        # if raw is True, the tags are kept, but we still get a list of docs
+        these_docs = parse_pmxml(xml_data, raw, autoformat)
         txt = []
         for doc in these_docs:
             if len(doc) > self.max_text_length:
@@ -243,26 +274,33 @@ class PubmedClient:
 
         return txt
 
-    # def search(self, term: str, keywords: List[str] = None) -> Iterator[PMID]:
-    #     """Get the text of a paper from its PMID.
+    def search(self, term: str, keywords: List[str] = None) -> List[PMID]:
+        """Get the quality-scored text of PubMed papers relating to a search term and keywords.
 
-    #     :param term:
-    #     :param keywords:
-    #     :return:
-    #     """
-    #     print("Getting client")
-    #     ec = self.entrez_client
-    #     if keywords:
-    #         keywords = [_normalize(kw) for kw in keywords]
-    #         term = f"({term}) AND ({' OR '.join(keywords)})"
-    #     logging.info(f"Searching for {term}...")
-    #     esr = ec.esearch(db="pubmed", term=term)
-    #     logging.info(f"Found {esr.count} papers for {term}.")
-    #     paset = ec.efetch(db="pubmed", id=esr.ids[0:MAX_PMIDS])
-    #     keywords = keywords or []
-    #     keywords = [_normalize(kw) for kw in keywords]
-    #     scored_papers = [(_score_paper(paper, keywords), paper) for paper in paset]
-    #     scored_papers.sort(key=lambda x: x[0], reverse=True)
-    #     for score, paper in scored_papers:
-    #         logging.debug(f"Yielding {paper.pmid} {paper.title} with score {score} ")
-    #         yield f"PMID:{paper.pmid}"
+        This generator yields PMIDs. Note this uses the MAX_PMIDS value
+        to determine how many documents to collect.
+        :param term: search term, a string
+        :param keywords: keywords, a list of strings
+        :return: a list of PMIDs corresponding to the search term and keywords
+        """
+
+        if keywords:
+            keywords = [_normalize(kw) for kw in keywords]
+            term = f"({term}) AND ({' OR '.join(keywords)})"
+        else:
+            keywords = []
+
+        logging.info(f"Searching for {term}...")
+
+        esr = self.get_pmids(term=term)
+
+        paset = self.text(id=esr[0:MAX_PMIDS], raw=True)
+
+        scored_papers = [(_score_paper(paper, keywords), paper) for paper in paset]
+        scored_papers.sort(key=lambda x: x[1][0], reverse=True)
+
+        for id_and_score, paper in scored_papers:
+            pmid = id_and_score[0]
+            score = id_and_score[1]
+            logging.debug(f"Yielding {pmid} with score {score} ")
+            yield f"{pmid}"
