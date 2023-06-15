@@ -131,8 +131,8 @@ class TestCore(unittest.TestCase):
         self.assertEqual(obj.genes, ["a"])
         self.assertEqual(obj.gene_organisms[0].gene, "a")
         self.assertEqual(obj.gene_organisms[0].organism, "b")
-        slot = ke.schemaview.induced_slot("genes", "GeneOrganismRelationship")
-        self.assertEqual(slot.name, "genes")
+        slot = ke.schemaview.induced_slot("gene", "GeneOrganismRelationship")
+        self.assertEqual(slot.name, "gene")
         self.assertEqual(slot.multivalued, True)
         self.assertEqual(slot.range, "Gene")
 
@@ -144,6 +144,7 @@ class TestCore(unittest.TestCase):
         print(f"RESULTS={ann}")
         print(yaml.dump(ann.dict()))
         results = ann.extracted_object
+        print(results)
         if not isinstance(results, GoCamAnnotations):
             raise ValueError(f"Expected GoCamAnnotations, got {type(results)}")
         self.assertIn("HGNC:2514", results.genes)
