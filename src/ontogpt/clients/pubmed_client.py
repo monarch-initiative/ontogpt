@@ -117,8 +117,6 @@ class PubmedClient:
 
     max_text_length = 3000
 
-    logging.basicConfig(level=logging.DEBUG)
-
     try:
         email = get_apikey_value("ncbi-email")
     except ValueError:
@@ -189,7 +187,7 @@ class PubmedClient:
                     try:
                         these_ids = data["esearchresult"]["idlist"]
                         pmids.extend(these_ids)
-                    except KeyError: # Likely an error message.
+                    except KeyError:  # Likely an error message.
                         errortext = data["esearchresult"]["ERROR"]
                         logging.error(f"Response: {errortext}")
                     trying = False
