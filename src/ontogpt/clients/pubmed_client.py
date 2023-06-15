@@ -117,6 +117,8 @@ class PubmedClient:
 
     max_text_length = 3000
 
+    logging.basicConfig(level=logging.DEBUG)
+
     try:
         email = get_apikey_value("ncbi-email")
     except ValueError:
@@ -142,6 +144,7 @@ class PubmedClient:
 
         search_url = EUTILS_URL + "esearch.fcgi"
 
+        logging.info(f"Finding count of PMIDs matching search term {term}...")
         # If retmax==0, we get only the size of the search result in count of PMIDs
         if self.email and self.ncbi_key:
             params = {
@@ -166,8 +169,12 @@ class PubmedClient:
         else:
             logging.error("Encountered error in searching PubMed:", response.status_code)
 
-        # Now we get the list of PMIDs, iterating as needed
+        if resultcount > 9999:
+            logging.warning("PubMed limits search results to 9999 records.")
+        resultcount = 9999
 
+        # Now we get the list of PMIDs, iterating as needed
+        logging.info(f"Retrieving PMIDs matching search term {term}...")
         for retstart in range(0, resultcount, batch_size):
             params["retstart"] = retstart
             params["retmax"] = batch_size
@@ -178,8 +185,13 @@ class PubmedClient:
             try_count = 0
             while trying:
                 if response.status_code == 200:
-                    data = response.json()
-                    pmids.extend(data["esearchresult"]["idlist"])
+                    data = response.json(strict=False)
+                    try:
+                        these_ids = data["esearchresult"]["idlist"]
+                        pmids.extend(these_ids)
+                    except KeyError: # Likely an error message.
+                        errortext = data["esearchresult"]["ERROR"]
+                        logging.error(f"Response: {errortext}")
                     trying = False
                 else:
                     logging.error(f"Encountered error in searching PubMed: {response.status_code}")
@@ -190,7 +202,7 @@ class PubmedClient:
                     else:
                         logging.info(f"Giving up - last status code {response.status_code}")
                         trying = False
-            logging.info("Retrieved PMIDs.")
+        logging.info("Retrieved all PMIDs.")
 
         return pmids
 
