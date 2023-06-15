@@ -79,7 +79,7 @@ def parse_pmxml(xml: str, raw: bool, autoformat: bool) -> List[str]:
     # Preprocess the string to ensure it's valid xml
     if not raw:
         logging.info(f"Preprocessing all xml entries...")
-        header = "\n".join(xml.split('\n', 3)[0:3])
+        header = "\n".join(xml.split("\n", 3)[0:3])
         pmas_opener = "<PubmedArticleSet>"
         pmas_closer = "</PubmedArticleSet>"
         for remove_string in [header, pmas_opener, pmas_closer]:
@@ -116,8 +116,6 @@ class PubmedClient:
     """
 
     max_text_length = 3000
-
-    logging.basicConfig(level=logging.DEBUG)
 
     try:
         email = get_apikey_value("ncbi-email")
