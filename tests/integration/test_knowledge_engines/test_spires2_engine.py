@@ -133,7 +133,7 @@ class TestCore(unittest.TestCase):
         self.assertEqual(obj.gene_organisms[0].organism, "b")
         slot = ke.schemaview.induced_slot("gene", "GeneOrganismRelationship")
         self.assertEqual(slot.name, "gene")
-        self.assertEqual(slot.multivalued, True)
+        self.assertIsNone(slot.multivalued)
         self.assertEqual(slot.range, "Gene")
 
 
