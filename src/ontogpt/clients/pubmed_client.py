@@ -168,6 +168,8 @@ class PubmedClient:
             data = response.json()
             resultcount = int(data["esearchresult"]["count"])
             logging.info(f"Search returned {resultcount} PMIDs matching search term {term}")
+        elif response.status_code == 429:
+            logging.error("Too many requests to NCBI API. Try again later, or use API key.")
         else:
             logging.error("Encountered error in searching PubMed:", response.status_code)
 
@@ -200,7 +202,7 @@ class PubmedClient:
                     try_count = try_count + 1
                     if try_count < RETRY_MAX:
                         logging.info("Trying again...")
-                        time.sleep(0.5)
+                        time.sleep(1)
                     else:
                         logging.info(f"Giving up - last status code {response.status_code}")
                         trying = False
@@ -277,7 +279,7 @@ class PubmedClient:
                         try_count = try_count + 1
                         if try_count < RETRY_MAX:
                             logging.info("Trying again...")
-                            time.sleep(0.5)
+                            time.sleep(1)
                         else:
                             logging.info(f"Giving up - last status code {response.status_code}")
                             trying = False
