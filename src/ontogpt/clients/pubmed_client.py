@@ -291,7 +291,7 @@ class PubmedClient:
                     "WebEnv": "",
                 }
             else:
-                params = {"db": PUBMED, "id": ",".join(ids)}
+                params = {"db": PUBMED, "id": ",".join(ids), "WebEnv": ""}
 
             query_keys = []
 
@@ -304,6 +304,7 @@ class PubmedClient:
                 response = requests.post(post_url, params=parse.urlencode(params, safe=","))
 
                 # Get a webenv the first time, then reuse on subsequent requests
+                # import pdb; pdb.set_trace()
                 if params["WebEnv"] == "":
                     webenv = response.text.split("<WebEnv>")[1].split("</WebEnv>")[0]
                     params["WebEnv"] = webenv
