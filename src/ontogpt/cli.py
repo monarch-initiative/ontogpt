@@ -290,7 +290,7 @@ def pubmed_extract(pmid, template, output, output_format, **kwargs):
 def pubmed_annotate(search, template, output, output_format, **kwargs):
     """Retrieve a collection of PubMed IDs for a search term, then annotate them using a template."""
     logging.info(f"Creating for {template}")
-    pubmed_annotate_limit = 25 # TODO: make this a CLI argument
+    pubmed_annotate_limit = 20 # TODO: make this a CLI argument
     pmc = PubmedClient()
     pmids = pmc.get_pmids(search)
     textlist = pmc.text(pmids[:pubmed_annotate_limit])
