@@ -91,13 +91,17 @@ def parse_pmxml(xml: str, raw: bool, autoformat: bool) -> List[str]:
     logging.info(f"Parsing all xml entries...")
     for pa in soup.find_all(["PubmedArticle", "PubmedBookArticle"]):
         if autoformat and not raw:
-            ti = pa.find("ArticleTitle").text
+            ti = ""
+            if pa.find("ArticleTitle"):
+                ti = pa.find("ArticleTitle").text
+            ab = ""
             if pa.find("Abstract"):  # Document may not have abstract
                 ab = pa.find("Abstract").text
+            kw = ""
             if pa.find("KeywordList"):  # Document may not have MeSH terms or keywords
                 kw = [tag.text for tag in pa.find_all("Keyword")]
-            else:
-                kw = ""
+            # else:
+            #     kw = ""
             txt = f"Title: {ti}\nAbstract: {ab}\nKeywords: {'; '.join(kw)}"
         elif raw:
             txt = str(pa)
