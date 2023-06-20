@@ -1,4 +1,4 @@
-"""oak-ai package."""
+"""ontogpt package."""
 from importlib import metadata
 from pathlib import Path
 
