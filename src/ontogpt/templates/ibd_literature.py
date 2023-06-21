@@ -64,7 +64,7 @@ class Gene(NamedEntity):
     
 
 
-class Exposure(NamedEntity):
+class ChemicalExposure(NamedEntity):
     
     id: str = Field(None, description="""A unique identifier for the named entity""")
     label: Optional[str] = Field(None, description="""The label (name) of the named thing""")
@@ -136,7 +136,7 @@ IBDAnnotations.update_forward_refs()
 ExtractionResult.update_forward_refs()
 NamedEntity.update_forward_refs()
 Gene.update_forward_refs()
-Exposure.update_forward_refs()
+ChemicalExposure.update_forward_refs()
 CompoundExpression.update_forward_refs()
 GeneExposureRelationship.update_forward_refs()
 Triple.update_forward_refs()
