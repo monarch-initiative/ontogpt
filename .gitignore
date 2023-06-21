@@ -143,3 +143,4 @@ training/
 preserved/
 random
 LOG
+*.sqlite
