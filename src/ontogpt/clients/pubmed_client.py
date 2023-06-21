@@ -91,13 +91,17 @@ def parse_pmxml(xml: str, raw: bool, autoformat: bool) -> List[str]:
     logging.info(f"Parsing all xml entries...")
     for pa in soup.find_all(["PubmedArticle", "PubmedBookArticle"]):
         if autoformat and not raw:
-            ti = pa.find("ArticleTitle").text
+            ti = ""
+            if pa.find("ArticleTitle"):
+                ti = pa.find("ArticleTitle").text
+            ab = ""
             if pa.find("Abstract"):  # Document may not have abstract
                 ab = pa.find("Abstract").text
+            kw = ""
             if pa.find("KeywordList"):  # Document may not have MeSH terms or keywords
                 kw = [tag.text for tag in pa.find_all("Keyword")]
-            else:
-                kw = ""
+            # else:
+            #     kw = ""
             txt = f"Title: {ti}\nAbstract: {ab}\nKeywords: {'; '.join(kw)}"
         elif raw:
             txt = str(pa)
@@ -164,6 +168,8 @@ class PubmedClient:
             data = response.json()
             resultcount = int(data["esearchresult"]["count"])
             logging.info(f"Search returned {resultcount} PMIDs matching search term {term}")
+        elif response.status_code == 429:
+            logging.error("Too many requests to NCBI API. Try again later, or use API key.")
         else:
             logging.error("Encountered error in searching PubMed:", response.status_code)
 
@@ -196,7 +202,7 @@ class PubmedClient:
                     try_count = try_count + 1
                     if try_count < RETRY_MAX:
                         logging.info("Trying again...")
-                        time.sleep(0.5)
+                        time.sleep(1)
                     else:
                         logging.info(f"Giving up - last status code {response.status_code}")
                         trying = False
@@ -273,7 +279,7 @@ class PubmedClient:
                         try_count = try_count + 1
                         if try_count < RETRY_MAX:
                             logging.info("Trying again...")
-                            time.sleep(0.5)
+                            time.sleep(1)
                         else:
                             logging.info(f"Giving up - last status code {response.status_code}")
                             trying = False
@@ -291,7 +297,7 @@ class PubmedClient:
                     "WebEnv": "",
                 }
             else:
-                params = {"db": PUBMED, "id": ",".join(ids)}
+                params = {"db": PUBMED, "id": ",".join(ids), "WebEnv": ""}
 
             query_keys = []
 
@@ -304,6 +310,7 @@ class PubmedClient:
                 response = requests.post(post_url, params=parse.urlencode(params, safe=","))
 
                 # Get a webenv the first time, then reuse on subsequent requests
+                # import pdb; pdb.set_trace()
                 if params["WebEnv"] == "":
                     webenv = response.text.split("<WebEnv>")[1].split("</WebEnv>")[0]
                     params["WebEnv"] = webenv
