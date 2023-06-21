@@ -50,9 +50,9 @@ classes:
     is_a:   CompoundExpression
     attributes:
       molecular_activity:
-        range: Exposure
+        range: ChemicalExposure
         annotations:
-          prompt: the name of the exposure, such as a exposure to a chemical toxin. This is an ECTO term.
+          prompt: the name of the exposure, such as a exposure to a chemical toxin.
       gene:
         range: Gene
         annotations:
