@@ -86,30 +86,33 @@ def write_extraction(
     output_format: str = None,
     knowledge_engine: KnowledgeEngine = None,
 ):
-    if output_format == "pickle":
-        output.write(pickle.dumps(results))
-    elif output_format == "md":
-        output = _as_text_writer(output)
-        exporter = MarkdownExporter()
-        exporter.export(results, output)
-    elif output_format == "html":
-        output = _as_text_writer(output)
-        exporter = HTMLExporter()
-        exporter.export(results, output)
-    elif output_format == "yaml":
-        output = _as_text_writer(output)
-        output.write(dump_minimal_yaml(results))
-    elif output_format == "turtle":
-        output = _as_text_writer(output)
-        exporter = RDFExporter()
-        exporter.export(results, output, knowledge_engine.schemaview)
-    elif output_format == "owl":
-        output = _as_text_writer(output)
-        exporter = OWLExporter()
-        exporter.export(results, output, knowledge_engine.schemaview)
-    else:
-        output = _as_text_writer(output)
-        output.write(dump_minimal_yaml(results))
+    """Write results of extraction to a given output stream."""
+    # Check if this result contains anything writable first
+    if results.extracted_object:
+        if output_format == "pickle":
+            output.write(pickle.dumps(results))
+        elif output_format == "md":
+            output = _as_text_writer(output)
+            exporter = MarkdownExporter()
+            exporter.export(results, output)
+        elif output_format == "html":
+            output = _as_text_writer(output)
+            exporter = HTMLExporter()
+            exporter.export(results, output)
+        elif output_format == "yaml":
+            output = _as_text_writer(output)
+            output.write(dump_minimal_yaml(results))
+        elif output_format == "turtle":
+            output = _as_text_writer(output)
+            exporter = RDFExporter()
+            exporter.export(results, output, knowledge_engine.schemaview)
+        elif output_format == "owl":
+            output = _as_text_writer(output)
+            exporter = OWLExporter()
+            exporter.export(results, output, knowledge_engine.schemaview)
+        else:
+            output = _as_text_writer(output)
+            output.write(dump_minimal_yaml(results))
 
 
 inputfile_option = click.option("-i", "--inputfile", help="Path to a file containing input text.")

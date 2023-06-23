@@ -4,6 +4,18 @@ title: IBD Literature Template
 description: >-
   A template for extracting information from IBD literature
 license: https://creativecommons.org/publicdomain/zero/1.0/
+prefixes:
+  CHEBI: http://purl.obolibrary.org/obo/CHEBI_
+  ECTO: http://purl.obolibrary.org/obo/ECTO_
+  ExO: http://purl.obolibrary.org/obo/ExO_
+  HGNC: http://identifiers.org/hgnc/
+  NCIT: http://purl.obolibrary.org/obo/NCIT_
+  core: http://w3id.org/ontogpt/core/
+  ibdlit: http://w3id.org/ontogpt/ibd_literature/
+  linkml: https://w3id.org/linkml/
+
+default_prefix: ibdlit
+default_range: string
 
 imports:
   - linkml:types
