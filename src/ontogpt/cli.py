@@ -304,7 +304,7 @@ def extract(
 @output_format_options
 @click.argument("pmid")
 def pubmed_extract(pmid, template, output, output_format, **kwargs):
-    """Extract knowledge from a PubMed ID."""
+    """Extract knowledge from a single PubMed ID."""
     logging.info(f"Creating for {template}")
     pmc = PubmedClient()
     text = pmc.text(pmid)
@@ -312,6 +312,27 @@ def pubmed_extract(pmid, template, output, output_format, **kwargs):
     logging.debug(f"Input text: {text}")
     results = ke.extract_from_text(text)
     write_extraction(results, output, output_format)
+
+
+@main.command()
+@template_option
+@model_option
+@recurse_option
+@output_option_wb
+@output_format_options
+@click.argument("search")
+def pubmed_annotate(search, template, output, output_format, **kwargs):
+    """Retrieve a collection of PubMed IDs for a search term; annotate them using a template."""
+    logging.info(f"Creating for {template}")
+    pubmed_annotate_limit = 20 # TODO: make this a CLI argument
+    pmc = PubmedClient()
+    pmids = pmc.get_pmids(search)
+    textlist = pmc.text(pmids[:pubmed_annotate_limit + 1])
+    for text in textlist:
+        ke = SPIRESEngine(template, **kwargs)
+        logging.debug(f"Input text: {text}")
+        results = ke.extract_from_text(text)
+        write_extraction(results, output, output_format, ke)
 
 
 @main.command()
@@ -1279,6 +1300,7 @@ def list_models():
             status = "Implemented"
 
         print(f"{primary_name}\t{provider}\t{alternative_names}\t{status}")
+
 
 
 

@@ -29,12 +29,20 @@ Currently three different strategies for knowledge extraction have been implemen
 * OpenAI account
 * Optionally, [BioPortal](https://bioportal.bioontology.org/) account (for grounding)
 
-You will need to set both API keys using the [Ontology Access Kit](https://github.com/INCATools/ontology-access-kit)
+You will need to set API keys using the [Ontology Access Kit](https://github.com/INCATools/ontology-access-kit):
 
 ```bash
 poetry run runoak set-apikey -e openai <your openai api key>
 poetry run runoak set-apikey -e bioportal <your bioportal api key>
+poetry run runoak set-apikey -e ncbi-email <your email address>
+poetry run runoak set-apikey -e ncbi-key <your NCBI api key>
 ```
+
+The OpenAI key is necessary for using OpenAI's GPT models. This is a paid API and you will be charged based on usage. If you do not have an OpenAI account, [you may sign up here](https://platform.openai.com/signup).
+
+The BioPortal key is necessary for using ontologies from [BioPortal](https://bioportal.bioontology.org/). You may get a key by signing up for an account on their web site.
+
+The NCBI email address and API key are used for retrieving text and metadata from PubMed. You may still access these resources without identifying yourself, but you may encounter rate limiting and errors. [Details on NCBI accounts and keys are here.](https://ncbiinsights.ncbi.nlm.nih.gov/2017/11/02/new-api-keys-for-the-e-utilities/)
 
 ## Setup
 
