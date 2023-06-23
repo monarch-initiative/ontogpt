@@ -298,7 +298,7 @@ def pubmed_annotate(search, template, output, output_format, **kwargs):
         ke = SPIRESEngine(template, **kwargs)
         logging.debug(f"Input text: {text}")
         results = ke.extract_from_text(text)
-        write_extraction(results, output, output_format)
+        write_extraction(results, output, output_format, ke)
 
 
 @main.command()
