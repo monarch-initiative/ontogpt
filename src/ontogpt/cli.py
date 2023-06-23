@@ -62,7 +62,7 @@ from ontogpt.io.owl_exporter import OWLExporter
 from ontogpt.io.rdf_exporter import RDFExporter
 from ontogpt.io.yaml_wrapper import dump_minimal_yaml
 from ontogpt.templates.core import ExtractionResult
-
+from ontogpt.utils.pymupdf_helpers import headers_para, fonts, font_tags
 
 @dataclass
 class Settings:
@@ -930,19 +930,29 @@ def diagnose(
 @click.argument("output_directory")
 def extract_case_report_info(pdf_directory, output_directory):
     for filename in os.listdir(pdf_directory):
-        if filename.endswith(".pdf"):
-            pdf_path = os.path.join(pdf_directory, filename)
-            txt_path = os.path.join(output_directory, os.path.splitext(filename)[0] + ".txt")
+            if filename.endswith(".pdf"):
+                pdf_path = os.path.join(pdf_directory, filename)
+                txt_path = os.path.join(output_directory, os.path.splitext(filename)[0] + ".txt")
+                parsed_txt_path = os.path.join(output_directory, os.path.splitext(filename)[0] + "_parsed.txt")
 
-            doc = fitz.open(pdf_path)
-            text = ""
-            for page in doc:
-                text += page.get_text()
+                doc = fitz.open(pdf_path)
 
-            with open(txt_path, "w", encoding="utf-8") as txt_file:
-                txt_file.write(text)
+                font_counts, styles = fonts(doc, granularity=False)
+                size_tag = font_tags(font_counts, styles)
+                elements = headers_para(doc, size_tag)
 
-            doc.close()
+                text = ""
+                for page in doc:
+                    text += page.get_text()
+
+                with open(txt_path, "w", encoding="utf-8") as txt_file:
+                    txt_file.write(text)
+
+                # output parsed text
+                with open(parsed_txt_path, "w", encoding="utf-8") as parsed_txt_file:
+                    parsed_txt_file.write("\n".join(elements))
+
+                doc.close()
 
 
 @main.command()
