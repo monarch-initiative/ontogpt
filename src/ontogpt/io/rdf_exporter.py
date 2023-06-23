@@ -39,9 +39,10 @@ class RDFExporter(Exporter):
         try:
             dmp = rdflib_dumper.dumps(dc_obj, schemaview=schemaview, prefix_map=pm)
             output.write(dmp)
-        except (Exception, ValueError) as e:  
+        except (Exception) as e:  
             # Don't really like catching base Exception here,
-            # but that's what rdflib raises
+            # but that's what rdflib raises.
+            # Otherwise, catch ValueError
             logging.error(e)
 
 
