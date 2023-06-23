@@ -87,7 +87,6 @@ def write_extraction(
     knowledge_engine: KnowledgeEngine = None,
 ):
     """Write results of extraction to a given output stream."""
-
     # Check if this result contains anything writable first
     if results.extracted_object:
         if output_format == "pickle":
