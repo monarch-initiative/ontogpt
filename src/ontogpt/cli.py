@@ -127,11 +127,6 @@ model_option = click.option(
     "-m",
     "--model",
     help="Model name to use, e.g. openai-text-davinci-003."
-<<<<<<< HEAD
-    " The first part of this name must be the source of the model."
-    " The second part must be the model name.",
-=======
->>>>>>> febf45331eb6c3b11c0cb76084121846e0df1419
 )
 prompt_template_option = click.option(
     "--prompt-template", help="Path to a file containing the prompt."
