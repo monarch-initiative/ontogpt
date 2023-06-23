@@ -51,6 +51,8 @@ from ontogpt.utils.gene_set_utils import (
     parse_gene_set,
 )
 from ontogpt.utils.model_utils import get_model
+import os
+import fitz
 
 __all__ = [
     "main",
@@ -916,11 +918,31 @@ def diagnose(
     **kwargs,
 ):
     """Diagnose."""
+    pass
     phenopackets = [json.load(open(f)) for f in phenopacket_files]
     engine = PhenoEngine(model=model)
     results = engine.evaluate(phenopackets)
     print(dump_minimal_yaml(results))
     write_obj_as_csv(results, output)
+
+@main.command()
+@click.argument("pdf_directory")
+@click.argument("output_directory")
+def extract_case_report_info(pdf_directory, output_directory):
+    for filename in os.listdir(pdf_directory):
+        if filename.endswith(".pdf"):
+            pdf_path = os.path.join(pdf_directory, filename)
+            txt_path = os.path.join(output_directory, os.path.splitext(filename)[0] + ".txt")
+
+            doc = fitz.open(pdf_path)
+            text = ""
+            for page in doc:
+                text += page.get_text()
+
+            with open(txt_path, "w", encoding="utf-8") as txt_file:
+                txt_file.write(text)
+
+            doc.close()
 
 
 @main.command()
