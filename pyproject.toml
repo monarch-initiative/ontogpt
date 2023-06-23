@@ -42,14 +42,6 @@ textract = {version = "*", extras = ["textract"], optional = true}
 cachier = ">=2.1.0"
 wikipedia-api = ">=0.5.8"
 semsimian = ">=0.1.13"
-<<<<<<< HEAD
-requests-cache = "^1.0.1"
-langchain = "^0.0.167"
-pygpt4all = {version = "^1.1.0", extras = ["gpt4all"], optional = true}
-streamlit = "^1.22.0"
-gpt4 = "^0.0.1"
-requests = "^2.31.0"
-=======
 pystow = "^0.5.0"
 langchain = ">=0.0.191"
 gpt4all = {version = ">=0.3.0", extras = ["gpt4all"], optional = true}
@@ -57,7 +49,7 @@ requests-cache = ">=1.0.1"
 streamlit = ">=1.22.0"
 gpt4 = ">=0.0.1"
 "ruamel.yaml" = ">=0.17.31"
->>>>>>> febf45331eb6c3b11c0cb76084121846e0df1419
+requests = "^2.31.0"
 
 [tool.poetry.dev-dependencies]
 pytest = ">=7.1.2"
