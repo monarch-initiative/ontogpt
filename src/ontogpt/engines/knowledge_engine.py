@@ -23,8 +23,8 @@ from oaklib.interfaces import MappingProviderInterface, TextAnnotatorInterface
 from oaklib.utilities.apikey_manager import get_apikey_value
 from oaklib.utilities.subsets.value_set_expander import ValueSetExpander
 
+from ontogpt import DEFAULT_MODEL
 from ontogpt.clients import OpenAIClient
-from ontogpt.engines.models import DEFAULT_MODEL, GGML_MODELS, MODELS, OPENAI_MODELS
 from ontogpt.templates.core import ExtractionResult, NamedEntity
 
 this_path = Path(__file__).parent
@@ -97,7 +97,7 @@ class KnowledgeEngine(ABC):
     """OpenAI API key."""
 
     model: MODEL_NAME = None
-    """Language Model. This should be overridden in subclasses"""
+    """Language Model. This may be overridden in subclasses."""
 
     # annotator: TextAnnotatorInterface = None
     # """Default annotator. TODO: deprecate?"""
@@ -150,29 +150,11 @@ class KnowledgeEngine(ABC):
             logging.info(f"Using template {self.template_class.name}")
         if not self.model:
             self.model = DEFAULT_MODEL
-
-        # Identify model source (e.g., OpenAI)
-        # TODO: move this to its own function
-        all_models = [modelname for model in MODELS for modelname in model]
-        if self.model in all_models:
-            all_openai_models = [modelname for model in OPENAI_MODELS for modelname in model]
-            all_ggml_models = [modelname for model in GGML_MODELS for modelname in model]
-            if self.model in all_openai_models:
-                self.client = OpenAIClient(model=self.model)
-                logging.info("Setting up OpenAI client API Key")
-                self.api_key = self._get_openai_api_key()
-                openai.api_key = self.api_key
-            elif self.model in all_ggml_models:
-                # TODO: optional dependencies here, so catch exception if needed
-                raise NotImplementedError("GPT4ALL models - work in progress")
-        else:
-            raise NotImplementedError(
-                "Model name not recognized or not supported yet."
-                " See all models with `ontogpt list-models`"
-            )
         if self.mappers is None:
             logging.info("Using mappers (currently hardcoded)")
             self.mappers = [get_adapter("translator:")]
+
+        self.set_up_client()
         self.encoding = tiktoken.encoding_for_model(self.client.model)
 
     def set_api_key(self, key: str):
@@ -599,3 +581,9 @@ class KnowledgeEngine(ABC):
                     if v:
                         setattr(result, k, v)
         return resultset[0]
+
+    def set_up_client(self):
+        self.client = OpenAIClient(model=self.model)
+        logging.info("Setting up OpenAI client API Key")
+        self.api_key = self._get_openai_api_key()
+        openai.api_key = self.api_key

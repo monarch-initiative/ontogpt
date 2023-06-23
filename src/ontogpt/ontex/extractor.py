@@ -1,40 +1,76 @@
 """Tools to extract sub-ontologies and reasoner tasks."""
+import base64
 import logging
 import random
 import re
 import sys
 import uuid
 from collections import defaultdict
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 from enum import Enum
 from pathlib import Path
-from typing import Any, ClassVar, List, Literal, Optional, TextIO, Tuple, Type, Union
+from typing import (
+    Any,
+    ClassVar,
+    Iterable,
+    List,
+    Literal,
+    Mapping,
+    Optional,
+    TextIO,
+    Tuple,
+    Type,
+    Union,
+)
 
 import inflection
 import yaml
+from oaklib.datamodels.taxon_constraints import SubjectTerm, Taxon, TaxonConstraint
 from oaklib.datamodels.vocabulary import (
     DISJOINT_WITH,
+    IN_TAXON,
+    INVERSE_OF,
     IS_A,
+    NEVER_IN_TAXON,
+    ONLY_IN_TAXON,
     OWL_CLASS,
     OWL_NAMED_INDIVIDUAL,
+    OWL_SYMMETRIC_PROPERTY,
+    OWL_TRANSITIVE_PROPERTY,
     PART_OF,
+    SUBPROPERTY_OF,
 )
+from oaklib.implementations import SqlImplementation
 from oaklib.interfaces import OboGraphInterface
 from oaklib.interfaces.basic_ontology_interface import RELATIONSHIP
 from oaklib.interfaces.obograph_interface import GraphTraversalMethod
 from oaklib.interfaces.semsim_interface import SemanticSimilarityInterface
+from oaklib.interfaces.taxon_constraint_interface import TAXON_PREDICATES, TaxonConstraintInterface
 from oaklib.types import CURIE, PRED_CURIE
 from oaklib.utilities.obograph_utils import shortest_paths
 from pydantic import BaseModel, Field
+from semsql.sqla.semsql import RdfListMemberStatement, RdfTypeStatement, Statements
 
 logger = logging.getLogger(__name__)
+
+
+OBFUSCATED_ID = "str"
 
 
 class Axiom(BaseModel):
     """Represents an individual logical axiom."""
 
-    text: str
+    text: str = None
     """Textual representation of the axiom, e.g A SubClassOf B"""
+
+    obfuscated_text: Optional[str] = None
+    """Textual representation of the axiom, with obfuscated terms"""
+
+    abox: bool = False
+    """Whether the axiom is an ABox axiom."""
+
+    edge: Optional[RELATIONSHIP] = None
+    """The relationship between the two terms in the axiom."""
 
 
 class Ontology(BaseModel):
@@ -63,7 +99,7 @@ class Query(BaseModel):
 
 
 class Explanation(BaseModel):
-    """The collection of axioms that entail some explained axiom."""
+    """A set of axioms that entail some explained axiom."""
 
     axioms: List[Axiom] = []
     text: Optional[str] = None
@@ -150,6 +186,7 @@ class Task(BaseModel):
     _query_format: ClassVar[str] = None
 
     type: Literal["Task"] = Field("Task")
+    _code: ClassVar[str] = None
 
     has_multiple_answers: ClassVar[bool] = True
 
@@ -160,6 +197,7 @@ class Task(BaseModel):
     answers: Optional[List[Answer]] = None
     examples: Optional[List[Example]] = None
     description: Optional[str] = None
+    obfuscated: Optional[bool] = False
 
     method: Optional[GPTReasonMethodType] = None
 
@@ -237,6 +275,7 @@ class OntologyCoherencyTask(Task):
     If there are no unsatisfiable classes, just write NONE."""
 
     type: Literal["OntologyCoherencyTask"] = Field("OntologyCoherencyTask")
+    _code: str = "sat"
 
     has_multiple_answers = False
     answers: Optional[List[ClassAnswer]] = None
@@ -315,6 +354,7 @@ class EntailedIndirectSuperClassTask(Task):
     """
 
     type: Literal["EntailedIndirectSuperClassTask"] = Field("EntailedIndirectSuperClassTask")
+    _code: str = "indirect"
 
     answers: Optional[List[ClassAnswer]] = None
 
@@ -398,6 +438,7 @@ class EntailedTransitiveSuperClassTask(Task):
     """
 
     type: Literal["EntailedTransitiveSuperClassTask"] = Field("EntailedTransitiveSuperClassTask")
+    _code: str = "superc"
 
     answers: Optional[List[ClassAnswer]] = None
 
@@ -504,6 +545,7 @@ class EntailedSubClassOfExpressionTask(Task):
     """
 
     type: Literal["EntailedSubClassOfExpressionTask"] = Field("EntailedSubClassOfExpressionTask")
+    _code: str = "expr"
 
     answers: Optional[List[ClassAnswer]] = None
 
@@ -606,6 +648,7 @@ class EntailedDirectSuperClassTask(Task):
     """
 
     type: Literal["EntailedDirectSuperClassTask"] = Field("EntailedDirectSuperClassTask")
+    _code: str = "dir-sup"
 
     answers: Optional[List[ClassAnswer]] = None
 
@@ -620,6 +663,7 @@ class MostRecentCommonSubsumerTask(Task):
     """
 
     type: Literal["MostRecentCommonSubsumerTask"] = Field("MostRecentCommonSubsumerTask")
+    _code: str = "mrca"
 
     answers: Optional[List[ClassAnswer]] = None
 
@@ -701,6 +745,152 @@ class MostRecentCommonSubsumerTask(Task):
     ]
 
 
+class TaxonConstraintTask(Task):
+    """A task to determine inapplicable classes by taxon."""
+
+    _query_format = """
+    Is the term {params[0]} applicable for the taxon {params[1]}?.
+    Make use of subclass and part of axioms.
+    subclass is transitive: if A subClassOf B and B subClassOf C, then A subClassOf C.
+    part of is transitive: if A subClassOf part_of some B, and B subClassOf part_of some C,
+    then A subClassOf part_of some C.
+    subclass and part of chain: if A subClassOf B and B subClassOf part_of some C,
+    then A subClassOf part_of some C.
+    part of and subclass chain: if A subClassOf part_of some B and B subClassOf C,
+    then A subClassOf part_of some C.
+    only_in_taxon restricts a term to a taxon: if A only_in_taxon T,
+    and T DisjointWith T2, then A is INVALID for T2.
+    never_in_taxon restricts a term to a taxon: if A never_in_taxon T,
+    then A is INVALID for T.
+    only_in_taxon propagates up subClassOf: if A only_in_taxon T, and T subClassOf T2,
+    then A only_in_taxon T2.
+    never_in_taxon propagates down subClassOf: if A only_in_taxon T, and T2 subClassOf T,
+    then A never_in_taxon T2.
+    """
+
+    type: Literal["TaxonConstraintTask"] = Field("TaxonConstraintTask")
+    _code: str = "tc"
+
+    answers: Optional[List[ClassAnswer]] = None
+
+    examples: Optional[List[Example]] = [
+        Example(
+            ontology=Ontology(
+                axioms=[
+                    Axiom(text="E2 SubClassOf part_of some E"),
+                    Axiom(text="E SubClassOf B"),
+                    Axiom(text="B SubClassOf A"),
+                    Axiom(text="C SubClassOf A"),
+                    Axiom(text="D SubClassOf B"),
+                    Axiom(text="D1 SubClassOf D"),
+                    Axiom(text="D2 SubClassOf D"),
+                    Axiom(text="Tax1 SubClassOf Tax1Root"),
+                    Axiom(text="Tax2 SubClassOf Tax1Root"),
+                    Axiom(text="Tax1 DisjointWith Tax2"),
+                    Axiom(text="Tax1x SubClassOf Tax1"),
+                    Axiom(text="Tax1y SubClassOf Tax1"),
+                    Axiom(text="Tax1x DisjointWith Tax1y"),
+                    Axiom(text="Tax1xF SubClassOf Tax1x"),
+                    Axiom(text="Tax1xG SubClassOf Tax1x"),
+                    Axiom(text="Tax1xF DisjointWith Tax1xG"),
+                    Axiom(text="Tax1yJ SubClassOf Tax1y"),
+                    Axiom(text="Tax1yK SubClassOf Tax1y"),
+                    Axiom(text="Tax1yJ DisjointWith Tax1yK"),
+                    Axiom(text="E only_in_taxon Tax1"),
+                    Axiom(text="E never_in_taxon Tax1x"),
+                    Axiom(text="D only_in_taxon Tax1y"),
+                ]
+            ),
+            query_answers=[
+                ExampleQueryAnswers(
+                    query=Query(parameters=["E2", "Tax2"]),
+                    answers=[
+                        ClassAnswer(
+                            text="INVALID",
+                            explanations=[
+                                Explanation(
+                                    text="""Every E2 is part of some E,
+                                            and E is only found in Tax1,
+                                            and Tax1 is disjoint with Tax2,
+                                            therefore E2 is invalid for Tax2""",
+                                    axioms=[
+                                        Axiom(text="E2 SubClassOf part_of some E"),
+                                        Axiom(text="E only_in_taxon Tax1"),
+                                        Axiom(text="Tax1 DisjointWith Tax2"),
+                                    ],
+                                )
+                            ],
+                        ),
+                    ],
+                ),
+                ExampleQueryAnswers(
+                    query=Query(parameters=["E2", "Tax1y"]),
+                    answers=[
+                        ClassAnswer(
+                            text="VALID",
+                            explanations=[
+                                Explanation(
+                                    text="""Every E2 is part of some E,
+                                            E SubClassOf B, B SubClassOf A,
+                                            and there are no conflicting taxon
+                                            constraints for E2, E, B, or A,
+                                            therefore E2 is valid for Tax1y""",
+                                    axioms=[
+                                        Axiom(text="E2 SubClassOf part_of some E"),
+                                        Axiom(text="E SubClassOf B"),
+                                        Axiom(text="B SubClassOf A"),
+                                    ],
+                                )
+                            ],
+                        ),
+                    ],
+                ),
+                ExampleQueryAnswers(
+                    query=Query(parameters=["D", "Tax1y"]),
+                    answers=[
+                        ClassAnswer(
+                            text="VALID",
+                            explanations=[
+                                Explanation(
+                                    text="""Every D is part of some B, B SubClassOf A,
+                                            and there are no conflicting taxon
+                                            constraints for D, B, or A,
+                                            therefore D is valid for Tax1y""",
+                                    axioms=[
+                                        Axiom(text="D SubClassOf part_of some B"),
+                                        Axiom(text="B SubClassOf A"),
+                                    ],
+                                )
+                            ],
+                        ),
+                    ],
+                ),
+                ExampleQueryAnswers(
+                    query=Query(parameters=["E2", "Tax1xF"]),
+                    answers=[
+                        ClassAnswer(
+                            text="INVALID",
+                            explanations=[
+                                Explanation(
+                                    text="""Every E2 is part of some E, and E is never
+                                            found in Tax1x,
+                                            Tax1xF is a subclass of Tax1x,
+                                            therefore E2 is invalid for Tax1xF""",
+                                    axioms=[
+                                        Axiom(text="E2 SubClassOf part_of some E"),
+                                        Axiom(text="E never_in_taxon Tax1x"),
+                                        Axiom(text="Tax1xF SubClassOf Tax1x"),
+                                    ],
+                                )
+                            ],
+                        ),
+                    ],
+                ),
+            ],
+        )
+    ]
+
+
 class ABoxTask(Task):
     """A task to infer assertions over property chains and transitvity in aboxes."""
 
@@ -715,6 +905,7 @@ class ABoxTask(Task):
     """
 
     type: Literal["ABoxTask"] = Field("ABoxTask")
+    _code: str = "abox"
 
     answers: Optional[List[InstanceAnswer]] = None
 
@@ -827,7 +1018,10 @@ class ABoxTask(Task):
 
 
 class TaskCollection(BaseModel):
+    name: Optional[str] = None
     tasks: List[Task] = None
+    obfuscated_curie_map: Optional[Mapping[str, str]] = None
+    name_map: Optional[Mapping[str, str]] = None
 
     @staticmethod
     def load(file_or_object: Union[dict, str, Path, TextIO]):
@@ -871,7 +1065,15 @@ class OntologyExtractor:
     """
 
     adapter: OboGraphInterface
+    additional_axioms: Optional[List[Axiom]] = None
+    query_predicates: Optional[List[PRED_CURIE]] = None
+
     use_identifiers: bool = False
+    name_map: Optional[Mapping[CURIE, OBFUSCATED_ID]] = field(default_factory=lambda: {})
+    obfuscate: bool = False
+    obfuscated_curie_map: Optional[Mapping[OBFUSCATED_ID, CURIE]] = field(
+        default_factory=lambda: {}
+    )
 
     def create_task(
         self, task_type: Union[str, Type[Task]], parameters: Optional[List[Any]] = None, **kwargs
@@ -897,6 +1099,7 @@ class OntologyExtractor:
                 ]
             else:
                 methods = [
+                    self.extract_taxon_constraint_task,
                     self.extract_indirect_superclasses_task,
                     self.extract_transitive_superclasses_task,
                     self.extract_most_recent_common_subsumers_task,
@@ -907,9 +1110,14 @@ class OntologyExtractor:
         for method in methods:
             for _n in range(num_tasks_per_type):
                 task = method(select_random=True)
+                task.obfuscated = self.obfuscate
                 objs.append(task)
                 logger.info(f"  {task.name}")
-        return TaskCollection(tasks=objs)
+        tc = TaskCollection(tasks=objs)
+        if self.obfuscated_curie_map:
+            tc.obfuscated_curie_map = self.obfuscated_curie_map
+        tc.name_map = self.name_map
+        return tc
 
     def extract_ontology(
         self,
@@ -930,7 +1138,12 @@ class OntologyExtractor:
             predicates = [IS_A]
         adapter = self.adapter
         onts = list(adapter.ontologies())
-        ancs = list(adapter.ancestors(terms, predicates=predicates))
+        ancs = list(
+            adapter.ancestors(terms, predicates=predicates, method=GraphTraversalMethod.HOP)
+        )
+        if NEVER_IN_TAXON in predicates:
+            tax_ancs = list(adapter.ancestors(ancs, predicates=[IS_A]))
+            ancs.extend(tax_ancs)
         if roots:
             roots = set(roots)
             ancs = [
@@ -960,9 +1173,14 @@ class OntologyExtractor:
             raise ValueError(
                 f"No axioms found for ancestors {ancs} over {predicates} (roots={roots})"
             )
+
         ontology = Ontology(
             name="-".join(onts), axioms=axioms, terms=terms, predicates=used_predicates
         )
+        if include_abox:
+            ontology.axioms.extend(list(self.extract_rbox()))
+        if self.additional_axioms:
+            ontology.axioms.extend(self.additional_axioms)
         return ontology
 
     def extract_indirect_superclasses_task(
@@ -1120,6 +1338,8 @@ class OntologyExtractor:
                 )
             )
             all_rels = [r for r in all_rels if r[2] in all_entities]
+            if self.query_predicates:
+                all_rels = [r for r in all_rels if r[1] in self.query_predicates]
             # for r in all_rels:
             #     print(r)
             all_indirect_rels = [r for r in all_rels if r not in all_direct_rels]
@@ -1346,6 +1566,73 @@ class OntologyExtractor:
         task.populate()
         return task
 
+    def extract_taxon_constraint_task(
+        self,
+        term: CURIE = None,
+        taxon: CURIE = None,
+        siblings: List[CURIE] = None,
+        never_in=False,
+        select_random=False,
+        **kwargs,
+    ) -> TaxonConstraintTask:
+        adapter = self.adapter
+        taxa = list(adapter.descendants("NCBITaxon:1", predicates=[IS_A]))
+        all_terms = [
+            t for t in adapter.entities(filter_obsoletes=True, owl_type=OWL_CLASS) if t not in taxa
+        ]
+        true_taxa = [t for t in taxa if "Union" not in t]
+        relationships = list(adapter.relationships(predicates=TAXON_PREDICATES))
+        never_in = [rel for rel in relationships if rel[1] == NEVER_IN_TAXON]
+        if not never_in:
+            raise ValueError("No never in taxon relationships")
+        if select_random:
+            if never_in or random.choice([True, False]):
+                anc_term, p, direct_taxon = random.choice(never_in)
+            else:
+                anc_term, p, direct_taxon = random.choice(
+                    [r for r in relationships if r[1] != NEVER_IN_TAXON]
+                )
+            candidates = list(adapter.descendants(anc_term))
+            candidate_taxa = list(adapter.descendants(direct_taxon))
+            candidate_taxa = [t for t in candidate_taxa if t in true_taxa]
+            term = random.choice(candidates)
+            taxon = random.choice(candidate_taxa)
+            remaining = list(set(candidates) - set(all_terms))
+            siblings = random.sample(remaining, min(2, len(remaining)))
+        if not term or not taxon:
+            raise ValueError("Must specify term and taxon")
+        terms = true_taxa + [term] + siblings
+        ontology = self.extract_ontology(terms, predicates=TAXON_PREDICATES + [IS_A, PART_OF])
+        for t in true_taxa:
+            children = {rel[0] for rel in adapter.relationships(objects=[t], predicates=[IS_A])}
+            children = [c for c in children if c in true_taxa]
+            if len(children) > 1:
+                children = list(children)
+                for i in range(len(children)):
+                    for j in range(i + 1, len(children)):
+                        ontology.axioms.append(
+                            self._axiom((children[i], DISJOINT_WITH, children[j]))
+                        )
+        if not isinstance(adapter, TaxonConstraintInterface):
+            raise ValueError("Cannot evaluate taxon constraints")
+        st = SubjectTerm(term, label=adapter.label(term))
+        st.present_in.append(TaxonConstraint(taxon=Taxon(taxon)))
+        st = adapter.eval_candidate_taxon_constraint(st, predicates=[IS_A, PART_OF])
+        if st.unsatisfiable:
+            validity = "INVALID"
+        else:
+            validity = "VALID"
+        answers = []
+        answers.append(ClassAnswer(text=validity, explanations=[]))
+        task = TaxonConstraintTask(
+            ontology=ontology,
+            query=Query(parameters=[self._name(term), self._name(taxon)]),
+            answers=answers,
+            **kwargs,
+        )
+        task.populate()
+        return task
+
     def _axiom(self, rel: RELATIONSHIP, tbox=True) -> Axiom:
         s, p, o = rel
         s_n, p_n, o_n = self._name(s), self._name(p), self._name(o)
@@ -1353,18 +1640,56 @@ class OntologyExtractor:
             return Axiom(text=f"{s_n} SubClassOf {o_n}")
         elif p == DISJOINT_WITH:
             return Axiom(text=f"{s_n} DisjointWith {o_n}")
+        elif p == NEVER_IN_TAXON:
+            return Axiom(text=f"{s_n} never_in_taxon {o_n}")
+        elif p in [IN_TAXON, ONLY_IN_TAXON]:
+            return Axiom(text=f"{s_n} only_in_taxon {o_n}")
         elif tbox:
             return Axiom(text=f"{s_n} SubClassOf {p_n} Some {o_n}")
         else:
             return Axiom(text=f"{s_n} {p_n} {o_n}")
 
     def _name(self, curie: CURIE) -> str:
-        if self.use_identifiers:
+        lbl = self.adapter.label(curie)
+        if lbl is None:
             return curie
         else:
-            lbl = self.adapter.label(curie)
-            if lbl is None:
-                return curie
-            else:
-                lbl = re.sub(r"\W+", "_", lbl)
-                return inflection.camelize(lbl)
+            lbl = re.sub(r"\W+", "_", lbl)
+        lbl = inflection.camelize(lbl)
+        self.name_map[curie] = lbl
+        if self.use_identifiers:
+            return curie
+        elif self.obfuscate:
+            obfuscated = base64.b64encode(curie.encode("utf-8")).decode("utf-8")
+            self.obfuscated_curie_map[obfuscated] = curie
+            return obfuscated
+        else:
+            return lbl
+
+    def extract_rbox(self) -> Iterable[Axiom]:
+        if not isinstance(self.adapter, SqlImplementation):
+            raise ValueError("Only SQL adapters supported")
+        session = self.adapter.session
+        for name, curie in [
+            ("TransitiveProperty", OWL_TRANSITIVE_PROPERTY),
+            ("SymmetricProperty", OWL_SYMMETRIC_PROPERTY),
+        ]:
+            q = session.query(RdfTypeStatement).filter(RdfTypeStatement.object == curie)
+            for row in q:
+                yield Axiom(text=f"{self._name(row.subject)} type {name}")
+        for row in session.query(Statements).filter(Statements.predicate == SUBPROPERTY_OF):
+            yield Axiom(text=f"{self._name(row.subject)} SubPropertyOf {self._name(row.object)}")
+        for row in session.query(Statements).filter(Statements.predicate == INVERSE_OF):
+            yield Axiom(text=f"{self._name(row.subject)} SubPropertyOf {self._name(row.object)}")
+        for row in session.query(Statements).filter(
+            Statements.predicate == "owl:propertyChainAxiom"
+        ):
+            entailed_pred = row.subject
+            bnode = row.object
+            chain = []
+            for inner_row in session.query(RdfListMemberStatement.object).filter(
+                RdfListMemberStatement.subject == bnode
+            ):
+                chain.append(inner_row[0])
+            expr = " o ".join(self._name(p) for p in chain)
+            yield Axiom(text=f"{expr} SubPropertyOf {self._name(entailed_pred)}")

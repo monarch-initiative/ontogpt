@@ -1,0 +1,118 @@
+What is the relationship between the two specified concepts?
+
+Give your answer in the form:
+
+category: <one of: EXACT_MATCH, BROADER_THAN, NARROWER_THAN, RELATED_TO, DIFFERENT>
+confidence: <one of: LOW, HIGH, MEDIUM>
+similarities: <semicolon-separated list of similarities>
+differences: <semicolon-separated list of differences>
+
+Make use of all provided information, including the concept names, definitions, and relationships.
+
+Examples:
+
+---
+
+[Concept A]
+id: FOO:123
+name: car
+def: a vehicle with four wheels
+is_a: Vehicle
+
+[Concept B]
+id: BAR:456
+name: automobile
+def: A motorized 4-wheeled vehicle
+is_a: MotorizedVehicle
+
+category: EXACT_MATCH
+confidence: HIGH
+similarities: same concept; vehicle; number of wheels
+differences: B mentions motorized; name
+
+---
+
+[Concept A]
+id: FOO:123
+name: car
+def: a vehicle with four wheels
+is_a: Vehicle
+relationship: has_part Wheel
+
+[Concept B]
+id: BAR:457
+name: car
+synonyms: caboose; railroad car
+def: A railway vehicle that forms part of a train
+is_a: Vehicle
+relationship: part_of Train
+
+category: RELATED_TO
+confidence: MEDIUM
+similarities: vehicle; function
+differences: B is a railway car
+
+---
+
+[Concept A]
+id: FOO:125
+name: wing
+def: part of a bird that is flapped to enable flight
+is_a: Limb
+relationship: part_of Bird
+relationship: has_part Feather
+
+[Concept B]
+id: BAR:458
+name: wing
+relationship: part_of Aeroplane
+
+category: DIFFERENT
+confidence: HIGH
+similarities: function
+differences: A is an anatomical part; B is a part of a vehicle
+
+---
+
+[Concept A]
+id: BAZ:789
+name: head
+def: part of the body that has the brain
+is_a: Appendage
+relationship: part_of Body
+
+[Concept B]
+id: XYZ:123
+name: head
+def: the toilet in a ship
+
+category: DIFFERENT
+confidence: HIGH
+similarities: NONE
+differences: A is an anatomical part; B is a lavatory
+
+---
+
+Here are the two concepts:
+
+{% macro write_concept(concept, role) -%}
+[Concept {{ role }}]
+id: {{concept.id}}
+name: {{concept.label}}
+{% if concept.definition -%}
+def: {{concept.definition}}
+{%- endif %}
+{% if concept.synonyms -%}
+synonyms: {% for synonym in concept.synonyms %} {{synonym}} ; {% endfor %}
+{%- endif  %}
+{% if concept.parents -%}
+is_a: {% for parent in concept.parents %} {{parent}} ; {% endfor %}
+{%- endif  %}
+{% for rel in concept.relationships -%}
+relationship: {{rel.predicate_label}} {{rel.object_label}}
+{% endfor -%}
+{%- endmacro %}
+
+{{ write_concept(subject, 'A') }}
+{{ write_concept(object, 'B') }}
+

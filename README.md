@@ -94,7 +94,7 @@ Note: The value accepted by the `-t` / `--template` argument is the base name of
 
 #### Output
 
-The output returned from the above command is knowledge can be optionally redirected into an output file using the `-o` / `--output`.
+The output returned from the above command can be optionally redirected into an output file using the `-o` / `--output`.
 
 The following is a small part of what the larger schema-compliant output looks like:
 
@@ -388,6 +388,19 @@ To start:
 poetry run streamlit run src/ontogpt/streamlit/spindoctor.py
 ```
 
+### Using local models
+
+OntoGPT supports using language models released by [GPT4All](https://gpt4all.io/).
+
+Specify the name of a model when using the `extract` command with the `-m` or `--model` option and OntoGPT will retrieve the model.
+
+For example:
+
+```
+ontogpt --verbose extract -t mendelian_disease.MendelianDisease -i mendelian-disease-sly.txt -m ggml-gpt4all-j-v1.3-groovy
+```
+
+will download the `ggml-gpt4all-j-v1.3-groovy.bin` file, generate a prompt, and try that prompt against the specified model.
 
 ## Citation
 
