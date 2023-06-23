@@ -31,7 +31,6 @@ def _score_paper(paper: str, keywords: List[str]) -> Tuple[PMID, int]:
     :param keywords: list of keywords to use in scoring
     :return: tuple of article ID (PMID) and score
     """
-
     # Parse the paper by component first
     soup = BeautifulSoup(paper, "xml")
     for pa in soup.find_all(["PubmedArticle", "PubmedBookArticle"]):  # This should be one exactly
@@ -55,7 +54,8 @@ def _score_text(text: str, keywords: List[str]) -> int:
     A text entry not mentioning any of its keywords has a score of zero.
     Score increases by one for each keyword mentioned in the text.
     :param text: The text to assign the score to
-    :param keywords: The keywords to use in scoring"""
+    :param keywords: The keywords to use in scoring
+    """
     text = text.lower()
     if not text:
         return -100
@@ -78,7 +78,7 @@ def parse_pmxml(xml: str, raw: bool, autoformat: bool) -> List[str]:
 
     # Preprocess the string to ensure it's valid xml
     if not raw:
-        logging.info(f"Preprocessing all xml entries...")
+        logging.info("Preprocessing all xml entries...")
         header = "\n".join(xml.split("\n", 3)[0:3])
         pmas_opener = "<PubmedArticleSet>"
         pmas_closer = "</PubmedArticleSet>"
@@ -88,7 +88,7 @@ def parse_pmxml(xml: str, raw: bool, autoformat: bool) -> List[str]:
 
     soup = BeautifulSoup(xml, "xml")
 
-    logging.info(f"Parsing all xml entries...")
+    logging.info("Parsing all xml entries...")
     for pa in soup.find_all(["PubmedArticle", "PubmedBookArticle"]):
         if autoformat and not raw:
             ti = ""
@@ -125,13 +125,13 @@ class PubmedClient:
         email = get_apikey_value("ncbi-email")
     except ValueError:
         email = None
-        logging.info(f"Email for NCBI API not found.")
+        logging.info("Email for NCBI API not found.")
 
     try:
         ncbi_key = get_apikey_value("ncbi-key")
     except ValueError:
         ncbi_key = None
-        logging.info(f"NCBI API key not found. Will use no key.")
+        logging.info("NCBI API key not found. Will use no key.")
 
     def get_pmids(self, term: str) -> List[str]:
         """Search PubMed and retrieve a list of PMIDs matching the search term.
@@ -139,7 +139,6 @@ class PubmedClient:
         :param term: The search term to query PubMed.
         :return: A list of PMIDs matching the search term.
         """
-
         pmids = []
 
         batch_size = 5000
@@ -220,7 +219,6 @@ class PubmedClient:
         :param autoformat: if True include title and abstract concatenated
         :return: the text of a single entry, or a list of strings for text of multiple entries
         """
-
         batch_size = 200
 
         # Check if the PMID(s) can be parsed
@@ -377,7 +375,7 @@ class PubmedClient:
         for doc in these_docs:
             if len(doc) > self.max_text_length and not raw:
                 logging.warning(
-                    f'Truncating entry beginning "{doc[:50]}" to {str(self.max_text_length)} chars...'
+                    f'Truncating entry beginning "{doc[:50]}" to {str(self.max_text_length)} chars'
                 )
                 shortdoc = doc[0 : self.max_text_length]
                 txt.append(shortdoc)
@@ -398,7 +396,6 @@ class PubmedClient:
         :param keywords: keywords, a list of strings
         :return: a list of PMIDs corresponding to the search term and keywords
         """
-
         if keywords:
             keywords = [_normalize(kw) for kw in keywords]
             term = f"({term}) AND ({' OR '.join(keywords)})"
@@ -414,7 +411,7 @@ class PubmedClient:
         scored_papers = [(_score_paper(paper, keywords), paper) for paper in paset]
         scored_papers.sort(key=lambda x: x[1][0], reverse=True)
 
-        for id_and_score, paper in scored_papers:
+        for id_and_score, _paper in scored_papers:
             pmid = id_and_score[0]
             score = id_and_score[1]
             logging.debug(f"Yielding {pmid} with score {score} ")
