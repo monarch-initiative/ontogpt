@@ -11,6 +11,7 @@ prefixes:
   HGNC: http://identifiers.org/hgnc/
   NCIT: http://purl.obolibrary.org/obo/NCIT_
   core: http://w3id.org/ontogpt/core/
+  ibdlit: http://w3id.org/ontogpt/ibd_literature/
   linkml: https://w3id.org/linkml/
 
 default_prefix: ibdlit
