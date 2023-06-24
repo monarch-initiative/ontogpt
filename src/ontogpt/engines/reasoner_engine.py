@@ -8,8 +8,8 @@ from typing import List, Optional, Union
 from jinja2 import Template
 from pydantic import BaseModel
 
+from ontogpt import MODELS
 from ontogpt.engines.knowledge_engine import KnowledgeEngine
-from ontogpt.engines.models import MODEL_GPT_4
 from ontogpt.ontex.extractor import (
     Answer,
     Axiom,
@@ -23,6 +23,8 @@ from ontogpt.utils.parse_utils import split_on_one_of
 
 logger = logging.getLogger(__name__)
 
+
+MODEL_GPT_4_NAMES = [model["alternative_names"][0] for model in MODELS if model["name"] == "MODEL_GPT_4"][0]
 
 def flatten_list(lst):
     flat_list = []
@@ -41,20 +43,21 @@ class ReasonerResult(BaseModel):
     completed: Optional[bool] = True
     task_name: Optional[str] = None
     task_type: Optional[str] = None
+    task_obfuscated: Optional[bool] = None
     method: Optional[GPTReasonMethodType] = None
     model: Optional[str] = None
     description: Optional[str] = None
     answers: Optional[List[Answer]] = None
     prompt: Optional[str] = None
     completion: Optional[str] = None
-    jaccard_score: Optional[float] = None
+    jaccard_score: Optional[float] = 0.0
     false_positives: Optional[List[str]] = None
     false_negatives: Optional[List[str]] = None
     num_false_positives: Optional[int] = None
     num_false_negatives: Optional[int] = None
     num_true_positives: Optional[int] = None
     num_true_negatives: Optional[int] = None
-    precision: Optional[float] = None
+    precision: Optional[float] = 0.0
     recall: Optional[float] = None
     f1_score: Optional[float] = None
     len_shortest_explanation: Optional[int] = None
@@ -166,7 +169,7 @@ class ReasonerEngine(KnowledgeEngine):
         logger.info(f"Prompt: {prompt}")
         prompt_length = len(self.encoding.encode(prompt)) + 10
         max_len_total = 4097
-        if self.model == MODEL_GPT_4:
+        if self.model in MODEL_GPT_4_NAMES:
             max_len_total = 8193
         max_len = max_len_total - completion_length
         completed = True
@@ -174,8 +177,10 @@ class ReasonerEngine(KnowledgeEngine):
         if prompt_length > max_len:
             if strict:
                 raise ValueError(f"Prompt length ({prompt_length}) exceeds maximum ({max_len})")
+            logger.warning(f"Prompt length ({prompt_length}) exceeds maximum ({max_len})")
             answers = []
             completed = False
+            payload = ""
         else:
             payload = self.client.complete(prompt, max_tokens=completion_length)
             if task.has_multiple_answers:
@@ -183,18 +188,21 @@ class ReasonerEngine(KnowledgeEngine):
                 answers = [self._parse_single_answer(e, task) for e in elements]
             else:
                 answers = [self._parse_single_answer(payload, task)]
-            answers = flatten_list(answers)
+            answers = [a for a in flatten_list(answers) if a is not None]
         result = ReasonerResult(
             completed=completed,
             task_name=task.name,
             task_type=task.type,
+            task_obfuscated=task.obfuscated,
             method=task.method,
             len_shortest_explanation=task.len_shortest_explanation,
             model=self.model,
             prompt=prompt,
             completion=payload,
-            answers=[a for a in answers if a],
         )
+        # TODO: determine which it doesn't work to initialize with this
+        result.answers = answers
+        logger.debug(f"Answers: {task.answers} // {answers}")
         result.name = f"{task.name}-{task.method.value}-{self.model}"
         if not task.answers and evaluate:
             raise ValueError(f"Cannot evaluate without expected answers: {task}")
@@ -260,6 +268,7 @@ class ReasonerEngine(KnowledgeEngine):
 
     def evaluate(self, result: ReasonerResult, task: Task):
         """Evaluate result against task."""
+        logger.debug(f"Evaluating result: {result}")
         positives = {t.text for t in task.answers}
         result_answer_texts = {a.text for a in result.answers}
         ixn = positives.intersection(result_answer_texts)
@@ -269,9 +278,11 @@ class ReasonerEngine(KnowledgeEngine):
         result.num_false_positives = len(result.false_positives)
         result.num_false_negatives = len(result.false_negatives)
         result.num_true_positives = len(ixn)
-        result.precision = result.num_true_positives / (
-            result.num_true_positives + result.num_false_positives
-        )
+        tp_plus_tn = result.num_true_positives + result.num_false_positives
+        if tp_plus_tn == 0:
+            result.precision = 0.0
+        else:
+            result.precision = result.num_true_positives / tp_plus_tn
         result.recall = result.num_true_positives / len(positives)
         if len(all_texts) == 0:
             result.jaccard_score = 0.0

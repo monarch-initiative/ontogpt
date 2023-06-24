@@ -1,0 +1,22 @@
+"edi.1","Long-term studies of secondary succession and community assembly in the prairie-forest
+ecotone of eastern Kansas, Old-field succession experiment","LTREB,NSF,plant community,succession,fertilization"," Local and regional-scale processes interact to govern the assembly, diversity and
+functioning of ecological communities. Evaluating the interplay of these differently-scaled
+processes in the regulation of ecological systems is a challenging problem, but is crucial
+towards understanding and predicting the potential effects of accelerated human activity on
+biological diversity and ecosystem sustainability. Since 2000, two long-term field
+experiments have been underway in grasslands of eastern Kansas to investigate the interplay
+of soil resource availability, species interactions and regional processes governing plant
+secondary succession, community assembly, biodiversity, and ecosystem functioning. Both
+experiments involve manipulations of soil nutrients in permanent grassland study plots and
+employ multi-species seed addition treatments to evaluate the contribution of dispersal
+limitation and regional constraints on local species pools to the regulation of plant
+community dynamics.  Old-field succession experiment, previously funded by the National Science Foundation,
+was initiated in 2001 in a section of the abandoned hay field that was sprayed with
+herbicide, plowed and disked prior to the start of the study to investigate plant community
+dynamics in the context of old-field succession initiated on bare soil. The experimental
+design involves factorial experimental gradients of nitrogen (N) supply (four levels of N
+fertilization), phosphorus (P) supply (two levels of P fertilization) and plant propagule
+input achieved by adding seeds of 50+ native and naturalized species to half of the study
+plots. With annual sampling this experiment allows us to examine old-field succession and
+community assembly unfolding along gradients of N and P fertilization and under conditions
+of ambient and experimentally-enriched species pools. "

@@ -1,5 +1,6 @@
-"""Command line interface for oak-ai."""
+"""Command line interface for ontogpt."""
 import codecs
+import json
 import logging
 import pickle
 import sys
@@ -17,9 +18,11 @@ from oaklib import get_adapter
 from oaklib.cli import query_terms_iterator
 from oaklib.interfaces import OboGraphInterface
 from oaklib.io.streaming_csv_writer import StreamingCsvWriter
+from sssom.parsers import parse_sssom_table, to_mapping_set_document
+from sssom.util import to_mapping_set_dataframe
 
 import ontogpt.ontex.extractor as extractor
-from ontogpt import __version__
+from ontogpt import MODELS, DEFAULT_MODEL, __version__
 from ontogpt.clients import OpenAIClient
 from ontogpt.clients.pubmed_client import PubmedClient
 from ontogpt.clients.soup_client import SoupClient
@@ -27,9 +30,12 @@ from ontogpt.clients.wikipedia_client import WikipediaClient
 from ontogpt.engines import create_engine
 from ontogpt.engines.embedding_similarity_engine import SimilarityEngine
 from ontogpt.engines.enrichment import EnrichmentEngine
+from ontogpt.engines.ggml_engine import GGMLEngine
+from ontogpt.engines.generic_engine import GenericEngine, QuestionCollection
 from ontogpt.engines.halo_engine import HALOEngine
 from ontogpt.engines.knowledge_engine import KnowledgeEngine
-from ontogpt.engines.models import MODELS
+from ontogpt.engines.mapping_engine import MappingEngine
+from ontogpt.engines.pheno_engine import PhenoEngine
 from ontogpt.engines.reasoner_engine import ReasonerEngine
 from ontogpt.engines.spires_engine import SPIRESEngine
 from ontogpt.engines.synonym_engine import SynonymEngine
@@ -44,6 +50,7 @@ from ontogpt.utils.gene_set_utils import (
     fill_missing_gene_set_values,
     parse_gene_set,
 )
+from ontogpt.utils.model_utils import get_model
 
 __all__ = [
     "main",
@@ -120,8 +127,6 @@ model_option = click.option(
     "-m",
     "--model",
     help="Model name to use, e.g. openai-text-davinci-003."
-    " The first part of this name must be the source of the model."
-    " The second part must be the model name.",
 )
 prompt_template_option = click.option(
     "--prompt-template", help="Path to a file containing the prompt."
@@ -155,11 +160,13 @@ output_format_options = click.option(
 @click.option("-q", "--quiet")
 @click.option("--cache-db", help="Path to sqlite database to cache prompt-completion results")
 @click.option(
-    "--skip-annotator", multiple=True, help="Skip annotator (e.g. --skip-annotator gilda)"
+    "--skip-annotator",
+    multiple=True,
+    help="Skip one or more annotators (e.g. --skip-annotator gilda)",
 )
 @click.version_option(__version__)
 def main(verbose: int, quiet: bool, cache_db: str, skip_annotator):
-    """CLI for oak-ai.
+    """CLI for ontogpt.
 
     :param verbose: Verbosity while running.
     :param quiet: Boolean to be quiet or verbose.
@@ -190,7 +197,11 @@ def main(verbose: int, quiet: bool, cache_db: str, skip_annotator):
 @click.option("--dictionary")
 @output_format_options
 @use_textract_options
-@click.option("--auto-prefix", default="AUTO", help="Prefix to use for auto-generated classes.")
+@click.option(
+    "--auto-prefix",
+    default="AUTO",
+    help="Prefix to use for auto-generated classes. Default is AUTO.",
+)
 @click.option(
     "--set-slot-value",
     "-S",
@@ -208,6 +219,7 @@ def extract(
     output_format,
     set_slot_value,
     use_textract,
+    model,
     **kwargs,
 ):
     """Extract knowledge from text guided by schema, using SPIRES engine.
@@ -229,27 +241,49 @@ def extract(
 
     """
     logging.info(f"Creating for {template}")
-    ke = SPIRESEngine(template, **kwargs)
-    if settings.cache_db:
-        ke.client.cache_db_path = settings.cache_db
-    if settings.skip_annotators:
-        ke.client.skip_annotators = settings.skip_annotators
-    if dictionary:
-        ke.load_dictionary(dictionary)
+
+    # Choose model based on input, or use the default
+    model_source = "OpenAI"
+    found = False
+    for knownmodel in MODELS:
+        if model in knownmodel["alternative_names"] or model == knownmodel["name"]:
+            selectmodel = knownmodel
+            model_source = selectmodel["provider"]
+            found = True
+            break
+    if model and not found:
+        logging.info(
+            f"""Model name not recognized or not supported yet. Using default, {DEFAULT_MODEL}.
+            See all models with `ontogpt list-models`"""
+        )
+
+    if not inputfile or inputfile == "-":
+        text = sys.stdin.read()
     if inputfile and Path(inputfile).exists():
+        logging.info(f"Input file: {inputfile}")
         if use_textract:
             import textract
 
             text = textract.process(inputfile).decode("utf-8")
         else:
             text = open(inputfile, "r").read()
+        logging.info(f"Input text: {text}")
     elif inputfile and not Path(inputfile).exists():
         raise FileNotFoundError(f"Cannot find input file {inputfile}")
-    elif input:
-        text = input
-    elif not input or input == "-":
-        text = sys.stdin.read()
-    logging.info(f"Input text: {text}")
+
+    if model_source == "OpenAI":
+        ke = SPIRESEngine(template, **kwargs)
+        if settings.cache_db:
+            ke.client.cache_db_path = settings.cache_db
+        if settings.skip_annotators:
+            ke.client.skip_annotators = settings.skip_annotators
+
+    elif model_source == "GPT4All":
+        model_path = get_model(selectmodel["url"])
+        ke = GGMLEngine(template=template, local_model=model_path, **kwargs)
+
+    if dictionary:
+        ke.load_dictionary(dictionary)
     if target_class:
         target_class_def = ke.schemaview.get_class(target_class)
     else:
@@ -288,7 +322,7 @@ def pubmed_extract(pmid, template, output, output_format, **kwargs):
 @output_format_options
 @click.argument("search")
 def pubmed_annotate(search, template, output, output_format, **kwargs):
-    """Retrieve a collection of PubMed IDs for a search term, then annotate them using a template."""
+    """Retrieve a collection of PubMed IDs for a search term; annotate them using a template."""
     logging.info(f"Creating for {template}")
     pubmed_annotate_limit = 20 # TODO: make this a CLI argument
     pmc = PubmedClient()
@@ -310,7 +344,7 @@ def pubmed_annotate(search, template, output, output_format, **kwargs):
 @click.option("--auto-prefix", default="AUTO", help="Prefix to use for auto-generated classes.")
 @click.argument("article")
 def wikipedia_extract(article, template, output, output_format, **kwargs):
-    """Extract knowledge from a wikipedia page."""
+    """Extract knowledge from a Wikipedia page."""
     logging.info(f"Creating for {template} => {article}")
     client = WikipediaClient()
     text = client.text(article)
@@ -334,7 +368,7 @@ def wikipedia_extract(article, template, output, output_format, **kwargs):
 )
 @click.argument("topic")
 def wikipedia_search(topic, keyword, template, output, output_format, **kwargs):
-    """Extract knowledge from a wikipedia page."""
+    """Extract knowledge from a Wikipedia page."""
     logging.info(f"Creating for {template} => {topic}")
     client = WikipediaClient()
     keywords = list(keyword) if keyword else []
@@ -364,7 +398,7 @@ def wikipedia_search(topic, keyword, template, output, output_format, **kwargs):
 @output_format_options
 @click.argument("pmcid")
 def pmc_extract(pmcid, template, output, output_format, **kwargs):
-    """Extract knowledge from PMC (TODO)."""
+    """Extract knowledge from PubMed Central texts (TODO)."""
     logging.info(f"Creating for {template}")
     pmc = PubmedClient()
     ec = pmc.entrez_client
@@ -390,7 +424,7 @@ def pmc_extract(pmcid, template, output, output_format, **kwargs):
 )
 @click.argument("term_tokens", nargs=-1)
 def search_and_extract(term_tokens, keyword, template, output, output_format, **kwargs):
-    """Search for relevant literature and extracts knowledge from it."""
+    """Search for relevant literature and extract knowledge from it."""
     term = " ".join(term_tokens)
     logging.info(f"Creating for {template}; search={term} kw={keyword}")
     ke = SPIRESEngine(template, **kwargs)
@@ -442,6 +476,7 @@ def web_extract(template, url, output, output_format, **kwargs):
     help="File with URLs to recipes to use for extraction",
 )
 @click.option("--auto-prefix", default="AUTO", help="Prefix to use for auto-generated classes.")
+@model_option
 @click.argument("url")
 def recipe_extract(url, recipes_urls_file, dictionary, output, output_format, **kwargs):
     """Extract from recipe on the web."""
@@ -472,6 +507,7 @@ def recipe_extract(url, recipes_urls_file, dictionary, output, output_format, **
     """
     logging.info(f"Input text: {text}")
     results = ke.extract_from_text(text)
+    logging.debug(f"Results: {results}")
     results.extracted_object.url = url
     write_extraction(results, output, output_format, ke)
 
@@ -574,7 +610,7 @@ def convert_geneset(input_file, output, output_format, fill, **kwargs):
 )
 @click.option(
     "--randomize-gene-descriptions-using-file",
-    help="FOR EVALUATION ONLY. swap out gene descriptions with genes from this gene set filefile",
+    help="FOR EVALUATION ONLY. Swap out gene descriptions with genes from this gene set filefile",
 )
 @click.option(
     "--ontological-synopsis/--no-ontological-synopsis",
@@ -615,7 +651,7 @@ def enrichment(
     randomize_gene_descriptions_using_file,
     **kwargs,
 ):
-    """Gene class enrichment.
+    """Gene class summary enriching (SPINDOCTOR).
 
     Algorithm:
 
@@ -625,7 +661,7 @@ def enrichment(
 
     Limitations:
 
-    It is very easy to exceed the max token length; resolved in GPT-4?
+    It is very easy to exceed the max token length with GPT-3 models.
 
     Usage:
 
@@ -807,7 +843,7 @@ def text_distance(text, context, output, model, output_format, **kwargs):
 def entity_similarity(terms, ontology, output, model, output_format, **kwargs):
     """Embed text.
 
-    Uses ada by default, currently: $0.0004 / 1K tokens
+    Uses the OpenAI ada embedding model by default, currently: $0.0004 / 1K tokens
     """
     if not terms:
         raise ValueError("terms must be passed")
@@ -892,6 +928,106 @@ def reason(
 
 @main.command()
 @output_option_txt
+@model_option
+@click.argument("phenopacket_files", nargs=-1)
+def diagnose(
+    phenopacket_files,
+    model,
+    output,
+    **kwargs,
+):
+    """Diagnose."""
+    phenopackets = [json.load(open(f)) for f in phenopacket_files]
+    engine = PhenoEngine(model=model)
+    results = engine.evaluate(phenopackets)
+    print(dump_minimal_yaml(results))
+    write_obj_as_csv(results, output)
+
+
+@main.command()
+@inputfile_option
+@output_option_txt
+@model_option
+@click.option("--tsv-output")
+@click.option("--template-path")
+def answer(
+    inputfile,
+    model,
+    template_path,
+    output,
+    tsv_output,
+    **kwargs,
+):
+    qc = QuestionCollection(**yaml.safe_load(open(inputfile)))
+    engine = GenericEngine(model=model)
+    qs = []
+    for q in engine.run(qc, template_path=template_path):
+        print(dump_minimal_yaml(q))
+        qs.append(q)
+    qc.questions = qs
+    output.write(dump_minimal_yaml(qs))
+    if tsv_output:
+        write_obj_as_csv(qs, tsv_output)
+
+
+@main.command()
+@inputfile_option
+@output_option_txt
+@model_option
+@click.option("--task-file")
+@click.option("--task-type")
+@click.option("--tsv-output")
+@click.option("--yaml-output")
+@click.option("--all-methods/--no-all-methods", default=False)
+@click.option("--explain/--no-explain", default=False)
+@click.option("--evaluate/--no-evaluate", default=False)
+def categorize_mappings(
+    inputfile,
+    model,
+    task_file,
+    explain,
+    task_type,
+    output,
+    tsv_output,
+    yaml_output,
+    all_methods,
+    evaluate,
+    **kwargs,
+):
+    """Categorize a collection of SSSOM mappings."""
+    mapper = MappingEngine(model=model)
+    if tsv_output:
+        tc = mapper.from_sssom(inputfile)
+        for cm in mapper.run_tasks(tc, evaluate=evaluate):
+            print(dump_minimal_yaml(cm.dict()))
+            # dump_minimal_yaml(cm.dict(), file=output)
+        # write_obj_as_csv(resultset.results, tsv_output)
+    else:
+        import sssom.writers as sssom_writers
+
+        msdf = parse_sssom_table(inputfile)
+        msd = to_mapping_set_document(msdf)
+        mappings = []
+        cms = []
+        done = []
+        for mapping in msd.mapping_set.mappings:
+            pair = mapping.subject_id, mapping.object_id
+            if pair in done:
+                continue
+            mapping, cm = mapper.categorize_sssom_mapping(mapping)
+            mappings.append(mapping)
+            cms.append(cm.dict())
+            done.append(pair)
+        msd.mapping_set.mappings = mappings
+        msdf = to_mapping_set_dataframe(msd)
+        sssom_writers.write_table(msdf, output)
+        if yaml_output:
+            with open(yaml_output, "w") as file:
+                dump_minimal_yaml(cms, file=file)
+
+
+@main.command()
+@output_option_txt
 @click.option(
     "--strict/--no-strict",
     default=True,
@@ -937,8 +1073,9 @@ def reason(
     "-A",
     help="Path to annotations",
 )
+@model_option
 @click.argument("genes", nargs=-1)
-def eval_enrichment(genes, input_file, number_to_drop, annotations_path, output, **kwargs):
+def eval_enrichment(genes, input_file, number_to_drop, annotations_path, model, output, **kwargs):
     """Run enrichment using multiple methods."""
     if not genes and not input_file:
         raise ValueError("Either genes or input file must be passed")
@@ -955,7 +1092,7 @@ def eval_enrichment(genes, input_file, number_to_drop, annotations_path, output,
         if not _is_human(gene_set):
             raise ValueError("No annotations path passed")
         annotations_path = "tests/input/genes2go.tsv.gz"
-    eval_engine = EvalEnrichment()
+    eval_engine = EvalEnrichment(model=model)
     eval_engine.load_annotations(annotations_path)
     comps = eval_engine.evaluate_methods_on_gene_set(gene_set, n=number_to_drop, **kwargs)
     output.write(dump_minimal_yaml(comps))
@@ -1029,7 +1166,7 @@ def complete(input, output, output_format, **kwargs):
 @template_option
 @click.option("--input", "-i", type=click.File("r"), default=sys.stdin, help="Input file")
 def parse(template, input):
-    """Parse openai results."""
+    """Parse OpenAI results."""
     logging.info(f"Creating for {template}")
     ke = SPIRESEngine(template)
     text = input.read()
@@ -1150,13 +1287,21 @@ def list_templates():
 @main.command()
 def list_models():
     """List all available models."""
-    print("Model Name\tAlternatives")
-    for modelname in MODELS:
-        if len(modelname) > 1:
-            alternative_names = " ".join(modelname[1:])
-            print(f"{modelname[0]}\t{alternative_names}")
+    print("Model Name\tProvider\tAlternative Names\tStatus")
+    for model in MODELS:
+        primary_name = model["name"]
+        provider = model["provider"]
+        alternative_names = (
+            " ".join(model["alternative_names"]) if model["alternative_names"] else ""
+        )
+        if "not_implemented" in model:
+            status = "Not Implemented"
         else:
-            print(modelname[0])
+            status = "Implemented"
+
+        print(f"{primary_name}\t{provider}\t{alternative_names}\t{status}")
+
+
 
 
 if __name__ == "__main__":

@@ -33,18 +33,26 @@ class NullDataOptions(str, Enum):
     NOT_MENTIONED = "NOT_MENTIONED"
 
 
-class Container(ConfiguredBaseModel):
-    interactions: Optional[List[BioticInteraction]] = Field(default_factory=list)
-
-
-class BioticInteraction(ConfiguredBaseModel):
-    source_taxon: Optional[str] = Field(
-        None, description="""the taxon that is the subject of the interaction"""
+class Dataset(ConfiguredBaseModel):
+    packageid: Optional[str] = Field(
+        None, description="""The internal identifier for the dataset"""
     )
-    target_taxon: Optional[str] = Field(
-        None, description="""the taxon that is the object of the ineteraction"""
+    topic: Optional[List[str]] = Field(
+        default_factory=list,
+        description="""the general scientific area of study concerning the sample(s)""",
     )
-    interaction_type: Optional[str] = Field(None, description="""the type of interaction""")
+    location: Optional[List[str]] = Field(
+        default_factory=list,
+        description="""the geographic location where the sample was isolated""",
+    )
+    environmental_material: Optional[List[str]] = Field(
+        default_factory=list, description="""the environmental material that was sampled"""
+    )
+    environments: Optional[List[str]] = Field(
+        default_factory=list,
+        description="""the environmental context in which the study was conducted""",
+    )
+    methods: Optional[List[str]] = Field(default_factory=list)
 
 
 class ExtractionResult(ConfiguredBaseModel):
@@ -70,12 +78,27 @@ class NamedEntity(ConfiguredBaseModel):
     label: Optional[str] = Field(None, description="""The label (name) of the named thing""")
 
 
-class Taxon(NamedEntity):
+class Topic(NamedEntity):
     id: Optional[str] = Field(None, description="""A unique identifier for the named entity""")
     label: Optional[str] = Field(None, description="""The label (name) of the named thing""")
 
 
-class InteractionType(NamedEntity):
+class Location(NamedEntity):
+    id: Optional[str] = Field(None, description="""A unique identifier for the named entity""")
+    label: Optional[str] = Field(None, description="""The label (name) of the named thing""")
+
+
+class EnvironmentalMaterial(NamedEntity):
+    id: Optional[str] = Field(None, description="""A unique identifier for the named entity""")
+    label: Optional[str] = Field(None, description="""The label (name) of the named thing""")
+
+
+class Environment(NamedEntity):
+    id: Optional[str] = Field(None, description="""A unique identifier for the named entity""")
+    label: Optional[str] = Field(None, description="""The label (name) of the named thing""")
+
+
+class Method(NamedEntity):
     id: Optional[str] = Field(None, description="""A unique identifier for the named entity""")
     label: Optional[str] = Field(None, description="""The label (name) of the named thing""")
 
@@ -131,12 +154,14 @@ class AnnotatorResult(ConfiguredBaseModel):
 
 # Update forward refs
 # see https://pydantic-docs.helpmanual.io/usage/postponed_annotations/
-Container.update_forward_refs()
-BioticInteraction.update_forward_refs()
+Dataset.update_forward_refs()
 ExtractionResult.update_forward_refs()
 NamedEntity.update_forward_refs()
-Taxon.update_forward_refs()
-InteractionType.update_forward_refs()
+Topic.update_forward_refs()
+Location.update_forward_refs()
+EnvironmentalMaterial.update_forward_refs()
+Environment.update_forward_refs()
+Method.update_forward_refs()
 CompoundExpression.update_forward_refs()
 Triple.update_forward_refs()
 TextWithTriples.update_forward_refs()
