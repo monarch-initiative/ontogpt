@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "ontogpt"
-version = "0.0.0"
+version = "0.2.9.post160.dev0+1644b6d1"
 description = "OntoGPT"
 authors = ["Chris Mungall <cjmungall@lbl.gov>"]
 license = "BSD-3"
@@ -44,12 +44,13 @@ wikipedia-api = ">=0.5.8"
 semsimian = ">=0.1.13"
 pystow = "^0.5.0"
 langchain = ">=0.0.191"
-gpt4all = {version = ">=0.3.0", extras = ["gpt4all"], optional = true}
+gpt4all = {version = ">=0.3.5", extras = ["gpt4all"], optional = true}
 requests-cache = ">=1.0.1"
 streamlit = ">=1.22.0"
 gpt4 = ">=0.0.1"
 "ruamel.yaml" = ">=0.17.31"
 requests = "^2.31.0"
+huggingface_hub  = {version = ">=0.15.1", extras = ["huggingface"], optional = true}
 
 [tool.poetry.dev-dependencies]
 pytest = ">=7.1.2"
@@ -83,6 +84,9 @@ gpt4all = [
 textract = [
     "textract"
 ]
+huggingface = [
+    "huggingface_hub"
+]
 
 [tool.poetry.group.dev.dependencies]
 jupyter = "^1.0.0"
@@ -90,7 +94,7 @@ seaborn = "^0.12.2"
 papermill = "^2.4.0"
 
 [tool.poetry-dynamic-versioning]
-enable = true
+enable = false
 vcs = "git"
 style = "pep440"
 
