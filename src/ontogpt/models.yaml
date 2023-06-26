@@ -90,26 +90,6 @@ models:
       - "Karan4D"
     url: "https://huggingface.co/eachadea/ggml-nous-hermes-13b/resolve/main/ggml-v3-13b-hermes-q5_1.bin"
 
-  - name: FLAN_T5_SMALL
-    alternative_names:
-      - "flan-t5-small"
-      - "google-flan-t5-small"
-      - "google/flan-t5-small"
-    provider: "HuggingFace Hub"
-    creators:
-      - "Google Research"
-    hf_repo_name: "google/flan-t5-small"
-
-  - name: FLAN_T5_BASE
-    alternative_names:
-      - "flan-t5-base"
-      - "google-flan-t5-small"
-      - "google/flan-t5-base"
-    provider: "HuggingFace Hub"
-    creators:
-      - "Google Research"
-    hf_repo_name: "google/flan-t5-base"
-
   - name: FLAN_T5_LARGE
     alternative_names:
       - "flan-t5-large"
