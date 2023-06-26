@@ -55,7 +55,7 @@ class HFHubEngine(KnowledgeEngine):
     api_client = HFHubClient()
     """API client for HF Hub."""
 
-    local_model: str = ""
+    local_model = None
     """The name of the HF Hub model as per its repo, e.g., gpt2 or databricks/dolly-v2-3b"""
 
     loaded_model = None
