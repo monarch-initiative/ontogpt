@@ -152,10 +152,6 @@ class HFHubEngine(KnowledgeEngine):
         """
         Map the given terms to the given ontology.
 
-        EXPERIMENTAL
-
-        currently GPT-3 does not do so well with this task.
-
         :param terms:
         :param ontology:
         :return:
@@ -265,7 +261,7 @@ class HFHubEngine(KnowledgeEngine):
         """
         prompt = self.get_completion_prompt(cls, text, object=object)
         self.last_prompt = prompt
-        payload = chain_gpt4all_model(self.loaded_model, prompt)
+        payload = self.api_client.query_hf_model(self.loaded_model, prompt)
         return payload
 
     def get_completion_prompt(
