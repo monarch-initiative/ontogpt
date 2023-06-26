@@ -393,6 +393,19 @@ To start:
 poetry run streamlit run src/ontogpt/streamlit/spindoctor.py
 ```
 
+### HuggingFace Hub
+
+A select number of LLMs may be accessed through HuggingFace Hub. See the full list using `ontogpt list-models`
+
+Specify a model name with the `-m` option.
+
+Example:
+
+```bash
+ontogpt extract -t mendelian_disease.MendelianDisease -i tests/input/cases/mendelian-disease-sly.txt -m FLAN_T5_BASE
+```
+
+
 ### Using local models
 
 OntoGPT supports using language models released by [GPT4All](https://gpt4all.io/).
