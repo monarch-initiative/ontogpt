@@ -33,6 +33,9 @@ class HFHubClient:
     
     def query_hf_model(self, llm, prompt_text):
         """Interact with a GPT4All model."""
+
+        logging.info(f"Complete: prompt[{len(prompt_text)}]={prompt_text[0:100]}...")
+
         template = """{prompt_text}"""
 
         prompt = PromptTemplate(template=template, input_variables=["prompt_text"])
