@@ -1,6 +1,5 @@
 """HuggingFace Hub Client."""
 import logging
-import os
 
 from dataclasses import dataclass
 from oaklib.utilities.apikey_manager import get_apikey_value
@@ -24,10 +23,8 @@ class HFHubClient:
         Returns a model object of type
         langchain.llms.huggingface_hub.HuggingFaceHub
         """
-
         model = HuggingFaceHub(repo_id=modelname,
                                model_kwargs={"temperature": 0, "max_length": 64},
                                huggingfacehub_api_token=self.api_key)
 
         return model
-
