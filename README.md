@@ -65,6 +65,25 @@ To simply start using the package in your workspace:
 pip install ontogpt
 ```
 
+Note that some features require installing additional, optional dependencies.
+
+These may be installed as:
+
+```bash
+poetry install --extras extra_name
+# OR
+pip install ontogpt[extra_name]
+```
+
+where `extra_name` is one of the following:
+
+* `docs` - dependencies for building documentation
+* `web` - dependencies for the web application
+* `recipes` - dependencies for recipe scraping and parsing
+* `gpt4all` - dependencies for loading LLMs from GPT4All
+* `textract` - the textract plugin
+* `huggingface` - dependencies for accessing LLMs from HuggingFace Hub, remotely or locally
+
 ## Examples
 
 ### Strategy 1: Knowledge extraction using SPIRES
