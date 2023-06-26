@@ -33,6 +33,7 @@ from ontogpt.engines.enrichment import EnrichmentEngine
 from ontogpt.engines.ggml_engine import GGMLEngine
 from ontogpt.engines.generic_engine import GenericEngine, QuestionCollection
 from ontogpt.engines.halo_engine import HALOEngine
+from ontogpt.engines.hfhub_engine import HFHubEngine
 from ontogpt.engines.knowledge_engine import KnowledgeEngine
 from ontogpt.engines.mapping_engine import MappingEngine
 from ontogpt.engines.pheno_engine import PhenoEngine
@@ -255,7 +256,7 @@ def extract(
             found = True
             break
     if model and not found:
-        logging.info(
+        logging.warning(
             f"""Model name not recognized or not supported yet. Using default, {DEFAULT_MODEL}.
             See all models with `ontogpt list-models`"""
         )
@@ -284,6 +285,10 @@ def extract(
     elif model_source == "GPT4All":
         model_path = get_model(selectmodel["url"])
         ke = GGMLEngine(template=template, local_model=model_path, **kwargs)
+
+    elif model_source == "HuggingFace Hub":
+        hf_repo_name = selectmodel["hf_repo_name"]
+        ke = HFHubEngine(template=template, local_model=hf_repo_name, **kwargs)
 
     if dictionary:
         ke.load_dictionary(dictionary)

@@ -27,22 +27,27 @@ Currently three different strategies for knowledge extraction have been implemen
 
 * Python 3.9+
 * OpenAI account
-* Optionally, [BioPortal](https://bioportal.bioontology.org/) account (for grounding)
 
-You will need to set API keys using the [Ontology Access Kit](https://github.com/INCATools/ontology-access-kit):
+An OpenAI key is necessary for using OpenAI's GPT models. This is a paid API and you will be charged based on usage. If you do not have an OpenAI account, [you may sign up here](https://platform.openai.com/signup). You will need to set your API key using the [Ontology Access Kit](https://github.com/INCATools/ontology-access-kit):
 
 ```bash
 poetry run runoak set-apikey -e openai <your openai api key>
+```
+
+You may also set additional API keys for optional resources:
+
+* [BioPortal](https://bioportal.bioontology.org/) account (for grounding). The BioPortal key is necessary for using ontologies from [BioPortal](https://bioportal.bioontology.org/). You may get a key by signing up for an account on their web site.
+* [NCBI E-utilities](https://ncbiinsights.ncbi.nlm.nih.gov/2017/11/02/new-api-keys-for-the-e-utilities/). The NCBI email address and API key are used for retrieving text and metadata from PubMed. You may still access these resources without identifying yourself, but you may encounter rate limiting and errors.
+* [HuggingFace Hub](https://huggingface.co/docs/api-inference/quicktour#get-your-api-token). This API key is necessary to retrieve models from the HuggingFace Hub service.
+
+These optional keys may be set as follows:
+
+```bash
 poetry run runoak set-apikey -e bioportal <your bioportal api key>
 poetry run runoak set-apikey -e ncbi-email <your email address>
 poetry run runoak set-apikey -e ncbi-key <your NCBI api key>
+poetry run runoak set-apikey -e hfhub-key <your HuggingFace Hub api key>
 ```
-
-The OpenAI key is necessary for using OpenAI's GPT models. This is a paid API and you will be charged based on usage. If you do not have an OpenAI account, [you may sign up here](https://platform.openai.com/signup).
-
-The BioPortal key is necessary for using ontologies from [BioPortal](https://bioportal.bioontology.org/). You may get a key by signing up for an account on their web site.
-
-The NCBI email address and API key are used for retrieving text and metadata from PubMed. You may still access these resources without identifying yourself, but you may encounter rate limiting and errors. [Details on NCBI accounts and keys are here.](https://ncbiinsights.ncbi.nlm.nih.gov/2017/11/02/new-api-keys-for-the-e-utilities/)
 
 ## Setup
 
@@ -59,6 +64,25 @@ To simply start using the package in your workspace:
 ```bash
 pip install ontogpt
 ```
+
+Note that some features require installing additional, optional dependencies.
+
+These may be installed as:
+
+```bash
+poetry install --extras extra_name
+# OR
+pip install ontogpt[extra_name]
+```
+
+where `extra_name` is one of the following:
+
+* `docs` - dependencies for building documentation
+* `web` - dependencies for the web application
+* `recipes` - dependencies for recipe scraping and parsing
+* `gpt4all` - dependencies for loading LLMs from GPT4All
+* `textract` - the textract plugin
+* `huggingface` - dependencies for accessing LLMs from HuggingFace Hub, remotely or locally
 
 ## Examples
 
@@ -387,6 +411,19 @@ To start:
 ```
 poetry run streamlit run src/ontogpt/streamlit/spindoctor.py
 ```
+
+### HuggingFace Hub
+
+A select number of LLMs may be accessed through HuggingFace Hub. See the full list using `ontogpt list-models`
+
+Specify a model name with the `-m` option.
+
+Example:
+
+```bash
+ontogpt extract -t mendelian_disease.MendelianDisease -i tests/input/cases/mendelian-disease-sly.txt -m FLAN_T5_BASE
+```
+
 
 ### Using local models
 

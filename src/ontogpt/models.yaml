@@ -90,26 +90,6 @@ models:
       - "Karan4D"
     url: "https://huggingface.co/eachadea/ggml-nous-hermes-13b/resolve/main/ggml-v3-13b-hermes-q5_1.bin"
 
-  - name: FLAN_T5_SMALL
-    alternative_names:
-      - "flan-t5-small"
-      - "google-flan-t5-small"
-      - "google/flan-t5-small"
-    provider: "HuggingFace Hub"
-    creators:
-      - "Google Research"
-    not_implemented: true
-
-  - name: FLAN_T5_BASE
-    alternative_names:
-      - "flan-t5-base"
-      - "google-flan-t5-small"
-      - "google/flan-t5-base"
-    provider: "HuggingFace Hub"
-    creators:
-      - "Google Research"
-    not_implemented: true
-
   - name: FLAN_T5_LARGE
     alternative_names:
       - "flan-t5-large"
@@ -118,7 +98,7 @@ models:
     provider: "HuggingFace Hub"
     creators:
       - "Google Research"
-    not_implemented: true
+    hf_repo_name: "google/flan-t5-large"
 
   - name: FLAN_T5_XL
     alternative_names:
@@ -128,7 +108,7 @@ models:
     provider: "HuggingFace Hub"
     creators:
       - "Google Research"
-    not_implemented: true
+    hf_repo_name: "google/flan-t5-xl"
 
   - name: FLAN_T5_XXL
     alternative_names:
@@ -138,7 +118,7 @@ models:
     provider: "HuggingFace Hub"
     creators:
       - "Google Research"
-    not_implemented: true
+    hf_repo_name: "google/flan-t5-xxl"
 
   - name: FLAN_UL2
     alternative_names:
@@ -148,7 +128,7 @@ models:
     provider: "HuggingFace Hub"
     creators:
       - "Google Research"
-    not_implemented: true
+    hf_repo_name: "google/flan-ul2"
 
   - name: FALCON_40B_INSTRUCT
     alternative_names:
@@ -159,7 +139,7 @@ models:
     provider: "HuggingFace Hub"
     creators:
       - "Technology Innovation Institute"
-    not_implemented: true
+    hf_repo_name: "tiiuae/falcon-40b-instruct"
 
   - name: FALCON_7B_INSTRUCT
     alternative_names:
@@ -170,7 +150,7 @@ models:
     provider: "HuggingFace Hub"
     creators:
       - "Technology Innovation Institute"
-    not_implemented: true
+    hf_repo_name: "tiiuae/falcon-7b-instruct"
 
   - name: 30B-LAZARUS
     alternative_names:
@@ -181,4 +161,56 @@ models:
     provider: "HuggingFace Hub"
     creators:
       - "CalderaAI"
-    not_implemented: true
+    hf_repo_name: "CalderaAI/30B-Lazarus"
+
+  - name: GPT2
+    alternative_names:
+      - "gpt2"
+    provider: "HuggingFace Hub"
+    creators:
+      - "OpenAI"
+    hf_repo_name: "gpt2"
+
+  - name: BLOOM
+    alternative_names:
+      - "bloom"
+      - "bigscience/bloom"
+    provider: "HuggingFace Hub"
+    creators:
+      - "BigScience"
+    hf_repo_name: "bigscience/bloom"
+
+  - name: MPT_7B_INSTRUCT_HF
+    alternative_names:
+      - "mosaicml/mpt-7b-instruct"
+    provider: "HuggingFace Hub"
+    creators:
+      - "Mosaic ML"
+    hf_repo_name: "mosaicml/mpt-7b-instruct"
+
+  - name: DOLLY_V2_3B
+    alternative_names:
+      - "dolly-v2-3b"
+      - "databricks/dolly-v2-3b"
+    provider: "HuggingFace Hub"
+    creators:
+      - "Databricks"
+    hf_repo_name: "databricks/dolly-v2-3b"
+
+  - name: DOLLY_V2_7B
+    alternative_names:
+      - "dolly-v2-7b"
+      - "databricks/dolly-v2-7b"
+    provider: "HuggingFace Hub"
+    creators:
+      - "Databricks"
+    hf_repo_name: "databricks/dolly-v2-7b"
+
+  - name: DOLLY_V2_12B
+    alternative_names:
+      - "dolly-v2-12b"
+      - "databricks/dolly-v2-12b"
+    provider: "HuggingFace Hub"
+    creators:
+      - "Databricks"
+    hf_repo_name: "databricks/dolly-v2-12b"
