@@ -1,7 +1,16 @@
 """
-Knowledge extraction with SPIRES for HuggingFace Hub models.
-"""
+HuggingFace Hub-based knowledge extractor class.
 
+Like the SPIRES implementation seen in spires_engine.py,
+this process constructs prompt-completions in which
+a pseudo-YAML structure is requested and the YAML
+structure corresponds to a template class.
+
+This class is intended for use with HuggingFace Hub
+models, specifically text-generation models.
+Find them here:
+https://huggingface.co/models?pipeline_tag=text-generation
+"""
 import logging
 from dataclasses import dataclass
 from pathlib import Path
@@ -20,6 +29,7 @@ from ontogpt.engines.knowledge_engine import (
     chunk_text,
 )
 from ontogpt.templates.core import ExtractionResult
+from ontogpt.clients.hfhub_client import HFHubClient
 
 this_path = Path(__file__).parent
 
@@ -29,21 +39,36 @@ RESPONSE_DICT = Dict[FIELD, Union[RESPONSE_ATOM, List[RESPONSE_ATOM]]]
 
 
 @dataclass
-class SPIRESEngine(KnowledgeEngine):
-    """Knowledge extractor."""
-
-    engine: str = "openai-text-davinci-003"
-    recurse: bool = True
-    """If true, then complex non-named entity objects are always recursively parsed.
-    If this is false AND the complex object is a pair, then token-based splitting is
-    instead used.
-    TODO: deprecate this, it's not clear that token-based splitting is better, due to
-    the inability to control which tokens GPT will use"""
+class HFHubEngine(KnowledgeEngine):
+    """Knowledge extractor for HuggingFace Hub models."""
 
     sentences_per_window: Optional[int] = None
     """If set, this will split the text into chains of sentences,
     where this determines the maximum number of sentences per chain.
     The results are then merged together."""
+
+    recurse: bool = True
+    """If true, then complex non-named entity objects are always recursively parsed.
+    If this is false AND the complex object is a pair, then token-based splitting is
+    instead used."""
+
+    api_client = HFHubClient()
+    """API client for HF Hub."""
+
+    local_model: str = ""
+    """The name of the HF Hub model as per its repo, e.g., gpt2 or databricks/dolly-v2-3b"""
+
+    loaded_model = None
+    """Langchain loaded model object."""
+
+    def __post_init__(self, local_model):
+        self.local_model = local_model
+        logging.info(f"Using HuggingFace model {self.local_model}")
+        self.loaded_model = self.api_client.get_model(self.local_model)
+        if self.template:
+            self.template_class = self._get_template_class(self.template)
+        if self.template_class:
+            logging.info(f"Using template {self.template_class.name}")
 
     def extract_from_text(
         self, text: str, cls: ClassDefinition = None, object: OBJECT = None
@@ -240,7 +265,7 @@ class SPIRESEngine(KnowledgeEngine):
         """
         prompt = self.get_completion_prompt(cls, text, object=object)
         self.last_prompt = prompt
-        payload = self.client.complete(prompt)
+        payload = chain_gpt4all_model(self.loaded_model, prompt)
         return payload
 
     def get_completion_prompt(
