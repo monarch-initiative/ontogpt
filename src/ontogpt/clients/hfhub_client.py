@@ -24,8 +24,10 @@ class HFHubClient:
         langchain.llms.huggingface_hub.HuggingFaceHub
         """
         model = HuggingFaceHub(repo_id=modelname,
-                               model_kwargs={"temperature": 0, "max_length": 64},
-                               huggingfacehub_api_token=self.api_key)
+                               verbose=True,
+                               model_kwargs={"temperature": 1e-10, "max_length": 500},
+                               huggingfacehub_api_token=self.api_key,
+                               )
 
         return model
     
@@ -37,6 +39,9 @@ class HFHubClient:
 
         llm_chain = LLMChain(prompt=prompt, llm=llm)
 
-        raw_output = llm_chain.run({"prompt_text": prompt_text})
+        try:
+            raw_output = llm_chain.run({"prompt_text": prompt_text})
+        except ValueError as e:
+            logging.error(e)
 
         return raw_output
