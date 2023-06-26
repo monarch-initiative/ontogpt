@@ -98,7 +98,7 @@ models:
     provider: "HuggingFace Hub"
     creators:
       - "Google Research"
-    not_implemented: true
+    hf_repo_name: "google/flan-t5-small"
 
   - name: FLAN_T5_BASE
     alternative_names:
@@ -108,7 +108,7 @@ models:
     provider: "HuggingFace Hub"
     creators:
       - "Google Research"
-    not_implemented: true
+    hf_repo_name: "google/flan-t5-base"
 
   - name: FLAN_T5_LARGE
     alternative_names:
@@ -118,7 +118,7 @@ models:
     provider: "HuggingFace Hub"
     creators:
       - "Google Research"
-    not_implemented: true
+    hf_repo_name: "google/flan-t5-large"
 
   - name: FLAN_T5_XL
     alternative_names:
@@ -128,7 +128,7 @@ models:
     provider: "HuggingFace Hub"
     creators:
       - "Google Research"
-    not_implemented: true
+    hf_repo_name: "google/flan-t5-xl"
 
   - name: FLAN_T5_XXL
     alternative_names:
@@ -138,7 +138,7 @@ models:
     provider: "HuggingFace Hub"
     creators:
       - "Google Research"
-    not_implemented: true
+    hf_repo_name: "google/flan-t5-xxl"
 
   - name: FLAN_UL2
     alternative_names:
@@ -148,7 +148,7 @@ models:
     provider: "HuggingFace Hub"
     creators:
       - "Google Research"
-    not_implemented: true
+    hf_repo_name: "google/flan-ul2"
 
   - name: FALCON_40B_INSTRUCT
     alternative_names:
@@ -159,7 +159,7 @@ models:
     provider: "HuggingFace Hub"
     creators:
       - "Technology Innovation Institute"
-    not_implemented: true
+    hf_repo_name: "tiiuae/falcon-40b-instruct"
 
   - name: FALCON_7B_INSTRUCT
     alternative_names:
@@ -170,7 +170,7 @@ models:
     provider: "HuggingFace Hub"
     creators:
       - "Technology Innovation Institute"
-    not_implemented: true
+    hf_repo_name: "tiiuae/falcon-7b-instruct"
 
   - name: 30B-LAZARUS
     alternative_names:
@@ -181,4 +181,4 @@ models:
     provider: "HuggingFace Hub"
     creators:
       - "CalderaAI"
-    not_implemented: true
+    hf_repo_name: "CalderaAI/30B-Lazarus"
