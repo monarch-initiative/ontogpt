@@ -25,8 +25,9 @@ class HFHubClient:
         """
         model = HuggingFaceHub(repo_id=modelname,
                                verbose=True,
-                               model_kwargs={"temperature": 1e-10, "max_length": 500},
+                               model_kwargs={"temperature": 0.2, "max_length": 500},
                                huggingfacehub_api_token=self.api_key,
+                               task="text-generation"
                                )
 
         return model
