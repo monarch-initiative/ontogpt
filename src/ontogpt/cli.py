@@ -256,7 +256,7 @@ def extract(
             found = True
             break
     if model and not found:
-        logging.info(
+        logging.warning(
             f"""Model name not recognized or not supported yet. Using default, {DEFAULT_MODEL}.
             See all models with `ontogpt list-models`"""
         )
@@ -287,7 +287,8 @@ def extract(
         ke = GGMLEngine(template=template, local_model=model_path, **kwargs)
 
     elif model_source == "HuggingFace Hub":
-        ke = HFHubEngine(template=template, local_model=model_path, **kwargs)
+        hf_repo_name = selectmodel["hf_repo_name"]
+        ke = HFHubEngine(template=template, local_model=hf_repo_name, **kwargs)
 
     if dictionary:
         ke.load_dictionary(dictionary)
