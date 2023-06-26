@@ -170,3 +170,47 @@ models:
     creators:
       - "OpenAI"
     hf_repo_name: "gpt2"
+
+  - name: BLOOM
+    alternative_names:
+      - "bloom"
+      - "bigscience/bloom"
+    provider: "HuggingFace Hub"
+    creators:
+      - "BigScience"
+    hf_repo_name: "bigscience/bloom"
+
+  - name: MPT_7B_INSTRUCT_HF
+    alternative_names:
+      - "mosaicml/mpt-7b-instruct"
+    provider: "HuggingFace Hub"
+    creators:
+      - "Mosaic ML"
+    hf_repo_name: "mosaicml/mpt-7b-instruct"
+
+  - name: DOLLY_V2_3B
+    alternative_names:
+      - "dolly-v2-3b"
+      - "databricks/dolly-v2-3b"
+    provider: "HuggingFace Hub"
+    creators:
+      - "Databricks"
+    hf_repo_name: "databricks/dolly-v2-3b"
+
+  - name: DOLLY_V2_7B
+    alternative_names:
+      - "dolly-v2-7b"
+      - "databricks/dolly-v2-7b"
+    provider: "HuggingFace Hub"
+    creators:
+      - "Databricks"
+    hf_repo_name: "databricks/dolly-v2-7b"
+
+  - name: DOLLY_V2_12B
+    alternative_names:
+      - "dolly-v2-12b"
+      - "databricks/dolly-v2-12b"
+    provider: "HuggingFace Hub"
+    creators:
+      - "Databricks"
+    hf_repo_name: "databricks/dolly-v2-12b"
