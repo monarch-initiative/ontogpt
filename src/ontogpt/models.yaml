@@ -182,3 +182,11 @@ models:
     creators:
       - "CalderaAI"
     hf_repo_name: "CalderaAI/30B-Lazarus"
+
+  - name: GPT2
+    alternative_names:
+      - "gpt2"
+    provider: "HuggingFace Hub"
+    creators:
+      - "OpenAI"
+    hf_repo_name: "gpt2"
