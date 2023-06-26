@@ -46,5 +46,6 @@ class HFHubClient:
             raw_output = llm_chain.run({"prompt_text": prompt_text})
         except ValueError as e:
             logging.error(e)
+            raw_output = ""
 
         return raw_output
