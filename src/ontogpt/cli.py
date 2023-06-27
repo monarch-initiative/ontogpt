@@ -4,6 +4,7 @@ import json
 import logging
 import pickle
 import sys
+import re
 from copy import copy, deepcopy
 from dataclasses import dataclass
 from io import BytesIO, TextIOWrapper
@@ -942,7 +943,6 @@ def extract_case_report_info(pdf_directory, output_directory):
                 size_tag = font_tags(font_counts, styles)
                 elements = headers_para(doc, size_tag)
 
-                import re
                 case_info = get_case_info(elements)
                 ai = OpenAIClient()
                 text = "Here is a case report: \n\n" + "\n\n" + case_info + \
@@ -965,6 +965,7 @@ def extract_case_report_info(pdf_directory, output_directory):
                     parsed_txt_file.write("\n".join(elements))
 
                 doc.close()
+
 
 def get_case_info(data, tag_of_interest='Presentation of Case'):
     # I blame adobe
