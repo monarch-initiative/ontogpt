@@ -53,6 +53,7 @@ from ontogpt.utils.gene_set_utils import (
 from ontogpt.utils.model_utils import get_model
 import os
 import fitz
+import re
 
 __all__ = [
     "main",
@@ -941,6 +942,17 @@ def extract_case_report_info(pdf_directory, output_directory):
                 size_tag = font_tags(font_counts, styles)
                 elements = headers_para(doc, size_tag)
 
+                import re
+                case_info = get_case_info(elements)
+                ai = OpenAIClient()
+                text = "Here is a case report: \n\n" + "\n\n" + case_info + \
+                       "\n\nTell me the age and sex of the patient. Print it on two " + \
+                       "lines, age, then sex, like this\nage: 29\nsex: male\n\nif you" + \
+                       " don't know, just print age: ?\nsex: ?\n\n"
+
+                age_sex = ai.complete(text)
+                elements = [age_sex] + elements
+
                 text = ""
                 for page in doc:
                     text += page.get_text()
@@ -954,6 +966,31 @@ def extract_case_report_info(pdf_directory, output_directory):
 
                 doc.close()
 
+def get_case_info(data, tag_of_interest='Presentation of Case'):
+    # I blame adobe
+    # Find the index of the element that matches the case-insensitive regex pattern
+    pattern = re.compile(tag_of_interest, re.IGNORECASE)
+    start_index = next(
+        (i for i, item in enumerate(data) if pattern.search(item)),
+        None)
+
+    if start_index is not None:
+        # Find the index of the next element that starts with '<p>'
+        next_index = next((i for i, item in
+                           enumerate(data[start_index + 1:],
+                                     start=start_index + 1) if
+                           item.startswith('<p>')), None)
+
+        if next_index is not None:
+            # Extract the desired element
+            result = data[next_index]
+            return result
+        else:
+            raise ValueError(
+                "No element starting with '<p>' found after the tag_of_interest")
+    else:
+        raise ValueError(
+            "No element matching the tag_of_interest found in the list.")
 
 @main.command()
 @inputfile_option
