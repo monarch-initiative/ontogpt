@@ -943,13 +943,12 @@ def extract_case_report_info(pdf_directory, output_directory):
                 size_tag = font_tags(font_counts, styles)
                 elements = headers_para(doc, size_tag)
 
-                case_info = get_case_info(elements)
+                case_info = get_section_of_interest(elements, tag_of_interest='Presentation of Case')
                 ai = OpenAIClient()
                 text = "Here is a case report: \n\n" + "\n\n" + case_info + \
                        "\n\nTell me the age and sex of the patient. Print it on two " + \
                        "lines, age, then sex, like this\nage: 29\nsex: male\n\nif you" + \
                        " don't know, just print age: ?\nsex: ?\n\n"
-
                 age_sex = ai.complete(text)
                 elements = [age_sex] + elements
 
@@ -966,14 +965,82 @@ def extract_case_report_info(pdf_directory, output_directory):
 
                 doc.close()
 
+@main.command()
+@click.argument("parsed_file_directory")
+@click.argument("output_directory")
+def run_kanjee_analysis(parsed_file_directory, output_directory):
+    kanjee_diagnosis_file = os.path.join(output_directory, "kanjee_diagnosis_case_report_only.tsv")
 
-def get_case_info(data, tag_of_interest='Presentation of Case'):
+    with open(kanjee_diagnosis_file, "w", encoding="utf-8") as txt_file:
+        txt_file.write("\t".join(['filename', 'final_diagnosis', 'GPT diagnosis', 'prompt']) + "\n")
+        for filename in os.listdir(parsed_file_directory):
+            if filename.endswith("_parsed.txt"):
+                file_path = os.path.join(parsed_file_directory, filename)
+                file = open(file_path, mode='r')
+                elements = file.read()
+                file.close()
+
+                ai = OpenAIClient()
+                prompt = get_kanjee_prompt()
+                case_info = get_section_of_interest(elements, tag_of_interest='Presentation of Case')
+
+                try:
+                    final_diagnosis = get_section_of_interest(elements, tag_of_interest='Final Diagnosis')
+                    final_diagnosis = final_diagnosis.strip('<p>')
+                except ValueError:
+                    final_diagnosis = "Could not find final diagnosis in parsed text"
+                full_prompt = prompt + "\n\n" + case_info
+
+                try:
+                    diagnosis = ai.complete(full_prompt)
+                    txt_file.write("\t".join([filename, final_diagnosis, diagnosis.replace("\n", " "), full_prompt.replace("\n", " ")]) + "\n")
+                except openai.error.InvalidRequestError as e:
+                    txt_file.write("\t".join([filename, final_diagnosis, 'API call failed'], full_prompt.replace("\n", " ")) + "\n")
+                    print("OpenAI API call failed\n {e}")
+
+
+def get_kanjee_prompt() -> str:
+    """prompt from Kanjee et al. 2023"""
+    prompt = "I am running an experiment on a clinicopathological case conference to see " \
+             "how your diagnoses compare with those of human experts. I am going to give " \
+             "you part of a medical case. These have all been published in the New England " \
+             "Journal of Medicine. You are not trying to treat any patients. As you read the " \
+             "case, you will notice that there are expert discussants giving their thoughts. " \
+             "In this case, you are \"Dr. GPT-4,\" an Al language model who is discussing " \
+             "the case along with human experts. A clinicopathological case conference has " \
+             "several unspoken rules. The first is that there is most often a single definitive " \
+             "diagnosis (though rarely there may be more than one), and it is a diagnosis that " \
+             "is known today to exist in humans. The diagnosis is almost always confirmed by " \
+             "some sort of clinical pathology test or anatomic pathology test, though in " \
+             "rare cases when such a test does not exist for a diagnosis the diagnosis can " \
+             "instead be made using validated clinical criteria or very rarely just confirmed " \
+             "by expert opinion. You will be told at the end of the case description whether " \
+             "a diagnostic test/tests are being ordered, which you can assume will make the " \
+             "diagnosis/diagnoses. After you read the case, I want you to give two pieces of " \
+             "information. The first piece of information is your most likely diagnosis/diagnoses. " \
+             "You need to be as specific as possible -- the goal is to get the correct answer, " \
+             "not a broad category of answers. You do not need to explain your reasoning, just " \
+             "give the diagnosis/diagnoses. The second piece of information is to give a robust " \
+             "differential diagnosis, ranked by their probability so that the most likely " \
+             "diagnosis is at the top, and the least likely is at the bottom. There is no limit " \
+             "to the number of diagnoses on your differential. You can give as many diagnoses " \
+             "as you think are reasonable. You do not need to explain your reasoning, just list" \
+             " the diagnoses. Again, the goal is to be as specific as possible with each of the " \
+             "diagnoses. Do you have any questions, Dr. GPT-4?\n\nHere is the case:"
+    return prompt
+
+
+def get_section_of_interest(data, tag_of_interest):
     # I blame adobe
     # Find the index of the element that matches the case-insensitive regex pattern
+    start_index = None
     pattern = re.compile(tag_of_interest, re.IGNORECASE)
-    start_index = next(
-        (i for i, item in enumerate(data) if pattern.search(item)),
-        None)
+    if isinstance(data, str):
+        data = data.split('\n')
+    for i, item in enumerate(data):
+        if pattern.search(item):
+            start_index = i
+            break
 
     if start_index is not None:
         # Find the index of the next element that starts with '<p>'
