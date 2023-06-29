@@ -5,6 +5,7 @@ import logging
 import pickle
 import sys
 import re
+import warnings
 from copy import copy, deepcopy
 from dataclasses import dataclass
 from io import BytesIO, TextIOWrapper
@@ -966,37 +967,50 @@ def extract_case_report_info(pdf_directory, output_directory):
                 doc.close()
 
 @main.command()
-@click.argument("parsed_file_directory")
+@click.argument("input_data_dir")
 @click.argument("output_directory")
-def run_kanjee_analysis(parsed_file_directory, output_directory):
-    kanjee_diagnosis_file = os.path.join(output_directory, "kanjee_diagnosis_case_report_only.tsv")
+@click.argument("correct_diagnosis_file")
+def run_kanjee_analysis(input_data_dir, output_directory, correct_diagnosis_file):
+    # Create the output TSV file name
+    output_file_name = os.path.basename(input_data_dir) + "_results.tsv"
+    output_file_path = os.path.join(output_directory, output_file_name)
 
-    with open(kanjee_diagnosis_file, "w", encoding="utf-8") as txt_file:
-        txt_file.write("\t".join(['filename', 'final_diagnosis', 'GPT diagnosis', 'prompt']) + "\n")
-        for filename in os.listdir(parsed_file_directory):
-            if filename.endswith("_parsed.txt"):
-                file_path = os.path.join(parsed_file_directory, filename)
-                file = open(file_path, mode='r')
-                elements = file.read()
-                file.close()
+    # Write the header to the output TSV file
+    with open(output_file_path, "w", encoding="utf-8") as tsv_file:
+        tsv_file.write("input file name\tcorrect diagnosis\tgpt diagnosis\n")
+
+        # Read the correct diagnosis file
+        with open(correct_diagnosis_file, "r", encoding="utf-8") as diag_file:
+            correct_diagnoses = diag_file.readlines()
+
+        for filename in os.listdir(input_data_dir):
+            if filename.endswith(".txt"):
+                file_path = os.path.join(input_data_dir, filename)
+
+                with open(file_path, mode='r', encoding="utf-8") as txt_file:
+                    prompt = txt_file.read()
 
                 ai = OpenAIClient()
-                prompt = get_kanjee_prompt()
-                case_info = get_section_of_interest(elements, tag_of_interest='Presentation of Case')
 
                 try:
-                    final_diagnosis = get_section_of_interest(elements, tag_of_interest='Final Diagnosis')
-                    final_diagnosis = final_diagnosis.strip('<p>')
-                except ValueError:
-                    final_diagnosis = "Could not find final diagnosis in parsed text"
-                full_prompt = prompt + "\n\n" + case_info
-
-                try:
-                    diagnosis = ai.complete(full_prompt)
-                    txt_file.write("\t".join([filename, final_diagnosis, diagnosis.replace("\n", " "), full_prompt.replace("\n", " ")]) + "\n")
+                    gpt_diagnosis = ai.complete(prompt)
                 except openai.error.InvalidRequestError as e:
-                    txt_file.write("\t".join([filename, final_diagnosis, 'API call failed'], full_prompt.replace("\n", " ")) + "\n")
-                    print("OpenAI API call failed\n {e}")
+                    print(f"OpenAI API call failed: {e}")
+
+                # Find the corresponding correct diagnosis for the current file
+                file_id = os.path.splitext(filename)[0]
+                correct_diagnosis = ""
+                for diag in correct_diagnoses:
+                    if diag.startswith(file_id):
+                        correct_diagnosis = diag.strip().split("\t", 1)[1]
+                        break
+                if correct_diagnosis == "":
+                    warnings.warn(
+                        f"Could not find correct diagnosis for file {filename}")
+
+                # Write the result to the output TSV file
+                tsv_file.write(f"{filename}\t{correct_diagnosis}\t{gpt_diagnosis}\n")
+
 
 
 def get_kanjee_prompt() -> str:
