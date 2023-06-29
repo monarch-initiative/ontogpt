@@ -970,7 +970,8 @@ def extract_case_report_info(pdf_directory, output_directory):
 @click.argument("input_data_dir")
 @click.argument("output_directory")
 @click.argument("correct_diagnosis_file")
-def run_kanjee_analysis(input_data_dir, output_directory, correct_diagnosis_file):
+def run_kanjee_analysis(input_data_dir, output_directory, correct_diagnosis_file,
+                        model="gpt-4"):
     # Create the output TSV file name
     output_file_name = input_data_dir.strip(os.sep).split(os.sep)[-1] + "_results.tsv"
     output_file_path = os.path.join(output_directory, output_file_name)
@@ -1006,7 +1007,7 @@ def run_kanjee_analysis(input_data_dir, output_directory, correct_diagnosis_file
                     prompt = txt_file.read()
 
                 ai = OpenAIClient()
-
+                ai.model = model
                 try:
                     gpt_diagnosis = ai.complete(prompt)
                 except openai.error.InvalidRequestError as e:
