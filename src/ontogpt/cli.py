@@ -975,17 +975,34 @@ def run_kanjee_analysis(input_data_dir, output_directory, correct_diagnosis_file
     output_file_name = os.path.basename(input_data_dir) + "_results.tsv"
     output_file_path = os.path.join(output_directory, output_file_name)
 
+    # parse correct diagnosis file
+
+    # Read the correct diagnosis file
+    def parse_diagnosis_file(file_path):
+        result_dict = {}
+        with open(file_path, 'r') as file:
+            for line in file:
+                line = line.strip()
+                if line:
+                    key, value = line.split('\t')
+                    result_dict[key] = value
+        return result_dict
+
+    correct_diagnosis_dict = parse_diagnosis_file(correct_diagnosis_file)
+
     # Write the header to the output TSV file
     with open(output_file_path, "w", encoding="utf-8") as tsv_file:
         tsv_file.write("input file name\tcorrect diagnosis\tgpt diagnosis\n")
 
-        # Read the correct diagnosis file
-        with open(correct_diagnosis_file, "r", encoding="utf-8") as diag_file:
-            correct_diagnoses = diag_file.readlines()
-
         for filename in os.listdir(input_data_dir):
             if filename.endswith(".txt"):
                 file_path = os.path.join(input_data_dir, filename)
+
+                if filename.split('-')[0] in correct_diagnosis_dict:
+                    correct_diagnosis = correct_diagnosis_dict[filename.split('-')[0]]
+                else:
+                    correct_diagnosis = \
+                        f"Couldn't find {filename} in correct diagnosis file"
 
                 with open(file_path, mode='r', encoding="utf-8") as txt_file:
                     prompt = txt_file.read()
@@ -995,18 +1012,7 @@ def run_kanjee_analysis(input_data_dir, output_directory, correct_diagnosis_file
                 try:
                     gpt_diagnosis = ai.complete(prompt)
                 except openai.error.InvalidRequestError as e:
-                    print(f"OpenAI API call failed: {e}")
-
-                # Find the corresponding correct diagnosis for the current file
-                file_id = os.path.splitext(filename)[0]
-                correct_diagnosis = ""
-                for diag in correct_diagnoses:
-                    if diag.startswith(file_id):
-                        correct_diagnosis = diag.strip().split("\t", 1)[1]
-                        break
-                if correct_diagnosis == "":
-                    warnings.warn(
-                        f"Could not find correct diagnosis for file {filename}")
+                    gpt_diagnosis = "OPENAI API CALL FAILED"
 
                 # Write the result to the output TSV file
                 tsv_file.write(f"{filename}\t{correct_diagnosis}\t{gpt_diagnosis}\n")
