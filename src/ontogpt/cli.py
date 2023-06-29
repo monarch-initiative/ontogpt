@@ -972,12 +972,10 @@ def extract_case_report_info(pdf_directory, output_directory):
 @click.argument("correct_diagnosis_file")
 def run_kanjee_analysis(input_data_dir, output_directory, correct_diagnosis_file):
     # Create the output TSV file name
-    output_file_name = os.path.basename(input_data_dir) + "_results.tsv"
+    output_file_name = input_data_dir.strip(os.sep).split(os.sep)[-1] + "_results.tsv"
     output_file_path = os.path.join(output_directory, output_file_name)
 
     # parse correct diagnosis file
-
-    # Read the correct diagnosis file
     def parse_diagnosis_file(file_path):
         result_dict = {}
         with open(file_path, 'r') as file:
@@ -1015,7 +1013,7 @@ def run_kanjee_analysis(input_data_dir, output_directory, correct_diagnosis_file
                     gpt_diagnosis = "OPENAI API CALL FAILED"
 
                 # Write the result to the output TSV file
-                tsv_file.write(f"{filename}\t{correct_diagnosis}\t{gpt_diagnosis}\n")
+                tsv_file.write(f"{filename}\t{correct_diagnosis}\t\"{gpt_diagnosis}\"\n")
 
 
 
