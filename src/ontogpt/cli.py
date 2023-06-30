@@ -111,6 +111,9 @@ def write_extraction(
             output = _as_text_writer(output)
             exporter = OWLExporter()
             exporter.export(results, output, knowledge_engine.schemaview)
+        elif output_format == "kgx":
+            output = _as_text_writer(output)
+            output.write(write_obj_as_csv(results))
         else:
             output = _as_text_writer(output)
             output.write(dump_minimal_yaml(results))
