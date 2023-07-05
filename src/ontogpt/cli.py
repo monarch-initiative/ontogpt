@@ -338,7 +338,7 @@ def pubmed_annotate(search, template, output, output_format, **kwargs):
     pubmed_annotate_limit = 100 # TODO: make this a CLI argument
     pmc = PubmedClient()
     pmids = pmc.get_pmids(search)
-    textlist = pmc.text(pmids[:pubmed_annotate_limit + 1])
+    textlist = pmc.text(pmids[:pubmed_annotate_limit])
     for text in textlist:
         ke = SPIRESEngine(template, **kwargs)
         logging.debug(f"Input text: {text}")
