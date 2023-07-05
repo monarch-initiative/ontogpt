@@ -1,0 +1,35 @@
+input file name	correct diagnosis	gpt diagnosis
+PMID_35704401-case.txt	Infection with monkeypox virus.	OPENAI API CALL FAILED
+PMID_34965341-case.txt	Transient ischemic attack due to moyamoya  disease.	Based on the information provided, it seems that the patient, a 9-year-old boy, experienced transient weakness, facial droop on the left side, slurred speech, and limpness in his left arm and leg. These symptoms lasted for approximately 2 minutes and then resolved completely. The patient had no confusion, loss of consciousness, shaking in the arms or legs, urinary or fecal incontinence, headache, nausea, vomiting, recent illness, or trauma. 
+
+Earlier in the day, the patient had become upset while visiting his dying grandfather, and then he played hockey with a sibling. He had been crying profusely and inconsolably for an extended period, with gasping for air and hiccupping while crying. Two years prior, the patient had been evaluated at a neurology clinic for episodes of shaking in the arms and legs, which occurred multiple times a day and were more frequent when the patient was excited or emotional. These shaking episodes were considered stereotypy and no diagnostic tests were performed at that time. 
+
+The patient had no significant medical history, took no medications, and had no known drug allergies. He lived with his parents and two siblings in a suburban area of New England. He attended elementary school and performed well academically, although he received tutoring for mild difficulties with reading and phonology. His family history included esophageal cancer in his paternal grandfather, ulcerative colitis in his father, large-B-cell lymphoma in his mother, asthma in his sister, and acute coronary syndrome in his maternal grandfather.
+
+The patient's initial physical examination at the other hospital was reportedly normal, but he was transferred to the current hospital for further evaluation. The case does not provide the specific diagnostic tests or the final diagnosis made at this hospital.
+PMID_34670047-case.txt	Brown tumor associated with primary hyperparathyroidism (probably familial).	OPENAI API CALL FAILED
+PMID_36416771-case.txt	Optic nerve glioma or optic nerve sheath meningioma.	OPENAI API CALL FAILED
+PMID_34644476-case.txt	Severe aplastic anemia in the presence of infection with severe acute respiratory syndrome  coronavirus 2.	OPENAI API CALL FAILED
+PMID_34910867-case.txt	Lead poisoning from ingestion of Ayurvedic  medicines.	OPENAI API CALL FAILED
+PMID_35020988-case.txt	Anti-IgLON5 disease.	OPENAI API CALL FAILED
+PMID_36300978-case.txt	Sarcoidosis.	OPENAI API CALL FAILED
+PMID_33882209-case.txt	Varicella–zoster virus infection.	OPENAI API CALL FAILED
+PMID_34010534-case.txt	Toxic effects from metformin use in the context  of acute tubular necrosis from diuretic use.	OPENAI API CALL FAILED
+PMID_33826823-case.txt	Normal pressure hydrocephalus.	OPENAI API CALL FAILED
+PMID_36546630-case.txt	Hepatic adenoma, most likely an inflammatory  subtype.	OPENAI API CALL FAILED
+PMID_36351271-case.txt	Cotard’s syndrome, catatonia, and depression after coronavirus disease 2019.	OPENAI API CALL FAILED
+PMID_35704485-case.txt	Tumor-induced osteomalacia.	OPENAI API CALL FAILED
+PMID_33730458-case.txt	Intrahepatic cholangiocarcinoma.	The case involves a 34-year-old woman who presented with relapsed, metastatic intrahepatic cholangiocarcinoma. She experienced acute abdominal and back pain, leading to the discovery of a lesion in the right lobe of the liver. MRI imaging revealed characteristics consistent with primary or metastatic cancer, including biliary obstruction, high tissue density, increased vascularity at the rim of the lesion, and fibrosis. PET-CT confirmed FDG avidity in the hepatic mass. Tumor marker testing showed elevated levels of CA 19-9, while alpha-fetoprotein and carcinoembryonic antigen levels were normal. A biopsy was performed to guide further management decisions. The case was reported by Lipika Goyal, M.D., Christopher T. Chen, M.D., Theodore T. Pierce, M.D., and Vikram Deshpande, M.D. from Massachusetts General Hospital and Harvard Medical School.
+PMID_34525289-case.txt	Understandable psychosocial distress in the  context of serious illness during the Covid-19  pandemic.	OPENAI API CALL FAILED
+PMID_35731657-case.txt	Exocrine pancreatic cancer (pancreatic ductal adenocarcinoma).	OPENAI API CALL FAILED
+PMID_35584159-case.txt	Diffuse aspiration bronchiolitis.	OPENAI API CALL FAILED
+PMID_36001715-case.txt	Langerhans-cell histiocytosis.	OPENAI API CALL FAILED
+PMID_35767442-case.txt	Post-transplantation lymphoproliferative disorder.	OPENAI API CALL FAILED
+PMID_33567196-case.txt	Diffuse idiopathic pulmonary neuroendocrine  cell hyperplasia.	OPENAI API CALL FAILED
+PMID_36130001-case.txt	Inborn error of immunity, most likely immune  dysregulation, polyendocrinopathy, enteropathy,  X-linked (IPEX) syndrome.	OPENAI API CALL FAILED
+PMID_35172059-case.txt	Genetic Creutzfeldt–Jakob disease.	OPENAI API CALL FAILED
+PMID_36103417-case.txt	Granulomatosis with polyangiitis.	OPENAI API CALL FAILED
+PMID_34379926-case.txt	Acute human immunodeficiency virus type 1  infection.	OPENAI API CALL FAILED
+PMID_35139277-case.txt	Since the pathogen that causes  syphilis,  Treponema pallidum , is difficult to culture, serologic testing is the most common diagnostic approach. The first test in our algorithm is a qualitative,  automated chemiluminescence microparticle immunoassay that detects IgM and IgG to  T. pallidum in serum, confirming the presence of  T. pallidum – specific antibodies. The test was reactive in this  patient. When the first test is positive, we then  use the same serum specimen to perform a nontreponemal assay, the rapid plasma reagin (RPR)  test. We perform serial dilutions to determine  the end-point antibody titer. The patient’s RPR  test was positive at 1:512. Overall, both a treponemal test and a nontreponemal test were positive; these results are interpreted as consistent  with current or past syphilis. Laboratory testing is helpful in supporting  the diagnosis of neurosyphilis. However, no single test can be used to establish the diagnosis.  The diagnosis of neurosyphilis depends on the  combination of CSF tests (measurement of the  white-cell count and protein level and a reactive  VDRL test), a reactive serologic test, and the presence of neurologic signs and symptoms. The CSF  FTA-ABS test is a treponemal test that is less  specific for neurosyphilis than the CSF VDRL  test but is highly sensitive.	OPENAI API CALL FAILED
+PMID_34161710-case.txt	Delayed posthypoxic leukoencephalopathy.	OPENAI API CALL FAILED
+PMID_35045230-case.txt	VEXAS (vacuoles, E1 enzyme, X-linked, autoinflammatory, somatic) syndrome.	OPENAI API CALL FAILED
