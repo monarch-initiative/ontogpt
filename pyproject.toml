@@ -42,7 +42,7 @@ textract = {version = "*", extras = ["textract"], optional = true}
 cachier = ">=2.1.0"
 wikipedia-api = ">=0.5.8"
 pystow = "^0.5.0"
-langchain = ">=0.0.191"
+langchain = ">=0.0.226"
 gpt4all = {version = ">=0.3.5", extras = ["gpt4all"], optional = true}
 requests-cache = ">=1.0.1"
 streamlit = ">=1.22.0"
