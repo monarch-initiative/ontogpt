@@ -41,7 +41,6 @@ recipe-scrapers = {version = ">=14.35.0", extras = ["recipes"], optional = true}
 textract = {version = "*", extras = ["textract"], optional = true}
 cachier = ">=2.1.0"
 wikipedia-api = ">=0.5.8"
-semsimian = ">=0.1.13"
 pystow = "^0.5.0"
 langchain = ">=0.0.191"
 gpt4all = {version = ">=0.3.5", extras = ["gpt4all"], optional = true}
