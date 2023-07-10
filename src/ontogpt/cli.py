@@ -118,6 +118,13 @@ def write_extraction(
 
 inputfile_option = click.option("-i", "--inputfile", help="Path to a file containing input text.")
 template_option = click.option("-t", "--template", required=True, help="Template to use.")
+temperature_option = click.option(
+    "-p",
+    "--temperature",
+    help="""Temperature value for model.
+            Varies by model type. For OpenAI models, value must be between 0 and 2.0;
+            it defaults to 1.0.""",
+)
 target_class_option = click.option(
     "-T", "--target-class", help="Target class (if not already root)."
 )
@@ -128,9 +135,7 @@ interactive_option = click.option(
     help="Interactive mode - rather than call the LLM API it will prompt you do this.",
 )
 model_option = click.option(
-    "-m",
-    "--model",
-    help="Model name to use, e.g. openai-text-davinci-003."
+    "-m", "--model", help="Model name to use, e.g. openai-text-davinci-003."
 )
 prompt_template_option = click.option(
     "--prompt-template", help="Path to a file containing the prompt."
@@ -193,6 +198,7 @@ def main(verbose: int, quiet: bool, cache_db: str, skip_annotator):
 
 @main.command()
 @inputfile_option
+@temperature_option
 @template_option
 @target_class_option
 @model_option
@@ -215,6 +221,7 @@ def main(verbose: int, quiet: bool, cache_db: str, skip_annotator):
 @click.argument("input", required=False)
 def extract(
     inputfile,
+    temperature,
     template,
     target_class,
     dictionary,
@@ -332,10 +339,10 @@ def pubmed_extract(pmid, template, output, output_format, **kwargs):
 def pubmed_annotate(search, template, output, output_format, **kwargs):
     """Retrieve a collection of PubMed IDs for a search term; annotate them using a template."""
     logging.info(f"Creating for {template}")
-    pubmed_annotate_limit = 20 # TODO: make this a CLI argument
+    pubmed_annotate_limit = 20  # TODO: make this a CLI argument
     pmc = PubmedClient()
     pmids = pmc.get_pmids(search)
-    textlist = pmc.text(pmids[:pubmed_annotate_limit + 1])
+    textlist = pmc.text(pmids[: pubmed_annotate_limit + 1])
     for text in textlist:
         ke = SPIRESEngine(template, **kwargs)
         logging.debug(f"Input text: {text}")
@@ -1308,8 +1315,6 @@ def list_models():
             status = "Implemented"
 
         print(f"{primary_name}\t{provider}\t{alternative_names}\t{status}")
-
-
 
 
 if __name__ == "__main__":

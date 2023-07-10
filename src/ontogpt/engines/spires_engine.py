@@ -246,7 +246,8 @@ class SPIRESEngine(KnowledgeEngine):
         """
         prompt = self.get_completion_prompt(cls, text, object=object)
         self.last_prompt = prompt
-        payload = self.client.complete(prompt)
+        logging.info(f"Set temperature to {self.temperature}")
+        payload = self.client.complete(prompt, temperature=self.temperature)
         return payload
 
     def get_completion_prompt(

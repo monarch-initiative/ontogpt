@@ -143,6 +143,9 @@ class KnowledgeEngine(ABC):
 
     encoding = None
 
+    temperature: float = 1.0
+    """Temperature parameter to pass to the model."""
+
     def __post_init__(self):
         if self.template:
             self.template_class = self._get_template_class(self.template)
