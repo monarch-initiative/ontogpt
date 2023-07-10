@@ -28,13 +28,6 @@ class NullDataOptions(str, Enum):
     
     
 
-class GeneMolecularActivityRelationship(ConfiguredBaseModel):
-    
-    gene: Optional[str] = Field(None)
-    molecular_activity: Optional[str] = Field(None)
-    
-
-
 class ExtractionResult(ConfiguredBaseModel):
     """
     A result of extracting knowledge on text
@@ -56,36 +49,14 @@ class NamedEntity(ConfiguredBaseModel):
     
 
 
-class BiologicalProcess(NamedEntity):
+class CellType(NamedEntity):
     
-    label: Optional[str] = Field(None, description="""the name of the biological process""")
-    description: Optional[str] = Field(None, description="""a textual description of the biological process""")
-    synonyms: Optional[List[str]] = Field(default_factory=list, description="""alternative names of the biological process""")
-    subclass_of: Optional[str] = Field(None, description="""the category to which this biological process belongs""")
-    inputs: Optional[List[str]] = Field(default_factory=list, description="""the inputs of the biological process""")
-    outputs: Optional[List[str]] = Field(default_factory=list, description="""the outputs of the biological process""")
-    steps: Optional[List[str]] = Field(default_factory=list, description="""the steps involved in this biological process""")
-    genes: Optional[List[str]] = Field(default_factory=list)
-    gene_activities: Optional[List[GeneMolecularActivityRelationship]] = Field(default_factory=list, description="""semicolon-separated list of gene to molecular activity relationships""")
     id: Optional[str] = Field(None, description="""A unique identifier for the named entity""")
+    label: Optional[str] = Field(None, description="""The label (name) of the named thing""")
     
 
 
 class Gene(NamedEntity):
-    
-    id: Optional[str] = Field(None, description="""A unique identifier for the named entity""")
-    label: Optional[str] = Field(None, description="""The label (name) of the named thing""")
-    
-
-
-class MolecularActivity(NamedEntity):
-    
-    id: Optional[str] = Field(None, description="""A unique identifier for the named entity""")
-    label: Optional[str] = Field(None, description="""The label (name) of the named thing""")
-    
-
-
-class ChemicalEntity(NamedEntity):
     
     id: Optional[str] = Field(None, description="""A unique identifier for the named entity""")
     label: Optional[str] = Field(None, description="""The label (name) of the named thing""")
@@ -146,13 +117,10 @@ class AnnotatorResult(ConfiguredBaseModel):
 
 # Update forward refs
 # see https://pydantic-docs.helpmanual.io/usage/postponed_annotations/
-GeneMolecularActivityRelationship.update_forward_refs()
 ExtractionResult.update_forward_refs()
 NamedEntity.update_forward_refs()
-BiologicalProcess.update_forward_refs()
+CellType.update_forward_refs()
 Gene.update_forward_refs()
-MolecularActivity.update_forward_refs()
-ChemicalEntity.update_forward_refs()
 CompoundExpression.update_forward_refs()
 Triple.update_forward_refs()
 TextWithTriples.update_forward_refs()
