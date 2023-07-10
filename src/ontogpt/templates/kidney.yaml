@@ -37,9 +37,6 @@ classes:
       prompt.examples: |
         tubule epithelial cell, macula densa cell, glomerular endothelial cell,
         podocyte, mesangial cell, parietal epithelial cell
-    description: >-
-      A cell type, for example a tubule epithelial cell, macula densa cell, glomerular
-      endothelial cell, podocyte, mesangial cell and parietal epithelial cell 
 
   Gene:
     is_a: NamedEntity
