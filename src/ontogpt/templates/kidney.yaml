@@ -16,13 +16,30 @@ imports:
   - core
 
 classes:
-  CellType:
+  KidneyAnnotations:
     tree_root: true
+    attributes:
+      cell_type:
+          range: CellType
+          multivalued: true
+      gene:
+          description: >-
+            A gene
+          range: Gene
+          multivalued: true
+  CellType:
     is_a: NamedEntity
     id_prefixes:
       - CL
+      - UBERON
     annotations:
-      annotators: sqlite:obo:cl
+      annotators: sqlite:obo:cl, sqlite:obo:uberon
+      prompt.examples: |
+        tubule epithelial cell, macula densa cell, glomerular endothelial cell,
+        podocyte, mesangial cell, parietal epithelial cell
+    description: >-
+      A cell type, for example a tubule epithelial cell, macula densa cell, glomerular
+      endothelial cell, podocyte, mesangial cell and parietal epithelial cell 
 
   Gene:
     is_a: NamedEntity

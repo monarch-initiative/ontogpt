@@ -28,6 +28,13 @@ class NullDataOptions(str, Enum):
     
     
 
+class KidneyAnnotations(ConfiguredBaseModel):
+    
+    cell_type: Optional[List[str]] = Field(default_factory=list)
+    gene: Optional[List[str]] = Field(default_factory=list, description="""A gene""")
+    
+
+
 class ExtractionResult(ConfiguredBaseModel):
     """
     A result of extracting knowledge on text
@@ -50,7 +57,9 @@ class NamedEntity(ConfiguredBaseModel):
 
 
 class CellType(NamedEntity):
-    
+    """
+    A cell type, for example a tubule epithelial cell, macula densa cell, glomerular endothelial cell, podocyte, mesangial cell and parietal epithelial cell 
+    """
     id: Optional[str] = Field(None, description="""A unique identifier for the named entity""")
     label: Optional[str] = Field(None, description="""The label (name) of the named thing""")
     
@@ -117,6 +126,7 @@ class AnnotatorResult(ConfiguredBaseModel):
 
 # Update forward refs
 # see https://pydantic-docs.helpmanual.io/usage/postponed_annotations/
+KidneyAnnotations.update_forward_refs()
 ExtractionResult.update_forward_refs()
 NamedEntity.update_forward_refs()
 CellType.update_forward_refs()
