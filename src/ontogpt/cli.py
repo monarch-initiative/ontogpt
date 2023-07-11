@@ -283,7 +283,12 @@ def extract(
         raise FileNotFoundError(f"Cannot find input file {inputfile}")
 
     if model_source == "OpenAI":
-        ke = SPIRESEngine(template, **kwargs)
+        if temperature:
+            if 0 <= float(temperature) <= 2.0:
+                tempvalue = float(temperature)
+            else:
+                raise ValueError("Temperature must be between 0 and 2.0")
+        ke = SPIRESEngine(template=template, temperature=tempvalue, **kwargs)
         if settings.cache_db:
             ke.client.cache_db_path = settings.cache_db
         if settings.skip_annotators:

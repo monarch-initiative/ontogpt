@@ -159,6 +159,8 @@ class KnowledgeEngine(ABC):
         if not self.temperature:
             self.temperature = 1.0
             logging.info(f"Set temperature to the default of {self.temperature}")
+        else:
+            logging.info(f"Set temperature to {self.temperature}")
 
         self.set_up_client()
         self.encoding = tiktoken.encoding_for_model(self.client.model)
