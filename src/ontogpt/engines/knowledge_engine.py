@@ -143,7 +143,7 @@ class KnowledgeEngine(ABC):
 
     encoding = None
 
-    temperature: float = 1.0
+    temperature: float = None
     """Temperature parameter to pass to the model."""
 
     def __post_init__(self):
@@ -156,6 +156,9 @@ class KnowledgeEngine(ABC):
         if self.mappers is None:
             logging.info("Using mappers (currently hardcoded)")
             self.mappers = [get_adapter("translator:")]
+        if not self.temperature:
+            self.temperature = 1.0
+            logging.info(f"Set temperature to the default of {self.temperature}")
 
         self.set_up_client()
         self.encoding = tiktoken.encoding_for_model(self.client.model)
