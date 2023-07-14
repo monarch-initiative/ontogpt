@@ -47,6 +47,7 @@ classes:
       - HGNC
     annotations:
       annotators: sqlite:obo:hgnc, sqlite:obo:pr
+      prompt: the name of the gene in the pair. This comes second in the pair.
 
   ChemicalExposure:
     is_a: NamedEntity
@@ -57,15 +58,37 @@ classes:
       - NCIT
     annotations:
       annotators: sqlite:obo:ecto
+      prompt: the name of the exposure, such as a exposure to a chemical toxin.
+
+  ChemicalExposureToGenePredicate:
+    is_a: RelationshipType
+    id_prefixes:
+      - RO
+    annotations:
+      annotators: sqlite:obo:ro
+      prompt: the name of the type of relationship between a chemical exposure and a gene.
+
 
   GeneExposureRelationship:
-    is_a:   CompoundExpression
-    attributes:
-      molecular_activity:
+    is_a: Triple
+    slot_usage:
+      subject:
         range: ChemicalExposure
-        annotations:
-          prompt: the name of the exposure, such as a exposure to a chemical toxin.
-      gene:
+        description: >-
+          The name of the exposure, such as a exposure to a chemical toxin.
+      predicate:
+        range: ChemicalExposureToGenePredicate
+        description: >-
+          The name of the type of relationship between a chemical exposure and a gene.
+      object:
         range: Gene
-        annotations:
-          prompt: the name of the gene in the pair. This comes second in the pair.
+        description: >-
+          The name of the gene in the pair. This comes second in the pair.
+      subject_qualifier:
+        range: NamedEntity
+        description: >-
+          An optional qualifier or modifier for the chemical exposure.
+      object_qualifier:
+        range: NamedEntity
+        description: >-
+          An optional qualifier or modifier for the gene.

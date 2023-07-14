@@ -77,13 +77,6 @@ class CompoundExpression(ConfiguredBaseModel):
     
 
 
-class GeneExposureRelationship(CompoundExpression):
-    
-    molecular_activity: Optional[str] = Field(None)
-    gene: Optional[str] = Field(None)
-    
-
-
 class Triple(CompoundExpression):
     """
     Abstract parent for Relation Extraction tasks
@@ -97,6 +90,17 @@ class Triple(CompoundExpression):
     
 
 
+class GeneExposureRelationship(Triple):
+    
+    subject: Optional[str] = Field(None, description="""The name of the exposure, such as a exposure to a chemical toxin.""")
+    predicate: Optional[str] = Field(None, description="""The name of the type of relationship between a chemical exposure and a gene.""")
+    object: Optional[str] = Field(None, description="""The name of the gene in the pair. This comes second in the pair.""")
+    qualifier: Optional[str] = Field(None, description="""A qualifier for the statements, e.g. \"NOT\" for negation""")
+    subject_qualifier: Optional[str] = Field(None, description="""An optional qualifier or modifier for the chemical exposure.""")
+    object_qualifier: Optional[str] = Field(None, description="""An optional qualifier or modifier for the gene.""")
+    
+
+
 class TextWithTriples(ConfiguredBaseModel):
     
     publication: Optional[Publication] = Field(None)
@@ -105,6 +109,13 @@ class TextWithTriples(ConfiguredBaseModel):
 
 
 class RelationshipType(NamedEntity):
+    
+    id: str = Field(None, description="""A unique identifier for the named entity""")
+    label: Optional[str] = Field(None, description="""The label (name) of the named thing""")
+    
+
+
+class ChemicalExposureToGenePredicate(RelationshipType):
     
     id: str = Field(None, description="""A unique identifier for the named entity""")
     label: Optional[str] = Field(None, description="""The label (name) of the named thing""")
@@ -138,10 +149,11 @@ NamedEntity.update_forward_refs()
 Gene.update_forward_refs()
 ChemicalExposure.update_forward_refs()
 CompoundExpression.update_forward_refs()
-GeneExposureRelationship.update_forward_refs()
 Triple.update_forward_refs()
+GeneExposureRelationship.update_forward_refs()
 TextWithTriples.update_forward_refs()
 RelationshipType.update_forward_refs()
+ChemicalExposureToGenePredicate.update_forward_refs()
 Publication.update_forward_refs()
 AnnotatorResult.update_forward_refs()
 
