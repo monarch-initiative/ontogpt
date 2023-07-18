@@ -111,6 +111,10 @@ def parse_pmxml(xml: str, raw: bool, autoformat: bool) -> List[str]:
 
     return docs
 
+def clean_pmids(ids: list[PMID]) -> list[PMID]:
+    """Remove prefixes from a list of PMIDs, returning the new list."""
+    clean_ids = [id.replace("PMID:", "", 1) for id in ids]
+    return clean_ids
 
 @dataclass
 class PubmedClient:
@@ -210,13 +214,14 @@ class PubmedClient:
         return pmids
 
     def text(
-        self, ids: Union[list[PMID], PMID], raw=False, autoformat=True
+        self, ids: Union[list[PMID], PMID], raw=False, autoformat=True, pubmedcental=False
     ) -> Union[list[str], str]:
         """Get the text of one or more papers from their PMIDs.
 
         :param ids: List of PubMed IDs, or string with single PMID
         :param raw: if True, do not parse the xml, just return the raw output with tags
         :param autoformat: if True include title and abstract concatenated
+        :param pubmedcentral: if True, retreive text from PubMed Central where possible
         :return: the text of a single entry, or a list of strings for text of multiple entries
         """
         batch_size = 200
@@ -228,7 +233,7 @@ class PubmedClient:
             singledoc = True
         else:
             singledoc = False
-        clean_ids = [id.replace("PMID:", "", 1) for id in ids]
+        clean_ids = clean_pmids(ids)
         ids = clean_ids
 
         # this will store the document data

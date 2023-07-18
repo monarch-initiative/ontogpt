@@ -319,7 +319,8 @@ def pubmed_extract(pmid, template, output, output_format, get_pmc, **kwargs):
     logging.info(f"Creating for {template}")
     pmc = PubmedClient()
     if get_pmc:
-        print(f"Will try to retrieve PubMed Central text for {pmid}.")
+        logging.info(f"Will try to retrieve PubMed Central text for {pmid}.")
+        text = pmc.text(pmid, pubmedcental=True)
     else:
         text = pmc.text(pmid)
     ke = SPIRESEngine(template, **kwargs)
@@ -347,7 +348,8 @@ def pubmed_annotate(search, template, output, output_format, get_pmc, **kwargs):
     pmc = PubmedClient()
     pmids = pmc.get_pmids(search)
     if get_pmc:
-        print("Will try to retrieve PubMed Central texts.")
+        logging.info("Will try to retrieve PubMed Central texts.")
+        textlist = pmc.text(pmids[: pubmed_annotate_limit + 1], pubmedcental=True)
     else:
         textlist = pmc.text(pmids[: pubmed_annotate_limit + 1])
     for text in textlist:
