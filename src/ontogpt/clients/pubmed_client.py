@@ -66,12 +66,15 @@ def _score_text(text: str, keywords: List[str]) -> int:
     return score
 
 
-def parse_pmxml(xml: str, raw: bool, autoformat: bool) -> List[str]:
+def parse_pmxml(xml: str, raw: bool, autoformat: bool, pubmedcentral: bool) -> List[str]:
     """Extract structured text from PubMed XML.
 
     :param xml: One or more xml entries, as string
     :param raw: if True, do not parse the xml beyond separating documents
     :param autoformat: if True include title and abstract concatenated
+        Otherwise the output will include ALL text contents besides XML tags
+    :param pubmedcentral: if True replace abstract with (some) PubMed Central text
+        If there isn't a PMC ID, just use the abstract
     :return: a list of strings, one per entry
     """
     docs = []
@@ -90,7 +93,16 @@ def parse_pmxml(xml: str, raw: bool, autoformat: bool) -> List[str]:
 
     logging.info("Parsing all xml entries...")
     for pa in soup.find_all(["PubmedArticle", "PubmedBookArticle"]):
-        if autoformat and not raw:
+        # First check the PMID, and if requested, any PMC ID
+        pmid = ""
+        if pa.find("PMID"):  # If this is missing something has gone Wrong
+            pmid = pa.find("PMID").text
+        pmc_id = ""
+        has_pmc_id = False
+        if pa.find("PubmedData").find("ArticleIdList").find("ArticleId", {"IdType": "pmc"}):
+            pmc_id = pa.find("PubmedData").find("ArticleIdList").find("ArticleId", {"IdType": "pmc"}).text
+            has_pmc_id = True
+        if autoformat and not raw and not has_pmc_id:  # No PMC ID - just use title+abstract
             ti = ""
             if pa.find("ArticleTitle"):
                 ti = pa.find("ArticleTitle").text
@@ -100,9 +112,18 @@ def parse_pmxml(xml: str, raw: bool, autoformat: bool) -> List[str]:
             kw = ""
             if pa.find("KeywordList"):  # Document may not have MeSH terms or keywords
                 kw = [tag.text for tag in pa.find_all("Keyword")]
-            # else:
-            #     kw = ""
-            txt = f"Title: {ti}\nAbstract: {ab}\nKeywords: {'; '.join(kw)}"
+            txt = f"Title: {ti}\nAbstract: {ab}\nKeywords: {'; '.join(kw)}\nPMID: {pmid}\n"
+        elif autoformat and not raw and has_pmc_id:  # PMC ID - get and use that text instead
+            ti = ""
+            if pa.find("ArticleTitle"):
+                ti = pa.find("ArticleTitle").text
+            ab = ""
+            if pa.find("Abstract"):  # Document may not have abstract
+                ab = pa.find("Abstract").text
+            kw = ""
+            if pa.find("KeywordList"):  # Document may not have MeSH terms or keywords
+                kw = [tag.text for tag in pa.find_all("Keyword")]
+            txt = f"Title: {ti}\nAbstract: {ab}\nKeywords: {'; '.join(kw)}\nPMID: {pmid}\n"
         elif raw:
             txt = str(pa)
         else:
@@ -111,10 +132,12 @@ def parse_pmxml(xml: str, raw: bool, autoformat: bool) -> List[str]:
 
     return docs
 
+
 def clean_pmids(ids: list[PMID]) -> list[PMID]:
     """Remove prefixes from a list of PMIDs, returning the new list."""
     clean_ids = [id.replace("PMID:", "", 1) for id in ids]
     return clean_ids
+
 
 @dataclass
 class PubmedClient:
@@ -374,7 +397,9 @@ class PubmedClient:
         # Parse that xml - this returns a list of strings
         # if raw is True, the tags are kept, but we still get a list of docs
         # and we don't truncate them
-        these_docs = parse_pmxml(xml=xml_data, raw=raw, autoformat=autoformat)
+        these_docs = parse_pmxml(
+            xml=xml_data, raw=raw, autoformat=autoformat, pubmedcentral=pubmedcental
+        )
 
         txt = []
         for doc in these_docs:
