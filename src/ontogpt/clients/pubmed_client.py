@@ -357,8 +357,6 @@ class PubmedClient:
         :param pmc_id: List of PubMed IDs, or string with single PMID
         :return: the text of a single entry as XML
         """
-
-        # this will store the document data
         xml_data = ""
 
         fetch_url = EUTILS_URL + "efetch.fcgi"
@@ -484,6 +482,10 @@ class PubmedClient:
                     kw = [tag.text for tag in pa.find_all("Keyword")]
                 txt = f"Title: {ti}\nKeywords: {'; '.join(kw)}\nPMID: {pmid}\nAbstract: {ab}"
             elif autoformat and not raw and has_pmc_id:  # PMC ID - get and use that text instead
+
+                # TODO: get the full body text, but then chunk it based on the max_text_length
+                # and append all chunks to the docs list individually.
+
                 fulltext = self.pmc_text(pmc_id)
                 fullsoup = BeautifulSoup(fulltext, "xml")
                 body = ""
