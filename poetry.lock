@@ -1429,14 +1429,14 @@ testing = ["covdefaults (>=2.2.2)", "coverage (>=7.0.1)", "pytest (>=7.2)", "pyt
 
 [[package]]
 name = "flask"
-version = "2.2.2"
+version = "2.1.3"
 description = "A simple framework for building complex web applications."
 category = "main"
 optional = false
 python-versions = ">=3.7"
 files = [
-    {file = "Flask-2.2.2-py3-none-any.whl", hash = "sha256:b9c46cc36662a7949f34b52d8ec7bb59c0d74ba08ba6cb9ce9adc1d8676d9526"},
-    {file = "Flask-2.2.2.tar.gz", hash = "sha256:642c450d19c4ad482f96729bd2a8f6d32554aa1e231f4f6b4e7e5264b16cca2b"},
+    {file = "Flask-2.1.3-py3-none-any.whl", hash = "sha256:9013281a7402ad527f8fd56375164f3aa021ecfaff89bfe3825346c24f87e04c"},
+    {file = "Flask-2.1.3.tar.gz", hash = "sha256:15972e5017df0575c3d6c090ba168b6db90259e620ac8d7ea813a396bad5b6cb"},
 ]
 
 [package.dependencies]
@@ -1444,7 +1444,7 @@ click = ">=8.0"
 importlib-metadata = {version = ">=3.6.0", markers = "python_version < \"3.10\""}
 itsdangerous = ">=2.0"
 Jinja2 = ">=3.0"
-Werkzeug = ">=2.2.2"
+Werkzeug = ">=2.0"
 
 [package.extras]
 async = ["asgiref (>=3.2)"]
@@ -1725,14 +1725,14 @@ dev = ["flake8", "markdown", "twine", "wheel"]
 
 [[package]]
 name = "gilda"
-version = "0.10.3"
+version = "1.0.0"
 description = "Grounding for biomedical entities with contextual disambiguation"
 category = "main"
 optional = false
 python-versions = "*"
 files = [
-    {file = "gilda-0.10.3-py3-none-any.whl", hash = "sha256:96c9ccbb818623bb0b7f4a7a365e3716abe724ba9d55cb19de385855c21e5c65"},
-    {file = "gilda-0.10.3.tar.gz", hash = "sha256:35f676451d0e3cbd836a17740929c55f733e86346944f1980ba09c46082e53f8"},
+    {file = "gilda-1.0.0-py3-none-any.whl", hash = "sha256:83f30acd0e500395c6f6857212963fcee765cae478ca636249a2c8d5ab2185bf"},
+    {file = "gilda-1.0.0.tar.gz", hash = "sha256:b100c66f0ed127a23ed1961b3a8a578125907d4c0abf3b9beeab8c22241c84ba"},
 ]
 
 [package.dependencies]
@@ -1742,16 +1742,16 @@ flask = "*"
 flask-bootstrap = "*"
 flask-restx = "*"
 flask-wtf = "*"
-obonet = "*"
 pystow = ">=0.1.10"
 regex = "*"
 unidecode = "*"
+werkzeug = "<2.2"
 
 [package.extras]
 benchmarks = ["click", "pandas (>=1.0)", "requests", "tabulate", "tqdm"]
 docs = ["sphinx", "sphinx-autodoc-typehints", "sphinx-rtd-theme"]
-terms = ["indra"]
-test = ["pytest", "pytest-cov"]
+terms = ["indra", "obonet"]
+test = ["pandas", "pytest", "pytest-cov"]
 
 [[package]]
 name = "gitdb"
@@ -4140,24 +4140,6 @@ sssom-schema = ">=0.11.0"
 
 [package.extras]
 gilda = ["gilda (>=0.10.1,<0.11.0)"]
-
-[[package]]
-name = "obonet"
-version = "0.3.1"
-description = "Parse OBO formatted ontologies into networkx"
-category = "main"
-optional = false
-python-versions = ">=3.7"
-files = [
-    {file = "obonet-0.3.1-py3-none-any.whl", hash = "sha256:a4fe5ee83cc165dfb613153abf08b469732bcb24a65a00067d3686864ed4a8f4"},
-    {file = "obonet-0.3.1.tar.gz", hash = "sha256:442dc810f3f914858457006030d7da3880b2566b1e03278d5e7802b6ea3ed27c"},
-]
-
-[package.dependencies]
-networkx = "*"
-
-[package.extras]
-dev = ["pre-commit", "pytest"]
 
 [[package]]
 name = "ols-client"
@@ -7257,18 +7239,15 @@ test = ["websockets"]
 
 [[package]]
 name = "werkzeug"
-version = "2.2.2"
+version = "2.1.2"
 description = "The comprehensive WSGI web application library."
 category = "main"
 optional = false
 python-versions = ">=3.7"
 files = [
-    {file = "Werkzeug-2.2.2-py3-none-any.whl", hash = "sha256:f979ab81f58d7318e064e99c4506445d60135ac5cd2e177a2de0089bfd4c9bd5"},
-    {file = "Werkzeug-2.2.2.tar.gz", hash = "sha256:7ea2d48322cc7c0f8b3a215ed73eabd7b5d75d0b50e31ab006286ccff9e00b8f"},
+    {file = "Werkzeug-2.1.2-py3-none-any.whl", hash = "sha256:72a4b735692dd3135217911cbeaa1be5fa3f62bffb8745c5215420a03dc55255"},
+    {file = "Werkzeug-2.1.2.tar.gz", hash = "sha256:1ce08e8093ed67d638d63879fd1ba3735817f7a80de3674d293f5984f25fb6e6"},
 ]
-
-[package.dependencies]
-MarkupSafe = ">=2.1.1"
 
 [package.extras]
 watchdog = ["watchdog"]
@@ -7551,4 +7530,4 @@ web = ["Jinja2", "fastapi", "uvicorn"]
 [metadata]
 lock-version = "2.0"
 python-versions = ">=3.9,<3.9.7 || >3.9.7,<4.0"
-content-hash = "ac90593bbeffe6e9ae0d4f59e983609c20c06bdbf51df390717691207630297b"
+content-hash = "ea14f6393645b0277d5e13699332fcc4d58c25d2f55ef9d2d2bab1c5847e2c61"
