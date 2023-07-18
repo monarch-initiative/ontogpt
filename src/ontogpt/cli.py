@@ -347,7 +347,7 @@ def pubmed_annotate(search, template, output, output_format, get_pmc, **kwargs):
     pmc = PubmedClient()
     pmids = pmc.get_pmids(search)
     if get_pmc:
-        print(f"Will try to retrieve PubMed Central texts.")
+        print("Will try to retrieve PubMed Central texts.")
     else:
         textlist = pmc.text(pmids[: pubmed_annotate_limit + 1])
     for text in textlist:
