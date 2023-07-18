@@ -65,6 +65,7 @@ def _score_text(text: str, keywords: List[str]) -> int:
             score += 1
     return score
 
+
 def clean_pmids(ids: list[PMID]) -> list[PMID]:
     """Remove prefixes from a list of PMIDs, returning the new list."""
     clean_ids = [id.replace("PMID:", "", 1) for id in ids]
@@ -349,6 +350,54 @@ class PubmedClient:
 
         return txt
 
+    def pmc_text(self, pmc_id: str) -> str:
+        """Get the text of one PubMed Central entry.
+
+        Don't parse further here - just get the raw response.
+        :param pmc_id: List of PubMed IDs, or string with single PMID
+        :return: the text of a single entry as XML
+        """
+
+        # this will store the document data
+        xml_data = ""
+
+        fetch_url = EUTILS_URL + "efetch.fcgi"
+
+        if self.email and self.ncbi_key:
+            params = {
+                "db": "pmc",
+                "id": pmc_id,
+                "rettype": "xml",
+                "retmode": "xml",
+                "email": self.email,
+                "api_key": self.ncbi_key,
+            }
+        else:
+            params = {"db": "pmc", "id": pmc_id, "rettype": "xml", "retmode": "xml"}
+
+        response = requests.get(fetch_url, params=parse.urlencode(params, safe=","))
+
+        trying = True
+        try_count = 0
+        while trying:
+            if response.status_code == 200:
+                xml_data = response.text
+                trying = False
+            else:
+                logging.error(
+                    f"Encountered error in fetching from PubMed Central: {response.status_code}"
+                )
+                try_count = try_count + 1
+                if try_count < RETRY_MAX:
+                    logging.info("Trying again...")
+                    time.sleep(1)
+                else:
+                    logging.info(f"Giving up - last status code {response.status_code}")
+                    trying = False
+        logging.info(f"Retrieved PubMed Central document data for {pmc_id}.")
+
+        return xml_data
+
     def search(self, term: str, keywords: List[str] = None) -> List[PMID]:
         """Get the quality-scored text of PubMed papers relating to a search term and keywords.
 
@@ -380,7 +429,7 @@ class PubmedClient:
             yield f"{pmid}"
 
     def parse_pmxml(self, xml: str, raw: bool, autoformat: bool, pubmedcentral: bool) -> List[str]:
-        """Extract structured text from PubMed XML.
+        """Extract structured text from PubMed and PubMed Central XML.
 
         :param xml: One or more xml entries, as string
         :param raw: if True, do not parse the xml beyond separating documents
@@ -412,31 +461,51 @@ class PubmedClient:
                 pmid = pa.find("PMID").text
             pmc_id = ""
             has_pmc_id = False
-            if pa.find("PubmedData").find("ArticleIdList").find("ArticleId", {"IdType": "pmc"}):
-                pmc_id = pa.find("PubmedData").find("ArticleIdList").find("ArticleId", {"IdType": "pmc"}).text
+            if (
+                pa.find("PubmedData").find("ArticleIdList").find("ArticleId", {"IdType": "pmc"})
+                and pubmedcentral
+            ):
+                pmc_id = (
+                    pa.find("PubmedData")
+                    .find("ArticleIdList")
+                    .find("ArticleId", {"IdType": "pmc"})
+                    .text
+                )
                 has_pmc_id = True
             if autoformat and not raw and not has_pmc_id:  # No PMC ID - just use title+abstract
                 ti = ""
                 if pa.find("ArticleTitle"):
                     ti = pa.find("ArticleTitle").text
                 ab = ""
-                if pa.find("Abstract"):  # Document may not have abstract
+                if pa.find("Abstract"):  # Document may not have body
                     ab = pa.find("Abstract").text
                 kw = ""
                 if pa.find("KeywordList"):  # Document may not have MeSH terms or keywords
                     kw = [tag.text for tag in pa.find_all("Keyword")]
-                txt = f"Title: {ti}\nAbstract: {ab}\nKeywords: {'; '.join(kw)}\nPMID: {pmid}\n"
+                txt = f"Title: {ti}\nKeywords: {'; '.join(kw)}\nPMID: {pmid}\nAbstract: {ab}"
             elif autoformat and not raw and has_pmc_id:  # PMC ID - get and use that text instead
+                fulltext = self.pmc_text(pmc_id)
+                fullsoup = BeautifulSoup(fulltext, "xml")
+                body = ""
+                if fullsoup.find("pmc-articleset").find("article").find("body"):
+                    body = fullsoup.find("pmc-articleset").find("article").find("body").text
                 ti = ""
                 if pa.find("ArticleTitle"):
                     ti = pa.find("ArticleTitle").text
-                ab = ""
-                if pa.find("Abstract"):  # Document may not have abstract
-                    ab = pa.find("Abstract").text
                 kw = ""
                 if pa.find("KeywordList"):  # Document may not have MeSH terms or keywords
                     kw = [tag.text for tag in pa.find_all("Keyword")]
-                txt = f"Title: {ti}\nAbstract: {ab}\nKeywords: {'; '.join(kw)}\nPMID: {pmid}\n"
+
+                txt = f"Title: {ti}\nKeywords: {'; '.join(kw)}\nPMID: {pmid}\nPMCID: {pmc_id}\n"
+
+                # Truncate body text if needed
+                maxbody_len = self.max_text_length - len(txt)
+                logging.warning(
+                    f'Truncating entry beginning "{body[:50]}" to {str(maxbody_len)} chars'
+                )
+                body = body[0 : maxbody_len]
+                txt = txt + body
+                print(txt)
             elif raw:
                 txt = str(pa)
             else:
