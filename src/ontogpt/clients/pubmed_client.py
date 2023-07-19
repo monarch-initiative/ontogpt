@@ -79,6 +79,8 @@ class PubmedClient:
     This class is a wrapper around the Entrez API.
     """
 
+    # TODO: this doesn't need to be hardcoded
+    # and may vary based on the model in use
     max_text_length = 3000
 
     try:
@@ -505,7 +507,9 @@ class PubmedClient:
                 chunktxt = [body[i:i+full_max_len] for i in range(0, len(body), full_max_len)]
                 for txt in chunktxt:
                     docs.append(id_txt + txt)
-
+                    logging.warning(
+                        f'Truncating entry containing "{txt[:50]}" to {str(full_max_len)} chars'
+                    )
             elif raw:
                 docs.append(str(pa))
             else:
