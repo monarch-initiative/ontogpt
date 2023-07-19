@@ -344,7 +344,7 @@ class PubmedClient:
                 txt.append(shortdoc)
             else:
                 txt.append(doc)
-            if singledoc:
+            if singledoc and not pubmedcental:
                 onetxt = txt[0]
                 txt = onetxt
 
@@ -433,8 +433,11 @@ class PubmedClient:
         :param raw: if True, do not parse the xml beyond separating documents
         :param autoformat: if True include title and abstract concatenated
             Otherwise the output will include ALL text contents besides XML tags
-        :param pubmedcentral: if True replace abstract with (some) PubMed Central text
-            If there isn't a PMC ID, just use the abstract
+        :param pubmedcentral: if True replace abstract with PubMed Central text
+            If there isn't a PMC ID, just use the abstract.
+            If there is a PMC ID, use the abstract AND chunk the body text.
+            This means the same ID may have multiple entries and may require multiple
+            queries to the LLM.
         :return: a list of strings, one per entry
         """
         docs = []
@@ -475,17 +478,14 @@ class PubmedClient:
                 if pa.find("ArticleTitle"):
                     ti = pa.find("ArticleTitle").text
                 ab = ""
-                if pa.find("Abstract"):  # Document may not have body
+                if pa.find("Abstract"):  # Document may not have abstract
                     ab = pa.find("Abstract").text
                 kw = ""
                 if pa.find("KeywordList"):  # Document may not have MeSH terms or keywords
                     kw = [tag.text for tag in pa.find_all("Keyword")]
                 txt = f"Title: {ti}\nKeywords: {'; '.join(kw)}\nPMID: {pmid}\nAbstract: {ab}"
+                docs.append(txt)
             elif autoformat and not raw and has_pmc_id:  # PMC ID - get and use that text instead
-
-                # TODO: get the full body text, but then chunk it based on the max_text_length
-                # and append all chunks to the docs list individually.
-
                 fulltext = self.pmc_text(pmc_id)
                 fullsoup = BeautifulSoup(fulltext, "xml")
                 body = ""
@@ -494,24 +494,21 @@ class PubmedClient:
                 ti = ""
                 if pa.find("ArticleTitle"):
                     ti = pa.find("ArticleTitle").text
+                if pa.find("Abstract"):  # Document may not have abstract
+                    body = pa.find("Abstract").text + body
                 kw = ""
                 if pa.find("KeywordList"):  # Document may not have MeSH terms or keywords
                     kw = [tag.text for tag in pa.find_all("Keyword")]
 
-                txt = f"Title: {ti}\nKeywords: {'; '.join(kw)}\nPMID: {pmid}\nPMCID: {pmc_id}\n"
+                id_txt = f"Title: {ti}\nKeywords: {'; '.join(kw)}\nPMID: {pmid}\nPMCID: {pmc_id}\n"
+                full_max_len = self.max_text_length - len(id_txt)
+                chunktxt = [body[i:i+full_max_len] for i in range(0, len(body), full_max_len)]
+                for txt in chunktxt:
+                    docs.append(id_txt + txt)
 
-                # Truncate body text if needed
-                maxbody_len = self.max_text_length - len(txt)
-                logging.warning(
-                    f'Truncating entry beginning "{body[:50]}" to {str(maxbody_len)} chars'
-                )
-                body = body[0 : maxbody_len]
-                txt = txt + body
-                print(txt)
             elif raw:
-                txt = str(pa)
+                docs.append(str(pa))
             else:
-                txt = soup.get_text()
-            docs.append(txt)
+                docs.append(soup.get_text())
 
         return docs
