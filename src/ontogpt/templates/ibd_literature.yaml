@@ -57,8 +57,8 @@ classes:
       - ExO
       - NCIT
     annotations:
-      annotators: sqlite:obo:ecto
-      prompt: the name of the exposure, such as a exposure to a chemical toxin.
+      annotators: sqlite:obo:ecto, sqlite:obo:chebi
+      prompt: the name of the exposure, such as a exposure to a chemical toxin. For example, CHEBI:17968 butyrate.
 
   ChemicalExposureToGenePredicate:
     is_a: RelationshipType
