@@ -301,6 +301,7 @@ def extract(
             setattr(results.extracted_object, slot, value)
     write_extraction(results, output, output_format, ke)
 
+
 # TODO: combine this command with pubmed_annotate - they are converging
 @main.command()
 @template_option
@@ -348,7 +349,11 @@ def pubmed_extract(pmid, template, output, output_format, get_pmc, **kwargs):
 )
 @click.argument("search")
 def pubmed_annotate(search, template, output, output_format, limit, get_pmc, **kwargs):
-    """Retrieve a collection of PubMed IDs for a search term; annotate them using a template."""
+    """Retrieve a collection of PubMed IDs for a search term; annotate them using a template.
+
+    Example:
+    ontogpt pubmed-annotate -t phenotype "Takotsubo Cardiomyopathy: A Brief Review" --get-pmc --model gpt-3.5-turbo-16k --limit 3
+    """
     logging.info(f"Creating for {template}")
     pubmed_annotate_limit = limit
     pmc = PubmedClient()
