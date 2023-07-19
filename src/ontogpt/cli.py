@@ -301,7 +301,7 @@ def extract(
             setattr(results.extracted_object, slot, value)
     write_extraction(results, output, output_format, ke)
 
-
+# TODO: combine this command with pubmed_annotate - they are converging
 @main.command()
 @template_option
 @model_option
@@ -320,13 +320,14 @@ def pubmed_extract(pmid, template, output, output_format, get_pmc, **kwargs):
     pmc = PubmedClient()
     if get_pmc:
         logging.info(f"Will try to retrieve PubMed Central text for {pmid}.")
-        text = pmc.text(pmid, pubmedcental=True)
+        textlist = pmc.text(pmid, pubmedcental=True)
     else:
-        text = pmc.text(pmid)
-    ke = SPIRESEngine(template, **kwargs)
-    logging.debug(f"Input text: {text}")
-    results = ke.extract_from_text(text)
-    write_extraction(results, output, output_format)
+        textlist = pmc.text(pmid)
+    for text in textlist:
+        ke = SPIRESEngine(template, **kwargs)
+        logging.debug(f"Input text: {text}")
+        results = ke.extract_from_text(text)
+        write_extraction(results, output, output_format)
 
 
 @main.command()
