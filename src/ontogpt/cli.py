@@ -352,7 +352,8 @@ def pubmed_annotate(search, template, output, output_format, limit, get_pmc, **k
     """Retrieve a collection of PubMed IDs for a search term; annotate them using a template.
 
     Example:
-    ontogpt pubmed-annotate -t phenotype "Takotsubo Cardiomyopathy: A Brief Review" --get-pmc --model gpt-3.5-turbo-16k --limit 3
+    ontogpt pubmed-annotate -t phenotype "Takotsubo Cardiomyopathy: A Brief Review"
+        --get-pmc --model gpt-3.5-turbo-16k --limit 3
     """
     logging.info(f"Creating for {template}")
     pubmed_annotate_limit = limit
