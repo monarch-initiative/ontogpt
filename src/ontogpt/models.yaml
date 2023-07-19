@@ -16,6 +16,14 @@ models:
     creators:
       - OpenAI
 
+  - name: MODEL_GPT_3_5_TURBO_16K
+    alternative_names:
+      - "gpt-3.5-turbo-16k"
+      - "openai-gpt-3.5-turbo-16k"
+    provider: OpenAI
+    creators:
+      - OpenAI
+
   - name: MODEL_GPT_4
     alternative_names:
       - "gpt-4"
