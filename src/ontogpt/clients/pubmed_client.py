@@ -493,6 +493,7 @@ class PubmedClient:
                 body = ""
                 if fullsoup.find("pmc-articleset").find("article").find("body"):
                     body = fullsoup.find("pmc-articleset").find("article").find("body").text
+                    body = body.replace("\n", " ")
                 ti = ""
                 if pa.find("ArticleTitle"):
                     ti = pa.find("ArticleTitle").text
