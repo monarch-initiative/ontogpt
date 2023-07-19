@@ -337,15 +337,20 @@ def pubmed_extract(pmid, template, output, output_format, get_pmc, **kwargs):
 @output_option_wb
 @output_format_options
 @click.option(
+    "--limit",
+    default=20,
+    help="Total number of citation records to return.",
+)
+@click.option(
     "--get-pmc/--no-get-pmc",
     default=False,
     help="Attempt to parse PubMed Central full text(s) instead of abstract(s) alone.",
 )
 @click.argument("search")
-def pubmed_annotate(search, template, output, output_format, get_pmc, **kwargs):
+def pubmed_annotate(search, template, output, output_format, limit, get_pmc, **kwargs):
     """Retrieve a collection of PubMed IDs for a search term; annotate them using a template."""
     logging.info(f"Creating for {template}")
-    pubmed_annotate_limit = 20  # TODO: make this a CLI argument
+    pubmed_annotate_limit = limit
     pmc = PubmedClient()
     pmids = pmc.get_pmids(search)
     if get_pmc:
