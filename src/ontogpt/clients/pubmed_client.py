@@ -504,11 +504,11 @@ class PubmedClient:
 
                 id_txt = f"Title: {ti}\nKeywords: {'; '.join(kw)}\nPMID: {pmid}\nPMCID: {pmc_id}\n"
                 full_max_len = self.max_text_length - len(id_txt)
-                chunktxt = [body[i:i+full_max_len] for i in range(0, len(body), full_max_len)]
+                chunktxt = [body[i : i + full_max_len] for i in range(0, len(body), full_max_len)]
                 for txt in chunktxt:
                     docs.append(id_txt + txt)
                     logging.warning(
-                        f'Truncating entry containing "{txt[:50]}" to {str(full_max_len)} chars'
+                        f'Truncating entry containing "{txt[:50]}" to {self.max_text_length} chars'
                     )
             elif raw:
                 docs.append(str(pa))
