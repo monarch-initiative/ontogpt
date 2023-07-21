@@ -29,7 +29,7 @@ def sleepprint(lst):
         time.sleep(0.5)
 
 
-output_file = "output_2000.yaml"#"long_output.yaml"
+output_file = "output_2000_0719.yaml"
 with open(output_file, "r") as file:
     to_print = False
     # terminators = tuple(["input_text", "  qualifier", "  subject_qualifier", "  object_qualifier"])
