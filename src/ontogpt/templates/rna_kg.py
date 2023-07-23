@@ -28,14 +28,24 @@ class NullDataOptions(str, Enum):
     
     
 
-class Study(ConfiguredBaseModel):
+class GenemiRNARelationship(ConfiguredBaseModel):
     
-    location: Optional[List[str]] = Field(default_factory=list, description="""the sites at which the study was conducted""")
-    environmental_material: Optional[List[str]] = Field(default_factory=list, description="""the environmental material that was sampled""")
-    environments: Optional[List[str]] = Field(default_factory=list)
-    causal_relationships: Optional[List[CausalRelationship]] = Field(default_factory=list)
-    variables: Optional[List[str]] = Field(default_factory=list)
-    measurements: Optional[List[Measurement]] = Field(default_factory=list)
+    gene: Optional[str] = Field(None)
+    miRNA: Optional[str] = Field(None)
+    
+
+
+class GeneDiseaseRelationship(ConfiguredBaseModel):
+    
+    gene: Optional[str] = Field(None)
+    disease: Optional[str] = Field(None)
+    
+
+
+class MiRNADiseaseRelationship(ConfiguredBaseModel):
+    
+    gene: Optional[str] = Field(None)
+    disease: Optional[str] = Field(None)
     
 
 
@@ -60,58 +70,39 @@ class NamedEntity(ConfiguredBaseModel):
     
 
 
-class Location(NamedEntity):
+class MiRNA(NamedEntity):
     
+    label: Optional[str] = Field(None, description="""the name of the miRNA""")
+    description: Optional[str] = Field(None, description="""a textual description of the miRNA""")
+    synonyms: Optional[List[str]] = Field(default_factory=list, description="""alternative names of the miRNA""")
+    miRNA_disease: Optional[List[MiRNADiseaseRelationship]] = Field(default_factory=list, description="""semicolon-separated list of miRNA to disease relationships""")
     id: Optional[str] = Field(None, description="""A unique identifier for the named entity""")
-    label: Optional[str] = Field(None, description="""The label (name) of the named thing""")
     
 
 
-class EnvironmentalMaterial(NamedEntity):
+class Gene(NamedEntity):
     
+    label: Optional[str] = Field(None, description="""the name of the gene""")
+    description: Optional[str] = Field(None, description="""a textual description of the gene""")
+    synonyms: Optional[List[str]] = Field(default_factory=list, description="""alternative names of the gene""")
+    gene_miRNA: Optional[List[GenemiRNARelationship]] = Field(default_factory=list, description="""semicolon-separated list of gene to miRNA relationships""")
+    gene_disease: Optional[List[GeneDiseaseRelationship]] = Field(default_factory=list, description="""semicolon-separated list of gene to disease relationships""")
     id: Optional[str] = Field(None, description="""A unique identifier for the named entity""")
-    label: Optional[str] = Field(None, description="""The label (name) of the named thing""")
     
 
 
-class Environment(NamedEntity):
+class Disease(NamedEntity):
     
+    label: Optional[str] = Field(None, description="""the name of the disease""")
+    description: Optional[str] = Field(None, description="""a textual description of the disease""")
+    synonyms: Optional[List[str]] = Field(default_factory=list, description="""alternative names of the disease""")
     id: Optional[str] = Field(None, description="""A unique identifier for the named entity""")
-    label: Optional[str] = Field(None, description="""The label (name) of the named thing""")
-    
-
-
-class Variable(NamedEntity):
-    
-    id: Optional[str] = Field(None, description="""A unique identifier for the named entity""")
-    label: Optional[str] = Field(None, description="""The label (name) of the named thing""")
-    
-
-
-class Unit(NamedEntity):
-    
-    id: Optional[str] = Field(None, description="""A unique identifier for the named entity""")
-    label: Optional[str] = Field(None, description="""The label (name) of the named thing""")
     
 
 
 class CompoundExpression(ConfiguredBaseModel):
     
     None
-    
-
-
-class Measurement(CompoundExpression):
-    
-    value: Optional[str] = Field(None, description="""the value of the measurement""")
-    unit: Optional[str] = Field(None, description="""the unit of the measurement""")
-    
-
-
-class CausalRelationship(CompoundExpression):
-    
-    cause: Optional[str] = Field(None, description="""the variable that is the cause of the effect""")
-    effect: Optional[str] = Field(None, description="""the things that is affected""")
     
 
 
@@ -163,17 +154,15 @@ class AnnotatorResult(ConfiguredBaseModel):
 
 # Update forward refs
 # see https://pydantic-docs.helpmanual.io/usage/postponed_annotations/
-Study.update_forward_refs()
+GenemiRNARelationship.update_forward_refs()
+GeneDiseaseRelationship.update_forward_refs()
+MiRNADiseaseRelationship.update_forward_refs()
 ExtractionResult.update_forward_refs()
 NamedEntity.update_forward_refs()
-Location.update_forward_refs()
-EnvironmentalMaterial.update_forward_refs()
-Environment.update_forward_refs()
-Variable.update_forward_refs()
-Unit.update_forward_refs()
+MiRNA.update_forward_refs()
+Gene.update_forward_refs()
+Disease.update_forward_refs()
 CompoundExpression.update_forward_refs()
-Measurement.update_forward_refs()
-CausalRelationship.update_forward_refs()
 Triple.update_forward_refs()
 TextWithTriples.update_forward_refs()
 RelationshipType.update_forward_refs()

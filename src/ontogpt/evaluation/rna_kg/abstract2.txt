@@ -1,0 +1,16 @@
+MicroRNA (miRNA)–gene interactions are well-recognized as involved in the progression
+of almost all cancer types including prostate cancer, which is one of the most common
+cancers in men. This study explored the significantly dysregulated genes and miRNAs and
+elucidated the potential miRNA–gene regulatory network in prostate cancer. Integrative
+analysis of prostate cancer and normal prostate transcriptomic data in The Cancer Genome
+Atlas dataset was conducted using both differential expression analysis and weighted
+correlation network analysis (WGCNA). Thirteen genes (RRM2, ORC6, CDC45, CDKN2A, E2F2,
+MYBL2, CCNB2, PLK1, FOXM1, CDC25C, PKMYT1, GTSE1, and CDC20) were potentially
+correlated with prostate cancer based on functional enrichment analyses. MiRNAs
+targeting these genes were predicted and eight miRNAs were intersections between
+those miRNAs and the hub miRNAs obtained from miRNA WGCNA analysis. Three genes
+(E2F2, RRM2, and PKMYT1) and four miRNAs (hsa-mir-17-5p, hsa-mir-20a-5p, hsa-mir-92a-3p,
+and hsa-mir-93-5p) were key factors according to the interaction network. RRM2 and
+PKMYT1 were significantly related to survival. These findings partially elucidated
+the dysregulation of gene expressions in prostate cancer. Efficient manipulations of
+the miRNA–gene interactions in prostate cancer may be exploited as promising therapeutics.

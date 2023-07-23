@@ -1,0 +1,100 @@
+id: https://w3id.org/ontogpt/biological_process
+name: testRNA-KG-template
+title: testRNA-KG Template
+description: >-
+  A template for RNA-KG
+prefixes:
+  linkml: https://w3id.org/linkml/
+
+default_range: string
+
+imports:
+  - linkml:types
+  - core
+
+classes:
+  miRNA:
+    is_a: NamedEntity
+    attributes:
+      label:
+        description: the name of the miRNA
+      description:
+        description: a textual description of the miRNA
+      synonyms:
+        description: alternative names of the miRNA
+        multivalued: true
+      miRNA_disease:
+        description: semicolon-separated list of miRNA to disease relationships
+        multivalued: true
+        range: miRNADiseaseRelationship
+
+  Gene:
+    is_a: NamedEntity
+    id_prefixes:
+      - HGNC
+    annotations:
+      annotators: bioportal:hgnc-nr
+    attributes:
+      label:
+        description: the name of the gene
+      description:
+        description: a textual description of the gene
+      synonyms:
+        description: alternative names of the gene
+        multivalued: true
+      gene_miRNA:
+        description: semicolon-separated list of gene to miRNA relationships
+        multivalued: true
+        range: GenemiRNARelationship
+      gene_disease:
+        description: semicolon-separated list of gene to disease relationships
+        multivalued: true
+        range: GeneDiseaseRelationship
+
+  Disease:
+    is_a: NamedEntity
+    id_prefixes:
+      - MONDO
+    annotations:
+      annotators: sqlite:obo:mondo
+    attributes:
+      label:
+        description: the name of the disease
+      description:
+        description: a textual description of the disease
+      synonyms:
+        description: alternative names of the disease
+        multivalued: true
+
+  GenemiRNARelationship:
+    id_prefixes:
+        - RO
+    attributes:
+      gene:
+        range: Gene
+      miRNA:
+        range: miRNA
+    annotations:
+      annotators: sqlite:obo:ro  
+
+  GeneDiseaseRelationship:
+    id_prefixes:
+        - RO
+    attributes:
+      gene:
+        range: Gene
+      disease:
+        range: Disease
+    annotations:
+      annotators: sqlite:obo:ro
+      
+  miRNADiseaseRelationship:
+    id_prefixes:
+        - RO
+    attributes:
+      gene:
+        range: miRNA
+      disease:
+        range: Disease
+    annotations:
+      annotators: sqlite:obo:ro

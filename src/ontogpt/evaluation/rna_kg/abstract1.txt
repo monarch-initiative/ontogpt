@@ -1,0 +1,13 @@
+Abstract
+One challenge in miRNA–genes–diseases interaction studies is that it is challenging to
+find labeled data that indicate a positive or negative relationship between miRNA and
+genes. The use of one-class classification methods shows a promising path for validating
+them. We have applied two one-class classification methods, Isolation Forest and
+One-class SVM, to validate miRNAs interactions with the ERBB2 gene present in breast
+cancer scenarios using features extracted via sequence-binding. We found that the
+One-class SVM outperforms the Isolation Forest model, with values of sensitivity of
+80.49% and a specificity of 86.49% showing results that are comparable to previous studies.
+Additionally, we have demonstrated that the use of features extracted from a
+sequence-based approach (considering miRNA and gene sequence binding characteristics)
+and one-class models have proven to be a feasible method for validating these genetic
+molecule interactions.

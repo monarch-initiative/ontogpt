@@ -28,17 +28,6 @@ class NullDataOptions(str, Enum):
     
     
 
-class Study(ConfiguredBaseModel):
-    
-    location: Optional[List[str]] = Field(default_factory=list, description="""the sites at which the study was conducted""")
-    environmental_material: Optional[List[str]] = Field(default_factory=list, description="""the environmental material that was sampled""")
-    environments: Optional[List[str]] = Field(default_factory=list)
-    causal_relationships: Optional[List[CausalRelationship]] = Field(default_factory=list)
-    variables: Optional[List[str]] = Field(default_factory=list)
-    measurements: Optional[List[Measurement]] = Field(default_factory=list)
-    
-
-
 class ExtractionResult(ConfiguredBaseModel):
     """
     A result of extracting knowledge on text
@@ -60,37 +49,23 @@ class NamedEntity(ConfiguredBaseModel):
     
 
 
-class Location(NamedEntity):
+class Protein(NamedEntity):
     
-    id: Optional[str] = Field(None, description="""A unique identifier for the named entity""")
+    id: str = Field(None, description="""A unique identifier for the named entity""")
     label: Optional[str] = Field(None, description="""The label (name) of the named thing""")
     
 
 
-class EnvironmentalMaterial(NamedEntity):
+class Gene(NamedEntity):
     
-    id: Optional[str] = Field(None, description="""A unique identifier for the named entity""")
+    id: str = Field(None, description="""A unique identifier for the named entity""")
     label: Optional[str] = Field(None, description="""The label (name) of the named thing""")
     
 
 
-class Environment(NamedEntity):
+class ProteinToGenePredicate(NamedEntity):
     
-    id: Optional[str] = Field(None, description="""A unique identifier for the named entity""")
-    label: Optional[str] = Field(None, description="""The label (name) of the named thing""")
-    
-
-
-class Variable(NamedEntity):
-    
-    id: Optional[str] = Field(None, description="""A unique identifier for the named entity""")
-    label: Optional[str] = Field(None, description="""The label (name) of the named thing""")
-    
-
-
-class Unit(NamedEntity):
-    
-    id: Optional[str] = Field(None, description="""A unique identifier for the named entity""")
+    id: str = Field(None, description="""A unique identifier for the named entity""")
     label: Optional[str] = Field(None, description="""The label (name) of the named thing""")
     
 
@@ -98,20 +73,6 @@ class Unit(NamedEntity):
 class CompoundExpression(ConfiguredBaseModel):
     
     None
-    
-
-
-class Measurement(CompoundExpression):
-    
-    value: Optional[str] = Field(None, description="""the value of the measurement""")
-    unit: Optional[str] = Field(None, description="""the unit of the measurement""")
-    
-
-
-class CausalRelationship(CompoundExpression):
-    
-    cause: Optional[str] = Field(None, description="""the variable that is the cause of the effect""")
-    effect: Optional[str] = Field(None, description="""the things that is affected""")
     
 
 
@@ -128,6 +89,19 @@ class Triple(CompoundExpression):
     
 
 
+class ProteinToGeneRelationship(Triple):
+    """
+    A triple where the subject is a protein and the object is a gene.
+    """
+    subject: Optional[str] = Field(None, description="""The name of a protein.""")
+    predicate: Optional[str] = Field(None, description="""A predicate for protein to gene relationships.""")
+    object: Optional[str] = Field(None, description="""The name of a gene.""")
+    qualifier: Optional[str] = Field(None, description="""A qualifier for the statements, e.g. \"NOT\" for negation""")
+    subject_qualifier: Optional[str] = Field(None, description="""An optional qualifier or modifier for the subject of the statement, e.g. \"high dose\" or \"intravenously administered\"""")
+    object_qualifier: Optional[str] = Field(None, description="""An optional qualifier or modifier for the object of the statement, e.g. \"severe\" or \"with additional complications\"""")
+    
+
+
 class TextWithTriples(ConfiguredBaseModel):
     
     publication: Optional[Publication] = Field(None)
@@ -135,9 +109,18 @@ class TextWithTriples(ConfiguredBaseModel):
     
 
 
+class GeneProInteractionDocument(TextWithTriples):
+    """
+    A document that contains protein to gene relationships.
+    """
+    publication: Optional[Publication] = Field(None)
+    triples: Optional[List[ProteinToGeneRelationship]] = Field(default_factory=list)
+    
+
+
 class RelationshipType(NamedEntity):
     
-    id: Optional[str] = Field(None, description="""A unique identifier for the named entity""")
+    id: str = Field(None, description="""A unique identifier for the named entity""")
     label: Optional[str] = Field(None, description="""The label (name) of the named thing""")
     
 
@@ -163,19 +146,16 @@ class AnnotatorResult(ConfiguredBaseModel):
 
 # Update forward refs
 # see https://pydantic-docs.helpmanual.io/usage/postponed_annotations/
-Study.update_forward_refs()
 ExtractionResult.update_forward_refs()
 NamedEntity.update_forward_refs()
-Location.update_forward_refs()
-EnvironmentalMaterial.update_forward_refs()
-Environment.update_forward_refs()
-Variable.update_forward_refs()
-Unit.update_forward_refs()
+Protein.update_forward_refs()
+Gene.update_forward_refs()
+ProteinToGenePredicate.update_forward_refs()
 CompoundExpression.update_forward_refs()
-Measurement.update_forward_refs()
-CausalRelationship.update_forward_refs()
 Triple.update_forward_refs()
+ProteinToGeneRelationship.update_forward_refs()
 TextWithTriples.update_forward_refs()
+GeneProInteractionDocument.update_forward_refs()
 RelationshipType.update_forward_refs()
 Publication.update_forward_refs()
 AnnotatorResult.update_forward_refs()
