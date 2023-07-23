@@ -1,0 +1,85 @@
+id: https://w3id.org/ontogpt/gene_protein
+name: gene_protein
+title: gene-protein test Template
+description: >-
+  A template for gene-protein interactions.
+  This template is intended to represent associations between genes and protein.
+prefixes:
+  linkml: https://w3id.org/linkml/
+  core: http://w3id.org/ontogpt/core/
+  geneID: https://www.ncbi.nlm.nih.gov/gene/
+  PR: http://purl.obolibrary.org/obo/PR_
+
+default_range: string
+
+imports:
+  - linkml:types
+  - core
+
+#==================================
+# Classes                         #
+#==================================
+classes:
+
+  GeneProInteractionDocument:
+    tree_root: true
+    description: A document that contains protein to gene relationships.
+    is_a: TextWithTriples
+    slot_usage:
+      triples:
+        range: ProteinToGeneRelationship
+        annotations:
+          prompt: >-
+            A semi-colon separated list of protein to gene relationships,
+            where the relationship is either "regulates"
+            or "gene product of". For example: 
+            p53 protein regulates CDKN1A; 
+            Large ribosomal subunit protein eL21 is gene product of RPL21
+  
+  ProteinToGeneRelationship:
+    is_a: Triple
+    description: A triple where the subject is a protein and the object is a gene.
+    slot_usage:
+      subject:
+        range: Protein
+        description: >-
+            The name of a protein.
+        annotations:
+            prompt.examples: TNF protein, lipocalin-1, transcription factor GATA-4, transcription factor GATA-6, sonic hedgehog protein, catenin (Cadherin-Associated Protein)
+      object:
+        range: Gene
+        description: >-
+            The name of a gene.
+        annotations:
+            prompt.examples: EGFR, IL6, CTNNA1, GRB2, CCR5
+      predicate:
+        range: ProteinToGenePredicate
+        description: A predicate for protein to gene relationships.
+        annotations:
+            prompt.examples: regulates, gene product of, directly regulates the activity of, is directly regulating the activity of
+      
+  Protein:
+    is_a: NamedEntity
+    id_prefixes:
+      - PR
+    annotations:
+      annotators: gilda:, sqlite:obo:pr
+
+  Gene:
+    is_a: NamedEntity
+    id_prefixes:
+      - HGNC
+      - PR
+      - UniProtKB
+    annotations:
+      annotators: gilda:, sqlite:obo:hgnc, sqlite:obo:pr
+ 
+  ProteinToGenePredicate:
+    is_a: NamedEntity
+    id_prefixes:
+      - RO
+    slot_usage:
+      id:
+        pattern: "RO:0002211|RO:0002204"
+    annotations:
+      annotators: gilda:, sqlite:obo:ro, bioportal:so, bioportal:sio
