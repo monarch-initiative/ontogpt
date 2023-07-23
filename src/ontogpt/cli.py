@@ -4,6 +4,8 @@ import json
 import logging
 import pickle
 import sys
+import re
+import warnings
 from copy import copy, deepcopy
 from dataclasses import dataclass
 from io import BytesIO, TextIOWrapper
@@ -52,6 +54,9 @@ from ontogpt.utils.gene_set_utils import (
     parse_gene_set,
 )
 from ontogpt.utils.model_utils import get_model
+import os
+import fitz
+import re
 
 __all__ = [
     "main",
@@ -61,7 +66,7 @@ from ontogpt.io.owl_exporter import OWLExporter
 from ontogpt.io.rdf_exporter import RDFExporter
 from ontogpt.io.yaml_wrapper import dump_minimal_yaml
 from ontogpt.templates.core import ExtractionResult
-
+from ontogpt.utils.pymupdf_helpers import headers_para, fonts, font_tags
 
 @dataclass
 class Settings:
@@ -945,12 +950,163 @@ def diagnose(
     **kwargs,
 ):
     """Diagnose."""
+    pass
     phenopackets = [json.load(open(f)) for f in phenopacket_files]
     engine = PhenoEngine(model=model)
     results = engine.evaluate(phenopackets)
     print(dump_minimal_yaml(results))
     write_obj_as_csv(results, output)
 
+@main.command()
+@click.argument("pdf_directory")
+@click.argument("output_directory")
+def extract_case_report_info(pdf_directory, output_directory):
+    for filename in os.listdir(pdf_directory):
+            if filename.endswith(".pdf"):
+                pdf_path = os.path.join(pdf_directory, filename)
+                txt_path = os.path.join(output_directory, os.path.splitext(filename)[0] + ".txt")
+                parsed_txt_path = os.path.join(output_directory, os.path.splitext(filename)[0] + "_parsed.txt")
+
+                doc = fitz.open(pdf_path)
+
+                font_counts, styles = fonts(doc, granularity=False)
+                size_tag = font_tags(font_counts, styles)
+                elements = headers_para(doc, size_tag)
+
+                case_info = get_section_of_interest(elements, tag_of_interest='Presentation of Case')
+                ai = OpenAIClient()
+                text = "Here is a case report: \n\n" + "\n\n" + case_info + \
+                       "\n\nTell me the age and sex of the patient. Print it on two " + \
+                       "lines, age, then sex, like this\nage: 29\nsex: male\n\nif you" + \
+                       " don't know, just print age: ?\nsex: ?\n\n"
+                age_sex = ai.complete(text)
+                elements = [age_sex] + elements
+
+                text = ""
+                for page in doc:
+                    text += page.get_text()
+
+                with open(txt_path, "w", encoding="utf-8") as txt_file:
+                    txt_file.write(text)
+
+                # output parsed text
+                with open(parsed_txt_path, "w", encoding="utf-8") as parsed_txt_file:
+                    parsed_txt_file.write("\n".join(elements))
+
+                doc.close()
+
+@main.command()
+@click.argument("input_data_dir")
+@click.argument("output_directory")
+@click.argument("correct_diagnosis_file")
+def run_kanjee_analysis(input_data_dir, output_directory, correct_diagnosis_file,
+                        model="gpt-4"):
+    # Create the output TSV file name
+    output_file_name = input_data_dir.strip(os.sep).split(os.sep)[-1] + "_results.tsv"
+    output_file_path = os.path.join(output_directory, output_file_name)
+
+    # parse correct diagnosis file
+    def parse_diagnosis_file(file_path):
+        result_dict = {}
+        with open(file_path, 'r') as file:
+            for line in file:
+                line = line.strip()
+                if line:
+                    key, value = line.split('\t')
+                    result_dict[key] = value
+        return result_dict
+
+    correct_diagnosis_dict = parse_diagnosis_file(correct_diagnosis_file)
+
+    # Write the header to the output TSV file
+    with open(output_file_path, "w", encoding="utf-8") as tsv_file:
+        tsv_file.write("input file name\tcorrect diagnosis\tgpt diagnosis\n")
+
+        for filename in os.listdir(input_data_dir):
+            if filename.endswith(".txt"):
+                file_path = os.path.join(input_data_dir, filename)
+
+                if filename.split('-')[0] in correct_diagnosis_dict:
+                    correct_diagnosis = correct_diagnosis_dict[filename.split('-')[0]]
+                else:
+                    correct_diagnosis = \
+                        f"Couldn't find {filename} in correct diagnosis file"
+
+                with open(file_path, mode='r', encoding="utf-8") as txt_file:
+                    prompt = txt_file.read()
+
+                ai = OpenAIClient()
+                ai.model = model
+                try:
+                    gpt_diagnosis = ai.complete(prompt)
+                except openai.error.InvalidRequestError as e:
+                    gpt_diagnosis = "OPENAI API CALL FAILED"
+
+                # Write the result to the output TSV file
+                tsv_file.write(f"{filename}\t{correct_diagnosis}\t\"{gpt_diagnosis}\"\n")
+
+
+
+def get_kanjee_prompt() -> str:
+    """prompt from Kanjee et al. 2023"""
+    prompt = "I am running an experiment on a clinicopathological case conference to see " \
+             "how your diagnoses compare with those of human experts. I am going to give " \
+             "you part of a medical case. These have all been published in the New England " \
+             "Journal of Medicine. You are not trying to treat any patients. As you read the " \
+             "case, you will notice that there are expert discussants giving their thoughts. " \
+             "In this case, you are \"Dr. GPT-4,\" an Al language model who is discussing " \
+             "the case along with human experts. A clinicopathological case conference has " \
+             "several unspoken rules. The first is that there is most often a single definitive " \
+             "diagnosis (though rarely there may be more than one), and it is a diagnosis that " \
+             "is known today to exist in humans. The diagnosis is almost always confirmed by " \
+             "some sort of clinical pathology test or anatomic pathology test, though in " \
+             "rare cases when such a test does not exist for a diagnosis the diagnosis can " \
+             "instead be made using validated clinical criteria or very rarely just confirmed " \
+             "by expert opinion. You will be told at the end of the case description whether " \
+             "a diagnostic test/tests are being ordered, which you can assume will make the " \
+             "diagnosis/diagnoses. After you read the case, I want you to give two pieces of " \
+             "information. The first piece of information is your most likely diagnosis/diagnoses. " \
+             "You need to be as specific as possible -- the goal is to get the correct answer, " \
+             "not a broad category of answers. You do not need to explain your reasoning, just " \
+             "give the diagnosis/diagnoses. The second piece of information is to give a robust " \
+             "differential diagnosis, ranked by their probability so that the most likely " \
+             "diagnosis is at the top, and the least likely is at the bottom. There is no limit " \
+             "to the number of diagnoses on your differential. You can give as many diagnoses " \
+             "as you think are reasonable. You do not need to explain your reasoning, just list" \
+             " the diagnoses. Again, the goal is to be as specific as possible with each of the " \
+             "diagnoses. Do you have any questions, Dr. GPT-4?\n\nHere is the case:"
+    return prompt
+
+
+def get_section_of_interest(data, tag_of_interest):
+    # I blame adobe
+    # Find the index of the element that matches the case-insensitive regex pattern
+    start_index = None
+    pattern = re.compile(tag_of_interest, re.IGNORECASE)
+    if isinstance(data, str):
+        data = data.split('\n')
+    for i, item in enumerate(data):
+        if pattern.search(item):
+            start_index = i
+            break
+
+    if start_index is not None:
+        # Find the index of the next element that starts with '<p>'
+        next_index = next((i for i, item in
+                           enumerate(data[start_index + 1:],
+                                     start=start_index + 1) if
+                           item.startswith('<p>')), None)
+
+        if next_index is not None:
+            # Extract the desired element
+            result = data[next_index]
+            return result
+        else:
+            raise ValueError(
+                "No element starting with '<p>' found after the tag_of_interest")
+    else:
+        raise ValueError(
+            "No element matching the tag_of_interest found in the list.")
 
 @main.command()
 @inputfile_option
