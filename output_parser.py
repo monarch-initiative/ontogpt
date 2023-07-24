@@ -27,6 +27,10 @@ def sleepprint(lst):
     for elem in lst:
         print(elem)
         time.sleep(0.5)
+def enumprint(lst):
+    for index, elem in enumerate(lst):
+        # print((index + 1), ": ", elem)
+        print(str(index + 1) + ":\t" + str(elem))
 
 
 output_file = "output_2000_0719.yaml"
@@ -49,6 +53,8 @@ with open(output_file, "r") as file:
 lines = list(filter(lambda elem: not(elem.isspace()), lines))
 cleaned_lines = [x for x in lines if x.strip()]
 # forprint(cleaned_lines)
+cleaned_lines = [x for x in cleaned_lines if x != "extracted_object: {}"]
+# nprint(cleaned_lines, 100)
 i = 1
 while i < len(cleaned_lines):
     if cleaned_lines[i].startswith("    "):
@@ -72,8 +78,9 @@ while i < len(cleaned_lines):
                 # next_index = i + 1 + cleaned_lines[i+1:i+4].index("extracted_object")
                 next_index = i + 1 + index
                 del cleaned_lines[i:next_index]
+                i -= 1
     i += 1
-# nprint(cleaned_lines, 1000)
+# forprint(cleaned_lines)
 
 grouped_lines = [cleaned_lines[n:n+4] for n in range(0, len(cleaned_lines), 4)]
 trimmed_dict = {"genes": [], "relationships": [], "exposures": []}
@@ -81,6 +88,7 @@ for group in grouped_lines:
     group.pop(0)
 
 for group in grouped_lines:
+    # print(group)
     gene = group[0].split(":", 1)[1].strip()
     relation = group[1].split(":", 1)[1].strip()
     exposure = group[2].split(":", 1)[1].strip()
@@ -103,3 +111,14 @@ for key, value in trimmed_dict.copy().items():
 tripleprint(trimmed_dict)
 # pprint.pprint(trimmed_dict)
 # print(trimmed_dict)
+
+subjects_with_chebi = []
+key = next(iter(trimmed_dict))
+for i in range(len(trimmed_dict[key])):
+    curr = []
+    for value in trimmed_dict.values():
+        curr.append(value[i])
+    subjects_with_chebi.append(curr)
+subjects_with_chebi = [x for x in subjects_with_chebi if x[0].startswith("CHEBI:")]
+
+# enumprint(subjects_with_chebi)
