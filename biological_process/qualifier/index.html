@@ -316,6 +316,20 @@
   
   
     <li class="md-nav__item">
+      <a href="../../cell_type/" class="md-nav__link">
+        Cell Types
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../../ctd/" class="md-nav__link">
         Chemical to Disease
       </a>
@@ -559,7 +573,7 @@
 
 <h1 id="slot-qualifier">Slot: qualifier</h1>
 <p><em>A qualifier for the statements, e.g. "NOT" for negation</em></p>
-<p>URI: <a href="http://w3id.org/ontogpt/biological-process-templatequalifier">bp:qualifier</a></p>
+<p>URI: <a href="http://w3id.org/ontogpt/core/qualifier">core:qualifier</a></p>
 <!-- no inheritance hierarchy -->
 
 <h2 id="applicable-classes">Applicable Classes</h2>
@@ -579,22 +593,21 @@
 </table>
 <h2 id="properties">Properties</h2>
 <ul>
-<li>Range: <a href="../String/">String</a></li>
+<li>Range: <a href="xsd:string">xsd:string</a></li>
 </ul>
 <h2 id="identifier-and-mapping-information">Identifier and Mapping Information</h2>
 <h3 id="schema-source">Schema Source</h3>
 <ul>
-<li>from schema: https://w3id.org/ontogpt/biological_process</li>
+<li>from schema: http://w3id.org/ontogpt/core</li>
 </ul>
 <h2 id="linkml-source">LinkML Source</h2>
 <details>
 
 <pre><code class="language-yaml">name: qualifier
 description: A qualifier for the statements, e.g. &quot;NOT&quot; for negation
-from_schema: https://w3id.org/ontogpt/biological_process
+from_schema: http://w3id.org/ontogpt/core
 rank: 1000
 alias: qualifier
-owner: Triple
 domain_of:
 - Triple
 range: string

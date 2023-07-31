@@ -161,6 +161,11 @@
       </a>
 </li>
 <li class="md-nav__item">
+<a class="md-nav__link" href="../../cell_type/">
+        Cell Types
+      </a>
+</li>
+<li class="md-nav__item">
 <a class="md-nav__link" href="../../ctd/">
         Chemical to Disease
       </a>
@@ -298,7 +303,7 @@
 <div class="md-content" data-md-component="content">
 <article class="md-content__inner md-typeset">
 <h1 id="class-relationshiptype">Class: RelationshipType</h1>
-<p>URI: <a href="http://w3id.org/ontogpt/biotic-interaction-templateRelationshipType">bp:RelationshipType</a></p>
+<p>URI: <a href="http://w3id.org/ontogpt/core/RelationshipType">core:RelationshipType</a></p>
 <div class="mermaid">erDiagram
 RelationshipType {
     string id  
@@ -328,13 +333,13 @@ RelationshipType {
 <tbody>
 <tr>
 <td><a href="../id/">id</a></td>
-<td>1..1 <br/> <a href="../String/">String</a></td>
+<td>1..1 <br/> <a href="xsd:string">xsd:string</a></td>
 <td>A unique identifier for the named entity</td>
 <td><a href="../NamedEntity/">NamedEntity</a></td>
 </tr>
 <tr>
 <td><a href="../label/">label</a></td>
-<td>0..1 <br/> <a href="../String/">String</a></td>
+<td>0..1 <br/> <a href="xsd:string">xsd:string</a></td>
 <td>The label (name) of the named thing</td>
 <td><a href="../NamedEntity/">NamedEntity</a></td>
 </tr>
@@ -372,7 +377,7 @@ RelationshipType {
 </ul>
 <h3 id="schema-source">Schema Source</h3>
 <ul>
-<li>from schema: https://w3id.org/ontogpt/biotic_interaction</li>
+<li>from schema: http://w3id.org/ontogpt/core</li>
 </ul>
 <h2 id="mappings">Mappings</h2>
 <table>
@@ -385,11 +390,11 @@ RelationshipType {
 <tbody>
 <tr>
 <td>self</td>
-<td>bp:RelationshipType</td>
+<td>core:RelationshipType</td>
 </tr>
 <tr>
 <td>native</td>
-<td>bp:RelationshipType</td>
+<td>core:RelationshipType</td>
 </tr>
 </tbody>
 </table>
@@ -401,7 +406,7 @@ RelationshipType {
 id_prefixes:
 - RO
 - biolink
-from_schema: https://w3id.org/ontogpt/biotic_interaction
+from_schema: http://w3id.org/ontogpt/core
 rank: 1000
 is_a: NamedEntity
 
@@ -413,7 +418,7 @@ is_a: NamedEntity
 id_prefixes:
 - RO
 - biolink
-from_schema: https://w3id.org/ontogpt/biotic_interaction
+from_schema: http://w3id.org/ontogpt/core
 rank: 1000
 is_a: NamedEntity
 attributes:
@@ -426,7 +431,7 @@ attributes:
     description: A unique identifier for the named entity
     comments:
     - this is populated during the grounding and normalization step
-    from_schema: https://w3id.org/ontogpt/biotic_interaction
+    from_schema: http://w3id.org/ontogpt/core
     rank: 1000
     identifier: true
     alias: id
@@ -435,7 +440,6 @@ attributes:
     - NamedEntity
     - Publication
     range: string
-    required: true
   label:
     name: label
     annotations:
@@ -443,7 +447,7 @@ attributes:
         tag: owl
         value: AnnotationProperty, AnnotationAssertion
     description: The label (name) of the named thing
-    from_schema: https://w3id.org/ontogpt/biotic_interaction
+    from_schema: http://w3id.org/ontogpt/core
     aliases:
     - name
     rank: 1000
