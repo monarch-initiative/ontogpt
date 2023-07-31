@@ -1,0 +1,143 @@
+id: http://w3id.org/ontogpt/cell_type
+name: cell_type
+title: Composite Disease
+description: >-
+  A template for representing cell types
+license: https://creativecommons.org/publicdomain/zero/1.0/
+prefixes:
+  linkml: https://w3id.org/linkml/
+  cell_type: http://w3id.org/ontogpt/cell_type/
+keywords:
+  - disease
+  - indication
+
+default_prefix: cell_type
+default_range: string
+
+imports:
+  - linkml:types
+  - core
+
+classes:
+  CellTypeDocument:
+    tree_root: true
+    attributes:
+      cell_type:
+        description: the name of the cell type described
+      range: CellType
+
+      parents:
+        description: categorization
+        annotations:
+          prompt: semicolon-separated list of parent (broader) cell types
+        multivalued: true
+        range: CellType
+
+      subtypes:
+        annotations:
+          prompt: semicolon-separated list of the main subtypes
+        multivalued: true
+        range: CellType
+
+      localizations:
+        annotations:
+          prompt: semicolon-separated list of anatomical structures in which this cell type is localized
+        multivalued: true
+        range: AnatomicalStructure
+
+      genes:
+        annotations:
+          prompt: semicolon-separated list of genes expressed in cells of this type
+        multivalued: true
+        range: Gene
+
+      diseases:
+        annotations:
+          prompt: semicolon-separated list of diseases in which this cell type is implicated
+        multivalued: true
+        range: Disease
+
+  InterneuronDocument:
+    is_a: CellTypeDocument
+
+    attributes:
+      projects_to_or_from:
+        description: Brain structures from which this cell type projects into or receives projections from
+        annotations:
+          prompt: semicolon-separated list of anatomical structures from which this cell type projects from or into
+        multivalued: true
+        range: BrainRegion
+
+  Gene:
+    is_a: NamedEntity
+    id_prefixes:
+      - HGNC
+      - MGI
+      - PR
+      - UniProtKB
+    annotations:
+      annotators: sqlite:obo:hgnc, bioportal:hgnc-nr
+
+  Pathway:
+    is_a: NamedEntity
+    id_prefixes:
+      - GO
+      - PW
+    annotations:
+      annotators: sqlite:obo:go, sqlite:obo:pw
+
+  AnatomicalStructure:
+    is_a: NamedEntity
+    id_prefixes:
+      - UBERON
+      - FBbt
+      - WBbt
+    annotations:
+      annotators: sqlite:obo:uberon, sqlite:obo:fbbt, sqlite:obo:wbbt
+
+  BrainRegion:
+    is_a: AnatomicalStructure
+    id_prefixes:
+      - UBERON
+      - FBbt
+      - WBbt
+    annotations:
+      annotators: sqlite:obo:uberon, sqlite:obo:fbbt, sqlite:obo:wbbt
+    slot_usage:
+      id:
+        values_from:
+          - BrainRegionIdentifier
+
+  CellType:
+    is_a: NamedEntity
+    id_prefixes:
+      - CL
+      - FBbt
+      - WBbt
+    annotations:
+      annotators: sqlite:obo:cl, sqlite:obo:fbbt, sqlite:obo:wbbt
+
+  Disease:
+    is_a: NamedEntity
+    id_prefixes:
+      - MONDO
+      - HP
+    annotations:
+      annotators: sqlite:obo:mondo, sqlite:obo:hp
+
+  Drug:
+    is_a: NamedEntity
+    annotations:
+      annotators: sqlite:obo:chebi, sqlite:obo:drugbank
+
+enums:
+
+  BrainRegionIdentifier:
+    description: Brain region (or for now, any nervous system part)
+    reachable_from:
+      source_ontology: obo:uberon
+      relationship_types:
+        - rdfs:subClassOf
+        - BFO:0000050
+      source_nodes:
+        - UBERON:0001016  ## nervous system
