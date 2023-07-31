@@ -23,8 +23,8 @@ classes:
     tree_root: true
     attributes:
       cell_type:
-        description: the name of the cell type described
-      range: CellType
+        description: the the cell type described
+        range: CellType
 
       parents:
         description: categorization
@@ -57,8 +57,18 @@ classes:
         multivalued: true
         range: Disease
 
-  InterneuronDocument:
+  NeuronDocument:
     is_a: CellTypeDocument
+
+    attributes:
+      releases_neurotransitter:
+        annotations:
+          prompt: named of chemical entity that this neuron releases
+        multivalued: true
+        range: Neurotransmitter
+
+  InterneuronDocument:
+    is_a: NeuronDocument
 
     attributes:
       projects_to_or_from:
@@ -94,6 +104,26 @@ classes:
       - WBbt
     annotations:
       annotators: sqlite:obo:uberon, sqlite:obo:fbbt, sqlite:obo:wbbt
+
+  ChemicalEntity:
+    is_a: NamedEntity
+    id_prefixes:
+      - CHEBI
+    annotations:
+      annotators:
+        sqlite:obo:chebi
+
+  Neurotransmitter:
+    is_a: ChemicalEntity
+    id_prefixes:
+      - CHEBI
+    annotations:
+      annotators:
+        sqlite:obo:chebi
+    slot_usage:
+      id:
+        values_from:
+          - NeurotransmitterIdentifier
 
   BrainRegion:
     is_a: AnatomicalStructure
@@ -134,10 +164,36 @@ enums:
 
   BrainRegionIdentifier:
     description: Brain region (or for now, any nervous system part)
+    comments:
+      - consider adding brain atlases here
+    include:
+      - reachable_from:
+          source_ontology: obo:uberon
+          relationship_types:
+            - rdfs:subClassOf
+            - BFO:0000050
+          source_nodes:
+            - UBERON:0001016  ## nervous system
+      - reachable_from:
+          source_ontology: obo:fbbt
+          relationship_types:
+              - rdfs:subClassOf
+              - BFO:0000050
+          source_nodes:
+            - FBbt:00005093 ## nervous system
+      - reachable_from:
+          source_ontology: obo:wbbt
+          relationship_types:
+              - rdfs:subClassOf
+              - BFO:0000050
+          source_nodes:
+            - WBbt:0005735 ## nervous system
+    
+  NeurotransmitterIdentifier:
     reachable_from:
-      source_ontology: obo:uberon
+      source_ontology: obo:chebi
       relationship_types:
         - rdfs:subClassOf
-        - BFO:0000050
+        - RO:0000087
       source_nodes:
-        - UBERON:0001016  ## nervous system
+        - CHEBI:35942 ## neurotransmitter agent

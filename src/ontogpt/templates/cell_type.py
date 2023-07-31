@@ -26,6 +26,12 @@ class BrainRegionIdentifier(str, Enum):
     dummy = "dummy"
     
 
+class NeurotransmitterIdentifier(str, Enum):
+    
+    
+    dummy = "dummy"
+    
+
 class NullDataOptions(str, Enum):
     
     UNSPECIFIED_METHOD_OF_ADMINISTRATION = "UNSPECIFIED_METHOD_OF_ADMINISTRATION"
@@ -36,8 +42,7 @@ class NullDataOptions(str, Enum):
 
 class CellTypeDocument(ConfiguredBaseModel):
     
-    cell_type: Optional[str] = Field(None, description="""the name of the cell type described""")
-    range: Optional[str] = Field(None)
+    cell_type: Optional[str] = Field(None, description="""the the cell type described""")
     parents: Optional[List[str]] = Field(default_factory=list, description="""categorization""")
     subtypes: Optional[List[str]] = Field(default_factory=list)
     localizations: Optional[List[str]] = Field(default_factory=list)
@@ -46,11 +51,23 @@ class CellTypeDocument(ConfiguredBaseModel):
     
 
 
-class InterneuronDocument(CellTypeDocument):
+class NeuronDocument(CellTypeDocument):
+    
+    releases_neurotransitter: Optional[List[str]] = Field(default_factory=list)
+    cell_type: Optional[str] = Field(None, description="""the the cell type described""")
+    parents: Optional[List[str]] = Field(default_factory=list, description="""categorization""")
+    subtypes: Optional[List[str]] = Field(default_factory=list)
+    localizations: Optional[List[str]] = Field(default_factory=list)
+    genes: Optional[List[str]] = Field(default_factory=list)
+    diseases: Optional[List[str]] = Field(default_factory=list)
+    
+
+
+class InterneuronDocument(NeuronDocument):
     
     projects_to_or_from: Optional[List[str]] = Field(default_factory=list, description="""Brain structures from which this cell type projects into or receives projections from""")
-    cell_type: Optional[str] = Field(None, description="""the name of the cell type described""")
-    range: Optional[str] = Field(None)
+    releases_neurotransitter: Optional[List[str]] = Field(default_factory=list)
+    cell_type: Optional[str] = Field(None, description="""the the cell type described""")
     parents: Optional[List[str]] = Field(default_factory=list, description="""categorization""")
     subtypes: Optional[List[str]] = Field(default_factory=list)
     localizations: Optional[List[str]] = Field(default_factory=list)
@@ -95,6 +112,20 @@ class Pathway(NamedEntity):
 
 
 class AnatomicalStructure(NamedEntity):
+    
+    id: str = Field(None, description="""A unique identifier for the named entity""")
+    label: Optional[str] = Field(None, description="""The label (name) of the named thing""")
+    
+
+
+class ChemicalEntity(NamedEntity):
+    
+    id: str = Field(None, description="""A unique identifier for the named entity""")
+    label: Optional[str] = Field(None, description="""The label (name) of the named thing""")
+    
+
+
+class Neurotransmitter(ChemicalEntity):
     
     id: str = Field(None, description="""A unique identifier for the named entity""")
     label: Optional[str] = Field(None, description="""The label (name) of the named thing""")
@@ -184,12 +215,15 @@ class AnnotatorResult(ConfiguredBaseModel):
 # Update forward refs
 # see https://pydantic-docs.helpmanual.io/usage/postponed_annotations/
 CellTypeDocument.update_forward_refs()
+NeuronDocument.update_forward_refs()
 InterneuronDocument.update_forward_refs()
 ExtractionResult.update_forward_refs()
 NamedEntity.update_forward_refs()
 Gene.update_forward_refs()
 Pathway.update_forward_refs()
 AnatomicalStructure.update_forward_refs()
+ChemicalEntity.update_forward_refs()
+Neurotransmitter.update_forward_refs()
 BrainRegion.update_forward_refs()
 CellType.update_forward_refs()
 Disease.update_forward_refs()
