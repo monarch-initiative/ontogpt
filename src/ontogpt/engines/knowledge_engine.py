@@ -155,7 +155,11 @@ class KnowledgeEngine(ABC):
             self.mappers = [get_adapter("translator:")]
 
         self.set_up_client()
-        self.encoding = tiktoken.encoding_for_model(self.client.model)
+        try:
+            self.encoding = tiktoken.encoding_for_model(self.client.model)
+        except KeyError:
+            self.encoding = tiktoken.encoding_for_model("gpt-3.5-turbo")
+            logger.error(f"Could not find encoding for model {self.client.model}")
 
     def set_api_key(self, key: str):
         self.api_key = key
