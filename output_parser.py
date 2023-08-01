@@ -2,6 +2,7 @@ import yaml
 # from src.ontogpt.io.csv_wrapper import write_obj_as_csv
 import time
 import pprint
+from oaklib import get_adapter
 
 NULL_VALS = ['', 'Not mentioned', 'none mentioned', 'Not mentioned in the text', 
              'Not mentioned in the provided text.', 'No exposures mentioned in the text.', 
@@ -10,6 +11,8 @@ NULL_VALS = ['', 'Not mentioned', 'none mentioned', 'Not mentioned in the text',
              'No gene to molecular activity relationships mentioned in the text.',
              'No genes mentioned', 'No genes mentioned in the text.', ]
 lines = []
+chebi_adapter = get_adapter("sqlite:obo:chebi")
+
 def tripleprint(dict):
     key = next(iter(dict))
     for i in range(len(dict[key])):
@@ -108,7 +111,7 @@ for key, value in trimmed_dict.copy().items():
 # for key, value in trimmed_dict.items():
 #     print(len(value))
 
-tripleprint(trimmed_dict)
+# tripleprint(trimmed_dict)
 # pprint.pprint(trimmed_dict)
 # print(trimmed_dict)
 
@@ -121,4 +124,12 @@ for i in range(len(trimmed_dict[key])):
     subjects_with_chebi.append(curr)
 subjects_with_chebi = [x for x in subjects_with_chebi if x[0].startswith("CHEBI:")]
 
-# enumprint(subjects_with_chebi)
+# subjects_with_names = [elem[:] for elem in subjects_with_chebi]
+subjects_with_names = []
+for elem in subjects_with_chebi:
+    curr = elem[:]
+    curr[0] = chebi_adapter.label(curr[0])
+    subjects_with_names.append(curr)
+
+enumprint(subjects_with_chebi)
+enumprint(subjects_with_names)
