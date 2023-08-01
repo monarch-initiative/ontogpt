@@ -30,6 +30,7 @@ nav:
       - Core Upper Level Schema: core/index.md
       - Biochemical Reactions: reaction/index.md
       - Biological Processes: biological_process/index.md
+      - Cell Types: cell_type/index.md
       - Chemical to Disease: ctd/index.md
       - Diagnostic Procedures: diagnostic_procedure/index.md
       - Drugs and Mechanisms: drug/index.md
