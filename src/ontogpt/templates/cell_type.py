@@ -43,11 +43,27 @@ class NullDataOptions(str, Enum):
 class CellTypeDocument(ConfiguredBaseModel):
     
     cell_type: Optional[str] = Field(None, description="""the the cell type described""")
+    definition: Optional[str] = Field(None)
     parents: Optional[List[str]] = Field(default_factory=list, description="""categorization""")
     subtypes: Optional[List[str]] = Field(default_factory=list)
     localizations: Optional[List[str]] = Field(default_factory=list)
     genes: Optional[List[str]] = Field(default_factory=list)
     diseases: Optional[List[str]] = Field(default_factory=list)
+    roles: Optional[List[str]] = Field(default_factory=list)
+    
+
+
+class ImmuneCellDocument(CellTypeDocument):
+    
+    has_surface_markers: Optional[List[str]] = Field(default_factory=list)
+    cell_type: Optional[str] = Field(None, description="""the the cell type described""")
+    definition: Optional[str] = Field(None)
+    parents: Optional[List[str]] = Field(default_factory=list, description="""categorization""")
+    subtypes: Optional[List[str]] = Field(default_factory=list)
+    localizations: Optional[List[str]] = Field(default_factory=list)
+    genes: Optional[List[str]] = Field(default_factory=list)
+    diseases: Optional[List[str]] = Field(default_factory=list)
+    roles: Optional[List[str]] = Field(default_factory=list)
     
 
 
@@ -55,11 +71,13 @@ class NeuronDocument(CellTypeDocument):
     
     releases_neurotransitter: Optional[List[str]] = Field(default_factory=list)
     cell_type: Optional[str] = Field(None, description="""the the cell type described""")
+    definition: Optional[str] = Field(None)
     parents: Optional[List[str]] = Field(default_factory=list, description="""categorization""")
     subtypes: Optional[List[str]] = Field(default_factory=list)
     localizations: Optional[List[str]] = Field(default_factory=list)
     genes: Optional[List[str]] = Field(default_factory=list)
     diseases: Optional[List[str]] = Field(default_factory=list)
+    roles: Optional[List[str]] = Field(default_factory=list)
     
 
 
@@ -68,11 +86,13 @@ class InterneuronDocument(NeuronDocument):
     projects_to_or_from: Optional[List[str]] = Field(default_factory=list, description="""Brain structures from which this cell type projects into or receives projections from""")
     releases_neurotransitter: Optional[List[str]] = Field(default_factory=list)
     cell_type: Optional[str] = Field(None, description="""the the cell type described""")
+    definition: Optional[str] = Field(None)
     parents: Optional[List[str]] = Field(default_factory=list, description="""categorization""")
     subtypes: Optional[List[str]] = Field(default_factory=list)
     localizations: Optional[List[str]] = Field(default_factory=list)
     genes: Optional[List[str]] = Field(default_factory=list)
     diseases: Optional[List[str]] = Field(default_factory=list)
+    roles: Optional[List[str]] = Field(default_factory=list)
     
 
 
@@ -98,6 +118,20 @@ class NamedEntity(ConfiguredBaseModel):
 
 
 class Gene(NamedEntity):
+    
+    id: str = Field(None, description="""A unique identifier for the named entity""")
+    label: Optional[str] = Field(None, description="""The label (name) of the named thing""")
+    
+
+
+class ProteinOrComplex(NamedEntity):
+    
+    id: str = Field(None, description="""A unique identifier for the named entity""")
+    label: Optional[str] = Field(None, description="""The label (name) of the named thing""")
+    
+
+
+class BiologicalProcess(NamedEntity):
     
     id: str = Field(None, description="""A unique identifier for the named entity""")
     label: Optional[str] = Field(None, description="""The label (name) of the named thing""")
@@ -215,11 +249,14 @@ class AnnotatorResult(ConfiguredBaseModel):
 # Update forward refs
 # see https://pydantic-docs.helpmanual.io/usage/postponed_annotations/
 CellTypeDocument.update_forward_refs()
+ImmuneCellDocument.update_forward_refs()
 NeuronDocument.update_forward_refs()
 InterneuronDocument.update_forward_refs()
 ExtractionResult.update_forward_refs()
 NamedEntity.update_forward_refs()
 Gene.update_forward_refs()
+ProteinOrComplex.update_forward_refs()
+BiologicalProcess.update_forward_refs()
 Pathway.update_forward_refs()
 AnatomicalStructure.update_forward_refs()
 ChemicalEntity.update_forward_refs()

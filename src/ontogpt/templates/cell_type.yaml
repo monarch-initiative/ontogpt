@@ -26,6 +26,10 @@ classes:
         description: the the cell type described
         range: CellType
 
+      definition:
+        annotations:
+          prompt: A concise textual definition in genus-differentia form, i.e 'A <genus> that <differenting characteristics>'
+
       parents:
         description: categorization
         annotations:
@@ -57,6 +61,25 @@ classes:
         multivalued: true
         range: Disease
 
+      roles:
+        annotations:
+          prompt: >-
+            semicolon-separated list of roles (e.g. biological processes) that this cell type plays.
+            These should be short descriptive terms corresponding to ontology terms in the GO biological process
+            hierarchy.
+        multivalued: true
+        range: BiologicalProcess
+
+  ImmuneCellDocument:
+    is_a: CellTypeDocument
+
+    attributes:
+      has_surface_markers:
+        annotations:
+          prompt: semicolon-separated list of proteins or complexes expressed on the surface of the cell
+        multivalued: true
+        range: ProteinOrComplex
+
   NeuronDocument:
     is_a: CellTypeDocument
 
@@ -87,6 +110,25 @@ classes:
       - UniProtKB
     annotations:
       annotators: sqlite:obo:hgnc, bioportal:hgnc-nr
+
+  ProteinOrComplex:
+    is_a: NamedEntity
+    id_prefixes:
+      - HGNC
+      - MGI
+      - PR
+      - UniProtKB
+      - GO
+    annotations:
+      annotators: sqlite:obo:hgnc, bioportal:hgnc-nr, sqlite:obo:go, sqlite:obo:pr
+
+
+  BiologicalProcess:
+    is_a: NamedEntity
+    id_prefixes:
+      - GO
+    annotations:
+      annotators: sqlite:obo:go
 
   Pathway:
     is_a: NamedEntity
@@ -188,7 +230,7 @@ enums:
               - BFO:0000050
           source_nodes:
             - WBbt:0005735 ## nervous system
-    
+
   NeurotransmitterIdentifier:
     reachable_from:
       source_ontology: obo:chebi
