@@ -512,6 +512,13 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
+  <a href="#comments" class="md-nav__link">
+    Comments
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#identifier-and-mapping-information" class="md-nav__link">
     Identifier and Mapping Information
   </a>
@@ -561,6 +568,10 @@
 <p><em>Brain region (or for now, any nervous system part)</em></p>
 <p>URI: <a href="BrainRegionIdentifier">BrainRegionIdentifier</a></p>
 <p><em>This is a dynamic enum</em></p>
+<h2 id="comments">Comments</h2>
+<ul>
+<li>consider adding brain atlases here</li>
+</ul>
 <h2 id="identifier-and-mapping-information">Identifier and Mapping Information</h2>
 <h3 id="schema-source">Schema Source</h3>
 <ul>
@@ -571,15 +582,32 @@
 
 <pre><code class="language-yaml">name: BrainRegionIdentifier
 description: Brain region (or for now, any nervous system part)
+comments:
+- consider adding brain atlases here
 from_schema: http://w3id.org/ontogpt/cell_type
 rank: 1000
-reachable_from:
-  source_ontology: obo:uberon
-  source_nodes:
-  - UBERON:0001016
-  relationship_types:
-  - rdfs:subClassOf
-  - BFO:0000050
+include:
+- reachable_from:
+    source_ontology: obo:uberon
+    source_nodes:
+    - UBERON:0001016
+    relationship_types:
+    - rdfs:subClassOf
+    - BFO:0000050
+- reachable_from:
+    source_ontology: obo:fbbt
+    source_nodes:
+    - FBbt:00005093
+    relationship_types:
+    - rdfs:subClassOf
+    - BFO:0000050
+- reachable_from:
+    source_ontology: obo:wbbt
+    source_nodes:
+    - WBbt:0005735
+    relationship_types:
+    - rdfs:subClassOf
+    - BFO:0000050
 
 </code></pre>
 

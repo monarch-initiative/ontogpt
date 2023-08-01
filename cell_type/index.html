@@ -326,8 +326,11 @@ Name: cell_type</p>
 <h2 id="schema-diagram">Schema Diagram</h2>
 <div class="mermaid">erDiagram
 CellTypeDocument {
-    string cell_type  
-    string range  
+    string definition  
+}
+BiologicalProcess {
+    string id  
+    string label  
 }
 Disease {
     string id  
@@ -346,11 +349,13 @@ CellType {
     string label  
 }
 
+CellTypeDocument ||--|o CellType : "cell_type"
 CellTypeDocument ||--}o CellType : "parents"
 CellTypeDocument ||--}o CellType : "subtypes"
 CellTypeDocument ||--}o AnatomicalStructure : "localizations"
 CellTypeDocument ||--}o Gene : "genes"
 CellTypeDocument ||--}o Disease : "diseases"
+CellTypeDocument ||--}o BiologicalProcess : "roles"
 
 </div>
 <h2 id="classes">Classes</h2>
@@ -375,6 +380,10 @@ CellTypeDocument ||--}o Disease : "diseases"
 <td></td>
 </tr>
 <tr>
+<td><a href="BiologicalProcess/">BiologicalProcess</a></td>
+<td></td>
+</tr>
+<tr>
 <td><a href="BrainRegion/">BrainRegion</a></td>
 <td></td>
 </tr>
@@ -384,6 +393,10 @@ CellTypeDocument ||--}o Disease : "diseases"
 </tr>
 <tr>
 <td><a href="CellTypeDocument/">CellTypeDocument</a></td>
+<td></td>
+</tr>
+<tr>
+<td><a href="ChemicalEntity/">ChemicalEntity</a></td>
 <td></td>
 </tr>
 <tr>
@@ -407,6 +420,10 @@ CellTypeDocument ||--}o Disease : "diseases"
 <td></td>
 </tr>
 <tr>
+<td><a href="ImmuneCellDocument/">ImmuneCellDocument</a></td>
+<td></td>
+</tr>
+<tr>
 <td><a href="InterneuronDocument/">InterneuronDocument</a></td>
 <td></td>
 </tr>
@@ -415,7 +432,19 @@ CellTypeDocument ||--}o Disease : "diseases"
 <td></td>
 </tr>
 <tr>
+<td><a href="NeuronDocument/">NeuronDocument</a></td>
+<td></td>
+</tr>
+<tr>
+<td><a href="Neurotransmitter/">Neurotransmitter</a></td>
+<td></td>
+</tr>
+<tr>
 <td><a href="Pathway/">Pathway</a></td>
+<td></td>
+</tr>
+<tr>
+<td><a href="ProteinOrComplex/">ProteinOrComplex</a></td>
 <td></td>
 </tr>
 <tr>
@@ -451,10 +480,14 @@ CellTypeDocument ||--}o Disease : "diseases"
 </tr>
 <tr>
 <td><a href="cell_type/">cell_type</a></td>
-<td>the name of the cell type described</td>
+<td>the the cell type described</td>
 </tr>
 <tr>
 <td><a href="combined_text/">combined_text</a></td>
+<td></td>
+</tr>
+<tr>
+<td><a href="definition/">definition</a></td>
 <td></td>
 </tr>
 <tr>
@@ -471,6 +504,10 @@ CellTypeDocument ||--}o Disease : "diseases"
 </tr>
 <tr>
 <td><a href="genes/">genes</a></td>
+<td></td>
+</tr>
+<tr>
+<td><a href="has_surface_markers/">has_surface_markers</a></td>
 <td></td>
 </tr>
 <tr>
@@ -542,11 +579,15 @@ CellTypeDocument ||--}o Disease : "diseases"
 <td>A qualifier for the statements, e</td>
 </tr>
 <tr>
-<td><a href="range/">range</a></td>
+<td><a href="raw_completion_output/">raw_completion_output</a></td>
 <td></td>
 </tr>
 <tr>
-<td><a href="raw_completion_output/">raw_completion_output</a></td>
+<td><a href="releases_neurotransitter/">releases_neurotransitter</a></td>
+<td></td>
+</tr>
+<tr>
+<td><a href="roles/">roles</a></td>
 <td></td>
 </tr>
 <tr>
@@ -587,6 +628,10 @@ CellTypeDocument ||--}o Disease : "diseases"
 <tr>
 <td><a href="BrainRegionIdentifier/">BrainRegionIdentifier</a></td>
 <td>Brain region (or for now, any nervous system part)</td>
+</tr>
+<tr>
+<td><a href="NeurotransmitterIdentifier/">NeurotransmitterIdentifier</a></td>
+<td></td>
 </tr>
 <tr>
 <td><a href="NullDataOptions/">NullDataOptions</a></td>

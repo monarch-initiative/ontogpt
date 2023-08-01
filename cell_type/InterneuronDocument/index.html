@@ -296,8 +296,11 @@
 <p>URI: <a href="http://w3id.org/ontogpt/cell_type/InterneuronDocument">cell_type:InterneuronDocument</a></p>
 <div class="mermaid">erDiagram
 InterneuronDocument {
-    string cell_type  
-    string range  
+    string definition  
+}
+BiologicalProcess {
+    string id  
+    string label  
 }
 Disease {
     string id  
@@ -315,23 +318,33 @@ CellType {
     string id  
     string label  
 }
+Neurotransmitter {
+    string id  
+    string label  
+}
 BrainRegion {
     string id  
     string label  
 }
 
 InterneuronDocument ||--}o BrainRegion : "projects_to_or_from"
+InterneuronDocument ||--}o Neurotransmitter : "releases_neurotransitter"
+InterneuronDocument ||--|o CellType : "cell_type"
 InterneuronDocument ||--}o CellType : "parents"
 InterneuronDocument ||--}o CellType : "subtypes"
 InterneuronDocument ||--}o AnatomicalStructure : "localizations"
 InterneuronDocument ||--}o Gene : "genes"
 InterneuronDocument ||--}o Disease : "diseases"
+InterneuronDocument ||--}o BiologicalProcess : "roles"
 
 </div>
 <h2 id="inheritance">Inheritance</h2>
 <ul>
 <li><a href="../CellTypeDocument/">CellTypeDocument</a><ul>
+<li><a href="../NeuronDocument/">NeuronDocument</a><ul>
 <li><strong>InterneuronDocument</strong></li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>
@@ -353,13 +366,19 @@ InterneuronDocument ||--}o Disease : "diseases"
 <td>direct</td>
 </tr>
 <tr>
+<td><a href="../releases_neurotransitter/">releases_neurotransitter</a></td>
+<td>0..* <br/> <a href="../Neurotransmitter/">Neurotransmitter</a></td>
+<td></td>
+<td><a href="../NeuronDocument/">NeuronDocument</a></td>
+</tr>
+<tr>
 <td><a href="../cell_type/">cell_type</a></td>
-<td>0..1 <br/> <a href="../String/">String</a></td>
-<td>the name of the cell type described</td>
+<td>0..1 <br/> <a href="../CellType/">CellType</a></td>
+<td>the the cell type described</td>
 <td><a href="../CellTypeDocument/">CellTypeDocument</a></td>
 </tr>
 <tr>
-<td><a href="../range/">range</a></td>
+<td><a href="../definition/">definition</a></td>
 <td>0..1 <br/> <a href="../String/">String</a></td>
 <td></td>
 <td><a href="../CellTypeDocument/">CellTypeDocument</a></td>
@@ -391,6 +410,12 @@ InterneuronDocument ||--}o Disease : "diseases"
 <tr>
 <td><a href="../diseases/">diseases</a></td>
 <td>0..* <br/> <a href="../Disease/">Disease</a></td>
+<td></td>
+<td><a href="../CellTypeDocument/">CellTypeDocument</a></td>
+</tr>
+<tr>
+<td><a href="../roles/">roles</a></td>
+<td>0..* <br/> <a href="../BiologicalProcess/">BiologicalProcess</a></td>
 <td></td>
 <td><a href="../CellTypeDocument/">CellTypeDocument</a></td>
 </tr>
@@ -427,7 +452,7 @@ InterneuronDocument ||--}o Disease : "diseases"
 <pre><code class="language-yaml">name: InterneuronDocument
 from_schema: http://w3id.org/ontogpt/cell_type
 rank: 1000
-is_a: CellTypeDocument
+is_a: NeuronDocument
 attributes:
   projects_to_or_from:
     name: projects_to_or_from
@@ -450,7 +475,7 @@ attributes:
 <pre><code class="language-yaml">name: InterneuronDocument
 from_schema: http://w3id.org/ontogpt/cell_type
 rank: 1000
-is_a: CellTypeDocument
+is_a: NeuronDocument
 attributes:
   projects_to_or_from:
     name: projects_to_or_from
@@ -469,23 +494,40 @@ attributes:
     domain_of:
     - InterneuronDocument
     range: BrainRegion
+  releases_neurotransitter:
+    name: releases_neurotransitter
+    annotations:
+      prompt:
+        tag: prompt
+        value: named of chemical entity that this neuron releases
+    from_schema: http://w3id.org/ontogpt/cell_type
+    rank: 1000
+    multivalued: true
+    alias: releases_neurotransitter
+    owner: InterneuronDocument
+    domain_of:
+    - NeuronDocument
+    range: Neurotransmitter
   cell_type:
     name: cell_type
-    description: the name of the cell type described
+    description: the the cell type described
     from_schema: http://w3id.org/ontogpt/cell_type
     rank: 1000
     alias: cell_type
     owner: InterneuronDocument
     domain_of:
     - CellTypeDocument
-    range: string
-  range:
-    name: range
-    id_prefixes:
-    - CellType
+    range: CellType
+  definition:
+    name: definition
+    annotations:
+      prompt:
+        tag: prompt
+        value: A concise textual definition in genus-differentia form, i.e 'A &lt;genus&gt;
+          that &lt;differenting characteristics&gt;'
     from_schema: http://w3id.org/ontogpt/cell_type
     rank: 1000
-    alias: range
+    alias: definition
     owner: InterneuronDocument
     domain_of:
     - CellTypeDocument
@@ -562,6 +604,22 @@ attributes:
     domain_of:
     - CellTypeDocument
     range: Disease
+  roles:
+    name: roles
+    annotations:
+      prompt:
+        tag: prompt
+        value: semicolon-separated list of roles (e.g. biological processes) that
+          this cell type plays. These should be short descriptive terms corresponding
+          to ontology terms in the GO biological process hierarchy.
+    from_schema: http://w3id.org/ontogpt/cell_type
+    rank: 1000
+    multivalued: true
+    alias: roles
+    owner: InterneuronDocument
+    domain_of:
+    - CellTypeDocument
+    range: BiologicalProcess
 
 </code></pre>
 </details>

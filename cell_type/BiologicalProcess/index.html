@@ -5,10 +5,10 @@
 <head>
 <meta charset="utf-8"/>
 <meta content="width=device-width,initial-scale=1" name="viewport"/>
-<link href="https://monarch-initiative.github.io/ontogpt/cell_type/Gene/" rel="canonical"/>
+<link href="https://monarch-initiative.github.io/ontogpt/cell_type/BiologicalProcess/" rel="canonical"/>
 <link href="../../assets/images/favicon.png" rel="icon"/>
 <meta content="mkdocs-1.4.2, mkdocs-material-9.0.10" name="generator"/>
-<title>Class: Gene - OntoGPT</title>
+<title>Class: BiologicalProcess - OntoGPT</title>
 <link href="../../assets/stylesheets/main.0d440cfe.min.css" rel="stylesheet"/>
 <link href="../../assets/stylesheets/palette.2505c338.min.css" rel="stylesheet"/>
 <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
@@ -22,7 +22,7 @@
 <input autocomplete="off" class="md-toggle" data-md-toggle="search" id="__search" type="checkbox"/>
 <label class="md-overlay" for="__drawer"></label>
 <div data-md-component="skip">
-<a class="md-skip" href="#class-gene">
+<a class="md-skip" href="#class-biologicalprocess">
           Skip to content
         </a>
 </div>
@@ -46,7 +46,7 @@
 <div class="md-header__topic" data-md-component="header-topic">
 <span class="md-ellipsis">
             
-              Class: Gene
+              Class: BiologicalProcess
             
           </span>
 </div>
@@ -307,10 +307,10 @@
 </div>
 <div class="md-content" data-md-component="content">
 <article class="md-content__inner md-typeset">
-<h1 id="class-gene">Class: Gene</h1>
-<p>URI: <a href="http://w3id.org/ontogpt/cell_type/Gene">cell_type:Gene</a></p>
+<h1 id="class-biologicalprocess">Class: BiologicalProcess</h1>
+<p>URI: <a href="http://w3id.org/ontogpt/cell_type/BiologicalProcess">cell_type:BiologicalProcess</a></p>
 <div class="mermaid">erDiagram
-Gene {
+BiologicalProcess {
     string id  
     string label  
 }
@@ -321,7 +321,7 @@ Gene {
 <h2 id="inheritance">Inheritance</h2>
 <ul>
 <li><a href="../NamedEntity/">NamedEntity</a><ul>
-<li><strong>Gene</strong></li>
+<li><strong>BiologicalProcess</strong></li>
 </ul>
 </li>
 </ul>
@@ -363,27 +363,27 @@ Gene {
 <tbody>
 <tr>
 <td><a href="../CellTypeDocument/">CellTypeDocument</a></td>
-<td><a href="../genes/">genes</a></td>
+<td><a href="../roles/">roles</a></td>
 <td>range</td>
-<td><a href="./">Gene</a></td>
+<td><a href="./">BiologicalProcess</a></td>
 </tr>
 <tr>
 <td><a href="../ImmuneCellDocument/">ImmuneCellDocument</a></td>
-<td><a href="../genes/">genes</a></td>
+<td><a href="../roles/">roles</a></td>
 <td>range</td>
-<td><a href="./">Gene</a></td>
+<td><a href="./">BiologicalProcess</a></td>
 </tr>
 <tr>
 <td><a href="../NeuronDocument/">NeuronDocument</a></td>
-<td><a href="../genes/">genes</a></td>
+<td><a href="../roles/">roles</a></td>
 <td>range</td>
-<td><a href="./">Gene</a></td>
+<td><a href="./">BiologicalProcess</a></td>
 </tr>
 <tr>
 <td><a href="../InterneuronDocument/">InterneuronDocument</a></td>
-<td><a href="../genes/">genes</a></td>
+<td><a href="../roles/">roles</a></td>
 <td>range</td>
-<td><a href="./">Gene</a></td>
+<td><a href="./">BiologicalProcess</a></td>
 </tr>
 </tbody>
 </table>
@@ -391,18 +391,7 @@ Gene {
 <h3 id="valid-id-prefixes">Valid ID Prefixes</h3>
 <p>Instances of this class <em>should</em> have identifiers with one of the following prefixes:</p>
 <ul>
-<li>
-<p>HGNC</p>
-</li>
-<li>
-<p>MGI</p>
-</li>
-<li>
-<p>PR</p>
-</li>
-<li>
-<p>UniProtKB</p>
-</li>
+<li>GO</li>
 </ul>
 <h3 id="annotations">Annotations</h3>
 <table>
@@ -415,7 +404,7 @@ Gene {
 <tbody>
 <tr>
 <td>annotators</td>
-<td>sqlite:obo:hgnc, bioportal:hgnc-nr</td>
+<td>sqlite:obo:go</td>
 </tr>
 </tbody>
 </table>
@@ -434,11 +423,11 @@ Gene {
 <tbody>
 <tr>
 <td>self</td>
-<td>cell_type:Gene</td>
+<td>cell_type:BiologicalProcess</td>
 </tr>
 <tr>
 <td>native</td>
-<td>cell_type:Gene</td>
+<td>cell_type:BiologicalProcess</td>
 </tr>
 </tbody>
 </table>
@@ -446,16 +435,13 @@ Gene {
 <!-- TODO: investigate https://stackoverflow.com/questions/37606292/how-to-create-tabbed-code-blocks-in-mkdocs-or-sphinx -->
 <h3 id="direct">Direct</h3>
 <details>
-<pre><code class="language-yaml">name: Gene
+<pre><code class="language-yaml">name: BiologicalProcess
 id_prefixes:
-- HGNC
-- MGI
-- PR
-- UniProtKB
+- GO
 annotations:
   annotators:
     tag: annotators
-    value: sqlite:obo:hgnc, bioportal:hgnc-nr
+    value: sqlite:obo:go
 from_schema: http://w3id.org/ontogpt/cell_type
 rank: 1000
 is_a: NamedEntity
@@ -464,16 +450,13 @@ is_a: NamedEntity
 </details>
 <h3 id="induced">Induced</h3>
 <details>
-<pre><code class="language-yaml">name: Gene
+<pre><code class="language-yaml">name: BiologicalProcess
 id_prefixes:
-- HGNC
-- MGI
-- PR
-- UniProtKB
+- GO
 annotations:
   annotators:
     tag: annotators
-    value: sqlite:obo:hgnc, bioportal:hgnc-nr
+    value: sqlite:obo:go
 from_schema: http://w3id.org/ontogpt/cell_type
 rank: 1000
 is_a: NamedEntity
@@ -491,7 +474,7 @@ attributes:
     rank: 1000
     identifier: true
     alias: id
-    owner: Gene
+    owner: BiologicalProcess
     domain_of:
     - NamedEntity
     - Publication
@@ -510,7 +493,7 @@ attributes:
     rank: 1000
     slot_uri: rdfs:label
     alias: label
-    owner: Gene
+    owner: BiologicalProcess
     domain_of:
     - NamedEntity
     range: string

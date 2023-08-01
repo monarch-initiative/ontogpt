@@ -5,10 +5,10 @@
 <head>
 <meta charset="utf-8"/>
 <meta content="width=device-width,initial-scale=1" name="viewport"/>
-<link href="https://monarch-initiative.github.io/ontogpt/cell_type/Gene/" rel="canonical"/>
+<link href="https://monarch-initiative.github.io/ontogpt/cell_type/Neurotransmitter/" rel="canonical"/>
 <link href="../../assets/images/favicon.png" rel="icon"/>
 <meta content="mkdocs-1.4.2, mkdocs-material-9.0.10" name="generator"/>
-<title>Class: Gene - OntoGPT</title>
+<title>Class: Neurotransmitter - OntoGPT</title>
 <link href="../../assets/stylesheets/main.0d440cfe.min.css" rel="stylesheet"/>
 <link href="../../assets/stylesheets/palette.2505c338.min.css" rel="stylesheet"/>
 <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
@@ -22,7 +22,7 @@
 <input autocomplete="off" class="md-toggle" data-md-toggle="search" id="__search" type="checkbox"/>
 <label class="md-overlay" for="__drawer"></label>
 <div data-md-component="skip">
-<a class="md-skip" href="#class-gene">
+<a class="md-skip" href="#class-neurotransmitter">
           Skip to content
         </a>
 </div>
@@ -46,7 +46,7 @@
 <div class="md-header__topic" data-md-component="header-topic">
 <span class="md-ellipsis">
             
-              Class: Gene
+              Class: Neurotransmitter
             
           </span>
 </div>
@@ -307,10 +307,10 @@
 </div>
 <div class="md-content" data-md-component="content">
 <article class="md-content__inner md-typeset">
-<h1 id="class-gene">Class: Gene</h1>
-<p>URI: <a href="http://w3id.org/ontogpt/cell_type/Gene">cell_type:Gene</a></p>
+<h1 id="class-neurotransmitter">Class: Neurotransmitter</h1>
+<p>URI: <a href="http://w3id.org/ontogpt/cell_type/Neurotransmitter">cell_type:Neurotransmitter</a></p>
 <div class="mermaid">erDiagram
-Gene {
+Neurotransmitter {
     string id  
     string label  
 }
@@ -321,7 +321,10 @@ Gene {
 <h2 id="inheritance">Inheritance</h2>
 <ul>
 <li><a href="../NamedEntity/">NamedEntity</a><ul>
-<li><strong>Gene</strong></li>
+<li><a href="../ChemicalEntity/">ChemicalEntity</a><ul>
+<li><strong>Neurotransmitter</strong></li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>
@@ -362,28 +365,16 @@ Gene {
 </thead>
 <tbody>
 <tr>
-<td><a href="../CellTypeDocument/">CellTypeDocument</a></td>
-<td><a href="../genes/">genes</a></td>
-<td>range</td>
-<td><a href="./">Gene</a></td>
-</tr>
-<tr>
-<td><a href="../ImmuneCellDocument/">ImmuneCellDocument</a></td>
-<td><a href="../genes/">genes</a></td>
-<td>range</td>
-<td><a href="./">Gene</a></td>
-</tr>
-<tr>
 <td><a href="../NeuronDocument/">NeuronDocument</a></td>
-<td><a href="../genes/">genes</a></td>
+<td><a href="../releases_neurotransitter/">releases_neurotransitter</a></td>
 <td>range</td>
-<td><a href="./">Gene</a></td>
+<td><a href="./">Neurotransmitter</a></td>
 </tr>
 <tr>
 <td><a href="../InterneuronDocument/">InterneuronDocument</a></td>
-<td><a href="../genes/">genes</a></td>
+<td><a href="../releases_neurotransitter/">releases_neurotransitter</a></td>
 <td>range</td>
-<td><a href="./">Gene</a></td>
+<td><a href="./">Neurotransmitter</a></td>
 </tr>
 </tbody>
 </table>
@@ -391,18 +382,7 @@ Gene {
 <h3 id="valid-id-prefixes">Valid ID Prefixes</h3>
 <p>Instances of this class <em>should</em> have identifiers with one of the following prefixes:</p>
 <ul>
-<li>
-<p>HGNC</p>
-</li>
-<li>
-<p>MGI</p>
-</li>
-<li>
-<p>PR</p>
-</li>
-<li>
-<p>UniProtKB</p>
-</li>
+<li>CHEBI</li>
 </ul>
 <h3 id="annotations">Annotations</h3>
 <table>
@@ -415,7 +395,7 @@ Gene {
 <tbody>
 <tr>
 <td>annotators</td>
-<td>sqlite:obo:hgnc, bioportal:hgnc-nr</td>
+<td>sqlite:obo:chebi</td>
 </tr>
 </tbody>
 </table>
@@ -434,11 +414,11 @@ Gene {
 <tbody>
 <tr>
 <td>self</td>
-<td>cell_type:Gene</td>
+<td>cell_type:Neurotransmitter</td>
 </tr>
 <tr>
 <td>native</td>
-<td>cell_type:Gene</td>
+<td>cell_type:Neurotransmitter</td>
 </tr>
 </tbody>
 </table>
@@ -446,52 +426,58 @@ Gene {
 <!-- TODO: investigate https://stackoverflow.com/questions/37606292/how-to-create-tabbed-code-blocks-in-mkdocs-or-sphinx -->
 <h3 id="direct">Direct</h3>
 <details>
-<pre><code class="language-yaml">name: Gene
+<pre><code class="language-yaml">name: Neurotransmitter
 id_prefixes:
-- HGNC
-- MGI
-- PR
-- UniProtKB
+- CHEBI
 annotations:
   annotators:
     tag: annotators
-    value: sqlite:obo:hgnc, bioportal:hgnc-nr
+    value: sqlite:obo:chebi
 from_schema: http://w3id.org/ontogpt/cell_type
 rank: 1000
-is_a: NamedEntity
+is_a: ChemicalEntity
+slot_usage:
+  id:
+    name: id
+    values_from:
+    - NeurotransmitterIdentifier
+    domain_of:
+    - NamedEntity
+    - Publication
 
 </code></pre>
 </details>
 <h3 id="induced">Induced</h3>
 <details>
-<pre><code class="language-yaml">name: Gene
+<pre><code class="language-yaml">name: Neurotransmitter
 id_prefixes:
-- HGNC
-- MGI
-- PR
-- UniProtKB
+- CHEBI
 annotations:
   annotators:
     tag: annotators
-    value: sqlite:obo:hgnc, bioportal:hgnc-nr
+    value: sqlite:obo:chebi
 from_schema: http://w3id.org/ontogpt/cell_type
 rank: 1000
-is_a: NamedEntity
+is_a: ChemicalEntity
+slot_usage:
+  id:
+    name: id
+    values_from:
+    - NeurotransmitterIdentifier
+    domain_of:
+    - NamedEntity
+    - Publication
 attributes:
   id:
     name: id
-    annotations:
-      prompt.skip:
-        tag: prompt.skip
-        value: 'true'
     description: A unique identifier for the named entity
-    comments:
-    - this is populated during the grounding and normalization step
     from_schema: http://w3id.org/ontogpt/cell_type
     rank: 1000
+    values_from:
+    - NeurotransmitterIdentifier
     identifier: true
     alias: id
-    owner: Gene
+    owner: Neurotransmitter
     domain_of:
     - NamedEntity
     - Publication
@@ -510,7 +496,7 @@ attributes:
     rank: 1000
     slot_uri: rdfs:label
     alias: label
-    owner: Gene
+    owner: Neurotransmitter
     domain_of:
     - NamedEntity
     range: string

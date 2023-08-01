@@ -5,10 +5,10 @@
 <head>
 <meta charset="utf-8"/>
 <meta content="width=device-width,initial-scale=1" name="viewport"/>
-<link href="https://monarch-initiative.github.io/ontogpt/cell_type/Gene/" rel="canonical"/>
+<link href="https://monarch-initiative.github.io/ontogpt/cell_type/ImmuneCellDocument/" rel="canonical"/>
 <link href="../../assets/images/favicon.png" rel="icon"/>
 <meta content="mkdocs-1.4.2, mkdocs-material-9.0.10" name="generator"/>
-<title>Class: Gene - OntoGPT</title>
+<title>Class: ImmuneCellDocument - OntoGPT</title>
 <link href="../../assets/stylesheets/main.0d440cfe.min.css" rel="stylesheet"/>
 <link href="../../assets/stylesheets/palette.2505c338.min.css" rel="stylesheet"/>
 <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
@@ -22,7 +22,7 @@
 <input autocomplete="off" class="md-toggle" data-md-toggle="search" id="__search" type="checkbox"/>
 <label class="md-overlay" for="__drawer"></label>
 <div data-md-component="skip">
-<a class="md-skip" href="#class-gene">
+<a class="md-skip" href="#class-immunecelldocument">
           Skip to content
         </a>
 </div>
@@ -46,7 +46,7 @@
 <div class="md-header__topic" data-md-component="header-topic">
 <span class="md-ellipsis">
             
-              Class: Gene
+              Class: ImmuneCellDocument
             
           </span>
 </div>
@@ -248,26 +248,11 @@
   </a>
 </li>
 <li class="md-nav__item">
-<a class="md-nav__link" href="#usages">
-    Usages
-  </a>
-</li>
-<li class="md-nav__item">
 <a class="md-nav__link" href="#identifier-and-mapping-information">
     Identifier and Mapping Information
   </a>
 <nav aria-label="Identifier and Mapping Information" class="md-nav">
 <ul class="md-nav__list">
-<li class="md-nav__item">
-<a class="md-nav__link" href="#valid-id-prefixes">
-    Valid ID Prefixes
-  </a>
-</li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="#annotations">
-    Annotations
-  </a>
-</li>
 <li class="md-nav__item">
 <a class="md-nav__link" href="#schema-source">
     Schema Source
@@ -307,21 +292,51 @@
 </div>
 <div class="md-content" data-md-component="content">
 <article class="md-content__inner md-typeset">
-<h1 id="class-gene">Class: Gene</h1>
-<p>URI: <a href="http://w3id.org/ontogpt/cell_type/Gene">cell_type:Gene</a></p>
+<h1 id="class-immunecelldocument">Class: ImmuneCellDocument</h1>
+<p>URI: <a href="http://w3id.org/ontogpt/cell_type/ImmuneCellDocument">cell_type:ImmuneCellDocument</a></p>
 <div class="mermaid">erDiagram
+ImmuneCellDocument {
+    string definition  
+}
+BiologicalProcess {
+    string id  
+    string label  
+}
+Disease {
+    string id  
+    string label  
+}
 Gene {
     string id  
     string label  
 }
+AnatomicalStructure {
+    string id  
+    string label  
+}
+CellType {
+    string id  
+    string label  
+}
+ProteinOrComplex {
+    string id  
+    string label  
+}
 
-
+ImmuneCellDocument ||--}o ProteinOrComplex : "has_surface_markers"
+ImmuneCellDocument ||--|o CellType : "cell_type"
+ImmuneCellDocument ||--}o CellType : "parents"
+ImmuneCellDocument ||--}o CellType : "subtypes"
+ImmuneCellDocument ||--}o AnatomicalStructure : "localizations"
+ImmuneCellDocument ||--}o Gene : "genes"
+ImmuneCellDocument ||--}o Disease : "diseases"
+ImmuneCellDocument ||--}o BiologicalProcess : "roles"
 
 </div>
 <h2 id="inheritance">Inheritance</h2>
 <ul>
-<li><a href="../NamedEntity/">NamedEntity</a><ul>
-<li><strong>Gene</strong></li>
+<li><a href="../CellTypeDocument/">CellTypeDocument</a><ul>
+<li><strong>ImmuneCellDocument</strong></li>
 </ul>
 </li>
 </ul>
@@ -337,88 +352,62 @@ Gene {
 </thead>
 <tbody>
 <tr>
-<td><a href="../id/">id</a></td>
-<td>1..1 <br/> <a href="../String/">String</a></td>
-<td>A unique identifier for the named entity</td>
-<td><a href="../NamedEntity/">NamedEntity</a></td>
+<td><a href="../has_surface_markers/">has_surface_markers</a></td>
+<td>0..* <br/> <a href="../ProteinOrComplex/">ProteinOrComplex</a></td>
+<td></td>
+<td>direct</td>
 </tr>
 <tr>
-<td><a href="../label/">label</a></td>
-<td>0..1 <br/> <a href="../String/">String</a></td>
-<td>The label (name) of the named thing</td>
-<td><a href="../NamedEntity/">NamedEntity</a></td>
-</tr>
-</tbody>
-</table>
-<h2 id="usages">Usages</h2>
-<table>
-<thead>
-<tr>
-<th>used by</th>
-<th>used in</th>
-<th>type</th>
-<th>used</th>
-</tr>
-</thead>
-<tbody>
-<tr>
+<td><a href="../cell_type/">cell_type</a></td>
+<td>0..1 <br/> <a href="../CellType/">CellType</a></td>
+<td>the the cell type described</td>
 <td><a href="../CellTypeDocument/">CellTypeDocument</a></td>
-<td><a href="../genes/">genes</a></td>
-<td>range</td>
-<td><a href="./">Gene</a></td>
 </tr>
 <tr>
-<td><a href="../ImmuneCellDocument/">ImmuneCellDocument</a></td>
-<td><a href="../genes/">genes</a></td>
-<td>range</td>
-<td><a href="./">Gene</a></td>
+<td><a href="../definition/">definition</a></td>
+<td>0..1 <br/> <a href="../String/">String</a></td>
+<td></td>
+<td><a href="../CellTypeDocument/">CellTypeDocument</a></td>
 </tr>
 <tr>
-<td><a href="../NeuronDocument/">NeuronDocument</a></td>
-<td><a href="../genes/">genes</a></td>
-<td>range</td>
-<td><a href="./">Gene</a></td>
+<td><a href="../parents/">parents</a></td>
+<td>0..* <br/> <a href="../CellType/">CellType</a></td>
+<td>categorization</td>
+<td><a href="../CellTypeDocument/">CellTypeDocument</a></td>
 </tr>
 <tr>
-<td><a href="../InterneuronDocument/">InterneuronDocument</a></td>
+<td><a href="../subtypes/">subtypes</a></td>
+<td>0..* <br/> <a href="../CellType/">CellType</a></td>
+<td></td>
+<td><a href="../CellTypeDocument/">CellTypeDocument</a></td>
+</tr>
+<tr>
+<td><a href="../localizations/">localizations</a></td>
+<td>0..* <br/> <a href="../AnatomicalStructure/">AnatomicalStructure</a></td>
+<td></td>
+<td><a href="../CellTypeDocument/">CellTypeDocument</a></td>
+</tr>
+<tr>
 <td><a href="../genes/">genes</a></td>
-<td>range</td>
-<td><a href="./">Gene</a></td>
+<td>0..* <br/> <a href="../Gene/">Gene</a></td>
+<td></td>
+<td><a href="../CellTypeDocument/">CellTypeDocument</a></td>
+</tr>
+<tr>
+<td><a href="../diseases/">diseases</a></td>
+<td>0..* <br/> <a href="../Disease/">Disease</a></td>
+<td></td>
+<td><a href="../CellTypeDocument/">CellTypeDocument</a></td>
+</tr>
+<tr>
+<td><a href="../roles/">roles</a></td>
+<td>0..* <br/> <a href="../BiologicalProcess/">BiologicalProcess</a></td>
+<td></td>
+<td><a href="../CellTypeDocument/">CellTypeDocument</a></td>
 </tr>
 </tbody>
 </table>
 <h2 id="identifier-and-mapping-information">Identifier and Mapping Information</h2>
-<h3 id="valid-id-prefixes">Valid ID Prefixes</h3>
-<p>Instances of this class <em>should</em> have identifiers with one of the following prefixes:</p>
-<ul>
-<li>
-<p>HGNC</p>
-</li>
-<li>
-<p>MGI</p>
-</li>
-<li>
-<p>PR</p>
-</li>
-<li>
-<p>UniProtKB</p>
-</li>
-</ul>
-<h3 id="annotations">Annotations</h3>
-<table>
-<thead>
-<tr>
-<th>property</th>
-<th>value</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>annotators</td>
-<td>sqlite:obo:hgnc, bioportal:hgnc-nr</td>
-</tr>
-</tbody>
-</table>
 <h3 id="schema-source">Schema Source</h3>
 <ul>
 <li>from schema: http://w3id.org/ontogpt/cell_type</li>
@@ -434,11 +423,11 @@ Gene {
 <tbody>
 <tr>
 <td>self</td>
-<td>cell_type:Gene</td>
+<td>cell_type:ImmuneCellDocument</td>
 </tr>
 <tr>
 <td>native</td>
-<td>cell_type:Gene</td>
+<td>cell_type:ImmuneCellDocument</td>
 </tr>
 </tbody>
 </table>
@@ -446,74 +435,159 @@ Gene {
 <!-- TODO: investigate https://stackoverflow.com/questions/37606292/how-to-create-tabbed-code-blocks-in-mkdocs-or-sphinx -->
 <h3 id="direct">Direct</h3>
 <details>
-<pre><code class="language-yaml">name: Gene
-id_prefixes:
-- HGNC
-- MGI
-- PR
-- UniProtKB
-annotations:
-  annotators:
-    tag: annotators
-    value: sqlite:obo:hgnc, bioportal:hgnc-nr
+<pre><code class="language-yaml">name: ImmuneCellDocument
 from_schema: http://w3id.org/ontogpt/cell_type
 rank: 1000
-is_a: NamedEntity
+is_a: CellTypeDocument
+attributes:
+  has_surface_markers:
+    name: has_surface_markers
+    annotations:
+      prompt:
+        tag: prompt
+        value: semicolon-separated list of proteins or complexes expressed on the
+          surface of the cell
+    from_schema: http://w3id.org/ontogpt/cell_type
+    rank: 1000
+    multivalued: true
+    range: ProteinOrComplex
 
 </code></pre>
 </details>
 <h3 id="induced">Induced</h3>
 <details>
-<pre><code class="language-yaml">name: Gene
-id_prefixes:
-- HGNC
-- MGI
-- PR
-- UniProtKB
-annotations:
-  annotators:
-    tag: annotators
-    value: sqlite:obo:hgnc, bioportal:hgnc-nr
+<pre><code class="language-yaml">name: ImmuneCellDocument
 from_schema: http://w3id.org/ontogpt/cell_type
 rank: 1000
-is_a: NamedEntity
+is_a: CellTypeDocument
 attributes:
-  id:
-    name: id
+  has_surface_markers:
+    name: has_surface_markers
     annotations:
-      prompt.skip:
-        tag: prompt.skip
-        value: 'true'
-    description: A unique identifier for the named entity
-    comments:
-    - this is populated during the grounding and normalization step
+      prompt:
+        tag: prompt
+        value: semicolon-separated list of proteins or complexes expressed on the
+          surface of the cell
     from_schema: http://w3id.org/ontogpt/cell_type
     rank: 1000
-    identifier: true
-    alias: id
-    owner: Gene
+    multivalued: true
+    alias: has_surface_markers
+    owner: ImmuneCellDocument
     domain_of:
-    - NamedEntity
-    - Publication
-    range: string
-    required: true
-  label:
-    name: label
-    annotations:
-      owl:
-        tag: owl
-        value: AnnotationProperty, AnnotationAssertion
-    description: The label (name) of the named thing
+    - ImmuneCellDocument
+    range: ProteinOrComplex
+  cell_type:
+    name: cell_type
+    description: the the cell type described
     from_schema: http://w3id.org/ontogpt/cell_type
-    aliases:
-    - name
     rank: 1000
-    slot_uri: rdfs:label
-    alias: label
-    owner: Gene
+    alias: cell_type
+    owner: ImmuneCellDocument
     domain_of:
-    - NamedEntity
+    - CellTypeDocument
+    range: CellType
+  definition:
+    name: definition
+    annotations:
+      prompt:
+        tag: prompt
+        value: A concise textual definition in genus-differentia form, i.e 'A &lt;genus&gt;
+          that &lt;differenting characteristics&gt;'
+    from_schema: http://w3id.org/ontogpt/cell_type
+    rank: 1000
+    alias: definition
+    owner: ImmuneCellDocument
+    domain_of:
+    - CellTypeDocument
     range: string
+  parents:
+    name: parents
+    annotations:
+      prompt:
+        tag: prompt
+        value: semicolon-separated list of parent (broader) cell types
+    description: categorization
+    from_schema: http://w3id.org/ontogpt/cell_type
+    rank: 1000
+    multivalued: true
+    alias: parents
+    owner: ImmuneCellDocument
+    domain_of:
+    - CellTypeDocument
+    range: CellType
+  subtypes:
+    name: subtypes
+    annotations:
+      prompt:
+        tag: prompt
+        value: semicolon-separated list of the main subtypes
+    from_schema: http://w3id.org/ontogpt/cell_type
+    rank: 1000
+    multivalued: true
+    alias: subtypes
+    owner: ImmuneCellDocument
+    domain_of:
+    - CellTypeDocument
+    range: CellType
+  localizations:
+    name: localizations
+    annotations:
+      prompt:
+        tag: prompt
+        value: semicolon-separated list of anatomical structures in which this cell
+          type is localized
+    from_schema: http://w3id.org/ontogpt/cell_type
+    rank: 1000
+    multivalued: true
+    alias: localizations
+    owner: ImmuneCellDocument
+    domain_of:
+    - CellTypeDocument
+    range: AnatomicalStructure
+  genes:
+    name: genes
+    annotations:
+      prompt:
+        tag: prompt
+        value: semicolon-separated list of genes expressed in cells of this type
+    from_schema: http://w3id.org/ontogpt/cell_type
+    rank: 1000
+    multivalued: true
+    alias: genes
+    owner: ImmuneCellDocument
+    domain_of:
+    - CellTypeDocument
+    range: Gene
+  diseases:
+    name: diseases
+    annotations:
+      prompt:
+        tag: prompt
+        value: semicolon-separated list of diseases in which this cell type is implicated
+    from_schema: http://w3id.org/ontogpt/cell_type
+    rank: 1000
+    multivalued: true
+    alias: diseases
+    owner: ImmuneCellDocument
+    domain_of:
+    - CellTypeDocument
+    range: Disease
+  roles:
+    name: roles
+    annotations:
+      prompt:
+        tag: prompt
+        value: semicolon-separated list of roles (e.g. biological processes) that
+          this cell type plays. These should be short descriptive terms corresponding
+          to ontology terms in the GO biological process hierarchy.
+    from_schema: http://w3id.org/ontogpt/cell_type
+    rank: 1000
+    multivalued: true
+    alias: roles
+    owner: ImmuneCellDocument
+    domain_of:
+    - CellTypeDocument
+    range: BiologicalProcess
 
 </code></pre>
 </details>
