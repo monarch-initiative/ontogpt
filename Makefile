@@ -44,7 +44,7 @@ docs/index.md: README.md
 	cp $< $@
 
 docs/%/index.md: src/$(PACKAGE)/templates/%.yaml
-	$(TMPRUN) gen-doc --include-top-level-diagram --diagram-type er_diagram $< -d docs/$*
+	$(RUN) gen-doc --include-top-level-diagram --diagram-type er_diagram $< -d docs/$*
 
 
 serve:

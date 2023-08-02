@@ -45,7 +45,7 @@ def get_engine(datamodel: str):
 @app.get("/")
 def read_root(request: Request):
     return templates.TemplateResponse(
-        "form.html", context={"request": request, "datamodels": DATAMODELS, "models": OPENAI_MODELS}
+        "form.html", context={"request": request, "datamodels": DATAMODELS}
     )
 
 

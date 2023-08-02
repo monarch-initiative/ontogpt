@@ -92,9 +92,17 @@ class SPIRESEngine(KnowledgeEngine):
             named_entities=self.named_entities,
         )
 
+
     def _extract_from_text_to_dict(self, text: str, cls: ClassDefinition = None) -> RESPONSE_DICT:
         raw_text = self._raw_extract(text, cls)
         return self._parse_response_to_dict(raw_text, cls)
+
+    def generate_and_extract(
+            self, entity: str, **kwargs
+    ) -> ExtractionResult:
+        prompt = f"Generate a comprehensive description of {entity}.\n"
+        payload = self.client.complete(prompt)
+        return self.extract_from_text(payload, **kwargs)
 
     def generalize(
         self, object: Union[pydantic.BaseModel, dict], examples: List[EXAMPLE]

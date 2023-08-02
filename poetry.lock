@@ -3113,14 +3113,14 @@ docs = ["myst-parser[docs] (>=0.18.1,<0.19.0)", "sphinx-autodoc-typehints[docs] 
 
 [[package]]
 name = "linkml-runtime"
-version = "1.5.3"
+version = "1.5.5"
 description = "Runtime environment for LinkML, the Linked open data modeling language"
 category = "main"
 optional = false
 python-versions = ">=3.7.6,<4.0.0"
 files = [
-    {file = "linkml_runtime-1.5.3-py3-none-any.whl", hash = "sha256:e8f82ebce2af7e71998a7fca0cf9d37eabfa18c21efe34393b698074da430bbb"},
-    {file = "linkml_runtime-1.5.3.tar.gz", hash = "sha256:b53876389cd88fcf9d259079f46edfc8e59665fbed71934c40db04908ddaf937"},
+    {file = "linkml_runtime-1.5.5-py3-none-any.whl", hash = "sha256:92b0148a107f980a75b5608ece692f7d33f77328c6f61640a4d2e51488be4a3c"},
+    {file = "linkml_runtime-1.5.5.tar.gz", hash = "sha256:f0275823c659924c032e88d4084e6fdb9699c0a62c6c62d45cb62e27101cbbff"},
 ]
 
 [package.dependencies]
@@ -3129,7 +3129,7 @@ curies = ">=0.5.4"
 deprecated = "*"
 hbreader = "*"
 json-flattener = ">=0.1.9"
-jsonasobj2 = ">=1.0.4,<2.0.0"
+jsonasobj2 = ">=1.0.4,<2.dev0"
 jsonschema = ">=3.2.0"
 prefixcommons = ">=0.1.12"
 prefixmaps = ">=0.1.4"
@@ -4369,7 +4369,6 @@ category = "main"
 optional = false
 python-versions = "*"
 files = [
-    {file = "parse-1.19.0-py2.py3-none-any.whl", hash = "sha256:6ce007645384a91150cb7cd7c8a9db2559e273c2e2542b508cd1e342508c2601"},
     {file = "parse-1.19.0.tar.gz", hash = "sha256:9ff82852bcb65d139813e2a5197627a94966245c897796760a3a2a8eb66f020b"},
 ]
 
@@ -7530,4 +7529,4 @@ web = ["Jinja2", "fastapi", "uvicorn"]
 [metadata]
 lock-version = "2.0"
 python-versions = ">=3.9,<3.9.7 || >3.9.7,<4.0"
-content-hash = "ea14f6393645b0277d5e13699332fcc4d58c25d2f55ef9d2d2bab1c5847e2c61"
+content-hash = "908940f09efece3a7e995c1101254596cc2f4e29082d79b158ff2d6e65c47a49"
