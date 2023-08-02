@@ -22,7 +22,7 @@ from sssom.parsers import parse_sssom_table, to_mapping_set_document
 from sssom.util import to_mapping_set_dataframe
 
 import ontogpt.ontex.extractor as extractor
-from ontogpt import MODELS, DEFAULT_MODEL, __version__
+from ontogpt import DEFAULT_MODEL, MODELS, __version__
 from ontogpt.clients import OpenAIClient
 from ontogpt.clients.pubmed_client import PubmedClient
 from ontogpt.clients.soup_client import SoupClient
@@ -30,8 +30,8 @@ from ontogpt.clients.wikipedia_client import WikipediaClient
 from ontogpt.engines import create_engine
 from ontogpt.engines.embedding_similarity_engine import SimilarityEngine
 from ontogpt.engines.enrichment import EnrichmentEngine
-from ontogpt.engines.ggml_engine import GGMLEngine
 from ontogpt.engines.generic_engine import GenericEngine, QuestionCollection
+from ontogpt.engines.ggml_engine import GGMLEngine
 from ontogpt.engines.halo_engine import HALOEngine
 from ontogpt.engines.hfhub_engine import HFHubEngine
 from ontogpt.engines.knowledge_engine import KnowledgeEngine
@@ -128,9 +128,7 @@ interactive_option = click.option(
     help="Interactive mode - rather than call the LLM API it will prompt you do this.",
 )
 model_option = click.option(
-    "-m",
-    "--model",
-    help="Model name to use, e.g. openai-text-davinci-003."
+    "-m", "--model", help="Model name to use, e.g. openai-text-davinci-003."
 )
 prompt_template_option = click.option(
     "--prompt-template", help="Path to a file containing the prompt."
@@ -319,7 +317,50 @@ def generate_extract(entity, template, output, output_format, **kwargs):
     ke = SPIRESEngine(template, **kwargs)
     logging.debug(f"Input entity: {entity}")
     results = ke.generate_and_extract(entity)
-    write_extraction(results, output, output_format)
+    write_extraction(results, output, output_format, ke)
+
+
+@main.command()
+@template_option
+@model_option
+@recurse_option
+@output_option_wb
+@output_format_options
+@auto_prefix_option
+@click.option("--ontology", "-r", help="Ontology to use; use oaklib selector path")
+@click.option("--max-iterations", "-M", default=10, type=click.INT)
+@click.option("--iteration-slot", "-I", multiple=True, help="Slots to iterate over")
+@click.option("--db", "-D", help="Where the resulting yaml database is stored")
+@click.option(
+    "--clear/--no-clear", default=False, show_default=True, help="Clear the db before starting"
+)
+@click.argument("entity")
+def iteratively_generate_extract(
+    entity,
+    template,
+    output,
+    output_format,
+    db,
+    iteration_slot,
+    max_iterations,
+    clear,
+    ontology,
+    **kwargs,
+):
+    """Iterate through generate-extract."""
+    logging.info(f"Creating for {template}")
+    ke = SPIRESEngine(template, **kwargs)
+    logging.debug(f"Input entity: {entity}")
+    adapter = get_adapter(ontology)
+    for results in ke.iteratively_generate_and_extract(
+        entity,
+        db,
+        iteration_slots=list(iteration_slot),
+        max_iterations=max_iterations,
+        adapter=adapter,
+        clear=clear,
+    ):
+        write_extraction(results, output, output_format)
 
 
 @main.command()
@@ -350,10 +391,10 @@ def pubmed_extract(pmid, template, output, output_format, **kwargs):
 def pubmed_annotate(search, template, output, output_format, **kwargs):
     """Retrieve a collection of PubMed IDs for a search term; annotate them using a template."""
     logging.info(f"Creating for {template}")
-    pubmed_annotate_limit = 20 # TODO: make this a CLI argument
+    pubmed_annotate_limit = 20  # TODO: make this a CLI argument
     pmc = PubmedClient()
     pmids = pmc.get_pmids(search)
-    textlist = pmc.text(pmids[:pubmed_annotate_limit + 1])
+    textlist = pmc.text(pmids[: pubmed_annotate_limit + 1])
     for text in textlist:
         ke = SPIRESEngine(template, **kwargs)
         logging.debug(f"Input text: {text}")
@@ -1326,8 +1367,6 @@ def list_models():
             status = "Implemented"
 
         print(f"{primary_name}\t{provider}\t{alternative_names}\t{status}")
-
-
 
 
 if __name__ == "__main__":
