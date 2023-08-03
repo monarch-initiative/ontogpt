@@ -9,12 +9,16 @@ Describe in the SPIRES manuscript
 TODO: add link
 """
 import logging
+import re
+import uuid
 from dataclasses import dataclass
 from pathlib import Path
-from typing import Any, Dict, List, Optional, Tuple, Union
+from typing import Any, Dict, Iterator, List, Optional, Tuple, Union
 
 import pydantic
+import yaml
 from linkml_runtime.linkml_model import ClassDefinition, SlotDefinition
+from oaklib import BasicOntologyInterface
 
 from ontogpt.engines.knowledge_engine import (
     ANNOTATION_KEY_PROMPT,
@@ -25,6 +29,7 @@ from ontogpt.engines.knowledge_engine import (
     KnowledgeEngine,
     chunk_text,
 )
+from ontogpt.io.yaml_wrapper import dump_minimal_yaml
 from ontogpt.templates.core import ExtractionResult
 
 this_path = Path(__file__).parent
@@ -92,17 +97,113 @@ class SPIRESEngine(KnowledgeEngine):
             named_entities=self.named_entities,
         )
 
-
     def _extract_from_text_to_dict(self, text: str, cls: ClassDefinition = None) -> RESPONSE_DICT:
         raw_text = self._raw_extract(text, cls)
         return self._parse_response_to_dict(raw_text, cls)
 
     def generate_and_extract(
-            self, entity: str, **kwargs
+        self, entity: str, prompt_template: str = None, **kwargs
     ) -> ExtractionResult:
-        prompt = f"Generate a comprehensive description of {entity}.\n"
+        """
+        Generate a description using GPT and then extract from it using SPIRES.
+
+        :param entity:
+        :param kwargs:
+        :return:
+        """
+        if prompt_template is None:
+            prompt_template = "Generate a comprehensive description of {entity}.\n"
+        # prompt = f"Generate a comprehensive description of {entity}.\n"
+        prompt = prompt_template.format(entity=entity)
         payload = self.client.complete(prompt)
         return self.extract_from_text(payload, **kwargs)
+
+    def iteratively_generate_and_extract(
+        self,
+        entity: str,
+        cache_path: Union[str, Path],
+        iteration_slots: List[str],
+        adapter: BasicOntologyInterface = None,
+        clear=False,
+        max_iterations=10,
+        prompt_template=None,
+        **kwargs,
+    ) -> Iterator[ExtractionResult]:
+        def _remove_parenthetical_context(s: str):
+            return re.sub(r"\(.*\)", "", s)
+
+        iteration = 0
+        if isinstance(cache_path, str):
+            cache_path = Path(cache_path)
+        if cache_path.exists() and not clear:
+            db = yaml.safe_load(cache_path.open())
+            if "entities_in_queue" not in db:
+                db["entities_in_queue"] = []
+        else:
+            db = {"processed_entities": [], "entities_in_queue": [], "results": []}
+        if entity not in db["processed_entities"]:
+            db["entities_in_queue"].append(entity)
+        if prompt_template is None:
+            prompt_template = (
+                "Generate a comprehensive description of {entity}. "
+                + "The description should include the information on"
+                + " and ".join(iteration_slots)
+                + ".\n"
+            )
+        while db["entities_in_queue"] and iteration < max_iterations:
+            iteration += 1
+            next_entity = db["entities_in_queue"].pop(0)
+            logging.info(f"ITERATION {iteration}, entity={next_entity}")
+            # check if entity matches a curie pattern using re
+            if re.match(r"^[A-Z]+:[A-Z0-9]+$", next_entity):
+                curie = next_entity
+                next_entity = adapter.label(next_entity)
+            else:
+                curie = None
+            result = self.generate_and_extract(
+                next_entity, prompt_template=prompt_template, **kwargs
+            )
+            if curie:
+                if result.extracted_object:
+                    result.extracted_object.id = curie
+            db["results"].append(result)
+            db["processed_entities"].append(next_entity)
+            yield result
+            for s in iteration_slots:
+                # if s not in result.extracted_object:
+                #    raise ValueError(f"Slot {s} not found in {result.extracted_object}")
+                vals = getattr(result.extracted_object, s, [])
+                if not vals:
+                    logging.info("dead-end: no values found for slot")
+                    continue
+                if not isinstance(vals, list):
+                    vals = [vals]
+                for val in vals:
+                    entity = val
+
+                    for ne in result.named_entities:
+                        if ne.id == val:
+                            entity = ne.label
+                            if ne.id.startswith("AUTO"):
+                                # Sometimes the value of some slots will lack
+                                context = next_entity
+                                context = re.sub(r"\(.*\)", "", context)
+                                entity = f"{entity} ({context})"
+                            else:
+                                entity = ne.id
+                            break
+                    queue_deparenthesized = [
+                        _remove_parenthetical_context(e) for e in db["entities_in_queue"]
+                    ]
+                    if (
+                        entity not in db["processed_entities"]
+                        and entity not in db["entities_in_queue"]
+                        and _remove_parenthetical_context(entity) not in queue_deparenthesized
+                    ):
+                        db["entities_in_queue"].append(entity)
+            with open(cache_path, "w") as f:
+                # TODO: consider a more robust backend e.g. mongo
+                f.write(dump_minimal_yaml(db))
 
     def generalize(
         self, object: Union[pydantic.BaseModel, dict], examples: List[EXAMPLE]
@@ -425,7 +526,23 @@ class SPIRESEngine(KnowledgeEngine):
         logging.debug(f"RAW: {raw}")
         if object:
             raw = {**object, **raw}
+        self._auto_add_ids(raw, cls)
         return self.ground_annotation_object(raw, cls)
+
+    def _auto_add_ids(self, ann: RESPONSE_DICT, cls: ClassDefinition = None) -> None:
+        if ann is None:
+            return
+        if cls is None:
+            cls = self.template_class
+        for slot in self.schemaview.class_induced_slots(cls.name):
+            if slot.identifier:
+                if slot.name not in ann:
+                    auto_id = str(uuid.uuid4())
+                    auto_prefix = self.auto_prefix
+                    if slot.range == "uriorcurie" or self.range == "uri":
+                        ann[slot.name] = f"{auto_prefix}:{auto_id}"
+                    else:
+                        ann[slot.name] = auto_id
 
     def ground_annotation_object(
         self, ann: RESPONSE_DICT, cls: ClassDefinition = None

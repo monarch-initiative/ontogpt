@@ -7,6 +7,21 @@ license: https://creativecommons.org/publicdomain/zero/1.0/
 prefixes:
   linkml: https://w3id.org/linkml/
   cell_type: http://w3id.org/ontogpt/cell_type/
+  NCIT: http://purl.obolibrary.org/obo/NCIT_
+  RO: http://purl.obolibrary.org/obo/RO_
+  MONDO: http://purl.obolibrary.org/obo/MONDO_
+  HP: http://purl.obolibrary.org/obo/HP_
+  GO: http://purl.obolibrary.org/obo/GO_
+  UBERON: http://purl.obolibrary.org/obo/UBERON_
+  FBbt: http://purl.obolibrary.org/obo/FBbt_
+  HGNC: http://identifiers.org/hgnc/
+  CL: http://purl.obolibrary.org/obo/CL_
+  IAO: http://purl.obolibrary.org/obo/IAO_
+  BFO: http://purl.obolibrary.org/obo/BFO_
+  AUTO: http://w3id.org/ontogpt/auto/
+  PW: http://purl.obolibrary.org/obo/PW_
+  CHEBI: http://purl.obolibrary.org/obo/CHEBI_
+  skos: http://www.w3.org/2004/02/skos/core#
 keywords:
   - disease
   - indication
@@ -19,45 +34,84 @@ imports:
   - core
 
 classes:
-  CellTypeDocument:
+  CellType:
+    description: Represents a cell type
     tree_root: true
     attributes:
-      cell_type:
+      id:
+        identifier: true
+        range: uriorcurie
+        slot_uri: rdf:Resource
+        annotations:
+          prompt.skip: true
+
+      label:
+        range: string
+        description: the concise name of the cell type
+        slot_uri: rdfs:label
+        annotations:
+          owl: AnnotationAssertion
+
+      equivalent_to:
         description: the the cell type described
-        range: CellType
+        range: CellOntologyTerm
+        annotations:
+          prompt: the cell type described in the text
+          #owl: EquivalentClasses
+          owl: AnnotationAssertion
+        slot_uri: skos:exactMatch
 
       definition:
         annotations:
-          prompt: A concise textual definition in genus-differentia form, i.e 'A <genus> that <differenting characteristics>'
+          prompt: >-
+            A concise textual definition in genus-differentia form, i.e 
+            'A <genus> that <differentiating characteristics>'
+          owl: AnnotationProperty, AnnotationAssertion
+        slot_uri: IAO:0000115
 
       parents:
         description: categorization
         annotations:
           prompt: semicolon-separated list of parent (broader) cell types
+          owl: SubClassOf
         multivalued: true
-        range: CellType
+        range: CellOntologyTerm
 
       subtypes:
         annotations:
-          prompt: semicolon-separated list of the main subtypes
+          prompt: >-
+            semicolon-separated list of the subtypes (subclasses) of this cell type.
+            Use concise terms, and separate elements in a list using semicolon (;)
+          owl.template: |
+            {% for subtype in subtypes %}
+            SubClassOf( {{ tr(subtype) }} {{ id }} )
+            {% endfor %}
         multivalued: true
-        range: CellType
+        range: CellOntologyTerm
 
       localizations:
         annotations:
           prompt: semicolon-separated list of anatomical structures in which this cell type is localized
+          owl: SubClassOf, ObjectSomeValuesFrom
+        slot_uri: BFO:0000050
         multivalued: true
         range: AnatomicalStructure
 
       genes:
         annotations:
           prompt: semicolon-separated list of genes expressed in cells of this type
+          owl: SubClassOf, ObjectSomeValuesFrom
+        slot_uri: RO:0002292
         multivalued: true
         range: Gene
 
       diseases:
         annotations:
           prompt: semicolon-separated list of diseases in which this cell type is implicated
+          owl.template: |
+            {% for disease in diseases %}
+            SubClassOf( {{ tr(disease) }} ObjectSomeValuesFrom( RO:0004026 {{ id }} ))
+            {% endfor %}
         multivalued: true
         range: Disease
 
@@ -67,32 +121,38 @@ classes:
             semicolon-separated list of roles (e.g. biological processes) that this cell type plays.
             These should be short descriptive terms corresponding to ontology terms in the GO biological process
             hierarchy.
+          owl: SubClassOf, ObjectSomeValuesFrom
+        slot_uri: RO:0002215
         multivalued: true
         range: BiologicalProcess
 
-  ImmuneCellDocument:
-    is_a: CellTypeDocument
+
+  ImmuneCell:
+    is_a: CellType
 
     attributes:
       has_surface_markers:
         annotations:
           prompt: semicolon-separated list of proteins or complexes expressed on the surface of the cell
+          owl: SubClassOf, ObjectSomeValuesFrom
         multivalued: true
         range: ProteinOrComplex
 
-  NeuronDocument:
-    is_a: CellTypeDocument
+  Neuron:
+    is_a: CellType
 
     attributes:
       releases_neurotransitter:
         annotations:
           prompt: named of chemical entity that this neuron releases
+          owl: SubClassOf, ObjectSomeValuesFrom
         multivalued: true
         range: Neurotransmitter
+        slot_uri: RO:0002111
 
-  InterneuronDocument:
-    is_a: NeuronDocument
 
+  Interneuron:
+    is_a: Neuron
     attributes:
       projects_to_or_from:
         description: Brain structures from which this cell type projects into or receives projections from
@@ -100,6 +160,7 @@ classes:
           prompt: semicolon-separated list of anatomical structures from which this cell type projects from or into
         multivalued: true
         range: BrainRegion
+        slot_uri: RO:0002170
 
   Gene:
     is_a: NamedEntity
@@ -166,6 +227,7 @@ classes:
       id:
         values_from:
           - NeurotransmitterIdentifier
+        identifier: true
 
   BrainRegion:
     is_a: AnatomicalStructure
@@ -179,8 +241,9 @@ classes:
       id:
         values_from:
           - BrainRegionIdentifier
+        identifier: true
 
-  CellType:
+  CellOntologyTerm:
     is_a: NamedEntity
     id_prefixes:
       - CL

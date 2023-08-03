@@ -36,7 +36,7 @@ classes:
         range: uriorcurie
         slot_uri: rdf:Resource
         annotations:
-          prompt.ignore: true
+          prompt.skip: true
       label:
         description: the name of the recipe
         slot_uri: rdfs:label
