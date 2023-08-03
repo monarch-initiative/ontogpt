@@ -6,6 +6,9 @@ models:
     provider: OpenAI
     creators:
       - OpenAI
+    requirements:
+      diskspace: "N/A"
+      memory: "N/A"
     is_default: true
 
   - name: MODEL_TEXT_DAVINCI_003
@@ -15,6 +18,20 @@ models:
     provider: OpenAI
     creators:
       - OpenAI
+    requirements:
+      diskspace: "N/A"
+      memory: "N/A"
+
+  - name: MODEL_GPT_3_5_TURBO_16K
+    alternative_names:
+      - "gpt-3.5-turbo-16k"
+      - "openai-gpt-3.5-turbo-16k"
+    provider: OpenAI
+    creators:
+      - OpenAI
+    requirements:
+      diskspace: "N/A"
+      memory: "N/A"
 
   - name: MODEL_GPT_4
     alternative_names:
@@ -23,45 +40,95 @@ models:
     provider: OpenAI
     creators:
       - OpenAI
+    requirements:
+      diskspace: "N/A"
+      memory: "N/A"
 
-  - name: GPT_4_ALL_J_1_3_GROOVY
+  - name: MODEL_GPT_4_32K
     alternative_names:
-      - "ggml-gpt4all-j-v1.3-groovy"
-      - "gpt4all-j"
+      - "gpt-4-32k"
+      - "openai-gpt-4-32k"
+    provider: OpenAI
+    creators:
+      - OpenAI
+    requirements:
+      diskspace: "N/A"
+      memory: "N/A"
+
+  - name: ORCA_MINI_3B
+    alternative_names: 
+      - orca-mini-3b
+    provider: GPT4All
+    creators:
+      - "Subhabrata Mukherjee"
+      - "Arindam Mitra"
+      - "Ganesh Jawahar"
+      - "Sahaj Agarwal"
+      - "Hamid Palangi"
+      - "Ahmed Awadallah"
+    requirements:
+      diskspace: "1.80 GB"
+      memory: "4 GB"
+
+  - name: GGML_ALL_MINILM_L6_V2_F16
+    alternative_names:
+      - ggml-all-MiniLM-L6-v2-f16
+    provider: GPT4All
+    creators:
+      - "Google"
+    requirements:
+      diskspace: "43.41 MB"
+      memory: "1 GB" 
+
+  - name: GGML_GPT4ALL_J_V1
+    alternative_names:
+      - ggml-gpt4all-j-v1
     provider: GPT4All
     creators:
       - "Nomic AI"
-    url: "https://gpt4all.io/models/ggml-gpt4all-j-v1.3-groovy.bin"
+    requirements:
+      diskspace: "3.53 GB"
+      memory: "8 GB" 
 
-  - name: GPT_4_ALL_L13B_SNOOZY
+  - name: LLAMA_2_7B_CHAT
     alternative_names:
-      - "ggml-gpt4all-l13b-snoozy"
+      - llama-2-7b-chat
     provider: GPT4All
     creators:
+      - "Meta AI"
+    requirements:
+      diskspace: "3.53 GB"
+      memory: "8 GB"
+
+  - name: ORCA_MINI_7B
+    alternative_names:
+      - orca-mini-7b
+    provider: GPT4All
+    creators:
+      - "Subhabrata Mukherjee"
+      - "Arindam Mitra"
+      - "Ganesh Jawahar"
+      - "Sahaj Agarwal"
+      - "Hamid Palangi"
+      - "Ahmed Awadallah"
+    requirements:
+      diskspace: "3.53 GB"
+      memory: "8 GB"
+
+  - name: GGML_MODEL_GPT4ALL_FALCON_Q4_0
+    alternative_names:
+      - ggml-model-gpt4all-falcon-q4_0
+    provider: GPT4All
+    creators:
+      - "Technology Innovation Institute"
       - "Nomic AI"
-    url: "https://gpt4all.io/models/ggml-gpt4all-l13b-snoozy.bin"
-
-  - name: MPT_7B_CHAT
-    alternative_names:
-      - "ggml-mpt-7b-chat"
-      - "mpt7bchat"
-    provider: GPT4All
-    creators:
-      - "Mosaic ML"
-    url: "https://gpt4all.io/models/ggml-mpt-7b-chat.bin"
-
-  - name: MPT_7B_INSTRUCT
-    alternative_names:
-      - "ggml-mpt-7b-instruct"
-      - "mpt7binstruct"
-    provider: GPT4All
-    creators:
-      - "Mosaic ML"
-    url: "https://gpt4all.io/models/ggml-mpt-7b-instruct.bin"
-
-  - name: VICUNA_13B_Q4_2
-    alternative_names:
-      - "ggml-stable-vicuna-13B.q4_2"
+    requirements:
+      diskspace: "3.78 GB"
+      memory: "8 GB"      
+      
+  - name: GGML_VICUNA_7B_1
+    alternative_names: 
+      - ggml-vicuna-7b-1
     provider: GPT4All
     creators:
       - "UC Berkeley"
@@ -69,148 +136,172 @@ models:
       - "Stanford University"
       - "Mohamed bin Zayed University of Artificial Intelligence"
       - "UC San Diego"
-    url: "https://gpt4all.io/models/ggml-stable-vicuna-13B.q4_2.bin"
+    requirements:
+      diskspace: "3.92 GB"
+      memory: "8 GB"   
 
-  - name: WIZARDLM_7B_Q4_2
+  - name: GGML_WIZARDLM_7B
     alternative_names:
-      - "ggml-wizardLM-7B.q4_2"
+      - ggml-wizardLM-7B
     provider: GPT4All
     creators:
-      - "Microsoft"
+      - "Microsoft Corporation"
       - "Peking University"
-    url: "https://gpt4all.io/models/ggml-wizardLM-7B.q4_2.bin"
+    requirements:
+      diskspace: "3.92 GB"
+      memory: "8 GB"   
 
-  - name: HERMES_13B_Q5_1
+  - name: GGML_MPT_7B_BASE
     alternative_names:
-      - "ggml-v3-13b-hermes-q5_1"
+      - ggml-mpt-7b-base
+    provider: GPT4All
+    creators:
+      - "Mosaic ML"
+    requirements:
+      diskspace: "4.52 GB"
+      memory: "8 GB"   
+  
+  - name: GGML_MPT_7B_INSTRUCT
+    alternative_names:
+      - ggml-mpt-7b-instruct
+    provider: GPT4All
+    creators:
+      - "Mosaic ML"
+    requirements:
+      diskspace: "4.52 GB"
+      memory: "8 GB"   
+      
+  - name: GGML_MPT_7B_CHAT
+    alternative_names:
+      - ggml-mpt-7b-chat
+    provider: GPT4All
+    creators:
+      - "Mosaic ML"
+    requirements:
+      diskspace: "4.52 GB"
+      memory: "8 GB"   
+
+  - name: GGML_REPLIT_CODE_V1_3B
+    alternative_names:
+      - ggml-replit-code-v1-3b
+    provider: GPT4All
+    creators:
+      - "Replit Inc."
+      - "Mosaic ML"
+    requirements:
+      diskspace: "4.84 GB"
+      memory: "4 GB"   
+      
+  - name: WIZARDLM_13B_V1
+    alternative_names:
+      - wizardlm-13b-v1
+    provider: GPT4All
+    creators:
+      - "Microsoft Corporation"
+      - "Peking University"
+    requirements:
+      diskspace: "6.82 GB"
+      memory: "16 GB"
+
+  - name: ORCA_MINI_13B
+    alternative_names:
+      - orca-mini-13b
+    provider: GPT4All
+    creators:
+      - "Subhabrata Mukherjee"
+      - "Arindam Mitra"
+      - "Ganesh Jawahar"
+      - "Sahaj Agarwal"
+      - "Hamid Palangi"
+      - "Ahmed Awadallah"
+    requirements:
+      diskspace: "6.82 GB"
+      memory: "16 GB"
+
+  - name: STARCODERBASE-3B-GGML
+    alternative_names:
+      - starcoderbase-3b-ggml
+    provider: GPT4All
+    creators:
+      - "BigCode"
+    requirements:
+      diskspace: "6.99 GB"
+      memory: "8 GB"  
+      
+  - name: GPT4ALL_13B_SNOOZY
+    alternative_names:
+      - GPT4All-13B-snoozy
+    provider: GPT4All
+    creators:
+      - "Nomic AI"
+    requirements:
+      diskspace: "7.58 GB"
+      memory: "16 GB" 
+
+  - name: GGML_VICUNA_13B_1
+    alternative_names:
+      - ggml-vicuna-13b-1
+    provider: GPT4All
+    creators:
+      - "UC Berkeley"
+      - "Carnegie Mellon University"
+      - "Stanford University"
+      - "Mohamed bin Zayed University of Artificial Intelligence"
+      - "UC San Diego"
+    requirements:
+      diskspace: "7.58 GB"
+      memory: "16 GB"   
+
+  - name: GGML_NOUS_GPT4_VICUNA_13B
+    alternative_names:
+      - ggml-nous-gpt4-vicuna-13b
+    provider: GPT4All
+    creators:
+      - "UC Berkeley"
+      - "Carnegie Mellon University"
+      - "Stanford University"
+      - "Mohamed bin Zayed University of Artificial Intelligence"
+      - "UC San Diego"
+      - "Nous Research"
+    requirements:
+      diskspace: "7.58 GB"
+      memory: "16 GB"
+      
+  - name: GGML_STABLE_VICUNA_13B
+    alternative_names:
+      - ggml-stable-vicuna-13B
+    provider: GPT4All
+    creators:
+      - "UC Berkeley"
+      - "Carnegie Mellon University"
+      - "Stanford University"
+      - "Mohamed bin Zayed University of Artificial Intelligence"
+      - "UC San Diego"
+    requirements:
+      diskspace: "7.58 GB"
+      memory: "16 GB"
+
+  - name: NOUS_HERMES_13B
+    alternative_names:
+      - nous-hermes-13b
     provider: GPT4All
     creators:
       - "Nous Research"
       - "Teknium"
-      - "Karan4D"
-    url: "https://huggingface.co/eachadea/ggml-nous-hermes-13b/resolve/main/ggml-v3-13b-hermes-q5_1.bin"
+      - "Karan4"
+      - "Huemin Art"
+      - "Redmond AI"
+    requirements:
+      diskspace: "7.58 GB"
+      memory: "16 GB"
 
-  - name: FLAN_T5_LARGE
-    alternative_names:
-      - "flan-t5-large"
-      - "google-flan-t5-large"
-      - "google/flan-t5-large"
-    provider: "HuggingFace Hub"
+  - name: WIZARDLM_13B_UNCENSORED
+    alternative_names: 
+      - wizardLM-13B-Uncensored
+    provider: GPT4All
     creators:
-      - "Google Research"
-    hf_repo_name: "google/flan-t5-large"
-
-  - name: FLAN_T5_XL
-    alternative_names:
-      - "flan-t5-xl"
-      - "google-flan-t5-xl"
-      - "google/flan-t5-xl"
-    provider: "HuggingFace Hub"
-    creators:
-      - "Google Research"
-    hf_repo_name: "google/flan-t5-xl"
-
-  - name: FLAN_T5_XXL
-    alternative_names:
-      - "flan-t5-xxl"
-      - "google-flan-t5-xxl"
-      - "google/flan-t5-xxl"
-    provider: "HuggingFace Hub"
-    creators:
-      - "Google Research"
-    hf_repo_name: "google/flan-t5-xxl"
-
-  - name: FLAN_UL2
-    alternative_names:
-      - "flan-ul2"
-      - "google-flan-ul2"
-      - "google/flan-ul2"
-    provider: "HuggingFace Hub"
-    creators:
-      - "Google Research"
-    hf_repo_name: "google/flan-ul2"
-
-  - name: FALCON_40B_INSTRUCT
-    alternative_names:
-      - "falcon-40b-instruct"
-      - "tii-falcon-40b-instruct"
-      - "tii/falcon-40b-instruct"
-      - "tiiuae/falcon-40b-instruct"
-    provider: "HuggingFace Hub"
-    creators:
-      - "Technology Innovation Institute"
-    hf_repo_name: "tiiuae/falcon-40b-instruct"
-
-  - name: FALCON_7B_INSTRUCT
-    alternative_names:
-      - "falcon-7b-instruct"
-      - "tii-falcon-7b-instruct"
-      - "tii/falcon-7b-instruct"
-      - "tiiuae/falcon-7b-instruct"
-    provider: "HuggingFace Hub"
-    creators:
-      - "Technology Innovation Institute"
-    hf_repo_name: "tiiuae/falcon-7b-instruct"
-
-  - name: 30B-LAZARUS
-    alternative_names:
-      - "30B-Lazarus"
-      - "30b-lazarus"
-      - "lazarus"
-      - "CalderaAI/30B-Lazarus"
-    provider: "HuggingFace Hub"
-    creators:
-      - "CalderaAI"
-    hf_repo_name: "CalderaAI/30B-Lazarus"
-
-  - name: GPT2
-    alternative_names:
-      - "gpt2"
-    provider: "HuggingFace Hub"
-    creators:
-      - "OpenAI"
-    hf_repo_name: "gpt2"
-
-  - name: BLOOM
-    alternative_names:
-      - "bloom"
-      - "bigscience/bloom"
-    provider: "HuggingFace Hub"
-    creators:
-      - "BigScience"
-    hf_repo_name: "bigscience/bloom"
-
-  - name: MPT_7B_INSTRUCT_HF
-    alternative_names:
-      - "mosaicml/mpt-7b-instruct"
-    provider: "HuggingFace Hub"
-    creators:
-      - "Mosaic ML"
-    hf_repo_name: "mosaicml/mpt-7b-instruct"
-
-  - name: DOLLY_V2_3B
-    alternative_names:
-      - "dolly-v2-3b"
-      - "databricks/dolly-v2-3b"
-    provider: "HuggingFace Hub"
-    creators:
-      - "Databricks"
-    hf_repo_name: "databricks/dolly-v2-3b"
-
-  - name: DOLLY_V2_7B
-    alternative_names:
-      - "dolly-v2-7b"
-      - "databricks/dolly-v2-7b"
-    provider: "HuggingFace Hub"
-    creators:
-      - "Databricks"
-    hf_repo_name: "databricks/dolly-v2-7b"
-
-  - name: DOLLY_V2_12B
-    alternative_names:
-      - "dolly-v2-12b"
-      - "databricks/dolly-v2-12b"
-    provider: "HuggingFace Hub"
-    creators:
-      - "Databricks"
-    hf_repo_name: "databricks/dolly-v2-12b"
+      - "Microsoft Corporation"
+      - "Peking University"
+    requirements:
+      diskspace: "7.58 GB"
+      memory: "16 GB"
