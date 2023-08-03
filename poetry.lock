@@ -3073,25 +3073,6 @@ linkml-runtime = ">=1.1.6"
 "ruamel.yaml" = "*"
 
 [[package]]
-name = "linkml-owl"
-version = "0.2.7"
-description = "OWL mappings for Linked Open Data Modeling Language"
-category = "main"
-optional = false
-python-versions = ">=3.8,<4.0"
-files = [
-    {file = "linkml_owl-0.2.7-py3-none-any.whl", hash = "sha256:4aa5a083c60f77a26a013896edb553b5f19b091ab2e127a79fcfe492d383f168"},
-    {file = "linkml_owl-0.2.7.tar.gz", hash = "sha256:c45d4ce5cecade67ad46ca5af4bf56472754a8d94ac86a694b45bfd115d6aabc"},
-]
-
-[package.dependencies]
-click = "*"
-funowl = "0.1.12"
-Jinja2 = ">=3.0.3,<4.0.0"
-linkml = ">=1.3.0,<2.0.0"
-linkml-runtime = ">=1.3.4,<2.0.0"
-
-[[package]]
 name = "linkml-renderer"
 version = "0.2.0"
 description = "linkml-renderer"
@@ -4369,6 +4350,7 @@ category = "main"
 optional = false
 python-versions = "*"
 files = [
+    {file = "parse-1.19.0-py2.py3-none-any.whl", hash = "sha256:6ce007645384a91150cb7cd7c8a9db2559e273c2e2542b508cd1e342508c2601"},
     {file = "parse-1.19.0.tar.gz", hash = "sha256:9ff82852bcb65d139813e2a5197627a94966245c897796760a3a2a8eb66f020b"},
 ]
 
@@ -7529,4 +7511,4 @@ web = ["Jinja2", "fastapi", "uvicorn"]
 [metadata]
 lock-version = "2.0"
 python-versions = ">=3.9,<3.9.7 || >3.9.7,<4.0"
-content-hash = "908940f09efece3a7e995c1101254596cc2f4e29082d79b158ff2d6e65c47a49"
+content-hash = "23803a9651f87d741194ca1a04464a4cedcf0a80f0e5a6c11c922745c9ea92e0"
