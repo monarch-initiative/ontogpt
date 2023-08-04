@@ -3021,6 +3021,25 @@ linkml-runtime = ">=1.1.6"
 "ruamel.yaml" = "*"
 
 [[package]]
+name = "linkml-owl"
+version = "0.2.8"
+description = "OWL mappings for Linked Open Data Modeling Language"
+category = "main"
+optional = false
+python-versions = ">=3.8,<4.0"
+files = [
+    {file = "linkml_owl-0.2.8-py3-none-any.whl", hash = "sha256:da990d2601e111ef135399c4cbe9b7e44a4cc618795b0ff8df42763021490acc"},
+    {file = "linkml_owl-0.2.8.tar.gz", hash = "sha256:2d1c841e8ded07d8f9035ff275cac53abfda48213109827bdf83959a8a92f9e2"},
+]
+
+[package.dependencies]
+click = "*"
+funowl = "0.1.12"
+Jinja2 = ">=3.0.3,<4.0.0"
+linkml = ">=1.3.0,<2.0.0"
+linkml-runtime = ">=1.3.4,<2.0.0"
+
+[[package]]
 name = "linkml-renderer"
 version = "0.2.0"
 description = "linkml-renderer"
@@ -7537,7 +7556,7 @@ testing = ["flake8 (<5)", "func-timeout", "jaraco.functools", "jaraco.itertools"
 
 [extras]
 docs = ["myst-parser", "sphinx", "sphinx-autodoc-typehints", "sphinx-click", "sphinx-rtd-theme"]
-gpt4all = ["gpt4all"]
+gpt4all = []
 huggingface = ["huggingface_hub"]
 recipes = ["recipe-scrapers"]
 textract = ["textract"]
@@ -7546,4 +7565,4 @@ web = ["Jinja2", "fastapi", "uvicorn"]
 [metadata]
 lock-version = "2.0"
 python-versions = ">=3.9,<3.9.7 || >3.9.7,<4.0"
-content-hash = "e5df64348e36b9ff7178bef97885834d367e0820345958b080864cf49db86941"
+content-hash = "feaf96b3ebd04423c1102c62d2f276578732db6bb914708d7edf503eb10746f2"

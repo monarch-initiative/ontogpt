@@ -49,6 +49,7 @@ huggingface_hub  = {version = ">=0.15.1", extras = ["huggingface"], optional = t
 linkml-runtime = "1.6.0rc2"
 llm = "^0.6.1"
 llm-gpt4all = "^0.1.1"
+linkml-owl = "^0.2.8"
 
 [tool.poetry.dev-dependencies]
 pytest = ">=7.1.2"
