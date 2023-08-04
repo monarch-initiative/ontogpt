@@ -1,12 +1,12 @@
 """
-GGML-based knowledge extractor class.
+gpt4all-based knowledge extractor class.
 
 Like the SPIRES implementation seen in spires_engine.py,
 this process constructs prompt-completions in which
 a pseudo-YAML structure is requested and the YAML
 structure corresponds to a template class.
 
-This class is intended for use with GGML-format models
+This class is intended for use with models
 such as those released by GPT4All (https://gpt4all.io/).
 """
 import logging
@@ -37,7 +37,7 @@ RESPONSE_DICT = Dict[FIELD, Union[RESPONSE_ATOM, List[RESPONSE_ATOM]]]
 
 
 @dataclass
-class GGMLEngine(KnowledgeEngine):
+class GPT4AllEngine(KnowledgeEngine):
     """Knowledge extractor for GGML chat models."""
 
     sentences_per_window: Optional[int] = None

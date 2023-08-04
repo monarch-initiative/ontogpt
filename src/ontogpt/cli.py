@@ -30,7 +30,7 @@ from ontogpt.clients.wikipedia_client import WikipediaClient
 from ontogpt.engines import create_engine
 from ontogpt.engines.embedding_similarity_engine import SimilarityEngine
 from ontogpt.engines.enrichment import EnrichmentEngine
-from ontogpt.engines.ggml_engine import GGMLEngine
+from ontogpt.engines.gpt4all_engine import GPT4AllEngine
 from ontogpt.engines.generic_engine import GenericEngine, QuestionCollection
 from ontogpt.engines.halo_engine import HALOEngine
 #from ontogpt.engines.hfhub_engine import HFHubEngine
@@ -285,7 +285,7 @@ def extract(
 
     elif model_source == "GPT4All":
         model_path = get_model(selectmodel["alternative_names"][0])
-        ke = GGMLEngine(template=template, local_model=model_path, **kwargs)
+        ke = GPT4AllEngine(template=template, local_model=model_path, **kwargs)
 
     elif model_source == "HuggingFace Hub":
         raise NotImplementedError("HF Hub support temporarily disabled. Sorry!")
