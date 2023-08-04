@@ -3,17 +3,14 @@ import unittest
 
 import yaml
 
-from ontogpt.engines.ggml_engine import GGMLEngine
+from ontogpt.engines.gpt4all_engine import GPT4AllEngine
 from ontogpt.templates.mendelian_disease import MendelianDisease
 from ontogpt.utils.model_utils import get_model
 
 TEMPLATE = "mendelian_disease.MendelianDisease"
 
-# This is a full-size model - unfortunately smaller models
-# don't provide the results sufficient for a meaningful test.
-# That's why these tests are skipped by default - the model is > 3 Gb
-TEST_MODEL_URL = "https://gpt4all.io/models/ggml-gpt4all-j-v1.3-groovy.bin"
-MODEL_PATH = get_model(TEST_MODEL_URL)
+# This is a small test model
+TEST_MODEL = "ggml-all-MiniLM-L6-v2-f16"
 
 PAPER = """
 Sly syndrome, also called mucopolysaccharidosis type VII (MPS-VII),
@@ -24,14 +21,12 @@ The inability to break down GAGs leads to a buildup in many tissues and organs o
 The severity of the disease can vary widely.
 """
 
-
-@unittest.skip("GGML/GPT4ALL tests not run by default")
 class TestCore(unittest.TestCase):
     """Test annotation."""
 
     def setUp(self) -> None:
         """Set up."""
-        self.ke = GGMLEngine(template=TEMPLATE, local_model=MODEL_PATH)
+        self.ke = GPT4AllEngine(template=TEMPLATE, model=TEST_MODEL)
 
     def test_extract(self):
         """Tests end to end knowledge extraction."""
