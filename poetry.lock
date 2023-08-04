@@ -1806,15 +1806,15 @@ requests = "*"
 
 [[package]]
 name = "gpt4all"
-version = "0.3.5"
+version = "1.0.8"
 description = "Python bindings for GPT4All"
 category = "main"
-optional = true
+optional = false
 python-versions = ">=3.8"
 files = [
-    {file = "gpt4all-0.3.5-py3-none-macosx_10_9_universal2.whl", hash = "sha256:c45940ad95e72471ab0663ccffaedcde4d92f41fa24f90d0ca94fc503ac7fb71"},
-    {file = "gpt4all-0.3.5-py3-none-manylinux1_x86_64.whl", hash = "sha256:671e6a50ba20c75d9b03d41e3a8eff37c1fb33c818dda5961b4b3a1379c0ac40"},
-    {file = "gpt4all-0.3.5-py3-none-win_amd64.whl", hash = "sha256:4dd8f369a6219c16c4536e17e7a0f631213a240c88e7184db822831509745527"},
+    {file = "gpt4all-1.0.8-py3-none-macosx_10_9_universal2.whl", hash = "sha256:405180fb9eb924dcb0ded070200923948b25b9b192fa5d059e805f1349ba9b15"},
+    {file = "gpt4all-1.0.8-py3-none-manylinux1_x86_64.whl", hash = "sha256:96b5f8e139784d9ce11aea2cb6d39d7866943d7cb574917af48eca4cccb31a12"},
+    {file = "gpt4all-1.0.8-py3-none-win_amd64.whl", hash = "sha256:96dbe139f4f17bcf8a0e81d241e52b7d812d3b500ffa9b89a34dcb7f63e52100"},
 ]
 
 [package.dependencies]
@@ -1822,7 +1822,7 @@ requests = "*"
 tqdm = "*"
 
 [package.extras]
-dev = ["mkautodoc", "mkdocs-jupyter", "mkdocs-material", "mkdocstrings[python]", "pytest", "setuptools", "twine", "wheel"]
+dev = ["black", "isort", "mkautodoc", "mkdocs-jupyter", "mkdocs-material", "mkdocstrings[python]", "pytest", "setuptools", "twine", "wheel"]
 
 [[package]]
 name = "graphviz"
@@ -3093,6 +3093,26 @@ sqlite-utils = "*"
 
 [package.extras]
 test = ["black", "cogapp", "mypy", "pytest", "requests-mock", "ruff", "types-PyYAML", "types-click", "types-requests"]
+
+[[package]]
+name = "llm-gpt4all"
+version = "0.1.1"
+description = "Plugin for LLM adding support for GPT4ALL models"
+category = "main"
+optional = false
+python-versions = ">=3.9"
+files = [
+    {file = "llm-gpt4all-0.1.1.tar.gz", hash = "sha256:9cc1f03c03c28430ff160eb80587c7aed0cc814ed2fb0abd21d0308925b6a55f"},
+    {file = "llm_gpt4all-0.1.1-py3-none-any.whl", hash = "sha256:08162207729d9677254e564734548bfba046f4176cff17a05d05fc9c95b25a61"},
+]
+
+[package.dependencies]
+gpt4all = "*"
+httpx = "*"
+llm = ">=0.5"
+
+[package.extras]
+test = ["pytest"]
 
 [[package]]
 name = "lxml"
@@ -7526,4 +7546,4 @@ web = ["Jinja2", "fastapi", "uvicorn"]
 [metadata]
 lock-version = "2.0"
 python-versions = ">=3.9,<3.9.7 || >3.9.7,<4.0"
-content-hash = "481062de7a9ce326f49c9c83a5ef1d9440b794a96858fb744039e3e6b2a7925b"
+content-hash = "e5df64348e36b9ff7178bef97885834d367e0820345958b080864cf49db86941"
