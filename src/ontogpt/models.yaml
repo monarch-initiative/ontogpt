@@ -40,6 +40,9 @@ models:
     provider: OpenAI
     creators:
       - OpenAI
+    requirements:
+      diskspace: "N/A"
+      memory: "N/A"
 
   - name: MODEL_GPT_4
     alternative_names:
