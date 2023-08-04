@@ -284,8 +284,8 @@ def extract(
             ke.client.skip_annotators = settings.skip_annotators
 
     elif model_source == "GPT4All":
-        model_path = get_model(selectmodel["alternative_names"][0])
-        ke = GPT4AllEngine(template=template, local_model=model_path, **kwargs)
+        model_name = selectmodel["alternative_names"][0]
+        ke = GPT4AllEngine(template=template, model=model_name, **kwargs)
 
     elif model_source == "HuggingFace Hub":
         raise NotImplementedError("HF Hub support temporarily disabled. Sorry!")
