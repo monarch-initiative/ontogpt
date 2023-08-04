@@ -45,14 +45,21 @@ ANNOTATION_KEY_RECURSE = "ner.recurse"
 ANNOTATION_KEY_EXAMPLES = "prompt.examples"
 
 # TODO: introspect
+# TODO: move this to its own module
 DATAMODELS = [
-    "treatment.DiseaseTreatmentSummary",
-    "gocam.GoCamAnnotations",
     "bioloigical_process.BiologicalProcess",
+    "biotic_interaction.BioticInteraction",
+    "cell_type.CellTypeDocument",
+    "ctd.ChemicalToDiseaseDocument",
+    "diagnostic_procedure.DiagnosticProceduretoPhenotypeAssociation",
+    "drug.DrugMechanism",
     "environmental_sample.Study",
+    "gocam.GoCamAnnotations",
     "mendelian_disease.MendelianDisease",
+    "phenotype.Trait",
     "reaction.Reaction",
     "recipe.Recipe",
+    "treatment.DiseaseTreatmentSummary",
 ]
 
 

@@ -66,50 +66,10 @@ def _score_text(text: str, keywords: List[str]) -> int:
     return score
 
 
-def parse_pmxml(xml: str, raw: bool, autoformat: bool) -> List[str]:
-    """Extract structured text from PubMed XML.
-
-    :param xml: One or more xml entries, as string
-    :param raw: if True, do not parse the xml beyond separating documents
-    :param autoformat: if True include title and abstract concatenated
-    :return: a list of strings, one per entry
-    """
-    docs = []
-
-    # Preprocess the string to ensure it's valid xml
-    if not raw:
-        logging.info("Preprocessing all xml entries...")
-        header = "\n".join(xml.split("\n", 3)[0:3])
-        pmas_opener = "<PubmedArticleSet>"
-        pmas_closer = "</PubmedArticleSet>"
-        for remove_string in [header, pmas_opener, pmas_closer]:
-            xml = xml.replace(remove_string, "\n")
-        xml = pmas_opener + xml + pmas_closer
-
-    soup = BeautifulSoup(xml, "xml")
-
-    logging.info("Parsing all xml entries...")
-    for pa in soup.find_all(["PubmedArticle", "PubmedBookArticle"]):
-        if autoformat and not raw:
-            ti = ""
-            if pa.find("ArticleTitle"):
-                ti = pa.find("ArticleTitle").text
-            ab = ""
-            if pa.find("Abstract"):  # Document may not have abstract
-                ab = pa.find("Abstract").text
-            kw = ""
-            if pa.find("KeywordList"):  # Document may not have MeSH terms or keywords
-                kw = [tag.text for tag in pa.find_all("Keyword")]
-            # else:
-            #     kw = ""
-            txt = f"Title: {ti}\nAbstract: {ab}\nKeywords: {'; '.join(kw)}"
-        elif raw:
-            txt = str(pa)
-        else:
-            txt = soup.get_text()
-        docs.append(txt)
-
-    return docs
+def clean_pmids(ids: list[PMID]) -> list[PMID]:
+    """Remove prefixes from a list of PMIDs, returning the new list."""
+    clean_ids = [id.replace("PMID:", "", 1) for id in ids]
+    return clean_ids
 
 
 @dataclass
@@ -119,6 +79,8 @@ class PubmedClient:
     This class is a wrapper around the Entrez API.
     """
 
+    # TODO: this doesn't need to be hardcoded
+    # and may vary based on the model in use
     max_text_length = 3000
 
     try:
@@ -210,13 +172,14 @@ class PubmedClient:
         return pmids
 
     def text(
-        self, ids: Union[list[PMID], PMID], raw=False, autoformat=True
+        self, ids: Union[list[PMID], PMID], raw=False, autoformat=True, pubmedcental=False
     ) -> Union[list[str], str]:
         """Get the text of one or more papers from their PMIDs.
 
         :param ids: List of PubMed IDs, or string with single PMID
         :param raw: if True, do not parse the xml, just return the raw output with tags
         :param autoformat: if True include title and abstract concatenated
+        :param pubmedcentral: if True, retreive text from PubMed Central where possible
         :return: the text of a single entry, or a list of strings for text of multiple entries
         """
         batch_size = 200
@@ -228,7 +191,7 @@ class PubmedClient:
             singledoc = True
         else:
             singledoc = False
-        clean_ids = [id.replace("PMID:", "", 1) for id in ids]
+        clean_ids = clean_pmids(ids)
         ids = clean_ids
 
         # this will store the document data
@@ -369,7 +332,9 @@ class PubmedClient:
         # Parse that xml - this returns a list of strings
         # if raw is True, the tags are kept, but we still get a list of docs
         # and we don't truncate them
-        these_docs = parse_pmxml(xml=xml_data, raw=raw, autoformat=autoformat)
+        these_docs = self.parse_pmxml(
+            xml=xml_data, raw=raw, autoformat=autoformat, pubmedcentral=pubmedcental
+        )
 
         txt = []
         for doc in these_docs:
@@ -381,11 +346,57 @@ class PubmedClient:
                 txt.append(shortdoc)
             else:
                 txt.append(doc)
-            if singledoc:
+            if singledoc and not pubmedcental:
                 onetxt = txt[0]
                 txt = onetxt
 
         return txt
+
+    def pmc_text(self, pmc_id: str) -> str:
+        """Get the text of one PubMed Central entry.
+
+        Don't parse further here - just get the raw response.
+        :param pmc_id: List of PubMed IDs, or string with single PMID
+        :return: the text of a single entry as XML
+        """
+        xml_data = ""
+
+        fetch_url = EUTILS_URL + "efetch.fcgi"
+
+        if self.email and self.ncbi_key:
+            params = {
+                "db": "pmc",
+                "id": pmc_id,
+                "rettype": "xml",
+                "retmode": "xml",
+                "email": self.email,
+                "api_key": self.ncbi_key,
+            }
+        else:
+            params = {"db": "pmc", "id": pmc_id, "rettype": "xml", "retmode": "xml"}
+
+        response = requests.get(fetch_url, params=parse.urlencode(params, safe=","))
+
+        trying = True
+        try_count = 0
+        while trying:
+            if response.status_code == 200:
+                xml_data = response.text
+                trying = False
+            else:
+                logging.error(
+                    f"Encountered error in fetching from PubMed Central: {response.status_code}"
+                )
+                try_count = try_count + 1
+                if try_count < RETRY_MAX:
+                    logging.info("Trying again...")
+                    time.sleep(1)
+                else:
+                    logging.info(f"Giving up - last status code {response.status_code}")
+                    trying = False
+        logging.info(f"Retrieved PubMed Central document data for {pmc_id}.")
+
+        return xml_data
 
     def search(self, term: str, keywords: List[str] = None) -> List[PMID]:
         """Get the quality-scored text of PubMed papers relating to a search term and keywords.
@@ -416,3 +427,93 @@ class PubmedClient:
             score = id_and_score[1]
             logging.debug(f"Yielding {pmid} with score {score} ")
             yield f"{pmid}"
+
+    def parse_pmxml(self, xml: str, raw: bool, autoformat: bool, pubmedcentral: bool) -> List[str]:
+        """Extract structured text from PubMed and PubMed Central XML.
+
+        :param xml: One or more xml entries, as string
+        :param raw: if True, do not parse the xml beyond separating documents
+        :param autoformat: if True include title and abstract concatenated
+            Otherwise the output will include ALL text contents besides XML tags
+        :param pubmedcentral: if True replace abstract with PubMed Central text
+            If there isn't a PMC ID, just use the abstract.
+            If there is a PMC ID, use the abstract AND chunk the body text.
+            This means the same ID may have multiple entries and may require multiple
+            queries to the LLM.
+        :return: a list of strings, one per entry
+        """
+        docs = []
+
+        # Preprocess the string to ensure it's valid xml
+        if not raw:
+            logging.info("Preprocessing all xml entries...")
+            header = "\n".join(xml.split("\n", 3)[0:3])
+            pmas_opener = "<PubmedArticleSet>"
+            pmas_closer = "</PubmedArticleSet>"
+            for remove_string in [header, pmas_opener, pmas_closer]:
+                xml = xml.replace(remove_string, "\n")
+            xml = pmas_opener + xml + pmas_closer
+
+        soup = BeautifulSoup(xml, "xml")
+
+        logging.info("Parsing all xml entries...")
+        for pa in soup.find_all(["PubmedArticle", "PubmedBookArticle"]):
+            # First check the PMID, and if requested, any PMC ID
+            pmid = ""
+            if pa.find("PMID"):  # If this is missing something has gone Wrong
+                pmid = pa.find("PMID").text
+            pmc_id = ""
+            has_pmc_id = False
+            if (
+                pa.find("PubmedData").find("ArticleIdList").find("ArticleId", {"IdType": "pmc"})
+                and pubmedcentral
+            ):
+                pmc_id = (
+                    pa.find("PubmedData")
+                    .find("ArticleIdList")
+                    .find("ArticleId", {"IdType": "pmc"})
+                    .text
+                )
+                has_pmc_id = True
+            if autoformat and not raw and not has_pmc_id:  # No PMC ID - just use title+abstract
+                ti = ""
+                if pa.find("ArticleTitle"):
+                    ti = pa.find("ArticleTitle").text
+                ab = ""
+                if pa.find("Abstract"):  # Document may not have abstract
+                    ab = pa.find("Abstract").text
+                kw = ""
+                if pa.find("KeywordList"):  # Document may not have MeSH terms or keywords
+                    kw = [tag.text for tag in pa.find_all("Keyword")]
+                txt = f"Title: {ti}\nKeywords: {'; '.join(kw)}\nPMID: {pmid}\nAbstract: {ab}"
+                docs.append(txt)
+            elif autoformat and not raw and has_pmc_id:  # PMC ID - get and use that text instead
+                fulltext = self.pmc_text(pmc_id)
+                fullsoup = BeautifulSoup(fulltext, "xml")
+                body = ""
+                if fullsoup.find("pmc-articleset").find("article").find("body"):
+                    body = fullsoup.find("pmc-articleset").find("article").find("body").text
+                    body = body.replace("\n", " ")
+                ti = ""
+                if pa.find("ArticleTitle"):
+                    ti = pa.find("ArticleTitle").text
+                if pa.find("Abstract"):  # Document may not have abstract
+                    body = pa.find("Abstract").text + body
+                kw = ""
+                if pa.find("KeywordList"):  # Document may not have MeSH terms or keywords
+                    kw = [tag.text for tag in pa.find_all("Keyword")]
+
+                id_txt = f"Title: {ti}\nKeywords: {'; '.join(kw)}\nPMID: {pmid}\nPMCID: {pmc_id}\n"
+                full_max_len = self.max_text_length - len(id_txt)
+                chunktxt = [body[i : i + full_max_len] for i in range(0, len(body), full_max_len)]
+                for txt in chunktxt:
+                    docs.append(id_txt + txt)
+                    logging.warning(
+                        f'Truncating entry containing "{txt[:50]}" to {self.max_text_length} chars'
+                    )
+            elif raw:
+                docs.append(str(pa))
+            else:
+                docs.append(soup.get_text())
+
+        return docs

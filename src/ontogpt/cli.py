@@ -22,7 +22,7 @@ from sssom.parsers import parse_sssom_table, to_mapping_set_document
 from sssom.util import to_mapping_set_dataframe
 
 import ontogpt.ontex.extractor as extractor
-from ontogpt import MODELS, DEFAULT_MODEL, __version__
+from ontogpt import DEFAULT_MODEL, MODELS, __version__
 from ontogpt.clients import OpenAIClient
 from ontogpt.clients.pubmed_client import PubmedClient
 from ontogpt.clients.soup_client import SoupClient
@@ -128,9 +128,7 @@ interactive_option = click.option(
     help="Interactive mode - rather than call the LLM API it will prompt you do this.",
 )
 model_option = click.option(
-    "-m",
-    "--model",
-    help="Model name to use, e.g. openai-text-davinci-003."
+    "-m", "--model", help="Model name to use, e.g. openai-text-davinci-003."
 )
 prompt_template_option = click.option(
     "--prompt-template", help="Path to a file containing the prompt."
@@ -306,6 +304,7 @@ def extract(
     write_extraction(results, output, output_format, ke)
 
 
+# TODO: combine this command with pubmed_annotate - they are converging
 @main.command()
 @template_option
 @model_option
@@ -320,7 +319,7 @@ def generate_extract(entity, template, output, output_format, **kwargs):
     ke = SPIRESEngine(template, **kwargs)
     logging.debug(f"Input entity: {entity}")
     results = ke.generate_and_extract(entity)
-    write_extraction(results, output, output_format)
+    write_extraction(results, output, output_format, ke)
 
 
 @main.command()
@@ -329,16 +328,69 @@ def generate_extract(entity, template, output, output_format, **kwargs):
 @recurse_option
 @output_option_wb
 @output_format_options
+@auto_prefix_option
+@click.option("--ontology", "-r", help="Ontology to use; use oaklib selector path")
+@click.option("--max-iterations", "-M", default=10, type=click.INT)
+@click.option("--iteration-slot", "-I", multiple=True, help="Slots to iterate over")
+@click.option("--db", "-D", help="Where the resulting yaml database is stored")
+@click.option(
+    "--clear/--no-clear", default=False, show_default=True, help="Clear the db before starting"
+)
+@click.argument("entity")
+def iteratively_generate_extract(
+    entity,
+    template,
+    output,
+    output_format,
+    db,
+    iteration_slot,
+    max_iterations,
+    clear,
+    ontology,
+    **kwargs,
+):
+    """Iterate through generate-extract."""
+    logging.info(f"Creating for {template}")
+    ke = SPIRESEngine(template, **kwargs)
+    logging.debug(f"Input entity: {entity}")
+    adapter = get_adapter(ontology)
+    for results in ke.iteratively_generate_and_extract(
+        entity,
+        db,
+        iteration_slots=list(iteration_slot),
+        max_iterations=max_iterations,
+        adapter=adapter,
+        clear=clear,
+    ):
+        write_extraction(results, output, output_format)
+
+
+@main.command()
+@template_option
+@model_option
+@recurse_option
+@output_option_wb
+@output_format_options
+@click.option(
+    "--get-pmc/--no-get-pmc",
+    default=False,
+    help="Attempt to parse PubMed Central full text(s) instead of abstract(s) alone.",
+)
 @click.argument("pmid")
-def pubmed_extract(pmid, template, output, output_format, **kwargs):
+def pubmed_extract(pmid, template, output, output_format, get_pmc, **kwargs):
     """Extract knowledge from a single PubMed ID."""
     logging.info(f"Creating for {template}")
     pmc = PubmedClient()
-    text = pmc.text(pmid)
-    ke = SPIRESEngine(template, **kwargs)
-    logging.debug(f"Input text: {text}")
-    results = ke.extract_from_text(text)
-    write_extraction(results, output, output_format)
+    if get_pmc:
+        logging.info(f"Will try to retrieve PubMed Central text for {pmid}.")
+        textlist = pmc.text(pmid, pubmedcental=True)
+    else:
+        textlist = pmc.text(pmid)
+    for text in textlist:
+        ke = SPIRESEngine(template, **kwargs)
+        logging.debug(f"Input text: {text}")
+        results = ke.extract_from_text(text)
+        write_extraction(results, output, output_format)
 
 
 @main.command()
@@ -347,14 +399,33 @@ def pubmed_extract(pmid, template, output, output_format, **kwargs):
 @recurse_option
 @output_option_wb
 @output_format_options
+@click.option(
+    "--limit",
+    default=20,
+    help="Total number of citation records to return.",
+)
+@click.option(
+    "--get-pmc/--no-get-pmc",
+    default=False,
+    help="Attempt to parse PubMed Central full text(s) instead of abstract(s) alone.",
+)
 @click.argument("search")
-def pubmed_annotate(search, template, output, output_format, **kwargs):
-    """Retrieve a collection of PubMed IDs for a search term; annotate them using a template."""
+def pubmed_annotate(search, template, output, output_format, limit, get_pmc, **kwargs):
+    """Retrieve a collection of PubMed IDs for a search term; annotate them using a template.
+
+    Example:
+    ontogpt pubmed-annotate -t phenotype "Takotsubo Cardiomyopathy: A Brief Review"
+        --get-pmc --model gpt-3.5-turbo-16k --limit 3
+    """
     logging.info(f"Creating for {template}")
-    pubmed_annotate_limit = 20 # TODO: make this a CLI argument
+    pubmed_annotate_limit = limit
     pmc = PubmedClient()
     pmids = pmc.get_pmids(search)
-    textlist = pmc.text(pmids[:pubmed_annotate_limit + 1])
+    if get_pmc:
+        logging.info("Will try to retrieve PubMed Central texts.")
+        textlist = pmc.text(pmids[: pubmed_annotate_limit + 1], pubmedcental=True)
+    else:
+        textlist = pmc.text(pmids[: pubmed_annotate_limit + 1])
     for text in textlist:
         ke = SPIRESEngine(template, **kwargs)
         logging.debug(f"Input text: {text}")
@@ -1329,8 +1400,6 @@ def list_models():
         memory = model["requirements"]["memory"]
 
         print(f"{primary_name}\t{provider}\t{alternative_names}\t{status}\t{disk}\t{memory}")
-
-
 
 
 if __name__ == "__main__":
