@@ -106,7 +106,7 @@ class GPT4AllEngine(KnowledgeEngine):
         return self._parse_response_to_dict(raw_text, cls)
 
     def generalize(
-        self, object: Union[pydantic.BaseModel, dict], examples: List[EXAMPLE]
+        self, object: Union[pydantic.v1.BaseModel, dict], examples: List[EXAMPLE]
     ) -> ExtractionResult:
         """
         Generalize the given examples.
@@ -121,7 +121,7 @@ class GPT4AllEngine(KnowledgeEngine):
         for example in examples:
             prompt += f"{self.serialize_object(example)}\n\n"
         prompt += "\n\n===\n\n"
-        if isinstance(object, pydantic.BaseModel):
+        if isinstance(object, pydantic.v1.BaseModel):
             object = object.dict()
         for k, v in object.items():
             if v:
@@ -213,7 +213,7 @@ class GPT4AllEngine(KnowledgeEngine):
             cls = self.template_class
         if isinstance(example, str):
             return example
-        if isinstance(example, pydantic.BaseModel):
+        if isinstance(example, pydantic.v1.BaseModel):
             example = example.dict()
         lines = []
         sv = self.schemaview
@@ -292,7 +292,7 @@ class GPT4AllEngine(KnowledgeEngine):
         if object:
             if cls is None:
                 cls = self.template_class
-            if isinstance(object, pydantic.BaseModel):
+            if isinstance(object, pydantic.v1.BaseModel):
                 object = object.dict()
             for k, v in object.items():
                 if v:
@@ -413,7 +413,7 @@ class GPT4AllEngine(KnowledgeEngine):
 
     def parse_completion_payload(
         self, results: str, cls: ClassDefinition = None, object: dict = None
-    ) -> pydantic.BaseModel:
+    ) -> pydantic.v1.BaseModel:
         """
         Parse the completion payload into a pydantic class.
 
@@ -430,7 +430,7 @@ class GPT4AllEngine(KnowledgeEngine):
 
     def ground_annotation_object(
         self, ann: RESPONSE_DICT, cls: ClassDefinition = None
-    ) -> Optional[pydantic.BaseModel]:
+    ) -> Optional[pydantic.v1.BaseModel]:
         """Ground the direct parse of the OpenAI payload.
 
         The raw openAI payload is a YAML-like string, which is parsed to

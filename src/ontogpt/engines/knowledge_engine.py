@@ -31,7 +31,7 @@ this_path = Path(__file__).parent
 logger = logging.getLogger(__name__)
 
 
-OBJECT = Union[str, pydantic.BaseModel, dict]
+OBJECT = Union[str, pydantic.v1.BaseModel, dict]
 EXAMPLE = OBJECT
 FIELD = str
 TEMPLATE_NAME = str
@@ -177,7 +177,7 @@ class KnowledgeEngine(ABC):
     ) -> ExtractionResult:
         raise NotImplementedError
 
-    def extract_from_file(self, file: Union[str, Path, TextIO]) -> pydantic.BaseModel:
+    def extract_from_file(self, file: Union[str, Path, TextIO]) -> pydantic.v1.BaseModel:
         """
         Extract annotations from the given text.
 
@@ -216,7 +216,7 @@ class KnowledgeEngine(ABC):
         raise NotImplementedError
 
     def generalize(
-        self, object: Union[pydantic.BaseModel, dict], examples: List[EXAMPLE]
+        self, object: Union[pydantic.v1.BaseModel, dict], examples: List[EXAMPLE]
     ) -> ExtractionResult:
         raise NotImplementedError
 
