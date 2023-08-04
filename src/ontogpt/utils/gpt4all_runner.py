@@ -16,7 +16,6 @@ def set_up_gpt4all_model(modelname):
 
 def chain_gpt4all_model(model, prompt_text):
     """Interact with a GPT4All model."""
-
     raw_output = model.prompt(prompt_text)
 
     return raw_output.text()

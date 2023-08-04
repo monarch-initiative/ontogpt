@@ -4,7 +4,6 @@ import unittest
 import yaml
 
 from ontogpt.engines.gpt4all_engine import GPT4AllEngine
-from ontogpt.utils.model_utils import get_model
 
 TEMPLATE = "mendelian_disease.MendelianDisease"
 

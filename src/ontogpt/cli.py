@@ -51,7 +51,6 @@ from ontogpt.utils.gene_set_utils import (
     fill_missing_gene_set_values,
     parse_gene_set,
 )
-from ontogpt.utils.model_utils import get_model
 
 __all__ = [
     "main",
