@@ -33,7 +33,7 @@ from ontogpt.engines.enrichment import EnrichmentEngine
 from ontogpt.engines.ggml_engine import GGMLEngine
 from ontogpt.engines.generic_engine import GenericEngine, QuestionCollection
 from ontogpt.engines.halo_engine import HALOEngine
-from ontogpt.engines.hfhub_engine import HFHubEngine
+#from ontogpt.engines.hfhub_engine import HFHubEngine
 from ontogpt.engines.knowledge_engine import KnowledgeEngine
 from ontogpt.engines.mapping_engine import MappingEngine
 from ontogpt.engines.pheno_engine import PhenoEngine
@@ -284,12 +284,13 @@ def extract(
             ke.client.skip_annotators = settings.skip_annotators
 
     elif model_source == "GPT4All":
-        model_path = get_model(selectmodel["url"])
+        model_path = get_model(selectmodel["alternative_names"][0])
         ke = GGMLEngine(template=template, local_model=model_path, **kwargs)
 
     elif model_source == "HuggingFace Hub":
-        hf_repo_name = selectmodel["hf_repo_name"]
-        ke = HFHubEngine(template=template, local_model=hf_repo_name, **kwargs)
+        raise NotImplementedError("HF Hub support temporarily disabled. Sorry!")
+        #hf_repo_name = selectmodel["hf_repo_name"]
+        #ke = HFHubEngine(template=template, local_model=hf_repo_name, **kwargs)
 
     if dictionary:
         ke.load_dictionary(dictionary)
@@ -1313,7 +1314,7 @@ def list_templates():
 @main.command()
 def list_models():
     """List all available models."""
-    print("Model Name\tProvider\tAlternative Names\tStatus")
+    print("Model Name\tProvider\tAlternative Names\tStatus\tDisk Space\tSystem Memory")
     for model in MODELS:
         primary_name = model["name"]
         provider = model["provider"]
@@ -1324,8 +1325,10 @@ def list_models():
             status = "Not Implemented"
         else:
             status = "Implemented"
+        disk = model["requirements"]["diskspace"]
+        memory = model["requirements"]["memory"]
 
-        print(f"{primary_name}\t{provider}\t{alternative_names}\t{status}")
+        print(f"{primary_name}\t{provider}\t{alternative_names}\t{status}\t{disk}\t{memory}")
 
 
 
