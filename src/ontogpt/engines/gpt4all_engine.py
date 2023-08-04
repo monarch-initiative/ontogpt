@@ -50,15 +50,11 @@ class GPT4AllEngine(KnowledgeEngine):
     If this is false AND the complex object is a pair, then token-based splitting is
     instead used."""
 
-    local_model = None
-    """Cached local model path."""
-
     loaded_model = None
-    """Langchain loaded model object."""
+    """Loaded model object."""
 
-    def __post_init__(self, local_model):
-        self.local_model = local_model
-        self.loaded_model = set_up_gpt4all_model(self.local_model)
+    def __post_init__(self):
+        self.loaded_model = set_up_gpt4all_model(self.model)
         if self.template:
             self.template_class = self._get_template_class(self.template)
         if self.template_class:
