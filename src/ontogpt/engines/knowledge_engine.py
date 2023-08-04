@@ -11,7 +11,7 @@ from urllib.parse import quote
 
 import inflection
 import openai
-import pydantic
+import pydantic.v1
 import tiktoken
 import yaml
 from linkml_runtime import SchemaView

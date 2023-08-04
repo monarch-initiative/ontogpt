@@ -14,7 +14,7 @@ from dataclasses import dataclass
 from typing import List, Optional, Set
 
 from oaklib import BasicOntologyInterface
-from pydantic import BaseModel
+from pydantic.v1 import BaseModel
 
 from ontogpt.engines.spires_engine import SPIRESEngine
 

@@ -3,7 +3,7 @@ from dataclasses import dataclass
 from pathlib import Path
 from typing import TextIO, Union
 
-import pydantic
+import pydantic.v1
 from linkml.generators.pythongen import PythonGenerator
 from linkml_owl.dumpers.owl_dumper import OWLDumper
 from linkml_runtime import SchemaView

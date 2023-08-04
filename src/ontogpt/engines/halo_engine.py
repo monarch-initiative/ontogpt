@@ -10,7 +10,7 @@ from pathlib import Path
 from typing import Any, Dict, List, Optional, Set
 
 import openai
-import pydantic
+import pydantic.v1
 import tiktoken
 import yaml
 from linkml.utils.schema_fixer import uncamel

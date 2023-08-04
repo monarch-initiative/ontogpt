@@ -14,7 +14,7 @@ from dataclasses import dataclass
 from pathlib import Path
 from typing import Any, Dict, List, Optional, Tuple, Union
 
-import pydantic
+import pydantic.v1
 from linkml_runtime.linkml_model import ClassDefinition, SlotDefinition
 
 from ontogpt.engines.knowledge_engine import (

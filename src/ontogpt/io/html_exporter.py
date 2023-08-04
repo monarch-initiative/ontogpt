@@ -4,7 +4,7 @@ from dataclasses import dataclass
 from pathlib import Path
 from typing import Any, TextIO, Union
 
-import pydantic
+import pydantic.v1
 import yaml
 
 from ontogpt.io.exporter import Exporter, is_curie

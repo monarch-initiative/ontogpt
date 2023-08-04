@@ -3,7 +3,7 @@ import io
 import logging
 from typing import Any, Optional, TextIO
 
-import pydantic
+import pydantic.v1
 from ruamel.yaml import YAML, RoundTripRepresenter
 
 # import yaml

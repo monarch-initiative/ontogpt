@@ -13,7 +13,7 @@ from typing import Any, Dict, List, Optional, TextIO, Union
 
 import yaml
 from oaklib import get_implementation_from_shorthand
-from pydantic import BaseModel
+from pydantic.v1 import BaseModel
 
 import ontogpt.evaluation.drugmechdb.datamodel.drugmechdb as source_datamodel
 import ontogpt.templates.drug as target_datamodel

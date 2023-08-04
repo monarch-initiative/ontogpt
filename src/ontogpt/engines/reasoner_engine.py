@@ -6,7 +6,7 @@ from pathlib import Path
 from typing import List, Optional, Union
 
 from jinja2 import Template
-from pydantic import BaseModel
+from pydantic.v1 import BaseModel
 
 from ontogpt import MODELS
 from ontogpt.engines.knowledge_engine import KnowledgeEngine

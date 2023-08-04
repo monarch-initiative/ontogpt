@@ -48,7 +48,7 @@ from oaklib.interfaces.semsim_interface import SemanticSimilarityInterface
 from oaklib.interfaces.taxon_constraint_interface import TAXON_PREDICATES, TaxonConstraintInterface
 from oaklib.types import CURIE, PRED_CURIE
 from oaklib.utilities.obograph_utils import shortest_paths
-from pydantic import BaseModel, Field
+from pydantic.v1 import BaseModel, Field
 from semsql.sqla.semsql import RdfListMemberStatement, RdfTypeStatement, Statements
 
 logger = logging.getLogger(__name__)
