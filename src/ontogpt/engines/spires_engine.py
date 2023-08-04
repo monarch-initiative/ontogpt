@@ -539,7 +539,7 @@ class SPIRESEngine(KnowledgeEngine):
                 if slot.name not in ann:
                     auto_id = str(uuid.uuid4())
                     auto_prefix = self.auto_prefix
-                    if slot.range == "uriorcurie" or self.range == "uri":
+                    if slot.range == "uriorcurie" or slot.range == "uri":
                         ann[slot.name] = f"{auto_prefix}:{auto_id}"
                     else:
                         ann[slot.name] = auto_id
