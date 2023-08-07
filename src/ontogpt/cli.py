@@ -114,6 +114,24 @@ def write_extraction(
             output = _as_text_writer(output)
             output.write(dump_minimal_yaml(results))
 
+def get_model_by_name(modelname: str):
+    """Retrieve a model name and metadata from those available.
+    
+    Returns a dict describing the selected model."""
+    found = False
+    for knownmodel in MODELS:
+        if modelname in knownmodel["alternative_names"] or modelname == knownmodel["name"]:
+            selectmodel = knownmodel
+            found = True
+            break
+    if not found:
+        logging.warning(
+            f"""Model name not recognized or not supported yet. Using default, {DEFAULT_MODEL}.
+            See all models with `ontogpt list-models`"""
+        )
+    
+    return selectmodel
+
 
 inputfile_option = click.option("-i", "--inputfile", help="Path to a file containing input text.")
 template_option = click.option("-t", "--template", required=True, help="Template to use.")
@@ -245,19 +263,10 @@ def extract(
     logging.info(f"Creating for {template}")
 
     # Choose model based on input, or use the default
-    model_source = "OpenAI"
-    found = False
-    for knownmodel in MODELS:
-        if model in knownmodel["alternative_names"] or model == knownmodel["name"]:
-            selectmodel = knownmodel
-            model_source = selectmodel["provider"]
-            found = True
-            break
-    if model and not found:
-        logging.warning(
-            f"""Model name not recognized or not supported yet. Using default, {DEFAULT_MODEL}.
-            See all models with `ontogpt list-models`"""
-        )
+    if not model:
+        model = DEFAULT_MODEL
+    selectmodel = get_model_by_name(model)
+    model_source = selectmodel["provider"]
 
     if not inputfile or inputfile == "-":
         text = sys.stdin.read()
