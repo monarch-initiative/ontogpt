@@ -40,6 +40,18 @@ classes:
         description: semicolon-separated list of gene to molecular activity relationships
         multivalued: true
         range: GeneExposureRelationship
+      diseases:
+        description: semicolon-separated list of diseases
+        multivalued: true
+        range: Disease
+      cellular_process:
+        description: semicolon-separated list of cellular processes
+        multivalued: true
+        range: CellularProcess
+      disease_cellular_process_relationships:
+        description: semicolon-separated list of disease to cellular process relationships
+        multivalued: true
+        range: DiseaseCellularProcessRelationship
 
   Gene:
     is_a: NamedEntity
@@ -48,6 +60,50 @@ classes:
     annotations:
       annotators: sqlite:obo:hgnc, sqlite:obo:pr
       prompt: the name of the gene in the pair. This comes second in the pair.
+
+  Disease:
+    is_a: NamedEntity
+    id_prefixes:
+      - MONDO
+    annotations:
+      annotators: sqlite:obo:mondo
+      prompt: the name of the disease
+  
+  CellularProcess:
+    is_a: NamedEntity
+    id_prefixes:
+      - GO
+    annotations:
+      annotators: sqlite:obo:go
+      prompt: the name of the cellular process
+
+  DiseaseToCellularProcessPredicate:
+    is_a: RelationshipType
+    id_prefixes:
+      - RO
+    annotations:
+      annotators: sqlite:obo:ro
+      prompt: the name of the type of relationship between a disease and a cellular process.
+
+  DiseaseCellularProcessRelationship:
+    is_a: Triple
+    slot_usage:
+      subject:
+        range: Disease
+        description: >-
+          The name of the disease.
+      predicate:
+        range: DiseaseToCellularProcessPredicate
+        description: >-
+          The name of the type of relationship between a disease and a cellular process.
+      object:
+        range: CellularProcess
+        description: >-
+          The name of the cellular process.
+      subject_qualifier:
+        range: NamedEntity
+      object_qualifier:
+        range: NamedEntity
 
   ChemicalExposure:
     is_a: NamedEntity
@@ -67,7 +123,6 @@ classes:
     annotations:
       annotators: sqlite:obo:ro
       prompt: the name of the type of relationship between a chemical exposure and a gene.
-
 
   GeneExposureRelationship:
     is_a: Triple

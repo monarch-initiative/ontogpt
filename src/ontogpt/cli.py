@@ -43,6 +43,7 @@ from ontogpt.engines.synonym_engine import SynonymEngine
 from ontogpt.evaluation.enrichment.eval_enrichment import EvalEnrichment
 from ontogpt.evaluation.resolver import create_evaluator
 from ontogpt.io.csv_wrapper import write_obj_as_csv
+from ontogpt.io.csv_wrapper import output_parser
 from ontogpt.io.html_exporter import HTMLExporter
 from ontogpt.io.markdown_exporter import MarkdownExporter
 from ontogpt.utils.gene_set_utils import (
@@ -112,8 +113,11 @@ def write_extraction(
             exporter = OWLExporter()
             exporter.export(results, output, knowledge_engine.schemaview)
         elif output_format == "kgx":
+            # output = _as_text_writer(output)
+            # output.write(write_obj_as_csv(results))
             output = _as_text_writer(output)
-            output.write(write_obj_as_csv(results))
+            output.write(dump_minimal_yaml(results))
+            output.write(output_parser(results))
         else:
             output = _as_text_writer(output)
             output.write(dump_minimal_yaml(results))

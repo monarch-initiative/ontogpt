@@ -1,5 +1,4 @@
 import yaml
-# from src.ontogpt.io.csv_wrapper import write_obj_as_csv
 import time
 import pprint
 from oaklib import get_adapter
@@ -9,9 +8,10 @@ NULL_VALS = ['', 'Not mentioned', 'none mentioned', 'Not mentioned in the text',
              'None', 'N/A', 'No exposures mentioned in the text.', 'None mentioned in the text', 
              'Not mentioned in the text.', 'None relevant', 'None mentioned in the text.', 
              'No gene to molecular activity relationships mentioned in the text.',
-             'No genes mentioned', 'No genes mentioned in the text.', ]
+             'No genes mentioned', 'No genes mentioned in the text.']
 lines = []
-chebi_adapter = get_adapter("sqlite:obo:chebi")
+chebi_adapter = get_adapter("sqlite:obo:CHEBI")
+output_file = "output_2000_0719.yaml"
 
 def tripleprint(dict):
     key = next(iter(dict))
@@ -35,8 +35,6 @@ def enumprint(lst):
         # print((index + 1), ": ", elem)
         print(str(index + 1) + ":\t" + str(elem))
 
-
-output_file = "output_2000_0719.yaml"
 with open(output_file, "r") as file:
     to_print = False
     # terminators = tuple(["input_text", "  qualifier", "  subject_qualifier", "  object_qualifier"])
@@ -53,8 +51,8 @@ with open(output_file, "r") as file:
         if to_print:
             lines.append(line)
 
-lines = list(filter(lambda elem: not(elem.isspace()), lines))
-cleaned_lines = [x for x in lines if x.strip()]
+# lines = list(filter(lambda elem: not(elem.isspace()), lines))
+cleaned_lines = [x for x in list(filter(lambda elem: not(elem.isspace()), lines)) if x.strip()]
 # forprint(cleaned_lines)
 cleaned_lines = [x for x in cleaned_lines if x != "extracted_object: {}"]
 # nprint(cleaned_lines, 100)
@@ -116,13 +114,16 @@ for key, value in trimmed_dict.copy().items():
 # print(trimmed_dict)
 
 subjects_with_chebi = []
+# objects_with_ecto = []
 key = next(iter(trimmed_dict))
 for i in range(len(trimmed_dict[key])):
     curr = []
     for value in trimmed_dict.values():
         curr.append(value[i])
     subjects_with_chebi.append(curr)
+    # objects_with_ecto.append(curr)
 subjects_with_chebi = [x for x in subjects_with_chebi if x[0].startswith("CHEBI:")]
+# objects_with_ecto = [x for x in objects_with_ecto if x[2].startswith("ECTO:")]
 
 # subjects_with_names = [elem[:] for elem in subjects_with_chebi]
 subjects_with_names = []
@@ -131,5 +132,19 @@ for elem in subjects_with_chebi:
     curr[0] = chebi_adapter.label(curr[0])
     subjects_with_names.append(curr)
 
-enumprint(subjects_with_chebi)
-enumprint(subjects_with_names)
+# enumprint(subjects_with_chebi)
+# enumprint(objects_with_ecto)
+# enumprint(subjects_with_names)
+
+"""for key, value in trimmed_dict.copy().items():
+    for index, elem in enumerate(value):
+        if ":" in elem:
+            try:
+                prefix = elem[:(elem.index(":"))]
+                adapter_str = "sqlite:obo:" + str(prefix)
+                curr_adapter = get_adapter(adapter_str)
+                trimmed_dict[key][index] = curr_adapter.label(elem)
+            except:
+                continue
+
+tripleprint(trimmed_dict)"""
