@@ -1404,7 +1404,6 @@ def clinical_notes(
         c = set_up_gpt4all_model(modelname=model_name)
         results = chain_gpt4all_model(model=c, prompt_text=prompt)
 
-    print(results)
     output.write(results)
 
 
