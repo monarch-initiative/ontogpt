@@ -619,6 +619,7 @@ def recipe_extract(url, recipes_urls_file, dictionary, output, output_format, **
 
 
 @main.command()
+@model_option
 @output_option_wb
 @output_format_options
 @click.argument("input")
@@ -636,6 +637,7 @@ def convert(input, output, output_format, **kwargs):
 
 
 @main.command()
+@model_option
 @output_option_txt
 @output_format_options
 @click.option(
@@ -651,6 +653,7 @@ def synonyms(term, context, output, output_format, **kwargs):
 
 
 @main.command()
+@model_option
 @output_option_txt
 @output_format_options
 @click.option(
@@ -669,6 +672,7 @@ def create_gene_set(term, output, output_format, annotation_path, **kwargs):
 
 
 @main.command()
+@model_option
 @output_option_txt
 @output_format_options
 @click.option("--fill/--no-fill", default=False)
@@ -1326,6 +1330,7 @@ def convert_examples(input, output):
 
 
 @main.command()
+@model_option
 @click.option("-o", "--output", type=click.File(mode="w"), default=sys.stdout, help="Output file.")
 @click.option("-i", "--input", help="Input ontology.")
 @click.option("-c", "--context", help="Context.")
@@ -1349,6 +1354,7 @@ def halo(input, context, terms, output, **kwargs):
 
 
 @main.command()
+@model_option
 @output_option_wb
 @output_format_options
 @click.option(
