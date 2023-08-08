@@ -392,6 +392,23 @@ def iteratively_generate_extract(
 def pubmed_extract(pmid, template, output, output_format, get_pmc, **kwargs):
     """Extract knowledge from a single PubMed ID."""
     logging.info(f"Creating for {template}")
+
+    if not model:
+        model = DEFAULT_MODEL
+    selectmodel = get_model_by_name(model)
+    model_source = selectmodel["provider"]
+
+    if model_source == "OpenAI":
+        ke = SPIRESEngine(template, **kwargs)
+        if settings.cache_db:
+            ke.client.cache_db_path = settings.cache_db
+        if settings.skip_annotators:
+            ke.skip_annotators = settings.skip_annotators
+
+    elif model_source == "GPT4All":
+        model_name = selectmodel["alternative_names"][0]
+        ke = GPT4AllEngine(template=template, model=model_name, **kwargs)
+
     pmc = PubmedClient()
     if get_pmc:
         logging.info(f"Will try to retrieve PubMed Central text for {pmid}.")
@@ -399,7 +416,6 @@ def pubmed_extract(pmid, template, output, output_format, get_pmc, **kwargs):
     else:
         textlist = pmc.text(pmid)
     for text in textlist:
-        ke = SPIRESEngine(template, **kwargs)
         logging.debug(f"Input text: {text}")
         results = ke.extract_from_text(text)
         write_extraction(results, output, output_format)
@@ -430,6 +446,23 @@ def pubmed_annotate(search, template, output, output_format, limit, get_pmc, **k
         --get-pmc --model gpt-3.5-turbo-16k --limit 3
     """
     logging.info(f"Creating for {template}")
+
+    if not model:
+        model = DEFAULT_MODEL
+    selectmodel = get_model_by_name(model)
+    model_source = selectmodel["provider"]
+
+    if model_source == "OpenAI":
+        ke = SPIRESEngine(template, **kwargs)
+        if settings.cache_db:
+            ke.client.cache_db_path = settings.cache_db
+        if settings.skip_annotators:
+            ke.skip_annotators = settings.skip_annotators
+
+    elif model_source == "GPT4All":
+        model_name = selectmodel["alternative_names"][0]
+        ke = GPT4AllEngine(template=template, model=model_name, **kwargs)
+
     pubmed_annotate_limit = limit
     pmc = PubmedClient()
     pmids = pmc.get_pmids(search)
@@ -439,7 +472,6 @@ def pubmed_annotate(search, template, output, output_format, limit, get_pmc, **k
     else:
         textlist = pmc.text(pmids[: pubmed_annotate_limit + 1])
     for text in textlist:
-        ke = SPIRESEngine(template, **kwargs)
         logging.debug(f"Input text: {text}")
         results = ke.extract_from_text(text)
         write_extraction(results, output, output_format, ke)
