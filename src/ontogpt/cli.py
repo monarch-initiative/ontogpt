@@ -592,6 +592,22 @@ def recipe_extract(url, recipes_urls_file, dictionary, output, output_format, **
     """Extract from recipe on the web."""
     from recipe_scrapers import scrape_me
 
+    if not model:
+        model = DEFAULT_MODEL
+        selectmodel = get_model_by_name(model)
+        model_source = selectmodel["provider"]
+
+    if model_source == "OpenAI":
+        ke = SPIRESEngine(template, **kwargs)
+        if settings.cache_db:
+            ke.client.cache_db_path = settings.cache_db
+        if settings.skip_annotators:
+            ke.skip_annotators = settings.skip_annotators
+
+    elif model_source == "GPT4All":
+        model_name = selectmodel["alternative_names"][0]
+        ke = GPT4AllEngine(template=template, model=model_name, **kwargs)
+
     if recipes_urls_file:
         with open(recipes_urls_file, "r") as f:
             urls = [line.strip() for line in f.readlines() if url in line]
@@ -601,11 +617,7 @@ def recipe_extract(url, recipes_urls_file, dictionary, output, output_format, **
     scraper = scrape_me(url)
     template = "recipe"
     logging.info(f"Creating for {template}")
-    ke = SPIRESEngine(template, **kwargs)
-    if settings.cache_db:
-        ke.client.cache_db_path = settings.cache_db
-    if settings.skip_annotators:
-        ke.skip_annotators = settings.skip_annotators
+    
     if dictionary:
         ke.load_dictionary(dictionary)
     ingredients = "\n".join(scraper.ingredients())
@@ -628,10 +640,25 @@ def recipe_extract(url, recipes_urls_file, dictionary, output, output_format, **
 @output_format_options
 @click.argument("input")
 def convert(input, output, output_format, **kwargs):
-    """Convert output format."""
+    """Convert output format.
+    
+    Primarily intended for use with recipe template.
+    """
+    if not model:
+        model = DEFAULT_MODEL
+    selectmodel = get_model_by_name(model)
+    model_source = selectmodel["provider"]
+
+    if model_source == "OpenAI":
+        ke = SPIRESEngine(template, **kwargs)
+
+    elif model_source == "GPT4All":
+        model_name = selectmodel["alternative_names"][0]
+        ke = GPT4AllEngine(template=template, model=model_name, **kwargs)
+
     template = "recipe"
     logging.info(f"Creating for {template}")
-    ke = SPIRESEngine(template, **kwargs)
+    
     cls = ke.template_pyclass
     with open(input, "r") as f:
         data = yaml.safe_load(f)
@@ -648,9 +675,17 @@ def convert(input, output, output_format, **kwargs):
     "-C", "--context", required=True, help="domain e.g. anatomy, industry, health-related"
 )
 @click.argument("term")
-def synonyms(term, context, output, output_format, **kwargs):
+def synonyms(model, term, context, output, output_format, **kwargs):
     """Extract synonyms."""
     logging.info(f"Creating for {term}")
+
+    if model:
+        selectmodel = get_model_by_name(model)
+        model_source = selectmodel["provider"]
+
+        if model_source != "OpenAI":
+            raise NotImplementedError("Model not yet supported for this function.")
+
     ke = SynonymEngine()
     out = str(ke.synonyms(term, context))
     output.write(out)
