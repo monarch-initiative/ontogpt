@@ -455,10 +455,26 @@ def pubmed_annotate(search, template, output, output_format, limit, get_pmc, **k
 @click.argument("article")
 def wikipedia_extract(article, template, output, output_format, **kwargs):
     """Extract knowledge from a Wikipedia page."""
+    if not model:
+        model = DEFAULT_MODEL
+    selectmodel = get_model_by_name(model)
+    model_source = selectmodel["provider"]
+
+    if model_source == "OpenAI":
+        ke = SPIRESEngine(template, **kwargs)
+        if settings.cache_db:
+            ke.client.cache_db_path = settings.cache_db
+        if settings.skip_annotators:
+            ke.skip_annotators = settings.skip_annotators
+
+    elif model_source == "GPT4All":
+        model_name = selectmodel["alternative_names"][0]
+        ke = GPT4AllEngine(template=template, model=model_name, **kwargs)
+
     logging.info(f"Creating for {template} => {article}")
     client = WikipediaClient()
     text = client.text(article)
-    ke = SPIRESEngine(template, **kwargs)
+
     logging.debug(f"Input text: {text}")
     results = ke.extract_from_text(text)
     write_extraction(results, output, output_format, ke)
