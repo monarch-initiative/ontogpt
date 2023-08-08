@@ -657,7 +657,6 @@ def synonyms(term, context, output, output_format, **kwargs):
 
 
 @main.command()
-@model_option
 @output_option_txt
 @output_format_options
 @click.option(
@@ -676,7 +675,6 @@ def create_gene_set(term, output, output_format, annotation_path, **kwargs):
 
 
 @main.command()
-@model_option
 @output_option_txt
 @output_format_options
 @click.option("--fill/--no-fill", default=False)
@@ -786,6 +784,13 @@ def enrichment(
         ontogpt enrichment -r sqlite:obo:hgnc -U tests/input/genesets/dopamine.yaml
 
     """
+    if model:
+        selectmodel = get_model_by_name(model)
+        model_source = selectmodel["provider"]
+
+        if model_source != "OpenAI":
+            raise NotImplementedError("Model not yet supported for gene enrichment or enrichment evaluation.")
+
     if not genes and not input_file:
         raise ValueError("Either genes or input file must be passed")
     if genes:
@@ -845,10 +850,18 @@ def enrichment(
 @click.argument("text", nargs=-1)
 def embed(text, context, output, model, output_format, **kwargs):
     """Embed text."""
+    if model:
+        selectmodel = get_model_by_name(model)
+        model_source = selectmodel["provider"]
+
+        if model_source != "OpenAI":
+            raise NotImplementedError("Model not yet supported for embeddings.")
+    else:
+        model = "text-embedding-ada-002"
+
     if not text:
         raise ValueError("Text must be passed")
-    if model is None:
-        model = "text-embedding-ada-002"
+ 
     client = OpenAIClient(model=model)
     resp = client.embeddings(text)
     print(resp)
@@ -866,6 +879,15 @@ def embed(text, context, output, model, output_format, **kwargs):
 @click.argument("text", nargs=-1)
 def text_similarity(text, context, output, model, output_format, **kwargs):
     """Embed text."""
+    if model:
+        selectmodel = get_model_by_name(model)
+        model_source = selectmodel["provider"]
+
+        if model_source != "OpenAI":
+            raise NotImplementedError("Model not yet supported for embeddings.")
+    else:
+        model = "text-embedding-ada-002"
+
     if not text:
         raise ValueError("Text must be passed")
     text = list(text)
@@ -876,8 +898,7 @@ def text_similarity(text, context, output, model, output_format, **kwargs):
     text2 = " ".join(text[ix + 1 :])
     print(text1)
     print(text2)
-    if model is None:
-        model = "text-embedding-ada-002"
+
     client = OpenAIClient(model=model)
     sim = client.similarity(text1, text2, model=model)
     print(sim)
@@ -895,6 +916,15 @@ def text_similarity(text, context, output, model, output_format, **kwargs):
 @click.argument("text", nargs=-1)
 def text_distance(text, context, output, model, output_format, **kwargs):
     """Embed text, calculate euclidian distance between embeddings."""
+    if model:
+        selectmodel = get_model_by_name(model)
+        model_source = selectmodel["provider"]
+
+        if model_source != "OpenAI":
+            raise NotImplementedError("Model not yet supported for embeddings.")
+    else:
+        model = "text-embedding-ada-002"
+
     if not text:
         raise ValueError("Text must be passed")
     text = list(text)
@@ -905,8 +935,7 @@ def text_distance(text, context, output, model, output_format, **kwargs):
     text2 = " ".join(text[ix + 1 :])
     print(text1)
     print(text2)
-    if model is None:
-        model = "text-embedding-ada-002"
+        
     client = OpenAIClient(model=model)
     sim = client.euclidian_distance(text1, text2, model=model)
     print(sim)
@@ -959,6 +988,13 @@ def entity_similarity(terms, ontology, output, model, output_format, **kwargs):
 
     Uses the OpenAI ada embedding model by default, currently: $0.0004 / 1K tokens
     """
+    if model:
+        selectmodel = get_model_by_name(model)
+        model_source = selectmodel["provider"]
+
+        if model_source != "OpenAI":
+            raise NotImplementedError("Model not yet supported for embeddings.")
+        
     if not terms:
         raise ValueError("terms must be passed")
     terms = list(terms)
@@ -1191,6 +1227,13 @@ def categorize_mappings(
 @click.argument("genes", nargs=-1)
 def eval_enrichment(genes, input_file, number_to_drop, annotations_path, model, output, **kwargs):
     """Run enrichment using multiple methods."""
+    if model:
+        selectmodel = get_model_by_name(model)
+        model_source = selectmodel["provider"]
+
+        if model_source != "OpenAI":
+            raise NotImplementedError("Model not yet supported for gene enrichment or enrichment evaluation.")
+
     if not genes and not input_file:
         raise ValueError("Either genes or input file must be passed")
     if genes:
