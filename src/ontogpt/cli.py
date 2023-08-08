@@ -1213,7 +1213,6 @@ def eval_enrichment(genes, input_file, number_to_drop, annotations_path, model, 
 
 
 @main.command()
-@model_option
 @recurse_option
 @output_option_txt
 @output_format_options
@@ -1245,13 +1244,27 @@ def eval(evaluator, num_tests, output, output_format, **kwargs):
 def fill(model, template, object: str, examples, output, output_format, **kwargs):
     """Fill in missing values."""
     logging.info(f"Creating for {template}")
-    ke = SPIRESEngine(template, **kwargs)
+
+    # Choose model based on input, or use the default
+    if not model:
+        model = DEFAULT_MODEL
+    selectmodel = get_model_by_name(model)
+    model_source = selectmodel["provider"]
+
+    if model_source == "OpenAI":
+        ke = SPIRESEngine(template, **kwargs)
+
+    elif model_source == "GPT4All":
+        model_name = selectmodel["alternative_names"][0]
+        ke = GPT4AllEngine(template=template, model=model_name, **kwargs)
+
     object = yaml.safe_load(object)
     logging.info(f"Object to fill =  {object}")
     logging.info(f"Loading {examples}")
     examples = yaml.safe_load(examples)
     logging.debug(f"Input object: {object}")
     results = ke.generalize(object, examples)
+
     output.write(yaml.dump(results.dict()))
 
 
