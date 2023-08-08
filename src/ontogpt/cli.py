@@ -535,9 +535,21 @@ def pmc_extract(pmcid, template, output, output_format, **kwargs):
 @click.argument("term_tokens", nargs=-1)
 def search_and_extract(term_tokens, keyword, template, output, output_format, **kwargs):
     """Search for relevant literature and extract knowledge from it."""
+    if not model:
+        model = DEFAULT_MODEL
+    selectmodel = get_model_by_name(model)
+    model_source = selectmodel["provider"]
+
+    if model_source == "OpenAI":
+        ke = SPIRESEngine(template, **kwargs)
+
+    elif model_source == "GPT4All":
+        model_name = selectmodel["alternative_names"][0]
+        ke = GPT4AllEngine(template=template, model=model_name, **kwargs)
+
     term = " ".join(term_tokens)
     logging.info(f"Creating for {template}; search={term} kw={keyword}")
-    ke = SPIRESEngine(template, **kwargs)
+
     logging.info(f"Creating PubMed client for {template}; search={term}")
     pmc = PubmedClient()
     logging.info("Got client")
@@ -567,10 +579,27 @@ def search_and_extract(term_tokens, keyword, template, output, output_format, **
 def web_extract(template, url, output, output_format, **kwargs):
     """Extract knowledge from web page."""
     logging.info(f"Creating for {template}")
+
+    if not model:
+        model = DEFAULT_MODEL
+    selectmodel = get_model_by_name(model)
+    model_source = selectmodel["provider"]
+
+    if model_source == "OpenAI":
+        ke = SPIRESEngine(template, **kwargs)
+        if settings.cache_db:
+            ke.client.cache_db_path = settings.cache_db
+        if settings.skip_annotators:
+            ke.skip_annotators = settings.skip_annotators
+
+    elif model_source == "GPT4All":
+        model_name = selectmodel["alternative_names"][0]
+        ke = GPT4AllEngine(template=template, model=model_name, **kwargs)
+
     web_client = SoupClient()
     text = web_client.text(url)
     print(f"## Text: \n\n{text}")
-    ke = SPIRESEngine(template, **kwargs)
+
     logging.debug(f"Input text: {text}")
     results = ke.extract_from_text(text)
     write_extraction(results, output, output_format)
@@ -594,8 +623,8 @@ def recipe_extract(url, recipes_urls_file, dictionary, output, output_format, **
 
     if not model:
         model = DEFAULT_MODEL
-        selectmodel = get_model_by_name(model)
-        model_source = selectmodel["provider"]
+    selectmodel = get_model_by_name(model)
+    model_source = selectmodel["provider"]
 
     if model_source == "OpenAI":
         ke = SPIRESEngine(template, **kwargs)
