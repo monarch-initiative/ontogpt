@@ -326,9 +326,25 @@ def extract(
 @auto_prefix_option
 @click.argument("entity")
 def generate_extract(entity, template, output, output_format, **kwargs):
-    """Generate text using GPT and then extract knowledge from it."""
+    """Generate text and then extract knowledge from it."""
     logging.info(f"Creating for {template}")
-    ke = SPIRESEngine(template, **kwargs)
+
+    if not model:
+        model = DEFAULT_MODEL
+    selectmodel = get_model_by_name(model)
+    model_source = selectmodel["provider"]
+
+    if model_source == "OpenAI":
+        ke = SPIRESEngine(template, **kwargs)
+        if settings.cache_db:
+            ke.client.cache_db_path = settings.cache_db
+        if settings.skip_annotators:
+            ke.skip_annotators = settings.skip_annotators
+
+    elif model_source == "GPT4All":
+        model_name = selectmodel["alternative_names"][0]
+        ke = GPT4AllEngine(template=template, model=model_name, **kwargs)
+
     logging.debug(f"Input entity: {entity}")
     results = ke.generate_and_extract(entity)
     write_extraction(results, output, output_format, ke)
