@@ -479,11 +479,23 @@ def wikipedia_extract(article, template, output, output_format, **kwargs):
 @click.argument("topic")
 def wikipedia_search(topic, keyword, template, output, output_format, **kwargs):
     """Extract knowledge from a Wikipedia page."""
+    if not model:
+        model = DEFAULT_MODEL
+    selectmodel = get_model_by_name(model)
+    model_source = selectmodel["provider"]
+
+    if model_source == "OpenAI":
+        ke = SPIRESEngine(template, **kwargs)
+
+    elif model_source == "GPT4All":
+        model_name = selectmodel["alternative_names"][0]
+        ke = GPT4AllEngine(template=template, model=model_name, **kwargs)
+
     logging.info(f"Creating for {template} => {topic}")
     client = WikipediaClient()
     keywords = list(keyword) if keyword else []
     logging.info(f"KW={keywords}")
-    ke = SPIRESEngine(template, **kwargs)
+
     keywords.extend(ke.schemaview.schema.keywords)
     search_term = f"{topic + ' ' + ' '.join(keywords)}"
     print(f"Searching for {search_term}")
@@ -493,7 +505,8 @@ def wikipedia_search(topic, keyword, template, output, output_format, **kwargs):
         text = client.text(title)
         logging.debug(f"Input text: {text}")
         if len(text) > 4000:
-            # TODO
+            # TODO - expand this to fit context limits better
+            # or add as cli option
             text = text[:4000]
         results = ke.extract_from_text(text)
         write_extraction(results, output, output_format)
