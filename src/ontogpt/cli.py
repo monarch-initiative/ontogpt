@@ -1242,7 +1242,7 @@ def eval(evaluator, num_tests, output, output_format, **kwargs):
 @output_option_wb
 @output_format_options
 @click.argument("object")
-def fill(template, object: str, examples, output, output_format, **kwargs):
+def fill(model, template, object: str, examples, output, output_format, **kwargs):
     """Fill in missing values."""
     logging.info(f"Creating for {template}")
     ke = SPIRESEngine(template, **kwargs)
@@ -1311,7 +1311,6 @@ def parse(template, input):
 @click.option("-D", "database", help="Path to sqlite database.")
 def dump_completions(model, match, database, output, output_format):
     """Dump cached completions."""
-
     if model:
         raise NotImplementedError("Caching not currently enabled for this model.")
     else:
