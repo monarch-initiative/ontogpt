@@ -504,26 +504,6 @@ def wikipedia_search(topic, keyword, template, output, output_format, **kwargs):
 @template_option
 @model_option
 @recurse_option
-@output_option_txt
-@output_format_options
-@click.argument("pmcid")
-def pmc_extract(pmcid, template, output, output_format, **kwargs):
-    """Extract knowledge from PubMed Central texts (TODO)."""
-    logging.info(f"Creating for {template}")
-    pmc = PubmedClient()
-    ec = pmc.entrez_client
-    paset = ec.efetch(db="pmc", id=pmcid)
-    from lxml import etree  # noqa
-
-    for pa in paset:
-        pa._xml_root
-        print(etree.tostring(pa._xml_root, pretty_print=True))
-
-
-@main.command()
-@template_option
-@model_option
-@recurse_option
 @output_option_wb
 @output_format_options
 @click.option(
