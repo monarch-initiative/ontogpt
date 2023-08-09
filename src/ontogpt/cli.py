@@ -649,7 +649,7 @@ def search_and_extract(term_tokens, keyword, template, output, output_format, **
 @output_option_wb
 @output_format_options
 @click.argument("url")
-def web_extract(template, url, output, output_format, **kwargs):
+def web_extract(model, template, url, output, output_format, **kwargs):
     """Extract knowledge from web page."""
     logging.info(f"Creating for {template}")
 
@@ -671,7 +671,6 @@ def web_extract(template, url, output, output_format, **kwargs):
 
     web_client = SoupClient()
     text = web_client.text(url)
-    print(f"## Text: \n\n{text}")
 
     logging.debug(f"Input text: {text}")
     results = ke.extract_from_text(text)
