@@ -1231,7 +1231,7 @@ def diagnose(
     output,
     **kwargs,
 ):
-    """Diagnose."""
+    """Diagnose a clinical case represented as one or more Phenopackets."""
     phenopackets = [json.load(open(f)) for f in phenopacket_files]
     engine = PhenoEngine(model=model)
     results = engine.evaluate(phenopackets)
@@ -1253,6 +1253,7 @@ def answer(
     tsv_output,
     **kwargs,
 ):
+    """Answer a set of questions defined in YAML."""
     qc = QuestionCollection(**yaml.safe_load(open(inputfile)))
     engine = GenericEngine(model=model)
     qs = []
