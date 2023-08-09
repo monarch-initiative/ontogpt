@@ -276,8 +276,8 @@
 <article class="md-content__inner md-typeset">
 <h1 id="traits-template">Traits Template</h1>
 <p>A template for Traits</p>
-<p>URI: http://w3id.org/ontogpt/traits
-Name: traits</p>
+<p>URI: http://w3id.org/ontogpt/traits</p>
+<p>Name: traits</p>
 <h2 id="schema-diagram">Schema Diagram</h2>
 <div class="mermaid">erDiagram
 Taxon {
@@ -310,15 +310,19 @@ Taxon ||--}o Trait : "preferred_environments"
 <tbody>
 <tr>
 <td><a href="AnnotatorResult/">AnnotatorResult</a></td>
-<td></td>
+<td>None</td>
 </tr>
 <tr>
 <td><a href="Any/">Any</a></td>
-<td></td>
+<td>None</td>
 </tr>
 <tr>
 <td><a href="CompoundExpression/">CompoundExpression</a></td>
-<td></td>
+<td>None</td>
+</tr>
+<tr>
+<td>        <a href="Triple/">Triple</a></td>
+<td>Abstract parent for Relation Extraction tasks</td>
 </tr>
 <tr>
 <td><a href="ExtractionResult/">ExtractionResult</a></td>
@@ -326,31 +330,27 @@ Taxon ||--}o Trait : "preferred_environments"
 </tr>
 <tr>
 <td><a href="NamedEntity/">NamedEntity</a></td>
-<td></td>
+<td>None</td>
+</tr>
+<tr>
+<td>        <a href="RelationshipType/">RelationshipType</a></td>
+<td>None</td>
+</tr>
+<tr>
+<td>        <a href="Trait/">Trait</a></td>
+<td>None</td>
 </tr>
 <tr>
 <td><a href="Publication/">Publication</a></td>
-<td></td>
-</tr>
-<tr>
-<td><a href="RelationshipType/">RelationshipType</a></td>
-<td></td>
+<td>None</td>
 </tr>
 <tr>
 <td><a href="Taxon/">Taxon</a></td>
-<td></td>
+<td>None</td>
 </tr>
 <tr>
 <td><a href="TextWithTriples/">TextWithTriples</a></td>
-<td></td>
-</tr>
-<tr>
-<td><a href="Trait/">Trait</a></td>
-<td></td>
-</tr>
-<tr>
-<td><a href="Triple/">Triple</a></td>
-<td>Abstract parent for Relation Extraction tasks</td>
+<td>None</td>
 </tr>
 </tbody>
 </table>
@@ -456,7 +456,7 @@ Taxon ||--}o Trait : "preferred_environments"
 <td></td>
 </tr>
 <tr>
-<td><a href="publication.md">publication</a></td>
+<td><a href="publication/">publication</a></td>
 <td></td>
 </tr>
 <tr>

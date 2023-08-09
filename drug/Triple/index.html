@@ -343,19 +343,19 @@ Triple ||--|o NamedEntity : "object_qualifier"
 <tbody>
 <tr>
 <td><a href="../subject/">subject</a></td>
-<td>0..1 <br/> <a href="../String/">String</a></td>
+<td>0..1 <br/> <a href="../NamedEntity/">NamedEntity</a></td>
 <td></td>
 <td>direct</td>
 </tr>
 <tr>
-<td><a href="predicate.md">predicate</a></td>
-<td>0..1 <br/> <a href="../String/">String</a></td>
+<td><a href="../predicate/">predicate</a></td>
+<td>0..1 <br/> <a href="../RelationshipType/">RelationshipType</a></td>
 <td></td>
 <td>direct</td>
 </tr>
 <tr>
 <td><a href="../object/">object</a></td>
-<td>0..1 <br/> <a href="../String/">String</a></td>
+<td>0..1 <br/> <a href="../NamedEntity/">NamedEntity</a></td>
 <td></td>
 <td>direct</td>
 </tr>
@@ -429,7 +429,6 @@ Triple ||--|o NamedEntity : "object_qualifier"
 <pre><code class="language-yaml">name: Triple
 description: Abstract parent for Relation Extraction tasks
 from_schema: http://w3id.org/ontogpt/drug
-rank: 1000
 is_a: CompoundExpression
 abstract: true
 attributes:
@@ -473,7 +472,6 @@ attributes:
 <pre><code class="language-yaml">name: Triple
 description: Abstract parent for Relation Extraction tasks
 from_schema: http://w3id.org/ontogpt/drug
-rank: 1000
 is_a: CompoundExpression
 abstract: true
 attributes:

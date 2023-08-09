@@ -573,7 +573,7 @@
 
 <h1 id="slot-extracted_object">Slot: extracted_object</h1>
 <p><em>The complex objects extracted from the text</em></p>
-<p>URI: <a href="http://w3id.org/ontogpt/core/extracted_object">core:extracted_object</a></p>
+<p>URI: <a href="http://w3id.org/ontogpt/biotic-interaction-templateextracted_object">bp:extracted_object</a></p>
 <!-- no inheritance hierarchy -->
 
 <h2 id="applicable-classes">Applicable Classes</h2>
@@ -582,12 +582,14 @@
 <tr>
 <th>Name</th>
 <th>Description</th>
+<th>Modifies Slot</th>
 </tr>
 </thead>
 <tbody>
 <tr>
 <td><a href="../ExtractionResult/">ExtractionResult</a></td>
 <td>A result of extracting knowledge on text</td>
+<td>no</td>
 </tr>
 </tbody>
 </table>
@@ -598,16 +600,17 @@
 <h2 id="identifier-and-mapping-information">Identifier and Mapping Information</h2>
 <h3 id="schema-source">Schema Source</h3>
 <ul>
-<li>from schema: http://w3id.org/ontogpt/core</li>
+<li>from schema: https://w3id.org/ontogpt/biotic_interaction</li>
 </ul>
 <h2 id="linkml-source">LinkML Source</h2>
 <details>
 
 <pre><code class="language-yaml">name: extracted_object
 description: The complex objects extracted from the text
-from_schema: http://w3id.org/ontogpt/core
+from_schema: https://w3id.org/ontogpt/biotic_interaction
 rank: 1000
 alias: extracted_object
+owner: ExtractionResult
 domain_of:
 - ExtractionResult
 range: Any

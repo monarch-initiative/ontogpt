@@ -314,7 +314,7 @@ NamedEntity {
 <h2 id="inheritance">Inheritance</h2>
 <ul>
 <li><strong>NamedEntity</strong><ul>
-<li><a href="Reaction.md">Reaction</a></li>
+<li><a href="../Reaction/">Reaction</a></li>
 <li><a href="../ReactionGrouping/">ReactionGrouping</a></li>
 <li><a href="../ChemicalEntity/">ChemicalEntity</a></li>
 <li><a href="../Evidence/">Evidence</a></li>
@@ -337,14 +337,14 @@ NamedEntity {
 <tbody>
 <tr>
 <td><a href="../id/">id</a></td>
-<td>0..1 <br/> <a href="../String/">String</a></td>
-<td></td>
+<td>1..1 <br/> <a href="../String/">String</a></td>
+<td>A unique identifier for the named entity</td>
 <td>direct</td>
 </tr>
 <tr>
 <td><a href="../label/">label</a></td>
 <td>0..1 <br/> <a href="../String/">String</a></td>
-<td></td>
+<td>The label (name) of the named thing</td>
 <td>direct</td>
 </tr>
 </tbody>
@@ -416,7 +416,6 @@ NamedEntity {
 <details>
 <pre><code class="language-yaml">name: NamedEntity
 from_schema: https://w3id.org/ontogpt/reaction
-rank: 1000
 abstract: true
 attributes:
   id:
@@ -451,7 +450,6 @@ attributes:
 <details>
 <pre><code class="language-yaml">name: NamedEntity
 from_schema: https://w3id.org/ontogpt/reaction
-rank: 1000
 abstract: true
 attributes:
   id:

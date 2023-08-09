@@ -301,7 +301,7 @@
 <ul>
 <li><strong>NOTE</strong>: this is an abstract class and should not be instantiated directly</li>
 </ul>
-<p>URI: <a href="http://w3id.org/ontogpt/core/NamedEntity">core:NamedEntity</a></p>
+<p>URI: <a href="http://w3id.org/ontogpt/biotic-interaction-templateNamedEntity">bp:NamedEntity</a></p>
 <div class="mermaid">erDiagram
 NamedEntity {
     string id  
@@ -333,13 +333,13 @@ NamedEntity {
 <tbody>
 <tr>
 <td><a href="../id/">id</a></td>
-<td>1..1 <br/> <a href="xsd:string">xsd:string</a></td>
+<td>1..1 <br/> <a href="../String/">String</a></td>
 <td>A unique identifier for the named entity</td>
 <td>direct</td>
 </tr>
 <tr>
 <td><a href="../label/">label</a></td>
-<td>0..1 <br/> <a href="xsd:string">xsd:string</a></td>
+<td>0..1 <br/> <a href="../String/">String</a></td>
 <td>The label (name) of the named thing</td>
 <td>direct</td>
 </tr>
@@ -385,7 +385,7 @@ NamedEntity {
 <h2 id="identifier-and-mapping-information">Identifier and Mapping Information</h2>
 <h3 id="schema-source">Schema Source</h3>
 <ul>
-<li>from schema: http://w3id.org/ontogpt/core</li>
+<li>from schema: https://w3id.org/ontogpt/biotic_interaction</li>
 </ul>
 <h2 id="mappings">Mappings</h2>
 <table>
@@ -398,11 +398,11 @@ NamedEntity {
 <tbody>
 <tr>
 <td>self</td>
-<td>core:NamedEntity</td>
+<td>bp:NamedEntity</td>
 </tr>
 <tr>
 <td>native</td>
-<td>core:NamedEntity</td>
+<td>bp:NamedEntity</td>
 </tr>
 </tbody>
 </table>
@@ -411,8 +411,7 @@ NamedEntity {
 <h3 id="direct">Direct</h3>
 <details>
 <pre><code class="language-yaml">name: NamedEntity
-from_schema: http://w3id.org/ontogpt/core
-rank: 1000
+from_schema: https://w3id.org/ontogpt/biotic_interaction
 abstract: true
 attributes:
   id:
@@ -424,9 +423,10 @@ attributes:
     description: A unique identifier for the named entity
     comments:
     - this is populated during the grounding and normalization step
-    from_schema: http://w3id.org/ontogpt/core
+    from_schema: https://w3id.org/ontogpt/biotic_interaction
     rank: 1000
     identifier: true
+    required: true
   label:
     name: label
     annotations:
@@ -434,7 +434,7 @@ attributes:
         tag: owl
         value: AnnotationProperty, AnnotationAssertion
     description: The label (name) of the named thing
-    from_schema: http://w3id.org/ontogpt/core
+    from_schema: https://w3id.org/ontogpt/biotic_interaction
     aliases:
     - name
     rank: 1000
@@ -446,8 +446,7 @@ attributes:
 <h3 id="induced">Induced</h3>
 <details>
 <pre><code class="language-yaml">name: NamedEntity
-from_schema: http://w3id.org/ontogpt/core
-rank: 1000
+from_schema: https://w3id.org/ontogpt/biotic_interaction
 abstract: true
 attributes:
   id:
@@ -459,7 +458,7 @@ attributes:
     description: A unique identifier for the named entity
     comments:
     - this is populated during the grounding and normalization step
-    from_schema: http://w3id.org/ontogpt/core
+    from_schema: https://w3id.org/ontogpt/biotic_interaction
     rank: 1000
     identifier: true
     alias: id
@@ -468,6 +467,7 @@ attributes:
     - NamedEntity
     - Publication
     range: string
+    required: true
   label:
     name: label
     annotations:
@@ -475,7 +475,7 @@ attributes:
         tag: owl
         value: AnnotationProperty, AnnotationAssertion
     description: The label (name) of the named thing
-    from_schema: http://w3id.org/ontogpt/core
+    from_schema: https://w3id.org/ontogpt/biotic_interaction
     aliases:
     - name
     rank: 1000

@@ -333,19 +333,19 @@ OntologyChange ||--}o OntologyClass : "about"
 <tr>
 <td><a href="../description/">description</a></td>
 <td>0..1 <br/> <a href="../String/">String</a></td>
-<td></td>
+<td>A succinct description of the proposed change</td>
 <td>direct</td>
 </tr>
 <tr>
 <td><a href="../category/">category</a></td>
-<td>0..1 <br/> <a href="../String/">String</a></td>
-<td></td>
+<td>0..1 <br/> <a href="../ChangeType/">ChangeType</a></td>
+<td>What kind of change?</td>
 <td>direct</td>
 </tr>
 <tr>
 <td><a href="../about/">about</a></td>
-<td>0..1 <br/> <a href="../String/">String</a></td>
-<td></td>
+<td>0..* <br/> <a href="../OntologyClass/">OntologyClass</a></td>
+<td>What terms in the ontology will this change affect?</td>
 <td>direct</td>
 </tr>
 </tbody>
@@ -399,7 +399,6 @@ OntologyChange ||--}o OntologyClass : "about"
 <details>
 <pre><code class="language-yaml">name: OntologyChange
 from_schema: https://w3id.org/ontogpt/ontology_issue
-rank: 1000
 is_a: CompoundExpression
 attributes:
   description:
@@ -429,7 +428,6 @@ attributes:
 <details>
 <pre><code class="language-yaml">name: OntologyChange
 from_schema: https://w3id.org/ontogpt/ontology_issue
-rank: 1000
 is_a: CompoundExpression
 attributes:
   description:

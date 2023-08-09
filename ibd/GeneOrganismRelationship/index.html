@@ -335,13 +335,13 @@ GeneOrganismRelationship ||--|o Organism : "organism"
 </thead>
 <tbody>
 <tr>
-<td><a href="gene.md">gene</a></td>
-<td>0..1 <br/> <a href="../String/">String</a></td>
+<td><a href="../gene/">gene</a></td>
+<td>0..1 <br/> <a href="../Gene/">Gene</a></td>
 <td></td>
 <td>direct</td>
 </tr>
 <tr>
-<td><a href="organism.md">organism</a></td>
+<td><a href="../organism/">organism</a></td>
 <td>0..1 <br/> <a href="../Organism/">Organism</a></td>
 <td></td>
 <td>direct</td>
@@ -397,7 +397,6 @@ GeneOrganismRelationship ||--|o Organism : "organism"
 <details>
 <pre><code class="language-yaml">name: GeneOrganismRelationship
 from_schema: http://w3id.org/ontogpt/gocam
-rank: 1000
 is_a: CompoundExpression
 attributes:
   gene:
@@ -417,7 +416,6 @@ attributes:
 <details>
 <pre><code class="language-yaml">name: GeneOrganismRelationship
 from_schema: http://w3id.org/ontogpt/gocam
-rank: 1000
 is_a: CompoundExpression
 attributes:
   gene:

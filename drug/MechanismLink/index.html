@@ -337,19 +337,19 @@ MechanismLink ||--|o MechanismElement : "object"
 <tbody>
 <tr>
 <td><a href="../subject/">subject</a></td>
-<td>0..1 <br/> <a href="../String/">String</a></td>
+<td>0..1 <br/> <a href="../MechanismElement/">MechanismElement</a></td>
 <td></td>
 <td>direct</td>
 </tr>
 <tr>
-<td><a href="predicate.md">predicate</a></td>
-<td>0..1 <br/> <a href="../String/">String</a></td>
+<td><a href="../predicate/">predicate</a></td>
+<td>0..1 <br/> <a href="../Predicate/">Predicate</a></td>
 <td></td>
 <td>direct</td>
 </tr>
 <tr>
 <td><a href="../object/">object</a></td>
-<td>0..1 <br/> <a href="../String/">String</a></td>
+<td>0..1 <br/> <a href="../MechanismElement/">MechanismElement</a></td>
 <td></td>
 <td>direct</td>
 </tr>
@@ -404,7 +404,6 @@ MechanismLink ||--|o MechanismElement : "object"
 <details>
 <pre><code class="language-yaml">name: MechanismLink
 from_schema: http://w3id.org/ontogpt/drug
-rank: 1000
 is_a: CompoundExpression
 attributes:
   subject:
@@ -429,7 +428,6 @@ attributes:
 <details>
 <pre><code class="language-yaml">name: MechanismLink
 from_schema: http://w3id.org/ontogpt/drug
-rank: 1000
 is_a: CompoundExpression
 attributes:
   subject:

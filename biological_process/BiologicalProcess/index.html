@@ -352,19 +352,19 @@ GeneMolecularActivityRelationship ||--|o MolecularActivity : "molecular_activity
 <tbody>
 <tr>
 <td><a href="../label/">label</a></td>
-<td>0..1 <br/> <a href="xsd:string">xsd:string</a></td>
+<td>0..1 <br/> <a href="../String/">String</a></td>
 <td>the name of the biological process</td>
 <td>direct</td>
 </tr>
 <tr>
 <td><a href="../description/">description</a></td>
-<td>0..1 <br/> <a href="xsd:string">xsd:string</a></td>
+<td>0..1 <br/> <a href="../String/">String</a></td>
 <td>a textual description of the biological process</td>
 <td>direct</td>
 </tr>
 <tr>
 <td><a href="../synonyms/">synonyms</a></td>
-<td>0..* <br/> <a href="xsd:string">xsd:string</a></td>
+<td>0..* <br/> <a href="../String/">String</a></td>
 <td>alternative names of the biological process</td>
 <td>direct</td>
 </tr>
@@ -406,7 +406,7 @@ GeneMolecularActivityRelationship ||--|o MolecularActivity : "molecular_activity
 </tr>
 <tr>
 <td><a href="../id/">id</a></td>
-<td>1..1 <br/> <a href="xsd:string">xsd:string</a></td>
+<td>1..1 <br/> <a href="../String/">String</a></td>
 <td>A unique identifier for the named entity</td>
 <td><a href="../NamedEntity/">NamedEntity</a></td>
 </tr>
@@ -461,7 +461,6 @@ GeneMolecularActivityRelationship ||--|o MolecularActivity : "molecular_activity
 <details>
 <pre><code class="language-yaml">name: BiologicalProcess
 from_schema: https://w3id.org/ontogpt/biological_process
-rank: 1000
 is_a: NamedEntity
 attributes:
   label:
@@ -528,7 +527,6 @@ tree_root: true
 <details>
 <pre><code class="language-yaml">name: BiologicalProcess
 from_schema: https://w3id.org/ontogpt/biological_process
-rank: 1000
 is_a: NamedEntity
 attributes:
   label:
@@ -636,7 +634,7 @@ attributes:
     description: A unique identifier for the named entity
     comments:
     - this is populated during the grounding and normalization step
-    from_schema: http://w3id.org/ontogpt/core
+    from_schema: https://w3id.org/ontogpt/biological_process
     rank: 1000
     identifier: true
     alias: id
@@ -645,6 +643,7 @@ attributes:
     - NamedEntity
     - Publication
     range: string
+    required: true
 tree_root: true
 
 </code></pre>

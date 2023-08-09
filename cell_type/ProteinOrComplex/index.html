@@ -362,7 +362,7 @@ ProteinOrComplex {
 </thead>
 <tbody>
 <tr>
-<td><a href="../ImmuneCellDocument/">ImmuneCellDocument</a></td>
+<td><a href="../ImmuneCell/">ImmuneCell</a></td>
 <td><a href="../has_surface_markers/">has_surface_markers</a></td>
 <td>range</td>
 <td><a href="./">ProteinOrComplex</a></td>
@@ -443,7 +443,6 @@ annotations:
     tag: annotators
     value: sqlite:obo:hgnc, bioportal:hgnc-nr, sqlite:obo:go, sqlite:obo:pr
 from_schema: http://w3id.org/ontogpt/cell_type
-rank: 1000
 is_a: NamedEntity
 
 </code></pre>
@@ -462,7 +461,6 @@ annotations:
     tag: annotators
     value: sqlite:obo:hgnc, bioportal:hgnc-nr, sqlite:obo:go, sqlite:obo:pr
 from_schema: http://w3id.org/ontogpt/cell_type
-rank: 1000
 is_a: NamedEntity
 attributes:
   id:
@@ -475,11 +473,11 @@ attributes:
     comments:
     - this is populated during the grounding and normalization step
     from_schema: http://w3id.org/ontogpt/cell_type
-    rank: 1000
     identifier: true
     alias: id
     owner: ProteinOrComplex
     domain_of:
+    - CellType
     - NamedEntity
     - Publication
     range: string
@@ -494,11 +492,11 @@ attributes:
     from_schema: http://w3id.org/ontogpt/cell_type
     aliases:
     - name
-    rank: 1000
     slot_uri: rdfs:label
     alias: label
     owner: ProteinOrComplex
     domain_of:
+    - CellType
     - NamedEntity
     range: string
 

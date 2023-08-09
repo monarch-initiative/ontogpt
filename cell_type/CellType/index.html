@@ -248,26 +248,11 @@
   </a>
 </li>
 <li class="md-nav__item">
-<a class="md-nav__link" href="#usages">
-    Usages
-  </a>
-</li>
-<li class="md-nav__item">
 <a class="md-nav__link" href="#identifier-and-mapping-information">
     Identifier and Mapping Information
   </a>
 <nav aria-label="Identifier and Mapping Information" class="md-nav">
 <ul class="md-nav__list">
-<li class="md-nav__item">
-<a class="md-nav__link" href="#valid-id-prefixes">
-    Valid ID Prefixes
-  </a>
-</li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="#annotations">
-    Annotations
-  </a>
-</li>
 <li class="md-nav__item">
 <a class="md-nav__link" href="#schema-source">
     Schema Source
@@ -308,20 +293,49 @@
 <div class="md-content" data-md-component="content">
 <article class="md-content__inner md-typeset">
 <h1 id="class-celltype">Class: CellType</h1>
+<p><em>Represents a cell type</em></p>
 <p>URI: <a href="http://w3id.org/ontogpt/cell_type/CellType">cell_type:CellType</a></p>
 <div class="mermaid">erDiagram
 CellType {
+    uriorcurie id  
+    string label  
+    string definition  
+}
+BiologicalProcess {
+    string id  
+    string label  
+}
+Disease {
+    string id  
+    string label  
+}
+Gene {
+    string id  
+    string label  
+}
+AnatomicalStructure {
+    string id  
+    string label  
+}
+CellOntologyTerm {
     string id  
     string label  
 }
 
-
+CellType ||--|o CellOntologyTerm : "equivalent_to"
+CellType ||--}o CellOntologyTerm : "parents"
+CellType ||--}o CellOntologyTerm : "subtypes"
+CellType ||--}o AnatomicalStructure : "localizations"
+CellType ||--}o Gene : "genes"
+CellType ||--}o Disease : "diseases"
+CellType ||--}o BiologicalProcess : "roles"
 
 </div>
 <h2 id="inheritance">Inheritance</h2>
 <ul>
-<li><a href="../NamedEntity/">NamedEntity</a><ul>
-<li><strong>CellType</strong></li>
+<li><strong>CellType</strong><ul>
+<li><a href="../ImmuneCell/">ImmuneCell</a></li>
+<li><a href="../Neuron/">Neuron</a></li>
 </ul>
 </li>
 </ul>
@@ -338,132 +352,67 @@ CellType {
 <tbody>
 <tr>
 <td><a href="../id/">id</a></td>
-<td>1..1 <br/> <a href="../String/">String</a></td>
-<td>A unique identifier for the named entity</td>
-<td><a href="../NamedEntity/">NamedEntity</a></td>
+<td>1..1 <br/> <a href="../Uriorcurie/">Uriorcurie</a></td>
+<td></td>
+<td>direct</td>
 </tr>
 <tr>
 <td><a href="../label/">label</a></td>
 <td>0..1 <br/> <a href="../String/">String</a></td>
-<td>The label (name) of the named thing</td>
-<td><a href="../NamedEntity/">NamedEntity</a></td>
-</tr>
-</tbody>
-</table>
-<h2 id="usages">Usages</h2>
-<table>
-<thead>
-<tr>
-<th>used by</th>
-<th>used in</th>
-<th>type</th>
-<th>used</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><a href="../CellTypeDocument/">CellTypeDocument</a></td>
-<td><a href="../cell_type/">cell_type</a></td>
-<td>range</td>
-<td><a href="./">CellType</a></td>
+<td>the concise name of the cell type</td>
+<td>direct</td>
 </tr>
 <tr>
-<td><a href="../CellTypeDocument/">CellTypeDocument</a></td>
+<td><a href="../equivalent_to/">equivalent_to</a></td>
+<td>0..1 <br/> <a href="../CellOntologyTerm/">CellOntologyTerm</a></td>
+<td>the the cell type described</td>
+<td>direct</td>
+</tr>
+<tr>
+<td><a href="../definition/">definition</a></td>
+<td>0..1 <br/> <a href="../String/">String</a></td>
+<td></td>
+<td>direct</td>
+</tr>
+<tr>
 <td><a href="../parents/">parents</a></td>
-<td>range</td>
-<td><a href="./">CellType</a></td>
+<td>0..* <br/> <a href="../CellOntologyTerm/">CellOntologyTerm</a></td>
+<td>categorization</td>
+<td>direct</td>
 </tr>
 <tr>
-<td><a href="../CellTypeDocument/">CellTypeDocument</a></td>
 <td><a href="../subtypes/">subtypes</a></td>
-<td>range</td>
-<td><a href="./">CellType</a></td>
+<td>0..* <br/> <a href="../CellOntologyTerm/">CellOntologyTerm</a></td>
+<td></td>
+<td>direct</td>
 </tr>
 <tr>
-<td><a href="../ImmuneCellDocument/">ImmuneCellDocument</a></td>
-<td><a href="../cell_type/">cell_type</a></td>
-<td>range</td>
-<td><a href="./">CellType</a></td>
+<td><a href="../localizations/">localizations</a></td>
+<td>0..* <br/> <a href="../AnatomicalStructure/">AnatomicalStructure</a></td>
+<td></td>
+<td>direct</td>
 </tr>
 <tr>
-<td><a href="../ImmuneCellDocument/">ImmuneCellDocument</a></td>
-<td><a href="../parents/">parents</a></td>
-<td>range</td>
-<td><a href="./">CellType</a></td>
+<td><a href="../genes/">genes</a></td>
+<td>0..* <br/> <a href="../Gene/">Gene</a></td>
+<td></td>
+<td>direct</td>
 </tr>
 <tr>
-<td><a href="../ImmuneCellDocument/">ImmuneCellDocument</a></td>
-<td><a href="../subtypes/">subtypes</a></td>
-<td>range</td>
-<td><a href="./">CellType</a></td>
+<td><a href="../diseases/">diseases</a></td>
+<td>0..* <br/> <a href="../Disease/">Disease</a></td>
+<td></td>
+<td>direct</td>
 </tr>
 <tr>
-<td><a href="../NeuronDocument/">NeuronDocument</a></td>
-<td><a href="../cell_type/">cell_type</a></td>
-<td>range</td>
-<td><a href="./">CellType</a></td>
-</tr>
-<tr>
-<td><a href="../NeuronDocument/">NeuronDocument</a></td>
-<td><a href="../parents/">parents</a></td>
-<td>range</td>
-<td><a href="./">CellType</a></td>
-</tr>
-<tr>
-<td><a href="../NeuronDocument/">NeuronDocument</a></td>
-<td><a href="../subtypes/">subtypes</a></td>
-<td>range</td>
-<td><a href="./">CellType</a></td>
-</tr>
-<tr>
-<td><a href="../InterneuronDocument/">InterneuronDocument</a></td>
-<td><a href="../cell_type/">cell_type</a></td>
-<td>range</td>
-<td><a href="./">CellType</a></td>
-</tr>
-<tr>
-<td><a href="../InterneuronDocument/">InterneuronDocument</a></td>
-<td><a href="../parents/">parents</a></td>
-<td>range</td>
-<td><a href="./">CellType</a></td>
-</tr>
-<tr>
-<td><a href="../InterneuronDocument/">InterneuronDocument</a></td>
-<td><a href="../subtypes/">subtypes</a></td>
-<td>range</td>
-<td><a href="./">CellType</a></td>
+<td><a href="../roles/">roles</a></td>
+<td>0..* <br/> <a href="../BiologicalProcess/">BiologicalProcess</a></td>
+<td></td>
+<td>direct</td>
 </tr>
 </tbody>
 </table>
 <h2 id="identifier-and-mapping-information">Identifier and Mapping Information</h2>
-<h3 id="valid-id-prefixes">Valid ID Prefixes</h3>
-<p>Instances of this class <em>should</em> have identifiers with one of the following prefixes:</p>
-<ul>
-<li>
-<p>CL</p>
-</li>
-<li>
-<p>FBbt</p>
-</li>
-<li>
-<p>WBbt</p>
-</li>
-</ul>
-<h3 id="annotations">Annotations</h3>
-<table>
-<thead>
-<tr>
-<th>property</th>
-<th>value</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>annotators</td>
-<td>sqlite:obo:cl, sqlite:obo:fbbt, sqlite:obo:wbbt</td>
-</tr>
-</tbody>
-</table>
 <h3 id="schema-source">Schema Source</h3>
 <ul>
 <li>from schema: http://w3id.org/ontogpt/cell_type</li>
@@ -492,71 +441,364 @@ CellType {
 <h3 id="direct">Direct</h3>
 <details>
 <pre><code class="language-yaml">name: CellType
-id_prefixes:
-- CL
-- FBbt
-- WBbt
-annotations:
-  annotators:
-    tag: annotators
-    value: sqlite:obo:cl, sqlite:obo:fbbt, sqlite:obo:wbbt
+description: Represents a cell type
 from_schema: http://w3id.org/ontogpt/cell_type
-rank: 1000
-is_a: NamedEntity
-
-</code></pre>
-</details>
-<h3 id="induced">Induced</h3>
-<details>
-<pre><code class="language-yaml">name: CellType
-id_prefixes:
-- CL
-- FBbt
-- WBbt
-annotations:
-  annotators:
-    tag: annotators
-    value: sqlite:obo:cl, sqlite:obo:fbbt, sqlite:obo:wbbt
-from_schema: http://w3id.org/ontogpt/cell_type
-rank: 1000
-is_a: NamedEntity
 attributes:
   id:
     name: id
     annotations:
       prompt.skip:
         tag: prompt.skip
-        value: 'true'
-    description: A unique identifier for the named entity
-    comments:
-    - this is populated during the grounding and normalization step
+        value: 'True'
     from_schema: http://w3id.org/ontogpt/cell_type
     rank: 1000
+    slot_uri: rdf:Resource
     identifier: true
-    alias: id
-    owner: CellType
-    domain_of:
-    - NamedEntity
-    - Publication
-    range: string
+    range: uriorcurie
     required: true
   label:
     name: label
     annotations:
       owl:
         tag: owl
-        value: AnnotationProperty, AnnotationAssertion
-    description: The label (name) of the named thing
+        value: AnnotationAssertion
+    description: the concise name of the cell type
     from_schema: http://w3id.org/ontogpt/cell_type
-    aliases:
-    - name
+    rank: 1000
+    slot_uri: rdfs:label
+    range: string
+  equivalent_to:
+    name: equivalent_to
+    annotations:
+      prompt:
+        tag: prompt
+        value: the cell type described in the text
+      owl:
+        tag: owl
+        value: AnnotationAssertion
+    description: the the cell type described
+    from_schema: http://w3id.org/ontogpt/cell_type
+    rank: 1000
+    slot_uri: skos:exactMatch
+    range: CellOntologyTerm
+  definition:
+    name: definition
+    annotations:
+      prompt:
+        tag: prompt
+        value: A concise textual definition in genus-differentia form, i.e  'A &lt;genus&gt;
+          that &lt;differentiating characteristics&gt;'
+      owl:
+        tag: owl
+        value: AnnotationProperty, AnnotationAssertion
+    from_schema: http://w3id.org/ontogpt/cell_type
+    rank: 1000
+    slot_uri: IAO:0000115
+  parents:
+    name: parents
+    annotations:
+      prompt:
+        tag: prompt
+        value: semicolon-separated list of parent (broader) cell types
+      owl:
+        tag: owl
+        value: SubClassOf
+    description: categorization
+    from_schema: http://w3id.org/ontogpt/cell_type
+    rank: 1000
+    multivalued: true
+    range: CellOntologyTerm
+  subtypes:
+    name: subtypes
+    annotations:
+      prompt:
+        tag: prompt
+        value: semicolon-separated list of the subtypes (subclasses) of this cell
+          type. Use concise terms, and separate elements in a list using semicolon
+          (;)
+      owl.template:
+        tag: owl.template
+        value: '{% for subtype in subtypes %}
+
+          SubClassOf( {{ tr(subtype) }} {{ id }} )
+
+          {% endfor %}
+
+          '
+    from_schema: http://w3id.org/ontogpt/cell_type
+    rank: 1000
+    multivalued: true
+    range: CellOntologyTerm
+  localizations:
+    name: localizations
+    annotations:
+      prompt:
+        tag: prompt
+        value: semicolon-separated list of anatomical structures in which this cell
+          type is localized
+      owl:
+        tag: owl
+        value: SubClassOf, ObjectSomeValuesFrom
+    from_schema: http://w3id.org/ontogpt/cell_type
+    rank: 1000
+    slot_uri: BFO:0000050
+    multivalued: true
+    range: AnatomicalStructure
+  genes:
+    name: genes
+    annotations:
+      prompt:
+        tag: prompt
+        value: semicolon-separated list of genes expressed in cells of this type
+      owl:
+        tag: owl
+        value: SubClassOf, ObjectSomeValuesFrom
+    from_schema: http://w3id.org/ontogpt/cell_type
+    rank: 1000
+    slot_uri: RO:0002292
+    multivalued: true
+    range: Gene
+  diseases:
+    name: diseases
+    annotations:
+      prompt:
+        tag: prompt
+        value: semicolon-separated list of diseases in which this cell type is implicated
+      owl.template:
+        tag: owl.template
+        value: '{% for disease in diseases %}
+
+          SubClassOf( {{ tr(disease) }} ObjectSomeValuesFrom( RO:0004026 {{ id }}
+          ))
+
+          {% endfor %}
+
+          '
+    from_schema: http://w3id.org/ontogpt/cell_type
+    rank: 1000
+    multivalued: true
+    range: Disease
+  roles:
+    name: roles
+    annotations:
+      prompt:
+        tag: prompt
+        value: semicolon-separated list of roles (e.g. biological processes) that
+          this cell type plays. These should be short descriptive terms corresponding
+          to ontology terms in the GO biological process hierarchy.
+      owl:
+        tag: owl
+        value: SubClassOf, ObjectSomeValuesFrom
+    from_schema: http://w3id.org/ontogpt/cell_type
+    rank: 1000
+    slot_uri: RO:0002215
+    multivalued: true
+    range: BiologicalProcess
+tree_root: true
+
+</code></pre>
+</details>
+<h3 id="induced">Induced</h3>
+<details>
+<pre><code class="language-yaml">name: CellType
+description: Represents a cell type
+from_schema: http://w3id.org/ontogpt/cell_type
+attributes:
+  id:
+    name: id
+    annotations:
+      prompt.skip:
+        tag: prompt.skip
+        value: 'True'
+    from_schema: http://w3id.org/ontogpt/cell_type
+    rank: 1000
+    slot_uri: rdf:Resource
+    identifier: true
+    alias: id
+    owner: CellType
+    domain_of:
+    - CellType
+    - NamedEntity
+    - Publication
+    range: uriorcurie
+    required: true
+  label:
+    name: label
+    annotations:
+      owl:
+        tag: owl
+        value: AnnotationAssertion
+    description: the concise name of the cell type
+    from_schema: http://w3id.org/ontogpt/cell_type
     rank: 1000
     slot_uri: rdfs:label
     alias: label
     owner: CellType
     domain_of:
+    - CellType
     - NamedEntity
     range: string
+  equivalent_to:
+    name: equivalent_to
+    annotations:
+      prompt:
+        tag: prompt
+        value: the cell type described in the text
+      owl:
+        tag: owl
+        value: AnnotationAssertion
+    description: the the cell type described
+    from_schema: http://w3id.org/ontogpt/cell_type
+    rank: 1000
+    slot_uri: skos:exactMatch
+    alias: equivalent_to
+    owner: CellType
+    domain_of:
+    - CellType
+    range: CellOntologyTerm
+  definition:
+    name: definition
+    annotations:
+      prompt:
+        tag: prompt
+        value: A concise textual definition in genus-differentia form, i.e  'A &lt;genus&gt;
+          that &lt;differentiating characteristics&gt;'
+      owl:
+        tag: owl
+        value: AnnotationProperty, AnnotationAssertion
+    from_schema: http://w3id.org/ontogpt/cell_type
+    rank: 1000
+    slot_uri: IAO:0000115
+    alias: definition
+    owner: CellType
+    domain_of:
+    - CellType
+    range: string
+  parents:
+    name: parents
+    annotations:
+      prompt:
+        tag: prompt
+        value: semicolon-separated list of parent (broader) cell types
+      owl:
+        tag: owl
+        value: SubClassOf
+    description: categorization
+    from_schema: http://w3id.org/ontogpt/cell_type
+    rank: 1000
+    multivalued: true
+    alias: parents
+    owner: CellType
+    domain_of:
+    - CellType
+    range: CellOntologyTerm
+  subtypes:
+    name: subtypes
+    annotations:
+      prompt:
+        tag: prompt
+        value: semicolon-separated list of the subtypes (subclasses) of this cell
+          type. Use concise terms, and separate elements in a list using semicolon
+          (;)
+      owl.template:
+        tag: owl.template
+        value: '{% for subtype in subtypes %}
+
+          SubClassOf( {{ tr(subtype) }} {{ id }} )
+
+          {% endfor %}
+
+          '
+    from_schema: http://w3id.org/ontogpt/cell_type
+    rank: 1000
+    multivalued: true
+    alias: subtypes
+    owner: CellType
+    domain_of:
+    - CellType
+    range: CellOntologyTerm
+  localizations:
+    name: localizations
+    annotations:
+      prompt:
+        tag: prompt
+        value: semicolon-separated list of anatomical structures in which this cell
+          type is localized
+      owl:
+        tag: owl
+        value: SubClassOf, ObjectSomeValuesFrom
+    from_schema: http://w3id.org/ontogpt/cell_type
+    rank: 1000
+    slot_uri: BFO:0000050
+    multivalued: true
+    alias: localizations
+    owner: CellType
+    domain_of:
+    - CellType
+    range: AnatomicalStructure
+  genes:
+    name: genes
+    annotations:
+      prompt:
+        tag: prompt
+        value: semicolon-separated list of genes expressed in cells of this type
+      owl:
+        tag: owl
+        value: SubClassOf, ObjectSomeValuesFrom
+    from_schema: http://w3id.org/ontogpt/cell_type
+    rank: 1000
+    slot_uri: RO:0002292
+    multivalued: true
+    alias: genes
+    owner: CellType
+    domain_of:
+    - CellType
+    range: Gene
+  diseases:
+    name: diseases
+    annotations:
+      prompt:
+        tag: prompt
+        value: semicolon-separated list of diseases in which this cell type is implicated
+      owl.template:
+        tag: owl.template
+        value: '{% for disease in diseases %}
+
+          SubClassOf( {{ tr(disease) }} ObjectSomeValuesFrom( RO:0004026 {{ id }}
+          ))
+
+          {% endfor %}
+
+          '
+    from_schema: http://w3id.org/ontogpt/cell_type
+    rank: 1000
+    multivalued: true
+    alias: diseases
+    owner: CellType
+    domain_of:
+    - CellType
+    range: Disease
+  roles:
+    name: roles
+    annotations:
+      prompt:
+        tag: prompt
+        value: semicolon-separated list of roles (e.g. biological processes) that
+          this cell type plays. These should be short descriptive terms corresponding
+          to ontology terms in the GO biological process hierarchy.
+      owl:
+        tag: owl
+        value: SubClassOf, ObjectSomeValuesFrom
+    from_schema: http://w3id.org/ontogpt/cell_type
+    rank: 1000
+    slot_uri: RO:0002215
+    multivalued: true
+    alias: roles
+    owner: CellType
+    domain_of:
+    - CellType
+    range: BiologicalProcess
+tree_root: true
 
 </code></pre>
 </details>

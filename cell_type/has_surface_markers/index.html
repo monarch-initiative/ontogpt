@@ -588,19 +588,25 @@
 <tr>
 <th>Name</th>
 <th>Description</th>
+<th>Modifies Slot</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td><a href="../ImmuneCellDocument/">ImmuneCellDocument</a></td>
+<td><a href="../ImmuneCell/">ImmuneCell</a></td>
 <td></td>
+<td>no</td>
 </tr>
 </tbody>
 </table>
 <h2 id="properties">Properties</h2>
 <ul>
-<li>Range: <a href="../ProteinOrComplex/">ProteinOrComplex</a></li>
-<li>Multivalued: True</li>
+<li>
+<p>Range: <a href="../ProteinOrComplex/">ProteinOrComplex</a></p>
+</li>
+<li>
+<p>Multivalued: True</p>
+</li>
 </ul>
 <h2 id="identifier-and-mapping-information">Identifier and Mapping Information</h2>
 <h3 id="annotations">Annotations</h3>
@@ -631,13 +637,16 @@ annotations:
     tag: prompt
     value: semicolon-separated list of proteins or complexes expressed on the surface
       of the cell
+  owl:
+    tag: owl
+    value: SubClassOf, ObjectSomeValuesFrom
 from_schema: http://w3id.org/ontogpt/cell_type
 rank: 1000
 multivalued: true
 alias: has_surface_markers
-owner: ImmuneCellDocument
+owner: ImmuneCell
 domain_of:
-- ImmuneCellDocument
+- ImmuneCell
 range: ProteinOrComplex
 
 </code></pre>

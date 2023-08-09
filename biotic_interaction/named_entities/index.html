@@ -573,7 +573,7 @@
 
 <h1 id="slot-named_entities">Slot: named_entities</h1>
 <p><em>Named entities extracted from the text</em></p>
-<p>URI: <a href="http://w3id.org/ontogpt/core/named_entities">core:named_entities</a></p>
+<p>URI: <a href="http://w3id.org/ontogpt/biotic-interaction-templatenamed_entities">bp:named_entities</a></p>
 <!-- no inheritance hierarchy -->
 
 <h2 id="applicable-classes">Applicable Classes</h2>
@@ -582,34 +582,41 @@
 <tr>
 <th>Name</th>
 <th>Description</th>
+<th>Modifies Slot</th>
 </tr>
 </thead>
 <tbody>
 <tr>
 <td><a href="../ExtractionResult/">ExtractionResult</a></td>
 <td>A result of extracting knowledge on text</td>
+<td>no</td>
 </tr>
 </tbody>
 </table>
 <h2 id="properties">Properties</h2>
 <ul>
-<li>Range: <a href="../Any/">Any</a></li>
-<li>Multivalued: True</li>
+<li>
+<p>Range: <a href="../Any/">Any</a></p>
+</li>
+<li>
+<p>Multivalued: True</p>
+</li>
 </ul>
 <h2 id="identifier-and-mapping-information">Identifier and Mapping Information</h2>
 <h3 id="schema-source">Schema Source</h3>
 <ul>
-<li>from schema: http://w3id.org/ontogpt/core</li>
+<li>from schema: https://w3id.org/ontogpt/biotic_interaction</li>
 </ul>
 <h2 id="linkml-source">LinkML Source</h2>
 <details>
 
 <pre><code class="language-yaml">name: named_entities
 description: Named entities extracted from the text
-from_schema: http://w3id.org/ontogpt/core
+from_schema: https://w3id.org/ontogpt/biotic_interaction
 rank: 1000
 multivalued: true
 alias: named_entities
+owner: ExtractionResult
 domain_of:
 - ExtractionResult
 range: Any

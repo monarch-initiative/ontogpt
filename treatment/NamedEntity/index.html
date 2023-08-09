@@ -318,7 +318,7 @@ NamedEntity {
 <li><a href="../Symptom/">Symptom</a></li>
 <li><a href="../Disease/">Disease</a></li>
 <li><a href="../AdverseEffect/">AdverseEffect</a></li>
-<li><a href="Treatment.md">Treatment</a></li>
+<li><a href="../Treatment/">Treatment</a></li>
 <li><a href="../Mechanism/">Mechanism</a></li>
 <li><a href="../Drug/">Drug</a></li>
 <li><a href="../RelationshipType/">RelationshipType</a></li>
@@ -338,8 +338,8 @@ NamedEntity {
 <tbody>
 <tr>
 <td><a href="../id/">id</a></td>
-<td>0..1 <br/> <a href="../String/">String</a></td>
-<td></td>
+<td>1..1 <br/> <a href="../String/">String</a></td>
+<td>A unique identifier for the named entity</td>
 <td>direct</td>
 </tr>
 <tr>
@@ -417,7 +417,6 @@ NamedEntity {
 <details>
 <pre><code class="language-yaml">name: NamedEntity
 from_schema: http://w3id.org/ontogpt/treatment
-rank: 1000
 abstract: true
 attributes:
   id:
@@ -453,7 +452,6 @@ attributes:
 <details>
 <pre><code class="language-yaml">name: NamedEntity
 from_schema: http://w3id.org/ontogpt/treatment
-rank: 1000
 abstract: true
 attributes:
   id:

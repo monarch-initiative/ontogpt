@@ -302,7 +302,7 @@
 <ul>
 <li><strong>NOTE</strong>: this is an abstract class and should not be instantiated directly</li>
 </ul>
-<p>URI: <a href="http://w3id.org/ontogpt/core/Triple">core:Triple</a></p>
+<p>URI: <a href="http://w3id.org/ontogpt/biological-process-templateTriple">bp:Triple</a></p>
 <div class="mermaid">erDiagram
 Triple {
     string qualifier  
@@ -361,7 +361,7 @@ Triple ||--|o NamedEntity : "object_qualifier"
 </tr>
 <tr>
 <td><a href="../qualifier/">qualifier</a></td>
-<td>0..1 <br/> <a href="xsd:string">xsd:string</a></td>
+<td>0..1 <br/> <a href="../String/">String</a></td>
 <td>A qualifier for the statements, e</td>
 <td>direct</td>
 </tr>
@@ -401,7 +401,7 @@ Triple ||--|o NamedEntity : "object_qualifier"
 <h2 id="identifier-and-mapping-information">Identifier and Mapping Information</h2>
 <h3 id="schema-source">Schema Source</h3>
 <ul>
-<li>from schema: http://w3id.org/ontogpt/core</li>
+<li>from schema: https://w3id.org/ontogpt/biological_process</li>
 </ul>
 <h2 id="mappings">Mappings</h2>
 <table>
@@ -414,11 +414,11 @@ Triple ||--|o NamedEntity : "object_qualifier"
 <tbody>
 <tr>
 <td>self</td>
-<td>core:Triple</td>
+<td>bp:Triple</td>
 </tr>
 <tr>
 <td>native</td>
-<td>core:Triple</td>
+<td>bp:Triple</td>
 </tr>
 </tbody>
 </table>
@@ -428,44 +428,43 @@ Triple ||--|o NamedEntity : "object_qualifier"
 <details>
 <pre><code class="language-yaml">name: Triple
 description: Abstract parent for Relation Extraction tasks
-from_schema: http://w3id.org/ontogpt/core
-rank: 1000
+from_schema: https://w3id.org/ontogpt/biological_process
 is_a: CompoundExpression
 abstract: true
 attributes:
   subject:
     name: subject
-    from_schema: http://w3id.org/ontogpt/core
+    from_schema: https://w3id.org/ontogpt/biological_process
     rank: 1000
     range: NamedEntity
   predicate:
     name: predicate
-    from_schema: http://w3id.org/ontogpt/core
+    from_schema: https://w3id.org/ontogpt/biological_process
     rank: 1000
     range: RelationshipType
   object:
     name: object
-    from_schema: http://w3id.org/ontogpt/core
+    from_schema: https://w3id.org/ontogpt/biological_process
     rank: 1000
     range: NamedEntity
   qualifier:
     name: qualifier
     description: A qualifier for the statements, e.g. "NOT" for negation
-    from_schema: http://w3id.org/ontogpt/core
+    from_schema: https://w3id.org/ontogpt/biological_process
     rank: 1000
     range: string
   subject_qualifier:
     name: subject_qualifier
     description: An optional qualifier or modifier for the subject of the statement,
       e.g. "high dose" or "intravenously administered"
-    from_schema: http://w3id.org/ontogpt/core
+    from_schema: https://w3id.org/ontogpt/biological_process
     rank: 1000
     range: NamedEntity
   object_qualifier:
     name: object_qualifier
     description: An optional qualifier or modifier for the object of the statement,
       e.g. "severe" or "with additional complications"
-    from_schema: http://w3id.org/ontogpt/core
+    from_schema: https://w3id.org/ontogpt/biological_process
     rank: 1000
     range: NamedEntity
 
@@ -475,14 +474,13 @@ attributes:
 <details>
 <pre><code class="language-yaml">name: Triple
 description: Abstract parent for Relation Extraction tasks
-from_schema: http://w3id.org/ontogpt/core
-rank: 1000
+from_schema: https://w3id.org/ontogpt/biological_process
 is_a: CompoundExpression
 abstract: true
 attributes:
   subject:
     name: subject
-    from_schema: http://w3id.org/ontogpt/core
+    from_schema: https://w3id.org/ontogpt/biological_process
     rank: 1000
     alias: subject
     owner: Triple
@@ -491,7 +489,7 @@ attributes:
     range: NamedEntity
   predicate:
     name: predicate
-    from_schema: http://w3id.org/ontogpt/core
+    from_schema: https://w3id.org/ontogpt/biological_process
     rank: 1000
     alias: predicate
     owner: Triple
@@ -500,7 +498,7 @@ attributes:
     range: RelationshipType
   object:
     name: object
-    from_schema: http://w3id.org/ontogpt/core
+    from_schema: https://w3id.org/ontogpt/biological_process
     rank: 1000
     alias: object
     owner: Triple
@@ -510,7 +508,7 @@ attributes:
   qualifier:
     name: qualifier
     description: A qualifier for the statements, e.g. "NOT" for negation
-    from_schema: http://w3id.org/ontogpt/core
+    from_schema: https://w3id.org/ontogpt/biological_process
     rank: 1000
     alias: qualifier
     owner: Triple
@@ -521,7 +519,7 @@ attributes:
     name: subject_qualifier
     description: An optional qualifier or modifier for the subject of the statement,
       e.g. "high dose" or "intravenously administered"
-    from_schema: http://w3id.org/ontogpt/core
+    from_schema: https://w3id.org/ontogpt/biological_process
     rank: 1000
     alias: subject_qualifier
     owner: Triple
@@ -532,7 +530,7 @@ attributes:
     name: object_qualifier
     description: An optional qualifier or modifier for the object of the statement,
       e.g. "severe" or "with additional complications"
-    from_schema: http://w3id.org/ontogpt/core
+    from_schema: https://w3id.org/ontogpt/biological_process
     rank: 1000
     alias: object_qualifier
     owner: Triple

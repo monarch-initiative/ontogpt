@@ -365,25 +365,25 @@ AnatomicalStructure {
 </thead>
 <tbody>
 <tr>
-<td><a href="../CellTypeDocument/">CellTypeDocument</a></td>
+<td><a href="../CellType/">CellType</a></td>
 <td><a href="../localizations/">localizations</a></td>
 <td>range</td>
 <td><a href="./">AnatomicalStructure</a></td>
 </tr>
 <tr>
-<td><a href="../ImmuneCellDocument/">ImmuneCellDocument</a></td>
+<td><a href="../ImmuneCell/">ImmuneCell</a></td>
 <td><a href="../localizations/">localizations</a></td>
 <td>range</td>
 <td><a href="./">AnatomicalStructure</a></td>
 </tr>
 <tr>
-<td><a href="../NeuronDocument/">NeuronDocument</a></td>
+<td><a href="../Neuron/">Neuron</a></td>
 <td><a href="../localizations/">localizations</a></td>
 <td>range</td>
 <td><a href="./">AnatomicalStructure</a></td>
 </tr>
 <tr>
-<td><a href="../InterneuronDocument/">InterneuronDocument</a></td>
+<td><a href="../Interneuron/">Interneuron</a></td>
 <td><a href="../localizations/">localizations</a></td>
 <td>range</td>
 <td><a href="./">AnatomicalStructure</a></td>
@@ -456,7 +456,6 @@ annotations:
     tag: annotators
     value: sqlite:obo:uberon, sqlite:obo:fbbt, sqlite:obo:wbbt
 from_schema: http://w3id.org/ontogpt/cell_type
-rank: 1000
 is_a: NamedEntity
 
 </code></pre>
@@ -473,7 +472,6 @@ annotations:
     tag: annotators
     value: sqlite:obo:uberon, sqlite:obo:fbbt, sqlite:obo:wbbt
 from_schema: http://w3id.org/ontogpt/cell_type
-rank: 1000
 is_a: NamedEntity
 attributes:
   id:
@@ -486,11 +484,11 @@ attributes:
     comments:
     - this is populated during the grounding and normalization step
     from_schema: http://w3id.org/ontogpt/cell_type
-    rank: 1000
     identifier: true
     alias: id
     owner: AnatomicalStructure
     domain_of:
+    - CellType
     - NamedEntity
     - Publication
     range: string
@@ -505,11 +503,11 @@ attributes:
     from_schema: http://w3id.org/ontogpt/cell_type
     aliases:
     - name
-    rank: 1000
     slot_uri: rdfs:label
     alias: label
     owner: AnatomicalStructure
     domain_of:
+    - CellType
     - NamedEntity
     range: string
 

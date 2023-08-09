@@ -579,7 +579,7 @@
 
 
 <h1 id="slot-definition">Slot: definition</h1>
-<p>URI: <a href="http://w3id.org/ontogpt/cell_type/definition">cell_type:definition</a></p>
+<p>URI: <a href="http://purl.obolibrary.org/obo/IAO_0000115">IAO:0000115</a></p>
 <!-- no inheritance hierarchy -->
 
 <h2 id="applicable-classes">Applicable Classes</h2>
@@ -588,24 +588,29 @@
 <tr>
 <th>Name</th>
 <th>Description</th>
+<th>Modifies Slot</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td><a href="../CellTypeDocument/">CellTypeDocument</a></td>
-<td></td>
+<td><a href="../CellType/">CellType</a></td>
+<td>Represents a cell type</td>
+<td>no</td>
 </tr>
 <tr>
-<td><a href="../ImmuneCellDocument/">ImmuneCellDocument</a></td>
+<td><a href="../ImmuneCell/">ImmuneCell</a></td>
 <td></td>
+<td>no</td>
 </tr>
 <tr>
-<td><a href="../NeuronDocument/">NeuronDocument</a></td>
+<td><a href="../Neuron/">Neuron</a></td>
 <td></td>
+<td>no</td>
 </tr>
 <tr>
-<td><a href="../InterneuronDocument/">InterneuronDocument</a></td>
+<td><a href="../Interneuron/">Interneuron</a></td>
 <td></td>
+<td>no</td>
 </tr>
 </tbody>
 </table>
@@ -625,7 +630,7 @@
 <tbody>
 <tr>
 <td>prompt</td>
-<td>A concise textual definition in genus-differentia form, i.e 'A <genus> that <differenting characteristics>'</td>
+<td>A concise textual definition in genus-differentia form, i.e  'A <genus> that <differentiating characteristics>'</td>
 </tr>
 </tbody>
 </table>
@@ -640,14 +645,18 @@
 annotations:
   prompt:
     tag: prompt
-    value: A concise textual definition in genus-differentia form, i.e 'A &lt;genus&gt;
-      that &lt;differenting characteristics&gt;'
+    value: A concise textual definition in genus-differentia form, i.e  'A &lt;genus&gt;
+      that &lt;differentiating characteristics&gt;'
+  owl:
+    tag: owl
+    value: AnnotationProperty, AnnotationAssertion
 from_schema: http://w3id.org/ontogpt/cell_type
 rank: 1000
+slot_uri: IAO:0000115
 alias: definition
-owner: CellTypeDocument
+owner: CellType
 domain_of:
-- CellTypeDocument
+- CellType
 range: string
 
 </code></pre>

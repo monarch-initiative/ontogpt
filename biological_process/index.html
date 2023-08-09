@@ -321,8 +321,8 @@
 <article class="md-content__inner md-typeset">
 <h1 id="biological-process-template">Biological Process Template</h1>
 <p>A template for GO-CAMs</p>
-<p>URI: https://w3id.org/ontogpt/biological_process
-Name: biological-process-template</p>
+<p>URI: https://w3id.org/ontogpt/biological_process</p>
+<p>Name: biological-process-template</p>
 <h2 id="schema-diagram">Schema Diagram</h2>
 <div class="mermaid">erDiagram
 BiologicalProcess {
@@ -368,59 +368,59 @@ GeneMolecularActivityRelationship ||--|o MolecularActivity : "molecular_activity
 <tbody>
 <tr>
 <td><a href="AnnotatorResult/">AnnotatorResult</a></td>
-<td></td>
+<td>None</td>
 </tr>
 <tr>
 <td><a href="Any/">Any</a></td>
-<td></td>
-</tr>
-<tr>
-<td><a href="BiologicalProcess/">BiologicalProcess</a></td>
-<td></td>
-</tr>
-<tr>
-<td><a href="ChemicalEntity/">ChemicalEntity</a></td>
-<td></td>
+<td>None</td>
 </tr>
 <tr>
 <td><a href="CompoundExpression/">CompoundExpression</a></td>
-<td></td>
+<td>None</td>
+</tr>
+<tr>
+<td>        <a href="Triple/">Triple</a></td>
+<td>Abstract parent for Relation Extraction tasks</td>
 </tr>
 <tr>
 <td><a href="ExtractionResult/">ExtractionResult</a></td>
 <td>A result of extracting knowledge on text</td>
 </tr>
 <tr>
-<td><a href="Gene/">Gene</a></td>
-<td></td>
-</tr>
-<tr>
 <td><a href="GeneMolecularActivityRelationship/">GeneMolecularActivityRelationship</a></td>
-<td></td>
-</tr>
-<tr>
-<td><a href="MolecularActivity/">MolecularActivity</a></td>
-<td></td>
+<td>None</td>
 </tr>
 <tr>
 <td><a href="NamedEntity/">NamedEntity</a></td>
-<td></td>
+<td>None</td>
+</tr>
+<tr>
+<td>        <a href="BiologicalProcess/">BiologicalProcess</a></td>
+<td>None</td>
+</tr>
+<tr>
+<td>        <a href="ChemicalEntity/">ChemicalEntity</a></td>
+<td>None</td>
+</tr>
+<tr>
+<td>        <a href="Gene/">Gene</a></td>
+<td>None</td>
+</tr>
+<tr>
+<td>        <a href="MolecularActivity/">MolecularActivity</a></td>
+<td>None</td>
+</tr>
+<tr>
+<td>        <a href="RelationshipType/">RelationshipType</a></td>
+<td>None</td>
 </tr>
 <tr>
 <td><a href="Publication/">Publication</a></td>
-<td></td>
-</tr>
-<tr>
-<td><a href="RelationshipType/">RelationshipType</a></td>
-<td></td>
+<td>None</td>
 </tr>
 <tr>
 <td><a href="TextWithTriples/">TextWithTriples</a></td>
-<td></td>
-</tr>
-<tr>
-<td><a href="Triple/">Triple</a></td>
-<td>Abstract parent for Relation Extraction tasks</td>
+<td>None</td>
 </tr>
 </tbody>
 </table>
@@ -454,7 +454,7 @@ GeneMolecularActivityRelationship ||--|o MolecularActivity : "molecular_activity
 <td>The full text of the publication</td>
 </tr>
 <tr>
-<td><a href="gene.md">gene</a></td>
+<td><a href="gene/">gene</a></td>
 <td></td>
 </tr>
 <tr>
@@ -526,7 +526,7 @@ GeneMolecularActivityRelationship ||--|o MolecularActivity : "molecular_activity
 <td></td>
 </tr>
 <tr>
-<td><a href="publication.md">publication</a></td>
+<td><a href="publication/">publication</a></td>
 <td></td>
 </tr>
 <tr>
@@ -596,79 +596,67 @@ GeneMolecularActivityRelationship ||--|o MolecularActivity : "molecular_activity
 </thead>
 <tbody>
 <tr>
-<td><a href="xsd:boolean">xsd:boolean</a></td>
+<td><a href="Boolean/">Boolean</a></td>
 <td>A binary (true or false) value</td>
 </tr>
 <tr>
-<td><a href="xsd:string">xsd:string</a></td>
+<td><a href="Curie/">Curie</a></td>
 <td>a compact URI</td>
 </tr>
 <tr>
-<td><a href="xsd:date">xsd:date</a></td>
+<td><a href="Date/">Date</a></td>
 <td>a date (year, month and day) in an idealized calendar</td>
 </tr>
 <tr>
-<td><a href="https://w3id.org/linkml/DateOrDatetime">linkml:DateOrDatetime</a></td>
+<td><a href="DateOrDatetime/">DateOrDatetime</a></td>
 <td>Either a date or a datetime</td>
 </tr>
 <tr>
-<td><a href="xsd:dateTime">xsd:dateTime</a></td>
+<td><a href="Datetime/">Datetime</a></td>
 <td>The combination of a date and time</td>
 </tr>
 <tr>
-<td><a href="xsd:decimal">xsd:decimal</a></td>
+<td><a href="Decimal/">Decimal</a></td>
 <td>A real number with arbitrary precision that conforms to the xsd:decimal speci...</td>
 </tr>
 <tr>
-<td><a href="xsd:double">xsd:double</a></td>
+<td><a href="Double/">Double</a></td>
 <td>A real number that conforms to the xsd:double specification</td>
 </tr>
 <tr>
-<td><a href="xsd:float">xsd:float</a></td>
+<td><a href="Float/">Float</a></td>
 <td>A real number that conforms to the xsd:float specification</td>
 </tr>
 <tr>
-<td><a href="xsd:integer">xsd:integer</a></td>
+<td><a href="Integer/">Integer</a></td>
 <td>An integer</td>
 </tr>
 <tr>
-<td><a href="xsd:string">xsd:string</a></td>
-<td>A string encoding a JSON Path</td>
-</tr>
-<tr>
-<td><a href="xsd:string">xsd:string</a></td>
-<td>A string encoding a JSON Pointer</td>
-</tr>
-<tr>
-<td><a href="xsd:string">xsd:string</a></td>
+<td><a href="Ncname/">Ncname</a></td>
 <td>Prefix part of CURIE</td>
 </tr>
 <tr>
-<td><a href="shex:nonLiteral">shex:nonLiteral</a></td>
+<td><a href="Nodeidentifier/">Nodeidentifier</a></td>
 <td>A URI, CURIE or BNODE that represents a node in a model</td>
 </tr>
 <tr>
-<td><a href="shex:iri">shex:iri</a></td>
+<td><a href="Objectidentifier/">Objectidentifier</a></td>
 <td>A URI or CURIE that represents an object in the model</td>
 </tr>
 <tr>
-<td><a href="xsd:string">xsd:string</a></td>
-<td>A string encoding a SPARQL Property Path</td>
-</tr>
-<tr>
-<td><a href="xsd:string">xsd:string</a></td>
+<td><a href="String/">String</a></td>
 <td>A character string</td>
 </tr>
 <tr>
-<td><a href="xsd:time">xsd:time</a></td>
+<td><a href="Time/">Time</a></td>
 <td>A time object represents a (local) time of day, independent of any particular...</td>
 </tr>
 <tr>
-<td><a href="xsd:anyURI">xsd:anyURI</a></td>
+<td><a href="Uri/">Uri</a></td>
 <td>a complete URI</td>
 </tr>
 <tr>
-<td><a href="xsd:anyURI">xsd:anyURI</a></td>
+<td><a href="Uriorcurie/">Uriorcurie</a></td>
 <td>a URI or a CURIE</td>
 </tr>
 </tbody>

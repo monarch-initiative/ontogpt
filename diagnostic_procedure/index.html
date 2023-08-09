@@ -321,8 +321,8 @@
 <article class="md-content__inner md-typeset">
 <h1 id="diagnostic-procedure-template">Diagnostic Procedure Template</h1>
 <p>A template for clinical diagnostic procedures and the phenotypes they may contribute to.</p>
-<p>URI: http://w3id.org/ontogpt/diagnostic_procedure
-Name: diagnostic_procedure</p>
+<p>URI: http://w3id.org/ontogpt/diagnostic_procedure</p>
+<p>Name: diagnostic_procedure</p>
 <h2 id="schema-diagram">Schema Diagram</h2>
 <div class="mermaid">erDiagram
 DiagnosticProceduretoPhenotypeAssociation {
@@ -432,31 +432,27 @@ TextWithTriples ||--}o Triple : "triples"
 <tbody>
 <tr>
 <td><a href="AnnotatorResult/">AnnotatorResult</a></td>
-<td></td>
+<td>None</td>
 </tr>
 <tr>
 <td><a href="Any/">Any</a></td>
-<td></td>
-</tr>
-<tr>
-<td><a href="ClinicalAttribute/">ClinicalAttribute</a></td>
-<td></td>
+<td>None</td>
 </tr>
 <tr>
 <td><a href="CompoundExpression/">CompoundExpression</a></td>
-<td></td>
+<td>None</td>
 </tr>
 <tr>
-<td><a href="DiagnosticProcedure/">DiagnosticProcedure</a></td>
-<td></td>
+<td>        <a href="Triple/">Triple</a></td>
+<td>Abstract parent for Relation Extraction tasks</td>
 </tr>
 <tr>
-<td><a href="DiagnosticProceduretoAttributeAssociation/">DiagnosticProceduretoAttributeAssociation</a></td>
-<td>A triple representing a relationship between a diagnostic procedure and a mea...</td>
+<td>                <a href="DiagnosticProceduretoAttributeAssociation/">DiagnosticProceduretoAttributeAssociation</a></td>
+<td>A triple representing a relationship between a diagnostic procedure and a measured attribute, e.g., "blood pressure measurement" is associated with "blood pressure" (or in OBA, something like OBA:VT0000183, "blood pressure trait").</td>
 </tr>
 <tr>
-<td><a href="DiagnosticProceduretoPhenotypeAssociation/">DiagnosticProceduretoPhenotypeAssociation</a></td>
-<td>A triple representing a relationship between a diagnostic procedure and an as...</td>
+<td>                <a href="DiagnosticProceduretoPhenotypeAssociation/">DiagnosticProceduretoPhenotypeAssociation</a></td>
+<td>A triple representing a relationship between a diagnostic procedure and an associated phenotype, e.g., "blood pressure measurement" is associated with "high blood pressure".</td>
 </tr>
 <tr>
 <td><a href="ExtractionResult/">ExtractionResult</a></td>
@@ -464,43 +460,47 @@ TextWithTriples ||--}o Triple : "triples"
 </tr>
 <tr>
 <td><a href="NamedEntity/">NamedEntity</a></td>
-<td></td>
+<td>None</td>
 </tr>
 <tr>
-<td><a href="Phenotype/">Phenotype</a></td>
-<td></td>
+<td>        <a href="ClinicalAttribute/">ClinicalAttribute</a></td>
+<td>None</td>
 </tr>
 <tr>
-<td><a href="ProcedureToAttributePredicate/">ProcedureToAttributePredicate</a></td>
-<td>A predicate for procedure to attribute relationships, defining "this procedur...</td>
+<td>        <a href="DiagnosticProcedure/">DiagnosticProcedure</a></td>
+<td>None</td>
 </tr>
 <tr>
-<td><a href="ProcedureToPhenotypePredicate/">ProcedureToPhenotypePredicate</a></td>
-<td>A predicate for procedure to phenotype relationships, defining "this procedur...</td>
+<td>        <a href="Phenotype/">Phenotype</a></td>
+<td>None</td>
+</tr>
+<tr>
+<td>        <a href="Quality/">Quality</a></td>
+<td>None</td>
+</tr>
+<tr>
+<td>        <a href="RelationshipType/">RelationshipType</a></td>
+<td>None</td>
+</tr>
+<tr>
+<td>                <a href="ProcedureToAttributePredicate/">ProcedureToAttributePredicate</a></td>
+<td>A predicate for procedure to attribute relationships, defining "this procedure is a measurement of this attribute".</td>
+</tr>
+<tr>
+<td>                <a href="ProcedureToPhenotypePredicate/">ProcedureToPhenotypePredicate</a></td>
+<td>A predicate for procedure to phenotype relationships, defining "this procedure is intended to provide support for/against this phenotype".</td>
+</tr>
+<tr>
+<td>        <a href="Unit/">Unit</a></td>
+<td>None</td>
 </tr>
 <tr>
 <td><a href="Publication/">Publication</a></td>
-<td></td>
-</tr>
-<tr>
-<td><a href="Quality/">Quality</a></td>
-<td></td>
-</tr>
-<tr>
-<td><a href="RelationshipType/">RelationshipType</a></td>
-<td></td>
+<td>None</td>
 </tr>
 <tr>
 <td><a href="TextWithTriples/">TextWithTriples</a></td>
-<td></td>
-</tr>
-<tr>
-<td><a href="Triple/">Triple</a></td>
-<td>Abstract parent for Relation Extraction tasks</td>
-</tr>
-<tr>
-<td><a href="Unit/">Unit</a></td>
-<td></td>
+<td>None</td>
 </tr>
 </tbody>
 </table>
@@ -578,7 +578,7 @@ TextWithTriples ||--}o Triple : "triples"
 <td></td>
 </tr>
 <tr>
-<td><a href="publication.md">publication</a></td>
+<td><a href="publication/">publication</a></td>
 <td></td>
 </tr>
 <tr>
@@ -610,7 +610,7 @@ TextWithTriples ||--}o Triple : "triples"
 <td></td>
 </tr>
 <tr>
-<td><a href="unit.md">unit</a></td>
+<td><a href="unit/">unit</a></td>
 <td>the unit used to measure the attribute</td>
 </tr>
 </tbody>

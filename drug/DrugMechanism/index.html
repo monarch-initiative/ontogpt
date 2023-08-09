@@ -335,14 +335,14 @@ MechanismLink ||--|o MechanismElement : "object"
 </thead>
 <tbody>
 <tr>
-<td><a href="disease.md">disease</a></td>
+<td><a href="../disease/">disease</a></td>
 <td>0..1 <br/> <a href="../Disease/">Disease</a></td>
 <td>the name of the disease that is treated</td>
 <td>direct</td>
 </tr>
 <tr>
 <td><a href="../drug/">drug</a></td>
-<td>0..1 <br/> <a href="Drug.md">Drug</a></td>
+<td>0..1 <br/> <a href="../Drug/">Drug</a></td>
 <td>the name of the drug that treats the disease</td>
 <td>direct</td>
 </tr>
@@ -396,7 +396,6 @@ MechanismLink ||--|o MechanismElement : "object"
 <details>
 <pre><code class="language-yaml">name: DrugMechanism
 from_schema: http://w3id.org/ontogpt/drug
-rank: 1000
 attributes:
   disease:
     name: disease
@@ -445,7 +444,6 @@ tree_root: true
 <details>
 <pre><code class="language-yaml">name: DrugMechanism
 from_schema: http://w3id.org/ontogpt/drug
-rank: 1000
 attributes:
   disease:
     name: disease

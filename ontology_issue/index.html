@@ -276,8 +276,8 @@
 <article class="md-content__inner md-typeset">
 <h1 id="ontology-issue-data-model">Ontology Issue Data Model</h1>
 <p>A data model for representing the contents of a GitHub issue on an ontology tracker</p>
-<p>URI: https://w3id.org/ontogpt/ontology_issue
-Name: ontology-issue</p>
+<p>URI: https://w3id.org/ontogpt/ontology_issue</p>
+<p>Name: ontology-issue</p>
 <h2 id="schema-diagram">Schema Diagram</h2>
 <div class="mermaid">erDiagram
 OntologyIssue {
@@ -317,15 +317,27 @@ OntologyProblem ||--}o OntologyClass : "about"
 <tbody>
 <tr>
 <td><a href="AnnotatorResult/">AnnotatorResult</a></td>
-<td></td>
+<td>None</td>
 </tr>
 <tr>
 <td><a href="Any/">Any</a></td>
-<td></td>
+<td>None</td>
 </tr>
 <tr>
 <td><a href="CompoundExpression/">CompoundExpression</a></td>
-<td></td>
+<td>None</td>
+</tr>
+<tr>
+<td>        <a href="OntologyChange/">OntologyChange</a></td>
+<td>None</td>
+</tr>
+<tr>
+<td>        <a href="OntologyProblem/">OntologyProblem</a></td>
+<td>None</td>
+</tr>
+<tr>
+<td>        <a href="Triple/">Triple</a></td>
+<td>Abstract parent for Relation Extraction tasks</td>
 </tr>
 <tr>
 <td><a href="ExtractionResult/">ExtractionResult</a></td>
@@ -333,39 +345,27 @@ OntologyProblem ||--}o OntologyClass : "about"
 </tr>
 <tr>
 <td><a href="NamedEntity/">NamedEntity</a></td>
-<td></td>
+<td>None</td>
 </tr>
 <tr>
-<td><a href="OntologyChange/">OntologyChange</a></td>
-<td></td>
+<td>        <a href="OntologyClass/">OntologyClass</a></td>
+<td>None</td>
 </tr>
 <tr>
-<td><a href="OntologyClass/">OntologyClass</a></td>
-<td></td>
+<td>        <a href="RelationshipType/">RelationshipType</a></td>
+<td>None</td>
 </tr>
 <tr>
 <td><a href="OntologyIssue/">OntologyIssue</a></td>
-<td></td>
-</tr>
-<tr>
-<td><a href="OntologyProblem/">OntologyProblem</a></td>
-<td></td>
+<td>None</td>
 </tr>
 <tr>
 <td><a href="Publication/">Publication</a></td>
-<td></td>
-</tr>
-<tr>
-<td><a href="RelationshipType/">RelationshipType</a></td>
-<td></td>
+<td>None</td>
 </tr>
 <tr>
 <td><a href="TextWithTriples/">TextWithTriples</a></td>
-<td></td>
-</tr>
-<tr>
-<td><a href="Triple/">Triple</a></td>
-<td>Abstract parent for Relation Extraction tasks</td>
+<td>None</td>
 </tr>
 </tbody>
 </table>
@@ -467,7 +467,7 @@ OntologyProblem ||--}o OntologyClass : "about"
 <td>What part of the ontology does this pertain to</td>
 </tr>
 <tr>
-<td><a href="publication.md">publication</a></td>
+<td><a href="publication/">publication</a></td>
 <td></td>
 </tr>
 <tr>

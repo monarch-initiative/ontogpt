@@ -335,14 +335,14 @@ GeneMolecularActivityRelationship2 ||--|o Molecule : "target"
 </thead>
 <tbody>
 <tr>
-<td><a href="gene.md">gene</a></td>
-<td>0..1 <br/> <a href="../String/">String</a></td>
+<td><a href="../gene/">gene</a></td>
+<td>0..1 <br/> <a href="../Gene/">Gene</a></td>
 <td></td>
 <td>direct</td>
 </tr>
 <tr>
 <td><a href="../molecular_activity/">molecular_activity</a></td>
-<td>0..1 <br/> <a href="../String/">String</a></td>
+<td>0..1 <br/> <a href="../MolecularActivity/">MolecularActivity</a></td>
 <td></td>
 <td>direct</td>
 </tr>
@@ -384,7 +384,6 @@ GeneMolecularActivityRelationship2 ||--|o Molecule : "target"
 <details>
 <pre><code class="language-yaml">name: GeneMolecularActivityRelationship2
 from_schema: http://w3id.org/ontogpt/gocam
-rank: 1000
 is_a: CompoundExpression
 attributes:
   gene:
@@ -421,7 +420,6 @@ attributes:
 <details>
 <pre><code class="language-yaml">name: GeneMolecularActivityRelationship2
 from_schema: http://w3id.org/ontogpt/gocam
-rank: 1000
 is_a: CompoundExpression
 attributes:
   gene:

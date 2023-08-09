@@ -588,19 +588,25 @@
 <tr>
 <th>Name</th>
 <th>Description</th>
+<th>Modifies Slot</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td><a href="Recipe.md">Recipe</a></td>
+<td><a href="../Recipe/">Recipe</a></td>
 <td></td>
+<td>no</td>
 </tr>
 </tbody>
 </table>
 <h2 id="properties">Properties</h2>
 <ul>
-<li>Range: <a href="../Uriorcurie/">Uriorcurie</a></li>
-<li>Required: True</li>
+<li>
+<p>Range: <a href="../Uriorcurie/">Uriorcurie</a></p>
+</li>
+<li>
+<p>Required: True</p>
+</li>
 </ul>
 <h2 id="identifier-and-mapping-information">Identifier and Mapping Information</h2>
 <h3 id="annotations">Annotations</h3>
@@ -613,7 +619,7 @@
 </thead>
 <tbody>
 <tr>
-<td>prompt.ignore</td>
+<td>prompt.skip</td>
 <td>True</td>
 </tr>
 </tbody>
@@ -627,8 +633,8 @@
 
 <pre><code class="language-yaml">name: url
 annotations:
-  prompt.ignore:
-    tag: prompt.ignore
+  prompt.skip:
+    tag: prompt.skip
     value: 'True'
 from_schema: https://w3id.org/ontogpt/recipe
 rank: 1000

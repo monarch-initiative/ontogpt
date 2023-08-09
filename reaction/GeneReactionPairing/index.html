@@ -348,14 +348,14 @@ Reaction ||--}o ChemicalEntity : "right_side"
 </thead>
 <tbody>
 <tr>
-<td><a href="gene.md">gene</a></td>
-<td>0..1 <br/> <a href="../String/">String</a></td>
-<td></td>
+<td><a href="../gene/">gene</a></td>
+<td>0..1 <br/> <a href="../Gene/">Gene</a></td>
+<td>name of the gene that catalyzes the reaction</td>
 <td>direct</td>
 </tr>
 <tr>
 <td><a href="../reaction/">reaction</a></td>
-<td>0..1 <br/> <a href="Reaction.md">Reaction</a></td>
+<td>0..1 <br/> <a href="../Reaction/">Reaction</a></td>
 <td>equation describing the reaction (e</td>
 <td>direct</td>
 </tr>
@@ -410,7 +410,6 @@ Reaction ||--}o ChemicalEntity : "right_side"
 <details>
 <pre><code class="language-yaml">name: GeneReactionPairing
 from_schema: https://w3id.org/ontogpt/reaction
-rank: 1000
 is_a: CompoundExpression
 attributes:
   gene:
@@ -432,7 +431,6 @@ attributes:
 <details>
 <pre><code class="language-yaml">name: GeneReactionPairing
 from_schema: https://w3id.org/ontogpt/reaction
-rank: 1000
 is_a: CompoundExpression
 attributes:
   gene:

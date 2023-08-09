@@ -336,14 +336,14 @@ NamedEntity {
 <tbody>
 <tr>
 <td><a href="../id/">id</a></td>
-<td>0..1 <br/> <a href="../String/">String</a></td>
-<td></td>
+<td>1..1 <br/> <a href="../String/">String</a></td>
+<td>A unique identifier for the named entity</td>
 <td>direct</td>
 </tr>
 <tr>
 <td><a href="../label/">label</a></td>
 <td>0..1 <br/> <a href="../String/">String</a></td>
-<td></td>
+<td>The label (name) of the named thing</td>
 <td>direct</td>
 </tr>
 </tbody>
@@ -415,7 +415,6 @@ NamedEntity {
 <details>
 <pre><code class="language-yaml">name: NamedEntity
 from_schema: https://w3id.org/ontogpt/recipe
-rank: 1000
 abstract: true
 attributes:
   id:
@@ -450,7 +449,6 @@ attributes:
 <details>
 <pre><code class="language-yaml">name: NamedEntity
 from_schema: https://w3id.org/ontogpt/recipe
-rank: 1000
 abstract: true
 attributes:
   id:

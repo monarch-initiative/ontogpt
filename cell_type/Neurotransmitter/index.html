@@ -365,13 +365,13 @@ Neurotransmitter {
 </thead>
 <tbody>
 <tr>
-<td><a href="../NeuronDocument/">NeuronDocument</a></td>
+<td><a href="../Neuron/">Neuron</a></td>
 <td><a href="../releases_neurotransitter/">releases_neurotransitter</a></td>
 <td>range</td>
 <td><a href="./">Neurotransmitter</a></td>
 </tr>
 <tr>
-<td><a href="../InterneuronDocument/">InterneuronDocument</a></td>
+<td><a href="../Interneuron/">Interneuron</a></td>
 <td><a href="../releases_neurotransitter/">releases_neurotransitter</a></td>
 <td>range</td>
 <td><a href="./">Neurotransmitter</a></td>
@@ -434,14 +434,15 @@ annotations:
     tag: annotators
     value: sqlite:obo:chebi
 from_schema: http://w3id.org/ontogpt/cell_type
-rank: 1000
 is_a: ChemicalEntity
 slot_usage:
   id:
     name: id
     values_from:
     - NeurotransmitterIdentifier
+    identifier: true
     domain_of:
+    - CellType
     - NamedEntity
     - Publication
 
@@ -457,14 +458,15 @@ annotations:
     tag: annotators
     value: sqlite:obo:chebi
 from_schema: http://w3id.org/ontogpt/cell_type
-rank: 1000
 is_a: ChemicalEntity
 slot_usage:
   id:
     name: id
     values_from:
     - NeurotransmitterIdentifier
+    identifier: true
     domain_of:
+    - CellType
     - NamedEntity
     - Publication
 attributes:
@@ -472,13 +474,13 @@ attributes:
     name: id
     description: A unique identifier for the named entity
     from_schema: http://w3id.org/ontogpt/cell_type
-    rank: 1000
     values_from:
     - NeurotransmitterIdentifier
     identifier: true
     alias: id
     owner: Neurotransmitter
     domain_of:
+    - CellType
     - NamedEntity
     - Publication
     range: string
@@ -493,11 +495,11 @@ attributes:
     from_schema: http://w3id.org/ontogpt/cell_type
     aliases:
     - name
-    rank: 1000
     slot_uri: rdfs:label
     alias: label
     owner: Neurotransmitter
     domain_of:
+    - CellType
     - NamedEntity
     range: string
 

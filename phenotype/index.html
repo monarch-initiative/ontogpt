@@ -276,8 +276,8 @@
 <article class="md-content__inner md-typeset">
 <h1 id="eq-template">EQ Template</h1>
 <p>A template for Computational Phenotypes</p>
-<p>URI: http://w3id.org/ontogpt/eq
-Name: eq-template</p>
+<p>URI: http://w3id.org/ontogpt/eq</p>
+<p>Name: eq-template</p>
 <h2 id="schema-diagram">Schema Diagram</h2>
 <div class="mermaid">erDiagram
 Trait {
@@ -311,24 +311,20 @@ Trait ||--|o ChemicalEntity : "chemical_entity"
 </thead>
 <tbody>
 <tr>
-<td><a href="AnatomicalEntity/">AnatomicalEntity</a></td>
-<td></td>
-</tr>
-<tr>
 <td><a href="AnnotatorResult/">AnnotatorResult</a></td>
-<td></td>
+<td>None</td>
 </tr>
 <tr>
 <td><a href="Any/">Any</a></td>
-<td></td>
-</tr>
-<tr>
-<td><a href="ChemicalEntity/">ChemicalEntity</a></td>
-<td></td>
+<td>None</td>
 </tr>
 <tr>
 <td><a href="CompoundExpression/">CompoundExpression</a></td>
-<td></td>
+<td>None</td>
+</tr>
+<tr>
+<td>        <a href="Triple/">Triple</a></td>
+<td>Abstract parent for Relation Extraction tasks</td>
 </tr>
 <tr>
 <td><a href="ExtractionResult/">ExtractionResult</a></td>
@@ -336,31 +332,35 @@ Trait ||--|o ChemicalEntity : "chemical_entity"
 </tr>
 <tr>
 <td><a href="NamedEntity/">NamedEntity</a></td>
-<td></td>
+<td>None</td>
+</tr>
+<tr>
+<td>        <a href="AnatomicalEntity/">AnatomicalEntity</a></td>
+<td>None</td>
+</tr>
+<tr>
+<td>        <a href="ChemicalEntity/">ChemicalEntity</a></td>
+<td>None</td>
+</tr>
+<tr>
+<td>        <a href="Quality/">Quality</a></td>
+<td>None</td>
+</tr>
+<tr>
+<td>        <a href="RelationshipType/">RelationshipType</a></td>
+<td>None</td>
 </tr>
 <tr>
 <td><a href="Publication/">Publication</a></td>
-<td></td>
-</tr>
-<tr>
-<td><a href="Quality/">Quality</a></td>
-<td></td>
-</tr>
-<tr>
-<td><a href="RelationshipType/">RelationshipType</a></td>
-<td></td>
+<td>None</td>
 </tr>
 <tr>
 <td><a href="TextWithTriples/">TextWithTriples</a></td>
-<td></td>
+<td>None</td>
 </tr>
 <tr>
 <td><a href="Trait/">Trait</a></td>
-<td></td>
-</tr>
-<tr>
-<td><a href="Triple/">Triple</a></td>
-<td>Abstract parent for Relation Extraction tasks</td>
+<td>None</td>
 </tr>
 </tbody>
 </table>
@@ -446,7 +446,7 @@ Trait ||--|o ChemicalEntity : "chemical_entity"
 <td></td>
 </tr>
 <tr>
-<td><a href="publication.md">publication</a></td>
+<td><a href="publication/">publication</a></td>
 <td></td>
 </tr>
 <tr>
@@ -454,7 +454,7 @@ Trait ||--|o ChemicalEntity : "chemical_entity"
 <td>A qualifier for the statements, e</td>
 </tr>
 <tr>
-<td><a href="quality.md">quality</a></td>
+<td><a href="quality/">quality</a></td>
 <td>The property being measured, or changes in this property, for example, amount...</td>
 </tr>
 <tr>

@@ -512,15 +512,35 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#other-properties" class="md-nav__link">
-    Other properties
+  <a href="#permissible-values" class="md-nav__link">
+    Permissible Values
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#permissible-values" class="md-nav__link">
-    Permissible Values
+  <a href="#identifier-and-mapping-information" class="md-nav__link">
+    Identifier and Mapping Information
+  </a>
+  
+    <nav class="md-nav" aria-label="Identifier and Mapping Information">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#schema-source" class="md-nav__link">
+    Schema Source
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#linkml-source" class="md-nav__link">
+    LinkML Source
   </a>
   
 </li>
@@ -545,55 +565,61 @@
 
 
 <h1 id="enum-nulldataoptions">Enum: NullDataOptions</h1>
-<p>URI: <a href="http://w3id.org/ontogpt/biological-process-templateNullDataOptions">bp:NullDataOptions</a></p>
-<h2 id="other-properties">Other properties</h2>
-<table>
-<thead>
-<tr>
-<th></th>
-<th></th>
-<th></th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-</tbody>
-</table>
+<p>URI: <a href="NullDataOptions">NullDataOptions</a></p>
 <h2 id="permissible-values">Permissible Values</h2>
 <table>
 <thead>
 <tr>
-<th align="left">Text</th>
-<th align="center">Description</th>
-<th align="center">Meaning</th>
-<th align="right">Other Information</th>
+<th>Value</th>
+<th>Meaning</th>
+<th>Description</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td align="left">UNSPECIFIED_METHOD_OF_ADMINISTRATION</td>
-<td align="center"></td>
-<td align="center">NCIT:C149701</td>
-<td align="right"></td>
+<td>UNSPECIFIED_METHOD_OF_ADMINISTRATION</td>
+<td>NCIT:C149701</td>
+<td></td>
 </tr>
 <tr>
-<td align="left">NOT_APPLICABLE</td>
-<td align="center"></td>
-<td align="center">NCIT:C18902</td>
-<td align="right">{'aliases': ['not applicable', 'N/A']}</td>
+<td>NOT_APPLICABLE</td>
+<td>NCIT:C18902</td>
+<td></td>
 </tr>
 <tr>
-<td align="left">NOT_MENTIONED</td>
-<td align="center"></td>
-<td align="center"></td>
-<td align="right"></td>
+<td>NOT_MENTIONED</td>
+<td>None</td>
+<td></td>
 </tr>
 </tbody>
 </table>
+<h2 id="identifier-and-mapping-information">Identifier and Mapping Information</h2>
+<h3 id="schema-source">Schema Source</h3>
+<ul>
+<li>from schema: https://w3id.org/ontogpt/biological_process</li>
+</ul>
+<h2 id="linkml-source">LinkML Source</h2>
+<details>
+
+<pre><code class="language-yaml">name: NullDataOptions
+from_schema: https://w3id.org/ontogpt/biological_process
+rank: 1000
+permissible_values:
+  UNSPECIFIED_METHOD_OF_ADMINISTRATION:
+    text: UNSPECIFIED_METHOD_OF_ADMINISTRATION
+    meaning: NCIT:C149701
+  NOT_APPLICABLE:
+    text: NOT_APPLICABLE
+    meaning: NCIT:C18902
+    aliases:
+    - not applicable
+    - N/A
+  NOT_MENTIONED:
+    text: NOT_MENTIONED
+
+</code></pre>
+
+</details>
 
 
 

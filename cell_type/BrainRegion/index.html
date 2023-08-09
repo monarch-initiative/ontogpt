@@ -365,7 +365,7 @@ BrainRegion {
 </thead>
 <tbody>
 <tr>
-<td><a href="../InterneuronDocument/">InterneuronDocument</a></td>
+<td><a href="../Interneuron/">Interneuron</a></td>
 <td><a href="../projects_to_or_from/">projects_to_or_from</a></td>
 <td>range</td>
 <td><a href="./">BrainRegion</a></td>
@@ -438,14 +438,15 @@ annotations:
     tag: annotators
     value: sqlite:obo:uberon, sqlite:obo:fbbt, sqlite:obo:wbbt
 from_schema: http://w3id.org/ontogpt/cell_type
-rank: 1000
 is_a: AnatomicalStructure
 slot_usage:
   id:
     name: id
     values_from:
     - BrainRegionIdentifier
+    identifier: true
     domain_of:
+    - CellType
     - NamedEntity
     - Publication
 
@@ -463,14 +464,15 @@ annotations:
     tag: annotators
     value: sqlite:obo:uberon, sqlite:obo:fbbt, sqlite:obo:wbbt
 from_schema: http://w3id.org/ontogpt/cell_type
-rank: 1000
 is_a: AnatomicalStructure
 slot_usage:
   id:
     name: id
     values_from:
     - BrainRegionIdentifier
+    identifier: true
     domain_of:
+    - CellType
     - NamedEntity
     - Publication
 attributes:
@@ -478,13 +480,13 @@ attributes:
     name: id
     description: A unique identifier for the named entity
     from_schema: http://w3id.org/ontogpt/cell_type
-    rank: 1000
     values_from:
     - BrainRegionIdentifier
     identifier: true
     alias: id
     owner: BrainRegion
     domain_of:
+    - CellType
     - NamedEntity
     - Publication
     range: string
@@ -499,11 +501,11 @@ attributes:
     from_schema: http://w3id.org/ontogpt/cell_type
     aliases:
     - name
-    rank: 1000
     slot_uri: rdfs:label
     alias: label
     owner: BrainRegion
     domain_of:
+    - CellType
     - NamedEntity
     range: string
 

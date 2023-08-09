@@ -321,11 +321,13 @@
 <article class="md-content__inner md-typeset">
 <h1 id="composite-disease">Composite Disease</h1>
 <p>A template for representing cell types</p>
-<p>URI: http://w3id.org/ontogpt/cell_type
-Name: cell_type</p>
+<p>URI: http://w3id.org/ontogpt/cell_type</p>
+<p>Name: cell_type</p>
 <h2 id="schema-diagram">Schema Diagram</h2>
 <div class="mermaid">erDiagram
-CellTypeDocument {
+CellType {
+    uriorcurie id  
+    string label  
     string definition  
 }
 BiologicalProcess {
@@ -344,18 +346,18 @@ AnatomicalStructure {
     string id  
     string label  
 }
-CellType {
+CellOntologyTerm {
     string id  
     string label  
 }
 
-CellTypeDocument ||--|o CellType : "cell_type"
-CellTypeDocument ||--}o CellType : "parents"
-CellTypeDocument ||--}o CellType : "subtypes"
-CellTypeDocument ||--}o AnatomicalStructure : "localizations"
-CellTypeDocument ||--}o Gene : "genes"
-CellTypeDocument ||--}o Disease : "diseases"
-CellTypeDocument ||--}o BiologicalProcess : "roles"
+CellType ||--|o CellOntologyTerm : "equivalent_to"
+CellType ||--}o CellOntologyTerm : "parents"
+CellType ||--}o CellOntologyTerm : "subtypes"
+CellType ||--}o AnatomicalStructure : "localizations"
+CellType ||--}o Gene : "genes"
+CellType ||--}o Disease : "diseases"
+CellType ||--}o BiologicalProcess : "roles"
 
 </div>
 <h2 id="classes">Classes</h2>
@@ -368,100 +370,100 @@ CellTypeDocument ||--}o BiologicalProcess : "roles"
 </thead>
 <tbody>
 <tr>
-<td><a href="AnatomicalStructure/">AnatomicalStructure</a></td>
-<td></td>
-</tr>
-<tr>
 <td><a href="AnnotatorResult/">AnnotatorResult</a></td>
-<td></td>
+<td>None</td>
 </tr>
 <tr>
 <td><a href="Any/">Any</a></td>
-<td></td>
-</tr>
-<tr>
-<td><a href="BiologicalProcess/">BiologicalProcess</a></td>
-<td></td>
-</tr>
-<tr>
-<td><a href="BrainRegion/">BrainRegion</a></td>
-<td></td>
+<td>None</td>
 </tr>
 <tr>
 <td><a href="CellType/">CellType</a></td>
-<td></td>
+<td>Represents a cell type</td>
 </tr>
 <tr>
-<td><a href="CellTypeDocument/">CellTypeDocument</a></td>
-<td></td>
+<td>        <a href="ImmuneCell/">ImmuneCell</a></td>
+<td>None</td>
 </tr>
 <tr>
-<td><a href="ChemicalEntity/">ChemicalEntity</a></td>
-<td></td>
+<td>        <a href="Neuron/">Neuron</a></td>
+<td>None</td>
+</tr>
+<tr>
+<td>                <a href="Interneuron/">Interneuron</a></td>
+<td>None</td>
 </tr>
 <tr>
 <td><a href="CompoundExpression/">CompoundExpression</a></td>
-<td></td>
+<td>None</td>
 </tr>
 <tr>
-<td><a href="Disease/">Disease</a></td>
-<td></td>
-</tr>
-<tr>
-<td><a href="Drug/">Drug</a></td>
-<td></td>
+<td>        <a href="Triple/">Triple</a></td>
+<td>Abstract parent for Relation Extraction tasks</td>
 </tr>
 <tr>
 <td><a href="ExtractionResult/">ExtractionResult</a></td>
 <td>A result of extracting knowledge on text</td>
 </tr>
 <tr>
-<td><a href="Gene/">Gene</a></td>
-<td></td>
-</tr>
-<tr>
-<td><a href="ImmuneCellDocument/">ImmuneCellDocument</a></td>
-<td></td>
-</tr>
-<tr>
-<td><a href="InterneuronDocument/">InterneuronDocument</a></td>
-<td></td>
-</tr>
-<tr>
 <td><a href="NamedEntity/">NamedEntity</a></td>
-<td></td>
+<td>None</td>
 </tr>
 <tr>
-<td><a href="NeuronDocument/">NeuronDocument</a></td>
-<td></td>
+<td>        <a href="AnatomicalStructure/">AnatomicalStructure</a></td>
+<td>None</td>
 </tr>
 <tr>
-<td><a href="Neurotransmitter/">Neurotransmitter</a></td>
-<td></td>
+<td>                <a href="BrainRegion/">BrainRegion</a></td>
+<td>None</td>
 </tr>
 <tr>
-<td><a href="Pathway/">Pathway</a></td>
-<td></td>
+<td>        <a href="BiologicalProcess/">BiologicalProcess</a></td>
+<td>None</td>
 </tr>
 <tr>
-<td><a href="ProteinOrComplex/">ProteinOrComplex</a></td>
-<td></td>
+<td>        <a href="CellOntologyTerm/">CellOntologyTerm</a></td>
+<td>None</td>
+</tr>
+<tr>
+<td>        <a href="ChemicalEntity/">ChemicalEntity</a></td>
+<td>None</td>
+</tr>
+<tr>
+<td>                <a href="Neurotransmitter/">Neurotransmitter</a></td>
+<td>None</td>
+</tr>
+<tr>
+<td>        <a href="Disease/">Disease</a></td>
+<td>None</td>
+</tr>
+<tr>
+<td>        <a href="Drug/">Drug</a></td>
+<td>None</td>
+</tr>
+<tr>
+<td>        <a href="Gene/">Gene</a></td>
+<td>None</td>
+</tr>
+<tr>
+<td>        <a href="Pathway/">Pathway</a></td>
+<td>None</td>
+</tr>
+<tr>
+<td>        <a href="ProteinOrComplex/">ProteinOrComplex</a></td>
+<td>None</td>
+</tr>
+<tr>
+<td>        <a href="RelationshipType/">RelationshipType</a></td>
+<td>None</td>
 </tr>
 <tr>
 <td><a href="Publication/">Publication</a></td>
-<td></td>
-</tr>
-<tr>
-<td><a href="RelationshipType/">RelationshipType</a></td>
-<td></td>
+<td>None</td>
 </tr>
 <tr>
 <td><a href="TextWithTriples/">TextWithTriples</a></td>
-<td></td>
-</tr>
-<tr>
-<td><a href="Triple/">Triple</a></td>
-<td>Abstract parent for Relation Extraction tasks</td>
+<td>None</td>
 </tr>
 </tbody>
 </table>
@@ -479,10 +481,6 @@ CellTypeDocument ||--}o BiologicalProcess : "roles"
 <td>The abstract of the publication</td>
 </tr>
 <tr>
-<td><a href="cell_type/">cell_type</a></td>
-<td>the the cell type described</td>
-</tr>
-<tr>
 <td><a href="combined_text/">combined_text</a></td>
 <td></td>
 </tr>
@@ -493,6 +491,10 @@ CellTypeDocument ||--}o BiologicalProcess : "roles"
 <tr>
 <td><a href="diseases/">diseases</a></td>
 <td></td>
+</tr>
+<tr>
+<td><a href="equivalent_to/">equivalent_to</a></td>
+<td>the the cell type described</td>
 </tr>
 <tr>
 <td><a href="extracted_object/">extracted_object</a></td>
@@ -512,7 +514,7 @@ CellTypeDocument ||--}o BiologicalProcess : "roles"
 </tr>
 <tr>
 <td><a href="id/">id</a></td>
-<td>A unique identifier for the named entity</td>
+<td></td>
 </tr>
 <tr>
 <td><a href="input_id/">input_id</a></td>
@@ -528,7 +530,7 @@ CellTypeDocument ||--}o BiologicalProcess : "roles"
 </tr>
 <tr>
 <td><a href="label/">label</a></td>
-<td>The label (name) of the named thing</td>
+<td>the concise name of the cell type</td>
 </tr>
 <tr>
 <td><a href="localizations/">localizations</a></td>
@@ -571,7 +573,7 @@ CellTypeDocument ||--}o BiologicalProcess : "roles"
 <td></td>
 </tr>
 <tr>
-<td><a href="publication.md">publication</a></td>
+<td><a href="publication/">publication</a></td>
 <td></td>
 </tr>
 <tr>

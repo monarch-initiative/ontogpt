@@ -588,31 +588,40 @@
 <tr>
 <th>Name</th>
 <th>Description</th>
+<th>Modifies Slot</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td><a href="../CellTypeDocument/">CellTypeDocument</a></td>
-<td></td>
+<td><a href="../CellType/">CellType</a></td>
+<td>Represents a cell type</td>
+<td>no</td>
 </tr>
 <tr>
-<td><a href="../ImmuneCellDocument/">ImmuneCellDocument</a></td>
+<td><a href="../ImmuneCell/">ImmuneCell</a></td>
 <td></td>
+<td>no</td>
 </tr>
 <tr>
-<td><a href="../NeuronDocument/">NeuronDocument</a></td>
+<td><a href="../Neuron/">Neuron</a></td>
 <td></td>
+<td>no</td>
 </tr>
 <tr>
-<td><a href="../InterneuronDocument/">InterneuronDocument</a></td>
+<td><a href="../Interneuron/">Interneuron</a></td>
 <td></td>
+<td>no</td>
 </tr>
 </tbody>
 </table>
 <h2 id="properties">Properties</h2>
 <ul>
-<li>Range: <a href="../CellType/">CellType</a></li>
-<li>Multivalued: True</li>
+<li>
+<p>Range: <a href="../CellOntologyTerm/">CellOntologyTerm</a></p>
+</li>
+<li>
+<p>Multivalued: True</p>
+</li>
 </ul>
 <h2 id="identifier-and-mapping-information">Identifier and Mapping Information</h2>
 <h3 id="annotations">Annotations</h3>
@@ -626,7 +635,19 @@
 <tbody>
 <tr>
 <td>prompt</td>
-<td>semicolon-separated list of the main subtypes</td>
+<td>semicolon-separated list of the subtypes (subclasses) of this cell type. Use concise terms, and separate elements in a list using semicolon (;)</td>
+</tr>
+<tr>
+<td>SubClassOf( {{ tr(subtype) }} {{ id }} )</td>
+<td></td>
+</tr>
+<tr>
+<td>{% endfor %}</td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
 </tr>
 </tbody>
 </table>
@@ -641,15 +662,25 @@
 annotations:
   prompt:
     tag: prompt
-    value: semicolon-separated list of the main subtypes
+    value: semicolon-separated list of the subtypes (subclasses) of this cell type.
+      Use concise terms, and separate elements in a list using semicolon (;)
+  owl.template:
+    tag: owl.template
+    value: '{% for subtype in subtypes %}
+
+      SubClassOf( {{ tr(subtype) }} {{ id }} )
+
+      {% endfor %}
+
+      '
 from_schema: http://w3id.org/ontogpt/cell_type
 rank: 1000
 multivalued: true
 alias: subtypes
-owner: CellTypeDocument
+owner: CellType
 domain_of:
-- CellTypeDocument
-range: CellType
+- CellType
+range: CellOntologyTerm
 
 </code></pre>
 

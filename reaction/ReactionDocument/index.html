@@ -347,8 +347,8 @@ Reaction ||--}o ChemicalEntity : "right_side"
 </tr>
 <tr>
 <td><a href="../reactions/">reactions</a></td>
-<td>0..1 <br/> <a href="../String/">String</a></td>
-<td></td>
+<td>0..* <br/> <a href="../Reaction/">Reaction</a></td>
+<td>semicolon separated list of reaction equations (e</td>
 <td>direct</td>
 </tr>
 <tr>
@@ -358,8 +358,8 @@ Reaction ||--}o ChemicalEntity : "right_side"
 <td>direct</td>
 </tr>
 <tr>
-<td><a href="organism.md">organism</a></td>
-<td>0..1 <br/> <a href="../String/">String</a></td>
+<td><a href="../organism/">organism</a></td>
+<td>0..1 <br/> <a href="../Organism/">Organism</a></td>
 <td></td>
 <td>direct</td>
 </tr>
@@ -401,7 +401,6 @@ Reaction ||--}o ChemicalEntity : "right_side"
 <details>
 <pre><code class="language-yaml">name: ReactionDocument
 from_schema: https://w3id.org/ontogpt/reaction
-rank: 1000
 attributes:
   genes:
     name: genes
@@ -444,7 +443,6 @@ attributes:
 <details>
 <pre><code class="language-yaml">name: ReactionDocument
 from_schema: https://w3id.org/ontogpt/reaction
-rank: 1000
 attributes:
   genes:
     name: genes

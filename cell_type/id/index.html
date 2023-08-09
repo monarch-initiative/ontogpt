@@ -568,64 +568,99 @@
 <tr>
 <th>Name</th>
 <th>Description</th>
+<th>Modifies Slot</th>
 </tr>
 </thead>
 <tbody>
 <tr>
+<td><a href="../CellType/">CellType</a></td>
+<td>Represents a cell type</td>
+<td>no</td>
+</tr>
+<tr>
+<td><a href="../ImmuneCell/">ImmuneCell</a></td>
+<td></td>
+<td>no</td>
+</tr>
+<tr>
+<td><a href="../Neuron/">Neuron</a></td>
+<td></td>
+<td>no</td>
+</tr>
+<tr>
+<td><a href="../Interneuron/">Interneuron</a></td>
+<td></td>
+<td>no</td>
+</tr>
+<tr>
 <td><a href="../Gene/">Gene</a></td>
 <td></td>
+<td>no</td>
 </tr>
 <tr>
 <td><a href="../ProteinOrComplex/">ProteinOrComplex</a></td>
 <td></td>
+<td>no</td>
 </tr>
 <tr>
 <td><a href="../BiologicalProcess/">BiologicalProcess</a></td>
 <td></td>
+<td>no</td>
 </tr>
 <tr>
 <td><a href="../Pathway/">Pathway</a></td>
 <td></td>
+<td>no</td>
 </tr>
 <tr>
 <td><a href="../AnatomicalStructure/">AnatomicalStructure</a></td>
 <td></td>
+<td>no</td>
 </tr>
 <tr>
 <td><a href="../ChemicalEntity/">ChemicalEntity</a></td>
 <td></td>
+<td>no</td>
 </tr>
 <tr>
 <td><a href="../Neurotransmitter/">Neurotransmitter</a></td>
 <td></td>
+<td>yes</td>
 </tr>
 <tr>
 <td><a href="../BrainRegion/">BrainRegion</a></td>
 <td></td>
+<td>yes</td>
 </tr>
 <tr>
-<td><a href="../CellType/">CellType</a></td>
+<td><a href="../CellOntologyTerm/">CellOntologyTerm</a></td>
 <td></td>
+<td>no</td>
 </tr>
 <tr>
 <td><a href="../Disease/">Disease</a></td>
 <td></td>
+<td>no</td>
 </tr>
 <tr>
 <td><a href="../Drug/">Drug</a></td>
 <td></td>
+<td>no</td>
 </tr>
 <tr>
 <td><a href="../NamedEntity/">NamedEntity</a></td>
 <td></td>
+<td>no</td>
 </tr>
 <tr>
 <td><a href="../RelationshipType/">RelationshipType</a></td>
 <td></td>
+<td>no</td>
 </tr>
 <tr>
 <td><a href="../Publication/">Publication</a></td>
 <td></td>
+<td>no</td>
 </tr>
 </tbody>
 </table>
@@ -640,6 +675,7 @@
 <pre><code class="language-yaml">name: id
 alias: id
 domain_of:
+- CellType
 - NamedEntity
 - Publication
 range: string

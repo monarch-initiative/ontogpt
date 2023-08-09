@@ -320,7 +320,7 @@ NamedEntity {
 <li><a href="../Pathway/">Pathway</a></li>
 <li><a href="../AnatomicalStructure/">AnatomicalStructure</a></li>
 <li><a href="../ChemicalEntity/">ChemicalEntity</a></li>
-<li><a href="../CellType/">CellType</a></li>
+<li><a href="../CellOntologyTerm/">CellOntologyTerm</a></li>
 <li><a href="../Disease/">Disease</a></li>
 <li><a href="../Drug/">Drug</a></li>
 <li><a href="../RelationshipType/">RelationshipType</a></li>
@@ -340,8 +340,8 @@ NamedEntity {
 <tbody>
 <tr>
 <td><a href="../id/">id</a></td>
-<td>0..1 <br/> <a href="../String/">String</a></td>
-<td></td>
+<td>1..1 <br/> <a href="../String/">String</a></td>
+<td>A unique identifier for the named entity</td>
 <td>direct</td>
 </tr>
 <tr>
@@ -419,7 +419,6 @@ NamedEntity {
 <details>
 <pre><code class="language-yaml">name: NamedEntity
 from_schema: http://w3id.org/ontogpt/cell_type
-rank: 1000
 abstract: true
 attributes:
   id:
@@ -432,7 +431,6 @@ attributes:
     comments:
     - this is populated during the grounding and normalization step
     from_schema: http://w3id.org/ontogpt/cell_type
-    rank: 1000
     identifier: true
     required: true
   label:
@@ -445,7 +443,6 @@ attributes:
     from_schema: http://w3id.org/ontogpt/cell_type
     aliases:
     - name
-    rank: 1000
     slot_uri: rdfs:label
     range: string
 
@@ -455,7 +452,6 @@ attributes:
 <details>
 <pre><code class="language-yaml">name: NamedEntity
 from_schema: http://w3id.org/ontogpt/cell_type
-rank: 1000
 abstract: true
 attributes:
   id:
@@ -468,11 +464,11 @@ attributes:
     comments:
     - this is populated during the grounding and normalization step
     from_schema: http://w3id.org/ontogpt/cell_type
-    rank: 1000
     identifier: true
     alias: id
     owner: NamedEntity
     domain_of:
+    - CellType
     - NamedEntity
     - Publication
     range: string
@@ -487,11 +483,11 @@ attributes:
     from_schema: http://w3id.org/ontogpt/cell_type
     aliases:
     - name
-    rank: 1000
     slot_uri: rdfs:label
     alias: label
     owner: NamedEntity
     domain_of:
+    - CellType
     - NamedEntity
     range: string
 

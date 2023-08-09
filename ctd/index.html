@@ -322,8 +322,8 @@
 <h1 id="chemical-to-disease-template">Chemical to Disease Template</h1>
 <p>A template for Chemical to Disease associations.
 This template is intended to represent associations between chemicals and diseases, and for evaluating Semantic Llama against BioCreative V Chemical Disease Relation (CDR) Task (BC5CDR).</p>
-<p>URI: http://w3id.org/ontogpt/ctd
-Name: ctd</p>
+<p>URI: http://w3id.org/ontogpt/ctd</p>
+<p>Name: ctd</p>
 <h2 id="schema-diagram">Schema Diagram</h2>
 <div class="mermaid">erDiagram
 ChemicalToDiseaseDocument {
@@ -413,35 +413,23 @@ TextWithTriples ||--}o Triple : "triples"
 <tbody>
 <tr>
 <td><a href="AnnotatorResult/">AnnotatorResult</a></td>
-<td></td>
+<td>None</td>
 </tr>
 <tr>
 <td><a href="Any/">Any</a></td>
-<td></td>
-</tr>
-<tr>
-<td><a href="Chemical/">Chemical</a></td>
-<td></td>
-</tr>
-<tr>
-<td><a href="ChemicalToDiseaseDocument/">ChemicalToDiseaseDocument</a></td>
-<td>A document that contains chemical to disease relations</td>
-</tr>
-<tr>
-<td><a href="ChemicalToDiseasePredicate/">ChemicalToDiseasePredicate</a></td>
-<td>A predicate for chemical to disease relationships</td>
-</tr>
-<tr>
-<td><a href="ChemicalToDiseaseRelationship/">ChemicalToDiseaseRelationship</a></td>
-<td>A triple where the subject is a chemical and the object is a disease</td>
+<td>None</td>
 </tr>
 <tr>
 <td><a href="CompoundExpression/">CompoundExpression</a></td>
-<td></td>
+<td>None</td>
 </tr>
 <tr>
-<td><a href="Disease/">Disease</a></td>
-<td></td>
+<td>        <a href="Triple/">Triple</a></td>
+<td>Abstract parent for Relation Extraction tasks</td>
+</tr>
+<tr>
+<td>                <a href="ChemicalToDiseaseRelationship/">ChemicalToDiseaseRelationship</a></td>
+<td>A triple where the subject is a chemical and the object is a disease.</td>
 </tr>
 <tr>
 <td><a href="ExtractionResult/">ExtractionResult</a></td>
@@ -449,23 +437,35 @@ TextWithTriples ||--}o Triple : "triples"
 </tr>
 <tr>
 <td><a href="NamedEntity/">NamedEntity</a></td>
-<td></td>
+<td>None</td>
+</tr>
+<tr>
+<td>        <a href="Chemical/">Chemical</a></td>
+<td>None</td>
+</tr>
+<tr>
+<td>        <a href="Disease/">Disease</a></td>
+<td>None</td>
+</tr>
+<tr>
+<td>        <a href="RelationshipType/">RelationshipType</a></td>
+<td>None</td>
+</tr>
+<tr>
+<td>                <a href="ChemicalToDiseasePredicate/">ChemicalToDiseasePredicate</a></td>
+<td>A predicate for chemical to disease relationships</td>
 </tr>
 <tr>
 <td><a href="Publication/">Publication</a></td>
-<td></td>
-</tr>
-<tr>
-<td><a href="RelationshipType/">RelationshipType</a></td>
-<td></td>
+<td>None</td>
 </tr>
 <tr>
 <td><a href="TextWithTriples/">TextWithTriples</a></td>
-<td></td>
+<td>None</td>
 </tr>
 <tr>
-<td><a href="Triple/">Triple</a></td>
-<td>Abstract parent for Relation Extraction tasks</td>
+<td>        <a href="ChemicalToDiseaseDocument/">ChemicalToDiseaseDocument</a></td>
+<td>A document that contains chemical to disease relations.</td>
 </tr>
 </tbody>
 </table>
@@ -543,7 +543,7 @@ TextWithTriples ||--}o Triple : "triples"
 <td></td>
 </tr>
 <tr>
-<td><a href="publication.md">publication</a></td>
+<td><a href="publication/">publication</a></td>
 <td></td>
 </tr>
 <tr>
