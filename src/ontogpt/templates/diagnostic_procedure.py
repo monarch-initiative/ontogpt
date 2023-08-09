@@ -5,8 +5,8 @@ from enum import Enum
 from typing import Any, Dict, List, Literal, Optional, Union
 
 from linkml_runtime.linkml_model import Decimal
-from pydantic import BaseModel as BaseModel
-from pydantic import Field
+from pydantic.v1 import BaseModel as BaseModel
+from pydantic.v1 import Field
 
 metamodel_version = "None"
 version = "None"

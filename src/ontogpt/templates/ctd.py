@@ -4,8 +4,8 @@ from __future__ import annotations
 from enum import Enum
 from typing import Any, List, Optional
 
-from pydantic import BaseModel as BaseModel
-from pydantic import Field
+from pydantic.v1 import BaseModel as BaseModel
+from pydantic.v1 import Field
 
 metamodel_version = "None"
 version = "None"

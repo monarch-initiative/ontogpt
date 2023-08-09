@@ -6,7 +6,7 @@ from pathlib import Path
 from typing import Iterator, List
 
 from jinja2 import Template
-from pydantic import BaseModel
+from pydantic.v1 import BaseModel
 
 from ontogpt.engines.knowledge_engine import KnowledgeEngine
 from ontogpt.prompts.qa import GENERIC_QA_PROMPT

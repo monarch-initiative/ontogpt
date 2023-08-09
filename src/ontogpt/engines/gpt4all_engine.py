@@ -1,21 +1,22 @@
 """
-GGML-based knowledge extractor class.
+gpt4all-based knowledge extractor class.
 
 Like the SPIRES implementation seen in spires_engine.py,
 this process constructs prompt-completions in which
 a pseudo-YAML structure is requested and the YAML
 structure corresponds to a template class.
 
-This class is intended for use with GGML-format models
+This class is intended for use with models
 such as those released by GPT4All (https://gpt4all.io/).
 """
 import logging
 from dataclasses import dataclass
 from pathlib import Path
-from typing import Any, Dict, List, Optional, Tuple, Union
+from typing import Any, Dict, Iterator, List, Optional, Tuple, Union
 
-import pydantic
+import pydantic.v1
 from linkml_runtime.linkml_model import ClassDefinition, SlotDefinition
+from oaklib import BasicOntologyInterface
 
 from ontogpt.engines.knowledge_engine import (
     ANNOTATION_KEY_PROMPT,
@@ -37,7 +38,7 @@ RESPONSE_DICT = Dict[FIELD, Union[RESPONSE_ATOM, List[RESPONSE_ATOM]]]
 
 
 @dataclass
-class GGMLEngine(KnowledgeEngine):
+class GPT4AllEngine(KnowledgeEngine):
     """Knowledge extractor for GGML chat models."""
 
     sentences_per_window: Optional[int] = None
@@ -50,15 +51,11 @@ class GGMLEngine(KnowledgeEngine):
     If this is false AND the complex object is a pair, then token-based splitting is
     instead used."""
 
-    local_model = None
-    """Cached local model path."""
-
     loaded_model = None
-    """Langchain loaded model object."""
+    """Loaded model object."""
 
-    def __post_init__(self, local_model):
-        self.local_model = local_model
-        self.loaded_model = set_up_gpt4all_model(self.local_model)
+    def __post_init__(self):
+        self.loaded_model = set_up_gpt4all_model(self.model)
         if self.template:
             self.template_class = self._get_template_class(self.template)
         if self.template_class:
@@ -109,8 +106,95 @@ class GGMLEngine(KnowledgeEngine):
         raw_text = self._raw_extract(text, cls)
         return self._parse_response_to_dict(raw_text, cls)
 
+    def iteratively_generate_and_extract(
+        self,
+        entity: str,
+        cache_path: Union[str, Path],
+        iteration_slots: List[str],
+        adapter: BasicOntologyInterface = None,
+        clear=False,
+        max_iterations=10,
+        prompt_template=None,
+        **kwargs,
+    ) -> Iterator[ExtractionResult]:
+        def _remove_parenthetical_context(s: str):
+            return re.sub(r"\(.*\)", "", s)
+
+        iteration = 0
+        if isinstance(cache_path, str):
+            cache_path = Path(cache_path)
+        if cache_path.exists() and not clear:
+            db = yaml.safe_load(cache_path.open())
+            if "entities_in_queue" not in db:
+                db["entities_in_queue"] = []
+        else:
+            db = {"processed_entities": [], "entities_in_queue": [], "results": []}
+        if entity not in db["processed_entities"]:
+            db["entities_in_queue"].append(entity)
+        if prompt_template is None:
+            prompt_template = (
+                "Generate a comprehensive description of {entity}. "
+                + "The description should include the information on"
+                + " and ".join(iteration_slots)
+                + ".\n"
+            )
+        while db["entities_in_queue"] and iteration < max_iterations:
+            iteration += 1
+            next_entity = db["entities_in_queue"].pop(0)
+            logging.info(f"ITERATION {iteration}, entity={next_entity}")
+            # check if entity matches a curie pattern using re
+            if re.match(r"^[A-Z]+:[A-Z0-9]+$", next_entity):
+                curie = next_entity
+                next_entity = adapter.label(next_entity)
+            else:
+                curie = None
+            result = self.generate_and_extract(
+                next_entity, prompt_template=prompt_template, **kwargs
+            )
+            if curie:
+                if result.extracted_object:
+                    result.extracted_object.id = curie
+            db["results"].append(result)
+            db["processed_entities"].append(next_entity)
+            yield result
+            for s in iteration_slots:
+                # if s not in result.extracted_object:
+                #    raise ValueError(f"Slot {s} not found in {result.extracted_object}")
+                vals = getattr(result.extracted_object, s, [])
+                if not vals:
+                    logging.info("dead-end: no values found for slot")
+                    continue
+                if not isinstance(vals, list):
+                    vals = [vals]
+                for val in vals:
+                    entity = val
+
+                    for ne in result.named_entities:
+                        if ne.id == val:
+                            entity = ne.label
+                            if ne.id.startswith("AUTO"):
+                                # Sometimes the value of some slots will lack
+                                context = next_entity
+                                context = re.sub(r"\(.*\)", "", context)
+                                entity = f"{entity} ({context})"
+                            else:
+                                entity = ne.id
+                            break
+                    queue_deparenthesized = [
+                        _remove_parenthetical_context(e) for e in db["entities_in_queue"]
+                    ]
+                    if (
+                        entity not in db["processed_entities"]
+                        and entity not in db["entities_in_queue"]
+                        and _remove_parenthetical_context(entity) not in queue_deparenthesized
+                    ):
+                        db["entities_in_queue"].append(entity)
+            with open(cache_path, "w") as f:
+                # TODO: consider a more robust backend e.g. mongo
+                f.write(dump_minimal_yaml(db))
+
     def generalize(
-        self, object: Union[pydantic.BaseModel, dict], examples: List[EXAMPLE]
+        self, object: Union[pydantic.v1.BaseModel, dict], examples: List[EXAMPLE]
     ) -> ExtractionResult:
         """
         Generalize the given examples.
@@ -125,7 +209,7 @@ class GGMLEngine(KnowledgeEngine):
         for example in examples:
             prompt += f"{self.serialize_object(example)}\n\n"
         prompt += "\n\n===\n\n"
-        if isinstance(object, pydantic.BaseModel):
+        if isinstance(object, pydantic.v1.BaseModel):
             object = object.dict()
         for k, v in object.items():
             if v:
@@ -217,7 +301,7 @@ class GGMLEngine(KnowledgeEngine):
             cls = self.template_class
         if isinstance(example, str):
             return example
-        if isinstance(example, pydantic.BaseModel):
+        if isinstance(example, pydantic.v1.BaseModel):
             example = example.dict()
         lines = []
         sv = self.schemaview
@@ -296,7 +380,7 @@ class GGMLEngine(KnowledgeEngine):
         if object:
             if cls is None:
                 cls = self.template_class
-            if isinstance(object, pydantic.BaseModel):
+            if isinstance(object, pydantic.v1.BaseModel):
                 object = object.dict()
             for k, v in object.items():
                 if v:
@@ -417,7 +501,7 @@ class GGMLEngine(KnowledgeEngine):
 
     def parse_completion_payload(
         self, results: str, cls: ClassDefinition = None, object: dict = None
-    ) -> pydantic.BaseModel:
+    ) -> pydantic.v1.BaseModel:
         """
         Parse the completion payload into a pydantic class.
 
@@ -434,7 +518,7 @@ class GGMLEngine(KnowledgeEngine):
 
     def ground_annotation_object(
         self, ann: RESPONSE_DICT, cls: ClassDefinition = None
-    ) -> Optional[pydantic.BaseModel]:
+    ) -> Optional[pydantic.v1.BaseModel]:
         """Ground the direct parse of the OpenAI payload.
 
         The raw openAI payload is a YAML-like string, which is parsed to
