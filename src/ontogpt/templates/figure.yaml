@@ -40,5 +40,3 @@ classes:
         description: The text associated with this figure subpanel
       info:
         description: any information from the overall figure caption that applies to that subpanel (which may be duplicated across other subpanels).
-    annotations:
-      annotators: sqlite:obo:go
