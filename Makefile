@@ -5,7 +5,7 @@ PACKAGE = ontogpt
 TEMPLATE_DIR = src/$(PACKAGE)/templates
 EVAL_DIR = src/$(PACKAGE)/evaluation
 TEMPLATES = $(notdir $(basename $(wildcard $(TEMPLATE_DIR)/*.yaml)))
-ENTRY_CLASSES = recipe.Recipe gocam.GoCamAnnotations reaction.ReactionDocument ctd.ChemicalToDiseaseDocument
+ENTRY_CLASSES = recipe.Recipe gocam.GoCamAnnotations reaction.ReactionDocument ctd.ChemicalToDiseaseDocument figure.FigureCaption
 
 all: all_pydantic all_projects
 
