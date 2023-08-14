@@ -18,7 +18,6 @@ imports:
 classes:
   FigureCaption:
     tree_root: true
-    is_a: NamedEntity
     description: A caption for a figure from a scientific paper. The caption may contain multiple subpanel descriptions.
     attributes:
       title:
@@ -29,7 +28,6 @@ classes:
         range: SubPanel
 
   SubPanel:
-    is_a: NamedEntity
     description: A subcomponent of the overall figure caption.
     attributes:
       id:

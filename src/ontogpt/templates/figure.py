@@ -38,6 +38,25 @@ class NullDataOptions(str, Enum):
     
     
 
+class FigureCaption(ConfiguredBaseModel):
+    """
+    A caption for a figure from a scientific paper. The caption may contain multiple subpanel descriptions.
+    """
+    title: Optional[str] = Field(None, description="""the overall title of the figure caption""")
+    subpanel: Optional[List[SubPanel]] = Field(default_factory=list, description="""a subpanel of the figure""")
+    
+
+
+class SubPanel(ConfiguredBaseModel):
+    """
+    A subcomponent of the overall figure caption.
+    """
+    id: Optional[str] = Field(None, description="""The identifier for this figure subpanel""")
+    text: Optional[str] = Field(None, description="""The text associated with this figure subpanel""")
+    info: Optional[str] = Field(None, description="""any information from the overall figure caption that applies to that subpanel (which may be duplicated across other subpanels).""")
+    
+
+
 class ExtractionResult(ConfiguredBaseModel):
     """
     A result of extracting knowledge on text
@@ -55,28 +74,6 @@ class ExtractionResult(ConfiguredBaseModel):
 class NamedEntity(ConfiguredBaseModel):
     
     id: Optional[str] = Field(None, description="""A unique identifier for the named entity""")
-    label: Optional[str] = Field(None, description="""The label (name) of the named thing""")
-    
-
-
-class FigureCaption(NamedEntity):
-    """
-    A caption for a figure from a scientific paper. The caption may contain multiple subpanel descriptions.
-    """
-    title: Optional[str] = Field(None, description="""the overall title of the figure caption""")
-    subpanel: Optional[List[SubPanel]] = Field(default_factory=list, description="""a subpanel of the figure""")
-    id: str = Field(..., description="""A unique identifier for the named entity""")
-    label: Optional[str] = Field(None, description="""The label (name) of the named thing""")
-    
-
-
-class SubPanel(NamedEntity):
-    """
-    A subcomponent of the overall figure caption.
-    """
-    id: Optional[str] = Field(None, description="""The identifier for this figure subpanel""")
-    text: Optional[str] = Field(None, description="""The text associated with this figure subpanel""")
-    info: Optional[str] = Field(None, description="""any information from the overall figure caption that applies to that subpanel (which may be duplicated across other subpanels).""")
     label: Optional[str] = Field(None, description="""The label (name) of the named thing""")
     
 
@@ -135,10 +132,10 @@ class AnnotatorResult(ConfiguredBaseModel):
 
 # Update forward refs
 # see https://pydantic-docs.helpmanual.io/usage/postponed_annotations/
-ExtractionResult.update_forward_refs()
-NamedEntity.update_forward_refs()
 FigureCaption.update_forward_refs()
 SubPanel.update_forward_refs()
+ExtractionResult.update_forward_refs()
+NamedEntity.update_forward_refs()
 CompoundExpression.update_forward_refs()
 Triple.update_forward_refs()
 TextWithTriples.update_forward_refs()
