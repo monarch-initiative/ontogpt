@@ -926,7 +926,6 @@ def enrichment(
     Usage:
 
         ontogpt enrichment -r sqlite:obo:hgnc -U tests/input/genesets/dopamine.yaml
-
     """
     if model:
         selectmodel = get_model_by_name(model)
@@ -995,7 +994,10 @@ def enrichment(
 )
 @click.argument("text", nargs=-1)
 def embed(text, context, output, model, output_format, **kwargs):
-    """Embed text."""
+    """Embed text.
+    
+    Not currently supported for open models.
+    """
     if model:
         selectmodel = get_model_by_name(model)
         model_source = selectmodel["provider"]
@@ -1024,7 +1026,10 @@ def embed(text, context, output, model, output_format, **kwargs):
 )
 @click.argument("text", nargs=-1)
 def text_similarity(text, context, output, model, output_format, **kwargs):
-    """Embed text."""
+    """Embed text.
+    
+    Not currently supported for open models.
+    """
     if model:
         selectmodel = get_model_by_name(model)
         model_source = selectmodel["provider"]
@@ -1061,7 +1066,10 @@ def text_similarity(text, context, output, model, output_format, **kwargs):
 )
 @click.argument("text", nargs=-1)
 def text_distance(text, context, output, model, output_format, **kwargs):
-    """Embed text, calculate euclidian distance between embeddings."""
+    """Embed text and calculate euclidian distance between embeddings.
+    
+    Not currently supported for open models.
+    """
     if model:
         selectmodel = get_model_by_name(model)
         model_source = selectmodel["provider"]
@@ -1132,7 +1140,7 @@ def text_distance(text, context, output, model, output_format, **kwargs):
 def entity_similarity(terms, ontology, output, model, output_format, **kwargs):
     """Embed text.
 
-    Uses the OpenAI ada embedding model by default, currently: $0.0004 / 1K tokens
+    Not currently supported for open models.
     """
     if model:
         selectmodel = get_model_by_name(model)
