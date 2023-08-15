@@ -325,7 +325,7 @@ def extract(
 @output_format_options
 @auto_prefix_option
 @click.argument("entity")
-def generate_extract(entity, template, output, output_format, **kwargs):
+def generate_extract(model, entity, template, output, output_format, **kwargs):
     """Generate text and then extract knowledge from it."""
     logging.info(f"Creating for {template}")
 
@@ -366,6 +366,7 @@ def generate_extract(entity, template, output, output_format, **kwargs):
 )
 @click.argument("entity")
 def iteratively_generate_extract(
+    model,
     entity,
     template,
     output,
@@ -421,7 +422,7 @@ def iteratively_generate_extract(
     help="Attempt to parse PubMed Central full text(s) instead of abstract(s) alone.",
 )
 @click.argument("pmid")
-def pubmed_extract(pmid, template, output, output_format, get_pmc, **kwargs):
+def pubmed_extract(model, pmid, template, output, output_format, get_pmc, **kwargs):
     """Extract knowledge from a single PubMed ID."""
     logging.info(f"Creating for {template}")
 
@@ -470,7 +471,7 @@ def pubmed_extract(pmid, template, output, output_format, get_pmc, **kwargs):
     help="Attempt to parse PubMed Central full text(s) instead of abstract(s) alone.",
 )
 @click.argument("search")
-def pubmed_annotate(search, template, output, output_format, limit, get_pmc, **kwargs):
+def pubmed_annotate(model, search, template, output, output_format, limit, get_pmc, **kwargs):
     """Retrieve a collection of PubMed IDs for a search term; annotate them using a template.
 
     Example:
@@ -517,7 +518,7 @@ def pubmed_annotate(search, template, output, output_format, limit, get_pmc, **k
 @output_format_options
 @click.option("--auto-prefix", default="AUTO", help="Prefix to use for auto-generated classes.")
 @click.argument("article")
-def wikipedia_extract(article, template, output, output_format, **kwargs):
+def wikipedia_extract(model, article, template, output, output_format, **kwargs):
     """Extract knowledge from a Wikipedia page."""
     if not model:
         model = DEFAULT_MODEL
@@ -557,7 +558,7 @@ def wikipedia_extract(article, template, output, output_format, **kwargs):
     help="Keyword to search for (e.g. --keyword therapy). Also obtained from schema",
 )
 @click.argument("topic")
-def wikipedia_search(topic, keyword, template, output, output_format, **kwargs):
+def wikipedia_search(model, topic, keyword, template, output, output_format, **kwargs):
     """Extract knowledge from a Wikipedia page."""
     if not model:
         model = DEFAULT_MODEL
@@ -606,7 +607,7 @@ def wikipedia_search(topic, keyword, template, output, output_format, **kwargs):
     help="Keyword to search for (e.g. --keyword therapy). Also obtained from schema",
 )
 @click.argument("term_tokens", nargs=-1)
-def search_and_extract(term_tokens, keyword, template, output, output_format, **kwargs):
+def search_and_extract(model, term_tokens, keyword, template, output, output_format, **kwargs):
     """Search for relevant literature and extract knowledge from it."""
     if not model:
         model = DEFAULT_MODEL
@@ -747,7 +748,7 @@ def recipe_extract(model, url, recipes_urls_file, dictionary, output, output_for
 @output_option_wb
 @output_format_options
 @click.argument("input")
-def convert(input, output, output_format, **kwargs):
+def convert(model, input, output, output_format, **kwargs):
     """Convert output format.
 
     Primarily intended for use with recipe template.
