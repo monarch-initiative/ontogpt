@@ -2794,13 +2794,13 @@ regex = ["regex"]
 
 [[package]]
 name = "linkml"
-version = "1.5.6"
+version = "1.5.7"
 description = "Linked Open Data Modeling Language"
 optional = false
 python-versions = ">=3.7.6,<4.0.0"
 files = [
-    {file = "linkml-1.5.6-py3-none-any.whl", hash = "sha256:8036d9ead98d0bf61017e5a2db32ca5b752ab32e338c796c4780118f37293d44"},
-    {file = "linkml-1.5.6.tar.gz", hash = "sha256:54b34ad376c3146eb714e961118ac2a02720ac315d8ab76ca802e5dc479b25fb"},
+    {file = "linkml-1.5.7-py3-none-any.whl", hash = "sha256:677f4c5809dc51b151b86accc69e77482ad86b9c1326a212cef9b4a2a9a96c10"},
+    {file = "linkml-1.5.7.tar.gz", hash = "sha256:bca3dd56837ced79749656843e1e20b8d1db1a89287e7b29d1ee145e4a75ad4d"},
 ]
 
 [package.dependencies]
@@ -7216,4 +7216,4 @@ web = ["Jinja2", "fastapi", "uvicorn"]
 [metadata]
 lock-version = "2.0"
 python-versions = ">=3.9,<3.9.7 || >3.9.7,<4.0"
-content-hash = "09b93230d2fdacfdbfa94d2d0d005893c5675756fa518faacffdf8f5b9a57f60"
+content-hash = "d4fca9528c1fb834b902ce60d44192616da743d75e8bd949e60f8b245ca71403"
