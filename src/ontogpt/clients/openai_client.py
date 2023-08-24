@@ -24,14 +24,18 @@ class OpenAIClient:
     api_key: str = None
     interactive: bool = None
 
+    show_prompt: bool = False
+
     def __post_init__(self):
         if not self.api_key:
             self.api_key = get_apikey_value("openai")
         openai.api_key = self.api_key
 
-    def complete(self, prompt, max_tokens=3000, **kwargs) -> str:
+    def complete(self, prompt, show_prompt, max_tokens=3000, **kwargs) -> str:
         engine = self.model
         logger.info(f"Complete: engine={engine}, prompt[{len(prompt)}]={prompt[0:100]}...")
+        if show_prompt:
+            logger.info(f"Full prompt:\n{prompt}")
         cur = self.db_connection()
         res = cur.execute("SELECT payload FROM cache WHERE prompt=? AND engine=?", (prompt, engine))
         payload = res.fetchone()
