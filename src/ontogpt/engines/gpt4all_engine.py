@@ -62,7 +62,11 @@ class GPT4AllEngine(KnowledgeEngine):
             logging.info(f"Using template {self.template_class.name}")
 
     def extract_from_text(
-        self, text: str, cls: ClassDefinition = None, object: OBJECT = None
+        self,
+        text: str,
+        show_prompt: bool = False,
+        cls: ClassDefinition = None,
+        object: OBJECT = None,
     ) -> ExtractionResult:
         """
         Extract annotations from the given text.
@@ -78,6 +82,8 @@ class GPT4AllEngine(KnowledgeEngine):
             for chunk in chunks:
                 raw_text = self._raw_extract(chunk, cls, object=object)
                 logging.info(f"RAW TEXT: {raw_text}")
+                if show_prompt:
+                    logging.info(f" PROVIDED PROMPT:\n{self.last_prompt}")
                 next_object = self.parse_completion_payload(raw_text, cls, object=object)
                 if extracted_object is None:
                     extracted_object = next_object
@@ -93,6 +99,8 @@ class GPT4AllEngine(KnowledgeEngine):
         else:
             raw_text = self._raw_extract(text, cls, object=object)
             logging.info(f"RAW TEXT: {raw_text}")
+            if show_prompt:
+                logging.info(f" PROVIDED PROMPT:\n{self.last_prompt}")
             extracted_object = self.parse_completion_payload(raw_text, cls, object=object)
         return ExtractionResult(
             input_text=text,
