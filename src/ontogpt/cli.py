@@ -316,7 +316,7 @@ def extract(
         target_class_def = ke.schemaview.get_class(target_class)
     else:
         target_class_def = None
-    results = ke.extract_from_text(text, target_class_def)
+    results = ke.extract_from_text(text=text, cls=target_class_def, show_prompt=show_prompt)
     if set_slot_value:
         for slot_value in set_slot_value:
             slot, value = slot_value.split("=")
@@ -332,8 +332,9 @@ def extract(
 @output_option_wb
 @output_format_options
 @auto_prefix_option
+@show_prompt_option
 @click.argument("entity")
-def generate_extract(model, entity, template, output, output_format, **kwargs):
+def generate_extract(model, entity, template, output, output_format, show_prompt, **kwargs):
     """Generate text and then extract knowledge from it."""
     logging.info(f"Creating for {template}")
 
@@ -354,7 +355,7 @@ def generate_extract(model, entity, template, output, output_format, **kwargs):
         ke = GPT4AllEngine(template=template, model=model_name, **kwargs)
 
     logging.debug(f"Input entity: {entity}")
-    results = ke.generate_and_extract(entity)
+    results = ke.generate_and_extract(entity, show_prompt)
     write_extraction(results, output, output_format, ke)
 
 
@@ -365,6 +366,7 @@ def generate_extract(model, entity, template, output, output_format, **kwargs):
 @output_option_wb
 @output_format_options
 @auto_prefix_option
+@show_prompt_option
 @click.option("--ontology", "-r", help="Ontology to use; use oaklib selector path")
 @click.option("--max-iterations", "-M", default=10, type=click.INT)
 @click.option("--iteration-slot", "-I", multiple=True, help="Slots to iterate over")
@@ -998,7 +1000,7 @@ def enrichment(
 @click.argument("text", nargs=-1)
 def embed(text, context, output, model, output_format, **kwargs):
     """Embed text.
-    
+
     Not currently supported for open models.
     """
     if model:
@@ -1030,7 +1032,7 @@ def embed(text, context, output, model, output_format, **kwargs):
 @click.argument("text", nargs=-1)
 def text_similarity(text, context, output, model, output_format, **kwargs):
     """Embed text.
-    
+
     Not currently supported for open models.
     """
     if model:
@@ -1070,7 +1072,7 @@ def text_similarity(text, context, output, model, output_format, **kwargs):
 @click.argument("text", nargs=-1)
 def text_distance(text, context, output, model, output_format, **kwargs):
     """Embed text and calculate euclidian distance between embeddings.
-    
+
     Not currently supported for open models.
     """
     if model:
@@ -1483,8 +1485,9 @@ def openai_models(**kwargs):
 @model_option
 @output_option_txt
 @output_format_options
+@show_prompt_option
 @click.argument("input")
-def complete(model, input, output, output_format, **kwargs):
+def complete(model, input, output, output_format, show_prompt, **kwargs):
     """Prompt completion."""
     if not model:
         model = DEFAULT_MODEL
@@ -1496,7 +1499,7 @@ def complete(model, input, output, output_format, **kwargs):
 
     if model_source == "OpenAI":
         c = OpenAIClient(model=model_name)
-        results = c.complete(text)
+        results = c.complete(text, show_prompt)
 
     elif model_source == "GPT4All":
         c = set_up_gpt4all_model(modelname=model_name)
