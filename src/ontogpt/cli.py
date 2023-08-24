@@ -185,7 +185,7 @@ show_prompt_option = click.option(
     "--show-prompt/--no-show-prompt",
     default=False,
     show_default=True,
-    help="If set, show all prompts passed to model through an API.",
+    help="If set, show all prompts passed to model through an API. Use with verbose setting.",
 )
 
 
