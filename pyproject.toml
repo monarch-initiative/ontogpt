@@ -45,9 +45,9 @@ gpt4 = ">=0.0.1"
 "ruamel.yaml" = ">=0.17.31"
 requests = "^2.31.0"
 huggingface_hub  = {version = ">=0.15.1", extras = ["huggingface"], optional = true}
-llm = "^0.6.1"
+llm = "^0.8"
 llm-gpt4all = "^0.1.1"
-linkml = "^1.5.6"
+linkml = "^1.5.7"
 linkml-owl = "^0.3.0"
 
 [tool.poetry.dev-dependencies]
