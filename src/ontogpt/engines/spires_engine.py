@@ -57,7 +57,11 @@ class SPIRESEngine(KnowledgeEngine):
     The results are then merged together."""
 
     def extract_from_text(
-        self, text: str, cls: ClassDefinition = None, object: OBJECT = None
+        self,
+        text: str,
+        show_prompt: bool = False,
+        cls: ClassDefinition = None,
+        object: OBJECT = None,
     ) -> ExtractionResult:
         """
         Extract annotations from the given text.
@@ -71,7 +75,7 @@ class SPIRESEngine(KnowledgeEngine):
             chunks = chunk_text(text, self.sentences_per_window)
             extracted_object = None
             for chunk in chunks:
-                raw_text = self._raw_extract(chunk, cls, object=object)
+                raw_text = self._raw_extract(chunk, cls, show_prompt=show_prompt, object=object)
                 logging.info(f"RAW TEXT: {raw_text}")
                 next_object = self.parse_completion_payload(raw_text, cls, object=object)
                 if extracted_object is None:
@@ -86,7 +90,7 @@ class SPIRESEngine(KnowledgeEngine):
                             else:
                                 extracted_object[k] = v
         else:
-            raw_text = self._raw_extract(text, cls, object=object)
+            raw_text = self._raw_extract(text=text, cls=cls, show_prompt=show_prompt, object=object)
             logging.info(f"RAW TEXT: {raw_text}")
             extracted_object = self.parse_completion_payload(raw_text, cls, object=object)
         return ExtractionResult(
@@ -98,11 +102,11 @@ class SPIRESEngine(KnowledgeEngine):
         )
 
     def _extract_from_text_to_dict(self, text: str, cls: ClassDefinition = None) -> RESPONSE_DICT:
-        raw_text = self._raw_extract(text, cls)
+        raw_text = self._raw_extract(text, cls, )
         return self._parse_response_to_dict(raw_text, cls)
 
     def generate_and_extract(
-        self, entity: str, prompt_template: str = None, **kwargs
+        self, entity: str, show_prompt: bool = False, prompt_template: str = None, **kwargs
     ) -> ExtractionResult:
         """
         Generate a description using GPT and then extract from it using SPIRES.
@@ -115,7 +119,7 @@ class SPIRESEngine(KnowledgeEngine):
             prompt_template = "Generate a comprehensive description of {entity}.\n"
         # prompt = f"Generate a comprehensive description of {entity}.\n"
         prompt = prompt_template.format(entity=entity)
-        payload = self.client.complete(prompt)
+        payload = self.client.complete(prompt, show_prompt)
         return self.extract_from_text(payload, **kwargs)
 
     def iteratively_generate_and_extract(
@@ -127,6 +131,7 @@ class SPIRESEngine(KnowledgeEngine):
         clear=False,
         max_iterations=10,
         prompt_template=None,
+        show_prompt: bool = False,
         **kwargs,
     ) -> Iterator[ExtractionResult]:
         def _remove_parenthetical_context(s: str):
@@ -161,7 +166,7 @@ class SPIRESEngine(KnowledgeEngine):
             else:
                 curie = None
             result = self.generate_and_extract(
-                next_entity, prompt_template=prompt_template, **kwargs
+                next_entity, show_prompt=show_prompt, prompt_template=prompt_template, **kwargs
             )
             if curie:
                 if result.extracted_object:
@@ -206,7 +211,10 @@ class SPIRESEngine(KnowledgeEngine):
                 f.write(dump_minimal_yaml(db))
 
     def generalize(
-        self, object: Union[pydantic.v1.BaseModel, dict], examples: List[EXAMPLE]
+        self,
+        object: Union[pydantic.v1.BaseModel, dict],
+        examples: List[EXAMPLE],
+        show_prompt: bool = False,
     ) -> ExtractionResult:
         """
         Generalize the given examples.
@@ -228,7 +236,7 @@ class SPIRESEngine(KnowledgeEngine):
                 slot = sv.induced_slot(k, cls.name)
                 prompt += f"{k}: {self._serialize_value(v, slot)}\n"
         logging.debug(f"PROMPT: {prompt}")
-        payload = self.client.complete(prompt)
+        payload = self.client.complete(prompt, show_prompt)
         prediction = self.parse_completion_payload(payload, object=object)
         return ExtractionResult(
             input_text=prompt,
@@ -238,7 +246,9 @@ class SPIRESEngine(KnowledgeEngine):
             named_entities=self.named_entities,
         )
 
-    def map_terms(self, terms: List[str], ontology: str) -> Dict[str, List[str]]:
+    def map_terms(
+        self, terms: List[str], ontology: str, show_prompt: bool = False
+    ) -> Dict[str, List[str]]:
         """
         Map the given terms to the given ontology.
 
@@ -278,7 +288,7 @@ class SPIRESEngine(KnowledgeEngine):
         prompt += "===\n\nTerms:"
         prompt += "; ".join(terms)
         prompt += "===\n\n"
-        payload = self.client.complete(prompt)
+        payload = self.client.complete(prompt, show_prompt)
         # outer parse
         best_results = []
         for sep in ["\n", "; "]:
@@ -346,7 +356,9 @@ class SPIRESEngine(KnowledgeEngine):
                         return label
         return val
 
-    def _raw_extract(self, text, cls: ClassDefinition = None, object: OBJECT = None) -> str:
+    def _raw_extract(
+        self, text, show_prompt: bool = False, cls: ClassDefinition = None, object: OBJECT = None
+    ) -> str:
         """
         Extract annotations from the given text.
 
@@ -355,7 +367,7 @@ class SPIRESEngine(KnowledgeEngine):
         """
         prompt = self.get_completion_prompt(cls, text, object=object)
         self.last_prompt = prompt
-        payload = self.client.complete(prompt)
+        payload = self.client.complete(prompt, show_prompt)
         return payload
 
     def get_completion_prompt(
