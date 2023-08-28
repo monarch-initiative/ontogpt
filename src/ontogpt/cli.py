@@ -160,7 +160,7 @@ def extract(template, target_class, dictionary, input, output, output_format, se
 
     Example:
 
-        ontogpt -extract -t gocam.GoCamAnnotations -T GeneOrganismRelationship "the mouse Shh gene"
+        ontogpt extract -t gocam.GoCamAnnotations -T GeneOrganismRelationship "the mouse Shh gene"
 
     """
     logging.info(f"Creating for {template}")
