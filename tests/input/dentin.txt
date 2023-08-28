@@ -1,0 +1,15 @@
+Dentin is a major component of teeth that protects dental pulp and maintains tooth health. Bone morphogenetic protein 
+(BMP) signaling is required for the formation of dentin. Mice lacking a BMP type I receptor, activin A receptor type 
+1 (ACVR1), in the neural crest display a deformed mandible. Acvr1 is known to be expressed in the dental mesenchyme. 
+However, little is known about how BMP signaling mediated by ACVR1 regulates dentinogenesis. To explore the role of 
+ACVR1 in dentin formation in molars and incisors in mice, Acvr1 was conditionally disrupted in Osterix-expressing 
+cells (designated as cKO). We found that loss of Acvr1 in the dental mesenchyme led to dentin dysplasia in molars and 
+osteodentin formation in incisors. Specifically, the cKO mice exhibited remarkable tooth phenotypes characterized by 
+thinner dentin and thicker predentin, as well as compromised differentiation of odontoblasts in molars. We also found 
+osteodentin formation in the coronal part of the cKO mandibular incisors, which was associated with a reduction in 
+the expression of odontogenic gene Dsp and an increase in the expression of osteogenic gene Bsp, leading to an 
+alteration of cell fate from odontoblasts to osteoblasts. In addition, the expressions of WNT antagonists, Dkk1 and 
+Sost, were downregulated and B-catenin was up-regulated in the cKO incisors, while the expression levels were not 
+changed in the cKO molars, compared with the corresponding controls. Our results indicate the distinct and critical 
+roles of ACVR1 between incisors and molars, which is associated with alterations in the WNT signaling related 
+molecules. This study demonstrates for the first time the physiological roles of ACVR1 during dentinogenesis.
