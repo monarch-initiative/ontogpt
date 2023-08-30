@@ -10,7 +10,7 @@ from pathlib import Path
 from typing import Any, Dict, List, Optional, Set
 
 import openai
-import pydantic
+import pydantic.v1
 import tiktoken
 import yaml
 from linkml.utils.schema_fixer import uncamel
@@ -39,7 +39,7 @@ INSTRUCTIONS = """
 """
 
 
-class StructuredPrompt(pydantic.BaseModel):
+class StructuredPrompt(pydantic.v1.BaseModel):
     header: str = None
     body: str = None
     main_prompt: str = None
@@ -317,7 +317,7 @@ class HALOEngine(KnowledgeEngine):
         obj = self.repair_dict(obj)
         try:
             elt = OntologyElement(**obj)
-        except pydantic.ValidationError as e:
+        except pydantic.v1.ValidationError as e:
             logger.warning(f"## COULD NOT PARSE: {obj} /// {e}")
             if strict:
                 raise e
@@ -369,7 +369,7 @@ class HALOEngine(KnowledgeEngine):
             obj = {k: v for k, v in obj.items() if k in allowed_slots}
             try:
                 elt = OntologyElement(**obj)
-            except pydantic.ValidationError as e:
+            except pydantic.v1.ValidationError as e:
                 logger.info(f"## COULD NOT PARSE: {obj} /// {e}")
                 return added
             logger.info(f"Elt: {elt.name} // {slots_populated} // {obj}")

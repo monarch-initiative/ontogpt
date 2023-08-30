@@ -4,7 +4,7 @@ from dataclasses import dataclass
 from pathlib import Path
 from typing import Any, TextIO, Union
 
-import pydantic
+import pydantic.v1
 import yaml
 
 from ontogpt.io.exporter import Exporter, is_curie
@@ -47,7 +47,7 @@ class HTMLExporter(Exporter):
         self.export_object(obj, extraction_output, -1)
 
     def export_object(
-        self, obj: pydantic.BaseModel, extraction_output: ExtractionResult, indent: int
+        self, obj: pydantic.v1.BaseModel, extraction_output: ExtractionResult, indent: int
     ):
         self.open_div()
         if indent >= 0:
@@ -58,7 +58,7 @@ class HTMLExporter(Exporter):
             else:
                 self.li(f"<i>{field.name}</i>: ")
             value = getattr(obj, field.name)
-            if isinstance(value, pydantic.BaseModel):
+            if isinstance(value, pydantic.v1.BaseModel):
                 self.export_object(value, extraction_output, indent + 1)
             elif isinstance(value, list):
                 self.open_ul()
@@ -66,7 +66,7 @@ class HTMLExporter(Exporter):
                 for item in value:
                     self.li(f"<b>item: {n}</b>: ")
                     n += 1
-                    if isinstance(item, pydantic.BaseModel):
+                    if isinstance(item, pydantic.v1.BaseModel):
                         self.export_object(
                             item, extraction_output=extraction_output, indent=indent + 1
                         )

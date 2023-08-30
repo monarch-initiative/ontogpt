@@ -464,17 +464,20 @@ class PubmedClient:
                 pmid = pa.find("PMID").text
             pmc_id = ""
             has_pmc_id = False
-            if (
-                pa.find("PubmedData").find("ArticleIdList").find("ArticleId", {"IdType": "pmc"})
-                and pubmedcentral
-            ):
-                pmc_id = (
-                    pa.find("PubmedData")
-                    .find("ArticleIdList")
-                    .find("ArticleId", {"IdType": "pmc"})
-                    .text
-                )
-                has_pmc_id = True
+            try:  # There's a chance that this entry is missing one or more fields below
+                if (
+                    pa.find("PubmedData").find("ArticleIdList").find("ArticleId", {"IdType": "pmc"})
+                    and pubmedcentral
+                ):
+                    pmc_id = (
+                        pa.find("PubmedData")
+                        .find("ArticleIdList")
+                        .find("ArticleId", {"IdType": "pmc"})
+                        .text
+                    )
+                    has_pmc_id = True
+            except AttributeError:
+                logging.info(f"PubMed entry {pmid} is missing the expected PubMedData fields.")
             if autoformat and not raw and not has_pmc_id:  # No PMC ID - just use title+abstract
                 ti = ""
                 if pa.find("ArticleTitle"):

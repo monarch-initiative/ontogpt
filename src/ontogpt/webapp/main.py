@@ -5,7 +5,7 @@ from typing import Dict
 
 import uvicorn
 from fastapi import FastAPI, Form, Request
-from pydantic import BaseModel
+from pydantic.v1 import BaseModel
 from starlette.staticfiles import StaticFiles
 from starlette.templating import Jinja2Templates
 
@@ -45,7 +45,7 @@ def get_engine(datamodel: str):
 @app.get("/")
 def read_root(request: Request):
     return templates.TemplateResponse(
-        "form.html", context={"request": request, "datamodels": DATAMODELS, "models": OPENAI_MODELS}
+        "form.html", context={"request": request, "datamodels": DATAMODELS}
     )
 
 

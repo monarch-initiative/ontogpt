@@ -11,7 +11,7 @@ from urllib.parse import quote
 
 import inflection
 import openai
-import pydantic
+import pydantic.v1
 import tiktoken
 import yaml
 from linkml_runtime import SchemaView
@@ -31,7 +31,7 @@ this_path = Path(__file__).parent
 logger = logging.getLogger(__name__)
 
 
-OBJECT = Union[str, pydantic.BaseModel, dict]
+OBJECT = Union[str, pydantic.v1.BaseModel, dict]
 EXAMPLE = OBJECT
 FIELD = str
 TEMPLATE_NAME = str
@@ -45,14 +45,21 @@ ANNOTATION_KEY_RECURSE = "ner.recurse"
 ANNOTATION_KEY_EXAMPLES = "prompt.examples"
 
 # TODO: introspect
+# TODO: move this to its own module
 DATAMODELS = [
-    "treatment.DiseaseTreatmentSummary",
-    "gocam.GoCamAnnotations",
     "bioloigical_process.BiologicalProcess",
+    "biotic_interaction.BioticInteraction",
+    "cell_type.CellTypeDocument",
+    "ctd.ChemicalToDiseaseDocument",
+    "diagnostic_procedure.DiagnosticProceduretoPhenotypeAssociation",
+    "drug.DrugMechanism",
     "environmental_sample.Study",
+    "gocam.GoCamAnnotations",
     "mendelian_disease.MendelianDisease",
+    "phenotype.Trait",
     "reaction.Reaction",
     "recipe.Recipe",
+    "treatment.DiseaseTreatmentSummary",
 ]
 
 
@@ -155,7 +162,11 @@ class KnowledgeEngine(ABC):
             self.mappers = [get_adapter("translator:")]
 
         self.set_up_client()
-        self.encoding = tiktoken.encoding_for_model(self.client.model)
+        try:
+            self.encoding = tiktoken.encoding_for_model(self.client.model)
+        except KeyError:
+            self.encoding = tiktoken.encoding_for_model("gpt-3.5-turbo")
+            logger.error(f"Could not find encoding for model {self.client.model}")
 
     def set_api_key(self, key: str):
         self.api_key = key
@@ -166,7 +177,7 @@ class KnowledgeEngine(ABC):
     ) -> ExtractionResult:
         raise NotImplementedError
 
-    def extract_from_file(self, file: Union[str, Path, TextIO]) -> pydantic.BaseModel:
+    def extract_from_file(self, file: Union[str, Path, TextIO]) -> pydantic.v1.BaseModel:
         """
         Extract annotations from the given text.
 
@@ -205,7 +216,7 @@ class KnowledgeEngine(ABC):
         raise NotImplementedError
 
     def generalize(
-        self, object: Union[pydantic.BaseModel, dict], examples: List[EXAMPLE]
+        self, object: Union[pydantic.v1.BaseModel, dict], examples: List[EXAMPLE]
     ) -> ExtractionResult:
         raise NotImplementedError
 

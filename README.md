@@ -5,30 +5,25 @@
 
 ## Introduction
 
-OntoGPT is a Python package for the generation of Ontologies and Knowledge Bases using GPT. It is a knowledge extraction tool that uses a Large Language Models (LLMs) to extract semantic information from text.
+OntoGPT is a Python package for the generation of Ontologies and Knowledge Bases using large language models (LLMs).
 
-This makes use of so-called *instruction prompts* in Large Language Models (LLMs) such as GPT-4.
+OntoGPT makes use of so-called *instruction prompts* in LLMs such as GPT-4.
 
-Currently three different strategies for knowledge extraction have been implemented in the ontogpt package:
+Two different strategies for knowledge extraction are currently implemented in OntoGPT:
 
 * SPIRES: *Structured Prompt Interrogation and Recursive Extraction of Semantics*
-  * Zero-shot learning (ZSL) approach to extracting nested semantic structures from text
+  * A Zero-shot learning (ZSL) approach to extracting nested semantic structures from text
   * This approach takes two inputs - 1) LinkML schema 2) free text, and outputs knowledge in a structure conformant with the supplied schema in JSON, YAML, RDF or OWL formats
-  * Uses text-davinci-003 or gpt-3.5-turbo (gpt-4 untested)
-* HALO: *HAllucinating Latent Ontologies*
-  * Few-shot learning approach to generating/hallucinating a domain ontology given a few examples
-  * Uses code-davinci-002
+  * Uses GPT-3.5-turbo, GPT-4, or one of a variety of open LLMs on your local machine
 * SPINDOCTOR: *Structured Prompt Interpolation of Narrative Descriptions Or Controlled Terms for Ontological Reporting*
   * Summarize gene set descriptions (pseudo gene-set enrichment)
-  * Uses text-davinci-003 or gpt-3.5-turbo (gpt-4 untested)
-
+  * Uses GPT-3.5-turbo or GPT-4
 
 ## Pre-requisites
 
 * Python 3.9+
-* OpenAI account
 
-An OpenAI key is necessary for using OpenAI's GPT models. This is a paid API and you will be charged based on usage. If you do not have an OpenAI account, [you may sign up here](https://platform.openai.com/signup). You will need to set your API key using the [Ontology Access Kit](https://github.com/INCATools/ontology-access-kit):
+* OpenAI API key: necessary for using OpenAI's GPT models. This is a paid API and you will be charged based on usage. If you do not have an OpenAI account, [you may sign up here](https://platform.openai.com/signup). You will need to set your API key using the [Ontology Access Kit](https://github.com/INCATools/ontology-access-kit):
 
 ```bash
 poetry run runoak set-apikey -e openai <your openai api key>
@@ -51,14 +46,6 @@ poetry run runoak set-apikey -e hfhub-key <your HuggingFace Hub api key>
 
 ## Setup
 
-For feature development and contributing to the package:
-
-```bash
-git clone https://github.com/monarch-initiative/ontogpt.git
-cd ~/path/to/ontogpt
-poetry install
-```
-
 To simply start using the package in your workspace:
 
 ```bash
@@ -80,17 +67,64 @@ where `extra_name` is one of the following:
 * `docs` - dependencies for building documentation
 * `web` - dependencies for the web application
 * `recipes` - dependencies for recipe scraping and parsing
-* `gpt4all` - dependencies for loading LLMs from GPT4All
 * `textract` - the textract plugin
 * `huggingface` - dependencies for accessing LLMs from HuggingFace Hub, remotely or locally
 
-## Examples
+For feature development and contributing to the package:
+
+```bash
+git clone https://github.com/monarch-initiative/ontogpt.git
+cd ~/path/to/ontogpt
+poetry install
+```
+
+## Getting Started
+
+OntoGPT is run from the command line. See the full list of commands with:
+
+```bash
+ontogpt --help
+```
+
+For a simple example of text completion and testing to ensure OntoGPT is set up correctly, create a text file containing the following, saving the file as `example.txt`:
+
+```
+Why did the squid cross the coral reef?
+```
+
+Then try the following command:
+
+```bash
+ontogpt complete example.txt
+```
+
+You should get text output like the following:
+
+```
+Perhaps the squid crossed the coral reef for a variety of reasons:
+
+1. Food: Squids are known to feed on small fish and other marine organisms, and there could have been a rich food source on the other side of the reef.
+
+...
+```
+
+OntoGPT is intended to be used for information extraction. The following examples show how to accomplish this.
 
 ### Strategy 1: Knowledge extraction using SPIRES
 
+#### Working Mechanism
+
+1. You provide an arbitrary data model, describing the structure you want to extract text into. This can be nested (but see limitations below). The predefined [templates](src/ontogpt/templates/) may be used.
+2. Provide your preferred annotations for grounding `NamedEntity` fields
+3. OntoGPT will:
+    - Generate a prompt
+    - Feed the prompt to a language model
+    - Parse the results into a dictionary structure
+    - Ground the results using a preferred annotator (e.g., an ontology)
+
 #### Input
 
-Consider some text from one of the input files being used in the ontogpt test suite. You can find the text file [here](tests/input/cases/gocam-betacat.txt). You can download the raw file from the GitHub link to that input text file, or copy its contents over into another file, say, `abstract.txt`. An excerpt 
+Consider some text from one of the input files being used in the OntoGPT test suite. You can find the text file [here](tests/input/cases/gocam-betacat.txt). You can download the raw file from the GitHub link to that input text file, or copy its contents over into another file, say, `abstract.txt`. An excerpt:
 
   > The cGAS/STING-mediated DNA-sensing signaling pathway is crucial
   for interferon (IFN) production and host antiviral
@@ -144,22 +178,24 @@ gene_functions:
 ...
 ```
 
-#### Working Mechanism
+#### Local Models
 
-1. You provide an arbitrary data model, describing the structure you want to extract text into
-    - This can be nested (but see limitations below)
-2. Provide your preferred annotations for grounding `NamedEntity` fields
-3. OntoGPT will:
-    - Generate a prompt
-    - Feed the prompt to a language model (currently OpenAI GPT models)
-    - Parse the results into a dictionary structure
-    - Ground the results using a preferred annotator
+To use a local model, specify it with the `-m` or `--model` option.
 
-## Strategy 2: HALO
+Example:
 
-*Documentation to come*
+```bash
+ontogpt extract -t drug -i ~/path/to/abstract.txt -m nous-hermes-13b
+```
 
-## Strategy 3: Gene Enrichment using SPINDOCTOR
+See the list of all available models with this command:
+```bash
+ontogpt list-models
+```
+
+When specifying a local model for the first time, it will be downloaded to your local system.
+
+## Strategy 2: Gene Enrichment using SPINDOCTOR
 
 Given a set of genes, OntoGPT can find similarities among them.
 
@@ -173,6 +209,8 @@ The default is to use ontological gene function synopses (via the Alliance API).
 
 * To use narrative/RefSeq summaries, use the `--no-ontological-synopses` flag
 * To run without any gene descriptions, use the `--no-annotations` flag
+
+This strategy does not currently support using local models.
 
 ## Features
 
@@ -262,7 +300,7 @@ Once you have defined your own schema / data model and placed in the correct dir
 
 Ex.:
 
-```
+```bash
 ontogpt extract -t mendelian_disease.MendelianDisease -i marfan-wikipedia.txt
 ```
 
@@ -295,9 +333,7 @@ The output of this is then passed through further SPIRES iterations.
 
 ### Text length limit
 
-Currently SPIRES must use text-davinci-003, which has a total 4k token limit (prompt + completion).
-
-You can pass in a parameter to split the text into chunks. Returned results will be recombined automatically, but more experiments need to be done to determined how reliable this is.
+LLMs have context sizes limiting the combined length of their inputs and outputs. The text-davinci-003 model, for example, whas a total 4,000 token limit (prompt + completion), while the gpt-3.5-turbo-16k model has a larger context of 16 thousand tokens.
 
 ### Schema tips
 
@@ -397,22 +433,17 @@ poetry run web-ontogpt
 
 Note: The agent running uvicorn must have the API key set, so for obvious reasons don't host this publicly without authentication, unless you want your credits drained.
 
-## OntoGPT Limitations
-
-1. Non-deterministic
-  * This relies on an existing LLM, and LLMs can be fickle in their responses
-2. Coupled to OpenAI
-  * You will need an OpenAI account to use their API. In theory any LLM can be used but in practice the parser is tuned for OpenAI's models
-
 ### SPINDOCTOR web app
 
 To start:
 
-```
+```bash
 poetry run streamlit run src/ontogpt/streamlit/spindoctor.py
 ```
 
 ### HuggingFace Hub
+
+Note: support for HuggingFace-provided models is currently a work in progress.
 
 A select number of LLMs may be accessed through HuggingFace Hub. See the full list using `ontogpt list-models`
 
@@ -424,26 +455,11 @@ Example:
 ontogpt extract -t mendelian_disease.MendelianDisease -i tests/input/cases/mendelian-disease-sly.txt -m FLAN_T5_BASE
 ```
 
-
-### Using local models
-
-OntoGPT supports using language models released by [GPT4All](https://gpt4all.io/).
-
-Specify the name of a model when using the `extract` command with the `-m` or `--model` option and OntoGPT will retrieve the model.
-
-For example:
-
-```
-ontogpt --verbose extract -t mendelian_disease.MendelianDisease -i mendelian-disease-sly.txt -m ggml-gpt4all-j-v1.3-groovy
-```
-
-will download the `ggml-gpt4all-j-v1.3-groovy.bin` file, generate a prompt, and try that prompt against the specified model.
-
 ## Citation
 
-SPIRES is described further in: Caufield JH, Hegde H, Emonet V, Harris NL, Joachimiak MP, Matentzoglu N, et al. Structured prompt interrogation and recursive extraction of semantics (SPIRES): A method for populating knowledge bases using zero-shot learning. 
+SPIRES is described further in: Caufield JH, Hegde H, Emonet V, Harris NL, Joachimiak MP, Matentzoglu N, et al. Structured prompt interrogation and recursive extraction of semantics (SPIRES): A method for populating knowledge bases using zero-shot learning. arXiv publication: http://arxiv.org/abs/2304.02711
 
-arXiv publication: http://arxiv.org/abs/2304.02711
+SPINDOCTOR is described further in: Joachimiak MP, Caufield JH, Harris NL, Kim H, Mungall CJ. Gene Set Summarization using Large Language Models. arXiv publication: http://arxiv.org/abs/2305.13338
 
 ## Contributing
 

@@ -27,7 +27,7 @@ from typing import Any, Dict, Iterable, List, Set, Tuple
 import yaml
 from bioc import biocxml
 from oaklib import BasicOntologyInterface, get_implementation_from_shorthand
-from pydantic import BaseModel
+from pydantic.v1 import BaseModel
 
 from ontogpt.engines.knowledge_engine import chunk_text
 from ontogpt.engines.spires_engine import SPIRESEngine

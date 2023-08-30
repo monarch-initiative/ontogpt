@@ -5,7 +5,7 @@ import logging
 from pathlib import Path
 from typing import Any
 from oaklib import get_adapter
-from pydantic import BaseModel
+from pydantic.v1 import BaseModel
 
 logger = logging.getLogger(__name__)
 
