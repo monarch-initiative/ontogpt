@@ -16,6 +16,7 @@ import click
 import jsonlines
 import openai
 import yaml
+import os
 from oaklib import get_adapter
 from oaklib.cli import query_terms_iterator
 from oaklib.interfaces import OboGraphInterface
@@ -1014,6 +1015,7 @@ def run_kanjee_analysis(input_data_dir, output_directory, correct_diagnosis_file
                     gpt_diagnosis = "OPENAI API CALL FAILED"
 
                 # Write the result to the output TSV file
+                gpt_diagnosis = gpt_diagnosis.replace('"', '""')
                 tsv_file.write(f"{filename}\t{correct_diagnosis}\t\"{gpt_diagnosis}\"\n")
 
 
