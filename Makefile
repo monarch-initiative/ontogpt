@@ -7,7 +7,7 @@ EVAL_DIR = src/$(PACKAGE)/evaluation
 TEMPLATES = $(notdir $(basename $(wildcard $(TEMPLATE_DIR)/*.yaml)))
 ENTRY_CLASSES = recipe.Recipe gocam.GoCamAnnotations reaction.ReactionDocument ctd.ChemicalToDiseaseDocument
 
-all: all_pydantic all_projects
+all: all_pydantic
 
 all_pydantic: $(patsubst %, $(TEMPLATE_DIR)/%.py, $(TEMPLATES))
 all_projects: $(patsubst %, projects/%, $(TEMPLATES))
@@ -45,7 +45,6 @@ docs/index.md: README.md
 
 docs/%/index.md: src/$(PACKAGE)/templates/%.yaml
 	$(RUN) gen-doc --include-top-level-diagram --diagram-type er_diagram $< -d docs/$*
-
 
 serve:
 	$(RUN) mkdocs serve
