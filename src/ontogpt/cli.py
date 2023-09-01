@@ -283,6 +283,7 @@ def extract(
         model = DEFAULT_MODEL
     selectmodel = get_model_by_name(model)
     model_source = selectmodel["provider"]
+    model_name = selectmodel["alternative_names"][0]
 
     if not inputfile or inputfile == "-":
         text = sys.stdin.read()
@@ -299,14 +300,13 @@ def extract(
         raise FileNotFoundError(f"Cannot find input file {inputfile}")
 
     if model_source == "OpenAI":
-        ke = SPIRESEngine(template, **kwargs)
+        ke = SPIRESEngine(template=template, model=model_name, **kwargs)
         if settings.cache_db:
             ke.client.cache_db_path = settings.cache_db
         if settings.skip_annotators:
             ke.client.skip_annotators = settings.skip_annotators
 
     elif model_source == "GPT4All":
-        model_name = selectmodel["alternative_names"][0]
         ke = GPT4AllEngine(template=template, model=model_name, **kwargs)
 
     elif model_source == "HuggingFace Hub":
