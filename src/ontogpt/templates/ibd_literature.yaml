@@ -10,6 +10,8 @@ prefixes:
   ExO: http://purl.obolibrary.org/obo/ExO_
   HGNC: http://identifiers.org/hgnc/
   NCIT: http://purl.obolibrary.org/obo/NCIT_
+  MONDO: http://purl.obolibrary.org/obo/MONDO_
+  GO: http://purl.obolibrary.org/obo/GO_
   core: http://w3id.org/ontogpt/core/
   ibdlit: http://w3id.org/ontogpt/ibd_literature/
   linkml: https://w3id.org/linkml/
