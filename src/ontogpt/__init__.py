@@ -12,6 +12,7 @@ with open(models_path, 'r') as models_file:
     MODELS = (safe_load(models_file))["models"]
 for model in MODELS:
     if "is_default" in model:
+        DEFAULT_MODEL_DETAILS = model
         DEFAULT_MODEL = model["alternative_names"][0]
         break
 

@@ -22,7 +22,7 @@ from sssom.parsers import parse_sssom_table, to_mapping_set_document
 from sssom.util import to_mapping_set_dataframe
 
 import ontogpt.ontex.extractor as extractor
-from ontogpt import DEFAULT_MODEL, MODELS, __version__
+from ontogpt import DEFAULT_MODEL, DEFAULT_MODEL_DETAILS, MODELS, __version__
 from ontogpt.clients import OpenAIClient
 from ontogpt.clients.pubmed_client import PubmedClient
 from ontogpt.clients.soup_client import SoupClient
@@ -127,12 +127,16 @@ def get_model_by_name(modelname: str):
         if modelname in knownmodel["alternative_names"] or modelname == knownmodel["name"]:
             selectmodel = knownmodel
             found = True
+            logging.info(
+                f"Found model: {selectmodel['name']}, provided by {selectmodel['provider']}."
+            )
             break
     if not found:
         logging.warning(
             f"""Model name not recognized or not supported yet. Using default, {DEFAULT_MODEL}.
             See all models with `ontogpt list-models`"""
         )
+        selectmodel = DEFAULT_MODEL_DETAILS
 
     return selectmodel
 
@@ -485,7 +489,9 @@ def pubmed_extract(model, pmid, template, output, output_format, get_pmc, show_p
     help="Attempt to parse PubMed Central full text(s) instead of abstract(s) alone.",
 )
 @click.argument("search")
-def pubmed_annotate(model, search, template, output, output_format, limit, get_pmc, show_prompt, **kwargs):
+def pubmed_annotate(
+    model, search, template, output, output_format, limit, get_pmc, show_prompt, **kwargs
+):
     """Retrieve a collection of PubMed IDs for a search term; annotate them using a template.
 
     Example:
@@ -624,7 +630,9 @@ def wikipedia_search(model, topic, keyword, template, output, output_format, sho
     help="Keyword to search for (e.g. --keyword therapy). Also obtained from schema",
 )
 @click.argument("term_tokens", nargs=-1)
-def search_and_extract(model, term_tokens, keyword, template, output, output_format, show_prompt, **kwargs):
+def search_and_extract(
+    model, term_tokens, keyword, template, output, output_format, show_prompt, **kwargs
+):
     """Search for relevant literature and extract knowledge from it."""
     if not model:
         model = DEFAULT_MODEL
@@ -709,7 +717,9 @@ def web_extract(model, template, url, output, output_format, show_prompt, **kwar
 @model_option
 @show_prompt_option
 @click.argument("url")
-def recipe_extract(model, url, recipes_urls_file, dictionary, output, output_format, show_prompt, **kwargs):
+def recipe_extract(
+    model, url, recipes_urls_file, dictionary, output, output_format, show_prompt, **kwargs
+):
     """Extract from recipe on the web."""
     try:
         from recipe_scrapers import scrape_me
