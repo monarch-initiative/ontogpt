@@ -3,7 +3,7 @@ import io
 import logging
 from typing import Any, Optional, TextIO
 
-import pydantic.v1
+import pydantic
 from ruamel.yaml import YAML, RoundTripRepresenter
 
 # import yaml
@@ -18,7 +18,7 @@ def eliminate_empty(obj: Any, preserve=False) -> Any:
         return [eliminate_empty(x, preserve) for x in obj if x or preserve]
     elif isinstance(obj, dict):
         return {k: eliminate_empty(v, preserve) for k, v in obj.items() if v or preserve}
-    elif isinstance(obj, pydantic.v1.BaseModel):
+    elif isinstance(obj, pydantic.BaseModel):
         return eliminate_empty(obj.dict(), preserve)
     elif isinstance(obj, tuple):
         return [eliminate_empty(x, preserve) for x in obj]

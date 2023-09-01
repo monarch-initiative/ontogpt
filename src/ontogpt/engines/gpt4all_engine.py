@@ -14,7 +14,7 @@ from dataclasses import dataclass
 from pathlib import Path
 from typing import Any, Dict, Iterator, List, Optional, Tuple, Union
 
-import pydantic.v1
+import pydantic
 from linkml_runtime.linkml_model import ClassDefinition, SlotDefinition
 from oaklib import BasicOntologyInterface
 
@@ -202,7 +202,7 @@ class GPT4AllEngine(KnowledgeEngine):
                 f.write(dump_minimal_yaml(db))
 
     def generalize(
-        self, object: Union[pydantic.v1.BaseModel, dict], examples: List[EXAMPLE]
+        self, object: Union[pydantic.BaseModel, dict], examples: List[EXAMPLE]
     ) -> ExtractionResult:
         """
         Generalize the given examples.
@@ -217,7 +217,7 @@ class GPT4AllEngine(KnowledgeEngine):
         for example in examples:
             prompt += f"{self.serialize_object(example)}\n\n"
         prompt += "\n\n===\n\n"
-        if isinstance(object, pydantic.v1.BaseModel):
+        if isinstance(object, pydantic.BaseModel):
             object = object.dict()
         for k, v in object.items():
             if v:
@@ -309,7 +309,7 @@ class GPT4AllEngine(KnowledgeEngine):
             cls = self.template_class
         if isinstance(example, str):
             return example
-        if isinstance(example, pydantic.v1.BaseModel):
+        if isinstance(example, pydantic.BaseModel):
             example = example.dict()
         lines = []
         sv = self.schemaview
@@ -388,7 +388,7 @@ class GPT4AllEngine(KnowledgeEngine):
         if object:
             if cls is None:
                 cls = self.template_class
-            if isinstance(object, pydantic.v1.BaseModel):
+            if isinstance(object, pydantic.BaseModel):
                 object = object.dict()
             for k, v in object.items():
                 if v:
@@ -509,7 +509,7 @@ class GPT4AllEngine(KnowledgeEngine):
 
     def parse_completion_payload(
         self, results: str, cls: ClassDefinition = None, object: dict = None
-    ) -> pydantic.v1.BaseModel:
+    ) -> pydantic.BaseModel:
         """
         Parse the completion payload into a pydantic class.
 
@@ -526,7 +526,7 @@ class GPT4AllEngine(KnowledgeEngine):
 
     def ground_annotation_object(
         self, ann: RESPONSE_DICT, cls: ClassDefinition = None
-    ) -> Optional[pydantic.v1.BaseModel]:
+    ) -> Optional[pydantic.BaseModel]:
         """Ground the direct parse of the OpenAI payload.
 
         The raw openAI payload is a YAML-like string, which is parsed to

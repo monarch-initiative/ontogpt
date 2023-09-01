@@ -5,7 +5,7 @@ from typing import Dict
 
 import uvicorn
 from fastapi import FastAPI, Form, Request
-from pydantic.v1 import BaseModel
+from pydantic import BaseModel
 from starlette.staticfiles import StaticFiles
 from starlette.templating import Jinja2Templates
 

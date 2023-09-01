@@ -11,7 +11,7 @@ from oaklib import BasicOntologyInterface, get_adapter
 from oaklib.datamodels.vocabulary import IS_A, SKOS_RELATED_MATCH
 from oaklib.interfaces import MappingProviderInterface
 from oaklib.types import CURIE
-from pydantic.v1 import BaseModel
+from pydantic import BaseModel
 from sssom.parsers import parse_sssom_table, to_mapping_set_document
 from sssom_schema import Mapping
 
