@@ -5,9 +5,7 @@
 
 ## Introduction
 
-OntoGPT is a Python package for the generation of Ontologies and Knowledge Bases using large language models (LLMs).
-
-OntoGPT makes use of so-called *instruction prompts* in LLMs such as GPT-4.
+OntoGPT is a Python package for generating ontologies and knowledge bases using large language models (LLMs). It makes use of so-called *instruction prompts* in LLMs such as GPT-4.
 
 Two different strategies for knowledge extraction are currently implemented in OntoGPT:
 
@@ -16,10 +14,10 @@ Two different strategies for knowledge extraction are currently implemented in O
   * This approach takes two inputs - 1) LinkML schema 2) free text, and outputs knowledge in a structure conformant with the supplied schema in JSON, YAML, RDF or OWL formats
   * Uses GPT-3.5-turbo, GPT-4, or one of a variety of open LLMs on your local machine
 * SPINDOCTOR: *Structured Prompt Interpolation of Narrative Descriptions Or Controlled Terms for Ontological Reporting*
-  * Summarize gene set descriptions (pseudo gene-set enrichment)
+  * Summarizes gene set descriptions (pseudo gene-set enrichment)
   * Uses GPT-3.5-turbo or GPT-4
 
-## Pre-requisites
+## Prerequisites for running OntoGPT
 
 * Python 3.9+
 
