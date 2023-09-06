@@ -11,7 +11,7 @@ from typing import Dict, List, Optional, Tuple, Union
 import requests_cache
 import yaml
 from oaklib import BasicOntologyInterface, get_adapter
-from pydantic.v1 import BaseModel
+from pydantic import BaseModel
 
 ENTITY_ID = str
 SYMBOL = str

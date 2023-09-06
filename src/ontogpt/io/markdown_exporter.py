@@ -3,7 +3,7 @@ from dataclasses import dataclass
 from pathlib import Path
 from typing import TextIO, Union
 
-import pydantic.v1
+import pydantic
 import yaml
 
 from ontogpt.io.exporter import Exporter, is_curie
@@ -33,7 +33,7 @@ class MarkdownExporter(Exporter):
 
     def export_object(
         self,
-        obj: pydantic.v1.BaseModel,
+        obj: pydantic.BaseModel,
         extraction_output: ExtractionResult,
         output: TextIO,
         indent: int,
@@ -44,11 +44,11 @@ class MarkdownExporter(Exporter):
             else:
                 output.write(f"\n{'  ' * indent}- {field.name}:")
             value = getattr(obj, field.name)
-            if isinstance(value, pydantic.v1.BaseModel):
+            if isinstance(value, pydantic.BaseModel):
                 self.export_object(value, extraction_output, output, indent + 1)
             elif isinstance(value, list):
                 for item in value:
-                    if isinstance(item, pydantic.v1.BaseModel):
+                    if isinstance(item, pydantic.BaseModel):
                         self.export_object(
                             item,
                             extraction_output=extraction_output,

@@ -221,7 +221,8 @@ There are a number of pre-defined LinkML data models already developed here - [s
 Define a schema (using a subset of [LinkML](https://linkml.io)) that describes the structure in which you want to extract knowledge from your text.
 
 <details>
-  <summary>example custom linkml data model</summary>
+  <summary>Open to see an example custom linkml data model</summary>
+ 
   ```yaml
   classes:
     MendelianDisease:
@@ -283,7 +284,8 @@ Define a schema (using a subset of [LinkML](https://linkml.io)) that describes t
       is_a: NamedThing
       annotations:
         annotators: sqlite:obo:hp
-    ```
+```
+
 </details>
 
 * Prompt hints can be specified using the `prompt` annotation (otherwise description is used)

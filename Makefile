@@ -7,7 +7,7 @@ EVAL_DIR = src/$(PACKAGE)/evaluation
 TEMPLATES = $(notdir $(basename $(wildcard $(TEMPLATE_DIR)/*.yaml)))
 ENTRY_CLASSES = recipe.Recipe gocam.GoCamAnnotations reaction.ReactionDocument ctd.ChemicalToDiseaseDocument
 
-all: all_pydantic all_projects
+all: all_pydantic
 
 all_pydantic: $(patsubst %, $(TEMPLATE_DIR)/%.py, $(TEMPLATES))
 all_projects: $(patsubst %, projects/%, $(TEMPLATES))
@@ -28,10 +28,10 @@ get_version:
 	$(RUN) python -c "import ontogpt;print('.'.join((ontogpt.__version__).split('.', 3)[:3]))"
 
 $(TEMPLATE_DIR)/%.py: src/$(PACKAGE)/templates/%.yaml
-	$(RUN) gen-pydantic $< > $@.tmp && mv $@.tmp $@
+	$(RUN) gen-pydantic --pydantic_version 2 $< > $@.tmp && mv $@.tmp $@
 
 %.py: %.yaml
-	$(RUN) gen-pydantic $< > $@
+	$(RUN) gen-pydantic --pydantic_version 2 $< > $@
 
 #all_images: $(patsubst %, docs/images/%.png, $(ENTRY_CLASSES))
 #docs/images/%.png:
@@ -45,7 +45,6 @@ docs/index.md: README.md
 
 docs/%/index.md: src/$(PACKAGE)/templates/%.yaml
 	$(RUN) gen-doc --include-top-level-diagram --diagram-type er_diagram $< -d docs/$*
-
 
 serve:
 	$(RUN) mkdocs serve
