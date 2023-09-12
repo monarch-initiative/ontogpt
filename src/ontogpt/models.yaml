@@ -11,6 +11,22 @@ models:
       memory: "N/A"
     is_default: true
 
+  - name: MODEL_GPT_3_5_TURBO
+    alternative_names:
+      - "gpt-3.5-turbo-0613"
+      - "openai-gpt-3.5-turbo-0613"
+    provider: OpenAI
+    creators:
+      - OpenAI
+
+  - name: MODEL_GPT_3_5_TURBO_16K
+    alternative_names:
+      - "gpt-3.5-turbo-16k"
+      - "openai-gpt-3.5-turbo-16k"
+    provider: OpenAI
+    creators:
+      - OpenAI
+
   - name: MODEL_TEXT_DAVINCI_003
     alternative_names:
       - "text-davinci-003"

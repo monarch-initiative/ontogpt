@@ -129,9 +129,9 @@ class TestCore(unittest.TestCase):
         self.assertEqual(obj.genes, ["a"])
         self.assertEqual(obj.gene_organisms[0].gene, "a")
         self.assertEqual(obj.gene_organisms[0].organism, "b")
-        slot = ke.schemaview.induced_slot("genes", "GeneOrganismRelationship")
-        self.assertEqual(slot.name, "genes")
-        self.assertEqual(slot.multivalued, True)
+        slot = ke.schemaview.induced_slot("gene", "GeneOrganismRelationship")
+        self.assertEqual(slot.name, "gene")
+        self.assertIsNone(slot.multivalued)
         self.assertEqual(slot.range, "Gene")
 
     def test_chunk_text(self):
