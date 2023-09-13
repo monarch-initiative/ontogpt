@@ -59,9 +59,9 @@ class SPIRESEngine(KnowledgeEngine):
     def extract_from_text(
         self,
         text: str,
-        show_prompt: bool = False,
         cls: ClassDefinition = None,
         object: OBJECT = None,
+        show_prompt: bool = False,
     ) -> ExtractionResult:
         """
         Extract annotations from the given text.
@@ -90,7 +90,7 @@ class SPIRESEngine(KnowledgeEngine):
                             else:
                                 extracted_object[k] = v
         else:
-            raw_text = self._raw_extract(text=text, cls=cls, show_prompt=show_prompt, object=object)
+            raw_text = self._raw_extract(text=text, cls=cls, object=object, show_prompt=show_prompt)
             logging.info(f"RAW TEXT: {raw_text}")
             extracted_object = self.parse_completion_payload(raw_text, cls, object=object)
         return ExtractionResult(
@@ -102,11 +102,11 @@ class SPIRESEngine(KnowledgeEngine):
         )
 
     def _extract_from_text_to_dict(self, text: str, cls: ClassDefinition = None) -> RESPONSE_DICT:
-        raw_text = self._raw_extract(text, cls=cls)
+        raw_text = self._raw_extract(text=text, cls=cls)
         return self._parse_response_to_dict(raw_text, cls)
 
     def generate_and_extract(
-        self, entity: str, show_prompt: bool = False, prompt_template: str = None, **kwargs
+        self, entity: str, prompt_template: str = None, show_prompt: bool = False, **kwargs
     ) -> ExtractionResult:
         """
         Generate a description using GPT and then extract from it using SPIRES.
@@ -166,7 +166,7 @@ class SPIRESEngine(KnowledgeEngine):
             else:
                 curie = None
             result = self.generate_and_extract(
-                next_entity, show_prompt=show_prompt, prompt_template=prompt_template, **kwargs
+                next_entity, prompt_template=prompt_template, show_prompt=show_prompt, **kwargs
             )
             if curie:
                 if result.extracted_object:
