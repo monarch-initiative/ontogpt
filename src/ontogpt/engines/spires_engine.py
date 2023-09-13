@@ -75,7 +75,7 @@ class SPIRESEngine(KnowledgeEngine):
             chunks = chunk_text(text, self.sentences_per_window)
             extracted_object = None
             for chunk in chunks:
-                raw_text = self._raw_extract(chunk, cls, show_prompt=show_prompt, object=object)
+                raw_text = self._raw_extract(chunk, cls=cls, object=object, show_prompt=show_prompt)
                 logging.info(f"RAW TEXT: {raw_text}")
                 next_object = self.parse_completion_payload(raw_text, cls, object=object)
                 if extracted_object is None:
@@ -102,7 +102,7 @@ class SPIRESEngine(KnowledgeEngine):
         )
 
     def _extract_from_text_to_dict(self, text: str, cls: ClassDefinition = None) -> RESPONSE_DICT:
-        raw_text = self._raw_extract(text, cls, )
+        raw_text = self._raw_extract(text, cls=cls)
         return self._parse_response_to_dict(raw_text, cls)
 
     def generate_and_extract(
@@ -357,7 +357,7 @@ class SPIRESEngine(KnowledgeEngine):
         return val
 
     def _raw_extract(
-        self, text, show_prompt: bool = False, cls: ClassDefinition = None, object: OBJECT = None
+        self, text, cls: ClassDefinition = None, object: OBJECT = None, show_prompt: bool = False,
     ) -> str:
         """
         Extract annotations from the given text.
@@ -465,11 +465,13 @@ class SPIRESEngine(KnowledgeEngine):
         # The LLML may mutate the output format somewhat,
         # randomly pluralizing or replacing spaces with underscores
         field = field.lower().replace(" ", "_")
+        logging.debug(f"  FIELD: {field}")
         cls_slots = sv.class_slots(cls.name)
         slot = None
         if field in cls_slots:
             slot = sv.induced_slot(field, cls.name)
         else:
+            # TODO: check this
             if field.endswith("s"):
                 field = field[:-1]
             if field in cls_slots:
@@ -501,6 +503,7 @@ class SPIRESEngine(KnowledgeEngine):
             transformed = False
             slots_of_range = sv.class_slots(slot_range.name)
             if self.recurse or len(slots_of_range) > 2:
+                logging.debug(f"  RECURSING ON SLOT: {slot.name}, range={slot_range.name}")
                 vals = [self._extract_from_text_to_dict(v, slot_range) for v in vals]
             else:
                 for sep in [" - ", ":", "/", "*", "-"]:
@@ -591,9 +594,11 @@ class SPIRESEngine(KnowledgeEngine):
                 if slot.range in self.schemaview.all_enums():
                     enum_def = self.schemaview.get_enum(slot.range)
             new_ann[field] = []
+            logging.debug(f"FIELD: {field} SLOT: {slot.name}")
             for val in vals:
                 if not val:
                     continue
+                logging.debug(f"   VAL: {val}")
                 if isinstance(val, tuple):
                     # special case for pairs
                     sub_slots = sv.class_induced_slots(rng_cls.name)
