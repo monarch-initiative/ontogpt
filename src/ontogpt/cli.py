@@ -85,8 +85,8 @@ def _as_text_writer(f):
 def write_extraction(
     results: ExtractionResult,
     output: BytesIO,
-    output_format: str = None,
-    knowledge_engine: KnowledgeEngine = None,
+    output_format: str,
+    knowledge_engine: KnowledgeEngine,
 ):
     """Write results of extraction to a given output stream."""
     # Check if this result contains anything writable first

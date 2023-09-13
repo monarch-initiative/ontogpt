@@ -1,5 +1,6 @@
 """Markdown exporter."""
 from dataclasses import dataclass
+from io import BytesIO
 from pathlib import Path
 from typing import TextIO, Union
 
@@ -12,7 +13,7 @@ from ontogpt.templates.core import ExtractionResult
 
 @dataclass
 class MarkdownExporter(Exporter):
-    def export(self, extraction_output: ExtractionResult, output: Union[str, Path, TextIO]):
+    def export(self, extraction_output: ExtractionResult, output: Union[str, Path, TextIO, BytesIO]):
         if isinstance(output, Path):
             output = str(output)
         if isinstance(output, str):

@@ -19,23 +19,23 @@ MAX_TOKENS = 300
 class Question(BaseModel):
     name: str
     question: str
-    original_question: str = None
-    answer: str = None
-    accepted_answer: str = None
+    original_question: str = ""
+    answer: str = ""
+    accepted_answer: str = ""
     iteration: int = 0
-    instructions: str = None
-    prompt: str = None
-    model: str = None
+    instructions: str = ""
+    prompt: str = ""
+    model: str = ""
 
 
 class Instruction(BaseModel):
     name: str
-    text: str = None
-    template: str = None
+    text: str = ""
+    template: str = ""
 
 
 class QuestionCollection(BaseModel):
-    url: str = None
+    url: str = ""
     questions: List[Question] = []
     instructions: List[Instruction] = []
 
@@ -45,7 +45,7 @@ class GenericEngine(KnowledgeEngine):
     def run(
         self,
         question_collection: QuestionCollection,
-        template_path: str = None,
+        template_path: str = "",
     ) -> Iterator[Question]:
         if template_path is None:
             template_path = GENERIC_QA_PROMPT
