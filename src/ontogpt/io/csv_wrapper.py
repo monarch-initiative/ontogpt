@@ -70,10 +70,10 @@ def output_parser(obj: Any, file) -> None:
         trimmed_dict["exposures"].append(exposure)
     
     # Remove all null values
-    for key, value in trimmed_dict.copy().items():
+    for _, value in trimmed_dict.copy().items():
         for i, elem in enumerate(value):
             if elem.lower() in (val.lower() for val in NULL_VALS):
-                for key, value in trimmed_dict.items():
+                for _, value in trimmed_dict.items():
                     del value[i]
     
     # Find names for all ID entries in OBO Foundry
@@ -86,7 +86,7 @@ def output_parser(obj: Any, file) -> None:
                     curr_adapter = get_adapter(adapter_str)
                     trimmed_dict[key][index] = curr_adapter.label(elem)
                 except:
-                    continue
+                    KeyError
 
 def write_obj_as_csv(obj: Any, file, minimize=True, index_field=None) -> None:
     if isinstance(obj, BaseModel):
