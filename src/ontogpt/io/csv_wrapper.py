@@ -85,8 +85,8 @@ def output_parser(obj: Any, file) -> None:
                     adapter_str = "sqlite:obo:" + str(prefix)
                     curr_adapter = get_adapter(adapter_str)
                     trimmed_dict[key][index] = curr_adapter.label(elem)
-                except:
-                    KeyError
+                except KeyError:
+                    continue
 
 def write_obj_as_csv(obj: Any, file, minimize=True, index_field=None) -> None:
     if isinstance(obj, BaseModel):
