@@ -69,7 +69,7 @@ class ReasonerResult(BaseModel):
 
 
 class ReasonerResultSet(BaseModel):
-    name: str = None
+    name: str = ""
     results: List[ReasonerResult]
 
 

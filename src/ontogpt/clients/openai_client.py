@@ -20,8 +20,8 @@ NUM_RETRIES = 3
 class OpenAIClient:
     # max_tokens: int = field(default_factory=lambda: 3000)
     model: str = field(default_factory=lambda: "gpt-3.5-turbo")
-    cache_db_path: str = None
-    api_key: str = None
+    cache_db_path: str = ""
+    api_key: str = ""
     interactive: bool = None
 
     def __post_init__(self):
@@ -119,7 +119,7 @@ class OpenAIClient:
             return self._interactive_completion(prompt, engine, max_tokens, **kwargs)
 
     def cached_completions(
-        self, search_term: str = None, engine: str = None
+        self, search_term: str = "", engine: str = ""
     ) -> Iterator[Tuple[str, str, str]]:
         if search_term:
             search_term = search_term.lower()
@@ -142,7 +142,7 @@ class OpenAIClient:
             return False
         return True
 
-    def embeddings(self, text: str, model: str = None):
+    def embeddings(self, text: str, model: str = ""):
 
         text = str(text)
 

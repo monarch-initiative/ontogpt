@@ -113,7 +113,7 @@ class HTMLExporter(Exporter):
     def close_div(self):
         self.output.write("</div>\n")
 
-    def li(self, text: str = None):
+    def li(self, text: str = ""):
         self.tag("li", text)
 
     def h1(self, text: str):

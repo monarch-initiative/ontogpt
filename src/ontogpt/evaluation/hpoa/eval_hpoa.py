@@ -166,7 +166,7 @@ class EvalHPOA(SPIRESEvaluationEngine):
             obj.genes.append(gene)
         return obj
 
-    def eval(self, task: str = None, **kwargs) -> EvaluationObjectSetHPOA:
+    def eval(self, task: str = "", **kwargs) -> EvaluationObjectSetHPOA:
         if not task or task == "pubs":
             return self.eval_against_pubs(**kwargs)
         elif task == "omim":

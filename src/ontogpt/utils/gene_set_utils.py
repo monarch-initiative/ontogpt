@@ -28,9 +28,9 @@ session = requests_cache.CachedSession(GENE_REQUESTS_CACHE)
 
 class Gene(BaseModel):
     id: str
-    symbol: str = None
-    ontological_synopsis: str = None
-    narrative_synopsis: str = None
+    symbol: str = ""
+    ontological_synopsis: str = ""
+    narrative_synopsis: str = ""
 
 
 class GeneSet(BaseModel):
@@ -71,7 +71,7 @@ def save_gene_set(gene_set: GeneSet, path: Union[str, Path]):
         f.write(yaml.dump(gene_set.dict(exclude_unset=True), sort_keys=False))
 
 
-def parse_gene_set(input_path: Union[str, Path], format: str = None) -> GeneSet:
+def parse_gene_set(input_path: Union[str, Path], format: str = "") -> GeneSet:
     """
     Parse a gene set from a file.
 

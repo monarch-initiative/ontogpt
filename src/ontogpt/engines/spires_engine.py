@@ -106,7 +106,7 @@ class SPIRESEngine(KnowledgeEngine):
         return self._parse_response_to_dict(raw_text, cls)
 
     def generate_and_extract(
-        self, entity: str, prompt_template: str = None, show_prompt: bool = False, **kwargs
+        self, entity: str, prompt_template: str = "", show_prompt: bool = False, **kwargs
     ) -> ExtractionResult:
         """
         Generate a description using GPT and then extract from it using SPIRES.

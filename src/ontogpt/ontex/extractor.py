@@ -60,7 +60,7 @@ OBFUSCATED_ID = "str"
 class Axiom(BaseModel):
     """Represents an individual logical axiom."""
 
-    text: str = None
+    text: str = ""
     """Textual representation of the axiom, e.g A SubClassOf B"""
 
     obfuscated_text: Optional[str] = None

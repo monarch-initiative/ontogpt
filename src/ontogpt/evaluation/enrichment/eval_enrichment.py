@@ -67,7 +67,7 @@ class GeneSetComparison(BaseModel):
     name: str
     gene_symbols: List[str]
     gene_ids: List[str] = None
-    model: str = None
+    model: str = ""
     payloads: Dict[str, EnrichmentPayload] = None
     overlaps: Dict[Tuple[str, str], Overlap] = None
     number_of_genes_swapped_out: int = None
@@ -86,7 +86,7 @@ class EvalEnrichment(EvaluationEngine):
 
     loaded: bool = False
 
-    model: str = None
+    model: str = ""
 
     engines: Dict[MODEL_NAME, EnrichmentEngine] = field(default_factory=dict)
 
@@ -247,7 +247,7 @@ class EvalEnrichment(EvaluationEngine):
         payload.term_strings = [self.ontology.label(id) for id in term_ids]
         return payload
 
-    def create_gene_set_from_term(self, term: ENTITY_ID, name: str = None) -> GeneSet:
+    def create_gene_set_from_term(self, term: ENTITY_ID, name: str = "") -> GeneSet:
         """Create a gene set from a list of terms."""
         assocs = self.ontology.associations(
             objects=[term], object_closure_predicates=[IS_A, PART_OF]
