@@ -57,22 +57,22 @@ class Confidence(str, Enum):
 class CategorizedMapping(BaseModel):
     subject: CURIE = None
     object: CURIE = None
-    completion: str = None
+    completion: str = ""
     predicate: Union[MappingPredicate, str] = None
     confidence: Union[Confidence, str] = None
-    similarities: List[str] = None
-    differences: List[str] = None
+    similarities: List[str] = [""]
+    differences: List[str] = [""]
 
 
 class MappingTask(BaseModel):
     subject: CURIE
     object: CURIE
-    subject_label: str = None
-    object_label: str = None
-    subject_source: str = None
-    object_source: str = None
-    subject_adapter: str = None
-    object_adapter: str = None
+    subject_label: str = ""
+    object_label: str = ""
+    subject_source: str = ""
+    object_source: str = ""
+    subject_adapter: str = ""
+    object_adapter: str = ""
     predicate: Union[str, MappingPredicate] = None
     difficulty: Confidence = None
     score: float = None
@@ -97,11 +97,11 @@ class Relationship(BaseModel):
 class Concept(BaseModel):
     id: CURIE
     label: str
-    definition: str = None
-    synonyms: List[str] = []
-    parents: List[str] = []
+    definition: str = ""
+    synonyms: List[str] = [""]
+    parents: List[str] = [""]
     relationships: List[Relationship] = []
-    categories: List[str] = []
+    categories: List[str] = [""]
 
 
 @dataclass
@@ -112,7 +112,7 @@ class MappingEngine(KnowledgeEngine):
     object_adapter: BasicOntologyInterface = None
 
     def categorize_mapping(
-        self, subject: CURIE, object: CURIE, template_path: str = None
+        self, subject: CURIE, object: CURIE, template_path: str = ""
     ) -> CategorizedMapping:
         if template_path is None:
             template_path = DEFAULT_MAPPING_EVAL_PROMPT
