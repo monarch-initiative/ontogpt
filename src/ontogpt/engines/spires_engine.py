@@ -365,9 +365,9 @@ class SPIRESEngine(KnowledgeEngine):
         :param text:
         :return:
         """
-        prompt = self.get_completion_prompt(cls, text, object=object)
+        prompt = self.get_completion_prompt(cls=cls, text=text, object=object)
         self.last_prompt = prompt
-        payload = self.client.complete(prompt, show_prompt)
+        payload = self.client.complete(prompt=prompt, show_prompt=show_prompt)
         return payload
 
     def get_completion_prompt(
