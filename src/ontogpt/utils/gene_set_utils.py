@@ -24,12 +24,6 @@ GENE_REQUESTS_CACHE = ".gene_requests_cache"
 
 logger = logging.getLogger(__name__)
 
-# This cache may not be accessible, so handle errors appropriately
-try:
-    session = requests_cache.CachedSession(GENE_REQUESTS_CACHE)
-except sqlite3.Error as e:
-    logging.error(f"Encountered error in setting up gene set cache: {e}")
-
 
 class Gene(BaseModel):
     id: str
@@ -257,6 +251,12 @@ def drop_genes_from_gene_set(gene_set: GeneSet, percent_to_drop: int) -> GeneSet
 
 
 def gene_info(id: ENTITY_ID) -> Tuple[SYMBOL, DESCRIPTION, DESCRIPTION]:
+    # This cache may not be accessible, so handle errors appropriately
+    try:
+        session = requests_cache.CachedSession(GENE_REQUESTS_CACHE)
+    except sqlite3.Error as e:
+        logging.error(f"Encountered error in setting up gene set cache: {e}")
+
     url = f"https://www.alliancegenome.org/api/gene/{id}"
     logger.info(f"Fetching gene summary from {url}")
     response = session.get(url)
