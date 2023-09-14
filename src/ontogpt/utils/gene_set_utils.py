@@ -3,6 +3,7 @@ import csv
 import glob
 import json
 import logging
+import sqlite3
 from copy import deepcopy
 from pathlib import Path
 from random import sample
@@ -23,7 +24,11 @@ GENE_REQUESTS_CACHE = ".gene_requests_cache"
 
 logger = logging.getLogger(__name__)
 
-session = requests_cache.CachedSession(GENE_REQUESTS_CACHE)
+# This cache may not be accessible, so handle errors appropriately
+try:
+    session = requests_cache.CachedSession(GENE_REQUESTS_CACHE)
+except sqlite3.Error as e:
+    logging.error(f"Encountered error in setting up gene set cache: {e}")
 
 
 class Gene(BaseModel):
