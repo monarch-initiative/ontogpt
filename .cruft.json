@@ -4,9 +4,9 @@
   "checkout": null,
   "context": {
     "cookiecutter": {
-      "project_name": "oak-ai",
-      "__project_slug": "oak_ai",
-      "project_description": "OAK AI",
+      "project_name": "ontogpt",
+      "__project_slug": "ontogpt",
+      "project_description": "ontogpt",
       "min_python_version": "3.9",
       "file_name": "OAK for Artifical Intelligence",
       "greeting_recipient": "World",

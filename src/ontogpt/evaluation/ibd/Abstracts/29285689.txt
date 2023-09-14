@@ -1,0 +1,14 @@
+Inflammatory bowel disease (IBD), including ulcerative colitis and Crohn's disease, is a chronic and 
+relapsing inflammatory disorder of the intestine. Although its incidence is increasing globally, the 
+precise etiology remains unclear and a cure for IBD has yet to be discovered. The most accepted 
+hypothesis of IBD pathogenesis is that complex interactions between genetics, environmental factors, 
+and the host immune system lead to aberrant immune responses and chronic intestinal inflammation. 
+The human gut harbors a complex and abundant aggregation of microbes, collectively referred to as 
+the gut microbiota. The gut microbiota has physiological functions associated with nutrition, the 
+immune system, and defense of the host. Recent advances in next-generation sequencing technology 
+have identified alteration of the composition and function of the gut microbiota, which is referred 
+to as dysbiosis, in IBD. Clinical and experimental data suggest dysbiosis may play a pivotal role in 
+the pathogenesis of IBD. This review is focused on the physiological function of the gut microbiota 
+and the association between the gut microbiota and pathogenesis in IBD. In addition, we review the 
+therapeutic options for manipulating the altered gut microbiota, such as probiotics and fecal 
+microbiota transplantation.

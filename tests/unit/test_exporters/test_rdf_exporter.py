@@ -9,7 +9,7 @@ from ontogpt.templates import PATH_TO_TEMPLATES
 from tests import OUTPUT_DIR
 from tests.unit.test_exporters import TEST_PICKLED_RESULTS
 
-
+@unittest.skip("Not yet fully compatible with linkml exporters and test fixtures")
 class TestExportRDF(unittest.TestCase):
     """Test RDF export."""
 

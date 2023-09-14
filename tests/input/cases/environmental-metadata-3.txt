@@ -1,0 +1,9 @@
+"knb-lter-hbr.155","Fine Root Data at the Hubbard Brook Experimental Forest, 1998 and 2013 collections","calcium,fine roots,forests,HBEF Watershed 1,HBEF Bear Brook Watershed,HBR,Hubbard Brook LTER,roots,root biomass,watersheds,primary production","We restored calcium to soils of a forested watershed at 
+Hubbard Brook and measured the response of fine root biomass fourteen years after treatment.  
+Fine root samples were collected in Watershed 1 and the Bear Brook Watershed reference forest, located to the west
+of Watershed 6, in 1998 (pre-Ca treatment) and in 2013. In this northern hardwood forest fine root 
+(< 1 mm diameter) biomass declined significantly in the Ca addition treatment relative to pretreatment and 
+reference forest conditions.  The decline was greatest in the high-elevation hardwood zone of the watershed where soils are
+thinnest and most base poor.  In that zone fine roots were distributed more shallowly after 
+treatment than for reference conditions.  We suggest that relatively higher tree C allocation to roots contributes to 
+depressed aboveground productivity in acidified northern hardwood forest ecosystems."

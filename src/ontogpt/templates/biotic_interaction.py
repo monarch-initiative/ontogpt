@@ -1,29 +1,34 @@
 from __future__ import annotations
 from datetime import datetime, date
 from enum import Enum
-from typing import List, Dict, Optional, Any, Union, Literal
+from typing import List, Dict, Optional, Any, Union
 from pydantic import BaseModel as BaseModel, Field
-from linkml_runtime.linkml_model import Decimal
+import sys
+if sys.version_info >= (3, 8):
+    from typing import Literal
+else:
+    from typing_extensions import Literal
+
 
 metamodel_version = "None"
 version = "None"
 
-class WeakRefShimBaseModel(BaseModel):
-   __slots__ = '__weakref__'
-    
-class ConfiguredBaseModel(WeakRefShimBaseModel,
-                validate_assignment = True, 
-                validate_all = True, 
-                underscore_attrs_are_private = True, 
-                extra = 'forbid', 
-                arbitrary_types_allowed = True):
-    pass                    
+class ConfiguredBaseModel(BaseModel,
+                validate_assignment = True,
+                validate_default = True,
+                extra = 'forbid',
+                arbitrary_types_allowed = True,
+                use_enum_values = True):
+    pass
 
 
 class NullDataOptions(str, Enum):
     
+    
     UNSPECIFIED_METHOD_OF_ADMINISTRATION = "UNSPECIFIED_METHOD_OF_ADMINISTRATION"
+    
     NOT_APPLICABLE = "NOT_APPLICABLE"
+    
     NOT_MENTIONED = "NOT_MENTIONED"
     
     
@@ -33,14 +38,12 @@ class Container(ConfiguredBaseModel):
     interactions: Optional[List[BioticInteraction]] = Field(default_factory=list)
     
 
-
 class BioticInteraction(ConfiguredBaseModel):
     
     source_taxon: Optional[str] = Field(None, description="""the taxon that is the subject of the interaction""")
     target_taxon: Optional[str] = Field(None, description="""the taxon that is the object of the interaction""")
     interaction_type: Optional[str] = Field(None, description="""the type of interaction""")
     
-
 
 class ExtractionResult(ConfiguredBaseModel):
     """
@@ -55,33 +58,28 @@ class ExtractionResult(ConfiguredBaseModel):
     named_entities: Optional[List[Any]] = Field(default_factory=list, description="""Named entities extracted from the text""")
     
 
-
 class NamedEntity(ConfiguredBaseModel):
     
-    id: str = Field(None, description="""A unique identifier for the named entity""")
+    id: str = Field(..., description="""A unique identifier for the named entity""")
     label: Optional[str] = Field(None, description="""The label (name) of the named thing""")
     
-
 
 class Taxon(NamedEntity):
     
-    id: str = Field(None, description="""A unique identifier for the named entity""")
+    id: str = Field(..., description="""A unique identifier for the named entity""")
     label: Optional[str] = Field(None, description="""The label (name) of the named thing""")
     
-
 
 class InteractionType(NamedEntity):
     
-    id: str = Field(None, description="""A unique identifier for the named entity""")
+    id: str = Field(..., description="""A unique identifier for the named entity""")
     label: Optional[str] = Field(None, description="""The label (name) of the named thing""")
     
-
 
 class CompoundExpression(ConfiguredBaseModel):
     
     None
     
-
 
 class Triple(CompoundExpression):
     """
@@ -95,20 +93,17 @@ class Triple(CompoundExpression):
     object_qualifier: Optional[str] = Field(None, description="""An optional qualifier or modifier for the object of the statement, e.g. \"severe\" or \"with additional complications\"""")
     
 
-
 class TextWithTriples(ConfiguredBaseModel):
     
     publication: Optional[Publication] = Field(None)
     triples: Optional[List[Triple]] = Field(default_factory=list)
     
 
-
 class RelationshipType(NamedEntity):
     
-    id: str = Field(None, description="""A unique identifier for the named entity""")
+    id: str = Field(..., description="""A unique identifier for the named entity""")
     label: Optional[str] = Field(None, description="""The label (name) of the named thing""")
     
-
 
 class Publication(ConfiguredBaseModel):
     
@@ -119,7 +114,6 @@ class Publication(ConfiguredBaseModel):
     full_text: Optional[str] = Field(None, description="""The full text of the publication""")
     
 
-
 class AnnotatorResult(ConfiguredBaseModel):
     
     subject_text: Optional[str] = Field(None)
@@ -128,19 +122,18 @@ class AnnotatorResult(ConfiguredBaseModel):
     
 
 
-
-# Update forward refs
-# see https://pydantic-docs.helpmanual.io/usage/postponed_annotations/
-Container.update_forward_refs()
-BioticInteraction.update_forward_refs()
-ExtractionResult.update_forward_refs()
-NamedEntity.update_forward_refs()
-Taxon.update_forward_refs()
-InteractionType.update_forward_refs()
-CompoundExpression.update_forward_refs()
-Triple.update_forward_refs()
-TextWithTriples.update_forward_refs()
-RelationshipType.update_forward_refs()
-Publication.update_forward_refs()
-AnnotatorResult.update_forward_refs()
-
+# Model rebuild
+# see https://pydantic-docs.helpmanual.io/usage/models/#rebuilding-a-model
+Container.model_rebuild()
+BioticInteraction.model_rebuild()
+ExtractionResult.model_rebuild()
+NamedEntity.model_rebuild()
+Taxon.model_rebuild()
+InteractionType.model_rebuild()
+CompoundExpression.model_rebuild()
+Triple.model_rebuild()
+TextWithTriples.model_rebuild()
+RelationshipType.model_rebuild()
+Publication.model_rebuild()
+AnnotatorResult.model_rebuild()
+    

@@ -9,8 +9,9 @@ from pydantic import BaseModel
 from starlette.staticfiles import StaticFiles
 from starlette.templating import Jinja2Templates
 
+from ontogpt import MODELS
 from ontogpt.engines.enrichment import EnrichmentEngine
-from ontogpt.engines.knowledge_engine import DATAMODELS, MODELS
+from ontogpt.engines.knowledge_engine import DATAMODELS
 from ontogpt.engines.spires_engine import SPIRESEngine
 from ontogpt.io.html_exporter import HTMLExporter
 from ontogpt.utils.gene_set_utils import GeneSet
@@ -23,6 +24,7 @@ html_dir = this_path / "html"
 class Query(BaseModel):
     text: str
     datamodel: str
+    model: str
 
 
 app = FastAPI()
@@ -63,8 +65,9 @@ def form_post(request: Request, datamodel: str = Form(...), text: str = Form(...
 
 @app.get("/spindoctor")
 def sd_read_root(request: Request):
+    all_models = [modelname for model in MODELS for modelname in model["alternative_names"]]
     return templates.TemplateResponse(
-        "spindoctor/form.html", context={"request": request, "models": MODELS}
+        "spindoctor/form.html", context={"request": request, "models": all_models}
     )
 
 

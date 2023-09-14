@@ -1,0 +1,837 @@
+{
+  "id": "PMID:28331220-Guo-2017-EXTL3-Patient_1",
+  "subject": {
+    "id": "Patient 1",
+    "ageAtCollection": {
+      "age": "P2Y"
+    },
+    "sex": "FEMALE",
+    "taxonomy": {
+      "id": "NCBITaxon:9606",
+      "label": "Homo sapiens"
+    }
+  },
+  "phenotypicFeatures": [{
+    "type": {
+      "id": "HP:0003196",
+      "label": "Short nose"
+    },
+    "evidence": [{
+      "evidenceCode": {
+        "id": "ECO:0000033",
+        "label": "author statement supported by traceable reference"
+      },
+      "reference": {
+        "id": "PMID:28331220",
+        "description": "Identification of biallelic EXTL3 mutations in a novel type of spondylo-epi-metaphyseal dysplasia"
+      }
+    }]
+  }, {
+    "type": {
+      "id": "HP:0002176",
+      "label": "Spinal cord compression"
+    },
+    "evidence": [{
+      "evidenceCode": {
+        "id": "ECO:0000033",
+        "label": "author statement supported by traceable reference"
+      },
+      "reference": {
+        "id": "PMID:28331220",
+        "description": "Identification of biallelic EXTL3 mutations in a novel type of spondylo-epi-metaphyseal dysplasia"
+      }
+    }]
+  }, {
+    "type": {
+      "id": "HP:0003265",
+      "label": "Neonatal hyperbilirubinemia"
+    },
+    "evidence": [{
+      "evidenceCode": {
+        "id": "ECO:0000033",
+        "label": "author statement supported by traceable reference"
+      },
+      "reference": {
+        "id": "PMID:28331220",
+        "description": "Identification of biallelic EXTL3 mutations in a novel type of spondylo-epi-metaphyseal dysplasia"
+      }
+    }]
+  }, {
+    "type": {
+      "id": "HP:0005280",
+      "label": "Depressed nasal bridge"
+    },
+    "evidence": [{
+      "evidenceCode": {
+        "id": "ECO:0000033",
+        "label": "author statement supported by traceable reference"
+      },
+      "reference": {
+        "id": "PMID:28331220",
+        "description": "Identification of biallelic EXTL3 mutations in a novel type of spondylo-epi-metaphyseal dysplasia"
+      }
+    }]
+  }, {
+    "type": {
+      "id": "HP:0002090",
+      "label": "Pneumonia"
+    },
+    "evidence": [{
+      "evidenceCode": {
+        "id": "ECO:0000033",
+        "label": "author statement supported by traceable reference"
+      },
+      "reference": {
+        "id": "PMID:28331220",
+        "description": "Identification of biallelic EXTL3 mutations in a novel type of spondylo-epi-metaphyseal dysplasia"
+      }
+    }]
+  }, {
+    "type": {
+      "id": "HP:0003016",
+      "label": "Metaphyseal widening"
+    },
+    "evidence": [{
+      "evidenceCode": {
+        "id": "ECO:0000033",
+        "label": "author statement supported by traceable reference"
+      },
+      "reference": {
+        "id": "PMID:28331220",
+        "description": "Identification of biallelic EXTL3 mutations in a novel type of spondylo-epi-metaphyseal dysplasia"
+      }
+    }]
+  }, {
+    "type": {
+      "id": "HP:0008936",
+      "label": "Muscular hypotonia of the trunk"
+    },
+    "evidence": [{
+      "evidenceCode": {
+        "id": "ECO:0000033",
+        "label": "author statement supported by traceable reference"
+      },
+      "reference": {
+        "id": "PMID:28331220",
+        "description": "Identification of biallelic EXTL3 mutations in a novel type of spondylo-epi-metaphyseal dysplasia"
+      }
+    }]
+  }, {
+    "type": {
+      "id": "HP:0000463",
+      "label": "Anteverted nares"
+    },
+    "evidence": [{
+      "evidenceCode": {
+        "id": "ECO:0000033",
+        "label": "author statement supported by traceable reference"
+      },
+      "reference": {
+        "id": "PMID:28331220",
+        "description": "Identification of biallelic EXTL3 mutations in a novel type of spondylo-epi-metaphyseal dysplasia"
+      }
+    }]
+  }, {
+    "type": {
+      "id": "HP:0000212",
+      "label": "Gingival overgrowth"
+    },
+    "evidence": [{
+      "evidenceCode": {
+        "id": "ECO:0000033",
+        "label": "author statement supported by traceable reference"
+      },
+      "reference": {
+        "id": "PMID:28331220",
+        "description": "Identification of biallelic EXTL3 mutations in a novel type of spondylo-epi-metaphyseal dysplasia"
+      }
+    }]
+  }, {
+    "type": {
+      "id": "HP:0005306",
+      "label": "Capillary hemangioma"
+    },
+    "evidence": [{
+      "evidenceCode": {
+        "id": "ECO:0000033",
+        "label": "author statement supported by traceable reference"
+      },
+      "reference": {
+        "id": "PMID:28331220",
+        "description": "Identification of biallelic EXTL3 mutations in a novel type of spondylo-epi-metaphyseal dysplasia"
+      }
+    }]
+  }, {
+    "type": {
+      "id": "HP:0001270",
+      "label": "Motor delay"
+    },
+    "evidence": [{
+      "evidenceCode": {
+        "id": "ECO:0000033",
+        "label": "author statement supported by traceable reference"
+      },
+      "reference": {
+        "id": "PMID:28331220",
+        "description": "Identification of biallelic EXTL3 mutations in a novel type of spondylo-epi-metaphyseal dysplasia"
+      }
+    }]
+  }, {
+    "type": {
+      "id": "HP:0100625",
+      "label": "Enlarged thorax"
+    },
+    "evidence": [{
+      "evidenceCode": {
+        "id": "ECO:0000033",
+        "label": "author statement supported by traceable reference"
+      },
+      "reference": {
+        "id": "PMID:28331220",
+        "description": "Identification of biallelic EXTL3 mutations in a novel type of spondylo-epi-metaphyseal dysplasia"
+      }
+    }]
+  }, {
+    "type": {
+      "id": "HP:0001028",
+      "label": "Hemangioma"
+    },
+    "evidence": [{
+      "evidenceCode": {
+        "id": "ECO:0000033",
+        "label": "author statement supported by traceable reference"
+      },
+      "reference": {
+        "id": "PMID:28331220",
+        "description": "Identification of biallelic EXTL3 mutations in a novel type of spondylo-epi-metaphyseal dysplasia"
+      }
+    }]
+  }, {
+    "type": {
+      "id": "HP:0003307",
+      "label": "Hyperlordosis"
+    },
+    "evidence": [{
+      "evidenceCode": {
+        "id": "ECO:0000033",
+        "label": "author statement supported by traceable reference"
+      },
+      "reference": {
+        "id": "PMID:28331220",
+        "description": "Identification of biallelic EXTL3 mutations in a novel type of spondylo-epi-metaphyseal dysplasia"
+      }
+    }]
+  }, {
+    "type": {
+      "id": "HP:0000960",
+      "label": "Sacral dimple"
+    },
+    "evidence": [{
+      "evidenceCode": {
+        "id": "ECO:0000033",
+        "label": "author statement supported by traceable reference"
+      },
+      "reference": {
+        "id": "PMID:28331220",
+        "description": "Identification of biallelic EXTL3 mutations in a novel type of spondylo-epi-metaphyseal dysplasia"
+      }
+    }]
+  }, {
+    "type": {
+      "id": "HP:0002063",
+      "label": "Rigidity"
+    },
+    "evidence": [{
+      "evidenceCode": {
+        "id": "ECO:0000033",
+        "label": "author statement supported by traceable reference"
+      },
+      "reference": {
+        "id": "PMID:28331220",
+        "description": "Identification of biallelic EXTL3 mutations in a novel type of spondylo-epi-metaphyseal dysplasia"
+      }
+    }]
+  }, {
+    "type": {
+      "id": "HP:0000252",
+      "label": "Microcephaly"
+    },
+    "evidence": [{
+      "evidenceCode": {
+        "id": "ECO:0000033",
+        "label": "author statement supported by traceable reference"
+      },
+      "reference": {
+        "id": "PMID:28331220",
+        "description": "Identification of biallelic EXTL3 mutations in a novel type of spondylo-epi-metaphyseal dysplasia"
+      }
+    }]
+  }, {
+    "type": {
+      "id": "HP:0100865",
+      "label": "Broad ischia"
+    },
+    "evidence": [{
+      "evidenceCode": {
+        "id": "ECO:0000033",
+        "label": "author statement supported by traceable reference"
+      },
+      "reference": {
+        "id": "PMID:28331220",
+        "description": "Identification of biallelic EXTL3 mutations in a novel type of spondylo-epi-metaphyseal dysplasia"
+      }
+    }]
+  }, {
+    "type": {
+      "id": "HP:0000347",
+      "label": "Micrognathia"
+    },
+    "evidence": [{
+      "evidenceCode": {
+        "id": "ECO:0000033",
+        "label": "author statement supported by traceable reference"
+      },
+      "reference": {
+        "id": "PMID:28331220",
+        "description": "Identification of biallelic EXTL3 mutations in a novel type of spondylo-epi-metaphyseal dysplasia"
+      }
+    }]
+  }, {
+    "type": {
+      "id": "HP:0003690",
+      "label": "Limb muscle weakness"
+    },
+    "evidence": [{
+      "evidenceCode": {
+        "id": "ECO:0000033",
+        "label": "author statement supported by traceable reference"
+      },
+      "reference": {
+        "id": "PMID:28331220",
+        "description": "Identification of biallelic EXTL3 mutations in a novel type of spondylo-epi-metaphyseal dysplasia"
+      }
+    }]
+  }, {
+    "type": {
+      "id": "HP:0001156",
+      "label": "Brachydactyly"
+    },
+    "evidence": [{
+      "evidenceCode": {
+        "id": "ECO:0000033",
+        "label": "author statement supported by traceable reference"
+      },
+      "reference": {
+        "id": "PMID:28331220",
+        "description": "Identification of biallelic EXTL3 mutations in a novel type of spondylo-epi-metaphyseal dysplasia"
+      }
+    }]
+  }, {
+    "type": {
+      "id": "HP:0002867",
+      "label": "Abnormality of the ilium"
+    },
+    "evidence": [{
+      "evidenceCode": {
+        "id": "ECO:0000033",
+        "label": "author statement supported by traceable reference"
+      },
+      "reference": {
+        "id": "PMID:28331220",
+        "description": "Identification of biallelic EXTL3 mutations in a novel type of spondylo-epi-metaphyseal dysplasia"
+      }
+    }]
+  }, {
+    "type": {
+      "id": "HP:0001265",
+      "label": "Hyporeflexia"
+    },
+    "evidence": [{
+      "evidenceCode": {
+        "id": "ECO:0000033",
+        "label": "author statement supported by traceable reference"
+      },
+      "reference": {
+        "id": "PMID:28331220",
+        "description": "Identification of biallelic EXTL3 mutations in a novel type of spondylo-epi-metaphyseal dysplasia"
+      }
+    }]
+  }, {
+    "type": {
+      "id": "HP:0002240",
+      "label": "Hepatomegaly"
+    },
+    "evidence": [{
+      "evidenceCode": {
+        "id": "ECO:0000033",
+        "label": "author statement supported by traceable reference"
+      },
+      "reference": {
+        "id": "PMID:28331220",
+        "description": "Identification of biallelic EXTL3 mutations in a novel type of spondylo-epi-metaphyseal dysplasia"
+      }
+    }]
+  }, {
+    "type": {
+      "id": "HP:0001324",
+      "label": "Muscle weakness"
+    },
+    "evidence": [{
+      "evidenceCode": {
+        "id": "ECO:0000033",
+        "label": "author statement supported by traceable reference"
+      },
+      "reference": {
+        "id": "PMID:28331220",
+        "description": "Identification of biallelic EXTL3 mutations in a novel type of spondylo-epi-metaphyseal dysplasia"
+      }
+    }]
+  }, {
+    "type": {
+      "id": "HP:0004565",
+      "label": "Severe platyspondyly"
+    },
+    "evidence": [{
+      "evidenceCode": {
+        "id": "ECO:0000033",
+        "label": "author statement supported by traceable reference"
+      },
+      "reference": {
+        "id": "PMID:28331220",
+        "description": "Identification of biallelic EXTL3 mutations in a novel type of spondylo-epi-metaphyseal dysplasia"
+      }
+    }]
+  }, {
+    "type": {
+      "id": "HP:0002007",
+      "label": "Frontal bossing"
+    },
+    "evidence": [{
+      "evidenceCode": {
+        "id": "ECO:0000033",
+        "label": "author statement supported by traceable reference"
+      },
+      "reference": {
+        "id": "PMID:28331220",
+        "description": "Identification of biallelic EXTL3 mutations in a novel type of spondylo-epi-metaphyseal dysplasia"
+      }
+    }]
+  }, {
+    "type": {
+      "id": "HP:0005193",
+      "label": "Restricted large joint movement"
+    },
+    "evidence": [{
+      "evidenceCode": {
+        "id": "ECO:0000033",
+        "label": "author statement supported by traceable reference"
+      },
+      "reference": {
+        "id": "PMID:28331220",
+        "description": "Identification of biallelic EXTL3 mutations in a novel type of spondylo-epi-metaphyseal dysplasia"
+      }
+    }]
+  }, {
+    "type": {
+      "id": "HP:0002808",
+      "label": "Kyphosis"
+    },
+    "evidence": [{
+      "evidenceCode": {
+        "id": "ECO:0000033",
+        "label": "author statement supported by traceable reference"
+      },
+      "reference": {
+        "id": "PMID:28331220",
+        "description": "Identification of biallelic EXTL3 mutations in a novel type of spondylo-epi-metaphyseal dysplasia"
+      }
+    }]
+  }, {
+    "type": {
+      "id": "HP:0002850",
+      "label": "Decreased circulating total IgM"
+    },
+    "evidence": [{
+      "evidenceCode": {
+        "id": "ECO:0000033",
+        "label": "author statement supported by traceable reference"
+      },
+      "reference": {
+        "id": "PMID:28331220",
+        "description": "Identification of biallelic EXTL3 mutations in a novel type of spondylo-epi-metaphyseal dysplasia"
+      }
+    }]
+  }, {
+    "type": {
+      "id": "HP:0001508",
+      "label": "Failure to thrive"
+    },
+    "evidence": [{
+      "evidenceCode": {
+        "id": "ECO:0000033",
+        "label": "author statement supported by traceable reference"
+      },
+      "reference": {
+        "id": "PMID:28331220",
+        "description": "Identification of biallelic EXTL3 mutations in a novel type of spondylo-epi-metaphyseal dysplasia"
+      }
+    }]
+  }, {
+    "type": {
+      "id": "HP:0000924",
+      "label": "Abnormality of the skeletal system"
+    },
+    "evidence": [{
+      "evidenceCode": {
+        "id": "ECO:0000033",
+        "label": "author statement supported by traceable reference"
+      },
+      "reference": {
+        "id": "PMID:28331220",
+        "description": "Identification of biallelic EXTL3 mutations in a novel type of spondylo-epi-metaphyseal dysplasia"
+      }
+    }]
+  }, {
+    "type": {
+      "id": "HP:0004060",
+      "label": "Trident hand"
+    },
+    "evidence": [{
+      "evidenceCode": {
+        "id": "ECO:0000033",
+        "label": "author statement supported by traceable reference"
+      },
+      "reference": {
+        "id": "PMID:28331220",
+        "description": "Identification of biallelic EXTL3 mutations in a novel type of spondylo-epi-metaphyseal dysplasia"
+      }
+    }]
+  }, {
+    "type": {
+      "id": "HP:0002904",
+      "label": "Hyperbilirubinemia"
+    },
+    "evidence": [{
+      "evidenceCode": {
+        "id": "ECO:0000033",
+        "label": "author statement supported by traceable reference"
+      },
+      "reference": {
+        "id": "PMID:28331220",
+        "description": "Identification of biallelic EXTL3 mutations in a novel type of spondylo-epi-metaphyseal dysplasia"
+      }
+    }]
+  }, {
+    "type": {
+      "id": "HP:0007340",
+      "label": "Lower limb muscle weakness"
+    },
+    "evidence": [{
+      "evidenceCode": {
+        "id": "ECO:0000033",
+        "label": "author statement supported by traceable reference"
+      },
+      "reference": {
+        "id": "PMID:28331220",
+        "description": "Identification of biallelic EXTL3 mutations in a novel type of spondylo-epi-metaphyseal dysplasia"
+      }
+    }]
+  }, {
+    "type": {
+      "id": "HP:0001407",
+      "label": "Hepatic cysts"
+    },
+    "evidence": [{
+      "evidenceCode": {
+        "id": "ECO:0000033",
+        "label": "author statement supported by traceable reference"
+      },
+      "reference": {
+        "id": "PMID:28331220",
+        "description": "Identification of biallelic EXTL3 mutations in a novel type of spondylo-epi-metaphyseal dysplasia"
+      }
+    }]
+  }, {
+    "type": {
+      "id": "HP:0000670",
+      "label": "Carious teeth"
+    },
+    "evidence": [{
+      "evidenceCode": {
+        "id": "ECO:0000033",
+        "label": "author statement supported by traceable reference"
+      },
+      "reference": {
+        "id": "PMID:28331220",
+        "description": "Identification of biallelic EXTL3 mutations in a novel type of spondylo-epi-metaphyseal dysplasia"
+      }
+    }]
+  }, {
+    "type": {
+      "id": "HP:0003416",
+      "label": "Spinal canal stenosis"
+    },
+    "evidence": [{
+      "evidenceCode": {
+        "id": "ECO:0000033",
+        "label": "author statement supported by traceable reference"
+      },
+      "reference": {
+        "id": "PMID:28331220",
+        "description": "Identification of biallelic EXTL3 mutations in a novel type of spondylo-epi-metaphyseal dysplasia"
+      }
+    }]
+  }, {
+    "type": {
+      "id": "HP:0001252",
+      "label": "Muscular hypotonia"
+    },
+    "evidence": [{
+      "evidenceCode": {
+        "id": "ECO:0000033",
+        "label": "author statement supported by traceable reference"
+      },
+      "reference": {
+        "id": "PMID:28331220",
+        "description": "Identification of biallelic EXTL3 mutations in a novel type of spondylo-epi-metaphyseal dysplasia"
+      }
+    }]
+  }, {
+    "type": {
+      "id": "HP:0000253",
+      "label": "Progressive microcephaly"
+    },
+    "evidence": [{
+      "evidenceCode": {
+        "id": "ECO:0000033",
+        "label": "author statement supported by traceable reference"
+      },
+      "reference": {
+        "id": "PMID:28331220",
+        "description": "Identification of biallelic EXTL3 mutations in a novel type of spondylo-epi-metaphyseal dysplasia"
+      }
+    }]
+  }, {
+    "type": {
+      "id": "HP:0004315",
+      "label": "Decreased circulating IgG level"
+    },
+    "evidence": [{
+      "evidenceCode": {
+        "id": "ECO:0000033",
+        "label": "author statement supported by traceable reference"
+      },
+      "reference": {
+        "id": "PMID:28331220",
+        "description": "Identification of biallelic EXTL3 mutations in a novel type of spondylo-epi-metaphyseal dysplasia"
+      }
+    }]
+  }, {
+    "type": {
+      "id": "HP:0100543",
+      "label": "Cognitive impairment"
+    },
+    "evidence": [{
+      "evidenceCode": {
+        "id": "ECO:0000033",
+        "label": "author statement supported by traceable reference"
+      },
+      "reference": {
+        "id": "PMID:28331220",
+        "description": "Identification of biallelic EXTL3 mutations in a novel type of spondylo-epi-metaphyseal dysplasia"
+      }
+    }]
+  }, {
+    "type": {
+      "id": "HP:0009826",
+      "label": "Limb undergrowth"
+    },
+    "evidence": [{
+      "evidenceCode": {
+        "id": "ECO:0000033",
+        "label": "author statement supported by traceable reference"
+      },
+      "reference": {
+        "id": "PMID:28331220",
+        "description": "Identification of biallelic EXTL3 mutations in a novel type of spondylo-epi-metaphyseal dysplasia"
+      }
+    }]
+  }, {
+    "type": {
+      "id": "HP:0000520",
+      "label": "Proptosis"
+    },
+    "evidence": [{
+      "evidenceCode": {
+        "id": "ECO:0000033",
+        "label": "author statement supported by traceable reference"
+      },
+      "reference": {
+        "id": "PMID:28331220",
+        "description": "Identification of biallelic EXTL3 mutations in a novel type of spondylo-epi-metaphyseal dysplasia"
+      }
+    }]
+  }, {
+    "type": {
+      "id": "HP:0001561",
+      "label": "Polyhydramnios"
+    },
+    "evidence": [{
+      "evidenceCode": {
+        "id": "ECO:0000033",
+        "label": "author statement supported by traceable reference"
+      },
+      "reference": {
+        "id": "PMID:28331220",
+        "description": "Identification of biallelic EXTL3 mutations in a novel type of spondylo-epi-metaphyseal dysplasia"
+      }
+    }]
+  }, {
+    "type": {
+      "id": "HP:0005619",
+      "label": "Thoracolumbar kyphosis"
+    },
+    "evidence": [{
+      "evidenceCode": {
+        "id": "ECO:0000033",
+        "label": "author statement supported by traceable reference"
+      },
+      "reference": {
+        "id": "PMID:28331220",
+        "description": "Identification of biallelic EXTL3 mutations in a novel type of spondylo-epi-metaphyseal dysplasia"
+      }
+    }]
+  }, {
+    "type": {
+      "id": "HP:0006532",
+      "label": "Recurrent pneumonia"
+    },
+    "evidence": [{
+      "evidenceCode": {
+        "id": "ECO:0000033",
+        "label": "author statement supported by traceable reference"
+      },
+      "reference": {
+        "id": "PMID:28331220",
+        "description": "Identification of biallelic EXTL3 mutations in a novel type of spondylo-epi-metaphyseal dysplasia"
+      }
+    }]
+  }, {
+    "type": {
+      "id": "HP:0001548",
+      "label": "Overgrowth"
+    },
+    "evidence": [{
+      "evidenceCode": {
+        "id": "ECO:0000033",
+        "label": "author statement supported by traceable reference"
+      },
+      "reference": {
+        "id": "PMID:28331220",
+        "description": "Identification of biallelic EXTL3 mutations in a novel type of spondylo-epi-metaphyseal dysplasia"
+      }
+    }]
+  }, {
+    "type": {
+      "id": "HP:0001290",
+      "label": "Generalized hypotonia"
+    },
+    "evidence": [{
+      "evidenceCode": {
+        "id": "ECO:0000033",
+        "label": "author statement supported by traceable reference"
+      },
+      "reference": {
+        "id": "PMID:28331220",
+        "description": "Identification of biallelic EXTL3 mutations in a novel type of spondylo-epi-metaphyseal dysplasia"
+      }
+    }]
+  }, {
+    "type": {
+      "id": "HP:0002938",
+      "label": "Lumbar hyperlordosis"
+    },
+    "evidence": [{
+      "evidenceCode": {
+        "id": "ECO:0000033",
+        "label": "author statement supported by traceable reference"
+      },
+      "reference": {
+        "id": "PMID:28331220",
+        "description": "Identification of biallelic EXTL3 mutations in a novel type of spondylo-epi-metaphyseal dysplasia"
+      }
+    }]
+  }],
+  "genes": [{
+    "id": "NCBIGene:2137",
+    "symbol": "EXTL3"
+  }],
+  "variants": [{
+    "vcfAllele": {
+      "genomeAssembly": "GRCh37",
+      "chr": "8",
+      "pos": 28574529,
+      "ref": "C",
+      "alt": "T"
+    },
+    "zygosity": {
+      "id": "GENO:0000136",
+      "label": "homozygous"
+    }
+  }],
+  "diseases": [{
+    "term": {
+      "id": "OMIM:617425",
+      "label": "Immunoskeletal dysplasia with neurodevelopmental abnormalities"
+    }
+  }],
+  "metaData": {
+    "createdBy": "Hpo Case Annotator : 1.0.14-SNAPSHOT",
+    "submittedBy": "UNC:biocuration",
+    "resources": [{
+      "id": "hp",
+      "name": "human phenotype ontology",
+      "url": "http://purl.obolibrary.org/obo/hp.owl",
+      "version": "2018-03-08",
+      "namespacePrefix": "HP",
+      "iriPrefix": "http://purl.obolibrary.org/obo/HP_"
+    }, {
+      "id": "pato",
+      "name": "Phenotype And Trait Ontology",
+      "url": "http://purl.obolibrary.org/obo/pato.owl",
+      "version": "2018-03-28",
+      "namespacePrefix": "PATO",
+      "iriPrefix": "http://purl.obolibrary.org/obo/PATO_"
+    }, {
+      "id": "geno",
+      "name": "Genotype Ontology",
+      "url": "http://purl.obolibrary.org/obo/geno.owl",
+      "version": "19-03-2018",
+      "namespacePrefix": "GENO",
+      "iriPrefix": "http://purl.obolibrary.org/obo/GENO_"
+    }, {
+      "id": "ncbitaxon",
+      "name": "NCBI organismal classification",
+      "url": "http://purl.obolibrary.org/obo/ncbitaxon.owl",
+      "version": "2018-03-02",
+      "namespacePrefix": "NCBITaxon"
+    }, {
+      "id": "eco",
+      "name": "Evidence and Conclusion Ontology",
+      "url": "http://purl.obolibrary.org/obo/eco.owl",
+      "version": "2018-11-10",
+      "namespacePrefix": "ECO",
+      "iriPrefix": "http://purl.obolibrary.org/obo/ECO_"
+    }, {
+      "id": "omim",
+      "name": "Online Mendelian Inheritance in Man",
+      "url": "https://www.omim.org",
+      "namespacePrefix": "OMIM"
+    }],
+    "phenopacketSchemaVersion": "1.0.0-RC3",
+    "externalReferences": [{
+      "id": "PMID:28331220",
+      "description": "Identification of biallelic EXTL3 mutations in a novel type of spondylo-epi-metaphyseal dysplasia"
+    }]
+  }
+}

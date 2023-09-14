@@ -1,0 +1,100 @@
+id: http://w3id.org/ontogpt/environmental-metadata
+name: environmental-metadata
+title: Environmental sample metadata
+description: >-
+  A template for categorizing Environmental Data Initiative
+  data entries. See https://github.com/EDIorg/EDIorg-repository-index
+license: https://creativecommons.org/publicdomain/zero/1.0/
+prefixes:
+  linkml: https://w3id.org/linkml/
+  envmd: http://w3id.org/ontogpt/environmental-metadata
+
+default_prefix: envmd
+default_range: string
+
+imports:
+  - linkml:types
+  - core
+
+classes:
+  Dataset:
+    tree_root: true
+    attributes:
+      packageid:
+        description: The internal identifier for the dataset
+        annotations:
+          prompt: single unique identifier for the dataset
+        range: string
+        multivalued: false
+
+      topic:
+        description: the general scientific area of study concerning the sample(s)
+        annotations:
+          prompt: semicolon-separated list of scientific areas of study concerning the sample(s)
+        range: Topic
+        multivalued: true
+
+      location:
+        description: the geographic location where the sample was isolated
+        annotations:
+          prompt: semicolon-separated list of geographic locations of sample isolations
+        range: Location
+        multivalued: true
+
+      environmental_material:
+        description: the environmental material that was sampled
+        annotations:
+          prompt: semicolon-separated list of environmental materials
+        range: EnvironmentalMaterial
+        multivalued: true
+
+      environments:
+        description: the environmental context in which the study was conducted
+        annotations:
+          prompt: semicolon-separated list of environmental contexts in which the study was conducted
+        range: Environment
+        multivalued: true
+
+      methods:
+        annotations:
+          prompt: semicolon-separated list of methods used in measuring sample variables
+        range: Method
+        multivalued: true
+
+  Topic:
+    is_a: NamedEntity
+    id_prefixes:
+      - ENVTHES
+    annotations:
+      annotators: bioportal:ENVTHES
+
+  Location:
+    is_a: NamedEntity
+    id_prefixes:
+      - ENVO
+      - GAZ
+    annotations:
+      annotators: sqlite:obo:envo, bioportal:GAZ
+
+  EnvironmentalMaterial:
+    is_a: NamedEntity
+    id_prefixes:
+      - ENVO
+      - ENVTHES
+    annotations:
+      annotators: sqlite:obo:envo, bioportal:ENVTHES
+
+  Environment:
+    is_a: NamedEntity
+    id_prefixes:
+      - ENVO
+      - ENVTHES
+    annotations:
+      annotators: sqlite:obo:envo, bioportal:ENVTHES
+
+  Method:
+    is_a: NamedEntity
+    id_prefixes:
+      - ENVTHES
+    annotations:
+      annotators: bioportal:ENVTHES

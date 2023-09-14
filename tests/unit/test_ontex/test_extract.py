@@ -1,4 +1,5 @@
 """Core tests."""
+import csv
 import logging
 import unittest
 from typing import Iterator, List, Tuple
@@ -34,6 +35,17 @@ TEST_ONTOLOGY_ABOX = INPUT_DIR / "fhkb.db"
 logger = logging.getLogger(extractor.__name__)
 logger.setLevel(level=logging.INFO)
 
+IS_ANCESTOR_OF = "fhkb:isAncestorOf"
+HAS_ANCESTOR = "fhkb:hasAncestor"
+HAS_PARENT = "fhkb:hasParent"
+IS_PARENT_OF = "fhkb:isParentOf"
+HAS_FATHER = "fhkb:hasFather"
+HAS_MOTHER = "fhkb:hasMother"
+HAS_PARENT = "fhkb:hasParent"
+HAS_SIBLING = "fhkb:hasSibling"
+HAS_BROTHER = "fhkb:hasBrother"
+HAS_SISTER = "fhkb:hasSister"
+
 
 class TestOntologyExtractor(unittest.TestCase):
     """Test ability to convert from OAK to native HALO form."""
@@ -46,6 +58,7 @@ class TestOntologyExtractor(unittest.TestCase):
             raise ValueError("Not an OboGraphInterface")
         self.extractor = OntologyExtractor(adapter=self.adapter)
         self.abox_extractor = OntologyExtractor(adapter=self.abox_adapter)
+        self.abox_extractor.query_predicates = [HAS_ANCESTOR, HAS_SIBLING]
 
     def cases(self) -> Iterator[Tuple[Task, List[str]]]:
         extractor = self.extractor
@@ -88,6 +101,14 @@ class TestOntologyExtractor(unittest.TestCase):
             if expected is not None:
                 self.assertCountEqual(answer_texts, [extractor._name(x) for x in expected])
 
+    @unittest.skip("Non-deterministic")
+    def test_random_taxon_constraints(self):
+        """Test extract random tasks."""
+        extractor = self.extractor
+        task = extractor.extract_taxon_constraint_task(select_random=True, never_in=True)
+        print(dump_minimal_yaml(task))
+
+    @unittest.skip("Non-deterministic")
     def test_random(self):
         """Test extract random tasks."""
         extractor = self.extractor
@@ -110,4 +131,46 @@ class TestOntologyExtractor(unittest.TestCase):
         print(len(tc.tasks))
         print(task_types)
         # increase this every time you add a new task type
+        self.assertEqual(len(task_types), 7)
+
+    @unittest.skip("Non-deterministic")
+    def test_random_obfuscated(self):
+        extractor = self.extractor
+        extractor.obfuscate = True
+        abox_extractor = self.abox_extractor
+        abox_extractor.obfuscate = True
+        abox_tc = abox_extractor.create_random_tasks(20, abox=True)
+        tc = extractor.create_random_tasks(20, abox=False)
+        # merge
+        tc.tasks.extend(abox_tc.tasks)
+        for task in tc.tasks:
+            if not task.answers:
+                print(f"Task {task} has no answers")
+                # raise ValueError(f"Task {task} has no answers")
+            if not task.ontology.axioms:
+                raise ValueError(f"Task {task} has no axioms")
+                # raise ValueError(f"Task {task} has no axioms")
+        path = OUTPUT_DIR / "obfuscated-reasoner-tasks.yaml"
+        with open(path, "w") as f:
+            f.write(dump_minimal_yaml(tc))
+        tc = TaskCollection.load(path)
+        task_types = {type(obj) for obj in tc.tasks}
+        print(len(tc.tasks))
+        print(task_types)
+        # increase this every time you add a new task type
         self.assertEqual(len(task_types), 6)
+        self.assertGreater(len(tc.obfuscated_curie_map.keys()), 20)
+
+    def test_introspect(self):
+        """Test introspection."""
+        root_class = Task
+        with open(OUTPUT_DIR / "task-classes.tsv", "w") as f:
+            writer = csv.DictWriter(f, fieldnames=["code", "task", "description"], delimiter="\t")
+            writer.writeheader()
+            for subclass in root_class.__subclasses__():
+                row = {
+                    "code": subclass._code,
+                    "task": subclass.__name__,
+                    "description": subclass.__doc__.replace("\n", " ").strip(),
+                }
+                writer.writerow(row)

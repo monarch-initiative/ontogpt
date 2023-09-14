@@ -1,0 +1,24 @@
+I will provide a list of phenotypes. Predict the underlying disease.
+The case is a {{ phenopacket.subject.sex }} of age {{ phenopacket.subject.ageAtCollection.age }}.
+
+Case Phenotypes:
+
+{% for pf in phenopacket.phenotypicFeatures -%}
+* {{pf.type.label}}
+{% endfor -%}
+
+Provide ranked list of diseases. For each disease list the phenotypes in common with the case. Provide the
+output in JSON. For example
+
+[
+  {"disease": "<Disease1>",
+   "score": 0.9,
+   "phenotypes": ["<phenotype1>", "<phenotype2>"]
+  },
+  {"disease": "<Disease2>",
+    "score": 0.8,
+    "phenotypes": ["<phenotype1>", "<phenotype2>", ""]
+  }
+]
+
+Provide the JSON here:

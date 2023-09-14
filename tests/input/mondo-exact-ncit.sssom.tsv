@@ -1,0 +1,40 @@
+# curie_map:
+#   MONDO: http://purl.obolibrary.org/obo/MONDO_
+#   NCIT: http://purl.obolibrary.org/obo/NCIT_
+#   owl: http://www.w3.org/2002/07/owl#
+#   rdf: http://www.w3.org/1999/02/22-rdf-syntax-ns#
+#   rdfs: http://www.w3.org/2000/01/rdf-schema#
+#   semapv: https://w3id.org/semapv/
+#   skos: http://www.w3.org/2004/02/skos/core#
+#   sssom: https://w3id.org/sssom/
+# license: https://creativecommons.org/publicdomain/zero/1.0/
+# mapping_date: '2018-06-14'
+# mapping_set_id: http://purl.obolibrary.org/obo/mondo/mappings/mondo_exactmatch_ncit.sssom.tsv
+# mapping_set_version: http://purl.obolibrary.org/obo/mondo/releases/2023-05-01/mappings/mondo_exactmatch_ncit.sssom.tsv
+# object_source: http://purl.obolibrary.org/obo/ncit.owl
+# object_source_version: http://purl.obolibrary.org/obo/ncit/releases/2018-06-14/ncit.owl
+# subject_source: http://purl.obolibrary.org/obo/mondo.owl
+subject_id	subject_label	predicate_id	object_id	object_label	mapping_justification
+MONDO:0000001	disease	skos:exactMatch	NCIT:C2991	Disease or Disorder	semapv:ManualMappingCuration
+MONDO:0000004	adrenocortical insufficiency	skos:exactMatch	NCIT:C26691	Adrenocortical Insufficiency	semapv:ManualMappingCuration
+MONDO:0000022	nocturnal enuresis	skos:exactMatch	NCIT:C118172	Nocturnal Enuresis	semapv:ManualMappingCuration
+MONDO:0000087	polymicrogyria	skos:exactMatch	NCIT:C116936	Polymicrogyria	semapv:ManualMappingCuration
+MONDO:0000088	precocious puberty	skos:exactMatch	NCIT:C79704	Precocious Puberty	semapv:ManualMappingCuration
+MONDO:0000115	Chiari malformation	skos:exactMatch	NCIT:C84570	Arnold-Chiari Malformation	semapv:ManualMappingCuration
+MONDO:0000128	giant axonal neuropathy	skos:exactMatch	NCIT:C84728	Giant Axonal Neuropathy	semapv:ManualMappingCuration
+MONDO:0000141	mosaic variegated aneuploidy syndrome	skos:exactMatch	NCIT:C128192	Mosaic Variegated Aneuploidy Syndrome 1	semapv:ManualMappingCuration
+MONDO:0000147	polyposis	skos:exactMatch	NCIT:C4089	Polyposis	semapv:ManualMappingCuration
+MONDO:0000153	transposition of the great arteries	skos:exactMatch	NCIT:C84742	Transposition of Great Vessels	semapv:ManualMappingCuration
+MONDO:0000159	bone marrow failure syndrome	skos:exactMatch	NCIT:C165614	Bone Marrow Failure Syndrome	semapv:ManualMappingCuration
+MONDO:0000171	muscular dystrophy-dystroglycanopathy, type A	skos:exactMatch	NCIT:C99109	Walker-Warburg Syndrome	semapv:ManualMappingCuration
+MONDO:0000179	Neu-Laxova syndrome	skos:exactMatch	NCIT:C14089	Nuclear Localization Signal	semapv:ManualMappingCuration
+MONDO:0000190	ventricular fibrillation	skos:exactMatch	NCIT:C50799	Ventricular Fibrillation	semapv:ManualMappingCuration
+MONDO:0000212	hypercalcemia, infantile	skos:exactMatch	NCIT:C129734	Autosomal Recessive Infantile Hypercalcemia	semapv:ManualMappingCuration
+MONDO:0000297	baylisascariasis	skos:exactMatch	NCIT:C128397	Baylisascariasis	semapv:ManualMappingCuration
+MONDO:0000313	hypophosphatemia	skos:exactMatch	NCIT:C37977	Hypophosphatemia	semapv:ManualMappingCuration
+MONDO:0000327	Buruli ulcer disease	skos:exactMatch	NCIT:C84604	Buruli Ulcer	semapv:ManualMappingCuration
+MONDO:0000330	endemic typhus	skos:exactMatch	NCIT:C84688	Endemic Typhus Fever	semapv:ManualMappingCuration
+MONDO:0000334	multinodular goiter	skos:exactMatch	NCIT:C131438	Multinodular Goiter	semapv:ManualMappingCuration
+MONDO:0000337	exanthema subitum	skos:exactMatch	NCIT:C128420	Roseola Infantum	semapv:ManualMappingCuration
+MONDO:0000355	Ullrich congenital muscular dystrophy	skos:exactMatch	NCIT:C123438	Ullrich Congenital Muscular Dystrophy	semapv:ManualMappingCuration
+MONDO:0000359	spondylocostal dysostosis	skos:exactMatch	NCIT:C125598	Spondylocostal Dysostosis	semapv:ManualMappingCuration

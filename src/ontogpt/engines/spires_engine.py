@@ -5,16 +5,20 @@ This works by recursively constructing structured prompt-completions where
 a pseudo-YAML structure is requested, where the YAML
 structure corresponds to a template class.
 
-Describes in the SPIRES manuscript
+Describe in the SPIRES manuscript
 TODO: add link
 """
 import logging
+import re
+import uuid
 from dataclasses import dataclass
 from pathlib import Path
-from typing import Any, Dict, List, Optional, Tuple, Union
+from typing import Any, Dict, Iterator, List, Optional, Tuple, Union
 
 import pydantic
+import yaml
 from linkml_runtime.linkml_model import ClassDefinition, SlotDefinition
+from oaklib import BasicOntologyInterface
 
 from ontogpt.engines.knowledge_engine import (
     ANNOTATION_KEY_PROMPT,
@@ -25,6 +29,7 @@ from ontogpt.engines.knowledge_engine import (
     KnowledgeEngine,
     chunk_text,
 )
+from ontogpt.io.yaml_wrapper import dump_minimal_yaml
 from ontogpt.templates.core import ExtractionResult
 
 this_path = Path(__file__).parent
@@ -38,7 +43,7 @@ RESPONSE_DICT = Dict[FIELD, Union[RESPONSE_ATOM, List[RESPONSE_ATOM]]]
 class SPIRESEngine(KnowledgeEngine):
     """Knowledge extractor."""
 
-    engine: str = "text-davinci-003"
+    engine: str = "openai-text-davinci-003"
     recurse: bool = True
     """If true, then complex non-named entity objects are always recursively parsed.
     If this is false AND the complex object is a pair, then token-based splitting is
@@ -52,7 +57,11 @@ class SPIRESEngine(KnowledgeEngine):
     The results are then merged together."""
 
     def extract_from_text(
-        self, text: str, cls: ClassDefinition = None, object: OBJECT = None
+        self,
+        text: str,
+        cls: ClassDefinition = None,
+        object: OBJECT = None,
+        show_prompt: bool = False,
     ) -> ExtractionResult:
         """
         Extract annotations from the given text.
@@ -66,7 +75,7 @@ class SPIRESEngine(KnowledgeEngine):
             chunks = chunk_text(text, self.sentences_per_window)
             extracted_object = None
             for chunk in chunks:
-                raw_text = self._raw_extract(chunk, cls, object=object)
+                raw_text = self._raw_extract(chunk, cls=cls, object=object, show_prompt=show_prompt)
                 logging.info(f"RAW TEXT: {raw_text}")
                 next_object = self.parse_completion_payload(raw_text, cls, object=object)
                 if extracted_object is None:
@@ -81,7 +90,7 @@ class SPIRESEngine(KnowledgeEngine):
                             else:
                                 extracted_object[k] = v
         else:
-            raw_text = self._raw_extract(text, cls, object=object)
+            raw_text = self._raw_extract(text=text, cls=cls, object=object, show_prompt=show_prompt)
             logging.info(f"RAW TEXT: {raw_text}")
             extracted_object = self.parse_completion_payload(raw_text, cls, object=object)
         return ExtractionResult(
@@ -93,11 +102,119 @@ class SPIRESEngine(KnowledgeEngine):
         )
 
     def _extract_from_text_to_dict(self, text: str, cls: ClassDefinition = None) -> RESPONSE_DICT:
-        raw_text = self._raw_extract(text, cls)
+        raw_text = self._raw_extract(text=text, cls=cls)
         return self._parse_response_to_dict(raw_text, cls)
 
+    def generate_and_extract(
+        self, entity: str, prompt_template: str = None, show_prompt: bool = False, **kwargs
+    ) -> ExtractionResult:
+        """
+        Generate a description using GPT and then extract from it using SPIRES.
+
+        :param entity:
+        :param kwargs:
+        :return:
+        """
+        if prompt_template is None:
+            prompt_template = "Generate a comprehensive description of {entity}.\n"
+        # prompt = f"Generate a comprehensive description of {entity}.\n"
+        prompt = prompt_template.format(entity=entity)
+        payload = self.client.complete(prompt, show_prompt)
+        return self.extract_from_text(payload, **kwargs)
+
+    def iteratively_generate_and_extract(
+        self,
+        entity: str,
+        cache_path: Union[str, Path],
+        iteration_slots: List[str],
+        adapter: BasicOntologyInterface = None,
+        clear=False,
+        max_iterations=10,
+        prompt_template=None,
+        show_prompt: bool = False,
+        **kwargs,
+    ) -> Iterator[ExtractionResult]:
+        def _remove_parenthetical_context(s: str):
+            return re.sub(r"\(.*\)", "", s)
+
+        iteration = 0
+        if isinstance(cache_path, str):
+            cache_path = Path(cache_path)
+        if cache_path.exists() and not clear:
+            db = yaml.safe_load(cache_path.open())
+            if "entities_in_queue" not in db:
+                db["entities_in_queue"] = []
+        else:
+            db = {"processed_entities": [], "entities_in_queue": [], "results": []}
+        if entity not in db["processed_entities"]:
+            db["entities_in_queue"].append(entity)
+        if prompt_template is None:
+            prompt_template = (
+                "Generate a comprehensive description of {entity}. "
+                + "The description should include the information on"
+                + " and ".join(iteration_slots)
+                + ".\n"
+            )
+        while db["entities_in_queue"] and iteration < max_iterations:
+            iteration += 1
+            next_entity = db["entities_in_queue"].pop(0)
+            logging.info(f"ITERATION {iteration}, entity={next_entity}")
+            # check if entity matches a curie pattern using re
+            if re.match(r"^[A-Z]+:[A-Z0-9]+$", next_entity):
+                curie = next_entity
+                next_entity = adapter.label(next_entity)
+            else:
+                curie = None
+            result = self.generate_and_extract(
+                next_entity, prompt_template=prompt_template, show_prompt=show_prompt, **kwargs
+            )
+            if curie:
+                if result.extracted_object:
+                    result.extracted_object.id = curie
+            db["results"].append(result)
+            db["processed_entities"].append(next_entity)
+            yield result
+            for s in iteration_slots:
+                # if s not in result.extracted_object:
+                #    raise ValueError(f"Slot {s} not found in {result.extracted_object}")
+                vals = getattr(result.extracted_object, s, [])
+                if not vals:
+                    logging.info("dead-end: no values found for slot")
+                    continue
+                if not isinstance(vals, list):
+                    vals = [vals]
+                for val in vals:
+                    entity = val
+
+                    for ne in result.named_entities:
+                        if ne.id == val:
+                            entity = ne.label
+                            if ne.id.startswith("AUTO"):
+                                # Sometimes the value of some slots will lack
+                                context = next_entity
+                                context = re.sub(r"\(.*\)", "", context)
+                                entity = f"{entity} ({context})"
+                            else:
+                                entity = ne.id
+                            break
+                    queue_deparenthesized = [
+                        _remove_parenthetical_context(e) for e in db["entities_in_queue"]
+                    ]
+                    if (
+                        entity not in db["processed_entities"]
+                        and entity not in db["entities_in_queue"]
+                        and _remove_parenthetical_context(entity) not in queue_deparenthesized
+                    ):
+                        db["entities_in_queue"].append(entity)
+            with open(cache_path, "w") as f:
+                # TODO: consider a more robust backend e.g. mongo
+                f.write(dump_minimal_yaml(db))
+
     def generalize(
-        self, object: Union[pydantic.BaseModel, dict], examples: List[EXAMPLE]
+        self,
+        object: Union[pydantic.BaseModel, dict],
+        examples: List[EXAMPLE],
+        show_prompt: bool = False,
     ) -> ExtractionResult:
         """
         Generalize the given examples.
@@ -119,7 +236,7 @@ class SPIRESEngine(KnowledgeEngine):
                 slot = sv.induced_slot(k, cls.name)
                 prompt += f"{k}: {self._serialize_value(v, slot)}\n"
         logging.debug(f"PROMPT: {prompt}")
-        payload = self.client.complete(prompt)
+        payload = self.client.complete(prompt, show_prompt)
         prediction = self.parse_completion_payload(payload, object=object)
         return ExtractionResult(
             input_text=prompt,
@@ -129,7 +246,9 @@ class SPIRESEngine(KnowledgeEngine):
             named_entities=self.named_entities,
         )
 
-    def map_terms(self, terms: List[str], ontology: str) -> Dict[str, List[str]]:
+    def map_terms(
+        self, terms: List[str], ontology: str, show_prompt: bool = False
+    ) -> Dict[str, List[str]]:
         """
         Map the given terms to the given ontology.
 
@@ -169,7 +288,7 @@ class SPIRESEngine(KnowledgeEngine):
         prompt += "===\n\nTerms:"
         prompt += "; ".join(terms)
         prompt += "===\n\n"
-        payload = self.client.complete(prompt)
+        payload = self.client.complete(prompt, show_prompt)
         # outer parse
         best_results = []
         for sep in ["\n", "; "]:
@@ -237,16 +356,18 @@ class SPIRESEngine(KnowledgeEngine):
                         return label
         return val
 
-    def _raw_extract(self, text, cls: ClassDefinition = None, object: OBJECT = None) -> str:
+    def _raw_extract(
+        self, text, cls: ClassDefinition = None, object: OBJECT = None, show_prompt: bool = False,
+    ) -> str:
         """
         Extract annotations from the given text.
 
         :param text:
         :return:
         """
-        prompt = self.get_completion_prompt(cls, text, object=object)
+        prompt = self.get_completion_prompt(cls=cls, text=text, object=object)
         self.last_prompt = prompt
-        payload = self.client.complete(prompt)
+        payload = self.client.complete(prompt=prompt, show_prompt=show_prompt)
         return payload
 
     def get_completion_prompt(
@@ -344,11 +465,13 @@ class SPIRESEngine(KnowledgeEngine):
         # The LLML may mutate the output format somewhat,
         # randomly pluralizing or replacing spaces with underscores
         field = field.lower().replace(" ", "_")
+        logging.debug(f"  FIELD: {field}")
         cls_slots = sv.class_slots(cls.name)
         slot = None
         if field in cls_slots:
             slot = sv.induced_slot(field, cls.name)
         else:
+            # TODO: check this
             if field.endswith("s"):
                 field = field[:-1]
             if field in cls_slots:
@@ -380,6 +503,7 @@ class SPIRESEngine(KnowledgeEngine):
             transformed = False
             slots_of_range = sv.class_slots(slot_range.name)
             if self.recurse or len(slots_of_range) > 2:
+                logging.debug(f"  RECURSING ON SLOT: {slot.name}, range={slot_range.name}")
                 vals = [self._extract_from_text_to_dict(v, slot_range) for v in vals]
             else:
                 for sep in [" - ", ":", "/", "*", "-"]:
@@ -417,7 +541,23 @@ class SPIRESEngine(KnowledgeEngine):
         logging.debug(f"RAW: {raw}")
         if object:
             raw = {**object, **raw}
+        self._auto_add_ids(raw, cls)
         return self.ground_annotation_object(raw, cls)
+
+    def _auto_add_ids(self, ann: RESPONSE_DICT, cls: ClassDefinition = None) -> None:
+        if ann is None:
+            return
+        if cls is None:
+            cls = self.template_class
+        for slot in self.schemaview.class_induced_slots(cls.name):
+            if slot.identifier:
+                if slot.name not in ann:
+                    auto_id = str(uuid.uuid4())
+                    auto_prefix = self.auto_prefix
+                    if slot.range == "uriorcurie" or slot.range == "uri":
+                        ann[slot.name] = f"{auto_prefix}:{auto_id}"
+                    else:
+                        ann[slot.name] = auto_id
 
     def ground_annotation_object(
         self, ann: RESPONSE_DICT, cls: ClassDefinition = None
@@ -454,9 +594,11 @@ class SPIRESEngine(KnowledgeEngine):
                 if slot.range in self.schemaview.all_enums():
                     enum_def = self.schemaview.get_enum(slot.range)
             new_ann[field] = []
+            logging.debug(f"FIELD: {field} SLOT: {slot.name}")
             for val in vals:
                 if not val:
                     continue
+                logging.debug(f"   VAL: {val}")
                 if isinstance(val, tuple):
                     # special case for pairs
                     sub_slots = sv.class_induced_slots(rng_cls.name)

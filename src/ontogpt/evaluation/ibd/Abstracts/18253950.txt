@@ -1,0 +1,20 @@
+Background: Genetic predisposition as a cause of inflammatory bowel disease (IBD) has been proven by 
+both family and twin studies and genetic variants associated with the disease have been identified. 
+The aim of our study was to determine the concordance rates for IBD in German twin pairs and to 
+evaluate clinical characteristics of concordant and discordant twin pairs.
+
+Methods: Patients with IBD were asked to participate and complete a questionnaire that contained 
+questions about zygosity, demographic data, and medical history.
+
+Results: A total of 189 twin pairs in which at least 1 member had IBD were recruited (68 monozygotic 
+and 121 dizygotic pairs). Within monozygotic pairs, 11 out of 31 (35%) were concordant for Crohn's 
+disease (CD) and 6 out of 37 (16%) for ulcerative colitis (UC). Two of the 58 (3%) dizygotic pairs 
+with CD and 1 out of 63 (2%) dizygotic pairs with UC were concordant for the disease. In 14 out of 
+20 (70%) discordant monozygotic CD pairs and 25 out of 31 (81%) discordant monozygotic pairs with 
+UC, the first-born was affected by IBD. For discordant dizygotic twins, the first in birth order had 
+IBD in 33 out of 56 (59%) pairs with CD and 40 out of 62 (64.5%) pairs with UC.
+
+Conclusions: This study confirms a stronger genetic influence in CD than in UC. The high 
+preponderance in being affected of the first-born twin and the fact that concordance was only 35% 
+for CD and 16% for UC monozygotic twins highlight the important role of environmental trigger 
+factors.

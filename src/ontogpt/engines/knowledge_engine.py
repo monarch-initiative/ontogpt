@@ -23,6 +23,7 @@ from oaklib.interfaces import MappingProviderInterface, TextAnnotatorInterface
 from oaklib.utilities.apikey_manager import get_apikey_value
 from oaklib.utilities.subsets.value_set_expander import ValueSetExpander
 
+from ontogpt import DEFAULT_MODEL
 from ontogpt.clients import OpenAIClient
 from ontogpt.templates.core import ExtractionResult, NamedEntity
 
@@ -43,22 +44,22 @@ ANNOTATION_KEY_ANNOTATORS = "annotators"
 ANNOTATION_KEY_RECURSE = "ner.recurse"
 ANNOTATION_KEY_EXAMPLES = "prompt.examples"
 
-MODEL_GPT_3_5_TURBO = "gpt-3.5-turbo"
-MODEL_TEXT_DAVINCI_003 = "text-davinci-003"
-MODEL_GPT_4 = "gpt-4"
-MODELS = [MODEL_GPT_3_5_TURBO, MODEL_TEXT_DAVINCI_003, MODEL_GPT_4]
-
-DEFAULT_MODEL = MODEL_GPT_3_5_TURBO
-
 # TODO: introspect
+# TODO: move this to its own module
 DATAMODELS = [
-    "treatment.DiseaseTreatmentSummary",
-    "gocam.GoCamAnnotations",
     "bioloigical_process.BiologicalProcess",
+    "biotic_interaction.BioticInteraction",
+    "cell_type.CellTypeDocument",
+    "ctd.ChemicalToDiseaseDocument",
+    "diagnostic_procedure.DiagnosticProceduretoPhenotypeAssociation",
+    "drug.DrugMechanism",
     "environmental_sample.Study",
+    "gocam.GoCamAnnotations",
     "mendelian_disease.MendelianDisease",
+    "phenotype.Trait",
     "reaction.Reaction",
     "recipe.Recipe",
+    "treatment.DiseaseTreatmentSummary",
 ]
 
 
@@ -103,7 +104,7 @@ class KnowledgeEngine(ABC):
     """OpenAI API key."""
 
     model: MODEL_NAME = None
-    """OpenAI Model. This should be overridden in subclasses"""
+    """Language Model. This may be overridden in subclasses."""
 
     # annotator: TextAnnotatorInterface = None
     # """Default annotator. TODO: deprecate?"""
@@ -156,14 +157,16 @@ class KnowledgeEngine(ABC):
             logging.info(f"Using template {self.template_class.name}")
         if not self.model:
             self.model = DEFAULT_MODEL
-        self.client = OpenAIClient(model=self.model)
-        logging.info("Setting up OpenAI client API Key")
-        self.api_key = self._get_openai_api_key()
-        openai.api_key = self.api_key
         if self.mappers is None:
             logging.info("Using mappers (currently hardcoded)")
             self.mappers = [get_adapter("translator:")]
-        self.encoding = tiktoken.encoding_for_model(self.client.model)
+
+        self.set_up_client()
+        try:
+            self.encoding = tiktoken.encoding_for_model(self.client.model)
+        except KeyError:
+            self.encoding = tiktoken.encoding_for_model("gpt-3.5-turbo")
+            logger.error(f"Could not find encoding for model {self.client.model}")
 
     def set_api_key(self, key: str):
         self.api_key = key
@@ -589,3 +592,9 @@ class KnowledgeEngine(ABC):
                     if v:
                         setattr(result, k, v)
         return resultset[0]
+
+    def set_up_client(self):
+        self.client = OpenAIClient(model=self.model)
+        logging.info("Setting up OpenAI client API Key")
+        self.api_key = self._get_openai_api_key()
+        openai.api_key = self.api_key

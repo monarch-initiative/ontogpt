@@ -22,7 +22,7 @@ classes:
       location:
         description: the sites at which the study was conducted
         annotations:
-          prompt: semicolon-separated list of sites at which the study was conducted
+          prompt: semicolon-separated list of sites at which the study was conducted. give specific place names. if you cannot find a specific place name leave the field as empty.
         range: Location
         multivalued: true
 
@@ -35,7 +35,7 @@ classes:
 
       environments:
         annotations:
-          prompt: semicolon-separated list of environmental contexts in which the study was conducted
+          prompt: semicolon-separated list of environment terms for the location in which the study was conducted
         multivalued: true
         range: Environment
 
@@ -62,22 +62,25 @@ classes:
     id_prefixes:
       - ENVO
       - GAZ
+      - ENVTHES
     annotations:
-      annotators: sqlite:obo:envo, bioportal:gaz
+      annotators: sqlite:obo:envo, bioportal:gaz, bioportal:envthes
 
   EnvironmentalMaterial:
     is_a: NamedEntity
     id_prefixes:
       - ENVO
+      - ENVTHES
     annotations:
-      annotators: sqlite:obo:envo
+      annotators: sqlite:obo:envo, bioportal:envthes
 
   Environment:
     is_a: NamedEntity
     id_prefixes:
       - ENVO
+      - ENVTHES
     annotations:
-      annotators: sqlite:obo:envo
+      annotators: sqlite:obo:envo, bioportal:envthes
 
   Variable:
     is_a: NamedEntity
@@ -85,8 +88,9 @@ classes:
       - ENVO
       - MIXS
       - PATO
+      - ENVTHES
     annotations:
-      annotators: sqlite:obo:envo, bioportal:bero
+      annotators: sqlite:obo:envo, bioportal:bero, bioportal:envthes
 
   Unit:
     is_a: NamedEntity

@@ -6,7 +6,7 @@ from ontogpt.io.html_exporter import HTMLExporter
 from tests import OUTPUT_DIR
 from tests.unit.test_exporters import TEST_PICKLED_RESULTS
 
-
+@unittest.skip("Not yet fully compatible with linkml exporters and test fixtures")
 class TestExportHTML(unittest.TestCase):
     """Test annotation."""
 

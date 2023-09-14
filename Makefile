@@ -7,7 +7,7 @@ EVAL_DIR = src/$(PACKAGE)/evaluation
 TEMPLATES = $(notdir $(basename $(wildcard $(TEMPLATE_DIR)/*.yaml)))
 ENTRY_CLASSES = recipe.Recipe gocam.GoCamAnnotations reaction.ReactionDocument ctd.ChemicalToDiseaseDocument
 
-all: all_pydantic all_projects
+all: all_pydantic
 
 all_pydantic: $(patsubst %, $(TEMPLATE_DIR)/%.py, $(TEMPLATES))
 all_projects: $(patsubst %, projects/%, $(TEMPLATES))
@@ -28,10 +28,10 @@ get_version:
 	$(RUN) python -c "import ontogpt;print('.'.join((ontogpt.__version__).split('.', 3)[:3]))"
 
 $(TEMPLATE_DIR)/%.py: src/$(PACKAGE)/templates/%.yaml
-	$(RUN) gen-pydantic $< > $@.tmp && mv $@.tmp $@
+	$(RUN) gen-pydantic --pydantic_version 2 $< > $@.tmp && mv $@.tmp $@
 
 %.py: %.yaml
-	$(RUN) gen-pydantic $< > $@
+	$(RUN) gen-pydantic --pydantic_version 2 $< > $@
 
 #all_images: $(patsubst %, docs/images/%.png, $(ENTRY_CLASSES))
 #docs/images/%.png:
@@ -44,8 +44,7 @@ docs/index.md: README.md
 	cp $< $@
 
 docs/%/index.md: src/$(PACKAGE)/templates/%.yaml
-	$(TMPRUN) gen-doc --include-top-level-diagram --diagram-type er_diagram $< -d docs/$*
-
+	$(RUN) gen-doc --include-top-level-diagram --diagram-type er_diagram $< -d docs/$*
 
 serve:
 	$(RUN) mkdocs serve
@@ -141,6 +140,9 @@ analysis/enrichment/yeast/%-results-$(N).yaml: tests/input/genesets/yeast/%.yaml
 	$(RUN) ontogpt -vv eval-enrichment -n $(N) -U $< -A tests/input/sgd.gaf -o $@.tmp && mv $@.tmp $@
 
 
+analysis/enrichment/gpt4/%-results-$(N).yaml: tests/input/genesets/%.yaml analysis/enrichment/TRIGGER-REANALYSIS
+	$(RUN) ontogpt  -v eval-enrichment  --model gpt-4 -n $(N) -U $< -o $@.tmp && mv $@.tmp $@
+
 analysis/enrichment/%-results-$(N).yaml: tests/input/genesets/%.yaml analysis/enrichment/TRIGGER-REANALYSIS
 	$(RUN) ontogpt -v eval-enrichment -n $(N) -U $< -o $@.tmp && mv $@.tmp $@
 
@@ -164,3 +166,4 @@ analysis/gpt4-enrichment-summary-$(N).yaml:
 all_enrich: $(patsubst %, analysis/enrichment/%-results-$(N).yaml, $(GENE_SETS))
 all_zfin_enrich: $(patsubst %, analysis/enrichment/zebrafish/%-results-$(N).yaml, $(ZFIN_GENE_SETS))
 all_sgd_enrich: $(patsubst %, analysis/enrichment/yeast/%-results-$(N).yaml, $(SGD_GENE_SETS))
+all_gpt4_enrich: $(patsubst %, analysis/enrichment/gpt4/%-results-$(N).yaml, $(GENE_SETS))
