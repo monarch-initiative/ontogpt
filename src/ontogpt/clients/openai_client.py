@@ -6,7 +6,7 @@ import sys
 from dataclasses import dataclass, field
 from pathlib import Path
 from time import sleep
-from typing import Iterator, Tuple
+from typing import Iterator, Optional, Tuple
 
 import numpy as np
 import openai
@@ -22,7 +22,7 @@ class OpenAIClient:
     model: str = field(default_factory=lambda: "gpt-3.5-turbo")
     cache_db_path: str = ""
     api_key: str = ""
-    interactive: bool = None
+    interactive: Optional[bool] = None
 
     def __post_init__(self):
         if not self.api_key:
@@ -101,7 +101,7 @@ class OpenAIClient:
             cur.execute("CREATE TABLE cache (prompt, engine, payload)")
         return cur
 
-    def _interactive_completion(self, prompt: str, engine: str, max_tokens: int = None, **kwargs):
+    def _interactive_completion(self, prompt: str, engine: str, max_tokens: Optional[int], **kwargs):
         print("Please use the ChatGPT interface to complete the following prompt:")
         print(f"IMPORTANT: make sure model == {engine}")
         print(f"Note: max_tokens == {max_tokens}")

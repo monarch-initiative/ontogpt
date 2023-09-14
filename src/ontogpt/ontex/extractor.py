@@ -109,7 +109,7 @@ class Explanation(BaseModel):
 class Answer(BaseModel):
     """Individual answer to a query."""
 
-    _value_domain: ClassVar[str] = None
+    _value_domain: ClassVar[str]
     """Class variable indicating answer types."""
 
     text: str
@@ -183,17 +183,17 @@ class Task(BaseModel):
     For example, a task group might be to determine if an ontology is consistent.
     """
 
-    _query_format: ClassVar[str] = None
+    _query_format: ClassVar[str]
 
     type: Literal["Task"] = Field("Task")
-    _code: ClassVar[str] = None
+    _code: ClassVar[str]
 
     has_multiple_answers: ClassVar[bool] = True
 
     ontology: Ontology
     name: Optional[str] = None
     description: Optional[str] = None
-    query: Query = None
+    query: Optional[Query] = None
     answers: Optional[List[Answer]] = None
     examples: Optional[List[Example]] = None
     obfuscated: Optional[bool] = False
@@ -226,15 +226,17 @@ class Task(BaseModel):
                     query_answer.query.text = qf.format(params=query_answer.query.parameters)
         if not self.query.text:
             self.query.text = qf.format(params=self.query.parameters)
-        if len(self.answers) == 0:
-            self.shortest_explanation = None
-            self.len_shortest_explanation = 0
-        else:
-            most_complex_answer = max(
-                self.answers, key=lambda x: len(x.shortest_explanation().axioms)
-            )
-            self.shortest_explanation = most_complex_answer.shortest_explanation()
-            self.len_shortest_explanation = len(self.shortest_explanation.axioms)
+        if self.answers is not None:
+            if len(self.answers) == 0:
+                self.shortest_explanation = None
+                self.len_shortest_explanation = 0
+            else:
+                most_complex_answer = max(
+                    self.answers, key=lambda x: len(x.shortest_explanation().axioms)
+                )
+                if self.shortest_explanation is not None:
+                    self.shortest_explanation = most_complex_answer.shortest_explanation()
+                    self.len_shortest_explanation = len(self.shortest_explanation.axioms)
         if not self.name:
             self.name = f"{self.type}-{uuid.uuid4()}"
         self.init_method()

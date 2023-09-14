@@ -56,7 +56,7 @@ def negated(Triple) -> bool:
 class PredictionRE(BaseModel):
     """A prediction for a relationship extraction task."""
 
-    test_object: TextWithTriples = None
+    test_object: Optional[TextWithTriples] = None
     """source of truth to evaluate against"""
 
     true_positives: Optional[List[Tuple]] = None
@@ -65,11 +65,11 @@ class PredictionRE(BaseModel):
     num_false_positives: Optional[int] = None
     false_negatives: Optional[List[Tuple]] = None
     num_false_negatives: Optional[int] = None
-    scores: Dict[str, SimilarityScore] = None
-    predicted_object: TextWithTriples = None
-    named_entities: List[Any] = None
+    scores: Optional[Dict[str, SimilarityScore]] = None
+    predicted_object: Optional[TextWithTriples] = None
+    named_entities: Optional[List[Any]] = None
 
-    def calculate_scores(self, labelers: List[BasicOntologyInterface] = None):
+    def calculate_scores(self, labelers: Optional[List[BasicOntologyInterface]] = None):
         self.scores = {}
 
         def label(x):
@@ -219,14 +219,17 @@ class EvalCTD(SPIRESEvaluationEngine):
             # logger.debug(f"concatenated triples: {predicted_obj.triples}")
 
             def included(t: ChemicalToDiseaseRelationship):
-                return (
-                    t
-                    and t.subject
-                    and t.object
-                    and t.subject.startswith("MESH:")
-                    and t.object.startswith("MESH:")
-                    and t.predicate.lower() == "induces"
-                )
+                if not [var for var in (t.subject, t.object, t.predicate) if var is None]:
+                    return (
+                        t
+                        and t.subject
+                        and t.object
+                        and t.subject.startswith("MESH:")
+                        and t.object.startswith("MESH:")
+                        and t.predicate.lower() == "induces"
+                    )
+                else:
+                    return t
 
             predicted_obj.triples = [t for t in predicted_obj.triples if included(t)]
             logger.info(

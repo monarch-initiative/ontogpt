@@ -39,10 +39,11 @@ class OWLExporter(Exporter):
                 if id_value is None:
                     setattr(element, id_slot_name, "AUTO:_ROOT")
         axioms = []
-        for named_entity in extraction_output.named_entities:
-            ne_as_dc = self._as_dataclass_object(named_entity, schemaview)
-            doc = dumper.to_ontology_document(ne_as_dc, schemaview.schema)
-            axioms.extend(doc.ontology.axioms)
+        if extraction_output.named_entities is not None:
+            for named_entity in extraction_output.named_entities:
+                ne_as_dc = self._as_dataclass_object(named_entity, schemaview)
+                doc = dumper.to_ontology_document(ne_as_dc, schemaview.schema)
+                axioms.extend(doc.ontology.axioms)
         element_as_dataclass = self._as_dataclass_object(element, schemaview)
         doc = dumper.to_ontology_document(element_as_dataclass, schemaview.schema)
         doc.ontology.axioms.extend(axioms)

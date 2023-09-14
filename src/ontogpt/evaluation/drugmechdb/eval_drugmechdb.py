@@ -173,12 +173,23 @@ class EvalDrugMechDB(SPIRESEvaluationEngine):
         refs = mechanism.reference if mechanism.reference else []
         if mechanism.references:
             refs.append(mechanism.references)
-        return target_datamodel.DrugMechanism(
-            disease=mechanism.graph.disease_mesh,
-            drug=_fix_id(mechanism.graph.drugbank),
-            mechanism_links=triples,
-            references=refs,
-        )
+        mech = target_datamodel.DrugMechanism()
+        if mechanism.graph is not None:
+            if not [
+                var
+                for var in (mechanism.graph, mechanism.graph.disease_mesh, mechanism.graph.drugbank)
+                if var is None
+            ]:
+                return target_datamodel.DrugMechanism(
+                    disease=mechanism.graph.disease_mesh,
+                    drug=_fix_id(mechanism.graph.drugbank),
+                    mechanism_links=triples,
+                    references=refs,
+                )
+            else:
+                return mech
+        else:
+            return mech
 
     def create_test_and_training(
         self, num_test: int = 10, num_training: int = 5, include_texts: bool = False
@@ -278,7 +289,9 @@ class EvalDrugMechDB(SPIRESEvaluationEngine):
             if results.extracted_object is not None:
                 predicted_obj = results.extracted_object[0]
             else:
-                logging.warning(f"No extracted object found for {test_obj.disease}, {test_obj.drug}")
+                logging.warning(
+                    f"No extracted object found for {test_obj.disease}, {test_obj.drug}"
+                )
             pred = PredictionDrugMechDB(predicted_object=predicted_obj, test_object=test_obj)
             pred.calculate_scores()
             eos.predictions.append(pred)
