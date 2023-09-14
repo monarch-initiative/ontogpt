@@ -41,7 +41,7 @@ class Container(ConfiguredBaseModel):
 class BioticInteraction(ConfiguredBaseModel):
     
     source_taxon: Optional[str] = Field(None, description="""the taxon that is the subject of the interaction""")
-    target_taxon: Optional[str] = Field(None, description="""the taxon that is the object of the ineteraction""")
+    target_taxon: Optional[str] = Field(None, description="""the taxon that is the object of the interaction""")
     interaction_type: Optional[str] = Field(None, description="""the type of interaction""")
     
 
