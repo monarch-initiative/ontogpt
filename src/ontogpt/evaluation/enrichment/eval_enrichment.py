@@ -58,13 +58,13 @@ class Overlap(BaseModel):
     jaccard: Optional[float] = None
     common: Optional[List[str]] = None
     overlap_score: Optional[int] = None
-    left_jaccard: float = None
-    right_jaccard: float = None
-    summary_jaccard: float = None
+    left_jaccard: Optional[float] = None
+    right_jaccard: Optional[float] = None
+    summary_jaccard: Optional[float] = None
 
 
 class GeneSetComparison(BaseModel):
-    name: str
+    name: str = ""
     gene_symbols: List[str]
     gene_ids: List[str] = None
     model: str = ""

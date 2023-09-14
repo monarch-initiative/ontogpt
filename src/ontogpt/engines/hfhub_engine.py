@@ -265,7 +265,7 @@ class HFHubEngine(KnowledgeEngine):
         return payload
 
     def get_completion_prompt(
-        self, cls: ClassDefinition = None, text: str = None, object: OBJECT = None
+        self, cls: ClassDefinition = None, text: str = "", object: OBJECT = None
     ) -> str:
         """Get the prompt for the given template."""
         if cls is None:

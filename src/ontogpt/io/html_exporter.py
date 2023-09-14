@@ -19,7 +19,7 @@ class HTMLExporter(Exporter):
     TODO: rewrite to use bootstrap
     """
 
-    output: TextIO = None
+    output: TextIO
 
     def export(self, extraction_output: ExtractionResult, output: Union[str, Path, TextIO]):
         if isinstance(output, Path):

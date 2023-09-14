@@ -25,13 +25,13 @@ DIAGNOSIS = Dict[str, Any]
 
 class DiagnosisPrediction(BaseModel):
     case_id: str
-    validated_disease_ids: List[str] = None
-    validated_disease_labels: List[str] = None
-    validated_mondo_disease_ids: List[str] = None
-    validated_mondo_disease_labels: List[str] = None
-    predicted_disease_ids: List[str] = None
-    predicted_disease_labels: List[str] = None
-    matching_disease_ids: List[str] = None
+    validated_disease_ids: Optional[List[str]] = None
+    validated_disease_labels: Optional[List[str]] = None
+    validated_mondo_disease_ids: Optional[List[str]] = None
+    validated_mondo_disease_labels: Optional[List[str]] = None
+    predicted_disease_ids: Optional[List[str]] = None
+    predicted_disease_labels: Optional[List[str]] = None
+    matching_disease_ids: Optional[List[str]] = None
     rank: Optional[int] = None
     model: Optional[str] = None
     prompt: Optional[str] = None

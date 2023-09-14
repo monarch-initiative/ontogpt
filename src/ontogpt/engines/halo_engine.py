@@ -40,9 +40,9 @@ INSTRUCTIONS = """
 
 
 class StructuredPrompt(pydantic.BaseModel):
-    header: str = None
-    body: str = None
-    main_prompt: str = None
+    header: str = ""
+    body: str = ""
+    main_prompt: str = ""
 
     @property
     def text(self) -> str:
@@ -58,8 +58,8 @@ class HALOEngine(KnowledgeEngine):
     traverse_slots: List[FIELD] = field(
         default_factory=lambda: ["subtypes", "parts", "subclass_of", "part_of"]
     )
-    fixed_slot_values: Dict[str, str] = None
-    adapter: OboGraphInterface = None
+    fixed_slot_values: Optional[Dict[str, str]] = None
+    adapter: OboGraphInterface
     visited: Set[ELEMENT_NAME] = field(default_factory=lambda: set())
     candidates: List[ELEMENT_NAME] = None
     always_extend: bool = False

@@ -80,8 +80,8 @@ class Ontology(BaseModel):
     axioms: List[Axiom]
     """All axioms in the ontology"""
 
-    terms: List[CURIE] = None
-    predicates: List[PRED_CURIE] = None
+    terms: List[CURIE] = [""]
+    predicates: List[PRED_CURIE] = [""]
 
     comments: Optional[List[str]] = None
 
@@ -196,7 +196,6 @@ class Task(BaseModel):
     query: Query = None
     answers: Optional[List[Answer]] = None
     examples: Optional[List[Example]] = None
-    description: Optional[str] = None
     obfuscated: Optional[bool] = False
 
     method: Optional[GPTReasonMethodType] = None

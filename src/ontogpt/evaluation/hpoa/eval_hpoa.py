@@ -56,14 +56,14 @@ class EvaluationObjectSetHPOA(BaseModel):
 
     test: List[MendelianDisease] = None
     training: List[MendelianDisease] = None
-    predictions: List = None
+    predictions: List = []
 
 
 class HPOAnnotation(BaseModel):
-    subject: DISEASE_ID = None
-    term: TERM = None
-    aspect: ASPECT = None
-    publication: PUBLICATION = None
+    subject: DISEASE_ID = ""
+    term: TERM = ""
+    aspect: ASPECT = ""
+    publication: PUBLICATION = ""
 
 
 @dataclass

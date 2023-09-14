@@ -22,7 +22,7 @@ from collections import defaultdict
 from dataclasses import dataclass
 from pathlib import Path
 from random import shuffle
-from typing import Any, Dict, Iterable, List, Set, Tuple
+from typing import Any, Dict, Iterable, List, Optional, Set, Tuple
 
 import yaml
 from bioc import biocxml
@@ -59,12 +59,12 @@ class PredictionRE(BaseModel):
     test_object: TextWithTriples = None
     """source of truth to evaluate against"""
 
-    true_positives: List[Tuple] = None
-    num_true_positives: int = None
-    false_positives: List[Tuple] = None
-    num_false_positives: int = None
-    false_negatives: List[Tuple] = None
-    num_false_negatives: int = None
+    true_positives: Optional[List[Tuple]] = None
+    num_true_positives: Optional[int] = None
+    false_positives: Optional[List[Tuple]] = None
+    num_false_positives: Optional[int] = None
+    false_negatives: Optional[List[Tuple]] = None
+    num_false_negatives: Optional[int] = None
     scores: Dict[str, SimilarityScore] = None
     predicted_object: TextWithTriples = None
     named_entities: List[Any] = None
