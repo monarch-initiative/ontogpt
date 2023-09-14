@@ -92,7 +92,7 @@ class KnowledgeEngine(ABC):
     """Python class for the template.
     This is derived from the template and does not need to be set manually."""
 
-    template_module: ModuleType
+    template_module: Optional[ModuleType] = None
     """Python module for the template.
     This is derived from the template and does not need to be set manually."""
 
@@ -109,23 +109,23 @@ class KnowledgeEngine(ABC):
     # annotator: TextAnnotatorInterface = None
     # """Default annotator. TODO: deprecate?"""
 
-    annotators: Dict[str, List[TextAnnotatorInterface]]
+    annotators: Optional[Dict[str, List[TextAnnotatorInterface]]] = None
     """Annotators for each class.
     An annotator will ground/map labels to CURIEs.
     These override the annotators annotated in the template
     """
 
-    skip_annotators: Optional[List[TextAnnotatorInterface]]
+    skip_annotators: Optional[List[TextAnnotatorInterface]] = None
     """Annotators to skip.
     This overrides any specified in the schema"""
 
-    mappers: List[BasicOntologyInterface]
+    mappers: Optional[List[BasicOntologyInterface]] = None
     """List of concept mappers, to assist in grounding to desired ID prefix"""
 
-    labelers: List[BasicOntologyInterface]
+    labelers: Optional[List[BasicOntologyInterface]] = None
     """Labelers that map CURIEs to labels"""
 
-    client: OpenAIClient
+    client: Optional[OpenAIClient] = None
     """All calls to LLMs are delegated through this client"""
 
     dictionary: Dict[str, str] = field(default_factory=dict)

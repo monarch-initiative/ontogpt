@@ -1,6 +1,7 @@
 """HTML Exporter."""
 import html
 from dataclasses import dataclass
+from io import BytesIO
 from pathlib import Path
 from typing import Any, TextIO, Union
 
@@ -19,9 +20,9 @@ class HTMLExporter(Exporter):
     TODO: rewrite to use bootstrap
     """
 
-    output: TextIO
+    output: Union[BytesIO, TextIO]
 
-    def export(self, extraction_output: ExtractionResult, output: Union[str, Path, TextIO]):
+    def export(self, extraction_output: ExtractionResult, output: Union[str, Path, TextIO, BytesIO]):
         if isinstance(output, Path):
             output = str(output)
         if isinstance(output, str):

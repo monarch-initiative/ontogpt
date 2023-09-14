@@ -53,7 +53,7 @@ class EnrichmentPayload(BaseModel):
     response_text: str = ""
     """The response text from the summarization task (only filled for LLMs)."""
 
-    truncation_factor: float = None
+    truncation_factor: Optional[float] = None
     """Fraction of gene descriptions retained after trimming to fit token limit."""
 
     summary: str = ""
@@ -65,13 +65,13 @@ class EnrichmentPayload(BaseModel):
     term_ids: List[str] = [""]
     """The normalized terms"""
 
-    ontological_synopsis: bool = None
+    ontological_synopsis: Optional[bool] = None
     """True if the gene descriptions used the ontological synopsis"""
 
-    combined_synopsis: bool = None
+    combined_synopsis: Optional[bool]  = None
     """True if the gene descriptions used both ontological and narrative synopses"""
 
-    annotations: bool = None
+    annotations: Optional[bool]  = None
     """True if the gene descriptions used the annotations (vs latent KB)"""
 
     response_token_length: int = 0

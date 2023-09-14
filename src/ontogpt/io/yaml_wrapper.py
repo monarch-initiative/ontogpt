@@ -51,3 +51,4 @@ def dump_minimal_yaml(obj: Any, minimize=True, file: Optional[TextIO] = None) ->
         return file.getvalue()
     else:
         yaml.dump(eliminate_empty(obj, not minimize), file)
+        return ""

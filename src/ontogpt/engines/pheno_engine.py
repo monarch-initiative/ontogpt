@@ -49,7 +49,7 @@ class PhenoEngine(KnowledgeEngine):
         return self._mondo
 
     def predict_disease(
-        self, phenopacket: PHENOPACKET, template_path: Union[str, Path] = None
+        self, phenopacket: PHENOPACKET, template_path: Optional[Union[str, Path]] = None
     ) -> List[DIAGNOSIS]:
         if template_path is None:
             template_path = DEFAULT_PHENOPACKET_PROMPT

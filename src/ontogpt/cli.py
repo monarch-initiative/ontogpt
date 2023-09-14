@@ -99,7 +99,7 @@ def write_extraction(
             exporter.export(results, output)
         elif output_format == "html":
             output = _as_text_writer(output)
-            exporter = HTMLExporter()
+            exporter = HTMLExporter(output=output)
             exporter.export(results, output)
         elif output_format == "yaml":
             output = _as_text_writer(output)

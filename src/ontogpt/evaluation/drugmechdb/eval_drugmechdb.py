@@ -222,7 +222,10 @@ class EvalDrugMechDB(SPIRESEvaluationEngine):
                 return False
             if len(m.references) != 1:
                 return False
-            ref = m.references[0]
+            if m.references is not None:
+                ref = m.references[0]
+            else:
+                ref = ""
             if ref.startswith("https://go.drugbank.com/drugs/") and ref.endswith(
                 "#mechanism-of-action"
             ):
@@ -272,7 +275,10 @@ class EvalDrugMechDB(SPIRESEvaluationEngine):
                 "drug": test_obj.drug,
             }
             results = ke.generalize(stub, eos.training)
-            predicted_obj = results.extracted_object[0]
+            if results.extracted_object is not None:
+                predicted_obj = results.extracted_object[0]
+            else:
+                logging.warning(f"No extracted object found for {test_obj.disease}, {test_obj.drug}")
             pred = PredictionDrugMechDB(predicted_object=predicted_obj, test_object=test_obj)
             pred.calculate_scores()
             eos.predictions.append(pred)

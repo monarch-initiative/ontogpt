@@ -290,7 +290,7 @@ class SPIRESEngine(KnowledgeEngine):
         prompt += "===\n\n"
         payload = self.client.complete(prompt, show_prompt)
         # outer parse
-        best_results = []
+        best_results: List[str] = []
         for sep in ["\n", "; "]:
             results = payload.split(sep)
             if len(results) > len(best_results):

@@ -34,7 +34,7 @@ class MappingPredicate(str, Enum):
     DIFFERENT_FROM = "different_from"
     UNCATEGORIZED = "uncategorized"
 
-    def mappings() -> Dict[str, str]:
+    def mappings(self) -> Dict[str, str]:
         """Return the mappings for this predicate."""
         return {
             "skos:exactMatch": "exact_match",

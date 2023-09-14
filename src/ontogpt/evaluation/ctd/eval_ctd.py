@@ -109,15 +109,15 @@ class PredictionRE(BaseModel):
 
 
 class EvaluationObjectSetRE(BaseModel):
-    """A result of predicting relationextractions."""
+    """A result of predicting relation extractions."""
 
-    precision: float = None
-    recall: float = None
-    f1: float = None
+    precision: float = 0
+    recall: float = 0
+    f1: float = 0
 
-    training: List[TextWithTriples] = None
-    predictions: List[PredictionRE] = None
-    test: List[TextWithTriples] = None
+    training: Optional[List[TextWithTriples]] = None
+    predictions: Optional[List[PredictionRE]] = None
+    test: Optional[List[TextWithTriples]] = None
 
 
 @dataclass
