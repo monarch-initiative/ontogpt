@@ -1,0 +1,1828 @@
+{
+  "name": "recipe-template",
+  "description": "A template for food recipes",
+  "title": "Food Recipe Template",
+  "id": "https://w3id.org/ontogpt/recipe",
+  "imports": [
+    "linkml:types",
+    "core"
+  ],
+  "license": "https://creativecommons.org/publicdomain/zero/1.0/",
+  "prefixes": [
+    {
+      "prefix_prefix": "linkml",
+      "prefix_reference": "https://w3id.org/linkml/"
+    },
+    {
+      "prefix_prefix": "recipe",
+      "prefix_reference": "http://w3id.org/ontogpt/recipe/"
+    },
+    {
+      "prefix_prefix": "FOODON",
+      "prefix_reference": "http://purl.obolibrary.org/obo/FOODON_"
+    },
+    {
+      "prefix_prefix": "UO",
+      "prefix_reference": "http://purl.obolibrary.org/obo/UO_"
+    },
+    {
+      "prefix_prefix": "dcterms",
+      "prefix_reference": "http://purl.org/dc/terms/"
+    },
+    {
+      "prefix_prefix": "HANCESTRO",
+      "prefix_reference": "http://purl.obolibrary.org/obo/HANCESTRO_"
+    },
+    {
+      "prefix_prefix": "BFO",
+      "prefix_reference": "http://purl.obolibrary.org/obo/BFO_"
+    },
+    {
+      "prefix_prefix": "AUTO",
+      "prefix_reference": "http://example.org/auto/"
+    },
+    {
+      "prefix_prefix": "RO",
+      "prefix_reference": "http://purl.obolibrary.org/obo/RO_"
+    },
+    {
+      "prefix_prefix": "qudt",
+      "prefix_reference": "http://qudt.org/schema/qudt/"
+    },
+    {
+      "prefix_prefix": "dbpediaont",
+      "prefix_reference": "http://dbpedia.org/ontology/"
+    }
+  ],
+  "default_prefix": "recipe",
+  "default_range": "string",
+  "types": [
+    {
+      "name": "string",
+      "definition_uri": "https://w3id.org/linkml/String",
+      "description": "A character string",
+      "from_schema": "https://w3id.org/linkml/types",
+      "imported_from": "linkml:types",
+      "exact_mappings": [
+        "schema:Text"
+      ],
+      "base": "str",
+      "uri": "http://www.w3.org/2001/XMLSchema#string",
+      "@type": "TypeDefinition"
+    },
+    {
+      "name": "integer",
+      "definition_uri": "https://w3id.org/linkml/Integer",
+      "description": "An integer",
+      "from_schema": "https://w3id.org/linkml/types",
+      "imported_from": "linkml:types",
+      "exact_mappings": [
+        "schema:Integer"
+      ],
+      "base": "int",
+      "uri": "http://www.w3.org/2001/XMLSchema#integer",
+      "@type": "TypeDefinition"
+    },
+    {
+      "name": "boolean",
+      "definition_uri": "https://w3id.org/linkml/Boolean",
+      "description": "A binary (true or false) value",
+      "from_schema": "https://w3id.org/linkml/types",
+      "imported_from": "linkml:types",
+      "exact_mappings": [
+        "schema:Boolean"
+      ],
+      "base": "Bool",
+      "uri": "http://www.w3.org/2001/XMLSchema#boolean",
+      "repr": "bool",
+      "@type": "TypeDefinition"
+    },
+    {
+      "name": "float",
+      "definition_uri": "https://w3id.org/linkml/Float",
+      "description": "A real number that conforms to the xsd:float specification",
+      "from_schema": "https://w3id.org/linkml/types",
+      "imported_from": "linkml:types",
+      "exact_mappings": [
+        "schema:Float"
+      ],
+      "base": "float",
+      "uri": "http://www.w3.org/2001/XMLSchema#float",
+      "@type": "TypeDefinition"
+    },
+    {
+      "name": "double",
+      "definition_uri": "https://w3id.org/linkml/Double",
+      "description": "A real number that conforms to the xsd:double specification",
+      "from_schema": "https://w3id.org/linkml/types",
+      "imported_from": "linkml:types",
+      "close_mappings": [
+        "schema:Float"
+      ],
+      "base": "float",
+      "uri": "http://www.w3.org/2001/XMLSchema#double",
+      "@type": "TypeDefinition"
+    },
+    {
+      "name": "decimal",
+      "definition_uri": "https://w3id.org/linkml/Decimal",
+      "description": "A real number with arbitrary precision that conforms to the xsd:decimal specification",
+      "from_schema": "https://w3id.org/linkml/types",
+      "imported_from": "linkml:types",
+      "broad_mappings": [
+        "schema:Number"
+      ],
+      "base": "Decimal",
+      "uri": "http://www.w3.org/2001/XMLSchema#decimal",
+      "@type": "TypeDefinition"
+    },
+    {
+      "name": "time",
+      "definition_uri": "https://w3id.org/linkml/Time",
+      "description": "A time object represents a (local) time of day, independent of any particular day",
+      "notes": [
+        "URI is dateTime because OWL reasoners do not work with straight date or time"
+      ],
+      "from_schema": "https://w3id.org/linkml/types",
+      "imported_from": "linkml:types",
+      "exact_mappings": [
+        "schema:Time"
+      ],
+      "base": "XSDTime",
+      "uri": "http://www.w3.org/2001/XMLSchema#time",
+      "repr": "str",
+      "@type": "TypeDefinition"
+    },
+    {
+      "name": "date",
+      "definition_uri": "https://w3id.org/linkml/Date",
+      "description": "a date (year, month and day) in an idealized calendar",
+      "notes": [
+        "URI is dateTime because OWL reasoners don't work with straight date or time"
+      ],
+      "from_schema": "https://w3id.org/linkml/types",
+      "imported_from": "linkml:types",
+      "exact_mappings": [
+        "schema:Date"
+      ],
+      "base": "XSDDate",
+      "uri": "http://www.w3.org/2001/XMLSchema#date",
+      "repr": "str",
+      "@type": "TypeDefinition"
+    },
+    {
+      "name": "datetime",
+      "definition_uri": "https://w3id.org/linkml/Datetime",
+      "description": "The combination of a date and time",
+      "from_schema": "https://w3id.org/linkml/types",
+      "imported_from": "linkml:types",
+      "exact_mappings": [
+        "schema:DateTime"
+      ],
+      "base": "XSDDateTime",
+      "uri": "http://www.w3.org/2001/XMLSchema#dateTime",
+      "repr": "str",
+      "@type": "TypeDefinition"
+    },
+    {
+      "name": "date_or_datetime",
+      "definition_uri": "https://w3id.org/linkml/DateOrDatetime",
+      "description": "Either a date or a datetime",
+      "from_schema": "https://w3id.org/linkml/types",
+      "imported_from": "linkml:types",
+      "base": "str",
+      "uri": "https://w3id.org/linkml/DateOrDatetime",
+      "repr": "str",
+      "@type": "TypeDefinition"
+    },
+    {
+      "name": "uriorcurie",
+      "definition_uri": "https://w3id.org/linkml/Uriorcurie",
+      "description": "a URI or a CURIE",
+      "from_schema": "https://w3id.org/linkml/types",
+      "imported_from": "linkml:types",
+      "base": "URIorCURIE",
+      "uri": "http://www.w3.org/2001/XMLSchema#anyURI",
+      "repr": "str",
+      "@type": "TypeDefinition"
+    },
+    {
+      "name": "curie",
+      "definition_uri": "https://w3id.org/linkml/Curie",
+      "conforms_to": "https://www.w3.org/TR/curie/",
+      "description": "a compact URI",
+      "comments": [
+        "in RDF serializations this MUST be expanded to a URI",
+        "in non-RDF serializations MAY be serialized as the compact representation"
+      ],
+      "from_schema": "https://w3id.org/linkml/types",
+      "imported_from": "linkml:types",
+      "base": "Curie",
+      "uri": "http://www.w3.org/2001/XMLSchema#string",
+      "repr": "str",
+      "@type": "TypeDefinition"
+    },
+    {
+      "name": "uri",
+      "definition_uri": "https://w3id.org/linkml/Uri",
+      "conforms_to": "https://www.ietf.org/rfc/rfc3987.txt",
+      "description": "a complete URI",
+      "comments": [
+        "in RDF serializations a slot with range of uri is treated as a literal or type xsd:anyURI unless it is an identifier or a reference to an identifier, in which case it is translated directly to a node"
+      ],
+      "from_schema": "https://w3id.org/linkml/types",
+      "imported_from": "linkml:types",
+      "close_mappings": [
+        "schema:URL"
+      ],
+      "base": "URI",
+      "uri": "http://www.w3.org/2001/XMLSchema#anyURI",
+      "repr": "str",
+      "@type": "TypeDefinition"
+    },
+    {
+      "name": "ncname",
+      "definition_uri": "https://w3id.org/linkml/Ncname",
+      "description": "Prefix part of CURIE",
+      "from_schema": "https://w3id.org/linkml/types",
+      "imported_from": "linkml:types",
+      "base": "NCName",
+      "uri": "http://www.w3.org/2001/XMLSchema#string",
+      "repr": "str",
+      "@type": "TypeDefinition"
+    },
+    {
+      "name": "objectidentifier",
+      "definition_uri": "https://w3id.org/linkml/Objectidentifier",
+      "description": "A URI or CURIE that represents an object in the model.",
+      "comments": [
+        "Used for inheritance and type checking"
+      ],
+      "from_schema": "https://w3id.org/linkml/types",
+      "imported_from": "linkml:types",
+      "base": "ElementIdentifier",
+      "uri": "http://www.w3.org/ns/shex#iri",
+      "repr": "str",
+      "@type": "TypeDefinition"
+    },
+    {
+      "name": "nodeidentifier",
+      "definition_uri": "https://w3id.org/linkml/Nodeidentifier",
+      "description": "A URI, CURIE or BNODE that represents a node in a model.",
+      "from_schema": "https://w3id.org/linkml/types",
+      "imported_from": "linkml:types",
+      "base": "NodeIdentifier",
+      "uri": "http://www.w3.org/ns/shex#nonLiteral",
+      "repr": "str",
+      "@type": "TypeDefinition"
+    },
+    {
+      "name": "jsonpointer",
+      "definition_uri": "https://w3id.org/linkml/Jsonpointer",
+      "conforms_to": "https://datatracker.ietf.org/doc/html/rfc6901",
+      "description": "A string encoding a JSON Pointer. The value of the string MUST conform to JSON Point syntax and SHOULD dereference to a valid object within the current instance document when encoded in tree form.",
+      "from_schema": "https://w3id.org/linkml/types",
+      "imported_from": "linkml:types",
+      "base": "str",
+      "uri": "http://www.w3.org/2001/XMLSchema#string",
+      "repr": "str",
+      "@type": "TypeDefinition"
+    },
+    {
+      "name": "jsonpath",
+      "definition_uri": "https://w3id.org/linkml/Jsonpath",
+      "conforms_to": "https://www.ietf.org/archive/id/draft-goessner-dispatch-jsonpath-00.html",
+      "description": "A string encoding a JSON Path. The value of the string MUST conform to JSON Point syntax and SHOULD dereference to zero or more valid objects within the current instance document when encoded in tree form.",
+      "from_schema": "https://w3id.org/linkml/types",
+      "imported_from": "linkml:types",
+      "base": "str",
+      "uri": "http://www.w3.org/2001/XMLSchema#string",
+      "repr": "str",
+      "@type": "TypeDefinition"
+    },
+    {
+      "name": "sparqlpath",
+      "definition_uri": "https://w3id.org/linkml/Sparqlpath",
+      "conforms_to": "https://www.w3.org/TR/sparql11-query/#propertypaths",
+      "description": "A string encoding a SPARQL Property Path. The value of the string MUST conform to SPARQL syntax and SHOULD dereference to zero or more valid objects within the current instance document when encoded as RDF.",
+      "from_schema": "https://w3id.org/linkml/types",
+      "imported_from": "linkml:types",
+      "base": "str",
+      "uri": "http://www.w3.org/2001/XMLSchema#string",
+      "repr": "str",
+      "@type": "TypeDefinition"
+    }
+  ],
+  "enums": [
+    {
+      "name": "NullDataOptions",
+      "definition_uri": "http://w3id.org/ontogpt/core/NullDataOptions",
+      "from_schema": "http://w3id.org/ontogpt/core",
+      "permissible_values": [
+        {
+          "text": "UNSPECIFIED_METHOD_OF_ADMINISTRATION",
+          "meaning": "NCIT:C149701"
+        },
+        {
+          "text": "NOT_APPLICABLE",
+          "meaning": "NCIT:C18902",
+          "aliases": [
+            "not applicable",
+            "N/A"
+          ]
+        },
+        {
+          "text": "NOT_MENTIONED"
+        }
+      ]
+    }
+  ],
+  "slots": [
+    {
+      "name": "recipe__url",
+      "annotations": [
+        {
+          "tag": "prompt.ignore",
+          "value": "True",
+          "@type": "Annotation"
+        }
+      ],
+      "from_schema": "https://w3id.org/ontogpt/recipe",
+      "mappings": [
+        "http://example.org/UNKNOWN/rdf/Resource"
+      ],
+      "slot_uri": "http://example.org/UNKNOWN/rdf/Resource",
+      "identifier": true,
+      "alias": "url",
+      "owner": "Recipe",
+      "domain_of": [
+        "Recipe"
+      ],
+      "range": "uriorcurie",
+      "required": true,
+      "@type": "SlotDefinition"
+    },
+    {
+      "name": "recipe__label",
+      "annotations": [
+        {
+          "tag": "owl",
+          "value": "AnnotationProperty, AnnotationAssertion",
+          "@type": "Annotation"
+        }
+      ],
+      "description": "the name of the recipe",
+      "from_schema": "https://w3id.org/ontogpt/recipe",
+      "mappings": [
+        "http://example.org/UNKNOWN/rdfs/label"
+      ],
+      "slot_uri": "http://example.org/UNKNOWN/rdfs/label",
+      "alias": "label",
+      "owner": "Recipe",
+      "domain_of": [
+        "Recipe"
+      ],
+      "range": "string",
+      "@type": "SlotDefinition"
+    },
+    {
+      "name": "recipe__description",
+      "annotations": [
+        {
+          "tag": "owl",
+          "value": "AnnotationProperty, AnnotationAssertion",
+          "@type": "Annotation"
+        }
+      ],
+      "description": "a brief textual description of the recipe",
+      "from_schema": "https://w3id.org/ontogpt/recipe",
+      "mappings": [
+        "http://purl.org/dc/terms/description"
+      ],
+      "slot_uri": "http://purl.org/dc/terms/description",
+      "alias": "description",
+      "owner": "Recipe",
+      "domain_of": [
+        "Recipe"
+      ],
+      "range": "string",
+      "@type": "SlotDefinition"
+    },
+    {
+      "name": "recipe__categories",
+      "annotations": [
+        {
+          "tag": "owl",
+          "value": "AnnotationAssertion",
+          "@type": "Annotation"
+        }
+      ],
+      "description": "a semicolon separated list of the categories to which this recipe belongs",
+      "from_schema": "https://w3id.org/ontogpt/recipe",
+      "mappings": [
+        "http://purl.org/dc/terms/subject"
+      ],
+      "slot_uri": "http://purl.org/dc/terms/subject",
+      "multivalued": true,
+      "alias": "categories",
+      "owner": "Recipe",
+      "domain_of": [
+        "Recipe"
+      ],
+      "range": "RecipeCategory",
+      "@type": "SlotDefinition"
+    },
+    {
+      "name": "recipe__ingredients",
+      "annotations": [
+        {
+          "tag": "owl",
+          "value": "ObjectProperty, ObjectSomeValuesFrom",
+          "@type": "Annotation"
+        }
+      ],
+      "description": "a semicolon separated list of the ingredients plus quantities of the recipe",
+      "from_schema": "https://w3id.org/ontogpt/recipe",
+      "mappings": [
+        "http://purl.obolibrary.org/obo/FOODON_00002420"
+      ],
+      "slot_uri": "http://purl.obolibrary.org/obo/FOODON_00002420",
+      "multivalued": true,
+      "alias": "ingredients",
+      "owner": "Recipe",
+      "domain_of": [
+        "Recipe"
+      ],
+      "range": "Ingredient",
+      "inlined": true,
+      "@type": "SlotDefinition"
+    },
+    {
+      "name": "recipe__steps",
+      "annotations": [
+        {
+          "tag": "owl",
+          "value": "ObjectProperty, ObjectSomeValuesFrom",
+          "@type": "Annotation"
+        }
+      ],
+      "description": "a semicolon separated list of the individual steps involved in this recipe",
+      "from_schema": "https://w3id.org/ontogpt/recipe",
+      "slot_uri": "http://w3id.org/ontogpt/recipe/steps",
+      "multivalued": true,
+      "alias": "steps",
+      "owner": "Recipe",
+      "domain_of": [
+        "Recipe"
+      ],
+      "range": "Step",
+      "inlined": true,
+      "@type": "SlotDefinition"
+    },
+    {
+      "name": "ingredient__food_item",
+      "annotations": [
+        {
+          "tag": "owl",
+          "value": "ObjectProperty, ObjectSomeValuesFrom",
+          "@type": "Annotation"
+        }
+      ],
+      "description": "the food item",
+      "from_schema": "https://w3id.org/ontogpt/recipe",
+      "slot_uri": "http://w3id.org/ontogpt/recipe/food_item",
+      "alias": "food_item",
+      "owner": "Ingredient",
+      "domain_of": [
+        "Ingredient"
+      ],
+      "range": "FoodItem",
+      "inlined": true,
+      "@type": "SlotDefinition"
+    },
+    {
+      "name": "ingredient__amount",
+      "annotations": [
+        {
+          "tag": "owl",
+          "value": "ObjectProperty, ObjectSomeValuesFrom",
+          "@type": "Annotation"
+        }
+      ],
+      "description": "the quantity of the ingredient, e.g. 2 lbs",
+      "from_schema": "https://w3id.org/ontogpt/recipe",
+      "slot_uri": "http://w3id.org/ontogpt/recipe/amount",
+      "alias": "amount",
+      "owner": "Ingredient",
+      "domain_of": [
+        "Ingredient"
+      ],
+      "range": "Quantity",
+      "inlined": true,
+      "@type": "SlotDefinition"
+    },
+    {
+      "name": "quantity__value",
+      "annotations": [
+        {
+          "tag": "owl",
+          "value": "DataProperty, DataHasValue",
+          "@type": "Annotation"
+        }
+      ],
+      "description": "the value of the quantity",
+      "from_schema": "https://w3id.org/ontogpt/recipe",
+      "slot_uri": "http://w3id.org/ontogpt/recipe/value",
+      "alias": "value",
+      "owner": "Quantity",
+      "domain_of": [
+        "Quantity"
+      ],
+      "range": "string",
+      "@type": "SlotDefinition"
+    },
+    {
+      "name": "quantity__unit",
+      "annotations": [
+        {
+          "tag": "owl",
+          "value": "ObjectProperty, ObjectSomeValuesFrom",
+          "@type": "Annotation"
+        }
+      ],
+      "description": "the unit of the quantity, e.g. grams, cups, etc.",
+      "from_schema": "https://w3id.org/ontogpt/recipe",
+      "mappings": [
+        "http://qudt.org/schema/qudt/unit"
+      ],
+      "slot_uri": "http://qudt.org/schema/qudt/unit",
+      "alias": "unit",
+      "owner": "Quantity",
+      "domain_of": [
+        "Quantity"
+      ],
+      "range": "Unit",
+      "@type": "SlotDefinition"
+    },
+    {
+      "name": "step__action",
+      "description": "the action taken in this step (e.g. mix, add)",
+      "from_schema": "https://w3id.org/ontogpt/recipe",
+      "slot_uri": "http://w3id.org/ontogpt/recipe/action",
+      "alias": "action",
+      "owner": "Step",
+      "domain_of": [
+        "Step"
+      ],
+      "range": "Action",
+      "@type": "SlotDefinition"
+    },
+    {
+      "name": "step__inputs",
+      "annotations": [
+        {
+          "tag": "owl",
+          "value": "ObjectProperty, ObjectSomeValuesFrom",
+          "@type": "Annotation"
+        }
+      ],
+      "description": "a semicolon separated list of the inputs of this step",
+      "from_schema": "https://w3id.org/ontogpt/recipe",
+      "mappings": [
+        "http://purl.obolibrary.org/obo/RO_0002233"
+      ],
+      "slot_uri": "http://purl.obolibrary.org/obo/RO_0002233",
+      "multivalued": true,
+      "alias": "inputs",
+      "owner": "Step",
+      "domain_of": [
+        "Step"
+      ],
+      "range": "FoodItem",
+      "inlined": true,
+      "@type": "SlotDefinition"
+    },
+    {
+      "name": "step__outputs",
+      "annotations": [
+        {
+          "tag": "owl",
+          "value": "ObjectProperty, ObjectSomeValuesFrom",
+          "@type": "Annotation"
+        }
+      ],
+      "description": "a semicolon separated list of the outputs of this step",
+      "from_schema": "https://w3id.org/ontogpt/recipe",
+      "mappings": [
+        "http://purl.obolibrary.org/obo/RO_0002234"
+      ],
+      "slot_uri": "http://purl.obolibrary.org/obo/RO_0002234",
+      "multivalued": true,
+      "alias": "outputs",
+      "owner": "Step",
+      "domain_of": [
+        "Step"
+      ],
+      "range": "FoodItem",
+      "inlined": true,
+      "@type": "SlotDefinition"
+    },
+    {
+      "name": "step__utensils",
+      "annotations": [
+        {
+          "tag": "owl",
+          "value": "ObjectProperty, ObjectSomeValuesFrom",
+          "@type": "Annotation"
+        }
+      ],
+      "description": "the kitchen utensil used in this step (e.g. pan, bowl)",
+      "from_schema": "https://w3id.org/ontogpt/recipe",
+      "mappings": [
+        "http://purl.obolibrary.org/obo/RO_0002500"
+      ],
+      "slot_uri": "http://purl.obolibrary.org/obo/RO_0002500",
+      "multivalued": true,
+      "alias": "utensils",
+      "owner": "Step",
+      "domain_of": [
+        "Step"
+      ],
+      "range": "UtensilType",
+      "@type": "SlotDefinition"
+    },
+    {
+      "name": "foodItem__food",
+      "annotations": [
+        {
+          "tag": "owl",
+          "value": "ObjectProperty, ObjectSomeValuesFrom",
+          "@type": "Annotation"
+        }
+      ],
+      "description": "the food item",
+      "from_schema": "https://w3id.org/ontogpt/recipe",
+      "mappings": [
+        "http://purl.obolibrary.org/obo/BFO_0000051"
+      ],
+      "slot_uri": "http://purl.obolibrary.org/obo/BFO_0000051",
+      "alias": "food",
+      "owner": "FoodItem",
+      "domain_of": [
+        "FoodItem"
+      ],
+      "range": "FoodType",
+      "@type": "SlotDefinition"
+    },
+    {
+      "name": "foodItem__state",
+      "annotations": [
+        {
+          "tag": "owl",
+          "value": "DataProperty, DataHasValue",
+          "@type": "Annotation"
+        }
+      ],
+      "description": "the state of the food item (e.g. chopped, diced)",
+      "from_schema": "https://w3id.org/ontogpt/recipe",
+      "slot_uri": "http://w3id.org/ontogpt/recipe/state",
+      "alias": "state",
+      "owner": "FoodItem",
+      "domain_of": [
+        "FoodItem"
+      ],
+      "range": "string",
+      "@type": "SlotDefinition"
+    },
+    {
+      "name": "extractionResult__input_id",
+      "from_schema": "http://w3id.org/ontogpt/core",
+      "slot_uri": "http://w3id.org/ontogpt/core/input_id",
+      "alias": "input_id",
+      "owner": "ExtractionResult",
+      "domain_of": [
+        "ExtractionResult"
+      ],
+      "range": "string",
+      "@type": "SlotDefinition"
+    },
+    {
+      "name": "extractionResult__input_title",
+      "from_schema": "http://w3id.org/ontogpt/core",
+      "slot_uri": "http://w3id.org/ontogpt/core/input_title",
+      "alias": "input_title",
+      "owner": "ExtractionResult",
+      "domain_of": [
+        "ExtractionResult"
+      ],
+      "range": "string",
+      "@type": "SlotDefinition"
+    },
+    {
+      "name": "extractionResult__input_text",
+      "from_schema": "http://w3id.org/ontogpt/core",
+      "slot_uri": "http://w3id.org/ontogpt/core/input_text",
+      "alias": "input_text",
+      "owner": "ExtractionResult",
+      "domain_of": [
+        "ExtractionResult"
+      ],
+      "range": "string",
+      "@type": "SlotDefinition"
+    },
+    {
+      "name": "extractionResult__raw_completion_output",
+      "from_schema": "http://w3id.org/ontogpt/core",
+      "slot_uri": "http://w3id.org/ontogpt/core/raw_completion_output",
+      "alias": "raw_completion_output",
+      "owner": "ExtractionResult",
+      "domain_of": [
+        "ExtractionResult"
+      ],
+      "range": "string",
+      "@type": "SlotDefinition"
+    },
+    {
+      "name": "extractionResult__prompt",
+      "from_schema": "http://w3id.org/ontogpt/core",
+      "slot_uri": "http://w3id.org/ontogpt/core/prompt",
+      "alias": "prompt",
+      "owner": "ExtractionResult",
+      "domain_of": [
+        "ExtractionResult"
+      ],
+      "range": "string",
+      "@type": "SlotDefinition"
+    },
+    {
+      "name": "extractionResult__extracted_object",
+      "description": "The complex objects extracted from the text",
+      "from_schema": "http://w3id.org/ontogpt/core",
+      "slot_uri": "http://w3id.org/ontogpt/core/extracted_object",
+      "alias": "extracted_object",
+      "owner": "ExtractionResult",
+      "domain_of": [
+        "ExtractionResult"
+      ],
+      "range": "Any",
+      "inlined": true,
+      "@type": "SlotDefinition"
+    },
+    {
+      "name": "extractionResult__named_entities",
+      "description": "Named entities extracted from the text",
+      "from_schema": "http://w3id.org/ontogpt/core",
+      "slot_uri": "http://w3id.org/ontogpt/core/named_entities",
+      "multivalued": true,
+      "alias": "named_entities",
+      "owner": "ExtractionResult",
+      "domain_of": [
+        "ExtractionResult"
+      ],
+      "range": "Any",
+      "inlined": true,
+      "inlined_as_list": true,
+      "@type": "SlotDefinition"
+    },
+    {
+      "name": "namedEntity__id",
+      "annotations": [
+        {
+          "tag": "prompt.skip",
+          "value": "true",
+          "@type": "Annotation"
+        }
+      ],
+      "description": "A unique identifier for the named entity",
+      "comments": [
+        "this is populated during the grounding and normalization step"
+      ],
+      "from_schema": "http://w3id.org/ontogpt/core",
+      "slot_uri": "http://w3id.org/ontogpt/core/id",
+      "identifier": true,
+      "alias": "id",
+      "owner": "NamedEntity",
+      "domain_of": [
+        "NamedEntity"
+      ],
+      "range": "string",
+      "required": true,
+      "@type": "SlotDefinition"
+    },
+    {
+      "name": "namedEntity__label",
+      "annotations": [
+        {
+          "tag": "owl",
+          "value": "AnnotationProperty, AnnotationAssertion",
+          "@type": "Annotation"
+        }
+      ],
+      "description": "The label (name) of the named thing",
+      "from_schema": "http://w3id.org/ontogpt/core",
+      "aliases": [
+        "name"
+      ],
+      "mappings": [
+        "http://example.org/UNKNOWN/rdfs/label"
+      ],
+      "slot_uri": "http://example.org/UNKNOWN/rdfs/label",
+      "alias": "label",
+      "owner": "NamedEntity",
+      "domain_of": [
+        "NamedEntity"
+      ],
+      "range": "string",
+      "@type": "SlotDefinition"
+    },
+    {
+      "name": "triple__subject",
+      "from_schema": "http://w3id.org/ontogpt/core",
+      "slot_uri": "http://w3id.org/ontogpt/core/subject",
+      "alias": "subject",
+      "owner": "Triple",
+      "domain_of": [
+        "Triple"
+      ],
+      "range": "NamedEntity",
+      "@type": "SlotDefinition"
+    },
+    {
+      "name": "triple__predicate",
+      "from_schema": "http://w3id.org/ontogpt/core",
+      "slot_uri": "http://w3id.org/ontogpt/core/predicate",
+      "alias": "predicate",
+      "owner": "Triple",
+      "domain_of": [
+        "Triple"
+      ],
+      "range": "RelationshipType",
+      "@type": "SlotDefinition"
+    },
+    {
+      "name": "triple__object",
+      "from_schema": "http://w3id.org/ontogpt/core",
+      "slot_uri": "http://w3id.org/ontogpt/core/object",
+      "alias": "object",
+      "owner": "Triple",
+      "domain_of": [
+        "Triple"
+      ],
+      "range": "NamedEntity",
+      "@type": "SlotDefinition"
+    },
+    {
+      "name": "triple__qualifier",
+      "description": "A qualifier for the statements, e.g. \"NOT\" for negation",
+      "from_schema": "http://w3id.org/ontogpt/core",
+      "slot_uri": "http://w3id.org/ontogpt/core/qualifier",
+      "alias": "qualifier",
+      "owner": "Triple",
+      "domain_of": [
+        "Triple"
+      ],
+      "range": "string",
+      "@type": "SlotDefinition"
+    },
+    {
+      "name": "triple__subject_qualifier",
+      "description": "An optional qualifier or modifier for the subject of the statement, e.g. \"high dose\" or \"intravenously administered\"",
+      "from_schema": "http://w3id.org/ontogpt/core",
+      "slot_uri": "http://w3id.org/ontogpt/core/subject_qualifier",
+      "alias": "subject_qualifier",
+      "owner": "Triple",
+      "domain_of": [
+        "Triple"
+      ],
+      "range": "NamedEntity",
+      "@type": "SlotDefinition"
+    },
+    {
+      "name": "triple__object_qualifier",
+      "description": "An optional qualifier or modifier for the object of the statement, e.g. \"severe\" or \"with additional complications\"",
+      "from_schema": "http://w3id.org/ontogpt/core",
+      "slot_uri": "http://w3id.org/ontogpt/core/object_qualifier",
+      "alias": "object_qualifier",
+      "owner": "Triple",
+      "domain_of": [
+        "Triple"
+      ],
+      "range": "NamedEntity",
+      "@type": "SlotDefinition"
+    },
+    {
+      "name": "textWithTriples__publication",
+      "annotations": [
+        {
+          "tag": "prompt.skip",
+          "value": "true",
+          "@type": "Annotation"
+        }
+      ],
+      "from_schema": "http://w3id.org/ontogpt/core",
+      "slot_uri": "http://w3id.org/ontogpt/core/publication",
+      "alias": "publication",
+      "owner": "TextWithTriples",
+      "domain_of": [
+        "TextWithTriples"
+      ],
+      "range": "Publication",
+      "inlined": true,
+      "@type": "SlotDefinition"
+    },
+    {
+      "name": "textWithTriples__triples",
+      "from_schema": "http://w3id.org/ontogpt/core",
+      "slot_uri": "http://w3id.org/ontogpt/core/triples",
+      "multivalued": true,
+      "alias": "triples",
+      "owner": "TextWithTriples",
+      "domain_of": [
+        "TextWithTriples"
+      ],
+      "range": "Triple",
+      "inlined": true,
+      "inlined_as_list": true,
+      "@type": "SlotDefinition"
+    },
+    {
+      "name": "publication__id",
+      "description": "The publication identifier",
+      "from_schema": "http://w3id.org/ontogpt/core",
+      "slot_uri": "http://w3id.org/ontogpt/core/id",
+      "alias": "id",
+      "owner": "Publication",
+      "domain_of": [
+        "Publication"
+      ],
+      "range": "string",
+      "@type": "SlotDefinition"
+    },
+    {
+      "name": "publication__title",
+      "description": "The title of the publication",
+      "from_schema": "http://w3id.org/ontogpt/core",
+      "slot_uri": "http://w3id.org/ontogpt/core/title",
+      "alias": "title",
+      "owner": "Publication",
+      "domain_of": [
+        "Publication"
+      ],
+      "range": "string",
+      "@type": "SlotDefinition"
+    },
+    {
+      "name": "publication__abstract",
+      "description": "The abstract of the publication",
+      "from_schema": "http://w3id.org/ontogpt/core",
+      "slot_uri": "http://w3id.org/ontogpt/core/abstract",
+      "alias": "abstract",
+      "owner": "Publication",
+      "domain_of": [
+        "Publication"
+      ],
+      "range": "string",
+      "@type": "SlotDefinition"
+    },
+    {
+      "name": "publication__combined_text",
+      "from_schema": "http://w3id.org/ontogpt/core",
+      "slot_uri": "http://w3id.org/ontogpt/core/combined_text",
+      "alias": "combined_text",
+      "owner": "Publication",
+      "domain_of": [
+        "Publication"
+      ],
+      "range": "string",
+      "@type": "SlotDefinition"
+    },
+    {
+      "name": "publication__full_text",
+      "description": "The full text of the publication",
+      "from_schema": "http://w3id.org/ontogpt/core",
+      "slot_uri": "http://w3id.org/ontogpt/core/full_text",
+      "alias": "full_text",
+      "owner": "Publication",
+      "domain_of": [
+        "Publication"
+      ],
+      "range": "string",
+      "@type": "SlotDefinition"
+    },
+    {
+      "name": "annotatorResult__subject_text",
+      "from_schema": "http://w3id.org/ontogpt/core",
+      "slot_uri": "http://w3id.org/ontogpt/core/subject_text",
+      "alias": "subject_text",
+      "owner": "AnnotatorResult",
+      "domain_of": [
+        "AnnotatorResult"
+      ],
+      "range": "string",
+      "@type": "SlotDefinition"
+    },
+    {
+      "name": "annotatorResult__object_id",
+      "from_schema": "http://w3id.org/ontogpt/core",
+      "slot_uri": "http://w3id.org/ontogpt/core/object_id",
+      "alias": "object_id",
+      "owner": "AnnotatorResult",
+      "domain_of": [
+        "AnnotatorResult"
+      ],
+      "range": "string",
+      "@type": "SlotDefinition"
+    },
+    {
+      "name": "annotatorResult__object_text",
+      "from_schema": "http://w3id.org/ontogpt/core",
+      "slot_uri": "http://w3id.org/ontogpt/core/object_text",
+      "alias": "object_text",
+      "owner": "AnnotatorResult",
+      "domain_of": [
+        "AnnotatorResult"
+      ],
+      "range": "string",
+      "@type": "SlotDefinition"
+    }
+  ],
+  "classes": [
+    {
+      "name": "Recipe",
+      "definition_uri": "http://w3id.org/ontogpt/recipe/Recipe",
+      "annotations": [
+        {
+          "tag": "owl",
+          "value": "Class",
+          "@type": "Annotation"
+        },
+        {
+          "tag": "owl.template",
+          "value": "EquivalentClasses(\n  {{url}}\n  ObjectIntersectionOf(\n    recipe:Recipe\n    \n    {% for step in steps %}\n    ObjectSomeValuesFrom(\n      recipe:steps\n      {{tr(step)}}\n    )\n    {% endfor %}\n    {% for ingredient in ingredients %}\n    ObjectSomeValuesFrom(\n      FOODON:00002420\n      {{tr(ingredient)}}\n    )\n    {% endfor %}\n  )\n)\n",
+          "@type": "Annotation"
+        }
+      ],
+      "from_schema": "https://w3id.org/ontogpt/recipe",
+      "close_mappings": [
+        "FOODON:00004081"
+      ],
+      "slots": [
+        "recipe__url",
+        "recipe__label",
+        "recipe__description",
+        "recipe__categories",
+        "recipe__ingredients",
+        "recipe__steps"
+      ],
+      "slot_usage": {},
+      "attributes": [
+        {
+          "name": "url",
+          "annotations": [
+            {
+              "tag": "prompt.ignore",
+              "value": "True",
+              "@type": "Annotation"
+            }
+          ],
+          "slot_uri": "rdf:Resource",
+          "identifier": true,
+          "range": "uriorcurie",
+          "@type": "SlotDefinition"
+        },
+        {
+          "name": "label",
+          "annotations": [
+            {
+              "tag": "owl",
+              "value": "AnnotationProperty, AnnotationAssertion",
+              "@type": "Annotation"
+            }
+          ],
+          "description": "the name of the recipe",
+          "slot_uri": "rdfs:label",
+          "@type": "SlotDefinition"
+        },
+        {
+          "name": "description",
+          "annotations": [
+            {
+              "tag": "owl",
+              "value": "AnnotationProperty, AnnotationAssertion",
+              "@type": "Annotation"
+            }
+          ],
+          "description": "a brief textual description of the recipe",
+          "slot_uri": "dcterms:description",
+          "@type": "SlotDefinition"
+        },
+        {
+          "name": "categories",
+          "annotations": [
+            {
+              "tag": "owl",
+              "value": "AnnotationAssertion",
+              "@type": "Annotation"
+            }
+          ],
+          "description": "a semicolon separated list of the categories to which this recipe belongs",
+          "slot_uri": "dcterms:subject",
+          "multivalued": true,
+          "range": "RecipeCategory",
+          "@type": "SlotDefinition"
+        },
+        {
+          "name": "ingredients",
+          "annotations": [
+            {
+              "tag": "owl",
+              "value": "ObjectProperty, ObjectSomeValuesFrom",
+              "@type": "Annotation"
+            }
+          ],
+          "description": "a semicolon separated list of the ingredients plus quantities of the recipe",
+          "slot_uri": "FOODON:00002420",
+          "multivalued": true,
+          "range": "Ingredient",
+          "@type": "SlotDefinition"
+        },
+        {
+          "name": "steps",
+          "annotations": [
+            {
+              "tag": "owl",
+              "value": "ObjectProperty, ObjectSomeValuesFrom",
+              "@type": "Annotation"
+            }
+          ],
+          "description": "a semicolon separated list of the individual steps involved in this recipe",
+          "multivalued": true,
+          "range": "Step",
+          "@type": "SlotDefinition"
+        }
+      ],
+      "class_uri": "http://w3id.org/ontogpt/recipe/Recipe",
+      "tree_root": true,
+      "@type": "ClassDefinition"
+    },
+    {
+      "name": "Ingredient",
+      "definition_uri": "http://w3id.org/ontogpt/recipe/Ingredient",
+      "annotations": [
+        {
+          "tag": "owl",
+          "value": "IntersectionOf",
+          "@type": "Annotation"
+        }
+      ],
+      "from_schema": "https://w3id.org/ontogpt/recipe",
+      "mappings": [
+        "FOODON:00004085"
+      ],
+      "is_a": "CompoundExpression",
+      "slots": [
+        "ingredient__food_item",
+        "ingredient__amount"
+      ],
+      "slot_usage": {},
+      "attributes": [
+        {
+          "name": "food_item",
+          "annotations": [
+            {
+              "tag": "owl",
+              "value": "ObjectProperty, ObjectSomeValuesFrom",
+              "@type": "Annotation"
+            }
+          ],
+          "description": "the food item",
+          "range": "FoodItem",
+          "@type": "SlotDefinition"
+        },
+        {
+          "name": "amount",
+          "annotations": [
+            {
+              "tag": "owl",
+              "value": "ObjectProperty, ObjectSomeValuesFrom",
+              "@type": "Annotation"
+            }
+          ],
+          "description": "the quantity of the ingredient, e.g. 2 lbs",
+          "range": "Quantity",
+          "@type": "SlotDefinition"
+        }
+      ],
+      "class_uri": "http://purl.obolibrary.org/obo/FOODON_00004085",
+      "@type": "ClassDefinition"
+    },
+    {
+      "name": "Quantity",
+      "definition_uri": "http://w3id.org/ontogpt/recipe/Quantity",
+      "annotations": [
+        {
+          "tag": "owl",
+          "value": "IntersectionOf",
+          "@type": "Annotation"
+        }
+      ],
+      "from_schema": "https://w3id.org/ontogpt/recipe",
+      "is_a": "CompoundExpression",
+      "slots": [
+        "quantity__value",
+        "quantity__unit"
+      ],
+      "slot_usage": {},
+      "attributes": [
+        {
+          "name": "value",
+          "annotations": [
+            {
+              "tag": "owl",
+              "value": "DataProperty, DataHasValue",
+              "@type": "Annotation"
+            }
+          ],
+          "description": "the value of the quantity",
+          "@type": "SlotDefinition"
+        },
+        {
+          "name": "unit",
+          "annotations": [
+            {
+              "tag": "owl",
+              "value": "ObjectProperty, ObjectSomeValuesFrom",
+              "@type": "Annotation"
+            }
+          ],
+          "description": "the unit of the quantity, e.g. grams, cups, etc.",
+          "slot_uri": "qudt:unit",
+          "range": "Unit",
+          "@type": "SlotDefinition"
+        }
+      ],
+      "class_uri": "http://w3id.org/ontogpt/recipe/Quantity",
+      "@type": "ClassDefinition"
+    },
+    {
+      "name": "Step",
+      "definition_uri": "http://w3id.org/ontogpt/recipe/Step",
+      "annotations": [
+        {
+          "tag": "owl",
+          "value": "IntersectionOf",
+          "@type": "Annotation"
+        }
+      ],
+      "from_schema": "https://w3id.org/ontogpt/recipe",
+      "mappings": [
+        "FOODON:00004087"
+      ],
+      "is_a": "CompoundExpression",
+      "slots": [
+        "step__action",
+        "step__inputs",
+        "step__outputs",
+        "step__utensils"
+      ],
+      "slot_usage": {},
+      "attributes": [
+        {
+          "name": "action",
+          "description": "the action taken in this step (e.g. mix, add)",
+          "range": "Action",
+          "@type": "SlotDefinition"
+        },
+        {
+          "name": "inputs",
+          "annotations": [
+            {
+              "tag": "owl",
+              "value": "ObjectProperty, ObjectSomeValuesFrom",
+              "@type": "Annotation"
+            }
+          ],
+          "description": "a semicolon separated list of the inputs of this step",
+          "slot_uri": "RO:0002233",
+          "multivalued": true,
+          "range": "FoodItem",
+          "@type": "SlotDefinition"
+        },
+        {
+          "name": "outputs",
+          "annotations": [
+            {
+              "tag": "owl",
+              "value": "ObjectProperty, ObjectSomeValuesFrom",
+              "@type": "Annotation"
+            }
+          ],
+          "description": "a semicolon separated list of the outputs of this step",
+          "slot_uri": "RO:0002234",
+          "multivalued": true,
+          "range": "FoodItem",
+          "@type": "SlotDefinition"
+        },
+        {
+          "name": "utensils",
+          "annotations": [
+            {
+              "tag": "owl",
+              "value": "ObjectProperty, ObjectSomeValuesFrom",
+              "@type": "Annotation"
+            }
+          ],
+          "description": "the kitchen utensil used in this step (e.g. pan, bowl)",
+          "slot_uri": "RO:0002500",
+          "multivalued": true,
+          "range": "UtensilType",
+          "@type": "SlotDefinition"
+        }
+      ],
+      "class_uri": "http://purl.obolibrary.org/obo/FOODON_00004087",
+      "@type": "ClassDefinition"
+    },
+    {
+      "name": "FoodItem",
+      "definition_uri": "http://w3id.org/ontogpt/recipe/FoodItem",
+      "annotations": [
+        {
+          "tag": "owl",
+          "value": "IntersectionOf",
+          "@type": "Annotation"
+        }
+      ],
+      "from_schema": "https://w3id.org/ontogpt/recipe",
+      "is_a": "CompoundExpression",
+      "slots": [
+        "foodItem__food",
+        "foodItem__state"
+      ],
+      "slot_usage": {},
+      "attributes": [
+        {
+          "name": "food",
+          "annotations": [
+            {
+              "tag": "owl",
+              "value": "ObjectProperty, ObjectSomeValuesFrom",
+              "@type": "Annotation"
+            }
+          ],
+          "description": "the food item",
+          "slot_uri": "BFO:0000051",
+          "range": "FoodType",
+          "@type": "SlotDefinition"
+        },
+        {
+          "name": "state",
+          "annotations": [
+            {
+              "tag": "owl",
+              "value": "DataProperty, DataHasValue",
+              "@type": "Annotation"
+            }
+          ],
+          "description": "the state of the food item (e.g. chopped, diced)",
+          "@type": "SlotDefinition"
+        }
+      ],
+      "class_uri": "http://w3id.org/ontogpt/recipe/FoodItem",
+      "@type": "ClassDefinition"
+    },
+    {
+      "name": "FoodType",
+      "id_prefixes": [
+        "dbpediaont",
+        "FOODON"
+      ],
+      "definition_uri": "http://w3id.org/ontogpt/recipe/FoodType",
+      "annotations": [
+        {
+          "tag": "annotators",
+          "value": "sqlite:obo:foodon, sqlite:obo:dbpediaont",
+          "@type": "Annotation"
+        }
+      ],
+      "from_schema": "https://w3id.org/ontogpt/recipe",
+      "is_a": "NamedEntity",
+      "slots": [
+        "namedEntity__id",
+        "namedEntity__label"
+      ],
+      "slot_usage": {},
+      "class_uri": "http://w3id.org/ontogpt/recipe/FoodType",
+      "@type": "ClassDefinition"
+    },
+    {
+      "name": "RecipeCategory",
+      "id_prefixes": [
+        "dbpediaont",
+        "FOODON",
+        "HANCESTRO"
+      ],
+      "definition_uri": "http://w3id.org/ontogpt/recipe/RecipeCategory",
+      "annotations": [
+        {
+          "tag": "annotators",
+          "value": "sqlite:obo:foodon, sqlite:obo:dbpediaont",
+          "@type": "Annotation"
+        }
+      ],
+      "from_schema": "https://w3id.org/ontogpt/recipe",
+      "is_a": "NamedEntity",
+      "slots": [
+        "namedEntity__id",
+        "namedEntity__label"
+      ],
+      "slot_usage": {},
+      "class_uri": "http://w3id.org/ontogpt/recipe/RecipeCategory",
+      "@type": "ClassDefinition"
+    },
+    {
+      "name": "Action",
+      "id_prefixes": [
+        "dbpediaont",
+        "FOODON"
+      ],
+      "definition_uri": "http://w3id.org/ontogpt/recipe/Action",
+      "annotations": [
+        {
+          "tag": "annotators",
+          "value": "sqlite:obo:dbpediaont, sqlite:obo:foodon",
+          "@type": "Annotation"
+        }
+      ],
+      "from_schema": "https://w3id.org/ontogpt/recipe",
+      "is_a": "NamedEntity",
+      "slots": [
+        "namedEntity__id",
+        "namedEntity__label"
+      ],
+      "slot_usage": {},
+      "class_uri": "http://w3id.org/ontogpt/recipe/Action",
+      "@type": "ClassDefinition"
+    },
+    {
+      "name": "UtensilType",
+      "id_prefixes": [
+        "dbpediaont",
+        "FOODON"
+      ],
+      "definition_uri": "http://w3id.org/ontogpt/recipe/UtensilType",
+      "annotations": [
+        {
+          "tag": "annotators",
+          "value": "sqlite:obo:dbpediaont, sqlite:obo:foodon",
+          "@type": "Annotation"
+        }
+      ],
+      "from_schema": "https://w3id.org/ontogpt/recipe",
+      "is_a": "NamedEntity",
+      "slots": [
+        "namedEntity__id",
+        "namedEntity__label"
+      ],
+      "slot_usage": {},
+      "class_uri": "http://w3id.org/ontogpt/recipe/UtensilType",
+      "@type": "ClassDefinition"
+    },
+    {
+      "name": "Unit",
+      "id_prefixes": [
+        "UO",
+        "NCIT",
+        "dbpediaont"
+      ],
+      "definition_uri": "http://w3id.org/ontogpt/recipe/Unit",
+      "annotations": [
+        {
+          "tag": "annotators",
+          "value": "sqlite:obo:uo, sqlite:obo:dbpediaont, sqlite:obo:foodon",
+          "@type": "Annotation"
+        }
+      ],
+      "from_schema": "https://w3id.org/ontogpt/recipe",
+      "is_a": "NamedEntity",
+      "slots": [
+        "namedEntity__id",
+        "namedEntity__label"
+      ],
+      "slot_usage": {},
+      "class_uri": "http://w3id.org/ontogpt/recipe/Unit",
+      "@type": "ClassDefinition"
+    },
+    {
+      "name": "Any",
+      "definition_uri": "http://w3id.org/ontogpt/core/Any",
+      "from_schema": "http://w3id.org/ontogpt/core",
+      "mappings": [
+        "linkml:Any"
+      ],
+      "slot_usage": {},
+      "class_uri": "https://w3id.org/linkml/Any",
+      "@type": "ClassDefinition"
+    },
+    {
+      "name": "ExtractionResult",
+      "definition_uri": "http://w3id.org/ontogpt/core/ExtractionResult",
+      "description": "A result of extracting knowledge on text",
+      "from_schema": "http://w3id.org/ontogpt/core",
+      "slots": [
+        "extractionResult__input_id",
+        "extractionResult__input_title",
+        "extractionResult__input_text",
+        "extractionResult__raw_completion_output",
+        "extractionResult__prompt",
+        "extractionResult__extracted_object",
+        "extractionResult__named_entities"
+      ],
+      "slot_usage": {},
+      "attributes": [
+        {
+          "name": "input_id",
+          "@type": "SlotDefinition"
+        },
+        {
+          "name": "input_title",
+          "@type": "SlotDefinition"
+        },
+        {
+          "name": "input_text",
+          "@type": "SlotDefinition"
+        },
+        {
+          "name": "raw_completion_output",
+          "@type": "SlotDefinition"
+        },
+        {
+          "name": "prompt",
+          "@type": "SlotDefinition"
+        },
+        {
+          "name": "extracted_object",
+          "description": "The complex objects extracted from the text",
+          "range": "Any",
+          "inlined": true,
+          "@type": "SlotDefinition"
+        },
+        {
+          "name": "named_entities",
+          "description": "Named entities extracted from the text",
+          "multivalued": true,
+          "range": "Any",
+          "inlined": true,
+          "inlined_as_list": true,
+          "@type": "SlotDefinition"
+        }
+      ],
+      "class_uri": "http://w3id.org/ontogpt/core/ExtractionResult",
+      "@type": "ClassDefinition"
+    },
+    {
+      "name": "NamedEntity",
+      "definition_uri": "http://w3id.org/ontogpt/core/NamedEntity",
+      "from_schema": "http://w3id.org/ontogpt/core",
+      "abstract": true,
+      "slots": [
+        "namedEntity__id",
+        "namedEntity__label"
+      ],
+      "slot_usage": {},
+      "attributes": [
+        {
+          "name": "id",
+          "annotations": [
+            {
+              "tag": "prompt.skip",
+              "value": "true",
+              "@type": "Annotation"
+            }
+          ],
+          "description": "A unique identifier for the named entity",
+          "comments": [
+            "this is populated during the grounding and normalization step"
+          ],
+          "identifier": true,
+          "@type": "SlotDefinition"
+        },
+        {
+          "name": "label",
+          "annotations": [
+            {
+              "tag": "owl",
+              "value": "AnnotationProperty, AnnotationAssertion",
+              "@type": "Annotation"
+            }
+          ],
+          "description": "The label (name) of the named thing",
+          "aliases": [
+            "name"
+          ],
+          "slot_uri": "rdfs:label",
+          "range": "string",
+          "@type": "SlotDefinition"
+        }
+      ],
+      "class_uri": "http://w3id.org/ontogpt/core/NamedEntity",
+      "@type": "ClassDefinition"
+    },
+    {
+      "name": "CompoundExpression",
+      "definition_uri": "http://w3id.org/ontogpt/core/CompoundExpression",
+      "from_schema": "http://w3id.org/ontogpt/core",
+      "abstract": true,
+      "slot_usage": {},
+      "class_uri": "http://w3id.org/ontogpt/core/CompoundExpression",
+      "@type": "ClassDefinition"
+    },
+    {
+      "name": "Triple",
+      "definition_uri": "http://w3id.org/ontogpt/core/Triple",
+      "description": "Abstract parent for Relation Extraction tasks",
+      "from_schema": "http://w3id.org/ontogpt/core",
+      "is_a": "CompoundExpression",
+      "abstract": true,
+      "slots": [
+        "triple__subject",
+        "triple__predicate",
+        "triple__object",
+        "triple__qualifier",
+        "triple__subject_qualifier",
+        "triple__object_qualifier"
+      ],
+      "slot_usage": {},
+      "attributes": [
+        {
+          "name": "subject",
+          "range": "NamedEntity",
+          "@type": "SlotDefinition"
+        },
+        {
+          "name": "predicate",
+          "range": "RelationshipType",
+          "@type": "SlotDefinition"
+        },
+        {
+          "name": "object",
+          "range": "NamedEntity",
+          "@type": "SlotDefinition"
+        },
+        {
+          "name": "qualifier",
+          "description": "A qualifier for the statements, e.g. \"NOT\" for negation",
+          "range": "string",
+          "@type": "SlotDefinition"
+        },
+        {
+          "name": "subject_qualifier",
+          "description": "An optional qualifier or modifier for the subject of the statement, e.g. \"high dose\" or \"intravenously administered\"",
+          "range": "NamedEntity",
+          "@type": "SlotDefinition"
+        },
+        {
+          "name": "object_qualifier",
+          "description": "An optional qualifier or modifier for the object of the statement, e.g. \"severe\" or \"with additional complications\"",
+          "range": "NamedEntity",
+          "@type": "SlotDefinition"
+        }
+      ],
+      "class_uri": "http://w3id.org/ontogpt/core/Triple",
+      "@type": "ClassDefinition"
+    },
+    {
+      "name": "TextWithTriples",
+      "definition_uri": "http://w3id.org/ontogpt/core/TextWithTriples",
+      "from_schema": "http://w3id.org/ontogpt/core",
+      "slots": [
+        "textWithTriples__publication",
+        "textWithTriples__triples"
+      ],
+      "slot_usage": {},
+      "attributes": [
+        {
+          "name": "publication",
+          "annotations": [
+            {
+              "tag": "prompt.skip",
+              "value": "true",
+              "@type": "Annotation"
+            }
+          ],
+          "range": "Publication",
+          "inlined": true,
+          "@type": "SlotDefinition"
+        },
+        {
+          "name": "triples",
+          "multivalued": true,
+          "range": "Triple",
+          "inlined": true,
+          "inlined_as_list": true,
+          "@type": "SlotDefinition"
+        }
+      ],
+      "class_uri": "http://w3id.org/ontogpt/core/TextWithTriples",
+      "@type": "ClassDefinition"
+    },
+    {
+      "name": "RelationshipType",
+      "id_prefixes": [
+        "RO",
+        "biolink"
+      ],
+      "definition_uri": "http://w3id.org/ontogpt/core/RelationshipType",
+      "from_schema": "http://w3id.org/ontogpt/core",
+      "is_a": "NamedEntity",
+      "slots": [
+        "namedEntity__id",
+        "namedEntity__label"
+      ],
+      "slot_usage": {},
+      "class_uri": "http://w3id.org/ontogpt/core/RelationshipType",
+      "@type": "ClassDefinition"
+    },
+    {
+      "name": "Publication",
+      "definition_uri": "http://w3id.org/ontogpt/core/Publication",
+      "from_schema": "http://w3id.org/ontogpt/core",
+      "slots": [
+        "publication__id",
+        "publication__title",
+        "publication__abstract",
+        "publication__combined_text",
+        "publication__full_text"
+      ],
+      "slot_usage": {},
+      "attributes": [
+        {
+          "name": "id",
+          "description": "The publication identifier",
+          "@type": "SlotDefinition"
+        },
+        {
+          "name": "title",
+          "description": "The title of the publication",
+          "@type": "SlotDefinition"
+        },
+        {
+          "name": "abstract",
+          "description": "The abstract of the publication",
+          "@type": "SlotDefinition"
+        },
+        {
+          "name": "combined_text",
+          "@type": "SlotDefinition"
+        },
+        {
+          "name": "full_text",
+          "description": "The full text of the publication",
+          "@type": "SlotDefinition"
+        }
+      ],
+      "class_uri": "http://w3id.org/ontogpt/core/Publication",
+      "@type": "ClassDefinition"
+    },
+    {
+      "name": "AnnotatorResult",
+      "definition_uri": "http://w3id.org/ontogpt/core/AnnotatorResult",
+      "from_schema": "http://w3id.org/ontogpt/core",
+      "slots": [
+        "annotatorResult__subject_text",
+        "annotatorResult__object_id",
+        "annotatorResult__object_text"
+      ],
+      "slot_usage": {},
+      "attributes": [
+        {
+          "name": "subject_text",
+          "@type": "SlotDefinition"
+        },
+        {
+          "name": "object_id",
+          "@type": "SlotDefinition"
+        },
+        {
+          "name": "object_text",
+          "@type": "SlotDefinition"
+        }
+      ],
+      "class_uri": "http://w3id.org/ontogpt/core/AnnotatorResult",
+      "@type": "ClassDefinition"
+    }
+  ],
+  "metamodel_version": "1.7.0",
+  "source_file": "recipe.yaml",
+  "source_file_date": "2023-06-17T15:11:19",
+  "source_file_size": 5792,
+  "generation_date": "2023-08-07T10:56:09",
+  "@type": "SchemaDefinition",
+  "@context": [
+    "projects/recipe/jsonld/recipe.context.jsonld",
+    "https://w3id.org/linkml/types.context.jsonld",
+    "core.context.jsonld",
+    {
+      "@base": "http://w3id.org/ontogpt/recipe/"
+    }
+  ]
+}

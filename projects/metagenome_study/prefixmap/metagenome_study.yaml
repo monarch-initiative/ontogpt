@@ -1,0 +1,46 @@
+{
+   "EFO": "http://example.org/UNKNOWN/EFO/",
+   "ENVO": "http://example.org/UNKNOWN/ENVO/",
+   "GAZ": "http://example.org/UNKNOWN/GAZ/",
+   "IDO": "http://example.org/UNKNOWN/IDO/",
+   "MIXS": "http://example.org/UNKNOWN/MIXS/",
+   "NCBITaxon": "http://example.org/UNKNOWN/NCBITaxon/",
+   "NCIT": "http://purl.obolibrary.org/obo/NCIT_",
+   "OBI": "http://example.org/UNKNOWN/OBI/",
+   "PATO": "http://example.org/UNKNOWN/PATO/",
+   "PECO": "http://example.org/UNKNOWN/PECO/",
+   "RO": "http://purl.obolibrary.org/obo/RO_",
+   "UO": "http://example.org/UNKNOWN/UO/",
+   "biolink": "http://example.org/UNKNOWN/biolink/",
+   "core": "http://w3id.org/ontogpt/core/",
+   "eg": "http://w3id.org/ontogpt/environmental-metagenome/",
+   "linkml": "https://w3id.org/linkml/",
+   "rdfs": "http://example.org/UNKNOWN/rdfs/",
+   "AnnotatorResult": {
+      "@id": "core:AnnotatorResult"
+   },
+   "Any": {
+      "@id": "linkml:Any"
+   },
+   "CompoundExpression": {
+      "@id": "core:CompoundExpression"
+   },
+   "ExtractionResult": {
+      "@id": "core:ExtractionResult"
+   },
+   "NamedEntity": {
+      "@id": "core:NamedEntity"
+   },
+   "Publication": {
+      "@id": "core:Publication"
+   },
+   "RelationshipType": {
+      "@id": "core:RelationshipType"
+   },
+   "TextWithTriples": {
+      "@id": "core:TextWithTriples"
+   },
+   "Triple": {
+      "@id": "core:Triple"
+   }
+}

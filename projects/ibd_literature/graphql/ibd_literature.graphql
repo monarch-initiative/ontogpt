@@ -1,0 +1,129 @@
+type AnnotatorResult
+  {
+    subjectText: String
+    objectId: String
+    objectText: String
+  }
+
+type Any
+  {
+  }
+
+type CellularProcess
+  {
+    id: String!
+    label: String
+  }
+
+type ChemicalExposure
+  {
+    id: String!
+    label: String
+  }
+
+type ChemicalExposureToGenePredicate
+  {
+    id: String!
+    label: String
+  }
+
+interface CompoundExpression
+  {
+  }
+
+type Disease
+  {
+    id: String!
+    label: String
+  }
+
+type DiseaseCellularProcessRelationship
+  {
+    qualifier: String
+    subject: Disease
+    predicate: DiseaseToCellularProcessPredicate
+    object: CellularProcess
+    subjectQualifier: NamedEntity
+    objectQualifier: NamedEntity
+  }
+
+type DiseaseToCellularProcessPredicate
+  {
+    id: String!
+    label: String
+  }
+
+type ExtractionResult
+  {
+    inputId: String
+    inputTitle: String
+    inputText: String
+    rawCompletionOutput: String
+    prompt: String
+    extractedObject: Any
+    namedEntities: [Any]
+  }
+
+type Gene
+  {
+    id: String!
+    label: String
+  }
+
+type GeneExposureRelationship
+  {
+    qualifier: String
+    subject: ChemicalExposure
+    predicate: ChemicalExposureToGenePredicate
+    object: Gene
+    subjectQualifier: NamedEntity
+    objectQualifier: NamedEntity
+  }
+
+type IBDAnnotations
+  {
+    genes: [Gene]
+    exposures: [ChemicalExposure]
+    geneExposuresRelationships: [GeneExposureRelationship]
+    diseases: [Disease]
+    cellularProcess: [CellularProcess]
+    diseaseCellularProcessRelationships: [DiseaseCellularProcessRelationship]
+  }
+
+interface NamedEntity
+  {
+    id: String!
+    label: String
+  }
+
+type Publication
+  {
+    id: String
+    title: String
+    abstract: String
+    combinedText: String
+    fullText: String
+  }
+
+type RelationshipType
+  {
+    id: String!
+    label: String
+  }
+
+type TextWithTriples
+  {
+    publication: Publication
+    triples: [Triple]
+  }
+
+interface Triple
+  {
+    subject: NamedEntity
+    predicate: RelationshipType
+    object: NamedEntity
+    qualifier: String
+    subjectQualifier: NamedEntity
+    objectQualifier: NamedEntity
+  }
+

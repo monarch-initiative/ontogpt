@@ -1,0 +1,343 @@
+@prefix BFO: <http://purl.obolibrary.org/obo/BFO_> .
+@prefix FOODON: <http://purl.obolibrary.org/obo/FOODON_> .
+@prefix RO: <http://purl.obolibrary.org/obo/RO_> .
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix linkml: <https://w3id.org/linkml/> .
+@prefix qudt: <http://qudt.org/schema/qudt/> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix recipe: <http://w3id.org/ontogpt/recipe/> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+<http://w3id.org/ontogpt/core/AnnotatorResult> a sh:NodeShape ;
+    sh:closed true ;
+    sh:ignoredProperties ( rdf:type ) ;
+    sh:property [ sh:maxCount 1 ;
+            sh:order 0 ;
+            sh:path <http://w3id.org/ontogpt/core/subject_text> ],
+        [ sh:maxCount 1 ;
+            sh:order 1 ;
+            sh:path <http://w3id.org/ontogpt/core/object_id> ],
+        [ sh:maxCount 1 ;
+            sh:order 2 ;
+            sh:path <http://w3id.org/ontogpt/core/object_text> ] ;
+    sh:targetClass <http://w3id.org/ontogpt/core/AnnotatorResult> .
+
+<http://w3id.org/ontogpt/core/CompoundExpression> a sh:NodeShape ;
+    sh:closed false ;
+    sh:ignoredProperties ( rdf:type ) ;
+    sh:targetClass <http://w3id.org/ontogpt/core/CompoundExpression> .
+
+<http://w3id.org/ontogpt/core/ExtractionResult> a sh:NodeShape ;
+    sh:closed true ;
+    sh:description "A result of extracting knowledge on text" ;
+    sh:ignoredProperties ( rdf:type ) ;
+    sh:property [ sh:maxCount 1 ;
+            sh:order 0 ;
+            sh:path <http://w3id.org/ontogpt/core/input_id> ],
+        [ sh:class linkml:Any ;
+            sh:description "Named entities extracted from the text" ;
+            sh:nodeKind sh:BlankNode ;
+            sh:order 6 ;
+            sh:path <http://w3id.org/ontogpt/core/named_entities> ],
+        [ sh:maxCount 1 ;
+            sh:order 1 ;
+            sh:path <http://w3id.org/ontogpt/core/input_title> ],
+        [ sh:class linkml:Any ;
+            sh:description "The complex objects extracted from the text" ;
+            sh:maxCount 1 ;
+            sh:nodeKind sh:BlankNode ;
+            sh:order 5 ;
+            sh:path <http://w3id.org/ontogpt/core/extracted_object> ],
+        [ sh:maxCount 1 ;
+            sh:order 3 ;
+            sh:path <http://w3id.org/ontogpt/core/raw_completion_output> ],
+        [ sh:maxCount 1 ;
+            sh:order 2 ;
+            sh:path <http://w3id.org/ontogpt/core/input_text> ],
+        [ sh:maxCount 1 ;
+            sh:order 4 ;
+            sh:path <http://w3id.org/ontogpt/core/prompt> ] ;
+    sh:targetClass <http://w3id.org/ontogpt/core/ExtractionResult> .
+
+<http://w3id.org/ontogpt/core/TextWithTriples> a sh:NodeShape ;
+    sh:closed true ;
+    sh:ignoredProperties ( rdf:type ) ;
+    sh:property [ sh:class <http://w3id.org/ontogpt/core/Triple> ;
+            sh:nodeKind sh:BlankNode ;
+            sh:order 1 ;
+            sh:path <http://w3id.org/ontogpt/core/triples> ],
+        [ sh:class <http://w3id.org/ontogpt/core/Publication> ;
+            sh:maxCount 1 ;
+            sh:nodeKind sh:BlankNode ;
+            sh:order 0 ;
+            sh:path <http://w3id.org/ontogpt/core/publication> ] ;
+    sh:targetClass <http://w3id.org/ontogpt/core/TextWithTriples> .
+
+recipe:Recipe a sh:NodeShape ;
+    sh:closed true ;
+    sh:ignoredProperties ( rdf:type ) ;
+    sh:property [ sh:description "the name of the recipe" ;
+            sh:maxCount 1 ;
+            sh:order 1 ;
+            sh:path <rdfs:label> ],
+        [ sh:class recipe:RecipeCategory ;
+            sh:description "a semicolon separated list of the categories to which this recipe belongs" ;
+            sh:nodeKind sh:IRI ;
+            sh:order 3 ;
+            sh:path dcterms:subject ],
+        [ sh:maxCount 1 ;
+            sh:order 0 ;
+            sh:path <rdf:Resource> ],
+        [ sh:class FOODON:00004085 ;
+            sh:description "a semicolon separated list of the ingredients plus quantities of the recipe" ;
+            sh:nodeKind sh:BlankNode ;
+            sh:order 4 ;
+            sh:path FOODON:00002420 ],
+        [ sh:class FOODON:00004087 ;
+            sh:description "a semicolon separated list of the individual steps involved in this recipe" ;
+            sh:nodeKind sh:BlankNode ;
+            sh:order 5 ;
+            sh:path recipe:steps ],
+        [ sh:description "a brief textual description of the recipe" ;
+            sh:maxCount 1 ;
+            sh:order 2 ;
+            sh:path dcterms:description ] ;
+    sh:targetClass recipe:Recipe .
+
+FOODON:00004085 a sh:NodeShape ;
+    sh:closed true ;
+    sh:ignoredProperties ( rdf:type ) ;
+    sh:property [ sh:class recipe:FoodItem ;
+            sh:description "the food item" ;
+            sh:maxCount 1 ;
+            sh:nodeKind sh:BlankNode ;
+            sh:order 0 ;
+            sh:path recipe:food_item ],
+        [ sh:class recipe:Quantity ;
+            sh:description "the quantity of the ingredient, e.g. 2 lbs" ;
+            sh:maxCount 1 ;
+            sh:nodeKind sh:BlankNode ;
+            sh:order 1 ;
+            sh:path recipe:amount ] ;
+    sh:targetClass FOODON:00004085 .
+
+FOODON:00004087 a sh:NodeShape ;
+    sh:closed true ;
+    sh:ignoredProperties ( rdf:type ) ;
+    sh:property [ sh:class recipe:Action ;
+            sh:description "the action taken in this step (e.g. mix, add)" ;
+            sh:maxCount 1 ;
+            sh:nodeKind sh:IRI ;
+            sh:order 0 ;
+            sh:path recipe:action ],
+        [ sh:class recipe:FoodItem ;
+            sh:description "a semicolon separated list of the inputs of this step" ;
+            sh:nodeKind sh:BlankNode ;
+            sh:order 1 ;
+            sh:path RO:0002233 ],
+        [ sh:class recipe:UtensilType ;
+            sh:description "the kitchen utensil used in this step (e.g. pan, bowl)" ;
+            sh:nodeKind sh:IRI ;
+            sh:order 3 ;
+            sh:path RO:0002500 ],
+        [ sh:class recipe:FoodItem ;
+            sh:description "a semicolon separated list of the outputs of this step" ;
+            sh:nodeKind sh:BlankNode ;
+            sh:order 2 ;
+            sh:path RO:0002234 ] ;
+    sh:targetClass FOODON:00004087 .
+
+<http://w3id.org/ontogpt/core/Publication> a sh:NodeShape ;
+    sh:closed true ;
+    sh:ignoredProperties ( rdf:type ) ;
+    sh:property [ sh:description "The full text of the publication" ;
+            sh:maxCount 1 ;
+            sh:order 4 ;
+            sh:path <http://w3id.org/ontogpt/core/full_text> ],
+        [ sh:description "The title of the publication" ;
+            sh:maxCount 1 ;
+            sh:order 1 ;
+            sh:path <http://w3id.org/ontogpt/core/title> ],
+        [ sh:maxCount 1 ;
+            sh:order 3 ;
+            sh:path <http://w3id.org/ontogpt/core/combined_text> ],
+        [ sh:description "The abstract of the publication" ;
+            sh:maxCount 1 ;
+            sh:order 2 ;
+            sh:path <http://w3id.org/ontogpt/core/abstract> ],
+        [ sh:description "The publication identifier" ;
+            sh:maxCount 1 ;
+            sh:order 0 ;
+            sh:path <http://w3id.org/ontogpt/core/id> ] ;
+    sh:targetClass <http://w3id.org/ontogpt/core/Publication> .
+
+<http://w3id.org/ontogpt/core/RelationshipType> a sh:NodeShape ;
+    sh:closed true ;
+    sh:ignoredProperties ( rdf:type ) ;
+    sh:property [ sh:description "The label (name) of the named thing" ;
+            sh:maxCount 1 ;
+            sh:order 1 ;
+            sh:path <rdfs:label> ],
+        [ sh:description "A unique identifier for the named entity" ;
+            sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:order 0 ;
+            sh:path <http://w3id.org/ontogpt/core/id> ] ;
+    sh:targetClass <http://w3id.org/ontogpt/core/RelationshipType> .
+
+<http://w3id.org/ontogpt/core/Triple> a sh:NodeShape ;
+    sh:closed false ;
+    sh:description "Abstract parent for Relation Extraction tasks" ;
+    sh:ignoredProperties ( rdf:type ) ;
+    sh:property [ sh:class <http://w3id.org/ontogpt/core/NamedEntity> ;
+            sh:maxCount 1 ;
+            sh:nodeKind sh:IRI ;
+            sh:order 2 ;
+            sh:path <http://w3id.org/ontogpt/core/object> ],
+        [ sh:class <http://w3id.org/ontogpt/core/NamedEntity> ;
+            sh:maxCount 1 ;
+            sh:nodeKind sh:IRI ;
+            sh:order 0 ;
+            sh:path <http://w3id.org/ontogpt/core/subject> ],
+        [ sh:description "A qualifier for the statements, e.g. \"NOT\" for negation" ;
+            sh:maxCount 1 ;
+            sh:order 3 ;
+            sh:path <http://w3id.org/ontogpt/core/qualifier> ],
+        [ sh:class <http://w3id.org/ontogpt/core/NamedEntity> ;
+            sh:description "An optional qualifier or modifier for the object of the statement, e.g. \"severe\" or \"with additional complications\"" ;
+            sh:maxCount 1 ;
+            sh:nodeKind sh:IRI ;
+            sh:order 5 ;
+            sh:path <http://w3id.org/ontogpt/core/object_qualifier> ],
+        [ sh:class <http://w3id.org/ontogpt/core/NamedEntity> ;
+            sh:description "An optional qualifier or modifier for the subject of the statement, e.g. \"high dose\" or \"intravenously administered\"" ;
+            sh:maxCount 1 ;
+            sh:nodeKind sh:IRI ;
+            sh:order 4 ;
+            sh:path <http://w3id.org/ontogpt/core/subject_qualifier> ],
+        [ sh:class <http://w3id.org/ontogpt/core/RelationshipType> ;
+            sh:maxCount 1 ;
+            sh:nodeKind sh:IRI ;
+            sh:order 1 ;
+            sh:path <http://w3id.org/ontogpt/core/predicate> ] ;
+    sh:targetClass <http://w3id.org/ontogpt/core/Triple> .
+
+recipe:Action a sh:NodeShape ;
+    sh:closed true ;
+    sh:ignoredProperties ( rdf:type ) ;
+    sh:property [ sh:description "The label (name) of the named thing" ;
+            sh:maxCount 1 ;
+            sh:order 1 ;
+            sh:path <rdfs:label> ],
+        [ sh:description "A unique identifier for the named entity" ;
+            sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:order 0 ;
+            sh:path <http://w3id.org/ontogpt/core/id> ] ;
+    sh:targetClass recipe:Action .
+
+recipe:FoodType a sh:NodeShape ;
+    sh:closed true ;
+    sh:ignoredProperties ( rdf:type ) ;
+    sh:property [ sh:description "The label (name) of the named thing" ;
+            sh:maxCount 1 ;
+            sh:order 1 ;
+            sh:path <rdfs:label> ],
+        [ sh:description "A unique identifier for the named entity" ;
+            sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:order 0 ;
+            sh:path <http://w3id.org/ontogpt/core/id> ] ;
+    sh:targetClass recipe:FoodType .
+
+recipe:Quantity a sh:NodeShape ;
+    sh:closed true ;
+    sh:ignoredProperties ( rdf:type ) ;
+    sh:property [ sh:class recipe:Unit ;
+            sh:description "the unit of the quantity, e.g. grams, cups, etc." ;
+            sh:maxCount 1 ;
+            sh:nodeKind sh:IRI ;
+            sh:order 1 ;
+            sh:path qudt:unit ],
+        [ sh:description "the value of the quantity" ;
+            sh:maxCount 1 ;
+            sh:order 0 ;
+            sh:path recipe:value ] ;
+    sh:targetClass recipe:Quantity .
+
+recipe:RecipeCategory a sh:NodeShape ;
+    sh:closed true ;
+    sh:ignoredProperties ( rdf:type ) ;
+    sh:property [ sh:description "A unique identifier for the named entity" ;
+            sh:maxCount 1 ;
+            sh:order 0 ;
+            sh:path <http://w3id.org/ontogpt/core/id> ],
+        [ sh:description "The label (name) of the named thing" ;
+            sh:maxCount 1 ;
+            sh:order 1 ;
+            sh:path <rdfs:label> ] ;
+    sh:targetClass recipe:RecipeCategory .
+
+recipe:Unit a sh:NodeShape ;
+    sh:closed true ;
+    sh:ignoredProperties ( rdf:type ) ;
+    sh:property [ sh:description "A unique identifier for the named entity" ;
+            sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:order 0 ;
+            sh:path <http://w3id.org/ontogpt/core/id> ],
+        [ sh:description "The label (name) of the named thing" ;
+            sh:maxCount 1 ;
+            sh:order 1 ;
+            sh:path <rdfs:label> ] ;
+    sh:targetClass recipe:Unit .
+
+recipe:UtensilType a sh:NodeShape ;
+    sh:closed true ;
+    sh:ignoredProperties ( rdf:type ) ;
+    sh:property [ sh:description "The label (name) of the named thing" ;
+            sh:maxCount 1 ;
+            sh:order 1 ;
+            sh:path <rdfs:label> ],
+        [ sh:description "A unique identifier for the named entity" ;
+            sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:order 0 ;
+            sh:path <http://w3id.org/ontogpt/core/id> ] ;
+    sh:targetClass recipe:UtensilType .
+
+linkml:Any a sh:NodeShape ;
+    sh:closed true ;
+    sh:ignoredProperties ( rdf:type ) ;
+    sh:targetClass linkml:Any .
+
+recipe:FoodItem a sh:NodeShape ;
+    sh:closed true ;
+    sh:ignoredProperties ( rdf:type ) ;
+    sh:property [ sh:class recipe:FoodType ;
+            sh:description "the food item" ;
+            sh:maxCount 1 ;
+            sh:nodeKind sh:IRI ;
+            sh:order 0 ;
+            sh:path BFO:0000051 ],
+        [ sh:description "the state of the food item (e.g. chopped, diced)" ;
+            sh:maxCount 1 ;
+            sh:order 1 ;
+            sh:path recipe:state ] ;
+    sh:targetClass recipe:FoodItem .
+
+<http://w3id.org/ontogpt/core/NamedEntity> a sh:NodeShape ;
+    sh:closed false ;
+    sh:ignoredProperties ( rdf:type ) ;
+    sh:property [ sh:description "A unique identifier for the named entity" ;
+            sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:order 0 ;
+            sh:path <http://w3id.org/ontogpt/core/id> ],
+        [ sh:description "The label (name) of the named thing" ;
+            sh:maxCount 1 ;
+            sh:order 1 ;
+            sh:path <rdfs:label> ] ;
+    sh:targetClass <http://w3id.org/ontogpt/core/NamedEntity> .
+

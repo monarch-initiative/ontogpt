@@ -1,0 +1,134 @@
+type AdverseEffect
+  {
+    id: String!
+    label: String
+  }
+
+type AnnotatorResult
+  {
+    subjectText: String
+    objectId: String
+    objectText: String
+  }
+
+type Any
+  {
+  }
+
+type CompositeDisease
+  {
+    mainDisease: Disease
+    drugs: [Drug]
+    treatments: [Treatment]
+    contraindications: [Treatment]
+    treatmentMechanisms: [TreatmentMechanism]
+    treatmentEfficacies: [TreatmentEfficacy]
+    treatmentAdverseEffects: [TreatmentAdverseEffect]
+  }
+
+interface CompoundExpression
+  {
+  }
+
+type Disease
+  {
+    id: String!
+    label: String
+  }
+
+type Drug
+  {
+    id: String!
+    label: String
+  }
+
+type ExtractionResult
+  {
+    inputId: String
+    inputTitle: String
+    inputText: String
+    rawCompletionOutput: String
+    prompt: String
+    extractedObject: Any
+    namedEntities: [Any]
+  }
+
+type Gene
+  {
+    id: String!
+    label: String
+  }
+
+type Mechanism
+  {
+    id: String!
+    label: String
+  }
+
+interface NamedEntity
+  {
+    id: String!
+    label: String
+  }
+
+type Publication
+  {
+    id: String
+    title: String
+    abstract: String
+    combinedText: String
+    fullText: String
+  }
+
+type RelationshipType
+  {
+    id: String!
+    label: String
+  }
+
+type Symptom
+  {
+    id: String!
+    label: String
+  }
+
+type TextWithTriples
+  {
+    publication: Publication
+    triples: [Triple]
+  }
+
+type Treatment
+  {
+    id: String!
+    label: String
+  }
+
+type TreatmentAdverseEffect
+  {
+    treatment: Treatment
+    adverseEffects: [AdverseEffect]
+  }
+
+type TreatmentEfficacy
+  {
+    treatment: Treatment
+    efficacy: String
+  }
+
+type TreatmentMechanism
+  {
+    treatment: Treatment
+    mechanism: Mechanism
+  }
+
+interface Triple
+  {
+    subject: NamedEntity
+    predicate: RelationshipType
+    object: NamedEntity
+    qualifier: String
+    subjectQualifier: NamedEntity
+    objectQualifier: NamedEntity
+  }
+

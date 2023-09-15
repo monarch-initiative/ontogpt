@@ -1,0 +1,310 @@
+{
+    "$defs": {
+        "AnnotatorResult": {
+            "additionalProperties": false,
+            "description": "",
+            "properties": {
+                "object_id": {
+                    "type": "string"
+                },
+                "object_text": {
+                    "type": "string"
+                },
+                "subject_text": {
+                    "type": "string"
+                }
+            },
+            "title": "AnnotatorResult",
+            "type": "object"
+        },
+        "Any": {
+            "additionalProperties": true,
+            "description": "",
+            "title": "Any",
+            "type": "object"
+        },
+        "ChangeType": {
+            "description": "",
+            "enum": [
+                "UNKNOWN",
+                "CHANGE_DEFINITION",
+                "CHANGE_LABEL",
+                "CHANGE_XREF",
+                "MOVE_TERM"
+            ],
+            "title": "ChangeType",
+            "type": "string"
+        },
+        "ExtractionResult": {
+            "additionalProperties": false,
+            "description": "A result of extracting knowledge on text",
+            "properties": {
+                "extracted_object": {
+                    "$ref": "#/$defs/Any",
+                    "description": "The complex objects extracted from the text"
+                },
+                "input_id": {
+                    "type": "string"
+                },
+                "input_text": {
+                    "type": "string"
+                },
+                "input_title": {
+                    "type": "string"
+                },
+                "named_entities": {
+                    "description": "Named entities extracted from the text",
+                    "items": {
+                        "$ref": "#/$defs/Any"
+                    },
+                    "type": "array"
+                },
+                "prompt": {
+                    "type": "string"
+                },
+                "raw_completion_output": {
+                    "type": "string"
+                }
+            },
+            "title": "ExtractionResult",
+            "type": "object"
+        },
+        "NullDataOptions": {
+            "description": "",
+            "enum": [
+                "UNSPECIFIED_METHOD_OF_ADMINISTRATION",
+                "NOT_APPLICABLE",
+                "NOT_MENTIONED"
+            ],
+            "title": "NullDataOptions",
+            "type": "string"
+        },
+        "OntologyChange": {
+            "additionalProperties": false,
+            "description": "",
+            "properties": {
+                "about": {
+                    "description": "What terms in the ontology will this change affect?",
+                    "items": {
+                        "type": "string"
+                    },
+                    "type": "array"
+                },
+                "category": {
+                    "$ref": "#/$defs/ChangeType",
+                    "description": "What kind of change?"
+                },
+                "description": {
+                    "description": "A succinct description of the proposed change",
+                    "type": "string"
+                }
+            },
+            "title": "OntologyChange",
+            "type": "object"
+        },
+        "OntologyClass": {
+            "additionalProperties": false,
+            "description": "",
+            "properties": {
+                "id": {
+                    "description": "A unique identifier for the named entity",
+                    "type": "string"
+                },
+                "label": {
+                    "description": "The label (name) of the named thing",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "id"
+            ],
+            "title": "OntologyClass",
+            "type": "object"
+        },
+        "OntologyIssue": {
+            "additionalProperties": false,
+            "description": "",
+            "properties": {
+                "domains": {
+                    "description": "What part of the ontology does this pertain to.",
+                    "items": {
+                        "type": "string"
+                    },
+                    "type": "array"
+                },
+                "problem_list": {
+                    "description": "A list of problems stated at a high level",
+                    "items": {
+                        "$ref": "#/$defs/OntologyProblem"
+                    },
+                    "type": "array"
+                },
+                "proposed_changes": {
+                    "description": "What part of the ontology does this pertain to.",
+                    "items": {
+                        "$ref": "#/$defs/OntologyChange"
+                    },
+                    "type": "array"
+                },
+                "status": {
+                    "type": "string"
+                },
+                "summary": {
+                    "description": "a high level summary",
+                    "type": "string"
+                },
+                "title": {
+                    "description": "the title of the issue",
+                    "type": "string"
+                }
+            },
+            "title": "OntologyIssue",
+            "type": "object"
+        },
+        "OntologyProblem": {
+            "additionalProperties": false,
+            "description": "",
+            "properties": {
+                "about": {
+                    "description": "What terms in the ontology is this problem about?",
+                    "items": {
+                        "type": "string"
+                    },
+                    "type": "array"
+                },
+                "category": {
+                    "$ref": "#/$defs/ProblemType",
+                    "description": "What category does this problem fall into?"
+                },
+                "description": {
+                    "description": "A succinct description of the problem",
+                    "type": "string"
+                },
+                "severity": {
+                    "description": "How severe is this problem?",
+                    "type": "string"
+                }
+            },
+            "title": "OntologyProblem",
+            "type": "object"
+        },
+        "ProblemType": {
+            "description": "",
+            "enum": [
+                "UNKNOWN",
+                "TYPO",
+                "BAD_XREF",
+                "MISSING_DEFINITION",
+                "MISSING_PARENT",
+                "BAD_RELATIONSHIP",
+                "OTHER"
+            ],
+            "title": "ProblemType",
+            "type": "string"
+        },
+        "Publication": {
+            "additionalProperties": false,
+            "description": "",
+            "properties": {
+                "abstract": {
+                    "description": "The abstract of the publication",
+                    "type": "string"
+                },
+                "combined_text": {
+                    "type": "string"
+                },
+                "full_text": {
+                    "description": "The full text of the publication",
+                    "type": "string"
+                },
+                "id": {
+                    "description": "The publication identifier",
+                    "type": "string"
+                },
+                "title": {
+                    "description": "The title of the publication",
+                    "type": "string"
+                }
+            },
+            "title": "Publication",
+            "type": "object"
+        },
+        "RelationshipType": {
+            "additionalProperties": false,
+            "description": "",
+            "properties": {
+                "id": {
+                    "description": "A unique identifier for the named entity",
+                    "type": "string"
+                },
+                "label": {
+                    "description": "The label (name) of the named thing",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "id"
+            ],
+            "title": "RelationshipType",
+            "type": "object"
+        },
+        "TextWithTriples": {
+            "additionalProperties": false,
+            "description": "",
+            "properties": {
+                "publication": {
+                    "$ref": "#/$defs/Publication"
+                },
+                "triples": {
+                    "items": {
+                        "$ref": "#/$defs/Triple"
+                    },
+                    "type": "array"
+                }
+            },
+            "title": "TextWithTriples",
+            "type": "object"
+        }
+    },
+    "$id": "https://w3id.org/ontogpt/ontology_issue",
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "additionalProperties": true,
+    "metamodel_version": "1.7.0",
+    "properties": {
+        "domains": {
+            "description": "What part of the ontology does this pertain to.",
+            "items": {
+                "type": "string"
+            },
+            "type": "array"
+        },
+        "problem_list": {
+            "description": "A list of problems stated at a high level",
+            "items": {
+                "$ref": "#/$defs/OntologyProblem"
+            },
+            "type": "array"
+        },
+        "proposed_changes": {
+            "description": "What part of the ontology does this pertain to.",
+            "items": {
+                "$ref": "#/$defs/OntologyChange"
+            },
+            "type": "array"
+        },
+        "status": {
+            "type": "string"
+        },
+        "summary": {
+            "description": "a high level summary",
+            "type": "string"
+        },
+        "title": {
+            "description": "the title of the issue",
+            "type": "string"
+        }
+    },
+    "title": "ontology-issue",
+    "type": "object",
+    "version": null
+}

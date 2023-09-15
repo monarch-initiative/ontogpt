@@ -1,0 +1,129 @@
+type Action
+  {
+    id: String!
+    label: String
+  }
+
+type AnnotatorResult
+  {
+    subjectText: String
+    objectId: String
+    objectText: String
+  }
+
+type Any
+  {
+  }
+
+interface CompoundExpression
+  {
+  }
+
+type ExtractionResult
+  {
+    inputId: String
+    inputTitle: String
+    inputText: String
+    rawCompletionOutput: String
+    prompt: String
+    extractedObject: Any
+    namedEntities: [Any]
+  }
+
+type FoodItem
+  {
+    food: FoodType
+    state: String
+  }
+
+type FoodType
+  {
+    id: String!
+    label: String
+  }
+
+type Ingredient
+  {
+    foodItem: FoodItem
+    amount: Quantity
+  }
+
+interface NamedEntity
+  {
+    id: String!
+    label: String
+  }
+
+type Publication
+  {
+    id: String
+    title: String
+    abstract: String
+    combinedText: String
+    fullText: String
+  }
+
+type Quantity
+  {
+    value: String
+    unit: Unit
+  }
+
+type Recipe
+  {
+    url: Uriorcurie!
+    label: String
+    description: String
+    categories: [RecipeCategory]
+    ingredients: [Ingredient]
+    steps: [Step]
+  }
+
+type RecipeCategory
+  {
+    id: String!
+    label: String
+  }
+
+type RelationshipType
+  {
+    id: String!
+    label: String
+  }
+
+type Step
+  {
+    action: Action
+    inputs: [FoodItem]
+    outputs: [FoodItem]
+    utensils: [UtensilType]
+  }
+
+type TextWithTriples
+  {
+    publication: Publication
+    triples: [Triple]
+  }
+
+interface Triple
+  {
+    subject: NamedEntity
+    predicate: RelationshipType
+    object: NamedEntity
+    qualifier: String
+    subjectQualifier: NamedEntity
+    objectQualifier: NamedEntity
+  }
+
+type Unit
+  {
+    id: String!
+    label: String
+  }
+
+type UtensilType
+  {
+    id: String!
+    label: String
+  }
+

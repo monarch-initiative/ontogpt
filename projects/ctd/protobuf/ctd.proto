@@ -1,0 +1,67 @@
+message AnnotatorResult
+ {
+  string subjectText = 0
+  string objectId = 0
+  string objectText = 0
+ }
+message Chemical
+ {
+  string label = 0
+  string id = 0
+ }
+// A document that contains chemical to disease relations.
+message ChemicalToDiseaseDocument
+ {
+  publication publication = 0
+ repeated  chemicalToDiseaseRelationship triples = 0
+ }
+// A predicate for chemical to disease relationships
+message ChemicalToDiseasePredicate
+ {
+  string id = 0
+  string label = 0
+ }
+// A triple where the subject is a chemical and the object is a disease.
+message ChemicalToDiseaseRelationship
+ {
+  string qualifier = 0
+  chemical subject = 0
+  disease object = 0
+  chemicalToDiseasePredicate predicate = 0
+  namedEntity subjectQualifier = 0
+  namedEntity objectQualifier = 0
+ }
+message Disease
+ {
+  string label = 0
+  string id = 0
+ }
+// A result of extracting knowledge on text
+message ExtractionResult
+ {
+  string inputId = 0
+  string inputTitle = 0
+  string inputText = 0
+  string rawCompletionOutput = 0
+  string prompt = 0
+  any extractedObject = 0
+ repeated  any namedEntities = 0
+ }
+message Publication
+ {
+  string id = 0
+  string title = 0
+  string abstract = 0
+  string combinedText = 0
+  string fullText = 0
+ }
+message RelationshipType
+ {
+  string id = 0
+  string label = 0
+ }
+message TextWithTriples
+ {
+  publication publication = 0
+ repeated  triple triples = 0
+ }

@@ -1,0 +1,87 @@
+type AnnotatorResult
+  {
+    subjectText: String
+    objectId: String
+    objectText: String
+  }
+
+type Any
+  {
+  }
+
+type BioticInteraction
+  {
+    sourceTaxon: Taxon
+    targetTaxon: Taxon
+    interactionType: InteractionType
+  }
+
+interface CompoundExpression
+  {
+  }
+
+type Container
+  {
+    interactions: [BioticInteraction]
+  }
+
+type ExtractionResult
+  {
+    inputId: String
+    inputTitle: String
+    inputText: String
+    rawCompletionOutput: String
+    prompt: String
+    extractedObject: Any
+    namedEntities: [Any]
+  }
+
+type InteractionType
+  {
+    id: String!
+    label: String
+  }
+
+interface NamedEntity
+  {
+    id: String!
+    label: String
+  }
+
+type Publication
+  {
+    id: String
+    title: String
+    abstract: String
+    combinedText: String
+    fullText: String
+  }
+
+type RelationshipType
+  {
+    id: String!
+    label: String
+  }
+
+type Taxon
+  {
+    id: String!
+    label: String
+  }
+
+type TextWithTriples
+  {
+    publication: Publication
+    triples: [Triple]
+  }
+
+interface Triple
+  {
+    subject: NamedEntity
+    predicate: RelationshipType
+    object: NamedEntity
+    qualifier: String
+    subjectQualifier: NamedEntity
+    objectQualifier: NamedEntity
+  }
+

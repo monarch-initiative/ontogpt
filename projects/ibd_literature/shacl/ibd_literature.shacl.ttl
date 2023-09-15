@@ -1,0 +1,362 @@
+@prefix core: <http://w3id.org/ontogpt/core/> .
+@prefix ibdlit: <http://w3id.org/ontogpt/ibd_literature/> .
+@prefix linkml: <https://w3id.org/linkml/> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+core:AnnotatorResult a sh:NodeShape ;
+    sh:closed true ;
+    sh:ignoredProperties ( rdf:type ) ;
+    sh:property [ sh:maxCount 1 ;
+            sh:order 0 ;
+            sh:path core:subject_text ],
+        [ sh:maxCount 1 ;
+            sh:order 1 ;
+            sh:path core:object_id ],
+        [ sh:maxCount 1 ;
+            sh:order 2 ;
+            sh:path core:object_text ] ;
+    sh:targetClass core:AnnotatorResult .
+
+core:CompoundExpression a sh:NodeShape ;
+    sh:closed false ;
+    sh:ignoredProperties ( rdf:type ) ;
+    sh:targetClass core:CompoundExpression .
+
+core:ExtractionResult a sh:NodeShape ;
+    sh:closed true ;
+    sh:description "A result of extracting knowledge on text" ;
+    sh:ignoredProperties ( rdf:type ) ;
+    sh:property [ sh:class linkml:Any ;
+            sh:description "The complex objects extracted from the text" ;
+            sh:maxCount 1 ;
+            sh:nodeKind sh:BlankNode ;
+            sh:order 5 ;
+            sh:path core:extracted_object ],
+        [ sh:maxCount 1 ;
+            sh:order 0 ;
+            sh:path core:input_id ],
+        [ sh:maxCount 1 ;
+            sh:order 2 ;
+            sh:path core:input_text ],
+        [ sh:maxCount 1 ;
+            sh:order 3 ;
+            sh:path core:raw_completion_output ],
+        [ sh:maxCount 1 ;
+            sh:order 4 ;
+            sh:path core:prompt ],
+        [ sh:maxCount 1 ;
+            sh:order 1 ;
+            sh:path core:input_title ],
+        [ sh:class linkml:Any ;
+            sh:description "Named entities extracted from the text" ;
+            sh:nodeKind sh:BlankNode ;
+            sh:order 6 ;
+            sh:path core:named_entities ] ;
+    sh:targetClass core:ExtractionResult .
+
+core:TextWithTriples a sh:NodeShape ;
+    sh:closed true ;
+    sh:ignoredProperties ( rdf:type ) ;
+    sh:property [ sh:class core:Triple ;
+            sh:nodeKind sh:BlankNode ;
+            sh:order 1 ;
+            sh:path core:triples ],
+        [ sh:class core:Publication ;
+            sh:maxCount 1 ;
+            sh:nodeKind sh:BlankNode ;
+            sh:order 0 ;
+            sh:path core:publication ] ;
+    sh:targetClass core:TextWithTriples .
+
+ibdlit:IBDAnnotations a sh:NodeShape ;
+    sh:closed true ;
+    sh:ignoredProperties ( rdf:type ) ;
+    sh:property [ sh:class ibdlit:GeneExposureRelationship ;
+            sh:description "semicolon-separated list of gene to molecular activity relationships" ;
+            sh:nodeKind sh:BlankNode ;
+            sh:order 2 ;
+            sh:path ibdlit:gene_exposures_relationships ],
+        [ sh:class ibdlit:Gene ;
+            sh:description "semicolon-separated list of genes" ;
+            sh:nodeKind sh:IRI ;
+            sh:order 0 ;
+            sh:path ibdlit:genes ],
+        [ sh:class ibdlit:Disease ;
+            sh:description "semicolon-separated list of diseases" ;
+            sh:nodeKind sh:IRI ;
+            sh:order 3 ;
+            sh:path ibdlit:diseases ],
+        [ sh:class ibdlit:ChemicalExposure ;
+            sh:description "semicolon-separated list of exposures" ;
+            sh:nodeKind sh:IRI ;
+            sh:order 1 ;
+            sh:path ibdlit:exposures ],
+        [ sh:class ibdlit:DiseaseCellularProcessRelationship ;
+            sh:description "semicolon-separated list of disease to cellular process relationships" ;
+            sh:nodeKind sh:BlankNode ;
+            sh:order 5 ;
+            sh:path ibdlit:disease_cellular_process_relationships ],
+        [ sh:class ibdlit:CellularProcess ;
+            sh:description "semicolon-separated list of cellular processes" ;
+            sh:nodeKind sh:IRI ;
+            sh:order 4 ;
+            sh:path ibdlit:cellular_process ] ;
+    sh:targetClass ibdlit:IBDAnnotations .
+
+core:Publication a sh:NodeShape ;
+    sh:closed true ;
+    sh:ignoredProperties ( rdf:type ) ;
+    sh:property [ sh:maxCount 1 ;
+            sh:order 3 ;
+            sh:path core:combined_text ],
+        [ sh:description "The publication identifier" ;
+            sh:maxCount 1 ;
+            sh:order 0 ;
+            sh:path core:id ],
+        [ sh:description "The title of the publication" ;
+            sh:maxCount 1 ;
+            sh:order 1 ;
+            sh:path core:title ],
+        [ sh:description "The abstract of the publication" ;
+            sh:maxCount 1 ;
+            sh:order 2 ;
+            sh:path core:abstract ],
+        [ sh:description "The full text of the publication" ;
+            sh:maxCount 1 ;
+            sh:order 4 ;
+            sh:path core:full_text ] ;
+    sh:targetClass core:Publication .
+
+core:RelationshipType a sh:NodeShape ;
+    sh:closed true ;
+    sh:ignoredProperties ( rdf:type ) ;
+    sh:property [ sh:description "A unique identifier for the named entity" ;
+            sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:order 0 ;
+            sh:path core:id ],
+        [ sh:description "The label (name) of the named thing" ;
+            sh:maxCount 1 ;
+            sh:order 1 ;
+            sh:path <rdfs:label> ] ;
+    sh:targetClass core:RelationshipType .
+
+core:Triple a sh:NodeShape ;
+    sh:closed false ;
+    sh:description "Abstract parent for Relation Extraction tasks" ;
+    sh:ignoredProperties ( rdf:type ) ;
+    sh:property [ sh:class core:NamedEntity ;
+            sh:description "An optional qualifier or modifier for the subject of the statement, e.g. \"high dose\" or \"intravenously administered\"" ;
+            sh:maxCount 1 ;
+            sh:nodeKind sh:IRI ;
+            sh:order 4 ;
+            sh:path core:subject_qualifier ],
+        [ sh:class core:NamedEntity ;
+            sh:maxCount 1 ;
+            sh:nodeKind sh:IRI ;
+            sh:order 0 ;
+            sh:path core:subject ],
+        [ sh:class core:NamedEntity ;
+            sh:description "An optional qualifier or modifier for the object of the statement, e.g. \"severe\" or \"with additional complications\"" ;
+            sh:maxCount 1 ;
+            sh:nodeKind sh:IRI ;
+            sh:order 5 ;
+            sh:path core:object_qualifier ],
+        [ sh:class core:NamedEntity ;
+            sh:maxCount 1 ;
+            sh:nodeKind sh:IRI ;
+            sh:order 2 ;
+            sh:path core:object ],
+        [ sh:description "A qualifier for the statements, e.g. \"NOT\" for negation" ;
+            sh:maxCount 1 ;
+            sh:order 3 ;
+            sh:path core:qualifier ],
+        [ sh:class core:RelationshipType ;
+            sh:maxCount 1 ;
+            sh:nodeKind sh:IRI ;
+            sh:order 1 ;
+            sh:path core:predicate ] ;
+    sh:targetClass core:Triple .
+
+ibdlit:ChemicalExposureToGenePredicate a sh:NodeShape ;
+    sh:closed true ;
+    sh:ignoredProperties ( rdf:type ) ;
+    sh:property [ sh:description "The label (name) of the named thing" ;
+            sh:maxCount 1 ;
+            sh:order 1 ;
+            sh:path <rdfs:label> ],
+        [ sh:description "A unique identifier for the named entity" ;
+            sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:order 0 ;
+            sh:path core:id ] ;
+    sh:targetClass ibdlit:ChemicalExposureToGenePredicate .
+
+ibdlit:DiseaseCellularProcessRelationship a sh:NodeShape ;
+    sh:closed true ;
+    sh:ignoredProperties ( rdf:type ) ;
+    sh:property [ sh:class ibdlit:DiseaseToCellularProcessPredicate ;
+            sh:description "The name of the type of relationship between a disease and a cellular process." ;
+            sh:maxCount 1 ;
+            sh:nodeKind sh:IRI ;
+            sh:order 1 ;
+            sh:path core:predicate ],
+        [ sh:class core:NamedEntity ;
+            sh:description "An optional qualifier or modifier for the subject of the statement, e.g. \"high dose\" or \"intravenously administered\"" ;
+            sh:maxCount 1 ;
+            sh:nodeKind sh:IRI ;
+            sh:order 4 ;
+            sh:path core:subject_qualifier ],
+        [ sh:class core:NamedEntity ;
+            sh:description "An optional qualifier or modifier for the object of the statement, e.g. \"severe\" or \"with additional complications\"" ;
+            sh:maxCount 1 ;
+            sh:nodeKind sh:IRI ;
+            sh:order 5 ;
+            sh:path core:object_qualifier ],
+        [ sh:description "A qualifier for the statements, e.g. \"NOT\" for negation" ;
+            sh:maxCount 1 ;
+            sh:order 3 ;
+            sh:path core:qualifier ],
+        [ sh:class ibdlit:Disease ;
+            sh:description "The name of the disease." ;
+            sh:maxCount 1 ;
+            sh:nodeKind sh:IRI ;
+            sh:order 0 ;
+            sh:path core:subject ],
+        [ sh:class ibdlit:CellularProcess ;
+            sh:description "The name of the cellular process." ;
+            sh:maxCount 1 ;
+            sh:nodeKind sh:IRI ;
+            sh:order 2 ;
+            sh:path core:object ] ;
+    sh:targetClass ibdlit:DiseaseCellularProcessRelationship .
+
+ibdlit:DiseaseToCellularProcessPredicate a sh:NodeShape ;
+    sh:closed true ;
+    sh:ignoredProperties ( rdf:type ) ;
+    sh:property [ sh:description "A unique identifier for the named entity" ;
+            sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:order 0 ;
+            sh:path core:id ],
+        [ sh:description "The label (name) of the named thing" ;
+            sh:maxCount 1 ;
+            sh:order 1 ;
+            sh:path <rdfs:label> ] ;
+    sh:targetClass ibdlit:DiseaseToCellularProcessPredicate .
+
+ibdlit:GeneExposureRelationship a sh:NodeShape ;
+    sh:closed true ;
+    sh:ignoredProperties ( rdf:type ) ;
+    sh:property [ sh:class ibdlit:Gene ;
+            sh:description "The name of the gene in the pair. This comes second in the pair." ;
+            sh:maxCount 1 ;
+            sh:nodeKind sh:IRI ;
+            sh:order 2 ;
+            sh:path core:object ],
+        [ sh:class ibdlit:ChemicalExposureToGenePredicate ;
+            sh:description "The name of the type of relationship between a chemical exposure and a gene." ;
+            sh:maxCount 1 ;
+            sh:nodeKind sh:IRI ;
+            sh:order 1 ;
+            sh:path core:predicate ],
+        [ sh:description "A qualifier for the statements, e.g. \"NOT\" for negation" ;
+            sh:maxCount 1 ;
+            sh:order 3 ;
+            sh:path core:qualifier ],
+        [ sh:class core:NamedEntity ;
+            sh:description "An optional qualifier or modifier for the gene." ;
+            sh:maxCount 1 ;
+            sh:nodeKind sh:IRI ;
+            sh:order 5 ;
+            sh:path core:object_qualifier ],
+        [ sh:class ibdlit:ChemicalExposure ;
+            sh:description "The name of the exposure, such as a exposure to a chemical toxin." ;
+            sh:maxCount 1 ;
+            sh:nodeKind sh:IRI ;
+            sh:order 0 ;
+            sh:path core:subject ],
+        [ sh:class core:NamedEntity ;
+            sh:description "An optional qualifier or modifier for the chemical exposure." ;
+            sh:maxCount 1 ;
+            sh:nodeKind sh:IRI ;
+            sh:order 4 ;
+            sh:path core:subject_qualifier ] ;
+    sh:targetClass ibdlit:GeneExposureRelationship .
+
+ibdlit:CellularProcess a sh:NodeShape ;
+    sh:closed true ;
+    sh:ignoredProperties ( rdf:type ) ;
+    sh:property [ sh:description "A unique identifier for the named entity" ;
+            sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:order 0 ;
+            sh:path core:id ],
+        [ sh:description "The label (name) of the named thing" ;
+            sh:maxCount 1 ;
+            sh:order 1 ;
+            sh:path <rdfs:label> ] ;
+    sh:targetClass ibdlit:CellularProcess .
+
+ibdlit:ChemicalExposure a sh:NodeShape ;
+    sh:closed true ;
+    sh:ignoredProperties ( rdf:type ) ;
+    sh:property [ sh:description "The label (name) of the named thing" ;
+            sh:maxCount 1 ;
+            sh:order 1 ;
+            sh:path <rdfs:label> ],
+        [ sh:description "A unique identifier for the named entity" ;
+            sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:order 0 ;
+            sh:path core:id ] ;
+    sh:targetClass ibdlit:ChemicalExposure .
+
+ibdlit:Disease a sh:NodeShape ;
+    sh:closed true ;
+    sh:ignoredProperties ( rdf:type ) ;
+    sh:property [ sh:description "A unique identifier for the named entity" ;
+            sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:order 0 ;
+            sh:path core:id ],
+        [ sh:description "The label (name) of the named thing" ;
+            sh:maxCount 1 ;
+            sh:order 1 ;
+            sh:path <rdfs:label> ] ;
+    sh:targetClass ibdlit:Disease .
+
+ibdlit:Gene a sh:NodeShape ;
+    sh:closed true ;
+    sh:ignoredProperties ( rdf:type ) ;
+    sh:property [ sh:description "A unique identifier for the named entity" ;
+            sh:maxCount 1 ;
+            sh:order 0 ;
+            sh:path core:id ],
+        [ sh:description "The label (name) of the named thing" ;
+            sh:maxCount 1 ;
+            sh:order 1 ;
+            sh:path <rdfs:label> ] ;
+    sh:targetClass ibdlit:Gene .
+
+linkml:Any a sh:NodeShape ;
+    sh:closed true ;
+    sh:ignoredProperties ( rdf:type ) ;
+    sh:targetClass linkml:Any .
+
+core:NamedEntity a sh:NodeShape ;
+    sh:closed false ;
+    sh:ignoredProperties ( rdf:type ) ;
+    sh:property [ sh:description "The label (name) of the named thing" ;
+            sh:maxCount 1 ;
+            sh:order 1 ;
+            sh:path <rdfs:label> ],
+        [ sh:description "A unique identifier for the named entity" ;
+            sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:order 0 ;
+            sh:path core:id ] ;
+    sh:targetClass core:NamedEntity .
+

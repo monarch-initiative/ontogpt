@@ -1,0 +1,260 @@
+BASE <http://w3id.org/ontogpt/gocam/>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+PREFIX linkml: <https://w3id.org/linkml/>
+PREFIX core: <http://w3id.org/ontogpt/core/>
+PREFIX rdfs1: <http://example.org/UNKNOWN/rdfs/>
+
+
+linkml:String xsd:string
+
+linkml:Integer xsd:integer
+
+linkml:Boolean xsd:boolean
+
+linkml:Float xsd:float
+
+linkml:Double xsd:double
+
+linkml:Decimal xsd:decimal
+
+linkml:Time xsd:time
+
+linkml:Date xsd:date
+
+linkml:Datetime xsd:dateTime
+
+linkml:DateOrDatetime linkml:DateOrDatetime
+
+linkml:Uriorcurie IRI
+
+linkml:Curie xsd:string
+
+linkml:Uri IRI
+
+linkml:Ncname xsd:string
+
+linkml:Objectidentifier IRI
+
+linkml:Nodeidentifier NONLITERAL
+
+linkml:Jsonpointer xsd:string
+
+linkml:Jsonpath xsd:string
+
+linkml:Sparqlpath xsd:string
+
+core:AnnotatorResult CLOSED {
+    (  $core:AnnotatorResult_tes (  core:subject_text @linkml:String ? ;
+          core:object_id @linkml:String ? ;
+          core:object_text @linkml:String ?
+       ) ;
+       rdf:type [ core:AnnotatorResult ] ?
+    )
+}
+
+core:Any CLOSED {
+    (  $core:Any_tes rdf:type . * ;
+       rdf:type [ linkml:Any ] ?
+    )
+}
+
+<CellularProcess> CLOSED {
+    (  $<CellularProcess_tes> (  &core:NamedEntity_tes ;
+          rdf:type [ core:NamedEntity ] ?
+       ) ;
+       rdf:type [ <CellularProcess> ]
+    )
+}
+
+core:CompoundExpression  (
+    @<GeneGeneInteraction> OR @<GeneMolecularActivityRelationship> OR @<GeneMolecularActivityRelationship2> OR
+    @<GeneOrganismRelationship> OR @<GeneSubcellularLocalizationRelationship> OR @core:Triple
+)
+
+core:CompoundExpression_struct {
+    (  $core:CompoundExpression_tes rdf:type . * ;
+       rdf:type [ core:CompoundExpression ] ?
+    )
+}
+
+core:ExtractionResult CLOSED {
+    (  $core:ExtractionResult_tes (  core:input_id @linkml:String ? ;
+          core:input_title @linkml:String ? ;
+          core:input_text @linkml:String ? ;
+          core:raw_completion_output @linkml:String ? ;
+          core:prompt @linkml:String ? ;
+          core:extracted_object @core:Any ? ;
+          core:named_entities @core:Any *
+       ) ;
+       rdf:type [ core:ExtractionResult ] ?
+    )
+}
+
+<Gene> CLOSED {
+    (  $<Gene_tes> (  &core:NamedEntity_tes ;
+          rdf:type [ core:NamedEntity ] ?
+       ) ;
+       rdf:type [ <Gene> ]
+    )
+}
+
+<GeneGeneInteraction> CLOSED {
+    (  $<GeneGeneInteraction_tes> (  &core:CompoundExpression_tes ;
+          rdf:type [ core:CompoundExpression ] ? ;
+          <gene1> @<Gene> ? ;
+          <gene2> @<Gene> ?
+       ) ;
+       rdf:type [ <GeneGeneInteraction> ] ?
+    )
+}
+
+<GeneLocation> CLOSED {
+    (  $<GeneLocation_tes> (  &core:NamedEntity_tes ;
+          rdf:type [ core:NamedEntity ] ?
+       ) ;
+       rdf:type [ <GeneLocation> ]
+    )
+}
+
+<GeneMolecularActivityRelationship> CLOSED {
+    (  $<GeneMolecularActivityRelationship_tes> (  &core:CompoundExpression_tes ;
+          rdf:type [ core:CompoundExpression ] ? ;
+          <gene> @<Gene> ? ;
+          <molecular_activity> @<MolecularActivity> ?
+       ) ;
+       rdf:type [ <GeneMolecularActivityRelationship> ] ?
+    )
+}
+
+<GeneMolecularActivityRelationship2> CLOSED {
+    (  $<GeneMolecularActivityRelationship2_tes> (  &core:CompoundExpression_tes ;
+          rdf:type [ core:CompoundExpression ] ? ;
+          <gene> @<Gene> ? ;
+          <molecular_activity> @<MolecularActivity> ? ;
+          <target> @<Molecule> ?
+       ) ;
+       rdf:type [ <GeneMolecularActivityRelationship2> ] ?
+    )
+}
+
+<GeneOrganismRelationship> CLOSED {
+    (  $<GeneOrganismRelationship_tes> (  &core:CompoundExpression_tes ;
+          rdf:type [ core:CompoundExpression ] ? ;
+          <gene> @<Gene> ? ;
+          <organism> @<Organism> ?
+       ) ;
+       rdf:type [ <GeneOrganismRelationship> ] ?
+    )
+}
+
+<GeneSubcellularLocalizationRelationship> CLOSED {
+    (  $<GeneSubcellularLocalizationRelationship_tes> (  &core:CompoundExpression_tes ;
+          rdf:type [ core:CompoundExpression ] ? ;
+          <gene> @<Gene> ? ;
+          <location> @<GeneLocation> ?
+       ) ;
+       rdf:type [ <GeneSubcellularLocalizationRelationship> ] ?
+    )
+}
+
+<GoCamAnnotations> CLOSED {
+    (  $<GoCamAnnotations_tes> (  <genes> @<Gene> * ;
+          <organisms> @<Organism> * ;
+          <gene_organisms> @<GeneOrganismRelationship> * ;
+          <activities> @<MolecularActivity> * ;
+          <gene_functions> @<GeneMolecularActivityRelationship> * ;
+          <cellular_processes> @<CellularProcess> * ;
+          <pathways> @<Pathway> * ;
+          <gene_gene_interactions> @<GeneGeneInteraction> * ;
+          <gene_localizations> @<GeneSubcellularLocalizationRelationship> *
+       ) ;
+       rdf:type [ <GoCamAnnotations> ] ?
+    )
+}
+
+<MolecularActivity> CLOSED {
+    (  $<MolecularActivity_tes> (  &core:NamedEntity_tes ;
+          rdf:type [ core:NamedEntity ] ?
+       ) ;
+       rdf:type [ <MolecularActivity> ]
+    )
+}
+
+<Molecule> CLOSED {
+    (  $<Molecule_tes> (  &core:NamedEntity_tes ;
+          rdf:type [ core:NamedEntity ] ?
+       ) ;
+       rdf:type [ <Molecule> ]
+    )
+}
+
+core:NamedEntity  (
+    @<CellularProcess> OR @<Gene> OR @<GeneLocation> OR @<MolecularActivity> OR @<Molecule> OR @<Organism> OR @<Pathway> OR
+    @core:RelationshipType
+)
+
+core:NamedEntity_struct {
+    (  $core:NamedEntity_tes rdfs1:label @linkml:String ? ;
+       rdf:type [ core:NamedEntity ]
+    )
+}
+
+<Organism> CLOSED {
+    (  $<Organism_tes> (  &core:NamedEntity_tes ;
+          rdf:type [ core:NamedEntity ] ?
+       ) ;
+       rdf:type [ <Organism> ]
+    )
+}
+
+<Pathway> CLOSED {
+    (  $<Pathway_tes> (  &core:NamedEntity_tes ;
+          rdf:type [ core:NamedEntity ] ?
+       ) ;
+       rdf:type [ <Pathway> ]
+    )
+}
+
+core:Publication CLOSED {
+    (  $core:Publication_tes (  core:id @linkml:String ? ;
+          core:title @linkml:String ? ;
+          core:abstract @linkml:String ? ;
+          core:combined_text @linkml:String ? ;
+          core:full_text @linkml:String ?
+       ) ;
+       rdf:type [ core:Publication ] ?
+    )
+}
+
+core:RelationshipType CLOSED {
+    (  $core:RelationshipType_tes (  &core:NamedEntity_tes ;
+          rdf:type [ core:NamedEntity ] ?
+       ) ;
+       rdf:type [ core:RelationshipType ]
+    )
+}
+
+core:TextWithTriples CLOSED {
+    (  $core:TextWithTriples_tes (  core:publication @core:Publication ? ;
+          core:triples @core:Triple *
+       ) ;
+       rdf:type [ core:TextWithTriples ] ?
+    )
+}
+
+core:Triple {
+    (  $core:Triple_tes (  &core:CompoundExpression_tes ;
+          rdf:type [ core:CompoundExpression ] ? ;
+          core:subject @core:NamedEntity ? ;
+          core:predicate @core:RelationshipType ? ;
+          core:object @core:NamedEntity ? ;
+          core:qualifier @linkml:String ? ;
+          core:subject_qualifier @core:NamedEntity ? ;
+          core:object_qualifier @core:NamedEntity ?
+       ) ;
+       rdf:type [ core:Triple ] ?
+    )
+}
+
+

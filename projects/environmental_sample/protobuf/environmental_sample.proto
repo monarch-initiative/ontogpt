@@ -1,0 +1,79 @@
+message AnnotatorResult
+ {
+  string subjectText = 0
+  string objectId = 0
+  string objectText = 0
+ }
+message CausalRelationship
+ {
+  variable cause = 0
+  variable effect = 0
+ }
+message Environment
+ {
+  string id = 0
+  string label = 0
+ }
+message EnvironmentalMaterial
+ {
+  string id = 0
+  string label = 0
+ }
+// A result of extracting knowledge on text
+message ExtractionResult
+ {
+  string inputId = 0
+  string inputTitle = 0
+  string inputText = 0
+  string rawCompletionOutput = 0
+  string prompt = 0
+  any extractedObject = 0
+ repeated  any namedEntities = 0
+ }
+message Location
+ {
+  string id = 0
+  string label = 0
+ }
+message Measurement
+ {
+  string value = 0
+  unit unit = 0
+ }
+message Publication
+ {
+  string id = 0
+  string title = 0
+  string abstract = 0
+  string combinedText = 0
+  string fullText = 0
+ }
+message RelationshipType
+ {
+  string id = 0
+  string label = 0
+ }
+message Study
+ {
+ repeated  location location = 0
+ repeated  environmentalMaterial environmentalMaterial = 0
+ repeated  environment environments = 0
+ repeated  causalRelationship causalRelationships = 0
+ repeated  variable variables = 0
+ repeated  measurement measurements = 0
+ }
+message TextWithTriples
+ {
+  publication publication = 0
+ repeated  triple triples = 0
+ }
+message Unit
+ {
+  string id = 0
+  string label = 0
+ }
+message Variable
+ {
+  string id = 0
+  string label = 0
+ }

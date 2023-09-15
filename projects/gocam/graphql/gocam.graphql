@@ -1,0 +1,149 @@
+type AnnotatorResult
+  {
+    subjectText: String
+    objectId: String
+    objectText: String
+  }
+
+type Any
+  {
+  }
+
+type CellularProcess
+  {
+    id: String!
+    label: String
+  }
+
+interface CompoundExpression
+  {
+  }
+
+type ExtractionResult
+  {
+    inputId: String
+    inputTitle: String
+    inputText: String
+    rawCompletionOutput: String
+    prompt: String
+    extractedObject: Any
+    namedEntities: [Any]
+  }
+
+type Gene
+  {
+    id: String!
+    label: String
+  }
+
+type GeneGeneInteraction
+  {
+    gene1: Gene
+    gene2: Gene
+  }
+
+type GeneLocation
+  {
+    label: String
+    id: String!
+  }
+
+type GeneMolecularActivityRelationship
+  {
+    gene: Gene
+    molecularActivity: MolecularActivity
+  }
+
+type GeneMolecularActivityRelationship2
+  {
+    gene: Gene
+    molecularActivity: MolecularActivity
+    target: Molecule
+  }
+
+type GeneOrganismRelationship
+  {
+    gene: Gene
+    organism: Organism
+  }
+
+type GeneSubcellularLocalizationRelationship
+  {
+    gene: Gene
+    location: GeneLocation
+  }
+
+type GoCamAnnotations
+  {
+    genes: [Gene]
+    organisms: [Organism]
+    geneOrganisms: [GeneOrganismRelationship]
+    activities: [MolecularActivity]
+    geneFunctions: [GeneMolecularActivityRelationship]
+    cellularProcesses: [CellularProcess]
+    pathways: [Pathway]
+    geneGeneInteractions: [GeneGeneInteraction]
+    geneLocalizations: [GeneSubcellularLocalizationRelationship]
+  }
+
+type MolecularActivity
+  {
+    id: String!
+    label: String
+  }
+
+type Molecule
+  {
+    id: String!
+    label: String
+  }
+
+interface NamedEntity
+  {
+    id: String!
+    label: String
+  }
+
+type Organism
+  {
+    id: String!
+    label: String
+  }
+
+type Pathway
+  {
+    id: String!
+    label: String
+  }
+
+type Publication
+  {
+    id: String
+    title: String
+    abstract: String
+    combinedText: String
+    fullText: String
+  }
+
+type RelationshipType
+  {
+    id: String!
+    label: String
+  }
+
+type TextWithTriples
+  {
+    publication: Publication
+    triples: [Triple]
+  }
+
+interface Triple
+  {
+    subject: NamedEntity
+    predicate: RelationshipType
+    object: NamedEntity
+    qualifier: String
+    subjectQualifier: NamedEntity
+    objectQualifier: NamedEntity
+  }
+

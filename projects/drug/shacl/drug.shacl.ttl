@@ -1,0 +1,267 @@
+@prefix drug: <http://w3id.org/ontogpt/drug/> .
+@prefix linkml: <https://w3id.org/linkml/> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+<http://w3id.org/ontogpt/core/AnnotatorResult> a sh:NodeShape ;
+    sh:closed true ;
+    sh:ignoredProperties ( rdf:type ) ;
+    sh:property [ sh:maxCount 1 ;
+            sh:order 1 ;
+            sh:path <http://w3id.org/ontogpt/core/object_id> ],
+        [ sh:maxCount 1 ;
+            sh:order 2 ;
+            sh:path <http://w3id.org/ontogpt/core/object_text> ],
+        [ sh:maxCount 1 ;
+            sh:order 0 ;
+            sh:path <http://w3id.org/ontogpt/core/subject_text> ] ;
+    sh:targetClass <http://w3id.org/ontogpt/core/AnnotatorResult> .
+
+<http://w3id.org/ontogpt/core/CompoundExpression> a sh:NodeShape ;
+    sh:closed false ;
+    sh:ignoredProperties ( rdf:type ) ;
+    sh:targetClass <http://w3id.org/ontogpt/core/CompoundExpression> .
+
+<http://w3id.org/ontogpt/core/ExtractionResult> a sh:NodeShape ;
+    sh:closed true ;
+    sh:description "A result of extracting knowledge on text" ;
+    sh:ignoredProperties ( rdf:type ) ;
+    sh:property [ sh:maxCount 1 ;
+            sh:order 4 ;
+            sh:path <http://w3id.org/ontogpt/core/prompt> ],
+        [ sh:maxCount 1 ;
+            sh:order 1 ;
+            sh:path <http://w3id.org/ontogpt/core/input_title> ],
+        [ sh:maxCount 1 ;
+            sh:order 0 ;
+            sh:path <http://w3id.org/ontogpt/core/input_id> ],
+        [ sh:maxCount 1 ;
+            sh:order 2 ;
+            sh:path <http://w3id.org/ontogpt/core/input_text> ],
+        [ sh:class linkml:Any ;
+            sh:description "Named entities extracted from the text" ;
+            sh:nodeKind sh:BlankNode ;
+            sh:order 6 ;
+            sh:path <http://w3id.org/ontogpt/core/named_entities> ],
+        [ sh:maxCount 1 ;
+            sh:order 3 ;
+            sh:path <http://w3id.org/ontogpt/core/raw_completion_output> ],
+        [ sh:class linkml:Any ;
+            sh:description "The complex objects extracted from the text" ;
+            sh:maxCount 1 ;
+            sh:nodeKind sh:BlankNode ;
+            sh:order 5 ;
+            sh:path <http://w3id.org/ontogpt/core/extracted_object> ] ;
+    sh:targetClass <http://w3id.org/ontogpt/core/ExtractionResult> .
+
+<http://w3id.org/ontogpt/core/TextWithTriples> a sh:NodeShape ;
+    sh:closed true ;
+    sh:ignoredProperties ( rdf:type ) ;
+    sh:property [ sh:class <http://w3id.org/ontogpt/core/Publication> ;
+            sh:maxCount 1 ;
+            sh:nodeKind sh:BlankNode ;
+            sh:order 0 ;
+            sh:path <http://w3id.org/ontogpt/core/publication> ],
+        [ sh:class <http://w3id.org/ontogpt/core/Triple> ;
+            sh:nodeKind sh:BlankNode ;
+            sh:order 1 ;
+            sh:path <http://w3id.org/ontogpt/core/triples> ] ;
+    sh:targetClass <http://w3id.org/ontogpt/core/TextWithTriples> .
+
+drug:DrugMechanism a sh:NodeShape ;
+    sh:closed true ;
+    sh:ignoredProperties ( rdf:type ) ;
+    sh:property [ sh:class drug:Drug ;
+            sh:description "the name of the drug that treats the disease" ;
+            sh:maxCount 1 ;
+            sh:nodeKind sh:IRI ;
+            sh:order 1 ;
+            sh:path drug:drug ],
+        [ sh:class drug:Disease ;
+            sh:description "the name of the disease that is treated" ;
+            sh:maxCount 1 ;
+            sh:nodeKind sh:IRI ;
+            sh:order 0 ;
+            sh:path drug:disease ],
+        [ sh:maxCount 1 ;
+            sh:order 4 ;
+            sh:path drug:source_text ],
+        [ sh:order 3 ;
+            sh:path drug:references ],
+        [ sh:class drug:MechanismLink ;
+            sh:description "semicolon-separated list of links, where each link is a triple connecting two entities via a relationship type" ;
+            sh:nodeKind sh:BlankNode ;
+            sh:order 2 ;
+            sh:path drug:mechanism_links ] ;
+    sh:targetClass drug:DrugMechanism .
+
+<http://w3id.org/ontogpt/core/Publication> a sh:NodeShape ;
+    sh:closed true ;
+    sh:ignoredProperties ( rdf:type ) ;
+    sh:property [ sh:description "The abstract of the publication" ;
+            sh:maxCount 1 ;
+            sh:order 2 ;
+            sh:path <http://w3id.org/ontogpt/core/abstract> ],
+        [ sh:description "The full text of the publication" ;
+            sh:maxCount 1 ;
+            sh:order 4 ;
+            sh:path <http://w3id.org/ontogpt/core/full_text> ],
+        [ sh:maxCount 1 ;
+            sh:order 3 ;
+            sh:path <http://w3id.org/ontogpt/core/combined_text> ],
+        [ sh:description "The title of the publication" ;
+            sh:maxCount 1 ;
+            sh:order 1 ;
+            sh:path <http://w3id.org/ontogpt/core/title> ],
+        [ sh:description "The publication identifier" ;
+            sh:maxCount 1 ;
+            sh:order 0 ;
+            sh:path <http://w3id.org/ontogpt/core/id> ] ;
+    sh:targetClass <http://w3id.org/ontogpt/core/Publication> .
+
+<http://w3id.org/ontogpt/core/RelationshipType> a sh:NodeShape ;
+    sh:closed true ;
+    sh:ignoredProperties ( rdf:type ) ;
+    sh:property [ sh:description "The label (name) of the named thing" ;
+            sh:maxCount 1 ;
+            sh:order 1 ;
+            sh:path <rdfs:label> ],
+        [ sh:description "A unique identifier for the named entity" ;
+            sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:order 0 ;
+            sh:path <http://w3id.org/ontogpt/core/id> ] ;
+    sh:targetClass <http://w3id.org/ontogpt/core/RelationshipType> .
+
+<http://w3id.org/ontogpt/core/Triple> a sh:NodeShape ;
+    sh:closed false ;
+    sh:description "Abstract parent for Relation Extraction tasks" ;
+    sh:ignoredProperties ( rdf:type ) ;
+    sh:property [ sh:class <http://w3id.org/ontogpt/core/NamedEntity> ;
+            sh:description "An optional qualifier or modifier for the object of the statement, e.g. \"severe\" or \"with additional complications\"" ;
+            sh:maxCount 1 ;
+            sh:nodeKind sh:IRI ;
+            sh:order 5 ;
+            sh:path <http://w3id.org/ontogpt/core/object_qualifier> ],
+        [ sh:description "A qualifier for the statements, e.g. \"NOT\" for negation" ;
+            sh:maxCount 1 ;
+            sh:order 3 ;
+            sh:path <http://w3id.org/ontogpt/core/qualifier> ],
+        [ sh:class <http://w3id.org/ontogpt/core/RelationshipType> ;
+            sh:maxCount 1 ;
+            sh:nodeKind sh:IRI ;
+            sh:order 1 ;
+            sh:path <http://w3id.org/ontogpt/core/predicate> ],
+        [ sh:class <http://w3id.org/ontogpt/core/NamedEntity> ;
+            sh:maxCount 1 ;
+            sh:nodeKind sh:IRI ;
+            sh:order 2 ;
+            sh:path <http://w3id.org/ontogpt/core/object> ],
+        [ sh:class <http://w3id.org/ontogpt/core/NamedEntity> ;
+            sh:description "An optional qualifier or modifier for the subject of the statement, e.g. \"high dose\" or \"intravenously administered\"" ;
+            sh:maxCount 1 ;
+            sh:nodeKind sh:IRI ;
+            sh:order 4 ;
+            sh:path <http://w3id.org/ontogpt/core/subject_qualifier> ],
+        [ sh:class <http://w3id.org/ontogpt/core/NamedEntity> ;
+            sh:maxCount 1 ;
+            sh:nodeKind sh:IRI ;
+            sh:order 0 ;
+            sh:path <http://w3id.org/ontogpt/core/subject> ] ;
+    sh:targetClass <http://w3id.org/ontogpt/core/Triple> .
+
+drug:Disease a sh:NodeShape ;
+    sh:closed true ;
+    sh:ignoredProperties ( rdf:type ) ;
+    sh:property [ sh:description "A unique identifier for the named entity" ;
+            sh:maxCount 1 ;
+            sh:order 0 ;
+            sh:path <http://w3id.org/ontogpt/core/id> ],
+        [ sh:description "The label (name) of the named thing" ;
+            sh:maxCount 1 ;
+            sh:order 1 ;
+            sh:path <rdfs:label> ] ;
+    sh:targetClass drug:Disease .
+
+drug:Drug a sh:NodeShape ;
+    sh:closed true ;
+    sh:ignoredProperties ( rdf:type ) ;
+    sh:property [ sh:description "The label (name) of the named thing" ;
+            sh:maxCount 1 ;
+            sh:order 1 ;
+            sh:path <rdfs:label> ],
+        [ sh:description "A unique identifier for the named entity" ;
+            sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:order 0 ;
+            sh:path <http://w3id.org/ontogpt/core/id> ] ;
+    sh:targetClass drug:Drug .
+
+drug:MechanismLink a sh:NodeShape ;
+    sh:closed true ;
+    sh:ignoredProperties ( rdf:type ) ;
+    sh:property [ sh:class drug:MechanismElement ;
+            sh:maxCount 1 ;
+            sh:nodeKind sh:IRI ;
+            sh:order 2 ;
+            sh:path drug:object ],
+        [ sh:class drug:Predicate ;
+            sh:maxCount 1 ;
+            sh:nodeKind sh:IRI ;
+            sh:order 1 ;
+            sh:path drug:predicate ],
+        [ sh:class drug:MechanismElement ;
+            sh:maxCount 1 ;
+            sh:nodeKind sh:IRI ;
+            sh:order 0 ;
+            sh:path drug:subject ] ;
+    sh:targetClass drug:MechanismLink .
+
+drug:Predicate a sh:NodeShape ;
+    sh:closed true ;
+    sh:ignoredProperties ( rdf:type ) ;
+    sh:property [ sh:description "The label (name) of the named thing" ;
+            sh:maxCount 1 ;
+            sh:order 1 ;
+            sh:path <rdfs:label> ],
+        [ sh:description "A unique identifier for the named entity" ;
+            sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:order 0 ;
+            sh:path <http://w3id.org/ontogpt/core/id> ] ;
+    sh:targetClass drug:Predicate .
+
+drug:MechanismElement a sh:NodeShape ;
+    sh:closed true ;
+    sh:ignoredProperties ( rdf:type ) ;
+    sh:property [ sh:description "A unique identifier for the named entity" ;
+            sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:order 0 ;
+            sh:path <http://w3id.org/ontogpt/core/id> ],
+        [ sh:description "The label (name) of the named thing" ;
+            sh:maxCount 1 ;
+            sh:order 1 ;
+            sh:path <rdfs:label> ] ;
+    sh:targetClass drug:MechanismElement .
+
+linkml:Any a sh:NodeShape ;
+    sh:closed true ;
+    sh:ignoredProperties ( rdf:type ) ;
+    sh:targetClass linkml:Any .
+
+<http://w3id.org/ontogpt/core/NamedEntity> a sh:NodeShape ;
+    sh:closed false ;
+    sh:ignoredProperties ( rdf:type ) ;
+    sh:property [ sh:description "A unique identifier for the named entity" ;
+            sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:order 0 ;
+            sh:path <http://w3id.org/ontogpt/core/id> ],
+        [ sh:description "The label (name) of the named thing" ;
+            sh:maxCount 1 ;
+            sh:order 1 ;
+            sh:path <rdfs:label> ] ;
+    sh:targetClass <http://w3id.org/ontogpt/core/NamedEntity> .
+

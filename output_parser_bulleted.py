@@ -12,8 +12,9 @@ NULL_VALS = ['', 'Not mentioned', 'none mentioned', 'Not mentioned in the text',
 lines = []
 adapter = get_adapter("sqlite:obo:MONDO")
 # output_file = "output_2000_0719.yaml"
-output_file = "output_100_0817.yaml"
+# output_file = "output_100_0817.yaml"
 # output_file = "output_100_0818.yaml"
+output_file = "output_100.0911.yaml"
 
 def tripleprint(dict):
     key = next(iter(dict))

@@ -1,0 +1,68 @@
+message AnnotatorResult
+ {
+  string subjectText = 0
+  string objectId = 0
+  string objectText = 0
+ }
+message BiologicalProcess
+ {
+  string id = 0
+  string label = 0
+  string description = 0
+ repeated  string synonyms = 0
+  biologicalProcess subclassOf = 0
+ repeated  chemicalEntity inputs = 0
+ repeated  chemicalEntity outputs = 0
+ repeated  molecularActivity steps = 0
+ repeated  gene genes = 0
+ repeated  geneMolecularActivityRelationship geneActivities = 0
+ }
+message ChemicalEntity
+ {
+  string id = 0
+  string label = 0
+ }
+// A result of extracting knowledge on text
+message ExtractionResult
+ {
+  string inputId = 0
+  string inputTitle = 0
+  string inputText = 0
+  string rawCompletionOutput = 0
+  string prompt = 0
+  any extractedObject = 0
+ repeated  any namedEntities = 0
+ }
+message Gene
+ {
+  string id = 0
+  string label = 0
+ }
+message GeneMolecularActivityRelationship
+ {
+  gene gene = 0
+  molecularActivity molecularActivity = 0
+ }
+message MolecularActivity
+ {
+  string id = 0
+  string label = 0
+ }
+message Publication
+ {
+  string id = 0
+  string title = 0
+  string abstract = 0
+  string combinedText = 0
+  string fullText = 0
+ }
+message RelationshipType
+ {
+  string id = 0
+  string label = 0
+ }
+message TextWithTriples
+ {
+  publication publication = 0
+ repeated  triple triples = 0
+ }

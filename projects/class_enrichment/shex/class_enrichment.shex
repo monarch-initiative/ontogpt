@@ -1,0 +1,79 @@
+BASE <https://w3id.org/oak/class-enrichment/>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+PREFIX linkml: <https://w3id.org/linkml/>
+
+
+<Position> xsd:integer
+
+linkml:String xsd:string
+
+linkml:Integer xsd:integer
+
+linkml:Boolean xsd:boolean
+
+linkml:Float xsd:float
+
+linkml:Double xsd:double
+
+linkml:Decimal xsd:decimal
+
+linkml:Time xsd:time
+
+linkml:Date xsd:date
+
+linkml:Datetime xsd:dateTime
+
+linkml:DateOrDatetime linkml:DateOrDatetime
+
+linkml:Uriorcurie IRI
+
+linkml:Curie xsd:string
+
+linkml:Uri IRI
+
+linkml:Ncname xsd:string
+
+linkml:Objectidentifier IRI
+
+linkml:Nodeidentifier NONLITERAL
+
+linkml:Jsonpointer xsd:string
+
+linkml:Jsonpath xsd:string
+
+linkml:Sparqlpath xsd:string
+
+<ClassEnrichmentConfiguration> CLOSED {
+    (  $<ClassEnrichmentConfiguration_tes> <p_value_cutoff> @linkml:Float ;
+       rdf:type [ <ClassEnrichmentConfiguration> ] ?
+    )
+}
+
+<ClassEnrichmentResult> CLOSED {
+    (  $<ClassEnrichmentResult_tes> (  <class_id> @linkml:Uriorcurie ;
+          <class_label> @linkml:String ? ;
+          <rank> @linkml:Integer ? ;
+          <http://purl.obolibrary.org/obo/OBI_0000175> @linkml:Float ;
+          <p_value_adjusted> @linkml:Float ? ;
+          <false_discovery_rate> @linkml:Float ? ;
+          <fold_enrichment> @linkml:Float ? ;
+          <probability> @linkml:Float ? ;
+          <sample_count> @linkml:Integer ? ;
+          <sample_total> @linkml:Integer ? ;
+          <background_count> @linkml:Integer ? ;
+          <background_total> @linkml:Integer ? ;
+          <ancestor_of_more_informative_result> @linkml:Boolean ? ;
+          <descendant_of_more_informative_result> @linkml:Boolean ?
+       ) ;
+       rdf:type [ <ClassEnrichmentResult> ] ?
+    )
+}
+
+<ClassEnrichmentResultSet> CLOSED {
+    (  $<ClassEnrichmentResultSet_tes> <results> @<ClassEnrichmentResult> * ;
+       rdf:type [ <ClassEnrichmentResultSet> ] ?
+    )
+}
+
+

@@ -1,0 +1,108 @@
+message AnnotatorResult
+ {
+  string subjectText = 0
+  string objectId = 0
+  string objectText = 0
+ }
+message CellularProcess
+ {
+  string id = 0
+  string label = 0
+ }
+// A result of extracting knowledge on text
+message ExtractionResult
+ {
+  string inputId = 0
+  string inputTitle = 0
+  string inputText = 0
+  string rawCompletionOutput = 0
+  string prompt = 0
+  any extractedObject = 0
+ repeated  any namedEntities = 0
+ }
+message Gene
+ {
+  string id = 0
+  string label = 0
+ }
+message GeneGeneInteraction
+ {
+  gene gene1 = 0
+  gene gene2 = 0
+ }
+message GeneLocation
+ {
+  string label = 0
+  string id = 0
+ }
+message GeneMolecularActivityRelationship
+ {
+  gene gene = 0
+  molecularActivity molecularActivity = 0
+ }
+message GeneMolecularActivityRelationship2
+ {
+  gene gene = 0
+  molecularActivity molecularActivity = 0
+  molecule target = 0
+ }
+message GeneOrganismRelationship
+ {
+  gene gene = 0
+  organism organism = 0
+ }
+message GeneSubcellularLocalizationRelationship
+ {
+  gene gene = 0
+  geneLocation location = 0
+ }
+message IBDAnnotations
+ {
+ repeated  gene genes = 0
+ repeated  organism organisms = 0
+ repeated  geneOrganismRelationship geneOrganisms = 0
+ repeated  molecularActivity activities = 0
+ repeated  geneMolecularActivityRelationship geneFunctions = 0
+ repeated  cellularProcess cellularProcesses = 0
+ repeated  pathway pathways = 0
+ repeated  geneGeneInteraction geneGeneInteractions = 0
+ repeated  geneSubcellularLocalizationRelationship geneLocalizations = 0
+ }
+message MolecularActivity
+ {
+  string id = 0
+  string label = 0
+ }
+message Molecule
+ {
+  string id = 0
+  string label = 0
+ }
+message Organism
+ {
+  string id = 0
+  string label = 0
+ }
+message Pathway
+ {
+  string id = 0
+  string label = 0
+ }
+message Publication
+ {
+  string id = 0
+  string title = 0
+  string abstract = 0
+  string combinedText = 0
+  string fullText = 0
+ }
+message RelationshipType
+ {
+  string id = 0
+  string label = 0
+ }
+message TextWithTriples
+ {
+  publication publication = 0
+ repeated  triple triples = 0
+ }

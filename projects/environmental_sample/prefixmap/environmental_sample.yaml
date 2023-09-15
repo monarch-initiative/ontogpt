@@ -1,0 +1,42 @@
+{
+   "ENVO": "http://example.org/UNKNOWN/ENVO/",
+   "ENVTHES": "http://example.org/UNKNOWN/ENVTHES/",
+   "GAZ": "http://example.org/UNKNOWN/GAZ/",
+   "MIXS": "http://example.org/UNKNOWN/MIXS/",
+   "NCIT": "http://purl.obolibrary.org/obo/NCIT_",
+   "PATO": "http://example.org/UNKNOWN/PATO/",
+   "RO": "http://purl.obolibrary.org/obo/RO_",
+   "UO": "http://example.org/UNKNOWN/UO/",
+   "biolink": "http://example.org/UNKNOWN/biolink/",
+   "core": "http://w3id.org/ontogpt/core/",
+   "linkml": "https://w3id.org/linkml/",
+   "rdfs": "http://example.org/UNKNOWN/rdfs/",
+   "sample": "http://w3id.org/ontogpt/environmental-sample/",
+   "AnnotatorResult": {
+      "@id": "core:AnnotatorResult"
+   },
+   "Any": {
+      "@id": "linkml:Any"
+   },
+   "CompoundExpression": {
+      "@id": "core:CompoundExpression"
+   },
+   "ExtractionResult": {
+      "@id": "core:ExtractionResult"
+   },
+   "NamedEntity": {
+      "@id": "core:NamedEntity"
+   },
+   "Publication": {
+      "@id": "core:Publication"
+   },
+   "RelationshipType": {
+      "@id": "core:RelationshipType"
+   },
+   "TextWithTriples": {
+      "@id": "core:TextWithTriples"
+   },
+   "Triple": {
+      "@id": "core:Triple"
+   }
+}

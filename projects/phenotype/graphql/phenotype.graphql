@@ -1,0 +1,88 @@
+type AnatomicalEntity
+  {
+    id: String!
+    label: String
+  }
+
+type AnnotatorResult
+  {
+    subjectText: String
+    objectId: String
+    objectText: String
+  }
+
+type Any
+  {
+  }
+
+type ChemicalEntity
+  {
+    id: String!
+    label: String
+  }
+
+interface CompoundExpression
+  {
+  }
+
+type ExtractionResult
+  {
+    inputId: String
+    inputTitle: String
+    inputText: String
+    rawCompletionOutput: String
+    prompt: String
+    extractedObject: Any
+    namedEntities: [Any]
+  }
+
+interface NamedEntity
+  {
+    id: String!
+    label: String
+  }
+
+type Publication
+  {
+    id: String
+    title: String
+    abstract: String
+    combinedText: String
+    fullText: String
+  }
+
+type Quality
+  {
+    id: String!
+    label: String
+  }
+
+type RelationshipType
+  {
+    id: String!
+    label: String
+  }
+
+type TextWithTriples
+  {
+    publication: Publication
+    triples: [Triple]
+  }
+
+type Trait
+  {
+    quality: Quality
+    anatomicalEntity: AnatomicalEntity
+    chemicalEntity: ChemicalEntity
+  }
+
+interface Triple
+  {
+    subject: NamedEntity
+    predicate: RelationshipType
+    object: NamedEntity
+    qualifier: String
+    subjectQualifier: NamedEntity
+    objectQualifier: NamedEntity
+  }
+

@@ -1,0 +1,499 @@
+{
+    "$defs": {
+        "AnnotatorResult": {
+            "additionalProperties": false,
+            "description": "",
+            "properties": {
+                "object_id": {
+                    "type": "string"
+                },
+                "object_text": {
+                    "type": "string"
+                },
+                "subject_text": {
+                    "type": "string"
+                }
+            },
+            "title": "AnnotatorResult",
+            "type": "object"
+        },
+        "Any": {
+            "additionalProperties": true,
+            "description": "",
+            "title": "Any",
+            "type": "object"
+        },
+        "CellType": {
+            "description": "",
+            "enum": [],
+            "title": "CellType",
+            "type": "string"
+        },
+        "CellularProcess": {
+            "additionalProperties": false,
+            "description": "",
+            "properties": {
+                "id": {
+                    "description": "A unique identifier for the named entity",
+                    "type": "string"
+                },
+                "label": {
+                    "description": "The label (name) of the named thing",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "id"
+            ],
+            "title": "CellularProcess",
+            "type": "object"
+        },
+        "ExtractionResult": {
+            "additionalProperties": false,
+            "description": "A result of extracting knowledge on text",
+            "properties": {
+                "extracted_object": {
+                    "$ref": "#/$defs/Any",
+                    "description": "The complex objects extracted from the text"
+                },
+                "input_id": {
+                    "type": "string"
+                },
+                "input_text": {
+                    "type": "string"
+                },
+                "input_title": {
+                    "type": "string"
+                },
+                "named_entities": {
+                    "description": "Named entities extracted from the text",
+                    "items": {
+                        "$ref": "#/$defs/Any"
+                    },
+                    "type": "array"
+                },
+                "prompt": {
+                    "type": "string"
+                },
+                "raw_completion_output": {
+                    "type": "string"
+                }
+            },
+            "title": "ExtractionResult",
+            "type": "object"
+        },
+        "GOCellComponentType": {
+            "description": "",
+            "enum": [],
+            "title": "GOCellComponentType",
+            "type": "string"
+        },
+        "Gene": {
+            "additionalProperties": false,
+            "description": "",
+            "properties": {
+                "id": {
+                    "description": "A unique identifier for the named entity",
+                    "type": "string"
+                },
+                "label": {
+                    "description": "The label (name) of the named thing",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "id"
+            ],
+            "title": "Gene",
+            "type": "object"
+        },
+        "GeneGeneInteraction": {
+            "additionalProperties": false,
+            "description": "",
+            "properties": {
+                "gene1": {
+                    "type": "string"
+                },
+                "gene2": {
+                    "type": "string"
+                }
+            },
+            "title": "GeneGeneInteraction",
+            "type": "object"
+        },
+        "GeneLocation": {
+            "additionalProperties": false,
+            "description": "",
+            "properties": {
+                "id": {
+                    "description": "A unique identifier for the named entity",
+                    "type": "string"
+                },
+                "label": {
+                    "description": "The label (name) of the named thing",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "id"
+            ],
+            "title": "GeneLocation",
+            "type": "object"
+        },
+        "GeneLocationEnum": {
+            "description": "",
+            "enum": [],
+            "title": "GeneLocationEnum",
+            "type": "string"
+        },
+        "GeneMolecularActivityRelationship": {
+            "additionalProperties": false,
+            "description": "",
+            "properties": {
+                "gene": {
+                    "type": "string"
+                },
+                "molecular_activity": {
+                    "type": "string"
+                }
+            },
+            "title": "GeneMolecularActivityRelationship",
+            "type": "object"
+        },
+        "GeneMolecularActivityRelationship2": {
+            "additionalProperties": false,
+            "description": "",
+            "properties": {
+                "gene": {
+                    "type": "string"
+                },
+                "molecular_activity": {
+                    "type": "string"
+                },
+                "target": {
+                    "type": "string"
+                }
+            },
+            "title": "GeneMolecularActivityRelationship2",
+            "type": "object"
+        },
+        "GeneOrganismRelationship": {
+            "additionalProperties": false,
+            "description": "",
+            "properties": {
+                "gene": {
+                    "type": "string"
+                },
+                "organism": {
+                    "type": "string"
+                }
+            },
+            "title": "GeneOrganismRelationship",
+            "type": "object"
+        },
+        "GeneSubcellularLocalizationRelationship": {
+            "additionalProperties": false,
+            "description": "",
+            "properties": {
+                "gene": {
+                    "type": "string"
+                },
+                "location": {
+                    "type": "string"
+                }
+            },
+            "title": "GeneSubcellularLocalizationRelationship",
+            "type": "object"
+        },
+        "GoCamAnnotations": {
+            "additionalProperties": false,
+            "description": "",
+            "properties": {
+                "activities": {
+                    "description": "semicolon-separated list of molecular activities",
+                    "items": {
+                        "type": "string"
+                    },
+                    "type": "array"
+                },
+                "cellular_processes": {
+                    "description": "semicolon-separated list of cellular processes",
+                    "items": {
+                        "type": "string"
+                    },
+                    "type": "array"
+                },
+                "gene_functions": {
+                    "description": "semicolon-separated list of gene to molecular activity relationships",
+                    "items": {
+                        "$ref": "#/$defs/GeneMolecularActivityRelationship"
+                    },
+                    "type": "array"
+                },
+                "gene_gene_interactions": {
+                    "description": "semicolon-separated list of gene to gene interactions",
+                    "items": {
+                        "$ref": "#/$defs/GeneGeneInteraction"
+                    },
+                    "type": "array"
+                },
+                "gene_localizations": {
+                    "description": "semicolon-separated list of genes plus their location in the cell; for example, \"gene1 / cytoplasm; gene2 / mitochondrion\"",
+                    "items": {
+                        "$ref": "#/$defs/GeneSubcellularLocalizationRelationship"
+                    },
+                    "type": "array"
+                },
+                "gene_organisms": {
+                    "items": {
+                        "$ref": "#/$defs/GeneOrganismRelationship"
+                    },
+                    "type": "array"
+                },
+                "genes": {
+                    "description": "semicolon-separated list of genes",
+                    "items": {
+                        "type": "string"
+                    },
+                    "type": "array"
+                },
+                "organisms": {
+                    "description": "semicolon-separated list of organism taxons",
+                    "items": {
+                        "type": "string"
+                    },
+                    "type": "array"
+                },
+                "pathways": {
+                    "description": "semicolon-separated list of pathways",
+                    "items": {
+                        "type": "string"
+                    },
+                    "type": "array"
+                }
+            },
+            "title": "GoCamAnnotations",
+            "type": "object"
+        },
+        "MolecularActivity": {
+            "additionalProperties": false,
+            "description": "",
+            "properties": {
+                "id": {
+                    "description": "A unique identifier for the named entity",
+                    "type": "string"
+                },
+                "label": {
+                    "description": "The label (name) of the named thing",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "id"
+            ],
+            "title": "MolecularActivity",
+            "type": "object"
+        },
+        "Molecule": {
+            "additionalProperties": false,
+            "description": "",
+            "properties": {
+                "id": {
+                    "description": "A unique identifier for the named entity",
+                    "type": "string"
+                },
+                "label": {
+                    "description": "The label (name) of the named thing",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "id"
+            ],
+            "title": "Molecule",
+            "type": "object"
+        },
+        "NullDataOptions": {
+            "description": "",
+            "enum": [
+                "UNSPECIFIED_METHOD_OF_ADMINISTRATION",
+                "NOT_APPLICABLE",
+                "NOT_MENTIONED"
+            ],
+            "title": "NullDataOptions",
+            "type": "string"
+        },
+        "Organism": {
+            "additionalProperties": false,
+            "description": "",
+            "properties": {
+                "id": {
+                    "description": "A unique identifier for the named entity",
+                    "type": "string"
+                },
+                "label": {
+                    "description": "The label (name) of the named thing",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "id"
+            ],
+            "title": "Organism",
+            "type": "object"
+        },
+        "Pathway": {
+            "additionalProperties": false,
+            "description": "",
+            "properties": {
+                "id": {
+                    "description": "A unique identifier for the named entity",
+                    "type": "string"
+                },
+                "label": {
+                    "description": "The label (name) of the named thing",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "id"
+            ],
+            "title": "Pathway",
+            "type": "object"
+        },
+        "Publication": {
+            "additionalProperties": false,
+            "description": "",
+            "properties": {
+                "abstract": {
+                    "description": "The abstract of the publication",
+                    "type": "string"
+                },
+                "combined_text": {
+                    "type": "string"
+                },
+                "full_text": {
+                    "description": "The full text of the publication",
+                    "type": "string"
+                },
+                "id": {
+                    "description": "The publication identifier",
+                    "type": "string"
+                },
+                "title": {
+                    "description": "The title of the publication",
+                    "type": "string"
+                }
+            },
+            "title": "Publication",
+            "type": "object"
+        },
+        "RelationshipType": {
+            "additionalProperties": false,
+            "description": "",
+            "properties": {
+                "id": {
+                    "description": "A unique identifier for the named entity",
+                    "type": "string"
+                },
+                "label": {
+                    "description": "The label (name) of the named thing",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "id"
+            ],
+            "title": "RelationshipType",
+            "type": "object"
+        },
+        "TextWithTriples": {
+            "additionalProperties": false,
+            "description": "",
+            "properties": {
+                "publication": {
+                    "$ref": "#/$defs/Publication"
+                },
+                "triples": {
+                    "items": {
+                        "$ref": "#/$defs/Triple"
+                    },
+                    "type": "array"
+                }
+            },
+            "title": "TextWithTriples",
+            "type": "object"
+        }
+    },
+    "$id": "http://w3id.org/ontogpt/gocam",
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "additionalProperties": true,
+    "metamodel_version": "1.7.0",
+    "properties": {
+        "activities": {
+            "description": "semicolon-separated list of molecular activities",
+            "items": {
+                "type": "string"
+            },
+            "type": "array"
+        },
+        "cellular_processes": {
+            "description": "semicolon-separated list of cellular processes",
+            "items": {
+                "type": "string"
+            },
+            "type": "array"
+        },
+        "gene_functions": {
+            "description": "semicolon-separated list of gene to molecular activity relationships",
+            "items": {
+                "$ref": "#/$defs/GeneMolecularActivityRelationship"
+            },
+            "type": "array"
+        },
+        "gene_gene_interactions": {
+            "description": "semicolon-separated list of gene to gene interactions",
+            "items": {
+                "$ref": "#/$defs/GeneGeneInteraction"
+            },
+            "type": "array"
+        },
+        "gene_localizations": {
+            "description": "semicolon-separated list of genes plus their location in the cell; for example, \"gene1 / cytoplasm; gene2 / mitochondrion\"",
+            "items": {
+                "$ref": "#/$defs/GeneSubcellularLocalizationRelationship"
+            },
+            "type": "array"
+        },
+        "gene_organisms": {
+            "items": {
+                "$ref": "#/$defs/GeneOrganismRelationship"
+            },
+            "type": "array"
+        },
+        "genes": {
+            "description": "semicolon-separated list of genes",
+            "items": {
+                "type": "string"
+            },
+            "type": "array"
+        },
+        "organisms": {
+            "description": "semicolon-separated list of organism taxons",
+            "items": {
+                "type": "string"
+            },
+            "type": "array"
+        },
+        "pathways": {
+            "description": "semicolon-separated list of pathways",
+            "items": {
+                "type": "string"
+            },
+            "type": "array"
+        }
+    },
+    "title": "gocam-template",
+    "type": "object",
+    "version": null
+}

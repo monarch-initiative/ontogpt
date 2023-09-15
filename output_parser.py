@@ -14,7 +14,8 @@ lines = []
 adapter = get_adapter("sqlite:obo:MONDO")
 # output_file = "output_2000_0719.yaml"
 # output_file = "output_100_0817.yaml"
-output_file = "output_100_0818.yaml"
+# output_file = "output_100_0818.yaml"
+output_file = "output_partial_50_0911.yaml"
 
 def tripleprint(dict):
     key = next(iter(dict))
@@ -111,9 +112,10 @@ for i in range(len(trimmed_dict[key])):
     # objects_with_ecto.append(curr)
 # subjects_with_chebi = [x for x in subjects_with_chebi if x[0].startswith("CHEBI:")]
 subjects_with_mondo = [x for x in subjects_with_mondo if x[0].startswith("MONDO:")]
+mondo_go = [x for x in subjects_with_mondo if x[2].startswith("GO:")]
 # objects_with_ecto = [x for x in objects_with_ecto if x[2].startswith("ECTO:")]
 
-# forprint(subjects_with_mondo)
+forprint(mondo_go)
 
 subjects_with_names = []
 # for elem in subjects_with_chebi:

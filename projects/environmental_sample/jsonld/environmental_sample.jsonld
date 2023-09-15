@@ -1,0 +1,1422 @@
+{
+  "name": "environmental-sample",
+  "description": "A template for Environmental Samples",
+  "title": "Environmental Sample Template",
+  "id": "http://w3id.org/ontogpt/environmental-sample",
+  "imports": [
+    "linkml:types",
+    "core"
+  ],
+  "license": "https://creativecommons.org/publicdomain/zero/1.0/",
+  "prefixes": [
+    {
+      "prefix_prefix": "linkml",
+      "prefix_reference": "https://w3id.org/linkml/"
+    },
+    {
+      "prefix_prefix": "sample",
+      "prefix_reference": "http://w3id.org/ontogpt/environmental-sample/"
+    }
+  ],
+  "default_prefix": "sample",
+  "default_range": "string",
+  "types": [
+    {
+      "name": "string",
+      "definition_uri": "https://w3id.org/linkml/String",
+      "description": "A character string",
+      "from_schema": "https://w3id.org/linkml/types",
+      "imported_from": "linkml:types",
+      "exact_mappings": [
+        "schema:Text"
+      ],
+      "base": "str",
+      "uri": "http://www.w3.org/2001/XMLSchema#string",
+      "@type": "TypeDefinition"
+    },
+    {
+      "name": "integer",
+      "definition_uri": "https://w3id.org/linkml/Integer",
+      "description": "An integer",
+      "from_schema": "https://w3id.org/linkml/types",
+      "imported_from": "linkml:types",
+      "exact_mappings": [
+        "schema:Integer"
+      ],
+      "base": "int",
+      "uri": "http://www.w3.org/2001/XMLSchema#integer",
+      "@type": "TypeDefinition"
+    },
+    {
+      "name": "boolean",
+      "definition_uri": "https://w3id.org/linkml/Boolean",
+      "description": "A binary (true or false) value",
+      "from_schema": "https://w3id.org/linkml/types",
+      "imported_from": "linkml:types",
+      "exact_mappings": [
+        "schema:Boolean"
+      ],
+      "base": "Bool",
+      "uri": "http://www.w3.org/2001/XMLSchema#boolean",
+      "repr": "bool",
+      "@type": "TypeDefinition"
+    },
+    {
+      "name": "float",
+      "definition_uri": "https://w3id.org/linkml/Float",
+      "description": "A real number that conforms to the xsd:float specification",
+      "from_schema": "https://w3id.org/linkml/types",
+      "imported_from": "linkml:types",
+      "exact_mappings": [
+        "schema:Float"
+      ],
+      "base": "float",
+      "uri": "http://www.w3.org/2001/XMLSchema#float",
+      "@type": "TypeDefinition"
+    },
+    {
+      "name": "double",
+      "definition_uri": "https://w3id.org/linkml/Double",
+      "description": "A real number that conforms to the xsd:double specification",
+      "from_schema": "https://w3id.org/linkml/types",
+      "imported_from": "linkml:types",
+      "close_mappings": [
+        "schema:Float"
+      ],
+      "base": "float",
+      "uri": "http://www.w3.org/2001/XMLSchema#double",
+      "@type": "TypeDefinition"
+    },
+    {
+      "name": "decimal",
+      "definition_uri": "https://w3id.org/linkml/Decimal",
+      "description": "A real number with arbitrary precision that conforms to the xsd:decimal specification",
+      "from_schema": "https://w3id.org/linkml/types",
+      "imported_from": "linkml:types",
+      "broad_mappings": [
+        "schema:Number"
+      ],
+      "base": "Decimal",
+      "uri": "http://www.w3.org/2001/XMLSchema#decimal",
+      "@type": "TypeDefinition"
+    },
+    {
+      "name": "time",
+      "definition_uri": "https://w3id.org/linkml/Time",
+      "description": "A time object represents a (local) time of day, independent of any particular day",
+      "notes": [
+        "URI is dateTime because OWL reasoners do not work with straight date or time"
+      ],
+      "from_schema": "https://w3id.org/linkml/types",
+      "imported_from": "linkml:types",
+      "exact_mappings": [
+        "schema:Time"
+      ],
+      "base": "XSDTime",
+      "uri": "http://www.w3.org/2001/XMLSchema#time",
+      "repr": "str",
+      "@type": "TypeDefinition"
+    },
+    {
+      "name": "date",
+      "definition_uri": "https://w3id.org/linkml/Date",
+      "description": "a date (year, month and day) in an idealized calendar",
+      "notes": [
+        "URI is dateTime because OWL reasoners don't work with straight date or time"
+      ],
+      "from_schema": "https://w3id.org/linkml/types",
+      "imported_from": "linkml:types",
+      "exact_mappings": [
+        "schema:Date"
+      ],
+      "base": "XSDDate",
+      "uri": "http://www.w3.org/2001/XMLSchema#date",
+      "repr": "str",
+      "@type": "TypeDefinition"
+    },
+    {
+      "name": "datetime",
+      "definition_uri": "https://w3id.org/linkml/Datetime",
+      "description": "The combination of a date and time",
+      "from_schema": "https://w3id.org/linkml/types",
+      "imported_from": "linkml:types",
+      "exact_mappings": [
+        "schema:DateTime"
+      ],
+      "base": "XSDDateTime",
+      "uri": "http://www.w3.org/2001/XMLSchema#dateTime",
+      "repr": "str",
+      "@type": "TypeDefinition"
+    },
+    {
+      "name": "date_or_datetime",
+      "definition_uri": "https://w3id.org/linkml/DateOrDatetime",
+      "description": "Either a date or a datetime",
+      "from_schema": "https://w3id.org/linkml/types",
+      "imported_from": "linkml:types",
+      "base": "str",
+      "uri": "https://w3id.org/linkml/DateOrDatetime",
+      "repr": "str",
+      "@type": "TypeDefinition"
+    },
+    {
+      "name": "uriorcurie",
+      "definition_uri": "https://w3id.org/linkml/Uriorcurie",
+      "description": "a URI or a CURIE",
+      "from_schema": "https://w3id.org/linkml/types",
+      "imported_from": "linkml:types",
+      "base": "URIorCURIE",
+      "uri": "http://www.w3.org/2001/XMLSchema#anyURI",
+      "repr": "str",
+      "@type": "TypeDefinition"
+    },
+    {
+      "name": "curie",
+      "definition_uri": "https://w3id.org/linkml/Curie",
+      "conforms_to": "https://www.w3.org/TR/curie/",
+      "description": "a compact URI",
+      "comments": [
+        "in RDF serializations this MUST be expanded to a URI",
+        "in non-RDF serializations MAY be serialized as the compact representation"
+      ],
+      "from_schema": "https://w3id.org/linkml/types",
+      "imported_from": "linkml:types",
+      "base": "Curie",
+      "uri": "http://www.w3.org/2001/XMLSchema#string",
+      "repr": "str",
+      "@type": "TypeDefinition"
+    },
+    {
+      "name": "uri",
+      "definition_uri": "https://w3id.org/linkml/Uri",
+      "conforms_to": "https://www.ietf.org/rfc/rfc3987.txt",
+      "description": "a complete URI",
+      "comments": [
+        "in RDF serializations a slot with range of uri is treated as a literal or type xsd:anyURI unless it is an identifier or a reference to an identifier, in which case it is translated directly to a node"
+      ],
+      "from_schema": "https://w3id.org/linkml/types",
+      "imported_from": "linkml:types",
+      "close_mappings": [
+        "schema:URL"
+      ],
+      "base": "URI",
+      "uri": "http://www.w3.org/2001/XMLSchema#anyURI",
+      "repr": "str",
+      "@type": "TypeDefinition"
+    },
+    {
+      "name": "ncname",
+      "definition_uri": "https://w3id.org/linkml/Ncname",
+      "description": "Prefix part of CURIE",
+      "from_schema": "https://w3id.org/linkml/types",
+      "imported_from": "linkml:types",
+      "base": "NCName",
+      "uri": "http://www.w3.org/2001/XMLSchema#string",
+      "repr": "str",
+      "@type": "TypeDefinition"
+    },
+    {
+      "name": "objectidentifier",
+      "definition_uri": "https://w3id.org/linkml/Objectidentifier",
+      "description": "A URI or CURIE that represents an object in the model.",
+      "comments": [
+        "Used for inheritance and type checking"
+      ],
+      "from_schema": "https://w3id.org/linkml/types",
+      "imported_from": "linkml:types",
+      "base": "ElementIdentifier",
+      "uri": "http://www.w3.org/ns/shex#iri",
+      "repr": "str",
+      "@type": "TypeDefinition"
+    },
+    {
+      "name": "nodeidentifier",
+      "definition_uri": "https://w3id.org/linkml/Nodeidentifier",
+      "description": "A URI, CURIE or BNODE that represents a node in a model.",
+      "from_schema": "https://w3id.org/linkml/types",
+      "imported_from": "linkml:types",
+      "base": "NodeIdentifier",
+      "uri": "http://www.w3.org/ns/shex#nonLiteral",
+      "repr": "str",
+      "@type": "TypeDefinition"
+    },
+    {
+      "name": "jsonpointer",
+      "definition_uri": "https://w3id.org/linkml/Jsonpointer",
+      "conforms_to": "https://datatracker.ietf.org/doc/html/rfc6901",
+      "description": "A string encoding a JSON Pointer. The value of the string MUST conform to JSON Point syntax and SHOULD dereference to a valid object within the current instance document when encoded in tree form.",
+      "from_schema": "https://w3id.org/linkml/types",
+      "imported_from": "linkml:types",
+      "base": "str",
+      "uri": "http://www.w3.org/2001/XMLSchema#string",
+      "repr": "str",
+      "@type": "TypeDefinition"
+    },
+    {
+      "name": "jsonpath",
+      "definition_uri": "https://w3id.org/linkml/Jsonpath",
+      "conforms_to": "https://www.ietf.org/archive/id/draft-goessner-dispatch-jsonpath-00.html",
+      "description": "A string encoding a JSON Path. The value of the string MUST conform to JSON Point syntax and SHOULD dereference to zero or more valid objects within the current instance document when encoded in tree form.",
+      "from_schema": "https://w3id.org/linkml/types",
+      "imported_from": "linkml:types",
+      "base": "str",
+      "uri": "http://www.w3.org/2001/XMLSchema#string",
+      "repr": "str",
+      "@type": "TypeDefinition"
+    },
+    {
+      "name": "sparqlpath",
+      "definition_uri": "https://w3id.org/linkml/Sparqlpath",
+      "conforms_to": "https://www.w3.org/TR/sparql11-query/#propertypaths",
+      "description": "A string encoding a SPARQL Property Path. The value of the string MUST conform to SPARQL syntax and SHOULD dereference to zero or more valid objects within the current instance document when encoded as RDF.",
+      "from_schema": "https://w3id.org/linkml/types",
+      "imported_from": "linkml:types",
+      "base": "str",
+      "uri": "http://www.w3.org/2001/XMLSchema#string",
+      "repr": "str",
+      "@type": "TypeDefinition"
+    }
+  ],
+  "enums": [
+    {
+      "name": "NullDataOptions",
+      "definition_uri": "http://w3id.org/ontogpt/core/NullDataOptions",
+      "from_schema": "http://w3id.org/ontogpt/core",
+      "permissible_values": [
+        {
+          "text": "UNSPECIFIED_METHOD_OF_ADMINISTRATION",
+          "meaning": "NCIT:C149701"
+        },
+        {
+          "text": "NOT_APPLICABLE",
+          "meaning": "NCIT:C18902",
+          "aliases": [
+            "not applicable",
+            "N/A"
+          ]
+        },
+        {
+          "text": "NOT_MENTIONED"
+        }
+      ]
+    }
+  ],
+  "slots": [
+    {
+      "name": "study__location",
+      "annotations": [
+        {
+          "tag": "prompt",
+          "value": "semicolon-separated list of sites at which the study was conducted. give specific place names. if you cannot find a specific place name leave the field as empty.",
+          "@type": "Annotation"
+        }
+      ],
+      "description": "the sites at which the study was conducted",
+      "from_schema": "http://w3id.org/ontogpt/environmental-sample",
+      "slot_uri": "http://w3id.org/ontogpt/environmental-sample/location",
+      "multivalued": true,
+      "alias": "location",
+      "owner": "Study",
+      "domain_of": [
+        "Study"
+      ],
+      "range": "Location",
+      "@type": "SlotDefinition"
+    },
+    {
+      "name": "study__environmental_material",
+      "annotations": [
+        {
+          "tag": "prompt",
+          "value": "semicolon-separated list of environmental materials",
+          "@type": "Annotation"
+        }
+      ],
+      "description": "the environmental material that was sampled",
+      "from_schema": "http://w3id.org/ontogpt/environmental-sample",
+      "slot_uri": "http://w3id.org/ontogpt/environmental-sample/environmental_material",
+      "multivalued": true,
+      "alias": "environmental_material",
+      "owner": "Study",
+      "domain_of": [
+        "Study"
+      ],
+      "range": "EnvironmentalMaterial",
+      "@type": "SlotDefinition"
+    },
+    {
+      "name": "study__environments",
+      "annotations": [
+        {
+          "tag": "prompt",
+          "value": "semicolon-separated list of environment terms for the location in which the study was conducted",
+          "@type": "Annotation"
+        }
+      ],
+      "from_schema": "http://w3id.org/ontogpt/environmental-sample",
+      "slot_uri": "http://w3id.org/ontogpt/environmental-sample/environments",
+      "multivalued": true,
+      "alias": "environments",
+      "owner": "Study",
+      "domain_of": [
+        "Study"
+      ],
+      "range": "Environment",
+      "@type": "SlotDefinition"
+    },
+    {
+      "name": "study__causal_relationships",
+      "annotations": [
+        {
+          "tag": "prompt",
+          "value": "semicolon-separated list of cause-effect pairs, for example, effect of temperature on growth",
+          "@type": "Annotation"
+        }
+      ],
+      "from_schema": "http://w3id.org/ontogpt/environmental-sample",
+      "slot_uri": "http://w3id.org/ontogpt/environmental-sample/causal_relationships",
+      "multivalued": true,
+      "alias": "causal_relationships",
+      "owner": "Study",
+      "domain_of": [
+        "Study"
+      ],
+      "range": "CausalRelationship",
+      "inlined": true,
+      "@type": "SlotDefinition"
+    },
+    {
+      "name": "study__variables",
+      "annotations": [
+        {
+          "tag": "prompt",
+          "value": "semicolon-separated list of study variables",
+          "@type": "Annotation"
+        }
+      ],
+      "from_schema": "http://w3id.org/ontogpt/environmental-sample",
+      "slot_uri": "http://w3id.org/ontogpt/environmental-sample/variables",
+      "multivalued": true,
+      "alias": "variables",
+      "owner": "Study",
+      "domain_of": [
+        "Study"
+      ],
+      "range": "Variable",
+      "@type": "SlotDefinition"
+    },
+    {
+      "name": "study__measurements",
+      "annotations": [
+        {
+          "tag": "prompt",
+          "value": "semicolon-separated list of value-measurement pairs",
+          "@type": "Annotation"
+        }
+      ],
+      "from_schema": "http://w3id.org/ontogpt/environmental-sample",
+      "slot_uri": "http://w3id.org/ontogpt/environmental-sample/measurements",
+      "multivalued": true,
+      "alias": "measurements",
+      "owner": "Study",
+      "domain_of": [
+        "Study"
+      ],
+      "range": "Measurement",
+      "inlined": true,
+      "@type": "SlotDefinition"
+    },
+    {
+      "name": "measurement__value",
+      "description": "the value of the measurement",
+      "from_schema": "http://w3id.org/ontogpt/environmental-sample",
+      "slot_uri": "http://w3id.org/ontogpt/environmental-sample/value",
+      "alias": "value",
+      "owner": "Measurement",
+      "domain_of": [
+        "Measurement"
+      ],
+      "range": "string",
+      "@type": "SlotDefinition"
+    },
+    {
+      "name": "measurement__unit",
+      "description": "the unit of the measurement",
+      "from_schema": "http://w3id.org/ontogpt/environmental-sample",
+      "slot_uri": "http://w3id.org/ontogpt/environmental-sample/unit",
+      "alias": "unit",
+      "owner": "Measurement",
+      "domain_of": [
+        "Measurement"
+      ],
+      "range": "Unit",
+      "@type": "SlotDefinition"
+    },
+    {
+      "name": "causalRelationship__cause",
+      "description": "the variable that is the cause of the effect",
+      "from_schema": "http://w3id.org/ontogpt/environmental-sample",
+      "slot_uri": "http://w3id.org/ontogpt/environmental-sample/cause",
+      "alias": "cause",
+      "owner": "CausalRelationship",
+      "domain_of": [
+        "CausalRelationship"
+      ],
+      "range": "Variable",
+      "@type": "SlotDefinition"
+    },
+    {
+      "name": "causalRelationship__effect",
+      "description": "the things that is affected",
+      "from_schema": "http://w3id.org/ontogpt/environmental-sample",
+      "slot_uri": "http://w3id.org/ontogpt/environmental-sample/effect",
+      "alias": "effect",
+      "owner": "CausalRelationship",
+      "domain_of": [
+        "CausalRelationship"
+      ],
+      "range": "Variable",
+      "@type": "SlotDefinition"
+    },
+    {
+      "name": "extractionResult__input_id",
+      "from_schema": "http://w3id.org/ontogpt/core",
+      "slot_uri": "http://w3id.org/ontogpt/core/input_id",
+      "alias": "input_id",
+      "owner": "ExtractionResult",
+      "domain_of": [
+        "ExtractionResult"
+      ],
+      "range": "string",
+      "@type": "SlotDefinition"
+    },
+    {
+      "name": "extractionResult__input_title",
+      "from_schema": "http://w3id.org/ontogpt/core",
+      "slot_uri": "http://w3id.org/ontogpt/core/input_title",
+      "alias": "input_title",
+      "owner": "ExtractionResult",
+      "domain_of": [
+        "ExtractionResult"
+      ],
+      "range": "string",
+      "@type": "SlotDefinition"
+    },
+    {
+      "name": "extractionResult__input_text",
+      "from_schema": "http://w3id.org/ontogpt/core",
+      "slot_uri": "http://w3id.org/ontogpt/core/input_text",
+      "alias": "input_text",
+      "owner": "ExtractionResult",
+      "domain_of": [
+        "ExtractionResult"
+      ],
+      "range": "string",
+      "@type": "SlotDefinition"
+    },
+    {
+      "name": "extractionResult__raw_completion_output",
+      "from_schema": "http://w3id.org/ontogpt/core",
+      "slot_uri": "http://w3id.org/ontogpt/core/raw_completion_output",
+      "alias": "raw_completion_output",
+      "owner": "ExtractionResult",
+      "domain_of": [
+        "ExtractionResult"
+      ],
+      "range": "string",
+      "@type": "SlotDefinition"
+    },
+    {
+      "name": "extractionResult__prompt",
+      "from_schema": "http://w3id.org/ontogpt/core",
+      "slot_uri": "http://w3id.org/ontogpt/core/prompt",
+      "alias": "prompt",
+      "owner": "ExtractionResult",
+      "domain_of": [
+        "ExtractionResult"
+      ],
+      "range": "string",
+      "@type": "SlotDefinition"
+    },
+    {
+      "name": "extractionResult__extracted_object",
+      "description": "The complex objects extracted from the text",
+      "from_schema": "http://w3id.org/ontogpt/core",
+      "slot_uri": "http://w3id.org/ontogpt/core/extracted_object",
+      "alias": "extracted_object",
+      "owner": "ExtractionResult",
+      "domain_of": [
+        "ExtractionResult"
+      ],
+      "range": "Any",
+      "inlined": true,
+      "@type": "SlotDefinition"
+    },
+    {
+      "name": "extractionResult__named_entities",
+      "description": "Named entities extracted from the text",
+      "from_schema": "http://w3id.org/ontogpt/core",
+      "slot_uri": "http://w3id.org/ontogpt/core/named_entities",
+      "multivalued": true,
+      "alias": "named_entities",
+      "owner": "ExtractionResult",
+      "domain_of": [
+        "ExtractionResult"
+      ],
+      "range": "Any",
+      "inlined": true,
+      "inlined_as_list": true,
+      "@type": "SlotDefinition"
+    },
+    {
+      "name": "namedEntity__id",
+      "annotations": [
+        {
+          "tag": "prompt.skip",
+          "value": "true",
+          "@type": "Annotation"
+        }
+      ],
+      "description": "A unique identifier for the named entity",
+      "comments": [
+        "this is populated during the grounding and normalization step"
+      ],
+      "from_schema": "http://w3id.org/ontogpt/core",
+      "slot_uri": "http://w3id.org/ontogpt/core/id",
+      "identifier": true,
+      "alias": "id",
+      "owner": "NamedEntity",
+      "domain_of": [
+        "NamedEntity"
+      ],
+      "range": "string",
+      "required": true,
+      "@type": "SlotDefinition"
+    },
+    {
+      "name": "namedEntity__label",
+      "annotations": [
+        {
+          "tag": "owl",
+          "value": "AnnotationProperty, AnnotationAssertion",
+          "@type": "Annotation"
+        }
+      ],
+      "description": "The label (name) of the named thing",
+      "from_schema": "http://w3id.org/ontogpt/core",
+      "aliases": [
+        "name"
+      ],
+      "mappings": [
+        "http://example.org/UNKNOWN/rdfs/label"
+      ],
+      "slot_uri": "http://example.org/UNKNOWN/rdfs/label",
+      "alias": "label",
+      "owner": "NamedEntity",
+      "domain_of": [
+        "NamedEntity"
+      ],
+      "range": "string",
+      "@type": "SlotDefinition"
+    },
+    {
+      "name": "triple__subject",
+      "from_schema": "http://w3id.org/ontogpt/core",
+      "slot_uri": "http://w3id.org/ontogpt/core/subject",
+      "alias": "subject",
+      "owner": "Triple",
+      "domain_of": [
+        "Triple"
+      ],
+      "range": "NamedEntity",
+      "@type": "SlotDefinition"
+    },
+    {
+      "name": "triple__predicate",
+      "from_schema": "http://w3id.org/ontogpt/core",
+      "slot_uri": "http://w3id.org/ontogpt/core/predicate",
+      "alias": "predicate",
+      "owner": "Triple",
+      "domain_of": [
+        "Triple"
+      ],
+      "range": "RelationshipType",
+      "@type": "SlotDefinition"
+    },
+    {
+      "name": "triple__object",
+      "from_schema": "http://w3id.org/ontogpt/core",
+      "slot_uri": "http://w3id.org/ontogpt/core/object",
+      "alias": "object",
+      "owner": "Triple",
+      "domain_of": [
+        "Triple"
+      ],
+      "range": "NamedEntity",
+      "@type": "SlotDefinition"
+    },
+    {
+      "name": "triple__qualifier",
+      "description": "A qualifier for the statements, e.g. \"NOT\" for negation",
+      "from_schema": "http://w3id.org/ontogpt/core",
+      "slot_uri": "http://w3id.org/ontogpt/core/qualifier",
+      "alias": "qualifier",
+      "owner": "Triple",
+      "domain_of": [
+        "Triple"
+      ],
+      "range": "string",
+      "@type": "SlotDefinition"
+    },
+    {
+      "name": "triple__subject_qualifier",
+      "description": "An optional qualifier or modifier for the subject of the statement, e.g. \"high dose\" or \"intravenously administered\"",
+      "from_schema": "http://w3id.org/ontogpt/core",
+      "slot_uri": "http://w3id.org/ontogpt/core/subject_qualifier",
+      "alias": "subject_qualifier",
+      "owner": "Triple",
+      "domain_of": [
+        "Triple"
+      ],
+      "range": "NamedEntity",
+      "@type": "SlotDefinition"
+    },
+    {
+      "name": "triple__object_qualifier",
+      "description": "An optional qualifier or modifier for the object of the statement, e.g. \"severe\" or \"with additional complications\"",
+      "from_schema": "http://w3id.org/ontogpt/core",
+      "slot_uri": "http://w3id.org/ontogpt/core/object_qualifier",
+      "alias": "object_qualifier",
+      "owner": "Triple",
+      "domain_of": [
+        "Triple"
+      ],
+      "range": "NamedEntity",
+      "@type": "SlotDefinition"
+    },
+    {
+      "name": "textWithTriples__publication",
+      "annotations": [
+        {
+          "tag": "prompt.skip",
+          "value": "true",
+          "@type": "Annotation"
+        }
+      ],
+      "from_schema": "http://w3id.org/ontogpt/core",
+      "slot_uri": "http://w3id.org/ontogpt/core/publication",
+      "alias": "publication",
+      "owner": "TextWithTriples",
+      "domain_of": [
+        "TextWithTriples"
+      ],
+      "range": "Publication",
+      "inlined": true,
+      "@type": "SlotDefinition"
+    },
+    {
+      "name": "textWithTriples__triples",
+      "from_schema": "http://w3id.org/ontogpt/core",
+      "slot_uri": "http://w3id.org/ontogpt/core/triples",
+      "multivalued": true,
+      "alias": "triples",
+      "owner": "TextWithTriples",
+      "domain_of": [
+        "TextWithTriples"
+      ],
+      "range": "Triple",
+      "inlined": true,
+      "inlined_as_list": true,
+      "@type": "SlotDefinition"
+    },
+    {
+      "name": "publication__id",
+      "description": "The publication identifier",
+      "from_schema": "http://w3id.org/ontogpt/core",
+      "slot_uri": "http://w3id.org/ontogpt/core/id",
+      "alias": "id",
+      "owner": "Publication",
+      "domain_of": [
+        "Publication"
+      ],
+      "range": "string",
+      "@type": "SlotDefinition"
+    },
+    {
+      "name": "publication__title",
+      "description": "The title of the publication",
+      "from_schema": "http://w3id.org/ontogpt/core",
+      "slot_uri": "http://w3id.org/ontogpt/core/title",
+      "alias": "title",
+      "owner": "Publication",
+      "domain_of": [
+        "Publication"
+      ],
+      "range": "string",
+      "@type": "SlotDefinition"
+    },
+    {
+      "name": "publication__abstract",
+      "description": "The abstract of the publication",
+      "from_schema": "http://w3id.org/ontogpt/core",
+      "slot_uri": "http://w3id.org/ontogpt/core/abstract",
+      "alias": "abstract",
+      "owner": "Publication",
+      "domain_of": [
+        "Publication"
+      ],
+      "range": "string",
+      "@type": "SlotDefinition"
+    },
+    {
+      "name": "publication__combined_text",
+      "from_schema": "http://w3id.org/ontogpt/core",
+      "slot_uri": "http://w3id.org/ontogpt/core/combined_text",
+      "alias": "combined_text",
+      "owner": "Publication",
+      "domain_of": [
+        "Publication"
+      ],
+      "range": "string",
+      "@type": "SlotDefinition"
+    },
+    {
+      "name": "publication__full_text",
+      "description": "The full text of the publication",
+      "from_schema": "http://w3id.org/ontogpt/core",
+      "slot_uri": "http://w3id.org/ontogpt/core/full_text",
+      "alias": "full_text",
+      "owner": "Publication",
+      "domain_of": [
+        "Publication"
+      ],
+      "range": "string",
+      "@type": "SlotDefinition"
+    },
+    {
+      "name": "annotatorResult__subject_text",
+      "from_schema": "http://w3id.org/ontogpt/core",
+      "slot_uri": "http://w3id.org/ontogpt/core/subject_text",
+      "alias": "subject_text",
+      "owner": "AnnotatorResult",
+      "domain_of": [
+        "AnnotatorResult"
+      ],
+      "range": "string",
+      "@type": "SlotDefinition"
+    },
+    {
+      "name": "annotatorResult__object_id",
+      "from_schema": "http://w3id.org/ontogpt/core",
+      "slot_uri": "http://w3id.org/ontogpt/core/object_id",
+      "alias": "object_id",
+      "owner": "AnnotatorResult",
+      "domain_of": [
+        "AnnotatorResult"
+      ],
+      "range": "string",
+      "@type": "SlotDefinition"
+    },
+    {
+      "name": "annotatorResult__object_text",
+      "from_schema": "http://w3id.org/ontogpt/core",
+      "slot_uri": "http://w3id.org/ontogpt/core/object_text",
+      "alias": "object_text",
+      "owner": "AnnotatorResult",
+      "domain_of": [
+        "AnnotatorResult"
+      ],
+      "range": "string",
+      "@type": "SlotDefinition"
+    }
+  ],
+  "classes": [
+    {
+      "name": "Study",
+      "definition_uri": "http://w3id.org/ontogpt/environmental-sample/Study",
+      "from_schema": "http://w3id.org/ontogpt/environmental-sample",
+      "slots": [
+        "study__location",
+        "study__environmental_material",
+        "study__environments",
+        "study__causal_relationships",
+        "study__variables",
+        "study__measurements"
+      ],
+      "slot_usage": {},
+      "attributes": [
+        {
+          "name": "location",
+          "annotations": [
+            {
+              "tag": "prompt",
+              "value": "semicolon-separated list of sites at which the study was conducted. give specific place names. if you cannot find a specific place name leave the field as empty.",
+              "@type": "Annotation"
+            }
+          ],
+          "description": "the sites at which the study was conducted",
+          "multivalued": true,
+          "range": "Location",
+          "@type": "SlotDefinition"
+        },
+        {
+          "name": "environmental_material",
+          "annotations": [
+            {
+              "tag": "prompt",
+              "value": "semicolon-separated list of environmental materials",
+              "@type": "Annotation"
+            }
+          ],
+          "description": "the environmental material that was sampled",
+          "multivalued": true,
+          "range": "EnvironmentalMaterial",
+          "@type": "SlotDefinition"
+        },
+        {
+          "name": "environments",
+          "annotations": [
+            {
+              "tag": "prompt",
+              "value": "semicolon-separated list of environment terms for the location in which the study was conducted",
+              "@type": "Annotation"
+            }
+          ],
+          "multivalued": true,
+          "range": "Environment",
+          "@type": "SlotDefinition"
+        },
+        {
+          "name": "causal_relationships",
+          "annotations": [
+            {
+              "tag": "prompt",
+              "value": "semicolon-separated list of cause-effect pairs, for example, effect of temperature on growth",
+              "@type": "Annotation"
+            }
+          ],
+          "multivalued": true,
+          "range": "CausalRelationship",
+          "@type": "SlotDefinition"
+        },
+        {
+          "name": "variables",
+          "annotations": [
+            {
+              "tag": "prompt",
+              "value": "semicolon-separated list of study variables",
+              "@type": "Annotation"
+            }
+          ],
+          "multivalued": true,
+          "range": "Variable",
+          "@type": "SlotDefinition"
+        },
+        {
+          "name": "measurements",
+          "annotations": [
+            {
+              "tag": "prompt",
+              "value": "semicolon-separated list of value-measurement pairs",
+              "@type": "Annotation"
+            }
+          ],
+          "multivalued": true,
+          "range": "Measurement",
+          "@type": "SlotDefinition"
+        }
+      ],
+      "class_uri": "http://w3id.org/ontogpt/environmental-sample/Study",
+      "tree_root": true,
+      "@type": "ClassDefinition"
+    },
+    {
+      "name": "Location",
+      "id_prefixes": [
+        "ENVO",
+        "GAZ",
+        "ENVTHES"
+      ],
+      "definition_uri": "http://w3id.org/ontogpt/environmental-sample/Location",
+      "annotations": [
+        {
+          "tag": "annotators",
+          "value": "sqlite:obo:envo, bioportal:gaz, bioportal:envthes",
+          "@type": "Annotation"
+        }
+      ],
+      "from_schema": "http://w3id.org/ontogpt/environmental-sample",
+      "is_a": "NamedEntity",
+      "slots": [
+        "namedEntity__id",
+        "namedEntity__label"
+      ],
+      "slot_usage": {},
+      "class_uri": "http://w3id.org/ontogpt/environmental-sample/Location",
+      "@type": "ClassDefinition"
+    },
+    {
+      "name": "EnvironmentalMaterial",
+      "id_prefixes": [
+        "ENVO",
+        "ENVTHES"
+      ],
+      "definition_uri": "http://w3id.org/ontogpt/environmental-sample/EnvironmentalMaterial",
+      "annotations": [
+        {
+          "tag": "annotators",
+          "value": "sqlite:obo:envo, bioportal:envthes",
+          "@type": "Annotation"
+        }
+      ],
+      "from_schema": "http://w3id.org/ontogpt/environmental-sample",
+      "is_a": "NamedEntity",
+      "slots": [
+        "namedEntity__id",
+        "namedEntity__label"
+      ],
+      "slot_usage": {},
+      "class_uri": "http://w3id.org/ontogpt/environmental-sample/EnvironmentalMaterial",
+      "@type": "ClassDefinition"
+    },
+    {
+      "name": "Environment",
+      "id_prefixes": [
+        "ENVO",
+        "ENVTHES"
+      ],
+      "definition_uri": "http://w3id.org/ontogpt/environmental-sample/Environment",
+      "annotations": [
+        {
+          "tag": "annotators",
+          "value": "sqlite:obo:envo, bioportal:envthes",
+          "@type": "Annotation"
+        }
+      ],
+      "from_schema": "http://w3id.org/ontogpt/environmental-sample",
+      "is_a": "NamedEntity",
+      "slots": [
+        "namedEntity__id",
+        "namedEntity__label"
+      ],
+      "slot_usage": {},
+      "class_uri": "http://w3id.org/ontogpt/environmental-sample/Environment",
+      "@type": "ClassDefinition"
+    },
+    {
+      "name": "Variable",
+      "id_prefixes": [
+        "ENVO",
+        "MIXS",
+        "PATO",
+        "ENVTHES"
+      ],
+      "definition_uri": "http://w3id.org/ontogpt/environmental-sample/Variable",
+      "annotations": [
+        {
+          "tag": "annotators",
+          "value": "sqlite:obo:envo, bioportal:bero, bioportal:envthes",
+          "@type": "Annotation"
+        }
+      ],
+      "from_schema": "http://w3id.org/ontogpt/environmental-sample",
+      "is_a": "NamedEntity",
+      "slots": [
+        "namedEntity__id",
+        "namedEntity__label"
+      ],
+      "slot_usage": {},
+      "class_uri": "http://w3id.org/ontogpt/environmental-sample/Variable",
+      "@type": "ClassDefinition"
+    },
+    {
+      "name": "Unit",
+      "id_prefixes": [
+        "UO",
+        "NCIT"
+      ],
+      "definition_uri": "http://w3id.org/ontogpt/environmental-sample/Unit",
+      "annotations": [
+        {
+          "tag": "annotators",
+          "value": "sqlite:obo:uo, bioportal:ncit",
+          "@type": "Annotation"
+        }
+      ],
+      "from_schema": "http://w3id.org/ontogpt/environmental-sample",
+      "is_a": "NamedEntity",
+      "slots": [
+        "namedEntity__id",
+        "namedEntity__label"
+      ],
+      "slot_usage": {},
+      "class_uri": "http://w3id.org/ontogpt/environmental-sample/Unit",
+      "@type": "ClassDefinition"
+    },
+    {
+      "name": "Measurement",
+      "definition_uri": "http://w3id.org/ontogpt/environmental-sample/Measurement",
+      "from_schema": "http://w3id.org/ontogpt/environmental-sample",
+      "is_a": "CompoundExpression",
+      "slots": [
+        "measurement__value",
+        "measurement__unit"
+      ],
+      "slot_usage": {},
+      "attributes": [
+        {
+          "name": "value",
+          "description": "the value of the measurement",
+          "@type": "SlotDefinition"
+        },
+        {
+          "name": "unit",
+          "description": "the unit of the measurement",
+          "range": "Unit",
+          "@type": "SlotDefinition"
+        }
+      ],
+      "class_uri": "http://w3id.org/ontogpt/environmental-sample/Measurement",
+      "@type": "ClassDefinition"
+    },
+    {
+      "name": "CausalRelationship",
+      "definition_uri": "http://w3id.org/ontogpt/environmental-sample/CausalRelationship",
+      "from_schema": "http://w3id.org/ontogpt/environmental-sample",
+      "is_a": "CompoundExpression",
+      "slots": [
+        "causalRelationship__cause",
+        "causalRelationship__effect"
+      ],
+      "slot_usage": {},
+      "attributes": [
+        {
+          "name": "cause",
+          "description": "the variable that is the cause of the effect",
+          "range": "Variable",
+          "@type": "SlotDefinition"
+        },
+        {
+          "name": "effect",
+          "description": "the things that is affected",
+          "range": "Variable",
+          "@type": "SlotDefinition"
+        }
+      ],
+      "class_uri": "http://w3id.org/ontogpt/environmental-sample/CausalRelationship",
+      "@type": "ClassDefinition"
+    },
+    {
+      "name": "Any",
+      "definition_uri": "http://w3id.org/ontogpt/core/Any",
+      "from_schema": "http://w3id.org/ontogpt/core",
+      "mappings": [
+        "linkml:Any"
+      ],
+      "slot_usage": {},
+      "class_uri": "https://w3id.org/linkml/Any",
+      "@type": "ClassDefinition"
+    },
+    {
+      "name": "ExtractionResult",
+      "definition_uri": "http://w3id.org/ontogpt/core/ExtractionResult",
+      "description": "A result of extracting knowledge on text",
+      "from_schema": "http://w3id.org/ontogpt/core",
+      "slots": [
+        "extractionResult__input_id",
+        "extractionResult__input_title",
+        "extractionResult__input_text",
+        "extractionResult__raw_completion_output",
+        "extractionResult__prompt",
+        "extractionResult__extracted_object",
+        "extractionResult__named_entities"
+      ],
+      "slot_usage": {},
+      "attributes": [
+        {
+          "name": "input_id",
+          "@type": "SlotDefinition"
+        },
+        {
+          "name": "input_title",
+          "@type": "SlotDefinition"
+        },
+        {
+          "name": "input_text",
+          "@type": "SlotDefinition"
+        },
+        {
+          "name": "raw_completion_output",
+          "@type": "SlotDefinition"
+        },
+        {
+          "name": "prompt",
+          "@type": "SlotDefinition"
+        },
+        {
+          "name": "extracted_object",
+          "description": "The complex objects extracted from the text",
+          "range": "Any",
+          "inlined": true,
+          "@type": "SlotDefinition"
+        },
+        {
+          "name": "named_entities",
+          "description": "Named entities extracted from the text",
+          "multivalued": true,
+          "range": "Any",
+          "inlined": true,
+          "inlined_as_list": true,
+          "@type": "SlotDefinition"
+        }
+      ],
+      "class_uri": "http://w3id.org/ontogpt/core/ExtractionResult",
+      "@type": "ClassDefinition"
+    },
+    {
+      "name": "NamedEntity",
+      "definition_uri": "http://w3id.org/ontogpt/core/NamedEntity",
+      "from_schema": "http://w3id.org/ontogpt/core",
+      "abstract": true,
+      "slots": [
+        "namedEntity__id",
+        "namedEntity__label"
+      ],
+      "slot_usage": {},
+      "attributes": [
+        {
+          "name": "id",
+          "annotations": [
+            {
+              "tag": "prompt.skip",
+              "value": "true",
+              "@type": "Annotation"
+            }
+          ],
+          "description": "A unique identifier for the named entity",
+          "comments": [
+            "this is populated during the grounding and normalization step"
+          ],
+          "identifier": true,
+          "@type": "SlotDefinition"
+        },
+        {
+          "name": "label",
+          "annotations": [
+            {
+              "tag": "owl",
+              "value": "AnnotationProperty, AnnotationAssertion",
+              "@type": "Annotation"
+            }
+          ],
+          "description": "The label (name) of the named thing",
+          "aliases": [
+            "name"
+          ],
+          "slot_uri": "rdfs:label",
+          "range": "string",
+          "@type": "SlotDefinition"
+        }
+      ],
+      "class_uri": "http://w3id.org/ontogpt/core/NamedEntity",
+      "@type": "ClassDefinition"
+    },
+    {
+      "name": "CompoundExpression",
+      "definition_uri": "http://w3id.org/ontogpt/core/CompoundExpression",
+      "from_schema": "http://w3id.org/ontogpt/core",
+      "abstract": true,
+      "slot_usage": {},
+      "class_uri": "http://w3id.org/ontogpt/core/CompoundExpression",
+      "@type": "ClassDefinition"
+    },
+    {
+      "name": "Triple",
+      "definition_uri": "http://w3id.org/ontogpt/core/Triple",
+      "description": "Abstract parent for Relation Extraction tasks",
+      "from_schema": "http://w3id.org/ontogpt/core",
+      "is_a": "CompoundExpression",
+      "abstract": true,
+      "slots": [
+        "triple__subject",
+        "triple__predicate",
+        "triple__object",
+        "triple__qualifier",
+        "triple__subject_qualifier",
+        "triple__object_qualifier"
+      ],
+      "slot_usage": {},
+      "attributes": [
+        {
+          "name": "subject",
+          "range": "NamedEntity",
+          "@type": "SlotDefinition"
+        },
+        {
+          "name": "predicate",
+          "range": "RelationshipType",
+          "@type": "SlotDefinition"
+        },
+        {
+          "name": "object",
+          "range": "NamedEntity",
+          "@type": "SlotDefinition"
+        },
+        {
+          "name": "qualifier",
+          "description": "A qualifier for the statements, e.g. \"NOT\" for negation",
+          "range": "string",
+          "@type": "SlotDefinition"
+        },
+        {
+          "name": "subject_qualifier",
+          "description": "An optional qualifier or modifier for the subject of the statement, e.g. \"high dose\" or \"intravenously administered\"",
+          "range": "NamedEntity",
+          "@type": "SlotDefinition"
+        },
+        {
+          "name": "object_qualifier",
+          "description": "An optional qualifier or modifier for the object of the statement, e.g. \"severe\" or \"with additional complications\"",
+          "range": "NamedEntity",
+          "@type": "SlotDefinition"
+        }
+      ],
+      "class_uri": "http://w3id.org/ontogpt/core/Triple",
+      "@type": "ClassDefinition"
+    },
+    {
+      "name": "TextWithTriples",
+      "definition_uri": "http://w3id.org/ontogpt/core/TextWithTriples",
+      "from_schema": "http://w3id.org/ontogpt/core",
+      "slots": [
+        "textWithTriples__publication",
+        "textWithTriples__triples"
+      ],
+      "slot_usage": {},
+      "attributes": [
+        {
+          "name": "publication",
+          "annotations": [
+            {
+              "tag": "prompt.skip",
+              "value": "true",
+              "@type": "Annotation"
+            }
+          ],
+          "range": "Publication",
+          "inlined": true,
+          "@type": "SlotDefinition"
+        },
+        {
+          "name": "triples",
+          "multivalued": true,
+          "range": "Triple",
+          "inlined": true,
+          "inlined_as_list": true,
+          "@type": "SlotDefinition"
+        }
+      ],
+      "class_uri": "http://w3id.org/ontogpt/core/TextWithTriples",
+      "@type": "ClassDefinition"
+    },
+    {
+      "name": "RelationshipType",
+      "id_prefixes": [
+        "RO",
+        "biolink"
+      ],
+      "definition_uri": "http://w3id.org/ontogpt/core/RelationshipType",
+      "from_schema": "http://w3id.org/ontogpt/core",
+      "is_a": "NamedEntity",
+      "slots": [
+        "namedEntity__id",
+        "namedEntity__label"
+      ],
+      "slot_usage": {},
+      "class_uri": "http://w3id.org/ontogpt/core/RelationshipType",
+      "@type": "ClassDefinition"
+    },
+    {
+      "name": "Publication",
+      "definition_uri": "http://w3id.org/ontogpt/core/Publication",
+      "from_schema": "http://w3id.org/ontogpt/core",
+      "slots": [
+        "publication__id",
+        "publication__title",
+        "publication__abstract",
+        "publication__combined_text",
+        "publication__full_text"
+      ],
+      "slot_usage": {},
+      "attributes": [
+        {
+          "name": "id",
+          "description": "The publication identifier",
+          "@type": "SlotDefinition"
+        },
+        {
+          "name": "title",
+          "description": "The title of the publication",
+          "@type": "SlotDefinition"
+        },
+        {
+          "name": "abstract",
+          "description": "The abstract of the publication",
+          "@type": "SlotDefinition"
+        },
+        {
+          "name": "combined_text",
+          "@type": "SlotDefinition"
+        },
+        {
+          "name": "full_text",
+          "description": "The full text of the publication",
+          "@type": "SlotDefinition"
+        }
+      ],
+      "class_uri": "http://w3id.org/ontogpt/core/Publication",
+      "@type": "ClassDefinition"
+    },
+    {
+      "name": "AnnotatorResult",
+      "definition_uri": "http://w3id.org/ontogpt/core/AnnotatorResult",
+      "from_schema": "http://w3id.org/ontogpt/core",
+      "slots": [
+        "annotatorResult__subject_text",
+        "annotatorResult__object_id",
+        "annotatorResult__object_text"
+      ],
+      "slot_usage": {},
+      "attributes": [
+        {
+          "name": "subject_text",
+          "@type": "SlotDefinition"
+        },
+        {
+          "name": "object_id",
+          "@type": "SlotDefinition"
+        },
+        {
+          "name": "object_text",
+          "@type": "SlotDefinition"
+        }
+      ],
+      "class_uri": "http://w3id.org/ontogpt/core/AnnotatorResult",
+      "@type": "ClassDefinition"
+    }
+  ],
+  "metamodel_version": "1.7.0",
+  "source_file": "environmental_sample.yaml",
+  "source_file_date": "2023-06-17T15:11:19",
+  "source_file_size": 3147,
+  "generation_date": "2023-08-07T10:53:10",
+  "@type": "SchemaDefinition",
+  "@context": [
+    "projects/environmental_sample/jsonld/environmental_sample.context.jsonld",
+    "https://w3id.org/linkml/types.context.jsonld",
+    "core.context.jsonld",
+    {
+      "@base": "http://w3id.org/ontogpt/environmental-sample/"
+    }
+  ]
+}

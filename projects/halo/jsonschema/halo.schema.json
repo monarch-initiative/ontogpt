@@ -1,0 +1,293 @@
+{
+    "$defs": {
+        "AnnotatorResult": {
+            "additionalProperties": false,
+            "description": "",
+            "properties": {
+                "object_id": {
+                    "type": "string"
+                },
+                "object_text": {
+                    "type": "string"
+                },
+                "subject_text": {
+                    "type": "string"
+                }
+            },
+            "title": "AnnotatorResult",
+            "type": "object"
+        },
+        "Any": {
+            "additionalProperties": true,
+            "description": "",
+            "title": "Any",
+            "type": "object"
+        },
+        "Category": {
+            "additionalProperties": false,
+            "description": "",
+            "properties": {
+                "categories": {
+                    "description": "a list of the categories to which this entity belongs",
+                    "items": {
+                        "type": "string"
+                    },
+                    "type": "array"
+                },
+                "context": {
+                    "description": "the ontology to which this belongs (single-valued)",
+                    "type": "string"
+                },
+                "description": {
+                    "description": "a textual description of the entity (single-valued)",
+                    "type": "string"
+                },
+                "equivalent_to": {
+                    "description": "an OWL class expression with the necessary and sufficient conditions for this entity to be an instance of this class",
+                    "type": "string"
+                },
+                "name": {
+                    "description": "the name of the entity",
+                    "type": "string"
+                },
+                "part_of": {
+                    "description": "a list of things this element is part of",
+                    "items": {
+                        "type": "string"
+                    },
+                    "type": "array"
+                },
+                "parts": {
+                    "description": "a list of names of things this element has as parts (components)",
+                    "items": {
+                        "type": "string"
+                    },
+                    "type": "array"
+                },
+                "subclass_of": {
+                    "description": "a list of parent class (superclasses) of this entity",
+                    "items": {
+                        "type": "string"
+                    },
+                    "type": "array"
+                },
+                "subtypes": {
+                    "description": "a list of child classes (subclasses) of this entity",
+                    "items": {
+                        "type": "string"
+                    },
+                    "type": "array"
+                },
+                "synonyms": {
+                    "description": "a list of alternative names of the entity",
+                    "items": {
+                        "type": "string"
+                    },
+                    "type": "array"
+                }
+            },
+            "required": [
+                "name"
+            ],
+            "title": "Category",
+            "type": "object"
+        },
+        "ExtractionResult": {
+            "additionalProperties": false,
+            "description": "A result of extracting knowledge on text",
+            "properties": {
+                "extracted_object": {
+                    "$ref": "#/$defs/Any",
+                    "description": "The complex objects extracted from the text"
+                },
+                "input_id": {
+                    "type": "string"
+                },
+                "input_text": {
+                    "type": "string"
+                },
+                "input_title": {
+                    "type": "string"
+                },
+                "named_entities": {
+                    "description": "Named entities extracted from the text",
+                    "items": {
+                        "$ref": "#/$defs/Any"
+                    },
+                    "type": "array"
+                },
+                "prompt": {
+                    "type": "string"
+                },
+                "raw_completion_output": {
+                    "type": "string"
+                }
+            },
+            "title": "ExtractionResult",
+            "type": "object"
+        },
+        "NullDataOptions": {
+            "description": "",
+            "enum": [
+                "UNSPECIFIED_METHOD_OF_ADMINISTRATION",
+                "NOT_APPLICABLE",
+                "NOT_MENTIONED"
+            ],
+            "title": "NullDataOptions",
+            "type": "string"
+        },
+        "Ontology": {
+            "additionalProperties": false,
+            "description": "",
+            "properties": {
+                "elements": {
+                    "items": {
+                        "$ref": "#/$defs/OntologyElement"
+                    },
+                    "type": "array"
+                }
+            },
+            "title": "Ontology",
+            "type": "object"
+        },
+        "OntologyElement": {
+            "additionalProperties": false,
+            "description": "",
+            "properties": {
+                "categories": {
+                    "description": "a list of the categories to which this entity belongs",
+                    "items": {
+                        "type": "string"
+                    },
+                    "type": "array"
+                },
+                "context": {
+                    "description": "the ontology to which this belongs (single-valued)",
+                    "type": "string"
+                },
+                "description": {
+                    "description": "a textual description of the entity (single-valued)",
+                    "type": "string"
+                },
+                "equivalent_to": {
+                    "description": "an OWL class expression with the necessary and sufficient conditions for this entity to be an instance of this class",
+                    "type": "string"
+                },
+                "name": {
+                    "description": "the name of the entity",
+                    "type": "string"
+                },
+                "part_of": {
+                    "description": "a list of things this element is part of",
+                    "items": {
+                        "type": "string"
+                    },
+                    "type": "array"
+                },
+                "parts": {
+                    "description": "a list of names of things this element has as parts (components)",
+                    "items": {
+                        "type": "string"
+                    },
+                    "type": "array"
+                },
+                "subclass_of": {
+                    "description": "a list of parent class (superclasses) of this entity",
+                    "items": {
+                        "type": "string"
+                    },
+                    "type": "array"
+                },
+                "subtypes": {
+                    "description": "a list of child classes (subclasses) of this entity",
+                    "items": {
+                        "type": "string"
+                    },
+                    "type": "array"
+                },
+                "synonyms": {
+                    "description": "a list of alternative names of the entity",
+                    "items": {
+                        "type": "string"
+                    },
+                    "type": "array"
+                }
+            },
+            "required": [
+                "name"
+            ],
+            "title": "OntologyElement",
+            "type": "object"
+        },
+        "Publication": {
+            "additionalProperties": false,
+            "description": "",
+            "properties": {
+                "abstract": {
+                    "description": "The abstract of the publication",
+                    "type": "string"
+                },
+                "combined_text": {
+                    "type": "string"
+                },
+                "full_text": {
+                    "description": "The full text of the publication",
+                    "type": "string"
+                },
+                "id": {
+                    "description": "The publication identifier",
+                    "type": "string"
+                },
+                "title": {
+                    "description": "The title of the publication",
+                    "type": "string"
+                }
+            },
+            "title": "Publication",
+            "type": "object"
+        },
+        "RelationshipType": {
+            "additionalProperties": false,
+            "description": "",
+            "properties": {
+                "id": {
+                    "description": "A unique identifier for the named entity",
+                    "type": "string"
+                },
+                "label": {
+                    "description": "The label (name) of the named thing",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "id"
+            ],
+            "title": "RelationshipType",
+            "type": "object"
+        },
+        "TextWithTriples": {
+            "additionalProperties": false,
+            "description": "",
+            "properties": {
+                "publication": {
+                    "$ref": "#/$defs/Publication"
+                },
+                "triples": {
+                    "items": {
+                        "$ref": "#/$defs/Triple"
+                    },
+                    "type": "array"
+                }
+            },
+            "title": "TextWithTriples",
+            "type": "object"
+        }
+    },
+    "$id": "https://w3id.org/ontogpt/halo",
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "additionalProperties": true,
+    "metamodel_version": "1.7.0",
+    "title": "ontology-class",
+    "type": "object",
+    "version": null
+}
