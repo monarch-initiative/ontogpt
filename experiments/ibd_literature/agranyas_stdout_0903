@@ -1,0 +1,40 @@
+INFO:root:Logger root set to level 10
+INFO:root:Creating for ibd_literature
+INFO:ontogpt.engines.knowledge_engine:Loading schema for ibd_literature
+INFO:root:Importing core as core from source /Users/agranyaketha/Documents/GitHub/ontogpt/src/ontogpt/templates/ibd_literature.yaml; base_dir=/Users/agranyaketha/Documents/GitHub/ontogpt/src/ontogpt/templates
+INFO:root:Importing linkml:types as /Users/agranyaketha/opt/anaconda3/envs/ontogpt/lib/python3.10/site-packages/linkml_runtime/linkml_model/model/schema/types from source /Users/agranyaketha/Documents/GitHub/ontogpt/src/ontogpt/templates/ibd_literature.yaml; base_dir=None
+Traceback (most recent call last):
+  File "/Users/agranyaketha/opt/anaconda3/envs/ontogpt/bin/ontogpt", line 6, in <module>
+    sys.exit(main())
+  File "/Users/agranyaketha/opt/anaconda3/envs/ontogpt/lib/python3.10/site-packages/click/core.py", line 1157, in __call__
+    return self.main(*args, **kwargs)
+  File "/Users/agranyaketha/opt/anaconda3/envs/ontogpt/lib/python3.10/site-packages/click/core.py", line 1078, in main
+    rv = self.invoke(ctx)
+  File "/Users/agranyaketha/opt/anaconda3/envs/ontogpt/lib/python3.10/site-packages/click/core.py", line 1688, in invoke
+    return _process_result(sub_ctx.command.invoke(sub_ctx))
+  File "/Users/agranyaketha/opt/anaconda3/envs/ontogpt/lib/python3.10/site-packages/click/core.py", line 1434, in invoke
+    return ctx.invoke(self.callback, **ctx.params)
+  File "/Users/agranyaketha/opt/anaconda3/envs/ontogpt/lib/python3.10/site-packages/click/core.py", line 783, in invoke
+    return __callback(*args, **kwargs)
+  File "/Users/agranyaketha/Documents/GitHub/ontogpt/src/ontogpt/cli.py", line 510, in pubmed_annotate
+    ke = SPIRESEngine(template, **kwargs)
+  File "<string>", line 23, in __init__
+  File "/Users/agranyaketha/Documents/GitHub/ontogpt/src/ontogpt/engines/knowledge_engine.py", line 155, in __post_init__
+    self.template_class = self._get_template_class(self.template)
+  File "/Users/agranyaketha/Documents/GitHub/ontogpt/src/ontogpt/engines/knowledge_engine.py", line 247, in _get_template_class
+    mod = importlib.import_module(f"ontogpt.templates.{module_name}")
+  File "/Users/agranyaketha/opt/anaconda3/envs/ontogpt/lib/python3.10/importlib/__init__.py", line 126, in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+  File "<frozen importlib._bootstrap>", line 1050, in _gcd_import
+  File "<frozen importlib._bootstrap>", line 1027, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 1006, in _find_and_load_unlocked
+  File "<frozen importlib._bootstrap>", line 688, in _load_unlocked
+  File "<frozen importlib._bootstrap_external>", line 883, in exec_module
+  File "<frozen importlib._bootstrap>", line 241, in _call_with_frames_removed
+  File "/Users/agranyaketha/Documents/GitHub/ontogpt/src/ontogpt/templates/ibd_literature.py", line 19, in <module>
+    class ConfiguredBaseModel(WeakRefShimBaseModel,
+  File "/Users/agranyaketha/opt/anaconda3/envs/ontogpt/lib/python3.10/site-packages/pydantic/_internal/_model_construction.py", line 123, in __new__
+    cls: type[BaseModel] = super().__new__(mcs, cls_name, bases, namespace, **kwargs)  # type: ignore
+  File "/Users/agranyaketha/opt/anaconda3/envs/ontogpt/lib/python3.10/abc.py", line 106, in __new__
+    cls = super().__new__(mcls, name, bases, namespace, **kwargs)
+TypeError: ConfiguredBaseModel.__init_subclass__() takes no keyword arguments
