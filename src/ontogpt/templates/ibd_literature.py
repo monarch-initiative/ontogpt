@@ -68,6 +68,18 @@ class Gene(NamedEntity):
     label: Optional[str] = Field(None, description="""The label (name) of the named thing""")
     
 
+class ChemicalExposure(NamedEntity):
+    
+    id: str = Field(..., description="""A unique identifier for the named entity""")
+    label: Optional[str] = Field(None, description="""The label (name) of the named thing""")
+    
+
+class ChemicalExposureToGenePredicate(NamedEntity):
+    
+    id: str = Field(..., description="""A unique identifier for the named entity""")
+    label: Optional[str] = Field(None, description="""The label (name) of the named thing""")
+    
+
 class Disease(NamedEntity):
     
     id: str = Field(..., description="""A unique identifier for the named entity""")
@@ -80,7 +92,7 @@ class CellularProcess(NamedEntity):
     label: Optional[str] = Field(None, description="""The label (name) of the named thing""")
     
 
-class ChemicalExposure(NamedEntity):
+class DiseaseToCellularProcessPredicate(NamedEntity):
     
     id: str = Field(..., description="""A unique identifier for the named entity""")
     label: Optional[str] = Field(None, description="""The label (name) of the named thing""")
@@ -89,6 +101,24 @@ class ChemicalExposure(NamedEntity):
 class CompoundExpression(ConfiguredBaseModel):
     
     None
+    
+
+class GeneExposureRelationship(CompoundExpression):
+    
+    subject: Optional[str] = Field(None, description="""The name of the exposure, such as a exposure to a chemical toxin.""")
+    predicate: Optional[str] = Field(None, description="""The name of the type of relationship between a chemical exposure and a gene.""")
+    object: Optional[str] = Field(None, description="""The name of the gene in the pair. This comes second in the pair.""")
+    subject_qualifier: Optional[str] = Field(None, description="""An optional qualifier or modifier for the chemical exposure.""")
+    object_qualifier: Optional[str] = Field(None, description="""An optional qualifier or modifier for the gene.""")
+    
+
+class DiseaseCellularProcessRelationship(CompoundExpression):
+    
+    subject: Optional[str] = Field(None, description="""The name of the disease.""")
+    predicate: Optional[str] = Field(None, description="""The name of the type of relationship between a disease and a cellular process.""")
+    object: Optional[str] = Field(None, description="""The name of the cellular process.""")
+    subject_qualifier: Optional[str] = Field(None)
+    object_qualifier: Optional[str] = Field(None)
     
 
 class Triple(CompoundExpression):
@@ -103,26 +133,6 @@ class Triple(CompoundExpression):
     object_qualifier: Optional[str] = Field(None, description="""An optional qualifier or modifier for the object of the statement, e.g. \"severe\" or \"with additional complications\"""")
     
 
-class DiseaseCellularProcessRelationship(Triple):
-    
-    subject: Optional[str] = Field(None, description="""The name of the disease.""")
-    predicate: Optional[str] = Field(None, description="""The name of the type of relationship between a disease and a cellular process.""")
-    object: Optional[str] = Field(None, description="""The name of the cellular process.""")
-    qualifier: Optional[str] = Field(None, description="""A qualifier for the statements, e.g. \"NOT\" for negation""")
-    subject_qualifier: Optional[str] = Field(None, description="""An optional qualifier or modifier for the subject of the statement, e.g. \"high dose\" or \"intravenously administered\"""")
-    object_qualifier: Optional[str] = Field(None, description="""An optional qualifier or modifier for the object of the statement, e.g. \"severe\" or \"with additional complications\"""")
-    
-
-class GeneExposureRelationship(Triple):
-    
-    subject: Optional[str] = Field(None, description="""The name of the exposure, such as a exposure to a chemical toxin.""")
-    predicate: Optional[str] = Field(None, description="""The name of the type of relationship between a chemical exposure and a gene.""")
-    object: Optional[str] = Field(None, description="""The name of the gene in the pair. This comes second in the pair.""")
-    qualifier: Optional[str] = Field(None, description="""A qualifier for the statements, e.g. \"NOT\" for negation""")
-    subject_qualifier: Optional[str] = Field(None, description="""An optional qualifier or modifier for the chemical exposure.""")
-    object_qualifier: Optional[str] = Field(None, description="""An optional qualifier or modifier for the gene.""")
-    
-
 class TextWithTriples(ConfiguredBaseModel):
     
     publication: Optional[Publication] = Field(None)
@@ -130,18 +140,6 @@ class TextWithTriples(ConfiguredBaseModel):
     
 
 class RelationshipType(NamedEntity):
-    
-    id: str = Field(..., description="""A unique identifier for the named entity""")
-    label: Optional[str] = Field(None, description="""The label (name) of the named thing""")
-    
-
-class DiseaseToCellularProcessPredicate(RelationshipType):
-    
-    id: str = Field(..., description="""A unique identifier for the named entity""")
-    label: Optional[str] = Field(None, description="""The label (name) of the named thing""")
-    
-
-class ChemicalExposureToGenePredicate(RelationshipType):
     
     id: str = Field(..., description="""A unique identifier for the named entity""")
     label: Optional[str] = Field(None, description="""The label (name) of the named thing""")
@@ -170,17 +168,17 @@ IBDAnnotations.model_rebuild()
 ExtractionResult.model_rebuild()
 NamedEntity.model_rebuild()
 Gene.model_rebuild()
+ChemicalExposure.model_rebuild()
+ChemicalExposureToGenePredicate.model_rebuild()
 Disease.model_rebuild()
 CellularProcess.model_rebuild()
-ChemicalExposure.model_rebuild()
+DiseaseToCellularProcessPredicate.model_rebuild()
 CompoundExpression.model_rebuild()
-Triple.model_rebuild()
-DiseaseCellularProcessRelationship.model_rebuild()
 GeneExposureRelationship.model_rebuild()
+DiseaseCellularProcessRelationship.model_rebuild()
+Triple.model_rebuild()
 TextWithTriples.model_rebuild()
 RelationshipType.model_rebuild()
-DiseaseToCellularProcessPredicate.model_rebuild()
-ChemicalExposureToGenePredicate.model_rebuild()
 Publication.model_rebuild()
 AnnotatorResult.model_rebuild()
     
