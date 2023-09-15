@@ -1,0 +1,28 @@
+// configuration for search
+message ClassEnrichmentConfiguration
+ {
+  float pValueCutoff = 0
+ }
+// A single enrichment result
+message ClassEnrichmentResult
+ {
+  uriorcurie classId = 0
+  string classLabel = 0
+  integer rank = 0
+  float pValue = 0
+  float pValueAdjusted = 0
+  float falseDiscoveryRate = 0
+  float foldEnrichment = 0
+  float probability = 0
+  integer sampleCount = 0
+  integer sampleTotal = 0
+  integer backgroundCount = 0
+  integer backgroundTotal = 0
+  boolean ancestorOfMoreInformativeResult = 0
+  boolean descendantOfMoreInformativeResult = 0
+ }
+// A collection of enrichemt results
+message ClassEnrichmentResultSet
+ {
+ repeated  classEnrichmentResult results = 0
+ }

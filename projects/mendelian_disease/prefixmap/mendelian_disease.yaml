@@ -1,0 +1,38 @@
+{
+   "HGNC": "http://example.org/UNKNOWN/HGNC/",
+   "HP": "http://example.org/UNKNOWN/HP/",
+   "MONDO": "http://example.org/UNKNOWN/MONDO/",
+   "RO": "http://purl.obolibrary.org/obo/RO_",
+   "biolink": "http://example.org/UNKNOWN/biolink/",
+   "core": "http://w3id.org/ontogpt/core/",
+   "linkml": "https://w3id.org/linkml/",
+   "mendelian_disease": "http://w3id.org/ontogpt/mendelian_disease/",
+   "rdfs": "http://example.org/UNKNOWN/rdfs/",
+   "AnnotatorResult": {
+      "@id": "core:AnnotatorResult"
+   },
+   "Any": {
+      "@id": "linkml:Any"
+   },
+   "CompoundExpression": {
+      "@id": "core:CompoundExpression"
+   },
+   "ExtractionResult": {
+      "@id": "core:ExtractionResult"
+   },
+   "NamedEntity": {
+      "@id": "core:NamedEntity"
+   },
+   "Publication": {
+      "@id": "core:Publication"
+   },
+   "RelationshipType": {
+      "@id": "core:RelationshipType"
+   },
+   "TextWithTriples": {
+      "@id": "core:TextWithTriples"
+   },
+   "Triple": {
+      "@id": "core:Triple"
+   }
+}

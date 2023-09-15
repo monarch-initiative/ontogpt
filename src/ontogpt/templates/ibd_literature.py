@@ -38,6 +38,9 @@ class IBDAnnotations(ConfiguredBaseModel):
     genes: Optional[List[str]] = Field(default_factory=list, description="""semicolon-separated list of genes""")
     exposures: Optional[List[str]] = Field(default_factory=list, description="""semicolon-separated list of exposures""")
     gene_exposures_relationships: Optional[List[GeneExposureRelationship]] = Field(default_factory=list, description="""semicolon-separated list of gene to molecular activity relationships""")
+    diseases: Optional[List[str]] = Field(default_factory=list, description="""semicolon-separated list of diseases""")
+    cellular_process: Optional[List[str]] = Field(default_factory=list, description="""semicolon-separated list of cellular processes""")
+    disease_cellular_process_relationships: Optional[List[DiseaseCellularProcessRelationship]] = Field(default_factory=list, description="""semicolon-separated list of disease to cellular process relationships""")
     
 
 class ExtractionResult(ConfiguredBaseModel):
@@ -71,6 +74,30 @@ class ChemicalExposure(NamedEntity):
     label: Optional[str] = Field(None, description="""The label (name) of the named thing""")
     
 
+class ChemicalExposureToGenePredicate(NamedEntity):
+    
+    id: str = Field(..., description="""A unique identifier for the named entity""")
+    label: Optional[str] = Field(None, description="""The label (name) of the named thing""")
+    
+
+class Disease(NamedEntity):
+    
+    id: str = Field(..., description="""A unique identifier for the named entity""")
+    label: Optional[str] = Field(None, description="""The label (name) of the named thing""")
+    
+
+class CellularProcess(NamedEntity):
+    
+    id: str = Field(..., description="""A unique identifier for the named entity""")
+    label: Optional[str] = Field(None, description="""The label (name) of the named thing""")
+    
+
+class DiseaseToCellularProcessPredicate(NamedEntity):
+    
+    id: str = Field(..., description="""A unique identifier for the named entity""")
+    label: Optional[str] = Field(None, description="""The label (name) of the named thing""")
+    
+
 class CompoundExpression(ConfiguredBaseModel):
     
     None
@@ -78,8 +105,20 @@ class CompoundExpression(ConfiguredBaseModel):
 
 class GeneExposureRelationship(CompoundExpression):
     
-    molecular_activity: Optional[str] = Field(None)
-    gene: Optional[str] = Field(None)
+    subject: Optional[str] = Field(None, description="""The name of the exposure, such as a exposure to a chemical toxin.""")
+    predicate: Optional[str] = Field(None, description="""The name of the type of relationship between a chemical exposure and a gene.""")
+    object: Optional[str] = Field(None, description="""The name of the gene in the pair. This comes second in the pair.""")
+    subject_qualifier: Optional[str] = Field(None, description="""An optional qualifier or modifier for the chemical exposure.""")
+    object_qualifier: Optional[str] = Field(None, description="""An optional qualifier or modifier for the gene.""")
+    
+
+class DiseaseCellularProcessRelationship(CompoundExpression):
+    
+    subject: Optional[str] = Field(None, description="""The name of the disease.""")
+    predicate: Optional[str] = Field(None, description="""The name of the type of relationship between a disease and a cellular process.""")
+    object: Optional[str] = Field(None, description="""The name of the cellular process.""")
+    subject_qualifier: Optional[str] = Field(None)
+    object_qualifier: Optional[str] = Field(None)
     
 
 class Triple(CompoundExpression):
@@ -130,8 +169,13 @@ ExtractionResult.model_rebuild()
 NamedEntity.model_rebuild()
 Gene.model_rebuild()
 ChemicalExposure.model_rebuild()
+ChemicalExposureToGenePredicate.model_rebuild()
+Disease.model_rebuild()
+CellularProcess.model_rebuild()
+DiseaseToCellularProcessPredicate.model_rebuild()
 CompoundExpression.model_rebuild()
 GeneExposureRelationship.model_rebuild()
+DiseaseCellularProcessRelationship.model_rebuild()
 Triple.model_rebuild()
 TextWithTriples.model_rebuild()
 RelationshipType.model_rebuild()

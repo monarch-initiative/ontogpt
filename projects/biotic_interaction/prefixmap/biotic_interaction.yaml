@@ -1,0 +1,43 @@
+{
+   "COL": "https://www.catalogueoflife.org/data/taxon/",
+   "GBIF": "https://www.gbif.org/species/",
+   "ITIS": "https://www.itis.gov/servlet/SingleRpt/SingleRpt?search_topic=TSN&search_value=",
+   "MESH": "http://example.org/UNKNOWN/MESH/",
+   "NCBITaxon": "http://purl.obolibrary.org/obo/NCBITAXON_",
+   "RO": "http://purl.obolibrary.org/obo/RO_",
+   "biolink": "http://example.org/UNKNOWN/biolink/",
+   "bp": "http://w3id.org/ontogpt/biotic-interaction-template",
+   "col": "https://www.catalogueoflife.org/data/taxon/",
+   "core": "http://w3id.org/ontogpt/core/",
+   "gbif": "https://www.gbif.org/species/",
+   "itis": "https://www.itis.gov/servlet/SingleRpt/SingleRpt?search_topic=TSN&search_value=",
+   "linkml": "https://w3id.org/linkml/",
+   "rdfs": "http://example.org/UNKNOWN/rdfs/",
+   "AnnotatorResult": {
+      "@id": "core:AnnotatorResult"
+   },
+   "Any": {
+      "@id": "linkml:Any"
+   },
+   "CompoundExpression": {
+      "@id": "core:CompoundExpression"
+   },
+   "ExtractionResult": {
+      "@id": "core:ExtractionResult"
+   },
+   "NamedEntity": {
+      "@id": "core:NamedEntity"
+   },
+   "Publication": {
+      "@id": "core:Publication"
+   },
+   "RelationshipType": {
+      "@id": "core:RelationshipType"
+   },
+   "TextWithTriples": {
+      "@id": "core:TextWithTriples"
+   },
+   "Triple": {
+      "@id": "core:Triple"
+   }
+}

@@ -1,0 +1,93 @@
+message AnnotatorResult
+ {
+  string subjectText = 0
+  string objectId = 0
+  string objectText = 0
+ }
+message ClinicalAttribute
+ {
+  string id = 0
+  string label = 0
+  unit unit = 0
+ }
+message DiagnosticProcedure
+ {
+  string id = 0
+  string label = 0
+ }
+// A triple representing a relationship between a diagnostic procedure and a measured attribute, e.g., "blood pressure measurement" is associated with "blood pressure" (or in OBA, something like OBA:VT0000183, "blood pressure trait").
+message DiagnosticProceduretoAttributeAssociation
+ {
+  string qualifier = 0
+  diagnosticProcedure subject = 0
+ repeated  clinicalAttribute object = 0
+  procedureToAttributePredicate predicate = 0
+  namedEntity subjectQualifier = 0
+  quality objectQualifier = 0
+ }
+// A triple representing a relationship between a diagnostic procedure and an associated phenotype, e.g., "blood pressure measurement" is associated with "high blood pressure".
+message DiagnosticProceduretoPhenotypeAssociation
+ {
+  string qualifier = 0
+  diagnosticProcedure subject = 0
+ repeated  phenotype object = 0
+  procedureToPhenotypePredicate predicate = 0
+  namedEntity subjectQualifier = 0
+  namedEntity objectQualifier = 0
+ }
+// A result of extracting knowledge on text
+message ExtractionResult
+ {
+  string inputId = 0
+  string inputTitle = 0
+  string inputText = 0
+  string rawCompletionOutput = 0
+  string prompt = 0
+  any extractedObject = 0
+ repeated  any namedEntities = 0
+ }
+message Phenotype
+ {
+  string id = 0
+  string label = 0
+ }
+// A predicate for procedure to attribute relationships, defining "this procedure is a measurement of this attribute".
+message ProcedureToAttributePredicate
+ {
+  string id = 0
+  string label = 0
+ }
+// A predicate for procedure to phenotype relationships, defining "this procedure is intended to provide support for/against this phenotype".
+message ProcedureToPhenotypePredicate
+ {
+  string id = 0
+  string label = 0
+ }
+message Publication
+ {
+  string id = 0
+  string title = 0
+  string abstract = 0
+  string combinedText = 0
+  string fullText = 0
+ }
+message Quality
+ {
+  string id = 0
+  string label = 0
+ }
+message RelationshipType
+ {
+  string id = 0
+  string label = 0
+ }
+message TextWithTriples
+ {
+  publication publication = 0
+ repeated  triple triples = 0
+ }
+message Unit
+ {
+  string id = 0
+  string label = 0
+ }

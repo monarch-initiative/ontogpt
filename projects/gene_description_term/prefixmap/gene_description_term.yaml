@@ -1,0 +1,40 @@
+{
+   "GO": "http://purl.obolibrary.org/obo/GO_",
+   "HGNC": "http://identifiers.org/hgnc/",
+   "MESH": "http://identifiers.org/mesh/",
+   "MONDO": "http://purl.obolibrary.org/obo/MONDO_",
+   "RO": "http://purl.obolibrary.org/obo/RO_",
+   "UBERON": "http://example.org/UNKNOWN/UBERON/",
+   "biolink": "http://example.org/UNKNOWN/biolink/",
+   "bp": "http://w3id.org/ontogpt/biological-process-template",
+   "core": "http://w3id.org/ontogpt/core/",
+   "linkml": "https://w3id.org/linkml/",
+   "rdfs": "http://example.org/UNKNOWN/rdfs/",
+   "AnnotatorResult": {
+      "@id": "core:AnnotatorResult"
+   },
+   "Any": {
+      "@id": "linkml:Any"
+   },
+   "CompoundExpression": {
+      "@id": "core:CompoundExpression"
+   },
+   "ExtractionResult": {
+      "@id": "core:ExtractionResult"
+   },
+   "NamedEntity": {
+      "@id": "core:NamedEntity"
+   },
+   "Publication": {
+      "@id": "core:Publication"
+   },
+   "RelationshipType": {
+      "@id": "core:RelationshipType"
+   },
+   "TextWithTriples": {
+      "@id": "core:TextWithTriples"
+   },
+   "Triple": {
+      "@id": "core:Triple"
+   }
+}

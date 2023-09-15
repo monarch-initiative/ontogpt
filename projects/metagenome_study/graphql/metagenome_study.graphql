@@ -1,0 +1,136 @@
+type AnnotatorResult
+  {
+    subjectText: String
+    objectId: String
+    objectText: String
+  }
+
+type Any
+  {
+  }
+
+type CausalRelationship
+  {
+    cause: Variable
+    effect: Variable
+  }
+
+interface CompoundExpression
+  {
+  }
+
+type Environment
+  {
+    id: String!
+    label: String
+  }
+
+type EnvironmentalMaterial
+  {
+    id: String!
+    label: String
+  }
+
+type ExtractionResult
+  {
+    inputId: String
+    inputTitle: String
+    inputText: String
+    rawCompletionOutput: String
+    prompt: String
+    extractedObject: Any
+    namedEntities: [Any]
+  }
+
+type Location
+  {
+    id: String!
+    label: String
+  }
+
+type Measurement
+  {
+    value: String
+    unit: Unit
+  }
+
+interface NamedEntity
+  {
+    id: String!
+    label: String
+  }
+
+type Organism
+  {
+    id: String!
+    label: String
+  }
+
+type Publication
+  {
+    id: String
+    title: String
+    abstract: String
+    combinedText: String
+    fullText: String
+  }
+
+type RelationshipType
+  {
+    id: String!
+    label: String
+  }
+
+type SequencingTechnology
+  {
+    id: String!
+    label: String
+  }
+
+type Study
+  {
+    environments: [Environment]
+    causalRelationships: [CausalRelationship]
+    variables: [Variable]
+    treatments: [Treatment]
+    measurements: [Measurement]
+    location: [Location]
+    environmentalMaterial: [EnvironmentalMaterial]
+    sequencingTechnologies: SequencingTechnology
+    organisms: [Organism]
+  }
+
+type TextWithTriples
+  {
+    publication: Publication
+    triples: [Triple]
+  }
+
+type Treatment
+  {
+    id: String!
+    label: String
+  }
+
+interface Triple
+  {
+    subject: NamedEntity
+    predicate: RelationshipType
+    object: NamedEntity
+    qualifier: String
+    subjectQualifier: NamedEntity
+    objectQualifier: NamedEntity
+  }
+
+type Unit
+  {
+    id: String!
+    label: String
+  }
+
+type Variable
+  {
+    id: String!
+    label: String
+  }
+

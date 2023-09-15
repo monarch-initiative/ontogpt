@@ -1,0 +1,747 @@
+{
+  "name": "class-enrichment",
+  "description": "A datamodel for representing the results of class enrichment on gene sets",
+  "title": "Class Enrichment Datamodel",
+  "id": "https://w3id.org/oak/class-enrichment",
+  "imports": [
+    "linkml:types"
+  ],
+  "license": "https://creativecommons.org/publicdomain/zero/1.0/",
+  "prefixes": [
+    {
+      "prefix_prefix": "linkml",
+      "prefix_reference": "https://w3id.org/linkml/"
+    },
+    {
+      "prefix_prefix": "ontoenrich",
+      "prefix_reference": "https://w3id.org/oak/class-enrichment/"
+    },
+    {
+      "prefix_prefix": "skos",
+      "prefix_reference": "http://www.w3.org/2004/02/skos/core#"
+    },
+    {
+      "prefix_prefix": "pav",
+      "prefix_reference": "http://purl.org/pav/"
+    },
+    {
+      "prefix_prefix": "schema",
+      "prefix_reference": "http://schema.org/"
+    },
+    {
+      "prefix_prefix": "sh",
+      "prefix_reference": "https://w3id.org/shacl/"
+    },
+    {
+      "prefix_prefix": "prov",
+      "prefix_reference": "http://www.w3.org/ns/prov#"
+    },
+    {
+      "prefix_prefix": "sssom",
+      "prefix_reference": "http://w3id.org/sssom/"
+    },
+    {
+      "prefix_prefix": "bpa",
+      "prefix_reference": "https://bioportal.bioontology.org/annotator/"
+    },
+    {
+      "prefix_prefix": "oa",
+      "prefix_reference": "http://www.w3.org/ns/oa#"
+    },
+    {
+      "prefix_prefix": "STATO",
+      "prefix_reference": "http://purl.obolibrary.org/obo/STATO_"
+    },
+    {
+      "prefix_prefix": "OBI",
+      "prefix_reference": "http://purl.obolibrary.org/obo/OBI_"
+    }
+  ],
+  "emit_prefixes": [
+    "linkml",
+    "rdf",
+    "rdfs",
+    "xsd",
+    "owl"
+  ],
+  "default_curi_maps": [
+    "semweb_context"
+  ],
+  "default_prefix": "ontoenrich",
+  "default_range": "string",
+  "types": [
+    {
+      "name": "Position",
+      "definition_uri": "https://w3id.org/oak/class-enrichment/Position",
+      "from_schema": "https://w3id.org/oak/class-enrichment",
+      "typeof": "integer",
+      "base": "int",
+      "uri": "http://www.w3.org/2001/XMLSchema#integer",
+      "@type": "TypeDefinition"
+    },
+    {
+      "name": "string",
+      "definition_uri": "https://w3id.org/linkml/String",
+      "description": "A character string",
+      "from_schema": "https://w3id.org/linkml/types",
+      "imported_from": "linkml:types",
+      "exact_mappings": [
+        "schema:Text"
+      ],
+      "base": "str",
+      "uri": "http://www.w3.org/2001/XMLSchema#string",
+      "@type": "TypeDefinition"
+    },
+    {
+      "name": "integer",
+      "definition_uri": "https://w3id.org/linkml/Integer",
+      "description": "An integer",
+      "from_schema": "https://w3id.org/linkml/types",
+      "imported_from": "linkml:types",
+      "exact_mappings": [
+        "schema:Integer"
+      ],
+      "base": "int",
+      "uri": "http://www.w3.org/2001/XMLSchema#integer",
+      "@type": "TypeDefinition"
+    },
+    {
+      "name": "boolean",
+      "definition_uri": "https://w3id.org/linkml/Boolean",
+      "description": "A binary (true or false) value",
+      "from_schema": "https://w3id.org/linkml/types",
+      "imported_from": "linkml:types",
+      "exact_mappings": [
+        "schema:Boolean"
+      ],
+      "base": "Bool",
+      "uri": "http://www.w3.org/2001/XMLSchema#boolean",
+      "repr": "bool",
+      "@type": "TypeDefinition"
+    },
+    {
+      "name": "float",
+      "definition_uri": "https://w3id.org/linkml/Float",
+      "description": "A real number that conforms to the xsd:float specification",
+      "from_schema": "https://w3id.org/linkml/types",
+      "imported_from": "linkml:types",
+      "exact_mappings": [
+        "schema:Float"
+      ],
+      "base": "float",
+      "uri": "http://www.w3.org/2001/XMLSchema#float",
+      "@type": "TypeDefinition"
+    },
+    {
+      "name": "double",
+      "definition_uri": "https://w3id.org/linkml/Double",
+      "description": "A real number that conforms to the xsd:double specification",
+      "from_schema": "https://w3id.org/linkml/types",
+      "imported_from": "linkml:types",
+      "close_mappings": [
+        "schema:Float"
+      ],
+      "base": "float",
+      "uri": "http://www.w3.org/2001/XMLSchema#double",
+      "@type": "TypeDefinition"
+    },
+    {
+      "name": "decimal",
+      "definition_uri": "https://w3id.org/linkml/Decimal",
+      "description": "A real number with arbitrary precision that conforms to the xsd:decimal specification",
+      "from_schema": "https://w3id.org/linkml/types",
+      "imported_from": "linkml:types",
+      "broad_mappings": [
+        "schema:Number"
+      ],
+      "base": "Decimal",
+      "uri": "http://www.w3.org/2001/XMLSchema#decimal",
+      "@type": "TypeDefinition"
+    },
+    {
+      "name": "time",
+      "definition_uri": "https://w3id.org/linkml/Time",
+      "description": "A time object represents a (local) time of day, independent of any particular day",
+      "notes": [
+        "URI is dateTime because OWL reasoners do not work with straight date or time"
+      ],
+      "from_schema": "https://w3id.org/linkml/types",
+      "imported_from": "linkml:types",
+      "exact_mappings": [
+        "schema:Time"
+      ],
+      "base": "XSDTime",
+      "uri": "http://www.w3.org/2001/XMLSchema#time",
+      "repr": "str",
+      "@type": "TypeDefinition"
+    },
+    {
+      "name": "date",
+      "definition_uri": "https://w3id.org/linkml/Date",
+      "description": "a date (year, month and day) in an idealized calendar",
+      "notes": [
+        "URI is dateTime because OWL reasoners don't work with straight date or time"
+      ],
+      "from_schema": "https://w3id.org/linkml/types",
+      "imported_from": "linkml:types",
+      "exact_mappings": [
+        "schema:Date"
+      ],
+      "base": "XSDDate",
+      "uri": "http://www.w3.org/2001/XMLSchema#date",
+      "repr": "str",
+      "@type": "TypeDefinition"
+    },
+    {
+      "name": "datetime",
+      "definition_uri": "https://w3id.org/linkml/Datetime",
+      "description": "The combination of a date and time",
+      "from_schema": "https://w3id.org/linkml/types",
+      "imported_from": "linkml:types",
+      "exact_mappings": [
+        "schema:DateTime"
+      ],
+      "base": "XSDDateTime",
+      "uri": "http://www.w3.org/2001/XMLSchema#dateTime",
+      "repr": "str",
+      "@type": "TypeDefinition"
+    },
+    {
+      "name": "date_or_datetime",
+      "definition_uri": "https://w3id.org/linkml/DateOrDatetime",
+      "description": "Either a date or a datetime",
+      "from_schema": "https://w3id.org/linkml/types",
+      "imported_from": "linkml:types",
+      "base": "str",
+      "uri": "https://w3id.org/linkml/DateOrDatetime",
+      "repr": "str",
+      "@type": "TypeDefinition"
+    },
+    {
+      "name": "uriorcurie",
+      "definition_uri": "https://w3id.org/linkml/Uriorcurie",
+      "description": "a URI or a CURIE",
+      "from_schema": "https://w3id.org/linkml/types",
+      "imported_from": "linkml:types",
+      "base": "URIorCURIE",
+      "uri": "http://www.w3.org/2001/XMLSchema#anyURI",
+      "repr": "str",
+      "@type": "TypeDefinition"
+    },
+    {
+      "name": "curie",
+      "definition_uri": "https://w3id.org/linkml/Curie",
+      "conforms_to": "https://www.w3.org/TR/curie/",
+      "description": "a compact URI",
+      "comments": [
+        "in RDF serializations this MUST be expanded to a URI",
+        "in non-RDF serializations MAY be serialized as the compact representation"
+      ],
+      "from_schema": "https://w3id.org/linkml/types",
+      "imported_from": "linkml:types",
+      "base": "Curie",
+      "uri": "http://www.w3.org/2001/XMLSchema#string",
+      "repr": "str",
+      "@type": "TypeDefinition"
+    },
+    {
+      "name": "uri",
+      "definition_uri": "https://w3id.org/linkml/Uri",
+      "conforms_to": "https://www.ietf.org/rfc/rfc3987.txt",
+      "description": "a complete URI",
+      "comments": [
+        "in RDF serializations a slot with range of uri is treated as a literal or type xsd:anyURI unless it is an identifier or a reference to an identifier, in which case it is translated directly to a node"
+      ],
+      "from_schema": "https://w3id.org/linkml/types",
+      "imported_from": "linkml:types",
+      "close_mappings": [
+        "schema:URL"
+      ],
+      "base": "URI",
+      "uri": "http://www.w3.org/2001/XMLSchema#anyURI",
+      "repr": "str",
+      "@type": "TypeDefinition"
+    },
+    {
+      "name": "ncname",
+      "definition_uri": "https://w3id.org/linkml/Ncname",
+      "description": "Prefix part of CURIE",
+      "from_schema": "https://w3id.org/linkml/types",
+      "imported_from": "linkml:types",
+      "base": "NCName",
+      "uri": "http://www.w3.org/2001/XMLSchema#string",
+      "repr": "str",
+      "@type": "TypeDefinition"
+    },
+    {
+      "name": "objectidentifier",
+      "definition_uri": "https://w3id.org/linkml/Objectidentifier",
+      "description": "A URI or CURIE that represents an object in the model.",
+      "comments": [
+        "Used for inheritance and type checking"
+      ],
+      "from_schema": "https://w3id.org/linkml/types",
+      "imported_from": "linkml:types",
+      "base": "ElementIdentifier",
+      "uri": "http://www.w3.org/ns/shex#iri",
+      "repr": "str",
+      "@type": "TypeDefinition"
+    },
+    {
+      "name": "nodeidentifier",
+      "definition_uri": "https://w3id.org/linkml/Nodeidentifier",
+      "description": "A URI, CURIE or BNODE that represents a node in a model.",
+      "from_schema": "https://w3id.org/linkml/types",
+      "imported_from": "linkml:types",
+      "base": "NodeIdentifier",
+      "uri": "http://www.w3.org/ns/shex#nonLiteral",
+      "repr": "str",
+      "@type": "TypeDefinition"
+    },
+    {
+      "name": "jsonpointer",
+      "definition_uri": "https://w3id.org/linkml/Jsonpointer",
+      "conforms_to": "https://datatracker.ietf.org/doc/html/rfc6901",
+      "description": "A string encoding a JSON Pointer. The value of the string MUST conform to JSON Point syntax and SHOULD dereference to a valid object within the current instance document when encoded in tree form.",
+      "from_schema": "https://w3id.org/linkml/types",
+      "imported_from": "linkml:types",
+      "base": "str",
+      "uri": "http://www.w3.org/2001/XMLSchema#string",
+      "repr": "str",
+      "@type": "TypeDefinition"
+    },
+    {
+      "name": "jsonpath",
+      "definition_uri": "https://w3id.org/linkml/Jsonpath",
+      "conforms_to": "https://www.ietf.org/archive/id/draft-goessner-dispatch-jsonpath-00.html",
+      "description": "A string encoding a JSON Path. The value of the string MUST conform to JSON Point syntax and SHOULD dereference to zero or more valid objects within the current instance document when encoded in tree form.",
+      "from_schema": "https://w3id.org/linkml/types",
+      "imported_from": "linkml:types",
+      "base": "str",
+      "uri": "http://www.w3.org/2001/XMLSchema#string",
+      "repr": "str",
+      "@type": "TypeDefinition"
+    },
+    {
+      "name": "sparqlpath",
+      "definition_uri": "https://w3id.org/linkml/Sparqlpath",
+      "conforms_to": "https://www.w3.org/TR/sparql11-query/#propertypaths",
+      "description": "A string encoding a SPARQL Property Path. The value of the string MUST conform to SPARQL syntax and SHOULD dereference to zero or more valid objects within the current instance document when encoded as RDF.",
+      "from_schema": "https://w3id.org/linkml/types",
+      "imported_from": "linkml:types",
+      "base": "str",
+      "uri": "http://www.w3.org/2001/XMLSchema#string",
+      "repr": "str",
+      "@type": "TypeDefinition"
+    }
+  ],
+  "enums": [
+    {
+      "name": "SortFieldEnum",
+      "definition_uri": "https://w3id.org/oak/class-enrichment/SortFieldEnum",
+      "description": "The field to sort by",
+      "from_schema": "https://w3id.org/oak/class-enrichment",
+      "permissible_values": [
+        {
+          "text": "ANY"
+        },
+        {
+          "text": "P_VALUE"
+        }
+      ]
+    }
+  ],
+  "slots": [
+    {
+      "name": "classEnrichmentConfiguration__p_value_cutoff",
+      "description": "p-value cutoff for enrichment",
+      "from_schema": "https://w3id.org/oak/class-enrichment",
+      "slot_uri": "https://w3id.org/oak/class-enrichment/p_value_cutoff",
+      "alias": "p_value_cutoff",
+      "owner": "ClassEnrichmentConfiguration",
+      "domain_of": [
+        "ClassEnrichmentConfiguration"
+      ],
+      "range": "float",
+      "required": true,
+      "@type": "SlotDefinition"
+    },
+    {
+      "name": "classEnrichmentResultSet__results",
+      "description": "The enrichment results",
+      "from_schema": "https://w3id.org/oak/class-enrichment",
+      "slot_uri": "https://w3id.org/oak/class-enrichment/results",
+      "multivalued": true,
+      "alias": "results",
+      "owner": "ClassEnrichmentResultSet",
+      "domain_of": [
+        "ClassEnrichmentResultSet"
+      ],
+      "range": "ClassEnrichmentResult",
+      "inlined": true,
+      "@type": "SlotDefinition"
+    },
+    {
+      "name": "classEnrichmentResult__class_id",
+      "description": "The class id",
+      "from_schema": "https://w3id.org/oak/class-enrichment",
+      "slot_uri": "https://w3id.org/oak/class-enrichment/class_id",
+      "alias": "class_id",
+      "owner": "ClassEnrichmentResult",
+      "domain_of": [
+        "ClassEnrichmentResult"
+      ],
+      "range": "uriorcurie",
+      "required": true,
+      "@type": "SlotDefinition"
+    },
+    {
+      "name": "classEnrichmentResult__class_label",
+      "description": "The class label",
+      "from_schema": "https://w3id.org/oak/class-enrichment",
+      "slot_uri": "https://w3id.org/oak/class-enrichment/class_label",
+      "alias": "class_label",
+      "owner": "ClassEnrichmentResult",
+      "domain_of": [
+        "ClassEnrichmentResult"
+      ],
+      "range": "string",
+      "@type": "SlotDefinition"
+    },
+    {
+      "name": "classEnrichmentResult__rank",
+      "description": "The rank of this result",
+      "from_schema": "https://w3id.org/oak/class-enrichment",
+      "slot_uri": "https://w3id.org/oak/class-enrichment/rank",
+      "alias": "rank",
+      "owner": "ClassEnrichmentResult",
+      "domain_of": [
+        "ClassEnrichmentResult"
+      ],
+      "range": "integer",
+      "@type": "SlotDefinition"
+    },
+    {
+      "name": "classEnrichmentResult__p_value",
+      "description": "The p-value",
+      "from_schema": "https://w3id.org/oak/class-enrichment",
+      "mappings": [
+        "http://purl.obolibrary.org/obo/OBI_0000175"
+      ],
+      "slot_uri": "http://purl.obolibrary.org/obo/OBI_0000175",
+      "alias": "p_value",
+      "owner": "ClassEnrichmentResult",
+      "domain_of": [
+        "ClassEnrichmentResult"
+      ],
+      "range": "float",
+      "required": true,
+      "@type": "SlotDefinition"
+    },
+    {
+      "name": "classEnrichmentResult__p_value_adjusted",
+      "description": "The adjusted p-value",
+      "from_schema": "https://w3id.org/oak/class-enrichment",
+      "slot_uri": "https://w3id.org/oak/class-enrichment/p_value_adjusted",
+      "alias": "p_value_adjusted",
+      "owner": "ClassEnrichmentResult",
+      "domain_of": [
+        "ClassEnrichmentResult"
+      ],
+      "range": "float",
+      "@type": "SlotDefinition"
+    },
+    {
+      "name": "classEnrichmentResult__false_discovery_rate",
+      "description": "The false discovery rate",
+      "from_schema": "https://w3id.org/oak/class-enrichment",
+      "slot_uri": "https://w3id.org/oak/class-enrichment/false_discovery_rate",
+      "alias": "false_discovery_rate",
+      "owner": "ClassEnrichmentResult",
+      "domain_of": [
+        "ClassEnrichmentResult"
+      ],
+      "range": "float",
+      "@type": "SlotDefinition"
+    },
+    {
+      "name": "classEnrichmentResult__fold_enrichment",
+      "description": "The fold enrichment",
+      "from_schema": "https://w3id.org/oak/class-enrichment",
+      "slot_uri": "https://w3id.org/oak/class-enrichment/fold_enrichment",
+      "alias": "fold_enrichment",
+      "owner": "ClassEnrichmentResult",
+      "domain_of": [
+        "ClassEnrichmentResult"
+      ],
+      "range": "float",
+      "@type": "SlotDefinition"
+    },
+    {
+      "name": "classEnrichmentResult__probability",
+      "description": "The probability, as estimated by model-based approaches",
+      "from_schema": "https://w3id.org/oak/class-enrichment",
+      "slot_uri": "https://w3id.org/oak/class-enrichment/probability",
+      "alias": "probability",
+      "owner": "ClassEnrichmentResult",
+      "domain_of": [
+        "ClassEnrichmentResult"
+      ],
+      "range": "float",
+      "minimum_value": 0,
+      "maximum_value": 1,
+      "@type": "SlotDefinition"
+    },
+    {
+      "name": "classEnrichmentResult__sample_count",
+      "description": "The number of entities in the sample with this class",
+      "from_schema": "https://w3id.org/oak/class-enrichment",
+      "slot_uri": "https://w3id.org/oak/class-enrichment/sample_count",
+      "alias": "sample_count",
+      "owner": "ClassEnrichmentResult",
+      "domain_of": [
+        "ClassEnrichmentResult"
+      ],
+      "range": "integer",
+      "@type": "SlotDefinition"
+    },
+    {
+      "name": "classEnrichmentResult__sample_total",
+      "description": "The total number of entities in the sample",
+      "from_schema": "https://w3id.org/oak/class-enrichment",
+      "slot_uri": "https://w3id.org/oak/class-enrichment/sample_total",
+      "alias": "sample_total",
+      "owner": "ClassEnrichmentResult",
+      "domain_of": [
+        "ClassEnrichmentResult"
+      ],
+      "range": "integer",
+      "@type": "SlotDefinition"
+    },
+    {
+      "name": "classEnrichmentResult__background_count",
+      "description": "The background count",
+      "from_schema": "https://w3id.org/oak/class-enrichment",
+      "slot_uri": "https://w3id.org/oak/class-enrichment/background_count",
+      "alias": "background_count",
+      "owner": "ClassEnrichmentResult",
+      "domain_of": [
+        "ClassEnrichmentResult"
+      ],
+      "range": "integer",
+      "@type": "SlotDefinition"
+    },
+    {
+      "name": "classEnrichmentResult__background_total",
+      "description": "The background total",
+      "from_schema": "https://w3id.org/oak/class-enrichment",
+      "slot_uri": "https://w3id.org/oak/class-enrichment/background_total",
+      "alias": "background_total",
+      "owner": "ClassEnrichmentResult",
+      "domain_of": [
+        "ClassEnrichmentResult"
+      ],
+      "range": "integer",
+      "@type": "SlotDefinition"
+    },
+    {
+      "name": "classEnrichmentResult__ancestor_of_more_informative_result",
+      "description": "This term is more general than a previously reported result",
+      "from_schema": "https://w3id.org/oak/class-enrichment",
+      "slot_uri": "https://w3id.org/oak/class-enrichment/ancestor_of_more_informative_result",
+      "alias": "ancestor_of_more_informative_result",
+      "owner": "ClassEnrichmentResult",
+      "domain_of": [
+        "ClassEnrichmentResult"
+      ],
+      "range": "boolean",
+      "@type": "SlotDefinition"
+    },
+    {
+      "name": "classEnrichmentResult__descendant_of_more_informative_result",
+      "description": "This term is more specific than a previously reported result",
+      "from_schema": "https://w3id.org/oak/class-enrichment",
+      "slot_uri": "https://w3id.org/oak/class-enrichment/descendant_of_more_informative_result",
+      "alias": "descendant_of_more_informative_result",
+      "owner": "ClassEnrichmentResult",
+      "domain_of": [
+        "ClassEnrichmentResult"
+      ],
+      "range": "boolean",
+      "@type": "SlotDefinition"
+    }
+  ],
+  "classes": [
+    {
+      "name": "ClassEnrichmentConfiguration",
+      "definition_uri": "https://w3id.org/oak/class-enrichment/ClassEnrichmentConfiguration",
+      "description": "configuration for search",
+      "from_schema": "https://w3id.org/oak/class-enrichment",
+      "slots": [
+        "classEnrichmentConfiguration__p_value_cutoff"
+      ],
+      "slot_usage": {},
+      "attributes": [
+        {
+          "name": "p_value_cutoff",
+          "description": "p-value cutoff for enrichment",
+          "range": "float",
+          "required": true,
+          "@type": "SlotDefinition"
+        }
+      ],
+      "class_uri": "https://w3id.org/oak/class-enrichment/ClassEnrichmentConfiguration",
+      "@type": "ClassDefinition"
+    },
+    {
+      "name": "ClassEnrichmentResultSet",
+      "definition_uri": "https://w3id.org/oak/class-enrichment/ClassEnrichmentResultSet",
+      "description": "A collection of enrichemt results",
+      "from_schema": "https://w3id.org/oak/class-enrichment",
+      "slots": [
+        "classEnrichmentResultSet__results"
+      ],
+      "slot_usage": {},
+      "attributes": [
+        {
+          "name": "results",
+          "description": "The enrichment results",
+          "multivalued": true,
+          "range": "ClassEnrichmentResult",
+          "@type": "SlotDefinition"
+        }
+      ],
+      "class_uri": "https://w3id.org/oak/class-enrichment/ClassEnrichmentResultSet",
+      "@type": "ClassDefinition"
+    },
+    {
+      "name": "ClassEnrichmentResult",
+      "definition_uri": "https://w3id.org/oak/class-enrichment/ClassEnrichmentResult",
+      "description": "A single enrichment result",
+      "from_schema": "https://w3id.org/oak/class-enrichment",
+      "slots": [
+        "classEnrichmentResult__class_id",
+        "classEnrichmentResult__class_label",
+        "classEnrichmentResult__rank",
+        "classEnrichmentResult__p_value",
+        "classEnrichmentResult__p_value_adjusted",
+        "classEnrichmentResult__false_discovery_rate",
+        "classEnrichmentResult__fold_enrichment",
+        "classEnrichmentResult__probability",
+        "classEnrichmentResult__sample_count",
+        "classEnrichmentResult__sample_total",
+        "classEnrichmentResult__background_count",
+        "classEnrichmentResult__background_total",
+        "classEnrichmentResult__ancestor_of_more_informative_result",
+        "classEnrichmentResult__descendant_of_more_informative_result"
+      ],
+      "slot_usage": {},
+      "attributes": [
+        {
+          "name": "class_id",
+          "description": "The class id",
+          "range": "uriorcurie",
+          "required": true,
+          "@type": "SlotDefinition"
+        },
+        {
+          "name": "class_label",
+          "description": "The class label",
+          "range": "string",
+          "@type": "SlotDefinition"
+        },
+        {
+          "name": "rank",
+          "description": "The rank of this result",
+          "range": "integer",
+          "@type": "SlotDefinition"
+        },
+        {
+          "name": "p_value",
+          "description": "The p-value",
+          "slot_uri": "OBI:0000175",
+          "range": "float",
+          "required": true,
+          "@type": "SlotDefinition"
+        },
+        {
+          "name": "p_value_adjusted",
+          "description": "The adjusted p-value",
+          "range": "float",
+          "@type": "SlotDefinition"
+        },
+        {
+          "name": "false_discovery_rate",
+          "description": "The false discovery rate",
+          "range": "float",
+          "@type": "SlotDefinition"
+        },
+        {
+          "name": "fold_enrichment",
+          "description": "The fold enrichment",
+          "range": "float",
+          "@type": "SlotDefinition"
+        },
+        {
+          "name": "probability",
+          "description": "The probability, as estimated by model-based approaches",
+          "range": "float",
+          "minimum_value": 0,
+          "maximum_value": 1,
+          "@type": "SlotDefinition"
+        },
+        {
+          "name": "sample_count",
+          "description": "The number of entities in the sample with this class",
+          "range": "integer",
+          "@type": "SlotDefinition"
+        },
+        {
+          "name": "sample_total",
+          "description": "The total number of entities in the sample",
+          "range": "integer",
+          "@type": "SlotDefinition"
+        },
+        {
+          "name": "background_count",
+          "description": "The background count",
+          "range": "integer",
+          "@type": "SlotDefinition"
+        },
+        {
+          "name": "background_total",
+          "description": "The background total",
+          "range": "integer",
+          "@type": "SlotDefinition"
+        },
+        {
+          "name": "ancestor_of_more_informative_result",
+          "description": "This term is more general than a previously reported result",
+          "range": "boolean",
+          "@type": "SlotDefinition"
+        },
+        {
+          "name": "descendant_of_more_informative_result",
+          "description": "This term is more specific than a previously reported result",
+          "range": "boolean",
+          "@type": "SlotDefinition"
+        }
+      ],
+      "class_uri": "https://w3id.org/oak/class-enrichment/ClassEnrichmentResult",
+      "@type": "ClassDefinition"
+    }
+  ],
+  "metamodel_version": "1.7.0",
+  "source_file": "class_enrichment.yaml",
+  "source_file_date": "2023-06-17T15:11:19",
+  "source_file_size": 3192,
+  "generation_date": "2023-08-07T10:51:41",
+  "@type": "SchemaDefinition",
+  "@context": [
+    "projects/class_enrichment/jsonld/class_enrichment.context.jsonld",
+    "https://w3id.org/linkml/types.context.jsonld",
+    {
+      "@base": "https://w3id.org/oak/class-enrichment/"
+    }
+  ]
+}

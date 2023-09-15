@@ -1,0 +1,95 @@
+message AdverseEffect
+ {
+  string id = 0
+  string label = 0
+ }
+message AnnotatorResult
+ {
+  string subjectText = 0
+  string objectId = 0
+  string objectText = 0
+ }
+message CompositeDisease
+ {
+  disease mainDisease = 0
+ repeated  drug drugs = 0
+ repeated  treatment treatments = 0
+ repeated  treatment contraindications = 0
+ repeated  treatmentMechanism treatmentMechanisms = 0
+ repeated  treatmentEfficacy treatmentEfficacies = 0
+ repeated  treatmentAdverseEffect treatmentAdverseEffects = 0
+ }
+message Disease
+ {
+  string id = 0
+  string label = 0
+ }
+message Drug
+ {
+  string id = 0
+  string label = 0
+ }
+// A result of extracting knowledge on text
+message ExtractionResult
+ {
+  string inputId = 0
+  string inputTitle = 0
+  string inputText = 0
+  string rawCompletionOutput = 0
+  string prompt = 0
+  any extractedObject = 0
+ repeated  any namedEntities = 0
+ }
+message Gene
+ {
+  string id = 0
+  string label = 0
+ }
+message Mechanism
+ {
+  string id = 0
+  string label = 0
+ }
+message Publication
+ {
+  string id = 0
+  string title = 0
+  string abstract = 0
+  string combinedText = 0
+  string fullText = 0
+ }
+message RelationshipType
+ {
+  string id = 0
+  string label = 0
+ }
+message Symptom
+ {
+  string id = 0
+  string label = 0
+ }
+message TextWithTriples
+ {
+  publication publication = 0
+ repeated  triple triples = 0
+ }
+message Treatment
+ {
+  string id = 0
+  string label = 0
+ }
+message TreatmentAdverseEffect
+ {
+  treatment treatment = 0
+ repeated  adverseEffect adverseEffects = 0
+ }
+message TreatmentEfficacy
+ {
+  treatment treatment = 0
+  string efficacy = 0
+ }
+message TreatmentMechanism
+ {
+  treatment treatment = 0
+  mechanism mechanism = 0
+ }
