@@ -18,12 +18,8 @@ from ontogpt.engines.spires_engine import SPIRESEngine
 from ontogpt.evaluation.evaluation_engine import SimilarityScore, SPIRESEvaluationEngine
 from ontogpt.templates.mendelian_disease import MendelianDisease
 
-THIS_DIR = Path(__file__).parent
 DATABASE_DIR = Path(__file__).parent / "database"
-TEST_CASES_DIR = THIS_DIR / "test_cases"
-EXEMPLARS_DIR = THIS_DIR / "exemplars"
-EXEMPLAR_CASES = EXEMPLARS_DIR / "drugmechdb-exemplars.yaml"
-
+TEST_CASES_DIR = Path("tests").joinpath("input")
 
 DISEASE_ID = str
 TERM = str
