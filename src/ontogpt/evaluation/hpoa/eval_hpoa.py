@@ -7,7 +7,7 @@ from pathlib import Path
 from random import shuffle
 from typing import Dict, Iterable, Iterator, List, Tuple
 
-from oaklib import BasicOntologyInterface, get_implementation_from_shorthand
+from oaklib import BasicOntologyInterface, get_adapter
 from oaklib.datamodels.search import SearchConfiguration
 from oaklib.datamodels.search_datamodel import SearchProperty
 from oaklib.interfaces import SearchInterface
@@ -68,7 +68,7 @@ class EvalHPOA(SPIRESEvaluationEngine):
 
     def __post_init__(self):
         self.extractor = SPIRESEngine("mendelian_disease.MendelianDisease")
-        self.mondo = get_implementation_from_shorthand("sqlite:obo:mondo")
+        self.mondo = get_adapter("sqlite:obo:mondo")
 
     def load_test_cases(self) -> List[MendelianDisease]:
         return []
