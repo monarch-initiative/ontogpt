@@ -1,4 +1,4 @@
-"""Core tests."""
+"""Core tests for Human Phenotype Ontology Annotations (HPOA) evaluation."""
 import unittest
 
 import yaml
@@ -13,7 +13,7 @@ PREDICTIONS_ALL_OUT = OUTPUT_DIR / "eval-hpoa-predictions-all.yaml"
 
 
 class Testhpoa(unittest.TestCase):
-    """Test GO evaluation."""
+    """Test HPOA evaluation."""
 
     def setUp(self) -> None:
         """Set up all engines in advance."""
