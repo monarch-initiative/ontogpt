@@ -39,7 +39,7 @@ def repr_str(dumper: RoundTripRepresenter, data: str):
     return dumper.represent_scalar("tag:yaml.org,2002:str", data)
 
 
-def dump_minimal_yaml(obj: Any, minimize=True, file: Optional[TextIO] = None) -> Optional[str]:
+def dump_minimal_yaml(obj: Any, minimize=True, file: Optional[TextIO] = None) -> str:
     """Dump a YAML string, but eliminating Nones and empty lists and dicts."""
     yaml = YAML()
     yaml.representer.add_representer(str, repr_str)

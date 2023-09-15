@@ -137,9 +137,10 @@ def parse_geneweaver(path: str) -> GeneSet:
 
             id = f"{db}:{row[col]}"
             gene = Gene(id=id, symbol=sym)
-            gene_set.gene_ids.append(id)
-            gene_set.gene_symbols.append(sym)
-            gene_set.gene_ids.append(id)
+            if gene_set.gene_ids is not None and gene_set.gene_symbols is not None:
+                gene_set.gene_ids.append(id)
+                gene_set.gene_symbols.append(sym)
+                gene_set.gene_ids.append(id)
     return gene_set
 
 

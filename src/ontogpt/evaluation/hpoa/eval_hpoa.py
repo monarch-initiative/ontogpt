@@ -5,7 +5,7 @@ from collections import defaultdict
 from dataclasses import dataclass
 from pathlib import Path
 from random import shuffle
-from typing import Dict, Iterable, Iterator, List, Tuple
+from typing import Dict, Iterable, Iterator, List, Optional, Tuple
 
 from oaklib import BasicOntologyInterface, get_implementation_from_shorthand
 from oaklib.datamodels.search import SearchConfiguration
@@ -32,9 +32,9 @@ PUBLICATION = str
 
 
 class PredictionHPOA(BaseModel):
-    predicted_object: MendelianDisease = None
-    test_object: MendelianDisease = None
-    scores: Dict[str, SimilarityScore] = None
+    predicted_object: Optional[MendelianDisease] = None
+    test_object: Optional[MendelianDisease] = None
+    scores: Optional[Dict[str, SimilarityScore]] = None
 
     def calculate_scores(self):
         self.scores = {}
@@ -108,13 +108,13 @@ class EvalHPOA(SPIRESEvaluationEngine):
                 diseases[subject] = MendelianDisease(id=subject)
             disease = diseases[subject]
             # print(f"Adding {term} to {subject} in {aspect}")
-            if aspect == "P":
+            if aspect == "P" and disease.symptoms is not None:
                 disease.symptoms.append(term)
-            elif aspect == "C":
+            elif aspect == "C" and disease.disease_onsets is not None:
                 disease.disease_onsets.append(term)
             elif aspect == "I":
                 disease.inheritance = term
-            if pub and pub not in disease.publications:
+            if pub and pub not in disease.publications and disease.publications is not None:
                 disease.publications.append(pub)
         return list(diseases.values())
 

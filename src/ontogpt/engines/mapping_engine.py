@@ -55,11 +55,11 @@ class Confidence(str, Enum):
 
 
 class CategorizedMapping(BaseModel):
-    subject: CURIE = None
-    object: CURIE = None
+    subject: Optional[CURIE] = None
+    object: Optional[CURIE] = None
     completion: str = ""
-    predicate: Union[MappingPredicate, str] = None
-    confidence: Union[Confidence, str] = None
+    predicate: Optional[Union[MappingPredicate, str]] = None
+    confidence: Optional[Union[Confidence, str]] = None
     similarities: List[str] = [""]
     differences: List[str] = [""]
 
@@ -73,9 +73,9 @@ class MappingTask(BaseModel):
     object_source: str = ""
     subject_adapter: str = ""
     object_adapter: str = ""
-    predicate: Union[str, MappingPredicate] = None
-    difficulty: Confidence = None
-    score: float = None
+    predicate: Optional[Union[str, MappingPredicate]] = None
+    difficulty: Optional[Confidence] = None
+    score: Optional[float] = None
 
 
 class MappingTaskCollection(BaseModel):

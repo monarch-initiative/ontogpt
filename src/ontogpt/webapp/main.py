@@ -32,7 +32,7 @@ static_dir.mkdir(parents=True, exist_ok=True)
 app.mount("/static", StaticFiles(directory=str(static_dir)), name="static")
 templates = Jinja2Templates(directory=str(html_dir))
 
-html_exporter = HTMLExporter()
+html_exporter = HTMLExporter(output = None)
 engines: Dict[str, SPIRESEngine] = {}
 
 

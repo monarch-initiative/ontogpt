@@ -3,7 +3,7 @@ import html
 from dataclasses import dataclass
 from io import BytesIO
 from pathlib import Path
-from typing import Any, TextIO, Union
+from typing import Any, Optional, TextIO, Union
 
 import pydantic
 import yaml
@@ -20,7 +20,7 @@ class HTMLExporter(Exporter):
     TODO: rewrite to use bootstrap
     """
 
-    output: Union[BytesIO, TextIO]
+    output: Optional[Union[BytesIO, TextIO]]
 
     def export(self, extraction_output: ExtractionResult, output: Union[str, Path, TextIO, BytesIO]):
         if isinstance(output, Path):
@@ -92,7 +92,7 @@ class HTMLExporter(Exporter):
             output.write(str(value))
         output.write("\n")
 
-    def details(self, text: str, output: TextIO, code: str = ""):
+    def details(self, text: Optional[str], output: Union[BytesIO, TextIO], code: str = ""):
         output.write("<details>\n")
         output.write("<pre>\n")
         self.w(text)
@@ -126,7 +126,7 @@ class HTMLExporter(Exporter):
     def h3(self, text: str):
         self.tag("h3", text)
 
-    def i(self, text: str):
+    def i(self, text: Optional[str]):
         self.tag("i", html.escape(text))
 
     def tag(self, tag: str, text: str):

@@ -134,7 +134,7 @@ class EnrichmentEngine(KnowledgeEngine):
         prompt_template: Optional[str] = None,
         normalize=False,
         strict=False,
-        gene_description_source: GeneDescriptionSource = None,
+        gene_description_source: Optional[GeneDescriptionSource] = None,
         ontological_synopsis=True,
         combined_synopsis=False,
         annotations=True,
@@ -202,7 +202,10 @@ class EnrichmentEngine(KnowledgeEngine):
             taxon=gene_set.taxon,
         )
         response_text = self.client.complete(prompt, max_tokens=self.completion_length)
-        response_token_length = len(self.encoding.encode(response_text))
+        if self.encoding is not None:
+            response_token_length = len(self.encoding.encode(response_text))
+        else:
+            response_token_length = 5 # An arbitrary length
         logging.info(f"Response token length: {response_token_length}")
         payload = EnrichmentPayload(
             prompt=prompt,

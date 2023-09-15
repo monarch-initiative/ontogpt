@@ -66,11 +66,11 @@ class Overlap(BaseModel):
 class GeneSetComparison(BaseModel):
     name: str = ""
     gene_symbols: List[str]
-    gene_ids: List[str] = None
+    gene_ids: Optional[List[str]] = None
     model: str = ""
-    payloads: Dict[str, EnrichmentPayload] = None
-    overlaps: Dict[Tuple[str, str], Overlap] = None
-    number_of_genes_swapped_out: int = None
+    payloads: Optional[Dict[str, EnrichmentPayload]] = None
+    overlaps: Optional[Dict[Tuple[str, str], Overlap]] = None
+    number_of_genes_swapped_out: Optional[int] = None
 
 
 @cachier(stale_after=datetime.timedelta(days=3))
@@ -293,15 +293,15 @@ class EvalEnrichment(EvaluationEngine):
                 line = line.strip("\n")
                 yield tuple(line.split("\t"))
 
-    def get_mapped_annotations(self, path=None) -> Iterator[Tuple[str, str]]:
-        """Load."""
-        tupls = list(self.get_annotation_tuples(path))
-        symbols = set([sym for sym, _ in tupls])
-        m = map_hgnc_symbols(tuple(symbols))
-        for sym, _ in tupls:
-            if sym in m:
-                yield sym, m[sym]
-                continue
+    # def get_mapped_annotations(self, path=None) -> Iterator[Tuple[str, str]]:
+    #     """Load."""
+    #     tupls = list(self.get_annotation_tuples(path))
+    #     symbols = set([sym for sym, _ in tupls])
+    #     m = map_hgnc_symbols(tuple(symbols))
+    #     for sym, _ in tupls:
+    #         if sym in m:
+    #             yield sym, m[sym]
+    #             continue
 
     def load_annotations(self, path=None, format=None) -> None:
         """

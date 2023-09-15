@@ -224,8 +224,9 @@ class Task(BaseModel):
             for query_answer in example.query_answers:
                 if not query_answer.query.text:
                     query_answer.query.text = qf.format(params=query_answer.query.parameters)
-        if not self.query.text:
-            self.query.text = qf.format(params=self.query.parameters)
+        if self.query is not None:
+            if not self.query.text:
+                self.query.text = qf.format(params=self.query.parameters)
         if self.answers is not None:
             if len(self.answers) == 0:
                 self.shortest_explanation = None
@@ -1186,8 +1187,8 @@ class OntologyExtractor:
 
     def extract_indirect_superclasses_task(
         self,
-        subclass: CURIE = None,
-        siblings: List[CURIE] = None,
+        subclass: Optional[CURIE] = None,
+        siblings: Optional[List[CURIE]] = None,
         roots: Optional[List[CURIE]] = None,
         predicates: Optional[List[PRED_CURIE]] = None,
         select_random=False,

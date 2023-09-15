@@ -83,16 +83,16 @@ class PredictionDrugMechDB(BaseModel):
 class EvaluationObjectSetDrugMechDB(BaseModel):
     """A result of predicting paths."""
 
-    test: List[target_datamodel.DrugMechanism] = None
-    training: List[target_datamodel.DrugMechanism] = None
-    predictions: List[PredictionDrugMechDB] = None
+    test: Optional[List[target_datamodel.DrugMechanism]] = None
+    training: Optional[List[target_datamodel.DrugMechanism]] = None
+    predictions: Optional[List[PredictionDrugMechDB]] = None
 
 
 @dataclass
 class EvalDrugMechDB(SPIRESEvaluationEngine):
     # ontology: OboGraphInterface = None
-    data: List[target_datamodel.DrugMechanism] = None
-    _drug_to_mechanism_text: Dict[str, str] = None
+    data: Optional[List[target_datamodel.DrugMechanism]] = None
+    _drug_to_mechanism_text: Optional[Dict[str, str]] = None
     default_labelers = [
         "sqlite:obo:mesh",
         "sqlite:obo:drugbank",

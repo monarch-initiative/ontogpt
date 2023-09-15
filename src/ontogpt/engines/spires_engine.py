@@ -117,9 +117,11 @@ class SPIRESEngine(KnowledgeEngine):
         """
         if prompt_template is None:
             prompt_template = "Generate a comprehensive description of {entity}.\n"
-        # prompt = f"Generate a comprehensive description of {entity}.\n"
         prompt = prompt_template.format(entity=entity)
-        payload = self.client.complete(prompt, show_prompt)
+        if self.client is not None:
+            payload = self.client.complete(prompt, show_prompt)
+        else:
+            payload = ""
         return self.extract_from_text(payload, **kwargs)
 
     def iteratively_generate_and_extract(
@@ -185,18 +187,18 @@ class SPIRESEngine(KnowledgeEngine):
                     vals = [vals]
                 for val in vals:
                     entity = val
-
-                    for ne in result.named_entities:
-                        if ne.id == val:
-                            entity = ne.label
-                            if ne.id.startswith("AUTO"):
-                                # Sometimes the value of some slots will lack
-                                context = next_entity
-                                context = re.sub(r"\(.*\)", "", context)
-                                entity = f"{entity} ({context})"
-                            else:
-                                entity = ne.id
-                            break
+                    if result.named_entities is not None:
+                        for ne in result.named_entities:
+                            if ne.id == val:
+                                entity = ne.label
+                                if ne.id.startswith("AUTO"):
+                                    # Sometimes the value of some slots will lack
+                                    context = next_entity
+                                    context = re.sub(r"\(.*\)", "", context)
+                                    entity = f"{entity} ({context})"
+                                else:
+                                    entity = ne.id
+                                break
                     queue_deparenthesized = [
                         _remove_parenthetical_context(e) for e in db["entities_in_queue"]
                     ]
@@ -357,7 +359,11 @@ class SPIRESEngine(KnowledgeEngine):
         return val
 
     def _raw_extract(
-        self, text, cls: ClassDefinition = None, object: OBJECT = None, show_prompt: bool = False,
+        self,
+        text,
+        cls: ClassDefinition = None,
+        object: OBJECT = None,
+        show_prompt: bool = False,
     ) -> str:
         """
         Extract annotations from the given text.
@@ -445,7 +451,7 @@ class SPIRESEngine(KnowledgeEngine):
                     line = f"{slot.name}: {line}"
                 else:
                     logging.error(f"Line '{line}' does not contain a colon; ignoring")
-                    return
+                    return None
             r = self._parse_line_to_dict(line, cls)
             if r is not None:
                 field, val = r
@@ -479,14 +485,14 @@ class SPIRESEngine(KnowledgeEngine):
         if not slot:
             logging.error(f"Cannot find slot for {field} in {line}")
             # raise ValueError(f"Cannot find slot for {field} in {line}")
-            return
+            return None
         if not val:
             msg = f"Empty value in key-value line: {line}"
             if slot.required:
                 raise ValueError(msg)
             if slot.recommended:
                 logging.warning(msg)
-            return
+            return None
         inlined = slot.inlined
         slot_range = sv.get_class(slot.range)
         if not inlined:
@@ -516,7 +522,7 @@ class SPIRESEngine(KnowledgeEngine):
                         break
                 if not transformed:
                     logging.warning(f"Did not find separator in {vals} for line {line}")
-                    return
+                    return None
         # transform back from list to single value if not multivalued
         if slot.multivalued:
             final_val = vals

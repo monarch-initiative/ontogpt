@@ -40,7 +40,7 @@ class SimilarityScore(BaseModel):
 
     @staticmethod
     def from_set(
-        test_set: List, prediction_set: List, labelers: List[BasicOntologyInterface] = None
+        test_set: List, prediction_set: List, labelers: Optional[List[BasicOntologyInterface]] = None
     ):
         if labelers:
 

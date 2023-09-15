@@ -19,4 +19,7 @@ def create_engine(
         engine = SPIRESEngine
     if isinstance(engine, str):
         engine = resolver.get_class(engine)(**kwargs)
-    return engine(template, **kwargs)
+    if engine is not None and not isinstance(engine, str):
+        return engine(template, **kwargs)
+    else:
+        return SPIRESEngine

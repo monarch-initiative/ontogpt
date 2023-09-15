@@ -80,26 +80,33 @@ class PredictionRE(BaseModel):
                         return f"{x} {lbl}"
             return x
 
-        def all_objects(dm: TextWithTriples):
-            return list(
-                set(link.subject for link in dm.triples if not negated(link))
-                | set(link.object for link in dm.triples if not negated(link))
-            )
+        def all_objects(dm: Optional[TextWithTriples]):
+            if dm is not None:
+                return list(
+                    set(link.subject for link in dm.triples if not negated(link))
+                    | set(link.object for link in dm.triples if not negated(link))
+                )
+            else:
+                return list()
 
         def pairs(dm: TextWithTriples) -> Set:
-            return set(
-                (label(link.subject), label(link.object))
-                for link in dm.triples
-                if not negated(link)
-            )
+            if dm.triples is not None:
+                return set(
+                    (label(link.subject), label(link.object))
+                    for link in dm.triples
+                    if not negated(link)
+                )
+            else:
+                return set()
 
         self.scores["similarity"] = SimilarityScore.from_set(
             all_objects(self.test_object),
             all_objects(self.predicted_object),
             labelers=labelers,
         )
-        pred_pairs = pairs(self.predicted_object)
-        test_pairs = pairs(self.test_object)
+        if self.predicted_object is not None and self.test_object is not None:
+            pred_pairs = pairs(self.predicted_object)
+            test_pairs = pairs(self.test_object)
         self.true_positives = list(pred_pairs.intersection(test_pairs))
         self.false_positives = list(pred_pairs.difference(test_pairs))
         self.false_negatives = list(test_pairs.difference(pred_pairs))
@@ -191,19 +198,23 @@ class EvalCTD(SPIRESEvaluationEngine):
             logger.info(doc)
             text = f"Title: {doc.publication.title} Abstract: {doc.publication.abstract}"
             predicted_obj = None
-            named_entities = []
+            named_entities: List[str] = []
             for chunked_text in chunk_text(text):
                 extraction = ke.extract_from_text(chunked_text)
-                logger.info(
-                    f"{len(extraction.extracted_object.triples)}\
-                        triples from window: {chunked_text}"
-                )
-                if not predicted_obj:
+                if extraction.extracted_object is not None:
+                    logger.info(
+                        f"{len(extraction.extracted_object.triples)}\
+                            triples from window: {chunked_text}"
+                    )
+                if not predicted_obj and extraction.extracted_object is not None:
                     predicted_obj = extraction.extracted_object
                 else:
-                    predicted_obj.triples.extend(extraction.extracted_object.triples)
-                    logger.info(f"{len(predicted_obj.triples)} total triples, after concatenation")
-                    logger.debug(f"concatenated triples: {predicted_obj.triples}")
+                    if predicted_obj is not None and extraction.extracted_object is not None:
+                        predicted_obj.triples.extend(extraction.extracted_object.triples)
+                        logger.info(
+                            f"{len(predicted_obj.triples)} total triples, after concatenation"
+                        )
+                        logger.debug(f"concatenated triples: {predicted_obj.triples}")
                 named_entities.extend(extraction.named_entities)
 
             # title_extraction = ke.extract_from_text(doc.publication.title)
