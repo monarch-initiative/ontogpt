@@ -145,7 +145,7 @@ class EvalDrugMechDB(SPIRESEvaluationEngine):
     def load_and_transform_source_database(self) -> List[target_datamodel.DrugMechanism]:
         """Load the entire DrugMechDB database."""
         with gzip.open(str(DATABASE_DIR / "indication_paths.yaml.gz"), "rb") as f:
-            srcs = self.load_source_mechanisms_from_path(f)
+            srcs = self.load_source_mechanisms_from_path(f.filename)
             return [self.transform_mechanism(m) for m in srcs]
 
     def load_target_database(self) -> List[target_datamodel.DrugMechanism]:

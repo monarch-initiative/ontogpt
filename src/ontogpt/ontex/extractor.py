@@ -118,7 +118,7 @@ class Answer(BaseModel):
     explanations: Optional[List[Explanation]] = None
     """All explanations for the answer."""
 
-    def shortest_explanation(self) -> Optional[Explanation]:
+    def shortest_explanation(self) -> Explanation:
         """Return the shortest explanation for the answer."""
         if not self.explanations:
             return Explanation(axioms=[Axiom(text="No explanation found")])

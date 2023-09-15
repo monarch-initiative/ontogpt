@@ -13,7 +13,7 @@ resolver = ClassResolver([SPIRESEngine, HALOEngine, EnrichmentEngine], base=Know
 
 def create_engine(
     template: str, engine: Optional[Union[str, Type]] = None, **kwargs
-) -> KnowledgeEngine:
+) -> Union[KnowledgeEngine, SPIRESEngine]:
     """Create a knowledge engine."""
     if engine is None:
         engine = SPIRESEngine
