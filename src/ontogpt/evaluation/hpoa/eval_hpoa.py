@@ -151,7 +151,7 @@ class EvalHPOA(SPIRESEvaluationEngine):
         obj.name = mondo.label(entity)
         obj.label = obj.name
         obj.description = mondo.definition(entity)
-        obj.subclass_of = list(mondo.hierararchical_parents(entity))
+        obj.subclass_of = list(mondo.hierarchical_parents(entity))
         obj.synonyms = list(mondo.entity_aliases(entity))
         for _s, _p, gene in mondo.relationships([entity], ["RO:0004003"]):
             gene = (
