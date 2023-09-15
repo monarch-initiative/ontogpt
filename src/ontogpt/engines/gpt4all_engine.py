@@ -80,7 +80,7 @@ class GPT4AllEngine(KnowledgeEngine):
             chunks = chunk_text(text, self.sentences_per_window)
             extracted_object = None
             for chunk in chunks:
-                raw_text = self._raw_extract(chunk, cls, object=object)
+                raw_text = self._raw_extract(chunk, cls=cls, object=object)
                 logging.info(f"RAW TEXT: {raw_text}")
                 if show_prompt:
                     logging.info(f" PROVIDED PROMPT:\n{self.last_prompt}")
@@ -97,11 +97,11 @@ class GPT4AllEngine(KnowledgeEngine):
                             else:
                                 extracted_object[k] = v
         else:
-            raw_text = self._raw_extract(text, cls, object=object)
+            raw_text = self._raw_extract(text=text, cls=cls, object=object)
             logging.info(f"RAW TEXT: {raw_text}")
             if show_prompt:
                 logging.info(f" PROVIDED PROMPT:\n{self.last_prompt}")
-            extracted_object = self.parse_completion_payload(raw_text, cls, object=object)
+            extracted_object = self.parse_completion_payload(raw_text, cls=cls, object=object)
         return ExtractionResult(
             input_text=text,
             raw_completion_output=raw_text,
@@ -111,7 +111,7 @@ class GPT4AllEngine(KnowledgeEngine):
         )
 
     def _extract_from_text_to_dict(self, text: str, cls: ClassDefinition = None) -> RESPONSE_DICT:
-        raw_text = self._raw_extract(text, cls)
+        raw_text = self._raw_extract(text=text, cls=cls)
         return self._parse_response_to_dict(raw_text, cls)
 
     def iteratively_generate_and_extract(
