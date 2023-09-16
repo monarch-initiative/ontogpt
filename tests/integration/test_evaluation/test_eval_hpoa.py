@@ -25,15 +25,15 @@ class Testhpoa(unittest.TestCase):
         print(yaml.dump(objs[0:5]))
         self.assertGreater(len(diseases), 0)
 
-    # def test_diseases(self):
-    #     diseases = self.engine.diseases()
-    #     for disease in diseases:
-    #         text = self.engine.disease_text(disease.id)
-    #         self.assertIsNotNone(text)
-    #         self.assertGreater(len(text), 100)
-    #     objs = [m.dict() for m in diseases]
-    #     print(yaml.dump(objs[0:5]))
-    #     self.assertGreater(len(diseases), 0)
+    def test_diseases(self):
+        diseases = self.engine.diseases()
+        for disease in diseases:
+            text = self.engine.disease_text(disease.id)
+            self.assertIsNotNone(text)
+            self.assertGreater(len(text), 100)
+        objs = [m.model_dump() for m in diseases]
+        print(yaml.dump(objs[0:5]))
+        self.assertGreater(len(diseases), 0)
 
     # def test_diseases_by_publication(self):
     #     t2d = self.engine.diseases_by_publication()
@@ -42,23 +42,23 @@ class Testhpoa(unittest.TestCase):
     #         self.assertIsNotNone(text)
     #         self.assertGreater(len(text), 100)
     #         print(f"## {k}: {disease.id} ")
-    #         print(yaml.dump(disease.dict()))
+    #         print(yaml.dump(disease.model_dump()))
 
     # def test_eval_pubs(self):
     #     evaluator = self.engine
     #     eos = evaluator.eval("pubs")
     #     with open(PREDICTIONS_PUBS_OUT, "w") as f:
-    #         yaml.dump(eos.dict(), f)
+    #         yaml.dump(eos.model_dump(), f)
 
     # def test_eval_all(self):
     #     evaluator = self.engine
     #     eos = evaluator.eval()
     #     with open(PREDICTIONS_ALL_OUT, "w") as f:
-    #         yaml.dump(eos.dict(), f)
+    #         yaml.dump(eos.model_dump(), f)
 
     # def test_eval_omim(self):
     #     """Evaluates extraction purely from OMIM texts."""
     #     evaluator = self.engine
     #     eos = evaluator.eval("omim")
     #     with open(PREDICTIONS_OMIM_OUT, "w") as f:
-    #         yaml.dump(eos.dict(), f)
+    #         yaml.dump(eos.model_dump(), f)
