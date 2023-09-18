@@ -186,7 +186,6 @@ class HFHubEngine(KnowledgeEngine):
         prompt += "===\n\n"
         payload = self.client.complete(prompt)
         # outer parse
-        best_results = []
         for sep in ["\n", "; "]:
             results = payload.split(sep)
             if len(results) > len(best_results):

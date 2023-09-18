@@ -6,7 +6,7 @@ import random
 from collections import defaultdict
 from dataclasses import dataclass, field
 from pathlib import Path
-from typing import Dict, Iterator, List, Optional, Tuple
+from typing import Dict, Generator, Iterator, List, Optional, Tuple
 
 import tiktoken
 import yaml
@@ -151,10 +151,10 @@ class EvalEnrichment(EvaluationEngine):
                     raise AssertionError(f"Unknown method: {method}")
                 for prompt_variant, end_marker in [("v1", "==="), ("v2", "###")]:
                     engine.end_marker = end_marker
-                    payload = engine.summarize(gene_set, normalize=True, **args)
+                    payload = engine.summarize(gene_set, normalize=True, **args) # type: ignore
                     payload.method = method
                     payload.prompt_variant = prompt_variant
-                    model_method = f"{model}.{method}.{prompt_variant}"
+                    model_method = f"{self.model}.{method}.{prompt_variant}"
                     payloads[model_method] = payload
         payloads[STANDARD] = self.standard_enrichment(gene_set)
         payloads[STANDARD_NO_ONTOLOGY] = self.standard_enrichment(gene_set, use_ontology=False)
@@ -237,7 +237,7 @@ class EvalEnrichment(EvaluationEngine):
             # by default, return a number of terms proportional to the number of genes
             n = len(gene_symbols)
         anns = list(self.ontology.associations())
-        counts = defaultdict(int)
+        counts: defaultdict = defaultdict(int)
         for ann in anns:
             counts[ann.object] += 1
         sorted_counts = sorted(counts.items(), key=lambda x: x[1], reverse=True)
@@ -284,7 +284,7 @@ class EvalEnrichment(EvaluationEngine):
             ov.summary_jaccard = len_overlap_toks / len_union_toks if len_union_toks else 0
         return ov
 
-    def get_annotation_tuples(self, path=None) -> Tuple[str, str]:
+    def get_annotation_tuples(self, path=None) -> Generator[Tuple[str, ...], None, None]:
         """Load."""
         if path is None:
             DATABASE_DIR / "gene2go.tsv.gz"
@@ -324,6 +324,8 @@ class EvalEnrichment(EvaluationEngine):
             # We have a slightly awkward special case for HGNC as the GO GAFs
             # use UniProtKB IDs
             m = get_symbol_to_gene_id_map()
+            sym: str
+            term_id: str
             for sym, term_id in self.get_annotation_tuples(path):
                 if sym in m:
                     gene_id = m[sym]

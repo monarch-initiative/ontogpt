@@ -104,7 +104,7 @@ class EvalGO(SPIRESEvaluationEngine):
         This takes around 1m to run.
         """
         ontology = self.ontology
-        entities = set(ontology.descendants([self.genus], [IS_A]))
+        entities = list(set(ontology.descendants([self.genus], [IS_A])))
         print(
             f"Found {len(entities)} entities that are descendants of\
                 genus {self.genus}; {list(entities)[0:5]}"
@@ -113,12 +113,12 @@ class EvalGO(SPIRESEvaluationEngine):
         all_test_ids = set(self.valid_test_ids())
         assert "GO:0140872" in all_test_ids
         print(f"Found {len(all_test_ids)} test id candidates; {list(entities)[0:5]}")
-        candidate_test_ids = entities.intersection(all_test_ids)
+        candidate_test_ids = list(entities.intersection(all_test_ids))
         print(f"Found {len(candidate_test_ids)} candidate test ids")
         assert "GO:0140872" in candidate_test_ids
-        candidate_train_ids = entities.difference(all_test_ids)
+        candidate_train_ids = list(entities.difference(all_test_ids))
         print(f"Found {len(candidate_train_ids)} candidate train ids")
-        entities = list(candidate_test_ids) + list(candidate_train_ids)
+        entities = candidate_test_ids + candidate_train_ids
         print(f"Found {len(entities)} entities from {type(ontology)}")
         ldefs = list(ontology.logical_definitions(entities))
         shuffle(ldefs)

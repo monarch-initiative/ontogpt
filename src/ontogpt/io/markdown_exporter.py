@@ -18,18 +18,18 @@ class MarkdownExporter(Exporter):
             output = str(output)
         if isinstance(output, str):
             output = open(str(output), "w", encoding="utf-8")
-        output.write(f"# {extraction_output.input_id}\n\n")
-        output.write("## Input\n\n")
+        output.write(f"# {extraction_output.input_id}\n\n".encode('utf-8'))
+        output.write("## Input\n\n".encode('utf-8'))
         for block in extraction_output.input_text.split("\n"):
-            output.write(f"_{block.replace('_', '')}_\n\n")
-        output.write("## Results\n\n")
+            output.write(f"_{block.replace('_', '')}_\n\n".encode('utf-8'))
+        output.write("## Results\n\n".encode('utf-8'))
         obj = extraction_output.extracted_object
         self.export_object(obj, extraction_output, output, -1)
-        output.write("\n\nYAML:\n\n")
+        output.write("\n\nYAML:\n\n".encode('utf-8'))
         self.details(yaml.dump(extraction_output.dict()), output, code="yaml")
-        output.write("\n\nPrompt:\n\n")
+        output.write("\n\nPrompt:\n\n".encode('utf-8'))
         self.details(extraction_output.prompt, output)
-        output.write("\n\nCompletion:\n\n")
+        output.write("\n\nCompletion:\n\n".encode('utf-8'))
         self.details(extraction_output.raw_completion_output, output)
 
     def export_object(

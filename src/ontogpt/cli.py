@@ -8,7 +8,7 @@ from copy import copy, deepcopy
 from dataclasses import dataclass
 from io import BytesIO, TextIOWrapper
 from pathlib import Path
-from typing import List, Optional
+from typing import List, Optional, Union
 
 import click
 import jsonlines
@@ -91,6 +91,7 @@ def write_extraction(
     """Write results of extraction to a given output stream."""
     # Check if this result contains anything writable first
     if results.extracted_object:
+        exporter: Union[MarkdownExporter, HTMLExporter, RDFExporter, OWLExporter]
         if output_format == "pickle":
             output.write(pickle.dumps(results))
         elif output_format == "md":
@@ -103,7 +104,7 @@ def write_extraction(
             exporter.export(results, output)
         elif output_format == "yaml":
             output = _as_text_writer(output)
-            output.write(dump_minimal_yaml(results))
+            output.write(dump_minimal_yaml(results).encode('utf-8'))
         elif output_format == "turtle":
             output = _as_text_writer(output)
             exporter = RDFExporter()
@@ -114,7 +115,7 @@ def write_extraction(
             exporter.export(results, output, knowledge_engine.schemaview)
         else:
             output = _as_text_writer(output)
-            output.write(dump_minimal_yaml(results))
+            output.write(dump_minimal_yaml(results).encode('utf-8'))
 
 
 def get_model_by_name(modelname: str):

@@ -2,7 +2,7 @@
 import logging
 import time
 from dataclasses import dataclass
-from typing import List, Tuple, Union
+from typing import Generator, List, Tuple, Union
 from urllib import parse
 
 import inflection
@@ -337,6 +337,7 @@ class PubmedClient:
         )
 
         txt = []
+        onetxt = ""
         for doc in these_docs:
             if len(doc) > self.max_text_length and not raw:
                 logging.warning(
@@ -348,9 +349,11 @@ class PubmedClient:
                 txt.append(doc)
             if singledoc and not pubmedcental:
                 onetxt = txt[0]
-                txt = onetxt
 
-        return txt
+        if len(onetxt) > 0:
+            return onetxt
+        else:
+            return txt
 
     def pmc_text(self, pmc_id: str) -> str:
         """Get the text of one PubMed Central entry.
@@ -398,14 +401,14 @@ class PubmedClient:
 
         return xml_data
 
-    def search(self, term: str, keywords: List[str] = [""]) -> List[PMID]:
+    def search(self, term: str, keywords: List[str] = [""]) -> Generator[PMID, None, None]:
         """Get the quality-scored text of PubMed papers relating to a search term and keywords.
 
         This generator yields PMIDs. Note this uses the MAX_PMIDS value
         to determine how many documents to collect.
         :param term: search term, a string
         :param keywords: keywords, a list of strings
-        :return: a list of PMIDs corresponding to the search term and keywords
+        :return: PMIDs corresponding to the search term and keywords
         """
         if keywords:
             keywords = [_normalize(kw) for kw in keywords]
@@ -485,7 +488,7 @@ class PubmedClient:
                 ab = ""
                 if pa.find("Abstract"):  # Document may not have abstract
                     ab = pa.find("Abstract").text
-                kw = ""
+                kw = [""]
                 if pa.find("KeywordList"):  # Document may not have MeSH terms or keywords
                     kw = [tag.text for tag in pa.find_all("Keyword")]
                 txt = f"Title: {ti}\nKeywords: {'; '.join(kw)}\nPMID: {pmid}\nAbstract: {ab}"
@@ -502,7 +505,7 @@ class PubmedClient:
                     ti = pa.find("ArticleTitle").text
                 if pa.find("Abstract"):  # Document may not have abstract
                     body = pa.find("Abstract").text + body
-                kw = ""
+                kw = [""]
                 if pa.find("KeywordList"):  # Document may not have MeSH terms or keywords
                     kw = [tag.text for tag in pa.find_all("Keyword")]
 

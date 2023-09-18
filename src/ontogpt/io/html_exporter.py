@@ -87,17 +87,17 @@ class HTMLExporter(Exporter):
         ]
         if matches:
             match = matches[0]
-            output.write(f"{match.label} {self.link(match.id)}")
+            output.write(f"{match.label} {self.link(match.id)}".encode('utf-8'))
         else:
-            output.write(str(value))
-        output.write("\n")
+            output.write(str(value).encode('utf-8'))
+        output.write("\n".encode('utf-8'))
 
     def details(self, text: Optional[str], output: Union[BytesIO, TextIO], code: str = ""):
-        output.write("<details>\n")
-        output.write("<pre>\n")
+        output.write("<details>\n".encode('utf-8'))
+        output.write("<pre>\n".encode('utf-8'))
         self.w(text)
-        output.write("\n</pre>\n")
-        output.write("\n</details>\n")
+        output.write("\n</pre>\n".encode('utf-8'))
+        output.write("\n</details>\n".encode('utf-8'))
 
     def link(self, curie: str) -> str:
         return f'<a href="https://bioregistry.io/{curie}">{curie}</a>'
@@ -130,7 +130,7 @@ class HTMLExporter(Exporter):
         self.tag("i", html.escape(text))
 
     def tag(self, tag: str, text: str):
-        self.output.write(f"<{tag}>{text}</{tag}>\n")
+        self.output.write(f"<{tag}>{text}</{tag}>\n".encode('utf-8'))
 
     def w(self, text: str):
-        self.output.write(html.escape(text))
+        self.output.write(html.escape(text).encode('utf-8'))
