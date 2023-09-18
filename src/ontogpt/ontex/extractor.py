@@ -1071,9 +1071,9 @@ class OntologyExtractor:
     query_predicates: Optional[List[PRED_CURIE]] = None
 
     use_identifiers: bool = False
-    name_map: Optional[Mapping[CURIE, str]] = field(default_factory=lambda: {})
+    name_map: Optional[Mapping[str, str]] = field(default_factory=lambda: {})
     obfuscate: bool = False
-    obfuscated_curie_map: Optional[Mapping[str, CURIE]] = field(
+    obfuscated_curie_map: Optional[Mapping[str, str]] = field(
         default_factory=lambda: {}  # type: ignore
     )
 
@@ -1472,7 +1472,7 @@ class OntologyExtractor:
                 continue
             # if desc not in ontology.terms:
             #    continue
-            explanations = []
+            explanations: List[str] = []
             answers.append(ClassAnswer(text=self._name(desc), explanations=explanations))
         task = EntailedSubClassOfExpressionTask(
             ontology=ontology,
@@ -1609,13 +1609,12 @@ class OntologyExtractor:
         ontology = self.extract_ontology(terms, predicates=TAXON_PREDICATES + [IS_A, PART_OF])
         for t in true_taxa:
             children = {rel[0] for rel in adapter.relationships(objects=[t], predicates=[IS_A])}
-            children = [c for c in children if c in true_taxa]
-            if len(children) > 1:
-                children = list(children)
-                for i in range(len(children)):
-                    for j in range(i + 1, len(children)):
+            children_list = [c for c in children if c in true_taxa]
+            if len(children_list) > 1:
+                for i in range(len(children_list)):
+                    for j in range(i + 1, len(children_list)):
                         ontology.axioms.append(
-                            self._axiom((children[i], DISJOINT_WITH, children[j]))
+                            self._axiom((children_list[i], DISJOINT_WITH, children_list[j]))
                         )
         if not isinstance(adapter, TaxonConstraintInterface):
             raise ValueError("Cannot evaluate taxon constraints")
@@ -1660,12 +1659,12 @@ class OntologyExtractor:
         else:
             lbl = re.sub(r"\W+", "_", lbl)
         lbl = inflection.camelize(lbl)
-        self.name_map[curie] = lbl
+        self.name_map[curie] = lbl  # type: ignore
         if self.use_identifiers:
             return curie
         elif self.obfuscate:
             obfuscated = base64.b64encode(curie.encode("utf-8")).decode("utf-8")
-            self.obfuscated_curie_map[obfuscated] = curie
+            self.obfuscated_curie_map[obfuscated] = curie  # type: ignore
             return obfuscated
         else:
             return lbl

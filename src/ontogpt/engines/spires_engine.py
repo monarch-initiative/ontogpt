@@ -77,7 +77,7 @@ class SPIRESEngine(KnowledgeEngine):
             for chunk in chunks:
                 raw_text = self._raw_extract(chunk, cls=cls, object=object, show_prompt=show_prompt)
                 logging.info(f"RAW TEXT: {raw_text}")
-                next_object = self.parse_completion_payload(raw_text, cls, object=object)
+                next_object = self.parse_completion_payload(raw_text, cls, object=object)  # type: ignore
                 if extracted_object is None:
                     extracted_object = next_object
                 else:
@@ -92,7 +92,7 @@ class SPIRESEngine(KnowledgeEngine):
         else:
             raw_text = self._raw_extract(text=text, cls=cls, object=object, show_prompt=show_prompt)
             logging.info(f"RAW TEXT: {raw_text}")
-            extracted_object = self.parse_completion_payload(raw_text, cls, object=object)
+            extracted_object = self.parse_completion_payload(raw_text, cls, object=object)  # type: ignore
         return ExtractionResult(
             input_text=text,
             raw_completion_output=raw_text,
@@ -514,10 +514,10 @@ class SPIRESEngine(KnowledgeEngine):
             else:
                 for sep in [" - ", ":", "/", "*", "-"]:
                     if all([sep in v for v in vals]):
-                        vals = [dict(zip(slots_of_range, v.split(sep, 1))) for v in vals]
+                        vals = [dict(zip(slots_of_range, v.split(sep, 1))) for v in vals]  # type: ignore
                         for v in vals:
-                            for k in v.keys():
-                                v[k] = v[k].strip()
+                            for k in v.keys():  # type: ignore
+                                v[k] = v[k].strip()  # type: ignore
                         transformed = True
                         break
                 if not transformed:
@@ -586,7 +586,7 @@ class SPIRESEngine(KnowledgeEngine):
         new_ann = {}
         if ann is None:
             logging.error(f"Cannot ground None annotation, cls={cls.name}")
-            return
+            return None
         for field, vals in ann.items():
             if isinstance(vals, list):
                 multivalued = True
@@ -625,10 +625,11 @@ class SPIRESEngine(KnowledgeEngine):
                     found = False
                     logging.info(f"Looking for {obj} in {enum_def.name}")
                     for k, _pv in enum_def.permissible_values.items():
-                        if obj.lower() == k.lower():
-                            obj = k
-                            found = True
-                            break
+                        if type(obj) is str and type(k) is str:
+                            if obj.lower() == k.lower():
+                                obj = k
+                                found = True
+                                break
                     if not found:
                         logging.info(f"Cannot find enum value for {obj} in {enum_def.name}")
                         obj = None

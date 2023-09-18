@@ -22,7 +22,7 @@ class HTMLExporter(Exporter):
 
     output: Optional[Union[BytesIO, TextIO]]
 
-    def export(self, extraction_output: ExtractionResult, output: Union[str, Path, TextIO, BytesIO]):
+    def export(self, extraction_output: ExtractionResult, output: Union[str, Path, TextIO, BytesIO]):  # type: ignore
         if isinstance(output, Path):
             output = str(output)
         if isinstance(output, str):
@@ -87,17 +87,17 @@ class HTMLExporter(Exporter):
         ]
         if matches:
             match = matches[0]
-            output.write(f"{match.label} {self.link(match.id)}".encode('utf-8'))
+            output.write(f"{match.label} {self.link(match.id)}".encode("utf-8"))
         else:
-            output.write(str(value).encode('utf-8'))
-        output.write("\n".encode('utf-8'))
+            output.write(str(value).encode("utf-8"))
+        output.write("\n".encode("utf-8"))
 
     def details(self, text: Optional[str], output: Union[BytesIO, TextIO], code: str = ""):
-        output.write("<details>\n".encode('utf-8'))
-        output.write("<pre>\n".encode('utf-8'))
+        output.write("<details>\n".encode("utf-8"))
+        output.write("<pre>\n".encode("utf-8"))
         self.w(text)
-        output.write("\n</pre>\n".encode('utf-8'))
-        output.write("\n</details>\n".encode('utf-8'))
+        output.write("\n</pre>\n".encode("utf-8"))
+        output.write("\n</details>\n".encode("utf-8"))
 
     def link(self, curie: str) -> str:
         return f'<a href="https://bioregistry.io/{curie}">{curie}</a>'
@@ -130,7 +130,7 @@ class HTMLExporter(Exporter):
         self.tag("i", html.escape(text))
 
     def tag(self, tag: str, text: str):
-        self.output.write(f"<{tag}>{text}</{tag}>\n".encode('utf-8'))
+        self.output.write(f"<{tag}>{text}</{tag}>\n".encode("utf-8"))
 
     def w(self, text: str):
-        self.output.write(html.escape(text).encode('utf-8'))
+        self.output.write(html.escape(text).encode("utf-8"))
