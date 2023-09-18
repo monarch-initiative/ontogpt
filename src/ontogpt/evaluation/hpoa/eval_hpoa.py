@@ -7,7 +7,7 @@ from pathlib import Path
 from random import shuffle
 from typing import Dict, Iterable, Iterator, List, Tuple
 
-from oaklib import BasicOntologyInterface, get_implementation_from_shorthand
+from oaklib import BasicOntologyInterface, get_adapter
 from oaklib.datamodels.search import SearchConfiguration
 from oaklib.datamodels.search_datamodel import SearchProperty
 from oaklib.interfaces import SearchInterface
@@ -18,12 +18,10 @@ from ontogpt.engines.spires_engine import SPIRESEngine
 from ontogpt.evaluation.evaluation_engine import SimilarityScore, SPIRESEvaluationEngine
 from ontogpt.templates.mendelian_disease import MendelianDisease
 
-THIS_DIR = Path(__file__).parent
 DATABASE_DIR = Path(__file__).parent / "database"
-TEST_CASES_DIR = THIS_DIR / "test_cases"
-EXEMPLARS_DIR = THIS_DIR / "exemplars"
-EXEMPLAR_CASES = EXEMPLARS_DIR / "drugmechdb-exemplars.yaml"
-
+TEST_CASES_DIR = Path("tests").joinpath("input")
+TEST_HPOA_FILE = "test_sample.hpoa.tsv"
+NUM_TESTS = 3 # Note: each test requires input text; see provided test cases
 
 DISEASE_ID = str
 TERM = str
@@ -72,18 +70,18 @@ class EvalHPOA(SPIRESEvaluationEngine):
 
     def __post_init__(self):
         self.extractor = SPIRESEngine("mendelian_disease.MendelianDisease")
-        self.mondo = get_implementation_from_shorthand("sqlite:obo:mondo")
+        self.mondo = get_adapter("sqlite:obo:mondo")
 
     def load_test_cases(self) -> List[MendelianDisease]:
         return []
 
     def disease_text(self, id: str):
-        id = id.replace("OMIM:", "omim-")
-        with open(TEST_CASES_DIR / f"{id}.txt") as f:
+        id = id.lower().replace(":", "-")
+        with open(TEST_CASES_DIR / "cases" / f"{id}.txt") as f:
             return f.read()
 
     def parse_hpoa(self) -> Iterator[HPOAnnotation]:
-        with open(TEST_CASES_DIR / "test.hpoa.tsv") as file:
+        with open(TEST_CASES_DIR / TEST_HPOA_FILE) as file:
             reader = csv.reader(file, delimiter="\t")
             for row in reader:
                 yield HPOAnnotation(
@@ -155,7 +153,7 @@ class EvalHPOA(SPIRESEvaluationEngine):
         obj.name = mondo.label(entity)
         obj.label = obj.name
         obj.description = mondo.definition(entity)
-        obj.subclass_of = list(mondo.hierararchical_parents(entity))
+        obj.subclass_of = list(mondo.hierarchical_parents(entity))
         obj.synonyms = list(mondo.entity_aliases(entity))
         for _s, _p, gene in mondo.relationships([entity], ["RO:0004003"]):
             gene = (
@@ -176,7 +174,7 @@ class EvalHPOA(SPIRESEvaluationEngine):
         else:
             raise ValueError(f"Unknown task {task}")
 
-    def eval_against_pubs(self, num_tests=3) -> EvaluationObjectSetHPOA:
+    def eval_against_pubs(self, num_tests=NUM_TESTS) -> EvaluationObjectSetHPOA:
         ke = self.extractor
         pmc = PubmedClient()
         eos = EvaluationObjectSetHPOA()
@@ -184,7 +182,7 @@ class EvalHPOA(SPIRESEvaluationEngine):
         eos.training = []
         eos.predictions = []
         shuffle(eos.test)
-        for test_case in eos.test[0:num_tests]:
+        for test_case in eos.test[0:num_tests-1]:
             # text = self.disease_text(test_case.id)
             if len(test_case.publications) != 1:
                 raise ValueError(f"Expected 1 publication, got {len(test_case.publications)}")
@@ -204,7 +202,7 @@ class EvalHPOA(SPIRESEvaluationEngine):
         return self.eval_against_omim_or_pubs(use_publications=True)
 
     def eval_against_omim_or_pubs(
-        self, num_tests=3, use_publications=False
+        self, num_tests=NUM_TESTS, use_publications=False
     ) -> EvaluationObjectSetHPOA:
         ke = self.extractor
         eos = EvaluationObjectSetHPOA()
