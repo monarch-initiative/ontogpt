@@ -1,0 +1,94 @@
+@prefix OBI: <http://purl.obolibrary.org/obo/OBI_> .
+@prefix ontoenrich: <https://w3id.org/oak/class-enrichment/> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+ontoenrich:ClassEnrichmentConfiguration a sh:NodeShape ;
+    sh:closed true ;
+    sh:description "configuration for search" ;
+    sh:ignoredProperties ( rdf:type ) ;
+    sh:property [ sh:description "p-value cutoff for enrichment" ;
+            sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:order 0 ;
+            sh:path ontoenrich:p_value_cutoff ] ;
+    sh:targetClass ontoenrich:ClassEnrichmentConfiguration .
+
+ontoenrich:ClassEnrichmentResultSet a sh:NodeShape ;
+    sh:closed true ;
+    sh:description "A collection of enrichemt results" ;
+    sh:ignoredProperties ( rdf:type ) ;
+    sh:property [ sh:class ontoenrich:ClassEnrichmentResult ;
+            sh:description "The enrichment results" ;
+            sh:nodeKind sh:BlankNode ;
+            sh:order 0 ;
+            sh:path ontoenrich:results ] ;
+    sh:targetClass ontoenrich:ClassEnrichmentResultSet .
+
+ontoenrich:ClassEnrichmentResult a sh:NodeShape ;
+    sh:closed true ;
+    sh:description "A single enrichment result" ;
+    sh:ignoredProperties ( rdf:type ) ;
+    sh:property [ sh:description "The rank of this result" ;
+            sh:maxCount 1 ;
+            sh:order 2 ;
+            sh:path ontoenrich:rank ],
+        [ sh:description "The probability, as estimated by model-based approaches" ;
+            sh:maxCount 1 ;
+            sh:maxInclusive 1 ;
+            sh:minInclusive 0 ;
+            sh:order 7 ;
+            sh:path ontoenrich:probability ],
+        [ sh:description "The class label" ;
+            sh:maxCount 1 ;
+            sh:order 1 ;
+            sh:path ontoenrich:class_label ],
+        [ sh:description "The adjusted p-value" ;
+            sh:maxCount 1 ;
+            sh:order 4 ;
+            sh:path ontoenrich:p_value_adjusted ],
+        [ sh:description "The background total" ;
+            sh:maxCount 1 ;
+            sh:order 11 ;
+            sh:path ontoenrich:background_total ],
+        [ sh:description "The number of entities in the sample with this class" ;
+            sh:maxCount 1 ;
+            sh:order 8 ;
+            sh:path ontoenrich:sample_count ],
+        [ sh:description "This term is more specific than a previously reported result" ;
+            sh:maxCount 1 ;
+            sh:order 13 ;
+            sh:path ontoenrich:descendant_of_more_informative_result ],
+        [ sh:description "The class id" ;
+            sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:order 0 ;
+            sh:path ontoenrich:class_id ],
+        [ sh:description "This term is more general than a previously reported result" ;
+            sh:maxCount 1 ;
+            sh:order 12 ;
+            sh:path ontoenrich:ancestor_of_more_informative_result ],
+        [ sh:description "The fold enrichment" ;
+            sh:maxCount 1 ;
+            sh:order 6 ;
+            sh:path ontoenrich:fold_enrichment ],
+        [ sh:description "The total number of entities in the sample" ;
+            sh:maxCount 1 ;
+            sh:order 9 ;
+            sh:path ontoenrich:sample_total ],
+        [ sh:description "The background count" ;
+            sh:maxCount 1 ;
+            sh:order 10 ;
+            sh:path ontoenrich:background_count ],
+        [ sh:description "The false discovery rate" ;
+            sh:maxCount 1 ;
+            sh:order 5 ;
+            sh:path ontoenrich:false_discovery_rate ],
+        [ sh:description "The p-value" ;
+            sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:order 3 ;
+            sh:path OBI:0000175 ] ;
+    sh:targetClass ontoenrich:ClassEnrichmentResult .
+

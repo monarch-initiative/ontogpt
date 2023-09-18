@@ -1,0 +1,223 @@
+BASE <http://w3id.org/ontogpt/diagnostic_procedure/>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+PREFIX linkml: <https://w3id.org/linkml/>
+PREFIX core: <http://w3id.org/ontogpt/core/>
+PREFIX rdfs1: <http://example.org/UNKNOWN/rdfs/>
+
+
+linkml:String xsd:string
+
+linkml:Integer xsd:integer
+
+linkml:Boolean xsd:boolean
+
+linkml:Float xsd:float
+
+linkml:Double xsd:double
+
+linkml:Decimal xsd:decimal
+
+linkml:Time xsd:time
+
+linkml:Date xsd:date
+
+linkml:Datetime xsd:dateTime
+
+linkml:DateOrDatetime linkml:DateOrDatetime
+
+linkml:Uriorcurie IRI
+
+linkml:Curie xsd:string
+
+linkml:Uri IRI
+
+linkml:Ncname xsd:string
+
+linkml:Objectidentifier IRI
+
+linkml:Nodeidentifier NONLITERAL
+
+linkml:Jsonpointer xsd:string
+
+linkml:Jsonpath xsd:string
+
+linkml:Sparqlpath xsd:string
+
+core:AnnotatorResult CLOSED {
+    (  $core:AnnotatorResult_tes (  core:subject_text @linkml:String ? ;
+          core:object_id @linkml:String ? ;
+          core:object_text @linkml:String ?
+       ) ;
+       rdf:type [ core:AnnotatorResult ] ?
+    )
+}
+
+core:Any CLOSED {
+    (  $core:Any_tes rdf:type . * ;
+       rdf:type [ linkml:Any ] ?
+    )
+}
+
+<ClinicalAttribute> CLOSED {
+    (  $<ClinicalAttribute_tes> (  &core:NamedEntity_tes ;
+          rdf:type [ core:NamedEntity ] ? ;
+          <unit> @<Unit> ?
+       ) ;
+       rdf:type [ <ClinicalAttribute> ]
+    )
+}
+
+core:CompoundExpression  (
+    {
+       (  $core:CompoundExpression_tes rdf:type . * ;
+          rdf:type [ core:CompoundExpression ] ?
+       )
+    } OR @core:Triple
+)
+
+<DiagnosticProcedure> CLOSED {
+    (  $<DiagnosticProcedure_tes> (  &core:NamedEntity_tes ;
+          rdf:type [ core:NamedEntity ] ?
+       ) ;
+       rdf:type [ <DiagnosticProcedure> ]
+    )
+}
+
+<DiagnosticProceduretoAttributeAssociation> CLOSED {
+    (  $<DiagnosticProceduretoAttributeAssociation_tes> (  &core:Triple_tes ;
+          rdf:type [ core:Triple ] ? ;
+          <subject> @<DiagnosticProcedure> ? ;
+          <object> @<ClinicalAttribute> * ;
+          <predicate> @<ProcedureToAttributePredicate> ? ;
+          <subject_qualifier> @core:NamedEntity ? ;
+          <object_qualifier> @<Quality> ?
+       ) ;
+       rdf:type [ <DiagnosticProceduretoAttributeAssociation> ] ?
+    )
+}
+
+<DiagnosticProceduretoPhenotypeAssociation> CLOSED {
+    (  $<DiagnosticProceduretoPhenotypeAssociation_tes> (  &core:Triple_tes ;
+          rdf:type [ core:Triple ] ? ;
+          <subject> @<DiagnosticProcedure> ? ;
+          <object> @<Phenotype> * ;
+          <predicate> @<ProcedureToPhenotypePredicate> ? ;
+          <subject_qualifier> @core:NamedEntity ? ;
+          <object_qualifier> @core:NamedEntity ?
+       ) ;
+       rdf:type [ <DiagnosticProceduretoPhenotypeAssociation> ] ?
+    )
+}
+
+core:ExtractionResult CLOSED {
+    (  $core:ExtractionResult_tes (  core:input_id @linkml:String ? ;
+          core:input_title @linkml:String ? ;
+          core:input_text @linkml:String ? ;
+          core:raw_completion_output @linkml:String ? ;
+          core:prompt @linkml:String ? ;
+          core:extracted_object @core:Any ? ;
+          core:named_entities @core:Any *
+       ) ;
+       rdf:type [ core:ExtractionResult ] ?
+    )
+}
+
+core:NamedEntity  (
+    @<ClinicalAttribute> OR @<DiagnosticProcedure> OR @<Phenotype> OR @<Quality> OR @core:RelationshipType OR @<Unit>
+)
+
+core:NamedEntity_struct {
+    (  $core:NamedEntity_tes rdfs1:label @linkml:String ? ;
+       rdf:type [ core:NamedEntity ]
+    )
+}
+
+<Phenotype> CLOSED {
+    (  $<Phenotype_tes> (  &core:NamedEntity_tes ;
+          rdf:type [ core:NamedEntity ] ?
+       ) ;
+       rdf:type [ <Phenotype> ]
+    )
+}
+
+<ProcedureToAttributePredicate> CLOSED {
+    (  $<ProcedureToAttributePredicate_tes> (  &core:RelationshipType_tes ;
+          rdf:type [ core:RelationshipType ] ?
+       ) ;
+       rdf:type [ <ProcedureToAttributePredicate> ]
+    )
+}
+
+<ProcedureToPhenotypePredicate> CLOSED {
+    (  $<ProcedureToPhenotypePredicate_tes> (  &core:RelationshipType_tes ;
+          rdf:type [ core:RelationshipType ] ?
+       ) ;
+       rdf:type [ <ProcedureToPhenotypePredicate> ]
+    )
+}
+
+core:Publication CLOSED {
+    (  $core:Publication_tes (  core:id @linkml:String ? ;
+          core:title @linkml:String ? ;
+          core:abstract @linkml:String ? ;
+          core:combined_text @linkml:String ? ;
+          core:full_text @linkml:String ?
+       ) ;
+       rdf:type [ core:Publication ] ?
+    )
+}
+
+<Quality> CLOSED {
+    (  $<Quality_tes> (  &core:NamedEntity_tes ;
+          rdf:type [ core:NamedEntity ] ?
+       ) ;
+       rdf:type [ <Quality> ]
+    )
+}
+
+core:RelationshipType  (
+    CLOSED {
+       (  $core:RelationshipType_tes (  &core:NamedEntity_tes ;
+             rdf:type [ core:NamedEntity ] ?
+          ) ;
+          rdf:type [ core:RelationshipType ]
+       )
+    } OR @<ProcedureToAttributePredicate> OR @<ProcedureToPhenotypePredicate>
+)
+
+core:TextWithTriples CLOSED {
+    (  $core:TextWithTriples_tes (  core:publication @core:Publication ? ;
+          core:triples @core:Triple *
+       ) ;
+       rdf:type [ core:TextWithTriples ] ?
+    )
+}
+
+core:Triple  (
+    @<DiagnosticProceduretoAttributeAssociation> OR @<DiagnosticProceduretoPhenotypeAssociation>
+)
+
+core:Triple_struct {
+    (  $core:Triple_tes (  &core:CompoundExpression_tes ;
+          rdf:type [ core:CompoundExpression ] ? ;
+          core:subject @core:NamedEntity ? ;
+          core:predicate @core:RelationshipType ? ;
+          core:object @core:NamedEntity ? ;
+          core:qualifier @linkml:String ? ;
+          core:subject_qualifier @core:NamedEntity ? ;
+          core:object_qualifier @core:NamedEntity ?
+       ) ;
+       rdf:type [ core:Triple ] ?
+    )
+}
+
+<Unit> CLOSED {
+    (  $<Unit_tes> (  &core:NamedEntity_tes ;
+          rdf:type [ core:NamedEntity ] ?
+       ) ;
+       rdf:type [ <Unit> ]
+    )
+}
+
+

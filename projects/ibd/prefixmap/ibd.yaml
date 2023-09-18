@@ -1,0 +1,45 @@
+{
+   "CHEBI": "http://example.org/UNKNOWN/CHEBI/",
+   "CL": "http://purl.obolibrary.org/obo/CL_",
+   "EFO": "http://example.org/UNKNOWN/EFO/",
+   "GO": "http://purl.obolibrary.org/obo/GO_",
+   "HGNC": "http://example.org/UNKNOWN/HGNC/",
+   "NCBITaxon": "http://example.org/UNKNOWN/NCBITaxon/",
+   "PR": "http://example.org/UNKNOWN/PR/",
+   "PW": "http://example.org/UNKNOWN/PW/",
+   "RO": "http://purl.obolibrary.org/obo/RO_",
+   "UBERON": "http://example.org/UNKNOWN/UBERON/",
+   "UniProtKB": "http://example.org/UNKNOWN/UniProtKB/",
+   "biolink": "http://example.org/UNKNOWN/biolink/",
+   "core": "http://w3id.org/ontogpt/core/",
+   "gocam": "http://w3id.org/ontogpt/gocam/",
+   "linkml": "https://w3id.org/linkml/",
+   "rdfs": "http://example.org/UNKNOWN/rdfs/",
+   "AnnotatorResult": {
+      "@id": "core:AnnotatorResult"
+   },
+   "Any": {
+      "@id": "linkml:Any"
+   },
+   "CompoundExpression": {
+      "@id": "core:CompoundExpression"
+   },
+   "ExtractionResult": {
+      "@id": "core:ExtractionResult"
+   },
+   "NamedEntity": {
+      "@id": "core:NamedEntity"
+   },
+   "Publication": {
+      "@id": "core:Publication"
+   },
+   "RelationshipType": {
+      "@id": "core:RelationshipType"
+   },
+   "TextWithTriples": {
+      "@id": "core:TextWithTriples"
+   },
+   "Triple": {
+      "@id": "core:Triple"
+   }
+}

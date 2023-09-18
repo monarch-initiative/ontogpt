@@ -1,0 +1,87 @@
+type AnnotatorResult
+  {
+    subjectText: String
+    objectId: String
+    objectText: String
+  }
+
+type Any
+  {
+  }
+
+interface CompoundExpression
+  {
+  }
+
+type ExtractionResult
+  {
+    inputId: String
+    inputTitle: String
+    inputText: String
+    rawCompletionOutput: String
+    prompt: String
+    extractedObject: Any
+    namedEntities: [Any]
+  }
+
+type LogicalDefinition
+  {
+    genus: [OntologyClass]
+    differentiatingCharacteristicRelationship: Relation
+    differentiatingCharacteristicParents: [OntologyClass]
+  }
+
+interface NamedEntity
+  {
+    id: String!
+    label: String
+  }
+
+type OntologyClass
+  {
+    id: String!
+    label: String
+    description: String
+    synonyms: [String]
+    categories: [OntologyClass]
+    subclassOf: [OntologyClass]
+    logicalDefinition: LogicalDefinition
+  }
+
+type Publication
+  {
+    id: String
+    title: String
+    abstract: String
+    combinedText: String
+    fullText: String
+  }
+
+type Relation
+  {
+    id: String!
+    label: String
+  }
+
+type RelationshipType
+  {
+    id: String!
+    label: String
+  }
+
+type TextWithTriples
+  {
+    publication: Publication
+    triples: [Triple]
+  }
+
+interface Triple
+  {
+    subject: NamedEntity
+    predicate: RelationshipType
+    object: NamedEntity
+    qualifier: String
+    subjectQualifier: NamedEntity
+    objectQualifier: NamedEntity
+  }
+

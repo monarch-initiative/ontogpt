@@ -1,0 +1,198 @@
+BASE <http://w3id.org/ontogpt/mendelian_disease/>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+PREFIX linkml: <https://w3id.org/linkml/>
+PREFIX core: <http://w3id.org/ontogpt/core/>
+PREFIX rdfs1: <http://example.org/UNKNOWN/rdfs/>
+
+
+linkml:String xsd:string
+
+linkml:Integer xsd:integer
+
+linkml:Boolean xsd:boolean
+
+linkml:Float xsd:float
+
+linkml:Double xsd:double
+
+linkml:Decimal xsd:decimal
+
+linkml:Time xsd:time
+
+linkml:Date xsd:date
+
+linkml:Datetime xsd:dateTime
+
+linkml:DateOrDatetime linkml:DateOrDatetime
+
+linkml:Uriorcurie IRI
+
+linkml:Curie xsd:string
+
+linkml:Uri IRI
+
+linkml:Ncname xsd:string
+
+linkml:Objectidentifier IRI
+
+linkml:Nodeidentifier NONLITERAL
+
+linkml:Jsonpointer xsd:string
+
+linkml:Jsonpath xsd:string
+
+linkml:Sparqlpath xsd:string
+
+core:AnnotatorResult CLOSED {
+    (  $core:AnnotatorResult_tes (  core:subject_text @linkml:String ? ;
+          core:object_id @linkml:String ? ;
+          core:object_text @linkml:String ?
+       ) ;
+       rdf:type [ core:AnnotatorResult ] ?
+    )
+}
+
+core:Any CLOSED {
+    (  $core:Any_tes rdf:type . * ;
+       rdf:type [ linkml:Any ] ?
+    )
+}
+
+core:CompoundExpression  (
+    {
+       (  $core:CompoundExpression_tes rdf:type . * ;
+          rdf:type [ core:CompoundExpression ] ?
+       )
+    } OR @core:Triple
+)
+
+<DiseaseCategory> CLOSED {
+    (  $<DiseaseCategory_tes> (  &core:NamedEntity_tes ;
+          rdf:type [ core:NamedEntity ] ?
+       ) ;
+       rdf:type [ <DiseaseCategory> ]
+    )
+}
+
+core:ExtractionResult CLOSED {
+    (  $core:ExtractionResult_tes (  core:input_id @linkml:String ? ;
+          core:input_title @linkml:String ? ;
+          core:input_text @linkml:String ? ;
+          core:raw_completion_output @linkml:String ? ;
+          core:prompt @linkml:String ? ;
+          core:extracted_object @core:Any ? ;
+          core:named_entities @core:Any *
+       ) ;
+       rdf:type [ core:ExtractionResult ] ?
+    )
+}
+
+<Gene> CLOSED {
+    (  $<Gene_tes> (  &core:NamedEntity_tes ;
+          rdf:type [ core:NamedEntity ] ?
+       ) ;
+       rdf:type [ <Gene> ]
+    )
+}
+
+<Inheritance> CLOSED {
+    (  $<Inheritance_tes> (  &core:NamedEntity_tes ;
+          rdf:type [ core:NamedEntity ] ?
+       ) ;
+       rdf:type [ <Inheritance> ]
+    )
+}
+
+<MendelianDisease> CLOSED {
+    (  $<MendelianDisease_tes> (  &core:NamedEntity_tes ;
+          rdf:type [ core:NamedEntity ] ? ;
+          <name> @linkml:String ? ;
+          <description> @linkml:String ? ;
+          <synonyms> @linkml:String * ;
+          <subclass_of> @<DiseaseCategory> * ;
+          <symptoms> @<Symptom> * ;
+          <inheritance> @<Inheritance> ? ;
+          <genes> @<Gene> * ;
+          <disease_onsets> @<Onset> * ;
+          <publications> @core:Publication *
+       ) ;
+       rdf:type [ <MendelianDisease> ]
+    )
+}
+
+core:NamedEntity  (
+    @<DiseaseCategory> OR @<Gene> OR @<Inheritance> OR @<MendelianDisease> OR @<Onset> OR @core:RelationshipType OR @<Symptom>
+)
+
+core:NamedEntity_struct {
+    (  $core:NamedEntity_tes rdfs1:label @linkml:String ? ;
+       rdf:type [ core:NamedEntity ]
+    )
+}
+
+<Onset> CLOSED {
+    (  $<Onset_tes> (  &core:NamedEntity_tes ;
+          rdf:type [ core:NamedEntity ] ? ;
+          <years_old> @linkml:String ? ;
+          <decades> @linkml:String * ;
+          <juvenile_or_adult> @linkml:String ?
+       ) ;
+       rdf:type [ <Onset> ]
+    )
+}
+
+core:Publication CLOSED {
+    (  $core:Publication_tes (  core:id @linkml:String ? ;
+          core:title @linkml:String ? ;
+          core:abstract @linkml:String ? ;
+          core:combined_text @linkml:String ? ;
+          core:full_text @linkml:String ?
+       ) ;
+       rdf:type [ core:Publication ] ?
+    )
+}
+
+core:RelationshipType CLOSED {
+    (  $core:RelationshipType_tes (  &core:NamedEntity_tes ;
+          rdf:type [ core:NamedEntity ] ?
+       ) ;
+       rdf:type [ core:RelationshipType ]
+    )
+}
+
+<Symptom> CLOSED {
+    (  $<Symptom_tes> (  &core:NamedEntity_tes ;
+          rdf:type [ core:NamedEntity ] ? ;
+          <characteristic> @linkml:String ? ;
+          <affects> @linkml:String ? ;
+          <severity> @linkml:String ? ;
+          <onset_of_symptom> @<Onset> ?
+       ) ;
+       rdf:type [ <Symptom> ]
+    )
+}
+
+core:TextWithTriples CLOSED {
+    (  $core:TextWithTriples_tes (  core:publication @core:Publication ? ;
+          core:triples @core:Triple *
+       ) ;
+       rdf:type [ core:TextWithTriples ] ?
+    )
+}
+
+core:Triple {
+    (  $core:Triple_tes (  &core:CompoundExpression_tes ;
+          rdf:type [ core:CompoundExpression ] ? ;
+          core:subject @core:NamedEntity ? ;
+          core:predicate @core:RelationshipType ? ;
+          core:object @core:NamedEntity ? ;
+          core:qualifier @linkml:String ? ;
+          core:subject_qualifier @core:NamedEntity ? ;
+          core:object_qualifier @core:NamedEntity ?
+       ) ;
+       rdf:type [ core:Triple ] ?
+    )
+}
+
+

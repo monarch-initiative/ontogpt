@@ -1,0 +1,612 @@
+input_text: |-
+  Title: Symptoms of anxiety and depression associated with steroid efficacy and clinical outcomes in patients with inflammatory bowel disease.
+  Keywords: HADS; anxiety; depression; inflammatory bowel disease; steroid resistance
+  PMID: 37547213
+  Abstract: Anxiety and depression symptoms are very common in patients with inflammatory bowel disease (IBD). We aimed to explore the impact of anxiety and depression on the efficacy of medications, as well as IBD-related poor outcomes.This was a prospective longitudinal observational study. Hospital Anxiety and Depression Scale was used to assess anxiety and depression symptoms. Logistic regression analyses were used to assess the association between anxiety/depression and the response to different medications. Kaplan-Meier survival analysis and Cox regression model were applied to analyze the relationship between anxiety/depression and IBD-related poor outcomes, which were defined as urgent IBD-related hospitalization, IBD-related surgery, or death.A total of 325 IBD patients were enrolled, 118 of whom were treated with corticosteroids, 88 with azathioprine/6-mercaptopurine (AZA/6-MP), and 147 with anti-TNF agents. Anxiety/depression symptoms were found to be significantly related to steroid resistance, but independent of AZA/6-MP and anti-TNF agents nonresponse. There was a significant association between anxiety/depression symptoms and IBD-related poor outcomes. Coexisting with anxiety/depression symptoms was an independent influencing factor of steroid resistance and IBD-related poor outcomes.IBD patients with anxiety/depression symptoms were at a higher risk of developing steroid resistance and IBD-related poor outcomes. Future studies are needed to explore whether interventions for anxiety and depression will improve their response to medications and change their prognosis.Copyright © 2023 Duan, Yang, Cao, Chen, Liang and Zhang.
+raw_completion_output: |-
+  genes: N/A
+  exposures: corticosteroids, azathioprine/6-mercaptopurine (AZA/6-MP), anti-TNF agents
+  gene_exposures_relationships: N/A
+  diseases: inflammatory bowel disease
+  cellular_process: N/A
+  disease_cellular_process_relationships: N/A
+prompt: |+
+  Split the following piece of text into fields in the following format:
+
+  subject: <The name of the disease.>
+  predicate: <The name of the type of relationship between a disease and a cellular process.>
+  object: <The name of the cellular process.>
+  qualifier: <A qualifier for the statements, e.g. "NOT" for negation>
+  subject_qualifier: <An optional qualifier or modifier for the subject of the statement, e.g. "high dose" or "intravenously administered">
+  object_qualifier: <An optional qualifier or modifier for the object of the statement, e.g. "severe" or "with additional complications">
+
+
+  Text:
+  N/A
+
+  ===
+
+extracted_object:
+  genes:
+    - N/A
+  exposures:
+    - corticosteroids, azathioprine/6-mercaptopurine (AZA/6-MP), anti-TNF agents
+  gene_exposures_relationships:
+    - subject: N/A
+      predicate: N/A
+      object: N/A
+      qualifier: N/A
+      subject_qualifier: N/A
+      object_qualifier: N/A
+  diseases:
+    - MONDO:0005265
+  cellular_process:
+    - N/A
+  disease_cellular_process_relationships:
+    - subject: N/A
+      predicate: N/A
+      object: N/A
+      qualifier: N/A
+      subject_qualifier: N/A
+      object_qualifier: N/A
+named_entities:
+  - id: MONDO:0005265
+    label: inflammatory bowel disease
+input_text: |-
+  Title: Hypoxia-sensing by the Histone Demethylase UTX ( KDM6A ) Controls Colitogenic CD4 + T cell Fate and Mucosal Inflammation.
+  Keywords: 
+  PMID: 37546969
+  Abstract: Hypoxia is a feature of inflammatory conditions [e.g., inflammatory bowel disease (IBD)] and can exacerbate tissue damage in these diseases. To counteract hypoxia's deleterious effects, adaptive responses have evolved which protect against hypoxia-associated tissue injury. To date, much attention has focused on hypoxia-activated HIF (hypoxia-inducible factor) transcription factors in these responses. However, recent work has identified epigenetic regulators that are also oxygen-sensitive, but their role in adaptation to hypoxic inflammation is currently unclear. Here, we show that the oxygen-sensing epigenetic regulator UTX is a critical modulator of colitis severity. Unlike HIF transcription factors that act on gut epithelial cells, UTX functions in colitis through its effects on immune cells. Hypoxia results in decreased CD4 + T cell IFN-γ production and increased CD4 + regulatory T cells, and these findings are recapitulated by T cell-specific UTX deficiency. Hypoxia impairs the histone demethylase activity of UTX, and loss of UTX function leads to accumulation of repressive H3K27me3 epigenetic marks at IL12/STAT4 pathway genes ( Il12rb2, Tbx21, and Ifng ). In a colitis mouse model, T cell-specific UTX deletion ameliorates colonic inflammation, protects against weight loss, and increases survival. Together these findings implicate UTX's oxygen-sensitive histone demethylase activity in mediating protective, hypoxia-induced pathways in colitis.
+raw_completion_output: |-
+  genes: UTX, HIF, IL12rb2, Tbx21, Ifng
+  exposures: hypoxia
+  gene_exposures_relationships: UTX - hypoxia
+  diseases: inflammatory bowel disease (IBD), colitis
+  cellular_process: CD4 + T cell IFN-γ production, CD4 + regulatory T cells
+  disease_cellular_process_relationships: colitis - CD4 + T cell IFN-γ production, CD4 + regulatory T cells
+prompt: |+
+  From the text below, extract the following entities in the following format:
+
+  subject: <The name of the disease.>
+  predicate: <The name of the type of relationship between a disease and a cellular process.>
+  object: <The name of the cellular process.>
+  qualifier: <A qualifier for the statements, e.g. "NOT" for negation>
+  subject_qualifier: <An optional qualifier or modifier for the subject of the statement, e.g. "high dose" or "intravenously administered">
+  object_qualifier: <An optional qualifier or modifier for the object of the statement, e.g. "severe" or "with additional complications">
+
+
+  Text:
+  colitis - CD4 + T cell IFN-γ production, CD4 + regulatory T cells
+
+  ===
+
+extracted_object:
+  genes:
+    - UTX, HIF, IL12rb2, Tbx21, Ifng
+  exposures:
+    - hypoxia
+  gene_exposures_relationships:
+    - subject: UTX
+      predicate: hypoxia
+      object: None
+      qualifier: None
+      subject_qualifier: None
+      object_qualifier: None
+  diseases:
+    - MONDO:0005052
+  cellular_process:
+    - CD4 + T cell IFN-γ production, CD4 + regulatory T cells
+  disease_cellular_process_relationships:
+    - subject: MONDO:0005292
+      predicate: regulatory
+      object: CD4 + T cells
+      subject_qualifier: None
+      object_qualifier: None
+named_entities:
+  - id: MONDO:0005052
+    label: inflammatory bowel disease (IBD), colitis
+  - id: MONDO:0005292
+    label: colitis
+input_text: |-
+  Title: Iranian Consensus Guideline for Pharmacotherapy with Biologics and Small Molecules Drugs in Adults with Inflammatory Bowel Diseases.
+  Keywords: Biologic drugs; Consensus guideline; Pharmacotherapy; Small therapeutic molecules
+  PMID: 37546508
+  Abstract: Background: Pharmacotherapy with biologics and small molecules, as the more effective therapies for moderate to severe ulcerative colitis (UC) and Crohn's disease (CD), is complex. Choosing the best methods for their utilization in order to induce and maintain remission are critical for practicing gastroenterologists. We aimed to develop an Iranian consensus on the management of inflammatory bowel disease (IBD) patients with biologics and small molecules. Methods: A Delphi consensus was undertaken by experts who performed a literature summary and voting process. Quality of evidence was assessed using the Grading and Recommendations Assessment, Development, and Evaluation; and an additional risk of bias-protocol. Results: Following an extensive search of the literature, 219 studies were used to determine the quality of the evidence. After three rounds of voting, consensus (defined as≥80% agreement) was reached for 87 statements. Conclusion: We considered different aspects of pharmacotherapy in this consensus. This guideline, along with clinical judgment, can be used to optimize management of IBD patients.© 2023 Middle East Journal of Digestive Diseases.
+raw_completion_output: |-
+  genes: None mentioned in the text
+  exposures: Biologic drugs; Small therapeutic molecules
+  gene_exposures_relationships: None mentioned in the text
+  diseases: Inflammatory bowel disease (IBD); Ulcerative colitis (UC); Crohn's disease (CD)
+  cellular_process: None mentioned in the text
+  disease_cellular_process_relationships: None mentioned in the text
+prompt: |+
+  Split the following piece of text into fields in the following format:
+
+  subject: <The name of the disease.>
+  predicate: <The name of the type of relationship between a disease and a cellular process.>
+  object: <The name of the cellular process.>
+  qualifier: <A qualifier for the statements, e.g. "NOT" for negation>
+  subject_qualifier: <An optional qualifier or modifier for the subject of the statement, e.g. "high dose" or "intravenously administered">
+  object_qualifier: <An optional qualifier or modifier for the object of the statement, e.g. "severe" or "with additional complications">
+
+
+  Text:
+  None mentioned in the text
+
+  ===
+
+extracted_object:
+  genes:
+    - None mentioned in the text
+  exposures:
+    - Biologic drugs
+    - Small therapeutic molecules
+  gene_exposures_relationships:
+    - subject: None mentioned in the text
+      predicate: None mentioned in the text
+      object: None mentioned in the text
+      qualifier: None mentioned in the text
+      subject_qualifier: None mentioned in the text
+      object_qualifier: None mentioned in the text
+  diseases:
+    - MONDO:0005052
+    - MONDO:0005101
+    - MONDO:0016063
+  cellular_process:
+    - None mentioned in the text
+  disease_cellular_process_relationships:
+    - subject: None mentioned in the text
+      predicate: None mentioned in the text
+      object: None mentioned in the text
+      qualifier: None mentioned in the text
+      subject_qualifier: None mentioned in the text
+      object_qualifier: None mentioned in the text
+named_entities:
+  - id: MONDO:0005052
+    label: Inflammatory bowel disease (IBD)
+  - id: MONDO:0005101
+    label: Ulcerative colitis (UC)
+  - id: MONDO:0016063
+    label: Crohn's disease (CD)
+input_text: |-
+  Title: Whipple's Disease; An Overlooked Diagnosis.
+  Keywords: COVID-19; Malabsorption syndrome; Whipple disease
+  PMID: 37546505
+  Abstract: Whipple disease is a rare multisystem inflammatory disease. Because fewer than 1000 reported cases have been described, clinical experience with this disorder is sparse. We are reporting a case of a 46-year-old man who presented with fever, weight loss, and polyarthralgia for 2 months, and 1 month of diarrhea. The patient was thoroughly investigated for collagen diseases and COVID-19, with no definite diagnosis. A therapeutic trial by immunosuppressive drugs provided partial remission followed by a marked rebound of the symptoms. His occult blood in stool was positive and subsequent upper endoscopy with proximal small intestinal biopsies showed the pathological features of Whipple's disease. The patient showed a dramatic improvement following treatment with ceftriaxone and trimethoprim-sulfamethoxazole. Despite the rarity of Whipple's disease, its course mimics many rheumatological diseases, inflammatory bowel disease, and COVID-19 disease. It should always be a part of the differential diagnosis of obscure polyarthralgia and chronic diarrhea.© 2023 Middle East Journal of Digestive Diseases.
+raw_completion_output: |-
+  genes: not mentioned in the text
+  exposures: not mentioned in the text
+  gene_exposures_relationships: not mentioned in the text
+  diseases: Whipple's disease; COVID-19; Malabsorption syndrome
+  cellular_process: not mentioned in the text
+  disease_cellular_process_relationships: not mentioned in the text
+prompt: |+
+  Split the following piece of text into fields in the following format:
+
+  subject: <The name of the disease.>
+  predicate: <The name of the type of relationship between a disease and a cellular process.>
+  object: <The name of the cellular process.>
+  qualifier: <A qualifier for the statements, e.g. "NOT" for negation>
+  subject_qualifier: <An optional qualifier or modifier for the subject of the statement, e.g. "high dose" or "intravenously administered">
+  object_qualifier: <An optional qualifier or modifier for the object of the statement, e.g. "severe" or "with additional complications">
+
+
+  Text:
+  not mentioned in the text
+
+  ===
+
+extracted_object:
+  genes:
+    - not mentioned in the text
+  exposures:
+    - not mentioned in the text
+  gene_exposures_relationships:
+    - subject: not mentioned in the text
+      predicate: not mentioned in the text
+      object: not mentioned in the text
+      qualifier: not mentioned in the text
+      subject_qualifier: not mentioned in the text
+      object_qualifier: not mentioned in the text
+  diseases:
+    - MONDO:0005116
+    - MONDO:0100096
+    - MONDO:0020598
+  cellular_process:
+    - not mentioned in the text
+  disease_cellular_process_relationships:
+    - subject: not mentioned
+      predicate: not mentioned
+      object: not mentioned
+      qualifier: not mentioned
+      subject_qualifier: not mentioned
+      object_qualifier: not mentioned
+named_entities:
+  - id: MONDO:0005116
+    label: Whipple's disease
+  - id: MONDO:0100096
+    label: COVID-19
+  - id: MONDO:0020598
+    label: Malabsorption syndrome
+input_text: |-
+  Title: Bowel-associated dermatosis-arthritis syndrome (BADAS): a narrative review.
+  Keywords: bacterial translocation; bariatric surgery; bowel-associated dermatosis-arthritis syndrome; inflammatory bowel disease; neutrophilic dermatosis
+  PMID: 37545820
+  Abstract: Bowel-associated dermatosis-arthritis syndrome is a neutrophilic dermatosis presenting with flu-like symptoms, arthritis and skin lesions. The type of skin presentation varies although typically consists of red patches progressing into papulopustular-type lesions. Initially, the pathogenesis of the disease was linked exclusively to bariatric surgery, but more recent reports indicate the role of gastrointestinal diseases resulting in bacterial overgrowth and consequent translocation of bacteria into the bloodstream. The disease may resolve spontaneously, however sometimes requires a treatment aimed at managing inflammation and excessive bacterial overgrowth, and therefore antibiotic therapy, immunosuppressive drugs, biological treatment and sometimes intestinal surgeries are applied.Copyright: © 2023 Termedia Sp. z o. o.
+raw_completion_output: |-
+  genes: Not mentioned in the text
+  exposures: bacterial translocation; bariatric surgery; inflammatory bowel disease; gastrointestinal diseases; bacterial overgrowth 
+  gene_exposures_relationships: Not mentioned in the text
+  diseases: Bowel-associated dermatosis-arthritis syndrome; neutrophilic dermatosis
+  cellular_process: Not mentioned in the text
+  disease_cellular_process_relationships: Not mentioned in the text
+prompt: |+
+  Split the following piece of text into fields in the following format:
+
+  subject: <The name of the disease.>
+  predicate: <The name of the type of relationship between a disease and a cellular process.>
+  object: <The name of the cellular process.>
+  qualifier: <A qualifier for the statements, e.g. "NOT" for negation>
+  subject_qualifier: <An optional qualifier or modifier for the subject of the statement, e.g. "high dose" or "intravenously administered">
+  object_qualifier: <An optional qualifier or modifier for the object of the statement, e.g. "severe" or "with additional complications">
+
+
+  Text:
+  Not mentioned in the text
+
+  ===
+
+extracted_object:
+  genes:
+    - Not mentioned in the text
+  exposures:
+    - bacterial translocation
+    - bariatric surgery
+    - inflammatory bowel disease
+    - gastrointestinal diseases
+    - bacterial overgrowth
+  gene_exposures_relationships:
+    - subject: Not mentioned in the text
+      predicate: Not mentioned in the text
+      object: Not mentioned in the text
+      qualifier: Not mentioned in the text
+      subject_qualifier: Not mentioned in the text
+      object_qualifier: Not mentioned in the text
+  diseases:
+    - Bowel-associated dermatosis-arthritis syndrome
+    - neutrophilic dermatosis
+  cellular_process:
+    - Not mentioned in the text
+input_text: |-
+  Title: Stigma and its correlates among patients with Crohn's disease: A cross-sectional study in China.
+  Keywords: China; Crohn’s disease; Self-efficacy; Social support; Stigma
+  PMID: 37545781
+  Abstract: Crohn's disease is an incurable disease characterized by unpredictable intestinal symptoms, which unavoidably affect patients' lives and contribute to feelings of stigma. This study aimed to explore the status and its correlates of stigma among patients with Crohn's disease.Using a convenience sampling, 146 hospitalized patients with Crohn's disease were recruited in a tertiary hospital in Southern China from October 2020 to March 2021. The participants were assessed by demographic and disease-related questionnaires, the Social Impact Scale (SIS), Inflammatory Bowel Disease-Self-Efficacy Scale (IBD-SES), and Social Support Rating Scale (SSRS). Multivariate linear regression analysis was conducted to explore the influencing factors of stigma among patients with Crohn's disease.The mean SIS score was 58.14 ± 10.74, representing a moderate effect of stigma, and 85.6% (125/146) of the patients experienced moderate to high levels of stigma. The multiple linear regression analysis showed that perceived public awareness of the disease, family income, age, and self-efficacy were the main influencing factors of stigma, which could explain 52% of the total variation of stigma among patients with Crohn's disease.Stigma among patients with Crohn's disease is influenced by perceived public awareness of the disease, family income, age, and self-efficacy. Interventions aimed at improving self-efficacy and public awareness should be considered to alleviate the level of stigma, especially for those aged 40 years or older or low-income patients.© 2023 The Authors.
+raw_completion_output: |-
+  genes: No genes mentioned in the text.
+  exposures: No exposures mentioned in the text.
+  gene_exposures_relationships: No gene-exposure relationships mentioned in the text.
+  diseases: Crohn's disease
+  cellular_process: No cellular processes mentioned in the text.
+  disease_cellular_process_relationships: No disease-cellular process relationships mentioned in the text.
+prompt: |+
+  From the text below, extract the following entities in the following format:
+
+  subject: <The name of the disease.>
+  predicate: <The name of the type of relationship between a disease and a cellular process.>
+  object: <The name of the cellular process.>
+  qualifier: <A qualifier for the statements, e.g. "NOT" for negation>
+  subject_qualifier: <An optional qualifier or modifier for the subject of the statement, e.g. "high dose" or "intravenously administered">
+  object_qualifier: <An optional qualifier or modifier for the object of the statement, e.g. "severe" or "with additional complications">
+
+
+  Text:
+  No disease-cellular process relationships mentioned in the text.
+
+  ===
+
+extracted_object:
+  genes:
+    - No genes mentioned in the text.
+  exposures:
+    - No exposures mentioned in the text.
+  gene_exposures_relationships:
+    - subject: No gene-exposure relationships mentioned in the text.
+      predicate: None
+      object: None
+      qualifier: None
+      subject_qualifier: None
+      object_qualifier: None
+  diseases:
+    - MONDO:0005011
+  cellular_process:
+    - No cellular processes mentioned in the text.
+  disease_cellular_process_relationships:
+    - subject: None
+      predicate: None
+      object: None
+      qualifier: None
+      subject_qualifier: None
+      object_qualifier: None
+named_entities:
+  - id: MONDO:0005011
+    label: Crohn's disease
+input_text: |-
+  Title: Bile acids and their receptors: Potential therapeutic targets in inflammatory bowel disease.
+  Keywords: Bile acid metabolism; Bile acid receptors; Bile acids; Gut microbiota; Inflammatory bowel disease; Intestinal immunology
+  PMID: 37545642
+  Abstract: Chronic and recurrent inflammatory disorders of the gastrointestinal tract caused by a complex interplay between genetics and intestinal dysbiosis are called inflammatory bowel disease. As a result of the interaction between the liver and the gut microbiota, bile acids are an atypical class of steroids produced in mammals and traditionally known for their function in food absorption. With the development of genomics and metabolomics, more and more data suggest that the pathophysiological mechanisms of inflammatory bowel disease are regulated by bile acids and their receptors. Bile acids operate as signalling molecules by activating a variety of bile acid receptors that impact intestinal flora, epithelial barrier function, and intestinal immunology. Inflammatory bowel disease can be treated in new ways by using these potential molecules. This paper mainly discusses the increasing function of bile acids and their receptors in inflammatory bowel disease and their prospective therapeutic applications. In addition, we explore bile acid metabolism and the interaction of bile acids and the gut microbiota.©The Author(s) 2023. Published by Baishideng Publishing Group Inc. All rights reserved.
+raw_completion_output: |-
+  genes: N/A
+  exposures: bile acids; gut microbiota
+  gene_exposures_relationships: N/A
+  diseases: inflammatory bowel disease
+  cellular_process: bile acid metabolism; epithelial barrier function; intestinal immunology
+  disease_cellular_process_relationships: inflammatory bowel disease to bile acid metabolism; inflammatory bowel disease to epithelial barrier function; inflammatory bowel disease to intestinal immunology
+prompt: |+
+  Split the following piece of text into fields in the following format:
+
+  subject: <The name of the disease.>
+  predicate: <The name of the type of relationship between a disease and a cellular process.>
+  object: <The name of the cellular process.>
+  qualifier: <A qualifier for the statements, e.g. "NOT" for negation>
+  subject_qualifier: <An optional qualifier or modifier for the subject of the statement, e.g. "high dose" or "intravenously administered">
+  object_qualifier: <An optional qualifier or modifier for the object of the statement, e.g. "severe" or "with additional complications">
+
+
+  Text:
+  inflammatory bowel disease to intestinal immunology
+
+  ===
+
+extracted_object:
+  genes:
+    - N/A
+  exposures:
+    - CHEBI:3098
+    - gut microbiota
+  gene_exposures_relationships:
+    - subject: N/A
+      predicate: N/A
+      object: N/A
+      qualifier: N/A
+      subject_qualifier: N/A
+      object_qualifier: N/A
+  diseases:
+    - MONDO:0005265
+  cellular_process:
+    - GO:0008206
+    - epithelial barrier function
+    - intestinal immunology
+  disease_cellular_process_relationships:
+    - subject: MONDO:0005265
+      predicate: to
+      object: GO:0008206
+    - subject: MONDO:0005265
+      predicate: to
+      object: epithelial barrier function
+      qualifier: N/A
+      subject_qualifier: N/A
+      object_qualifier: N/A
+    - subject: MONDO:0005265
+      predicate: to
+      object: intestinal immunology
+named_entities:
+  - id: CHEBI:3098
+    label: bile acids
+  - id: MONDO:0005265
+    label: inflammatory bowel disease
+  - id: GO:0008206
+    label: bile acid metabolism
+input_text: |-
+  Title: Azathioprine monotherapy withdrawal in inflammatory bowel diseases: A retrospective mono-centric study.
+  Keywords: Azathioprine; Crohn's Disease; Inflammatory bowel diseases; Relapse; Side effects; Ulcerative Colitis
+  PMID: 37545640
+  Abstract: There is no consensus on the recommended duration of and optimal time to stop azathioprine (AZA) therapy in inflammatory bowel disease (IBD). Determining the optimal duration and cessation time can help to balance the risks of long-term intake with the possibility of relapse after cessation.To describe the events following AZA cessation.Retrospective analysis was performed to examine data from adult patients affected by IBD who were followed at the University of Padua and had started but then discontinued AZA between 1995 and 2022. Data on therapy duration, reasons for cessation, and type of relapse after cessation were collected. Cox regression models were used to estimate the risk of relapse in different subgroups.A total of 133 ulcerative colitis patients and 141 Crohn's disease patients were included. Therapy with AZA was stopped in the 1st year in approximately 34% of patients but was continued for more than 10 years in approximately 10% of cases. AZA discontinuation was due to primary failure or disease relapse in 30% of patients and due to disease remission in 25.2% of patients. Most of the remaining cases stopped AZA therapy due to side effects (primarily clinical intolerance, cytopenia, and pancreatic disease). Patients who stopped AZA for clinical remission had an 83% lower risk of relapse during the observation time than other groups, with a relapse-free rate of 89% after 1 year and 79% after 2 years.AZA administration is effective and safe, but it requires careful monitoring for potential minor and major side effects. Only 10% of patients who achieved remission with AZA needed a new treatment within 1 year of drug interruption.©The Author(s) 2023. Published by Baishideng Publishing Group Inc. All rights reserved.
+raw_completion_output: |-
+  genes: N/A
+  exposures: Azathioprine
+  gene_exposures_relationships: N/A
+  diseases: Crohn's Disease, Inflammatory bowel diseases, Ulcerative Colitis
+  cellular_process: N/A
+  disease_cellular_process_relationships: N/A
+prompt: |+
+  Split the following piece of text into fields in the following format:
+
+  subject: <The name of the disease.>
+  predicate: <The name of the type of relationship between a disease and a cellular process.>
+  object: <The name of the cellular process.>
+  qualifier: <A qualifier for the statements, e.g. "NOT" for negation>
+  subject_qualifier: <An optional qualifier or modifier for the subject of the statement, e.g. "high dose" or "intravenously administered">
+  object_qualifier: <An optional qualifier or modifier for the object of the statement, e.g. "severe" or "with additional complications">
+
+
+  Text:
+  N/A
+
+  ===
+
+extracted_object:
+  genes:
+    - N/A
+  exposures:
+    - CHEBI:2948
+  gene_exposures_relationships:
+    - subject: N/A
+      predicate: N/A
+      object: N/A
+      qualifier: N/A
+      subject_qualifier: N/A
+      object_qualifier: N/A
+  diseases:
+    - Crohn's Disease, Inflammatory bowel diseases, Ulcerative Colitis
+  cellular_process:
+    - N/A
+  disease_cellular_process_relationships:
+    - subject: N/A
+      predicate: N/A
+      object: N/A
+      qualifier: N/A
+      subject_qualifier: N/A
+      object_qualifier: N/A
+named_entities:
+  - id: CHEBI:2948
+    label: Azathioprine
+input_text: |-
+  Title: Niacin modulates depressive-like behavior in experimental colitis through GPR109A-dependent mechanisms.
+  Keywords: BBB; DSS; Depression; GPR109A; Niacin; Sirt1
+  PMID: 37544378
+  Abstract: Depression is one of the common neurological comorbidities in patients with inflammatory bowel disease (IBD). The current study aimed to investigate the potential impact of niacin on colitis-induced depressive-like behavior in rats.Animals were given 5 % dextran sulfate sodium (DSS) in drinking water for one week to induce colitis. Niacin (80 mg/kg), with or without mepenzolate bromide (GPR109A blocker), was administered once per day throughout the experimental period. Rats were tested for behavioral changes using open field and forced swimming tests.Niacin significantly ameliorated DSS-induced behavioral deficits and alleviated macroscopic and microscopic colonic inflammatory changes. It also augmented the hippocampal levels of ZO-1, occludin, and claudin-5 proteins, indicating the ability of niacin to restore the blood-brain barrier (BBB) integrity. Moreover, niacin decreased hippocampal IL-1ꞵ and NF-ĸB contents but increased GSH, Sirt-1, Nrf-2, HO-1 concentrations. All these beneficial effects were partially abolished by the co-administration of mepenzolate bromide.The neuroprotective effect of niacin against DSS-induced depressive-like behavior was partially mediated through GPR109A-mediated mechanisms. Such mechanisms are also involved in modulating neuronal oxidative stress and inflammation via Sirt-1/Nrf-2/HO-1 signaling pathways.Copyright © 2023. Published by Elsevier Inc.
+raw_completion_output: |-
+  genes: Sirt1, Nrf-2, HO-1, IL-1ꞵ, NF-ĸB
+  exposures: niacin, mepenzolate bromide, dextran sulfate sodium (DSS)
+  gene_exposures_relationships: niacin-GPR109A; mepenzolate bromide-GPR109A; DSS-colitis
+  diseases: depression, inflammatory bowel disease (IBD)
+  cellular_process: blood-brain barrier (BBB) integrity, oxidative stress, inflammation
+  disease_cellular_process_relationships: depression-BBB integrity, depression-oxidative stress, depression-inflammation, IBD-BBB integrity, IBD-oxidative stress, IBD-inflammation
+prompt: |+
+  From the text below, extract the following entities in the following format:
+
+  subject: <The name of the disease.>
+  predicate: <The name of the type of relationship between a disease and a cellular process.>
+  object: <The name of the cellular process.>
+  qualifier: <A qualifier for the statements, e.g. "NOT" for negation>
+  subject_qualifier: <An optional qualifier or modifier for the subject of the statement, e.g. "high dose" or "intravenously administered">
+  object_qualifier: <An optional qualifier or modifier for the object of the statement, e.g. "severe" or "with additional complications">
+
+
+  Text:
+  depression-BBB integrity, depression-oxidative stress, depression-inflammation, IBD-BBB integrity, IBD-oxidative stress, IBD-inflammation
+
+  ===
+
+extracted_object:
+  genes:
+    - Sirt1, Nrf-2, HO-1, IL-1ꞵ, NF-ĸB
+  exposures:
+    - CHEBI:191875
+  gene_exposures_relationships:
+    - subject: niacin-GPR109A
+      object: HGNC:24827
+      subject_qualifier: niacin
+    - subject: CHEBI:6753
+      predicate: '-'
+      object: HGNC:24827
+      qualifier: '-'
+      subject_qualifier: '-'
+      object_qualifier: '-'
+    - subject: DSS-colitis
+  diseases:
+    - MONDO:0005052
+  cellular_process:
+    - blood-brain barrier (BBB) integrity, oxidative stress, inflammation
+  disease_cellular_process_relationships:
+    - subject: MONDO:0005052
+      predicate: inflammation
+named_entities:
+  - id: CHEBI:191875
+    label: niacin, mepenzolate bromide, dextran sulfate sodium (DSS)
+  - id: HGNC:24827
+    label: GPR109A
+  - id: CHEBI:6753
+    label: mepenzolate bromide
+  - id: MONDO:0005052
+    label: depression, inflammatory bowel disease (IBD)
+input_text: |-
+  Title: Body Composition in Inflammatory Bowel Disease.
+  Keywords: Body composition; Clinical outcomes; Inflammatory bowel disease; Treatment strategies
+  PMID: 37543940
+  Abstract: Inflammatory bowel disease (IBD) is associated with body composition changes, which are associated with clinical prognosis, response to therapy, and quality of life in IBD patients. Therefore, it is critical to review the body composition distribution in IBD, summarize the potential factors affecting body composition distribution, and take steps to improve the body composition distribution of IBD patients as early as possible. In the current review, we searched PubMed via keywords 'inflammatory bowel disease', or 'IBD', or 'Crohn's disease', or 'CD', or 'ulcerative colitis', or 'UC', and 'body composition'. Malnutrition and sarcopenia are common in IBD patients and are associated with the clinical course, prognosis, and need for surgery. Disease activity, reduced nutrition intake, vitamin D deficiency, and intestinal dysbiosis are factors contributing to changed body composition. Early use of biological agents to induce remission is critical to improving body composition distribution in IBD patients, supplementation of vitamin D is also important, and moderate physical activity is recommended in IBD patients with clinical remission.© 2023 The Author(s). This is an open-access article distributed under the terms of the Creative Commons Attribution License (https://creativecommons.org/licenses/by/4.0), which permits unrestricted use, distribution, and reproduction in any medium, provided the original work is properly cited.
+raw_completion_output: |-
+  genes: Not mentioned in the text
+  exposures: vitamin D deficiency, intestinal dysbiosis
+  gene_exposures_relationships: Not mentioned in the text
+  diseases: Inflammatory bowel disease, Crohn's disease, ulcerative colitis
+  cellular_process: Not mentioned in the text
+  disease_cellular_process_relationships: Not mentioned in the text
+prompt: |+
+  Split the following piece of text into fields in the following format:
+
+  subject: <The name of the disease.>
+  predicate: <The name of the type of relationship between a disease and a cellular process.>
+  object: <The name of the cellular process.>
+  qualifier: <A qualifier for the statements, e.g. "NOT" for negation>
+  subject_qualifier: <An optional qualifier or modifier for the subject of the statement, e.g. "high dose" or "intravenously administered">
+  object_qualifier: <An optional qualifier or modifier for the object of the statement, e.g. "severe" or "with additional complications">
+
+
+  Text:
+  Not mentioned in the text
+
+  ===
+
+extracted_object:
+  genes:
+    - Not mentioned in the text
+  exposures:
+    - vitamin D deficiency, intestinal dysbiosis
+  gene_exposures_relationships:
+    - subject: Not mentioned in the text
+      predicate: Not mentioned in the text
+      object: Not mentioned in the text
+      qualifier: Not mentioned in the text
+      subject_qualifier: Not mentioned in the text
+      object_qualifier: Not mentioned in the text
+  diseases:
+    - Inflammatory bowel disease, Crohn's disease, ulcerative colitis
+  cellular_process:
+    - Not mentioned in the text
+input_text: |-
+  Title: Economic Burden of Inflammatory Bowel Disease in Shiraz, Iran.
+  Keywords: Direct costs; Economic burden; Indirect costs; Inflammatory bowel diseases
+  PMID: 37543918
+  Abstract: The epidemiological burden of chronic diseases and their risk factors is increasing all over the world, especially in developing and low-income countries. Inflammatory bowel disease (IBD) is one of the chronic diseases which has imposed a great financial burden on individuals and the society.The current study aimed at estimating the economic burden of IBD among 90 patients with IBD who referred to Namazi hospital and Motahari clinic of Shiraz in 2019. The costs to patients were monitored for a year to detect their expenses.This study is descriptive cross-sectional and from a social perspective. The cost-of-illness method, based on the human capital theory, has been used. Both direct and indirect costs have been estimated using a prevalence approach and bottom-up method. Hospital costs were extracted from patients' records and the accounting system of Namazi Hospital. Outpatient expenses were obtained according to the number of outpatient visits and the average cost of visit were obtained by interviewing patients. Socio-economic status, medical expenses and number of days absent from work were determined using a valid and reliable questionnaire. Assessment of the cost of hospital care was made on the basis of the average daily. Non-medical direct costs such as transportation and residence, etc. were also calculated.The total annual economic costs of IBD per patient were estimated at 1229.74 USD. Finally, increased use of health care as well as lost productivity leads to increased disease costs.IBD imposes a substantial economic burden on patients, families and the society. Establishing a correct diagnosis early, management of IBD worsening, and appropriate treatment can reduce the costs of treatment and lost production to some extent. Therefore, policymakers should take this into consideration and according to available health resources, provide services and facilities for the prevention and treatment of the disease.© 2023 The Author(s). This is an open-access article distributed under the terms of the Creative Commons Attribution License (https://creativecommons.org/licenses/by/4.0), which permits unrestricted use, distribution, and reproduction in any medium, provided the original work is properly cited.
+raw_completion_output: |-
+  genes: N/A
+  exposures: N/A
+  gene_exposures_relationships: N/A
+  diseases: Inflammatory bowel disease (IBD)
+  cellular_process: N/A
+  disease_cellular_process_relationships: N/A
+prompt: |+
+  Split the following piece of text into fields in the following format:
+
+  subject: <The name of the disease.>
+  predicate: <The name of the type of relationship between a disease and a cellular process.>
+  object: <The name of the cellular process.>
+  qualifier: <A qualifier for the statements, e.g. "NOT" for negation>
+  subject_qualifier: <An optional qualifier or modifier for the subject of the statement, e.g. "high dose" or "intravenously administered">
+  object_qualifier: <An optional qualifier or modifier for the object of the statement, e.g. "severe" or "with additional complications">
+
+
+  Text:
+  N/A
+
+  ===
+
+extracted_object:
+  genes:
+    - N/A
+  exposures:
+    - N/A
+  gene_exposures_relationships:
+    - subject: N/A
+      predicate: N/A
+      object: N/A
+      qualifier: N/A
+      subject_qualifier: N/A
+      object_qualifier: N/A
+  diseases:
+    - MONDO:0005052
+  cellular_process:
+    - N/A
+  disease_cellular_process_relationships:
+    - subject: N/A
+      predicate: N/A
+      object: N/A
+      qualifier: N/A
+      subject_qualifier: N/A
+      object_qualifier: N/A
+named_entities:
+  - id: MONDO:0005052
+    label: Inflammatory bowel disease (IBD)

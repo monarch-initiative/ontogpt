@@ -1,0 +1,37 @@
+{
+   "CHEBI": "http://example.org/UNKNOWN/CHEBI/",
+   "GO": "http://example.org/UNKNOWN/GO/",
+   "RO": "http://purl.obolibrary.org/obo/RO_",
+   "biolink": "http://example.org/UNKNOWN/biolink/",
+   "bp": "http://w3id.org/ontogpt/metabolic-process-template",
+   "core": "http://w3id.org/ontogpt/core/",
+   "linkml": "https://w3id.org/linkml/",
+   "rdfs": "http://example.org/UNKNOWN/rdfs/",
+   "AnnotatorResult": {
+      "@id": "core:AnnotatorResult"
+   },
+   "Any": {
+      "@id": "linkml:Any"
+   },
+   "CompoundExpression": {
+      "@id": "core:CompoundExpression"
+   },
+   "ExtractionResult": {
+      "@id": "core:ExtractionResult"
+   },
+   "NamedEntity": {
+      "@id": "core:NamedEntity"
+   },
+   "Publication": {
+      "@id": "core:Publication"
+   },
+   "RelationshipType": {
+      "@id": "core:RelationshipType"
+   },
+   "TextWithTriples": {
+      "@id": "core:TextWithTriples"
+   },
+   "Triple": {
+      "@id": "core:Triple"
+   }
+}

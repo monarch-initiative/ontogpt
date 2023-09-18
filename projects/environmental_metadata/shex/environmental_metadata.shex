@@ -1,0 +1,192 @@
+BASE <http://w3id.org/ontogpt/environmental-metadata/>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+PREFIX linkml: <https://w3id.org/linkml/>
+PREFIX core: <http://w3id.org/ontogpt/core/>
+PREFIX rdfs1: <http://example.org/UNKNOWN/rdfs/>
+
+
+linkml:String xsd:string
+
+linkml:Integer xsd:integer
+
+linkml:Boolean xsd:boolean
+
+linkml:Float xsd:float
+
+linkml:Double xsd:double
+
+linkml:Decimal xsd:decimal
+
+linkml:Time xsd:time
+
+linkml:Date xsd:date
+
+linkml:Datetime xsd:dateTime
+
+linkml:DateOrDatetime linkml:DateOrDatetime
+
+linkml:Uriorcurie IRI
+
+linkml:Curie xsd:string
+
+linkml:Uri IRI
+
+linkml:Ncname xsd:string
+
+linkml:Objectidentifier IRI
+
+linkml:Nodeidentifier NONLITERAL
+
+linkml:Jsonpointer xsd:string
+
+linkml:Jsonpath xsd:string
+
+linkml:Sparqlpath xsd:string
+
+core:AnnotatorResult CLOSED {
+    (  $core:AnnotatorResult_tes (  core:subject_text @linkml:String ? ;
+          core:object_id @linkml:String ? ;
+          core:object_text @linkml:String ?
+       ) ;
+       rdf:type [ core:AnnotatorResult ] ?
+    )
+}
+
+core:Any CLOSED {
+    (  $core:Any_tes rdf:type . * ;
+       rdf:type [ linkml:Any ] ?
+    )
+}
+
+core:CompoundExpression  (
+    {
+       (  $core:CompoundExpression_tes rdf:type . * ;
+          rdf:type [ core:CompoundExpression ] ?
+       )
+    } OR @core:Triple
+)
+
+<http://w3id.org/ontogpt/environmental-metadataDataset> CLOSED {
+    (  $<http://w3id.org/ontogpt/environmental-metadataDataset_tes> (  <http://w3id.org/ontogpt/environmental-metadatapackageid>
+          @linkml:String ? ;
+          <http://w3id.org/ontogpt/environmental-metadatatopic> @<http://w3id.org/ontogpt/environmental-metadataTopic> * ;
+          <http://w3id.org/ontogpt/environmental-metadatalocation> @<http://w3id.org/ontogpt/environmental-metadataLocation> * ;
+          <http://w3id.org/ontogpt/environmental-metadataenvironmental_material>
+          @<http://w3id.org/ontogpt/environmental-metadataEnvironmentalMaterial> * ;
+          <http://w3id.org/ontogpt/environmental-metadataenvironments> @<http://w3id.org/ontogpt/environmental-metadataEnvironment>
+          * ;
+          <http://w3id.org/ontogpt/environmental-metadatamethods> @<http://w3id.org/ontogpt/environmental-metadataMethod> *
+       ) ;
+       rdf:type [ <http://w3id.org/ontogpt/environmental-metadataDataset> ] ?
+    )
+}
+
+<http://w3id.org/ontogpt/environmental-metadataEnvironment> CLOSED {
+    (  $<http://w3id.org/ontogpt/environmental-metadataEnvironment_tes> (  &core:NamedEntity_tes ;
+          rdf:type [ core:NamedEntity ] ?
+       ) ;
+       rdf:type [ <http://w3id.org/ontogpt/environmental-metadataEnvironment> ]
+    )
+}
+
+<http://w3id.org/ontogpt/environmental-metadataEnvironmentalMaterial> CLOSED {
+    (  $<http://w3id.org/ontogpt/environmental-metadataEnvironmentalMaterial_tes> (  &core:NamedEntity_tes ;
+          rdf:type [ core:NamedEntity ] ?
+       ) ;
+       rdf:type [ <http://w3id.org/ontogpt/environmental-metadataEnvironmentalMaterial> ]
+    )
+}
+
+core:ExtractionResult CLOSED {
+    (  $core:ExtractionResult_tes (  core:input_id @linkml:String ? ;
+          core:input_title @linkml:String ? ;
+          core:input_text @linkml:String ? ;
+          core:raw_completion_output @linkml:String ? ;
+          core:prompt @linkml:String ? ;
+          core:extracted_object @core:Any ? ;
+          core:named_entities @core:Any *
+       ) ;
+       rdf:type [ core:ExtractionResult ] ?
+    )
+}
+
+<http://w3id.org/ontogpt/environmental-metadataLocation> CLOSED {
+    (  $<http://w3id.org/ontogpt/environmental-metadataLocation_tes> (  &core:NamedEntity_tes ;
+          rdf:type [ core:NamedEntity ] ?
+       ) ;
+       rdf:type [ <http://w3id.org/ontogpt/environmental-metadataLocation> ]
+    )
+}
+
+<http://w3id.org/ontogpt/environmental-metadataMethod> CLOSED {
+    (  $<http://w3id.org/ontogpt/environmental-metadataMethod_tes> (  &core:NamedEntity_tes ;
+          rdf:type [ core:NamedEntity ] ?
+       ) ;
+       rdf:type [ <http://w3id.org/ontogpt/environmental-metadataMethod> ]
+    )
+}
+
+core:NamedEntity  (
+    @<http://w3id.org/ontogpt/environmental-metadataEnvironment> OR
+    @<http://w3id.org/ontogpt/environmental-metadataEnvironmentalMaterial> OR
+    @<http://w3id.org/ontogpt/environmental-metadataLocation> OR @<http://w3id.org/ontogpt/environmental-metadataMethod> OR
+    @core:RelationshipType OR @<http://w3id.org/ontogpt/environmental-metadataTopic>
+)
+
+core:NamedEntity_struct {
+    (  $core:NamedEntity_tes rdfs1:label @linkml:String ? ;
+       rdf:type [ core:NamedEntity ]
+    )
+}
+
+core:Publication CLOSED {
+    (  $core:Publication_tes (  core:id @linkml:String ? ;
+          core:title @linkml:String ? ;
+          core:abstract @linkml:String ? ;
+          core:combined_text @linkml:String ? ;
+          core:full_text @linkml:String ?
+       ) ;
+       rdf:type [ core:Publication ] ?
+    )
+}
+
+core:RelationshipType CLOSED {
+    (  $core:RelationshipType_tes (  &core:NamedEntity_tes ;
+          rdf:type [ core:NamedEntity ] ?
+       ) ;
+       rdf:type [ core:RelationshipType ]
+    )
+}
+
+core:TextWithTriples CLOSED {
+    (  $core:TextWithTriples_tes (  core:publication @core:Publication ? ;
+          core:triples @core:Triple *
+       ) ;
+       rdf:type [ core:TextWithTriples ] ?
+    )
+}
+
+<http://w3id.org/ontogpt/environmental-metadataTopic> CLOSED {
+    (  $<http://w3id.org/ontogpt/environmental-metadataTopic_tes> (  &core:NamedEntity_tes ;
+          rdf:type [ core:NamedEntity ] ?
+       ) ;
+       rdf:type [ <http://w3id.org/ontogpt/environmental-metadataTopic> ]
+    )
+}
+
+core:Triple {
+    (  $core:Triple_tes (  &core:CompoundExpression_tes ;
+          rdf:type [ core:CompoundExpression ] ? ;
+          core:subject @core:NamedEntity ? ;
+          core:predicate @core:RelationshipType ? ;
+          core:object @core:NamedEntity ? ;
+          core:qualifier @linkml:String ? ;
+          core:subject_qualifier @core:NamedEntity ? ;
+          core:object_qualifier @core:NamedEntity ?
+       ) ;
+       rdf:type [ core:Triple ] ?
+    )
+}
+
+

@@ -1,0 +1,101 @@
+type AnnotatorResult
+  {
+    subjectText: String
+    objectId: String
+    objectText: String
+  }
+
+type Any
+  {
+  }
+
+type BiologicalProcess
+  {
+    id: String!
+    label: String
+    description: String
+    synonyms: [String]
+    subclassOf: BiologicalProcess
+    inputs: [ChemicalEntity]
+    outputs: [ChemicalEntity]
+    steps: [MolecularActivity]
+    genes: [Gene]
+    geneActivities: [GeneMolecularActivityRelationship]
+  }
+
+type ChemicalEntity
+  {
+    id: String!
+    label: String
+  }
+
+interface CompoundExpression
+  {
+  }
+
+type ExtractionResult
+  {
+    inputId: String
+    inputTitle: String
+    inputText: String
+    rawCompletionOutput: String
+    prompt: String
+    extractedObject: Any
+    namedEntities: [Any]
+  }
+
+type Gene
+  {
+    id: String!
+    label: String
+  }
+
+type GeneMolecularActivityRelationship
+  {
+    gene: Gene
+    molecularActivity: MolecularActivity
+  }
+
+type MolecularActivity
+  {
+    id: String!
+    label: String
+  }
+
+interface NamedEntity
+  {
+    id: String!
+    label: String
+  }
+
+type Publication
+  {
+    id: String
+    title: String
+    abstract: String
+    combinedText: String
+    fullText: String
+  }
+
+type RelationshipType
+  {
+    id: String!
+    label: String
+  }
+
+type TextWithTriples
+  {
+    publication: Publication
+    triples: [Triple]
+  }
+
+interface Triple
+  {
+    subject: NamedEntity
+    predicate: RelationshipType
+    object: NamedEntity
+    qualifier: String
+    subjectQualifier: NamedEntity
+    objectQualifier: NamedEntity
+  }
+

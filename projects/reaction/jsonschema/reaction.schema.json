@@ -1,0 +1,407 @@
+{
+    "$defs": {
+        "AnnotatorResult": {
+            "additionalProperties": false,
+            "description": "",
+            "properties": {
+                "object_id": {
+                    "type": "string"
+                },
+                "object_text": {
+                    "type": "string"
+                },
+                "subject_text": {
+                    "type": "string"
+                }
+            },
+            "title": "AnnotatorResult",
+            "type": "object"
+        },
+        "Any": {
+            "additionalProperties": true,
+            "description": "",
+            "title": "Any",
+            "type": "object"
+        },
+        "ChemicalEntity": {
+            "additionalProperties": false,
+            "description": "",
+            "properties": {
+                "id": {
+                    "description": "A unique identifier for the named entity",
+                    "type": "string"
+                },
+                "label": {
+                    "description": "The label (name) of the named thing",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "id"
+            ],
+            "title": "ChemicalEntity",
+            "type": "object"
+        },
+        "Evidence": {
+            "additionalProperties": false,
+            "description": "",
+            "properties": {
+                "id": {
+                    "description": "A unique identifier for the named entity",
+                    "type": "string"
+                },
+                "label": {
+                    "description": "The label (name) of the named thing",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "id"
+            ],
+            "title": "Evidence",
+            "type": "object"
+        },
+        "ExtractionResult": {
+            "additionalProperties": false,
+            "description": "A result of extracting knowledge on text",
+            "properties": {
+                "extracted_object": {
+                    "$ref": "#/$defs/Any",
+                    "description": "The complex objects extracted from the text"
+                },
+                "input_id": {
+                    "type": "string"
+                },
+                "input_text": {
+                    "type": "string"
+                },
+                "input_title": {
+                    "type": "string"
+                },
+                "named_entities": {
+                    "description": "Named entities extracted from the text",
+                    "items": {
+                        "$ref": "#/$defs/Any"
+                    },
+                    "type": "array"
+                },
+                "prompt": {
+                    "type": "string"
+                },
+                "raw_completion_output": {
+                    "type": "string"
+                }
+            },
+            "title": "ExtractionResult",
+            "type": "object"
+        },
+        "Gene": {
+            "additionalProperties": false,
+            "description": "",
+            "properties": {
+                "id": {
+                    "description": "A unique identifier for the named entity",
+                    "type": "string"
+                },
+                "label": {
+                    "description": "The label (name) of the named thing",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "id"
+            ],
+            "title": "Gene",
+            "type": "object"
+        },
+        "GeneReactionPairing": {
+            "additionalProperties": false,
+            "description": "",
+            "properties": {
+                "gene": {
+                    "description": "name of the gene that catalyzes the reaction",
+                    "type": "string"
+                },
+                "reaction": {
+                    "description": "equation describing the reaction (e.g. A+B = C+D) catalyzed by the gene",
+                    "type": "string"
+                }
+            },
+            "title": "GeneReactionPairing",
+            "type": "object"
+        },
+        "GeneToReaction": {
+            "additionalProperties": false,
+            "description": "",
+            "properties": {
+                "gene": {
+                    "description": "name of the gene that catalyzes the reaction",
+                    "type": "string"
+                },
+                "organism": {
+                    "type": "string"
+                },
+                "reactions": {
+                    "additionalProperties": {
+                        "$ref": "#/$defs/Reaction__identifier_optional"
+                    },
+                    "description": "semicolon separated list of reaction equations (e.g. A+B = C+D) catalyzed by the gene",
+                    "type": "object"
+                }
+            },
+            "title": "GeneToReaction",
+            "type": "object"
+        },
+        "NullDataOptions": {
+            "description": "",
+            "enum": [
+                "UNSPECIFIED_METHOD_OF_ADMINISTRATION",
+                "NOT_APPLICABLE",
+                "NOT_MENTIONED"
+            ],
+            "title": "NullDataOptions",
+            "type": "string"
+        },
+        "Organism": {
+            "additionalProperties": false,
+            "description": "",
+            "properties": {
+                "id": {
+                    "description": "A unique identifier for the named entity",
+                    "type": "string"
+                },
+                "label": {
+                    "description": "The label (name) of the named thing",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "id"
+            ],
+            "title": "Organism",
+            "type": "object"
+        },
+        "Publication": {
+            "additionalProperties": false,
+            "description": "",
+            "properties": {
+                "abstract": {
+                    "description": "The abstract of the publication",
+                    "type": "string"
+                },
+                "combined_text": {
+                    "type": "string"
+                },
+                "full_text": {
+                    "description": "The full text of the publication",
+                    "type": "string"
+                },
+                "id": {
+                    "description": "The publication identifier",
+                    "type": "string"
+                },
+                "title": {
+                    "description": "The title of the publication",
+                    "type": "string"
+                }
+            },
+            "title": "Publication",
+            "type": "object"
+        },
+        "Reaction": {
+            "additionalProperties": false,
+            "description": "",
+            "properties": {
+                "description": {
+                    "description": "a textual description of the reaction",
+                    "type": "string"
+                },
+                "id": {
+                    "description": "A unique identifier for the named entity",
+                    "type": "string"
+                },
+                "label": {
+                    "description": "the name of the reaction",
+                    "type": "string"
+                },
+                "left_side": {
+                    "description": "semicolon separated list of chemical entities on the left side",
+                    "items": {
+                        "type": "string"
+                    },
+                    "type": "array"
+                },
+                "right_side": {
+                    "description": "semicolon separated list of chemical entities on the right side",
+                    "items": {
+                        "type": "string"
+                    },
+                    "type": "array"
+                },
+                "subclass_of": {
+                    "description": "the category to which this biological process belongs",
+                    "type": "string"
+                },
+                "synonyms": {
+                    "description": "alternative names of the reaction",
+                    "items": {
+                        "type": "string"
+                    },
+                    "type": "array"
+                }
+            },
+            "required": [
+                "id"
+            ],
+            "title": "Reaction",
+            "type": "object"
+        },
+        "ReactionDocument": {
+            "additionalProperties": false,
+            "description": "",
+            "properties": {
+                "gene_reaction_pairings": {
+                    "description": "semicolon separated list of gene to reaction pairings",
+                    "items": {
+                        "$ref": "#/$defs/GeneReactionPairing"
+                    },
+                    "type": "array"
+                },
+                "genes": {
+                    "description": "semicolon separated list of genes that catalyzes the mentioned reactions",
+                    "items": {
+                        "type": "string"
+                    },
+                    "type": "array"
+                },
+                "has_evidence": {
+                    "description": "evidence for the reaction",
+                    "items": {
+                        "type": "string"
+                    },
+                    "type": "array"
+                },
+                "organism": {
+                    "type": "string"
+                },
+                "reactions": {
+                    "additionalProperties": {
+                        "$ref": "#/$defs/Reaction__identifier_optional"
+                    },
+                    "description": "semicolon separated list of reaction equations (e.g. A+B = C+D) catalyzed by the gene",
+                    "type": "object"
+                }
+            },
+            "title": "ReactionDocument",
+            "type": "object"
+        },
+        "ReactionGrouping": {
+            "additionalProperties": false,
+            "description": "",
+            "properties": {
+                "id": {
+                    "description": "A unique identifier for the named entity",
+                    "type": "string"
+                },
+                "label": {
+                    "description": "The label (name) of the named thing",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "id"
+            ],
+            "title": "ReactionGrouping",
+            "type": "object"
+        },
+        "Reaction__identifier_optional": {
+            "additionalProperties": false,
+            "description": "",
+            "properties": {
+                "description": {
+                    "description": "a textual description of the reaction",
+                    "type": "string"
+                },
+                "id": {
+                    "description": "A unique identifier for the named entity",
+                    "type": "string"
+                },
+                "label": {
+                    "description": "the name of the reaction",
+                    "type": "string"
+                },
+                "left_side": {
+                    "description": "semicolon separated list of chemical entities on the left side",
+                    "items": {
+                        "type": "string"
+                    },
+                    "type": "array"
+                },
+                "right_side": {
+                    "description": "semicolon separated list of chemical entities on the right side",
+                    "items": {
+                        "type": "string"
+                    },
+                    "type": "array"
+                },
+                "subclass_of": {
+                    "description": "the category to which this biological process belongs",
+                    "type": "string"
+                },
+                "synonyms": {
+                    "description": "alternative names of the reaction",
+                    "items": {
+                        "type": "string"
+                    },
+                    "type": "array"
+                }
+            },
+            "required": [],
+            "title": "Reaction",
+            "type": "object"
+        },
+        "RelationshipType": {
+            "additionalProperties": false,
+            "description": "",
+            "properties": {
+                "id": {
+                    "description": "A unique identifier for the named entity",
+                    "type": "string"
+                },
+                "label": {
+                    "description": "The label (name) of the named thing",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "id"
+            ],
+            "title": "RelationshipType",
+            "type": "object"
+        },
+        "TextWithTriples": {
+            "additionalProperties": false,
+            "description": "",
+            "properties": {
+                "publication": {
+                    "$ref": "#/$defs/Publication"
+                },
+                "triples": {
+                    "items": {
+                        "$ref": "#/$defs/Triple"
+                    },
+                    "type": "array"
+                }
+            },
+            "title": "TextWithTriples",
+            "type": "object"
+        }
+    },
+    "$id": "https://w3id.org/ontogpt/reaction",
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "additionalProperties": true,
+    "metamodel_version": "1.7.0",
+    "title": "reaction-template",
+    "type": "object",
+    "version": null
+}

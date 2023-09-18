@@ -1,0 +1,115 @@
+type AnnotatorResult
+  {
+    subjectText: String
+    objectId: String
+    objectText: String
+  }
+
+type Any
+  {
+  }
+
+interface CompoundExpression
+  {
+  }
+
+type DiseaseCategory
+  {
+    id: String!
+    label: String
+  }
+
+type ExtractionResult
+  {
+    inputId: String
+    inputTitle: String
+    inputText: String
+    rawCompletionOutput: String
+    prompt: String
+    extractedObject: Any
+    namedEntities: [Any]
+  }
+
+type Gene
+  {
+    id: String!
+    label: String
+  }
+
+type Inheritance
+  {
+    id: String!
+    label: String
+  }
+
+type MendelianDisease
+  {
+    id: String!
+    label: String
+    name: String
+    description: String
+    synonyms: [String]
+    subclassOf: [DiseaseCategory]
+    symptoms: [Symptom]
+    inheritance: Inheritance
+    genes: [Gene]
+    diseaseOnsets: [Onset]
+    publications: [Publication]
+  }
+
+interface NamedEntity
+  {
+    id: String!
+    label: String
+  }
+
+type Onset
+  {
+    id: String!
+    label: String
+    yearsOld: String
+    decades: [String]
+    juvenileOrAdult: String
+  }
+
+type Publication
+  {
+    id: String
+    title: String
+    abstract: String
+    combinedText: String
+    fullText: String
+  }
+
+type RelationshipType
+  {
+    id: String!
+    label: String
+  }
+
+type Symptom
+  {
+    id: String!
+    label: String
+    characteristic: String
+    affects: String
+    severity: String
+    onsetOfSymptom: Onset
+  }
+
+type TextWithTriples
+  {
+    publication: Publication
+    triples: [Triple]
+  }
+
+interface Triple
+  {
+    subject: NamedEntity
+    predicate: RelationshipType
+    object: NamedEntity
+    qualifier: String
+    subjectQualifier: NamedEntity
+    objectQualifier: NamedEntity
+  }
+

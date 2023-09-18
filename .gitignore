@@ -143,3 +143,5 @@ training/
 preserved/
 random
 LOG
+
+.DS_Store

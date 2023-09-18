@@ -1,0 +1,353 @@
+@prefix eg: <http://w3id.org/ontogpt/environmental-metagenome/> .
+@prefix linkml: <https://w3id.org/linkml/> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+<http://w3id.org/ontogpt/core/AnnotatorResult> a sh:NodeShape ;
+    sh:closed true ;
+    sh:ignoredProperties ( rdf:type ) ;
+    sh:property [ sh:maxCount 1 ;
+            sh:order 0 ;
+            sh:path <http://w3id.org/ontogpt/core/subject_text> ],
+        [ sh:maxCount 1 ;
+            sh:order 2 ;
+            sh:path <http://w3id.org/ontogpt/core/object_text> ],
+        [ sh:maxCount 1 ;
+            sh:order 1 ;
+            sh:path <http://w3id.org/ontogpt/core/object_id> ] ;
+    sh:targetClass <http://w3id.org/ontogpt/core/AnnotatorResult> .
+
+<http://w3id.org/ontogpt/core/CompoundExpression> a sh:NodeShape ;
+    sh:closed false ;
+    sh:ignoredProperties ( rdf:type ) ;
+    sh:targetClass <http://w3id.org/ontogpt/core/CompoundExpression> .
+
+<http://w3id.org/ontogpt/core/ExtractionResult> a sh:NodeShape ;
+    sh:closed true ;
+    sh:description "A result of extracting knowledge on text" ;
+    sh:ignoredProperties ( rdf:type ) ;
+    sh:property [ sh:maxCount 1 ;
+            sh:order 3 ;
+            sh:path <http://w3id.org/ontogpt/core/raw_completion_output> ],
+        [ sh:maxCount 1 ;
+            sh:order 2 ;
+            sh:path <http://w3id.org/ontogpt/core/input_text> ],
+        [ sh:class linkml:Any ;
+            sh:description "Named entities extracted from the text" ;
+            sh:nodeKind sh:BlankNode ;
+            sh:order 6 ;
+            sh:path <http://w3id.org/ontogpt/core/named_entities> ],
+        [ sh:maxCount 1 ;
+            sh:order 4 ;
+            sh:path <http://w3id.org/ontogpt/core/prompt> ],
+        [ sh:class linkml:Any ;
+            sh:description "The complex objects extracted from the text" ;
+            sh:maxCount 1 ;
+            sh:nodeKind sh:BlankNode ;
+            sh:order 5 ;
+            sh:path <http://w3id.org/ontogpt/core/extracted_object> ],
+        [ sh:maxCount 1 ;
+            sh:order 1 ;
+            sh:path <http://w3id.org/ontogpt/core/input_title> ],
+        [ sh:maxCount 1 ;
+            sh:order 0 ;
+            sh:path <http://w3id.org/ontogpt/core/input_id> ] ;
+    sh:targetClass <http://w3id.org/ontogpt/core/ExtractionResult> .
+
+<http://w3id.org/ontogpt/core/TextWithTriples> a sh:NodeShape ;
+    sh:closed true ;
+    sh:ignoredProperties ( rdf:type ) ;
+    sh:property [ sh:class <http://w3id.org/ontogpt/core/Triple> ;
+            sh:nodeKind sh:BlankNode ;
+            sh:order 1 ;
+            sh:path <http://w3id.org/ontogpt/core/triples> ],
+        [ sh:class <http://w3id.org/ontogpt/core/Publication> ;
+            sh:maxCount 1 ;
+            sh:nodeKind sh:BlankNode ;
+            sh:order 0 ;
+            sh:path <http://w3id.org/ontogpt/core/publication> ] ;
+    sh:targetClass <http://w3id.org/ontogpt/core/TextWithTriples> .
+
+eg:Study a sh:NodeShape ;
+    sh:closed true ;
+    sh:ignoredProperties ( rdf:type ) ;
+    sh:property [ sh:class eg:Measurement ;
+            sh:nodeKind sh:BlankNode ;
+            sh:order 4 ;
+            sh:path eg:measurements ],
+        [ sh:class eg:CausalRelationship ;
+            sh:nodeKind sh:BlankNode ;
+            sh:order 1 ;
+            sh:path eg:causal_relationships ],
+        [ sh:class eg:EnvironmentalMaterial ;
+            sh:description "the environmental material that was sampled" ;
+            sh:nodeKind sh:IRI ;
+            sh:order 6 ;
+            sh:path eg:environmental_material ],
+        [ sh:class eg:Organism ;
+            sh:description "semicolon-separated list of all studied organism taxons" ;
+            sh:nodeKind sh:IRI ;
+            sh:order 8 ;
+            sh:path eg:organisms ],
+        [ sh:class eg:Environment ;
+            sh:nodeKind sh:IRI ;
+            sh:order 0 ;
+            sh:path eg:environments ],
+        [ sh:class eg:Variable ;
+            sh:nodeKind sh:IRI ;
+            sh:order 2 ;
+            sh:path eg:variables ],
+        [ sh:class eg:SequencingTechnology ;
+            sh:maxCount 1 ;
+            sh:nodeKind sh:IRI ;
+            sh:order 7 ;
+            sh:path eg:sequencing_technologies ],
+        [ sh:class eg:Location ;
+            sh:description "the sites at which the study was conducted" ;
+            sh:nodeKind sh:IRI ;
+            sh:order 5 ;
+            sh:path eg:location ],
+        [ sh:class eg:Treatment ;
+            sh:nodeKind sh:IRI ;
+            sh:order 3 ;
+            sh:path eg:treatments ] ;
+    sh:targetClass eg:Study .
+
+<http://w3id.org/ontogpt/core/Publication> a sh:NodeShape ;
+    sh:closed true ;
+    sh:ignoredProperties ( rdf:type ) ;
+    sh:property [ sh:description "The title of the publication" ;
+            sh:maxCount 1 ;
+            sh:order 1 ;
+            sh:path <http://w3id.org/ontogpt/core/title> ],
+        [ sh:description "The full text of the publication" ;
+            sh:maxCount 1 ;
+            sh:order 4 ;
+            sh:path <http://w3id.org/ontogpt/core/full_text> ],
+        [ sh:description "The abstract of the publication" ;
+            sh:maxCount 1 ;
+            sh:order 2 ;
+            sh:path <http://w3id.org/ontogpt/core/abstract> ],
+        [ sh:maxCount 1 ;
+            sh:order 3 ;
+            sh:path <http://w3id.org/ontogpt/core/combined_text> ],
+        [ sh:description "The publication identifier" ;
+            sh:maxCount 1 ;
+            sh:order 0 ;
+            sh:path <http://w3id.org/ontogpt/core/id> ] ;
+    sh:targetClass <http://w3id.org/ontogpt/core/Publication> .
+
+<http://w3id.org/ontogpt/core/RelationshipType> a sh:NodeShape ;
+    sh:closed true ;
+    sh:ignoredProperties ( rdf:type ) ;
+    sh:property [ sh:description "A unique identifier for the named entity" ;
+            sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:order 0 ;
+            sh:path <http://w3id.org/ontogpt/core/id> ],
+        [ sh:description "The label (name) of the named thing" ;
+            sh:maxCount 1 ;
+            sh:order 1 ;
+            sh:path <rdfs:label> ] ;
+    sh:targetClass <http://w3id.org/ontogpt/core/RelationshipType> .
+
+<http://w3id.org/ontogpt/core/Triple> a sh:NodeShape ;
+    sh:closed false ;
+    sh:description "Abstract parent for Relation Extraction tasks" ;
+    sh:ignoredProperties ( rdf:type ) ;
+    sh:property [ sh:class <http://w3id.org/ontogpt/core/NamedEntity> ;
+            sh:description "An optional qualifier or modifier for the subject of the statement, e.g. \"high dose\" or \"intravenously administered\"" ;
+            sh:maxCount 1 ;
+            sh:nodeKind sh:IRI ;
+            sh:order 4 ;
+            sh:path <http://w3id.org/ontogpt/core/subject_qualifier> ],
+        [ sh:class <http://w3id.org/ontogpt/core/NamedEntity> ;
+            sh:maxCount 1 ;
+            sh:nodeKind sh:IRI ;
+            sh:order 0 ;
+            sh:path <http://w3id.org/ontogpt/core/subject> ],
+        [ sh:description "A qualifier for the statements, e.g. \"NOT\" for negation" ;
+            sh:maxCount 1 ;
+            sh:order 3 ;
+            sh:path <http://w3id.org/ontogpt/core/qualifier> ],
+        [ sh:class <http://w3id.org/ontogpt/core/NamedEntity> ;
+            sh:maxCount 1 ;
+            sh:nodeKind sh:IRI ;
+            sh:order 2 ;
+            sh:path <http://w3id.org/ontogpt/core/object> ],
+        [ sh:class <http://w3id.org/ontogpt/core/RelationshipType> ;
+            sh:maxCount 1 ;
+            sh:nodeKind sh:IRI ;
+            sh:order 1 ;
+            sh:path <http://w3id.org/ontogpt/core/predicate> ],
+        [ sh:class <http://w3id.org/ontogpt/core/NamedEntity> ;
+            sh:description "An optional qualifier or modifier for the object of the statement, e.g. \"severe\" or \"with additional complications\"" ;
+            sh:maxCount 1 ;
+            sh:nodeKind sh:IRI ;
+            sh:order 5 ;
+            sh:path <http://w3id.org/ontogpt/core/object_qualifier> ] ;
+    sh:targetClass <http://w3id.org/ontogpt/core/Triple> .
+
+eg:CausalRelationship a sh:NodeShape ;
+    sh:closed true ;
+    sh:ignoredProperties ( rdf:type ) ;
+    sh:property [ sh:class eg:Variable ;
+            sh:description "the things that is affected" ;
+            sh:maxCount 1 ;
+            sh:nodeKind sh:IRI ;
+            sh:order 1 ;
+            sh:path eg:effect ],
+        [ sh:class eg:Variable ;
+            sh:description "the variable that is the cause of the effect" ;
+            sh:maxCount 1 ;
+            sh:nodeKind sh:IRI ;
+            sh:order 0 ;
+            sh:path eg:cause ] ;
+    sh:targetClass eg:CausalRelationship .
+
+eg:Environment a sh:NodeShape ;
+    sh:closed true ;
+    sh:ignoredProperties ( rdf:type ) ;
+    sh:property [ sh:description "The label (name) of the named thing" ;
+            sh:maxCount 1 ;
+            sh:order 1 ;
+            sh:path <rdfs:label> ],
+        [ sh:description "A unique identifier for the named entity" ;
+            sh:maxCount 1 ;
+            sh:order 0 ;
+            sh:path <http://w3id.org/ontogpt/core/id> ] ;
+    sh:targetClass eg:Environment .
+
+eg:EnvironmentalMaterial a sh:NodeShape ;
+    sh:closed true ;
+    sh:ignoredProperties ( rdf:type ) ;
+    sh:property [ sh:description "The label (name) of the named thing" ;
+            sh:maxCount 1 ;
+            sh:order 1 ;
+            sh:path <rdfs:label> ],
+        [ sh:description "A unique identifier for the named entity" ;
+            sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:order 0 ;
+            sh:path <http://w3id.org/ontogpt/core/id> ] ;
+    sh:targetClass eg:EnvironmentalMaterial .
+
+eg:Location a sh:NodeShape ;
+    sh:closed true ;
+    sh:ignoredProperties ( rdf:type ) ;
+    sh:property [ sh:description "The label (name) of the named thing" ;
+            sh:maxCount 1 ;
+            sh:order 1 ;
+            sh:path <rdfs:label> ],
+        [ sh:description "A unique identifier for the named entity" ;
+            sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:order 0 ;
+            sh:path <http://w3id.org/ontogpt/core/id> ] ;
+    sh:targetClass eg:Location .
+
+eg:Measurement a sh:NodeShape ;
+    sh:closed true ;
+    sh:ignoredProperties ( rdf:type ) ;
+    sh:property [ sh:class eg:Unit ;
+            sh:description "the unit of the measurement" ;
+            sh:maxCount 1 ;
+            sh:nodeKind sh:IRI ;
+            sh:order 1 ;
+            sh:path eg:unit ],
+        [ sh:description "the value of the measurement" ;
+            sh:maxCount 1 ;
+            sh:order 0 ;
+            sh:path eg:value ] ;
+    sh:targetClass eg:Measurement .
+
+eg:Organism a sh:NodeShape ;
+    sh:closed true ;
+    sh:ignoredProperties ( rdf:type ) ;
+    sh:property [ sh:description "The label (name) of the named thing" ;
+            sh:maxCount 1 ;
+            sh:order 1 ;
+            sh:path <rdfs:label> ],
+        [ sh:description "A unique identifier for the named entity" ;
+            sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:order 0 ;
+            sh:path <http://w3id.org/ontogpt/core/id> ] ;
+    sh:targetClass eg:Organism .
+
+eg:SequencingTechnology a sh:NodeShape ;
+    sh:closed true ;
+    sh:ignoredProperties ( rdf:type ) ;
+    sh:property [ sh:description "A unique identifier for the named entity" ;
+            sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:order 0 ;
+            sh:path <http://w3id.org/ontogpt/core/id> ],
+        [ sh:description "The label (name) of the named thing" ;
+            sh:maxCount 1 ;
+            sh:order 1 ;
+            sh:path <rdfs:label> ] ;
+    sh:targetClass eg:SequencingTechnology .
+
+eg:Treatment a sh:NodeShape ;
+    sh:closed true ;
+    sh:ignoredProperties ( rdf:type ) ;
+    sh:property [ sh:description "A unique identifier for the named entity" ;
+            sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:order 0 ;
+            sh:path <http://w3id.org/ontogpt/core/id> ],
+        [ sh:description "The label (name) of the named thing" ;
+            sh:maxCount 1 ;
+            sh:order 1 ;
+            sh:path <rdfs:label> ] ;
+    sh:targetClass eg:Treatment .
+
+eg:Unit a sh:NodeShape ;
+    sh:closed true ;
+    sh:ignoredProperties ( rdf:type ) ;
+    sh:property [ sh:description "The label (name) of the named thing" ;
+            sh:maxCount 1 ;
+            sh:order 1 ;
+            sh:path <rdfs:label> ],
+        [ sh:description "A unique identifier for the named entity" ;
+            sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:order 0 ;
+            sh:path <http://w3id.org/ontogpt/core/id> ] ;
+    sh:targetClass eg:Unit .
+
+linkml:Any a sh:NodeShape ;
+    sh:closed true ;
+    sh:ignoredProperties ( rdf:type ) ;
+    sh:targetClass linkml:Any .
+
+eg:Variable a sh:NodeShape ;
+    sh:closed true ;
+    sh:ignoredProperties ( rdf:type ) ;
+    sh:property [ sh:description "The label (name) of the named thing" ;
+            sh:maxCount 1 ;
+            sh:order 1 ;
+            sh:path <rdfs:label> ],
+        [ sh:description "A unique identifier for the named entity" ;
+            sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:order 0 ;
+            sh:path <http://w3id.org/ontogpt/core/id> ] ;
+    sh:targetClass eg:Variable .
+
+<http://w3id.org/ontogpt/core/NamedEntity> a sh:NodeShape ;
+    sh:closed false ;
+    sh:ignoredProperties ( rdf:type ) ;
+    sh:property [ sh:description "A unique identifier for the named entity" ;
+            sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:order 0 ;
+            sh:path <http://w3id.org/ontogpt/core/id> ],
+        [ sh:description "The label (name) of the named thing" ;
+            sh:maxCount 1 ;
+            sh:order 1 ;
+            sh:path <rdfs:label> ] ;
+    sh:targetClass <http://w3id.org/ontogpt/core/NamedEntity> .
+

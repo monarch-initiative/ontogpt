@@ -1,0 +1,339 @@
+@prefix linkml: <https://w3id.org/linkml/> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix reaction: <http://w3id.org/ontogpt/reaction/> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+<http://w3id.org/ontogpt/core/AnnotatorResult> a sh:NodeShape ;
+    sh:closed true ;
+    sh:ignoredProperties ( rdf:type ) ;
+    sh:property [ sh:maxCount 1 ;
+            sh:order 0 ;
+            sh:path <http://w3id.org/ontogpt/core/subject_text> ],
+        [ sh:maxCount 1 ;
+            sh:order 2 ;
+            sh:path <http://w3id.org/ontogpt/core/object_text> ],
+        [ sh:maxCount 1 ;
+            sh:order 1 ;
+            sh:path <http://w3id.org/ontogpt/core/object_id> ] ;
+    sh:targetClass <http://w3id.org/ontogpt/core/AnnotatorResult> .
+
+<http://w3id.org/ontogpt/core/CompoundExpression> a sh:NodeShape ;
+    sh:closed false ;
+    sh:ignoredProperties ( rdf:type ) ;
+    sh:targetClass <http://w3id.org/ontogpt/core/CompoundExpression> .
+
+<http://w3id.org/ontogpt/core/ExtractionResult> a sh:NodeShape ;
+    sh:closed true ;
+    sh:description "A result of extracting knowledge on text" ;
+    sh:ignoredProperties ( rdf:type ) ;
+    sh:property [ sh:maxCount 1 ;
+            sh:order 1 ;
+            sh:path <http://w3id.org/ontogpt/core/input_title> ],
+        [ sh:maxCount 1 ;
+            sh:order 4 ;
+            sh:path <http://w3id.org/ontogpt/core/prompt> ],
+        [ sh:class linkml:Any ;
+            sh:description "The complex objects extracted from the text" ;
+            sh:maxCount 1 ;
+            sh:nodeKind sh:BlankNode ;
+            sh:order 5 ;
+            sh:path <http://w3id.org/ontogpt/core/extracted_object> ],
+        [ sh:maxCount 1 ;
+            sh:order 2 ;
+            sh:path <http://w3id.org/ontogpt/core/input_text> ],
+        [ sh:class linkml:Any ;
+            sh:description "Named entities extracted from the text" ;
+            sh:nodeKind sh:BlankNode ;
+            sh:order 6 ;
+            sh:path <http://w3id.org/ontogpt/core/named_entities> ],
+        [ sh:maxCount 1 ;
+            sh:order 0 ;
+            sh:path <http://w3id.org/ontogpt/core/input_id> ],
+        [ sh:maxCount 1 ;
+            sh:order 3 ;
+            sh:path <http://w3id.org/ontogpt/core/raw_completion_output> ] ;
+    sh:targetClass <http://w3id.org/ontogpt/core/ExtractionResult> .
+
+<http://w3id.org/ontogpt/core/TextWithTriples> a sh:NodeShape ;
+    sh:closed true ;
+    sh:ignoredProperties ( rdf:type ) ;
+    sh:property [ sh:class <http://w3id.org/ontogpt/core/Triple> ;
+            sh:nodeKind sh:BlankNode ;
+            sh:order 1 ;
+            sh:path <http://w3id.org/ontogpt/core/triples> ],
+        [ sh:class <http://w3id.org/ontogpt/core/Publication> ;
+            sh:maxCount 1 ;
+            sh:nodeKind sh:BlankNode ;
+            sh:order 0 ;
+            sh:path <http://w3id.org/ontogpt/core/publication> ] ;
+    sh:targetClass <http://w3id.org/ontogpt/core/TextWithTriples> .
+
+reaction:GeneToReaction a sh:NodeShape ;
+    sh:closed true ;
+    sh:ignoredProperties ( rdf:type ) ;
+    sh:property [ sh:class reaction:Reaction ;
+            sh:description "semicolon separated list of reaction equations (e.g. A+B = C+D) catalyzed by the gene" ;
+            sh:nodeKind sh:IRI ;
+            sh:order 1 ;
+            sh:path reaction:reactions ],
+        [ sh:class reaction:Gene ;
+            sh:description "name of the gene that catalyzes the reaction" ;
+            sh:maxCount 1 ;
+            sh:nodeKind sh:IRI ;
+            sh:order 0 ;
+            sh:path reaction:gene ],
+        [ sh:class reaction:Organism ;
+            sh:maxCount 1 ;
+            sh:nodeKind sh:IRI ;
+            sh:order 2 ;
+            sh:path reaction:organism ] ;
+    sh:targetClass reaction:GeneToReaction .
+
+reaction:ReactionDocument a sh:NodeShape ;
+    sh:closed true ;
+    sh:ignoredProperties ( rdf:type ) ;
+    sh:property [ sh:class reaction:Evidence ;
+            sh:description "evidence for the reaction" ;
+            sh:nodeKind sh:IRI ;
+            sh:order 4 ;
+            sh:path reaction:has_evidence ],
+        [ sh:class reaction:Organism ;
+            sh:maxCount 1 ;
+            sh:nodeKind sh:IRI ;
+            sh:order 3 ;
+            sh:path reaction:organism ],
+        [ sh:class reaction:Gene ;
+            sh:description "semicolon separated list of genes that catalyzes the mentioned reactions" ;
+            sh:nodeKind sh:IRI ;
+            sh:order 0 ;
+            sh:path reaction:genes ],
+        [ sh:class reaction:GeneReactionPairing ;
+            sh:description "semicolon separated list of gene to reaction pairings" ;
+            sh:nodeKind sh:BlankNode ;
+            sh:order 2 ;
+            sh:path reaction:gene_reaction_pairings ],
+        [ sh:class reaction:Reaction ;
+            sh:description "semicolon separated list of reaction equations (e.g. A+B = C+D) catalyzed by the gene" ;
+            sh:nodeKind sh:IRI ;
+            sh:order 1 ;
+            sh:path reaction:reactions ] ;
+    sh:targetClass reaction:ReactionDocument .
+
+<http://w3id.org/ontogpt/core/Publication> a sh:NodeShape ;
+    sh:closed true ;
+    sh:ignoredProperties ( rdf:type ) ;
+    sh:property [ sh:description "The full text of the publication" ;
+            sh:maxCount 1 ;
+            sh:order 4 ;
+            sh:path <http://w3id.org/ontogpt/core/full_text> ],
+        [ sh:description "The title of the publication" ;
+            sh:maxCount 1 ;
+            sh:order 1 ;
+            sh:path <http://w3id.org/ontogpt/core/title> ],
+        [ sh:description "The publication identifier" ;
+            sh:maxCount 1 ;
+            sh:order 0 ;
+            sh:path <http://w3id.org/ontogpt/core/id> ],
+        [ sh:description "The abstract of the publication" ;
+            sh:maxCount 1 ;
+            sh:order 2 ;
+            sh:path <http://w3id.org/ontogpt/core/abstract> ],
+        [ sh:maxCount 1 ;
+            sh:order 3 ;
+            sh:path <http://w3id.org/ontogpt/core/combined_text> ] ;
+    sh:targetClass <http://w3id.org/ontogpt/core/Publication> .
+
+<http://w3id.org/ontogpt/core/RelationshipType> a sh:NodeShape ;
+    sh:closed true ;
+    sh:ignoredProperties ( rdf:type ) ;
+    sh:property [ sh:description "The label (name) of the named thing" ;
+            sh:maxCount 1 ;
+            sh:order 1 ;
+            sh:path <rdfs:label> ],
+        [ sh:description "A unique identifier for the named entity" ;
+            sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:order 0 ;
+            sh:path <http://w3id.org/ontogpt/core/id> ] ;
+    sh:targetClass <http://w3id.org/ontogpt/core/RelationshipType> .
+
+<http://w3id.org/ontogpt/core/Triple> a sh:NodeShape ;
+    sh:closed false ;
+    sh:description "Abstract parent for Relation Extraction tasks" ;
+    sh:ignoredProperties ( rdf:type ) ;
+    sh:property [ sh:class <http://w3id.org/ontogpt/core/NamedEntity> ;
+            sh:maxCount 1 ;
+            sh:nodeKind sh:IRI ;
+            sh:order 2 ;
+            sh:path <http://w3id.org/ontogpt/core/object> ],
+        [ sh:class <http://w3id.org/ontogpt/core/NamedEntity> ;
+            sh:description "An optional qualifier or modifier for the object of the statement, e.g. \"severe\" or \"with additional complications\"" ;
+            sh:maxCount 1 ;
+            sh:nodeKind sh:IRI ;
+            sh:order 5 ;
+            sh:path <http://w3id.org/ontogpt/core/object_qualifier> ],
+        [ sh:class <http://w3id.org/ontogpt/core/NamedEntity> ;
+            sh:maxCount 1 ;
+            sh:nodeKind sh:IRI ;
+            sh:order 0 ;
+            sh:path <http://w3id.org/ontogpt/core/subject> ],
+        [ sh:class <http://w3id.org/ontogpt/core/RelationshipType> ;
+            sh:maxCount 1 ;
+            sh:nodeKind sh:IRI ;
+            sh:order 1 ;
+            sh:path <http://w3id.org/ontogpt/core/predicate> ],
+        [ sh:class <http://w3id.org/ontogpt/core/NamedEntity> ;
+            sh:description "An optional qualifier or modifier for the subject of the statement, e.g. \"high dose\" or \"intravenously administered\"" ;
+            sh:maxCount 1 ;
+            sh:nodeKind sh:IRI ;
+            sh:order 4 ;
+            sh:path <http://w3id.org/ontogpt/core/subject_qualifier> ],
+        [ sh:description "A qualifier for the statements, e.g. \"NOT\" for negation" ;
+            sh:maxCount 1 ;
+            sh:order 3 ;
+            sh:path <http://w3id.org/ontogpt/core/qualifier> ] ;
+    sh:targetClass <http://w3id.org/ontogpt/core/Triple> .
+
+reaction:Evidence a sh:NodeShape ;
+    sh:closed true ;
+    sh:ignoredProperties ( rdf:type ) ;
+    sh:property [ sh:description "The label (name) of the named thing" ;
+            sh:maxCount 1 ;
+            sh:order 1 ;
+            sh:path <rdfs:label> ],
+        [ sh:description "A unique identifier for the named entity" ;
+            sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:order 0 ;
+            sh:path <http://w3id.org/ontogpt/core/id> ] ;
+    sh:targetClass reaction:Evidence .
+
+reaction:GeneReactionPairing a sh:NodeShape ;
+    sh:closed true ;
+    sh:ignoredProperties ( rdf:type ) ;
+    sh:property [ sh:class reaction:Reaction ;
+            sh:description "equation describing the reaction (e.g. A+B = C+D) catalyzed by the gene" ;
+            sh:maxCount 1 ;
+            sh:nodeKind sh:IRI ;
+            sh:order 1 ;
+            sh:path reaction:reaction ],
+        [ sh:class reaction:Gene ;
+            sh:description "name of the gene that catalyzes the reaction" ;
+            sh:maxCount 1 ;
+            sh:nodeKind sh:IRI ;
+            sh:order 0 ;
+            sh:path reaction:gene ] ;
+    sh:targetClass reaction:GeneReactionPairing .
+
+reaction:ReactionGrouping a sh:NodeShape ;
+    sh:closed true ;
+    sh:ignoredProperties ( rdf:type ) ;
+    sh:property [ sh:description "The label (name) of the named thing" ;
+            sh:maxCount 1 ;
+            sh:order 1 ;
+            sh:path <rdfs:label> ],
+        [ sh:description "A unique identifier for the named entity" ;
+            sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:order 0 ;
+            sh:path <http://w3id.org/ontogpt/core/id> ] ;
+    sh:targetClass reaction:ReactionGrouping .
+
+reaction:ChemicalEntity a sh:NodeShape ;
+    sh:closed true ;
+    sh:ignoredProperties ( rdf:type ) ;
+    sh:property [ sh:description "A unique identifier for the named entity" ;
+            sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:order 0 ;
+            sh:path <http://w3id.org/ontogpt/core/id> ],
+        [ sh:description "The label (name) of the named thing" ;
+            sh:maxCount 1 ;
+            sh:order 1 ;
+            sh:path <rdfs:label> ] ;
+    sh:targetClass reaction:ChemicalEntity .
+
+reaction:Organism a sh:NodeShape ;
+    sh:closed true ;
+    sh:ignoredProperties ( rdf:type ) ;
+    sh:property [ sh:description "A unique identifier for the named entity" ;
+            sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:order 0 ;
+            sh:path <http://w3id.org/ontogpt/core/id> ],
+        [ sh:description "The label (name) of the named thing" ;
+            sh:maxCount 1 ;
+            sh:order 1 ;
+            sh:path <rdfs:label> ] ;
+    sh:targetClass reaction:Organism .
+
+linkml:Any a sh:NodeShape ;
+    sh:closed true ;
+    sh:ignoredProperties ( rdf:type ) ;
+    sh:targetClass linkml:Any .
+
+reaction:Gene a sh:NodeShape ;
+    sh:closed true ;
+    sh:ignoredProperties ( rdf:type ) ;
+    sh:property [ sh:description "The label (name) of the named thing" ;
+            sh:maxCount 1 ;
+            sh:order 1 ;
+            sh:path <rdfs:label> ],
+        [ sh:description "A unique identifier for the named entity" ;
+            sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:order 0 ;
+            sh:path <http://w3id.org/ontogpt/core/id> ] ;
+    sh:targetClass reaction:Gene .
+
+reaction:Reaction a sh:NodeShape ;
+    sh:closed true ;
+    sh:ignoredProperties ( rdf:type ) ;
+    sh:property [ sh:class reaction:ReactionGrouping ;
+            sh:description "the category to which this biological process belongs" ;
+            sh:maxCount 1 ;
+            sh:nodeKind sh:IRI ;
+            sh:order 3 ;
+            sh:path reaction:subclass_of ],
+        [ sh:class reaction:ChemicalEntity ;
+            sh:description "semicolon separated list of chemical entities on the right side" ;
+            sh:nodeKind sh:IRI ;
+            sh:order 5 ;
+            sh:path reaction:right_side ],
+        [ sh:description "alternative names of the reaction" ;
+            sh:order 2 ;
+            sh:path reaction:synonyms ],
+        [ sh:class reaction:ChemicalEntity ;
+            sh:description "semicolon separated list of chemical entities on the left side" ;
+            sh:nodeKind sh:IRI ;
+            sh:order 4 ;
+            sh:path reaction:left_side ],
+        [ sh:description "the name of the reaction" ;
+            sh:maxCount 1 ;
+            sh:order 0 ;
+            sh:path reaction:label ],
+        [ sh:description "a textual description of the reaction" ;
+            sh:maxCount 1 ;
+            sh:order 1 ;
+            sh:path reaction:description ],
+        [ sh:description "A unique identifier for the named entity" ;
+            sh:maxCount 1 ;
+            sh:order 6 ;
+            sh:path <http://w3id.org/ontogpt/core/id> ] ;
+    sh:targetClass reaction:Reaction .
+
+<http://w3id.org/ontogpt/core/NamedEntity> a sh:NodeShape ;
+    sh:closed false ;
+    sh:ignoredProperties ( rdf:type ) ;
+    sh:property [ sh:description "A unique identifier for the named entity" ;
+            sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:order 0 ;
+            sh:path <http://w3id.org/ontogpt/core/id> ],
+        [ sh:description "The label (name) of the named thing" ;
+            sh:maxCount 1 ;
+            sh:order 1 ;
+            sh:path <rdfs:label> ] ;
+    sh:targetClass <http://w3id.org/ontogpt/core/NamedEntity> .
+

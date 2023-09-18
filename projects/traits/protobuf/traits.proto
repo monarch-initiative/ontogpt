@@ -1,0 +1,52 @@
+message AnnotatorResult
+ {
+  string subjectText = 0
+  string objectId = 0
+  string objectText = 0
+ }
+// A result of extracting knowledge on text
+message ExtractionResult
+ {
+  string inputId = 0
+  string inputTitle = 0
+  string inputText = 0
+  string rawCompletionOutput = 0
+  string prompt = 0
+  any extractedObject = 0
+ repeated  any namedEntities = 0
+ }
+message Publication
+ {
+  string id = 0
+  string title = 0
+  string abstract = 0
+  string combinedText = 0
+  string fullText = 0
+ }
+message RelationshipType
+ {
+  string id = 0
+  string label = 0
+ }
+message Taxon
+ {
+ repeated  trait metabolicTraits = 0
+ repeated  trait morphologicalTraits = 0
+ repeated  trait geneticTraits = 0
+ repeated  trait cellularTraits = 0
+ repeated  trait ecologicalTraits = 0
+ repeated  trait reproductiveTraits = 0
+ repeated  trait survivalTraits = 0
+ repeated  trait phenotypicPlasticiticyTraits = 0
+ repeated  trait preferredEnvironments = 0
+ }
+message TextWithTriples
+ {
+  publication publication = 0
+ repeated  triple triples = 0
+ }
+message Trait
+ {
+  string id = 0
+  string label = 0
+ }

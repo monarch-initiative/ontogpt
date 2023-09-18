@@ -1,0 +1,641 @@
+input_text: |-
+  Title: Spatial cluster mapping and environmental modeling in pediatric inflammatory bowel disease.
+  Abstract: Geographical (geospatial) clusters have been observed in inflammatory bowel disease (IBD) incidence and linked to environmental determinants of disease, but pediatric spatial patterns in North America are unknown. We hypothesized that we would identify geospatial clusters in the pediatric IBD (PIBD) population of British Columbia (BC), Canada and associate incidence with ethnicity and environmental exposures.To identify PIBD clusters and model how spatial patterns are associated with population ethnicity and environmental exposures.One thousand one hundred eighty-three patients were included from a BC Children's Hospital clinical registry who met the criteria of diagnosis with IBD ≤ age 16.9 from 2001-2016 with a valid postal code on file. A spatial cluster detection routine was used to identify areas with similar incidence. An ecological analysis employed Poisson rate models of IBD, Crohn's disease (CD), and ulcerative colitis (UC) cases as functions of areal population ethnicity, rurality, average family size and income, average population exposure to green space, air pollution, and vitamin-D weighted ultraviolet light from the Canadian Environmental Health Research Consortium, and pesticide applications.Hot spots (high incidence) were identified in Metro Vancouver (IBD, CD, UC), southern Okanagan regions (IBD, CD), and Vancouver Island (CD). Cold spots (low incidence) were identified in Southeastern BC (IBD, CD, UC), Northern BC (IBD, CD), and on BC's coast (UC). No high incidence hot spots were detected in the densest urban areas. Modeling results were represented as incidence rate ratios (IRR) with 95%CI. Novel risk factors for PIBD included fine particulate matter (PM2.5) pollution (IRR = 1.294, CI = 1.113-1.507, P < 0.001) and agricultural application of petroleum oil to orchards and grapes (IRR = 1.135, CI = 1.007-1.270, P = 0.033). South Asian population (IRR = 1.020, CI = 1.011-1.028, P < 0.001) was a risk factor and Indigenous population (IRR = 0.956, CI = 0.941-0.971, P < 0.001), family size (IRR = 0.467, CI = 0.268-0.816, P = 0.007), and summer ultraviolet (IBD = 0.9993, CI = 0.9990-0.9996, P < 0.001) were protective factors as previously established. Novel risk factors for CD, as for PIBD, included: PM2.5 air pollution (IRR = 1.230, CI = 1 .056-1.435, P = 0.008) and agricultural petroleum oil (IRR = 1.159, CI = 1.002-1.326, P = 0.038). Indigenous population (IRR = 0.923, CI = 0.895-0.951, P < 0.001), as previously established, was a protective factor. For UC, rural population (UC IRR = 0.990, CI = 0.983-0.996, P = 0.004) was a protective factor and South Asian population (IRR = 1.054, CI = 1.030-1.079, P < 0.001) a risk factor as previously established.PIBD spatial clusters were identified and associated with known and novel environmental determinants. The identification of agricultural pesticides and PM2.5 air pollution need
+raw_completion_output: |-
+  genes: IBD, CD, UC
+  exposures: fine particulate matter (PM2.5) pollution, agricultural application of petroleum oil to orchards and grapes
+  gene_exposures_relationships: IBD - PM2.5 pollution, IBD - agricultural application of petroleum oil to orchards and grapes
+prompt: |+
+  From the text below, extract the following entities in the following format:
+
+  molecular_activity: <the name of the exposure, such as a exposure to a chemical toxin.>
+  gene: <the name of the gene in the pair. This comes second in the pair.>
+
+
+  Text:
+  IBD - PM2.5 pollution, IBD - agricultural application of petroleum oil to orchards and grapes
+
+  ===
+
+extracted_object:
+  genes:
+    - IBD, CD, UC
+  exposures:
+    - fine particulate matter (PM2.5) pollution, agricultural application of petroleum
+      oil to orchards and grapes
+  gene_exposures_relationships:
+    - molecular_activity: agricultural application of petroleum oil
+      gene: HGNC:87
+named_entities:
+  - id: HGNC:87
+    label: IBD
+input_text: |-
+  Title: Low vaccination and infection rate of Omicron in patients with inflammatory bowel disease: a comparative study of three unique cohorts.
+  Abstract: The SARS-CoV-2 Omicron variant caused a large-scale outbreak of COVID-19 in Shanghai, China. Patients with inflammatory bowel disease (IBD) are at high risk of infection due to immunosuppressive interventions. We aimed to investigate the vaccination information of patients with IBD and update a vaccination guide based on a comparison of vaccination in asymptomatic carriers and healthy individuals.This retrospective study was conducted during an Omicron variant wave. We assessed the vaccination status in patients with IBD, asymptomatic carriers and healthy individuals. Factors with unvaccinated status and adverse events following vaccination were also determined in patients with IBD.The vaccination rate was 51.2% in patients with IBD, 73.2% in asymptomatic carriers, and 96.1% in healthy individuals. Female sex (p = 0.012), Crohn's disease (p = 0.026), and disease behavior of B3 (p = 0.029) were factors that indicated a lower vaccination rate. A significantly higher proportion of healthy individuals had received one booster dose (76.8%) than asymptomatic carriers (43.4%) and patients with IBD (26.2%). Patients with IBD received vaccination without an increased risk of adverse events (p = 0.768).The vaccination rate of patients with IBD remains much lower than that of asymptomatic carriers and healthy individuals. The COVID-19 vaccine has been found to be safe among all three groups and patients with IBD are not more susceptible to adverse events.Copyright © 2023 Feng, Yang, Yao, Feng, Hao, Qiao, Tong and Shen.
+  Keywords: Omicron; asymptomatic; coronavirus disease-19 (COVID-19); inflammatory bowel disease (IBD); severe acute respiratory syndrome coronavirus 2 (SARS-CoV-2)
+raw_completion_output: |-
+  genes: None mentioned in the text
+  exposures: Omicron variant, SARS-CoV-2, COVID-19 vaccine
+  gene_exposures_relationships: None mentioned in the text
+prompt: |+
+  Split the following piece of text into fields in the following format:
+
+  molecular_activity: <the name of the exposure, such as a exposure to a chemical toxin.>
+  gene: <the name of the gene in the pair. This comes second in the pair.>
+
+
+  Text:
+  None mentioned in the text
+
+  ===
+
+extracted_object:
+  genes:
+    - None mentioned in the text
+  exposures:
+    - Omicron variant, SARS-CoV-2, COVID-19 vaccine
+  gene_exposures_relationships:
+    - molecular_activity: None mentioned in the text
+      gene: None mentioned in the text
+input_text: |-
+  Title: Inappropriate Multi-Target Stool DNA Use for Colorectal Cancer Screening: Risks, Compliance, and Outcomes.
+  Abstract: Background Inappropriate or "off-label" use of multi-target stool DNA (mt-sDNA) tests refers to their use in patients for whom colonoscopy or no testing at all is warranted. Examples include a positive family history of colorectal cancer, a history of inflammatory bowel disease, or medical issues necessitating diagnostic colonoscopy, among others. Current understanding of off-label mt-sDNA use for colorectal cancer screening, its associated risks, and outcomes is lacking. We examined off-label mt-sDNA prescription and compliance with testing in an outpatient setting in southeast Michigan. Aims The primary aims of the study were determining the extent of off-label mt-sDNA testing and compliance, and results of all testing, as well as demographic factors associated with off-label prescriptions. The secondary aims were to examine explanations for incomplete testing and factors contributing to successful completion. Methods Using a retrospective design, we identified mt-sDNA orders from outpatient internal medicine clinics between January 1, 2018, to July 31, 2019, to evaluate the proportion of off-label mt-sDNA, results of testing, and follow-up colonoscopies up to one year after order placement. Patients were categorized as "off-label" if any inappropriate criteria were met. Statistical analysis was performed for primary and secondary outcomes. Results From 679 mt-sDNA orders within the study period, 81 (12.1%) had at least one off-label criterion for testing. In total, 404/679 (59.5%) patients completed testing. Lack of follow-up comprised the majority of incompletions (216/275; 78.6%). Only 52 (70.3%) out of 74 positive results were followed by diagnostic colonoscopy. Retired employment status (OR = 1.87; 95%CI, 1.17-2.98; P = 0.008) and age of 76 years or older (OR = 2.28; 95%CI, 0.99-5.21; P = 0.044) were significantly associated with increased risk of off-label mt-sDNA prescription. Increasing age range was associated with higher test completion (χ2 (5) = 12.085, p = 0.034). Multinomial logistic regression revealed an increasing age range (OR = 1.29; 95% CI, 1.09-1.54; P = 0.004), predictive of a positive mt-sDNA result for both groups. There was no significant difference between off-label or on-label groups in the mean number of resected polyps or pathology scores on follow-up colonoscopy. Conclusions Off-label mt-sDNA use remains a concern in the outpatient setting. Compliance for test completion and follow-up colonoscopy for positive results require further improvement. Our findings shed new light on the factors associated with off-label testing while reiterating its burden. We also describe common reasons for incomplete tests in an attempt to augment future colorectal cancer (CRC) screening initiatives.Copyright © 2023, Lazar et al.
+  Keywords: cologuard®; colon cancer prevention; colon cancer screening; colorectal canc
+raw_completion_output: |-
+  genes: None mentioned
+  exposures: multi-target stool DNA (mt-sDNA) tests
+  gene_exposures_relationships: None mentioned
+prompt: |+
+  Split the following piece of text into fields in the following format:
+
+  molecular_activity: <the name of the exposure, such as a exposure to a chemical toxin.>
+  gene: <the name of the gene in the pair. This comes second in the pair.>
+
+
+  Text:
+  None mentioned
+
+  ===
+
+extracted_object:
+  genes:
+    - None mentioned
+  exposures:
+    - multi-target stool DNA (mt-sDNA) tests
+  gene_exposures_relationships:
+    - molecular_activity: None mentioned
+      gene: None mentioned
+input_text: |-
+  Title: Protective effects of IRG1/itaconate on acute colitis through the inhibition of gasdermins-mediated pyroptosis and inflammation response.
+  Abstract: Inflammatory bowel disease (IBD) is a chronic relapsing gastrointestinal disorder, while the treatment effect is not satisfactory. Immune responsive gene 1 (IRG1) is a highly expressed gene in macrophage in response to inflammatory response and catalyzes the production of itaconate. Studies have reported that IRG1/itaconate has a significant antioxidant effect. This study aimed to investigate the effect and mechanism of IRG1/itaconate on dextran sulfate sodium (DSS)-induced colitis in vivo and in vitro. In vivo experiments, we found IRG1/itaconate exerted protective effects against acute colitis by increasing mice weight, the length of colon, reducing disease activity index and colonic inflammation. Meanwhile, IRG1 deletion aggravated the macrophages/CD4+/CD8+ T-cell accumulation, and increased the release of interleukin (IL)-1β, tumor necrosis factor-α (TNF-α), IL-6, the activation of nuclear factor-κB (NF-κB)/mitogen-activated protein kinase (MAPK) signaling pathway, and gasdermin D (GSDMD) mediated pyroptosis. Four-octyl itaconate (4-OI), a derivative of itaconate, attenuated these changes, therefore relieved DSS-induced colitis. In vitro experiment, we found 4-OI inhibited the reactive oxygen species production, thereby inhibiting the activation of MAPK/NF-κB signaling pathway in RAW264.7 and murine bone-marrow-derived macrophages. Simultaneously, we found 4-OI inhibited caspase1/GSDMD-mediated pyroptosis to reduce the release of cytokines. Finally, we found anti-TNF-α agent reduced the severity of DSS-induced colitis and inhibited gasdermin E (GSDME)-mediated pyroptosis in vivo. Meanwhile, our study revealed that 4-OI inhibited caspase3/GSDME-mediated pyroptosis induced by TNF-α in vitro. Taken together, IRG1/itaconate exerted a protective role in DSS-induced colitis by inhibiting inflammatory response and GSDMD/GSDME-mediated pyroptosis, which could be a promising candidate for IBD therapy.© 2022 The Authors. Publishing services by Elsevier B.V. on behalf of KeAi Communications Co., Ltd.
+  Keywords: Colitis; Gasdermin D; Gasdermin E; IRG1; Inflammation
+raw_completion_output: |-
+  genes: IRG1, GSDMD, GSDME
+  exposures: itaconate, DSS (dextran sulfate sodium), IL-1β, TNF-α, IL-6, NF-κB (nuclear factor-κB), MAPK (mitogen-activated protein kinase), 4-OI (four-octyl itaconate), caspase1, caspase3
+  gene_exposures_relationships: IRG1/itaconate inhibits gasdermin D (GSDMD)-mediated pyroptosis; IRG1/itaconate inhibits gasdermin E (GSDME)-mediated pyroptosis; 4-OI attenuates the effects of DSS-induced colitis; 4-OI inhibits the activation of MAPK/NF-κB signaling pathway; 4-OI inhibits caspase1/GSDMD-mediated pyroptosis; 4-OI inhibits caspase3/GSDME-mediated pyroptosis; TNF-α agent reduces the severity of DSS-induced colitis; TNF-α agent inhibits gasdermin E (GSDME)-mediated pyroptosis.
+prompt: |+
+  From the text below, extract the following entities in the following format:
+
+  molecular_activity: <the name of the exposure, such as a exposure to a chemical toxin.>
+  gene: <the name of the gene in the pair. This comes second in the pair.>
+
+
+  Text:
+  TNF-α agent inhibits gasdermin E (GSDME)-mediated pyroptosis.
+
+  ===
+
+extracted_object:
+  genes:
+    - IRG1, GSDMD, GSDME
+  exposures:
+    - itaconate, DSS (dextran sulfate sodium), IL-1β, TNF-α, IL-6, NF-κB (nuclear
+      factor-κB), MAPK (mitogen-activated protein kinase), 4-OI (four-octyl itaconate),
+      caspase1, caspase3
+  gene_exposures_relationships:
+    - molecular_activity: pyroptosis
+      gene: HGNC:25697
+    - molecular_activity: inhibits gasdermin E (GSDME)-mediated pyroptosis
+      gene: HGNC:33904
+    - molecular_activity: effects
+      gene: DSS-induced colitis
+    - molecular_activity: activation
+      gene: MAPK/NF-κB
+    - molecular_activity: pyroptosis
+      gene: HGNC:25697
+    - molecular_activity: pyroptosis
+      gene: caspase3/GSDME
+    - molecular_activity: DSS-induced colitis
+      gene: TNF-α agent
+    - molecular_activity: inhibits
+      gene: HGNC:2810
+named_entities:
+  - id: HGNC:25697
+    label: GSDMD
+  - id: HGNC:33904
+    label: IRG1
+  - id: HGNC:2810
+    label: GSDME
+input_text: |-
+  Title: Autophagy in intestinal fibrosis: relevance in inflammatory bowel disease.
+  Abstract: Chronic inflammation is often associated with fibrotic disorders in which an excessive deposition of extracellular matrix is a hallmark. Long-term fibrosis starts with tissue hypofunction and finally ends in organ failure. Intestinal fibrosis is not an exception, and it is a frequent complication of inflammatory bowel disease (IBD). Several studies have confirmed the link between deregulated autophagy and fibrosis and the presence of common prognostic markers; indeed, both up- and downregulation of autophagy are presumed to be implicated in the progression of fibrosis. A better knowledge of the role of autophagy in fibrosis may lead to it becoming a potential target of antifibrotic therapy. In this review we explore novel advances in the field that highlight the relevance of autophagy in fibrosis, and give special focus to fibrosis in IBD patients.Copyright © 2023 Macias-Ceja, Barrachina and Ortiz-Masià.
+  Keywords: Crohn’s disease; autophagy; colitis; fibrosis; inflammatory bowel disease; intestinal fibrosis
+raw_completion_output: |-
+  genes: N/A
+  exposures: autophagy
+  gene_exposures_relationships: N/A
+prompt: |+
+  Split the following piece of text into fields in the following format:
+
+  molecular_activity: <the name of the exposure, such as a exposure to a chemical toxin.>
+  gene: <the name of the gene in the pair. This comes second in the pair.>
+
+
+  Text:
+  N/A
+
+  ===
+
+extracted_object:
+  genes:
+    - N/A
+  exposures:
+    - autophagy
+  gene_exposures_relationships:
+    - molecular_activity: N/A
+      gene: N/A
+input_text: |-
+  Title: Provincial variation in colorectal cancer screening adherence in Canada; evidence from the Canadian Partnership for Tomorrow's Health.
+  Abstract: Although colorectal cancer (CRC) screening program is proven to reduce CRC incidence and mortality, understanding patterns and predictors of suboptimal adherence in screening program requires further investigation in Canada.We used self-reported data from five regional cohorts of the Canadian Partnership for Tomorrow's Health (CanPath), namely the BC Generations Project (BCGP), Alberta's Tomorrow Project (ATP), the Ontario Health Study (OHS), Quebec's CARTaGENE, and the Atlantic Partnership for Tomorrow's Health Study (Atlantic PATH). We stratified participants into the following four risk categories: 1) age 50-74 years, 2) family history in a first-degree relative, 3) personal history of chronic inflammatory bowel disease and/or polyps, and 4) co-existence of personal risk and family history. Multivariable logistic regression was used to identify predictors of adherence to the screening guidelines.Adherence to CRC screening varied considerably between regions, ranging from 16.6% in CARTaGENE to 47.7% in OHS. Compared to the largest cohort OHS, the likelihood of non-adherence to CRC screening was significantly higher in BCGP (OR 1.15, 95% CI 1.11-1.19), the Atlantic PATH (OR 1.90, 95% CI 1.82-1.99) and CARTaGENE (OR 5.10, 95% CI 4.85-5.36). Low physical activity, current smoking, presence of personal risk, family history of CRC significantly reduced the likelihood of adherence to screening recommendations.Compared to the national target of ≥ 60% for participation in CRC screening, adherence to regular CRC screening was suboptimal in this cohort of Canadians and varied by region. Further efforts are needed to identify the specific barriers to screening adherence in different provinces and across risk categories.Copyright © 2023 Darvishian, Moustaqim-Barrette, Awadalla, Bhatti, Broet, McDonald, Murphy, Skead, Urquhart, Vena and Dummer.
+  Keywords: CanPath cohort; Canada; adherence; colorectal cancer; screening
+raw_completion_output: |-
+  genes: Not mentioned
+  exposures: None mentioned
+  gene_exposures_relationships: Not applicable
+prompt: |+
+  Split the following piece of text into fields in the following format:
+
+  molecular_activity: <the name of the exposure, such as a exposure to a chemical toxin.>
+  gene: <the name of the gene in the pair. This comes second in the pair.>
+
+
+  Text:
+  Not applicable
+
+  ===
+
+extracted_object:
+  genes:
+    - Not mentioned
+  exposures:
+    - None mentioned
+  gene_exposures_relationships:
+    - molecular_activity: Not applicable
+      gene: Not applicable
+input_text: |-
+  Title: 3D printed infliximab suppositories for rectal biologic delivery.
+  Abstract: Infliximab is a monoclonal antibody that plays an important role in the management and treatment of chronic inflammatory bowel diseases (IBD). Due to its macromolecular structure, its delivery through the oral route is challenging, limiting its administration to only via the parenteral route. The rectal route offers an alternative way for administering infliximab, allowing it to be localised at the disease site and circumventing its passage across the alimentary canal and thus, maintaining its integrity and bioactivity. Three-dimensional (3D) printing is an advanced production technology that permits the creation of dose-flexible drug products from digital designs. The current study assessed the feasibility of utilising semi-solid extrusion 3D printing for the fabrication of infliximab-loaded suppositories for the local treatment of IBD. Various printing inks composed of Gelucire® (48/16 or 44/14) mixed with coconut oil and/or purified water were investigated. It was shown that following reconstitution in water, the infliximab solution can be directly incorporated into the printing ink of Gelucire® 48/16 and can withstand the extrusion process, resulting in well-defined suppositories. Since water content and temperature are critical for safeguarding infliximab's potency, the effect of changing the composition of the printing inks and printing parameters on infliximab's biologic efficiency was evaluated by measuring its binding capacity (i.e., the amount of infliximab that actively binds to its antigen to exert an effect). Despite drug loading assays showing that infliximab remains intact following printing, it was found that the incorporation of water in isolation results in only ∼65% binding capacity. However, when oil is added to the mixture, infliximab's binding capacity increases up to ∼85%. These promising results demonstrate that 3D printing has the potential to be exploited as a novel platform for fabricating dosage forms containing biopharmaceuticals, avoiding patients' compliance issues observed with injectables and addressing their unmet needs.© 2023 The Authors.
+  Keywords: Biologicals and monoclonal antibodies; Digital medicine production; Extrusion-assisted additve manufacturing of a suppository formulation; Pressure-assisted syringe; Rectal drug delivery; Tumour necrosis factor-alpha (TNF-alpha) inhibitors; Ulcerative colitis (UC) and Crohn's disease (CD)
+raw_completion_output: |-
+  genes: None mentioned in the text
+  exposures: infliximab
+  gene_exposures_relationships: None mentioned in the text
+prompt: |+
+  Split the following piece of text into fields in the following format:
+
+  molecular_activity: <the name of the exposure, such as a exposure to a chemical toxin.>
+  gene: <the name of the gene in the pair. This comes second in the pair.>
+
+
+  Text:
+  None mentioned in the text
+
+  ===
+
+extracted_object:
+  genes:
+    - None mentioned in the text
+  exposures:
+    - infliximab
+  gene_exposures_relationships:
+    - molecular_activity: None mentioned in the text
+      gene: None mentioned in the text
+input_text: |-
+  Title: Serum amyloid A and metabolic disease: evidence for a critical role in chronic inflammatory conditions.
+  Abstract: Serum amyloid A (SAA) subtypes 1-3 are well-described acute phase reactants that are elevated in acute inflammatory conditions such as infection, tissue injury, and trauma, while SAA4 is constitutively expressed. SAA subtypes also have been implicated as playing roles in chronic metabolic diseases including obesity, diabetes, and cardiovascular disease, and possibly in autoimmune diseases such as systemic lupus erythematosis, rheumatoid arthritis, and inflammatory bowel disease. Distinctions between the expression kinetics of SAA in acute inflammatory responses and chronic disease states suggest the potential for differentiating SAA functions. Although circulating SAA levels can rise up to 1,000-fold during an acute inflammatory event, elevations are more modest (∼5-fold) in chronic metabolic conditions. The majority of acute-phase SAA derives from the liver, while in chronic inflammatory conditions SAA also derives from adipose tissue, the intestine, and elsewhere. In this review, roles for SAA subtypes in chronic metabolic disease states are contrasted to current knowledge about acute phase SAA. Investigations show distinct differences between SAA expression and function in human and animal models of metabolic disease, as well as sexual dimorphism of SAA subtype responses.© 2023 den Hartigh, May, Zhang, Chait and Blaser.
+  Keywords: SAA; adipocytes, macrophages; cardiovascular disease; diabetes; intestine; liver; obesity
+raw_completion_output: |-
+  genes: SAA
+
+  exposures: not mentioned
+
+  gene_exposures_relationships: not mentioned
+prompt: |+
+  Split the following piece of text into fields in the following format:
+
+  molecular_activity: <the name of the exposure, such as a exposure to a chemical toxin.>
+  gene: <the name of the gene in the pair. This comes second in the pair.>
+
+
+  Text:
+  not mentioned
+
+  ===
+
+extracted_object:
+  genes:
+    - SAA
+  exposures:
+    - not mentioned
+  gene_exposures_relationships:
+    - molecular_activity: not mentioned
+      gene: not mentioned
+input_text: |-
+  Title: Probiotic lactic acid bacteria alleviate pediatric IBD and remodel gut microbiota by modulating macrophage polarization and suppressing epithelial apoptosis.
+  Abstract: The incidence of pediatric inflammatory bowel disease (PIBD) continues to rise. It was reported that the probiotic lactic acid bacteria Pediococcus pentosaceus (P. pentosaceus) can interfere with intestinal immunity, but it is still unknown whether it can alleviate PIBD and the concrete mechanism of immune regulation is unclear.For this study, 3-week-old juvenile mice were selected for modeling the development of PIBD. The mice treated with 2% DSS were randomly divided into two groups, which were given P. pentosaceus CECT8330 and equal amounts of solvent, respectively. The feces and intestinal tissue were collected for the mechanism exploration in vivo. THP-1 and NCM460 cells were used to investigate the effects of P. pentosaceus CECT8330 on macrophage polarization, epithelial cell apoptosis, and their crosstalk in vitro.P. pentosaceus CECT8330 obviously alleviated colitis symptoms of juvenile mice, including weight loss, colon length shortening, spleen swelling, and intestinal barrier function. Mechanistically, P. pentosaceus CECT8330 could inhibit intestinal epithelial apoptosis by suppressing the NF-κB signaling pathway. Meanwhile, it reprogramed macrophages from a pro-inflammatory M1 phenotype to an anti-inflammatory M2 phenotype, leading to a decreased secretion of IL-1β which contributes to the reduction in ROS production and epithelial apoptosis. Additionally, the 16S rRNA sequence analysis revealed that P. pentosaceus CECT8330 could recover the balance of gut microbiota, and a significantly increased content of Akkermansia muciniphila was particularly observed.P. pentosaceus CECT8330 shifts macrophage polarization toward an anti-inflammatory M2 phenotype. The decreased production of IL-1β leads to a reduction in ROS, NF-κB activation, and apoptosis in the intestinal epithelium, all of which help to repair the intestinal barrier and adjust gut microbiota in juvenile colitis mice.Copyright © 2023 Hua, Pan, Chen, Jing, Xie, Gao, Huang, Chen, Gao, Xu and Li.
+  Keywords: Akkermansia muciniphila; Pediococcus pentosaceus CECT8330; intestinal epithelium apoptosis; macrophage polarization; pediatric IBD
+raw_completion_output: |-
+  genes: NF-κB
+  exposures: Pediococcus pentosaceus CECT8330; IL-1β; ROS
+  gene_exposures_relationships: NF-κB and Pediococcus pentosaceus CECT8330; IL-1β and ROS
+prompt: |+
+  Split the following piece of text into fields in the following format:
+
+  molecular_activity: <the name of the exposure, such as a exposure to a chemical toxin.>
+  gene: <the name of the gene in the pair. This comes second in the pair.>
+
+
+  Text:
+  IL-1β and ROS
+
+  ===
+
+extracted_object:
+  genes:
+    - NF-κB
+  exposures:
+    - Pediococcus pentosaceus CECT8330
+    - IL-1β
+    - CHEBI:26523
+  gene_exposures_relationships:
+    - molecular_activity: undeclared
+      gene: Pediococcus pentosaceus CECT8330
+    - molecular_activity: IL-1β
+      gene: HGNC:1455
+named_entities:
+  - id: CHEBI:26523
+    label: ROS
+  - id: HGNC:1455
+    label: ROS
+input_text: |-
+  Title: Comparison of the gut virus communities between patients with Crohn's disease and healthy individuals.
+  Abstract: The escalating incidence of Crohn's disease (CD), a debilitating ailment that ravages individuals and their families, has become a formidable issue over recent decades.In this study, fecal samples from patients with CD and healthy individuals were investigated by means of viral metagenomics.The fecal virome was analyzed and some suspected disease-causing viruses were described. A polyomavirus named HuPyV with 5,120 base pairs (bp) was found in the disease group. In a preliminary analysis employing large T region-specific primers, it was found that HuPyV was present in 3.2% (1/31) of healthy samples and 43.2% (16/37) of disease samples. Additionally, two other viruses from the anellovirus and CRESS-DNA virus families were found in fecal samples from CD patients. The complete genome sequences of these two viruses were described respectively, and the phylogenetic trees have been built using the anticipated amino acid sequences of the viral proteins.Further research is required to elucidate the relationship between these viruses and the onset and development of Crohn's disease.Copyright © 2023 Ding, Wan, Li, Ma, Zhang and Xu.
+  Keywords: CRESS-DNA virus; Crohn’s disease; anellovirus; inflammatory bowel disease; polyomavirus; viral metagenomics method
+raw_completion_output: |-
+  genes: HuPyV
+  exposures: CRESS-DNA virus, anellovirus
+  gene_exposures_relationships: HuPyV - viral metagenomics method; CRESS-DNA virus - fecal samples from CD patients; anellovirus - fecal samples from CD patients
+prompt: |+
+  Split the following piece of text into fields in the following format:
+
+  molecular_activity: <the name of the exposure, such as a exposure to a chemical toxin.>
+  gene: <the name of the gene in the pair. This comes second in the pair.>
+
+
+  Text:
+  anellovirus - fecal samples from CD patients
+
+  ===
+
+extracted_object:
+  genes:
+    - HuPyV
+  exposures:
+    - CRESS-DNA virus, anellovirus
+  gene_exposures_relationships:
+    - molecular_activity: viral metagenomics method
+      gene: HuPyV
+    - molecular_activity: CRESS-DNA virus
+      gene: fecal samples from CD patients
+    - molecular_activity: exposure to anellovirus
+      gene: fecal samples
+input_text: |-
+  Title: Combination therapy is not associated with improved rates of clinical or endoscopic remission in patients with inflammatory bowel disease treated with ustekinumab or vedolizumab: a retrospective study.
+  Abstract: Management of inflammatory bowel disease (IBD) involves biological agents, often in combination with thiopurines or methotrexate. The aim of our study was to compare clinical and endoscopic outcomes in IBD patients treated with vedolizumab or ustekinumab, as monotherapy or in combination with thiopurines or methotrexate.We conducted a retrospective cohort study of all patients aged ≥18 years with a diagnosis of ulcerative colitis or Crohn's disease, commenced on vedolizumab or ustekinumab between October 2015 and March 2022. Primary outcome was clinical remission or response calculated by partial Mayo score (remission: <3; response: improvement >1) for ulcerative colitis or Harvey-Bradshaw index (<5, >2 respectively) for Crohn's disease over 1 year. Secondary endpoints were treatment failure, relapse, endoscopic remission at 1 year. Statistical analysis was done using 2-sample Student's t and chi-square tests.A total of 159 IBD patients were included in the study, 85 (53%) on vedolizumab and 74 (47%) on ustekinumab. For those on vedolizumab, 61 (72%) patients had ulcerative colitis, and 24 (28%) has Crohn's disease. All patients on ustekinumab had Crohn's disease. Mean disease duration in was 9.4 and 13.5 years respectively. There was no difference in clinical response or remission for vedolizumab or ustekinumab monotherapy compared to combination therapy at 1 year. There was also no difference in treatment failure, relapse or endoscopic remission.Combining vedolizumab or ustekinumab with an immunomodulator is not superior to monotherapy in terms of clinical response or endoscopic remission up to 1 year in IBD.Copyright: © Hellenic Society of Gastroenterology.
+  Keywords: Crohn’s disease; Ulcerative colitis; biologics; thiopurines
+raw_completion_output: |-
+  genes: None mentioned in the text
+  exposures: vedolizumab, ustekinumab, thiopurines, methotrexate
+  gene_exposures_relationships: None mentioned in the text
+prompt: |+
+  Split the following piece of text into fields in the following format:
+
+  molecular_activity: <the name of the exposure, such as a exposure to a chemical toxin.>
+  gene: <the name of the gene in the pair. This comes second in the pair.>
+
+
+  Text:
+  None mentioned in the text
+
+  ===
+
+extracted_object:
+  genes:
+    - None mentioned in the text
+  exposures:
+    - vedolizumab, ustekinumab, thiopurines, methotrexate
+  gene_exposures_relationships:
+    - molecular_activity: None mentioned in the text
+      gene: None mentioned in the text
+input_text: |-
+  Title: Association of serum IgG4 and disease outcomes in patients with inflammatory bowel disease.
+  Abstract: The etiology of inflammatory bowel disease (IBD) is multifactorial and thought to be influenced by inappropriate activation of the gut mucosal immune system. As the only immunoglobulin G (IgG) subclass unable to activate the classical complement cascade, the role of IgG4 in IBD pathophysiology as an immunomodulator is controversial. This study aimed to determine the association of low, normal and high IgG4 levels with the outcomes of IBD patients.This was a retrospective study of a multisite tertiary care center database evaluating patients with IBD who had an IgG4 level drawn between 2014 and 2021. Subjects were divided into low, normal, and high IgG4 level groups for evaluation of demographic and clinical indicators of IBD activity and severity.Of 284 patients with IBD, 22 had low (7.7%), 16 high (5.6%), and 246 (86.6%) normal IgG4 levels. There was no difference in IBD subtype, mean age, age at IBD diagnosis, or smoking between the 3 groups. There was no difference in number of hospitalizations (P=0.20), C-reactive protein levels, need for intestinal resection (P=0.85), or presence of primary sclerosing cholangitis (P=0.15), pancreatitis (P=0.70), or perianal disease (P=0.68) between the groups. Significantly more patients in the low IgG4 group had previous exposure to vedolizumab compared to the other groups and more patients in the low IgG4 group received vedolizumab (P=0.04), azathioprine (P=0.04) and prednisone (P=0.03) during the 5-year follow up.In this study, a low serum IgG4 level was associated with higher rates of vedolizumab, azathioprine, and steroid use.Copyright: © Hellenic Society of Gastroenterology.
+  Keywords: IgG4; disease outcomes; disease severity; inflammatory bowel disease
+raw_completion_output: |-
+  genes: None
+  exposures: IgG4, vedolizumab, azathioprine, prednisone
+  gene_exposures_relationships: None
+prompt: |+
+  Split the following piece of text into fields in the following format:
+
+  molecular_activity: <the name of the exposure, such as a exposure to a chemical toxin.>
+  gene: <the name of the gene in the pair. This comes second in the pair.>
+
+
+  Text:
+  None
+
+  ===
+
+extracted_object:
+  genes:
+    - None
+  exposures:
+    - IgG4, vedolizumab, azathioprine, prednisone
+  gene_exposures_relationships:
+    - molecular_activity: None
+      gene: None
+input_text: |-
+  Title: Alexithymic characteristics and interoceptive abilities are associated with disease severity and levels of C-reactive protein and cytokines in patients with inflammatory bowel disease.
+  Abstract: Alexithymia and atypical gut-brain signaling have been linked to the pathophysiology of inflammatory bowel disease (IBD). We herein assessed IBD patients' alexithymia levels and interoceptive abilities, and detected potential correlations with psychological distress, symptom severity and disease activity, and inflammation indices.Adult IBD outpatients and healthy controls were recruited. Alexithymia was assessed using the Toronto Alexithymia Scale, interoceptive accuracy using the Heartbeat Counting Test (cardiac interoception) and the Water Load Test-II (gastric interoception), and interoceptive sensibility using the Multidimensional Assessment of Interoceptive Awareness (MAIA).Forty-one patients with Crohn's disease (CD), 16 with ulcerative colitis (UC), and 50 healthy controls were included. In CD patients, the level of externally oriented thinking and total alexithymia score were correlated with disease activity (P=0.027 and P=0.047, respectively), while in UC patients difficulties in identifying emotions were linked to disease activity (P=0.007). In CD patients, the Noticing, Not-Worrying and Emotional Awareness MAIA subscale score were correlated with C-reactive protein levels (P=0.005, P=0.048 and P=0.005), the Noticing subscale score with interleukin (IL)-1β levels (r=-0.350, P=0.039), the Not-Distracting subscale score with IL-6 levels (r=-0.402, P=0.017), and the Emotional Awareness subscale score with IL-1β (r=-0.367, P=0.030) and IL-6 (r=-0.379, P=0.025) levels. Finally, in UC patients, the Not-Worrying subscale score was significantly associated with IL-6 levels (r=-0.532, P=0.049), while difficulties in identifying emotions were linked to IL-8 levels (r=0.604, P=0.022).Emotional and interoceptive processing is associated with IBD disease activity, suggesting a potential implication for IBD pathophysiology.Copyright: © Hellenic Society of Gastroenterology.
+  Keywords: Alexithymia; cytokines; inflammatory bowel disease; interoception
+raw_completion_output: |-
+  genes: N/A
+  exposures: cytokines
+  gene_exposures_relationships: N/A
+prompt: |+
+  Split the following piece of text into fields in the following format:
+
+  molecular_activity: <the name of the exposure, such as a exposure to a chemical toxin.>
+  gene: <the name of the gene in the pair. This comes second in the pair.>
+
+
+  Text:
+  N/A
+
+  ===
+
+extracted_object:
+  genes:
+    - N/A
+  exposures:
+    - cytokines
+  gene_exposures_relationships:
+    - molecular_activity: N/A
+      gene: N/A
+input_text: |-
+  Title: Cutaneous Crohn's disease after proctocolectomy for medically refractory colonic Crohn's disease: a case series and review of the literature.
+  Abstract: Cutaneous Crohn's disease (CCD), also known as metastatic Crohn's disease (CD), is one of the rarest and most challenging cutaneous manifestations of CD. It is characterized by non-caseating granulomatous inflammation of the skin at sites that are non-contiguous with the gastrointestinal (GI) tract. Diagnosis of CCD needs a high clinical suspicion since morphological presentation varies widely and lacks an apparent correlation to the activity of the luminal CD. The onset of CCD in patients without active GI CD is a particularly understudied phenomenon.We present a case series of a unique patient group who developed CCD while in remission from a luminal CD perspective, mainly after a proctocolectomy for Crohn's colitis. We also provide a literature review and summary of case reports of CCD after proctocolectomy.Our 4 adult patients diagnosed with CCD after proctocolectomy presented herein, were successfully treated with high-dose corticosteroids, followed by biologic therapy. Furthermore, a comprehensive review of CCD is provided regarding its pathogenesis, clinical presentation, differential diagnosis, and the evidence behind the available treatments.CCD should be considered in any CD patient presenting with skin lesions regardless of their disease activity status and history of proctocolectomy. The treatment remains challenging; biologics remain the cornerstone and a multidisciplinary approach is recommended. Larger randomized clinical trials are essential to determine the optimal treatment protocol and to improve outcomes.Copyright: © Hellenic Society of Gastroenterology.
+  Keywords: Cutaneous Crohn’s disease; dermatologic manifestations; inflammatory bowel disease; metastatic Crohn’s disease; proctocolectomy
+raw_completion_output: |-
+  genes: None mentioned in the text.
+  exposures: high-dose corticosteroids, biologic therapy, proctocolectomy.
+  gene_exposures_relationships: None mentioned in the text.
+prompt: |+
+  Split the following piece of text into fields in the following format:
+
+  molecular_activity: <the name of the exposure, such as a exposure to a chemical toxin.>
+  gene: <the name of the gene in the pair. This comes second in the pair.>
+
+
+  Text:
+  None mentioned in the text.
+
+  ===
+
+extracted_object:
+  genes:
+    - None mentioned in the text.
+  exposures:
+    - high-dose corticosteroids, biologic therapy, proctocolectomy.
+  gene_exposures_relationships:
+    - molecular_activity: None mentioned in the text.
+      gene: None mentioned in the text.
+input_text: |-
+  Title: Outcome of inflammatory bowel disease patients with prior malignancy.
+  Abstract: Inflammatory bowel disease (IBD) treatment options, such as anti-tumor necrosis factor (TNF) agents and thiopurines, are associated with an increased risk of certain malignancies. However, the management of IBD patients with prior malignancy is not well defined and the literature is scarce. The main aim of this study was to describe the outcome of IBD patients with prior malignancy, or malignancy before first exposure to IBD-related biologic or immunosuppressive treatment.The study cohort included adult IBD patients followed in a tertiary academic center, with at least one malignancy diagnosed before IBD diagnosis or before initiation of IBD-related treatment. The main outcome of interest was a relapse of the previous malignancy or development of a second malignancy.Our database included 1112 patients with both IBD and malignancy. Of these, 86 (9%) who had their malignancy diagnosed before IBD-related treatment initiation were identified, while 10/86 patients (9%) were further diagnosed with a second primary malignancy. Twenty patients, (20/86, 23%) had recurrence of a previous malignancy, most commonly non-melanoma skin cancer (NMSC), found in 9/20 patients (45%). Treatment with infliximab was found to be significantly associated with recurrence of NMSC (P=0.003).Anti-TNF treatment may be associated with an increased risk of NMSC recurrence. This underscores the importance of rigorous dermatological follow up in IBD patients with previous NMSC treated with anti-TNFs.Copyright: © Hellenic Society of Gastroenterology.
+  Keywords: Inflammatory bowel disease; malignancy; recurrent; secondary; therapy
+raw_completion_output: |-
+  genes: TNF
+  exposures: anti-TNF agents, thiopurines, infliximab
+  gene_exposures_relationships: TNF - infliximab
+prompt: |+
+  Split the following piece of text into fields in the following format:
+
+  molecular_activity: <the name of the exposure, such as a exposure to a chemical toxin.>
+  gene: <the name of the gene in the pair. This comes second in the pair.>
+
+
+  Text:
+  TNF - infliximab
+
+  ===
+
+extracted_object:
+  genes:
+    - HGNC:11892
+  exposures:
+    - anti-TNF agents, thiopurines, infliximab
+  gene_exposures_relationships:
+    - molecular_activity: infliximab
+      gene: HGNC:11892
+named_entities:
+  - id: HGNC:11892
+    label: TNF
+input_text: |-
+  Title: Knowledge mapping of COVID-19 and autoimmune diseases: a visual and bibliometric analysis.
+  Abstract: Many studies have shown an association between COVID-19 and autoimmune diseases (ADs). Studies on COVID-19 and ADs have also increased significantly, but there is no bibliometric analysis to summarize the association between COVID-19 and ADs. The purpose of this study was to perform a bibliometric and visual analysis of published studies related to COVID-19 and ADs.Based on the Web of Science Core Collection SCI-Expanded database, we utilize Excel 2019 and visualization analysis tools Co-Occurrence13.2 (COOC13.2), VOSviewer, CiteSpace, and HistCite for analysis.A total of 1736 related kinds of papers were included, and the number of papers presented an overall increasing trend. The country/region with the most publications is the USA, the institution is the Harvard Medical School, the author is Yehuda Shoenfeld from Israel, and the journal is Frontiers in Immunology. Research hotspots include immune responses (such as cytokines storm), multisystem ADs (such as systemic lupus erythematosus, rheumatoid arthritis, and multiple sclerosis), treatment modalities (such as hydroxychloroquine, rituximab), vaccination and autoimmune mechanisms (such as autoantibodies, molecular mimicry). The future research direction may be the mechanisms and treatment ideas of the association between ADs and COVID-19 (such as NF-κB, hyperinflammation, antiphospholipid antibodies, neutrophil extracellular traps, granulocyte-macrophage colony-stimulating factor), other cross-diseases of COVID-19 and ADs (such as inflammatory bowel disease, chronic mucocutaneous candidiasis, acute respiratory distress syndrome).The growth rate of publications regarding ADs and COVID-19 has risen sharply. Our research results can help researchers grasp the current status of ADs and COVID-19 research and find new research directions in the future.© 2023. The Author(s).
+  Keywords: Autoimmune diseases; COVID-19; Frontiers; Hotspots; Keywords analysis
+raw_completion_output: |-
+  genes: NF-κB
+  exposures: hydroxychloroquine, rituximab
+  gene_exposures_relationships: NF-κB - hydroxychloroquine; NF-κB - rituximab
+prompt: |+
+  Split the following piece of text into fields in the following format:
+
+  molecular_activity: <the name of the exposure, such as a exposure to a chemical toxin.>
+  gene: <the name of the gene in the pair. This comes second in the pair.>
+
+
+  Text:
+  NF-κB - rituximab
+
+  ===
+
+extracted_object:
+  genes:
+    - NF-κB
+  exposures:
+    - hydroxychloroquine, rituximab
+  gene_exposures_relationships:
+    - molecular_activity: hydroxychloroquine
+      gene: NF-κB
+    - molecular_activity: NF-kB
+      gene: rituximab
+input_text: |-
+  Title: Protective effect of Arum maculatum against dextran sulfate sodium induced colitis in rats.
+  Abstract: Ulcerative colitis (UC) is an inflammatory disease of the large intestine that is characterized by diarrhea, bloody stools, abdominal pain and mucosal ulceration. UC is treated with nonsteroidal anti-inflammatory drugs, corticosteroids or immunosuppressants, but long-term use of these drugs can cause adverse effects. Arum maculatum is used as a traditional treatment for digestive system disorders, but its use for treatment of UC has not been investigated rigorously. We investigated the possible protective effect of a methanol extract of A. maculatum against dextran sulfate sodium (DSS) induced experimental UC in rats. Total phenolic and flavonoid contents of the extract were 32.919 ± 1.125 mg gallic acid equivalent (GAE)/g and 52.045 ± 7.902 µg rutin equivalent (RE)/mg, respectively. The half-maximal inhibitory concentration (IC50) for the extract was 105.76 µg/ml according to the 1,1-diphenyl-2-picrylhydrazyl (DPPH) radical scavenging activity assay. Effects of A. maculatum extract on UC induced by DSS were assessed both macroscopically and histologically. We also investigated effects of A. maculatum extract on malondialdehyde (MDA) levels and the oxidative stress index (OSI) in normal rats and rats with UC. We found that treatment with A. maculatum extract protected the colon against DSS induced UC in a dose-dependent manner.
+  Keywords: Arum maculatum; inflammatory bowel disease; medicinal plant; rats; ulcerative colitis
+raw_completion_output: |-
+  genes: None mentioned in the text.
+  exposures: dextran sulfate sodium
+  gene_exposures_relationships: None mentioned in the text.
+prompt: |+
+  Split the following piece of text into fields in the following format:
+
+  molecular_activity: <the name of the exposure, such as a exposure to a chemical toxin.>
+  gene: <the name of the gene in the pair. This comes second in the pair.>
+
+
+  Text:
+  None mentioned in the text.
+
+  ===
+
+extracted_object:
+  genes:
+    - None mentioned in the text.
+  exposures:
+    - dextran sulfate sodium
+  gene_exposures_relationships:
+    - molecular_activity: None mentioned in the text.
+      gene: None mentioned in the text.
+input_text: |-
+  Title: Reporting of endoscopy and histology of ulcerative colitis in routine clinical practice: How far we are!
+  Abstract: 
+  Keywords: clinical practice; endoscopy; histology; inflammatory bowel disease; ulcerative colitis
+raw_completion_output: |-
+  genes: 
+  exposures: 
+  gene_exposures_relationships:
+prompt: |+
+  From the text below, extract the following entities in the following format:
+
+  genes: <semicolon-separated list of genes>
+  exposures: <a chemical or molecule whose direct or indirect effects cause one or more entities to experience biological change>
+  gene_exposures_relationships: <semicolon-separated list of gene to molecular activity relationships>
+
+
+  Text:
+  Title: Reporting of endoscopy and histology of ulcerative colitis in routine clinical practice: How far we are!
+  Abstract: 
+  Keywords: clinical practice; endoscopy; histology; inflammatory bowel disease; ulcerative colitis
+
+  ===
+
+extracted_object: {}
+input_text: |-
+  Title: Clinical features analysis of Kawasaki disease with abdominal symptoms as the first manifestation.
+  Abstract: To investigate the clinical characteristics of Kawasaki disease (KD) presenting with abdominal manifestation as the first manifestation. Our findings may help improve the cognition of KD with abdominal complications, and avoid misdiagnosis and missed diagnosis. A retrospective analysis was conducted of 1490 KD patients admitted to Shengjing Hospital between January 2019 and March 2022. Clinical characteristics, related factors, and prognosis of KD with abdominal manifestation as first manifestation were analyzed. Based on the presenting symptoms, patients were divided into gastrointestinal symptom group (n = 141), liver dysfunction group (n = 55), and control group (n = 1294). In the gastrointestinal group, diarrhea [100 cases (70.9%)], vomiting [55 cases (39.0%)], and abdominal pain [34 cases (24.1%)] were the most common symptoms at onset. 8 cases (5.7%) were complicated with pseudo-intestinal obstruction, 6 cases (4.3%) with ischemic colitis, 5 cases (3.5%) with pancreatitis, 2 cases (1.4%) with appendicitis, and 1 case (0.7%) with cholecystitis. Comparied to ordinary gastroenteritis caused by infection, gastroenteritis with KD has longer fever duration before treatment, higher WBC, PLT, CRP, AST levels and lower albumin levels. All patients in the liver dysfunction group had elevated transaminases, and 19 patients (34.5%) presented with jaundice. In the gastrointestinal group, the average hospital stay was 10.3 days, and the incidence of IVIG unresponsiveness and coronary artery lesion were 18.4% and 19.9%, respectively, which were significantly higher than that in the control group. In the liver dysfunction group, the average hospital stay (11.18 days), incidence of IVIG unresponsiveness (25.5%), and incidence of coronary artery lesion (29.1%) were significantly higher than that in the control group. On multivariate logistic regression analysis, gastrointestinal involvement, fever duration, ALT, PLT, and CRP were identified as risk factors for CAL, younger age, gastrointestinal involvement and fever duration were risk factors for IVIG unresponsiveness.  Conclusion: KD with gastrointestinal involvement is associated with a higher risk of IVIG unresponsiveness and coronary artery lesion. KD should be considered in the differential diagnosis of children with acute fever, especially those with gastrointestinal involvement and liver dysfunction. What is Known: • Fever duration, PLT, and CRP were identified as risk factors for CAL. Timely diagnosis and application of IVIG treatment can avoid exploratory laparotomy for ileus, appendectomy for misdiagnosed appendicitis, colonoscopy for misdiagnosed inflammatory bowel disease, and reduce the complications of CAL and IVIG unresponsiveness. What is New: • Abdominal symptoms as the first manifestation can be an independent risk factor for CAL and IVIG unresponsiveness. KD should be conside
+raw_completion_output: |-
+  genes: None mentioned in the text.
+  exposures: infection, pseudointestinal obstruction, ischemic colitis, pancreatitis, appendicitis, cholecystitis, gastroenteritis, IVIG treatment, fever, ALT, CRP.
+  gene_exposures_relationships: None mentioned in the text.
+prompt: |+
+  Split the following piece of text into fields in the following format:
+
+  molecular_activity: <the name of the exposure, such as a exposure to a chemical toxin.>
+  gene: <the name of the gene in the pair. This comes second in the pair.>
+
+
+  Text:
+  None mentioned in the text.
+
+  ===
+
+extracted_object:
+  genes:
+    - None mentioned in the text.
+  exposures:
+    - infection, pseudointestinal obstruction, ischemic colitis, pancreatitis, appendicitis,
+      cholecystitis, gastroenteritis, IVIG treatment, fever, ALT, CRP.
+  gene_exposures_relationships:
+    - molecular_activity: None mentioned in the text.
+      gene: None mentioned in the text.
+input_text: |-
+  Title: Decoding the microbiome: advances in genetic manipulation for gut bacteria.
+  Abstract: Studies of the gut microbiota have revealed associations between specific bacterial species or community compositions with health and disease, yet the causal mechanisms underlying microbiota gene-host interactions remain poorly understood. This is partly due to limited genetic manipulation (GM) tools for gut bacteria. Here, we review current advances and challenges in the development of GM approaches, including clustered regularly interspaced short palindromic repeats (CRISPR)-Cas and transposase-based systems in either model or non-model gut bacteria. By overcoming barriers to 'taming' the gut microbiome, GM tools allow molecular understanding of host-microbiome associations and accelerate microbiome engineering for clinical treatment of cancer and metabolic disorders. Finally, we provide perspectives on the future development of GM for gut microbiome species, where more effort should be placed on assembling a generalized GM pipeline to accelerate the application of groundbreaking GM tools in non-model gut bacteria towards both basic understanding and clinical translation.Copyright © 2023 Elsevier Ltd. All rights reserved.
+  Keywords: CRISPR-Cas; genetic manipulation tools; gut microbiome; host–microbe interactions; transposon
+raw_completion_output: |-
+  genes: Not mentioned in the text.
+
+  exposures: CRISPR-Cas, transposase-based systems
+
+  gene_exposures_relationships: CRISPR-Cas to genetic manipulation tools; transposase-based systems to genetic manipulation tools
+prompt: |+
+  Split the following piece of text into fields in the following format:
+
+  molecular_activity: <the name of the exposure, such as a exposure to a chemical toxin.>
+  gene: <the name of the gene in the pair. This comes second in the pair.>
+
+
+  Text:
+  transposase-based systems to genetic manipulation tools
+
+  ===
+
+extracted_object:
+  genes:
+    - Not mentioned in the text.
+  exposures:
+    - CRISPR-Cas, transposase-based systems
+  gene_exposures_relationships:
+    - molecular_activity: genetic manipulation tools
+      gene: CRISPR-Cas
+    - molecular_activity: transposase-based systems
+      gene: genetic manipulation tools
+input_text: |-
+  Title: Heterogeneity in protocols and outcomes to study the effect of renin-angiotensin system blockers in inflammatory bowel disease: A systematic review.
+  Abstract: The renin-angiotensin system (RAS) has been associated with inflammatory bowel disease (IBD), supporting translational relevance of RAS blockers. Comparability of study design/outcomes is fundamental for data analysis/discussion.We aimed at evaluating the heterogeneity among protocols and outcomes to study the effect of angiotensin-converting enzyme inhibitors or angiotensin receptor blockers in IBD.This study was performed and reported in accordance with the Cochrane recommendations and PRISMA (PROSPERO-CRD42022323853). Systematic searches were performed in PubMed, Scopus and Web of Science. Studies that met the inclusion criteria were selected. Quality assessment of the studies was done with the SYRCLES's risk of bias tools for animal studies.Thirty-five pre-clinical studies and six clinical studies were included. Chemical induction of colitis was the most used model, but variable doses of the induction agent were reported. All studies reported at least a disease activity index, a macroscopic score, or a histologic assessment, but these scores were methodologically heterogeneous and reported for different characteristics. Great heterogeneity was also found in drug interventions. Inflammatory markers assessed as outcomes were different across studies.Lack of standardization of protocols and outcomes among studies threatens the evidence on how RAS blockers influence IBD outcomes.© 2023 Société Française de Pharmacologie et de Thérapeutique. Published by John Wiley & Sons Ltd.
+  Keywords: angiotensin-converting enzyme; colitis; heterogeneity; inflammatory bowel disease; renin-angiotensin system blockers; variability
+raw_completion_output: |-
+  genes: none mentioned in the text
+
+  exposures: renin-angiotensin system blockers; angiotensin-converting enzyme inhibitors; angiotensin receptor blockers
+
+  gene_exposures_relationships: none mentioned in the text
+prompt: |+
+  Split the following piece of text into fields in the following format:
+
+  molecular_activity: <the name of the exposure, such as a exposure to a chemical toxin.>
+  gene: <the name of the gene in the pair. This comes second in the pair.>
+
+
+  Text:
+  none mentioned in the text
+
+  ===
+
+extracted_object:
+  genes:
+    - none mentioned in the text
+  exposures:
+    - renin-angiotensin system blockers
+    - CHEBI:35457
+    - angiotensin receptor blockers
+  gene_exposures_relationships:
+    - molecular_activity: none mentioned in the text
+      gene: none mentioned in the text
+named_entities:
+  - id: CHEBI:35457
+    label: angiotensin-converting enzyme inhibitors

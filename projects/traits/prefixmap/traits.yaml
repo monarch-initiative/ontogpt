@@ -1,0 +1,40 @@
+{
+   "BIODIVTHES": "http://example.org/UNKNOWN/BIODIVTHES/",
+   "ECOCORE": "http://example.org/UNKNOWN/ECOCORE/",
+   "GO": "http://example.org/UNKNOWN/GO/",
+   "OBA": "http://example.org/UNKNOWN/OBA/",
+   "PATO": "http://example.org/UNKNOWN/PATO/",
+   "RO": "http://purl.obolibrary.org/obo/RO_",
+   "biolink": "http://example.org/UNKNOWN/biolink/",
+   "core": "http://w3id.org/ontogpt/core/",
+   "linkml": "https://w3id.org/linkml/",
+   "rdfs": "http://example.org/UNKNOWN/rdfs/",
+   "traits": "http://w3id.org/ontogpt/traits/",
+   "AnnotatorResult": {
+      "@id": "core:AnnotatorResult"
+   },
+   "Any": {
+      "@id": "linkml:Any"
+   },
+   "CompoundExpression": {
+      "@id": "core:CompoundExpression"
+   },
+   "ExtractionResult": {
+      "@id": "core:ExtractionResult"
+   },
+   "NamedEntity": {
+      "@id": "core:NamedEntity"
+   },
+   "Publication": {
+      "@id": "core:Publication"
+   },
+   "RelationshipType": {
+      "@id": "core:RelationshipType"
+   },
+   "TextWithTriples": {
+      "@id": "core:TextWithTriples"
+   },
+   "Triple": {
+      "@id": "core:Triple"
+   }
+}

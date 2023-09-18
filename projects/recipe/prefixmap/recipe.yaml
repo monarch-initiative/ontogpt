@@ -1,0 +1,51 @@
+{
+   "AUTO": "http://example.org/auto/",
+   "BFO": "http://purl.obolibrary.org/obo/BFO_",
+   "FOODON": "http://purl.obolibrary.org/obo/FOODON_",
+   "HANCESTRO": "http://purl.obolibrary.org/obo/HANCESTRO_",
+   "NCIT": "http://purl.obolibrary.org/obo/NCIT_",
+   "RO": "http://purl.obolibrary.org/obo/RO_",
+   "UO": "http://purl.obolibrary.org/obo/UO_",
+   "biolink": "http://example.org/UNKNOWN/biolink/",
+   "core": "http://w3id.org/ontogpt/core/",
+   "dbpediaont": "http://dbpedia.org/ontology/",
+   "dcterms": "http://purl.org/dc/terms/",
+   "linkml": "https://w3id.org/linkml/",
+   "qudt": "http://qudt.org/schema/qudt/",
+   "rdf": "http://example.org/UNKNOWN/rdf/",
+   "rdfs": "http://example.org/UNKNOWN/rdfs/",
+   "recipe": "http://w3id.org/ontogpt/recipe/",
+   "AnnotatorResult": {
+      "@id": "core:AnnotatorResult"
+   },
+   "Any": {
+      "@id": "linkml:Any"
+   },
+   "CompoundExpression": {
+      "@id": "core:CompoundExpression"
+   },
+   "ExtractionResult": {
+      "@id": "core:ExtractionResult"
+   },
+   "Ingredient": {
+      "@id": "FOODON:00004085"
+   },
+   "NamedEntity": {
+      "@id": "core:NamedEntity"
+   },
+   "Publication": {
+      "@id": "core:Publication"
+   },
+   "RelationshipType": {
+      "@id": "core:RelationshipType"
+   },
+   "Step": {
+      "@id": "FOODON:00004087"
+   },
+   "TextWithTriples": {
+      "@id": "core:TextWithTriples"
+   },
+   "Triple": {
+      "@id": "core:Triple"
+   }
+}

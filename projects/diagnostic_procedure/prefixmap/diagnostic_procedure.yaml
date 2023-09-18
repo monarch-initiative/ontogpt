@@ -1,0 +1,40 @@
+{
+   "HP": "http://purl.obolibrary.org/obo/HP_",
+   "LOINC": "http://loinc.org/rdf/",
+   "OBA": "http://purl.obolibrary.org/obo/OBA_",
+   "PATO": "http://purl.obolibrary.org/obo/PATO_",
+   "RO": "http://purl.obolibrary.org/obo/RO_",
+   "UO": "http://example.org/UNKNOWN/UO/",
+   "biolink": "https://w3id.org/biolink/vocab/",
+   "core": "http://w3id.org/ontogpt/core/",
+   "diag": "http://w3id.org/ontogpt/diagnostic_procedure/",
+   "linkml": "https://w3id.org/linkml/",
+   "rdfs": "http://example.org/UNKNOWN/rdfs/",
+   "AnnotatorResult": {
+      "@id": "core:AnnotatorResult"
+   },
+   "Any": {
+      "@id": "linkml:Any"
+   },
+   "CompoundExpression": {
+      "@id": "core:CompoundExpression"
+   },
+   "ExtractionResult": {
+      "@id": "core:ExtractionResult"
+   },
+   "NamedEntity": {
+      "@id": "core:NamedEntity"
+   },
+   "Publication": {
+      "@id": "core:Publication"
+   },
+   "RelationshipType": {
+      "@id": "core:RelationshipType"
+   },
+   "TextWithTriples": {
+      "@id": "core:TextWithTriples"
+   },
+   "Triple": {
+      "@id": "core:Triple"
+   }
+}
