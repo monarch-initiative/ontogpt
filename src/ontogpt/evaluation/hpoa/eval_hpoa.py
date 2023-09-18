@@ -202,7 +202,7 @@ class EvalHPOA(SPIRESEvaluationEngine):
         return self.eval_against_omim_or_pubs(use_publications=True)
 
     def eval_against_omim_or_pubs(
-        self, num_tests=3, use_publications=False
+        self, num_tests=NUM_TESTS, use_publications=False
     ) -> EvaluationObjectSetHPOA:
         ke = self.extractor
         eos = EvaluationObjectSetHPOA()

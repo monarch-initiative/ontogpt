@@ -45,21 +45,21 @@ class Testhpoa(unittest.TestCase):
             print(f"## {k}: {disease.id} ")
             print(yaml.dump(disease.model_dump()))
 
-    # def test_eval_pubs(self):
-    #     evaluator = self.engine
-    #     eos = evaluator.eval("pubs")
-    #     with open(PREDICTIONS_PUBS_OUT, "w") as f:
-    #         yaml.dump(eos.model_dump(), f)
+    def test_eval_pubs(self):
+        evaluator = self.engine
+        eos = evaluator.eval("pubs")
+        with open(PREDICTIONS_PUBS_OUT, "w") as f:
+            yaml.dump(eos.model_dump(), f)
 
-    # def test_eval_all(self):
-    #     evaluator = self.engine
-    #     eos = evaluator.eval()
-    #     with open(PREDICTIONS_ALL_OUT, "w") as f:
-    #         yaml.dump(eos.model_dump(), f)
+    def test_eval_all(self):
+        evaluator = self.engine
+        eos = evaluator.eval("all")
+        with open(PREDICTIONS_ALL_OUT, "w") as f:
+            yaml.dump(eos.model_dump(), f)
 
-    # def test_eval_omim(self):
-    #     """Evaluates extraction purely from OMIM texts."""
-    #     evaluator = self.engine
-    #     eos = evaluator.eval("omim")
-    #     with open(PREDICTIONS_OMIM_OUT, "w") as f:
-    #         yaml.dump(eos.model_dump(), f)
+    def test_eval_omim(self):
+        """Evaluates extraction purely from OMIM texts."""
+        evaluator = self.engine
+        eos = evaluator.eval("omim")
+        with open(PREDICTIONS_OMIM_OUT, "w") as f:
+            yaml.dump(eos.model_dump(), f)
