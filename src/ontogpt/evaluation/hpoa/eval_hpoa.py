@@ -224,9 +224,12 @@ class EvalHPOA(SPIRESEvaluationEngine):
                 pmc = PubmedClient()
                 pub_resultset = []
                 for pmid in test_case.publications:
-                    if pmid.startswith("PMID:"):
+                    if str(pmid).startswith("PMID:"):
                         pub_text = pmc.text(pmid)
-                        pub_resultset.append(ke.extract_from_text(pub_text, object=stub))
+                        if type(pub_text) is str:  # Should just be one document.
+                            pub_resultset.append(ke.extract_from_text(pub_text, object=stub))
+                        else:
+                            continue
                 results = ke.merge_resultsets([results] + pub_resultset, ["name"])
             predicted_obj = results.extracted_object
             pred = PredictionHPOA(predicted_object=predicted_obj, test_object=test_case)

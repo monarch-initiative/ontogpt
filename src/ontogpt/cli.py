@@ -31,8 +31,8 @@ from ontogpt.engines import create_engine
 from ontogpt.engines.embedding_similarity_engine import SimilarityEngine
 from ontogpt.engines.enrichment import EnrichmentEngine
 from ontogpt.engines.generic_engine import GenericEngine, QuestionCollection
-from ontogpt.engines.gpt4all_engine import GPT4AllEngine
-from ontogpt.engines.halo_engine import HALOEngine
+from ontogpt.engines.gpt4all_engine import GPT4AllEngine  # type: ignore
+from ontogpt.engines.halo_engine import HALOEngine  # type: ignore
 
 # from ontogpt.engines.hfhub_engine import HFHubEngine
 from ontogpt.engines.knowledge_engine import KnowledgeEngine
@@ -105,7 +105,7 @@ def write_extraction(
             exporter.export(results, output)
         elif output_format == "yaml":
             output = _as_text_writer(output)
-            output.write(dump_minimal_yaml(results).encode('utf-8'))
+            output.write(dump_minimal_yaml(results).encode("utf-8"))
         elif output_format == "turtle":
             output = _as_text_writer(output)
             exporter = RDFExporter()
@@ -118,13 +118,13 @@ def write_extraction(
             # output = _as_text_writer(output)
             # output.write(write_obj_as_csv(results))
             output = _as_text_writer(output)
-            output.write(dump_minimal_yaml(results).encode('utf-8'))
+            output.write(dump_minimal_yaml(results).encode("utf-8"))
             with open("output.kgx.tsv") as secondoutput:
                 for line in output_parser(obj=results, file=output):
                     secondoutput.write(line)
         else:
             output = _as_text_writer(output)
-            output.write(dump_minimal_yaml(results).encode('utf-8'))
+            output.write(dump_minimal_yaml(results).encode("utf-8"))
 
 
 def get_model_by_name(modelname: str):

@@ -112,7 +112,7 @@ class MappingEngine(KnowledgeEngine):
     object_adapter: BasicOntologyInterface = None
 
     def categorize_mapping(
-        self, subject: CURIE, object: CURIE, template_path: str = ""
+        self, subject: CURIE, object: CURIE, template_path: Union[str, Path] = ""
     ) -> CategorizedMapping:
         if template_path is None:
             template_path = DEFAULT_MAPPING_EVAL_PROMPT
@@ -257,7 +257,7 @@ class MappingEngine(KnowledgeEngine):
             task = MappingTask(
                 subject=mapping.subject_id,
                 object=mapping.object_id,
-                predicate=MappingPredicate.mappings().get(mapping.predicate_id),
+                predicate=MappingPredicate.mappings().get(mapping.predicate_id),  # type: ignore
                 subject_label=mapping.subject_label,
                 object_label=mapping.object_label,
                 subject_source=mapping.subject_source,
@@ -287,11 +287,11 @@ class MappingEngine(KnowledgeEngine):
         self.subject_adapter = _get_adapter(mapping.subject_source)
         self.object_adapter = _get_adapter(mapping.object_source)
         cm = self.categorize_mapping(mapping.subject_id, mapping.object_id)
-        revmap = {v.upper(): k for k, v in MappingPredicate.mappings().items()}
+        revmap = {v.upper(): k for k, v in MappingPredicate.mappings().items()}  # type: ignore
         if cm.predicate.upper() not in revmap:
             logger.warning(f"Unknown predicate {cm.predicate}")
         mapping.predicate_id = revmap.get(cm.predicate.upper(), SKOS_RELATED_MATCH)
-        return mapping, cm
+        return mapping, cm  # type: ignore
 
     def _concept(self, curie: CURIE, adapter: BasicOntologyInterface) -> Concept:
         """Get a concept."""

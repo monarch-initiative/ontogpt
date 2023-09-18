@@ -167,7 +167,10 @@ class ReasonerEngine(KnowledgeEngine):
         elif task.method == GPTReasonMethodType.CHAIN_OF_THOUGHT:
             completion_length *= 2
         logger.info(f"Prompt: {prompt}")
-        prompt_length = len(self.encoding.encode(prompt)) + 10
+        if self.encoding is not None:
+            prompt_length = len(self.encoding.encode(prompt)) + 10
+        else:
+            prompt_length = len(prompt)
         max_len_total = 4097
         if self.model in MODEL_GPT_4_NAMES:
             max_len_total = 8193
@@ -201,7 +204,7 @@ class ReasonerEngine(KnowledgeEngine):
             completion=payload,
         )
         # TODO: determine which it doesn't work to initialize with this
-        result.answers = answers
+        result.answers = answers  # type: ignore
         logger.debug(f"Answers: {task.answers} // {answers}")
         result.name = f"{task.name}-{task.method.value}-{self.model}"
         if not task.answers and evaluate:

@@ -35,7 +35,7 @@ from ontogpt.templates.core import ExtractionResult
 this_path = Path(__file__).parent
 
 
-RESPONSE_ATOM = Union[str, "ResponseAtom"]
+RESPONSE_ATOM = Union[str, "ResponseAtom"]  # type: ignore
 RESPONSE_DICT = Dict[FIELD, Union[RESPONSE_ATOM, List[RESPONSE_ATOM]]]
 
 

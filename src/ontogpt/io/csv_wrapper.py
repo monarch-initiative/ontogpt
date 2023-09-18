@@ -57,7 +57,7 @@ def output_parser(obj: Any, file) -> List[str]:
     
     # Separate extracted values into indexed items in dictionary of lists
     grouped_lines = [cleaned_lines[n:n+4] for n in range(0, len(cleaned_lines), 4)]
-    trimmed_dict = {"genes": [], "relationships": [], "exposures": []}
+    trimmed_dict: dict = {"genes": [], "relationships": [], "exposures": []}
     for group in grouped_lines:
         group.pop(0)
     for group in grouped_lines:

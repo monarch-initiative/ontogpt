@@ -3,7 +3,7 @@ import logging
 from copy import deepcopy
 from dataclasses import dataclass
 from pathlib import Path
-from typing import Iterator, List
+from typing import Iterator, List, Union
 
 from jinja2 import Template
 from pydantic import BaseModel
@@ -45,7 +45,7 @@ class GenericEngine(KnowledgeEngine):
     def run(
         self,
         question_collection: QuestionCollection,
-        template_path: str = "",
+        template_path: Union[str, Path] = "",
     ) -> Iterator[Question]:
         if template_path is None:
             template_path = GENERIC_QA_PROMPT

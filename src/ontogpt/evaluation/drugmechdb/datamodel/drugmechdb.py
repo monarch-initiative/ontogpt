@@ -1,3 +1,4 @@
+# type: ignore
 """DrugMechDB."""
 from __future__ import annotations
 

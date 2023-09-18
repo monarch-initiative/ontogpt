@@ -323,8 +323,8 @@ class EnrichmentEngine(KnowledgeEngine):
         for tok_char in tok_chars:
             toks = rest.split(f"{tok_char} ")
             tokenizations[tok_char] = toks
-        tokenizations = sorted(tokenizations.items(), key=lambda x: len(x[1]), reverse=True)
-        best_tokens = tokenizations[0][1]
+        tokenizations = sorted(tokenizations.items(), key=lambda x: len(x[1]), reverse=True) # type: ignore
+        best_tokens = tokenizations[0][1] # type: ignore
         payload.term_strings = [s.lower().strip(":-*;. -\n") for s in best_tokens]  # noqa
         if payload.term_strings and payload.term_strings[-1].startswith("and "):
             # sometimes the LLM will write an oxford comma style list
