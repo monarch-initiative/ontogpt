@@ -35,14 +35,15 @@ class Testhpoa(unittest.TestCase):
         print(yaml.dump(objs[0:3]))
         self.assertGreater(len(diseases), 0)
 
-    # def test_diseases_by_publication(self):
-    #     t2d = self.engine.diseases_by_publication()
-    #     for k, disease in t2d.items():
-    #         text = self.engine.disease_text(disease.id)
-    #         self.assertIsNotNone(text)
-    #         self.assertGreater(len(text), 100)
-    #         print(f"## {k}: {disease.id} ")
-    #         print(yaml.dump(disease.model_dump()))
+    def test_diseases_by_publication(self):
+        t2d = self.engine.diseases_by_publication()
+        t2d_sample = {k: t2d[k] for k in list(t2d)[0:2]}
+        for k, disease in t2d_sample.items():
+            text = self.engine.disease_text(disease.id)
+            self.assertIsNotNone(text)
+            self.assertGreater(len(text), 100)
+            print(f"## {k}: {disease.id} ")
+            print(yaml.dump(disease.model_dump()))
 
     # def test_eval_pubs(self):
     #     evaluator = self.engine
