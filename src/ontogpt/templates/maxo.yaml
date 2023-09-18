@@ -1,0 +1,88 @@
+id: http://w3id.org/ontogpt/maxo
+name: maxo
+title: Template for Medical Action Extraction
+description: >-
+  A template for extracting relationships relevant to the
+  MAXO medical action ontology.
+license: https://creativecommons.org/publicdomain/zero/1.0/
+prefixes:
+  linkml: https://w3id.org/linkml/
+  maxo_extract: http://w3id.org/ontogpt/maxo
+  MAXO: http://purl.obolibrary.org/obo/MAXO_
+  MONDO: http://purl.obolibrary.org/obo/MONDO_
+  HP: http://purl.obolibrary.org/obo/HP_
+  RO: http://purl.obolibrary.org/obo/RO_
+  OBA: http://purl.obolibrary.org/obo/OBA_
+  PATO: http://purl.obolibrary.org/obo/PATO_
+  biolink: https://w3id.org/biolink/vocab/
+
+default_prefix: maxo_extract
+default_range: string
+
+imports:
+  - linkml:types
+  - core
+
+classes:
+
+  MaxoAnnotations:
+    tree_root: true
+    attributes:
+      action:
+        description: Semicolon-separated list of medical actions.
+        multivalued: true
+        range: MedicalAction
+      disease:
+        description: Semicolon-separated list of diseases.
+        multivalued: true
+        range: Disease
+      action_to_disease:
+        annotations:
+          prompt: semicolon-separated list of medical action to disease relationships.
+        multivalued: true
+        range: ActionToDiseaseRelationship
+
+  ActionToDiseaseRelationship:
+    is_a: Triple
+    description: >- 
+      A triple representing a relationship between a medical action 
+      (A clinically prescribed procedure, therapy, intervention, or recommendation)
+      and a disease, for example, radiation therapy TREATS cancer,
+      or PET scan DIAGNOSES myocarditis.
+    slot_usage:
+      subject:
+        range: MedicalAction
+      object:
+        range: Disease
+        multivalued: true
+      predicate:
+        range: NamedEntity
+        description: The relationship type, usually TREATS
+      subject_qualifier:
+        range: NamedEntity
+        description: >-
+          An optional qualifier or modifier for the medical action.
+      object_qualifier:
+        range: NamedEntity
+        description: >-
+          An optional qualifier or modifier for the disease.
+
+  MedicalAction:
+    is_a: NamedEntity
+    description: >-
+      A clinically prescribed procedure, therapy, intervention, or recommendation,
+      for example, gene therapy, surgery, glomerular filtration rate test.
+    annotations:
+      annotators: sqlite:obo:maxo, sqlite:obo:ogms, sqlite:obo:ncit
+    id_prefixes:
+      - MAXO
+
+  Disease:
+    is_a: NamedEntity
+    description: >-
+      A disposition to undergo pathological processes that exists in an organism
+      because of one or more disorders in that organism.
+    annotations:
+      annotators: sqlite:obo:mondo
+    id_prefixes:
+      - MONDO
