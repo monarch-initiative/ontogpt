@@ -20,6 +20,8 @@ from ontogpt.templates.mendelian_disease import MendelianDisease
 
 DATABASE_DIR = Path(__file__).parent / "database"
 TEST_CASES_DIR = Path("tests").joinpath("input")
+TEST_HPOA_FILE = "test_sample.hpoa.tsv"
+NUM_TESTS = 3 # Note: each test requires input text; see provided test cases
 
 DISEASE_ID = str
 TERM = str
@@ -74,12 +76,12 @@ class EvalHPOA(SPIRESEvaluationEngine):
         return []
 
     def disease_text(self, id: str):
-        id = id.replace("OMIM:", "omim-")
-        with open(TEST_CASES_DIR / f"{id}.txt") as f:
+        id = id.lower().replace(":", "-")
+        with open(TEST_CASES_DIR / "cases" / f"{id}.txt") as f:
             return f.read()
 
     def parse_hpoa(self) -> Iterator[HPOAnnotation]:
-        with open(TEST_CASES_DIR / "test.hpoa.tsv") as file:
+        with open(TEST_CASES_DIR / TEST_HPOA_FILE) as file:
             reader = csv.reader(file, delimiter="\t")
             for row in reader:
                 yield HPOAnnotation(
@@ -172,7 +174,7 @@ class EvalHPOA(SPIRESEvaluationEngine):
         else:
             raise ValueError(f"Unknown task {task}")
 
-    def eval_against_pubs(self, num_tests=3) -> EvaluationObjectSetHPOA:
+    def eval_against_pubs(self, num_tests=NUM_TESTS) -> EvaluationObjectSetHPOA:
         ke = self.extractor
         pmc = PubmedClient()
         eos = EvaluationObjectSetHPOA()
@@ -180,7 +182,7 @@ class EvalHPOA(SPIRESEvaluationEngine):
         eos.training = []
         eos.predictions = []
         shuffle(eos.test)
-        for test_case in eos.test[0:num_tests]:
+        for test_case in eos.test[0:num_tests-1]:
             # text = self.disease_text(test_case.id)
             if len(test_case.publications) != 1:
                 raise ValueError(f"Expected 1 publication, got {len(test_case.publications)}")

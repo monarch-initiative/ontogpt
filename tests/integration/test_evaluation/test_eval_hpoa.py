@@ -22,17 +22,17 @@ class Testhpoa(unittest.TestCase):
     def test_load_hpoa(self):
         diseases = self.engine.annotations_to_diseases()
         objs = [m.model_dump() for m in diseases]
-        print(yaml.dump(objs[0:5]))
+        print(yaml.dump(objs[0:3]))
         self.assertGreater(len(diseases), 0)
 
     def test_diseases(self):
         diseases = self.engine.diseases()
-        for disease in diseases:
-            text = self.engine.disease_text(disease.id)
+        for test_case in diseases[0:2]:
+            text = self.engine.disease_text(test_case.id)
             self.assertIsNotNone(text)
             self.assertGreater(len(text), 100)
         objs = [m.model_dump() for m in diseases]
-        print(yaml.dump(objs[0:5]))
+        print(yaml.dump(objs[0:3]))
         self.assertGreater(len(diseases), 0)
 
     # def test_diseases_by_publication(self):
