@@ -190,7 +190,11 @@ class EvalHPOA(SPIRESEvaluationEngine):
                 raise ValueError(f"Expected 1 publication, got {len(test_case.publications)}")
             pub = test_case.publications[0]
             text = pmc.text(pub)
-            results = ke.extract_from_text(text)
+            if type(text) is list: # Shouldn't happen, but could happen
+                for entry in text:
+                    results = ke.extract_from_text(entry)
+            elif type(text) is str:
+                results = ke.extract_from_text(text)
             predicted_obj = results.extracted_object
             pred = PredictionHPOA(predicted_object=predicted_obj, test_object=test_case)
             pred.calculate_scores()

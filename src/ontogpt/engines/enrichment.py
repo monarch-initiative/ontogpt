@@ -255,7 +255,10 @@ class EnrichmentEngine(KnowledgeEngine):
         logging.debug(f"Prompt from template: {prompt}")
         logging.info(f"Prompt [{truncation_factor}] Length: {len(prompt)}")
         # https://help.openai.com/en/articles/4936856-what-are-tokens-and-how-to-count-them
-        prompt_length = len(self.encoding.encode(prompt)) + 10
+        if self.encoding is not None:
+            prompt_length = len(self.encoding.encode(prompt)) + 10
+        else:
+            prompt_length = 100 # Arbitrary length
         max_len_total = 4097
         if self.model in MODEL_GPT_4_NAMES:
             max_len_total = 8193

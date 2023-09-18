@@ -1,3 +1,4 @@
+# type: ignore
 """
 gpt4all-based knowledge extractor class.
 

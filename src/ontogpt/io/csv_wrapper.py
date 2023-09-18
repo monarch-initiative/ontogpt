@@ -2,13 +2,13 @@
 import csv
 import logging
 from pathlib import Path
-from typing import Any
+from typing import Any, List
 from oaklib import get_adapter
 from pydantic import BaseModel
 
 logger = logging.getLogger(__name__)
 
-def output_parser(obj: Any, file) -> None:
+def output_parser(obj: Any, file) -> List[str]:
     # Declare initial variables
     NULL_VALS = ['', 'Not mentioned', 'none mentioned', 'Not mentioned in the text', 
              'Not mentioned in the provided text.', 'No exposures mentioned in the text.', 
@@ -86,6 +86,8 @@ def output_parser(obj: Any, file) -> None:
                     trimmed_dict[key][index] = curr_adapter.label(elem)
                 except KeyError:
                     continue
+    
+    return lines
 
 def write_obj_as_csv(obj: Any, file, minimize=True, index_field=None) -> None:
     if isinstance(obj, BaseModel):

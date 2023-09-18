@@ -1,3 +1,4 @@
+# type: ignore
 """
 HuggingFace Hub-based knowledge extractor class.
 
