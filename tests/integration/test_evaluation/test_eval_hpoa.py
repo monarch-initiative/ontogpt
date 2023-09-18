@@ -51,12 +51,14 @@ class Testhpoa(unittest.TestCase):
         with open(PREDICTIONS_PUBS_OUT, "w") as f:
             yaml.dump(eos.model_dump(), f)
 
+    @unittest.skip("Need to retrieve more OMIM texts - stochastic")
     def test_eval_all(self):
         evaluator = self.engine
         eos = evaluator.eval("all")
         with open(PREDICTIONS_ALL_OUT, "w") as f:
             yaml.dump(eos.model_dump(), f)
 
+    @unittest.skip("Need to retrieve more OMIM texts - stochastic")
     def test_eval_omim(self):
         """Evaluates extraction purely from OMIM texts."""
         evaluator = self.engine
