@@ -63,7 +63,7 @@ class HALOEngine(KnowledgeEngine):
         default_factory=lambda: ["subtypes", "parts", "subclass_of", "part_of"]
     )
     fixed_slot_values: Optional[Dict[str, str]] = None
-    adapter: OboGraphInterface
+    adapter: OboGraphInterface = None
     visited: Set[ELEMENT_NAME] = field(default_factory=lambda: set())
     candidates: List[ELEMENT_NAME] = None
     always_extend: bool = False
