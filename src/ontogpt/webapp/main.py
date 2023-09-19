@@ -32,7 +32,7 @@ static_dir.mkdir(parents=True, exist_ok=True)
 app.mount("/static", StaticFiles(directory=str(static_dir)), name="static")
 templates = Jinja2Templates(directory=str(html_dir))
 
-html_exporter = HTMLExporter(output = None)
+html_exporter = HTMLExporter(output=None)
 engines: Dict[str, SPIRESEngine] = {}
 
 
@@ -57,7 +57,7 @@ def form_post(request: Request, datamodel: str = Form(...), text: str = Form(...
     ann = engine.extract_from_text(text)
     print(f"Got {ann}")
     output = StringIO()
-    html_exporter.export(ann, output)
+    html_exporter.export(extraction_output=ann, output=output)
     return templates.TemplateResponse(
         "results.html", context={"request": request, "inner_html": output.getvalue()}
     )

@@ -68,10 +68,10 @@ class EnrichmentPayload(BaseModel):
     ontological_synopsis: Optional[bool] = None
     """True if the gene descriptions used the ontological synopsis"""
 
-    combined_synopsis: Optional[bool]  = None
+    combined_synopsis: Optional[bool] = None
     """True if the gene descriptions used both ontological and narrative synopses"""
 
-    annotations: Optional[bool]  = None
+    annotations: Optional[bool] = None
     """True if the gene descriptions used the annotations (vs latent KB)"""
 
     response_token_length: int = 0
@@ -205,7 +205,7 @@ class EnrichmentEngine(KnowledgeEngine):
         if self.encoding is not None:
             response_token_length = len(self.encoding.encode(response_text))
         else:
-            response_token_length = 5 # An arbitrary length
+            response_token_length = 5  # An arbitrary length
         logging.info(f"Response token length: {response_token_length}")
         payload = EnrichmentPayload(
             prompt=prompt,
@@ -258,7 +258,7 @@ class EnrichmentEngine(KnowledgeEngine):
         if self.encoding is not None:
             prompt_length = len(self.encoding.encode(prompt)) + 10
         else:
-            prompt_length = 100 # Arbitrary length
+            prompt_length = 100  # Arbitrary length
         max_len_total = 4097
         if self.model in MODEL_GPT_4_NAMES:
             max_len_total = 8193
@@ -323,8 +323,10 @@ class EnrichmentEngine(KnowledgeEngine):
         for tok_char in tok_chars:
             toks = rest.split(f"{tok_char} ")
             tokenizations[tok_char] = toks
-        tokenizations = sorted(tokenizations.items(), key=lambda x: len(x[1]), reverse=True) # type: ignore
-        best_tokens = tokenizations[0][1] # type: ignore
+        tokenizations = sorted(
+            tokenizations.items(), key=lambda x: len(x[1]), reverse=True
+        )  # type: ignore
+        best_tokens = tokenizations[0][1]  # type: ignore
         payload.term_strings = [s.lower().strip(":-*;. -\n") for s in best_tokens]  # noqa
         if payload.term_strings and payload.term_strings[-1].startswith("and "):
             # sometimes the LLM will write an oxford comma style list

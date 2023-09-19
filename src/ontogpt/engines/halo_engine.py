@@ -42,6 +42,7 @@ INSTRUCTIONS = """
 # TODO: Needs rewrite - or consider this a different variation in its
 # own right, as CurateGPT is the reference implementation of HALO
 
+
 class StructuredPrompt(pydantic.BaseModel):
     header: str = ""
     body: str = ""

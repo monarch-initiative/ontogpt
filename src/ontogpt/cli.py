@@ -43,8 +43,7 @@ from ontogpt.engines.spires_engine import SPIRESEngine
 from ontogpt.engines.synonym_engine import SynonymEngine
 from ontogpt.evaluation.enrichment.eval_enrichment import EvalEnrichment
 from ontogpt.evaluation.resolver import create_evaluator
-from ontogpt.io.csv_wrapper import write_obj_as_csv
-from ontogpt.io.csv_wrapper import output_parser
+from ontogpt.io.csv_wrapper import output_parser, write_obj_as_csv
 from ontogpt.io.html_exporter import HTMLExporter
 from ontogpt.io.markdown_exporter import MarkdownExporter
 from ontogpt.utils.gene_set_utils import (

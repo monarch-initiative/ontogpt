@@ -24,7 +24,10 @@ from ontogpt.utils.parse_utils import split_on_one_of
 logger = logging.getLogger(__name__)
 
 
-MODEL_GPT_4_NAMES = [model["alternative_names"][0] for model in MODELS if model["name"] == "MODEL_GPT_4"][0]
+MODEL_GPT_4_NAMES = [
+    model["alternative_names"][0] for model in MODELS if model["name"] == "MODEL_GPT_4"
+][0]
+
 
 def flatten_list(lst):
     flat_list = []

@@ -2,10 +2,11 @@
 from dataclasses import dataclass
 from io import BytesIO, StringIO, TextIOWrapper
 from pathlib import Path
-from typing import TextIO, Union
+from typing import Optional, TextIO, Union
 
 import pydantic
 import yaml
+from linkml_runtime import SchemaView
 
 from ontogpt.io.exporter import Exporter, is_curie
 from ontogpt.templates.core import ExtractionResult
@@ -13,7 +14,12 @@ from ontogpt.templates.core import ExtractionResult
 
 @dataclass
 class MarkdownExporter(Exporter):
-    def export(self, extraction_output: ExtractionResult, output: Union[str, Path, TextIO, BytesIO]):  # type: ignore
+    def export(
+        self,
+        extraction_output: ExtractionResult,
+        output: Union[str, Path, TextIO, BytesIO],
+        schemaview: Optional[SchemaView] = None,
+    ):  # type: ignore
         if isinstance(output, Path):
             output = open(str(output), "w", encoding="utf-8")
         if isinstance(output, str):

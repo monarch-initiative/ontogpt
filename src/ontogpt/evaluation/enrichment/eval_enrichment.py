@@ -6,7 +6,7 @@ import random
 from collections import defaultdict
 from dataclasses import dataclass, field
 from pathlib import Path
-from typing import Dict, Generator, Iterator, List, Optional, Tuple
+from typing import Dict, Generator, List, Optional, Tuple
 
 import tiktoken
 import yaml
@@ -23,10 +23,10 @@ from oaklib.parsers.association_parser_factory import get_association_parser
 from pydantic import BaseModel
 from tiktoken import Encoding
 
+from ontogpt import MODELS
 from ontogpt.engines import create_engine
 from ontogpt.engines.enrichment import ENTITY_ID, EnrichmentEngine, EnrichmentPayload
 from ontogpt.engines.knowledge_engine import MODEL_NAME
-from ontogpt import MODELS
 from ontogpt.evaluation.evaluation_engine import EvaluationEngine
 from ontogpt.templates.class_enrichment import ClassEnrichmentResult
 from ontogpt.utils.gene_set_utils import SYMBOL, GeneSet, drop_genes_from_gene_set, gene_info
@@ -151,7 +151,7 @@ class EvalEnrichment(EvaluationEngine):
                     raise AssertionError(f"Unknown method: {method}")
                 for prompt_variant, end_marker in [("v1", "==="), ("v2", "###")]:
                     engine.end_marker = end_marker
-                    payload = engine.summarize(gene_set, normalize=True, **args) # type: ignore
+                    payload = engine.summarize(gene_set, normalize=True, **args)  # type: ignore
                     payload.method = method
                     payload.prompt_variant = prompt_variant
                     model_method = f"{self.model}.{method}.{prompt_variant}"

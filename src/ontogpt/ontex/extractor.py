@@ -355,7 +355,9 @@ class EntailedIndirectSuperClassTask(Task):
     Do not include direct (one-hop) superclasses.
     """
 
-    type: Literal["EntailedIndirectSuperClassTask"] = Field("EntailedIndirectSuperClassTask")  # type: ignore
+    type: Literal["EntailedIndirectSuperClassTask"] = Field(
+        "EntailedIndirectSuperClassTask"
+    )  # type: ignore
     _code: str = "indirect"  # type: ignore
 
     answers: Optional[List[ClassAnswer]] = None
@@ -439,7 +441,9 @@ class EntailedTransitiveSuperClassTask(Task):
     Also direct (one-hop) superclasses.
     """
 
-    type: Literal["EntailedTransitiveSuperClassTask"] = Field("EntailedTransitiveSuperClassTask")  # type: ignore
+    type: Literal["EntailedTransitiveSuperClassTask"] = Field(
+        "EntailedTransitiveSuperClassTask"
+    )  # type: ignore
     _code: str = "superc"  # type: ignore
 
     answers: Optional[List[ClassAnswer]] = None
@@ -546,7 +550,9 @@ class EntailedSubClassOfExpressionTask(Task):
     Include indirect (transitive) descendants.
     """
 
-    type: Literal["EntailedSubClassOfExpressionTask"] = Field("EntailedSubClassOfExpressionTask")  # type: ignore
+    type: Literal["EntailedSubClassOfExpressionTask"] = Field(
+        "EntailedSubClassOfExpressionTask"
+    )  # type: ignore
     _code: str = "expr"  # type: ignore
 
     answers: Optional[List[ClassAnswer]] = None
@@ -649,7 +655,9 @@ class EntailedDirectSuperClassTask(Task):
     Make use of all axioms in the provided ontology.
     """
 
-    type: Literal["EntailedDirectSuperClassTask"] = Field("EntailedDirectSuperClassTask")  # type: ignore
+    type: Literal["EntailedDirectSuperClassTask"] = Field(
+        "EntailedDirectSuperClassTask"
+    )  # type: ignore
     _code: str = "dir-sup"  # type: ignore
 
     answers: Optional[List[ClassAnswer]] = None
@@ -664,7 +672,9 @@ class MostRecentCommonSubsumerTask(Task):
     What are the most specific common entailed superclasses of {params[0]} and {params[1]}?.
     """
 
-    type: Literal["MostRecentCommonSubsumerTask"] = Field("MostRecentCommonSubsumerTask")  # type: ignore
+    type: Literal["MostRecentCommonSubsumerTask"] = Field(
+        "MostRecentCommonSubsumerTask"
+    )  # type: ignore
     _code: str = "mrca"  # type: ignore
 
     answers: Optional[List[ClassAnswer]] = None
@@ -1150,7 +1160,9 @@ class OntologyExtractor:
         if roots:
             roots_set = set(roots)
             ancs = [
-                t for t in ancs if roots_set.intersection(adapter.ancestors(t, predicates=predicates))
+                t
+                for t in ancs
+                if roots_set.intersection(adapter.ancestors(t, predicates=predicates))
             ]
         axioms = []
         already_have = set()

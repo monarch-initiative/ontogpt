@@ -7,6 +7,7 @@ from typing import Any, Optional, TextIO, Union
 
 import pydantic
 import yaml
+from linkml_runtime import SchemaView
 
 from ontogpt.io.exporter import Exporter, is_curie
 from ontogpt.templates.core import ExtractionResult
@@ -22,7 +23,12 @@ class HTMLExporter(Exporter):
 
     output: Optional[Union[BytesIO, TextIO]]
 
-    def export(self, extraction_output: ExtractionResult, output: Union[str, Path, TextIO, BytesIO]):  # type: ignore
+    def export(
+        self,
+        extraction_output: ExtractionResult,
+        output: Union[str, Path, TextIO, BytesIO],
+        schemaview: Optional[SchemaView] = None,
+    ):  # type: ignore
         if isinstance(output, Path):
             output = open(str(output), "w", encoding="utf-8")
         if isinstance(output, str):

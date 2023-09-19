@@ -22,4 +22,4 @@ def create_engine(
     if engine is not None and not isinstance(engine, str):
         return engine(template, **kwargs)
     else:
-        return SPIRESEngine # type: ignore
+        return SPIRESEngine  # type: ignore

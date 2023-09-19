@@ -101,7 +101,9 @@ class OpenAIClient:
             cur.execute("CREATE TABLE cache (prompt, engine, payload)")
         return cur
 
-    def _interactive_completion(self, prompt: str, engine: str, max_tokens: Optional[int], **kwargs):
+    def _interactive_completion(
+        self, prompt: str, engine: str, max_tokens: Optional[int], **kwargs
+    ):
         print("Please use the ChatGPT interface to complete the following prompt:")
         print(f"IMPORTANT: make sure model == {engine}")
         print(f"Note: max_tokens == {max_tokens}")
@@ -143,7 +145,6 @@ class OpenAIClient:
         return True
 
     def embeddings(self, text: str, model: str = ""):
-
         text = str(text)
 
         if model is None:

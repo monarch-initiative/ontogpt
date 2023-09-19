@@ -401,7 +401,7 @@ class PubmedClient:
 
         return xml_data
 
-    def search(self, term: str, keywords: List[str] = [""]) -> Generator[PMID, None, None]:
+    def search(self, term: str, keywords: List[str]) -> Generator[PMID, None, None]:
         """Get the quality-scored text of PubMed papers relating to a search term and keywords.
 
         This generator yields PMIDs. Note this uses the MAX_PMIDS value
