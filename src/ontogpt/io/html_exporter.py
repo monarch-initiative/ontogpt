@@ -1,7 +1,7 @@
 """HTML Exporter."""
 import html
 from dataclasses import dataclass
-from io import BytesIO
+from io import BytesIO, StringIO, TextIOWrapper
 from pathlib import Path
 from typing import Any, Optional, TextIO, Union
 
@@ -24,9 +24,9 @@ class HTMLExporter(Exporter):
 
     def export(self, extraction_output: ExtractionResult, output: Union[str, Path, TextIO, BytesIO]):  # type: ignore
         if isinstance(output, Path):
-            output = str(output)
-        if isinstance(output, str):
             output = open(str(output), "w", encoding="utf-8")
+        if isinstance(output, str):
+            output = StringIO(output)
         self.output = output
         self.export_metadata(extraction_output)
         self.export_results(extraction_output.extracted_object, extraction_output)
@@ -85,19 +85,23 @@ class HTMLExporter(Exporter):
         matches = [
             ne for ne in extraction_output.named_entities if ne.id == value and is_curie(ne.id)
         ]
+        if isinstance(output, BytesIO):
+            output = TextIOWrapper(output, encoding="utf-8")
         if matches:
             match = matches[0]
-            output.write(f"{match.label} {self.link(match.id)}".encode("utf-8"))
+            output.write(f"{match.label} {self.link(match.id)}")
         else:
-            output.write(str(value).encode("utf-8"))
-        output.write("\n".encode("utf-8"))
+            output.write(str(value))
+        output.write("\n")
 
     def details(self, text: Optional[str], output: Union[BytesIO, TextIO], code: str = ""):
-        output.write("<details>\n".encode("utf-8"))
-        output.write("<pre>\n".encode("utf-8"))
+        if isinstance(output, BytesIO):
+            output = TextIOWrapper(output, encoding="utf-8")
+        output.write("<details>\n")
+        output.write("<pre>\n")
         self.w(text)
-        output.write("\n</pre>\n".encode("utf-8"))
-        output.write("\n</details>\n".encode("utf-8"))
+        output.write("\n</pre>\n")
+        output.write("\n</details>\n")
 
     def link(self, curie: str) -> str:
         return f'<a href="https://bioregistry.io/{curie}">{curie}</a>'
@@ -130,7 +134,11 @@ class HTMLExporter(Exporter):
         self.tag("i", html.escape(text))
 
     def tag(self, tag: str, text: str):
-        self.output.write(f"<{tag}>{text}</{tag}>\n".encode("utf-8"))
+        if isinstance(self.output, BytesIO):
+            self.output = TextIOWrapper(self.output, encoding="utf-8")
+        self.output.write(f"<{tag}>{text}</{tag}>\n")
 
     def w(self, text: str):
-        self.output.write(html.escape(text).encode("utf-8"))
+        if isinstance(self.output, BytesIO):
+            self.output = TextIOWrapper(self.output, encoding="utf-8")
+        self.output.write(html.escape(text))

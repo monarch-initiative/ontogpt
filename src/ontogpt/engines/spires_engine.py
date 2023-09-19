@@ -250,7 +250,7 @@ class SPIRESEngine(KnowledgeEngine):
 
     def map_terms(
         self, terms: List[str], ontology: str, show_prompt: bool = False
-    ) -> Dict[str, List[str]]:
+    ) -> Dict[str, str]:
         """
         Map the given terms to the given ontology.
 
@@ -510,7 +510,7 @@ class SPIRESEngine(KnowledgeEngine):
             slots_of_range = sv.class_slots(slot_range.name)
             if self.recurse or len(slots_of_range) > 2:
                 logging.debug(f"  RECURSING ON SLOT: {slot.name}, range={slot_range.name}")
-                vals = [self._extract_from_text_to_dict(v, slot_range) for v in vals]
+                vals = [self._extract_from_text_to_dict(v, slot_range) for v in vals]  # type: ignore
             else:
                 for sep in [" - ", ":", "/", "*", "-"]:
                     if all([sep in v for v in vals]):
@@ -529,7 +529,7 @@ class SPIRESEngine(KnowledgeEngine):
         else:
             if len(vals) != 1:
                 logging.error(f"Expected 1 value for {slot.name} in '{line}' but got {vals}")
-            final_val = vals[0]
+            final_val = vals[0]  # type: ignore
         return field, final_val
 
     def parse_completion_payload(
@@ -583,7 +583,7 @@ class SPIRESEngine(KnowledgeEngine):
         if cls is None:
             cls = self.template_class
         sv = self.schemaview
-        new_ann = {}
+        new_ann: Dict[str, Any] = {}
         if ann is None:
             logging.error(f"Cannot ground None annotation, cls={cls.name}")
             return None
@@ -620,14 +620,14 @@ class SPIRESEngine(KnowledgeEngine):
                     # recurse
                     obj = self.ground_annotation_object(val, rng_cls)
                 else:
-                    obj = self.normalize_named_entity(val, slot.range)
+                    obj = self.normalize_named_entity(val, slot.range)  # type: ignore
                 if enum_def:
                     found = False
                     logging.info(f"Looking for {obj} in {enum_def.name}")
                     for k, _pv in enum_def.permissible_values.items():
                         if type(obj) is str and type(k) is str:
                             if obj.lower() == k.lower():
-                                obj = k
+                                obj = k  # type: ignore
                                 found = True
                                 break
                     if not found:

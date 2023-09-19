@@ -220,7 +220,7 @@ class KnowledgeEngine(ABC):
     ) -> ExtractionResult:
         raise NotImplementedError
 
-    def map_terms(self, terms: List[str], ontology: str) -> Dict[str, List[str]]:
+    def map_terms(self, terms: List[str], ontology: str, show_prompt: bool) -> Dict[str, str]:
         raise NotImplementedError
 
     def _get_template_class(self, template: TEMPLATE_NAME) -> ClassDefinition:

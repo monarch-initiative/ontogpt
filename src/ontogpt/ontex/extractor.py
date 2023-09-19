@@ -1071,7 +1071,7 @@ class OntologyExtractor:
     query_predicates: Optional[List[PRED_CURIE]] = None
 
     use_identifiers: bool = False
-    name_map: Optional[Mapping[str, str]] = field(default_factory=lambda: {})
+    name_map: Optional[Mapping[str, str]] = field(default_factory=lambda: {})  # type: ignore
     obfuscate: bool = False
     obfuscated_curie_map: Optional[Mapping[str, str]] = field(
         default_factory=lambda: {}  # type: ignore
@@ -1295,13 +1295,14 @@ class OntologyExtractor:
         ontology = self.extract_ontology(terms, roots)
         answers = []
         if roots is not None:
-            roots = set(roots)
+            roots = list(set(roots))
 
         def _filter(anc: CURIE) -> bool:
             if anc == subclass:
                 return True
             if roots is not None:
-                if not roots.intersection(adapter.ancestors(anc, predicates=predicates)):
+                roots_set = set(roots)
+                if not roots_set.intersection(adapter.ancestors(anc, predicates=predicates)):
                     return True
 
         filtered_ancestors = [anc for anc in subclass_ancestors if not _filter(anc)]
@@ -1463,7 +1464,7 @@ class OntologyExtractor:
         ontology = self.extract_ontology(terms, roots, predicates=predicates)
         answers = []
         if roots is not None:
-            roots = set(roots)
+            roots = list(set(roots))
         for desc in descendants:
             if desc == superclass:
                 continue
@@ -1518,9 +1519,9 @@ class OntologyExtractor:
             incoherents = [
                 random.choice(list(adapter.descendants(root_incoherent, predicates=[IS_A])))
             ]
-            parents = list(parents)
-            random.shuffle(parents)
-            disjoints = [(parents[0], parents[1])]
+            parents_list = list(parents)
+            random.shuffle(parents_list)
+            disjoints = [(parents_list[0], parents_list[1])]
         if not incoherents or not siblings or not disjoints:
             raise ValueError("Must specify incoherents, siblings, and disjoints")
         if not spiked_relationships:
@@ -1540,7 +1541,7 @@ class OntologyExtractor:
         #     adapter.apply_patch(kgcl.EdgeCreation(id='tmp', subject=s, predicate=p, object=o))
         answers = []
         if roots is not None:
-            roots = set(roots)
+            roots = list(set(roots))
         for incoherent in incoherents:
             ancestors = list(
                 adapter.ancestors(incoherent, predicates=[IS_A], method=GraphTraversalMethod.HOP)
