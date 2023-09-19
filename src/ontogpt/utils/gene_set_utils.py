@@ -155,7 +155,7 @@ def load_gene_sets(
     """
     gene_sets = []
     for input_path in glob.glob(f"{path}/*.yaml"):
-        gene_set = parse_gene_set(input_path)
+        gene_set = parse_gene_set(input_path, format="yaml")
         gene_sets.append(gene_set)
         if not gene_set.gene_ids and not gene_set.gene_symbols:
             raise ValueError(f"Gene set {gene_set.name} has no gene symbols or ids")
