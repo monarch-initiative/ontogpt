@@ -35,7 +35,7 @@ class TestGeneSetUtils(unittest.TestCase):
 
     def test_populate(self):
         """Test population of gene set."""
-        gene_set = parse_gene_set(GENE_SETS_DIR / "Yamanaka-TFs.yaml")
+        gene_set = parse_gene_set(GENE_SETS_DIR / "Yamanaka-TFs.yaml", format="yaml")
         self.assertEqual(len(gene_set.gene_ids), 4)
         fill_missing_gene_set_values(gene_set)
         # print(yaml.dump(gene_set.dict(), sort_keys=False))

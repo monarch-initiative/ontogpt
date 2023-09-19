@@ -1,3 +1,4 @@
+# type: ignore
 """
 DrugMechDB evaluation.
 
@@ -83,16 +84,16 @@ class PredictionDrugMechDB(BaseModel):
 class EvaluationObjectSetDrugMechDB(BaseModel):
     """A result of predicting paths."""
 
-    test: List[target_datamodel.DrugMechanism] = None
-    training: List[target_datamodel.DrugMechanism] = None
-    predictions: List[PredictionDrugMechDB] = None
+    test: Optional[List[target_datamodel.DrugMechanism]] = None
+    training: Optional[List[target_datamodel.DrugMechanism]] = None
+    predictions: Optional[List[PredictionDrugMechDB]] = None
 
 
 @dataclass
 class EvalDrugMechDB(SPIRESEvaluationEngine):
     # ontology: OboGraphInterface = None
-    data: List[target_datamodel.DrugMechanism] = None
-    _drug_to_mechanism_text: Dict[str, str] = None
+    data: Optional[List[target_datamodel.DrugMechanism]] = None
+    _drug_to_mechanism_text: Optional[Dict[str, str]] = None
     default_labelers = [
         "sqlite:obo:mesh",
         "sqlite:obo:drugbank",
@@ -145,7 +146,7 @@ class EvalDrugMechDB(SPIRESEvaluationEngine):
     def load_and_transform_source_database(self) -> List[target_datamodel.DrugMechanism]:
         """Load the entire DrugMechDB database."""
         with gzip.open(str(DATABASE_DIR / "indication_paths.yaml.gz"), "rb") as f:
-            srcs = self.load_source_mechanisms_from_path(f)
+            srcs = self.load_source_mechanisms_from_path(f.filename)
             return [self.transform_mechanism(m) for m in srcs]
 
     def load_target_database(self) -> List[target_datamodel.DrugMechanism]:
@@ -173,12 +174,23 @@ class EvalDrugMechDB(SPIRESEvaluationEngine):
         refs = mechanism.reference if mechanism.reference else []
         if mechanism.references:
             refs.append(mechanism.references)
-        return target_datamodel.DrugMechanism(
-            disease=mechanism.graph.disease_mesh,
-            drug=_fix_id(mechanism.graph.drugbank),
-            mechanism_links=triples,
-            references=refs,
-        )
+        mech = target_datamodel.DrugMechanism()
+        if mechanism.graph is not None:
+            if not [
+                var
+                for var in (mechanism.graph, mechanism.graph.disease_mesh, mechanism.graph.drugbank)
+                if var is None
+            ]:
+                return target_datamodel.DrugMechanism(
+                    disease=mechanism.graph.disease_mesh,
+                    drug=_fix_id(mechanism.graph.drugbank),
+                    mechanism_links=triples,
+                    references=refs,
+                )
+            else:
+                return mech
+        else:
+            return mech
 
     def create_test_and_training(
         self, num_test: int = 10, num_training: int = 5, include_texts: bool = False
@@ -222,7 +234,10 @@ class EvalDrugMechDB(SPIRESEvaluationEngine):
                 return False
             if len(m.references) != 1:
                 return False
-            ref = m.references[0]
+            if m.references is not None:
+                ref = m.references[0]
+            else:
+                ref = ""
             if ref.startswith("https://go.drugbank.com/drugs/") and ref.endswith(
                 "#mechanism-of-action"
             ):
@@ -272,7 +287,12 @@ class EvalDrugMechDB(SPIRESEvaluationEngine):
                 "drug": test_obj.drug,
             }
             results = ke.generalize(stub, eos.training)
-            predicted_obj = results.extracted_object[0]
+            if results.extracted_object is not None:
+                predicted_obj = results.extracted_object[0]
+            else:
+                logging.warning(
+                    f"No extracted object found for {test_obj.disease}, {test_obj.drug}"
+                )
             pred = PredictionDrugMechDB(predicted_object=predicted_obj, test_object=test_obj)
             pred.calculate_scores()
             eos.predictions.append(pred)

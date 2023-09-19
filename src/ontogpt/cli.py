@@ -8,7 +8,7 @@ from copy import copy, deepcopy
 from dataclasses import dataclass
 from io import BytesIO, TextIOWrapper
 from pathlib import Path
-from typing import List, Optional
+from typing import List, Optional, Union
 
 import click
 import jsonlines
@@ -31,8 +31,8 @@ from ontogpt.engines import create_engine
 from ontogpt.engines.embedding_similarity_engine import SimilarityEngine
 from ontogpt.engines.enrichment import EnrichmentEngine
 from ontogpt.engines.generic_engine import GenericEngine, QuestionCollection
-from ontogpt.engines.gpt4all_engine import GPT4AllEngine
-from ontogpt.engines.halo_engine import HALOEngine
+from ontogpt.engines.gpt4all_engine import GPT4AllEngine  # type: ignore
+from ontogpt.engines.halo_engine import HALOEngine  # type: ignore
 
 # from ontogpt.engines.hfhub_engine import HFHubEngine
 from ontogpt.engines.knowledge_engine import KnowledgeEngine
@@ -43,8 +43,7 @@ from ontogpt.engines.spires_engine import SPIRESEngine
 from ontogpt.engines.synonym_engine import SynonymEngine
 from ontogpt.evaluation.enrichment.eval_enrichment import EvalEnrichment
 from ontogpt.evaluation.resolver import create_evaluator
-from ontogpt.io.csv_wrapper import write_obj_as_csv
-from ontogpt.io.csv_wrapper import output_parser
+from ontogpt.io.csv_wrapper import output_parser, write_obj_as_csv
 from ontogpt.io.html_exporter import HTMLExporter
 from ontogpt.io.markdown_exporter import MarkdownExporter
 from ontogpt.utils.gene_set_utils import (
@@ -86,12 +85,13 @@ def _as_text_writer(f):
 def write_extraction(
     results: ExtractionResult,
     output: BytesIO,
-    output_format: str = None,
-    knowledge_engine: KnowledgeEngine = None,
+    output_format: str,
+    knowledge_engine: KnowledgeEngine,
 ):
     """Write results of extraction to a given output stream."""
     # Check if this result contains anything writable first
     if results.extracted_object:
+        exporter: Union[MarkdownExporter, HTMLExporter, RDFExporter, OWLExporter]
         if output_format == "pickle":
             output.write(pickle.dumps(results))
         elif output_format == "md":
@@ -100,11 +100,11 @@ def write_extraction(
             exporter.export(results, output)
         elif output_format == "html":
             output = _as_text_writer(output)
-            exporter = HTMLExporter()
+            exporter = HTMLExporter(output=output)
             exporter.export(results, output)
         elif output_format == "yaml":
             output = _as_text_writer(output)
-            output.write(dump_minimal_yaml(results))
+            output.write(dump_minimal_yaml(results).encode("utf-8"))
         elif output_format == "turtle":
             output = _as_text_writer(output)
             exporter = RDFExporter()
@@ -117,11 +117,13 @@ def write_extraction(
             # output = _as_text_writer(output)
             # output.write(write_obj_as_csv(results))
             output = _as_text_writer(output)
-            output.write(dump_minimal_yaml(results))
-            output.write(output_parser(results))
+            output.write(dump_minimal_yaml(results).encode("utf-8"))
+            with open("output.kgx.tsv") as secondoutput:
+                for line in output_parser(obj=results, file=output):
+                    secondoutput.write(line)
         else:
             output = _as_text_writer(output)
-            output.write(dump_minimal_yaml(results))
+            output.write(dump_minimal_yaml(results).encode("utf-8"))
 
 
 def get_model_by_name(modelname: str):
@@ -1477,6 +1479,8 @@ def fill(model, template, object: str, examples, output, output_format, show_pro
     """Fill in missing values."""
     logging.info(f"Creating for {template}")
 
+    ke: KnowledgeEngine
+
     # Choose model based on input, or use the default
     if not model:
         model = DEFAULT_MODEL
@@ -1484,9 +1488,8 @@ def fill(model, template, object: str, examples, output, output_format, show_pro
     model_source = selectmodel["provider"]
 
     if model_source == "OpenAI":
-        ke = SPIRESEngine(template, **kwargs)
-
-    elif model_source == "GPT4All":
+        ke = SPIRESEngine(template=template, **kwargs)
+    else:
         model_name = selectmodel["alternative_names"][0]
         ke = GPT4AllEngine(template=template, model=model_name, **kwargs)
 
@@ -1495,7 +1498,7 @@ def fill(model, template, object: str, examples, output, output_format, show_pro
     logging.info(f"Loading {examples}")
     examples = yaml.safe_load(examples)
     logging.debug(f"Input object: {object}")
-    results = ke.generalize(object, examples, show_prompt)
+    results = ke.generalize(object=object, examples=examples, show_prompt=show_prompt)
 
     output.write(yaml.dump(results.dict()))
 

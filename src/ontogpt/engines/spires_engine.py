@@ -35,7 +35,7 @@ from ontogpt.templates.core import ExtractionResult
 this_path = Path(__file__).parent
 
 
-RESPONSE_ATOM = Union[str, "ResponseAtom"]
+RESPONSE_ATOM = Union[str, "ResponseAtom"]  # type: ignore
 RESPONSE_DICT = Dict[FIELD, Union[RESPONSE_ATOM, List[RESPONSE_ATOM]]]
 
 
@@ -77,7 +77,9 @@ class SPIRESEngine(KnowledgeEngine):
             for chunk in chunks:
                 raw_text = self._raw_extract(chunk, cls=cls, object=object, show_prompt=show_prompt)
                 logging.info(f"RAW TEXT: {raw_text}")
-                next_object = self.parse_completion_payload(raw_text, cls, object=object)
+                next_object = self.parse_completion_payload(
+                    raw_text, cls, object=object  # type: ignore
+                )  
                 if extracted_object is None:
                     extracted_object = next_object
                 else:
@@ -92,7 +94,9 @@ class SPIRESEngine(KnowledgeEngine):
         else:
             raw_text = self._raw_extract(text=text, cls=cls, object=object, show_prompt=show_prompt)
             logging.info(f"RAW TEXT: {raw_text}")
-            extracted_object = self.parse_completion_payload(raw_text, cls, object=object)
+            extracted_object = self.parse_completion_payload(
+                raw_text, cls, object=object  # type: ignore
+            )  
         return ExtractionResult(
             input_text=text,
             raw_completion_output=raw_text,
@@ -106,7 +110,7 @@ class SPIRESEngine(KnowledgeEngine):
         return self._parse_response_to_dict(raw_text, cls)
 
     def generate_and_extract(
-        self, entity: str, prompt_template: str = None, show_prompt: bool = False, **kwargs
+        self, entity: str, prompt_template: str = "", show_prompt: bool = False, **kwargs
     ) -> ExtractionResult:
         """
         Generate a description using GPT and then extract from it using SPIRES.
@@ -117,9 +121,11 @@ class SPIRESEngine(KnowledgeEngine):
         """
         if prompt_template is None:
             prompt_template = "Generate a comprehensive description of {entity}.\n"
-        # prompt = f"Generate a comprehensive description of {entity}.\n"
         prompt = prompt_template.format(entity=entity)
-        payload = self.client.complete(prompt, show_prompt)
+        if self.client is not None:
+            payload = self.client.complete(prompt, show_prompt)
+        else:
+            payload = ""
         return self.extract_from_text(payload, **kwargs)
 
     def iteratively_generate_and_extract(
@@ -185,18 +191,18 @@ class SPIRESEngine(KnowledgeEngine):
                     vals = [vals]
                 for val in vals:
                     entity = val
-
-                    for ne in result.named_entities:
-                        if ne.id == val:
-                            entity = ne.label
-                            if ne.id.startswith("AUTO"):
-                                # Sometimes the value of some slots will lack
-                                context = next_entity
-                                context = re.sub(r"\(.*\)", "", context)
-                                entity = f"{entity} ({context})"
-                            else:
-                                entity = ne.id
-                            break
+                    if result.named_entities is not None:
+                        for ne in result.named_entities:
+                            if ne.id == val:
+                                entity = ne.label
+                                if ne.id.startswith("AUTO"):
+                                    # Sometimes the value of some slots will lack
+                                    context = next_entity
+                                    context = re.sub(r"\(.*\)", "", context)
+                                    entity = f"{entity} ({context})"
+                                else:
+                                    entity = ne.id
+                                break
                     queue_deparenthesized = [
                         _remove_parenthetical_context(e) for e in db["entities_in_queue"]
                     ]
@@ -248,7 +254,7 @@ class SPIRESEngine(KnowledgeEngine):
 
     def map_terms(
         self, terms: List[str], ontology: str, show_prompt: bool = False
-    ) -> Dict[str, List[str]]:
+    ) -> Dict[str, str]:
         """
         Map the given terms to the given ontology.
 
@@ -290,7 +296,7 @@ class SPIRESEngine(KnowledgeEngine):
         prompt += "===\n\n"
         payload = self.client.complete(prompt, show_prompt)
         # outer parse
-        best_results = []
+        best_results: List[str] = []
         for sep in ["\n", "; "]:
             results = payload.split(sep)
             if len(results) > len(best_results):
@@ -357,7 +363,11 @@ class SPIRESEngine(KnowledgeEngine):
         return val
 
     def _raw_extract(
-        self, text, cls: ClassDefinition = None, object: OBJECT = None, show_prompt: bool = False,
+        self,
+        text,
+        cls: ClassDefinition = None,
+        object: OBJECT = None,
+        show_prompt: bool = False,
     ) -> str:
         """
         Extract annotations from the given text.
@@ -371,7 +381,7 @@ class SPIRESEngine(KnowledgeEngine):
         return payload
 
     def get_completion_prompt(
-        self, cls: ClassDefinition = None, text: str = None, object: OBJECT = None
+        self, cls: ClassDefinition = None, text: str = "", object: OBJECT = None
     ) -> str:
         """Get the prompt for the given template."""
         if cls is None:
@@ -445,7 +455,7 @@ class SPIRESEngine(KnowledgeEngine):
                     line = f"{slot.name}: {line}"
                 else:
                     logging.error(f"Line '{line}' does not contain a colon; ignoring")
-                    return
+                    return None
             r = self._parse_line_to_dict(line, cls)
             if r is not None:
                 field, val = r
@@ -479,14 +489,14 @@ class SPIRESEngine(KnowledgeEngine):
         if not slot:
             logging.error(f"Cannot find slot for {field} in {line}")
             # raise ValueError(f"Cannot find slot for {field} in {line}")
-            return
+            return None
         if not val:
             msg = f"Empty value in key-value line: {line}"
             if slot.required:
                 raise ValueError(msg)
             if slot.recommended:
                 logging.warning(msg)
-            return
+            return None
         inlined = slot.inlined
         slot_range = sv.get_class(slot.range)
         if not inlined:
@@ -504,26 +514,30 @@ class SPIRESEngine(KnowledgeEngine):
             slots_of_range = sv.class_slots(slot_range.name)
             if self.recurse or len(slots_of_range) > 2:
                 logging.debug(f"  RECURSING ON SLOT: {slot.name}, range={slot_range.name}")
-                vals = [self._extract_from_text_to_dict(v, slot_range) for v in vals]
+                vals = [
+                    self._extract_from_text_to_dict(v, slot_range) for v in vals  # type: ignore
+                ]  
             else:
                 for sep in [" - ", ":", "/", "*", "-"]:
                     if all([sep in v for v in vals]):
-                        vals = [dict(zip(slots_of_range, v.split(sep, 1))) for v in vals]
+                        vals = [
+                            dict(zip(slots_of_range, v.split(sep, 1))) for v in vals  # type: ignore
+                        ]  
                         for v in vals:
-                            for k in v.keys():
-                                v[k] = v[k].strip()
+                            for k in v.keys():  # type: ignore
+                                v[k] = v[k].strip()  # type: ignore
                         transformed = True
                         break
                 if not transformed:
                     logging.warning(f"Did not find separator in {vals} for line {line}")
-                    return
+                    return None
         # transform back from list to single value if not multivalued
         if slot.multivalued:
             final_val = vals
         else:
             if len(vals) != 1:
                 logging.error(f"Expected 1 value for {slot.name} in '{line}' but got {vals}")
-            final_val = vals[0]
+            final_val = vals[0]  # type: ignore
         return field, final_val
 
     def parse_completion_payload(
@@ -577,10 +591,10 @@ class SPIRESEngine(KnowledgeEngine):
         if cls is None:
             cls = self.template_class
         sv = self.schemaview
-        new_ann = {}
+        new_ann: Dict[str, Any] = {}
         if ann is None:
             logging.error(f"Cannot ground None annotation, cls={cls.name}")
-            return
+            return None
         for field, vals in ann.items():
             if isinstance(vals, list):
                 multivalued = True
@@ -614,15 +628,16 @@ class SPIRESEngine(KnowledgeEngine):
                     # recurse
                     obj = self.ground_annotation_object(val, rng_cls)
                 else:
-                    obj = self.normalize_named_entity(val, slot.range)
+                    obj = self.normalize_named_entity(val, slot.range)  # type: ignore
                 if enum_def:
                     found = False
                     logging.info(f"Looking for {obj} in {enum_def.name}")
                     for k, _pv in enum_def.permissible_values.items():
-                        if obj.lower() == k.lower():
-                            obj = k
-                            found = True
-                            break
+                        if type(obj) is str and type(k) is str:
+                            if obj.lower() == k.lower():
+                                obj = k  # type: ignore
+                                found = True
+                                break
                     if not found:
                         logging.info(f"Cannot find enum value for {obj} in {enum_def.name}")
                         obj = None

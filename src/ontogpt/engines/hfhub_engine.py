@@ -1,3 +1,4 @@
+# type: ignore
 """
 HuggingFace Hub-based knowledge extractor class.
 
@@ -19,6 +20,7 @@ from typing import Any, Dict, List, Optional, Tuple, Union
 import pydantic
 from linkml_runtime.linkml_model import ClassDefinition, SlotDefinition
 
+from ontogpt.clients.hfhub_client import HFHubClient
 from ontogpt.engines.knowledge_engine import (
     ANNOTATION_KEY_PROMPT,
     ANNOTATION_KEY_PROMPT_SKIP,
@@ -29,7 +31,6 @@ from ontogpt.engines.knowledge_engine import (
     chunk_text,
 )
 from ontogpt.templates.core import ExtractionResult
-from ontogpt.clients.hfhub_client import HFHubClient
 
 this_path = Path(__file__).parent
 
@@ -186,7 +187,6 @@ class HFHubEngine(KnowledgeEngine):
         prompt += "===\n\n"
         payload = self.client.complete(prompt)
         # outer parse
-        best_results = []
         for sep in ["\n", "; "]:
             results = payload.split(sep)
             if len(results) > len(best_results):
@@ -265,7 +265,7 @@ class HFHubEngine(KnowledgeEngine):
         return payload
 
     def get_completion_prompt(
-        self, cls: ClassDefinition = None, text: str = None, object: OBJECT = None
+        self, cls: ClassDefinition = None, text: str = "", object: OBJECT = None
     ) -> str:
         """Get the prompt for the given template."""
         if cls is None:

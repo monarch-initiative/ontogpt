@@ -60,7 +60,7 @@ OBFUSCATED_ID = "str"
 class Axiom(BaseModel):
     """Represents an individual logical axiom."""
 
-    text: str = None
+    text: str = ""
     """Textual representation of the axiom, e.g A SubClassOf B"""
 
     obfuscated_text: Optional[str] = None
@@ -80,8 +80,8 @@ class Ontology(BaseModel):
     axioms: List[Axiom]
     """All axioms in the ontology"""
 
-    terms: List[CURIE] = None
-    predicates: List[PRED_CURIE] = None
+    terms: List[CURIE] = [""]
+    predicates: List[PRED_CURIE] = [""]
 
     comments: Optional[List[str]] = None
 
@@ -109,7 +109,7 @@ class Explanation(BaseModel):
 class Answer(BaseModel):
     """Individual answer to a query."""
 
-    _value_domain: ClassVar[str] = None
+    _value_domain: ClassVar[str]
     """Class variable indicating answer types."""
 
     text: str
@@ -118,7 +118,7 @@ class Answer(BaseModel):
     explanations: Optional[List[Explanation]] = None
     """All explanations for the answer."""
 
-    def shortest_explanation(self) -> Optional[Explanation]:
+    def shortest_explanation(self) -> Explanation:
         """Return the shortest explanation for the answer."""
         if not self.explanations:
             return Explanation(axioms=[Axiom(text="No explanation found")])
@@ -183,20 +183,19 @@ class Task(BaseModel):
     For example, a task group might be to determine if an ontology is consistent.
     """
 
-    _query_format: ClassVar[str] = None
+    _query_format: ClassVar[str]
 
     type: Literal["Task"] = Field("Task")
-    _code: ClassVar[str] = None
+    _code: ClassVar[str]
 
     has_multiple_answers: ClassVar[bool] = True
 
     ontology: Ontology
     name: Optional[str] = None
     description: Optional[str] = None
-    query: Query = None
+    query: Optional[Query] = None
     answers: Optional[List[Answer]] = None
     examples: Optional[List[Example]] = None
-    description: Optional[str] = None
     obfuscated: Optional[bool] = False
 
     method: Optional[GPTReasonMethodType] = None
@@ -225,17 +224,20 @@ class Task(BaseModel):
             for query_answer in example.query_answers:
                 if not query_answer.query.text:
                     query_answer.query.text = qf.format(params=query_answer.query.parameters)
-        if not self.query.text:
-            self.query.text = qf.format(params=self.query.parameters)
-        if len(self.answers) == 0:
-            self.shortest_explanation = None
-            self.len_shortest_explanation = 0
-        else:
-            most_complex_answer = max(
-                self.answers, key=lambda x: len(x.shortest_explanation().axioms)
-            )
-            self.shortest_explanation = most_complex_answer.shortest_explanation()
-            self.len_shortest_explanation = len(self.shortest_explanation.axioms)
+        if self.query is not None:
+            if not self.query.text:
+                self.query.text = qf.format(params=self.query.parameters)
+        if self.answers is not None:
+            if len(self.answers) == 0:
+                self.shortest_explanation = None
+                self.len_shortest_explanation = 0
+            else:
+                most_complex_answer = max(
+                    self.answers, key=lambda x: len(x.shortest_explanation().axioms)
+                )
+                if self.shortest_explanation is not None:
+                    self.shortest_explanation = most_complex_answer.shortest_explanation()
+                    self.len_shortest_explanation = len(self.shortest_explanation.axioms)
         if not self.name:
             self.name = f"{self.type}-{uuid.uuid4()}"
         self.init_method()
@@ -274,8 +276,8 @@ class OntologyCoherencyTask(Task):
     List all unsatisfiable classes that can be found with this rule.
     If there are no unsatisfiable classes, just write NONE."""
 
-    type: Literal["OntologyCoherencyTask"] = Field("OntologyCoherencyTask")
-    _code: str = "sat"
+    type: Literal["OntologyCoherencyTask"] = Field("OntologyCoherencyTask")  # type: ignore
+    _code: str = "sat"  # type: ignore
 
     has_multiple_answers = False
     answers: Optional[List[ClassAnswer]] = None
@@ -353,8 +355,10 @@ class EntailedIndirectSuperClassTask(Task):
     Do not include direct (one-hop) superclasses.
     """
 
-    type: Literal["EntailedIndirectSuperClassTask"] = Field("EntailedIndirectSuperClassTask")
-    _code: str = "indirect"
+    type: Literal["EntailedIndirectSuperClassTask"] = Field(
+        "EntailedIndirectSuperClassTask"
+    )  # type: ignore
+    _code: str = "indirect"  # type: ignore
 
     answers: Optional[List[ClassAnswer]] = None
 
@@ -437,8 +441,10 @@ class EntailedTransitiveSuperClassTask(Task):
     Also direct (one-hop) superclasses.
     """
 
-    type: Literal["EntailedTransitiveSuperClassTask"] = Field("EntailedTransitiveSuperClassTask")
-    _code: str = "superc"
+    type: Literal["EntailedTransitiveSuperClassTask"] = Field(
+        "EntailedTransitiveSuperClassTask"
+    )  # type: ignore
+    _code: str = "superc"  # type: ignore
 
     answers: Optional[List[ClassAnswer]] = None
 
@@ -544,8 +550,10 @@ class EntailedSubClassOfExpressionTask(Task):
     Include indirect (transitive) descendants.
     """
 
-    type: Literal["EntailedSubClassOfExpressionTask"] = Field("EntailedSubClassOfExpressionTask")
-    _code: str = "expr"
+    type: Literal["EntailedSubClassOfExpressionTask"] = Field(
+        "EntailedSubClassOfExpressionTask"
+    )  # type: ignore
+    _code: str = "expr"  # type: ignore
 
     answers: Optional[List[ClassAnswer]] = None
 
@@ -647,8 +655,10 @@ class EntailedDirectSuperClassTask(Task):
     Make use of all axioms in the provided ontology.
     """
 
-    type: Literal["EntailedDirectSuperClassTask"] = Field("EntailedDirectSuperClassTask")
-    _code: str = "dir-sup"
+    type: Literal["EntailedDirectSuperClassTask"] = Field(
+        "EntailedDirectSuperClassTask"
+    )  # type: ignore
+    _code: str = "dir-sup"  # type: ignore
 
     answers: Optional[List[ClassAnswer]] = None
 
@@ -662,8 +672,10 @@ class MostRecentCommonSubsumerTask(Task):
     What are the most specific common entailed superclasses of {params[0]} and {params[1]}?.
     """
 
-    type: Literal["MostRecentCommonSubsumerTask"] = Field("MostRecentCommonSubsumerTask")
-    _code: str = "mrca"
+    type: Literal["MostRecentCommonSubsumerTask"] = Field(
+        "MostRecentCommonSubsumerTask"
+    )  # type: ignore
+    _code: str = "mrca"  # type: ignore
 
     answers: Optional[List[ClassAnswer]] = None
 
@@ -768,8 +780,8 @@ class TaxonConstraintTask(Task):
     then A never_in_taxon T2.
     """
 
-    type: Literal["TaxonConstraintTask"] = Field("TaxonConstraintTask")
-    _code: str = "tc"
+    type: Literal["TaxonConstraintTask"] = Field("TaxonConstraintTask")  # type: ignore
+    _code: str = "tc"  # type: ignore
 
     answers: Optional[List[ClassAnswer]] = None
 
@@ -904,8 +916,8 @@ class ABoxTask(Task):
     This means that if x PROPERTY y and y PROPERTY z then x PROPERTY z.
     """
 
-    type: Literal["ABoxTask"] = Field("ABoxTask")
-    _code: str = "abox"
+    type: Literal["ABoxTask"] = Field("ABoxTask")  # type: ignore
+    _code: str = "abox"  # type: ignore
 
     answers: Optional[List[InstanceAnswer]] = None
 
@@ -1031,7 +1043,7 @@ class TaskCollection(BaseModel):
             with open(file_or_object) as f:
                 tc_dict = yaml.safe_load(f)
         else:
-            tc_dict = yaml.safe_load(file_or_object)
+            tc_dict = yaml.safe_load(str(file_or_object))
         current_module = sys.modules[__name__]
         tasks = []
         for task_dict in tc_dict["tasks"]:
@@ -1069,10 +1081,10 @@ class OntologyExtractor:
     query_predicates: Optional[List[PRED_CURIE]] = None
 
     use_identifiers: bool = False
-    name_map: Optional[Mapping[CURIE, OBFUSCATED_ID]] = field(default_factory=lambda: {})
+    name_map: Optional[Mapping[str, str]] = field(default_factory=lambda: {})  # type: ignore
     obfuscate: bool = False
-    obfuscated_curie_map: Optional[Mapping[OBFUSCATED_ID, CURIE]] = field(
-        default_factory=lambda: {}
+    obfuscated_curie_map: Optional[Mapping[str, str]] = field(
+        default_factory=lambda: {}  # type: ignore
     )
 
     def create_task(
@@ -1082,7 +1094,8 @@ class OntologyExtractor:
         ontology = self.extract_ontology(terms)
         if isinstance(task_type, str):
             task_type = globals()[task_type]
-        task = task_type(ontology=ontology, query=Query(parameters=parameters))
+        if not isinstance(task_type, str):  # Just to be sure!
+            task = task_type(ontology=ontology, query=Query(parameters=parameters))
         task.populate()
         return task
 
@@ -1145,13 +1158,15 @@ class OntologyExtractor:
             tax_ancs = list(adapter.ancestors(ancs, predicates=[IS_A]))
             ancs.extend(tax_ancs)
         if roots:
-            roots = set(roots)
+            roots_set = set(roots)
             ancs = [
-                t for t in ancs if roots.intersection(adapter.ancestors(t, predicates=predicates))
+                t
+                for t in ancs
+                if roots_set.intersection(adapter.ancestors(t, predicates=predicates))
             ]
         axioms = []
         already_have = set()
-        terms = set()
+        terms_set = set(terms)
         used_predicates = set()
         if not ancs:
             raise ValueError(f"No ancestors found for {terms} over {predicates}")
@@ -1160,8 +1175,8 @@ class OntologyExtractor:
                 if rel in already_have:
                     continue
                 s, p, o = rel
-                terms.add(s)
-                terms.add(o)
+                terms_set.add(s)
+                terms_set.add(o)
                 used_predicates.add(p)
                 if roots and not set(adapter.ancestors(o, predicates=predicates)).intersection(
                     roots
@@ -1175,7 +1190,7 @@ class OntologyExtractor:
             )
 
         ontology = Ontology(
-            name="-".join(onts), axioms=axioms, terms=terms, predicates=used_predicates
+            name="-".join(onts), axioms=axioms, terms=list(terms_set), predicates=used_predicates
         )
         if include_abox:
             ontology.axioms.extend(list(self.extract_rbox()))
@@ -1185,8 +1200,8 @@ class OntologyExtractor:
 
     def extract_indirect_superclasses_task(
         self,
-        subclass: CURIE = None,
-        siblings: List[CURIE] = None,
+        subclass: Optional[CURIE] = None,
+        siblings: Optional[List[CURIE]] = None,
         roots: Optional[List[CURIE]] = None,
         predicates: Optional[List[PRED_CURIE]] = None,
         select_random=False,
@@ -1219,7 +1234,7 @@ class OntologyExtractor:
         terms = [subclass] + siblings
         ontology = self.extract_ontology(terms, roots)
         if roots is not None:
-            roots = set(roots)
+            roots_set = set(roots)
         subclass_parents = {r[2] for r in adapter.relationships([subclass], predicates=predicates)}
 
         def _filter(anc: CURIE) -> bool:
@@ -1228,7 +1243,7 @@ class OntologyExtractor:
             if anc in subclass_parents:
                 return True
             if roots is not None:
-                if not roots.intersection(adapter.ancestors(anc, predicates=predicates)):
+                if not roots_set.intersection(adapter.ancestors(anc, predicates=predicates)):
                     return True
 
         filtered_ancestors = [anc for anc in subclass_ancestors if not _filter(anc)]
@@ -1240,6 +1255,7 @@ class OntologyExtractor:
             **kwargs,
         )
         task.populate()
+
         return task
 
     def _answers_from_ancestors(
@@ -1291,13 +1307,14 @@ class OntologyExtractor:
         ontology = self.extract_ontology(terms, roots)
         answers = []
         if roots is not None:
-            roots = set(roots)
+            roots = list(set(roots))
 
         def _filter(anc: CURIE) -> bool:
             if anc == subclass:
                 return True
             if roots is not None:
-                if not roots.intersection(adapter.ancestors(anc, predicates=predicates)):
+                roots_set = set(roots)
+                if not roots_set.intersection(adapter.ancestors(anc, predicates=predicates)):
                     return True
 
         filtered_ancestors = [anc for anc in subclass_ancestors if not _filter(anc)]
@@ -1459,7 +1476,7 @@ class OntologyExtractor:
         ontology = self.extract_ontology(terms, roots, predicates=predicates)
         answers = []
         if roots is not None:
-            roots = set(roots)
+            roots = list(set(roots))
         for desc in descendants:
             if desc == superclass:
                 continue
@@ -1468,7 +1485,7 @@ class OntologyExtractor:
                 continue
             # if desc not in ontology.terms:
             #    continue
-            explanations = []
+            explanations: List[str] = []
             answers.append(ClassAnswer(text=self._name(desc), explanations=explanations))
         task = EntailedSubClassOfExpressionTask(
             ontology=ontology,
@@ -1514,9 +1531,9 @@ class OntologyExtractor:
             incoherents = [
                 random.choice(list(adapter.descendants(root_incoherent, predicates=[IS_A])))
             ]
-            parents = list(parents)
-            random.shuffle(parents)
-            disjoints = [(parents[0], parents[1])]
+            parents_list = list(parents)
+            random.shuffle(parents_list)
+            disjoints = [(parents_list[0], parents_list[1])]
         if not incoherents or not siblings or not disjoints:
             raise ValueError("Must specify incoherents, siblings, and disjoints")
         if not spiked_relationships:
@@ -1536,7 +1553,7 @@ class OntologyExtractor:
         #     adapter.apply_patch(kgcl.EdgeCreation(id='tmp', subject=s, predicate=p, object=o))
         answers = []
         if roots is not None:
-            roots = set(roots)
+            roots = list(set(roots))
         for incoherent in incoherents:
             ancestors = list(
                 adapter.ancestors(incoherent, predicates=[IS_A], method=GraphTraversalMethod.HOP)
@@ -1605,13 +1622,12 @@ class OntologyExtractor:
         ontology = self.extract_ontology(terms, predicates=TAXON_PREDICATES + [IS_A, PART_OF])
         for t in true_taxa:
             children = {rel[0] for rel in adapter.relationships(objects=[t], predicates=[IS_A])}
-            children = [c for c in children if c in true_taxa]
-            if len(children) > 1:
-                children = list(children)
-                for i in range(len(children)):
-                    for j in range(i + 1, len(children)):
+            children_list = [c for c in children if c in true_taxa]
+            if len(children_list) > 1:
+                for i in range(len(children_list)):
+                    for j in range(i + 1, len(children_list)):
                         ontology.axioms.append(
-                            self._axiom((children[i], DISJOINT_WITH, children[j]))
+                            self._axiom((children_list[i], DISJOINT_WITH, children_list[j]))
                         )
         if not isinstance(adapter, TaxonConstraintInterface):
             raise ValueError("Cannot evaluate taxon constraints")
@@ -1656,12 +1672,12 @@ class OntologyExtractor:
         else:
             lbl = re.sub(r"\W+", "_", lbl)
         lbl = inflection.camelize(lbl)
-        self.name_map[curie] = lbl
+        self.name_map[curie] = lbl  # type: ignore
         if self.use_identifiers:
             return curie
         elif self.obfuscate:
             obfuscated = base64.b64encode(curie.encode("utf-8")).decode("utf-8")
-            self.obfuscated_curie_map[obfuscated] = curie
+            self.obfuscated_curie_map[obfuscated] = curie  # type: ignore
             return obfuscated
         else:
             return lbl

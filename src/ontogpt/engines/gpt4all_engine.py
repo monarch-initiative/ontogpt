@@ -1,3 +1,4 @@
+# type: ignore
 """
 gpt4all-based knowledge extractor class.
 
@@ -10,11 +11,13 @@ This class is intended for use with models
 such as those released by GPT4All (https://gpt4all.io/).
 """
 import logging
+import re
 from dataclasses import dataclass
 from pathlib import Path
 from typing import Any, Dict, Iterator, List, Optional, Tuple, Union
 
 import pydantic
+import yaml
 from linkml_runtime.linkml_model import ClassDefinition, SlotDefinition
 from oaklib import BasicOntologyInterface
 
@@ -276,7 +279,6 @@ class GPT4AllEngine(KnowledgeEngine):
         prompt += "===\n\n"
         payload = self.client.complete(prompt)
         # outer parse
-        best_results = []
         for sep in ["\n", "; "]:
             results = payload.split(sep)
             if len(results) > len(best_results):
@@ -355,7 +357,7 @@ class GPT4AllEngine(KnowledgeEngine):
         return payload
 
     def get_completion_prompt(
-        self, cls: ClassDefinition = None, text: str = None, object: OBJECT = None
+        self, cls: ClassDefinition = None, text: str = "", object: OBJECT = None
     ) -> str:
         """Get the prompt for the given template."""
         if cls is None:

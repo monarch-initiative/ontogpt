@@ -40,7 +40,9 @@ class SimilarityScore(BaseModel):
 
     @staticmethod
     def from_set(
-        test_set: List, prediction_set: List, labelers: List[BasicOntologyInterface] = None
+        test_list: List,
+        prediction_list: List,
+        labelers: Optional[List[BasicOntologyInterface]] = None,
     ):
         if labelers:
 
@@ -51,10 +53,10 @@ class SimilarityScore(BaseModel):
                         return f"{x} {lbl}"
                 return x
 
-            test_set = [label(x) for x in test_set]
-            prediction_set = [label(x) for x in prediction_set]
-        test_set = set(test_set)
-        prediction_set = set(prediction_set)
+            test_list = [label(x) for x in test_list]
+            prediction_list = [label(x) for x in prediction_list]
+        test_set = set(test_list)
+        prediction_set = set(prediction_list)
         return SimilarityScore(
             jaccard=jaccard_index(test_set, prediction_set),
             false_positives=list(prediction_set - test_set),

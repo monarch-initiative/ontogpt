@@ -7,12 +7,11 @@ from oaklib import get_adapter
 
 from ontogpt.engines import create_engine
 from ontogpt.engines.enrichment import EnrichmentEngine, GeneDescriptionSource
-from ontogpt.engines.knowledge_engine import (
-    MODEL_GPT_3_5_TURBO,
-    MODEL_GPT_4,
-    MODEL_TEXT_DAVINCI_003,
-)
 from ontogpt.utils.gene_set_utils import GeneSet
+
+MODEL_GPT_3_5_TURBO = "gpt-3.5-turbo"
+MODEL_TEXT_DAVINCI_003 = "text-davinci-003"
+MODEL_GPT_4 = "gpt-4"
 
 go = get_adapter("sqlite:obo:go")
 

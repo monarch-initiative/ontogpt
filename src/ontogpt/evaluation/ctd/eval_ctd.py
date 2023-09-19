@@ -22,7 +22,7 @@ from collections import defaultdict
 from dataclasses import dataclass
 from pathlib import Path
 from random import shuffle
-from typing import Any, Dict, Iterable, List, Set, Tuple
+from typing import Any, Dict, Iterable, List, Optional, Set, Tuple
 
 import yaml
 from bioc import biocxml
@@ -56,20 +56,20 @@ def negated(Triple) -> bool:
 class PredictionRE(BaseModel):
     """A prediction for a relationship extraction task."""
 
-    test_object: TextWithTriples = None
+    test_object: Optional[TextWithTriples] = None
     """source of truth to evaluate against"""
 
-    true_positives: List[Tuple] = None
-    num_true_positives: int = None
-    false_positives: List[Tuple] = None
-    num_false_positives: int = None
-    false_negatives: List[Tuple] = None
-    num_false_negatives: int = None
-    scores: Dict[str, SimilarityScore] = None
-    predicted_object: TextWithTriples = None
-    named_entities: List[Any] = None
+    true_positives: Optional[List[Tuple]] = None
+    num_true_positives: Optional[int] = None
+    false_positives: Optional[List[Tuple]] = None
+    num_false_positives: Optional[int] = None
+    false_negatives: Optional[List[Tuple]] = None
+    num_false_negatives: Optional[int] = None
+    scores: Optional[Dict[str, SimilarityScore]] = None
+    predicted_object: Optional[TextWithTriples] = None
+    named_entities: Optional[List[Any]] = None
 
-    def calculate_scores(self, labelers: List[BasicOntologyInterface] = None):
+    def calculate_scores(self, labelers: Optional[List[BasicOntologyInterface]] = None):
         self.scores = {}
 
         def label(x):
@@ -80,26 +80,33 @@ class PredictionRE(BaseModel):
                         return f"{x} {lbl}"
             return x
 
-        def all_objects(dm: TextWithTriples):
-            return list(
-                set(link.subject for link in dm.triples if not negated(link))
-                | set(link.object for link in dm.triples if not negated(link))
-            )
+        def all_objects(dm: Optional[TextWithTriples]):
+            if dm is not None:
+                return list(
+                    set(link.subject for link in dm.triples if not negated(link))
+                    | set(link.object for link in dm.triples if not negated(link))
+                )
+            else:
+                return list()
 
         def pairs(dm: TextWithTriples) -> Set:
-            return set(
-                (label(link.subject), label(link.object))
-                for link in dm.triples
-                if not negated(link)
-            )
+            if dm.triples is not None:
+                return set(
+                    (label(link.subject), label(link.object))
+                    for link in dm.triples
+                    if not negated(link)
+                )
+            else:
+                return set()
 
         self.scores["similarity"] = SimilarityScore.from_set(
             all_objects(self.test_object),
             all_objects(self.predicted_object),
             labelers=labelers,
         )
-        pred_pairs = pairs(self.predicted_object)
-        test_pairs = pairs(self.test_object)
+        if self.predicted_object is not None and self.test_object is not None:
+            pred_pairs = pairs(self.predicted_object)
+            test_pairs = pairs(self.test_object)
         self.true_positives = list(pred_pairs.intersection(test_pairs))
         self.false_positives = list(pred_pairs.difference(test_pairs))
         self.false_negatives = list(test_pairs.difference(pred_pairs))
@@ -109,15 +116,15 @@ class PredictionRE(BaseModel):
 
 
 class EvaluationObjectSetRE(BaseModel):
-    """A result of predicting relationextractions."""
+    """A result of predicting relation extractions."""
 
-    precision: float = None
-    recall: float = None
-    f1: float = None
+    precision: float = 0
+    recall: float = 0
+    f1: float = 0
 
-    training: List[TextWithTriples] = None
-    predictions: List[PredictionRE] = None
-    test: List[TextWithTriples] = None
+    training: Optional[List[TextWithTriples]] = None
+    predictions: Optional[List[PredictionRE]] = None
+    test: Optional[List[TextWithTriples]] = None
 
 
 @dataclass
@@ -191,19 +198,23 @@ class EvalCTD(SPIRESEvaluationEngine):
             logger.info(doc)
             text = f"Title: {doc.publication.title} Abstract: {doc.publication.abstract}"
             predicted_obj = None
-            named_entities = []
+            named_entities: List[str] = []
             for chunked_text in chunk_text(text):
                 extraction = ke.extract_from_text(chunked_text)
-                logger.info(
-                    f"{len(extraction.extracted_object.triples)}\
-                        triples from window: {chunked_text}"
-                )
-                if not predicted_obj:
+                if extraction.extracted_object is not None:
+                    logger.info(
+                        f"{len(extraction.extracted_object.triples)}\
+                            triples from window: {chunked_text}"
+                    )
+                if not predicted_obj and extraction.extracted_object is not None:
                     predicted_obj = extraction.extracted_object
                 else:
-                    predicted_obj.triples.extend(extraction.extracted_object.triples)
-                    logger.info(f"{len(predicted_obj.triples)} total triples, after concatenation")
-                    logger.debug(f"concatenated triples: {predicted_obj.triples}")
+                    if predicted_obj is not None and extraction.extracted_object is not None:
+                        predicted_obj.triples.extend(extraction.extracted_object.triples)
+                        logger.info(
+                            f"{len(predicted_obj.triples)} total triples, after concatenation"
+                        )
+                        logger.debug(f"concatenated triples: {predicted_obj.triples}")
                 named_entities.extend(extraction.named_entities)
 
             # title_extraction = ke.extract_from_text(doc.publication.title)
@@ -219,14 +230,17 @@ class EvalCTD(SPIRESEvaluationEngine):
             # logger.debug(f"concatenated triples: {predicted_obj.triples}")
 
             def included(t: ChemicalToDiseaseRelationship):
-                return (
-                    t
-                    and t.subject
-                    and t.object
-                    and t.subject.startswith("MESH:")
-                    and t.object.startswith("MESH:")
-                    and t.predicate.lower() == "induces"
-                )
+                if not [var for var in (t.subject, t.object, t.predicate) if var is None]:
+                    return (
+                        t
+                        and t.subject
+                        and t.object
+                        and t.subject.startswith("MESH:")
+                        and t.object.startswith("MESH:")
+                        and t.predicate.lower() == "induces"
+                    )
+                else:
+                    return t
 
             predicted_obj.triples = [t for t in predicted_obj.triples if included(t)]
             logger.info(

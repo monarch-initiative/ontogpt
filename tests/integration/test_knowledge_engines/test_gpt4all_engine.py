@@ -14,6 +14,7 @@ TEST_MODEL = "ggml-all-MiniLM-L6-v2-f16"
 
 TEXT_INPUT = "Peanut butter and cheese"
 
+
 class TestCore(unittest.TestCase):
     """Test annotation."""
 

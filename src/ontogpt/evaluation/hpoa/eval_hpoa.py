@@ -5,7 +5,7 @@ from collections import defaultdict
 from dataclasses import dataclass
 from pathlib import Path
 from random import shuffle
-from typing import Dict, Iterable, Iterator, List, Tuple
+from typing import Dict, Iterable, Iterator, List, Optional, Tuple
 
 from oaklib import BasicOntologyInterface, get_adapter
 from oaklib.datamodels.search import SearchConfiguration
@@ -30,9 +30,9 @@ PUBLICATION = str
 
 
 class PredictionHPOA(BaseModel):
-    predicted_object: MendelianDisease = None
-    test_object: MendelianDisease = None
-    scores: Dict[str, SimilarityScore] = None
+    predicted_object: Optional[MendelianDisease] = None
+    test_object: Optional[MendelianDisease] = None
+    scores: Optional[Dict[str, SimilarityScore]] = None
 
     def calculate_scores(self):
         self.scores = {}
@@ -54,14 +54,14 @@ class EvaluationObjectSetHPOA(BaseModel):
 
     test: List[MendelianDisease] = None
     training: List[MendelianDisease] = None
-    predictions: List = None
+    predictions: List = []
 
 
 class HPOAnnotation(BaseModel):
-    subject: DISEASE_ID = None
-    term: TERM = None
-    aspect: ASPECT = None
-    publication: PUBLICATION = None
+    subject: DISEASE_ID = ""
+    term: TERM = ""
+    aspect: ASPECT = ""
+    publication: PUBLICATION = ""
 
 
 @dataclass
@@ -106,13 +106,13 @@ class EvalHPOA(SPIRESEvaluationEngine):
                 diseases[subject] = MendelianDisease(id=subject)
             disease = diseases[subject]
             # print(f"Adding {term} to {subject} in {aspect}")
-            if aspect == "P":
+            if aspect == "P" and disease.symptoms is not None:
                 disease.symptoms.append(term)
-            elif aspect == "C":
+            elif aspect == "C" and disease.disease_onsets is not None:
                 disease.disease_onsets.append(term)
             elif aspect == "I":
                 disease.inheritance = term
-            if pub and pub not in disease.publications:
+            if pub and pub not in disease.publications and disease.publications is not None:
                 disease.publications.append(pub)
         return list(diseases.values())
 
@@ -164,7 +164,7 @@ class EvalHPOA(SPIRESEvaluationEngine):
             obj.genes.append(gene)
         return obj
 
-    def eval(self, task: str = None, **kwargs) -> EvaluationObjectSetHPOA:
+    def eval(self, task: str = "", **kwargs) -> EvaluationObjectSetHPOA:
         if not task or task == "pubs":
             return self.eval_against_pubs(**kwargs)
         elif task == "omim":
@@ -188,7 +188,11 @@ class EvalHPOA(SPIRESEvaluationEngine):
                 raise ValueError(f"Expected 1 publication, got {len(test_case.publications)}")
             pub = test_case.publications[0]
             text = pmc.text(pub)
-            results = ke.extract_from_text(text)
+            if type(text) is list:  # Shouldn't happen, but could happen
+                for entry in text:
+                    results = ke.extract_from_text(entry)
+            elif type(text) is str:
+                results = ke.extract_from_text(text)
             predicted_obj = results.extracted_object
             pred = PredictionHPOA(predicted_object=predicted_obj, test_object=test_case)
             pred.calculate_scores()
@@ -218,9 +222,12 @@ class EvalHPOA(SPIRESEvaluationEngine):
                 pmc = PubmedClient()
                 pub_resultset = []
                 for pmid in test_case.publications:
-                    if pmid.startswith("PMID:"):
+                    if str(pmid).startswith("PMID:"):
                         pub_text = pmc.text(pmid)
-                        pub_resultset.append(ke.extract_from_text(pub_text, object=stub))
+                        if type(pub_text) is str:  # Should just be one document.
+                            pub_resultset.append(ke.extract_from_text(pub_text, object=stub))
+                        else:
+                            continue
                 results = ke.merge_resultsets([results] + pub_resultset, ["name"])
             predicted_obj = results.extracted_object
             pred = PredictionHPOA(predicted_object=predicted_obj, test_object=test_case)
