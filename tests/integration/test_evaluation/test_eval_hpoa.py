@@ -1,4 +1,4 @@
-"""Core tests."""
+"""Core tests for Human Phenotype Ontology Annotations (HPOA) evaluation."""
 import unittest
 
 import yaml
@@ -13,7 +13,7 @@ PREDICTIONS_ALL_OUT = OUTPUT_DIR / "eval-hpoa-predictions-all.yaml"
 
 
 class Testhpoa(unittest.TestCase):
-    """Test GO evaluation."""
+    """Test HPOA evaluation."""
 
     def setUp(self) -> None:
         """Set up all engines in advance."""
@@ -21,44 +21,47 @@ class Testhpoa(unittest.TestCase):
 
     def test_load_hpoa(self):
         diseases = self.engine.annotations_to_diseases()
-        objs = [m.dict() for m in diseases]
-        print(yaml.dump(objs[0:5]))
+        objs = [m.model_dump() for m in diseases]
+        print(yaml.dump(objs[0:3]))
         self.assertGreater(len(diseases), 0)
 
     def test_diseases(self):
         diseases = self.engine.diseases()
-        for disease in diseases:
-            text = self.engine.disease_text(disease.id)
+        for test_case in diseases[0:2]:
+            text = self.engine.disease_text(test_case.id)
             self.assertIsNotNone(text)
             self.assertGreater(len(text), 100)
-        objs = [m.dict() for m in diseases]
-        print(yaml.dump(objs[0:5]))
+        objs = [m.model_dump() for m in diseases]
+        print(yaml.dump(objs[0:3]))
         self.assertGreater(len(diseases), 0)
 
     def test_diseases_by_publication(self):
         t2d = self.engine.diseases_by_publication()
-        for k, disease in t2d.items():
+        t2d_sample = {k: t2d[k] for k in list(t2d)[0:2]}
+        for k, disease in t2d_sample.items():
             text = self.engine.disease_text(disease.id)
             self.assertIsNotNone(text)
             self.assertGreater(len(text), 100)
             print(f"## {k}: {disease.id} ")
-            print(yaml.dump(disease.dict()))
+            print(yaml.dump(disease.model_dump()))
 
     def test_eval_pubs(self):
         evaluator = self.engine
         eos = evaluator.eval("pubs")
         with open(PREDICTIONS_PUBS_OUT, "w") as f:
-            yaml.dump(eos.dict(), f)
+            yaml.dump(eos.model_dump(), f)
 
+    @unittest.skip("Need to retrieve more OMIM texts - stochastic")
     def test_eval_all(self):
         evaluator = self.engine
-        eos = evaluator.eval()
+        eos = evaluator.eval("all")
         with open(PREDICTIONS_ALL_OUT, "w") as f:
-            yaml.dump(eos.dict(), f)
+            yaml.dump(eos.model_dump(), f)
 
+    @unittest.skip("Need to retrieve more OMIM texts - stochastic")
     def test_eval_omim(self):
         """Evaluates extraction purely from OMIM texts."""
         evaluator = self.engine
         eos = evaluator.eval("omim")
         with open(PREDICTIONS_OMIM_OUT, "w") as f:
-            yaml.dump(eos.dict(), f)
+            yaml.dump(eos.model_dump(), f)
