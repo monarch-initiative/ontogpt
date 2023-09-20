@@ -199,8 +199,7 @@ class TestCompletion(unittest.TestCase):
 
     def test_code_completion_generalization(self):
         """Tests structured responses."""
-        engine = "code-davinci-002"
-        # engine = "code-cushman-001"
+        engine = "gpt-3.5-turbo"
         client = OpenAIClient(model=engine)
         print(len(CODE_PROMPT_GENERALIZATION))
         ann = client.complete(CODE_PROMPT_GENERALIZATION)
@@ -208,8 +207,7 @@ class TestCompletion(unittest.TestCase):
 
     def test_extract_via_code_completion(self):
         """Tests structured responses."""
-        engine = "code-davinci-002"
-        # engine = "code-cushman-001"
+        engine = "gpt-3.5-turbo"
         client = OpenAIClient(model=engine)
         ann = client.complete(CODE_PROMPT_EXTRACT)
         print(ann)

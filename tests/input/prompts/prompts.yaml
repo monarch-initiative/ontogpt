@@ -15,7 +15,7 @@ prompts:
   expected:
     - "predicate: INDUCES"
     - "object: .*nystagmus"
-- engine: code-davinci-002
+- engine: gpt-3.5-turbo
   pre_prompt: |
     ## Instructions:
     ## Add an additional element to the YAML below, which is for elements
