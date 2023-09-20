@@ -162,7 +162,9 @@ interactive_option = click.option(
     help="Interactive mode - rather than call the LLM API it will prompt you do this.",
 )
 model_option = click.option(
-    "-m", "--model", help="Model name to use, e.g. openai-text-davinci-003."
+    "-m",
+    "--model",
+    help="Model name to use, e.g. orca-mini-7b or gpt-4. See all model names with ontogpt list-models.",
 )
 prompt_template_option = click.option(
     "--prompt-template", help="Path to a file containing the prompt."
