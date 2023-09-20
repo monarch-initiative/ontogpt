@@ -21,6 +21,7 @@ models:
     requirements:
       diskspace: "N/A"
       memory: "N/A"
+    deprecated: true
 
   - name: MODEL_GPT_3_5_TURBO_16K
     alternative_names:
@@ -48,6 +49,17 @@ models:
     alternative_names:
       - "gpt-4-32k"
       - "openai-gpt-4-32k"
+    provider: OpenAI
+    creators:
+      - OpenAI
+    requirements:
+      diskspace: "N/A"
+      memory: "N/A"
+
+  - name: MODEL_GPT_3.5_TURBO_INSTRUCT
+    alternative_names:
+      - "gpt-3.5-turbo-instruct"
+      - "openai-gpt-3.5-turbo-instruct"
     provider: OpenAI
     creators:
       - OpenAI
