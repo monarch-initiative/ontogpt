@@ -43,7 +43,7 @@ RESPONSE_DICT = Dict[FIELD, Union[RESPONSE_ATOM, List[RESPONSE_ATOM]]]
 class SPIRESEngine(KnowledgeEngine):
     """Knowledge extractor."""
 
-    engine: str = "openai-text-davinci-003"
+    engine: str = "gpt-3.5-turbo-instruct"
     recurse: bool = True
     """If true, then complex non-named entity objects are always recursively parsed.
     If this is false AND the complex object is a pair, then token-based splitting is

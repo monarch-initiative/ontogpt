@@ -100,9 +100,6 @@ class EnrichmentEngine(KnowledgeEngine):
 
     """
 
-    # engine: str = "text-davinci-003"
-    # model: str = "xxxgpt-3.5-turbo"
-
     label_resolvers: Dict[str, BasicOntologyInterface] = field(default_factory=dict)
 
     completion_length = 250
