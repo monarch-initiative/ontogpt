@@ -56,7 +56,7 @@ models:
       diskspace: "N/A"
       memory: "N/A"
 
-  - name: MODEL_GPT_3.5_TURBO_INSTRUCT
+  - name: MODEL_GPT_3_5_TURBO_INSTRUCT
     alternative_names:
       - "gpt-3.5-turbo-instruct"
       - "openai-gpt-3.5-turbo-instruct"
