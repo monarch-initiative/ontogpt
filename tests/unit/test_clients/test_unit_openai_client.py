@@ -30,7 +30,7 @@ class TestCompletion(unittest.TestCase):
     def test_all_prompts(self):
         """Test all prompts."""
         prompt_doc = yaml.safe_load(open(PROMPTS_FILE))
-        default_engine = prompt_doc.get("default_engine", "gpt-3.5-turbo-instruct")
+        default_engine = prompt_doc.get("default_engine", "gpt-3.5-turbo")
         for prompt in prompt_doc["prompts"]:
             prompt_text = prompt["prompt"]
             if not isinstance(prompt_text, str):
