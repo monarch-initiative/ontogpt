@@ -1,6 +1,6 @@
 # type: ignore
 """
-HALO
+HALO.
 
 Originally used code-davinci-002, which has since been supplanted by
 gpt chat models.
@@ -73,7 +73,9 @@ class HALOEngine(KnowledgeEngine):
     element_scores: Dict[ELEMENT_NAME, float] = field(default_factory=lambda: {})
     """Ranks each element by estimated informativeness for training."""
 
-    tokenizer_encoding: Encoding = field(default_factory=lambda: tiktoken.get_encoding("cl100k_base"))
+    tokenizer_encoding: Encoding = field(
+        default_factory=lambda: tiktoken.get_encoding("cl100k_base")
+    )
 
     def __post_init__(self):
         self.template_class = self._get_template_class("halo.OntologyElement")
