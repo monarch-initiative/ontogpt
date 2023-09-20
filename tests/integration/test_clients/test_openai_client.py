@@ -212,7 +212,7 @@ class TestCompletion(unittest.TestCase):
         ann = client.complete(CODE_PROMPT_EXTRACT)
         print(ann)
 
-    # @unittest.skip("doesn't work well")
+    @unittest.skip("Doesn't work well with current OpenAI API")
     def test_fine_tuned(self):
         engine = (
             "davinci:ft-lawrence-berkeley-national-laboratory:mendelian-disease-2022-12-22-00-53-36"
