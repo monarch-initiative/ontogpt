@@ -139,6 +139,9 @@ def get_model_by_name(modelname: str):
             logging.info(
                 f"Found model: {selectmodel['name']}, provided by {selectmodel['provider']}."
             )
+            if "not_implemented" in selectmodel or "deprecated" in selectmodel:
+                logging.error(f"Model {selectmodel['name']} not implemented or is deprecated.")
+                raise NotImplementedError
             break
     if not found:
         logging.warning(
@@ -1697,7 +1700,7 @@ def list_models():
         alternative_names = (
             " ".join(model["alternative_names"]) if model["alternative_names"] else ""
         )
-        if "not_implemented" in model:
+        if "not_implemented" in model or "deprecated" in model:
             status = "Not Implemented"
         else:
             status = "Implemented"
