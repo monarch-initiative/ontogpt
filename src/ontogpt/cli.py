@@ -164,7 +164,8 @@ interactive_option = click.option(
 model_option = click.option(
     "-m",
     "--model",
-    help="Model name to use, e.g. orca-mini-7b or gpt-4. See all model names with ontogpt list-models.",
+    help="Model name to use, e.g. orca-mini-7b or gpt-4."
+    " See all model names with ontogpt list-models.",
 )
 prompt_template_option = click.option(
     "--prompt-template", help="Path to a file containing the prompt."
