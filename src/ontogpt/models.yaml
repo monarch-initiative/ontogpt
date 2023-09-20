@@ -11,18 +11,6 @@ models:
       memory: "N/A"
     is_default: true
 
-  - name: MODEL_TEXT_DAVINCI_003
-    alternative_names:
-      - "text-davinci-003"
-      - "openai-text-davinci-003"
-    provider: OpenAI
-    creators:
-      - OpenAI
-    requirements:
-      diskspace: "N/A"
-      memory: "N/A"
-    deprecated: true
-
   - name: MODEL_GPT_3_5_TURBO_16K
     alternative_names:
       - "gpt-3.5-turbo-16k"
@@ -66,6 +54,30 @@ models:
     requirements:
       diskspace: "N/A"
       memory: "N/A"
+
+  - name: MODEL_TEXT_DAVINCI_003
+    alternative_names:
+      - "text-davinci-003"
+      - "openai-text-davinci-003"
+    provider: OpenAI
+    creators:
+      - OpenAI
+    requirements:
+      diskspace: "N/A"
+      memory: "N/A"
+    deprecated: true
+
+  - name: MODEL_CODE_DAVINCI_002
+    alternative_names:
+      - "code-davinci-002"
+      - "openai-code-davinci-002"
+    provider: OpenAI
+    creators:
+      - OpenAI
+    requirements:
+      diskspace: "N/A"
+      memory: "N/A"
+    deprecated: true
 
   - name: ORCA_MINI_3B
     alternative_names: 
