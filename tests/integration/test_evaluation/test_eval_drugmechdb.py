@@ -145,7 +145,7 @@ class TestDrugMechDB(unittest.TestCase):
         evaluator = self.engine
         ke = evaluator.extractor
         training_set = list(evaluator.create_training_set(100))
-        t = dict(base_model="text-davinci-003", template=ke.template, examples=training_set)
+        t = dict(base_model="gpt-3.5-turbo-instruct", template=ke.template, examples=training_set)
         with open(TRAINING_OUT, "w") as f:
             yaml.dump(t, f)
         # print(yaml.dump(training_set))
