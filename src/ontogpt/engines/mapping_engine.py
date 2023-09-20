@@ -34,7 +34,7 @@ class MappingPredicate(str, Enum):
     DIFFERENT_FROM = "different_from"
     UNCATEGORIZED = "uncategorized"
 
-    def mappings(self) -> Dict[str, str]:
+    def mappings() -> Dict[str, str]:
         """Return the mappings for this predicate."""
         return {
             "skos:exactMatch": "exact_match",
@@ -55,27 +55,27 @@ class Confidence(str, Enum):
 
 
 class CategorizedMapping(BaseModel):
-    subject: Optional[CURIE] = None
-    object: Optional[CURIE] = None
-    completion: str = ""
-    predicate: Optional[Union[MappingPredicate, str]] = None
-    confidence: Optional[Union[Confidence, str]] = None
-    similarities: List[str] = [""]
-    differences: List[str] = [""]
+    subject: CURIE = None
+    object: CURIE = None
+    completion: str = None
+    predicate: Union[MappingPredicate, str] = None
+    confidence: Union[Confidence, str] = None
+    similarities: List[str] = None
+    differences: List[str] = None
 
 
 class MappingTask(BaseModel):
     subject: CURIE
     object: CURIE
-    subject_label: str = ""
-    object_label: str = ""
-    subject_source: str = ""
-    object_source: str = ""
-    subject_adapter: str = ""
-    object_adapter: str = ""
-    predicate: Optional[Union[str, MappingPredicate]] = None
-    difficulty: Optional[Confidence] = None
-    score: Optional[float] = None
+    subject_label: str = None
+    object_label: str = None
+    subject_source: str = None
+    object_source: str = None
+    subject_adapter: str = None
+    object_adapter: str = None
+    predicate: Union[str, MappingPredicate] = None
+    difficulty: Confidence = None
+    score: float = None
 
 
 class MappingTaskCollection(BaseModel):
@@ -97,11 +97,11 @@ class Relationship(BaseModel):
 class Concept(BaseModel):
     id: CURIE
     label: str
-    definition: str = ""
-    synonyms: List[str] = [""]
-    parents: List[str] = [""]
+    definition: str = None
+    synonyms: List[str] = []
+    parents: List[str] = []
     relationships: List[Relationship] = []
-    categories: List[str] = [""]
+    categories: List[str] = []
 
 
 @dataclass
@@ -112,9 +112,11 @@ class MappingEngine(KnowledgeEngine):
     object_adapter: BasicOntologyInterface = None
 
     def categorize_mapping(
-        self, subject: CURIE, object: CURIE, template_path: Union[str, Path] = ""
+        self, subject: CURIE, object: CURIE, template_path: str = None
     ) -> CategorizedMapping:
         if template_path is None:
+            template_path = DEFAULT_MAPPING_EVAL_PROMPT
+        if len(template_path) == 0:
             template_path = DEFAULT_MAPPING_EVAL_PROMPT
         if isinstance(template_path, Path):
             template_path = str(template_path)
@@ -257,7 +259,7 @@ class MappingEngine(KnowledgeEngine):
             task = MappingTask(
                 subject=mapping.subject_id,
                 object=mapping.object_id,
-                predicate=MappingPredicate.mappings().get(mapping.predicate_id),  # type: ignore
+                predicate=MappingPredicate.mappings().get(mapping.predicate_id),
                 subject_label=mapping.subject_label,
                 object_label=mapping.object_label,
                 subject_source=mapping.subject_source,
@@ -287,11 +289,11 @@ class MappingEngine(KnowledgeEngine):
         self.subject_adapter = _get_adapter(mapping.subject_source)
         self.object_adapter = _get_adapter(mapping.object_source)
         cm = self.categorize_mapping(mapping.subject_id, mapping.object_id)
-        revmap = {v.upper(): k for k, v in MappingPredicate.mappings().items()}  # type: ignore
+        revmap = {v.upper(): k for k, v in MappingPredicate.mappings().items()}
         if cm.predicate.upper() not in revmap:
             logger.warning(f"Unknown predicate {cm.predicate}")
         mapping.predicate_id = revmap.get(cm.predicate.upper(), SKOS_RELATED_MATCH)
-        return mapping, cm  # type: ignore
+        return mapping, cm
 
     def _concept(self, curie: CURIE, adapter: BasicOntologyInterface) -> Concept:
         """Get a concept."""
