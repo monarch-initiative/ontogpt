@@ -94,10 +94,10 @@ class Triple(CompoundExpression):
 
 class ActionToDiseaseRelationship(Triple):
     """
-    A triple representing a relationship between a medical action  (A clinically prescribed procedure, therapy, intervention, or recommendation) and a disease, for example, radiation therapy TREATS cancer, or PET scan DIAGNOSES myocarditis.
+    A triple representing a relationship between a medical action  (A clinically prescribed procedure, therapy, intervention, or recommendation) and a disease, for example, radiation therapy TREATS cancer, or PET scan IS USED TO DIAGNOSE myocarditis.
     """
     subject: Optional[str] = Field(None)
-    predicate: Optional[str] = Field(None, description="""The relationship type, usually TREATS""")
+    predicate: Optional[str] = Field(None, description="""The relationship type, usually TREATS or IS USED TO DIAGNOSE""")
     object: Optional[List[str]] = Field(default_factory=list)
     qualifier: Optional[str] = Field(None, description="""A qualifier for the statements, e.g. \"NOT\" for negation""")
     subject_qualifier: Optional[str] = Field(None, description="""An optional qualifier or modifier for the medical action.""")

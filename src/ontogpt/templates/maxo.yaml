@@ -29,6 +29,11 @@ classes:
     tree_root: true
     attributes:
       action:
+        annotations:
+          prompt: >- 
+            Semicolon-separated list of medical actions, where each is a
+            clinically prescribed procedure, therapy, intervention, or recommendation,
+            for example, gene therapy, surgery, glomerular filtration rate test.
         description: Semicolon-separated list of medical actions.
         multivalued: true
         range: MedicalAction
@@ -38,7 +43,11 @@ classes:
         range: Disease
       action_to_disease:
         annotations:
-          prompt: semicolon-separated list of medical action to disease relationships.
+          prompt: >-
+            Semicolon-separated list of medical action to disease relationships, where
+            each is a triple representing a relationship between a medical action 
+            and a disease, for example, radiation therapy TREATS cancer,
+            or PET scan IS USED TO DIAGNOSE myocarditis.
         multivalued: true
         range: ActionToDiseaseRelationship
 
@@ -48,7 +57,7 @@ classes:
       A triple representing a relationship between a medical action 
       (A clinically prescribed procedure, therapy, intervention, or recommendation)
       and a disease, for example, radiation therapy TREATS cancer,
-      or PET scan DIAGNOSES myocarditis.
+      or PET scan IS USED TO DIAGNOSE myocarditis.
     slot_usage:
       subject:
         range: MedicalAction
@@ -57,7 +66,7 @@ classes:
         multivalued: true
       predicate:
         range: NamedEntity
-        description: The relationship type, usually TREATS
+        description: The relationship type, usually TREATS or IS USED TO DIAGNOSE
       subject_qualifier:
         range: NamedEntity
         description: >-
