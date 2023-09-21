@@ -104,7 +104,7 @@ def write_extraction(
             exporter.export(results, output)
         elif output_format == "yaml":
             output = _as_text_writer(output)
-            output.write(dump_minimal_yaml(results).encode("utf-8"))
+            output.write(dump_minimal_yaml(results))  # type: ignore
         elif output_format == "turtle":
             output = _as_text_writer(output)
             exporter = RDFExporter()
@@ -117,13 +117,13 @@ def write_extraction(
             # output = _as_text_writer(output)
             # output.write(write_obj_as_csv(results))
             output = _as_text_writer(output)
-            output.write(dump_minimal_yaml(results).encode("utf-8"))
+            output.write(dump_minimal_yaml(results))  # type: ignore
             with open("output.kgx.tsv") as secondoutput:
                 for line in output_parser(obj=results, file=output):
                     secondoutput.write(line)
         else:
             output = _as_text_writer(output)
-            output.write(dump_minimal_yaml(results).encode("utf-8"))
+            output.write(dump_minimal_yaml(results))  # type: ignore
 
 
 def get_model_by_name(modelname: str):
