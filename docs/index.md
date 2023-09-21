@@ -11,13 +11,10 @@ Currently three different strategies for knowledge extraction have been implemen
 * SPIRES: *Structured Prompt Interrogation and Recursive Extraction of Semantics*
   * Zero-shot learning (ZSL) approach to extracting nested semantic structures from text
   * This approach takes two inputs - 1) LinkML schema 2) free text, and outputs knowledge in a structure conformant with the supplied schema in JSON, YAML, RDF or OWL formats
-  * Uses text-davinci-003 or gpt-3.5-turbo (gpt-4 untested)
-* HALO: *HAllucinating Latent Ontologies*
-  * Few-shot learning approach to generating/hallucinating a domain ontology given a few examples
-  * Uses code-davinci-002
+  * Uses gpt-3.5-turbo or gpt-4
 * SPINDOCTOR: *Structured Prompt Interpolation of Narrative Descriptions Or Controlled Terms for Ontological Reporting*
   * Summarize gene set descriptions (pseudo gene-set enrichment)
-  * Uses text-davinci-003 or gpt-3.5-turbo (gpt-4 untested)
+  * Uses gpt-3.5-turbo or gpt-4
 
 ## Pre-requisites
 
@@ -284,7 +281,7 @@ The output of this is then passed through further SPIRES iterations.
 
 ### Text length limit
 
-Currently SPIRES must use text-davinci-003, which has a total 4k token limit (prompt + completion).
+SPIRES works well with gpt-3.5-turbo and gpt-4 models, though by default these models have a total 4,096 token limit (prompt + completion).
 
 You can pass in a parameter to split the text into chunks. Returned results will be recombined automatically, but more experiments need to be done to determined how reliable this is.
 

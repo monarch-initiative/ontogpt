@@ -139,6 +139,9 @@ def get_model_by_name(modelname: str):
             logging.info(
                 f"Found model: {selectmodel['name']}, provided by {selectmodel['provider']}."
             )
+            if "not_implemented" in selectmodel or "deprecated" in selectmodel:
+                logging.error(f"Model {selectmodel['name']} not implemented or is deprecated.")
+                raise NotImplementedError
             break
     if not found:
         logging.warning(
@@ -162,7 +165,10 @@ interactive_option = click.option(
     help="Interactive mode - rather than call the LLM API it will prompt you do this.",
 )
 model_option = click.option(
-    "-m", "--model", help="Model name to use, e.g. openai-text-davinci-003."
+    "-m",
+    "--model",
+    help="Model name to use, e.g. orca-mini-7b or gpt-4."
+    " See all model names with ontogpt list-models.",
 )
 prompt_template_option = click.option(
     "--prompt-template", help="Path to a file containing the prompt."
@@ -1694,7 +1700,7 @@ def list_models():
         alternative_names = (
             " ".join(model["alternative_names"]) if model["alternative_names"] else ""
         )
-        if "not_implemented" in model:
+        if "not_implemented" in model or "deprecated" in model:
             status = "Not Implemented"
         else:
             status = "Implemented"

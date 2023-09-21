@@ -1,9 +1,10 @@
 # type: ignore
 """
-Uses code-davinci-002.
+HALO.
 
-Note also that fine-tuning can't be done with code-davinci-002, see:
-https://community.openai.com/t/finetuning-code-davinci/23132/2
+Originally used code-davinci-002, which has since been supplanted by
+gpt chat models.
+
 """
 import logging
 from dataclasses import dataclass, field
@@ -57,7 +58,7 @@ class StructuredPrompt(pydantic.BaseModel):
 class HALOEngine(KnowledgeEngine):
     """Engine for Hallucinating Latent Ontologies."""
 
-    engine: str = "code-davinci-002"
+    engine: str = "gpt-3.5-turbo"
     ontology: Ontology = None
     traverse_slots: List[FIELD] = field(
         default_factory=lambda: ["subtypes", "parts", "subclass_of", "part_of"]
@@ -72,7 +73,9 @@ class HALOEngine(KnowledgeEngine):
     element_scores: Dict[ELEMENT_NAME, float] = field(default_factory=lambda: {})
     """Ranks each element by estimated informativeness for training."""
 
-    tokenizer_encoding: Encoding = field(default_factory=lambda: tiktoken.get_encoding("gpt2"))
+    tokenizer_encoding: Encoding = field(
+        default_factory=lambda: tiktoken.get_encoding("cl100k_base")
+    )
 
     def __post_init__(self):
         self.template_class = self._get_template_class("halo.OntologyElement")
