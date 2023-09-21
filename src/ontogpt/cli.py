@@ -92,37 +92,33 @@ def write_extraction(
     # Check if this result contains anything writable first
     if results.extracted_object:
         exporter: Union[MarkdownExporter, HTMLExporter, RDFExporter, OWLExporter]
+
+        if output_format not in ["pickle"]:
+            output = _as_text_writer(output)
+
         if output_format == "pickle":
             output.write(pickle.dumps(results))
         elif output_format == "md":
-            output = _as_text_writer(output)
             exporter = MarkdownExporter()
             exporter.export(results, output)
         elif output_format == "html":
-            output = _as_text_writer(output)
             exporter = HTMLExporter(output=output)
             exporter.export(results, output)
         elif output_format == "yaml":
-            output = _as_text_writer(output)
             output.write(dump_minimal_yaml(results))  # type: ignore
         elif output_format == "turtle":
-            output = _as_text_writer(output)
             exporter = RDFExporter()
             exporter.export(results, output, knowledge_engine.schemaview)
         elif output_format == "owl":
-            output = _as_text_writer(output)
             exporter = OWLExporter()
             exporter.export(results, output, knowledge_engine.schemaview)
         elif output_format == "kgx":
-            # output = _as_text_writer(output)
             # output.write(write_obj_as_csv(results))
-            output = _as_text_writer(output)
             output.write(dump_minimal_yaml(results))  # type: ignore
             with open("output.kgx.tsv") as secondoutput:
                 for line in output_parser(obj=results, file=output):
                     secondoutput.write(line)
         else:
-            output = _as_text_writer(output)
             output.write(dump_minimal_yaml(results))  # type: ignore
 
 
