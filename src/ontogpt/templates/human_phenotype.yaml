@@ -25,14 +25,16 @@ classes:
         range: HumanPhenotype
         multivalued: true
         description: >- 
-          a semicolon-separated list of human phenotypes, including symptoms of disease
+          A semicolon-separated list of human phenotypes, including symptoms of disease.
+          It must be semicolon-separated.
+          Labels containing the word 'with' should be split into multiple phenotypes.
 
   HumanPhenotype:
     is_a: NamedEntity
     id_prefixes:
       - HP
     annotations:
-      annotators: sqlite:obo:hp, sqlite:obo:mondo, sqlite:obo:mesh
+      annotators: sqlite:obo:hp, sqlite:obo:mondo, sqlite:obo:mesh, sqlite:obo:ncit
       prompt: >- 
         the name of a human phenotype or symptom.
          Examples are ascites, fever, pain, seizure, increased intracranial pressure, lactic acidosis.

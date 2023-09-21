@@ -54,7 +54,7 @@ class NamedEntity(ConfiguredBaseModel):
 
 class HumanPhenotypeSet(NamedEntity):
     
-    phenotypes: Optional[List[str]] = Field(default_factory=list, description="""a semicolon-separated list of human phenotypes, including symptoms of disease""")
+    phenotypes: Optional[List[str]] = Field(default_factory=list, description="""A semicolon-separated list of human phenotypes, including symptoms of disease. It must be semicolon-separated. Labels containing the word 'with' should be split into multiple phenotypes.""")
     id: str = Field(..., description="""A unique identifier for the named entity""")
     label: Optional[str] = Field(None, description="""The label (name) of the named thing""")
     
