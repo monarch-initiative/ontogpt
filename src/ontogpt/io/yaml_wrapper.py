@@ -19,7 +19,7 @@ def eliminate_empty(obj: Any, preserve=False) -> Any:
     elif isinstance(obj, dict):
         return {k: eliminate_empty(v, preserve) for k, v in obj.items() if v or preserve}
     elif isinstance(obj, pydantic.BaseModel):
-        return eliminate_empty(obj.dict(), preserve)
+        return eliminate_empty(obj.model_dump(), preserve)
     elif isinstance(obj, tuple):
         return [eliminate_empty(x, preserve) for x in obj]
     elif isinstance(obj, str):

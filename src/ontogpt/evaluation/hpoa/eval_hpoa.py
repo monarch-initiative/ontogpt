@@ -21,7 +21,7 @@ from ontogpt.templates.mendelian_disease import MendelianDisease
 DATABASE_DIR = Path(__file__).parent / "database"
 TEST_CASES_DIR = Path("tests").joinpath("input")
 TEST_HPOA_FILE = "test_sample.hpoa.tsv"
-NUM_TESTS = 3 # Note: each test requires input text; see provided test cases
+NUM_TESTS = 3  # Note: each test requires input text; see provided test cases
 
 DISEASE_ID = str
 TERM = str
@@ -182,7 +182,7 @@ class EvalHPOA(SPIRESEvaluationEngine):
         eos.training = []
         eos.predictions = []
         shuffle(eos.test)
-        for test_case in eos.test[0:num_tests-1]:
+        for test_case in eos.test[0 : num_tests - 1]:
             # text = self.disease_text(test_case.id)
             if len(test_case.publications) != 1:
                 raise ValueError(f"Expected 1 publication, got {len(test_case.publications)}")

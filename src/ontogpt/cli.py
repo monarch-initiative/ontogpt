@@ -105,6 +105,7 @@ def write_extraction(
             exporter = HTMLExporter(output=output)
             exporter.export(results, output)
         elif output_format == "yaml":
+            output.write("---\n")  # type: ignore
             output.write(dump_minimal_yaml(results))  # type: ignore
         elif output_format == "turtle":
             exporter = RDFExporter()
@@ -119,6 +120,7 @@ def write_extraction(
                 for line in output_parser(obj=results, file=output):
                     secondoutput.write(line)
         else:
+            output.write("---\n")  # type: ignore
             output.write(dump_minimal_yaml(results))  # type: ignore
 
 
@@ -339,7 +341,6 @@ def extract(
     write_extraction(results, output, output_format, ke)
 
 
-# TODO: combine this command with pubmed_annotate - they are converging
 @main.command()
 @template_option
 @model_option
@@ -437,6 +438,7 @@ def iteratively_generate_extract(
         write_extraction(results, output, output_format)
 
 
+# TODO: combine this command with pubmed_annotate - they are converging
 @main.command()
 @template_option
 @model_option
