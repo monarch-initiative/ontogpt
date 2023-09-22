@@ -437,6 +437,7 @@ def iteratively_generate_extract(
     ):
         write_extraction(results, output, output_format)
 
+
 # TODO: combine this command with pubmed_annotate - they are converging
 @main.command()
 @template_option

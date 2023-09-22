@@ -79,7 +79,7 @@ class SPIRESEngine(KnowledgeEngine):
                 logging.info(f"RAW TEXT: {raw_text}")
                 next_object = self.parse_completion_payload(
                     raw_text, cls, object=object  # type: ignore
-                )  
+                )
                 if extracted_object is None:
                     extracted_object = next_object
                 else:
@@ -96,7 +96,7 @@ class SPIRESEngine(KnowledgeEngine):
             logging.info(f"RAW TEXT: {raw_text}")
             extracted_object = self.parse_completion_payload(
                 raw_text, cls, object=object  # type: ignore
-            )  
+            )
         return ExtractionResult(
             input_text=text,
             raw_completion_output=raw_text,
@@ -516,13 +516,13 @@ class SPIRESEngine(KnowledgeEngine):
                 logging.debug(f"  RECURSING ON SLOT: {slot.name}, range={slot_range.name}")
                 vals = [
                     self._extract_from_text_to_dict(v, slot_range) for v in vals  # type: ignore
-                ]  
+                ]
             else:
                 for sep in [" - ", ":", "/", "*", "-"]:
                     if all([sep in v for v in vals]):
                         vals = [
                             dict(zip(slots_of_range, v.split(sep, 1))) for v in vals  # type: ignore
-                        ]  
+                        ]
                         for v in vals:
                             for k in v.keys():  # type: ignore
                                 v[k] = v[k].strip()  # type: ignore

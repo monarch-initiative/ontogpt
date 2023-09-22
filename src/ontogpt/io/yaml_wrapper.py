@@ -5,7 +5,6 @@ from typing import Any, Optional, TextIO
 
 import pydantic
 from ruamel.yaml import YAML, RoundTripRepresenter
-from ruamel.yaml.comments import CommentedMap
 
 # import yaml
 # from yaml import SafeDumper
