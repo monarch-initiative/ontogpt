@@ -43,17 +43,13 @@ def repr_str(dumper: RoundTripRepresenter, data: str):
 def dump_minimal_yaml(obj: Any, minimize=True, file: Optional[TextIO] = None) -> str:
     """Dump a YAML string, but eliminating Nones and empty lists and dicts."""
     yaml = YAML()
-    separator = YAML().load("")
     yaml.representer.add_representer(str, repr_str)
     yaml.default_flow_style = False
-    yaml.default_style=None
     yaml.indent(sequence=4, offset=2)
-    # A bit of a hack here to ensure all yaml output has a separator, even
-    # if it's a single document
     if not file:
         file = io.StringIO()
-        yaml.dump_all(documents=[separator, eliminate_empty(obj, not minimize)], stream=file)
+        yaml.dump(eliminate_empty(obj, not minimize), file)
         return file.getvalue()
     else:
-        yaml.dump_all(documents=[separator, eliminate_empty(obj, not minimize)], stream=file)
+        yaml.dump(eliminate_empty(obj, not minimize), file)
         return ""
