@@ -1533,7 +1533,7 @@ def complete(model, input, output, output_format, show_prompt, **kwargs):
 
     if model_source == "OpenAI":
         c = OpenAIClient(model=model_name)
-        results = c.complete(text, show_prompt)
+        results = c.complete(prompt=text, show_prompt=show_prompt)
 
     elif model_source == "GPT4All":
         c = set_up_gpt4all_model(modelname=model_name)
