@@ -2,7 +2,7 @@
 
 ## Introduction
 
-_OntoGPT_ is a Python package for extracting structured information from text with large language models (LLMs), *instruction prompts*, and ontology-based grounding. It works well with OpenAI's GPT-3.5 and GPT-4 models as well as a selection of other LLMs. OntoGPT's output can be used for general-purpose natural language tasks (e.g., named entity recognition and relation extraction), summarization, knowledge base and knowledge graph construction, and more.
+_OntoGPT_ is a Python package for extracting structured information from text with large language models (LLMs), _instruction prompts_, and ontology-based grounding. It works well with OpenAI's GPT-3.5 and GPT-4 models as well as a selection of other LLMs. OntoGPT's output can be used for general-purpose natural language tasks (e.g., named entity recognition and relation extraction), summarization, knowledge base and knowledge graph construction, and more.
 
 Two different strategies for knowledge extraction are currently implemented in OntoGPT:
 
@@ -83,7 +83,7 @@ ontogpt --help
 
 For a simple example of text completion and testing to ensure OntoGPT is set up correctly, create a text file containing the following, saving the file as `example.txt`:
 
-```
+```bash
 Why did the squid cross the coral reef?
 ```
 
@@ -95,7 +95,7 @@ ontogpt complete example.txt
 
 You should get text output like the following:
 
-```
+```bash
 Perhaps the squid crossed the coral reef for a variety of reasons:
 
 1. Food: Squids are known to feed on small fish and other marine organisms, and there could have been a rich food source on the other side of the reef.
@@ -112,10 +112,10 @@ OntoGPT is intended to be used for information extraction. The following example
 1. You provide an arbitrary data model, describing the structure you want to extract text into. This can be nested (but see limitations below). The predefined [templates](src/ontogpt/templates/) may be used.
 2. Provide your preferred annotations for grounding `NamedEntity` fields
 3. OntoGPT will:
-    - Generate a prompt
-    - Feed the prompt to a language model
-    - Parse the results into a dictionary structure
-    - Ground the results using a preferred annotator (e.g., an ontology)
+    * Generate a prompt
+    * Feed the prompt to a language model
+    * Parse the results into a dictionary structure
+    * Ground the results using a preferred annotator (e.g., an ontology)
 
 #### Input
 
@@ -124,11 +124,11 @@ Consider some text from one of the input files being used in the OntoGPT test su
   > The cGAS/STING-mediated DNA-sensing signaling pathway is crucial
   for interferon (IFN) production and host antiviral
   responses
-  > 
+  >
   > ...
-  > [snip] 
+  > [snip]
   > ...
-  > 
+  >
   > The underlying mechanism was the
   interaction of US3 with β-catenin and its hyperphosphorylation of
   β-catenin at Thr556 to block its nuclear translocation
@@ -184,6 +184,7 @@ ontogpt extract -t drug -i ~/path/to/abstract.txt -m nous-hermes-13b
 ```
 
 See the list of all available models with this command:
+
 ```bash
 ontogpt list-models
 ```
@@ -215,73 +216,70 @@ There are a number of pre-defined LinkML data models already developed here - [s
 
 Define a schema (using a subset of [LinkML](https://linkml.io)) that describes the structure in which you want to extract knowledge from your text.
 
-<details>
-  <summary>Open to see an example custom linkml data model</summary>
- 
-  ```yaml
-  classes:
-    MendelianDisease:
-      attributes:
-        name:
-          description: the name of the disease
-          examples:
-            - value: peroxisome biogenesis disorder
-          identifier: true  ## needed for inlining
-        description:
-          description: a description of the disease
-          examples:
-            - value: >-
-              Peroxisome biogenesis disorders, Zellweger syndrome spectrum (PBD-ZSS) is a group of autosomal recessive disorders affecting the formation of functional peroxisomes, characterized by sensorineural hearing loss, pigmentary retinal degeneration, multiple organ dysfunction and psychomotor impairment
-        synonyms:
-          multivalued: true
-          examples:
-            - value: Zellweger syndrome spectrum
-            - value: PBD-ZSS
-        subclass_of:
-          multivalued: true
-          range: MendelianDisease
-          examples:
-            - value: lysosomal disease
-            - value: autosomal recessive disorder
-        symptoms:
-          range: Symptom
-          multivalued: true
-          examples:
-            - value: sensorineural hearing loss
-            - value: pigmentary retinal degeneration
-        inheritance:
-          range: Inheritance
-          examples:
-            - value: autosomal recessive
-        genes:
-          range: Gene
-          multivalued: true
-          examples:
-            - value: PEX1
-            - value: PEX2
-            - value: PEX3
+An example:
 
-    Gene:
-      is_a: NamedThing
-      id_prefixes:
-        - HGNC
-      annotations:
-        annotators: gilda:, bioportal:hgnc-nr
+```yaml
+classes:
+  MendelianDisease:
+    attributes:
+      name:
+        description: the name of the disease
+        examples:
+          - value: peroxisome biogenesis disorder
+        identifier: true  ## needed for inlining
+      description:
+        description: a description of the disease
+        examples:
+          - value: >-
+            Peroxisome biogenesis disorders, Zellweger syndrome spectrum (PBD-ZSS) is a group of autosomal recessive disorders affecting the formation of functional peroxisomes, characterized by sensorineural hearing loss, pigmentary retinal degeneration, multiple organ dysfunction and psychomotor impairment
+      synonyms:
+        multivalued: true
+        examples:
+          - value: Zellweger syndrome spectrum
+          - value: PBD-ZSS
+      subclass_of:
+        multivalued: true
+        range: MendelianDisease
+        examples:
+          - value: lysosomal disease
+          - value: autosomal recessive disorder
+      symptoms:
+        range: Symptom
+        multivalued: true
+        examples:
+          - value: sensorineural hearing loss
+          - value: pigmentary retinal degeneration
+      inheritance:
+        range: Inheritance
+        examples:
+          - value: autosomal recessive
+      genes:
+        range: Gene
+        multivalued: true
+        examples:
+          - value: PEX1
+          - value: PEX2
+          - value: PEX3
 
-    Symptom:
-      is_a: NamedThing
-      id_prefixes:
-        - HP
-      annotations:
-        annotators: sqlite:obo:hp
+  Gene:
+    is_a: NamedThing
+    id_prefixes:
+      - HGNC
+    annotations:
+      annotators: gilda:, bioportal:hgnc-nr
 
-    Inheritance:
-      is_a: NamedThing
-      annotations:
-        annotators: sqlite:obo:hp
+  Symptom:
+    is_a: NamedThing
+    id_prefixes:
+      - HP
+    annotations:
+      annotators: sqlite:obo:hp
+
+  Inheritance:
+    is_a: NamedThing
+    annotations:
+      annotators: sqlite:obo:hp
 ```
-
-</details>
 
 * Prompt hints can be specified using the `prompt` annotation (otherwise description is used)
 * Multivalued fields are supported
@@ -293,7 +291,7 @@ We recommend following an established schema like [BioLink Model](https://github
 
 Next step is to compile the schema. For that, you should place the schema YAML in the directory [src/ontogpt/templates/](src/ontogpt/templates/). Then, run the `make` command at the top level. This will compile the schema to Python (Pydantic classes).
 
-Once you have defined your own schema / data model and placed in the correct directory, you can run the `extract` command. 
+Once you have defined your own schema / data model and placed in the correct directory, you can run the `extract` command.
 
 Ex.:
 
@@ -318,7 +316,7 @@ Ex. the `gocam` schema has an attribute:
         range: GeneMolecularActivityRelationship
 ```
 
-The range `GeneMolecularActivityRelationship` has been specified *inline*, so it will nest.
+The range `GeneMolecularActivityRelationship` has been specified _inline_, so it will nest.
 
 The generated prompt is:
 
@@ -336,7 +334,7 @@ LLMs have context sizes limiting the combined length of their inputs and outputs
 
 It helps to have an understanding of the [LinkML](https://linkml.io) schema language, but it should be possible to define your own schemas using the examples in [src/ontogpt/templates](src/ontogpt/templates/) as a guide.
 
-OntoGPT-specific extensions are specified as *annotations*.
+OntoGPT-specific extensions are specified as _annotations_.
 
 You can specify a set of annotators for a field using the `annotators` annotation.
 
@@ -410,7 +408,7 @@ OWL output: [recipe-all-merged.owl](tests/output/owl/merged/recipe-all-merged.ow
 
 Classification:
 
-<img width="1329" alt="image" src="https://user-images.githubusercontent.com/50745/230427663-20d845e9-f1d5-490e-b1ad-cdccdd0dca70.png">
+![OWL in the Protege editor](https://user-images.githubusercontent.com/50745/230427663-20d845e9-f1d5-490e-b1ad-cdccdd0dca70.png "OWL in the Protege editor")
 
 ## Web Application Setup
 
@@ -454,9 +452,9 @@ ontogpt extract -t mendelian_disease.MendelianDisease -i tests/input/cases/mende
 
 ## Citation
 
-SPIRES is described further in: Caufield JH, Hegde H, Emonet V, Harris NL, Joachimiak MP, Matentzoglu N, et al. Structured prompt interrogation and recursive extraction of semantics (SPIRES): A method for populating knowledge bases using zero-shot learning. arXiv publication: http://arxiv.org/abs/2304.02711
+SPIRES is described further in: Caufield JH, Hegde H, Emonet V, Harris NL, Joachimiak MP, Matentzoglu N, et al. Structured prompt interrogation and recursive extraction of semantics (SPIRES): A method for populating knowledge bases using zero-shot learning. arXiv publication: <http://arxiv.org/abs/2304.02711>
 
-SPINDOCTOR is described further in: Joachimiak MP, Caufield JH, Harris NL, Kim H, Mungall CJ. Gene Set Summarization using Large Language Models. arXiv publication: http://arxiv.org/abs/2305.13338
+SPINDOCTOR is described further in: Joachimiak MP, Caufield JH, Harris NL, Kim H, Mungall CJ. Gene Set Summarization using Large Language Models. arXiv publication: <http://arxiv.org/abs/2305.13338>
 
 ## Contributing
 

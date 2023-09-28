@@ -5,7 +5,7 @@
 
 ## Introduction
 
-_OntoGPT_ is a Python package for extracting structured information from text with large language models (LLMs), *instruction prompts*, and ontology-based grounding.
+_OntoGPT_ is a Python package for extracting structured information from text with large language models (LLMs), _instruction prompts_, and ontology-based grounding.
 
 Two different strategies for knowledge extraction are currently implemented in OntoGPT:
 
