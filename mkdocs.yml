@@ -27,6 +27,7 @@ plugins:
 nav:
   - Introduction: index.md
   - Setup: setup.md
+  - Operation: operation.md
   - SPIRES Templates:
       - Core Upper Level Schema: core/index.md
       - Biochemical Reactions: reaction/index.md
