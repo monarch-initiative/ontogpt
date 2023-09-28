@@ -25,7 +25,8 @@ plugins:
   - mermaid2:
       version: 9.3.0
 nav:
-  - About: index.md
+  - Introduction: index.md
+  - Setup: setup.md
   - SPIRES Templates:
       - Core Upper Level Schema: core/index.md
       - Biochemical Reactions: reaction/index.md

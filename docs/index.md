@@ -1,8 +1,8 @@
-# OntoGPT
-
-## Introduction
+# Introduction
 
 _OntoGPT_ is a Python package for extracting structured information from text with large language models (LLMs), _instruction prompts_, and ontology-based grounding. It works well with OpenAI's GPT-3.5 and GPT-4 models as well as a selection of other LLMs. OntoGPT's output can be used for general-purpose natural language tasks (e.g., named entity recognition and relation extraction), summarization, knowledge base and knowledge graph construction, and more.
+
+## Methods
 
 Two different strategies for knowledge extraction are currently implemented in OntoGPT:
 
@@ -14,64 +14,57 @@ Two different strategies for knowledge extraction are currently implemented in O
   * Summarizes gene set descriptions (pseudo gene-set enrichment)
   * Uses GPT-3.5-turbo or GPT-4
 
-## Prerequisites for running OntoGPT
+## Quick Start
 
-* Python 3.9+
+Please see the Setup page on the left for more detailed instructions.
 
-* OpenAI API key: necessary for using OpenAI's GPT models. This is a paid API and you will be charged based on usage. If you do not have an OpenAI account, [you may sign up here](https://platform.openai.com/signup). You will need to set your API key using the [Ontology Access Kit](https://github.com/INCATools/ontology-access-kit):
+OntoGPT runs on the command line, though there's also a minimal web app interface (see `Web Application` section below).
 
-```bash
-poetry run runoak set-apikey -e openai <your openai api key>
-```
+1. Ensure you have Python 3.9 or greater installed.
+2. Install with `pip`:
 
-You may also set additional API keys for optional resources:
+    ```bash
+    pip install ontogpt
+    ```
 
-* [BioPortal](https://bioportal.bioontology.org/) account (for grounding). The BioPortal key is necessary for using ontologies from [BioPortal](https://bioportal.bioontology.org/). You may get a key by signing up for an account on their web site.
-* [NCBI E-utilities](https://ncbiinsights.ncbi.nlm.nih.gov/2017/11/02/new-api-keys-for-the-e-utilities/). The NCBI email address and API key are used for retrieving text and metadata from PubMed. You may still access these resources without identifying yourself, but you may encounter rate limiting and errors.
-* [HuggingFace Hub](https://huggingface.co/docs/api-inference/quicktour#get-your-api-token). This API key is necessary to retrieve models from the HuggingFace Hub service.
+3. Set your OpenAI API key:
 
-These optional keys may be set as follows:
+    ```bash
+    runoak set-apikey -e openai <your openai api key>
+    ```
 
-```bash
-poetry run runoak set-apikey -e bioportal <your bioportal api key>
-poetry run runoak set-apikey -e ncbi-email <your email address>
-poetry run runoak set-apikey -e ncbi-key <your NCBI api key>
-poetry run runoak set-apikey -e hfhub-key <your HuggingFace Hub api key>
-```
+4. See the list of all OntoGPT commands:
 
-## Setup
+    ```bash
+    ontogpt --help
+    ```
 
-To simply start using the package in your workspace:
+5. Try a simple example of information extraction:
 
-```bash
-pip install ontogpt
-```
+    ```bash
+    echo "One treatment for high blood pressure is carvedilol." > example.txt
+    ontogpt extract -i example.txt -t drug
+    ```
 
-Note that some features require installing additional, optional dependencies.
+    OntoGPT will retrieve the necessary ontologies and output results to the command line. Your output will provide all extracted objects under the heading `extracted_object`.
 
-These may be installed as:
+## Web Application
 
-```bash
-poetry install --extras extra_name
-# OR
-pip install ontogpt[extra_name]
-```
+There is a bare bones web application for running OntoGPT and viewing results.
 
-where `extra_name` is one of the following:
-
-* `docs` - dependencies for building documentation
-* `web` - dependencies for the web application
-* `recipes` - dependencies for recipe scraping and parsing
-* `textract` - the textract plugin
-* `huggingface` - dependencies for accessing LLMs from HuggingFace Hub, remotely or locally
-
-For feature development and contributing to the package:
+First, install the required dependencies with `pip` by running the following command:
 
 ```bash
-git clone https://github.com/monarch-initiative/ontogpt.git
-cd ~/path/to/ontogpt
-poetry install
+pip install ontogpt[web]
 ```
+
+Then run this command to start the web application:
+
+```bash
+web-ontogpt
+```
+
+NOTE: We do not recommend hosting this webapp publicly without authentication.
 
 ## Getting Started
 
