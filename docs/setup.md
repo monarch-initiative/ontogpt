@@ -65,8 +65,8 @@ runoak set-apikey -e openai <your openai api key>
 The optional keys may be set as follows:
 
 ```bash
-poetry run runoak set-apikey -e bioportal <your bioportal api key>
-poetry run runoak set-apikey -e ncbi-email <your email address>
-poetry run runoak set-apikey -e ncbi-key <your NCBI api key>
-poetry run runoak set-apikey -e hfhub-key <your HuggingFace Hub api key>
+runoak set-apikey -e bioportal <your bioportal api key>
+runoak set-apikey -e ncbi-email <your email address>
+runoak set-apikey -e ncbi-key <your NCBI api key>
+runoak set-apikey -e hfhub-key <your HuggingFace Hub api key>
 ```
