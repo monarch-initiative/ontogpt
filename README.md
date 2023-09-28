@@ -59,7 +59,7 @@ Then run this command to start the web application:
 web-ontogpt
 ```
 
-NOTE: We do not reccomend hosting this webapp publicly without authentication.
+NOTE: We do not recommend hosting this webapp publicly without authentication.
 
 ## Citation
 
