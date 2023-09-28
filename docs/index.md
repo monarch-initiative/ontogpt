@@ -48,7 +48,7 @@ OntoGPT runs on the command line, though there's also a minimal web app interfac
 
     OntoGPT will retrieve the necessary ontologies and output results to the command line. Your output will provide all extracted objects under the heading `extracted_object`.
 
-## Web Application
+## Web Applications
 
 There is a bare bones web application for running OntoGPT and viewing results.
 
@@ -66,26 +66,10 @@ web-ontogpt
 
 NOTE: We do not recommend hosting this webapp publicly without authentication.
 
-### SPINDOCTOR web app
-
-To start:
+Gene enrichment has its own webapp powered by Streamlit:
 
 ```bash
-poetry run streamlit run src/ontogpt/streamlit/spindoctor.py
-```
-
-### HuggingFace Hub
-
-Note: support for HuggingFace-provided models is currently a work in progress.
-
-A select number of LLMs may be accessed through HuggingFace Hub. See the full list using `ontogpt list-models`
-
-Specify a model name with the `-m` option.
-
-Example:
-
-```bash
-ontogpt extract -t mendelian_disease.MendelianDisease -i tests/input/cases/mendelian-disease-sly.txt -m FLAN_T5_BASE
+streamlit run src/ontogpt/streamlit/spindoctor.py
 ```
 
 ## Citation
@@ -95,6 +79,8 @@ SPIRES is described further in: Caufield JH, Hegde H, Emonet V, Harris NL, Joach
 SPINDOCTOR is described further in: Joachimiak MP, Caufield JH, Harris NL, Kim H, Mungall CJ. Gene Set Summarization using Large Language Models. arXiv publication: <http://arxiv.org/abs/2305.13338>
 
 ## Contributing
+
+Contributions are welcome! One way to get started with contributing to OntoGPT is to submit an 
 
 Contributions on recipes to test welcome from anyone! Just make a PR [here](https://github.com/monarch-initiative/ontogpt/blob/main/tests/input/recipe-urls.csv). See [this list](https://github.com/hhursev/recipe-scrapers) for accepted URLs
 
