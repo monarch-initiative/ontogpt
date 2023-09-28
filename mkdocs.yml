@@ -28,6 +28,7 @@ nav:
   - Introduction: index.md
   - Setup: setup.md
   - Operation: operation.md
+  - Custom Schemas: custom.md
   - SPIRES Templates:
       - Core Upper Level Schema: core/index.md
       - Biochemical Reactions: reaction/index.md
