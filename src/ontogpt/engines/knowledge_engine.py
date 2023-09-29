@@ -80,7 +80,7 @@ class KnowledgeEngine(ABC):
     knowledge sources plus LLMs
     """
 
-    template: TEMPLATE_NAME = None
+    template: TEMPLATE_NAME = ""
     """LinkML Template to use for this engine.
     Must be of the form <module_name>.<ClassName>"""
 
@@ -92,7 +92,7 @@ class KnowledgeEngine(ABC):
     """Python class for the template.
     This is derived from the template and does not need to be set manually."""
 
-    template_module: ModuleType = None
+    template_module: Optional[ModuleType] = None
     """Python module for the template.
     This is derived from the template and does not need to be set manually."""
 
@@ -100,16 +100,16 @@ class KnowledgeEngine(ABC):
     """LinkML SchemaView over the template.
     This is derived from the template and does not need to be set manually."""
 
-    api_key: str = None
+    api_key: str = ""
     """OpenAI API key."""
 
-    model: MODEL_NAME = None
+    model: MODEL_NAME = ""
     """Language Model. This may be overridden in subclasses."""
 
     # annotator: TextAnnotatorInterface = None
     # """Default annotator. TODO: deprecate?"""
 
-    annotators: Dict[str, List[TextAnnotatorInterface]] = None
+    annotators: Optional[Dict[str, List[TextAnnotatorInterface]]] = None
     """Annotators for each class.
     An annotator will ground/map labels to CURIEs.
     These override the annotators annotated in the template
@@ -119,13 +119,13 @@ class KnowledgeEngine(ABC):
     """Annotators to skip.
     This overrides any specified in the schema"""
 
-    mappers: List[BasicOntologyInterface] = None
+    mappers: Optional[List[BasicOntologyInterface]] = None
     """List of concept mappers, to assist in grounding to desired ID prefix"""
 
-    labelers: List[BasicOntologyInterface] = None
+    labelers: Optional[List[BasicOntologyInterface]] = None
     """Labelers that map CURIEs to labels"""
 
-    client: OpenAIClient = None
+    client: Optional[OpenAIClient] = None
     """All calls to LLMs are delegated through this client"""
 
     dictionary: Dict[str, str] = field(default_factory=dict)
@@ -139,13 +139,13 @@ class KnowledgeEngine(ABC):
     named_entities: List[NamedEntity] = field(default_factory=list)
     """Cache of all named entities"""
 
-    auto_prefix: str = None
+    auto_prefix: str = ""
     """If set then non-normalized named entities will be mapped to this prefix"""
 
-    last_text: str = None
+    last_text: str = ""
     """Cache of last text."""
 
-    last_prompt: str = None
+    last_prompt: str = ""
     """Cache of last prompt used."""
 
     encoding = None
@@ -216,11 +216,11 @@ class KnowledgeEngine(ABC):
         raise NotImplementedError
 
     def generalize(
-        self, object: Union[pydantic.BaseModel, dict], examples: List[EXAMPLE]
+        self, object: Union[pydantic.BaseModel, dict], examples: List[EXAMPLE], show_prompt: bool
     ) -> ExtractionResult:
         raise NotImplementedError
 
-    def map_terms(self, terms: List[str], ontology: str) -> Dict[str, List[str]]:
+    def map_terms(self, terms: List[str], ontology: str, show_prompt: bool) -> Dict[str, str]:
         raise NotImplementedError
 
     def _get_template_class(self, template: TEMPLATE_NAME) -> ClassDefinition:
@@ -321,9 +321,10 @@ class KnowledgeEngine(ABC):
         return [s for s in sv.class_induced_slots(cls.name) if not self.slot_is_skipped(s)]
 
     def slot_is_skipped(self, slot: SlotDefinition) -> bool:
-        sv = self.schemaview
         if ANNOTATION_KEY_PROMPT_SKIP in slot.annotations:
             return True
+        else:
+            return False
 
     def normalize_named_entity(self, text: str, range: ElementName) -> str:
         """
@@ -558,7 +559,7 @@ class KnowledgeEngine(ABC):
     #    raise NotImplementedError
 
     def merge_resultsets(
-        self, resultset: List[ExtractionResult], unique_fields: List[str] = None
+        self, resultset: List[ExtractionResult], unique_fields: List[str]
     ) -> ExtractionResult:
         """
         Merge all resultsets into a single resultset.

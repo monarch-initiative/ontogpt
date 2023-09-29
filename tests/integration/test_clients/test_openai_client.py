@@ -153,7 +153,7 @@ class TestCompletion(unittest.TestCase):
     def test_all_prompts(self):
         """Test all prompts."""
         prompt_doc = yaml.safe_load(open(PROMPTS_FILE))
-        default_engine = prompt_doc.get("default_engine", "text-davinci-003")
+        default_engine = prompt_doc.get("default_engine", "gpt-3.5-turbo-instruct")
         for prompt in prompt_doc["prompts"]:
             prompt_text = prompt["prompt"]
             if not isinstance(prompt_text, str):
@@ -199,8 +199,7 @@ class TestCompletion(unittest.TestCase):
 
     def test_code_completion_generalization(self):
         """Tests structured responses."""
-        engine = "code-davinci-002"
-        # engine = "code-cushman-001"
+        engine = "gpt-3.5-turbo"
         client = OpenAIClient(model=engine)
         print(len(CODE_PROMPT_GENERALIZATION))
         ann = client.complete(CODE_PROMPT_GENERALIZATION)
@@ -208,13 +207,12 @@ class TestCompletion(unittest.TestCase):
 
     def test_extract_via_code_completion(self):
         """Tests structured responses."""
-        engine = "code-davinci-002"
-        # engine = "code-cushman-001"
+        engine = "gpt-3.5-turbo"
         client = OpenAIClient(model=engine)
         ann = client.complete(CODE_PROMPT_EXTRACT)
         print(ann)
 
-    # @unittest.skip("doesn't work well")
+    @unittest.skip("Doesn't work well with current OpenAI API")
     def test_fine_tuned(self):
         engine = (
             "davinci:ft-lawrence-berkeley-national-laboratory:mendelian-disease-2022-12-22-00-53-36"

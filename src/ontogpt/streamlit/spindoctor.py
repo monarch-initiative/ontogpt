@@ -7,12 +7,11 @@ from oaklib import get_adapter
 
 from ontogpt.engines import create_engine
 from ontogpt.engines.enrichment import EnrichmentEngine, GeneDescriptionSource
-from ontogpt.engines.knowledge_engine import (
-    MODEL_GPT_3_5_TURBO,
-    MODEL_GPT_4,
-    MODEL_TEXT_DAVINCI_003,
-)
 from ontogpt.utils.gene_set_utils import GeneSet
+
+MODEL_GPT_3_5_TURBO = "gpt-3.5-turbo"
+MODEL_GPT_3_5_TURBO_INSTRUCT = "gpt-3.5-turbo-instruct"
+MODEL_GPT_4 = "gpt-4"
 
 go = get_adapter("sqlite:obo:go")
 
@@ -26,7 +25,7 @@ col1, col2 = st.columns(2)
 gene_symbols = col1.text_area("Enter a list of human gene symbols")
 
 model = col1.selectbox(
-    "Select the model:", (MODEL_GPT_3_5_TURBO, MODEL_TEXT_DAVINCI_003, MODEL_GPT_4)
+    "Select the model:", (MODEL_GPT_3_5_TURBO, MODEL_GPT_3_5_TURBO_INSTRUCT, MODEL_GPT_4)
 )
 
 source = col1.selectbox(

@@ -6,7 +6,7 @@ import sys
 from dataclasses import dataclass, field
 from pathlib import Path
 from time import sleep
-from typing import Iterator, Tuple
+from typing import Iterator, Optional, Tuple
 
 import numpy as np
 import openai
@@ -20,9 +20,9 @@ NUM_RETRIES = 3
 class OpenAIClient:
     # max_tokens: int = field(default_factory=lambda: 3000)
     model: str = field(default_factory=lambda: "gpt-3.5-turbo")
-    cache_db_path: str = None
-    api_key: str = None
-    interactive: bool = None
+    cache_db_path: str = ""
+    api_key: str = ""
+    interactive: Optional[bool] = None
 
     def __post_init__(self):
         if not self.api_key:
@@ -101,7 +101,9 @@ class OpenAIClient:
             cur.execute("CREATE TABLE cache (prompt, engine, payload)")
         return cur
 
-    def _interactive_completion(self, prompt: str, engine: str, max_tokens: int = None, **kwargs):
+    def _interactive_completion(
+        self, prompt: str, engine: str, max_tokens: Optional[int], **kwargs
+    ):
         print("Please use the ChatGPT interface to complete the following prompt:")
         print(f"IMPORTANT: make sure model == {engine}")
         print(f"Note: max_tokens == {max_tokens}")
@@ -119,7 +121,7 @@ class OpenAIClient:
             return self._interactive_completion(prompt, engine, max_tokens, **kwargs)
 
     def cached_completions(
-        self, search_term: str = None, engine: str = None
+        self, search_term: str = "", engine: str = ""
     ) -> Iterator[Tuple[str, str, str]]:
         if search_term:
             search_term = search_term.lower()
@@ -142,8 +144,7 @@ class OpenAIClient:
             return False
         return True
 
-    def embeddings(self, text: str, model: str = None):
-
+    def embeddings(self, text: str, model: str = ""):
         text = str(text)
 
         if model is None:

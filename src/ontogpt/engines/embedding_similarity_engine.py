@@ -14,10 +14,10 @@ logger = logging.getLogger(__name__)
 
 @dataclass
 class EmbeddingSimilarity:
-    subject_id: str = None
-    subject_label: str = None
-    object_id: str = None
-    object_label: str = None
+    subject_id: str = ""
+    subject_label: str = ""
+    object_id: str = ""
+    object_label: str = ""
     embedding_cosine_similarity: float = None
     object_rank_for_subject: int = None
 

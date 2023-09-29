@@ -1,6 +1,6 @@
-default_engine: text-davinci-003
+default_engine: gpt-3.5-turbo
 prompts:
-- engine: text-davinci-003
+- engine: gpt-3.5-turbo
   prompt: |
     From the text below, extract the following entities in the following format:
 
@@ -15,7 +15,7 @@ prompts:
   expected:
     - "predicate: INDUCES"
     - "object: .*nystagmus"
-- engine: code-davinci-002
+- engine: gpt-3.5-turbo
   pre_prompt: |
     ## Instructions:
     ## Add an additional element to the YAML below, which is for elements
@@ -99,31 +99,31 @@ prompts:
       equivalent_to: Transport and utilizes some Train
     - name: CarEngine
       context: IndustrialOntology
-- engine: text-davinci-003
+- engine: gpt-3.5-turbo
   prompt: |
     Answer the following question where the answer is one of: subtype of; part of; equivalent to.
     Question: The relationship between the concepts Car and Vehicle is:
-- engine: text-davinci-003
+- engine: gpt-3.5-turbo
   prompt: |
     Answer the following question where the answer is one of: subtype of; supertype of; part of; has part; equivalent to.
     Question: The relationship between the concepts Car and Vehicle is:
-- engine: text-davinci-003
+- engine: gpt-3.5-turbo
   prompt: |
     Answer the following question where the answer is one of: subtype of; supertype of; part of; has part; equivalent to.
     Question: The relationship between the concepts Tire and Bicycle is:
-- engine: text-davinci-003
+- engine: gpt-3.5-turbo
   prompt: |
     In the context of cell biology, list all the parts of a nucleus as a semi-colon separated list.
-- engine: text-davinci-003
+- engine: gpt-3.5-turbo
   prompt: |
     In the context of cell biology, list all the things a nucleus is a part of, as a semi-colon separated list.
-- engine: text-davinci-003
+- engine: gpt-3.5-turbo
   prompt: |
     In the context of cell biology, list all parent concepts for the concept of nucleus, as a semi-colon separated list.
-- engine: text-davinci-003
+- engine: gpt-3.5-turbo
   prompt: |
     In the context of cell biology, list all child concepts for the concept of nucleus, as a semi-colon separated list.
-- engine: text-davinci-003
+- engine: gpt-3.5-turbo
   prompt: |
     From the text below, extract the following entities in the following format:
     triples: <A semi-colon separated list of chemical to disease relationships, where the relationship is either INDUCES or TREATS. 
@@ -134,7 +134,7 @@ prompts:
     In vivo evidences suggesting the role of oxidative stress in pathogenesis of vancomycin-induced nephrotoxicity:
     protection by erdosteine
     In the context of cell biology, list all child concepts for the concept of nucleus, as a semi-colon separated list.
-- engine: text-davinci-003
+- engine: gpt-3.5-turbo
   prompt: |
     From the text below, extract the following entities in the following format:
 
@@ -145,7 +145,7 @@ prompts:
     ===
   #expected:
   #  - "Veralipride INDUCES Parkinsonism"
-- engine: text-davinci-003
+- engine: gpt-3.5-turbo
   prompt: |
     From the text below, extract the following entities in the following format:
 
@@ -154,7 +154,7 @@ prompts:
     Text:
     Kaliuretic effect of L-dopa treatment in parkinsonian patients.
     ===
-- engine: text-davinci-003
+- engine: gpt-3.5-turbo
   prompt: |
     From the text below, extract the following entities in the following format:
     
@@ -163,7 +163,7 @@ prompts:
     Text:
     Electrocardiographic evidence of myocardial injury in psychiatrically hospitalized cocaine abusers.
     ===
-- engine: text-davinci-003
+- engine: gpt-3.5-turbo
   prompt: |
     Generate a list of exact synonyms for the chemical concept "heavy metal", as a semi-colon separated list.
     Only include concepts with the identical meaning. Do not include more specific concepts or broader concepts.

@@ -19,7 +19,7 @@ def eliminate_empty(obj: Any, preserve=False) -> Any:
     elif isinstance(obj, dict):
         return {k: eliminate_empty(v, preserve) for k, v in obj.items() if v or preserve}
     elif isinstance(obj, pydantic.BaseModel):
-        return eliminate_empty(obj.dict(), preserve)
+        return eliminate_empty(obj.model_dump(), preserve)
     elif isinstance(obj, tuple):
         return [eliminate_empty(x, preserve) for x in obj]
     elif isinstance(obj, str):
@@ -39,7 +39,7 @@ def repr_str(dumper: RoundTripRepresenter, data: str):
     return dumper.represent_scalar("tag:yaml.org,2002:str", data)
 
 
-def dump_minimal_yaml(obj: Any, minimize=True, file: Optional[TextIO] = None) -> Optional[str]:
+def dump_minimal_yaml(obj: Any, minimize=True, file: Optional[TextIO] = None) -> str:
     """Dump a YAML string, but eliminating Nones and empty lists and dicts."""
     yaml = YAML()
     yaml.representer.add_representer(str, repr_str)
@@ -51,3 +51,4 @@ def dump_minimal_yaml(obj: Any, minimize=True, file: Optional[TextIO] = None) ->
         return file.getvalue()
     else:
         yaml.dump(eliminate_empty(obj, not minimize), file)
+        return ""

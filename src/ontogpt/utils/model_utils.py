@@ -1,8 +1,9 @@
 """Utilities for retrieving and applying prebuild models."""
 
-import pystow
 import logging
 from pathlib import PosixPath
+
+import pystow
 
 ONTOGPT_MODULE = pystow.module("ontogpt")
 

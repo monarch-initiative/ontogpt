@@ -6,7 +6,7 @@ import random
 from collections import defaultdict
 from dataclasses import dataclass, field
 from pathlib import Path
-from typing import Dict, Iterator, List, Optional, Tuple
+from typing import Dict, Generator, List, Optional, Tuple
 
 import tiktoken
 import yaml
@@ -23,10 +23,10 @@ from oaklib.parsers.association_parser_factory import get_association_parser
 from pydantic import BaseModel
 from tiktoken import Encoding
 
+from ontogpt import MODELS
 from ontogpt.engines import create_engine
 from ontogpt.engines.enrichment import ENTITY_ID, EnrichmentEngine, EnrichmentPayload
 from ontogpt.engines.knowledge_engine import MODEL_NAME
-from ontogpt import MODELS
 from ontogpt.evaluation.evaluation_engine import EvaluationEngine
 from ontogpt.templates.class_enrichment import ClassEnrichmentResult
 from ontogpt.utils.gene_set_utils import SYMBOL, GeneSet, drop_genes_from_gene_set, gene_info
@@ -58,19 +58,19 @@ class Overlap(BaseModel):
     jaccard: Optional[float] = None
     common: Optional[List[str]] = None
     overlap_score: Optional[int] = None
-    left_jaccard: float = None
-    right_jaccard: float = None
-    summary_jaccard: float = None
+    left_jaccard: Optional[float] = None
+    right_jaccard: Optional[float] = None
+    summary_jaccard: Optional[float] = None
 
 
 class GeneSetComparison(BaseModel):
-    name: str
+    name: str = ""
     gene_symbols: List[str]
-    gene_ids: List[str] = None
-    model: str = None
-    payloads: Dict[str, EnrichmentPayload] = None
-    overlaps: Dict[Tuple[str, str], Overlap] = None
-    number_of_genes_swapped_out: int = None
+    gene_ids: Optional[List[str]] = None
+    model: str = ""
+    payloads: Optional[Dict[str, EnrichmentPayload]] = None
+    overlaps: Optional[Dict[Tuple[str, str], Overlap]] = None
+    number_of_genes_swapped_out: Optional[int] = None
 
 
 @cachier(stale_after=datetime.timedelta(days=3))
@@ -86,7 +86,7 @@ class EvalEnrichment(EvaluationEngine):
 
     loaded: bool = False
 
-    model: str = None
+    model: str = ""
 
     engines: Dict[MODEL_NAME, EnrichmentEngine] = field(default_factory=dict)
 
@@ -151,10 +151,10 @@ class EvalEnrichment(EvaluationEngine):
                     raise AssertionError(f"Unknown method: {method}")
                 for prompt_variant, end_marker in [("v1", "==="), ("v2", "###")]:
                     engine.end_marker = end_marker
-                    payload = engine.summarize(gene_set, normalize=True, **args)
+                    payload = engine.summarize(gene_set, normalize=True, **args)  # type: ignore
                     payload.method = method
                     payload.prompt_variant = prompt_variant
-                    model_method = f"{model}.{method}.{prompt_variant}"
+                    model_method = f"{self.model}.{method}.{prompt_variant}"
                     payloads[model_method] = payload
         payloads[STANDARD] = self.standard_enrichment(gene_set)
         payloads[STANDARD_NO_ONTOLOGY] = self.standard_enrichment(gene_set, use_ontology=False)
@@ -237,7 +237,7 @@ class EvalEnrichment(EvaluationEngine):
             # by default, return a number of terms proportional to the number of genes
             n = len(gene_symbols)
         anns = list(self.ontology.associations())
-        counts = defaultdict(int)
+        counts: defaultdict = defaultdict(int)
         for ann in anns:
             counts[ann.object] += 1
         sorted_counts = sorted(counts.items(), key=lambda x: x[1], reverse=True)
@@ -247,7 +247,7 @@ class EvalEnrichment(EvaluationEngine):
         payload.term_strings = [self.ontology.label(id) for id in term_ids]
         return payload
 
-    def create_gene_set_from_term(self, term: ENTITY_ID, name: str = None) -> GeneSet:
+    def create_gene_set_from_term(self, term: ENTITY_ID, name: str = "") -> GeneSet:
         """Create a gene set from a list of terms."""
         assocs = self.ontology.associations(
             objects=[term], object_closure_predicates=[IS_A, PART_OF]
@@ -284,7 +284,7 @@ class EvalEnrichment(EvaluationEngine):
             ov.summary_jaccard = len_overlap_toks / len_union_toks if len_union_toks else 0
         return ov
 
-    def get_annotation_tuples(self, path=None) -> Tuple[str, str]:
+    def get_annotation_tuples(self, path=None) -> Generator[Tuple[str, ...], None, None]:
         """Load."""
         if path is None:
             DATABASE_DIR / "gene2go.tsv.gz"
@@ -293,15 +293,15 @@ class EvalEnrichment(EvaluationEngine):
                 line = line.strip("\n")
                 yield tuple(line.split("\t"))
 
-    def get_mapped_annotations(self, path=None) -> Iterator[Tuple[str, str]]:
-        """Load."""
-        tupls = list(self.get_annotation_tuples(path))
-        symbols = set([sym for sym, _ in tupls])
-        m = map_hgnc_symbols(tuple(symbols))
-        for sym, _ in tupls:
-            if sym in m:
-                yield sym, m[sym]
-                continue
+    # def get_mapped_annotations(self, path=None) -> Iterator[Tuple[str, str]]:
+    #     """Load."""
+    #     tupls = list(self.get_annotation_tuples(path))
+    #     symbols = set([sym for sym, _ in tupls])
+    #     m = map_hgnc_symbols(tuple(symbols))
+    #     for sym, _ in tupls:
+    #         if sym in m:
+    #             yield sym, m[sym]
+    #             continue
 
     def load_annotations(self, path=None, format=None) -> None:
         """
@@ -324,6 +324,8 @@ class EvalEnrichment(EvaluationEngine):
             # We have a slightly awkward special case for HGNC as the GO GAFs
             # use UniProtKB IDs
             m = get_symbol_to_gene_id_map()
+            sym: str
+            term_id: str
             for sym, term_id in self.get_annotation_tuples(path):
                 if sym in m:
                     gene_id = m[sym]

@@ -34,7 +34,7 @@ class MappingPredicate(str, Enum):
     DIFFERENT_FROM = "different_from"
     UNCATEGORIZED = "uncategorized"
 
-    def mappings() -> Dict[str, str]:
+    def mappings(self) -> Dict[str, str]:
         """Return the mappings for this predicate."""
         return {
             "skos:exactMatch": "exact_match",
@@ -115,7 +115,9 @@ class MappingEngine(KnowledgeEngine):
         self, subject: CURIE, object: CURIE, template_path: str = None
     ) -> CategorizedMapping:
         if template_path is None:
-            template_path = DEFAULT_MAPPING_EVAL_PROMPT
+            template_path = str(DEFAULT_MAPPING_EVAL_PROMPT)
+        if len(template_path) == 0:
+            template_path = str(DEFAULT_MAPPING_EVAL_PROMPT)
         if isinstance(template_path, Path):
             template_path = str(template_path)
         if isinstance(template_path, str):
@@ -254,10 +256,11 @@ class MappingEngine(KnowledgeEngine):
 
             mapping.subject_source = _get_source(mapping.subject_id)
             mapping.object_source = _get_source(mapping.object_id)
+            mp = MappingPredicate()
             task = MappingTask(
                 subject=mapping.subject_id,
                 object=mapping.object_id,
-                predicate=MappingPredicate.mappings().get(mapping.predicate_id),
+                predicate=mp.mappings().get(mapping.predicate_id),
                 subject_label=mapping.subject_label,
                 object_label=mapping.object_label,
                 subject_source=mapping.subject_source,
@@ -273,7 +276,7 @@ class MappingEngine(KnowledgeEngine):
     def categorize_sssom_mapping(
         self,
         mapping: Mapping,
-    ) -> Iterator[Tuple[Mapping, CategorizedMapping]]:
+    ) -> Tuple[Mapping, CategorizedMapping]:
         mapping = deepcopy(mapping)
 
         def _get_source(curie: CURIE) -> str:
@@ -287,7 +290,8 @@ class MappingEngine(KnowledgeEngine):
         self.subject_adapter = _get_adapter(mapping.subject_source)
         self.object_adapter = _get_adapter(mapping.object_source)
         cm = self.categorize_mapping(mapping.subject_id, mapping.object_id)
-        revmap = {v.upper(): k for k, v in MappingPredicate.mappings().items()}
+        mp = MappingPredicate()
+        revmap = {v.upper(): k for k, v in mp.mappings().items()}
         if cm.predicate.upper() not in revmap:
             logger.warning(f"Unknown predicate {cm.predicate}")
         mapping.predicate_id = revmap.get(cm.predicate.upper(), SKOS_RELATED_MATCH)

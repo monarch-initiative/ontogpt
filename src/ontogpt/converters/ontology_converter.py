@@ -123,8 +123,9 @@ class OntologyConverter:
                     f"{' and '.join(genus_elts)} and {' and '.join(differentia)}"
                 )
                 logging.info(f"Equiv[{element.name}] = {element.equivalent_to}")
-        for element in element_index.values():
-            ontology.elements.append(element)
+        if ontology.elements is not None:
+            for element in element_index.values():
+                ontology.elements.append(element)
         return ontology
 
     def node_to_name(self, curie: str, label: Optional[str] = None) -> str:

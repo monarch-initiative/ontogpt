@@ -1,6 +1,7 @@
 """RDF convertor."""
 import logging
 from dataclasses import dataclass
+from io import BytesIO
 from pathlib import Path
 from typing import TextIO, Union
 
@@ -19,7 +20,7 @@ class RDFExporter(Exporter):
     def export(
         self,
         extraction_output: ExtractionResult,
-        output: Union[str, Path, TextIO],
+        output: Union[str, Path, TextIO, BytesIO],
         schemaview: SchemaView,
         id_value=None,
     ):
@@ -39,12 +40,11 @@ class RDFExporter(Exporter):
         try:
             dmp = rdflib_dumper.dumps(dc_obj, schemaview=schemaview, prefix_map=pm)
             output.write(dmp)
-        except (Exception) as e:  
+        except Exception as e:
             # Don't really like catching base Exception here,
             # but that's what rdflib raises.
             # Otherwise, catch ValueError
             logging.error(e)
-
 
     def _dataclass_model(self, schemaview: SchemaView):
         schemaview.merge_imports()

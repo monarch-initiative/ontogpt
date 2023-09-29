@@ -2,7 +2,7 @@
 from dataclasses import dataclass
 from pathlib import Path
 from random import shuffle
-from typing import Dict, List
+from typing import Dict, List, Optional
 
 import yaml
 from oaklib import get_implementation_from_shorthand
@@ -23,9 +23,9 @@ HAS_PRIMARY_OUTPUT = "RO:0004008"
 
 
 class PredictionGO(BaseModel):
-    predicted_object: MetabolicProcess = None
-    test_object: MetabolicProcess = None
-    scores: Dict[str, SimilarityScore] = None
+    predicted_object: Optional[MetabolicProcess] = None
+    test_object: Optional[MetabolicProcess] = None
+    scores: Optional[Dict[str, SimilarityScore]] = None
 
     def calculate_scores(self):
         self.scores = {}
@@ -44,9 +44,9 @@ class PredictionGO(BaseModel):
 class EvaluationObjectSetGO(BaseModel):
     """A result of extracting knowledge on text."""
 
-    test: List[MetabolicProcess] = None
-    training: List[MetabolicProcess] = None
-    predictions: List[PredictionGO] = None
+    test: Optional[List[MetabolicProcess]] = None
+    training: Optional[List[MetabolicProcess]] = None
+    predictions: Optional[List[PredictionGO]] = None
 
 
 @dataclass
@@ -105,6 +105,7 @@ class EvalGO(SPIRESEvaluationEngine):
         """
         ontology = self.ontology
         entities = set(ontology.descendants([self.genus], [IS_A]))
+        all_entities = []
         print(
             f"Found {len(entities)} entities that are descendants of\
                 genus {self.genus}; {list(entities)[0:5]}"
@@ -113,14 +114,14 @@ class EvalGO(SPIRESEvaluationEngine):
         all_test_ids = set(self.valid_test_ids())
         assert "GO:0140872" in all_test_ids
         print(f"Found {len(all_test_ids)} test id candidates; {list(entities)[0:5]}")
-        candidate_test_ids = entities.intersection(all_test_ids)
+        candidate_test_ids = list(entities.intersection(all_test_ids))
         print(f"Found {len(candidate_test_ids)} candidate test ids")
         assert "GO:0140872" in candidate_test_ids
-        candidate_train_ids = entities.difference(all_test_ids)
+        candidate_train_ids = list(entities.difference(all_test_ids))
         print(f"Found {len(candidate_train_ids)} candidate train ids")
-        entities = list(candidate_test_ids) + list(candidate_train_ids)
-        print(f"Found {len(entities)} entities from {type(ontology)}")
-        ldefs = list(ontology.logical_definitions(entities))
+        all_entities = candidate_test_ids + candidate_train_ids
+        print(f"Found {len(all_entities)} entities from {type(ontology)}")
+        ldefs = list(ontology.logical_definitions(all_entities))
         shuffle(ldefs)
         # ldefs = list(ontology.logical_definitions())
         print(f"Found {len(ldefs)} logical definitions")
@@ -143,10 +144,11 @@ class EvalGO(SPIRESEvaluationEngine):
         eos = self.create_test_and_training()
         eos.predictions = []
         print(yaml.dump(eos.dict()))
-        for test_obj in eos.test[0:10]:
-            print(yaml.dump(test_obj.dict()))
-            predicted_obj = ke.generalize({"label": test_obj.label}, eos.training[0:4])
-            pred = PredictionGO(predicted_object=predicted_obj, test_object=test_obj)
-            pred.calculate_scores()
-            eos.predictions.append(pred)
+        if eos.test is not None:
+            for test_obj in eos.test[0:10]:
+                print(yaml.dump(test_obj.dict()))
+                predicted_obj = ke.generalize({"label": test_obj.label}, eos.training[0:4])
+                pred = PredictionGO(predicted_object=predicted_obj, test_object=test_obj)
+                pred.calculate_scores()
+                eos.predictions.append(pred)
         return eos

@@ -333,7 +333,7 @@ The output of this is then passed through further SPIRES iterations.
 
 ### Text length limit
 
-LLMs have context sizes limiting the combined length of their inputs and outputs. The text-davinci-003 model, for example, whas a total 4,000 token limit (prompt + completion), while the gpt-3.5-turbo-16k model has a larger context of 16 thousand tokens.
+LLMs have context sizes limiting the combined length of their inputs and outputs. The `gpt-3.5-turbo` model, for example, has a 4,096 token limit (prompt + completion), while the `gpt-3.5-turbo-16k` model has a larger context of 16,384 tokens.
 
 ### Schema tips
 
