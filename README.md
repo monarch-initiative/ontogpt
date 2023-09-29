@@ -61,6 +61,10 @@ web-ontogpt
 
 NOTE: We do not recommend hosting this webapp publicly without authentication.
 
+## Evaluations
+
+OpenAI's functions have been evaluated on test data. Please see the full documentation for details on these evaluations and how to reproduce them.
+
 ## Citation
 
 The information extraction approach used in OntoGPT, SPIRES, is described further in: Caufield JH, Hegde H, Emonet V, Harris NL, Joachimiak MP, Matentzoglu N, et al. Structured prompt interrogation and recursive extraction of semantics (SPIRES): A method for populating knowledge bases using zero-shot learning. arXiv publication: <http://arxiv.org/abs/2304.02711>
