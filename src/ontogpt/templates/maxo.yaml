@@ -41,6 +41,10 @@ classes:
         description: Semicolon-separated list of diseases.
         multivalued: true
         range: Disease
+      symptom:
+        description: Semicolon-separated list of symptoms.
+        multivalued: true
+        range: Symptom
       action_to_disease:
         annotations:
           prompt: >-
@@ -50,6 +54,15 @@ classes:
             or PET scan IS USED TO DIAGNOSE myocarditis.
         multivalued: true
         range: ActionToDiseaseRelationship
+      action_to_symptom:
+        annotations:
+          prompt: >-
+            A triple representing a relationship between a medical action 
+            (A clinically prescribed procedure, therapy, intervention, or recommendation)
+            and a symptom, for example,
+            a chest X-ray IS USED TO DIAGNOSE pleural effusion.
+        multivalued: true
+        range: ActionToSymptomRelationship
 
   ActionToDiseaseRelationship:
     is_a: Triple
@@ -76,6 +89,31 @@ classes:
         description: >-
           An optional qualifier or modifier for the disease.
 
+  ActionToSymptomRelationship:
+    is_a: Triple
+    description: >- 
+      A triple representing a relationship between a medical action 
+      (A clinically prescribed procedure, therapy, intervention, or recommendation)
+      and a symptom, for example,
+      a chest X-ray IS USED TO DIAGNOSE pleural effusion.
+    slot_usage:
+      subject:
+        range: MedicalAction
+      object:
+        range: Symptom
+        multivalued: true
+      predicate:
+        range: NamedEntity
+        description: The relationship type, usually IS USED TO DIAGNOSE
+      subject_qualifier:
+        range: NamedEntity
+        description: >-
+          An optional qualifier or modifier for the medical action.
+      object_qualifier:
+        range: NamedEntity
+        description: >-
+          An optional qualifier or modifier for the symptom.
+
   MedicalAction:
     is_a: NamedEntity
     description: >-
@@ -95,3 +133,12 @@ classes:
       annotators: sqlite:obo:mondo
     id_prefixes:
       - MONDO
+
+  Symptom:
+    is_a: NamedEntity
+    description: >-
+      A condition or phenotype resulting from an abnormal health state.
+    annotations:
+      annotators: sqlite:obo:hp
+    id_prefixes:
+      - HP
