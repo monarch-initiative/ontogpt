@@ -26,7 +26,7 @@ from typing import Any, Dict, Iterable, List, Optional, Set, Tuple
 
 import yaml
 from bioc import biocxml
-from oaklib import BasicOntologyInterface, get_implementation_from_shorthand
+from oaklib import BasicOntologyInterface, get_adapter
 from pydantic import BaseModel
 
 from ontogpt.engines.knowledge_engine import chunk_text
@@ -181,7 +181,7 @@ class EvalCTD(SPIRESEvaluationEngine):
 
     def eval(self) -> EvaluationObjectSetRE:
         """Evaluate the ability to extract relations."""
-        labeler = get_implementation_from_shorthand("sqlite:obo:mesh")
+        labeler = get_adapter("sqlite:obo:mesh")
         num_test = self.num_tests
         ke = self.extractor
         docs = list(self.load_test_cases())
