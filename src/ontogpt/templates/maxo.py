@@ -61,9 +61,9 @@ class NamedEntity(ConfiguredBaseModel):
     label: Optional[str] = Field(None, description="""The label (name) of the named thing""")
     
 
-class MedicalAction(NamedEntity):
+class Action(NamedEntity):
     """
-    A clinically prescribed procedure, therapy, intervention, or recommendation, for example, gene therapy, surgery, glomerular filtration rate test.
+    A clinically prescribed procedure, therapy, intervention, or recommendation.
     """
     id: str = Field(..., description="""A unique identifier for the named entity""")
     label: Optional[str] = Field(None, description="""The label (name) of the named thing""")
@@ -160,7 +160,7 @@ class AnnotatorResult(ConfiguredBaseModel):
 MaxoAnnotations.model_rebuild()
 ExtractionResult.model_rebuild()
 NamedEntity.model_rebuild()
-MedicalAction.model_rebuild()
+Action.model_rebuild()
 Disease.model_rebuild()
 Symptom.model_rebuild()
 CompoundExpression.model_rebuild()

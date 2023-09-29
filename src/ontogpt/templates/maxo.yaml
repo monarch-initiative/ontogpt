@@ -30,13 +30,12 @@ classes:
     attributes:
       action:
         annotations:
-          prompt: >- 
+          prompt: >-
             Semicolon-separated list of medical actions, where each is a
-            clinically prescribed procedure, therapy, intervention, or recommendation,
-            for example, gene therapy, surgery, glomerular filtration rate test.
+            clinically prescribed procedure, therapy, intervention, or recommendation.
         description: Semicolon-separated list of medical actions.
         multivalued: true
-        range: MedicalAction
+        range: Action
       disease:
         description: Semicolon-separated list of diseases.
         multivalued: true
@@ -73,7 +72,7 @@ classes:
       or PET scan IS USED TO DIAGNOSE myocarditis.
     slot_usage:
       subject:
-        range: MedicalAction
+        range: Action
       object:
         range: Disease
         multivalued: true
@@ -98,7 +97,7 @@ classes:
       a chest X-ray IS USED TO DIAGNOSE pleural effusion.
     slot_usage:
       subject:
-        range: MedicalAction
+        range: Action
       object:
         range: Symptom
         multivalued: true
@@ -114,11 +113,10 @@ classes:
         description: >-
           An optional qualifier or modifier for the symptom.
 
-  MedicalAction:
+  Action:
     is_a: NamedEntity
     description: >-
-      A clinically prescribed procedure, therapy, intervention, or recommendation,
-      for example, gene therapy, surgery, glomerular filtration rate test.
+      A clinically prescribed procedure, therapy, intervention, or recommendation.
     annotations:
       annotators: sqlite:obo:maxo, sqlite:obo:ogms, sqlite:obo:ncit
     id_prefixes:
