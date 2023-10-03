@@ -37,7 +37,6 @@ from ontogpt.templates.ctd import (
     ChemicalToDiseaseRelationship,
     Publication,
     TextWithTriples,
-    Triple,
 )
 
 THIS_DIR = Path(__file__).parent
@@ -50,8 +49,11 @@ RMAP = {"CID": "induces"}
 logger = logging.getLogger(__name__)
 
 
-def negated(Triple) -> bool:
-    return Triple.qualifier and Triple.qualifier.lower() == "not"
+def negated(ChemicalToDiseaseRelationship) -> bool:
+    return (
+        ChemicalToDiseaseRelationship.qualifier
+        and ChemicalToDiseaseRelationship.qualifier.lower() == "not"
+    )
 
 
 class PredictionRE(BaseModel):
