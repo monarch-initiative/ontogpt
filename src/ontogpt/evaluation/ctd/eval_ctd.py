@@ -159,7 +159,7 @@ class EvalCTD(SPIRESEvaluationEngine):
                 # text = f"Title: {title} Abstract: {abstract}"
                 for r in document.relations:
                     i = r.infons
-                    t = Triple.model_validate(
+                    t = ChemicalToDiseaseRelationship.model_validate(
                         {
                             "subject": f"{self.subject_prefix}:{i['Chemical']}",
                             "predicate": RMAP[i["relation"]],
@@ -169,10 +169,10 @@ class EvalCTD(SPIRESEvaluationEngine):
                     triples_by_text[(title, abstract)].append(t)
         i = 0
         for (title, abstract), triples in triples_by_text.items():
-            i = str(i + 1)
+            i = i + 1
             pub = Publication.model_validate(
                 {
-                    "id": i,
+                    "id": str(i),
                     "title": title,
                     "abstract": abstract,
                     "combined_text": "N/A",
