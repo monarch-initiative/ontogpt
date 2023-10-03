@@ -32,11 +32,12 @@ from pydantic import BaseModel
 from ontogpt.engines.knowledge_engine import chunk_text
 from ontogpt.engines.spires_engine import SPIRESEngine
 from ontogpt.evaluation.evaluation_engine import SimilarityScore, SPIRESEvaluationEngine
-from ontogpt.templates.core import Publication, Triple
 from ontogpt.templates.ctd import (
     ChemicalToDiseaseDocument,
     ChemicalToDiseaseRelationship,
+    Publication,
     TextWithTriples,
+    Triple,
 )
 
 THIS_DIR = Path(__file__).parent
@@ -158,16 +159,29 @@ class EvalCTD(SPIRESEvaluationEngine):
                 # text = f"Title: {title} Abstract: {abstract}"
                 for r in document.relations:
                     i = r.infons
-                    t = Triple(
-                        subject=f"{self.subject_prefix}:{i['Chemical']}",
-                        predicate=RMAP[i["relation"]],
-                        object=f"{self.object_prefix}:{i['Disease']}",
+                    t = Triple.model_validate(
+                        {
+                            "subject": f"{self.subject_prefix}:{i['Chemical']}",
+                            "predicate": RMAP[i["relation"]],
+                            "object": f"{self.object_prefix}:{i['Disease']}",
+                        }
                     )
                     triples_by_text[(title, abstract)].append(t)
+        i = 0
         for (title, abstract), triples in triples_by_text.items():
-            pub = Publication(title=title, abstract=abstract)
-            logger.debug(f"Triples: {len(triples)} for Title: {title} Abstract: {abstract}")
-            yield ChemicalToDiseaseDocument(publication=pub, triples=triples)
+            i = str(i + 1)
+            pub = Publication.model_validate(
+                {
+                    "id": i,
+                    "title": title,
+                    "abstract": abstract,
+                    "combined_text": "N/A",
+                    "full_text": "N/A",
+                }
+            )
+            # logger.debug(f"Triples: {len(triples)} for Title: {title} Abstract: {abstract}")
+            print(f"Triples: {len(triples)} for Title: {title} Abstract: {abstract}")
+            yield ChemicalToDiseaseDocument.model_validate({"publication": pub, "triples": triples})
 
     def create_training_set(self, num=100):
         ke = self.extractor
