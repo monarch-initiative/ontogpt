@@ -179,8 +179,7 @@ class EvalCTD(SPIRESEvaluationEngine):
                     "full_text": "N/A",
                 }
             )
-            # logger.debug(f"Triples: {len(triples)} for Title: {title} Abstract: {abstract}")
-            print(f"Triples: {len(triples)} for Title: {title} Abstract: {abstract}")
+            logger.debug(f"Triples: {len(triples)} for Title: {title} Abstract: {abstract}")
             yield ChemicalToDiseaseDocument.model_validate({"publication": pub, "triples": triples})
 
     def create_training_set(self, num=100):
