@@ -19,3 +19,30 @@ default_range: string
 imports:
   - linkml:types
   - core
+
+classes:
+
+  Dataset:
+    description: A document that contains a description of a dataset.
+    tree_root: true
+    is_a: NamedEntity
+    attributes:
+      name:
+        description: The name of the dataset.
+      subsets:
+        description: Semicolon-separated list of names of any subsets of the dataset.
+        multivalued: true
+      funding:
+        # This can be annotated by organization name if desired
+        # So this could be its own subclass containing org name, grant name, grant number, etc.
+        description: >-
+          Semicolon-separated list of grants or organizations supporting creation of the dataset.
+        multivalued: true
+      purpose:
+        # This should be its own subclass.
+        description: The stated purpose of the dataset. This should be no more than 1 sentence.
+      references:
+        # This probably needs to be its own subclass too, with some concrete examples
+        description: >-
+          Semicolon-separated list of publications describing the data or the process used to produce it.
+        multivalued: true
