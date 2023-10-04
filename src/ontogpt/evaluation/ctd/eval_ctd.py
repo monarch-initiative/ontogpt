@@ -132,7 +132,6 @@ class EvaluationObjectSetRE(BaseModel):
 
 @dataclass
 class EvalCTD(SPIRESEvaluationEngine):
-    # ontology: OboGraphInterface = None
     subject_prefix = "MESH"
     object_prefix = "MESH"
 
@@ -158,7 +157,7 @@ class EvalCTD(SPIRESEvaluationEngine):
                     doc[p.infons["type"]] = p.text
                 title = doc["title"]
                 abstract = doc["abstract"]
-                # text = f"Title: {title} Abstract: {abstract}"
+                logger.debug(f"Title: {title} Abstract: {abstract}")
                 for r in document.relations:
                     i = r.infons
                     t = ChemicalToDiseaseRelationship.model_validate(
@@ -189,7 +188,7 @@ class EvalCTD(SPIRESEvaluationEngine):
         for doc in docs[0:num]:
             text = doc.text
             prompt = ke.get_completion_prompt(None, text)
-            completion = ke.serialize_object(m)
+            completion = ke.serialize_object()
             yield dict(prompt=prompt, completion=completion)
 
     def eval(self) -> EvaluationObjectSetRE:
@@ -229,18 +228,6 @@ class EvalCTD(SPIRESEvaluationEngine):
                         )
                         logger.debug(f"concatenated triples: {predicted_obj.triples}")
                 named_entities.extend(extraction.named_entities)
-
-            # title_extraction = ke.extract_from_text(doc.publication.title)
-            # logger.info(f"{len(title_extraction.extracted_object.triples)}\
-            # triples from: Title {doc.publication.title}")
-            # abstract_extraction = ke.extract_from_text(doc.publication.abstract)
-            # logger.info(f"{len(abstract_extraction.extracted_object.triples)}\
-            # triples from: Abstract {doc.publication.abstract}")
-            # ke.merge_resultsets([results, results2])
-            # predicted_obj = title_extraction.extracted_object
-            # predicted_obj.triples.extend(abstract_extraction.extracted_object.triples)
-            # logger.info(f"{len(predicted_obj.triples)} total triples, after concatenation")
-            # logger.debug(f"concatenated triples: {predicted_obj.triples}")
 
             def included(t: ChemicalToDiseaseRelationship):
                 if not [var for var in (t.subject, t.object, t.predicate) if var is None]:
