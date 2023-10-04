@@ -177,8 +177,6 @@ class EvalCTD(SPIRESEvaluationEngine):
                     "id": str(i),
                     "title": title,
                     "abstract": abstract,
-                    "combined_text": "N/A",
-                    "full_text": "N/A",
                 }
             )
             logger.debug(f"Triples: {len(triples)} for Title: {title} Abstract: {abstract}")
