@@ -22,7 +22,7 @@ from oaklib.implementations import OntoPortalImplementationBase
 from oaklib.interfaces import MappingProviderInterface, TextAnnotatorInterface
 from oaklib.utilities.apikey_manager import get_apikey_value
 from oaklib.utilities.subsets.value_set_expander import ValueSetExpander
-from requests.exceptions import ConnectionError
+from requests.exceptions import ConnectionError, HTTPError, ProxyError
 
 from ontogpt import DEFAULT_MODEL
 from ontogpt.clients import OpenAIClient
@@ -452,7 +452,7 @@ class KnowledgeEngine(ABC):
                         yield str(mapping.object_id)
                 else:
                     raise ValueError(f"Unknown mapper type {mapper}")
-        except ConnectionError as e:
+        except (ConnectionError, HTTPError, ProxyError) as e:
             logging.error(f"Encountered error when normalizing {input_id}: {e}")
             return
 
