@@ -249,10 +249,10 @@ class EvalCTD(SPIRESEvaluationEngine):
             pred = PredictionRE(predicted_object=predicted_obj, test_object=doc)
             pred.named_entities = named_entities
             logger.info("PRED")
-            logger.info(yaml.dump(pred.model_dump()))
+            logger.info(yaml.dump(data=pred.model_dump()))
             logger.info("Calc scores")
             pred.calculate_scores(labelers=[labeler])
-            logger.info(yaml.dump(pred.model_dump()))
+            logger.info(yaml.dump(data=pred.model_dump()))
             eos.predictions.append(pred)
         self.calc_stats(eos)
         return eos
