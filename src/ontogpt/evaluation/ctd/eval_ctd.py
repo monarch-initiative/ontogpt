@@ -204,13 +204,14 @@ class EvalCTD(SPIRESEvaluationEngine):
             predictions=[],
         )
         n = 1
+        named_entities: List[str] = []
         for doc in eos.test:
             logger.info(f"Iteration {n} of {num_test}")
             n += 1
             logger.info(doc)
             text = f"Title: {doc.publication.title} Abstract: {doc.publication.abstract}"
             predicted_obj = None
-            named_entities: List[str] = []
+            named_entities.clear()
             for chunked_text in chunk_text(text):
                 extraction = ke.extract_from_text(chunked_text)
                 if extraction.extracted_object is not None:
@@ -227,7 +228,9 @@ class EvalCTD(SPIRESEvaluationEngine):
                             f"{len(predicted_obj.triples)} total triples, after concatenation"
                         )
                         logger.debug(f"concatenated triples: {predicted_obj.triples}")
-                named_entities.extend(extraction.named_entities)
+                for entity in extraction.named_entities:
+                    if entity not in named_entities:
+                        named_entities.append(entity)
 
             def included(t: ChemicalToDiseaseRelationship):
                 if not [var for var in (t.subject, t.object, t.predicate) if var is None]:
