@@ -251,7 +251,7 @@ class EvalCTD(SPIRESEvaluationEngine):
             unique_predicted_triples = [
                 t
                 for t in predicted_obj.triples
-                if t not in duplicate_triples and not duplicate_triples.append(t)
+                if t not in duplicate_triples and not duplicate_triples.append(t)  # type: ignore
             ]
             predicted_obj.triples = unique_predicted_triples
             logger.info(
