@@ -249,8 +249,10 @@ class EvalCTD(SPIRESEvaluationEngine):
             logger.info(
                 f"{len(predicted_obj.triples)} filtered triples (CID only, between MESH only)"
             )
-            pred = PredictionRE(predicted_object=predicted_obj, test_object=doc)
-            pred.named_entities = named_entities
+            pred = PredictionRE(
+                predicted_object=predicted_obj, test_object=doc, named_entities=named_entities
+            )
+            named_entities.clear()
             logger.info("PRED")
             logger.info(yaml.dump(data=pred.model_dump()))
             logger.info("Calc scores")
