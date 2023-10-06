@@ -210,8 +210,8 @@ class EvalCTD(SPIRESEvaluationEngine):
             logger.info(doc)
             text = f"Title: {doc.publication.title} Abstract: {doc.publication.abstract}"
             predicted_obj = None
-            named_entities: List[str] = [] # This stores the NEs for the whole document
-            ke.named_entities = [] # This stores the NEs the extractor knows about
+            named_entities: List[str] = []  # This stores the NEs for the whole document
+            ke.named_entities = []  # This stores the NEs the extractor knows about
             for chunked_text in chunk_text(text):
                 extraction = ke.extract_from_text(chunked_text)
                 if extraction.extracted_object is not None:
@@ -247,6 +247,13 @@ class EvalCTD(SPIRESEvaluationEngine):
                     return t
 
             predicted_obj.triples = [t for t in predicted_obj.triples if included(t)]
+            duplicate_triples = []
+            unique_predicted_triples = [
+                t
+                for t in predicted_obj.triples
+                if t not in duplicate_triples and not duplicate_triples.append(t)
+            ]
+            predicted_obj.triples = unique_predicted_triples
             logger.info(
                 f"{len(predicted_obj.triples)} filtered triples (CID only, between MESH only)"
             )
