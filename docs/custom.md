@@ -1,6 +1,6 @@
 # Custom Schemas
 
-## Define your own extraction model using LinkML
+## Build a custom schema
 
 There are a number of pre-defined LinkML data models already developed here - [src/ontogpt/templates/](src/ontogpt/templates/) which you can use as reference when creating your own data models.
 
@@ -177,4 +177,27 @@ enums:
       source_ontology: obo:cl
       source_nodes:
         - CL:0000000 ## cell
+```
+
+## Install a custom schema
+
+If you have installed OntoGPT directly from its GitHub repository, then you may install a custom schema like this:
+
+1. Move the schema file to the `src/ontogpt/templates` directory.
+2. Run `make` from the root of the repository to generate Pydantic versions of the schema.
+
+If you have installed OntoGPT from `pip`, _or_ if you can't use the `make` command, the process is similar, though it will depend on where the package is installed.
+
+1. Use the LinkML `gen-pydantic` tool to generate Pydantic classes. If your schema is named `alfred.yaml`, then run the following:
+  
+    ```bash
+    gen-pydantic --pydantic_version 2 alfred.yaml > alfred.py
+    ```
+
+2. Move both the .yaml and the .py versions of your schema to the `templates` directory of wherever OntoGPT is installed. In a virtual environment named `temp` that may be something like `/temp/lib/python3.9/site-packages/ontogpt/templates`.
+
+You may then use the schema like any other. For example, if your schema is named `albatross.yaml`, then an extract command is:
+
+```bash
+ontogpt extract -t albatross -i input.txt
 ```
