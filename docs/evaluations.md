@@ -4,13 +4,32 @@ OpenAI's functions have been evaluated on test data sets.
 
 All evaluation results include OpenAI cache databases (`openai_cache.db.gz`) as a reference of the prompts and responses obtained during the evaluation. This may be used by extracting the cache database to the root directory of the project.
 
+Tests may be run with the `eval` command followed by the test name, e.g., for the BC5CDR test below:
+
+```bash
+ontogpt eval EvalCTD 
+```
+
+By default, the evaluation will only be executed over a subset of the test input.
+
+The exact number of inputs to run the test over can be controlled with the `--num-tests` option, like this:
+
+```bash
+ontogpt eval --num-tests 1 EvalCTD
+```
+
+To run the full set of tests, set `num-tests` to the input count for a given evaluation, as defined below.
+
 ## BC5CDR
+
+*Test Name:* EvalCTD
+*Input Count:* 500
 
 Results for OntoGPT on the [BioCreative V Chemical Disease Relation Task (BC5CDR)](https://biocreative.bioinformatics.udel.edu/media/store/files/2015/BC5CDR_overview.final.pdf) are available on Zenodo here: <https://zenodo.org/record/7657763>
 
 Evaluation functions for BC5CDR are available in `src/ontogpt/evaluation/ctd/eval_ctd.py`.
 
-Note that the project also included test and train data (`CDR_TestSet.BioC.xml.gz` and `CDR_TrainSet.BioC.xml.gz`, respectively) as well as a set of synonyms for MeSH terms (see `synonyms.yaml`).
+Note that the project also includes test and train data (`CDR_TestSet.BioC.xml.gz` and `CDR_TrainSet.BioC.xml.gz`, respectively) as well as a set of synonyms for MeSH terms (see `synonyms.yaml`).
 
 ### Template
 
@@ -93,7 +112,6 @@ classes:
     annotations:
       annotators: "sqlite:obo:mesh, sqlite:obo:mondo, sqlite:obo:hp, sqlite:obo:ncit, sqlite:obo:doid, bioportal:meddra"
       prompt.examples: cardiac asystole, COVID-19, Headache, cancer
-    # For the purposes of evaluating against BC5CDR, we force normalization to MESH
     id_prefixes:
       - MESH
     slot_usage:
@@ -105,10 +123,8 @@ classes:
   Chemical:
     is_a: NamedEntity
     annotations:
-      # https://data.bioontology.org/ontologies/MDM: The Mapping of Drug Names and MeSH 2022 (MDM) provides owl:sameAs relationships as well as owl:equivalentClass of similar concepts for Drug Names from the DrugBank vocabulary (released 2022-01-03 under version 5.1.9: https://go.drugbank.com/releases/latest#open-data) and the Medical Subject Headings (2022 version: http://id.nlm.nih.gov/mesh/).
       annotators: "sqlite:obo:mesh, sqlite:obo:chebi, sqlite:obo:ncit, bioportal:mdm, sqlite:obo:drugbank, gilda:"
       prompt.examples: Lidocaine, Hydroxychloroquine, Methyldopa, Imatinib
-    # For the purposes of evaluating against BC5CDR, we force normalization to MESH
     id_prefixes:
       - MESH
     slot_usage:
@@ -116,8 +132,6 @@ classes:
         pattern: "^MESH:[CD][0-9]{6}$"
         values_from:
           - MeshChemicalIdentifier
-
-
 
   ChemicalToDiseasePredicate:
     is_a: RelationshipType
