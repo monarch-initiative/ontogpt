@@ -2,73 +2,231 @@
 
 ## Build a custom schema
 
+Define a schema (using a subset of [LinkML](https://linkml.io)) that describes the structure in which you want to extract knowledge from your text.
+
 There are a number of pre-defined LinkML data models already developed here - [src/ontogpt/templates/](src/ontogpt/templates/) which you can use as reference when creating your own data models.
 
-Define a schema (using a subset of [LinkML](https://linkml.io)) that describes the structure in which you want to extract knowledge from your text.
+### The header
+
+The header of the schema defines metadata, parameters instructing LinkML to interpret prefixes in specific ways, and names of imports.
+
+You will find these fields in the schema header:
+
+* `id`: A unique identifier for the schema. These may take the form of W3IDs like `http://w3id.org/ontogpt/schemaname`.
+* `name`: Name of the schema. Should resemble the filename.
+* `title`: Title of the schema for human readability.
+* `description`: A human readable description of the schema. Detail is welcome!
+* `license`: A license indicating reusability of the schema. We prefer a [CC0 license](https://creativecommons.org/publicdomain/zero/1.0/).
+* `prefixes`: This is a list (actually a dictionary, as each item contains a key and a value) of short prefixes for the identifier namespaces used in the schema along with their corresponding identifier prefixes. At minimum, this shoulc include `linkml: https://w3id.org/linkml/` and the prefix for your schema itself. If the schema is named `salmon`, this will be something like `salmon: http://w3id.org/ontogpt/salmon/`. If you're using Gene Ontology identifiers, specify their prefixes as `GO: http://purl.obolibrary.org/obo/GO_`, because each Gene Ontology term has an identifier prefixed with `GO:`.
+* `default_prefix`: This is the prefix for your schema. It should match what you used in the `prefixes` list, so following the above example, that would be `salmon`.
+* `default_range`: This is the default data type LinkML will assume each class should be unless specified otherwise. Using `string` is usually safe.
+
+* `imports`: A list of other schemas to import types from. These may be any schemas in the same directory (e.g., if you have another schema named `francine` then you may simply include `francine` in the list of imports) but note that LinkML will raise an error if multiple classes have the same name across the imports. Minimally, this list should include `linkml:types` and `core` to import the base LinkML data types and the generic OntoGPT classes, respectively.
 
 An example:
 
 ```yaml
+id: http://w3id.org/ontogpt/gocam
+name: gocam-template
+title: GO-CAM Template
+description: >-
+  A template for GO-CAMs
+license: https://creativecommons.org/publicdomain/zero/1.0/
+prefixes:
+  linkml: https://w3id.org/linkml/
+  gocam: http://w3id.org/ontogpt/gocam/
+  GO: http://purl.obolibrary.org/obo/GO_
+  CL: http://purl.obolibrary.org/obo/CL_
+
+default_prefix: gocam
+default_range: string
+
+imports:
+  - linkml:types
+  - core
+```
+
+### The classes
+
+The classes in the schema define the "things" you are interested in extracting. LinkML doesn't make many assumptions about the difference between a class and a relationship, a node and an edge, or a relation and a property. It's designed to be flexibile enough to handle a variety of data models.
+
+An example, continuing from where the header left off:
+
+```yaml
 classes:
-  MendelianDisease:
+  GoCamAnnotations:
+    tree_root: true
     attributes:
-      name:
-        description: the name of the disease
-        examples:
-          - value: peroxisome biogenesis disorder
-        identifier: true  ## needed for inlining
-      description:
-        description: a description of the disease
-        examples:
-          - value: >-
-            Peroxisome biogenesis disorders, Zellweger syndrome spectrum (PBD-ZSS) is a group of autosomal recessive disorders affecting the formation of functional peroxisomes, characterized by sensorineural hearing loss, pigmentary retinal degeneration, multiple organ dysfunction and psychomotor impairment
-      synonyms:
-        multivalued: true
-        examples:
-          - value: Zellweger syndrome spectrum
-          - value: PBD-ZSS
-      subclass_of:
-        multivalued: true
-        range: MendelianDisease
-        examples:
-          - value: lysosomal disease
-          - value: autosomal recessive disorder
-      symptoms:
-        range: Symptom
-        multivalued: true
-        examples:
-          - value: sensorineural hearing loss
-          - value: pigmentary retinal degeneration
-      inheritance:
-        range: Inheritance
-        examples:
-          - value: autosomal recessive
       genes:
-        range: Gene
+        description: semicolon-separated list of genes
         multivalued: true
-        examples:
-          - value: PEX1
-          - value: PEX2
-          - value: PEX3
+        range: Gene
+      organisms:
+        description: semicolon-separated list of organism taxons
+        multivalued: true
+        range: Organism
+      gene_organisms:
+        annotations:
+          prompt: semicolon-separated list of asterisk separated gene to organism relationships
+        multivalued: true
+        range: GeneOrganismRelationship
+      activities:
+        description: semicolon-separated list of molecular activities
+        multivalued: true
+        range: MolecularActivity
+      gene_functions:
+        description: semicolon-separated list of gene to molecular activity relationships
+        multivalued: true
+        range: GeneMolecularActivityRelationship
+      cellular_processes:
+        description: semicolon-separated list of cellular processes
+        multivalued: true
+        range: CellularProcess
+      pathways:
+        description: semicolon-separated list of pathways
+        multivalued: true
+        range: Pathway
+      gene_gene_interactions:
+        description: semicolon-separated list of gene to gene interactions
+        multivalued: true
+        range: GeneGeneInteraction
+      gene_localizations:
+        description: >-
+          semicolon-separated list of genes plus their location in the cell;
+          for example, "gene1 / cytoplasm; gene2 / mitochondrion"
+        multivalued: true
+        range: GeneSubcellularLocalizationRelationship
 
   Gene:
-    is_a: NamedThing
+    is_a: NamedEntity
     id_prefixes:
       - HGNC
+      - PR
+      - UniProtKB
     annotations:
       annotators: gilda:, bioportal:hgnc-nr
-
-  Symptom:
-    is_a: NamedThing
+  Pathway:
+    is_a: NamedEntity
     id_prefixes:
-      - HP
+      - GO
+      - PW
     annotations:
-      annotators: sqlite:obo:hp
+      annotators: sqlite:obo:go, sqlite:obo:pw
+  CellularProcess:
+    is_a: NamedEntity
+    id_prefixes:
+      - GO
+    annotations:
+      annotators: sqlite:obo:go
+  MolecularActivity:
+    is_a: NamedEntity
+    id_prefixes:
+      - GO
+    annotations:
+      annotators: sqlite:obo:go
+  GeneLocation:
+    is_a: NamedEntity
+    id_prefixes:
+      - GO
+      - CL
+      - UBERON
+    annotations:
+      annotators: "sqlite:obo:go, sqlite:obo:cl"
+    slot_usage:
+      id:
+        values_from:
+          - GOCellComponentType
+          - CellType
+  Organism:
+    is_a: NamedEntity
+    id_prefixes:
+      - NCBITaxon
+      - EFO
+    annotations:
+      annotators: gilda:, sqlite:obo:ncbitaxon
+  Molecule:
+    is_a: NamedEntity
+    id_prefixes:
+      - CHEBI
+      - PR
+    annotations:
+      annotators: gilda:, sqlite:obo:chebi
 
-  Inheritance:
-    is_a: NamedThing
+  GeneOrganismRelationship:
+    is_a: CompoundExpression
+    attributes:
+      gene:
+        range: Gene
+      organism:
+        range: Organism
+
+  GeneMolecularActivityRelationship:
+    is_a:   CompoundExpression
+    attributes:
+      gene:
+        range: Gene
+        annotations:
+          prompt: the name of the gene in the pair. This comes first.
+      molecular_activity:
+        range: MolecularActivity
+        annotations:
+          prompt: the name of the molecular function in the pair. This comes second. May be a GO term.
     annotations:
-      annotators: sqlite:obo:hp
+      prompt.example: |-
+        TODO
+        
+        gene: HGNC:1234
+        molecular_activity: GO:0003674
+
+  GeneMolecularActivityRelationship2:
+    is_a:   CompoundExpression
+    attributes:
+      gene:
+        range: Gene
+        annotations:
+          prompt: the name of the gene.
+      molecular_activity:
+        range: MolecularActivity
+        annotations:
+          prompt: the name of the molecular activity, for example, ubiquitination. May be a GO term.
+      target:
+        range: Molecule
+        annotations:
+          prompt: the name of the molecular entity that is the target of the molecular activity.
+
+  GeneSubcellularLocalizationRelationship:
+    is_a:   CompoundExpression
+    attributes:
+      gene:
+        range: Gene
+      location:
+        range: GeneLocation
+
+  GeneGeneInteraction:
+    is_a:   CompoundExpression
+    attributes:
+      gene1:
+        range: Gene
+      gene2:
+        range: Gene
+
+enums:
+
+  GeneLocationEnum:
+    inherits:
+      - GOCellComponent
+      - CellType
+
+  GOCellComponentType:
+    reachable_from:
+      source_ontology: obo:go
+      source_nodes:
+        - GO:0005575 ## cellular_component
+  CellType:
+    reachable_from:
+      source_ontology: obo:cl
+      source_nodes:
+        - CL:0000000 ## cell
 ```
 
 * Prompt hints can be specified using the `prompt` annotation (otherwise description is used)
