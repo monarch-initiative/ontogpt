@@ -121,4 +121,171 @@ Enable it by using `--show-prompt` and setting the verbosity level to high (`-vv
 
 ## Functions
 
-WIP
+### categorize-mappings
+
+Categorize a collection of mappings in the Simple Standard for Sharing Ontological Mappings (SSSOM) format.
+
+Example:
+
+Using an [example SSSOM mapping collection](https://github.com/mapping-commons/sssom/blob/master/examples/embedded/mp-hp-exact-0.0.1.sssom.tsv)
+
+```bash
+ontogpt categorize-mappings -i mp-hp-exact-0.0.1.sssom.tsv
+```
+
+Note that OntoGPT will attempt to retrieve the resources specified in the mapping (in the above example, that will include HP and MP). If it cannot find a corresponding resource it will raise a HTTP 404 error.
+
+### clinical-notes
+
+Create mock clinical notes.
+
+Options:
+
+* `-d`, `--description TEXT` - a text description of the contents of the generated notes.
+* `--sections TEXT` - sections to include in the generated notes, for example, medications, vital signs. Use multiple times for multiple sections, e.g., `--sections medications --sections "vital signs"`
+
+Example:
+
+```bash
+ontogpt clinical-notes -d "middle-aged female patient with syncope and recent travel to the Amazon rainforest"
+```
+
+### complete
+
+Prompt completion.
+
+Given the path to a file containing text to continue, this command will simply pass it to the model as a completion task.
+
+Example:
+
+The file `example2.txt` contains the text "Here's a good joke about high blood pressure:"
+
+```bash
+ontogpt complete example2.txt
+```
+
+We take no responsibility for joke quality or lack thereof.
+
+### convert
+
+Convert output format.
+
+### convert-examples
+
+Convert training examples from YAML.
+
+### convert-geneset
+
+Convert gene set to YAML.
+
+### create-gene-set
+
+Create a gene set.
+
+### diagnose
+
+Diagnose a clinical case represented as one or more Phenopackets.
+
+### dump-completions
+
+Dump cached completions.
+
+### embed
+
+Embed text.
+
+### enrichment
+
+Gene class summary enriching. This is OntoGPT's implementation of TALISMAN.
+
+### entity-similarity
+
+Embed text.
+
+### eval
+
+Evaluate an extractor.
+
+### eval-enrichment
+
+Run enrichment using multiple methods.
+
+### extract
+
+Extract knowledge from text guided by a schema. This is OntoGPT's implementation of SPIRES.
+
+### fill
+
+Fill in missing values.
+
+### generate-extract
+
+Generate text and then extract knowledge from it.
+
+### halo
+
+Run HALO over inputs.
+
+### iteratively-generate-extract
+
+Iterate through generate-extract.
+
+### list-models
+
+List all available models.
+
+### list-templates
+
+List the templates.
+
+### openai-models
+
+List OpenAI models for prompt completion.
+
+### parse
+
+Parse OpenAI results.
+
+### pubmed-annotate
+
+Retrieve a collection of PubMed IDs for a given search, then perform extraction on them with SPIRES.
+
+### pubmed-extract
+
+Extract knowledge from a single PubMed ID.
+
+### reason
+
+Reason.
+
+### recipe-extract
+
+Extract from recipe on the web.
+
+### search-and-extract
+
+Search for relevant literature and extract knowledge from it.
+
+### synonyms
+
+Extract synonyms.
+
+### text-distance
+
+Embed text and calculate euclidian distance between the embeddings.
+
+### text-similarity
+
+Embed text.
+
+### web-extract
+
+Extract knowledge from web page.
+
+### wikipedia-extract
+
+Extract knowledge from a Wikipedia page.
+
+### wikipedia-search
+
+Extract knowledge from a Wikipedia page.
