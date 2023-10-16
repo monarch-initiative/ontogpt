@@ -1673,7 +1673,7 @@ def clinical_notes(
 
     if model_source == "OpenAI":
         c = OpenAIClient(model=model_name)
-        results = c.complete(prompt, show_prompt)
+        results = c.complete(prompt=prompt, show_prompt=show_prompt)
 
     elif model_source == "GPT4All":
         c = set_up_gpt4all_model(modelname=model_name)
