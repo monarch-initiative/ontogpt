@@ -125,6 +125,10 @@ Enable it by using `--show-prompt` and setting the verbosity level to high (`-vv
 
 Categorize a collection of mappings in the Simple Standard for Sharing Ontological Mappings (SSSOM) format.
 
+Mappings in this format may not include their specific mapping types (e.g., broad or close mappings).
+
+This function will attempt to apply more specific mappings wherever possible.
+
 Example:
 
 Using an [example SSSOM mapping collection](https://github.com/mapping-commons/sssom/blob/master/examples/embedded/mp-hp-exact-0.0.1.sssom.tsv)
@@ -347,83 +351,398 @@ Summary: The common function among these genes is their involvement in the regul
 
 ### entity-similarity
 
-Embed text.
+Determine similarity between ontology entities by comparing their embeddings.
+
+Options:
+
+* `-r`, `--ontology TEXT` - name of the ontology to use. This should be an OAK adapter name such as "sqlite:obo:hp".
+* `--definitions` / `--no-definitions` - Include text definitions in the text to embed. Defaults to True.
+* `--parents` / `--no-parents` - Include is-a parent terms in the text to embed. Defaults to True.
+* `--ancestors` / `--no-ancestors` - Include all ancestors in the text to embed. Defaults to True.
+* `--logical-definitions` / `--no-logical-definitions`- Include logical definitions in the text to embed. Defaults to True.
+* `--autolabel` / `--no-autolabel` - Add labels to each subject and object identifier. Defaults to True.
+* `--synonyms` / `--no-synonyms` - Include synonyms in the text to embed. Defaults to True.
+
+Example:
+
+```bash
+ontogpt entity-similarity -r sqlite:obo:hp HP:0012228 HP:0000629
+```
+
+In this case, the output will look like this:
+
+```text
+subject_id      subject_label   object_id       object_label    embedding_cosine_similarity     object_rank_for_subject
+HP:0012228      Tension-type headache   HP:0012228      Tension-type headache   0.9999999999999999      0
+HP:0012228      Tension-type headache   HP:0000629      Periorbital fullness    0.7755551231762359      1
+HP:0000629      Periorbital fullness    HP:0000629      Periorbital fullness    1.0000000000000002      0
+HP:0000629      Periorbital fullness    HP:0012228      Tension-type headache   0.7755551231762359      1
+```
 
 ### eval
 
 Evaluate an extractor.
 
+See the Evaluations section for more details.
+
+Options:
+
+* `--num-tests INTEGER` - number of test iterations to cycle through. Defaults to 5.
+
+Example:
+
+```bash
+ontogpt eval --num-tests 1 EvalCTD
+```
+
 ### eval-enrichment
 
-Run enrichment using multiple methods.
+Run enrichment (TALISMAN) using multiple methods.
+
+This function runs a set of evaluations specific to the TALISMAN gene set summary process.
+
+It will iterate through all relevant models to compare results.
+
+The function assumes genes will have HGNC identifiers.
+
+Options:
+
+* `--strict` / `--no-strict` - If set, there must be a unique mappings from labels to IDs. Defaults to True.
+* `-U`, `--input-file TEXT` - Path to a file with gene IDs to enrich (if not passed as arguments)
+* `--ontological-synopsis` / `--no-ontological-synopsis` - If set, use automated rather than manual gene descriptions. Defaults to True.
+* `--combined-synopsis` / `--no-combined-synopsis` - If set, combine gene descriptions. Defaults to False.
+* `--annotations` / `--no-annotations` - If set, include annotations in the prompt. Defaults to True.
+* `-n`, `--number-to-drop INTEGER` - Maximum number of genes to drop if necessary.
+* `-A`, `--annotations-path TEXT` - Path to file containing annotations.
+
+Example:
+
+```bash
+ontogpt enrichment -U tests/input/genesets/EDS.yaml
+```
 
 ### extract
 
-Extract knowledge from text guided by a schema. This is OntoGPT's implementation of SPIRES.
+Extract knowledge from text guided by a schema.
+
+This is OntoGPT's implementation of SPIRES.
+
+Output includes the input text (or a truncated part), the raw completion output, the prompt (specifically, the last iteration of the prompts used), and an extracted object containing all parts identified in the input text, as well as a list of named entities and their labels.
+
+Options:
+
+* `-S`, `--set-slot-value TEXT` - Set slot value manually, e.g., `--set-slot-value has_participant=protein`
+
+Examples:
+
+```bash
+ontogpt extract -t gocam.GoCamAnnotations -i tests/input/cases/gocam-33246504.txt
+```
+
+In this case, you will an extracted object in the output like:
+
+```yaml
+extracted_object:
+  genes:
+    - HGNC:5992
+    - AUTO:F4/80
+    - HGNC:16400
+    - HGNC:1499
+    - HGNC:5992
+    - HGNC:5993
+  organisms:
+    - NCBITaxon:10088
+    - AUTO:bone%20marrow-derived%20macrophages
+    - AUTO:astrocytes
+    - AUTO:bipolar%20cells
+    - AUTO:vascular%20cells
+    - AUTO:perivascular%20MPs
+  gene_organisms:
+    - gene: HGNC:5992
+      organism: AUTO:mononuclear%20phagocytes
+    - gene: HGNC:16400
+      organism: AUTO:F4/80%2B%20mononuclear%20phagocytes
+    - gene: HGNC:1499
+      organism: AUTO:F4/80%2B%20mononuclear%20phagocytes
+    - gene: HGNC:5992
+      organism: AUTO:perivascular%20macrophages
+    - gene: HGNC:5993
+      organism: AUTO:None
+  activities:
+    - GO:0006954
+    - AUTO:photoreceptor%20death
+    - AUTO:retinal%20function
+  gene_functions:
+    - gene: HGNC:5992
+      molecular_activity: GO:0006954
+    - gene: AUTO:F4/80
+      molecular_activity: AUTO:mononuclear%20phagocyte%20recruitment
+    - gene: HGNC:1499
+      molecular_activity: GO:0006954
+    - gene: HGNC:5992
+      molecular_activity: AUTO:immune-specific%20expression
+    - gene: HGNC:5993
+      molecular_activity: AUTO:IL-1%CE%B2%20receptor
+    - gene: AUTO:rytvela
+      molecular_activity: AUTO:IL-1R%20modulation
+    - gene: AUTO:Kineret
+      molecular_activity: AUTO:IL-1R%20antagonism
+  cellular_processes:
+    - AUTO:macrophage-induced%20photoreceptor%20death
+  gene_localizations:
+    - gene: HGNC:5992
+      location: AUTO:subretinal%20space
+```
+
+Or, we can extract information about a drug and specify which model to use:
+
+```bash
+ontogpt extract -t drug -i tests/input/cases/drug-DB00316-moa.txt --auto-prefix UNKNOWN -m gpt-4
+```
+
+The `ontology_class` schema may be used to perform more domain-agnostic entity recognition, though this is generally incompatible with grounding.
+
+```bash
+ontogpt extract -t ontology_class -i tests/input/cases/human_urban_green_space.txt
+```
 
 ### fill
 
 Fill in missing values.
 
+Requires the path to a file containing a data object to be passed (as an argument) and a set of examples as an input file.
+
+Options:
+
+* `-E`, `--examples FILENAME` - Path to a file of example objects.
+
 ### generate-extract
 
 Generate text and then extract knowledge from it.
 
-### halo
+This command runs two operations:
 
-Run HALO over inputs.
+1. Generate a natural language description of something
+2. Parse the generated description using SPIRES
+
+For example, given a cell type such as [Acinar Cell Of Salivary Gland](https://cellxgene.cziscience.com/cellguide/CL_0002623), generate a description using GPT describing many aspects of the cell type, from its marker genes through to its function and diseases it is implicated in.
+
+After that, use the [cell-type schema](https://w3id.org/ontogpt/cell_type) to extract this into structured form.
+
+As an optional next step use [linkml-owl](https://github.com/linkml/linkml-owl) to generate OWL TBox axioms.
+
+See also: `iteratively-generate-extract` below.
+
+Example:
+
+```bash
+ontogpt generate-extract -t cell_type CL:0002623
+```
 
 ### iteratively-generate-extract
 
 Iterate through generate-extract.
 
+This runs the `generate-extract` command in iterative mode. It will traverse the extracted subtypes with each iteration, gradually building up an ontology that is entirely generated from the "latent knowledge" in the LLM.
+
+Currently each iteration is independent so the method remains unaware as to whether it has already made a concept. Ungrounded concepts may indicate gaps in available knowledgebases.
+
+Unlike the `generate-extract` command, this command requires some additional parameters to be specified.
+
+Please specify the input ontology and the output path.
+
+Options:
+
+* `-r`, `--ontology TEXT` - Ontology to use. Use the OAK selector format, e.g., "sqlite:obo:cl"
+* `-M`, `--max-iterations INTEGER` - Maximum number of iterations.
+* `-I`, `--iteration-slot TEXT` - Slots to iterate over.
+* `-D`, `--db TEXT` - Path to the output, in YAML format.
+* `--clear` / `--no-clear` - If set, clear the output database before starting. Defaults to False.
+
+Example:
+
+```bash
+ontogpt iteratively-generate-extract -t cell_type -r sqlite:obo:cl -D cells.yaml CL:0002623 
+```
+
 ### list-models
 
 List all available models.
+
+Example:
+
+```bash
+ontogpt list-models
+```
 
 ### list-templates
 
 List the templates.
 
-### openai-models
+Alternatively, run `make list_templates`.
 
-List OpenAI models for prompt completion.
+Example:
 
-### parse
-
-Parse OpenAI results.
+```bash
+ontogpt list-templates
+```
 
 ### pubmed-annotate
 
 Retrieve a collection of PubMed IDs for a given search, then perform extraction on them with SPIRES.
 
+The search argument will accept all parameters known to PubMed search, such as filtering by publication year.
+
+Works for single publications, too - set the `--limit` parameter to 1 and specify a PubMed ID as the search argument.
+
+Options:
+
+* `--limit INTEGER` - Total number of citation records to return. Limited by the NCBI API.
+* `--get-pmc` / `--no-get-pmc` - Attempt to parse PubMed Central full text(s) rather than abstract(s) alone.
+
+Examples:
+
+```bash
+ontogpt pubmed-annotate -t phenotype "Takotsubo Cardiomyopathy: A Brief Review" --get-pmc --model gpt-3.5-turbo-16k --limit 3
+```
+
+```bash
+ontogpt pubmed-annotate -t environmental_sample "33126925" --limit 1
+```
+
+```bash
+ontogpt pubmed-annotate -t composite_disease "(earplugs) AND (("1950"[Date - Publication] : "1990"[Date - Publication]))" --limit 4
+```
+
 ### pubmed-extract
 
 Extract knowledge from a single PubMed ID.
 
-### reason
-
-Reason.
+_DEPRECATED_ - use `pubmed-annotate` instead.
 
 ### recipe-extract
 
-Extract from recipe on the web.
+Extract from a recipe on the web.
 
-### search-and-extract
+This uses the `recipe` template and the [recipe_scrapers](https://github.com/hhursev/recipe-scrapers) package. The latter supports many different recipe web sites, so give your favorite a try.
 
-Search for relevant literature and extract knowledge from it.
+Options:
+
+* `-R`, `--recipes-urls-file TEXT` - File with URLs to recipes to use for extraction.
+
+Example:
+
+```bash
+ontogpt recipe-extract https://www.allrecipes.com/recipe/17445/grilled-asparagus/
+```
+
+In this case, expect an extracted object like the following:
+
+```yaml
+extracted_object:
+  url: https://www.allrecipes.com/recipe/17445/grilled-asparagus/
+  label: Grilled Asparagus
+  description: Grilled asparagus with olive oil, salt, and pepper.
+  categories:
+    - AUTO:None
+  ingredients:
+    - food_item:
+        food: FOODON:03311349
+        state: fresh, spears
+      amount:
+        value: '1'
+        unit: UO:0010034
+    - food_item:
+        food: FOODON:03301826
+      amount:
+        value: '1'
+        unit: UO:0010042
+    - food_item:
+        food: AUTO:salt
+        state: and pepper
+      amount:
+        value: N/A
+        unit: AUTO:N/A
+  steps:
+    - action: AUTO:Preheat
+      inputs:
+        - food: AUTO:outdoor%20grill
+          state: None
+      outputs:
+        - food: AUTO:None
+          state: None
+      utensils:
+        - AUTO:None
+    - action: dbpediaont:season
+      inputs:
+        - food: FOODON:00003458
+          state: coated
+        - food: AUTO:salt
+          state: None
+        - food: FOODON:00003520
+      outputs:
+        - food: FOODON:00003458
+          state: seasoned
+      utensils:
+        - AUTO:None
+    - action: AUTO:cook
+      inputs:
+        - food: FOODON:03311349
+          state: None
+      outputs:
+        - food: FOODON:03311349
+          state: cooked
+      utensils:
+        - AUTO:grill
+```
 
 ### synonyms
 
-Extract synonyms.
+Extract synonyms, based on embeddings.
+
+The context parameter is required.
+
+Options:
+
+* `-C`, `--context TEXT` - domain, e.g., anatomy, industry, health-related
+
+Example:
+
+```bash
+ontogpt synonyms --context astronomy star
+```
 
 ### text-distance
 
 Embed text and calculate euclidian distance between the embeddings.
 
+The terms must be separated by an `@` character.
+
+Options:
+
+* `-C`, `--context TEXT` - domain, e.g., anatomy, industry, health-related
+
+Example:
+
+```bash
+ontogpt text-distance pancakes @ syrup
+```
+
 ### text-similarity
 
-Embed text.
+Like `text-distance`, this command compares the embeddings of input terms.
+
+This command returns the cosine similarity of the embedding vectors.
+
+Options:
+
+* `-C`, `--context TEXT` - domain, e.g., anatomy, industry, health-related
+
+Example:
+
+```bash
+ontogpt text-similarity basketball @ basket-weaving
+```
 
 ### web-extract
 
