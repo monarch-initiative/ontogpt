@@ -678,7 +678,7 @@ def search_and_extract(
     text = pmc.text(pmid)
     logging.info(f"Input text: {text}")
     results = ke.extract_from_text(text=text, show_prompt=show_prompt)
-    write_extraction(results, output, output_format)
+    write_extraction(results, output, output_format, ke)
 
 
 @main.command()
