@@ -119,11 +119,11 @@ class SPIRESEngine(KnowledgeEngine):
         :param kwargs:
         :return:
         """
-        if prompt_template is None:
+        if prompt_template == "":
             prompt_template = "Generate a comprehensive description of {entity}.\n"
         prompt = prompt_template.format(entity=entity)
         if self.client is not None:
-            payload = self.client.complete(prompt, show_prompt)
+            payload = self.client.complete(prompt=prompt, show_prompt=show_prompt)
         else:
             payload = ""
         return self.extract_from_text(payload, **kwargs)
@@ -146,12 +146,13 @@ class SPIRESEngine(KnowledgeEngine):
         iteration = 0
         if isinstance(cache_path, str):
             cache_path = Path(cache_path)
-        if cache_path.exists() and not clear:
-            db = yaml.safe_load(cache_path.open())
-            if "entities_in_queue" not in db:
-                db["entities_in_queue"] = []
-        else:
-            db = {"processed_entities": [], "entities_in_queue": [], "results": []}
+        if cache_path:
+            if cache_path.exists() and not clear:
+                db = yaml.safe_load(cache_path.open())
+                if "entities_in_queue" not in db:
+                    db["entities_in_queue"] = []
+            else:
+                db = {"processed_entities": [], "entities_in_queue": [], "results": []}
         if entity not in db["processed_entities"]:
             db["entities_in_queue"].append(entity)
         if prompt_template is None:

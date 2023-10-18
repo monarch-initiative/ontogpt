@@ -371,7 +371,9 @@ def generate_extract(model, entity, template, output, output_format, show_prompt
         ke = GPT4AllEngine(template=template, model=model_name, **kwargs)
 
     logging.debug(f"Input entity: {entity}")
-    results = ke.generate_and_extract(entity, show_prompt)
+    results = ke.generate_and_extract(
+        entity=entity, prompt_template=template, show_prompt=show_prompt
+    )
     write_extraction(results, output, output_format, ke)
 
 
@@ -435,7 +437,7 @@ def iteratively_generate_extract(
         adapter=adapter,
         clear=clear,
     ):
-        write_extraction(results, output, output_format)
+        write_extraction(results, output, output_format, ke)
 
 
 # TODO: combine this command with pubmed_annotate - they are converging
@@ -625,7 +627,7 @@ def wikipedia_search(model, topic, keyword, template, output, output_format, sho
             # or add as cli option
             text = text[:4000]
         results = ke.extract_from_text(text=text, show_prompt=show_prompt)
-        write_extraction(results, output, output_format)
+        write_extraction(results, output, output_format, ke)
         break
 
 
@@ -678,7 +680,7 @@ def search_and_extract(
     text = pmc.text(pmid)
     logging.info(f"Input text: {text}")
     results = ke.extract_from_text(text=text, show_prompt=show_prompt)
-    write_extraction(results, output, output_format)
+    write_extraction(results, output, output_format, ke)
 
 
 @main.command()
@@ -699,7 +701,7 @@ def web_extract(model, template, url, output, output_format, show_prompt, **kwar
     model_source = selectmodel["provider"]
 
     if model_source == "OpenAI":
-        ke = SPIRESEngine(template, **kwargs)
+        ke = SPIRESEngine(template=template, model=model, **kwargs)
         if settings.cache_db:
             ke.client.cache_db_path = settings.cache_db
         if settings.skip_annotators:
@@ -714,7 +716,7 @@ def web_extract(model, template, url, output, output_format, show_prompt, **kwar
 
     logging.debug(f"Input text: {text}")
     results = ke.extract_from_text(text=text, show_prompt=show_prompt)
-    write_extraction(results, output, output_format)
+    write_extraction(results, output, output_format, ke)
 
 
 @main.command()
@@ -787,14 +789,14 @@ def recipe_extract(
 
 @main.command()
 @model_option
+@template_option
 @output_option_wb
 @output_format_options
 @click.argument("input")
-def convert(model, input, output, output_format, **kwargs):
-    """Convert output format.
+def convert(model, template, input, output, output_format, **kwargs):
+    """Convert output format."""
+    logging.info(f"Creating for {template}")
 
-    Primarily intended for use with recipe template.
-    """
     if not model:
         model = DEFAULT_MODEL
     selectmodel = get_model_by_name(model)
@@ -806,9 +808,6 @@ def convert(model, input, output, output_format, **kwargs):
     elif model_source == "GPT4All":
         model_name = selectmodel["alternative_names"][0]
         ke = GPT4AllEngine(template=template, model=model_name, **kwargs)
-
-    template = "recipe"
-    logging.info(f"Creating for {template}")
 
     cls = ke.template_pyclass
     with open(input, "r") as f:
