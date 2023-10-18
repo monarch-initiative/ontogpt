@@ -625,7 +625,7 @@ def wikipedia_search(model, topic, keyword, template, output, output_format, sho
             # or add as cli option
             text = text[:4000]
         results = ke.extract_from_text(text=text, show_prompt=show_prompt)
-        write_extraction(results, output, output_format)
+        write_extraction(results, output, output_format, ke)
         break
 
 
