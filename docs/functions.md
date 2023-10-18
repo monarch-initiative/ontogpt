@@ -626,6 +626,8 @@ Extract from a recipe on the web.
 
 This uses the `recipe` template and the [recipe_scrapers](https://github.com/hhursev/recipe-scrapers) package. The latter supports many different recipe web sites, so give your favorite a try.
 
+Pass a URL as the argument, or use the -R option to specify the path to a file containing one URL per line.
+
 Options:
 
 * `-R`, `--recipes-urls-file TEXT` - File with URLs to recipes to use for extraction.
@@ -748,10 +750,42 @@ ontogpt text-similarity basketball @ basket-weaving
 
 Extract knowledge from web page.
 
+Pass a URL as an argument and OntoGPT will use the SPIRES method to extract information based on the specified template.
+
+Because this depends upon scraping a page, results may vary depending on a site's complexity and structure.
+
+Even relatively short pages may exceed a model's context size, so larger context models may be necessary.
+
+Example:
+
+```bash
+ontogpt web-extract -t reaction.Reaction -m gpt-3.5-turbo-16k https://www.scienceofcooking.com/maillard_reaction.htm 
+```
+
 ### wikipedia-extract
 
 Extract knowledge from a Wikipedia page.
 
+Pass an article title as an argument and OntoGPT will use the SPIRES method to extract information based on the specified template.
+
+Even relatively short pages may exceed a model's context size, so larger context models may be necessary.
+
+Example:
+
+```bash
+ontogpt wikipedia-extract -t mendelian_disease.MendelianDisease -m gpt-3.5-turbo-16k "Cartilage–hair hypoplasia"
+```
+
 ### wikipedia-search
 
-Extract knowledge from a Wikipedia page.
+Extract knowledge from Wikipedia pages based on a search.
+
+Pass a search phrase as an argument and OntoGPT will use the SPIRES method to extract information based on the specified template.
+
+Even relatively short pages may exceed a model's context size, so larger context models may be necessary.
+
+Example:
+
+```bash
+ontogpt wikipedia-search -t biological_process -m gpt-3.5-turbo-16k "digestion"
+```
