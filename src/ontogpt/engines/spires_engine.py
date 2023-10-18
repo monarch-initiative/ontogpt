@@ -634,7 +634,7 @@ class SPIRESEngine(KnowledgeEngine):
                     logging.info(f"Looking for {obj} in {enum_def.name}")
                     for k, _pv in enum_def.permissible_values.items():
                         if type(obj) is str and type(k) is str:
-                            if obj.lower() == k.lower():
+                            if obj.lower() == k.lower():  # type: ignore
                                 obj = k  # type: ignore
                                 found = True
                                 break
