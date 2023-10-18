@@ -789,14 +789,15 @@ def recipe_extract(
 
 @main.command()
 @model_option
+@template_option
 @output_option_wb
 @output_format_options
 @click.argument("input")
-def convert(model, input, output, output_format, **kwargs):
-    """Convert output format.
+def convert(model, template, input, output, output_format, **kwargs):
+    """Convert output format."""
 
-    Primarily intended for use with recipe template.
-    """
+    logging.info(f"Creating for {template}")
+
     if not model:
         model = DEFAULT_MODEL
     selectmodel = get_model_by_name(model)
@@ -808,9 +809,6 @@ def convert(model, input, output, output_format, **kwargs):
     elif model_source == "GPT4All":
         model_name = selectmodel["alternative_names"][0]
         ke = GPT4AllEngine(template=template, model=model_name, **kwargs)
-
-    template = "recipe"
-    logging.info(f"Creating for {template}")
 
     cls = ke.template_pyclass
     with open(input, "r") as f:
