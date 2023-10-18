@@ -119,7 +119,7 @@ class SPIRESEngine(KnowledgeEngine):
         :param kwargs:
         :return:
         """
-        if prompt_template is None:
+        if prompt_template == "":
             prompt_template = "Generate a comprehensive description of {entity}.\n"
         prompt = prompt_template.format(entity=entity)
         if self.client is not None:
