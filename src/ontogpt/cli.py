@@ -795,7 +795,6 @@ def recipe_extract(
 @click.argument("input")
 def convert(model, template, input, output, output_format, **kwargs):
     """Convert output format."""
-
     logging.info(f"Creating for {template}")
 
     if not model:
