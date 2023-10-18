@@ -33,11 +33,6 @@ class NullDataOptions(str, Enum):
     
     
 
-class OrganizationName(ConfiguredBaseModel):
-    
-    None
-    
-
 class ExtractionResult(ConfiguredBaseModel):
     """
     A result of extracting knowledge on text
@@ -63,25 +58,16 @@ class Dataset(NamedEntity):
     """
     name: Optional[str] = Field(None, description="""The name of the dataset.""")
     subsets: Optional[List[str]] = Field(default_factory=list, description="""Semicolon-separated list of names of any subsets of the dataset.""")
-    funding: Optional[List[str]] = Field(default_factory=list, description="""Semicolon-separated list of grants or organizations supporting creation of the dataset.""")
+    funding_organization: Optional[List[str]] = Field(default_factory=list, description="""Semicolon-separated list of organizations supporting creation of the dataset.""")
+    funding_identifiers: Optional[List[str]] = Field(default_factory=list, description="""Semicolon-separated list of names, numbers, or other identifiers for grants supporting creation of the dataset.""")
     purpose: Optional[str] = Field(None, description="""The stated purpose of the dataset. This should be no more than 1 sentence.""")
     references: Optional[List[str]] = Field(default_factory=list, description="""Semicolon-separated list of publications describing the data or the process used to produce it.""")
     id: str = Field(..., description="""A unique identifier for the named entity""")
     label: Optional[str] = Field(None, description="""The label (name) of the named thing""")
     
 
-class Funder(NamedEntity):
-    
-    organization: Optional[str] = Field(None, description="""The organization providing funding.""")
-    grant_name: Optional[str] = Field(None)
-    grant_number: Optional[str] = Field(None)
-    id: str = Field(..., description="""A unique identifier for the named entity""")
-    label: Optional[str] = Field(None, description="""The label (name) of the named thing""")
-    
-
 class Organization(NamedEntity):
     
-    name: Optional[OrganizationName] = Field(None, description="""The name of an organization.""")
     id: str = Field(..., description="""A unique identifier for the named entity""")
     label: Optional[str] = Field(None, description="""The label (name) of the named thing""")
     
@@ -134,11 +120,9 @@ class AnnotatorResult(ConfiguredBaseModel):
 
 # Model rebuild
 # see https://pydantic-docs.helpmanual.io/usage/models/#rebuilding-a-model
-OrganizationName.model_rebuild()
 ExtractionResult.model_rebuild()
 NamedEntity.model_rebuild()
 Dataset.model_rebuild()
-Funder.model_rebuild()
 Organization.model_rebuild()
 CompoundExpression.model_rebuild()
 Triple.model_rebuild()

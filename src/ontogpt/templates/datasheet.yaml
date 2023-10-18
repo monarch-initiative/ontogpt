@@ -33,43 +33,34 @@ classes:
         description: >-
           Semicolon-separated list of names of any subsets of the dataset.
         multivalued: true
-      funding:
+      funding_organization:
         description: >-
-          Semicolon-separated list of grants or organizations supporting
+          Semicolon-separated list of organizations supporting
           creation of the dataset.
         multivalued: true
-        range: Funder
+        range: Organization
+      funding_identifiers:
+        description: >-
+          Semicolon-separated list of names, numbers, or other
+          identifiers for grants supporting creation of the dataset.
+        multivalued: true
       purpose:
         # This should be its own subclass.
         description: >-
           The stated purpose of the dataset. This should be no more than 1
           sentence.
       references:
-        # This probably needs to be its own subclass too, with some concrete 
+        # This probably needs to be its own subclass too, with some concrete
         # examples
         description: >-
           Semicolon-separated list of publications describing the data or the
           process used to produce it.
         multivalued: true
 
-  Funder:
-    is_a: NamedEntity
-    attributes:
-      organization:
-        description: The organization providing funding.
-        range: Organization
-      grant_name:
-      grant_number:
-
   Organization:
     is_a: NamedEntity
-    attributes:
-      name:
-        description: The name of an organization.
-        range: OrganizationName
-
-  OrganizationName:
     id_prefixes:
       - wikidata
+      - NCIT
     annotations:
-      annotators: "wikidata:"
+      annotators: "wikidata:, sqlite:obo:ncit"
