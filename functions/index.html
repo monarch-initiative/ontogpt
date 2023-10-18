@@ -1,0 +1,2137 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+        <link rel="canonical" href="https://monarch-initiative.github.io/ontogpt/functions/">
+      
+      
+        <link rel="prev" href="../evaluations/">
+      
+      
+        <link rel="next" href="../troubleshooting/">
+      
+      
+      <link rel="icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.5.3, mkdocs-material-9.4.2">
+    
+    
+      
+        <title>Functions - OntoGPT</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.d451bc0e.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.a5377069.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="teal" data-md-color-accent="amber">
+  
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&"object"==typeof palette.color)for(var key of Object.keys(palette.color))document.body.setAttribute("data-md-color-"+key,palette.color[key])</script>
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#ontogpt-functions" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href=".." title="OntoGPT" class="md-header__button md-logo" aria-label="OntoGPT" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2Z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            OntoGPT
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Functions
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="teal" data-md-color-accent="amber"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_2" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 2a7 7 0 0 0-7 7c0 2.38 1.19 4.47 3 5.74V17a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1v-2.26c1.81-1.27 3-3.36 3-5.74a7 7 0 0 0-7-7M9 21a1 1 0 0 0 1 1h4a1 1 0 0 0 1-1v-1H9v1Z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="teal" data-md-color-accent="amber"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_2">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 2a7 7 0 0 1 7 7c0 2.38-1.19 4.47-3 5.74V17a1 1 0 0 1-1 1H9a1 1 0 0 1-1-1v-2.26C6.19 13.47 5 11.38 5 9a7 7 0 0 1 7-7M9 21v-1h6v1a1 1 0 0 1-1 1h-4a1 1 0 0 1-1-1m3-17a5 5 0 0 0-5 5c0 2.05 1.23 3.81 3 4.58V16h4v-2.42c1.77-.77 3-2.53 3-4.58a5 5 0 0 0-5-5Z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41Z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/monarch-initiative/ontogpt/" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="OntoGPT" class="md-nav__button md-logo" aria-label="OntoGPT" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
+
+    </a>
+    OntoGPT
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/monarch-initiative/ontogpt/" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Introduction
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../setup/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Setup
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../operation/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Operation
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../custom/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Custom Schemas
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../owl_exports/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    OWL Exports
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../evaluations/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Evaluations
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  <span class="md-ellipsis">
+    Functions
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  <span class="md-ellipsis">
+    Functions
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#basic-parameters" class="md-nav__link">
+    Basic Parameters
+  </a>
+  
+    <nav class="md-nav" aria-label="Basic Parameters">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#cache-db" class="md-nav__link">
+    cache-db
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#skip-annotator" class="md-nav__link">
+    skip-annotator
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#common-parameters" class="md-nav__link">
+    Common Parameters
+  </a>
+  
+    <nav class="md-nav" aria-label="Common Parameters">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#inputfile" class="md-nav__link">
+    inputfile
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#template" class="md-nav__link">
+    template
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#target-class" class="md-nav__link">
+    target-class
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#model" class="md-nav__link">
+    model
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#recurse" class="md-nav__link">
+    recurse
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#use-textract" class="md-nav__link">
+    use-textract
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#output" class="md-nav__link">
+    output
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#output-format" class="md-nav__link">
+    output-format
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#auto-prefix" class="md-nav__link">
+    auto-prefix
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#show-prompt" class="md-nav__link">
+    show-prompt
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#functions" class="md-nav__link">
+    Functions
+  </a>
+  
+    <nav class="md-nav" aria-label="Functions">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#categorize-mappings" class="md-nav__link">
+    categorize-mappings
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#clinical-notes" class="md-nav__link">
+    clinical-notes
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#complete" class="md-nav__link">
+    complete
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#convert" class="md-nav__link">
+    convert
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#convert-examples" class="md-nav__link">
+    convert-examples
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#convert-geneset" class="md-nav__link">
+    convert-geneset
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#create-gene-set" class="md-nav__link">
+    create-gene-set
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#diagnose" class="md-nav__link">
+    diagnose
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#dump-completions" class="md-nav__link">
+    dump-completions
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#embed" class="md-nav__link">
+    embed
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#enrichment" class="md-nav__link">
+    enrichment
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#entity-similarity" class="md-nav__link">
+    entity-similarity
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#eval" class="md-nav__link">
+    eval
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#eval-enrichment" class="md-nav__link">
+    eval-enrichment
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#extract" class="md-nav__link">
+    extract
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fill" class="md-nav__link">
+    fill
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#generate-extract" class="md-nav__link">
+    generate-extract
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#iteratively-generate-extract" class="md-nav__link">
+    iteratively-generate-extract
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#list-models" class="md-nav__link">
+    list-models
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#list-templates" class="md-nav__link">
+    list-templates
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#pubmed-annotate" class="md-nav__link">
+    pubmed-annotate
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#pubmed-extract" class="md-nav__link">
+    pubmed-extract
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#recipe-extract" class="md-nav__link">
+    recipe-extract
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#synonyms" class="md-nav__link">
+    synonyms
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#text-distance" class="md-nav__link">
+    text-distance
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#text-similarity" class="md-nav__link">
+    text-similarity
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#web-extract" class="md-nav__link">
+    web-extract
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#wikipedia-extract" class="md-nav__link">
+    wikipedia-extract
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#wikipedia-search" class="md-nav__link">
+    wikipedia-search
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../troubleshooting/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Troubleshooting
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_9" >
+        
+          
+          <label class="md-nav__link" for="__nav_9" id="__nav_9_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    SPIRES Templates
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_9_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_9">
+            <span class="md-nav__icon md-icon"></span>
+            SPIRES Templates
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../core/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Core Upper Level Schema
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../reaction/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Biochemical Reactions
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../biological_process/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Biological Processes
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../biotic_interaction/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Biotic Interactions
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../cell_type/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Cell Types
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ctd/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Chemical to Disease
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../diagnostic_procedure/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Diagnostic Procedures
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../drug/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Drugs and Mechanisms
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../environmental_sample/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Environmental Samples
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../gocam/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    GO-CAMs and Pathways
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ibd_literature/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Irritable Bowel Diseases and Literature
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../mendelian_disease/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Mendelian Diseases
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../metabolic_process/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Metabolic Processes
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../metagenome_study/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Metagenome Studies
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ontology_class/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Ontology Classes
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ontology_issue/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Ontology Issues
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../recipe/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Recipes
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../traits/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Traits of a Taxon
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../treatment/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Treatments
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../halo/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    HALO Schema
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#basic-parameters" class="md-nav__link">
+    Basic Parameters
+  </a>
+  
+    <nav class="md-nav" aria-label="Basic Parameters">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#cache-db" class="md-nav__link">
+    cache-db
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#skip-annotator" class="md-nav__link">
+    skip-annotator
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#common-parameters" class="md-nav__link">
+    Common Parameters
+  </a>
+  
+    <nav class="md-nav" aria-label="Common Parameters">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#inputfile" class="md-nav__link">
+    inputfile
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#template" class="md-nav__link">
+    template
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#target-class" class="md-nav__link">
+    target-class
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#model" class="md-nav__link">
+    model
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#recurse" class="md-nav__link">
+    recurse
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#use-textract" class="md-nav__link">
+    use-textract
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#output" class="md-nav__link">
+    output
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#output-format" class="md-nav__link">
+    output-format
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#auto-prefix" class="md-nav__link">
+    auto-prefix
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#show-prompt" class="md-nav__link">
+    show-prompt
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#functions" class="md-nav__link">
+    Functions
+  </a>
+  
+    <nav class="md-nav" aria-label="Functions">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#categorize-mappings" class="md-nav__link">
+    categorize-mappings
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#clinical-notes" class="md-nav__link">
+    clinical-notes
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#complete" class="md-nav__link">
+    complete
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#convert" class="md-nav__link">
+    convert
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#convert-examples" class="md-nav__link">
+    convert-examples
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#convert-geneset" class="md-nav__link">
+    convert-geneset
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#create-gene-set" class="md-nav__link">
+    create-gene-set
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#diagnose" class="md-nav__link">
+    diagnose
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#dump-completions" class="md-nav__link">
+    dump-completions
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#embed" class="md-nav__link">
+    embed
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#enrichment" class="md-nav__link">
+    enrichment
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#entity-similarity" class="md-nav__link">
+    entity-similarity
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#eval" class="md-nav__link">
+    eval
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#eval-enrichment" class="md-nav__link">
+    eval-enrichment
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#extract" class="md-nav__link">
+    extract
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fill" class="md-nav__link">
+    fill
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#generate-extract" class="md-nav__link">
+    generate-extract
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#iteratively-generate-extract" class="md-nav__link">
+    iteratively-generate-extract
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#list-models" class="md-nav__link">
+    list-models
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#list-templates" class="md-nav__link">
+    list-templates
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#pubmed-annotate" class="md-nav__link">
+    pubmed-annotate
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#pubmed-extract" class="md-nav__link">
+    pubmed-extract
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#recipe-extract" class="md-nav__link">
+    recipe-extract
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#synonyms" class="md-nav__link">
+    synonyms
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#text-distance" class="md-nav__link">
+    text-distance
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#text-similarity" class="md-nav__link">
+    text-similarity
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#web-extract" class="md-nav__link">
+    web-extract
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#wikipedia-extract" class="md-nav__link">
+    wikipedia-extract
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#wikipedia-search" class="md-nav__link">
+    wikipedia-search
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+  
+  
+
+
+<h1 id="ontogpt-functions">OntoGPT Functions</h1>
+<p>All OntoGPT functions are run from the command line.</p>
+<p>Precede all commands with <code>ontogpt</code>.</p>
+<p>To see the full list of available commands, run this:</p>
+<pre><code class="language-bash">ontogpt --help
+</code></pre>
+<h2 id="basic-parameters">Basic Parameters</h2>
+<p>To see verbose output, run:</p>
+<pre><code class="language-bash">ontogpt -v
+</code></pre>
+<p>The options <code>-vv</code> and <code>-vvv</code> will enable progressively more verbose output.</p>
+<h3 id="cache-db">cache-db</h3>
+<p>Use the option <code>--cache-db</code> to specify a path to a sqlite database to cache the prompt-completion results.</p>
+<h3 id="skip-annotator">skip-annotator</h3>
+<p>Use the option <code>--skip-annotator</code> to skip one or more annotators (e.g. <code>--skip-annotator gilda</code>).</p>
+<h2 id="common-parameters">Common Parameters</h2>
+<p>The following options are available for most functions unless stated otherwise.</p>
+<h3 id="inputfile">inputfile</h3>
+<p>Use the option <code>--inputfile</code> to specify a path to a file containing input text.</p>
+<h3 id="template">template</h3>
+<p>Use the option <code>--template</code> to specify a template to use. This is a required parameter.</p>
+<p>Only the name is required, without any filename suffix.</p>
+<p>To use the <code>gocam</code> template, for example, the parameter will be <code>--template gocam</code></p>
+<p>This may be one of the templates included with OntoGPT or a custom template, but in the latter case, the schema, generated Pydantic classes, and any imported schemas should be present in the same location.</p>
+<h3 id="target-class">target-class</h3>
+<p>Use the option <code>--target-class</code> to specify a class in a schema to treat as the root.</p>
+<p>If a schema does not already specify a root class, this is required.</p>
+<p>Alternatively, the target class can be specified as part of the <code>--template</code> option, like so: <code>--template mendelian_disease.MendelianDisease</code></p>
+<h3 id="model">model</h3>
+<p>Use the option <code>model</code> to specify the name of a large language model to be used.</p>
+<p>For example, this may be <code>--model gpt-4</code>.</p>
+<p>Consult the full list of available models with:</p>
+<pre><code class="language-bash">ontogpt list-models
+</code></pre>
+<h3 id="recurse">recurse</h3>
+<p>Use the option <code>recurse</code> to specify whether recursion should be used when parsing the schema.</p>
+<p>Recursion is on by default.</p>
+<p>Disable it with <code>--no-recurse</code>.</p>
+<h3 id="use-textract">use-textract</h3>
+<p>Use the option <code>use-textract</code> to specify whether to use the <a href="https://textract.readthedocs.io/en/stable/">textract</a> package to extract text from the input document. Textract supports retrieving raw text from PDFs, images, audio, and a variety of other formats.</p>
+<p>Textract extraction is off by default.</p>
+<p>Enable it with <code>--use-textract</code>.</p>
+<h3 id="output">output</h3>
+<p>Use the option <code>output</code> to provide a path to write an output file to.</p>
+<p>If this path is not provided, OntoGPT will write to stdout.</p>
+<h3 id="output-format">output-format</h3>
+<p>Use the option <code>output-format</code> to specify the desired output file format.</p>
+<p>This may be one of:</p>
+<ul>
+<li>html</li>
+<li>json</li>
+<li>jsonl</li>
+<li>md</li>
+<li>owl</li>
+<li>pickle</li>
+<li>turtle</li>
+<li>yaml</li>
+</ul>
+<h3 id="auto-prefix">auto-prefix</h3>
+<p>Use the option <code>auto-prefix</code> to define a prefix to use for entities without a matching namespace.</p>
+<p>When OntoGPT's extract functions find an entity matching the input schema but cannot ground it, the entity will still be included in the output.</p>
+<p>By default, these entities will be assigned identifiers like <code>AUTO:tangerine</code>. If you ground this term to the <a href="https://foodon.org">Food Ontology</a>, however, the entity may be <code>FOODON:00003488</code> instead.</p>
+<h3 id="show-prompt">show-prompt</h3>
+<p>Use the option <code>show-prompt</code> to show <em>all</em> prompts constructed and sent to the model. Otherwise, only the final prompt will be shown.</p>
+<p>Showing the full prompt is off by default.</p>
+<p>Enable it by using <code>--show-prompt</code> and setting the verbosity level to high (<code>-vvv</code>).</p>
+<h2 id="functions">Functions</h2>
+<h3 id="categorize-mappings">categorize-mappings</h3>
+<p>Categorize a collection of mappings in the Simple Standard for Sharing Ontological Mappings (SSSOM) format.</p>
+<p>Mappings in this format may not include their specific mapping types (e.g., broad or close mappings).</p>
+<p>This function will attempt to apply more specific mappings wherever possible.</p>
+<p>Example:</p>
+<p>Using an <a href="https://github.com/mapping-commons/sssom/blob/master/examples/embedded/mp-hp-exact-0.0.1.sssom.tsv">example SSSOM mapping collection</a></p>
+<pre><code class="language-bash">ontogpt categorize-mappings -i mp-hp-exact-0.0.1.sssom.tsv
+</code></pre>
+<p>Note that OntoGPT will attempt to retrieve the resources specified in the mapping (in the above example, that will include HP and MP). If it cannot find a corresponding resource it will raise a HTTP 404 error.</p>
+<h3 id="clinical-notes">clinical-notes</h3>
+<p>Create mock clinical notes.</p>
+<p>Options:</p>
+<ul>
+<li><code>-d</code>, <code>--description TEXT</code> - a text description of the contents of the generated notes.</li>
+<li><code>--sections TEXT</code> - sections to include in the generated notes, for example, medications, vital signs. Use multiple times for multiple sections, e.g., <code>--sections medications --sections "vital signs"</code></li>
+</ul>
+<p>Example:</p>
+<pre><code class="language-bash">ontogpt clinical-notes -d &quot;middle-aged female patient with syncope and recent travel to the Amazon rainforest&quot;
+</code></pre>
+<h3 id="complete">complete</h3>
+<p>Prompt completion.</p>
+<p>Given the path to a file containing text to continue, this command will simply pass it to the model as a completion task.</p>
+<p>Example:</p>
+<p>The file <code>example2.txt</code> contains the text "Here's a good joke about high blood pressure:"</p>
+<pre><code class="language-bash">ontogpt complete example2.txt
+</code></pre>
+<p>We take no responsibility for joke quality or lack thereof.</p>
+<h3 id="convert">convert</h3>
+<p>Convert output format.</p>
+<p>Rather than a direct format translation, this function performs a full SPIRES extraction on the input file and writes the output in the specified format.</p>
+<p>Example:</p>
+<pre><code class="language-bash">ontogpt convert -o outputfile.md -O md inputfile.yaml
+</code></pre>
+<h3 id="convert-examples">convert-examples</h3>
+<p>Convert training examples from YAML.</p>
+<p>This can be necessary for performing evaluations.</p>
+<p>Given the path to a YAML-format input file containing training examples in a format like this:</p>
+<pre><code class="language-yaml">---
+examples:
+    - prompt: &lt;text prompt&gt;
+      completion: &lt;text of completion of the prompt&gt;
+    - prompt: &lt;another text prompt&gt;
+      completion: &lt;text of completion of another prompt&gt;
+</code></pre>
+<p>the function will convert it to equivalent JSON.</p>
+<p>Example:</p>
+<pre><code class="language-bash">ontogpt convert-examples inputfile.yaml
+</code></pre>
+<h3 id="convert-geneset">convert-geneset</h3>
+<p>Convert gene set to YAML.</p>
+<p>The gene set may be in JSON (msigdb format) or text (one gene symbol per line) format.</p>
+<p>See also the <code>create-gene-set</code> command (see below).</p>
+<p>Options:</p>
+<ul>
+<li><code>--fill</code> / <code>--no-fill</code> - Defaults to False (<code>--no-fill</code>). If True (<code>--fill</code>), the function will attempt to fill in missing gene values.</li>
+<li><code>-U</code>, <code>--input-file TEXT</code> - Path to a file with gene IDs to enrich (if not passed as arguments).</li>
+</ul>
+<p>Example:</p>
+<pre><code class="language-bash">ontogpt convert-geneset -U inputfile.json
+</code></pre>
+<h3 id="create-gene-set">create-gene-set</h3>
+<p>Create a gene set.</p>
+<p>This is primarily relevant to the TALISMAN method for creating gene set summaries.</p>
+<p>It creates a gene set given a set of gene annotations in two-column TSV or GAF format.</p>
+<p>The function also requires a single argument for the term to create the gene set with.</p>
+<p>The output is provided in YAML format.</p>
+<p>Options:</p>
+<ul>
+<li><code>-A</code>, <code>--annotation-path TEXT</code> - Path to a file containing annotations.</li>
+</ul>
+<p>Example:</p>
+<pre><code class="language-bash">ontogpt create-gene-set -A inputfile.tsv &quot;positive regulation of mitotic cytokinesis&quot;
+</code></pre>
+<h3 id="diagnose">diagnose</h3>
+<p>Diagnose a clinical case represented as one or more <a href="http://phenopackets.org/">Phenopackets</a>.</p>
+<p>This function takes one or more file paths as arguments, where each must contain a phenopacket in JSON format.</p>
+<p>Example inputs may be found at the <a href="https://github.com/phenopackets/phenomics-exchange-ig">Phenomics Exchange repository</a>.</p>
+<p>Example:</p>
+<pre><code class="language-bash">ontogpt diagnose case1.json case2.json 
+</code></pre>
+<h3 id="dump-completions">dump-completions</h3>
+<p>Dump cached completions.</p>
+<p>OntoGPT saves queries and successful text completions to an sqlite database.</p>
+<p>Caching is not currently supported for local models.</p>
+<p>Use this function to retrieve the contents of this database.</p>
+<p>See also: the <code>cache-db</code> parameter described above.</p>
+<p>Options:</p>
+<ul>
+<li><code>-m TEXT</code> - Match string to use for filtering.</li>
+<li><code>-D TEXT</code> - Path to sqlite database.</li>
+</ul>
+<p>Example:</p>
+<pre><code class="language-bash">ontogpt dump-completions -m &quot;soup&quot;
+</code></pre>
+<h3 id="embed">embed</h3>
+<p>Embed text.</p>
+<p>This function will return an embedding vector for the input text or texts.</p>
+<p>Embedding retrieval is not currently supported for local models.</p>
+<p>Options:</p>
+<ul>
+<li><code>-C</code>, <code>--context TEXT</code> - domain e.g. anatomy, industry, health-related</li>
+</ul>
+<p>Example:</p>
+<pre><code class="language-bash">ontogpt embed &quot;obstreperous muskrat&quot;
+</code></pre>
+<p>For OpenAI's "text-embedding-ada-002" model, the output will be a vector of length 1536, like so:</p>
+<pre><code class="language-bash">[-0.015013165771961212, -0.013102399185299873, -0.005333086010068655, ...]
+</code></pre>
+<h3 id="enrichment">enrichment</h3>
+<p>Gene class summary enriching. This is OntoGPT's implementation of TALISMAN.</p>
+<p>The goal of gene summary enrichment is to assemble a textual summary of the functions of a set of genes and their products.</p>
+<p>TALISMAN can run in three different ways:</p>
+<ol>
+<li>Map gene symbols to IDs using the resolver (unless IDs are specified)</li>
+<li>Fetch gene descriptions using Alliance API</li>
+<li>Create a prompt using descriptions</li>
+</ol>
+<p>Options:</p>
+<ul>
+<li><code>-r</code>, <code>--resolver TEXT</code> - OAK selector for the gene ID resolver, e.g., <code>sqlite:obo:hgnc</code> for HGNC gene IDs.</li>
+<li><code>-C</code>, <code>--context TEXT</code> - domain, e.g., anatomy, industry, health-related</li>
+<li><code>--strict</code> / <code>--no-strict</code> - If set, there must be a unique mappings from labels to IDs. Defaults to True.</li>
+<li><code>-U</code>, <code>--input-file TEXT</code> - Path to a file with gene IDs to enrich if not passed as arguments.</li>
+<li><code>--randomize-gene-descriptions-using-file TEXT</code> - For evaluation only. Path to a file containing gene identifiers and descriptions; if this option is used, TALISMAN will swap out gene descriptions with those from this gene set file.</li>
+<li><code>--ontological-synopsis</code> / <code>--no-ontological-synopsis</code> - If set, use automated rather than manual gene descriptions. Defaults to True.</li>
+<li><code>--combined-synopsis</code> / <code>--no-combined-synopsis</code> - If set, combine gene descriptions. Defaults to False.</li>
+<li><code>--end-marker TEXT</code> - Specify a character or string to end prompts with. For testing minor variants of prompts.</li>
+<li><code>--annotations</code> / <code>--no-annotations</code> - If set, include annotations in the prompt. Defaults to True.</li>
+<li><code>--prompt-template TEXT</code> - Path to a file containing the prompt.</li>
+<li><code>--interactive</code> / <code>--no-interactive</code> - Interactive mode - rather than call the API, the function will present a walkthrough process. Defaults to False.</li>
+</ul>
+<p>Example:</p>
+<pre><code class="language-bash">ontogpt enrichment -r sqlite:obo:hgnc -U tests/input/genesets/EDS.yaml
+</code></pre>
+<p>In this case, the prompt will include gene summaries retrieved from the database.</p>
+<p>The response text will include, among other fields, a summary like this:</p>
+<pre><code class="language-text">Summary: The common function among these genes is their involvement in the regulation and organization of the extracellular matrix, particularly collagen fibril organization and biosynthesis.
+</code></pre>
+<h3 id="entity-similarity">entity-similarity</h3>
+<p>Determine similarity between ontology entities by comparing their embeddings.</p>
+<p>Options:</p>
+<ul>
+<li><code>-r</code>, <code>--ontology TEXT</code> - name of the ontology to use. This should be an OAK adapter name such as "sqlite:obo:hp".</li>
+<li><code>--definitions</code> / <code>--no-definitions</code> - Include text definitions in the text to embed. Defaults to True.</li>
+<li><code>--parents</code> / <code>--no-parents</code> - Include is-a parent terms in the text to embed. Defaults to True.</li>
+<li><code>--ancestors</code> / <code>--no-ancestors</code> - Include all ancestors in the text to embed. Defaults to True.</li>
+<li><code>--logical-definitions</code> / <code>--no-logical-definitions</code>- Include logical definitions in the text to embed. Defaults to True.</li>
+<li><code>--autolabel</code> / <code>--no-autolabel</code> - Add labels to each subject and object identifier. Defaults to True.</li>
+<li><code>--synonyms</code> / <code>--no-synonyms</code> - Include synonyms in the text to embed. Defaults to True.</li>
+</ul>
+<p>Example:</p>
+<pre><code class="language-bash">ontogpt entity-similarity -r sqlite:obo:hp HP:0012228 HP:0000629
+</code></pre>
+<p>In this case, the output will look like this:</p>
+<pre><code class="language-text">subject_id      subject_label   object_id       object_label    embedding_cosine_similarity     object_rank_for_subject
+HP:0012228      Tension-type headache   HP:0012228      Tension-type headache   0.9999999999999999      0
+HP:0012228      Tension-type headache   HP:0000629      Periorbital fullness    0.7755551231762359      1
+HP:0000629      Periorbital fullness    HP:0000629      Periorbital fullness    1.0000000000000002      0
+HP:0000629      Periorbital fullness    HP:0012228      Tension-type headache   0.7755551231762359      1
+</code></pre>
+<h3 id="eval">eval</h3>
+<p>Evaluate an extractor.</p>
+<p>See the Evaluations section for more details.</p>
+<p>Options:</p>
+<ul>
+<li><code>--num-tests INTEGER</code> - number of test iterations to cycle through. Defaults to 5.</li>
+</ul>
+<p>Example:</p>
+<pre><code class="language-bash">ontogpt eval --num-tests 1 EvalCTD
+</code></pre>
+<h3 id="eval-enrichment">eval-enrichment</h3>
+<p>Run enrichment (TALISMAN) using multiple methods.</p>
+<p>This function runs a set of evaluations specific to the TALISMAN gene set summary process.</p>
+<p>It will iterate through all relevant models to compare results.</p>
+<p>The function assumes genes will have HGNC identifiers.</p>
+<p>Options:</p>
+<ul>
+<li><code>--strict</code> / <code>--no-strict</code> - If set, there must be a unique mappings from labels to IDs. Defaults to True.</li>
+<li><code>-U</code>, <code>--input-file TEXT</code> - Path to a file with gene IDs to enrich (if not passed as arguments)</li>
+<li><code>--ontological-synopsis</code> / <code>--no-ontological-synopsis</code> - If set, use automated rather than manual gene descriptions. Defaults to True.</li>
+<li><code>--combined-synopsis</code> / <code>--no-combined-synopsis</code> - If set, combine gene descriptions. Defaults to False.</li>
+<li><code>--annotations</code> / <code>--no-annotations</code> - If set, include annotations in the prompt. Defaults to True.</li>
+<li><code>-n</code>, <code>--number-to-drop INTEGER</code> - Maximum number of genes to drop if necessary.</li>
+<li><code>-A</code>, <code>--annotations-path TEXT</code> - Path to file containing annotations.</li>
+</ul>
+<p>Example:</p>
+<pre><code class="language-bash">ontogpt enrichment -U tests/input/genesets/EDS.yaml
+</code></pre>
+<h3 id="extract">extract</h3>
+<p>Extract knowledge from text guided by a schema.</p>
+<p>This is OntoGPT's implementation of SPIRES.</p>
+<p>Output includes the input text (or a truncated part), the raw completion output, the prompt (specifically, the last iteration of the prompts used), and an extracted object containing all parts identified in the input text, as well as a list of named entities and their labels.</p>
+<p>Options:</p>
+<ul>
+<li><code>-S</code>, <code>--set-slot-value TEXT</code> - Set slot value manually, e.g., <code>--set-slot-value has_participant=protein</code></li>
+</ul>
+<p>Examples:</p>
+<pre><code class="language-bash">ontogpt extract -t gocam.GoCamAnnotations -i tests/input/cases/gocam-33246504.txt
+</code></pre>
+<p>In this case, you will an extracted object in the output like:</p>
+<pre><code class="language-yaml">extracted_object:
+  genes:
+    - HGNC:5992
+    - AUTO:F4/80
+    - HGNC:16400
+    - HGNC:1499
+    - HGNC:5992
+    - HGNC:5993
+  organisms:
+    - NCBITaxon:10088
+    - AUTO:bone%20marrow-derived%20macrophages
+    - AUTO:astrocytes
+    - AUTO:bipolar%20cells
+    - AUTO:vascular%20cells
+    - AUTO:perivascular%20MPs
+  gene_organisms:
+    - gene: HGNC:5992
+      organism: AUTO:mononuclear%20phagocytes
+    - gene: HGNC:16400
+      organism: AUTO:F4/80%2B%20mononuclear%20phagocytes
+    - gene: HGNC:1499
+      organism: AUTO:F4/80%2B%20mononuclear%20phagocytes
+    - gene: HGNC:5992
+      organism: AUTO:perivascular%20macrophages
+    - gene: HGNC:5993
+      organism: AUTO:None
+  activities:
+    - GO:0006954
+    - AUTO:photoreceptor%20death
+    - AUTO:retinal%20function
+  gene_functions:
+    - gene: HGNC:5992
+      molecular_activity: GO:0006954
+    - gene: AUTO:F4/80
+      molecular_activity: AUTO:mononuclear%20phagocyte%20recruitment
+    - gene: HGNC:1499
+      molecular_activity: GO:0006954
+    - gene: HGNC:5992
+      molecular_activity: AUTO:immune-specific%20expression
+    - gene: HGNC:5993
+      molecular_activity: AUTO:IL-1%CE%B2%20receptor
+    - gene: AUTO:rytvela
+      molecular_activity: AUTO:IL-1R%20modulation
+    - gene: AUTO:Kineret
+      molecular_activity: AUTO:IL-1R%20antagonism
+  cellular_processes:
+    - AUTO:macrophage-induced%20photoreceptor%20death
+  gene_localizations:
+    - gene: HGNC:5992
+      location: AUTO:subretinal%20space
+</code></pre>
+<p>Or, we can extract information about a drug and specify which model to use:</p>
+<pre><code class="language-bash">ontogpt extract -t drug -i tests/input/cases/drug-DB00316-moa.txt --auto-prefix UNKNOWN -m gpt-4
+</code></pre>
+<p>The <code>ontology_class</code> schema may be used to perform more domain-agnostic entity recognition, though this is generally incompatible with grounding.</p>
+<pre><code class="language-bash">ontogpt extract -t ontology_class -i tests/input/cases/human_urban_green_space.txt
+</code></pre>
+<h3 id="fill">fill</h3>
+<p>Fill in missing values.</p>
+<p>Requires the path to a file containing a data object to be passed (as an argument) and a set of examples as an input file.</p>
+<p>Options:</p>
+<ul>
+<li><code>-E</code>, <code>--examples FILENAME</code> - Path to a file of example objects.</li>
+</ul>
+<h3 id="generate-extract">generate-extract</h3>
+<p>Generate text and then extract knowledge from it.</p>
+<p>This command runs two operations:</p>
+<ol>
+<li>Generate a natural language description of something</li>
+<li>Parse the generated description using SPIRES</li>
+</ol>
+<p>For example, given a cell type such as <a href="https://cellxgene.cziscience.com/cellguide/CL_0002623">Acinar Cell Of Salivary Gland</a>, generate a description using GPT describing many aspects of the cell type, from its marker genes through to its function and diseases it is implicated in.</p>
+<p>After that, use the <a href="https://w3id.org/ontogpt/cell_type">cell-type schema</a> to extract this into structured form.</p>
+<p>As an optional next step use <a href="https://github.com/linkml/linkml-owl">linkml-owl</a> to generate OWL TBox axioms.</p>
+<p>See also: <code>iteratively-generate-extract</code> below.</p>
+<p>Example:</p>
+<pre><code class="language-bash">ontogpt generate-extract -t cell_type CL:0002623
+</code></pre>
+<h3 id="iteratively-generate-extract">iteratively-generate-extract</h3>
+<p>Iterate through generate-extract.</p>
+<p>This runs the <code>generate-extract</code> command in iterative mode. It will traverse the extracted subtypes with each iteration, gradually building up an ontology that is entirely generated from the "latent knowledge" in the LLM.</p>
+<p>Currently each iteration is independent so the method remains unaware as to whether it has already made a concept. Ungrounded concepts may indicate gaps in available knowledgebases.</p>
+<p>Unlike the <code>generate-extract</code> command, this command requires some additional parameters to be specified.</p>
+<p>Please specify the input ontology and the output path.</p>
+<p>Options:</p>
+<ul>
+<li><code>-r</code>, <code>--ontology TEXT</code> - Ontology to use. Use the OAK selector format, e.g., "sqlite:obo:cl"</li>
+<li><code>-M</code>, <code>--max-iterations INTEGER</code> - Maximum number of iterations.</li>
+<li><code>-I</code>, <code>--iteration-slot TEXT</code> - Slots to iterate over.</li>
+<li><code>-D</code>, <code>--db TEXT</code> - Path to the output, in YAML format.</li>
+<li><code>--clear</code> / <code>--no-clear</code> - If set, clear the output database before starting. Defaults to False.</li>
+</ul>
+<p>Example:</p>
+<pre><code class="language-bash">ontogpt iteratively-generate-extract -t cell_type -r sqlite:obo:cl -D cells.yaml CL:0002623 
+</code></pre>
+<h3 id="list-models">list-models</h3>
+<p>List all available models.</p>
+<p>Example:</p>
+<pre><code class="language-bash">ontogpt list-models
+</code></pre>
+<h3 id="list-templates">list-templates</h3>
+<p>List the templates.</p>
+<p>Alternatively, run <code>make list_templates</code>.</p>
+<p>Example:</p>
+<pre><code class="language-bash">ontogpt list-templates
+</code></pre>
+<h3 id="pubmed-annotate">pubmed-annotate</h3>
+<p>Retrieve a collection of PubMed IDs for a given search, then perform extraction on them with SPIRES.</p>
+<p>The search argument will accept all parameters known to PubMed search, such as filtering by publication year.</p>
+<p>Works for single publications, too - set the <code>--limit</code> parameter to 1 and specify a PubMed ID as the search argument.</p>
+<p>Options:</p>
+<ul>
+<li><code>--limit INTEGER</code> - Total number of citation records to return. Limited by the NCBI API.</li>
+<li><code>--get-pmc</code> / <code>--no-get-pmc</code> - Attempt to parse PubMed Central full text(s) rather than abstract(s) alone.</li>
+</ul>
+<p>Examples:</p>
+<pre><code class="language-bash">ontogpt pubmed-annotate -t phenotype &quot;Takotsubo Cardiomyopathy: A Brief Review&quot; --get-pmc --model gpt-3.5-turbo-16k --limit 3
+</code></pre>
+<pre><code class="language-bash">ontogpt pubmed-annotate -t environmental_sample &quot;33126925&quot; --limit 1
+</code></pre>
+<pre><code class="language-bash">ontogpt pubmed-annotate -t composite_disease &quot;(earplugs) AND ((&quot;1950&quot;[Date - Publication] : &quot;1990&quot;[Date - Publication]))&quot; --limit 4
+</code></pre>
+<h3 id="pubmed-extract">pubmed-extract</h3>
+<p>Extract knowledge from a single PubMed ID.</p>
+<p><em>DEPRECATED</em> - use <code>pubmed-annotate</code> instead.</p>
+<h3 id="recipe-extract">recipe-extract</h3>
+<p>Extract from a recipe on the web.</p>
+<p>This uses the <code>recipe</code> template and the <a href="https://github.com/hhursev/recipe-scrapers">recipe_scrapers</a> package. The latter supports many different recipe web sites, so give your favorite a try.</p>
+<p>Pass a URL as the argument, or use the -R option to specify the path to a file containing one URL per line.</p>
+<p>Options:</p>
+<ul>
+<li><code>-R</code>, <code>--recipes-urls-file TEXT</code> - File with URLs to recipes to use for extraction.</li>
+</ul>
+<p>Example:</p>
+<pre><code class="language-bash">ontogpt recipe-extract https://www.allrecipes.com/recipe/17445/grilled-asparagus/
+</code></pre>
+<p>In this case, expect an extracted object like the following:</p>
+<pre><code class="language-yaml">extracted_object:
+  url: https://www.allrecipes.com/recipe/17445/grilled-asparagus/
+  label: Grilled Asparagus
+  description: Grilled asparagus with olive oil, salt, and pepper.
+  categories:
+    - AUTO:None
+  ingredients:
+    - food_item:
+        food: FOODON:03311349
+        state: fresh, spears
+      amount:
+        value: '1'
+        unit: UO:0010034
+    - food_item:
+        food: FOODON:03301826
+      amount:
+        value: '1'
+        unit: UO:0010042
+    - food_item:
+        food: AUTO:salt
+        state: and pepper
+      amount:
+        value: N/A
+        unit: AUTO:N/A
+  steps:
+    - action: AUTO:Preheat
+      inputs:
+        - food: AUTO:outdoor%20grill
+          state: None
+      outputs:
+        - food: AUTO:None
+          state: None
+      utensils:
+        - AUTO:None
+    - action: dbpediaont:season
+      inputs:
+        - food: FOODON:00003458
+          state: coated
+        - food: AUTO:salt
+          state: None
+        - food: FOODON:00003520
+      outputs:
+        - food: FOODON:00003458
+          state: seasoned
+      utensils:
+        - AUTO:None
+    - action: AUTO:cook
+      inputs:
+        - food: FOODON:03311349
+          state: None
+      outputs:
+        - food: FOODON:03311349
+          state: cooked
+      utensils:
+        - AUTO:grill
+</code></pre>
+<h3 id="synonyms">synonyms</h3>
+<p>Extract synonyms, based on embeddings.</p>
+<p>The context parameter is required.</p>
+<p>Options:</p>
+<ul>
+<li><code>-C</code>, <code>--context TEXT</code> - domain, e.g., anatomy, industry, health-related</li>
+</ul>
+<p>Example:</p>
+<pre><code class="language-bash">ontogpt synonyms --context astronomy star
+</code></pre>
+<h3 id="text-distance">text-distance</h3>
+<p>Embed text and calculate euclidian distance between the embeddings.</p>
+<p>The terms must be separated by an <code>@</code> character.</p>
+<p>Options:</p>
+<ul>
+<li><code>-C</code>, <code>--context TEXT</code> - domain, e.g., anatomy, industry, health-related</li>
+</ul>
+<p>Example:</p>
+<pre><code class="language-bash">ontogpt text-distance pancakes @ syrup
+</code></pre>
+<h3 id="text-similarity">text-similarity</h3>
+<p>Like <code>text-distance</code>, this command compares the embeddings of input terms.</p>
+<p>This command returns the cosine similarity of the embedding vectors.</p>
+<p>Options:</p>
+<ul>
+<li><code>-C</code>, <code>--context TEXT</code> - domain, e.g., anatomy, industry, health-related</li>
+</ul>
+<p>Example:</p>
+<pre><code class="language-bash">ontogpt text-similarity basketball @ basket-weaving
+</code></pre>
+<h3 id="web-extract">web-extract</h3>
+<p>Extract knowledge from web page.</p>
+<p>Pass a URL as an argument and OntoGPT will use the SPIRES method to extract information based on the specified template.</p>
+<p>Because this depends upon scraping a page, results may vary depending on a site's complexity and structure.</p>
+<p>Even relatively short pages may exceed a model's context size, so larger context models may be necessary.</p>
+<p>Example:</p>
+<pre><code class="language-bash">ontogpt web-extract -t reaction.Reaction -m gpt-3.5-turbo-16k https://www.scienceofcooking.com/maillard_reaction.htm 
+</code></pre>
+<h3 id="wikipedia-extract">wikipedia-extract</h3>
+<p>Extract knowledge from a Wikipedia page.</p>
+<p>Pass an article title as an argument and OntoGPT will use the SPIRES method to extract information based on the specified template.</p>
+<p>Even relatively short pages may exceed a model's context size, so larger context models may be necessary.</p>
+<p>Example:</p>
+<pre><code class="language-bash">ontogpt wikipedia-extract -t mendelian_disease.MendelianDisease -m gpt-3.5-turbo-16k &quot;Cartilage–hair hypoplasia&quot;
+</code></pre>
+<h3 id="wikipedia-search">wikipedia-search</h3>
+<p>Extract knowledge from Wikipedia pages based on a search.</p>
+<p>Pass a search phrase as an argument and OntoGPT will use the SPIRES method to extract information based on the specified template.</p>
+<p>Even relatively short pages may exceed a model's context size, so larger context models may be necessary.</p>
+<p>Example:</p>
+<pre><code class="language-bash">ontogpt wikipedia-search -t biological_process -m gpt-3.5-turbo-16k &quot;digestion&quot;
+</code></pre>
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+  <script>var tabs=__md_get("__tabs");if(Array.isArray(tabs))e:for(var set of document.querySelectorAll(".tabbed-set")){var tab,labels=set.querySelector(".tabbed-labels");for(tab of tabs)for(var label of labels.getElementsByTagName("label"))if(label.innerText.trim()===tab){var input=document.getElementById(label.htmlFor);input.checked=!0;continue e}}</script>
+
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    <script id="__config" type="application/json">{"base": "..", "features": ["content.tabs.link"], "search": "../assets/javascripts/workers/search.a264c092.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.726fbb30.min.js"></script>
+      
+    
+  </body>
+</html>

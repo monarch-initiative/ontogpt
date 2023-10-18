@@ -1,0 +1,1449 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+        <link rel="canonical" href="https://monarch-initiative.github.io/ontogpt/custom/">
+      
+      
+        <link rel="prev" href="../operation/">
+      
+      
+        <link rel="next" href="../owl_exports/">
+      
+      
+      <link rel="icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.5.3, mkdocs-material-9.4.2">
+    
+    
+      
+        <title>Custom Schemas - OntoGPT</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.d451bc0e.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.a5377069.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="teal" data-md-color-accent="amber">
+  
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&"object"==typeof palette.color)for(var key of Object.keys(palette.color))document.body.setAttribute("data-md-color-"+key,palette.color[key])</script>
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#custom-schemas" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href=".." title="OntoGPT" class="md-header__button md-logo" aria-label="OntoGPT" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2Z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            OntoGPT
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Custom Schemas
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="teal" data-md-color-accent="amber"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_2" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 2a7 7 0 0 0-7 7c0 2.38 1.19 4.47 3 5.74V17a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1v-2.26c1.81-1.27 3-3.36 3-5.74a7 7 0 0 0-7-7M9 21a1 1 0 0 0 1 1h4a1 1 0 0 0 1-1v-1H9v1Z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="teal" data-md-color-accent="amber"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_2">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 2a7 7 0 0 1 7 7c0 2.38-1.19 4.47-3 5.74V17a1 1 0 0 1-1 1H9a1 1 0 0 1-1-1v-2.26C6.19 13.47 5 11.38 5 9a7 7 0 0 1 7-7M9 21v-1h6v1a1 1 0 0 1-1 1h-4a1 1 0 0 1-1-1m3-17a5 5 0 0 0-5 5c0 2.05 1.23 3.81 3 4.58V16h4v-2.42c1.77-.77 3-2.53 3-4.58a5 5 0 0 0-5-5Z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41Z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/monarch-initiative/ontogpt/" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="OntoGPT" class="md-nav__button md-logo" aria-label="OntoGPT" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
+
+    </a>
+    OntoGPT
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/monarch-initiative/ontogpt/" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Introduction
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../setup/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Setup
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../operation/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Operation
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  <span class="md-ellipsis">
+    Custom Schemas
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  <span class="md-ellipsis">
+    Custom Schemas
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#build-a-custom-schema" class="md-nav__link">
+    Build a custom schema
+  </a>
+  
+    <nav class="md-nav" aria-label="Build a custom schema">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#the-header" class="md-nav__link">
+    The header
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#the-classes" class="md-nav__link">
+    The classes
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#enums" class="md-nav__link">
+    Enums
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#schema-design-tips" class="md-nav__link">
+    Schema design tips
+  </a>
+  
+    <nav class="md-nav" aria-label="Schema design tips">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#multiple-levels-of-nesting" class="md-nav__link">
+    Multiple levels of nesting
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#text-length-limit" class="md-nav__link">
+    Text length limit
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#install-a-custom-schema" class="md-nav__link">
+    Install a custom schema
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../owl_exports/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    OWL Exports
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../evaluations/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Evaluations
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../functions/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Functions
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../troubleshooting/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Troubleshooting
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_9" >
+        
+          
+          <label class="md-nav__link" for="__nav_9" id="__nav_9_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    SPIRES Templates
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_9_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_9">
+            <span class="md-nav__icon md-icon"></span>
+            SPIRES Templates
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../core/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Core Upper Level Schema
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../reaction/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Biochemical Reactions
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../biological_process/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Biological Processes
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../biotic_interaction/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Biotic Interactions
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../cell_type/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Cell Types
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ctd/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Chemical to Disease
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../diagnostic_procedure/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Diagnostic Procedures
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../drug/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Drugs and Mechanisms
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../environmental_sample/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Environmental Samples
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../gocam/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    GO-CAMs and Pathways
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ibd_literature/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Irritable Bowel Diseases and Literature
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../mendelian_disease/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Mendelian Diseases
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../metabolic_process/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Metabolic Processes
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../metagenome_study/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Metagenome Studies
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ontology_class/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Ontology Classes
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ontology_issue/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Ontology Issues
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../recipe/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Recipes
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../traits/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Traits of a Taxon
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../treatment/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Treatments
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../halo/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    HALO Schema
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#build-a-custom-schema" class="md-nav__link">
+    Build a custom schema
+  </a>
+  
+    <nav class="md-nav" aria-label="Build a custom schema">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#the-header" class="md-nav__link">
+    The header
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#the-classes" class="md-nav__link">
+    The classes
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#enums" class="md-nav__link">
+    Enums
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#schema-design-tips" class="md-nav__link">
+    Schema design tips
+  </a>
+  
+    <nav class="md-nav" aria-label="Schema design tips">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#multiple-levels-of-nesting" class="md-nav__link">
+    Multiple levels of nesting
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#text-length-limit" class="md-nav__link">
+    Text length limit
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#install-a-custom-schema" class="md-nav__link">
+    Install a custom schema
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+  
+  
+
+
+<h1 id="custom-schemas">Custom Schemas</h1>
+<h2 id="build-a-custom-schema">Build a custom schema</h2>
+<p>Define a schema (using a subset of <a href="https://linkml.io">LinkML</a>) that describes the structure in which you want to extract knowledge from your text.</p>
+<p>There are a number of pre-defined LinkML data models already developed here - <a href="src/ontogpt/templates/">src/ontogpt/templates/</a> which you can use as reference when creating your own data models.</p>
+<h3 id="the-header">The header</h3>
+<p>The header of the schema defines metadata, parameters instructing LinkML to interpret prefixes in specific ways, and names of imports.</p>
+<p>You will find these fields in the schema header:</p>
+<ul>
+<li><code>id</code>: A unique identifier for the schema. These may take the form of W3IDs like <code>http://w3id.org/ontogpt/schemaname</code>.</li>
+<li><code>name</code>: Name of the schema. Should resemble the filename.</li>
+<li><code>title</code>: Title of the schema for human readability.</li>
+<li><code>description</code>: A human readable description of the schema. Detail is welcome!</li>
+<li><code>license</code>: A license indicating reusability of the schema. We prefer a <a href="https://creativecommons.org/publicdomain/zero/1.0/">CC0 license</a>.</li>
+<li><code>prefixes</code>: This is a list (actually a dictionary, as each item contains a key and a value) of short prefixes for the identifier namespaces used in the schema along with their corresponding identifier prefixes. At minimum, this shoulc include <code>linkml: https://w3id.org/linkml/</code> and the prefix for your schema itself. If the schema is named <code>salmon</code>, this will be something like <code>salmon: http://w3id.org/ontogpt/salmon/</code>. If you're using Gene Ontology identifiers, specify their prefixes as <code>GO: http://purl.obolibrary.org/obo/GO_</code>, because each Gene Ontology term has an identifier prefixed with <code>GO:</code>.</li>
+<li><code>default_prefix</code>: This is the prefix for your schema. It should match what you used in the <code>prefixes</code> list, so following the above example, that would be <code>salmon</code>.</li>
+<li>
+<p><code>default_range</code>: This is the default data type LinkML will assume each class should be unless specified otherwise. Using <code>string</code> is usually safe.</p>
+</li>
+<li>
+<p><code>imports</code>: A list of other schemas to import types from. These may be any schemas in the same directory (e.g., if you have another schema named <code>francine</code> then you may simply include <code>francine</code> in the list of imports) but note that LinkML will raise an error if multiple classes have the same name across the imports. Minimally, this list should include <code>linkml:types</code> and <code>core</code> to import the base LinkML data types and the generic OntoGPT classes, respectively.</p>
+</li>
+</ul>
+<p>An example:</p>
+<pre><code class="language-yaml">id: http://w3id.org/ontogpt/gocam
+name: gocam-template
+title: GO-CAM Template
+description: &gt;-
+  A template for GO-CAMs
+license: https://creativecommons.org/publicdomain/zero/1.0/
+prefixes:
+  linkml: https://w3id.org/linkml/
+  gocam: http://w3id.org/ontogpt/gocam/
+  GO: http://purl.obolibrary.org/obo/GO_
+  CL: http://purl.obolibrary.org/obo/CL_
+
+default_prefix: gocam
+default_range: string
+
+imports:
+  - linkml:types
+  - core
+</code></pre>
+<h3 id="the-classes">The classes</h3>
+<p>The classes in the schema define the "things" you are interested in extracting. LinkML doesn't make many assumptions about the difference between a class and a relationship, a node and an edge, or a relation and a property. It's designed to be flexibile enough to handle a variety of data models.</p>
+<p>The start of this section is indicated by <code>classes:</code>.</p>
+<p>A minimal class may look like this:</p>
+<pre><code class="language-yaml">  ClassName:
+    is_a: NamedEntity
+    attributes:
+      entity:
+        range: string
+        description: &gt;- 
+          A named entity.
+</code></pre>
+<p>In practice, this class won't do much, as it doesn't contain much for OntoGPT to work with or many instructions to form an LLM prompt out of. And that's fine, because we can do more.</p>
+<p>These fields may be used in classes:</p>
+<ul>
+<li><code>is_a</code>: This describes a hierarchical structure, so the value of this slot is the name of a LinkML class. <code>NamedEntity</code> is defined in OntoGPT's core schema and is will ensure extracted objects of this class have both unique identifiers and human readable labels.</li>
+<li><code>tree_root</code>: If <code>true</code>, this class will be treated as the root of the data hierarchy. If you're planning to extract specific objects from a full text document, for example, it may be useful to define a class for the document to contain its metadata. This parent class could then be the <code>tree_root</code>.</li>
+<li><code>attributes</code>: This slot defines all class attributes, and in OntoGPT, that means each will be included in a prompt for the LLM. Each attribute should have a unique, lowercased name. Attributes have their own slots:</li>
+<li><code>description</code>: The attribute description to be <em>passed as part of the prompt</em>. This should describe the attribute and how it should be formatted in the generated output. Do not include references to specific identifiers here.</li>
+<li><code>multivalued</code>: If <code>true</code>, any value for this attribute will be interpreted as a list. This is cruical if you expect multiple values in the extracted output and should be reflected in the description by indicating how each value should be separated. OntoGPT prefers semicolons.</li>
+<li><code>range</code>: The class to restrict the object to. This may be an abstract data type like <code>string</code> or another class defined elsewhere in your schema, like <code>Gene</code> in the example below.</li>
+<li><code>id_prefixes</code>: A list of identifiers to ground values of this class to. Usually specific to a class rather than an attribute. Use capitalized forms and omit the colon. If you want to ground to MeSH terms, for example, include the prefix <code>MESH</code>.</li>
+<li><code>annotations</code>: This slot contains specific instructions for OntoGPT in its annotation and grounding operations. The heading <code>annotators</code>, placed under this slot, must contain a comma separated list of value annotators provided by the Ontology Access Kit (OAK). <a href="https://incatools.github.io/ontology-access-kit/packages/implementations/index.html">In OAK these are called <em>implementations</em> or <em>adapters</em> and there are many of them available.</a>. Annotators are responsible for bridging the gap between raw text and unique identifier, though that process may involve searching a combination of term lists along with their synonyms and equivalents.</li>
+<li>OBO Foundry ontologies make great annotators. To use CHEBI for chemical names, for example, use the annotator <code>sqlite:obo:chebi</code> and include <code>CHEBI</code> in the <code>id_prefixes</code> list.</li>
+<li>Ontologies in BioPortal work well, too. They may be specified with the BioPortal ID. To use the EnvThes ecological thesaurus, for example, use the annotator <code>bioportal:ENVTHES</code> and the prefix <code>ENVTHES</code>.</li>
+<li><code>slot_usage</code>: This slot can contain rules about how another slot may be restricted. In the example below, <code>GeneLocation</code> has values for its <code>id</code> slot restricted to values within two different <em>enums</em>. See the next section for more information on how to use enums.</li>
+</ul>
+<p>An example, continuing from where the header left off:</p>
+<pre><code class="language-yaml">classes:
+  GoCamAnnotations:
+    tree_root: true
+    attributes:
+      genes:
+        description: semicolon-separated list of genes
+        multivalued: true
+        range: Gene
+      organisms:
+        description: semicolon-separated list of organism taxons
+        multivalued: true
+        range: Organism
+      gene_organisms:
+        annotations:
+          prompt: semicolon-separated list of asterisk separated gene to organism relationships
+        multivalued: true
+        range: GeneOrganismRelationship
+      activities:
+        description: semicolon-separated list of molecular activities
+        multivalued: true
+        range: MolecularActivity
+      gene_functions:
+        description: semicolon-separated list of gene to molecular activity relationships
+        multivalued: true
+        range: GeneMolecularActivityRelationship
+      cellular_processes:
+        description: semicolon-separated list of cellular processes
+        multivalued: true
+        range: CellularProcess
+      pathways:
+        description: semicolon-separated list of pathways
+        multivalued: true
+        range: Pathway
+      gene_gene_interactions:
+        description: semicolon-separated list of gene to gene interactions
+        multivalued: true
+        range: GeneGeneInteraction
+      gene_localizations:
+        description: &gt;-
+          semicolon-separated list of genes plus their location in the cell;
+          for example, &quot;gene1 / cytoplasm; gene2 / mitochondrion&quot;
+        multivalued: true
+        range: GeneSubcellularLocalizationRelationship
+
+  Gene:
+    is_a: NamedEntity
+    id_prefixes:
+      - HGNC
+      - PR
+      - UniProtKB
+    annotations:
+      annotators: gilda:, bioportal:hgnc-nr
+  Pathway:
+    is_a: NamedEntity
+    id_prefixes:
+      - GO
+      - PW
+    annotations:
+      annotators: sqlite:obo:go, sqlite:obo:pw
+  CellularProcess:
+    is_a: NamedEntity
+    id_prefixes:
+      - GO
+    annotations:
+      annotators: sqlite:obo:go
+  MolecularActivity:
+    is_a: NamedEntity
+    id_prefixes:
+      - GO
+    annotations:
+      annotators: sqlite:obo:go
+  GeneLocation:
+    is_a: NamedEntity
+    id_prefixes:
+      - GO
+      - CL
+      - UBERON
+    annotations:
+      annotators: &quot;sqlite:obo:go, sqlite:obo:cl&quot;
+    slot_usage:
+      id:
+        values_from:
+          - GOCellComponentType
+          - CellType
+  Organism:
+    is_a: NamedEntity
+    id_prefixes:
+      - NCBITaxon
+      - EFO
+    annotations:
+      annotators: gilda:, sqlite:obo:ncbitaxon
+  Molecule:
+    is_a: NamedEntity
+    id_prefixes:
+      - CHEBI
+      - PR
+    annotations:
+      annotators: gilda:, sqlite:obo:chebi
+
+  GeneOrganismRelationship:
+    is_a: CompoundExpression
+    attributes:
+      gene:
+        range: Gene
+      organism:
+        range: Organism
+
+  GeneMolecularActivityRelationship:
+    is_a:   CompoundExpression
+    attributes:
+      gene:
+        range: Gene
+        annotations:
+          prompt: the name of the gene in the pair. This comes first.
+      molecular_activity:
+        range: MolecularActivity
+        annotations:
+          prompt: the name of the molecular function in the pair. This comes second. May be a GO term.
+
+  GeneMolecularActivityRelationship2:
+    is_a:   CompoundExpression
+    attributes:
+      gene:
+        range: Gene
+        annotations:
+          prompt: the name of the gene.
+      molecular_activity:
+        range: MolecularActivity
+        annotations:
+          prompt: the name of the molecular activity, for example, ubiquitination. May be a GO term.
+      target:
+        range: Molecule
+        annotations:
+          prompt: the name of the molecular entity that is the target of the molecular activity.
+
+  GeneSubcellularLocalizationRelationship:
+    is_a:   CompoundExpression
+    attributes:
+      gene:
+        range: Gene
+      location:
+        range: GeneLocation
+
+  GeneGeneInteraction:
+    is_a:   CompoundExpression
+    attributes:
+      gene1:
+        range: Gene
+      gene2:
+        range: Gene
+</code></pre>
+<h3 id="enums">Enums</h3>
+<p>LinkML supports defining <em>enums</em>, or sets of values. In OntoGPT this allows schemas to work with subsets of identifiers. Enums have their own hierarchy. In the example below, the <code>reachable_from</code> slot is used to define sets of values: in <code>GOCellComponentType</code> these are all children of the GO term with the ID <code>GO:0005575</code> (cellular component), so restricting a set of identifiers based on this enum will ensure they all correspond to cellular components.</p>
+<p>Example, starting where the classes left off above:</p>
+<pre><code class="language-yaml">enums:
+
+  GeneLocationEnum:
+    inherits:
+      - GOCellComponent
+      - CellType
+
+  GOCellComponentType:
+    reachable_from:
+      source_ontology: obo:go
+      source_nodes:
+        - GO:0005575 ## cellular_component
+  CellType:
+    reachable_from:
+      source_ontology: obo:cl
+      source_nodes:
+        - CL:0000000 ## cell
+</code></pre>
+<h3 id="schema-design-tips">Schema design tips</h3>
+<p>It helps to have an understanding of the <a href="https://linkml.io">LinkML</a> schema language, but it should be possible to define your own schemas using the examples in <a href="src/ontogpt/templates/">src/ontogpt/templates</a> as a guide.</p>
+<ul>
+<li>Prompt hints can be specified using the <code>prompt</code> annotation (otherwise description is used)</li>
+<li>Multivalued fields are supported</li>
+<li>The default range is string — these are not grounded. Ex.: disease name, synonyms</li>
+<li>Define a class for each <code>NamedEntity</code></li>
+<li>For any <code>NamedEntity</code>, you can specify a preferred annotator using the <code>annotators</code> annotation</li>
+</ul>
+<p>We recommend following an established schema like <a href="https://github.com/biolink/biolink-model">BioLink Model</a>, but you can define your own.</p>
+<p>Once you have defined your own schema / data model and placed in the correct directory, you can run the <code>extract</code> command.</p>
+<p>Ex.:</p>
+<pre><code class="language-bash">ontogpt extract -t mendelian_disease.MendelianDisease -i marfan-wikipedia.txt
+</code></pre>
+<p>OntoGPT-specific extensions are specified as <em>annotations</em>.</p>
+<p>You can specify a set of annotators for a field using the <code>annotators</code> annotation.</p>
+<p>Ex.:</p>
+<pre><code class="language-yaml">  Gene:
+    is_a: NamedThing
+    id_prefixes:
+      - HGNC
+    annotations:
+      annotators: gilda:, bioportal:hgnc-nr, obo:pr
+</code></pre>
+<p>The annotators are applied in order.</p>
+<p>Additionally, when performing grounding, the following measures can be taken to improve accuracy:</p>
+<ul>
+<li>Specify the valid set of ID prefixes using <code>id_prefixes</code></li>
+<li>Some vocabularies have structural IDs that are amenable to regexes, you can specify these using <code>pattern</code></li>
+<li>You can make use of <code>values_from</code> slot to specify a <a href="https://linkml.io/linkml/schemas/enums.html#dynamic-enums">Dynamic Value Set</a></li>
+<li>For example, you can constrain the set of valid locations for a gene product to be subclasses of <code>cellular_component</code> in GO or <code>cell</code> in CL</li>
+</ul>
+<p>Ex.:</p>
+<pre><code class="language-yaml">classes:
+  ...
+  GeneLocation:
+    is_a: NamedEntity
+    id_prefixes:
+      - GO
+      - CL
+    annotations:
+      annotators: &quot;sqlite:obo:go, sqlite:obo:cl&quot;
+    slot_usage:
+      id:
+        values_from:
+          - GOCellComponentType
+          - CellType
+
+enums:
+  GOCellComponentType:
+    reachable_from:
+      source_ontology: obo:go
+      source_nodes:
+        - GO:0005575 ## cellular_component
+  CellType:
+    reachable_from:
+      source_ontology: obo:cl
+      source_nodes:
+        - CL:0000000 ## cell
+</code></pre>
+<h4 id="multiple-levels-of-nesting">Multiple levels of nesting</h4>
+<p>Currently no more than two levels of nesting are recommended.</p>
+<p>If a field has a range which is itself a class and not a primitive, it will attempt to nest.</p>
+<p>Ex. the <code>gocam</code> schema has an attribute:</p>
+<pre><code class="language-yaml">  attributes:
+      ...
+      gene_functions:
+        description: semicolon-separated list of gene to molecular activity relationships
+        multivalued: true
+        range: GeneMolecularActivityRelationship
+</code></pre>
+<p>The range <code>GeneMolecularActivityRelationship</code> has been specified <em>inline</em>, so it will nest.</p>
+<p>The generated prompt is:</p>
+<pre><code class="language-bash">gene_functions : &lt;semicolon-separated list of gene to molecular activities relationships&gt;
+</code></pre>
+<p>The output of this is then passed through further SPIRES iterations.</p>
+<h4 id="text-length-limit">Text length limit</h4>
+<p>LLMs have context sizes limiting the combined length of their inputs and outputs. The <code>gpt-3.5-turbo</code> model, for example, has a 4,096 token limit (prompt + completion), while the <code>gpt-3.5-turbo-16k</code> model has a larger context of 16,384 tokens.</p>
+<h2 id="install-a-custom-schema">Install a custom schema</h2>
+<p>If you have installed OntoGPT directly from its GitHub repository, then you may install a custom schema like this:</p>
+<ol>
+<li>Move the schema file to the <code>src/ontogpt/templates</code> directory.</li>
+<li>Run <code>make</code> from the root of the repository to generate Pydantic versions of the schema.</li>
+</ol>
+<p>If you have installed OntoGPT from <code>pip</code>, <em>or</em> if you can't use the <code>make</code> command, the process is similar, though it will depend on where the package is installed.</p>
+<ol>
+<li>
+<p>Use the LinkML <code>gen-pydantic</code> tool to generate Pydantic classes. If your schema is named <code>alfred.yaml</code>, then run the following:</p>
+<p><code>bash
+gen-pydantic --pydantic_version 2 alfred.yaml &gt; alfred.py</code></p>
+</li>
+<li>
+<p>Move both the .yaml and the .py versions of your schema to the <code>templates</code> directory of wherever OntoGPT is installed. In a virtual environment named <code>temp</code> that may be something like <code>/temp/lib/python3.9/site-packages/ontogpt/templates</code>.</p>
+</li>
+</ol>
+<p>You may then use the schema like any other. For example, if your schema is named <code>albatross.yaml</code>, then an extract command is:</p>
+<pre><code class="language-bash">ontogpt extract -t albatross -i input.txt
+</code></pre>
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+  <script>var tabs=__md_get("__tabs");if(Array.isArray(tabs))e:for(var set of document.querySelectorAll(".tabbed-set")){var tab,labels=set.querySelector(".tabbed-labels");for(tab of tabs)for(var label of labels.getElementsByTagName("label"))if(label.innerText.trim()===tab){var input=document.getElementById(label.htmlFor);input.checked=!0;continue e}}</script>
+
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    <script id="__config" type="application/json">{"base": "..", "features": ["content.tabs.link"], "search": "../assets/javascripts/workers/search.a264c092.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.726fbb30.min.js"></script>
+      
+    
+  </body>
+</html>
