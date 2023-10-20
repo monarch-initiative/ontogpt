@@ -212,7 +212,13 @@ class EvalCTD(SPIRESEvaluationEngine):
             predicted_obj = None
             named_entities: List[str] = []  # This stores the NEs for the whole document
             ke.named_entities = []  # This stores the NEs the extractor knows about
-            for chunked_text in chunk_text(text):
+
+            if self.chunking:
+                text_list = chunk_text(text)
+            else:
+                text_list = [text]
+
+            for chunked_text in text_list:
                 extraction = ke.extract_from_text(chunked_text)
                 if extraction.extracted_object is not None:
                     logger.info(
