@@ -1451,7 +1451,6 @@ def eval_enrichment(genes, input_file, number_to_drop, annotations_path, model, 
 @main.command()
 @recurse_option
 @output_option_txt
-@output_format_options
 @click.option(
     "--num-tests",
     type=click.INT,
@@ -1459,12 +1458,20 @@ def eval_enrichment(genes, input_file, number_to_drop, annotations_path, model, 
     show_default=True,
     help="number of iterations to cycle through.",
 )
+@click.option(
+    "--chunking/--no-chunking",
+    default=False,
+    show_default=True,
+    help="If set, chunk input text, then prepare a separate prompt for each chunk."
+            " Otherwise the full input text is passed.",
+)
 @click.argument("evaluator")
-def eval(evaluator, num_tests, output, output_format, **kwargs):
+def eval(evaluator, num_tests, output, chunking, **kwargs):
     """Evaluate an extractor."""
     logging.info(f"Creating for {evaluator}")
     evaluator = create_evaluator(evaluator)
     evaluator.num_tests = num_tests
+    evaluator.chunking = chunking
     eos = evaluator.eval()
     output.write(dump_minimal_yaml(eos, minimize=False))
 

@@ -388,6 +388,7 @@ See the Evaluations section for more details.
 Options:
 
 * `--num-tests INTEGER` - number of test iterations to cycle through. Defaults to 5.
+* `--chunking` / `--no-chunking` - If set, chunk input text, then prepare a separate prompt for each chunk. Otherwise the full input text is passed. Defaults to False.
 
 Example:
 
