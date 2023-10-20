@@ -10,7 +10,7 @@ Tests may be run with the `eval` command followed by the test name, e.g., for th
 ontogpt eval EvalCTD 
 ```
 
-By default, the evaluation will only be executed over a subset of the test input.
+By default, the evaluation will only be executed over a subset of the test corpus.
 
 The exact number of inputs to run the test over can be controlled with the `--num-tests` option, like this:
 
@@ -19,6 +19,10 @@ ontogpt eval --num-tests 1 EvalCTD
 ```
 
 To run the full set of tests, set `num-tests` to the input count for a given evaluation, as defined below.
+
+For each document, the evaluation process will attempt to process the full text without preprocessing.
+
+If the `--chunking` option is used, then the input text will instead be chunked into segments of a few tokens each, essentially creating new queries for each segment. This alternate strategy may impact test results and will result in longer run time.
 
 ## BC5CDR
 
