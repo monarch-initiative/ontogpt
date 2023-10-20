@@ -216,7 +216,7 @@ class EvalCTD(SPIRESEvaluationEngine):
             if self.chunking:
                 text_list = chunk_text(text)
             else:
-                text_list = [text]
+                text_list = list(text)
 
             for chunked_text in text_list:
                 extraction = ke.extract_from_text(chunked_text)
