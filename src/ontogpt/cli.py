@@ -1471,6 +1471,7 @@ def eval(evaluator, num_tests, output, chunking, **kwargs):
     logging.info(f"Creating for {evaluator}")
     evaluator = create_evaluator(evaluator)
     evaluator.num_tests = num_tests
+    evaluator.chunking = chunking
     eos = evaluator.eval()
     output.write(dump_minimal_yaml(eos, minimize=False))
 

@@ -95,3 +95,7 @@ class SPIRESEvaluationEngine(EvaluationEngine):
     num_training: int = 5
     """Number of training/exemplar cases to use for evaluation in generalization task.
     Note this number will be low as we use few-shot learning."""
+
+    chunking: bool = False
+    """Whether to pre-process input texts by chunking. If True, each chunk gets its own
+    prompt. Otherwise, pass the full text with each prompt."""
