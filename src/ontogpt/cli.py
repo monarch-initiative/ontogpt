@@ -1451,7 +1451,6 @@ def eval_enrichment(genes, input_file, number_to_drop, annotations_path, model, 
 @main.command()
 @recurse_option
 @output_option_txt
-@output_format_options
 @click.option(
     "--num-tests",
     type=click.INT,
@@ -1460,7 +1459,7 @@ def eval_enrichment(genes, input_file, number_to_drop, annotations_path, model, 
     help="number of iterations to cycle through.",
 )
 @click.argument("evaluator")
-def eval(evaluator, num_tests, output, output_format, **kwargs):
+def eval(evaluator, num_tests, output, **kwargs):
     """Evaluate an extractor."""
     logging.info(f"Creating for {evaluator}")
     evaluator = create_evaluator(evaluator)
