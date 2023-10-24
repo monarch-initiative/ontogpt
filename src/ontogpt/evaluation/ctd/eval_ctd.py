@@ -136,7 +136,8 @@ class EvalCTD(SPIRESEvaluationEngine):
     object_prefix = "MESH"
 
     def __post_init__(self):
-        self.extractor = SPIRESEngine("ctd.ChemicalToDiseaseDocument")
+        self.extractor = SPIRESEngine(template="ctd.ChemicalToDiseaseDocument",
+                                      model=self.model)
         # synonyms are derived entirely from training set
         self.extractor.load_dictionary(DATABASE_DIR / "synonyms.yaml")
 

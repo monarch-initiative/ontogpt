@@ -1450,6 +1450,7 @@ def eval_enrichment(genes, input_file, number_to_drop, annotations_path, model, 
 
 @main.command()
 @recurse_option
+@model_option
 @output_option_txt
 @click.option(
     "--num-tests",
@@ -1466,12 +1467,18 @@ def eval_enrichment(genes, input_file, number_to_drop, annotations_path, model, 
             " Otherwise the full input text is passed.",
 )
 @click.argument("evaluator")
-def eval(evaluator, num_tests, output, chunking, **kwargs):
+def eval(evaluator, num_tests, output, chunking, model, **kwargs):
     """Evaluate an extractor."""
     logging.info(f"Creating for {evaluator}")
+
+    if model:
+        selectmodel = get_model_by_name(model)
+        modelname = selectmodel["alternative_names"][0]
+
     evaluator = create_evaluator(evaluator)
     evaluator.num_tests = num_tests
     evaluator.chunking = chunking
+    evaluator.model = modelname
     eos = evaluator.eval()
     output.write(dump_minimal_yaml(eos, minimize=False))
 
