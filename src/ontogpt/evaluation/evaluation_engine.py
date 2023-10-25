@@ -89,7 +89,7 @@ class SPIRESEvaluationEngine(EvaluationEngine):
     extractor: SPIRESEngine = None
     """Knowledge extractor to use"""
 
-    num_tests: int = 10
+    num_tests: Optional[Union[int, Type]] = 10
     """Number of test cases to use for evaluation"""
 
     num_training: Optional[Union[int, Type]] = 5
