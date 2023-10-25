@@ -136,8 +136,7 @@ class EvalCTD(SPIRESEvaluationEngine):
     object_prefix = "MESH"
 
     def __post_init__(self):
-        self.extractor = SPIRESEngine(template="ctd.ChemicalToDiseaseDocument",
-                                      model=self.model)
+        self.extractor = SPIRESEngine(template="ctd.ChemicalToDiseaseDocument")
         # synonyms are derived entirely from training set
         self.extractor.load_dictionary(DATABASE_DIR / "synonyms.yaml")
 
@@ -197,6 +196,7 @@ class EvalCTD(SPIRESEvaluationEngine):
         labeler = get_adapter("sqlite:obo:mesh")
         num_test = self.num_tests
         ke = self.extractor
+        self.extractor.model = self.model
         docs = list(self.load_test_cases())
         shuffle(docs)
         eos = EvaluationObjectSetRE(

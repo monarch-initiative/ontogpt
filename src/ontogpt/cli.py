@@ -1474,6 +1474,8 @@ def eval(evaluator, num_tests, output, chunking, model, **kwargs):
     if model:
         selectmodel = get_model_by_name(model)
         modelname = selectmodel["alternative_names"][0]
+    else:
+        modelname = DEFAULT_MODEL
 
     evaluator = create_evaluator(evaluator)
     evaluator.num_tests = num_tests

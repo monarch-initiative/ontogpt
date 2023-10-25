@@ -16,7 +16,6 @@ from typing import List, Optional, Set
 from oaklib import BasicOntologyInterface
 from pydantic import BaseModel
 
-from ontogpt import DEFAULT_MODEL
 from ontogpt.engines.spires_engine import SPIRESEngine
 
 
@@ -101,6 +100,6 @@ class SPIRESEvaluationEngine(EvaluationEngine):
     """Whether to pre-process input texts by chunking. If True, each chunk gets its own
     prompt. Otherwise, pass the full text with each prompt."""
 
-    model: str = DEFAULT_MODEL
+    model: str = None
     """Name of the model to use in evaluation. Defaults to the default model defined
     in models.yaml, generally gpt-3.5-turbo."""
