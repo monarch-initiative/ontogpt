@@ -11,7 +11,7 @@ An evaluation engine incorporates different components to evaluate KE:
 """
 
 from dataclasses import dataclass
-from typing import List, Optional, Set
+from typing import List, Optional, Set, Type, Union 
 
 from oaklib import BasicOntologyInterface
 from pydantic import BaseModel
@@ -92,13 +92,13 @@ class SPIRESEvaluationEngine(EvaluationEngine):
     num_tests: int = 10
     """Number of test cases to use for evaluation"""
 
-    num_training: int = 5
+    num_training: Optional[Union[int, Type]] = 5
     """Number of training/exemplar cases to use for evaluation in generalization task.
     Note this number will be low as we use few-shot learning."""
 
-    chunking: bool = False
+    chunking: Optional[Union[bool, Type]] = False
     """Whether to pre-process input texts by chunking. If True, each chunk gets its own
     prompt. Otherwise, pass the full text with each prompt."""
 
-    model: str = None
+    model: Optional[Union[str, Type]] = None
     """Name of the model to use in evaluation."""
