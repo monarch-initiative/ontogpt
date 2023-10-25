@@ -101,5 +101,4 @@ class SPIRESEvaluationEngine(EvaluationEngine):
     prompt. Otherwise, pass the full text with each prompt."""
 
     model: str = None
-    """Name of the model to use in evaluation. Defaults to the default model defined
-    in models.yaml, generally gpt-3.5-turbo."""
+    """Name of the model to use in evaluation."""

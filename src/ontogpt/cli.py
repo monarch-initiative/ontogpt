@@ -1477,10 +1477,10 @@ def eval(evaluator, num_tests, output, chunking, model, **kwargs):
     else:
         modelname = DEFAULT_MODEL
 
-    evaluator = create_evaluator(evaluator)
-    evaluator.num_tests = num_tests
-    evaluator.chunking = chunking
-    evaluator.model = modelname
+    evaluator = create_evaluator(name=evaluator,
+                                 num_tests=num_tests,
+                                 chunking=chunking,
+                                 model=modelname)
     eos = evaluator.eval()
     output.write(dump_minimal_yaml(eos, minimize=False))
 
