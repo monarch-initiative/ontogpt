@@ -104,7 +104,7 @@ class KnowledgeEngine(ABC):
     api_key: str = ""
     """OpenAI API key."""
 
-    model: MODEL_NAME = ""
+    model: str = None
     """Language Model. This may be overridden in subclasses."""
 
     # annotator: TextAnnotatorInterface = None
@@ -166,7 +166,7 @@ class KnowledgeEngine(ABC):
         try:
             self.encoding = tiktoken.encoding_for_model(self.client.model)
         except KeyError:
-            self.encoding = tiktoken.encoding_for_model("gpt-3.5-turbo")
+            self.encoding = tiktoken.encoding_for_model(DEFAULT_MODEL)
             logger.error(f"Could not find encoding for model {self.client.model}")
 
     def set_api_key(self, key: str):

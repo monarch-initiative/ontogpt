@@ -11,12 +11,11 @@ An evaluation engine incorporates different components to evaluate KE:
 """
 
 from dataclasses import dataclass
-from typing import List, Optional, Set
+from typing import List, Optional, Set, Type, Union 
 
 from oaklib import BasicOntologyInterface
 from pydantic import BaseModel
 
-from ontogpt import DEFAULT_MODEL
 from ontogpt.engines.spires_engine import SPIRESEngine
 
 
@@ -90,17 +89,16 @@ class SPIRESEvaluationEngine(EvaluationEngine):
     extractor: SPIRESEngine = None
     """Knowledge extractor to use"""
 
-    num_tests: int = 10
+    num_tests: Optional[Union[int, Type]] = 10
     """Number of test cases to use for evaluation"""
 
-    num_training: int = 5
+    num_training: Optional[Union[int, Type]] = 5
     """Number of training/exemplar cases to use for evaluation in generalization task.
     Note this number will be low as we use few-shot learning."""
 
-    chunking: bool = False
+    chunking: Optional[Union[bool, Type]] = False
     """Whether to pre-process input texts by chunking. If True, each chunk gets its own
     prompt. Otherwise, pass the full text with each prompt."""
 
-    model: str = DEFAULT_MODEL
-    """Name of the model to use in evaluation. Defaults to the default model defined
-    in models.yaml, generally gpt-3.5-turbo."""
+    model: Optional[Union[str, Type]] = None
+    """Name of the model to use in evaluation."""
