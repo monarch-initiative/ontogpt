@@ -194,7 +194,10 @@ class EvalCTD(SPIRESEvaluationEngine):
     def eval(self) -> EvaluationObjectSetRE:
         """Evaluate the ability to extract relations."""
         labeler = get_adapter("sqlite:obo:mesh")
-        num_test = self.num_tests
+        if self.num_tests and isinstance(self.num_tests, int):
+            num_test = self.num_tests
+        else:
+            num_test = 1
         ke = self.extractor
         docs = list(self.load_test_cases())
         shuffle(docs)
