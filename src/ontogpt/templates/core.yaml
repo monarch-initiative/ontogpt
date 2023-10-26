@@ -101,6 +101,19 @@ classes:
         multivalued: true
         inlined: true
         inlined_as_list: true
+ 
+  TextWithEntities:
+    attributes:
+      publication:
+        range: Publication
+        inlined: true
+        annotations:
+          prompt.skip: "true"
+      entities:
+        range: NamedEntity
+        multivalued: true
+        inlined: true
+        inlined_as_list: true
 
   RelationshipType:
     is_a: NamedEntity

@@ -48,7 +48,7 @@ class ExtractionResult(ConfiguredBaseModel):
 
 class NamedEntity(ConfiguredBaseModel):
     
-    id: Optional[str] = Field(None, description="""A unique identifier for the named entity""")
+    id: str = Field(..., description="""A unique identifier for the named entity""")
     label: Optional[str] = Field(None, description="""The label (name) of the named thing""")
     
 
@@ -73,6 +73,12 @@ class TextWithTriples(ConfiguredBaseModel):
     
     publication: Optional[Publication] = Field(None)
     triples: Optional[List[Triple]] = Field(default_factory=list)
+    
+
+class TextWithEntities(ConfiguredBaseModel):
+    
+    publication: Optional[Publication] = Field(None)
+    entities: Optional[List[NamedEntity]] = Field(default_factory=list)
     
 
 class RelationshipType(NamedEntity):
@@ -105,6 +111,7 @@ NamedEntity.model_rebuild()
 CompoundExpression.model_rebuild()
 Triple.model_rebuild()
 TextWithTriples.model_rebuild()
+TextWithEntities.model_rebuild()
 RelationshipType.model_rebuild()
 Publication.model_rebuild()
 AnnotatorResult.model_rebuild()
