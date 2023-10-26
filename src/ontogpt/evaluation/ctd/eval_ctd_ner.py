@@ -39,17 +39,19 @@ from pydantic import BaseModel
 from ontogpt.engines.knowledge_engine import chunk_text
 from ontogpt.engines.spires_engine import SPIRESEngine
 from ontogpt.evaluation.evaluation_engine import SimilarityScore, SPIRESEvaluationEngine
-from ontogpt.templates.ctd import (
+from ontogpt.templates.ctd_ner import (
     ChemicalToDiseaseDocument,
-    ChemicalToDiseaseRelationship,
-    Publication,
-    TextWithTriples,
+    Chemical,
+    Disease
 )
 
 THIS_DIR = Path(__file__).parent
 DATABASE_DIR = Path(__file__).parent / "database"
 TEST_SET_BIOC = DATABASE_DIR / "CDR_TestSet.BioC.xml.gz"
 TRAIN_SET_BIOC = DATABASE_DIR / "CDR_TrainSet.BioC.xml.gz"
+
+# These are the entity types involved in this dataset.
+TARGET_TYPES = ["Chemical", "Disease"]
 
 logger = logging.getLogger(__name__)
 
@@ -135,10 +137,8 @@ class EvalCTDNER(SPIRESEvaluationEngine):
     subject_prefix = "MESH"
     object_prefix = "MESH"
 
-    # TODO: use a restricted version of ctd schema for NER alone,
-    # but retain the original entity types
     def __post_init__(self):
-        self.extractor = SPIRESEngine(template="ctd.ChemicalToDiseaseDocument", model=self.model)
+        self.extractor = SPIRESEngine(template="ctd_ner.ChemicalToDiseaseDocument", model=self.model)
         # synonyms are derived entirely from training set
         self.extractor.load_dictionary(DATABASE_DIR / "synonyms.yaml")
 
@@ -152,26 +152,38 @@ class EvalCTDNER(SPIRESEvaluationEngine):
         logger.info(f"Loading {path}")
         with gzip.open(str(path), "rb") as f:
             collection = biocxml.load(f)
-            triples_by_text = defaultdict(list)
+            chemicals_by_text = defaultdict(list)
+            diseases_by_text = defaultdict(list)
             for document in collection.documents:
+                these_annotations = []
                 doc = {}
                 for p in document.passages:
                     doc[p.infons["type"]] = p.text
+                    for a in p.annotations:
+                        if a.infons["type"] in TARGET_TYPES:
+                            these_annotations.append(a)
                 title = doc["title"]
                 abstract = doc["abstract"]
                 logger.debug(f"Title: {title} Abstract: {abstract}")
-                for r in document.relations:
-                    i = r.infons
-                    t = ChemicalToDiseaseRelationship.model_validate(
-                        {
-                            "subject": f"{self.subject_prefix}:{i['Chemical']}",
-                            "predicate": RMAP[i["relation"]],
-                            "object": f"{self.object_prefix}:{i['Disease']}",
-                        }
-                    )
-                    triples_by_text[(title, abstract)].append(t)
+                for a in these_annotations:
+                    i = a.infons
+                    if i.type == "Chemical":
+                        e = Chemical.model_validate(
+                            {
+                                "id": f"{self.subject_prefix}:{i[self.subject_prefix]}",
+                            }
+                        )
+                        chemicals_by_text[(title, abstract)].append(e)
+                    elif i.type == "Disease":
+                        e = Disease.model_validate(
+                            {
+                                "id": f"{self.subject_prefix}:{i[self.subject_prefix]}",
+                            }
+                        )
+                        diseases_by_text[(title, abstract)].append(e)
+
         i = 0
-        for (title, abstract), triples in triples_by_text.items():
+        for (title, abstract), entities in chemicals_by_text.items():
             i = i + 1
             pub = Publication.model_validate(
                 {
@@ -180,8 +192,8 @@ class EvalCTDNER(SPIRESEvaluationEngine):
                     "abstract": abstract,
                 }
             )
-            logger.debug(f"Triples: {len(triples)} for Title: {title} Abstract: {abstract}")
-            yield ChemicalToDiseaseDocument.model_validate({"publication": pub, "triples": triples})
+            logger.debug(f"Chemicals: {len(entities)} for Title: {title} Abstract: {abstract}")
+            yield ChemicalToDiseaseDocument.model_validate({"publication": pub, "triples": entities})
 
     def create_training_set(self, num=100):
         ke = self.extractor
@@ -194,7 +206,7 @@ class EvalCTDNER(SPIRESEvaluationEngine):
             yield dict(prompt=prompt, completion=completion)
 
     def eval(self) -> EvaluationObjectSetNER:
-        """Evaluate the ability to extract relations."""
+        """Evaluate the ability to extract chemical and disease named entities."""
         labeler = get_adapter("sqlite:obo:mesh")
         if self.num_tests and isinstance(self.num_tests, int):
             num_test = self.num_tests
