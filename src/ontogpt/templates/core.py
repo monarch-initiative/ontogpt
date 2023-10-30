@@ -70,15 +70,28 @@ class Triple(CompoundExpression):
     
 
 class TextWithTriples(ConfiguredBaseModel):
-    
+    """
+    A text containing one or more relations of the Triple type.
+    """
     publication: Optional[Publication] = Field(None)
     triples: Optional[List[Triple]] = Field(default_factory=list)
     
 
-class TextWithEntities(ConfiguredBaseModel):
-    
+class TextWithEntity(ConfiguredBaseModel):
+    """
+    A text containing one or more instances of a single type of entity.
+    """
     publication: Optional[Publication] = Field(None)
     entities: Optional[List[NamedEntity]] = Field(default_factory=list)
+    
+
+class TextWithTwoEntities(ConfiguredBaseModel):
+    """
+    A text containing one or more instances of one of two different entity types.
+    """
+    publication: Optional[Publication] = Field(None)
+    entity_type_one: Optional[List[NamedEntity]] = Field(default_factory=list)
+    entity_type_two: Optional[List[NamedEntity]] = Field(default_factory=list)
     
 
 class RelationshipType(NamedEntity):
@@ -111,7 +124,8 @@ NamedEntity.model_rebuild()
 CompoundExpression.model_rebuild()
 Triple.model_rebuild()
 TextWithTriples.model_rebuild()
-TextWithEntities.model_rebuild()
+TextWithEntity.model_rebuild()
+TextWithTwoEntities.model_rebuild()
 RelationshipType.model_rebuild()
 Publication.model_rebuild()
 AnnotatorResult.model_rebuild()
