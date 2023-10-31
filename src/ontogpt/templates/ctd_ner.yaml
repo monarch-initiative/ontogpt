@@ -32,19 +32,33 @@ classes:
     is_a: TextWithTwoEntities
     slot_usage:
       entity_type_one:
-        range: Chemical
+        range: ChemicalSet
         description: One or more chemical substances, drugs, or small molecules.
         annotations:
           prompt: >-
             A semi-colon separated list of chemical names, for example: Lidocaine;
             Hydroxychloroquine; Methyldopa; Monosodium Glutamate; Imatinib
       entity_type_two:
-        range: Disease
+        range: DiseaseSet
         description: One or more diseases or conditions.
         annotations:
           prompt: >-
             A semi-colon separated list of disease names, for example: cardiac
             asystole; COVID-19; Hypotension; Headache; cancer
+
+  ChemicalSet:
+    is_a: NamedEntity
+    attributes:
+      chemicals:
+        range: Chemical
+        multivalued: true
+
+  DiseaseSet:
+    is_a: NamedEntity
+    attributes:
+      chemicals:
+        range: Disease
+        multivalued: true
 
   Disease:
     is_a: NamedEntity

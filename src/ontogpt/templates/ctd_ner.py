@@ -64,6 +64,20 @@ class NamedEntity(ConfiguredBaseModel):
     label: Optional[str] = Field(None, description="""The label (name) of the named thing""")
     
 
+class ChemicalSet(NamedEntity):
+    
+    chemicals: Optional[List[str]] = Field(default_factory=list)
+    id: str = Field(..., description="""A unique identifier for the named entity""")
+    label: Optional[str] = Field(None, description="""The label (name) of the named thing""")
+    
+
+class DiseaseSet(NamedEntity):
+    
+    chemicals: Optional[List[str]] = Field(default_factory=list)
+    id: str = Field(..., description="""A unique identifier for the named entity""")
+    label: Optional[str] = Field(None, description="""The label (name) of the named thing""")
+    
+
 class Disease(NamedEntity):
     
     id: str = Field(..., description="""A unique identifier for the named entity""")
@@ -123,8 +137,8 @@ class ChemicalToDiseaseDocument(TextWithTwoEntities):
     A document that contains chemical and disease entities.
     """
     publication: Optional[Publication] = Field(None)
-    entity_type_one: Optional[List[Chemical]] = Field(default_factory=list, description="""One or more chemical substances, drugs, or small molecules.""")
-    entity_type_two: Optional[List[Disease]] = Field(default_factory=list, description="""One or more diseases or conditions.""")
+    entity_type_one: Optional[List[ChemicalSet]] = Field(default_factory=list, description="""One or more chemical substances, drugs, or small molecules.""")
+    entity_type_two: Optional[List[DiseaseSet]] = Field(default_factory=list, description="""One or more diseases or conditions.""")
     
 
 class RelationshipType(NamedEntity):
@@ -154,6 +168,8 @@ class AnnotatorResult(ConfiguredBaseModel):
 # see https://pydantic-docs.helpmanual.io/usage/models/#rebuilding-a-model
 ExtractionResult.model_rebuild()
 NamedEntity.model_rebuild()
+ChemicalSet.model_rebuild()
+DiseaseSet.model_rebuild()
 Disease.model_rebuild()
 Chemical.model_rebuild()
 CompoundExpression.model_rebuild()
