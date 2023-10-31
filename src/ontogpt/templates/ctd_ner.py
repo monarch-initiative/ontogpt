@@ -64,13 +64,13 @@ class NamedEntity(ConfiguredBaseModel):
     label: Optional[str] = Field(None, description="""The label (name) of the named thing""")
     
 
-class Disease(NamedEntity):
+class Chemical(NamedEntity):
     
     id: str = Field(..., description="""A unique identifier for the named entity""")
     label: Optional[str] = Field(None, description="""The label (name) of the named thing""")
     
 
-class Chemical(NamedEntity):
+class Disease(NamedEntity):
     
     id: str = Field(..., description="""A unique identifier for the named entity""")
     label: Optional[str] = Field(None, description="""The label (name) of the named thing""")
@@ -109,22 +109,14 @@ class TextWithEntity(ConfiguredBaseModel):
     entities: Optional[List[str]] = Field(default_factory=list)
     
 
-class TextWithTwoEntities(ConfiguredBaseModel):
-    """
-    A text containing one or more instances of one of two different entity types.
-    """
-    publication: Optional[Publication] = Field(None)
-    entity_type_one: Optional[List[str]] = Field(default_factory=list)
-    entity_type_two: Optional[List[str]] = Field(default_factory=list)
-    
-
-class ChemicalToDiseaseDocument(TextWithTwoEntities):
+class ChemicalToDiseaseDocument(TextWithEntity):
     """
     A document that contains chemical and disease entities.
     """
+    chemicals: Optional[List[str]] = Field(default_factory=list, description="""One or more chemical substances, drugs, or small molecules.""")
+    diseases: Optional[List[str]] = Field(default_factory=list, description="""One or more diseases or conditions.""")
     publication: Optional[Publication] = Field(None)
-    entity_type_one: Optional[List[str]] = Field(default_factory=list, description="""One or more chemical substances, drugs, or small molecules.""")
-    entity_type_two: Optional[List[str]] = Field(default_factory=list, description="""One or more diseases or conditions.""")
+    entities: Optional[List[str]] = Field(default_factory=list)
     
 
 class RelationshipType(NamedEntity):
@@ -154,13 +146,12 @@ class AnnotatorResult(ConfiguredBaseModel):
 # see https://pydantic-docs.helpmanual.io/usage/models/#rebuilding-a-model
 ExtractionResult.model_rebuild()
 NamedEntity.model_rebuild()
-Disease.model_rebuild()
 Chemical.model_rebuild()
+Disease.model_rebuild()
 CompoundExpression.model_rebuild()
 Triple.model_rebuild()
 TextWithTriples.model_rebuild()
 TextWithEntity.model_rebuild()
-TextWithTwoEntities.model_rebuild()
 ChemicalToDiseaseDocument.model_rebuild()
 RelationshipType.model_rebuild()
 Publication.model_rebuild()

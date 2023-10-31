@@ -45,7 +45,7 @@ from ontogpt.templates.ctd_ner import (
     Disease,
     NamedEntity,
     Publication,
-    TextWithTwoEntities,
+    TextWithEntity,
 )
 
 THIS_DIR = Path(__file__).parent
@@ -62,7 +62,7 @@ logger = logging.getLogger(__name__)
 class PredictionNER(BaseModel):
     """A prediction for a named entity recognition task."""
 
-    test_object: Optional[TextWithTwoEntities] = None
+    test_object: Optional[TextWithEntity] = None
     """Source of truth to evaluate against."""
 
     true_positives_ce: Optional[List[Tuple]] = None
@@ -78,7 +78,7 @@ class PredictionNER(BaseModel):
     false_negatives_de: Optional[List[Tuple]] = None
     num_false_negatives_de: Optional[int] = None
     scores: Optional[Dict[str, SimilarityScore]] = None
-    predicted_object: Optional[TextWithTwoEntities] = None
+    predicted_object: Optional[TextWithEntity] = None
     named_entities: Optional[List[Any]] = None
 
     def calculate_scores(self, labelers: Optional[List[BasicOntologyInterface]] = None):
@@ -92,21 +92,21 @@ class PredictionNER(BaseModel):
                         return f"{x} {lbl}"
             return x
 
-        def all_objects(dm: Optional[TextWithTwoEntities]):
+        def all_objects(dm: Optional[TextWithEntity]):
             if dm is not None:
-                return list(set(entity.id for entity in (dm.entity_type_one + dm.entity_type_two)))
+                return list(set(entity.id for entity in (dm.chemicals + dm.diseases)))
             else:
                 return list()
 
-        def chem_entities(dm: TextWithTwoEntities) -> Set:
-            if dm.entity_type_one is not None:
-                return set((label(entity.id)) for entity in dm.entity_type_one)
+        def chem_entities(dm: TextWithEntity) -> Set:
+            if dm.chemicals is not None:
+                return set((label(entity.id)) for entity in dm.chemicals)
             else:
                 return set()
 
-        def disease_entities(dm: TextWithTwoEntities) -> Set:
-            if dm.entity_type_two is not None:
-                return set((label(entity.id)) for entity in dm.entity_type_two)
+        def disease_entities(dm: TextWithEntity) -> Set:
+            if dm.diseases is not None:
+                return set((label(entity.id)) for entity in dm.diseases)
             else:
                 return set()
 
@@ -148,9 +148,9 @@ class EvaluationObjectSetNER(BaseModel):
     recall_de: float = 0
     f1_de: float = 0
 
-    training: Optional[List[TextWithTwoEntities]] = None
+    training: Optional[List[TextWithEntity]] = None
     predictions: Optional[List[PredictionNER]] = None
-    test: Optional[List[TextWithTwoEntities]] = None
+    test: Optional[List[TextWithEntity]] = None
 
 
 @dataclass
@@ -228,8 +228,8 @@ class EvalCTDNER(SPIRESEvaluationEngine):
             yield ChemicalToDiseaseDocument.model_validate(
                 {
                     "publication": pub,
-                    "entity_type_one": chemical_entities,
-                    "entity_type_two": disease_entities,
+                    "chemicals": chemical_entities,
+                    "diseases": disease_entities,
                 }
             )
 
@@ -277,34 +277,34 @@ class EvalCTDNER(SPIRESEvaluationEngine):
                 extraction = ke.extract_from_text(chunked_text)
                 if extraction.extracted_object is not None:
                     logger.info(
-                        f"{len(extraction.extracted_object.entity_type_one)}\
+                        f"{len(extraction.extracted_object.chemicals)}\
                             chemical entities from window: {chunked_text}"
                     )
                     logger.info(
-                        f"{len(extraction.extracted_object.entity_type_two)}\
+                        f"{len(extraction.extracted_object.diseases)}\
                             disease entities from window: {chunked_text}"
                     )
                 if not predicted_obj and extraction.extracted_object is not None:
                     predicted_obj = extraction.extracted_object
                 else:
                     if predicted_obj is not None and extraction.extracted_object is not None:
-                        predicted_obj.entity_type_one.extend(
-                            extraction.extracted_object.entity_type_one
+                        predicted_obj.chemicals.extend(
+                            extraction.extracted_object.chemicals
                         )
-                        predicted_obj.entity_type_two.extend(
-                            extraction.extracted_object.entity_type_two
-                        )
-                        logger.info(
-                            f"{len(predicted_obj.entity_type_one)} total chemical entities, after concatenation"
+                        predicted_obj.diseases.extend(
+                            extraction.extracted_object.diseases
                         )
                         logger.info(
-                            f"{len(predicted_obj.entity_type_two)} total disease entities, after concatenation"
+                            f"{len(predicted_obj.chemicals)} total chemical entities, after concatenation"
+                        )
+                        logger.info(
+                            f"{len(predicted_obj.diseases)} total disease entities, after concatenation"
                         )
                         logger.debug(
-                            f"concatenated chemical entities: {predicted_obj.entity_type_one}"
+                            f"concatenated chemical entities: {predicted_obj.chemicals}"
                         )
                         logger.debug(
-                            f"concatenated disease entities: {predicted_obj.entity_type_two}"
+                            f"concatenated disease entities: {predicted_obj.diseases}"
                         )
                 if extraction.named_entities is not None:
                     for entity in extraction.named_entities:
@@ -317,18 +317,18 @@ class EvalCTDNER(SPIRESEvaluationEngine):
                 else:
                     return t
 
-            predicted_obj.entity_type_one = [
-                t for t in predicted_obj.entity_type_one if included(t)
+            predicted_obj.chemicals = [
+                t for t in predicted_obj.chemicals if included(t)
             ]
-            predicted_obj.entity_type_two = [
-                t for t in predicted_obj.entity_type_two if included(t)
+            predicted_obj.diseases = [
+                t for t in predicted_obj.diseases if included(t)
             ]
 
             logger.info(
-                f"{len(predicted_obj.entity_type_one)} filtered chemical entities (MESH only)"
+                f"{len(predicted_obj.chemicals)} filtered chemical entities (MESH only)"
             )
             logger.info(
-                f"{len(predicted_obj.entity_type_two)} filtered disease entities (MESH only)"
+                f"{len(predicted_obj.diseases)} filtered disease entities (MESH only)"
             )
             pred = PredictionNER(
                 predicted_object=predicted_obj, test_object=doc, named_entities=named_entities

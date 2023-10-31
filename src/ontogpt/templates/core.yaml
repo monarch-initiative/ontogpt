@@ -115,21 +115,6 @@ classes:
         range: NamedEntity
         multivalued: true
 
-  TextWithTwoEntities:
-    description: A text containing one or more instances of one of two different entity types.
-    attributes:
-      publication:
-        range: Publication
-        inlined: true
-        annotations:
-          prompt.skip: "true"
-      entity_type_one:
-        range: NamedEntity
-        multivalued: true
-      entity_type_two:
-        range: NamedEntity
-        multivalued: true
-
   RelationshipType:
     is_a: NamedEntity
     id_prefixes:

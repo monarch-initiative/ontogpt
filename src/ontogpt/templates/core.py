@@ -85,15 +85,6 @@ class TextWithEntity(ConfiguredBaseModel):
     entities: Optional[List[str]] = Field(default_factory=list)
     
 
-class TextWithTwoEntities(ConfiguredBaseModel):
-    """
-    A text containing one or more instances of one of two different entity types.
-    """
-    publication: Optional[Publication] = Field(None)
-    entity_type_one: Optional[List[str]] = Field(default_factory=list)
-    entity_type_two: Optional[List[str]] = Field(default_factory=list)
-    
-
 class RelationshipType(NamedEntity):
     
     id: str = Field(..., description="""A unique identifier for the named entity""")
@@ -125,7 +116,6 @@ CompoundExpression.model_rebuild()
 Triple.model_rebuild()
 TextWithTriples.model_rebuild()
 TextWithEntity.model_rebuild()
-TextWithTwoEntities.model_rebuild()
 RelationshipType.model_rebuild()
 Publication.model_rebuild()
 AnnotatorResult.model_rebuild()

@@ -29,36 +29,24 @@ classes:
 
   ChemicalToDiseaseDocument:
     description: A document that contains chemical and disease entities.
-    is_a: TextWithTwoEntities
-    slot_usage:
-      entity_type_one:
+    is_a: TextWithEntity
+    attributes:
+      chemicals:
         range: Chemical
+        multivalued: true
         description: One or more chemical substances, drugs, or small molecules.
         annotations:
           prompt: >-
             A semi-colon separated list of chemical names, for example: Lidocaine;
             Hydroxychloroquine; Methyldopa; Monosodium Glutamate; Imatinib
-      entity_type_two:
+      diseases:
         range: Disease
+        multivalued: true
         description: One or more diseases or conditions.
         annotations:
           prompt: >-
             A semi-colon separated list of disease names, for example: cardiac
             asystole; COVID-19; Hypotension; Headache; cancer
-
-  Disease:
-    is_a: NamedEntity
-    annotations:
-      annotators: "sqlite:obo:mesh, sqlite:obo:mondo, sqlite:obo:hp, sqlite:obo:ncit, sqlite:obo:doid, bioportal:meddra"
-      prompt.examples: cardiac asystole, COVID-19, Headache, cancer
-    # For the purposes of evaluating against BC5CDR, we force normalization to MESH
-    id_prefixes:
-      - MESH
-    slot_usage:
-      id:
-        pattern: "^MESH:[CD][0-9]{6}$"
-        values_from:
-          - MeshDiseaseIdentifier
 
   Chemical:
     is_a: NamedEntity
@@ -73,6 +61,20 @@ classes:
         pattern: "^MESH:[CD][0-9]{6}$"
         values_from:
           - MeshChemicalIdentifier
+
+  Disease:
+    is_a: NamedEntity
+    annotations:
+      annotators: "sqlite:obo:mesh, sqlite:obo:mondo, sqlite:obo:hp, sqlite:obo:ncit, sqlite:obo:doid, bioportal:meddra"
+      prompt.examples: cardiac asystole, COVID-19, Headache, cancer
+    # For the purposes of evaluating against BC5CDR, we force normalization to MESH
+    id_prefixes:
+      - MESH
+    slot_usage:
+      id:
+        pattern: "^MESH:[CD][0-9]{6}$"
+        values_from:
+          - MeshDiseaseIdentifier
 
 enums:
 
