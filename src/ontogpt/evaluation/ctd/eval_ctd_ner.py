@@ -43,7 +43,6 @@ from ontogpt.templates.ctd_ner import (
     ChemicalToDiseaseDocument,
     Chemical,
     Disease,
-    NamedEntity,
     Publication,
     TextWithEntity,
 )
@@ -208,7 +207,7 @@ class EvalCTDNER(SPIRESEvaluationEngine):
         all_entities_by_text = chemicals_by_text | diseases_by_text
 
         i = 0
-        for (title, abstract), entities in all_entities_by_text.items():
+        for (title, abstract), _entities in all_entities_by_text.items():
             i = i + 1
             pub = Publication.model_validate(
                 {
@@ -288,24 +287,16 @@ class EvalCTDNER(SPIRESEvaluationEngine):
                     predicted_obj = extraction.extracted_object
                 else:
                     if predicted_obj is not None and extraction.extracted_object is not None:
-                        predicted_obj.chemicals.extend(
-                            extraction.extracted_object.chemicals
-                        )
-                        predicted_obj.diseases.extend(
-                            extraction.extracted_object.diseases
-                        )
+                        predicted_obj.chemicals.extend(extraction.extracted_object.chemicals)
+                        predicted_obj.diseases.extend(extraction.extracted_object.diseases)
                         logger.info(
                             f"{len(predicted_obj.chemicals)} total chemical entities, after concatenation"
                         )
                         logger.info(
                             f"{len(predicted_obj.diseases)} total disease entities, after concatenation"
                         )
-                        logger.debug(
-                            f"concatenated chemical entities: {predicted_obj.chemicals}"
-                        )
-                        logger.debug(
-                            f"concatenated disease entities: {predicted_obj.diseases}"
-                        )
+                        logger.debug(f"concatenated chemical entities: {predicted_obj.chemicals}")
+                        logger.debug(f"concatenated disease entities: {predicted_obj.diseases}")
                 if extraction.named_entities is not None:
                     for entity in extraction.named_entities:
                         if entity not in named_entities:
@@ -315,19 +306,11 @@ class EvalCTDNER(SPIRESEvaluationEngine):
                 if t.startswith("MESH:"):
                     return t
 
-            predicted_obj.chemicals = [
-                t for t in predicted_obj.chemicals if included(t)
-            ]
-            predicted_obj.diseases = [
-                t for t in predicted_obj.diseases if included(t)
-            ]
+            predicted_obj.chemicals = [t for t in predicted_obj.chemicals if included(t)]
+            predicted_obj.diseases = [t for t in predicted_obj.diseases if included(t)]
 
-            logger.info(
-                f"{len(predicted_obj.chemicals)} filtered chemical entities (MESH only)"
-            )
-            logger.info(
-                f"{len(predicted_obj.diseases)} filtered disease entities (MESH only)"
-            )
+            logger.info(f"{len(predicted_obj.chemicals)} filtered chemical entities (MESH only)")
+            logger.info(f"{len(predicted_obj.diseases)} filtered disease entities (MESH only)")
             pred = PredictionNER(
                 predicted_object=predicted_obj, test_object=doc, named_entities=named_entities
             )
