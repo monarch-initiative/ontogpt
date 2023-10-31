@@ -123,8 +123,8 @@ class ChemicalToDiseaseDocument(TextWithTwoEntities):
     A document that contains chemical and disease entities.
     """
     publication: Optional[Publication] = Field(None)
-    entity_type_one: Optional[List[Chemical]] = Field(default_factory=list)
-    entity_type_two: Optional[List[Disease]] = Field(default_factory=list)
+    entity_type_one: Optional[List[Chemical]] = Field(default_factory=list, description="""One or more chemical substances, drugs, or small molecules.""")
+    entity_type_two: Optional[List[Disease]] = Field(default_factory=list, description="""One or more diseases or conditions.""")
     
 
 class RelationshipType(NamedEntity):

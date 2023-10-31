@@ -33,12 +33,14 @@ classes:
     slot_usage:
       entity_type_one:
         range: Chemical
+        description: One or more chemical substances, drugs, or small molecules.
         annotations:
           prompt: >-
             A semi-colon separated list of chemical names, for example: Lidocaine;
             Hydroxychloroquine; Methyldopa; Monosodium Glutamate; Imatinib
       entity_type_two:
         range: Disease
+        description: One or more diseases or conditions.
         annotations:
           prompt: >-
             A semi-colon separated list of disease names, for example: cardiac
