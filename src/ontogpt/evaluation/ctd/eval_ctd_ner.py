@@ -81,9 +81,6 @@ class PredictionNER(BaseModel):
     predicted_object: Optional[TextWithTwoEntities] = None
     named_entities: Optional[List[Any]] = None
 
-    # TODO: allow this to take a subset of entities.
-    # Or set up another child class for each entity type,
-    # since they may require some fancy adaptations
     def calculate_scores(self, labelers: Optional[List[BasicOntologyInterface]] = None):
         self.scores = {}
 
@@ -97,9 +94,7 @@ class PredictionNER(BaseModel):
 
         def all_objects(dm: Optional[TextWithTwoEntities]):
             if dm is not None:
-                return list(
-                    set(entity.id for entity in (dm.entity_type_one + dm.entity_type_two))
-                )
+                return list(set(entity.id for entity in (dm.entity_type_one + dm.entity_type_two)))
             else:
                 return list()
 
@@ -125,7 +120,7 @@ class PredictionNER(BaseModel):
             pred_ce = chem_entities(self.predicted_object)
             test_ce = chem_entities(self.test_object)
             pred_de = disease_entities(self.predicted_object)
-            test_de = disease_entities(self.test_object)          
+            test_de = disease_entities(self.test_object)
 
         self.true_positives_ce = list(pred_ce.intersection(test_ce))
         self.false_positives_ce = list(pred_ce.difference(test_ce))
@@ -140,6 +135,7 @@ class PredictionNER(BaseModel):
         self.num_false_negatives_de = len(self.false_negatives_de)
         self.num_false_positives_de = len(self.false_positives_de)
         self.num_true_positives_de = len(self.true_positives_de)
+
 
 class EvaluationObjectSetNER(BaseModel):
     """A result of performing named entity recognition."""
@@ -321,8 +317,12 @@ class EvalCTDNER(SPIRESEvaluationEngine):
                 else:
                     return t
 
-            predicted_obj.entity_type_one = [t for t in predicted_obj.entity_type_one if included(t)]
-            predicted_obj.entity_type_two = [t for t in predicted_obj.entity_type_two if included(t)]
+            predicted_obj.entity_type_one = [
+                t for t in predicted_obj.entity_type_one if included(t)
+            ]
+            predicted_obj.entity_type_two = [
+                t for t in predicted_obj.entity_type_two if included(t)
+            ]
 
             logger.info(
                 f"{len(predicted_obj.entity_type_one)} filtered chemical entities (MESH only)"
