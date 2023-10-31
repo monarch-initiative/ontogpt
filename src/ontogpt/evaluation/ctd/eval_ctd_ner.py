@@ -290,10 +290,10 @@ class EvalCTDNER(SPIRESEvaluationEngine):
                         predicted_obj.chemicals.extend(extraction.extracted_object.chemicals)
                         predicted_obj.diseases.extend(extraction.extracted_object.diseases)
                         logger.info(
-                            f"{len(predicted_obj.chemicals)} total chemical entities, after concatenation"
+                            f"{len(predicted_obj.chemicals)} chemical entities, after concatenation"
                         )
                         logger.info(
-                            f"{len(predicted_obj.diseases)} total disease entities, after concatenation"
+                            f"{len(predicted_obj.diseases)} disease entities, after concatenation"
                         )
                         logger.debug(f"concatenated chemical entities: {predicted_obj.chemicals}")
                         logger.debug(f"concatenated disease entities: {predicted_obj.diseases}")
