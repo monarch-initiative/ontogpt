@@ -33,7 +33,6 @@ classes:
     slot_usage:
       entity_type_one:
         range: Chemical
-        multivalued: true
         description: One or more chemical substances, drugs, or small molecules.
         annotations:
           prompt: >-
@@ -41,7 +40,6 @@ classes:
             Hydroxychloroquine; Methyldopa; Monosodium Glutamate; Imatinib
       entity_type_two:
         range: Disease
-        multivalued: true
         description: One or more diseases or conditions.
         annotations:
           prompt: >-

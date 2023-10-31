@@ -114,8 +114,6 @@ classes:
       entities:
         range: NamedEntity
         multivalued: true
-        inlined: true
-        inlined_as_list: true
 
   TextWithTwoEntities:
     description: A text containing one or more instances of one of two different entity types.
@@ -127,8 +125,10 @@ classes:
           prompt.skip: "true"
       entity_type_one:
         range: NamedEntity
+        multivalued: true
       entity_type_two:
         range: NamedEntity
+        multivalued: true
 
   RelationshipType:
     is_a: NamedEntity

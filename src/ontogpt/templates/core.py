@@ -82,7 +82,7 @@ class TextWithEntity(ConfiguredBaseModel):
     A text containing one or more instances of a single type of entity.
     """
     publication: Optional[Publication] = Field(None)
-    entities: Optional[List[NamedEntity]] = Field(default_factory=list)
+    entities: Optional[List[str]] = Field(default_factory=list)
     
 
 class TextWithTwoEntities(ConfiguredBaseModel):
@@ -90,8 +90,8 @@ class TextWithTwoEntities(ConfiguredBaseModel):
     A text containing one or more instances of one of two different entity types.
     """
     publication: Optional[Publication] = Field(None)
-    entity_type_one: Optional[str] = Field(None)
-    entity_type_two: Optional[str] = Field(None)
+    entity_type_one: Optional[List[str]] = Field(default_factory=list)
+    entity_type_two: Optional[List[str]] = Field(default_factory=list)
     
 
 class RelationshipType(NamedEntity):
