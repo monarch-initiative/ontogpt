@@ -263,7 +263,20 @@ class EvalCTDNER(SPIRESEvaluationEngine):
             n += 1
             logger.info(doc)
             text = f"Title: {doc.publication.title} Abstract: {doc.publication.abstract}"
-            predicted_obj = None
+            pub = Publication.model_validate(
+                {
+                    "id": str(doc.publication.id),
+                    "title": doc.publication.title,
+                    "abstract": doc.publication.abstract,
+                }
+            )
+            predicted_obj = ChemicalToDiseaseDocument.model_validate(
+                {
+                    "publication": pub,
+                    "chemicals": [],
+                    "diseases": [],
+                }
+            )
             named_entities: List[str] = []  # This stores the NEs for the whole document
             ke.named_entities = []  # This stores the NEs the extractor knows about
 
