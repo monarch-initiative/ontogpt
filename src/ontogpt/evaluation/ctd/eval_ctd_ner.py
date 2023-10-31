@@ -94,19 +94,19 @@ class PredictionNER(BaseModel):
 
         def all_objects(dm: Optional[TextWithEntity]):
             if dm is not None:
-                return list(set(entity.id for entity in (dm.chemicals + dm.diseases)))
+                return list(set(dm.chemicals + dm.diseases))
             else:
                 return list()
 
         def chem_entities(dm: TextWithEntity) -> Set:
             if dm.chemicals is not None:
-                return set((label(entity.id)) for entity in dm.chemicals)
+                return set((label(entity)) for entity in dm.chemicals)
             else:
                 return set()
 
         def disease_entities(dm: TextWithEntity) -> Set:
             if dm.diseases is not None:
-                return set((label(entity.id)) for entity in dm.diseases)
+                return set((label(entity)) for entity in dm.diseases)
             else:
                 return set()
 
@@ -196,14 +196,14 @@ class EvalCTDNER(SPIRESEvaluationEngine):
                                 "id": f"{self.subject_prefix}:{i[self.subject_prefix]}",
                             }
                         )
-                        chemicals_by_text[(title, abstract)].append(e)
+                        chemicals_by_text[(title, abstract)].append(e.id)
                     elif i["type"] == "Disease":
                         e = Disease.model_validate(
                             {
                                 "id": f"{self.subject_prefix}:{i[self.subject_prefix]}",
                             }
                         )
-                        diseases_by_text[(title, abstract)].append(e)
+                        diseases_by_text[(title, abstract)].append(e.id)
 
         all_entities_by_text = chemicals_by_text | diseases_by_text
 
@@ -311,10 +311,8 @@ class EvalCTDNER(SPIRESEvaluationEngine):
                         if entity not in named_entities:
                             named_entities.append(entity)
 
-            def included(t: NamedEntity):
-                if not [var for var in (t.id, t.label) if var is None]:
-                    return t and t.id.startswith("MESH:")
-                else:
+            def included(t: str):
+                if t.startswith("MESH:"):
                     return t
 
             predicted_obj.chemicals = [
