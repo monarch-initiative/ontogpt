@@ -1,12 +1,11 @@
 """
-CTD evaluation.
+Chemical to Disease (CTD) evaluation.
 
-Note: the CTD training set has some oddities
+This relation extraction test is based on the
+Biocreative V Chemical to Disease Relation (BC5CDR)
+data, as described below.
 
-E.g. scopolamine induces drug overdose
-
-Biocreativ results here:
-
+Biocreative results here:
 https://biocreative.bioinformatics.udel.edu/media/store/files/2015/BC5CDR_overview.final.pdf
 
 A total of 18 teams successfully submitted CID results in 46 runs. As
@@ -14,6 +13,10 @@ shown in Table 3 (only the best run of each team is included),
 the Fscore ranges from 32.01% to 57.03% (team 288) with an average of
 43.37%. All teams outperformed the baseline results by the simple abstract-level
 co-occurrence method (16.43% in precision, 76.45% in recall and 27.05% in F-score).
+
+Note: the CTD training set has some oddities,
+e.g., scopolamine induces drug overdose.
+This evaluation does not account for these oddities.
 
 """
 import gzip
