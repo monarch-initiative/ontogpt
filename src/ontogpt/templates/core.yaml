@@ -127,14 +127,8 @@ classes:
           prompt.skip: "true"
       entity_type_one:
         range: NamedEntity
-        multivalued: true
-        inlined: true
-        inlined_as_list: true
       entity_type_two:
         range: NamedEntity
-        multivalued: true
-        inlined: true
-        inlined_as_list: true
 
   RelationshipType:
     is_a: NamedEntity
