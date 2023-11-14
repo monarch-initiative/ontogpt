@@ -18,7 +18,7 @@
       
       
       <link rel="icon" href="../assets/images/favicon.png">
-      <meta name="generator" content="mkdocs-1.5.3, mkdocs-material-9.4.2">
+      <meta name="generator" content="mkdocs-1.5.3, mkdocs-material-9.4.6">
     
     
       
@@ -26,10 +26,10 @@
       
     
     
-      <link rel="stylesheet" href="../assets/stylesheets/main.d451bc0e.min.css">
+      <link rel="stylesheet" href="../assets/stylesheets/main.35e1ed30.min.css">
       
         
-        <link rel="stylesheet" href="../assets/stylesheets/palette.a5377069.min.css">
+        <link rel="stylesheet" href="../assets/stylesheets/palette.356b1318.min.css">
       
       
 
@@ -433,6 +433,20 @@
         <li class="md-nav__item">
   <a href="#i-get-an-error-like-typeerror-configuredbasemodel__init_subclass__-takes-no-keyword-arguments" class="md-nav__link">
     I get an error like TypeError: ConfiguredBaseModel.__init_subclass__() takes no keyword arguments
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#i-get-an-error-like-urlliberrorhttperror-http-error-404-not-found" class="md-nav__link">
+    I get an error like urllib.error.HTTPError: HTTP Error 404: Not Found
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#i-get-a-lot-of-warnings-like-warningrootcould-not-find-any-mappings-for-and-i-dont-get-the-expected-identifiers-in-my-extracted-object" class="md-nav__link">
+    I get a lot of warnings like WARNING:root:Could not find any mappings for ... and I don't get the expected identifiers in my extracted object
   </a>
   
 </li>
@@ -920,6 +934,20 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#i-get-an-error-like-urlliberrorhttperror-http-error-404-not-found" class="md-nav__link">
+    I get an error like urllib.error.HTTPError: HTTP Error 404: Not Found
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#i-get-a-lot-of-warnings-like-warningrootcould-not-find-any-mappings-for-and-i-dont-get-the-expected-identifiers-in-my-extracted-object" class="md-nav__link">
+    I get a lot of warnings like WARNING:root:Could not find any mappings for ... and I don't get the expected identifiers in my extracted object
+  </a>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -942,6 +970,10 @@
 <p>Encountering an error, mystery, or other unexplained oddity? Open a ticket on the GitHub repository: <a href="https://github.com/monarch-initiative/ontogpt/issues">https://github.com/monarch-initiative/ontogpt/issues</a></p>
 <h2 id="i-get-an-error-like-typeerror-configuredbasemodel__init_subclass__-takes-no-keyword-arguments">I get an error like <code>TypeError: ConfiguredBaseModel.__init_subclass__() takes no keyword arguments</code></h2>
 <p>This can happen if you have installed a version of the Pydantic package older than version 2 and/or if you're using a schema generated for Pydantic v1. Versions of OntoGPT of v0.3.3 and above should prevent this from happening, but if you're still seeing the error, then running <code>make</code> again may fix it.</p>
+<h2 id="i-get-an-error-like-urlliberrorhttperror-http-error-404-not-found">I get an error like <code>urllib.error.HTTPError: HTTP Error 404: Not Found</code></h2>
+<p>There are a variety of reasons why this may happen, but one cause is if your schema specifies an annotator which does not exist. If the stack trace of the error includes the <code>get_adapter</code> method from <code>oaklib</code>, then this is a likely cause, and you may want to verify that all annotators are accessible to OAK.</p>
+<h2 id="i-get-a-lot-of-warnings-like-warningrootcould-not-find-any-mappings-for-and-i-dont-get-the-expected-identifiers-in-my-extracted-object">I get a lot of warnings like <code>WARNING:root:Could not find any mappings for ...</code> and I don't get the expected identifiers in my extracted object</h2>
+<p>Verify that the <code>id_prefixes</code> you specify in your schema correspond to those provided by the annotator. If your annotator is <code>sqlite:obo:hp</code>, for example, the prefix will be <code>HP</code> rather than <code>HPO</code>.</p>
 
 
 
@@ -981,10 +1013,11 @@
       <div class="md-dialog__inner md-typeset"></div>
     </div>
     
-    <script id="__config" type="application/json">{"base": "..", "features": ["content.tabs.link"], "search": "../assets/javascripts/workers/search.a264c092.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
+    
+    <script id="__config" type="application/json">{"base": "..", "features": ["content.tabs.link"], "search": "../assets/javascripts/workers/search.f886a092.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
     
     
-      <script src="../assets/javascripts/bundle.726fbb30.min.js"></script>
+      <script src="../assets/javascripts/bundle.aecac24b.min.js"></script>
       
     
   </body>
