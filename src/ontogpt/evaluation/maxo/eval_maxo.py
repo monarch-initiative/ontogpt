@@ -23,6 +23,7 @@ for the purposes of this evaluation.
 """
 
 import logging
+from collections import defaultdict
 from dataclasses import dataclass
 from pathlib import Path
 from random import shuffle
@@ -35,10 +36,7 @@ from pydantic import BaseModel
 from ontogpt.engines.knowledge_engine import chunk_text
 from ontogpt.engines.spires_engine import SPIRESEngine
 from ontogpt.evaluation.evaluation_engine import SimilarityScore, SPIRESEvaluationEngine
-from ontogpt.templates.maxo import (
-    MaxoAnnotations,
-    ActionToSymptomRelationship,
-)
+from ontogpt.templates.maxo import MaxoAnnotations, ActionToSymptomRelationship, Publication
 
 THIS_DIR = Path(__file__).parent
 DATABASE_DIR = Path(__file__).parent / "test_cases"
@@ -132,43 +130,43 @@ class EvalMAXO(SPIRESEvaluationEngine):
         return self.load_cases(DATABASE_DIR)
 
     # Load cases from YAML
+    # One-to-many relationships are parsed as one-to-one, as we
+    # may only match part of the set.
+    # They still need to be list members to validate, though.
     def load_cases(self, path: Path) -> Iterable[MaxoAnnotations]:
         logger.info(f"Loading {path}")
-        for casefile in path.glob("*.yaml"):
-            logger.info(f"Loading {casefile}")
 
-        # with gzip.open(str(path), "rb") as f:
-        #     collection = biocxml.load(f)
-        #     triples_by_text = defaultdict(list)
-        #     for document in collection.documents:
-        #         doc = {}
-        #         for p in document.passages:
-        #             doc[p.infons["type"]] = p.text
-        #         title = doc["title"]
-        #         abstract = doc["abstract"]
-        #         logger.debug(f"Title: {title} Abstract: {abstract}")
-        #         for r in document.relations:
-        #             i = r.infons
-        #             t = ActionToSymptomRelationship.model_validate(
-        #                 {
-        #                     "subject": f"{self.subject_prefix}:{i['Chemical']}",
-        #                     "predicate": RMAP[i["relation"]],
-        #                     "object": f"{self.object_prefix}:{i['Disease']}",
-        #                 }
-        #             )
-        #             triples_by_text[(title, abstract)].append(t)
-        # i = 0
-        # for (title, abstract), triples in triples_by_text.items():
-        #     i = i + 1
-        #     pub = Publication.model_validate(
-        #         {
-        #             "id": str(i),
-        #             "title": title,
-        #             "abstract": abstract,
-        #         }
-        #     )
-        #     logger.debug(f"Triples: {len(triples)} for Title: {title} Abstract: {abstract}")
-        #     yield MaxoAnnotations.model_validate({"publication": pub, "triples": triples})
+        triples_by_text = defaultdict(list)
+
+        for casefile in path.glob("*.yaml"):
+            logger.info(f"Loading case {casefile}")
+            with open(casefile, "r") as file:
+                doc = yaml.safe_load(file)
+            input_text = doc["input_text"]
+            logger.debug(f"Text: {input_text}")
+            for r in doc["extracted_object"]["action_to_symptom"]:
+                for object in r["object"]:
+                    t = ActionToSymptomRelationship.model_validate(
+                        {
+                            "subject": f"{r['subject']}",
+                            "predicate": RMAP[r["predicate"]],
+                            "object": [object],
+                        }
+                    )
+                    triples_by_text[input_text].append(t)
+        i = 0
+        for input_text, triples in triples_by_text.items():
+            i = i + 1
+            title = input_text[:40]
+            pub = Publication.model_validate(
+                {
+                    "id": str(i),
+                    "title": title,
+                    "abstract": input_text,
+                }
+            )
+            logger.debug(f"Triples: {len(triples)} for Title: {title}")
+            yield MaxoAnnotations.model_validate({"publication": pub, "triples": triples})
 
     def eval(self) -> EvaluationObjectSetRE:
         """Evaluate the ability to extract relations."""
