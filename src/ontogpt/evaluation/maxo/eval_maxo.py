@@ -23,7 +23,6 @@ for the purposes of this evaluation.
 """
 
 import logging
-from collections import defaultdict
 from dataclasses import dataclass
 from pathlib import Path
 from random import shuffle
@@ -39,16 +38,10 @@ from ontogpt.evaluation.evaluation_engine import SimilarityScore, SPIRESEvaluati
 from ontogpt.templates.maxo import (
     MaxoAnnotations,
     ActionToSymptomRelationship,
-    Publication,
-    TextWithTriples,
 )
 
 THIS_DIR = Path(__file__).parent
 DATABASE_DIR = Path(__file__).parent / "test_cases"
-# TEST_SET_BIOC = DATABASE_DIR / "CDR_TestSet.BioC.xml.gz"
-# TRAIN_SET_BIOC = DATABASE_DIR / "CDR_TrainSet.BioC.xml.gz"
-
-# TODO: modify the maxo template to make root class TextWithTriples
 
 # This does not do much now but can be expanded to
 # additional predicate types
@@ -57,18 +50,10 @@ RMAP = {"TREATS": "TREATS"}
 logger = logging.getLogger(__name__)
 
 
-# TODO: current model may not support this - modify as needed
-def negated(ActionToSymptomRelationship) -> bool:
-    return (
-        ActionToSymptomRelationship.qualifier
-        and ActionToSymptomRelationship.qualifier.lower() == "not"
-    )
-
-
 class PredictionRE(BaseModel):
     """A prediction for a relationship extraction task."""
 
-    test_object: Optional[TextWithTriples] = None
+    test_object: Optional[MaxoAnnotations] = None
     """Source of truth to evaluate against."""
 
     true_positives: Optional[List[Tuple]] = None
@@ -78,7 +63,7 @@ class PredictionRE(BaseModel):
     false_negatives: Optional[List[Tuple]] = None
     num_false_negatives: Optional[int] = None
     scores: Optional[Dict[str, SimilarityScore]] = None
-    predicted_object: Optional[TextWithTriples] = None
+    predicted_object: Optional[MaxoAnnotations] = None
     named_entities: Optional[List[Any]] = None
 
     def calculate_scores(self, labelers: Optional[List[BasicOntologyInterface]] = None):
@@ -92,22 +77,18 @@ class PredictionRE(BaseModel):
                         return f"{x} {lbl}"
             return x
 
-        def all_objects(dm: Optional[TextWithTriples]):
+        def all_objects(dm: Optional[MaxoAnnotations]):
             if dm is not None:
                 return list(
-                    set(link.subject for link in dm.triples if not negated(link))
-                    | set(link.object for link in dm.triples if not negated(link))
+                    set(link.subject for link in dm.triples)
+                    | set(link.object for link in dm.triples)
                 )
             else:
                 return list()
 
-        def pairs(dm: TextWithTriples) -> Set:
+        def pairs(dm: MaxoAnnotations) -> Set:
             if dm.triples is not None:
-                return set(
-                    (label(link.subject), label(link.object))
-                    for link in dm.triples
-                    if not negated(link)
-                )
+                return set((label(link.subject), label(link.object)) for link in dm.triples)
             else:
                 return set()
 
@@ -134,9 +115,9 @@ class EvaluationObjectSetRE(BaseModel):
     recall: float = 0
     f1: float = 0
 
-    training: Optional[List[TextWithTriples]] = None
+    training: Optional[List[MaxoAnnotations]] = None
     predictions: Optional[List[PredictionRE]] = None
-    test: Optional[List[TextWithTriples]] = None
+    test: Optional[List[MaxoAnnotations]] = None
 
 
 @dataclass
@@ -146,66 +127,55 @@ class EvalMAXO(SPIRESEvaluationEngine):
 
     def __post_init__(self):
         self.extractor = SPIRESEngine(template="maxo", model=self.model)
-        # synonyms are derived entirely from training set
-        # self.extractor.load_dictionary(DATABASE_DIR / "synonyms.yaml")
 
     def load_test_cases(self) -> Iterable[MaxoAnnotations]:
-        return self.load_cases(TEST_SET_BIOC)
+        return self.load_cases(DATABASE_DIR)
 
-    def load_training_cases(self) -> Iterable[MaxoAnnotations]:
-        return self.load_cases(TRAIN_SET_BIOC)
-
-    # Remove all the BIOCXML loading material and load from YAML
+    # Load cases from YAML
     def load_cases(self, path: Path) -> Iterable[MaxoAnnotations]:
         logger.info(f"Loading {path}")
-        with gzip.open(str(path), "rb") as f:
-            collection = biocxml.load(f)
-            triples_by_text = defaultdict(list)
-            for document in collection.documents:
-                doc = {}
-                for p in document.passages:
-                    doc[p.infons["type"]] = p.text
-                title = doc["title"]
-                abstract = doc["abstract"]
-                logger.debug(f"Title: {title} Abstract: {abstract}")
-                for r in document.relations:
-                    i = r.infons
-                    t = ActionToSymptomRelationship.model_validate(
-                        {
-                            "subject": f"{self.subject_prefix}:{i['Chemical']}",
-                            "predicate": RMAP[i["relation"]],
-                            "object": f"{self.object_prefix}:{i['Disease']}",
-                        }
-                    )
-                    triples_by_text[(title, abstract)].append(t)
-        i = 0
-        for (title, abstract), triples in triples_by_text.items():
-            i = i + 1
-            pub = Publication.model_validate(
-                {
-                    "id": str(i),
-                    "title": title,
-                    "abstract": abstract,
-                }
-            )
-            logger.debug(f"Triples: {len(triples)} for Title: {title} Abstract: {abstract}")
-            yield MaxoAnnotations.model_validate({"publication": pub, "triples": triples})
+        for casefile in path.glob("*.yaml"):
+            logger.info(f"Loading {casefile}")
 
-    def create_training_set(self, num=100):
-        ke = self.extractor
-        docs = list(self.load_test_cases())
-        shuffle(docs)
-        for doc in docs[0:num]:
-            text = doc.text
-            prompt = ke.get_completion_prompt(None, text)
-            completion = ke.serialize_object()
-            yield dict(prompt=prompt, completion=completion)
+        # with gzip.open(str(path), "rb") as f:
+        #     collection = biocxml.load(f)
+        #     triples_by_text = defaultdict(list)
+        #     for document in collection.documents:
+        #         doc = {}
+        #         for p in document.passages:
+        #             doc[p.infons["type"]] = p.text
+        #         title = doc["title"]
+        #         abstract = doc["abstract"]
+        #         logger.debug(f"Title: {title} Abstract: {abstract}")
+        #         for r in document.relations:
+        #             i = r.infons
+        #             t = ActionToSymptomRelationship.model_validate(
+        #                 {
+        #                     "subject": f"{self.subject_prefix}:{i['Chemical']}",
+        #                     "predicate": RMAP[i["relation"]],
+        #                     "object": f"{self.object_prefix}:{i['Disease']}",
+        #                 }
+        #             )
+        #             triples_by_text[(title, abstract)].append(t)
+        # i = 0
+        # for (title, abstract), triples in triples_by_text.items():
+        #     i = i + 1
+        #     pub = Publication.model_validate(
+        #         {
+        #             "id": str(i),
+        #             "title": title,
+        #             "abstract": abstract,
+        #         }
+        #     )
+        #     logger.debug(f"Triples: {len(triples)} for Title: {title} Abstract: {abstract}")
+        #     yield MaxoAnnotations.model_validate({"publication": pub, "triples": triples})
 
     def eval(self) -> EvaluationObjectSetRE:
         """Evaluate the ability to extract relations."""
 
-        # TODO: check if this works as expected
-        maxo_labeler = get_adapter("sqlite:obo:maxo, sqlite:obo:ogms, sqlite:obo:ncit")
+        # TODO: figure out how to combine multiple adapters here
+        # maxo_labeler = get_adapter("sqlite:obo:maxo, sqlite:obo:ogms, sqlite:obo:ncit")
+        maxo_labeler = get_adapter("sqlite:obo:maxo")
         hp_labeler = get_adapter("sqlite:obo:hp")
 
         if self.num_tests and isinstance(self.num_tests, int):
