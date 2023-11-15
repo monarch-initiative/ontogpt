@@ -52,17 +52,6 @@ class NamedEntity(ConfiguredBaseModel):
     label: Optional[str] = Field(None, description="""The label (name) of the named thing""")
     
 
-class MaxoAnnotations(NamedEntity):
-    
-    action: Optional[List[str]] = Field(default_factory=list, description="""Semicolon-separated list of medical actions.""")
-    disease: Optional[List[str]] = Field(default_factory=list, description="""Semicolon-separated list of diseases.""")
-    symptom: Optional[List[str]] = Field(default_factory=list, description="""Semicolon-separated list of symptoms.""")
-    action_to_disease: Optional[List[ActionToDiseaseRelationship]] = Field(default_factory=list)
-    action_to_symptom: Optional[List[ActionToSymptomRelationship]] = Field(default_factory=list)
-    id: str = Field(..., description="""A unique identifier for the named entity""")
-    label: Optional[str] = Field(None, description="""The label (name) of the named thing""")
-    
-
 class Action(NamedEntity):
     """
     A clinically prescribed procedure, therapy, intervention, or recommendation.
@@ -136,6 +125,17 @@ class TextWithTriples(ConfiguredBaseModel):
     triples: Optional[List[Triple]] = Field(default_factory=list)
     
 
+class MaxoAnnotations(TextWithTriples):
+    
+    action: Optional[List[str]] = Field(default_factory=list, description="""Semicolon-separated list of medical actions.""")
+    disease: Optional[List[str]] = Field(default_factory=list, description="""Semicolon-separated list of diseases.""")
+    symptom: Optional[List[str]] = Field(default_factory=list, description="""Semicolon-separated list of symptoms.""")
+    action_to_disease: Optional[List[ActionToDiseaseRelationship]] = Field(default_factory=list)
+    action_to_symptom: Optional[List[ActionToSymptomRelationship]] = Field(default_factory=list)
+    publication: Optional[Publication] = Field(None)
+    triples: Optional[List[Triple]] = Field(default_factory=list)
+    
+
 class TextWithEntity(ConfiguredBaseModel):
     """
     A text containing one or more instances of a single type of entity.
@@ -171,7 +171,6 @@ class AnnotatorResult(ConfiguredBaseModel):
 # see https://pydantic-docs.helpmanual.io/usage/models/#rebuilding-a-model
 ExtractionResult.model_rebuild()
 NamedEntity.model_rebuild()
-MaxoAnnotations.model_rebuild()
 Action.model_rebuild()
 Disease.model_rebuild()
 Symptom.model_rebuild()
@@ -180,6 +179,7 @@ Triple.model_rebuild()
 ActionToDiseaseRelationship.model_rebuild()
 ActionToSymptomRelationship.model_rebuild()
 TextWithTriples.model_rebuild()
+MaxoAnnotations.model_rebuild()
 TextWithEntity.model_rebuild()
 RelationshipType.model_rebuild()
 Publication.model_rebuild()

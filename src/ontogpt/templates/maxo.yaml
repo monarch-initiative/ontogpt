@@ -27,7 +27,7 @@ classes:
 
   MaxoAnnotations:
     tree_root: true
-    is_a: NamedEntity
+    is_a: TextWithTriples
     attributes:
       action:
         annotations:
