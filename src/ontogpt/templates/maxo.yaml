@@ -27,6 +27,7 @@ classes:
 
   MaxoAnnotations:
     tree_root: true
+    is_a: NamedEntity
     attributes:
       action:
         annotations:
@@ -56,7 +57,7 @@ classes:
       action_to_symptom:
         annotations:
           prompt: >-
-            A triple representing a relationship between a medical action 
+            A triple representing a relationship between a medical action
             (A clinically prescribed procedure, therapy, intervention, or recommendation)
             and a symptom, for example,
             a chest X-ray IS USED TO DIAGNOSE pleural effusion.
