@@ -171,9 +171,8 @@ class EvalMAXO(SPIRESEvaluationEngine):
     def eval(self) -> EvaluationObjectSetRE:
         """Evaluate the ability to extract relations."""
 
-        # TODO: figure out how to combine multiple adapters here
-        # maxo_labeler = get_adapter("sqlite:obo:maxo, sqlite:obo:ogms, sqlite:obo:ncit")
-        maxo_labeler = get_adapter("sqlite:obo:maxo")
+        maxo_adapters = ["sqlite:obo:maxo", "sqlite:obo:ogms", "sqlite:obo:ncit"]
+        maxo_labeler = [get_adapter(adapter) for adapter in maxo_adapters]
         hp_labeler = get_adapter("sqlite:obo:hp")
 
         if self.num_tests and isinstance(self.num_tests, int):
