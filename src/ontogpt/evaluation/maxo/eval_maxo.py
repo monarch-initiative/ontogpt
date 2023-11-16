@@ -192,7 +192,7 @@ class EvalMAXO(SPIRESEvaluationEngine):
             logger.info(f"Iteration {n} of {num_test}")
             n += 1
             logger.info(doc)
-            text = f"Title: {doc.publication.title} Abstract: {doc.publication.abstract}"
+            text = doc.publication.abstract
             predicted_obj = None
             named_entities: List[str] = []  # This stores the NEs for the whole document
             ke.named_entities = []  # This stores the NEs the extractor knows about
@@ -204,10 +204,15 @@ class EvalMAXO(SPIRESEvaluationEngine):
 
             for chunked_text in text_list:
                 extraction = ke.extract_from_text(chunked_text)
+
                 if extraction.extracted_object is not None:
+                    # Rearrange the extracted object a bit
+                    # TODO: process action_to_symptom relations with multiple symptoms to 1 to 1 each
+                    for extracted_triple in extraction.extracted_object.action_to_symptom:
+                        extraction.extracted_object.triples.append(extracted_triple)
+
                     logger.info(
-                        f"{len(extraction.extracted_object.triples)}\
-                            triples from window: {chunked_text}"
+                        f"{len(extraction.extracted_object.triples)} triples from window: {chunked_text}"
                     )
                 if not predicted_obj and extraction.extracted_object is not None:
                     predicted_obj = extraction.extracted_object
@@ -230,7 +235,7 @@ class EvalMAXO(SPIRESEvaluationEngine):
                         and t.subject
                         and t.object
                         and t.subject.startswith("MAXO:")
-                        and t.object.startswith("HP:")
+                        and t.object[0].startswith("HP:")
                         and t.predicate.lower() == "treats"
                     )
                 else:
