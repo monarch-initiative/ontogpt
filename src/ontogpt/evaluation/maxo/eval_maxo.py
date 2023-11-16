@@ -85,10 +85,14 @@ class PredictionRE(BaseModel):
                 dm_flat_triples = []
                 for triple in dm.triples:
                     if triple.subject is not None and triple.object is not None:
+                        if type(triple.object) == list:
+                            flat_object = triple.object[0]
+                        else:
+                            flat_object = triple.object
                         triple_flat = {
                             "subject": triple.subject,
                             "predicate": triple.predicate,
-                            "object": triple.object[0],
+                            "object": flat_object,
                         }
 
                         dm_flat_triples.append(triple_flat)
@@ -101,7 +105,11 @@ class PredictionRE(BaseModel):
 
         def pairs(dm: MaxoAnnotations) -> Set:
             if dm.triples is not None:
-                return set((label(link.subject), label(link.object[0])) for link in dm.triples)
+                return set(
+                    (label(link.subject), label(link.object[0]))
+                    for link in dm.triples
+                    if link.object is not None
+                )
             else:
                 return set()
 
