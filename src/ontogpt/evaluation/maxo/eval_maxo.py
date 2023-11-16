@@ -70,23 +70,38 @@ class PredictionRE(BaseModel):
         def label(x):
             if labelers:
                 for labeler in labelers:
-                    lbl = labeler.label(x)
+                    if type(labeler) == list:
+                        lbl = labeler[0].label(x)
+                    else:
+                        lbl = labeler.label(x)
                     if lbl:
                         return f"{x} {lbl}"
             return x
 
         def all_objects(dm: Optional[MaxoAnnotations]):
             if dm is not None:
+                # set conversion requires lists to be flattened
+                # and made generic, or they become invalid
+                dm_flat_triples = []
+                for triple in dm.triples:
+                    if triple.subject is not None and triple.object is not None:
+                        triple_flat = {
+                            "subject": triple.subject,
+                            "predicate": triple.predicate,
+                            "object": triple.object[0],
+                        }
+
+                        dm_flat_triples.append(triple_flat)
                 return list(
-                    set(link.subject for link in dm.triples)
-                    | set(link.object for link in dm.triples)
+                    set(link["subject"] for link in dm_flat_triples)
+                    | set(link["object"] for link in dm_flat_triples)
                 )
             else:
                 return list()
 
         def pairs(dm: MaxoAnnotations) -> Set:
             if dm.triples is not None:
-                return set((label(link.subject), label(link.object)) for link in dm.triples)
+                return set((label(link.subject), label(link.object[0])) for link in dm.triples)
             else:
                 return set()
 
@@ -206,10 +221,13 @@ class EvalMAXO(SPIRESEvaluationEngine):
                 extraction = ke.extract_from_text(chunked_text)
 
                 if extraction.extracted_object is not None:
-                    # Rearrange the extracted object a bit
-                    # TODO: process action_to_symptom relations with multiple symptoms to 1 to 1 each
+                    # Process all multi-object triples to 1 to 1 triples
+                    # so they may be more directly compared
                     for extracted_triple in extraction.extracted_object.action_to_symptom:
-                        extraction.extracted_object.triples.append(extracted_triple)
+                        new_triple = extracted_triple
+                        for object in extracted_triple.object:
+                            new_triple.object = [object]
+                            extraction.extracted_object.triples.append(new_triple)
 
                     logger.info(
                         f"{len(extraction.extracted_object.triples)} triples from window: {chunked_text}"
@@ -241,15 +259,16 @@ class EvalMAXO(SPIRESEvaluationEngine):
                 else:
                     return t
 
-            predicted_obj.triples = [t for t in predicted_obj.triples if included(t)]
-            duplicate_triples = []
-            unique_predicted_triples = [
-                t
-                for t in predicted_obj.triples
-                if t not in duplicate_triples and not duplicate_triples.append(t)  # type: ignore
-            ]
-            predicted_obj.triples = unique_predicted_triples
-            logger.info(f"{len(predicted_obj.triples)} filtered triples")
+            if predicted_obj is not None:
+                predicted_obj.triples = [t for t in predicted_obj.triples if included(t)]
+                duplicate_triples = []
+                unique_predicted_triples = [
+                    t
+                    for t in predicted_obj.triples
+                    if t not in duplicate_triples and not duplicate_triples.append(t)  # type: ignore
+                ]
+                predicted_obj.triples = unique_predicted_triples
+                logger.info(f"{len(predicted_obj.triples)} filtered triples")
             pred = PredictionRE(
                 predicted_object=predicted_obj, test_object=doc, named_entities=named_entities
             )
