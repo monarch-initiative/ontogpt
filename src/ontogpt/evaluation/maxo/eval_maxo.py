@@ -110,9 +110,14 @@ class PredictionRE(BaseModel):
             all_objects(self.predicted_object),
             labelers=labelers,
         )
-        if self.predicted_object is not None and self.test_object is not None:
+        if self.predicted_object is not None:
             pred_pairs = pairs(self.predicted_object)
+        else:
+            pred_pairs = set()
+        if self.test_object is not None:
             test_pairs = pairs(self.test_object)
+        else:
+            test_pairs = set()
         self.true_positives = list(pred_pairs.intersection(test_pairs))
         self.false_positives = list(pred_pairs.difference(test_pairs))
         self.false_negatives = list(test_pairs.difference(pred_pairs))
