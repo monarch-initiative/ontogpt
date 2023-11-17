@@ -172,16 +172,20 @@ class EvalMAXO(SPIRESEvaluationEngine):
                 doc = yaml.safe_load(file)
             input_text = doc["input_text"]
             logger.debug(f"Text: {input_text}")
-            for r in doc["extracted_object"]["action_to_symptom"]:
-                for object in r["object"]:
-                    t = ActionToSymptomRelationship.model_validate(
-                        {
-                            "subject": f"{r['subject']}",
-                            "predicate": RMAP[r["predicate"]],
-                            "object": [object],
-                        }
-                    )
-                    triples_by_text[input_text].append(t)
+            try:
+                for r in doc["extracted_object"]["action_to_symptom"]:
+                    for object in r["object"]:
+                        t = ActionToSymptomRelationship.model_validate(
+                            {
+                                "subject": f"{r['subject']}",
+                                "predicate": RMAP[r["predicate"]],
+                                "object": [object],
+                            }
+                        )
+                        triples_by_text[input_text].append(t)
+            except KeyError:  # some of the test cases may only have other relations
+                logger.info(f"Ignored {casefile} - no Action to Symptom relations")
+                continue
         i = 0
         for input_text, triples in triples_by_text.items():
             i = i + 1
