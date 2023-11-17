@@ -278,7 +278,7 @@ class EvalMAXO(SPIRESEvaluationEngine):
                         # and t.predicate.lower() == "treats"
                     )
                 else:
-                    return t
+                    return False
 
             if predicted_obj is not None:
                 predicted_obj.triples = [t for t in predicted_obj.triples if included(t)]
