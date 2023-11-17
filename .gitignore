@@ -145,3 +145,7 @@ random
 LOG
 
 .DS_Store
+
+# temporary
+scratch*
+tmp*

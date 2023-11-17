@@ -151,6 +151,7 @@ class KnowledgeEngine(ABC):
 
     encoding = None
 
+    sys_info: str = ""
     def __post_init__(self):
         if self.template:
             self.template_class = self._get_template_class(self.template)
@@ -162,7 +163,7 @@ class KnowledgeEngine(ABC):
             logging.info("Using mappers (currently hardcoded)")
             self.mappers = [get_adapter("translator:")]
 
-        self.set_up_client()
+        self.set_up_client(self.sys_info)
         try:
             self.encoding = tiktoken.encoding_for_model(self.client.model)
         except KeyError:
@@ -599,8 +600,8 @@ class KnowledgeEngine(ABC):
                         setattr(result, k, v)
         return resultset[0]
 
-    def set_up_client(self):
-        self.client = OpenAIClient(model=self.model)
+    def set_up_client(self,sys_info=""):
+        self.client = OpenAIClient(model=self.model,sys_info=sys_info)
         logging.info("Setting up OpenAI client API Key")
         self.api_key = self._get_openai_api_key()
         openai.api_key = self.api_key

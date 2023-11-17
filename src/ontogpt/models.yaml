@@ -9,6 +9,19 @@ models:
     requirements:
       diskspace: "N/A"
       memory: "N/A"
+    # is_default: true
+
+  - name: MODEL_GPT_4_TURBO
+    alternative_names:
+      - "gpt-4-1106-preview"
+      - "gpt-4-turbo"
+      - "openai-gpt-4-turbo"
+    provider: OpenAI
+    creators:
+      - OpenAI
+    requirements:
+      diskspace: "N/A"
+      memory: "N/A"
     is_default: true
 
   - name: MODEL_GPT_3_5_TURBO_16K

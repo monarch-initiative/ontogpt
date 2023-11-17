@@ -317,7 +317,7 @@ def extract(
         if settings.cache_db:
             ke.client.cache_db_path = settings.cache_db
         if settings.skip_annotators:
-            ke.client.skip_annotators = settings.skip_annotators
+            ke.skip_annotators = settings.skip_annotators
 
     elif model_source == "GPT4All":
         ke = GPT4AllEngine(template=template, model=model_name, **kwargs)
@@ -1526,7 +1526,7 @@ def fill(model, template, object: str, examples, output, output_format, show_pro
 def openai_models(**kwargs):
     """List OpenAI models for prompt completion."""
     ai = OpenAIClient()
-    for model in openai.Model.list():
+    for model in ai.client.models.list()():
         print(model)
 
 

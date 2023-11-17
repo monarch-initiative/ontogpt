@@ -9,7 +9,8 @@ from time import sleep
 from typing import Iterator, Optional, Tuple
 
 import numpy as np
-import openai
+from openai import OpenAI
+from openai.types.chat import ChatCompletion
 from oaklib.utilities.apikey_manager import get_apikey_value
 
 logger = logging.getLogger(__name__)
@@ -19,15 +20,16 @@ NUM_RETRIES = 3
 @dataclass
 class OpenAIClient:
     # max_tokens: int = field(default_factory=lambda: 3000)
-    model: str = field(default_factory=lambda: "gpt-3.5-turbo")
+    model: str = field(default_factory=lambda: "gpt-4-1106-preview")
     cache_db_path: str = ""
     api_key: str = ""
     interactive: Optional[bool] = None
-
+    sys_info:str=""
     def __post_init__(self):
         if not self.api_key:
             self.api_key = get_apikey_value("openai")
-        openai.api_key = self.api_key
+        self.client = OpenAI(api_key=self.api_key)
+        
 
     def complete(self, prompt, max_tokens=3000, show_prompt: bool = False, **kwargs) -> str:
         engine = self.model
@@ -41,7 +43,7 @@ class OpenAIClient:
             prompt_peek = str(prompt)[0:80].replace("\n", "\\n")
             logger.info(f"Using cached payload for prompt: {prompt_peek}...")
             return payload[0]
-        response = None
+        response:ChatCompletion = None
         i = 0
         while not response:
             i += 1
@@ -50,23 +52,19 @@ class OpenAIClient:
                 if self.interactive:
                     response = self._interactive_completion(prompt, engine, max_tokens, **kwargs)
                 elif self._must_use_chat_api():
-                    response = openai.ChatCompletion.create(
-                        model=engine,
-                        messages=[
-                            {
-                                "role": "user",
-                                "content": prompt,
-                            },
-                        ],
+                    if not self.sys_info:
+                        messages=[{"role": "user","content": prompt,}]
+                    else:
+                        messages=[{"role": "system", "content": self.sys_info},
+                                  {"role": "user","content": prompt,}]
+                    response = self.client.chat.completions.create(model=engine,
+                        messages=messages,
                         max_tokens=max_tokens,
-                        **kwargs,
-                    )
+                        **kwargs)
                 else:
-                    response = openai.Completion.create(
-                        engine=engine,
-                        prompt=prompt,
-                        max_tokens=max_tokens,
-                    )
+                    response = self.client.completions.create(engine=engine,
+                    prompt=prompt,
+                    max_tokens=max_tokens)
                 break
             except Exception as e:
                 logger.error(f"OpenAI API connection error: {e}")
@@ -79,9 +77,9 @@ class OpenAIClient:
         if self.interactive:
             payload = response
         elif self._must_use_chat_api():
-            payload = response["choices"][0]["message"]["content"]
+            payload = response.choices[0].message.content
         else:
-            payload = response["choices"][0]["text"]
+            payload = response.choices[0].message
         logger.info(f"Storing payload of len: {len(payload)}")
         cur.execute(
             "INSERT INTO cache (prompt, engine, payload) VALUES (?, ?, ?)",
@@ -164,10 +162,8 @@ class OpenAIClient:
             logger.info(f"Using cached embeddings for {model} {text[0:80]}...")
             return ast.literal_eval(payload[0])
         logger.info(f"querying OpenAI for {model} {text[0:80]}...")
-        response = openai.Embedding.create(
-            model=model,
-            input=text,
-        )
+        response = self.client.embeddings.create(model=model,
+        input=text)
         v = response.data[0]["embedding"]
         logger.info(f"Storing embeddings of len: {len(v)}")
         cur.execute(
