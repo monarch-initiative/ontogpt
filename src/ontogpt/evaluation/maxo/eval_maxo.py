@@ -22,6 +22,10 @@ blob/master/annotations/maxo-annotations.tsv)
 though the annotations are not considered disease-specific
 for the purposes of this evaluation.
 
+Note that this evaluation does not consider predicates,
+only extraction of any relation involving a grounded MAXO
+action and a grounded HP phenotype.
+
 """
 
 import logging
@@ -93,7 +97,7 @@ class PredictionRE(BaseModel):
                             flat_object = triple.object
                         triple_flat = {
                             "subject": triple.subject,
-                            "predicate": triple.predicate,
+                            # "predicate": triple.predicate,
                             "object": flat_object,
                         }
 
@@ -271,7 +275,7 @@ class EvalMAXO(SPIRESEvaluationEngine):
                         and t.object
                         and t.subject.startswith("MAXO:")
                         and t.object[0].startswith("HP:")
-                        and t.predicate.lower() == "treats"
+                        # and t.predicate.lower() == "treats"
                     )
                 else:
                     return t
