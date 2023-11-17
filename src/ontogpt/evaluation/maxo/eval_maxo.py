@@ -16,7 +16,7 @@ annotations from the text provided in each test case
 the annotations accompanying the case. The existing
 annotations are from the set of manual annotations
 in the above repository
-(see 
+(see
 https://github.com/monarch-initiative/maxo-annotations/
 blob/master/annotations/maxo-annotations.tsv)
 though the annotations are not considered disease-specific
@@ -283,7 +283,7 @@ class EvalMAXO(SPIRESEvaluationEngine):
                 unique_predicted_triples = [
                     t
                     for t in predicted_obj.triples
-                    if t not in duplicate_triples 
+                    if t not in duplicate_triples
                     and not duplicate_triples.append(t)  # type: ignore
                 ]
                 predicted_obj.triples = unique_predicted_triples
