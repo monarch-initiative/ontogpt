@@ -48,7 +48,10 @@ class SimilarityScore(BaseModel):
 
             def label(x):
                 for labeler in labelers:
-                    lbl = labeler.label(x)
+                    if type(labeler) == list:
+                        lbl = labeler[0].label(x)
+                    else:
+                        lbl = labeler.label(x)
                     if lbl:
                         return f"{x} {lbl}"
                 return x

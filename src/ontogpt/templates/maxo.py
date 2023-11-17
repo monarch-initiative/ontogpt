@@ -33,15 +33,6 @@ class NullDataOptions(str, Enum):
     
     
 
-class MaxoAnnotations(ConfiguredBaseModel):
-    
-    action: Optional[List[str]] = Field(default_factory=list, description="""Semicolon-separated list of medical actions.""")
-    disease: Optional[List[str]] = Field(default_factory=list, description="""Semicolon-separated list of diseases.""")
-    symptom: Optional[List[str]] = Field(default_factory=list, description="""Semicolon-separated list of symptoms.""")
-    action_to_disease: Optional[List[ActionToDiseaseRelationship]] = Field(default_factory=list)
-    action_to_symptom: Optional[List[ActionToSymptomRelationship]] = Field(default_factory=list)
-    
-
 class ExtractionResult(ConfiguredBaseModel):
     """
     A result of extracting knowledge on text
@@ -127,9 +118,30 @@ class ActionToSymptomRelationship(Triple):
     
 
 class TextWithTriples(ConfiguredBaseModel):
-    
+    """
+    A text containing one or more relations of the Triple type.
+    """
     publication: Optional[Publication] = Field(None)
     triples: Optional[List[Triple]] = Field(default_factory=list)
+    
+
+class MaxoAnnotations(TextWithTriples):
+    
+    action: Optional[List[str]] = Field(default_factory=list, description="""Semicolon-separated list of medical actions.""")
+    disease: Optional[List[str]] = Field(default_factory=list, description="""Semicolon-separated list of diseases.""")
+    symptom: Optional[List[str]] = Field(default_factory=list, description="""Semicolon-separated list of symptoms.""")
+    action_to_disease: Optional[List[ActionToDiseaseRelationship]] = Field(default_factory=list)
+    action_to_symptom: Optional[List[ActionToSymptomRelationship]] = Field(default_factory=list)
+    publication: Optional[Publication] = Field(None)
+    triples: Optional[List[Triple]] = Field(default_factory=list)
+    
+
+class TextWithEntity(ConfiguredBaseModel):
+    """
+    A text containing one or more instances of a single type of entity.
+    """
+    publication: Optional[Publication] = Field(None)
+    entities: Optional[List[str]] = Field(default_factory=list)
     
 
 class RelationshipType(NamedEntity):
@@ -157,7 +169,6 @@ class AnnotatorResult(ConfiguredBaseModel):
 
 # Model rebuild
 # see https://pydantic-docs.helpmanual.io/usage/models/#rebuilding-a-model
-MaxoAnnotations.model_rebuild()
 ExtractionResult.model_rebuild()
 NamedEntity.model_rebuild()
 Action.model_rebuild()
@@ -168,6 +179,8 @@ Triple.model_rebuild()
 ActionToDiseaseRelationship.model_rebuild()
 ActionToSymptomRelationship.model_rebuild()
 TextWithTriples.model_rebuild()
+MaxoAnnotations.model_rebuild()
+TextWithEntity.model_rebuild()
 RelationshipType.model_rebuild()
 Publication.model_rebuild()
 AnnotatorResult.model_rebuild()
