@@ -16,7 +16,9 @@ annotations from the text provided in each test case
 the annotations accompanying the case. The existing
 annotations are from the set of manual annotations
 in the above repository
-(see https://github.com/monarch-initiative/maxo-annotations/blob/master/annotations/maxo-annotations.tsv)
+(see 
+https://github.com/monarch-initiative/maxo-annotations/
+blob/master/annotations/maxo-annotations.tsv)
 though the annotations are not considered disease-specific
 for the purposes of this evaluation.
 
@@ -202,7 +204,6 @@ class EvalMAXO(SPIRESEvaluationEngine):
 
     def eval(self) -> EvaluationObjectSetRE:
         """Evaluate the ability to extract relations."""
-
         maxo_adapters = ["sqlite:obo:maxo", "sqlite:obo:ogms", "sqlite:obo:ncit"]
         maxo_labeler = [get_adapter(adapter) for adapter in maxo_adapters]
         hp_labeler = get_adapter("sqlite:obo:hp")
@@ -247,7 +248,7 @@ class EvalMAXO(SPIRESEvaluationEngine):
                             extraction.extracted_object.triples.append(new_triple)
 
                     logger.info(
-                        f"{len(extraction.extracted_object.triples)} triples from window: {chunked_text}"
+                        f"{len(extraction.extracted_object.triples)} triples from: {chunked_text}"
                     )
                 if not predicted_obj and extraction.extracted_object is not None:
                     predicted_obj = extraction.extracted_object
@@ -282,7 +283,8 @@ class EvalMAXO(SPIRESEvaluationEngine):
                 unique_predicted_triples = [
                     t
                     for t in predicted_obj.triples
-                    if t not in duplicate_triples and not duplicate_triples.append(t)  # type: ignore
+                    if t not in duplicate_triples 
+                    and not duplicate_triples.append(t)  # type: ignore
                 ]
                 predicted_obj.triples = unique_predicted_triples
                 logger.info(f"{len(predicted_obj.triples)} filtered triples")
