@@ -15,7 +15,7 @@ named_entities:
   - id: MONDO:0009662
     label: Mucopolysaccharidosis Type Vii
   - id: MAXO:0001479
-    label: allogeneic hematopoietic stem cell transplantation	
+    label: allogeneic hematopoietic stem cell transplantation
   - id: HP:0003541
     label: Urinary glycosaminoglycan excretion
 
