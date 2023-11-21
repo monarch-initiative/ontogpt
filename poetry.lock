@@ -1104,17 +1104,6 @@ files = [
 ]
 
 [[package]]
-name = "distro"
-version = "1.8.0"
-description = "Distro - an OS platform information API"
-optional = false
-python-versions = ">=3.6"
-files = [
-    {file = "distro-1.8.0-py3-none-any.whl", hash = "sha256:99522ca3e365cac527b44bde033f64c6945d90eb9f769703caaec52b09bbd3ff"},
-    {file = "distro-1.8.0.tar.gz", hash = "sha256:02e111d1dc6a50abb8eed6bf31c3e48ed8b0830d1ea2a1b78c61765c2513fdd8"},
-]
-
-[[package]]
 name = "docopt"
 version = "0.6.2"
 description = "Pythonic argument parser, that will make you smile"
@@ -4072,25 +4061,25 @@ tests = ["coverage", "pytest", "unittest-templates"]
 
 [[package]]
 name = "openai"
-version = "1.3.4"
-description = "The official Python library for the openai API"
+version = "0.28.1"
+description = "Python client library for the OpenAI API"
 optional = false
 python-versions = ">=3.7.1"
 files = [
-    {file = "openai-1.3.4-py3-none-any.whl", hash = "sha256:a8daed9553bbfc9e6d6a74615a2d48e4ff293d74d51f75b45ff18a9edbe61ce3"},
-    {file = "openai-1.3.4.tar.gz", hash = "sha256:9fd7a8d9efbff4c35b4026266432e49372ca0da653a5d12dac3e4330f7e29b88"},
+    {file = "openai-0.28.1-py3-none-any.whl", hash = "sha256:d18690f9e3d31eedb66b57b88c2165d760b24ea0a01f150dd3f068155088ce68"},
+    {file = "openai-0.28.1.tar.gz", hash = "sha256:4be1dad329a65b4ce1a660fe6d5431b438f429b5855c883435f0f7fcb6d2dcc8"},
 ]
 
 [package.dependencies]
-anyio = ">=3.5.0,<4"
-distro = ">=1.7.0,<2"
-httpx = ">=0.23.0,<1"
-pydantic = ">=1.9.0,<3"
-tqdm = ">4"
-typing-extensions = ">=4.5,<5"
+aiohttp = "*"
+requests = ">=2.20"
+tqdm = "*"
 
 [package.extras]
-datalib = ["numpy (>=1)", "pandas (>=1.2.3)", "pandas-stubs (>=1.1.0.11)"]
+datalib = ["numpy", "openpyxl (>=3.0.7)", "pandas (>=1.2.3)", "pandas-stubs (>=1.1.0.11)"]
+dev = ["black (>=21.6b0,<22.0)", "pytest (==6.*)", "pytest-asyncio", "pytest-mock"]
+embeddings = ["matplotlib", "numpy", "openpyxl (>=3.0.7)", "pandas (>=1.2.3)", "pandas-stubs (>=1.1.0.11)", "plotly", "scikit-learn (>=1.0.2)", "scipy", "tenacity (>=8.0.1)"]
+wandb = ["numpy", "openpyxl (>=3.0.7)", "pandas (>=1.2.3)", "pandas-stubs (>=1.1.0.11)", "wandb"]
 
 [[package]]
 name = "openpyxl"
@@ -6093,13 +6082,13 @@ win32 = ["pywin32"]
 
 [[package]]
 name = "setuptools"
-version = "69.0.1"
+version = "69.0.2"
 description = "Easily download, build, install, upgrade, and uninstall Python packages"
 optional = false
 python-versions = ">=3.8"
 files = [
-    {file = "setuptools-69.0.1-py3-none-any.whl", hash = "sha256:6875bbd06382d857b1b90cd07cee6a2df701a164f241095706b5192bc56c5c62"},
-    {file = "setuptools-69.0.1.tar.gz", hash = "sha256:f25195d54deb649832182d6455bffba7ac3d8fe71d35185e738d2198a4310044"},
+    {file = "setuptools-69.0.2-py3-none-any.whl", hash = "sha256:1e8fdff6797d3865f37397be788a4e3cba233608e9b509382a2777d25ebde7f2"},
+    {file = "setuptools-69.0.2.tar.gz", hash = "sha256:735896e78a4742605974de002ac60562d286fa8051a7e2299445e8e8fbb01aa6"},
 ]
 
 [package.extras]
@@ -7630,4 +7619,4 @@ web = ["Jinja2", "fastapi", "uvicorn"]
 [metadata]
 lock-version = "2.0"
 python-versions = ">=3.9,<3.9.7 || >3.9.7,<4.0"
-content-hash = "d4fca9528c1fb834b902ce60d44192616da743d75e8bd949e60f8b245ca71403"
+content-hash = "55495c2baa72f0dc44fb891c3198c92a2ddaa8c3fb6d8aad376b3c2c07f991fe"
