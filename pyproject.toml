@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "ontogpt"
-version = "0.3.3"
+version = "0.3.4"
 description = "OntoGPT"
 authors = ["Chris Mungall <cjmungall@lbl.gov>"]
 license = "BSD-3"
