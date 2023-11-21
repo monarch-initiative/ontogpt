@@ -1749,14 +1749,14 @@ requests = "*"
 
 [[package]]
 name = "gpt4all"
-version = "2.0.2"
+version = "1.0.8"
 description = "Python bindings for GPT4All"
 optional = false
 python-versions = ">=3.8"
 files = [
-    {file = "gpt4all-2.0.2-py3-none-macosx_10_15_universal2.whl", hash = "sha256:f18f348d21e2ce8e45dbf8334960670660b53f69a8e47a26bb7e64924e6ed130"},
-    {file = "gpt4all-2.0.2-py3-none-manylinux1_x86_64.whl", hash = "sha256:e4c19df94f45829565563017577b299c012ebed18ebea1d6df0273ef89c92a01"},
-    {file = "gpt4all-2.0.2-py3-none-win_amd64.whl", hash = "sha256:c09440bfb3463b9e278875fc726cf1f75d2a2b19bb73d97dde5e57b0b1f6e059"},
+    {file = "gpt4all-1.0.8-py3-none-macosx_10_9_universal2.whl", hash = "sha256:405180fb9eb924dcb0ded070200923948b25b9b192fa5d059e805f1349ba9b15"},
+    {file = "gpt4all-1.0.8-py3-none-manylinux1_x86_64.whl", hash = "sha256:96b5f8e139784d9ce11aea2cb6d39d7866943d7cb574917af48eca4cccb31a12"},
+    {file = "gpt4all-1.0.8-py3-none-win_amd64.whl", hash = "sha256:96dbe139f4f17bcf8a0e81d241e52b7d812d3b500ffa9b89a34dcb7f63e52100"},
 ]
 
 [package.dependencies]
@@ -7610,7 +7610,7 @@ testing = ["big-O", "jaraco.functools", "jaraco.itertools", "more-itertools", "p
 
 [extras]
 docs = ["myst-parser", "sphinx", "sphinx-autodoc-typehints", "sphinx-click", "sphinx-rtd-theme"]
-gpt4all = []
+gpt4all = ["gpt4all"]
 huggingface = ["huggingface_hub"]
 recipes = ["recipe-scrapers"]
 textract = ["textract"]
@@ -7619,4 +7619,4 @@ web = ["Jinja2", "fastapi", "uvicorn"]
 [metadata]
 lock-version = "2.0"
 python-versions = ">=3.9,<3.9.7 || >3.9.7,<4.0"
-content-hash = "c70d59e5bfd2b7d8df76121f4f7beea8f210a3b3025dae3e02a9e340c7252ad7"
+content-hash = "d8dc9f264d4c83a4de64c1d3a490aab97863eabc352e5266c0d9a416d7019bb8"
