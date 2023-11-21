@@ -7619,4 +7619,4 @@ web = ["Jinja2", "fastapi", "uvicorn"]
 [metadata]
 lock-version = "2.0"
 python-versions = ">=3.9,<3.9.7 || >3.9.7,<4.0"
-content-hash = "55495c2baa72f0dc44fb891c3198c92a2ddaa8c3fb6d8aad376b3c2c07f991fe"
+content-hash = "c70d59e5bfd2b7d8df76121f4f7beea8f210a3b3025dae3e02a9e340c7252ad7"
