@@ -106,6 +106,30 @@ class MolecularFunction(NamedEntity):
     label: Optional[str] = Field(None, description="""The label (name) of the named thing""")
     
 
+class MolecularProcess(NamedEntity):
+    
+    id: str = Field(..., description="""A unique identifier for the named entity""")
+    label: Optional[str] = Field(None, description="""The label (name) of the named thing""")
+    
+
+class Protein(NamedEntity):
+    
+    id: str = Field(..., description="""A unique identifier for the named entity""")
+    label: Optional[str] = Field(None, description="""The label (name) of the named thing""")
+    
+
+class SequenceFeature(NamedEntity):
+    
+    id: str = Field(..., description="""A unique identifier for the named entity""")
+    label: Optional[str] = Field(None, description="""The label (name) of the named thing""")
+    
+
+class Taxon(NamedEntity):
+    
+    id: str = Field(..., description="""A unique identifier for the named entity""")
+    label: Optional[str] = Field(None, description="""The label (name) of the named thing""")
+    
+
 class CompoundExpression(ConfiguredBaseModel):
     
     None
@@ -149,6 +173,10 @@ class Document(TextWithEntity):
     chemicals: Optional[List[str]] = Field(default_factory=list, description="""One or more chemical substances, drugs, or small molecules.""")
     diseases: Optional[List[str]] = Field(default_factory=list, description="""One or more diseases or conditions.""")
     molecularfunctions: Optional[List[str]] = Field(default_factory=list, description="""One or more molecular functions, as defined by the Gene Ontology.""")
+    molecularprocesses: Optional[List[str]] = Field(default_factory=list, description="""One or more molecular processes, or named processes in chemical reactions.""")
+    proteins: Optional[List[str]] = Field(default_factory=list, description="""One or more protein names.""")
+    sequencefeatures: Optional[List[str]] = Field(default_factory=list, description="""One or more terms describing features and attributes of a biological sequence.""")
+    taxa: Optional[List[str]] = Field(default_factory=list, description="""One or more names of species or biological taxonomic groups.""")
     publication: Optional[Publication] = Field(None)
     entities: Optional[List[str]] = Field(default_factory=list)
     
@@ -186,6 +214,10 @@ CellularComponent.model_rebuild()
 Chemical.model_rebuild()
 Disease.model_rebuild()
 MolecularFunction.model_rebuild()
+MolecularProcess.model_rebuild()
+Protein.model_rebuild()
+SequenceFeature.model_rebuild()
+Taxon.model_rebuild()
 CompoundExpression.model_rebuild()
 Triple.model_rebuild()
 TextWithTriples.model_rebuild()

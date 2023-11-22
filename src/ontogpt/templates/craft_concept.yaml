@@ -100,6 +100,48 @@ classes:
             for example: catalytic activity; amine binding;
             peptide receptor activity; oxygen carrier activity;
             structural constituent of cytoskeleton
+      molecularprocesses:
+        range: MolecularProcess
+        multivalued: true
+        description: >-
+          One or more molecular processes, or named processes in
+          chemical reactions.
+        annotations:
+          prompt: >-
+            A semi-colon separated list of molecular processes,
+            for example: cyclization; exothermic reaction;
+            acid catalysis; dehydrogenation; N-thioacylation
+      proteins:
+        range: Protein
+        multivalued: true
+        description: >-
+          One or more protein names.
+        annotations:
+          prompt: >-
+            A semi-colon separated list of protein names,
+            for example: annexin A; flotillin;
+            lymphocyte antigen 6L; oncomodulin-1; serine protease 46
+      sequencefeatures:
+        range: SequenceFeature
+        multivalued: true
+        description: >-
+          One or more terms describing features and attributes of a
+          biological sequence.
+        annotations:
+          prompt: >-
+            A semi-colon separated list of biological feature terms,
+            for example: junction; three prime UTR;
+            CpG island; pseudogene; syntenic region
+      taxa:
+        range: Taxon
+        multivalued: true
+        description: >-
+          One or more names of species or biological taxonomic groups.
+        annotations:
+          prompt: >-
+            A semi-colon separated list of species names or taxonomic
+            terms, for example: shark; Carcharodon carcharias;
+            elephant seal; lion; ungulates
 
   AnatomicalElement:
     is_a: NamedEntity
@@ -170,6 +212,48 @@ classes:
       id:
         values_from:
           - GOMolecularFunctionType
+
+  MolecularProcess:
+    is_a: NamedEntity
+    annotations:
+      annotators: "sqlite:obo:mop, sqlite:obo:ncit"
+      prompt.examples: >-
+        cyclization, exothermic reaction,
+        acid catalysis, dehydrogenation, N-thioacylation
+    id_prefixes:
+      - MOP
+
+  Protein:
+    is_a: NamedEntity
+    annotations:
+      annotators: "sqlite:obo:pr"
+      prompt.examples: >-
+        annexin A, flotillin, lymphocyte antigen 6L, oncomodulin-1,
+        serine protease 46
+    id_prefixes:
+      - PR
+
+  SequenceFeature:
+    is_a: NamedEntity
+    annotations:
+      annotators: "sqlite:obo:so, sqlite:obo:ncit"
+      prompt.examples: >-
+        junction, three prime UTR, CpG island, pseudogene, syntenic region
+    id_prefixes:
+      - SO
+
+  Taxon:
+    is_a: NamedEntity
+    id_prefixes:
+      - NCBITaxon
+      - SNOMEDCT
+    annotations:
+      annotators: "sqlite:obo:ncbitaxon, bioportal:SNOMEDCT"
+      prompt.examples: >-
+        shark, Carcharodon carcharias, elephant seal, lion,
+        ungulates
+
+
 
 enums:
 
