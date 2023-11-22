@@ -193,7 +193,7 @@ classes:
   Disease:
     is_a: NamedEntity
     annotations:
-      annotators: "sqlite:obo:mesh, sqlite:obo:mondo, sqlite:obo:hp, sqlite:obo:ncit, sqlite:obo:doid, bioportal:meddra"
+      annotators: "sqlite:obo:mesh, sqlite:obo:mondo, sqlite:obo:hp, sqlite:obo:ncit, sqlite:obo:doid, sqlite:obo:nbo, sqlite:obo:efo"
       prompt.examples: cardiac asystole, COVID-19, Headache, cancer
     id_prefixes:
       - MONDO
