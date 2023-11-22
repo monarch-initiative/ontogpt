@@ -69,7 +69,7 @@ TARGET_TYPES = [
     "MolecularFunction",
     "MolecularProcess",
     "Protein",
-    "SequenceEntity",
+    "SequenceFeature",
     "Taxon",
 ]
 
