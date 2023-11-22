@@ -1,0 +1,94 @@
+id: http://w3id.org/ontogpt/craft_concept
+name: craft_concept
+title: Concept Recognition in the CRAFT Corpus
+description: >-
+  A template for Concept Recognition in the CRAFT Corpus.
+
+  CRAFT includes annotation for these entity types.
+  CHEBI
+  Cell Type Ontology (CL)
+  Gene Ontology (GO) Biological Process
+  Gene Ontology (GO) Cellular Component
+  Gene Ontology (GO) Molecular Function
+  MONDO Disease Ontology
+  Molecular Process Ontology (MOP)
+  NCBI Taxonomy (NCBITaxon)
+  Protein Ontology (PR)
+  Sequence Ontology (SO)
+  UBERON Ontology
+
+  Accordingly, the corresponding entity types are
+  represented within this schema.
+see_also:
+  - https://bmcbioinformatics.biomedcentral.com/articles/10.1186/1471-2105-15-59
+  - https://bmcbioinformatics.biomedcentral.com/articles/10.1186/1471-2105-13-161
+source: >-
+  https://github.com/UCDenver-ccp/CRAFT
+license: https://creativecommons.org/publicdomain/zero/1.0/
+prefixes:
+  linkml: https://w3id.org/linkml/
+  craft_concept: http://w3id.org/ontogpt/craft_concept
+
+default_prefix: craft_concept
+default_range: string
+
+imports:
+  - linkml:types
+  - core
+
+classes:
+
+  Document:
+    description: A document that contains biological and biomedical concepts.
+    is_a: TextWithEntity
+    attributes:
+      anatomicalelements:
+        range: AnatomicalElement
+        multivalued: true
+        description: One or more parts of the body or anatomy.
+        annotations:
+          prompt: >-
+            A semi-colon separated list of anatomy names or regions, for
+            example: conjunctival space; anterior surface of kidney;
+            medial surface of mandible; exoskeleton; choroidal gland
+      chemicals:
+        range: Chemical
+        multivalued: true
+        description: One or more chemical substances, drugs, or small molecules.
+        annotations:
+          prompt: >-
+            A semi-colon separated list of chemical names, for example:
+            Lidocaine; Hydroxychloroquine; Methyldopa; Monosodium Glutamate;
+            Imatinib
+      diseases:
+        range: Disease
+        multivalued: true
+        description: One or more diseases or conditions.
+        annotations:
+          prompt: >-
+            A semi-colon separated list of disease names, for example: cardiac
+            asystole; COVID-19; Hypotension; Headache; cancer
+
+  AnatomicalElement:
+    is_a: NamedEntity
+    annotations:
+      annotators: "sqlite:obo:mesh, sqlite:obo:uberon, sqlite:obo:ncit, gilda:"
+      prompt.examples: conjunctival space, anterior surface of kidney, medial surface of mandible, exoskeleton, choroidal gland
+    id_prefixes:
+      - UBERON
+
+  Chemical:
+    is_a: NamedEntity
+    annotations:
+      annotators: "sqlite:obo:mesh, sqlite:obo:chebi, sqlite:obo:ncit, bioportal:mdm, sqlite:obo:drugbank, gilda:"
+      prompt.examples: Lidocaine, Hydroxychloroquine, Methyldopa, Imatinib
+    id_prefixes:
+      - CHEBI
+
+  Disease:
+    is_a: NamedEntity
+    annotations:
+      annotators: "sqlite:obo:mesh, sqlite:obo:mondo, sqlite:obo:hp, sqlite:obo:ncit, sqlite:obo:doid, bioportal:meddra"
+      prompt.examples: cardiac asystole, COVID-19, Headache, cancer
+    id_prefixes:
+      - MONDO
