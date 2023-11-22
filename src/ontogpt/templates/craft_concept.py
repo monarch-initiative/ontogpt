@@ -22,6 +22,24 @@ class ConfiguredBaseModel(BaseModel):
         use_enum_values = True)
 
 
+class GOBiologicalProcessType(str):
+    
+    
+    dummy = "dummy"
+    
+
+class GOCellComponentType(str):
+    
+    
+    dummy = "dummy"
+    
+
+class GOMolecularFunctionType(str):
+    
+    
+    dummy = "dummy"
+    
+
 class NullDataOptions(str, Enum):
     
     
@@ -58,6 +76,18 @@ class AnatomicalElement(NamedEntity):
     label: Optional[str] = Field(None, description="""The label (name) of the named thing""")
     
 
+class BiologicalProcess(NamedEntity):
+    
+    id: str = Field(..., description="""A unique identifier for the named entity""")
+    label: Optional[str] = Field(None, description="""The label (name) of the named thing""")
+    
+
+class CellularComponent(NamedEntity):
+    
+    id: str = Field(..., description="""A unique identifier for the named entity""")
+    label: Optional[str] = Field(None, description="""The label (name) of the named thing""")
+    
+
 class Chemical(NamedEntity):
     
     id: str = Field(..., description="""A unique identifier for the named entity""")
@@ -65,6 +95,12 @@ class Chemical(NamedEntity):
     
 
 class Disease(NamedEntity):
+    
+    id: str = Field(..., description="""A unique identifier for the named entity""")
+    label: Optional[str] = Field(None, description="""The label (name) of the named thing""")
+    
+
+class MolecularFunction(NamedEntity):
     
     id: str = Field(..., description="""A unique identifier for the named entity""")
     label: Optional[str] = Field(None, description="""The label (name) of the named thing""")
@@ -108,8 +144,11 @@ class Document(TextWithEntity):
     A document that contains biological and biomedical concepts.
     """
     anatomicalelements: Optional[List[str]] = Field(default_factory=list, description="""One or more parts of the body or anatomy.""")
+    biologicalprocesses: Optional[List[str]] = Field(default_factory=list, description="""One or more biological processes, as defined by the Gene Ontology.""")
+    cellularcomponents: Optional[List[str]] = Field(default_factory=list, description="""One or more cellular components, as defined by the Gene Ontology.""")
     chemicals: Optional[List[str]] = Field(default_factory=list, description="""One or more chemical substances, drugs, or small molecules.""")
     diseases: Optional[List[str]] = Field(default_factory=list, description="""One or more diseases or conditions.""")
+    molecularfunctions: Optional[List[str]] = Field(default_factory=list, description="""One or more molecular functions, as defined by the Gene Ontology.""")
     publication: Optional[Publication] = Field(None)
     entities: Optional[List[str]] = Field(default_factory=list)
     
@@ -142,8 +181,11 @@ class AnnotatorResult(ConfiguredBaseModel):
 ExtractionResult.model_rebuild()
 NamedEntity.model_rebuild()
 AnatomicalElement.model_rebuild()
+BiologicalProcess.model_rebuild()
+CellularComponent.model_rebuild()
 Chemical.model_rebuild()
 Disease.model_rebuild()
+MolecularFunction.model_rebuild()
 CompoundExpression.model_rebuild()
 Triple.model_rebuild()
 TextWithTriples.model_rebuild()
