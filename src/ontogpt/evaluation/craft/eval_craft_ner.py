@@ -61,12 +61,12 @@ DATABASE_DIR = Path(__file__).parent / "database"
 # These are the entity types involved in this dataset.
 TARGET_TYPES = [
     "AnatomicalElement",
-    "Biological Process",
+    "BiologicalProcess",
     "CellType",
     "CellularComponent",
     "Chemical",
     "Disease",
-    "Molecular Function",
+    "MolecularFunction",
     "MolecularProcess",
     "Protein",
     "SequenceEntity",
