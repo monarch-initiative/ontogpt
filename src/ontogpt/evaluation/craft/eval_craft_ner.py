@@ -35,7 +35,6 @@ UBERON Ontology
 """
 
 
-import gzip
 import logging
 from collections import defaultdict
 from dataclasses import dataclass
@@ -56,7 +55,7 @@ from ontogpt.templates.craft_concept import (
 )
 
 THIS_DIR = Path(__file__).parent
-DATABASE_DIR = Path(__file__).parent / "database"
+DATABASE_DIR = Path(__file__).parent / "database" / "all"
 
 # These are the entity types involved in this dataset.
 TARGET_TYPES = [
@@ -93,11 +92,12 @@ class PredictionNER(BaseModel):
 
     # results stores all the TP, FP, FN, and TP entities
     # with entity name from TARGET_TYPES as key
-    results = Dict[Dict[List[Tuple]]]
-    for target in TARGET_TYPES:
-        results[target] = {}
-        for result_type in RESULT_TYPES:
-            results[target[result_type]] = []
+    # results is a dict of dict of lists of tuples
+    results: Dict[str, Dict[str, List[Tuple[str, str]]]] = {}
+    # for target in TARGET_TYPES:
+    #     results[target] = {}
+    #     for result_type in RESULT_TYPES:
+    #         results[target[result_type]] = []
 
     scores: Optional[Dict[str, SimilarityScore]] = None
     predicted_object: Optional[TextWithEntity] = None
@@ -134,12 +134,23 @@ class EvalCRAFTConcepts(SPIRESEvaluationEngine):
     def load_test_cases(self) -> Iterable[Document]:
         return self.load_cases(DATABASE_DIR)
 
+    # Load cases from txt and ann files
     def load_cases(self, path: Path) -> Iterable[Document]:
         logger.info(f"Loading {path}")
 
-        # Retrieve corpus if not present
-        # Preprocess corpus
         # Load documents
+        # Remove extra empty lines from input text
+        for docfilepath in path.glob("*.txt"):
+            logger.info(f"Loading text doc {docfilepath}")
+            with open(docfilepath, "r") as docfile:
+                doctext = docfile.read().replace('\n\n', '\n')
+            annfilepath = docfilepath.with_suffix('.ann')
+            logger.info(f"Loading corresponding annotation file {annfilepath}")
+            with open(annfilepath, "r") as annfile:
+                annotations = annfile.readlines()
+            print(doctext)
+            print(len(annotations))
+
         # Validate documents
 
         # with gzip.open(str(path), "rb") as f:
@@ -203,17 +214,16 @@ class EvalCRAFTConcepts(SPIRESEvaluationEngine):
         #     )
 
 
-    # def eval(self) -> EvaluationObjectSetNER:
-    #     """Evaluate the ability to extract chemical and disease named entities."""
+    def eval(self) -> EvaluationObjectSetNER:
+        """Evaluate the ability to extract and ground entities in CRAFT corpus."""
 
-    #     # TODO: need other labelers
     #     labeler = get_adapter("sqlite:obo:mesh")
     #     if self.num_tests and isinstance(self.num_tests, int):
     #         num_test = self.num_tests
     #     else:
     #         num_test = 1
     #     ke = self.extractor
-    #     docs = list(self.load_test_cases())
+        docs = list(self.load_test_cases())
     #     shuffle(docs)
     #     eos = EvaluationObjectSetNER(
     #         test=docs[:num_test],
