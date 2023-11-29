@@ -57,6 +57,8 @@ from ontogpt.templates.craft_concept import (
 THIS_DIR = Path(__file__).parent
 DATABASE_DIR = Path(__file__).parent / "database" / "all"
 
+MONDO_PURL_PREFIX = "http://purl.obolibrary.org/obo/MONDO_"
+
 # These are the entity types involved in this dataset.
 TARGET_TYPES = [
     "AnatomicalElement",
@@ -138,8 +140,12 @@ class EvalCRAFTConcepts(SPIRESEvaluationEngine):
     def load_cases(self, path: Path) -> Iterable[Document]:
         logger.info(f"Loading {path}")
 
+        entities_by_text = defaultdict(list)
+
         # Load documents
         # Remove extra empty lines from input text
+        # Parse annotations to identifier only
+        # MONDO ids are full PURLs for some reason, so fix those too
         for docfilepath in path.glob("*.txt"):
             logger.info(f"Loading text doc {docfilepath}")
             with open(docfilepath, "r") as docfile:
@@ -148,18 +154,19 @@ class EvalCRAFTConcepts(SPIRESEvaluationEngine):
             logger.info(f"Loading corresponding annotation file {annfilepath}")
             with open(annfilepath, "r") as annfile:
                 annotations = annfile.readlines()
-            print(doctext)
-            print(len(annotations))
+            
+            doc = {}
+            these_annotations = []
+            for annotation in annotations:
+                uri = (annotation.split())[1]
+                if uri.startswith(MONDO_PURL_PREFIX):
+                    uri = uri.replace(MONDO_PURL_PREFIX, 'MONDO:')
+                if uri not in these_annotations:
+                    these_annotations.append(uri)
+
 
         # Validate documents
 
-        # with gzip.open(str(path), "rb") as f:
-        #     collection = biocxml.load(f)
-        #     chemicals_by_text = defaultdict(list)
-        #     diseases_by_text = defaultdict(list)
-        #     for document in collection.documents:
-        #         these_annotations = []
-        #         doc = {}
         #         for p in document.passages:
         #             doc[p.infons["type"]] = p.text
         #             for a in p.annotations:
