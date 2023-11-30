@@ -265,7 +265,6 @@ classes:
     is_a: NamedEntity
     id_prefixes:
       - NCBITaxon
-      - SNOMEDCT
     annotations:
       annotators: "sqlite:obo:ncbitaxon, bioportal:SNOMEDCT"
       prompt.examples: >-
