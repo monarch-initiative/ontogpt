@@ -51,6 +51,8 @@ from ontogpt.engines.spires_engine import SPIRESEngine
 from ontogpt.evaluation.evaluation_engine import SimilarityScore, SPIRESEvaluationEngine
 from ontogpt.templates.craft_concept import (
     Document,
+    NamedEntity,
+    Publication,
     TextWithEntity,
 )
 
@@ -59,20 +61,23 @@ DATABASE_DIR = Path(__file__).parent / "database" / "all"
 
 MONDO_PURL_PREFIX = "http://purl.obolibrary.org/obo/MONDO_"
 
-# These are the entity types involved in this dataset.
-TARGET_TYPES = [
-    "AnatomicalElement",
-    "BiologicalProcess",
-    "CellType",
-    "CellularComponent",
-    "Chemical",
-    "Disease",
-    "MolecularFunction",
-    "MolecularProcess",
-    "Protein",
-    "SequenceFeature",
-    "Taxon",
-]
+# These are the entity types involved in this dataset,
+# along with their corresponding prefixes.
+# GO terms need to be checked during sorting
+# so they go to the correct subset.
+TARGET_TYPES = {
+    "AnatomicalElement": "UBERON",
+    "BiologicalProcess": "GO",
+    "CellType": "CL",
+    "CellularComponent": "GO",
+    "Chemical": "CHEBI",
+    "Disease": "MONDO",
+    "MolecularFunction": "GO",
+    "MolecularProcess": "MOP",
+    "Protein": "PR",
+    "SequenceFeature": "SO",
+    "Taxon": "NCBITaxon",
+}
 
 RESULT_TYPES = [
     "true_positives",
@@ -149,13 +154,15 @@ class EvalCRAFTConcepts(SPIRESEvaluationEngine):
         for docfilepath in path.glob("*.txt"):
             logger.info(f"Loading text doc {docfilepath}")
             with open(docfilepath, "r") as docfile:
+                title = docfile.readline().rstrip()
                 doctext = docfile.read().replace('\n\n', '\n')
+            logger.debug(f"Title: {title}\nDocument Text (truncated): {doctext[0:100]}...({len(doctext[100:])} chars)")
             annfilepath = docfilepath.with_suffix('.ann')
             logger.info(f"Loading corresponding annotation file {annfilepath}")
             with open(annfilepath, "r") as annfile:
                 annotations = annfile.readlines()
             
-            doc = {}
+            # Get annotations and validate as CURIEs
             these_annotations = []
             for annotation in annotations:
                 uri = (annotation.split())[1]
@@ -163,62 +170,55 @@ class EvalCRAFTConcepts(SPIRESEvaluationEngine):
                     uri = uri.replace(MONDO_PURL_PREFIX, 'MONDO:')
                 if uri not in these_annotations:
                     these_annotations.append(uri)
+                e = NamedEntity.model_validate(
+                    {
+                        "id": uri,
+                    }
+                )               
+                entities_by_text[(title, doctext)].append(e.id)
 
+        i = 0
+        for (title, doctext), _entities in entities_by_text.items():
+            i = i + 1
+            pub = Publication.model_validate(
+                {
+                    "id": str(i),
+                    "title": title,
+                    "abstract": doctext,    # Yes, it's the full text, but this is the slot name
+                }
+            )
+            all_entities = entities_by_text[(title, doctext)]
 
-        # Validate documents
-
-        #         for p in document.passages:
-        #             doc[p.infons["type"]] = p.text
-        #             for a in p.annotations:
-        #                 if a.infons["type"] in TARGET_TYPES:
-        #                     these_annotations.append(a)
-        #         title = doc["title"]
-        #         abstract = doc["abstract"]
-        #         logger.debug(f"Title: {title} Abstract: {abstract}")
-        #         for a in these_annotations:
-        #             i = a.infons
-        #             if i["type"] == "Chemical":
-        #                 e = Chemical.model_validate(
-        #                     {
-        #                         "id": f"{self.subject_prefix}:{i[self.subject_prefix]}",
-        #                     }
-        #                 )
-        #                 chemicals_by_text[(title, abstract)].append(e.id)
-        #             elif i["type"] == "Disease":
-        #                 e = Disease.model_validate(
-        #                     {
-        #                         "id": f"{self.subject_prefix}:{i[self.subject_prefix]}",
-        #                     }
-        #                 )
-        #                 diseases_by_text[(title, abstract)].append(e.id)
-
-        # all_entities_by_text = chemicals_by_text | diseases_by_text
-
-        # i = 0
-        # for (title, abstract), _entities in all_entities_by_text.items():
-        #     i = i + 1
-        #     pub = Publication.model_validate(
-        #         {
-        #             "id": str(i),
-        #             "title": title,
-        #             "abstract": abstract,
-        #         }
-        #     )
-        #     chemical_entities = chemicals_by_text[(title, abstract)]
-        #     disease_entities = diseases_by_text[(title, abstract)]
-        #     logger.debug(
-        #         f"Chemicals: {len(chemical_entities)} for Title: {title} Abstract: {abstract}"
-        #     )
-        #     logger.debug(
-        #         f"Diseases: {len(disease_entities)} for Title: {title} Abstract: {abstract}"
-        #     )
-        #     yield ChemicalToDiseaseDocument.model_validate(
-        #         {
-        #             "publication": pub,
-        #             "chemicals": chemical_entities,
-        #             "diseases": disease_entities,
-        #         }
-        #     )
+            # Do entity sorting
+            # Results should be unique - no duplicates
+            # TODO: Need to check on GO terms too
+            logger.info(f"Sorting {len(all_entities)} redundant entities for Title: {title}")
+            entities_by_type = {key: [] for key in TARGET_TYPES.keys()}
+            for entity in all_entities:
+                prefix = (entity.split(":"))[0]
+                for entity_type in TARGET_TYPES:
+                    if prefix == TARGET_TYPES[entity_type]:
+                        if entity not in entities_by_type[entity_type]:
+                            entities_by_type[entity_type].append(entity)
+                        break
+            for entity_type in entities_by_type:
+                logger.debug(f"{entity_type}: {len(entities_by_type[entity_type])}")
+            yield Document.model_validate(
+                {
+                    "publication": pub,
+                    "anatomicalelements": entities_by_type["AnatomicalElement"],
+                    "biologicalprocesses": entities_by_type["BiologicalProcess"],
+                    "celltypes": entities_by_type["CellType"],
+                    "cellularcomponents": entities_by_type["CellularComponent"],
+                    "chemicals": entities_by_type["Chemical"],
+                    "diseases": entities_by_type["Disease"],
+                    "molecularfunctions": entities_by_type["MolecularFunction"],
+                    "molecularprocesses": entities_by_type["MolecularProcess"],
+                    "proteins": entities_by_type["Protein"],
+                    "sequencefeatures": entities_by_type["SequenceFeature"],
+                    "taxa": entities_by_type["Taxon"]
+                }
+            )
 
 
     def eval(self) -> EvaluationObjectSetNER:
