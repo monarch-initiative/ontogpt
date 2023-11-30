@@ -82,6 +82,12 @@ class BiologicalProcess(NamedEntity):
     label: Optional[str] = Field(None, description="""The label (name) of the named thing""")
     
 
+class Cell(NamedEntity):
+    
+    id: str = Field(..., description="""A unique identifier for the named entity""")
+    label: Optional[str] = Field(None, description="""The label (name) of the named thing""")
+    
+
 class CellularComponent(NamedEntity):
     
     id: str = Field(..., description="""A unique identifier for the named entity""")
@@ -169,6 +175,7 @@ class Document(TextWithEntity):
     """
     anatomicalelements: Optional[List[str]] = Field(default_factory=list, description="""One or more parts of the body or anatomy.""")
     biologicalprocesses: Optional[List[str]] = Field(default_factory=list, description="""One or more biological processes, as defined by the Gene Ontology.""")
+    celltypes: Optional[List[str]] = Field(default_factory=list, description="""One or more cell types or cell lines.""")
     cellularcomponents: Optional[List[str]] = Field(default_factory=list, description="""One or more cellular components, as defined by the Gene Ontology.""")
     chemicals: Optional[List[str]] = Field(default_factory=list, description="""One or more chemical substances, drugs, or small molecules.""")
     diseases: Optional[List[str]] = Field(default_factory=list, description="""One or more diseases or conditions.""")
@@ -210,6 +217,7 @@ ExtractionResult.model_rebuild()
 NamedEntity.model_rebuild()
 AnatomicalElement.model_rebuild()
 BiologicalProcess.model_rebuild()
+Cell.model_rebuild()
 CellularComponent.model_rebuild()
 Chemical.model_rebuild()
 Disease.model_rebuild()

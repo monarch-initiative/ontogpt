@@ -62,6 +62,15 @@ classes:
             medial surface of mandible; ribosomal subunit export from nucleus;
             pole cell development
             biologicalprocesses:
+      celltypes:
+        range: Cell
+        multivalued: true
+        description: One or more cell types or cell lines.
+        annotations:
+          prompt: >-
+            A semi-colon separated list of cell types or cell lines, for
+            example: type I AECs; mesenchymal cell; neuron;
+            smooth muscle cells; photoreceptors
       cellularcomponents:
         range: CellularComponent
         multivalued: true
@@ -167,6 +176,16 @@ classes:
       id:
         values_from:
           - GOBiologicalProcessType
+
+  Cell:
+    is_a: NamedEntity
+    annotations:
+      annotators: "sqlite:obo:cl"
+      prompt.examples: >-
+        type I AECs, mesenchymal cell, neuron, smooth muscle cells,
+        photoreceptors
+    id_prefixes:
+      - CL
 
   CellularComponent:
     is_a: NamedEntity
