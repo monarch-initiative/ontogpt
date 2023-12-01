@@ -22,6 +22,18 @@ class ConfiguredBaseModel(BaseModel,
     pass
 
 
+class MeshChemicalIdentifier(str, Enum):
+    
+    
+    dummy = "dummy"
+    
+
+class MeshDiseaseIdentifier(str, Enum):
+    
+    
+    dummy = "dummy"
+    
+
 class NullDataOptions(str, Enum):
     
     
@@ -47,6 +59,18 @@ class ExtractionResult(ConfiguredBaseModel):
     
 
 class NamedEntity(ConfiguredBaseModel):
+    
+    id: str = Field(..., description="""A unique identifier for the named entity""")
+    label: Optional[str] = Field(None, description="""The label (name) of the named thing""")
+    
+
+class Chemical(NamedEntity):
+    
+    id: str = Field(..., description="""A unique identifier for the named entity""")
+    label: Optional[str] = Field(None, description="""The label (name) of the named thing""")
+    
+
+class Disease(NamedEntity):
     
     id: str = Field(..., description="""A unique identifier for the named entity""")
     label: Optional[str] = Field(None, description="""The label (name) of the named thing""")
@@ -85,6 +109,16 @@ class TextWithEntity(ConfiguredBaseModel):
     entities: Optional[List[str]] = Field(default_factory=list)
     
 
+class ChemicalToDiseaseDocument(TextWithEntity):
+    """
+    A document that contains chemical and disease entities.
+    """
+    chemicals: Optional[List[str]] = Field(default_factory=list, description="""One or more chemical substances, drugs, or small molecules.""")
+    diseases: Optional[List[str]] = Field(default_factory=list, description="""One or more diseases or conditions.""")
+    publication: Optional[Publication] = Field(None)
+    entities: Optional[List[str]] = Field(default_factory=list)
+    
+
 class RelationshipType(NamedEntity):
     
     id: str = Field(..., description="""A unique identifier for the named entity""")
@@ -112,10 +146,13 @@ class AnnotatorResult(ConfiguredBaseModel):
 # see https://pydantic-docs.helpmanual.io/usage/models/#rebuilding-a-model
 ExtractionResult.model_rebuild()
 NamedEntity.model_rebuild()
+Chemical.model_rebuild()
+Disease.model_rebuild()
 CompoundExpression.model_rebuild()
 Triple.model_rebuild()
 TextWithTriples.model_rebuild()
 TextWithEntity.model_rebuild()
+ChemicalToDiseaseDocument.model_rebuild()
 RelationshipType.model_rebuild()
 Publication.model_rebuild()
 AnnotatorResult.model_rebuild()

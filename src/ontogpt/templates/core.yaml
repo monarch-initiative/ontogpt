@@ -90,6 +90,7 @@ classes:
           An optional qualifier or modifier for the object of the statement, e.g. "severe" or "with additional complications"
 
   TextWithTriples:
+    description: A text containing one or more relations of the Triple type.
     attributes:
       publication:
         range: Publication
@@ -101,6 +102,18 @@ classes:
         multivalued: true
         inlined: true
         inlined_as_list: true
+
+  TextWithEntity:
+    description: A text containing one or more instances of a single type of entity.
+    attributes:
+      publication:
+        range: Publication
+        inlined: true
+        annotations:
+          prompt.skip: "true"
+      entities:
+        range: NamedEntity
+        multivalued: true
 
   RelationshipType:
     is_a: NamedEntity

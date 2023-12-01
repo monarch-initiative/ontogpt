@@ -43,7 +43,9 @@ RESPONSE_DICT = Dict[FIELD, Union[RESPONSE_ATOM, List[RESPONSE_ATOM]]]
 class SPIRESEngine(KnowledgeEngine):
     """Knowledge extractor."""
 
-    engine: str = "gpt-3.5-turbo-instruct"
+    engine: str = None
+    """The engine name."""
+
     recurse: bool = True
     """If true, then complex non-named entity objects are always recursively parsed.
     If this is false AND the complex object is a pair, then token-based splitting is
@@ -119,11 +121,11 @@ class SPIRESEngine(KnowledgeEngine):
         :param kwargs:
         :return:
         """
-        if prompt_template is None:
+        if prompt_template == "":
             prompt_template = "Generate a comprehensive description of {entity}.\n"
         prompt = prompt_template.format(entity=entity)
         if self.client is not None:
-            payload = self.client.complete(prompt, show_prompt)
+            payload = self.client.complete(prompt=prompt, show_prompt=show_prompt)
         else:
             payload = ""
         return self.extract_from_text(payload, **kwargs)
@@ -146,12 +148,13 @@ class SPIRESEngine(KnowledgeEngine):
         iteration = 0
         if isinstance(cache_path, str):
             cache_path = Path(cache_path)
-        if cache_path.exists() and not clear:
-            db = yaml.safe_load(cache_path.open())
-            if "entities_in_queue" not in db:
-                db["entities_in_queue"] = []
-        else:
-            db = {"processed_entities": [], "entities_in_queue": [], "results": []}
+        if cache_path:
+            if cache_path.exists() and not clear:
+                db = yaml.safe_load(cache_path.open())
+                if "entities_in_queue" not in db:
+                    db["entities_in_queue"] = []
+            else:
+                db = {"processed_entities": [], "entities_in_queue": [], "results": []}
         if entity not in db["processed_entities"]:
             db["entities_in_queue"].append(entity)
         if prompt_template is None:
@@ -634,7 +637,7 @@ class SPIRESEngine(KnowledgeEngine):
                     logging.info(f"Looking for {obj} in {enum_def.name}")
                     for k, _pv in enum_def.permissible_values.items():
                         if type(obj) is str and type(k) is str:
-                            if obj.lower() == k.lower():
+                            if obj.lower() == k.lower():  # type: ignore
                                 obj = k  # type: ignore
                                 found = True
                                 break

@@ -52,6 +52,30 @@ class NamedEntity(ConfiguredBaseModel):
     label: Optional[str] = Field(None, description="""The label (name) of the named thing""")
     
 
+class Action(NamedEntity):
+    """
+    A clinically prescribed procedure, therapy, intervention, or recommendation.
+    """
+    id: str = Field(..., description="""A unique identifier for the named entity""")
+    label: Optional[str] = Field(None, description="""The label (name) of the named thing""")
+    
+
+class Disease(NamedEntity):
+    """
+    A disposition to undergo pathological processes that exists in an organism because of one or more disorders in that organism.
+    """
+    id: str = Field(..., description="""A unique identifier for the named entity""")
+    label: Optional[str] = Field(None, description="""The label (name) of the named thing""")
+    
+
+class Symptom(NamedEntity):
+    """
+    A condition or phenotype resulting from an abnormal health state.
+    """
+    id: str = Field(..., description="""A unique identifier for the named entity""")
+    label: Optional[str] = Field(None, description="""The label (name) of the named thing""")
+    
+
 class CompoundExpression(ConfiguredBaseModel):
     
     None
@@ -69,10 +93,45 @@ class Triple(CompoundExpression):
     object_qualifier: Optional[str] = Field(None, description="""An optional qualifier or modifier for the object of the statement, e.g. \"severe\" or \"with additional complications\"""")
     
 
+class ActionToDiseaseRelationship(Triple):
+    """
+    A triple representing a relationship between a medical action  (A clinically prescribed procedure, therapy, intervention, or recommendation) and a disease, for example, radiation therapy TREATS cancer, or PET scan IS USED TO DIAGNOSE myocarditis.
+    """
+    subject: Optional[str] = Field(None)
+    predicate: Optional[str] = Field(None, description="""The relationship type, usually TREATS or IS USED TO DIAGNOSE""")
+    object: Optional[List[str]] = Field(default_factory=list)
+    qualifier: Optional[str] = Field(None, description="""A qualifier for the statements, e.g. \"NOT\" for negation""")
+    subject_qualifier: Optional[str] = Field(None, description="""An optional qualifier or modifier for the medical action.""")
+    object_qualifier: Optional[str] = Field(None, description="""An optional qualifier or modifier for the disease.""")
+    
+
+class ActionToSymptomRelationship(Triple):
+    """
+    A triple representing a relationship between a medical action  (A clinically prescribed procedure, therapy, intervention, or recommendation) and a symptom, for example, a chest X-ray IS USED TO DIAGNOSE pleural effusion.
+    """
+    subject: Optional[str] = Field(None)
+    predicate: Optional[str] = Field(None, description="""The relationship type, usually IS USED TO DIAGNOSE""")
+    object: Optional[List[str]] = Field(default_factory=list)
+    qualifier: Optional[str] = Field(None, description="""A qualifier for the statements, e.g. \"NOT\" for negation""")
+    subject_qualifier: Optional[str] = Field(None, description="""An optional qualifier or modifier for the medical action.""")
+    object_qualifier: Optional[str] = Field(None, description="""An optional qualifier or modifier for the symptom.""")
+    
+
 class TextWithTriples(ConfiguredBaseModel):
     """
     A text containing one or more relations of the Triple type.
     """
+    publication: Optional[Publication] = Field(None)
+    triples: Optional[List[Triple]] = Field(default_factory=list)
+    
+
+class MaxoAnnotations(TextWithTriples):
+    
+    action: Optional[List[str]] = Field(default_factory=list, description="""Semicolon-separated list of medical actions.""")
+    disease: Optional[List[str]] = Field(default_factory=list, description="""Semicolon-separated list of diseases.""")
+    symptom: Optional[List[str]] = Field(default_factory=list, description="""Semicolon-separated list of symptoms.""")
+    action_to_disease: Optional[List[ActionToDiseaseRelationship]] = Field(default_factory=list)
+    action_to_symptom: Optional[List[ActionToSymptomRelationship]] = Field(default_factory=list)
     publication: Optional[Publication] = Field(None)
     triples: Optional[List[Triple]] = Field(default_factory=list)
     
@@ -112,9 +171,15 @@ class AnnotatorResult(ConfiguredBaseModel):
 # see https://pydantic-docs.helpmanual.io/usage/models/#rebuilding-a-model
 ExtractionResult.model_rebuild()
 NamedEntity.model_rebuild()
+Action.model_rebuild()
+Disease.model_rebuild()
+Symptom.model_rebuild()
 CompoundExpression.model_rebuild()
 Triple.model_rebuild()
+ActionToDiseaseRelationship.model_rebuild()
+ActionToSymptomRelationship.model_rebuild()
 TextWithTriples.model_rebuild()
+MaxoAnnotations.model_rebuild()
 TextWithEntity.model_rebuild()
 RelationshipType.model_rebuild()
 Publication.model_rebuild()

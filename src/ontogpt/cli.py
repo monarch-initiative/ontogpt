@@ -371,7 +371,9 @@ def generate_extract(model, entity, template, output, output_format, show_prompt
         ke = GPT4AllEngine(template=template, model=model_name, **kwargs)
 
     logging.debug(f"Input entity: {entity}")
-    results = ke.generate_and_extract(entity, show_prompt)
+    results = ke.generate_and_extract(
+        entity=entity, prompt_template=template, show_prompt=show_prompt
+    )
     write_extraction(results, output, output_format, ke)
 
 
@@ -435,7 +437,7 @@ def iteratively_generate_extract(
         adapter=adapter,
         clear=clear,
     ):
-        write_extraction(results, output, output_format)
+        write_extraction(results, output, output_format, ke)
 
 
 # TODO: combine this command with pubmed_annotate - they are converging
@@ -560,7 +562,7 @@ def wikipedia_extract(model, article, template, output, output_format, show_prom
     model_source = selectmodel["provider"]
 
     if model_source == "OpenAI":
-        ke = SPIRESEngine(template, **kwargs)
+        ke = SPIRESEngine(template=template, model=model, **kwargs)
         if settings.cache_db:
             ke.client.cache_db_path = settings.cache_db
         if settings.skip_annotators:
@@ -601,7 +603,7 @@ def wikipedia_search(model, topic, keyword, template, output, output_format, sho
     model_source = selectmodel["provider"]
 
     if model_source == "OpenAI":
-        ke = SPIRESEngine(template, **kwargs)
+        ke = SPIRESEngine(template=template, model=model, **kwargs)
 
     elif model_source == "GPT4All":
         model_name = selectmodel["alternative_names"][0]
@@ -625,7 +627,7 @@ def wikipedia_search(model, topic, keyword, template, output, output_format, sho
             # or add as cli option
             text = text[:4000]
         results = ke.extract_from_text(text=text, show_prompt=show_prompt)
-        write_extraction(results, output, output_format)
+        write_extraction(results, output, output_format, ke)
         break
 
 
@@ -678,7 +680,7 @@ def search_and_extract(
     text = pmc.text(pmid)
     logging.info(f"Input text: {text}")
     results = ke.extract_from_text(text=text, show_prompt=show_prompt)
-    write_extraction(results, output, output_format)
+    write_extraction(results, output, output_format, ke)
 
 
 @main.command()
@@ -699,7 +701,7 @@ def web_extract(model, template, url, output, output_format, show_prompt, **kwar
     model_source = selectmodel["provider"]
 
     if model_source == "OpenAI":
-        ke = SPIRESEngine(template, **kwargs)
+        ke = SPIRESEngine(template=template, model=model, **kwargs)
         if settings.cache_db:
             ke.client.cache_db_path = settings.cache_db
         if settings.skip_annotators:
@@ -714,7 +716,7 @@ def web_extract(model, template, url, output, output_format, show_prompt, **kwar
 
     logging.debug(f"Input text: {text}")
     results = ke.extract_from_text(text=text, show_prompt=show_prompt)
-    write_extraction(results, output, output_format)
+    write_extraction(results, output, output_format, ke)
 
 
 @main.command()
@@ -787,14 +789,14 @@ def recipe_extract(
 
 @main.command()
 @model_option
+@template_option
 @output_option_wb
 @output_format_options
 @click.argument("input")
-def convert(model, input, output, output_format, **kwargs):
-    """Convert output format.
+def convert(model, template, input, output, output_format, **kwargs):
+    """Convert output format."""
+    logging.info(f"Creating for {template}")
 
-    Primarily intended for use with recipe template.
-    """
     if not model:
         model = DEFAULT_MODEL
     selectmodel = get_model_by_name(model)
@@ -806,9 +808,6 @@ def convert(model, input, output, output_format, **kwargs):
     elif model_source == "GPT4All":
         model_name = selectmodel["alternative_names"][0]
         ke = GPT4AllEngine(template=template, model=model_name, **kwargs)
-
-    template = "recipe"
-    logging.info(f"Creating for {template}")
 
     cls = ke.template_pyclass
     with open(input, "r") as f:
@@ -1451,8 +1450,8 @@ def eval_enrichment(genes, input_file, number_to_drop, annotations_path, model, 
 
 @main.command()
 @recurse_option
+@model_option
 @output_option_txt
-@output_format_options
 @click.option(
     "--num-tests",
     type=click.INT,
@@ -1460,12 +1459,28 @@ def eval_enrichment(genes, input_file, number_to_drop, annotations_path, model, 
     show_default=True,
     help="number of iterations to cycle through.",
 )
+@click.option(
+    "--chunking/--no-chunking",
+    default=False,
+    show_default=True,
+    help="If set, chunk input text, then prepare a separate prompt for each chunk."
+            " Otherwise the full input text is passed.",
+)
 @click.argument("evaluator")
-def eval(evaluator, num_tests, output, output_format, **kwargs):
+def eval(evaluator, num_tests, output, chunking, model, **kwargs):
     """Evaluate an extractor."""
     logging.info(f"Creating for {evaluator}")
-    evaluator = create_evaluator(evaluator)
-    evaluator.num_tests = num_tests
+
+    if model:
+        selectmodel = get_model_by_name(model)
+        modelname = selectmodel["alternative_names"][0]
+    else:
+        modelname = DEFAULT_MODEL
+
+    evaluator = create_evaluator(name=evaluator,
+                                 num_tests=num_tests,
+                                 chunking=chunking,
+                                 model=modelname)
     eos = evaluator.eval()
     output.write(dump_minimal_yaml(eos, minimize=False))
 
@@ -1533,7 +1548,7 @@ def complete(model, input, output, output_format, show_prompt, **kwargs):
 
     if model_source == "OpenAI":
         c = OpenAIClient(model=model_name)
-        results = c.complete(text, show_prompt)
+        results = c.complete(prompt=text, show_prompt=show_prompt)
 
     elif model_source == "GPT4All":
         c = set_up_gpt4all_model(modelname=model_name)
@@ -1673,7 +1688,7 @@ def clinical_notes(
 
     if model_source == "OpenAI":
         c = OpenAIClient(model=model_name)
-        results = c.complete(prompt, show_prompt)
+        results = c.complete(prompt=prompt, show_prompt=show_prompt)
 
     elif model_source == "GPT4All":
         c = set_up_gpt4all_model(modelname=model_name)

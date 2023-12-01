@@ -1,12 +1,11 @@
 """
-CTD evaluation.
+Chemical to Disease (CTD) evaluation.
 
-Note: the CTD training set has some oddities
+This relation extraction test is based on the
+Biocreative V Chemical to Disease Relation (BC5CDR)
+data, as described below.
 
-E.g. scopolamine induces drug overdose
-
-Biocreativ results here:
-
+Biocreative results here:
 https://biocreative.bioinformatics.udel.edu/media/store/files/2015/BC5CDR_overview.final.pdf
 
 A total of 18 teams successfully submitted CID results in 46 runs. As
@@ -14,6 +13,10 @@ shown in Table 3 (only the best run of each team is included),
 the Fscore ranges from 32.01% to 57.03% (team 288) with an average of
 43.37%. All teams outperformed the baseline results by the simple abstract-level
 co-occurrence method (16.43% in precision, 76.45% in recall and 27.05% in F-score).
+
+Note: the CTD training set has some oddities,
+e.g., scopolamine induces drug overdose.
+This evaluation does not account for these oddities.
 
 """
 import gzip
@@ -26,16 +29,16 @@ from typing import Any, Dict, Iterable, List, Optional, Set, Tuple
 
 import yaml
 from bioc import biocxml
-from oaklib import BasicOntologyInterface, get_implementation_from_shorthand
+from oaklib import BasicOntologyInterface, get_adapter
 from pydantic import BaseModel
 
 from ontogpt.engines.knowledge_engine import chunk_text
 from ontogpt.engines.spires_engine import SPIRESEngine
 from ontogpt.evaluation.evaluation_engine import SimilarityScore, SPIRESEvaluationEngine
-from ontogpt.templates.core import Publication, Triple
 from ontogpt.templates.ctd import (
     ChemicalToDiseaseDocument,
     ChemicalToDiseaseRelationship,
+    Publication,
     TextWithTriples,
 )
 
@@ -49,8 +52,11 @@ RMAP = {"CID": "induces"}
 logger = logging.getLogger(__name__)
 
 
-def negated(Triple) -> bool:
-    return Triple.qualifier and Triple.qualifier.lower() == "not"
+def negated(ChemicalToDiseaseRelationship) -> bool:
+    return (
+        ChemicalToDiseaseRelationship.qualifier
+        and ChemicalToDiseaseRelationship.qualifier.lower() == "not"
+    )
 
 
 class PredictionRE(BaseModel):
@@ -129,12 +135,11 @@ class EvaluationObjectSetRE(BaseModel):
 
 @dataclass
 class EvalCTD(SPIRESEvaluationEngine):
-    # ontology: OboGraphInterface = None
     subject_prefix = "MESH"
     object_prefix = "MESH"
 
     def __post_init__(self):
-        self.extractor = SPIRESEngine("ctd.ChemicalToDiseaseDocument")
+        self.extractor = SPIRESEngine(template="ctd.ChemicalToDiseaseDocument", model=self.model)
         # synonyms are derived entirely from training set
         self.extractor.load_dictionary(DATABASE_DIR / "synonyms.yaml")
 
@@ -155,19 +160,29 @@ class EvalCTD(SPIRESEvaluationEngine):
                     doc[p.infons["type"]] = p.text
                 title = doc["title"]
                 abstract = doc["abstract"]
-                # text = f"Title: {title} Abstract: {abstract}"
+                logger.debug(f"Title: {title} Abstract: {abstract}")
                 for r in document.relations:
                     i = r.infons
-                    t = Triple(
-                        subject=f"{self.subject_prefix}:{i['Chemical']}",
-                        predicate=RMAP[i["relation"]],
-                        object=f"{self.object_prefix}:{i['Disease']}",
+                    t = ChemicalToDiseaseRelationship.model_validate(
+                        {
+                            "subject": f"{self.subject_prefix}:{i['Chemical']}",
+                            "predicate": RMAP[i["relation"]],
+                            "object": f"{self.object_prefix}:{i['Disease']}",
+                        }
                     )
                     triples_by_text[(title, abstract)].append(t)
+        i = 0
         for (title, abstract), triples in triples_by_text.items():
-            pub = Publication(title=title, abstract=abstract)
+            i = i + 1
+            pub = Publication.model_validate(
+                {
+                    "id": str(i),
+                    "title": title,
+                    "abstract": abstract,
+                }
+            )
             logger.debug(f"Triples: {len(triples)} for Title: {title} Abstract: {abstract}")
-            yield ChemicalToDiseaseDocument(publication=pub, triples=triples)
+            yield ChemicalToDiseaseDocument.model_validate({"publication": pub, "triples": triples})
 
     def create_training_set(self, num=100):
         ke = self.extractor
@@ -176,13 +191,16 @@ class EvalCTD(SPIRESEvaluationEngine):
         for doc in docs[0:num]:
             text = doc.text
             prompt = ke.get_completion_prompt(None, text)
-            completion = ke.serialize_object(m)
+            completion = ke.serialize_object()
             yield dict(prompt=prompt, completion=completion)
 
     def eval(self) -> EvaluationObjectSetRE:
         """Evaluate the ability to extract relations."""
-        labeler = get_implementation_from_shorthand("sqlite:obo:mesh")
-        num_test = self.num_tests
+        labeler = get_adapter("sqlite:obo:mesh")
+        if self.num_tests and isinstance(self.num_tests, int):
+            num_test = self.num_tests
+        else:
+            num_test = 1
         ke = self.extractor
         docs = list(self.load_test_cases())
         shuffle(docs)
@@ -198,8 +216,15 @@ class EvalCTD(SPIRESEvaluationEngine):
             logger.info(doc)
             text = f"Title: {doc.publication.title} Abstract: {doc.publication.abstract}"
             predicted_obj = None
-            named_entities: List[str] = []
-            for chunked_text in chunk_text(text):
+            named_entities: List[str] = []  # This stores the NEs for the whole document
+            ke.named_entities = []  # This stores the NEs the extractor knows about
+
+            if self.chunking:
+                text_list = chunk_text(text)
+            else:
+                text_list = iter([text])
+
+            for chunked_text in text_list:
                 extraction = ke.extract_from_text(chunked_text)
                 if extraction.extracted_object is not None:
                     logger.info(
@@ -215,19 +240,10 @@ class EvalCTD(SPIRESEvaluationEngine):
                             f"{len(predicted_obj.triples)} total triples, after concatenation"
                         )
                         logger.debug(f"concatenated triples: {predicted_obj.triples}")
-                named_entities.extend(extraction.named_entities)
-
-            # title_extraction = ke.extract_from_text(doc.publication.title)
-            # logger.info(f"{len(title_extraction.extracted_object.triples)}\
-            # triples from: Title {doc.publication.title}")
-            # abstract_extraction = ke.extract_from_text(doc.publication.abstract)
-            # logger.info(f"{len(abstract_extraction.extracted_object.triples)}\
-            # triples from: Abstract {doc.publication.abstract}")
-            # ke.merge_resultsets([results, results2])
-            # predicted_obj = title_extraction.extracted_object
-            # predicted_obj.triples.extend(abstract_extraction.extracted_object.triples)
-            # logger.info(f"{len(predicted_obj.triples)} total triples, after concatenation")
-            # logger.debug(f"concatenated triples: {predicted_obj.triples}")
+                if extraction.named_entities is not None:
+                    for entity in extraction.named_entities:
+                        if entity not in named_entities:
+                            named_entities.append(entity)
 
             def included(t: ChemicalToDiseaseRelationship):
                 if not [var for var in (t.subject, t.object, t.predicate) if var is None]:
@@ -243,16 +259,25 @@ class EvalCTD(SPIRESEvaluationEngine):
                     return t
 
             predicted_obj.triples = [t for t in predicted_obj.triples if included(t)]
+            duplicate_triples = []
+            unique_predicted_triples = [
+                t
+                for t in predicted_obj.triples
+                if t not in duplicate_triples and not duplicate_triples.append(t)  # type: ignore
+            ]
+            predicted_obj.triples = unique_predicted_triples
             logger.info(
                 f"{len(predicted_obj.triples)} filtered triples (CID only, between MESH only)"
             )
-            pred = PredictionRE(predicted_object=predicted_obj, test_object=doc)
-            pred.named_entities = named_entities
+            pred = PredictionRE(
+                predicted_object=predicted_obj, test_object=doc, named_entities=named_entities
+            )
+            named_entities.clear()
             logger.info("PRED")
-            logger.info(yaml.dump(pred.dict()))
+            logger.info(yaml.dump(data=pred.model_dump()))
             logger.info("Calc scores")
             pred.calculate_scores(labelers=[labeler])
-            logger.info(yaml.dump(pred.dict()))
+            logger.info(yaml.dump(data=pred.model_dump()))
             eos.predictions.append(pred)
         self.calc_stats(eos)
         return eos

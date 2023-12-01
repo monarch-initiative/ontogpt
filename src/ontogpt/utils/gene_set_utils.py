@@ -84,7 +84,7 @@ def parse_gene_set(input_path: Union[str, Path], format: str = "") -> GeneSet:
     """
     if isinstance(input_path, Path):
         input_path = str(input_path)
-    if format is None:
+    if format == "":
         if "gene_export_geneset" in input_path:
             format = "geneweaver"
         else:

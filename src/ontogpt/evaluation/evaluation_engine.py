@@ -11,7 +11,7 @@ An evaluation engine incorporates different components to evaluate KE:
 """
 
 from dataclasses import dataclass
-from typing import List, Optional, Set
+from typing import List, Optional, Set, Type, Union 
 
 from oaklib import BasicOntologyInterface
 from pydantic import BaseModel
@@ -48,7 +48,10 @@ class SimilarityScore(BaseModel):
 
             def label(x):
                 for labeler in labelers:
-                    lbl = labeler.label(x)
+                    if type(labeler) == list:
+                        lbl = labeler[0].label(x)
+                    else:
+                        lbl = labeler.label(x)
                     if lbl:
                         return f"{x} {lbl}"
                 return x
@@ -89,9 +92,16 @@ class SPIRESEvaluationEngine(EvaluationEngine):
     extractor: SPIRESEngine = None
     """Knowledge extractor to use"""
 
-    num_tests: int = 10
+    num_tests: Optional[Union[int, Type]] = 10
     """Number of test cases to use for evaluation"""
 
-    num_training: int = 5
+    num_training: Optional[Union[int, Type]] = 5
     """Number of training/exemplar cases to use for evaluation in generalization task.
     Note this number will be low as we use few-shot learning."""
+
+    chunking: Optional[Union[bool, Type]] = False
+    """Whether to pre-process input texts by chunking. If True, each chunk gets its own
+    prompt. Otherwise, pass the full text with each prompt."""
+
+    model: Optional[Union[str, Type]] = None
+    """Name of the model to use in evaluation."""

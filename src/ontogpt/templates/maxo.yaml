@@ -1,0 +1,143 @@
+id: http://w3id.org/ontogpt/maxo
+name: maxo
+title: Template for Medical Action Extraction
+description: >-
+  A template for extracting relationships relevant to the
+  MAXO medical action ontology.
+license: https://creativecommons.org/publicdomain/zero/1.0/
+prefixes:
+  linkml: https://w3id.org/linkml/
+  maxo_extract: http://w3id.org/ontogpt/maxo
+  MAXO: http://purl.obolibrary.org/obo/MAXO_
+  MONDO: http://purl.obolibrary.org/obo/MONDO_
+  HP: http://purl.obolibrary.org/obo/HP_
+  RO: http://purl.obolibrary.org/obo/RO_
+  OBA: http://purl.obolibrary.org/obo/OBA_
+  PATO: http://purl.obolibrary.org/obo/PATO_
+  biolink: https://w3id.org/biolink/vocab/
+
+default_prefix: maxo_extract
+default_range: string
+
+imports:
+  - linkml:types
+  - core
+
+classes:
+
+  MaxoAnnotations:
+    tree_root: true
+    is_a: TextWithTriples
+    attributes:
+      action:
+        annotations:
+          prompt: >-
+            Semicolon-separated list of medical actions, where each is a
+            clinically prescribed procedure, therapy, intervention, or recommendation.
+        description: Semicolon-separated list of medical actions.
+        multivalued: true
+        range: Action
+      disease:
+        description: Semicolon-separated list of diseases.
+        multivalued: true
+        range: Disease
+      symptom:
+        description: Semicolon-separated list of symptoms.
+        multivalued: true
+        range: Symptom
+      action_to_disease:
+        annotations:
+          prompt: >-
+            Semicolon-separated list of medical action to disease relationships, where
+            each is a triple representing a relationship between a medical action 
+            and a disease, for example, radiation therapy TREATS cancer,
+            or PET scan IS USED TO DIAGNOSE myocarditis.
+        multivalued: true
+        range: ActionToDiseaseRelationship
+      action_to_symptom:
+        annotations:
+          prompt: >-
+            A triple representing a relationship between a medical action
+            (A clinically prescribed procedure, therapy, intervention, or recommendation)
+            and a symptom, for example,
+            a chest X-ray IS USED TO DIAGNOSE pleural effusion.
+        multivalued: true
+        range: ActionToSymptomRelationship
+
+  ActionToDiseaseRelationship:
+    is_a: Triple
+    description: >- 
+      A triple representing a relationship between a medical action 
+      (A clinically prescribed procedure, therapy, intervention, or recommendation)
+      and a disease, for example, radiation therapy TREATS cancer,
+      or PET scan IS USED TO DIAGNOSE myocarditis.
+    slot_usage:
+      subject:
+        range: Action
+      object:
+        range: Disease
+        multivalued: true
+      predicate:
+        range: NamedEntity
+        description: The relationship type, usually TREATS or IS USED TO DIAGNOSE
+      subject_qualifier:
+        range: NamedEntity
+        description: >-
+          An optional qualifier or modifier for the medical action.
+      object_qualifier:
+        range: NamedEntity
+        description: >-
+          An optional qualifier or modifier for the disease.
+
+  ActionToSymptomRelationship:
+    is_a: Triple
+    description: >- 
+      A triple representing a relationship between a medical action 
+      (A clinically prescribed procedure, therapy, intervention, or recommendation)
+      and a symptom, for example,
+      a chest X-ray IS USED TO DIAGNOSE pleural effusion.
+    slot_usage:
+      subject:
+        range: Action
+      object:
+        range: Symptom
+        multivalued: true
+      predicate:
+        range: NamedEntity
+        description: The relationship type, usually IS USED TO DIAGNOSE
+      subject_qualifier:
+        range: NamedEntity
+        description: >-
+          An optional qualifier or modifier for the medical action.
+      object_qualifier:
+        range: NamedEntity
+        description: >-
+          An optional qualifier or modifier for the symptom.
+
+  Action:
+    is_a: NamedEntity
+    description: >-
+      A clinically prescribed procedure, therapy, intervention, or recommendation.
+    annotations:
+      annotators: sqlite:obo:maxo, sqlite:obo:ogms, sqlite:obo:ncit
+    id_prefixes:
+      - MAXO
+
+  Disease:
+    is_a: NamedEntity
+    description: >-
+      A disposition to undergo pathological processes that exists in an organism
+      because of one or more disorders in that organism.
+    annotations:
+      annotators: sqlite:obo:mondo
+    id_prefixes:
+      - MONDO
+
+  Symptom:
+    is_a: NamedEntity
+    description: >-
+      A condition or phenotype resulting from an abnormal health state.
+    annotations:
+      annotators: sqlite:obo:hp
+    id_prefixes:
+      - HP

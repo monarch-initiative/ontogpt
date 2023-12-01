@@ -13,7 +13,7 @@ class WikipediaClient:
 
     def text(self, title: str) -> str:
         """Get the text of a an article."""
-        wiki = wikipediaapi.Wikipedia(self.language)
+        wiki = wikipediaapi.Wikipedia("ontogpt", self.language)
         page = wiki.page(title)
 
         if page.exists():

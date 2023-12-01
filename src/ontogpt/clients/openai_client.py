@@ -147,7 +147,7 @@ class OpenAIClient:
     def embeddings(self, text: str, model: str = ""):
         text = str(text)
 
-        if model is None:
+        if model == "":
             model = "text-embedding-ada-002"
         cur = self.db_connection()
         try:
