@@ -182,6 +182,7 @@ class EvalCRAFTConcepts(SPIRESEvaluationEngine):
         goad = get_adapter("sqlite:obo:go")
         for (title, doctext), _entities in entities_by_text.items():
             i = i + 1
+            logging.debug(f"Loading document {i}")
             pub = Publication.model_validate(
                 {
                     "id": str(i),
