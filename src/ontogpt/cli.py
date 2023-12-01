@@ -63,6 +63,7 @@ from ontogpt.io.rdf_exporter import RDFExporter
 from ontogpt.io.yaml_wrapper import dump_minimal_yaml
 from ontogpt.templates.core import ExtractionResult
 
+from ontogpt.converters.output_filtered_triples import output_filtered_triples
 
 @dataclass
 class Settings:
@@ -1696,6 +1697,16 @@ def clinical_notes(
 
     output.write(results)
 
+@main.command()
+@click.option("-o", "--output", help="Output file.")
+@click.option("-i", "--input", help="Input file.")
+def get_triples(output, input):
+    triples = output_filtered_triples(input)
+    with open(output, "w") as file:
+        file.write("Subject\tPredicate\tObject\n")
+        for triple in triples:
+            file.write("\t".join(triple.values()))
+            file.write("\n")
 
 @main.command()
 def list_templates():

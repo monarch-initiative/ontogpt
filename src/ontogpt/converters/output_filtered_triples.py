@@ -33,7 +33,7 @@ def output_filtered_triples(output_file):
                             entry["object"] = get_adapter("sqlite:obo:GO").label(entry["object"])
                             if entry["predicate"].startswith("RO:"):
                                 entry["predicate"] = get_adapter("sqlite:obo:RO").label(entry["predicate"])
-                    filtered_data.append(entry)
+                            filtered_data.append(entry)
             except:
                 continue
     
