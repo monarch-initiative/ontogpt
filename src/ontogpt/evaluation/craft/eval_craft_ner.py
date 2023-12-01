@@ -217,8 +217,8 @@ class EvalCRAFTConcepts(SPIRESEvaluationEngine):
                         go_map[entity] = go_type
                     if go_type == "biological_process":
                         entities_by_type["BiologicalProcess"].append(entity)
-                    elif go_type == "molecular_process":
-                        entities_by_type["MolecularProcess"].append(entity)
+                    elif go_type == "molecular_function":
+                        entities_by_type["MolecularFunction"].append(entity)
                     elif go_type == "cellular_component":
                         entities_by_type["CellularComponent"].append(entity)
                     continue
