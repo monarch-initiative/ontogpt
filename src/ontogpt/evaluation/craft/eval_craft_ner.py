@@ -110,6 +110,7 @@ class PredictionNER(BaseModel):
     predicted_object: Optional[TextWithEntity] = None
     named_entities: Optional[List[Any]] = None
 
+
 class EvaluationObjectSetNER(BaseModel):
     """A result of performing named entity recognition."""
 
@@ -128,15 +129,12 @@ class EvaluationObjectSetNER(BaseModel):
 
 @dataclass
 class EvalCRAFTConcepts(SPIRESEvaluationEngine):
-
     # TODO: nope, not these
     subject_prefix = "MESH"
     object_prefix = "MESH"
 
     def __post_init__(self):
-        self.extractor = SPIRESEngine(
-            template="craft_concept.Document", model=self.model
-        )
+        self.extractor = SPIRESEngine(template="craft_concept.Document", model=self.model)
 
     def load_test_cases(self) -> Iterable[Document]:
         return self.load_cases(DATABASE_DIR)
@@ -155,52 +153,80 @@ class EvalCRAFTConcepts(SPIRESEvaluationEngine):
             logger.info(f"Loading text doc {docfilepath}")
             with open(docfilepath, "r") as docfile:
                 title = docfile.readline().rstrip()
-                doctext = docfile.read().replace('\n\n', '\n')
-            logger.debug(f"Title: {title}\nDocument Text (truncated): {doctext[0:100]}...({len(doctext[100:])} chars)")
-            annfilepath = docfilepath.with_suffix('.ann')
+                doctext = docfile.read().replace("\n\n", "\n")
+            logger.debug(
+                f"Title: {title}\nDocument Text (truncated): {doctext[0:100]}...({len(doctext[100:])} chars)"
+            )
+            annfilepath = docfilepath.with_suffix(".ann")
             logger.info(f"Loading corresponding annotation file {annfilepath}")
             with open(annfilepath, "r") as annfile:
                 annotations = annfile.readlines()
-            
+
             # Get annotations and validate as CURIEs
             these_annotations = []
             for annotation in annotations:
                 uri = (annotation.split())[1]
                 if uri.startswith(MONDO_PURL_PREFIX):
-                    uri = uri.replace(MONDO_PURL_PREFIX, 'MONDO:')
+                    uri = uri.replace(MONDO_PURL_PREFIX, "MONDO:")
                 if uri not in these_annotations:
                     these_annotations.append(uri)
                 e = NamedEntity.model_validate(
                     {
                         "id": uri,
                     }
-                )               
+                )
                 entities_by_text[(title, doctext)].append(e.id)
 
         i = 0
+        go_map = {}
+        goad = get_adapter("sqlite:obo:go")
         for (title, doctext), _entities in entities_by_text.items():
             i = i + 1
             pub = Publication.model_validate(
                 {
                     "id": str(i),
                     "title": title,
-                    "abstract": doctext,    # Yes, it's the full text, but this is the slot name
+                    "abstract": doctext,  # Yes, it's the full text, but this is the slot name
                 }
             )
             all_entities = entities_by_text[(title, doctext)]
 
             # Do entity sorting
             # Results should be unique - no duplicates
-            # TODO: Need to check on GO terms too
+            # Check on GO terms too
             logger.info(f"Sorting {len(all_entities)} redundant entities for Title: {title}")
             entities_by_type = {key: [] for key in TARGET_TYPES.keys()}
             for entity in all_entities:
                 prefix = (entity.split(":"))[0]
-                for entity_type in TARGET_TYPES:
-                    if prefix == TARGET_TYPES[entity_type]:
-                        if entity not in entities_by_type[entity_type]:
-                            entities_by_type[entity_type].append(entity)
-                        break
+                # Check if this is a GO CURIE first and find substype
+                # We store these subtypes too
+                if prefix == "GO":
+                    if entity in go_map:
+                        go_type = go_map[entity]
+                    else:
+                        try:
+                            go_meta = goad.entity_metadata_map(entity)
+                            go_type = go_meta["oio:hasOBONamespace"][0]
+                        except KeyError:
+                            go_dep = go_meta["owl:deprecated"][0]
+                            if go_dep:
+                                logger.warning(f"{entity} is deprecated. Ignoring...")
+                            else:
+                                logger.warning(f"{entity} has something wrong with it. Ignoring...")
+                        go_map[entity] = go_type
+                    if go_type == "biological_process":
+                        entities_by_type["BiologicalProcess"].append(entity)
+                    elif go_type == "molecular_process":
+                        entities_by_type["MolecularProcess"].append(entity)
+                    elif go_type == "cellular_component":
+                        entities_by_type["CellularComponent"].append(entity)
+                    continue
+                else:
+                    for entity_type in TARGET_TYPES:
+                        if prefix == TARGET_TYPES[entity_type]:
+                            if entity not in entities_by_type[entity_type]:
+                                entities_by_type[entity_type].append(entity)
+                            break
             for entity_type in entities_by_type:
                 logger.debug(f"{entity_type}: {len(entities_by_type[entity_type])}")
             yield Document.model_validate(
@@ -216,21 +242,21 @@ class EvalCRAFTConcepts(SPIRESEvaluationEngine):
                     "molecularprocesses": entities_by_type["MolecularProcess"],
                     "proteins": entities_by_type["Protein"],
                     "sequencefeatures": entities_by_type["SequenceFeature"],
-                    "taxa": entities_by_type["Taxon"]
+                    "taxa": entities_by_type["Taxon"],
                 }
             )
-
 
     def eval(self) -> EvaluationObjectSetNER:
         """Evaluate the ability to extract and ground entities in CRAFT corpus."""
 
-    #     labeler = get_adapter("sqlite:obo:mesh")
-    #     if self.num_tests and isinstance(self.num_tests, int):
-    #         num_test = self.num_tests
-    #     else:
-    #         num_test = 1
-    #     ke = self.extractor
+        #     labeler = get_adapter("sqlite:obo:mesh")
+        #     if self.num_tests and isinstance(self.num_tests, int):
+        #         num_test = self.num_tests
+        #     else:
+        #         num_test = 1
+        #     ke = self.extractor
         docs = list(self.load_test_cases())
+
     #     shuffle(docs)
     #     eos = EvaluationObjectSetNER(
     #         test=docs[:num_test],
