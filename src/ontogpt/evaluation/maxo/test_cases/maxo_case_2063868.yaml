@@ -17,7 +17,7 @@ named_entities:
     label: Porphyria, Acute Hepatic
 
 extracted_object:
-  action_to_disease:
+  diagnostic_procedure_to_disease:
     - subject: MAXO:0001175
       predicate: TREATS
       object:

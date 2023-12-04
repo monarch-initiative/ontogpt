@@ -30,7 +30,7 @@ named_entities:
     label: nonsteroidal anti-inflammatory agent therapy
 
 extracted_object:
-  action_to_symptom:
+  diagnostic_procedure_to_symptom:
     - subject: MAXO:0000014
       predicate: TREATS
       object:

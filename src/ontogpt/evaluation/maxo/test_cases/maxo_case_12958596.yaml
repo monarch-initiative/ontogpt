@@ -18,7 +18,7 @@ named_entities:
     label: Decreased circulating IgG level
 
 extracted_object:
-  action_to_disease:
+  diagnostic_procedure_to_disease:
     - subject: MAXO:0001480
       predicate: TREATS
       object:

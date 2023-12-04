@@ -18,7 +18,7 @@ named_entities:
     label: Corneal dystrophy
 
 extracted_object:
-  action_to_symptom:
+  diagnostic_procedure_to_symptom:
     - subject: MAXO:0010034
       predicate: TREATS
       object:

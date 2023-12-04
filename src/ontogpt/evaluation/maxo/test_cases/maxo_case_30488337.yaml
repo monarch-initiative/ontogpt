@@ -19,7 +19,7 @@ named_entities:
     label: Glaucoma, Primary Open Angle
 
 extracted_object:
-  action_to_disease:
+  diagnostic_procedure_to_disease:
     - subject: MAXO:0000959
       predicate: TREATS
       object:

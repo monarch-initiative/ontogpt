@@ -37,7 +37,7 @@ named_entities:
   - id: HP:0002066
     label: difficulties with ambulation
 extracted_object:
-  action_to_symptom:
+  diagnostic_procedure_to_symptom:
     - subject: MAXO:0000930
       predicate: TREATS
       object:

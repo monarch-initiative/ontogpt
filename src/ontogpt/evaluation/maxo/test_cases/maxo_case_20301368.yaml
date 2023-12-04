@@ -18,7 +18,7 @@ named_entities:
   - id: HP:0000175
     label: cleft palate
 extracted_object:
-  action_to_symptom:
+  diagnostic_procedure_to_symptom:
     - subject: MAXO:0000004
       predicate: TREATS
       object:

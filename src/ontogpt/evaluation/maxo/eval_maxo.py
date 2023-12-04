@@ -179,7 +179,7 @@ class EvalMAXO(SPIRESEvaluationEngine):
             input_text = doc["input_text"]
             logger.debug(f"Text: {input_text}")
             try:
-                for r in doc["extracted_object"]["action_to_symptom"]:
+                for r in doc["extracted_object"]["diagnostic_procedure_to_symptom"]:
                     for object in r["object"]:
                         t = DiagnosticProcedureToSymptomRelationship.model_validate(
                             {
@@ -244,7 +244,7 @@ class EvalMAXO(SPIRESEvaluationEngine):
                 if extraction.extracted_object is not None:
                     # Process all multi-object triples to 1 to 1 triples
                     # so they may be more directly compared
-                    for extracted_triple in extraction.extracted_object.action_to_symptom:
+                    for extracted_triple in extraction.extracted_object.diagnostic_procedure_to_symptom:
                         new_triple = extracted_triple
                         for object in extracted_triple.object:
                             new_triple.object = [object]
