@@ -29,14 +29,16 @@ classes:
     tree_root: true
     is_a: TextWithTriples
     attributes:
-      action:
+      diagnostic_procedures:
         annotations:
           prompt: >-
-            Semicolon-separated list of medical actions, where each is a
-            clinically prescribed procedure, therapy, intervention, or recommendation.
-        description: Semicolon-separated list of medical actions.
+            Semicolon-separated list of diagnostic procedures, where each is a
+            clinically prescribed procedure or test to diagnose a disease or
+            disorder. These may also be called diagnostic technique procedures
+            or diagnostic testing.
+        description: Semicolon-separated list of diagnostic procedures.
         multivalued: true
-        range: Action
+        range: DiagnosticProcedure
       disease:
         description: Semicolon-separated list of diseases.
         multivalued: true
@@ -45,35 +47,34 @@ classes:
         description: Semicolon-separated list of symptoms.
         multivalued: true
         range: Symptom
-      action_to_disease:
+      diagnostic_procedure_to_disease:
         annotations:
           prompt: >-
-            Semicolon-separated list of medical action to disease relationships, where
-            each is a triple representing a relationship between a medical action 
-            and a disease, for example, radiation therapy TREATS cancer,
-            or PET scan IS USED TO DIAGNOSE myocarditis.
+            Semicolon-separated list of diagnostic procedure to disease
+            relationships, where each is a triple representing a relationship
+            between a diagnostic procedure and a disease, for example,
+            PET scan IS USED TO DIAGNOSE myocarditis.
         multivalued: true
-        range: ActionToDiseaseRelationship
-      action_to_symptom:
+        range: DiagnosticProcedureToDiseaseRelationship
+      diagnostic_procedure_to_symptom:
         annotations:
           prompt: >-
-            A triple representing a relationship between a medical action
-            (A clinically prescribed procedure, therapy, intervention, or recommendation)
-            and a symptom, for example,
+            Semicolon-separated list of diagnostic procedure to disease
+            relationships, where each is a triple representing a relationship
+            between a diagnostic procedure and a symptom, for example,
             a chest X-ray IS USED TO DIAGNOSE pleural effusion.
         multivalued: true
-        range: ActionToSymptomRelationship
+        range: DiagnosticProcedureToSymptomRelationship
 
-  ActionToDiseaseRelationship:
+  DiagnosticProcedureToDiseaseRelationship:
     is_a: Triple
-    description: >- 
-      A triple representing a relationship between a medical action 
-      (A clinically prescribed procedure, therapy, intervention, or recommendation)
-      and a disease, for example, radiation therapy TREATS cancer,
-      or PET scan IS USED TO DIAGNOSE myocarditis.
+    description: >-
+      A triple representing a relationship between a diagnostic procedure
+      and a disease, for example,
+      PET scan IS USED TO DIAGNOSE myocarditis.
     slot_usage:
       subject:
-        range: Action
+        range: DiagnosticProcedure
       object:
         range: Disease
         multivalued: true
@@ -89,16 +90,15 @@ classes:
         description: >-
           An optional qualifier or modifier for the disease.
 
-  ActionToSymptomRelationship:
+  DiagnosticProcedureToSymptomRelationship:
     is_a: Triple
-    description: >- 
-      A triple representing a relationship between a medical action 
-      (A clinically prescribed procedure, therapy, intervention, or recommendation)
+    description: >-
+      A triple representing a relationship between a diagnostic procedure
       and a symptom, for example,
       a chest X-ray IS USED TO DIAGNOSE pleural effusion.
     slot_usage:
       subject:
-        range: Action
+        range: DiagnosticProcedure
       object:
         range: Symptom
         multivalued: true
@@ -114,10 +114,14 @@ classes:
         description: >-
           An optional qualifier or modifier for the symptom.
 
-  Action:
+  DiagnosticProcedure:
     is_a: NamedEntity
     description: >-
-      A clinically prescribed procedure, therapy, intervention, or recommendation.
+      A clinically prescribed diagnostic procedure, therapy, intervention, or
+      recommendation. These may also be called diagnostic technique procedures
+      or diagnostic testing. For example: hearing examination, glomerular
+      filtration rate test, chromosomal breakage analysis, clinical core needle
+      biopsy, interferon-gamma biomarker measurement
     annotations:
       annotators: sqlite:obo:maxo, sqlite:obo:ogms, sqlite:obo:ncit
     id_prefixes:

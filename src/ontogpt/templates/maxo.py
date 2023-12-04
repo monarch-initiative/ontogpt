@@ -2,7 +2,7 @@ from __future__ import annotations
 from datetime import datetime, date
 from enum import Enum
 from typing import List, Dict, Optional, Any, Union
-from pydantic import BaseModel as BaseModel, Field
+from pydantic import BaseModel as BaseModel, ConfigDict, Field
 import sys
 if sys.version_info >= (3, 8):
     from typing import Literal
@@ -13,13 +13,13 @@ else:
 metamodel_version = "None"
 version = "None"
 
-class ConfiguredBaseModel(BaseModel,
-                validate_assignment = True,
-                validate_default = True,
-                extra = 'forbid',
-                arbitrary_types_allowed = True,
-                use_enum_values = True):
-    pass
+class ConfiguredBaseModel(BaseModel):
+    model_config = ConfigDict(
+        validate_assignment=True,
+        validate_default=True,
+        extra='forbid',
+        arbitrary_types_allowed=True,
+        use_enum_values = True)
 
 
 class NullDataOptions(str, Enum):
@@ -52,9 +52,9 @@ class NamedEntity(ConfiguredBaseModel):
     label: Optional[str] = Field(None, description="""The label (name) of the named thing""")
     
 
-class Action(NamedEntity):
+class DiagnosticProcedure(NamedEntity):
     """
-    A clinically prescribed procedure, therapy, intervention, or recommendation.
+    A clinically prescribed diagnostic procedure, therapy, intervention, or recommendation. These may also be called diagnostic technique procedures or diagnostic testing. For example: hearing examination, glomerular filtration rate test, chromosomal breakage analysis, clinical core needle biopsy, interferon-gamma biomarker measurement
     """
     id: str = Field(..., description="""A unique identifier for the named entity""")
     label: Optional[str] = Field(None, description="""The label (name) of the named thing""")
@@ -93,9 +93,9 @@ class Triple(CompoundExpression):
     object_qualifier: Optional[str] = Field(None, description="""An optional qualifier or modifier for the object of the statement, e.g. \"severe\" or \"with additional complications\"""")
     
 
-class ActionToDiseaseRelationship(Triple):
+class DiagnosticProcedureToDiseaseRelationship(Triple):
     """
-    A triple representing a relationship between a medical action  (A clinically prescribed procedure, therapy, intervention, or recommendation) and a disease, for example, radiation therapy TREATS cancer, or PET scan IS USED TO DIAGNOSE myocarditis.
+    A triple representing a relationship between a diagnostic procedure and a disease, for example, PET scan IS USED TO DIAGNOSE myocarditis.
     """
     subject: Optional[str] = Field(None)
     predicate: Optional[str] = Field(None, description="""The relationship type, usually TREATS or IS USED TO DIAGNOSE""")
@@ -105,9 +105,9 @@ class ActionToDiseaseRelationship(Triple):
     object_qualifier: Optional[str] = Field(None, description="""An optional qualifier or modifier for the disease.""")
     
 
-class ActionToSymptomRelationship(Triple):
+class DiagnosticProcedureToSymptomRelationship(Triple):
     """
-    A triple representing a relationship between a medical action  (A clinically prescribed procedure, therapy, intervention, or recommendation) and a symptom, for example, a chest X-ray IS USED TO DIAGNOSE pleural effusion.
+    A triple representing a relationship between a diagnostic procedure and a symptom, for example, a chest X-ray IS USED TO DIAGNOSE pleural effusion.
     """
     subject: Optional[str] = Field(None)
     predicate: Optional[str] = Field(None, description="""The relationship type, usually IS USED TO DIAGNOSE""")
@@ -127,11 +127,11 @@ class TextWithTriples(ConfiguredBaseModel):
 
 class MaxoAnnotations(TextWithTriples):
     
-    action: Optional[List[str]] = Field(default_factory=list, description="""Semicolon-separated list of medical actions.""")
+    diagnostic_procedures: Optional[List[str]] = Field(default_factory=list, description="""Semicolon-separated list of diagnostic procedures.""")
     disease: Optional[List[str]] = Field(default_factory=list, description="""Semicolon-separated list of diseases.""")
     symptom: Optional[List[str]] = Field(default_factory=list, description="""Semicolon-separated list of symptoms.""")
-    action_to_disease: Optional[List[ActionToDiseaseRelationship]] = Field(default_factory=list)
-    action_to_symptom: Optional[List[ActionToSymptomRelationship]] = Field(default_factory=list)
+    diagnostic_procedure_to_disease: Optional[List[DiagnosticProcedureToDiseaseRelationship]] = Field(default_factory=list)
+    diagnostic_procedure_to_symptom: Optional[List[DiagnosticProcedureToSymptomRelationship]] = Field(default_factory=list)
     publication: Optional[Publication] = Field(None)
     triples: Optional[List[Triple]] = Field(default_factory=list)
     
@@ -171,17 +171,17 @@ class AnnotatorResult(ConfiguredBaseModel):
 # see https://pydantic-docs.helpmanual.io/usage/models/#rebuilding-a-model
 ExtractionResult.model_rebuild()
 NamedEntity.model_rebuild()
-Action.model_rebuild()
+DiagnosticProcedure.model_rebuild()
 Disease.model_rebuild()
 Symptom.model_rebuild()
 CompoundExpression.model_rebuild()
 Triple.model_rebuild()
-ActionToDiseaseRelationship.model_rebuild()
-ActionToSymptomRelationship.model_rebuild()
+DiagnosticProcedureToDiseaseRelationship.model_rebuild()
+DiagnosticProcedureToSymptomRelationship.model_rebuild()
 TextWithTriples.model_rebuild()
 MaxoAnnotations.model_rebuild()
 TextWithEntity.model_rebuild()
 RelationshipType.model_rebuild()
 Publication.model_rebuild()
 AnnotatorResult.model_rebuild()
-    
+

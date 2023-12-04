@@ -42,7 +42,7 @@ from pydantic import BaseModel
 from ontogpt.engines.knowledge_engine import chunk_text
 from ontogpt.engines.spires_engine import SPIRESEngine
 from ontogpt.evaluation.evaluation_engine import SimilarityScore, SPIRESEvaluationEngine
-from ontogpt.templates.maxo import MaxoAnnotations, ActionToSymptomRelationship, Publication
+from ontogpt.templates.maxo import MaxoAnnotations, DiagnosticProcedureToSymptomRelationship, Publication
 
 THIS_DIR = Path(__file__).parent
 DATABASE_DIR = Path(__file__).parent / "test_cases"
@@ -181,7 +181,7 @@ class EvalMAXO(SPIRESEvaluationEngine):
             try:
                 for r in doc["extracted_object"]["action_to_symptom"]:
                     for object in r["object"]:
-                        t = ActionToSymptomRelationship.model_validate(
+                        t = DiagnosticProcedureToSymptomRelationship.model_validate(
                             {
                                 "subject": f"{r['subject']}",
                                 "predicate": RMAP[r["predicate"]],
@@ -190,7 +190,7 @@ class EvalMAXO(SPIRESEvaluationEngine):
                         )
                         triples_by_text[input_text].append(t)
             except KeyError:  # some of the test cases may only have other relations
-                logger.info(f"Ignored {casefile} - no Action to Symptom relations")
+                logger.info(f"Ignored {casefile} - no Diagnostic Procedure to Symptom relations")
                 continue
         i = 0
         for input_text, triples in triples_by_text.items():
@@ -267,7 +267,7 @@ class EvalMAXO(SPIRESEvaluationEngine):
                         if entity not in named_entities:
                             named_entities.append(entity)
 
-            def included(t: ActionToSymptomRelationship):
+            def included(t: DiagnosticProcedureToSymptomRelationship):
                 if not [var for var in (t.subject, t.object, t.predicate) if var is None]:
                     return (
                         t
