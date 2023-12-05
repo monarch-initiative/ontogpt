@@ -66,9 +66,9 @@ NOTE: We do not recommend hosting this webapp publicly without authentication.
 OpenAI's functions have been evaluated on test data. Please see the full documentation for details on these evaluations and how to reproduce them.
 
 ## Tutorials and Presentations
-- Tutorial: "Enhancing curation workflows with CurateGPT" - presented by Chris Mungall as part of the [OBO Academy](https://oboacademy.github.io/obook/courses/monarch-obo-training/) series (November 2023) 
-  - [Slides](https://docs.google.com/presentation/d/1IrpA8gEDhQupjGGb9MBMg5siTJjeL2fm1lltJ64vkUo/edit)
-  - [Video](https://www.youtube.com/watch?v=p6j3WwzIv40)
+- Presentation: "Enhancing curation workflows with CurateGPT" - presented by Harry Caufield at part of the BOSC track at ISMB/ECCB 2023 (July 2023) 
+  - [Slides](https://docs.google.com/presentation/d/1LsOTKi-rXYczL9vUTHB1NDkaEqdA9u3ZFC5ANa0x1VU/edit?usp=sharing)
+  - [Video](https://www.youtube.com/watch?v=a34Yjz5xPp4)
 - Presentation: "OntoGPT: A framework for working with ontologies and large language models" - talk by Chris Mungall at Joint Food Ontology Workgroup (May 2023)
   - [Slides](https://docs.google.com/presentation/d/1CosJJe8SqwyALyx85GWkw9eOT43B4HwDlAY2CmkmJgU/edit)
   - [Video](https://www.youtube.com/watch?v=rt3wobA9hEs&t=1955s)
