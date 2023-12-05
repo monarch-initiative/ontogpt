@@ -39,6 +39,13 @@ classes:
         description: Semicolon-separated list of diagnostic procedures.
         multivalued: true
         range: DiagnosticProcedure
+      main_disease:
+        description: >-
+          The primary disease the text is about, or its main disease
+          topic. This is often the disease mentioned in an article's title
+          or in its first few sentences.
+        multivalued: false
+        range: Disease
       disease:
         description: Semicolon-separated list of diseases.
         multivalued: true

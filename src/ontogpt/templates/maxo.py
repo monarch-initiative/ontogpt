@@ -128,6 +128,7 @@ class TextWithTriples(ConfiguredBaseModel):
 class MaxoAnnotations(TextWithTriples):
     
     diagnostic_procedures: Optional[List[str]] = Field(default_factory=list, description="""Semicolon-separated list of diagnostic procedures.""")
+    main_disease: Optional[str] = Field(None, description="""The primary disease the text is about, or its main disease topic. This is often the disease mentioned in an article's title or in its first few sentences.""")
     disease: Optional[List[str]] = Field(default_factory=list, description="""Semicolon-separated list of diseases.""")
     symptom: Optional[List[str]] = Field(default_factory=list, description="""Semicolon-separated list of symptoms.""")
     diagnostic_procedure_to_disease: Optional[List[DiagnosticProcedureToDiseaseRelationship]] = Field(default_factory=list)
