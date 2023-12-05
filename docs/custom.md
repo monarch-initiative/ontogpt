@@ -281,7 +281,7 @@ Ex.:
 ontogpt extract -t mendelian_disease.MendelianDisease -i marfan-wikipedia.txt
 ```
 
-OntoGPT-specific extensions are specified as _annotations_.
+OntoGPT-specific extensions are specified as *annotations*.
 
 You can specify a set of annotators for a field using the `annotators` annotation.
 
@@ -353,7 +353,7 @@ Ex. the `gocam` schema has an attribute:
         range: GeneMolecularActivityRelationship
 ```
 
-The range `GeneMolecularActivityRelationship` has been specified _inline_, so it will nest.
+The range `GeneMolecularActivityRelationship` has been specified *inline*, so it will nest.
 
 The generated prompt is:
 
@@ -374,7 +374,7 @@ If you have installed OntoGPT directly from its GitHub repository, then you may 
 1. Move the schema file to the `src/ontogpt/templates` directory.
 2. Run `make` from the root of the repository to generate Pydantic versions of the schema.
 
-If you have installed OntoGPT from `pip`, _or_ if you can't use the `make` command, the process is similar, though it will depend on where the package is installed.
+If you have installed OntoGPT from `pip`, *or* if you can't use the `make` command, the process is similar, though it will depend on where the package is installed.
 
 1. Use the LinkML `gen-pydantic` tool to generate Pydantic classes. If your schema is named `alfred.yaml`, then run the following:
   
