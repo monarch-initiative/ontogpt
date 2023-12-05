@@ -66,7 +66,7 @@ NOTE: We do not recommend hosting this webapp publicly without authentication.
 OpenAI's functions have been evaluated on test data. Please see the full documentation for details on these evaluations and how to reproduce them.
 
 ## Tutorials and Presentations
-- Presentation: "Staying grounded: assembling structured biological knowledge with help from large language models" - presented by Harry Caufield at part of the AgBioData Consortium webinar series (September 2023) 
+- Presentation: "Staying grounded: assembling structured biological knowledge with help from large language models" - presented by Harry Caufield as part of the AgBioData Consortium webinar series (September 2023) 
   - [Slides](https://docs.google.com/presentation/d/1rMQVWaMju-ucYFif5nx4Xv3bNX2SVI_w89iBIT1bkV4/edit?usp=sharing)
   - [Video](https://www.youtube.com/watch?v=z38lI6WyBsY)
 - Presentation: "Transforming unstructured biomedical texts with large language models" - presented by Harry Caufield at part of the BOSC track at ISMB/ECCB 2023 (July 2023) 
