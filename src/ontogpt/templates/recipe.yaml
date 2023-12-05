@@ -17,6 +17,10 @@ prefixes:
   qudt: http://qudt.org/schema/qudt/
   dbpediaont: http://dbpedia.org/ontology/
 
+# This template incorportates syntax from
+# linkml-owl to define OWL interpretations
+# and enable advanced functionality.
+# https://linkml.io/linkml-owl/templates/
 
 default_prefix: recipe
 default_range: string
@@ -29,7 +33,7 @@ classes:
   Recipe:
     tree_root: true
     close_mappings:
-      - FOODON:00004081
+      - FOODON:00004081  # food recipe
     attributes:
       url:
         identifier: true
@@ -49,7 +53,7 @@ classes:
           owl: AnnotationProperty, AnnotationAssertion
       categories:
         description: a semicolon separated list of the categories to which this recipe belongs
-        range:  RecipeCategory
+        range: RecipeCategory
         multivalued: true
         slot_uri: dcterms:subject
         annotations:
@@ -168,7 +172,7 @@ classes:
       state:
         description: the state of the food item (e.g. chopped, diced)
         annotations:
-           owl: DataProperty, DataHasValue
+          owl: DataProperty, DataHasValue
 
   FoodType:
     is_a: NamedEntity
