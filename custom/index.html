@@ -430,6 +430,15 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#advanced-functionality-with-linkml-owl" class="md-nav__link">
+    <span class="md-ellipsis">
+      Advanced functionality with linkml-owl
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#install-a-custom-schema" class="md-nav__link">
     <span class="md-ellipsis">
       Install a custom schema
@@ -1085,6 +1094,15 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#advanced-functionality-with-linkml-owl" class="md-nav__link">
+    <span class="md-ellipsis">
+      Advanced functionality with linkml-owl
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#install-a-custom-schema" class="md-nav__link">
     <span class="md-ellipsis">
       Install a custom schema
@@ -1431,6 +1449,83 @@ enums:
 <p>The output of this is then passed through further SPIRES iterations.</p>
 <h4 id="text-length-limit">Text length limit</h4>
 <p>LLMs have context sizes limiting the combined length of their inputs and outputs. The <code>gpt-3.5-turbo</code> model, for example, has a 4,096 token limit (prompt + completion), while the <code>gpt-3.5-turbo-16k</code> model has a larger context of 16,384 tokens.</p>
+<h2 id="advanced-functionality-with-linkml-owl">Advanced functionality with linkml-owl</h2>
+<p>A LinkML schema used in OntoGPT may include annotations describing how each component relates to OWL syntax.</p>
+<p>This level of detail may be necessary if your data model includes complex logic beyond simple hierarchical relationships.</p>
+<p>For example, if you are extracting details of chemical reactions, it may be necessary to keep track of details like stoichiometry or charge. <a href="https://linkml.io/linkml-owl/templates/">See a relevant example here</a>.</p>
+<p>Incorporating OWL annotations into the custom schema (remember to export using the <code>-O owl</code> option) also supports importing the results into an ontology editor like Protege, at which point it may be reasoned over.</p>
+<p>The <code>recipe</code> template in OntoGPT incorporates several OWL annotations:</p>
+<pre><code class="language-yaml">classes:
+  Recipe:
+    tree_root: true
+    close_mappings:
+      - FOODON:00004081
+    attributes:
+      url:
+        identifier: true
+        range: uriorcurie
+        slot_uri: rdf:Resource
+        annotations:
+          prompt.skip: true
+      label:
+        description: the name of the recipe
+        slot_uri: rdfs:label
+        annotations:
+          owl: AnnotationProperty, AnnotationAssertion
+      description:
+        description: a brief textual description of the recipe
+        slot_uri: dcterms:description
+        annotations:
+          owl: AnnotationProperty, AnnotationAssertion
+      categories:
+        description: a semicolon separated list of the categories to which this recipe belongs
+        range: RecipeCategory
+        multivalued: true
+        slot_uri: dcterms:subject
+        annotations:
+          owl: AnnotationAssertion
+      ingredients:
+        description: a semicolon separated list of the ingredients plus quantities of the recipe
+        multivalued: true
+        range: Ingredient
+        slot_uri: FOODON:00002420
+        annotations:
+          owl: ObjectProperty, ObjectSomeValuesFrom
+      steps:
+        description: a semicolon separated list of the individual steps involved in this recipe
+        multivalued: true
+        range: Step
+        annotations:
+          owl: ObjectProperty, ObjectSomeValuesFrom
+    annotations:
+      owl: Class
+      owl.template: |
+        EquivalentClasses(
+          {{url}}
+          ObjectIntersectionOf(
+            recipe:Recipe
+
+            {% for step in steps %}
+            ObjectSomeValuesFrom(
+              recipe:steps
+              {{tr(step)}}
+            )
+            {% endfor %}
+            {% for ingredient in ingredients %}
+            ObjectSomeValuesFrom(
+              FOODON:00002420
+              {{tr(ingredient)}}
+            )
+            {% endfor %}
+          )
+        )
+...
+</code></pre>
+<p>Several of the slots above, like <code>close_mappings</code> and <code>slot_uri</code>, aren't exclusive to OWL but define the parts of this data model in terms of existing vocabularies, so the schema and any extracted results will be more compatible with other models and methods. Here, <code>close_mappings</code> is used to show that the <code>Recipe</code> class is close but not necessarily identical to <code>FOODON:00004081</code>, or "food recipe".</p>
+<p>The <code>owl</code> slot under <code>annotations</code> for these attributes defines one or more corresponding OWL axiom types. Because the <code>label</code> attribute may be <code>AnnotationProperty, AnnotationAssertion</code> in OWL (<a href="https://www.w3.org/TR/owl2-syntax/#Annotations">see the OWL2 syntax on Annotations</a>) we know it can be applied as a property for something else, like an axiom or a specific entity with an IRI. This is how the <code>rdfs:label</code> annotation property usually works so this isn't surprising.</p>
+<p>The <code>owl.template</code> slot defines template logic relating a Recipe to its component objects: steps and ingredients. It begins with an <code>EquivalentClasses</code> axiom to define the identifier of the recipe, which we assume to be a URL, as identical to the class expression in subsequent lines. Specifically, that <code>Recipe</code> must include both a series of steps (e.g., "fry", "chop", etc.) and a series of ingredients. The ingredients relate to the recipe through the property <code>FOODON:00002420</code>, or "has ingredient".</p>
+<p>Note that everything in {curly brackets} is a template of some kind. The Jinja template system is used in the example in lines like <code>{% for step in steps %}</code> where a loop is used. Template slots like <code>{{url}}</code> may be accessed directly with their names. So what makes <code>{{tr(step)}}</code> different from <code>{{step}}</code>? The <code>tr()</code> function used here translates its input into an OWL entity so it may be used to generate valid OWL axioms.</p>
+<p>See also: the <a href="../owl_exports/">documentation page on OWL exports</a> and the <a href="https://linkml.io/linkml-owl/">linkml-owl documentation</a>.</p>
 <h2 id="install-a-custom-schema">Install a custom schema</h2>
 <p>If you have installed OntoGPT directly from its GitHub repository, then you may install a custom schema like this:</p>
 <ol>
