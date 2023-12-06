@@ -140,7 +140,7 @@ classes:
       A disposition to undergo pathological processes that exists in an organism
       because of one or more disorders in that organism.
     annotations:
-      annotators: sqlite:obo:mondo, sqlite:obo:hp
+      annotators: sqlite:obo:mondo, sqlite:obo:hp, sqlite:obo:ncit
     id_prefixes:
       - MONDO
 
@@ -149,6 +149,6 @@ classes:
     description: >-
       A condition or phenotype resulting from an abnormal health state.
     annotations:
-      annotators: sqlite:obo:hp, sqlite:obo:mondo
+      annotators: sqlite:obo:hp, sqlite:obo:mondo, sqlite:obo:ncit
     id_prefixes:
       - HP
