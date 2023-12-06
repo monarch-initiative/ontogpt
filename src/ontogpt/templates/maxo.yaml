@@ -138,7 +138,9 @@ classes:
     is_a: NamedEntity
     description: >-
       A disposition to undergo pathological processes that exists in an organism
-      because of one or more disorders in that organism.
+      because of one or more disorders in that organism. For example:
+      Beck-Fahrner syndrome, hereditary retinoblastoma, progeria,
+      diabetes mellitus, infectious otitis media
     annotations:
       annotators: sqlite:obo:mondo, sqlite:obo:hp, sqlite:obo:ncit
     id_prefixes:
@@ -148,6 +150,8 @@ classes:
     is_a: NamedEntity
     description: >-
       A condition or phenotype resulting from an abnormal health state.
+      For example: Low serum calcitriol, hypoplasia of the thymus,
+      chronic cough, aortic stiffness, low pulse pressure
     annotations:
       annotators: sqlite:obo:hp, sqlite:obo:mondo, sqlite:obo:ncit
     id_prefixes:

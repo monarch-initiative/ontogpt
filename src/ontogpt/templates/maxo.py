@@ -62,7 +62,7 @@ class DiagnosticProcedure(NamedEntity):
 
 class Disease(NamedEntity):
     """
-    A disposition to undergo pathological processes that exists in an organism because of one or more disorders in that organism.
+    A disposition to undergo pathological processes that exists in an organism because of one or more disorders in that organism. For example: Beck-Fahrner syndrome, hereditary retinoblastoma, progeria, diabetes mellitus, infectious otitis media
     """
     id: str = Field(..., description="""A unique identifier for the named entity""")
     label: Optional[str] = Field(None, description="""The label (name) of the named thing""")
@@ -70,7 +70,7 @@ class Disease(NamedEntity):
 
 class Symptom(NamedEntity):
     """
-    A condition or phenotype resulting from an abnormal health state.
+    A condition or phenotype resulting from an abnormal health state. For example: Low serum calcitriol, hypoplasia of the thymus, chronic cough, aortic stiffness, low pulse pressure
     """
     id: str = Field(..., description="""A unique identifier for the named entity""")
     label: Optional[str] = Field(None, description="""The label (name) of the named thing""")
