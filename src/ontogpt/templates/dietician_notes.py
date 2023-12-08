@@ -33,6 +33,11 @@ class NullDataOptions(str, Enum):
     
     
 
+class ClinicalObservationSet(ConfiguredBaseModel):
+    
+    observations: Optional[List[str]] = Field(default_factory=list)
+    
+
 class MalnutritionObservations(ConfiguredBaseModel):
     
     malnutrition_presence: Optional[bool] = Field(None)
@@ -55,13 +60,6 @@ class ExtractionResult(ConfiguredBaseModel):
 
 class NamedEntity(ConfiguredBaseModel):
     
-    id: str = Field(..., description="""A unique identifier for the named entity""")
-    label: Optional[str] = Field(None, description="""The label (name) of the named thing""")
-    
-
-class ClinicalObservationSet(NamedEntity):
-    
-    observations: Optional[List[str]] = Field(default_factory=list)
     id: str = Field(..., description="""A unique identifier for the named entity""")
     label: Optional[str] = Field(None, description="""The label (name) of the named thing""")
     
@@ -166,10 +164,10 @@ class AnnotatorResult(ConfiguredBaseModel):
 
 # Model rebuild
 # see https://pydantic-docs.helpmanual.io/usage/models/#rebuilding-a-model
+ClinicalObservationSet.model_rebuild()
 MalnutritionObservations.model_rebuild()
 ExtractionResult.model_rebuild()
 NamedEntity.model_rebuild()
-ClinicalObservationSet.model_rebuild()
 ClinicalObservations.model_rebuild()
 DietSupplementation.model_rebuild()
 NutritionSupport.model_rebuild()

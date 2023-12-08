@@ -19,7 +19,6 @@ imports:
 classes:
   ClinicalObservationSet:
     tree_root: true
-    is_a: NamedEntity
     attributes:
       observations:
         range: ClinicalObservations
