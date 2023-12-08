@@ -28,7 +28,7 @@ classes:
     is_a: NamedEntity
     attributes:
       is_pediatric:
-        range: boolean
+        range: string
       patient_height:
         range: QuantitativeValue
       patient_weight:
@@ -62,7 +62,7 @@ classes:
   MalnutritionObservations:
     attributes:
       malnutrition_presence:
-        range: boolean
+        range: string
       severity:
         range: string
       diagnosis:

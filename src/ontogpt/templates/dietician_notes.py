@@ -40,7 +40,7 @@ class ClinicalObservationSet(ConfiguredBaseModel):
 
 class MalnutritionObservations(ConfiguredBaseModel):
     
-    malnutrition_presence: Optional[bool] = Field(None)
+    malnutrition_presence: Optional[str] = Field(None)
     severity: Optional[str] = Field(None)
     diagnosis: Optional[str] = Field(None)
     
@@ -66,7 +66,7 @@ class NamedEntity(ConfiguredBaseModel):
 
 class ClinicalObservations(NamedEntity):
     
-    is_pediatric: Optional[bool] = Field(None)
+    is_pediatric: Optional[str] = Field(None)
     patient_height: Optional[QuantitativeValue] = Field(None)
     patient_weight: Optional[QuantitativeValue] = Field(None)
     malnutrition_status: Optional[MalnutritionObservations] = Field(None)
