@@ -1,0 +1,101 @@
+id: http://w3id.org/ontogpt/dietician_notes
+name: dietician_notes
+title: Dietician Notes Extraction Template
+description: >-
+  A template for extracting clinical observations from dietician notes
+license: https://creativecommons.org/publicdomain/zero/1.0/
+prefixes:
+  linkml: https://w3id.org/linkml/
+  dietician_notes: http://w3id.org/ontogpt/dietician_notes
+  HP: http://purl.obolibrary.org/obo/HP_
+
+default_prefix: dietician_notes
+default_range: string
+
+imports:
+  - linkml:types
+  - core
+
+classes:
+  ClinicalObservationSet:
+    tree_root: true
+    is_a: NamedEntity
+    attributes:
+      observations:
+        range: ClinicalObservations
+        multivalued: true
+
+  ClinicalObservations:
+    attributes:
+      is_pediatric:
+        range: boolean
+      patient_height:
+        range: QuantitativeValue
+      patient_weight:
+        range: QuantitativeValue
+      malnutrition_status:
+        range: MalnutritionObservations
+      diet_supplementation:
+        range: DietSupplementation
+        multivalued: true
+      nutrition_support:
+        range: NutritionSupport
+        multivalued: true
+
+  QuantitativeValue:
+    is_a: CompoundExpression
+    #annotations:
+    #  owl: IntersectionOf
+    attributes:
+      value:
+        description: the value of the quantity
+        #range: float
+        #annotations:
+        #  owl: DataProperty, DataHasValue
+      unit:
+        description: the unit of the quantity, e.g. grams, cups, etc.
+        range: Unit
+        slot_uri: qudt:unit
+        #annotations:
+        #  owl: ObjectProperty, ObjectSomeValuesFrom
+
+  MalnutritionObservations:
+    attributes:
+      malnutrition_presence:
+        range: boolean
+      severity:
+        range: string
+      diagnosis:
+        range: Disease
+
+  # TODO: consider MAXO terms; children of MAXO:0000009
+  DietSupplementation:
+    is_a: NamedThing
+    id_prefixes:
+      - FOODON
+    annotations:
+      annotators: sqlite:obo:foodon
+
+  # TODO: consider MAXO terms; children of MAXO:0000009
+  NutritionSupport:
+    is_a: NamedThing
+    id_prefixes:
+      - MAXO
+    annotations:
+      annotators: sqlite:obo:maxo
+
+  Disease:
+    is_a: NamedEntity
+    id_prefixes:
+      - MONDO
+    annotations:
+      annotators: sqlite:obo:mondo
+
+  Unit:
+    is_a: NamedEntity
+    id_prefixes:
+      - UO
+      - NCIT
+      - dbpediaont
+    annotations:
+      annotators: sqlite:obo:uo, sqlite:obo:dbpediaont, sqlite:obo:foodon
