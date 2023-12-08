@@ -26,6 +26,7 @@ classes:
         multivalued: true
 
   ClinicalObservations:
+    is_a: NamedEntity
     attributes:
       is_pediatric:
         range: boolean
@@ -70,7 +71,7 @@ classes:
 
   # TODO: consider MAXO terms; children of MAXO:0000009
   DietSupplementation:
-    is_a: NamedThing
+    is_a: NamedEntity
     id_prefixes:
       - FOODON
     annotations:
@@ -78,7 +79,7 @@ classes:
 
   # TODO: consider MAXO terms; children of MAXO:0000009
   NutritionSupport:
-    is_a: NamedThing
+    is_a: NamedEntity
     id_prefixes:
       - MAXO
     annotations:
