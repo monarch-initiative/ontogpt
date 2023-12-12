@@ -336,22 +336,48 @@ class EvalCRAFTConcepts(SPIRESEvaluationEngine):
                             extraction_list_attr = getattr(extraction.extracted_object, entity_type)
                             new_entity_list = pred_entity_list_attr.extend(extraction_list_attr)
                             setattr(predicted_obj, entity_type, new_entity_list)
-                            logger.info(f"{len(new_entity_list)} {entity_type} entities, after concatenation")
+                            logger.info(
+                                f"{len(new_entity_list)} {entity_type} entities, after concatenation"
+                            )
                 if extraction.named_entities is not None:
                     for entity in extraction.named_entities:
                         if entity not in named_entities:
                             named_entities.append(entity)
 
-            # TODO: update based on known prefixes
-            def included(t: str):
-                if t.startswith("MESH:"):
-                    return t
+            predicted_obj.anatomicalelements = [
+                t for t in predicted_obj.anatomicalelements if t.startswith("UBERON")
+            ]
+            predicted_obj.biologicalprocesses = [
+                t for t in predicted_obj.anatomicalelements if t.startswith("GO")
+            ]
+            predicted_obj.celltypes = [
+                t for t in predicted_obj.anatomicalelements if t.startswith("CL")
+            ]
+            predicted_obj.cellularcomponents = [
+                t for t in predicted_obj.anatomicalelements if t.startswith("GO")
+            ]
+            predicted_obj.chemicals = [
+                t for t in predicted_obj.anatomicalelements if t.startswith("CHEBI")
+            ]
+            predicted_obj.diseases = [
+                t for t in predicted_obj.anatomicalelements if t.startswith("MONDO")
+            ]
+            predicted_obj.molecularfunctions = [
+                t for t in predicted_obj.anatomicalelements if t.startswith("GO")
+            ]
+            predicted_obj.molecularprocesses = [
+                t for t in predicted_obj.anatomicalelements if t.startswith("MOP")
+            ]
+            predicted_obj.proteins = [
+                t for t in predicted_obj.anatomicalelements if t.startswith("PR")
+            ]
+            predicted_obj.sequencefeatures = [
+                t for t in predicted_obj.anatomicalelements if t.startswith("SO")
+            ]
+            predicted_obj.taxa = [
+                t for t in predicted_obj.anatomicalelements if t.startswith("NCBITaxon")
+            ]
 
-            # TODO: repeat for all entities, as above
-            predicted_obj.chemicals = [t for t in predicted_obj.chemicals if included(t)]
-
-             # TODO: repeat for all entities, as above
-            logger.info(f"{len(predicted_obj.chemicals)} filtered entities")
             pred = PredictionNER(
                 predicted_object=predicted_obj, test_object=doc, named_entities=named_entities
             )
@@ -365,7 +391,7 @@ class EvalCRAFTConcepts(SPIRESEvaluationEngine):
         self.calc_stats(eos)
         return eos
 
-    # TODO: adapt to aggregated form 
+    # TODO: adapt to aggregated form
     def calc_stats(self, eos: EvaluationObjectSetNER):
         num_true_positives_ce = sum(p.num_true_positives_ce for p in eos.predictions)
         num_false_positives_ce = sum(p.num_false_positives_ce for p in eos.predictions)
