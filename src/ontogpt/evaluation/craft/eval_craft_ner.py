@@ -121,28 +121,67 @@ class PredictionNER(BaseModel):
     # with entity name from TARGET_TYPES as key
     # results is a dict of dict of lists of tuples
     results: Dict[str, Dict[str, List[Tuple[str, str]]]] = {}
-    # for target in TARGET_TYPES:
-    #     results[target] = {}
-    #     for result_type in RESULT_TYPES:
-    #         results[target[result_type]] = []
+    for target in TARGET_ATTR_TYPES:
+         results[target] = {}
+         for result_type in RESULT_TYPES:
+             results[target[result_type]] = []
 
     scores: Optional[Dict[str, SimilarityScore]] = None
     predicted_object: Optional[TextWithEntity] = None
     named_entities: Optional[List[Any]] = None
 
+    def calculate_scores(self):
+        self.scores = {}
 
-# TODO: expand to cover all entity types
-#       and adapt to the PredictionNER results form defined above
+        def all_objects(dm: Optional[TextWithEntity]):
+            if dm is not None:
+                return list(set(dm.chemicals + dm.diseases))
+            else:
+                return list()
+
+        def chem_entities(dm: TextWithEntity) -> Set:
+            if dm.chemicals is not None:
+                return set(((entity)) for entity in dm.chemicals)
+            else:
+                return set()
+
+        def disease_entities(dm: TextWithEntity) -> Set:
+            if dm.diseases is not None:
+                return set(((entity)) for entity in dm.diseases)
+            else:
+                return set()
+
+        self.scores["similarity"] = SimilarityScore.from_set(
+            all_objects(self.test_object),
+            all_objects(self.predicted_object),
+        )
+
+        if self.predicted_object is not None and self.test_object is not None:
+            pred_ce = chem_entities(self.predicted_object)
+            test_ce = chem_entities(self.test_object)
+            pred_de = disease_entities(self.predicted_object)
+            test_de = disease_entities(self.test_object)
+
+        self.true_positives_ce = list(pred_ce.intersection(test_ce))
+        self.false_positives_ce = list(pred_ce.difference(test_ce))
+        self.false_negatives_ce = list(test_ce.difference(pred_ce))
+        self.num_false_negatives_ce = len(self.false_negatives_ce)
+        self.num_false_positives_ce = len(self.false_positives_ce)
+        self.num_true_positives_ce = len(self.true_positives_ce)
+
+        self.true_positives_de = list(pred_de.intersection(test_de))
+        self.false_positives_de = list(pred_de.difference(test_de))
+        self.false_negatives_de = list(test_de.difference(pred_de))
+        self.num_false_negatives_de = len(self.false_negatives_de)
+        self.num_false_positives_de = len(self.false_positives_de)
+        self.num_true_positives_de = len(self.true_positives_de)
+
 class EvaluationObjectSetNER(BaseModel):
     """A result of performing named entity recognition."""
 
-    precision_ce: float = 0
-    recall_ce: float = 0
-    f1_ce: float = 0
-
-    precision_de: float = 0
-    recall_de: float = 0
-    f1_de: float = 0
+    precisions: List[float] = [0]
+    recalls: List[float] = [0]
+    f1s: List[float] = [0]
 
     training: Optional[List[TextWithEntity]] = None
     predictions: Optional[List[PredictionNER]] = None
@@ -385,14 +424,14 @@ class EvalCRAFTConcepts(SPIRESEvaluationEngine):
             logger.info("PRED")
             logger.info(yaml.dump(data=pred.model_dump()))
             logger.info("Calc scores")
-            pred.calculate_scores(labelers=[labeler])
+            pred.calculate_scores()
             logger.info(yaml.dump(data=pred.model_dump()))
             eos.predictions.append(pred)
         self.calc_stats(eos)
         return eos
 
-    # TODO: adapt to aggregated form
     def calc_stats(self, eos: EvaluationObjectSetNER):
+        #for attr_type in TARGET_ATTR_TYPES:
         num_true_positives_ce = sum(p.num_true_positives_ce for p in eos.predictions)
         num_false_positives_ce = sum(p.num_false_positives_ce for p in eos.predictions)
         num_false_negatives_ce = sum(p.num_false_negatives_ce for p in eos.predictions)
