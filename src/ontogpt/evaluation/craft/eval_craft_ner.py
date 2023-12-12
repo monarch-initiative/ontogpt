@@ -4,12 +4,12 @@ Evaluation on the CRAFT corpus.
 This is an NER evaluation, or specifically
 concept recognition.
 
-It uses a specific template (craft_concepts)
+It uses a specific template (craft_concepts).
 
-The corpus is retrieved from:
+The corpus is from:
 https://github.com/UCDenver-ccp/CRAFT
 
-This evaluation use the v5.0.2 release.
+This evaluation uses the v5.0.2 release.
 
 Funk et al. 2014 BMC Bioinformatics
 (https://doi.org/10.1186/1471-2105-15-59)
@@ -31,6 +31,11 @@ Annotations in CRAFT also include:
 MONDO Disease Ontology
 Molecular Process Ontology (MOP)
 UBERON Ontology
+
+Note: documents in this test corpus are full-texts
+and may not fit into the context window of all
+models. Please consider models with context window
+of 12K tokens or greater.
 
 """
 
