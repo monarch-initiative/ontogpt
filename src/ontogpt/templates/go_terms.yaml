@@ -17,6 +17,7 @@ imports:
 
 classes:
   Document:
+    tree_root: true
     description: A document that contains biological or biomedical concepts.
     is_a: TextWithEntity
     attributes:
