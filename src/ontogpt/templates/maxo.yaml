@@ -27,6 +27,8 @@ classes:
 
   MaxoAnnotations:
     tree_root: true
+    # This isn't really using the main slot it's inheriting
+    # so it may make more sense to use a different parent class
     is_a: TextWithTriples
     attributes:
       diagnostic_procedures:
@@ -73,6 +75,7 @@ classes:
         multivalued: true
         range: DiagnosticProcedureToSymptomRelationship
 
+  # TODO: Add more examples here
   DiagnosticProcedureToDiseaseRelationship:
     is_a: Triple
     description: >-
@@ -97,6 +100,7 @@ classes:
         description: >-
           An optional qualifier or modifier for the disease.
 
+  # TODO: Add more examples here
   DiagnosticProcedureToSymptomRelationship:
     is_a: Triple
     description: >-
