@@ -22,6 +22,12 @@ class ConfiguredBaseModel(BaseModel):
         use_enum_values = True)
 
 
+class MAXODiagnosticProcedureEnum(str):
+    
+    
+    dummy = "dummy"
+    
+
 class NullDataOptions(str, Enum):
     
     
