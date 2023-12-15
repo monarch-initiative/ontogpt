@@ -59,7 +59,7 @@ class HTMLExporter(Exporter):
         self.open_div()
         if indent >= 0:
             self.open_ul()
-        for field_name, field in obj.model_fields.items():
+        for field_name, _field in obj.model_fields.items():
             if indent < 0:
                 self.h3(field_name)
             else:
