@@ -17,7 +17,7 @@ class ConfiguredBaseModel(BaseModel):
     model_config = ConfigDict(
         validate_assignment=True,
         validate_default=True,
-        extra='forbid',
+        extra = 'forbid',
         arbitrary_types_allowed=True,
         use_enum_values = True)
 
@@ -98,7 +98,7 @@ class DiagnosticProcedureToDiseaseRelationship(Triple):
     A triple representing a relationship between a diagnostic procedure and a disease, for example, PET scan IS USED TO DIAGNOSE myocarditis.
     """
     subject: Optional[str] = Field(None)
-    predicate: Optional[str] = Field(None, description="""The relationship type, usually TREATS or IS USED TO DIAGNOSE""")
+    predicate: Optional[str] = Field(None, description="""The relationship type, usually IS USED TO DIAGNOSE""")
     object: Optional[List[str]] = Field(default_factory=list)
     qualifier: Optional[str] = Field(None, description="""A qualifier for the statements, e.g. \"NOT\" for negation""")
     subject_qualifier: Optional[str] = Field(None, description="""An optional qualifier or modifier for the medical action.""")

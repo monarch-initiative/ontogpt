@@ -87,7 +87,7 @@ classes:
         multivalued: true
       predicate:
         range: NamedEntity
-        description: The relationship type, usually TREATS or IS USED TO DIAGNOSE
+        description: The relationship type, usually IS USED TO DIAGNOSE
       subject_qualifier:
         range: NamedEntity
         description: >-
