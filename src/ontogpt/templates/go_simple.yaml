@@ -6,7 +6,7 @@ description: >-
 license: https://creativecommons.org/publicdomain/zero/1.0/
 prefixes:
   linkml: https://w3id.org/linkml/
-  human_phenotype: http://w3id.org/ontogpt/go_simple
+  go_simple: http://w3id.org/ontogpt/go_simple
   GO: http://purl.obolibrary.org/obo/GO_
 
 default_prefix: go_simple

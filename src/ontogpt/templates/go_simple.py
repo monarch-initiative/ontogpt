@@ -54,7 +54,7 @@ class NamedEntity(ConfiguredBaseModel):
 
 class OntologyTermSet(NamedEntity):
     
-    phenotypes: Optional[List[str]] = Field(default_factory=list, description="""A semicolon-separated list of any Gene Ontology terms.""")
+    terms: Optional[List[str]] = Field(default_factory=list, description="""A semicolon-separated list of any Gene Ontology terms.""")
     id: str = Field(..., description="""A unique identifier for the named entity""")
     label: Optional[str] = Field(None, description="""The label (name) of the named thing""")
     
