@@ -46,11 +46,9 @@ gpt4 = ">=0.0.1"
 requests = "^2.31.0"
 huggingface_hub  = {version = ">=0.15.1", extras = ["huggingface"], optional = true}
 llm = "^0.8"
-llm-gpt4all = "^0.1.1"
 linkml = "^1.5.7"
 linkml-owl = "^0.3.0"
 pydantic = ">=2.4.0"
-gpt4all = "1.0.8"
 
 [tool.poetry.dev-dependencies]
 pytest = ">=7.1.2"
@@ -79,7 +77,8 @@ recipes = [
     "recipe-scrapers"
 ]
 gpt4all = [
-    "gpt4all"
+    "gpt4all",
+    "llm-gpt4all"
 ]
 textract = [
     "textract"
