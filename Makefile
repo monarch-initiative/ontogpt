@@ -28,10 +28,10 @@ get_version:
 	$(RUN) python -c "import ontogpt;print('.'.join((ontogpt.__version__).split('.', 3)[:3]))"
 
 $(TEMPLATE_DIR)/%.py: src/$(PACKAGE)/templates/%.yaml
-	$(RUN) gen-pydantic --pydantic_version 2 $< > $@.tmp && mv $@.tmp $@
+	$(RUN) gen-pydantic --pydantic-version 2 $< > $@.tmp && mv $@.tmp $@
 
 %.py: %.yaml
-	$(RUN) gen-pydantic --pydantic_version 2 $< > $@
+	$(RUN) gen-pydantic --pydantic-version 2 $< > $@
 
 #all_images: $(patsubst %, docs/images/%.png, $(ENTRY_CLASSES))
 #docs/images/%.png:
