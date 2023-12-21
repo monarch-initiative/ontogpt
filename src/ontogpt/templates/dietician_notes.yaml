@@ -18,71 +18,110 @@ imports:
 
 classes:
   ClinicalObservationSet:
-    tree_root: true
+    description: >-
+      A set of sets of clinical observations.
     attributes:
       observations:
         range: ClinicalObservations
         multivalued: true
 
   ClinicalObservations:
+    tree_root: true
+    description: >-
+      A set of clinical observations about a single patient at a single time.
     is_a: NamedEntity
     attributes:
       is_pediatric:
+        annotations:
+          prompt: >-
+            True if the patient is a child, False otherwise.
         range: string
       patient_height:
+        annotations:
+          prompt: >-
+            The value and units of the patient's height.
         range: QuantitativeValue
       patient_weight:
+        annotations:
+          prompt: >-
+            The value and units of the patient's weight.
         range: QuantitativeValue
       malnutrition_status:
+        annotations:
+          prompt: >-
+            Observations of the patient's malnutrition status.
         range: MalnutritionObservations
       diet_supplementation:
+        annotations:
+          prompt: >-
+            Observations of the patient's diet supplementation.
         range: DietSupplementation
         multivalued: true
       nutrition_support:
+        annotations:
+          prompt: >-
+            The patient's nutrition support therapies.
         range: NutritionSupport
         multivalued: true
 
   QuantitativeValue:
     is_a: CompoundExpression
-    #annotations:
-    #  owl: IntersectionOf
+    annotations:
+      owl: IntersectionOf
     attributes:
       value:
-        description: the value of the quantity
-        #range: float
-        #annotations:
-        #  owl: DataProperty, DataHasValue
+        description: The value of the quantity.
+        range: float
+        annotations:
+          owl: DataProperty, DataHasValue
       unit:
-        description: the unit of the quantity, e.g. grams, cups, etc.
+        description: The unit of the quantity.
         range: Unit
         slot_uri: qudt:unit
-        #annotations:
-        #  owl: ObjectProperty, ObjectSomeValuesFrom
+        annotations:
+          owl: ObjectProperty, ObjectSomeValuesFrom
 
   MalnutritionObservations:
     attributes:
       malnutrition_presence:
+        description: True if the patient is malnourished, False otherwise.
         range: string
       severity:
+        description: >-
+          The severity of the patient's malnutrition, if present.
         range: string
       diagnosis:
+        description: >-
+          The patient's malnutrition diagnosis, if present.
         range: Disease
 
-  # TODO: consider MAXO terms; children of MAXO:0000009
   DietSupplementation:
+    description: >-
+      A diet supplementation therapy.
     is_a: NamedEntity
     id_prefixes:
       - FOODON
+      - MAXO
     annotations:
-      annotators: sqlite:obo:foodon
+      annotators: "sqlite:obo:foodon, sqlite:obo:chebi, sqlite:obo:maxo"
+      prompt.examples: >-
+        single vitamin supplement, ginkgo biloba supplement,
+        multi-mineral supplement, biotin supplementation,
+        glucosamine supplement
 
-  # TODO: consider MAXO terms; children of MAXO:0000009
+  # TODO: consider limiting to children of MAXO:0000009
+  #       or a more specific group of terms
   NutritionSupport:
+    description: >-
+      A nutrition support therapy used to treat or prevent malnutrition.
     is_a: NamedEntity
     id_prefixes:
       - MAXO
     annotations:
       annotators: sqlite:obo:maxo
+      prompt.examples: >-
+        enteral nutrition intake, gavage nutrition intake,
+        parenteral nutrition intake, partial parenteral nutrition intake
 
   Disease:
     is_a: NamedEntity
@@ -90,6 +129,7 @@ classes:
       - MONDO
     annotations:
       annotators: sqlite:obo:mondo
+      prompt.examples: cardiac asystole, COVID-19, Headache, cancer
 
   Unit:
     is_a: NamedEntity

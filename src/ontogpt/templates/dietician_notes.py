@@ -2,7 +2,8 @@ from __future__ import annotations
 from datetime import datetime, date
 from enum import Enum
 from typing import List, Dict, Optional, Any, Union
-from pydantic import BaseModel as BaseModel, ConfigDict, Field
+from pydantic import BaseModel as BaseModel, ConfigDict,  Field, field_validator
+import re
 import sys
 if sys.version_info >= (3, 8):
     from typing import Literal
@@ -17,7 +18,7 @@ class ConfiguredBaseModel(BaseModel):
     model_config = ConfigDict(
         validate_assignment=True,
         validate_default=True,
-        extra='forbid',
+        extra = 'forbid',
         arbitrary_types_allowed=True,
         use_enum_values = True)
 
@@ -34,16 +35,20 @@ class NullDataOptions(str, Enum):
     
 
 class ClinicalObservationSet(ConfiguredBaseModel):
-    
+    """
+    A set of sets of clinical observations.
+    """
     observations: Optional[List[str]] = Field(default_factory=list)
     
+        
 
 class MalnutritionObservations(ConfiguredBaseModel):
     
-    malnutrition_presence: Optional[str] = Field(None)
-    severity: Optional[str] = Field(None)
-    diagnosis: Optional[str] = Field(None)
+    malnutrition_presence: Optional[str] = Field(None, description="""True if the patient is malnourished, False otherwise.""")
+    severity: Optional[str] = Field(None, description="""The severity of the patient's malnutrition, if present.""")
+    diagnosis: Optional[str] = Field(None, description="""The patient's malnutrition diagnosis, if present.""")
     
+        
 
 class ExtractionResult(ConfiguredBaseModel):
     """
@@ -57,15 +62,19 @@ class ExtractionResult(ConfiguredBaseModel):
     extracted_object: Optional[Any] = Field(None, description="""The complex objects extracted from the text""")
     named_entities: Optional[List[Any]] = Field(default_factory=list, description="""Named entities extracted from the text""")
     
+        
 
 class NamedEntity(ConfiguredBaseModel):
     
     id: str = Field(..., description="""A unique identifier for the named entity""")
     label: Optional[str] = Field(None, description="""The label (name) of the named thing""")
     
+        
 
 class ClinicalObservations(NamedEntity):
-    
+    """
+    A set of clinical observations about a single patient at a single time.
+    """
     is_pediatric: Optional[str] = Field(None)
     patient_height: Optional[QuantitativeValue] = Field(None)
     patient_weight: Optional[QuantitativeValue] = Field(None)
@@ -75,41 +84,52 @@ class ClinicalObservations(NamedEntity):
     id: str = Field(..., description="""A unique identifier for the named entity""")
     label: Optional[str] = Field(None, description="""The label (name) of the named thing""")
     
+        
 
 class DietSupplementation(NamedEntity):
-    
+    """
+    A diet supplementation therapy.
+    """
     id: str = Field(..., description="""A unique identifier for the named entity""")
     label: Optional[str] = Field(None, description="""The label (name) of the named thing""")
     
+        
 
 class NutritionSupport(NamedEntity):
-    
+    """
+    A nutrition support therapy used to treat or prevent malnutrition.
+    """
     id: str = Field(..., description="""A unique identifier for the named entity""")
     label: Optional[str] = Field(None, description="""The label (name) of the named thing""")
     
+        
 
 class Disease(NamedEntity):
     
     id: str = Field(..., description="""A unique identifier for the named entity""")
     label: Optional[str] = Field(None, description="""The label (name) of the named thing""")
     
+        
 
 class Unit(NamedEntity):
     
     id: str = Field(..., description="""A unique identifier for the named entity""")
     label: Optional[str] = Field(None, description="""The label (name) of the named thing""")
     
+        
 
 class CompoundExpression(ConfiguredBaseModel):
     
     None
     
+        
 
 class QuantitativeValue(CompoundExpression):
     
-    value: Optional[str] = Field(None, description="""the value of the quantity""")
-    unit: Optional[str] = Field(None, description="""the unit of the quantity, e.g. grams, cups, etc.""")
+    value: Optional[float] = Field(None, description="""The value of the quantity.""")
+    unit: Optional[str] = Field(None, description="""The unit of the quantity.""")
     
+        
 
 class Triple(CompoundExpression):
     """
@@ -122,6 +142,7 @@ class Triple(CompoundExpression):
     subject_qualifier: Optional[str] = Field(None, description="""An optional qualifier or modifier for the subject of the statement, e.g. \"high dose\" or \"intravenously administered\"""")
     object_qualifier: Optional[str] = Field(None, description="""An optional qualifier or modifier for the object of the statement, e.g. \"severe\" or \"with additional complications\"""")
     
+        
 
 class TextWithTriples(ConfiguredBaseModel):
     """
@@ -130,6 +151,7 @@ class TextWithTriples(ConfiguredBaseModel):
     publication: Optional[Publication] = Field(None)
     triples: Optional[List[Triple]] = Field(default_factory=list)
     
+        
 
 class TextWithEntity(ConfiguredBaseModel):
     """
@@ -138,12 +160,14 @@ class TextWithEntity(ConfiguredBaseModel):
     publication: Optional[Publication] = Field(None)
     entities: Optional[List[str]] = Field(default_factory=list)
     
+        
 
 class RelationshipType(NamedEntity):
     
     id: str = Field(..., description="""A unique identifier for the named entity""")
     label: Optional[str] = Field(None, description="""The label (name) of the named thing""")
     
+        
 
 class Publication(ConfiguredBaseModel):
     
@@ -153,6 +177,7 @@ class Publication(ConfiguredBaseModel):
     combined_text: Optional[str] = Field(None)
     full_text: Optional[str] = Field(None, description="""The full text of the publication""")
     
+        
 
 class AnnotatorResult(ConfiguredBaseModel):
     
@@ -160,6 +185,7 @@ class AnnotatorResult(ConfiguredBaseModel):
     object_id: Optional[str] = Field(None)
     object_text: Optional[str] = Field(None)
     
+        
 
 
 # Model rebuild
