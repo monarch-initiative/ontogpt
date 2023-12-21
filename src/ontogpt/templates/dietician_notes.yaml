@@ -64,6 +64,8 @@ classes:
         range: NutritionSupport
         multivalued: true
 
+  # TODO: Resolve validation errors if the values can't be parsed as floats
+  #       This may happen if no value is provided.
   QuantitativeValue:
     is_a: CompoundExpression
     annotations:
@@ -95,6 +97,8 @@ classes:
           The patient's malnutrition diagnosis, if present.
         range: Disease
 
+  # TODO: distinguish whether this is currently active therapy
+  #       or a reccomendation for future therapy (but not yet started)
   DietSupplementation:
     description: >-
       A diet supplementation therapy.
