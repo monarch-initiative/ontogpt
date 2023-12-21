@@ -52,15 +52,15 @@ classes:
             Observations of the patient's malnutrition status.
         range: MalnutritionObservations
       diet_supplementation:
-        annotations:
-          prompt: >-
-            Observations of the patient's diet supplementation.
+        description: >-
+          A semicolon-separated list of the patient's diet supplementation
+          therapies.
         range: DietSupplementation
         multivalued: true
       nutrition_support:
-        annotations:
-          prompt: >-
-            The patient's nutrition support therapies.
+        description: >-
+          A semicolon-separated list of the patient's nutrition support
+          therapies, usually enteral or parenteral nutrition.
         range: NutritionSupport
         multivalued: true
 

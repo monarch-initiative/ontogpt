@@ -79,8 +79,8 @@ class ClinicalObservations(NamedEntity):
     patient_height: Optional[QuantitativeValue] = Field(None)
     patient_weight: Optional[QuantitativeValue] = Field(None)
     malnutrition_status: Optional[MalnutritionObservations] = Field(None)
-    diet_supplementation: Optional[List[str]] = Field(default_factory=list)
-    nutrition_support: Optional[List[str]] = Field(default_factory=list)
+    diet_supplementation: Optional[List[str]] = Field(default_factory=list, description="""A semicolon-separated list of the patient's diet supplementation therapies.""")
+    nutrition_support: Optional[List[str]] = Field(default_factory=list, description="""A semicolon-separated list of the patient's nutrition support therapies, usually enteral or parenteral nutrition.""")
     id: str = Field(..., description="""A unique identifier for the named entity""")
     label: Optional[str] = Field(None, description="""The label (name) of the named thing""")
     
