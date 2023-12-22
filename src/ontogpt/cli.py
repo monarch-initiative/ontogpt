@@ -277,8 +277,6 @@ def extract(
 
     if model_source == "OpenAI":
         ke = SPIRESEngine(template, **kwargs)
-
-        print(f"prompt:{ke.get_completion_prompt()}")
         if settings.cache_db:
             ke.client.cache_db_path = settings.cache_db
         if settings.skip_annotators:
