@@ -57,6 +57,13 @@ classes:
     annotations:
       annotators: sqlite:obo:hgnc
 
+  CellType:
+    is_a: NamedEntity
+    id_prefixes:
+      - CL
+    annotations:
+      annotators: sqlite:obo:cl
+
   MolecularActivity:
     is_a: NamedEntity
     id_prefixes:
