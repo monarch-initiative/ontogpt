@@ -286,7 +286,7 @@ def extract(
 
     Example:
 
-        ontogpt -extract -t gocam.GoCamAnnotations -T GeneOrganismRelationship "the mouse Shh gene"
+        ontogpt extract -t gocam.GoCamAnnotations -T GeneOrganismRelationship "the mouse Shh gene"
 
     """
     logging.info(f"Creating for {template}")
