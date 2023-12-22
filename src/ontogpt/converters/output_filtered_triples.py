@@ -34,6 +34,7 @@ def output_filtered_triples(input_file, subject_prefix, object_prefix, pred_pref
         return filtered_dict
 
     # TODO:
+    # 0. Don't need to call get_adapter every time - just once is fine for each annotator
     # 1. This does not handle situations where the subject or object or predicate is a list of values
     # 2. This does not handle situations where any of the above are None (as in, not specified)
     # 3. This does not handle situations where the input triples may be missing s, p, or o
