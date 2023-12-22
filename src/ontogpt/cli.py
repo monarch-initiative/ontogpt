@@ -1698,10 +1698,20 @@ def clinical_notes(
     output.write(results)
 
 @main.command()
-@click.option("-o", "--output", help="Output file.")
 @click.option("-i", "--input", help="Input file.")
-def get_triples(output, input):
-    triples = output_filtered_triples(input)
+@click.option("-o", "--output", help="Output file.")
+@click.option("--subject-prefix", help="Prefix for subject.")
+@click.option("--object-prefix", help="Prefix for object.")
+@click.option("--pred-prefix", help="Prefix for .")
+def get_triples(input, output, subject_prefix, object_prefix, pred_prefix):
+    """Filter YAML format extraction output to s, p, o triples.
+
+    Example:
+
+        ontogpt get-triples -i extracted.yaml -o extracted.tsv --subject-prefix MONDO --object-prefix GO --pred-prefix RO
+
+    """
+    triples = output_filtered_triples(input, subject_prefix, object_prefix, pred_prefix)
     with open(output, "w") as file:
         file.write("Subject\tPredicate\tObject\n")
         for triple in triples:
