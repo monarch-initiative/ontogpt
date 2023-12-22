@@ -55,26 +55,7 @@ class NamedEntity(ConfiguredBaseModel):
     
         
 
-class Dataset(NamedEntity):
-    """
-    A document that contains a description of a dataset.
-    """
-    name: Optional[str] = Field(None, description="""The name of the dataset.""")
-    subsets: Optional[List[str]] = Field(default_factory=list, description="""Semicolon-separated list of names of any subsets of the dataset.""")
-    authors: Optional[List[str]] = Field(default_factory=list, description="""Semicolon-separated list of names of creators of the dataset.""")
-    funding_organization: Optional[List[str]] = Field(default_factory=list, description="""Semicolon-separated list of organizations supporting creation of the dataset.""")
-    funding_identifiers: Optional[List[str]] = Field(default_factory=list, description="""Semicolon-separated list of names, numbers, or other identifiers for grants supporting creation of the dataset.""")
-    purpose: Optional[str] = Field(None, description="""The stated purpose of the dataset. This should be no more than 1 sentence.""")
-    limitations: Optional[str] = Field(None, description="""Known limitations of the dataset. This should be no more than 1 sentence.""")
-    warnings: Optional[str] = Field(None, description="""Warnings regarding content or application of the dataset.""")
-    references: Optional[List[str]] = Field(default_factory=list, description="""Semicolon-separated list of publications describing the data or the process used to produce it.""")
-    license: Optional[str] = Field(None, description="""The set of rules defining the rights of the developer and the users of the dataset, for example, BSD-3 or CC0.""")
-    id: str = Field(..., description="""A unique identifier for the named entity""")
-    label: Optional[str] = Field(None, description="""The label (name) of the named thing""")
-    
-        
-
-class Organization(NamedEntity):
+class Gene(NamedEntity):
     
     id: str = Field(..., description="""A unique identifier for the named entity""")
     label: Optional[str] = Field(None, description="""The label (name) of the named thing""")
@@ -148,8 +129,7 @@ class AnnotatorResult(ConfiguredBaseModel):
 # see https://pydantic-docs.helpmanual.io/usage/models/#rebuilding-a-model
 ExtractionResult.model_rebuild()
 NamedEntity.model_rebuild()
-Dataset.model_rebuild()
-Organization.model_rebuild()
+Gene.model_rebuild()
 CompoundExpression.model_rebuild()
 Triple.model_rebuild()
 TextWithTriples.model_rebuild()

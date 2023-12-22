@@ -2,7 +2,8 @@ from __future__ import annotations
 from datetime import datetime, date
 from enum import Enum
 from typing import List, Dict, Optional, Any, Union
-from pydantic import BaseModel as BaseModel, Field
+from pydantic import BaseModel as BaseModel, ConfigDict,  Field, field_validator
+import re
 import sys
 if sys.version_info >= (3, 8):
     from typing import Literal
@@ -13,13 +14,13 @@ else:
 metamodel_version = "None"
 version = "None"
 
-class ConfiguredBaseModel(BaseModel,
-                validate_assignment = True,
-                validate_default = True,
-                extra = 'forbid',
-                arbitrary_types_allowed = True,
-                use_enum_values = True):
-    pass
+class ConfiguredBaseModel(BaseModel):
+    model_config = ConfigDict(
+        validate_assignment=True,
+        validate_default=True,
+        extra = 'forbid',
+        arbitrary_types_allowed=True,
+        use_enum_values = True)
 
 
 class SortFieldEnum(str, Enum):
@@ -39,6 +40,7 @@ class ClassEnrichmentConfiguration(ConfiguredBaseModel):
     """
     p_value_cutoff: float = Field(..., description="""p-value cutoff for enrichment""")
     
+        
 
 class ClassEnrichmentResultSet(ConfiguredBaseModel):
     """
@@ -46,6 +48,7 @@ class ClassEnrichmentResultSet(ConfiguredBaseModel):
     """
     results: Optional[List[ClassEnrichmentResult]] = Field(default_factory=list, description="""The enrichment results""")
     
+        
 
 class ClassEnrichmentResult(ConfiguredBaseModel):
     """
@@ -66,6 +69,7 @@ class ClassEnrichmentResult(ConfiguredBaseModel):
     ancestor_of_more_informative_result: Optional[bool] = Field(None, description="""This term is more general than a previously reported result""")
     descendant_of_more_informative_result: Optional[bool] = Field(None, description="""This term is more specific than a previously reported result""")
     
+        
 
 
 # Model rebuild
@@ -73,4 +77,4 @@ class ClassEnrichmentResult(ConfiguredBaseModel):
 ClassEnrichmentConfiguration.model_rebuild()
 ClassEnrichmentResultSet.model_rebuild()
 ClassEnrichmentResult.model_rebuild()
-    
+
