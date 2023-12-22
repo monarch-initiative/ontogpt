@@ -24,6 +24,10 @@ classes:
         description: the overall title of the figure caption
       subpanel:
         description: a subpanel of the figure
+        annotations:
+          prompt: >-
+            a semicolon separated list of descriptions of every panel in the text. Keep the panel id and text together.
+            for example: "1A: A side view of the foo; 1B: A frontal view of the foo"
         multivalued: true
         range: SubPanel
 
