@@ -65,6 +65,7 @@ from ontogpt.templates.core import ExtractionResult
 
 from ontogpt.converters.output_filtered_triples import output_filtered_triples
 
+
 @dataclass
 class Settings:
     """Global command line settings."""
@@ -1465,7 +1466,7 @@ def eval_enrichment(genes, input_file, number_to_drop, annotations_path, model, 
     default=False,
     show_default=True,
     help="If set, chunk input text, then prepare a separate prompt for each chunk."
-            " Otherwise the full input text is passed.",
+    " Otherwise the full input text is passed.",
 )
 @click.argument("evaluator")
 def eval(evaluator, num_tests, output, chunking, model, **kwargs):
@@ -1478,10 +1479,9 @@ def eval(evaluator, num_tests, output, chunking, model, **kwargs):
     else:
         modelname = DEFAULT_MODEL
 
-    evaluator = create_evaluator(name=evaluator,
-                                 num_tests=num_tests,
-                                 chunking=chunking,
-                                 model=modelname)
+    evaluator = create_evaluator(
+        name=evaluator, num_tests=num_tests, chunking=chunking, model=modelname
+    )
     eos = evaluator.eval()
     output.write(dump_minimal_yaml(eos, minimize=False))
 
@@ -1697,6 +1697,7 @@ def clinical_notes(
 
     output.write(results)
 
+
 @main.command()
 @click.option("-i", "--input", help="Input file.")
 @click.option("-o", "--output", help="Output file.")
@@ -1717,6 +1718,7 @@ def get_triples(input, output, subject_prefix, object_prefix, pred_prefix):
         for triple in triples:
             file.write("\t".join(triple.values()))
             file.write("\n")
+
 
 @main.command()
 def list_templates():
