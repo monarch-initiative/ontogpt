@@ -19,7 +19,7 @@ named_entities:
   - id: HP:0001057
     label: aplasia cutis congenita
 extracted_object:
-  action_to_symptom:
+  diagnostic_procedure_to_symptom:
     - subject: MAXO:0000946
       predicate: TREATS
       object:

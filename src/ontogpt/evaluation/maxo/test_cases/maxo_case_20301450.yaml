@@ -25,7 +25,7 @@ named_entities:
   - id: HP:0001399
     label: End-stage liver disease
 extracted_object:
-  action_to_symptom:
+  diagnostic_procedure_to_symptom:
     - subject: MAXO:0001135
       predicate: TREATS
       object:

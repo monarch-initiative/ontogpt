@@ -16,7 +16,7 @@ named_entities:
     label: sunlight avoidance
 
 extracted_object:
-  action_to_disease:
+  diagnostic_procedure_to_disease:
     - subject: MAXO:0000054
       predicate: PREVENTS
       object:

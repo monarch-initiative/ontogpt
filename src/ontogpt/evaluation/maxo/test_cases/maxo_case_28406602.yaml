@@ -52,7 +52,7 @@ named_entities:
   - id: HP:0001608
     label: Abnormality of the voice
 extracted_object:
-  action_to_symptom:
+  diagnostic_procedure_to_symptom:
     - subject: MAXO:0000011
       predicate: TREATS
       object:

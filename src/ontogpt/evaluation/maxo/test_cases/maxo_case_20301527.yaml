@@ -21,13 +21,13 @@ named_entities:
     label: Refsum Disease
 
 extracted_object:
-  action_to_disease:
+  diagnostic_procedure_to_disease:
     - subject: MAXO:0010119
       predicate: TREATS
       object:
         - MONDO:0009958
 
-  action_to_symptom:
+  diagnostic_procedure_to_symptom:
     - subject: MAXO:0010119
       predicate: TREATS
       object:
