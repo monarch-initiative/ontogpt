@@ -23,8 +23,32 @@ NULL_VALS = [
     "-",
     "None mentioned",
 ]
-# output_file = "experiments/ibd_literature/output_2000_1122.yaml"
 
+def edit_yaml(template, subject_prefix, object_prefix, pred_prefix):
+    def object_based_add(prefix, isAnnotator):
+        if isAnnotator:
+            if isinstance(prefix, str):
+                return "sqlite:obo:" + prefix.lower()
+            elif isinstance(prefix, list):
+                prefix_full = ["sqlite:obo:" + pf.lower() for pf in prefix]
+                return ", ".join(prefix_full)
+        else:
+            if isinstance(prefix, str):
+                return [prefix]
+            elif isinstance(prefix, list):
+                return prefix
+
+    with open(template, "r") as file:
+        contents = yaml.safe_load(file)
+        contents["classes"]["Disease"]["id_prefixes"] = object_based_add(subject_prefix, False)
+        contents["classes"]["Disease"]["annotations"]["annotators"] = object_based_add(subject_prefix, True)
+        contents["classes"]["CellularProcess"]["id_prefixes"] = object_based_add(object_prefix, False)
+        contents["classes"]["CellularProcess"]["annotations"]["annotators"] = object_based_add(object_prefix, True)
+        contents["classes"]["DiseaseToCellularProcessPredicate"]["id_prefixes"] = object_based_add(pred_prefix, False)
+        contents["classes"]["DiseaseToCellularProcessPredicate"]["annotations"]["annotators"] = object_based_add(pred_prefix, True)
+    
+    with open(template, "w") as file:
+        yaml.dump(contents, file, sort_keys = False)
 
 def output_filtered_triples(input_file, subject_prefix, object_prefix, pred_prefix):
     filtered_data = []
@@ -44,25 +68,16 @@ def output_filtered_triples(input_file, subject_prefix, object_prefix, pred_pref
             try:
                 for dict in doc["extracted_object"]["disease_cellular_process_relationships"]:
                     entry = filter_dictionary(dict, ["subject", "predicate", "object"])
-                    if (
-                        len(entry) == 3
+                    if (len(entry) == 3
                         and entry["subject"] not in NULL_VALS
                         and entry["predicate"] not in NULL_VALS
                         and entry["object"] not in NULL_VALS
-                    ):
-                        if entry["subject"].startswith(f"{subject_prefix}:") and entry[
-                            "object"
-                        ].startswith(f"{object_prefix}:"):
-                            entry["subject"] = get_adapter(f"sqlite:obo:{subject_prefix}").label(
-                                entry["subject"]
-                            )
-                            entry["object"] = get_adapter(f"sqlite:obo:{object_prefix}").label(
-                                entry["object"]
-                            )
+                        ):
+                        if entry["subject"].startswith(f"{subject_prefix}:") and entry["object"].startswith(f"{object_prefix}:"):
+                            entry["subject"] = get_adapter(f"sqlite:obo:{subject_prefix}").label(entry["subject"])
+                            entry["object"] = get_adapter(f"sqlite:obo:{object_prefix}").label(entry["object"])
                             if entry["predicate"].startswith(f"{pred_prefix}:"):
-                                entry["predicate"] = get_adapter(f"sqlite:obo:{pred_prefix}").label(
-                                    entry["predicate"]
-                                )
+                                entry["predicate"] = get_adapter(f"sqlite:obo:{pred_prefix}").label(entry["predicate"])
                             filtered_data.append(entry)
             except:
                 continue
