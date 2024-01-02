@@ -353,7 +353,7 @@ def extract(
     for input_entry in inputlist:
         if len(inputlist) > 1:
             i = i + 1
-            logging.info(f"Now reading file {i} of {len(inputlist)}")
+            logging.info(f"Now extracting from file {i} of {len(inputlist)}")
         results = ke.extract_from_text(
             text=input_entry, cls=target_class_def, show_prompt=show_prompt
         )
