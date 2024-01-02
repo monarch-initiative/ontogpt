@@ -277,7 +277,7 @@ def extract(
 
         ontogpt extract -t gocam.GoCamAnnotations -i gocam-27929086.txt
 
-    The input argument may be: 
+    The input argument may be:
         A file path,
         A directory,
         or a string.
@@ -311,7 +311,7 @@ def extract(
         inputlist.append(text)
     elif inputfile and Path(inputfile).is_dir():
         logging.info(f"Input file directory: {inputfile}")
-        inputfiles = Path(inputfile).glob('*.txt')
+        inputfiles = Path(inputfile).glob("*.txt")
         inputlist = [open(f, "r").read() for f in inputfiles if f.is_file()]
         logging.info(f"Found {len(inputlist)} input files here.")
     elif inputfile and Path(inputfile).exists():
@@ -349,8 +349,14 @@ def extract(
     else:
         target_class_def = None
 
+    i = 0
     for input_entry in inputlist:
-        results = ke.extract_from_text(text=input_entry, cls=target_class_def, show_prompt=show_prompt)
+        if len(inputlist) > 1:
+            i = i + 1
+            logging.info(f"Now reading file {i} of {len(inputlist)}")
+        results = ke.extract_from_text(
+            text=input_entry, cls=target_class_def, show_prompt=show_prompt
+        )
         if set_slot_value:
             for slot_value in set_slot_value:
                 slot, value = slot_value.split("=")
