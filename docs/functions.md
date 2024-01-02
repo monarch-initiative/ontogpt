@@ -36,6 +36,10 @@ The following options are available for most functions unless stated otherwise.
 
 Use the option `--inputfile` to specify a path to a file containing input text.
 
+For the `extract` command, this may be a single file or a directory of files.
+
+In the latter case, all .txt files will be assumed to be input, and the path will *not* be parsed recursively.
+
 ### template
 
 Use the option `--template` to specify a template to use. This is a required parameter.
