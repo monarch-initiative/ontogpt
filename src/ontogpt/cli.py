@@ -1464,7 +1464,7 @@ def eval_enrichment(genes, input_file, number_to_drop, annotations_path, model, 
     default=False,
     show_default=True,
     help="If set, chunk input text, then prepare a separate prompt for each chunk."
-            " Otherwise the full input text is passed.",
+    " Otherwise the full input text is passed.",
 )
 @click.argument("evaluator")
 def eval(evaluator, num_tests, output, chunking, model, **kwargs):
@@ -1477,10 +1477,9 @@ def eval(evaluator, num_tests, output, chunking, model, **kwargs):
     else:
         modelname = DEFAULT_MODEL
 
-    evaluator = create_evaluator(name=evaluator,
-                                 num_tests=num_tests,
-                                 chunking=chunking,
-                                 model=modelname)
+    evaluator = create_evaluator(
+        name=evaluator, num_tests=num_tests, chunking=chunking, model=modelname
+    )
     eos = evaluator.eval()
     output.write(dump_minimal_yaml(eos, minimize=False))
 
