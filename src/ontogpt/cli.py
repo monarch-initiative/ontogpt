@@ -277,8 +277,14 @@ def extract(
 
         ontogpt extract -t gocam.GoCamAnnotations -i gocam-27929086.txt
 
-    The input argument must be either a file path or a string.
-    Use the -i/--input-file option followed by the path to the input file if using the former.
+    The input argument may be: 
+        A file path,
+        A directory,
+        or a string.
+    Use the -i/--input-file option followed by the path to the input file
+    or directory.
+    If the input is a directory, all files with the .txt extension will be read.
+    This is not recursive.
     Otherwise, the input is assumed to be a string to be read as input.
 
     You can also use fragments of existing schemas, use the --target-class option (-T) to
@@ -298,9 +304,17 @@ def extract(
     model_source = selectmodel["provider"]
     model_name = selectmodel["alternative_names"][0]
 
+    inputlist = []
+
     if not inputfile or inputfile == "-":
         text = sys.stdin.read()
-    if inputfile and Path(inputfile).exists():
+        inputlist.append(text)
+    elif inputfile and Path(inputfile).is_dir():
+        logging.info(f"Input file directory: {inputfile}")
+        inputfiles = Path(inputfile).glob('*.txt')
+        inputlist = [open(f, "r").read() for f in inputfiles if f.is_file()]
+        logging.info(f"Found {len(inputlist)} input files here.")
+    elif inputfile and Path(inputfile).exists():
         logging.info(f"Input file: {inputfile}")
         if use_textract:
             import textract
@@ -309,6 +323,7 @@ def extract(
         else:
             text = open(inputfile, "r").read()
         logging.info(f"Input text: {text}")
+        inputlist.append(text)
     elif inputfile and not Path(inputfile).exists():
         raise FileNotFoundError(f"Cannot find input file {inputfile}")
 
@@ -333,12 +348,14 @@ def extract(
         target_class_def = ke.schemaview.get_class(target_class)
     else:
         target_class_def = None
-    results = ke.extract_from_text(text=text, cls=target_class_def, show_prompt=show_prompt)
-    if set_slot_value:
-        for slot_value in set_slot_value:
-            slot, value = slot_value.split("=")
-            setattr(results.extracted_object, slot, value)
-    write_extraction(results, output, output_format, ke)
+
+    for input_entry in inputlist:
+        results = ke.extract_from_text(text=input_entry, cls=target_class_def, show_prompt=show_prompt)
+        if set_slot_value:
+            for slot_value in set_slot_value:
+                slot, value = slot_value.split("=")
+                setattr(results.extracted_object, slot, value)
+        write_extraction(results, output, output_format, ke)
 
 
 @main.command()
