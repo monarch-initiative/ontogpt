@@ -5,7 +5,7 @@ import inflection
 from click.testing import CliRunner
 
 import tests.integration.test_knowledge_engines.test_cases as extract_cases
-from ontogpt.cli import main
+from talisman.cli import main
 from tests import CASES_DIR, OUTPUT_DIR
 from tests.integration.test_knowledge_engines.test_enrichment import PEX
 

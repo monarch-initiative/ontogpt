@@ -16,6 +16,9 @@ setuptools = ">=65.5.0"
 tox = ">=3.25.1"
 mkdocs-mermaid2-plugin = ">=0.6.0"
 
+[tool.poetry.scripts]
+talisman = "talisman.cli:main"
+
 [tool.poetry.extras]
 docs = [
     "sphinx",
