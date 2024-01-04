@@ -16,7 +16,7 @@ MODEL_GPT_4 = "gpt-4"
 go = get_adapter("sqlite:obo:go")
 
 # Title of the app
-st.title("SPINDOCTOR")
+st.title("TALISMAN")
 st.caption("A tool for summarizing gene sets using GPT")
 
 col1, col2 = st.columns(2)
