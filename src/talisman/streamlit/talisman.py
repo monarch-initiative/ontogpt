@@ -1,0 +1,71 @@
+"""Streamlist web app for TALISMAN."""
+# Import necessary libraries
+import re
+
+import streamlit as st
+from oaklib import get_adapter
+
+from talisman.engines import create_engine
+from talisman.engines.enrichment import EnrichmentEngine, GeneDescriptionSource
+from talisman.utils.gene_set_utils import GeneSet
+
+MODEL_GPT_3_5_TURBO = "gpt-3.5-turbo"
+MODEL_GPT_3_5_TURBO_INSTRUCT = "gpt-3.5-turbo-instruct"
+MODEL_GPT_4 = "gpt-4"
+
+go = get_adapter("sqlite:obo:go")
+
+# Title of the app
+st.title("TALISMAN")
+st.caption("A tool for summarizing gene sets using GPT")
+
+col1, col2 = st.columns(2)
+
+# Text area for name input
+gene_symbols = col1.text_area("Enter a list of human gene symbols")
+
+model = col1.selectbox(
+    "Select the model:", (MODEL_GPT_3_5_TURBO, MODEL_GPT_3_5_TURBO_INSTRUCT, MODEL_GPT_4)
+)
+
+source = col1.selectbox(
+    "Select the gene description source:",
+    (
+        GeneDescriptionSource.ONTOLOGICAL_SYNOPSIS.value,
+        GeneDescriptionSource.NARRATIVE_SYNOPSIS.value,
+        GeneDescriptionSource.NONE.value,
+    ),
+)
+
+openai_api_key = col1.text_input(
+    "OpenAI API Key:",
+    placeholder="(sk-...) Press [Enter] to submit.",
+)
+
+# Button for parsing and displaying the names
+if col1.button("Summarize genes"):
+    gene_symbols = [symbol.strip() for symbol in re.split(r"[\-,;\s]+", gene_symbols)]
+    gene_set = GeneSet(name="TEMP", gene_symbols=gene_symbols)
+    ke = create_engine(None, EnrichmentEngine, model=model)
+    if openai_api_key:
+        ke.set_api_key(openai_api_key)
+    if not isinstance(ke, EnrichmentEngine):
+        raise ValueError(f"Expected EnrichmentEngine, got {type(ke)}")
+    source_pv = GeneDescriptionSource(source)
+    col1.write("Analyzing, please wait...")
+    results = ke.summarize(gene_set, gene_description_source=source_pv)
+    col1.header("Genes")
+    for gene_id in gene_set.gene_ids:
+        col1.write(f" * {gene_id}")
+    # st.write("## Term Strings")
+    # for term_string in results.term_strings:
+    #    st.write(f" * {term_string}")
+    col2.write("## Terms")
+    for term_id in results.term_ids:
+        if term_id.startswith("GO:"):
+            lbl = go.label(term_id)
+            col2.markdown(f" * [{term_id}](https://bioregistry.io/{term_id}) - _{lbl}_")
+        else:
+            col2.markdown(f" * UNPARSED {term_id}")
+    col2.header("Summary")
+    col2.caption(results.summary)

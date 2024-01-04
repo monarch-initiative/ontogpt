@@ -3,7 +3,7 @@ import unittest
 
 from click.testing import CliRunner
 
-from ontogpt.cli import main
+from talisman.cli import main
 from tests import OUTPUT_DIR
 
 CLI_OUTPUT_DIR = OUTPUT_DIR / "cli"
