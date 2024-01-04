@@ -21,47 +21,43 @@ from oaklib.io.streaming_csv_writer import StreamingCsvWriter
 from sssom.parsers import parse_sssom_table, to_mapping_set_document
 from sssom.util import to_mapping_set_dataframe
 
-import talisman.ontex.extractor as extractor
-from ontogpt import DEFAULT_MODEL, DEFAULT_MODEL_DETAILS, MODELS, __version__
-from talisman.clients import OpenAIClient
-from talisman.clients.pubmed_client import PubmedClient
-from talisman.clients.soup_client import SoupClient
-from talisman.clients.wikipedia_client import WikipediaClient
-from talisman.engines import create_engine
-from talisman.engines.embedding_similarity_engine import SimilarityEngine
-from talisman.engines.enrichment import EnrichmentEngine
-from talisman.engines.generic_engine import GenericEngine, QuestionCollection
-from talisman.engines.gpt4all_engine import GPT4AllEngine  # type: ignore
-from talisman.engines.halo_engine import HALOEngine  # type: ignore
+import ontogpt.ontex.extractor as extractor
 
-# from ontogpt.engines.hfhub_engine import HFHubEngine
-from talisman.engines.knowledge_engine import KnowledgeEngine
-from talisman.engines.mapping_engine import MappingEngine
-from talisman.engines.pheno_engine import PhenoEngine
-from talisman.engines.reasoner_engine import ReasonerEngine
-from talisman.engines.spires_engine import SPIRESEngine
-from talisman.engines.synonym_engine import SynonymEngine
-from talisman.evaluation.enrichment.eval_enrichment import EvalEnrichment
-from talisman.evaluation.resolver import create_evaluator
-from talisman.io.csv_wrapper import output_parser, write_obj_as_csv
-from talisman.io.html_exporter import HTMLExporter
-from talisman.io.markdown_exporter import MarkdownExporter
+from ontogpt import DEFAULT_MODEL, DEFAULT_MODEL_DETAILS, MODELS, __version__
+from ontogpt.clients import OpenAIClient
+from ontogpt.clients.pubmed_client import PubmedClient
+from ontogpt.clients.soup_client import SoupClient
+from ontogpt.clients.wikipedia_client import WikipediaClient
+from ontogpt.engines import create_engine
+from ontogpt.engines.embedding_similarity_engine import SimilarityEngine
+from ontogpt.engines.generic_engine import GenericEngine, QuestionCollection
+from ontogpt.engines.knowledge_engine import KnowledgeEngine
+from ontogpt.engines.mapping_engine import MappingEngine
+from ontogpt.engines.pheno_engine import PhenoEngine
+from ontogpt.engines.reasoner_engine import ReasonerEngine
+from ontogpt.engines.spires_engine import SPIRESEngine
+from ontogpt.engines.synonym_engine import SynonymEngine
+from ontogpt.evaluation.enrichment.eval_enrichment import EvalEnrichment
+from ontogpt.evaluation.resolver import create_evaluator
+from ontogpt.io.csv_wrapper import output_parser, write_obj_as_csv
+from ontogpt.io.html_exporter import HTMLExporter
+from ontogpt.io.markdown_exporter import MarkdownExporter
+from ontogpt.io.owl_exporter import OWLExporter
+from ontogpt.io.rdf_exporter import RDFExporter
+from ontogpt.io.yaml_wrapper import dump_minimal_yaml
+from ontogpt.templates.core import ExtractionResult
+
+from talisman.engines.enrichment import EnrichmentEngine
 from talisman.utils.gene_set_utils import (
     GeneSet,
     _is_human,
     fill_missing_gene_set_values,
     parse_gene_set,
 )
-from talisman.utils.gpt4all_runner import chain_gpt4all_model, set_up_gpt4all_model
 
 __all__ = [
     "main",
 ]
-
-from talisman.io.owl_exporter import OWLExporter
-from talisman.io.rdf_exporter import RDFExporter
-from talisman.io.yaml_wrapper import dump_minimal_yaml
-from talisman.templates.core import ExtractionResult
 
 
 @dataclass
