@@ -3,9 +3,9 @@ import unittest
 
 import yaml
 
-from ontogpt.engines.spires_engine import SPIRESEngine
-from ontogpt.evaluation.drugmechdb.datamodel.drugmechdb import Graph, Mechanism
-from ontogpt.evaluation.drugmechdb.eval_drugmechdb import EvalDrugMechDB, _fix_source_mechanism
+from talisman.engines.spires_engine import SPIRESEngine
+from talisman.evaluation.drugmechdb.datamodel.drugmechdb import Graph, Mechanism
+from talisman.evaluation.drugmechdb.eval_drugmechdb import EvalDrugMechDB, _fix_source_mechanism
 from tests import OUTPUT_DIR
 
 NORMALIZED_OUT = OUTPUT_DIR / "drugmechdb-normalized.yaml"

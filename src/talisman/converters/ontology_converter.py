@@ -10,7 +10,7 @@ from oaklib.datamodels.obograph import Graph
 from oaklib.datamodels.vocabulary import IS_A
 from oaklib.interfaces.obograph_interface import OboGraphInterface
 
-from ontogpt.templates.halo import Ontology, OntologyElement
+from talisman.templates.halo import Ontology, OntologyElement
 
 this_path = Path(__file__).parent
 logger = logging.getLogger(__name__)

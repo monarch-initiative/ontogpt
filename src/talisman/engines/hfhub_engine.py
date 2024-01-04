@@ -20,8 +20,8 @@ from typing import Any, Dict, List, Optional, Tuple, Union
 import pydantic
 from linkml_runtime.linkml_model import ClassDefinition, SlotDefinition
 
-from ontogpt.clients.hfhub_client import HFHubClient
-from ontogpt.engines.knowledge_engine import (
+from talisman.clients.hfhub_client import HFHubClient
+from talisman.engines.knowledge_engine import (
     ANNOTATION_KEY_PROMPT,
     ANNOTATION_KEY_PROMPT_SKIP,
     EXAMPLE,
@@ -30,7 +30,7 @@ from ontogpt.engines.knowledge_engine import (
     KnowledgeEngine,
     chunk_text,
 )
-from ontogpt.templates.core import ExtractionResult
+from talisman.templates.core import ExtractionResult
 
 this_path = Path(__file__).parent
 

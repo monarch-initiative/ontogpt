@@ -8,9 +8,9 @@ from typing import List, Optional, Union
 from jinja2 import Template
 from pydantic import BaseModel
 
-from ontogpt import MODELS
-from ontogpt.engines.knowledge_engine import KnowledgeEngine
-from ontogpt.ontex.extractor import (
+from talisman import MODELS
+from talisman.engines.knowledge_engine import KnowledgeEngine
+from talisman.ontex.extractor import (
     Answer,
     Axiom,
     Explanation,
@@ -18,8 +18,8 @@ from ontogpt.ontex.extractor import (
     Task,
     TaskCollection,
 )
-from ontogpt.prompts.reasoning import DEFAULT_REASONING_PROMPT
-from ontogpt.utils.parse_utils import split_on_one_of
+from talisman.prompts.reasoning import DEFAULT_REASONING_PROMPT
+from talisman.utils.parse_utils import split_on_one_of
 
 logger = logging.getLogger(__name__)
 

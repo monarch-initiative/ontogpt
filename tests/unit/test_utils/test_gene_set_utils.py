@@ -4,8 +4,8 @@ import shutil
 import unittest
 from pathlib import Path
 
-from ontogpt.utils import gene_set_utils
-from ontogpt.utils.gene_set_utils import (
+from talisman.utils import gene_set_utils
+from talisman.utils.gene_set_utils import (
     fill_missing_gene_set_values,
     load_gene_sets,
     parse_gene_set,

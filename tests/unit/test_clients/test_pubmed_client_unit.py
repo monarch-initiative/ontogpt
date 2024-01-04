@@ -1,7 +1,7 @@
 """PubMed client tests."""
 import unittest
 
-from ontogpt.clients import PubmedClient
+from talisman.clients import PubmedClient
 
 
 class TestCompletion(unittest.TestCase):

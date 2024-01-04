@@ -21,7 +21,7 @@ import yaml
 from linkml_runtime.linkml_model import ClassDefinition, SlotDefinition
 from oaklib import BasicOntologyInterface
 
-from ontogpt.engines.knowledge_engine import (
+from talisman.engines.knowledge_engine import (
     ANNOTATION_KEY_PROMPT,
     ANNOTATION_KEY_PROMPT_SKIP,
     EXAMPLE,
@@ -30,8 +30,8 @@ from ontogpt.engines.knowledge_engine import (
     KnowledgeEngine,
     chunk_text,
 )
-from ontogpt.templates.core import ExtractionResult
-from ontogpt.utils.gpt4all_runner import chain_gpt4all_model, set_up_gpt4all_model
+from talisman.templates.core import ExtractionResult
+from talisman.utils.gpt4all_runner import chain_gpt4all_model, set_up_gpt4all_model
 
 this_path = Path(__file__).parent
 

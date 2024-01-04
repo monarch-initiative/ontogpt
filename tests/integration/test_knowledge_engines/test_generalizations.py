@@ -4,7 +4,7 @@ import unittest
 import yaml
 from oaklib import get_implementation_from_shorthand
 
-from ontogpt.engines.spires_engine import SPIRESEngine
+from talisman.engines.spires_engine import SPIRESEngine
 from tests import INSTANCES_DIR, OUTPUT_DIR
 
 CASES = [

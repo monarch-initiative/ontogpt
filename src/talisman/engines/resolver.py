@@ -3,10 +3,10 @@ from typing import Optional, Type, Union
 
 from class_resolver import ClassResolver
 
-from ontogpt.engines.enrichment import EnrichmentEngine
-from ontogpt.engines.halo_engine import HALOEngine  # type: ignore
-from ontogpt.engines.knowledge_engine import KnowledgeEngine
-from ontogpt.engines.spires_engine import SPIRESEngine
+from talisman.engines.enrichment import EnrichmentEngine
+from talisman.engines.halo_engine import HALOEngine  # type: ignore
+from talisman.engines.knowledge_engine import KnowledgeEngine
+from talisman.engines.spires_engine import SPIRESEngine
 
 resolver = ClassResolver([SPIRESEngine, HALOEngine, EnrichmentEngine], base=KnowledgeEngine)
 

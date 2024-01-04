@@ -2,7 +2,7 @@
 import pickle
 import unittest
 
-from ontogpt.io.markdown_exporter import MarkdownExporter
+from talisman.io.markdown_exporter import MarkdownExporter
 from tests import OUTPUT_DIR
 from tests.unit.test_exporters import TEST_PICKLED_RESULTS
 

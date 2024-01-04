@@ -2,8 +2,8 @@
 import pickle
 import unittest
 
-from ontogpt.engines.spires_engine import SPIRESEngine
-from ontogpt.io.yaml_wrapper import dump_minimal_yaml
+from talisman.engines.spires_engine import SPIRESEngine
+from talisman.io.yaml_wrapper import dump_minimal_yaml
 from tests import CASES_DIR, OUTPUT_DIR
 
 CASES = [

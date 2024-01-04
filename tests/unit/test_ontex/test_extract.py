@@ -9,9 +9,9 @@ from oaklib import get_adapter
 from oaklib.datamodels.vocabulary import IS_A, PART_OF
 from oaklib.interfaces.obograph_interface import OboGraphInterface
 
-from ontogpt.io.yaml_wrapper import dump_minimal_yaml
-from ontogpt.ontex import extractor
-from ontogpt.ontex.extractor import OntologyExtractor, Task, TaskCollection
+from talisman.io.yaml_wrapper import dump_minimal_yaml
+from talisman.ontex import extractor
+from talisman.ontex.extractor import OntologyExtractor, Task, TaskCollection
 from tests import (
     CELLULAR_ANATOMICAL_ENTITY,
     ENVELOPE,

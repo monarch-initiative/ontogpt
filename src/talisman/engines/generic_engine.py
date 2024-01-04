@@ -8,8 +8,8 @@ from typing import Iterator, List, Union
 from jinja2 import Template
 from pydantic import BaseModel
 
-from ontogpt.engines.knowledge_engine import KnowledgeEngine
-from ontogpt.prompts.qa import GENERIC_QA_PROMPT
+from talisman.engines.knowledge_engine import KnowledgeEngine
+from talisman.prompts.qa import GENERIC_QA_PROMPT
 
 logger = logging.getLogger(__name__)
 

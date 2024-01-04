@@ -5,13 +5,13 @@ import yaml
 from linkml_runtime.linkml_model import ClassDefinitionName
 from oaklib import get_implementation_from_shorthand
 
-from ontogpt.clients.pubmed_client import PubmedClient
-from ontogpt.engines import create_engine
-from ontogpt.engines.knowledge_engine import chunk_text
-from ontogpt.engines.spires_engine import SPIRESEngine
-from ontogpt.io.yaml_wrapper import dump_minimal_yaml
-from ontogpt.templates.biological_process import BiologicalProcess
-from ontogpt.templates.gocam import (
+from talisman.clients.pubmed_client import PubmedClient
+from talisman.engines import create_engine
+from talisman.engines.knowledge_engine import chunk_text
+from talisman.engines.spires_engine import SPIRESEngine
+from talisman.io.yaml_wrapper import dump_minimal_yaml
+from talisman.templates.biological_process import BiologicalProcess
+from talisman.templates.gocam import (
     ExtractionResult,
     Gene,
     GeneLocation,

@@ -6,8 +6,8 @@ from typing import Iterable, List
 from oaklib import BasicOntologyInterface
 from oaklib.datamodels.vocabulary import IS_A
 
-from ontogpt.clients import OpenAIClient
-from ontogpt.engines.knowledge_engine import KnowledgeEngine
+from talisman.clients import OpenAIClient
+from talisman.engines.knowledge_engine import KnowledgeEngine
 
 logger = logging.getLogger(__name__)
 

@@ -2,9 +2,9 @@
 import logging
 import unittest
 
-from ontogpt.evaluation.ctd import eval_ctd
-from ontogpt.evaluation.ctd.eval_ctd import EvalCTD
-from ontogpt.io.yaml_wrapper import dump_minimal_yaml
+from talisman.evaluation.ctd import eval_ctd
+from talisman.evaluation.ctd.eval_ctd import EvalCTD
+from talisman.io.yaml_wrapper import dump_minimal_yaml
 from tests import OUTPUT_DIR
 
 EXTRACTIONS_OUT = OUTPUT_DIR / "eval-ctd-extractions.yaml"

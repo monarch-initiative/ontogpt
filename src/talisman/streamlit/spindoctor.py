@@ -5,9 +5,9 @@ import re
 import streamlit as st
 from oaklib import get_adapter
 
-from ontogpt.engines import create_engine
-from ontogpt.engines.enrichment import EnrichmentEngine, GeneDescriptionSource
-from ontogpt.utils.gene_set_utils import GeneSet
+from talisman.engines import create_engine
+from talisman.engines.enrichment import EnrichmentEngine, GeneDescriptionSource
+from talisman.utils.gene_set_utils import GeneSet
 
 MODEL_GPT_3_5_TURBO = "gpt-3.5-turbo"
 MODEL_GPT_3_5_TURBO_INSTRUCT = "gpt-3.5-turbo-instruct"

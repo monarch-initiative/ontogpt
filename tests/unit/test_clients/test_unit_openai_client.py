@@ -4,7 +4,7 @@ import unittest
 
 import yaml
 
-from ontogpt.clients.openai_client import OpenAIClient
+from talisman.clients.openai_client import OpenAIClient
 from tests import PROMPTS_FILE
 from tests.unit import UNIT_CACHE_DB
 

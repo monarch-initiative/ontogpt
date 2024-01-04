@@ -24,9 +24,9 @@ from oaklib.utilities.apikey_manager import get_apikey_value
 from oaklib.utilities.subsets.value_set_expander import ValueSetExpander
 from requests.exceptions import ConnectionError, HTTPError, ProxyError
 
-from ontogpt import DEFAULT_MODEL
-from ontogpt.clients import OpenAIClient
-from ontogpt.templates.core import ExtractionResult, NamedEntity
+from talisman import DEFAULT_MODEL
+from talisman.clients import OpenAIClient
+from talisman.templates.core import ExtractionResult, NamedEntity
 
 this_path = Path(__file__).parent
 logger = logging.getLogger(__name__)

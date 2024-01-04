@@ -4,8 +4,8 @@ import unittest
 
 from linkml_runtime import SchemaView
 
-from ontogpt.io.rdf_exporter import RDFExporter
-from ontogpt.templates import PATH_TO_TEMPLATES
+from talisman.io.rdf_exporter import RDFExporter
+from talisman.templates import PATH_TO_TEMPLATES
 from tests import OUTPUT_DIR
 from tests.unit.test_exporters import TEST_PICKLED_RESULTS
 

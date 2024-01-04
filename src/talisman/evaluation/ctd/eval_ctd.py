@@ -32,10 +32,10 @@ from bioc import biocxml
 from oaklib import BasicOntologyInterface, get_adapter
 from pydantic import BaseModel
 
-from ontogpt.engines.knowledge_engine import chunk_text
-from ontogpt.engines.spires_engine import SPIRESEngine
-from ontogpt.evaluation.evaluation_engine import SimilarityScore, SPIRESEvaluationEngine
-from ontogpt.templates.ctd import (
+from talisman.engines.knowledge_engine import chunk_text
+from talisman.engines.spires_engine import SPIRESEngine
+from talisman.evaluation.evaluation_engine import SimilarityScore, SPIRESEvaluationEngine
+from talisman.templates.ctd import (
     ChemicalToDiseaseDocument,
     ChemicalToDiseaseRelationship,
     Publication,

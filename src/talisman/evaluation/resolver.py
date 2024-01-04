@@ -3,10 +3,10 @@ from typing import Optional, Type, Union
 
 from class_resolver import ClassResolver
 
-from ontogpt.evaluation.ctd.eval_ctd import EvalCTD
-from ontogpt.evaluation.ctd.eval_ctd_ner import EvalCTDNER
-from ontogpt.evaluation.maxo.eval_maxo import EvalMAXO
-from ontogpt.evaluation.evaluation_engine import SPIRESEvaluationEngine
+from talisman.evaluation.ctd.eval_ctd import EvalCTD
+from talisman.evaluation.ctd.eval_ctd_ner import EvalCTDNER
+from talisman.evaluation.maxo.eval_maxo import EvalMAXO
+from talisman.evaluation.evaluation_engine import SPIRESEvaluationEngine
 
 resolver = ClassResolver([EvalCTD, EvalCTDNER, EvalMAXO], base=SPIRESEvaluationEngine)
 

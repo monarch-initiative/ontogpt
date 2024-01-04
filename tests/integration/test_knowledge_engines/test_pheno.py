@@ -5,10 +5,10 @@ import unittest
 
 from oaklib import get_adapter
 
-from ontogpt.clients import openai_client
-from ontogpt.engines import mapping_engine
-from ontogpt.engines.pheno_engine import PhenoEngine
-from ontogpt.io.yaml_wrapper import dump_minimal_yaml
+from talisman.clients import openai_client
+from talisman.engines import mapping_engine
+from talisman.engines.pheno_engine import PhenoEngine
+from talisman.io.yaml_wrapper import dump_minimal_yaml
 from tests import INPUT_DIR
 
 PHENOPACKET_FILE = INPUT_DIR / "Guo-2017-EXTL3-Patient_1.json"

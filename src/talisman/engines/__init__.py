@@ -1,1 +1,1 @@
-from ontogpt.engines.resolver import create_engine  # noqa
+from talisman.engines.resolver import create_engine  # noqa

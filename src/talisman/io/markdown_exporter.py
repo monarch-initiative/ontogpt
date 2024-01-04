@@ -8,8 +8,8 @@ import pydantic
 import yaml
 from linkml_runtime import SchemaView
 
-from ontogpt.io.exporter import Exporter, is_curie
-from ontogpt.templates.core import ExtractionResult
+from talisman.io.exporter import Exporter, is_curie
+from talisman.templates.core import ExtractionResult
 
 
 @dataclass

@@ -6,7 +6,7 @@ from typing import Optional, TextIO, Union
 
 from linkml_runtime import SchemaView
 
-from ontogpt.templates.core import ExtractionResult
+from talisman.templates.core import ExtractionResult
 
 
 def is_curie(s: str) -> bool:

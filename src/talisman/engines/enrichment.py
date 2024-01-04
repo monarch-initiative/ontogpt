@@ -11,12 +11,12 @@ from jinja2 import Template
 from oaklib import BasicOntologyInterface, get_adapter
 from pydantic import BaseModel
 
-from ontogpt import MODELS
-from ontogpt.engines.knowledge_engine import KnowledgeEngine
-from ontogpt.prompts.enrichment import DEFAULT_ENRICHMENT_PROMPT
-from ontogpt.templates.class_enrichment import ClassEnrichmentResult
-from ontogpt.templates.gene_description_term import GeneDescriptionTerm
-from ontogpt.utils.gene_set_utils import (
+from talisman import MODELS
+from talisman.engines.knowledge_engine import KnowledgeEngine
+from talisman.prompts.enrichment import DEFAULT_ENRICHMENT_PROMPT
+from talisman.templates.class_enrichment import ClassEnrichmentResult
+from talisman.templates.gene_description_term import GeneDescriptionTerm
+from talisman.utils.gene_set_utils import (
     ENTITY_ID,
     GENE_TUPLE,
     GeneSet,

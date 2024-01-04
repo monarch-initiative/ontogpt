@@ -8,11 +8,11 @@ from oaklib import get_adapter
 from oaklib.datamodels.vocabulary import IS_A, PART_OF
 from oaklib.interfaces.obograph_interface import OboGraphInterface
 
-from ontogpt.engines.reasoner_engine import ReasonerEngine, ReasonerResult, ReasonerResultSet
-from ontogpt.io.csv_wrapper import write_obj_as_csv
-from ontogpt.io.yaml_wrapper import dump_minimal_yaml
-from ontogpt.ontex import extractor
-from ontogpt.ontex.extractor import OntologyExtractor, Task
+from talisman.engines.reasoner_engine import ReasonerEngine, ReasonerResult, ReasonerResultSet
+from talisman.io.csv_wrapper import write_obj_as_csv
+from talisman.io.yaml_wrapper import dump_minimal_yaml
+from talisman.ontex import extractor
+from talisman.ontex.extractor import OntologyExtractor, Task
 from tests import (
     BIOLOGICAL_PROCESS,
     CELLULAR_ANATOMICAL_ENTITY,

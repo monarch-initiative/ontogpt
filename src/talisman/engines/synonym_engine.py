@@ -2,7 +2,7 @@
 from dataclasses import dataclass
 from typing import List
 
-from ontogpt.engines.knowledge_engine import KnowledgeEngine
+from talisman.engines.knowledge_engine import KnowledgeEngine
 
 
 @dataclass

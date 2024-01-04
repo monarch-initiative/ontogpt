@@ -9,8 +9,8 @@ from linkml.generators.pythongen import PythonGenerator
 from linkml_owl.dumpers.owl_dumper import OWLDumper
 from linkml_runtime import SchemaView
 
-from ontogpt.io.exporter import Exporter
-from ontogpt.templates.core import ExtractionResult
+from talisman.io.exporter import Exporter
+from talisman.templates.core import ExtractionResult
 
 
 @dataclass

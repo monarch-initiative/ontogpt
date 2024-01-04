@@ -1,1 +1,1 @@
-from ontogpt.converters.ontology_converter import OntologyConverter  # noqa:F401
+from talisman.converters.ontology_converter import OntologyConverter  # noqa:F401

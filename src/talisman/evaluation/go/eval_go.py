@@ -11,9 +11,9 @@ from oaklib.datamodels.vocabulary import IS_A
 from oaklib.interfaces.obograph_interface import OboGraphInterface
 from pydantic import BaseModel
 
-from ontogpt.engines.spires_engine import SPIRESEngine
-from ontogpt.evaluation.evaluation_engine import SimilarityScore, SPIRESEvaluationEngine
-from ontogpt.templates.metabolic_process import MetabolicProcess
+from talisman.engines.spires_engine import SPIRESEngine
+from talisman.evaluation.evaluation_engine import SimilarityScore, SPIRESEvaluationEngine
+from talisman.templates.metabolic_process import MetabolicProcess
 
 TEST_CASES_DIR = Path(__file__).parent / "test_cases"
 

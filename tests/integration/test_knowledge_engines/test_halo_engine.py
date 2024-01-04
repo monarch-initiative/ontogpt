@@ -6,10 +6,10 @@ import yaml
 from oaklib import get_implementation_from_shorthand
 from oaklib.datamodels.vocabulary import IS_A, PART_OF
 
-from ontogpt.converters.ontology_converter import OntologyConverter
-from ontogpt.engines import halo_engine
-from ontogpt.engines.halo_engine import HALOEngine
-from ontogpt.io.yaml_wrapper import dump_minimal_yaml
+from talisman.converters.ontology_converter import OntologyConverter
+from talisman.engines import halo_engine
+from talisman.engines.halo_engine import HALOEngine
+from talisman.io.yaml_wrapper import dump_minimal_yaml
 from tests import INPUT_DIR, OUTPUT_DIR
 
 TEST_ONTOLOGY_OAK = INPUT_DIR / "go-nucleus.db"

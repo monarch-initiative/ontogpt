@@ -3,7 +3,7 @@ import unittest
 
 import yaml
 
-from ontogpt.evaluation.hpoa.eval_hpoa import EvalHPOA
+from talisman.evaluation.hpoa.eval_hpoa import EvalHPOA
 from tests import OUTPUT_DIR
 
 NORMALIZED_OUT = OUTPUT_DIR / "hpoa-normalized.yaml"

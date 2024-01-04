@@ -22,10 +22,10 @@ from oaklib.datamodels.vocabulary import IS_A
 from oaklib.interfaces.obograph_interface import OboGraphInterface
 from tiktoken import Encoding
 
-from ontogpt.clients import OpenAIClient
-from ontogpt.engines.knowledge_engine import FIELD, KnowledgeEngine
-from ontogpt.io.yaml_wrapper import dump_minimal_yaml
-from ontogpt.templates.halo import Ontology, OntologyElement
+from talisman.clients import OpenAIClient
+from talisman.engines.knowledge_engine import FIELD, KnowledgeEngine
+from talisman.io.yaml_wrapper import dump_minimal_yaml
+from talisman.templates.halo import Ontology, OntologyElement
 
 this_path = Path(__file__).parent
 logger = logging.getLogger(__name__)

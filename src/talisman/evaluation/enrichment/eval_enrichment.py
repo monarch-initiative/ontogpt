@@ -23,13 +23,13 @@ from oaklib.parsers.association_parser_factory import get_association_parser
 from pydantic import BaseModel
 from tiktoken import Encoding
 
-from ontogpt import MODELS
-from ontogpt.engines import create_engine
-from ontogpt.engines.enrichment import ENTITY_ID, EnrichmentEngine, EnrichmentPayload
-from ontogpt.engines.knowledge_engine import MODEL_NAME
-from ontogpt.evaluation.evaluation_engine import EvaluationEngine
-from ontogpt.templates.class_enrichment import ClassEnrichmentResult
-from ontogpt.utils.gene_set_utils import SYMBOL, GeneSet, drop_genes_from_gene_set, gene_info
+from talisman import MODELS
+from talisman.engines import create_engine
+from talisman.engines.enrichment import ENTITY_ID, EnrichmentEngine, EnrichmentPayload
+from talisman.engines.knowledge_engine import MODEL_NAME
+from talisman.evaluation.evaluation_engine import EvaluationEngine
+from talisman.templates.class_enrichment import ClassEnrichmentResult
+from talisman.utils.gene_set_utils import SYMBOL, GeneSet, drop_genes_from_gene_set, gene_info
 
 THIS_DIR = Path(__file__).parent
 DATABASE_DIR = Path(__file__).parent / "database"

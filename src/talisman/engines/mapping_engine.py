@@ -15,8 +15,8 @@ from pydantic import BaseModel
 from sssom.parsers import parse_sssom_table, to_mapping_set_document
 from sssom_schema import Mapping
 
-from ontogpt.engines.knowledge_engine import KnowledgeEngine
-from ontogpt.prompts.mapping import DEFAULT_MAPPING_EVAL_PROMPT
+from talisman.engines.knowledge_engine import KnowledgeEngine
+from talisman.prompts.mapping import DEFAULT_MAPPING_EVAL_PROMPT
 
 logger = logging.getLogger(__name__)
 

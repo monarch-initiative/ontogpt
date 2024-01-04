@@ -39,10 +39,10 @@ import yaml
 from oaklib import BasicOntologyInterface, get_adapter
 from pydantic import BaseModel
 
-from ontogpt.engines.knowledge_engine import chunk_text
-from ontogpt.engines.spires_engine import SPIRESEngine
-from ontogpt.evaluation.evaluation_engine import SimilarityScore, SPIRESEvaluationEngine
-from ontogpt.templates.maxo import MaxoAnnotations, ActionToSymptomRelationship, Publication
+from talisman.engines.knowledge_engine import chunk_text
+from talisman.engines.spires_engine import SPIRESEngine
+from talisman.evaluation.evaluation_engine import SimilarityScore, SPIRESEvaluationEngine
+from talisman.templates.maxo import MaxoAnnotations, ActionToSymptomRelationship, Publication
 
 THIS_DIR = Path(__file__).parent
 DATABASE_DIR = Path(__file__).parent / "test_cases"

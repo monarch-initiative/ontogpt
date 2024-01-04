@@ -3,7 +3,7 @@ import unittest
 
 import yaml
 
-from ontogpt.engines.gpt4all_engine import GPT4AllEngine
+from talisman.engines.gpt4all_engine import GPT4AllEngine
 
 TEMPLATE = "mendelian_disease.MendelianDisease"
 

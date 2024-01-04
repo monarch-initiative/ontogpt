@@ -6,10 +6,10 @@ from oaklib import get_adapter
 from sssom.parsers import parse_sssom_table, to_mapping_set_document
 from sssom_schema import Mapping
 
-from ontogpt.clients import openai_client
-from ontogpt.engines import mapping_engine
-from ontogpt.engines.mapping_engine import CategorizedMapping, MappingEngine, MappingTaskCollection
-from ontogpt.io.yaml_wrapper import dump_minimal_yaml
+from talisman.clients import openai_client
+from talisman.engines import mapping_engine
+from talisman.engines.mapping_engine import CategorizedMapping, MappingEngine, MappingTaskCollection
+from talisman.io.yaml_wrapper import dump_minimal_yaml
 from tests import INPUT_DIR
 
 TEST_ONTOLOGY_OAK = INPUT_DIR / "go-nucleus.db"

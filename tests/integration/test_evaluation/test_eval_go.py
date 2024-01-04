@@ -3,8 +3,8 @@ import unittest
 
 import yaml
 
-from ontogpt.evaluation.go.eval_go import EvalGO, EvaluationObjectSetGO
-from ontogpt.templates.metabolic_process import MetabolicProcess
+from talisman.evaluation.go.eval_go import EvalGO, EvaluationObjectSetGO
+from talisman.templates.metabolic_process import MetabolicProcess
 from tests import OUTPUT_DIR
 
 EXAMPLES_OUT = OUTPUT_DIR / "eval-go-examples.yaml"
