@@ -6,7 +6,6 @@ import sys
 from copy import copy
 from dataclasses import dataclass
 from io import BytesIO, TextIOWrapper
-from pathlib import Path
 from typing import List, Optional, Union
 
 import click

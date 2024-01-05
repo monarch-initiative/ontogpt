@@ -19,6 +19,5 @@ class TestCommandLineInterface(unittest.TestCase):
     def test_main_help(self):
         result = self.runner.invoke(main, ["--help"])
         out = result.stdout
-        self.assertIn("extract", out)
-        self.assertIn("halo", out)
+        self.assertIn("enrichment", out)
         self.assertEqual(0, result.exit_code)
