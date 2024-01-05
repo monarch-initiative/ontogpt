@@ -10,11 +10,9 @@ from starlette.staticfiles import StaticFiles
 from starlette.templating import Jinja2Templates
 
 from ontogpt import MODELS
-from ontogpt.engines.enrichment import EnrichmentEngine
 from ontogpt.engines.knowledge_engine import DATAMODELS
 from ontogpt.engines.spires_engine import SPIRESEngine
 from ontogpt.io.html_exporter import HTMLExporter
-from ontogpt.utils.gene_set_utils import GeneSet
 
 this_path = Path(__file__).parent
 static_dir = this_path / "static"
