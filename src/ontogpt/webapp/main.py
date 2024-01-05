@@ -9,7 +9,6 @@ from pydantic import BaseModel
 from starlette.staticfiles import StaticFiles
 from starlette.templating import Jinja2Templates
 
-from ontogpt import MODELS
 from ontogpt.engines.knowledge_engine import DATAMODELS
 from ontogpt.engines.spires_engine import SPIRESEngine
 from ontogpt.io.html_exporter import HTMLExporter

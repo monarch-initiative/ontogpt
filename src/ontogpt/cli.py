@@ -4,7 +4,7 @@ import json
 import logging
 import pickle
 import sys
-from copy import copy, deepcopy
+from copy import deepcopy
 from dataclasses import dataclass
 from io import BytesIO, TextIOWrapper
 from pathlib import Path
@@ -27,7 +27,6 @@ from ontogpt.clients import OpenAIClient
 from ontogpt.clients.pubmed_client import PubmedClient
 from ontogpt.clients.soup_client import SoupClient
 from ontogpt.clients.wikipedia_client import WikipediaClient
-from ontogpt.engines import create_engine
 from ontogpt.engines.embedding_similarity_engine import SimilarityEngine
 from ontogpt.engines.generic_engine import GenericEngine, QuestionCollection
 from ontogpt.engines.gpt4all_engine import GPT4AllEngine  # type: ignore
