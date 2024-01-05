@@ -63,30 +63,6 @@ def form_post(request: Request, datamodel: str = Form(...), text: str = Form(...
     )
 
 
-@app.get("/spindoctor")
-def sd_read_root(request: Request):
-    all_models = [modelname for model in MODELS for modelname in model["alternative_names"]]
-    return templates.TemplateResponse(
-        "spindoctor/form.html", context={"request": request, "models": all_models}
-    )
-
-
-@app.post("/spindoctor")
-def sd_form_post(request: Request, model: str = Form(...), text: str = Form(...)):
-    print(f"Received request with model {model}")
-    print(f"Received request with text {text}")
-    symbols = [s.strip() for s in text.split("\n")]
-    engine = EnrichmentEngine(model=model)
-    gene_set = GeneSet(name="TEMP", gene_symbols=symbols)
-    ann = engine.summarize(gene_set)
-    print(f"Got {ann}")
-    output = StringIO()
-    html_exporter.export(ann, output)
-    return templates.TemplateResponse(
-        "spindoctor/results.html", context={"request": request, "inner_html": output.getvalue()}
-    )
-
-
 def start():
     """Launch with `poetry run start` at root level."""
     uvicorn.run("ontogpt.webapp.main:app", host="127.0.0.1", port=8000, reload=True)
