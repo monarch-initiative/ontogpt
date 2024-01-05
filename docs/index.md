@@ -66,21 +66,13 @@ web-ontogpt
 
 NOTE: We do not recommend hosting this webapp publicly without authentication.
 
-Gene enrichment has its own webapp powered by Streamlit:
-
-```bash
-streamlit run src/ontogpt/streamlit/spindoctor.py
-```
-
 ## Citation
 
 SPIRES is described further in: Caufield JH, Hegde H, Emonet V, Harris NL, Joachimiak MP, Matentzoglu N, et al. Structured prompt interrogation and recursive extraction of semantics (SPIRES): A method for populating knowledge bases using zero-shot learning. arXiv publication: <http://arxiv.org/abs/2304.02711>
 
-SPINDOCTOR is described further in: Joachimiak MP, Caufield JH, Harris NL, Kim H, Mungall CJ. Gene Set Summarization using Large Language Models. arXiv publication: <http://arxiv.org/abs/2305.13338>
-
 ## Contributing
 
-Contributions are welcome! One way to get started with contributing to OntoGPT is to submit an 
+Contributions are welcome! One way to get started with contributing to OntoGPT is to submit an issue.
 
 Contributions on recipes to test welcome from anyone! Just make a PR [here](https://github.com/monarch-initiative/ontogpt/blob/main/tests/input/recipe-urls.csv). See [this list](https://github.com/hhursev/recipe-scrapers) for accepted URLs
 
