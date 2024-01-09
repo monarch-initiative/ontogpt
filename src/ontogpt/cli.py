@@ -293,7 +293,6 @@ def extract(
         ontogpt extract -t gocam.GoCamAnnotations -T GeneOrganismRelationship "the mouse Shh gene"
 
     """
-    logging.info(f"Creating for {template}")
 
     # Choose model based on input, or use the default
     if not model:
@@ -367,7 +366,6 @@ def extract(
 @click.argument("entity")
 def generate_extract(model, entity, template, output, output_format, show_prompt, **kwargs):
     """Generate text and then extract knowledge from it."""
-    logging.info(f"Creating for {template}")
 
     if not model:
         model = DEFAULT_MODEL
@@ -422,7 +420,6 @@ def iteratively_generate_extract(
     **kwargs,
 ):
     """Iterate through generate-extract."""
-    logging.info(f"Creating for {template}")
 
     if not model:
         model = DEFAULT_MODEL
@@ -469,7 +466,6 @@ def iteratively_generate_extract(
 @click.argument("pmid")
 def pubmed_extract(model, pmid, template, output, output_format, get_pmc, show_prompt, **kwargs):
     """Extract knowledge from a single PubMed ID."""
-    logging.info(f"Creating for {template}")
 
     if not model:
         model = DEFAULT_MODEL
@@ -525,7 +521,6 @@ def pubmed_annotate(
     ontogpt pubmed-annotate -t phenotype "Takotsubo Cardiomyopathy: A Brief Review"
         --get-pmc --model gpt-3.5-turbo-16k --limit 3
     """
-    logging.info(f"Creating for {template}")
 
     if not model:
         model = DEFAULT_MODEL
@@ -701,7 +696,6 @@ def search_and_extract(
 @click.argument("url")
 def web_extract(model, template, url, output, output_format, show_prompt, **kwargs):
     """Extract knowledge from web page."""
-    logging.info(f"Creating for {template}")
 
     if not model:
         model = DEFAULT_MODEL
@@ -775,8 +769,6 @@ def recipe_extract(
             url = urls[0]
     scraper = scrape_me(url)
 
-    logging.info(f"Creating for {template}")
-
     if dictionary:
         ke.load_dictionary(dictionary)
     ingredients = "\n".join(scraper.ingredients())
@@ -801,7 +793,6 @@ def recipe_extract(
 @click.argument("input")
 def convert(model, template, input, output, output_format, **kwargs):
     """Convert output format."""
-    logging.info(f"Creating for {template}")
 
     if not model:
         model = DEFAULT_MODEL
@@ -1500,7 +1491,6 @@ def eval(evaluator, num_tests, output, chunking, model, **kwargs):
 @click.argument("object")
 def fill(model, template, object: str, examples, output, output_format, show_prompt, **kwargs):
     """Fill in missing values."""
-    logging.info(f"Creating for {template}")
 
     ke: KnowledgeEngine
 
@@ -1566,7 +1556,7 @@ def complete(model, input, output, output_format, show_prompt, **kwargs):
 @click.option("--input", "-i", type=click.File("r"), default=sys.stdin, help="Input file")
 def parse(template, input):
     """Parse OpenAI results."""
-    logging.info(f"Creating for {template}")
+
     ke = SPIRESEngine(template)
     text = input.read()
     logging.debug(f"Input text: {text}")
