@@ -371,14 +371,22 @@ def generate_extract(model, entity, template, output, output_format, show_prompt
     if not model:
         model = DEFAULT_MODEL
     selectmodel = get_model_by_name(model)
-    model_source = selectmodel["provider"]
 
-    if model_source == "OpenAI":
-        ke = SPIRESEngine(template, **kwargs)
-        if settings.cache_db:
-            ke.client.cache_db_path = settings.cache_db
-        if settings.skip_annotators:
-            ke.skip_annotators = settings.skip_annotators
+    if template:
+        template_details = get_template_details(template=template)
+    else:
+        raise ValueError("No template specified. Use -t/--template option.")
+
+    ke = SPIRESEngine(
+        template_details=template_details,
+        model=selectmodel["alternative_names"][0],
+        model_source=selectmodel["provider"].lower(),
+        **kwargs,
+    )
+    if settings.cache_db:
+        ke.client.cache_db_path = settings.cache_db
+    if settings.skip_annotators:
+        ke.skip_annotators = settings.skip_annotators
 
     elif model_source == "GPT4All":
         model_name = selectmodel["alternative_names"][0]
@@ -427,14 +435,22 @@ def iteratively_generate_extract(
     if not model:
         model = DEFAULT_MODEL
     selectmodel = get_model_by_name(model)
-    model_source = selectmodel["provider"]
 
-    if model_source == "OpenAI":
-        ke = SPIRESEngine(template, **kwargs)
-        if settings.cache_db:
-            ke.client.cache_db_path = settings.cache_db
-        if settings.skip_annotators:
-            ke.skip_annotators = settings.skip_annotators
+    if template:
+        template_details = get_template_details(template=template)
+    else:
+        raise ValueError("No template specified. Use -t/--template option.")
+
+    ke = SPIRESEngine(
+        template_details=template_details,
+        model=selectmodel["alternative_names"][0],
+        model_source=selectmodel["provider"].lower(),
+        **kwargs,
+    )
+    if settings.cache_db:
+        ke.client.cache_db_path = settings.cache_db
+    if settings.skip_annotators:
+        ke.skip_annotators = settings.skip_annotators
 
     elif model_source == "GPT4All":
         model_name = selectmodel["alternative_names"][0]
@@ -475,14 +491,22 @@ def pubmed_extract(model, pmid, template, output, output_format, get_pmc, show_p
     if not model:
         model = DEFAULT_MODEL
     selectmodel = get_model_by_name(model)
-    model_source = selectmodel["provider"]
 
-    if model_source == "OpenAI":
-        ke = SPIRESEngine(template, **kwargs)
-        if settings.cache_db:
-            ke.client.cache_db_path = settings.cache_db
-        if settings.skip_annotators:
-            ke.skip_annotators = settings.skip_annotators
+    if template:
+        template_details = get_template_details(template=template)
+    else:
+        raise ValueError("No template specified. Use -t/--template option.")
+
+    ke = SPIRESEngine(
+        template_details=template_details,
+        model=selectmodel["alternative_names"][0],
+        model_source=selectmodel["provider"].lower(),
+        **kwargs,
+    )
+    if settings.cache_db:
+        ke.client.cache_db_path = settings.cache_db
+    if settings.skip_annotators:
+        ke.skip_annotators = settings.skip_annotators
 
     elif model_source == "GPT4All":
         model_name = selectmodel["alternative_names"][0]
@@ -532,14 +556,22 @@ def pubmed_annotate(
     if not model:
         model = DEFAULT_MODEL
     selectmodel = get_model_by_name(model)
-    model_source = selectmodel["provider"]
 
-    if model_source == "OpenAI":
-        ke = SPIRESEngine(template, **kwargs)
-        if settings.cache_db:
-            ke.client.cache_db_path = settings.cache_db
-        if settings.skip_annotators:
-            ke.skip_annotators = settings.skip_annotators
+    if template:
+        template_details = get_template_details(template=template)
+    else:
+        raise ValueError("No template specified. Use -t/--template option.")
+
+    ke = SPIRESEngine(
+        template_details=template_details,
+        model=selectmodel["alternative_names"][0],
+        model_source=selectmodel["provider"].lower(),
+        **kwargs,
+    )
+    if settings.cache_db:
+        ke.client.cache_db_path = settings.cache_db
+    if settings.skip_annotators:
+        ke.skip_annotators = settings.skip_annotators
 
     elif model_source == "GPT4All":
         model_name = selectmodel["alternative_names"][0]
@@ -573,14 +605,22 @@ def wikipedia_extract(model, article, template, output, output_format, show_prom
     if not model:
         model = DEFAULT_MODEL
     selectmodel = get_model_by_name(model)
-    model_source = selectmodel["provider"]
 
-    if model_source == "OpenAI":
-        ke = SPIRESEngine(template=template, model=model, **kwargs)
-        if settings.cache_db:
-            ke.client.cache_db_path = settings.cache_db
-        if settings.skip_annotators:
-            ke.skip_annotators = settings.skip_annotators
+    if template:
+        template_details = get_template_details(template=template)
+    else:
+        raise ValueError("No template specified. Use -t/--template option.")
+
+    ke = SPIRESEngine(
+        template_details=template_details,
+        model=selectmodel["alternative_names"][0],
+        model_source=selectmodel["provider"].lower(),
+        **kwargs,
+    )
+    if settings.cache_db:
+        ke.client.cache_db_path = settings.cache_db
+    if settings.skip_annotators:
+        ke.skip_annotators = settings.skip_annotators
 
     elif model_source == "GPT4All":
         model_name = selectmodel["alternative_names"][0]
@@ -614,14 +654,18 @@ def wikipedia_search(model, topic, keyword, template, output, output_format, sho
     if not model:
         model = DEFAULT_MODEL
     selectmodel = get_model_by_name(model)
-    model_source = selectmodel["provider"]
 
-    if model_source == "OpenAI":
-        ke = SPIRESEngine(template=template, model=model, **kwargs)
+    if template:
+        template_details = get_template_details(template=template)
+    else:
+        raise ValueError("No template specified. Use -t/--template option.")
 
-    elif model_source == "GPT4All":
-        model_name = selectmodel["alternative_names"][0]
-        ke = GPT4AllEngine(template=template, model=model_name, **kwargs)
+    ke = SPIRESEngine(
+        template_details=template_details,
+        model=selectmodel["alternative_names"][0],
+        model_source=selectmodel["provider"].lower(),
+        **kwargs,
+    )
 
     logging.info(f"Creating for {template} => {topic}")
     client = WikipediaClient()
@@ -666,14 +710,18 @@ def search_and_extract(
     if not model:
         model = DEFAULT_MODEL
     selectmodel = get_model_by_name(model)
-    model_source = selectmodel["provider"]
 
-    if model_source == "OpenAI":
-        ke = SPIRESEngine(template, **kwargs)
+    if template:
+        template_details = get_template_details(template=template)
+    else:
+        raise ValueError("No template specified. Use -t/--template option.")
 
-    elif model_source == "GPT4All":
-        model_name = selectmodel["alternative_names"][0]
-        ke = GPT4AllEngine(template=template, model=model_name, **kwargs)
+    ke = SPIRESEngine(
+        template_details=template_details,
+        model=selectmodel["alternative_names"][0],
+        model_source=selectmodel["provider"].lower(),
+        **kwargs,
+    )
 
     term = " ".join(term_tokens)
     logging.info(f"Creating for {template}; search={term} kw={keyword}")
@@ -712,14 +760,22 @@ def web_extract(model, template, url, output, output_format, show_prompt, **kwar
     if not model:
         model = DEFAULT_MODEL
     selectmodel = get_model_by_name(model)
-    model_source = selectmodel["provider"]
 
-    if model_source == "OpenAI":
-        ke = SPIRESEngine(template=template, model=model, **kwargs)
-        if settings.cache_db:
-            ke.client.cache_db_path = settings.cache_db
-        if settings.skip_annotators:
-            ke.skip_annotators = settings.skip_annotators
+    if template:
+        template_details = get_template_details(template=template)
+    else:
+        raise ValueError("No template specified. Use -t/--template option.")
+
+    ke = SPIRESEngine(
+        template_details=template_details,
+        model=selectmodel["alternative_names"][0],
+        model_source=selectmodel["provider"].lower(),
+        **kwargs,
+    )
+    if settings.cache_db:
+        ke.client.cache_db_path = settings.cache_db
+    if settings.skip_annotators:
+        ke.skip_annotators = settings.skip_annotators
 
     elif model_source == "GPT4All":
         model_name = selectmodel["alternative_names"][0]
@@ -762,14 +818,22 @@ def recipe_extract(
     if not model:
         model = DEFAULT_MODEL
     selectmodel = get_model_by_name(model)
-    model_source = selectmodel["provider"]
 
-    if model_source == "OpenAI":
-        ke = SPIRESEngine(template, **kwargs)
-        if settings.cache_db:
-            ke.client.cache_db_path = settings.cache_db
-        if settings.skip_annotators:
-            ke.skip_annotators = settings.skip_annotators
+    if template:
+        template_details = get_template_details(template=template)
+    else:
+        raise ValueError("No template specified. Use -t/--template option.")
+
+    ke = SPIRESEngine(
+        template_details=template_details,
+        model=selectmodel["alternative_names"][0],
+        model_source=selectmodel["provider"].lower(),
+        **kwargs,
+    )
+    if settings.cache_db:
+        ke.client.cache_db_path = settings.cache_db
+    if settings.skip_annotators:
+        ke.skip_annotators = settings.skip_annotators
 
     elif model_source == "GPT4All":
         model_name = selectmodel["alternative_names"][0]
@@ -814,14 +878,18 @@ def convert(model, template, input, output, output_format, **kwargs):
     if not model:
         model = DEFAULT_MODEL
     selectmodel = get_model_by_name(model)
-    model_source = selectmodel["provider"]
 
-    if model_source == "OpenAI":
-        ke = SPIRESEngine(template, **kwargs)
+    if template:
+        template_details = get_template_details(template=template)
+    else:
+        raise ValueError("No template specified. Use -t/--template option.")
 
-    elif model_source == "GPT4All":
-        model_name = selectmodel["alternative_names"][0]
-        ke = GPT4AllEngine(template=template, model=model_name, **kwargs)
+    ke = SPIRESEngine(
+        template_details=template_details,
+        model=selectmodel["alternative_names"][0],
+        model_source=selectmodel["provider"].lower(),
+        **kwargs,
+    )
 
     cls = ke.template_pyclass
     with open(input, "r") as f:
@@ -1517,13 +1585,18 @@ def fill(model, template, object: str, examples, output, output_format, show_pro
     if not model:
         model = DEFAULT_MODEL
     selectmodel = get_model_by_name(model)
-    model_source = selectmodel["provider"]
 
-    if model_source == "OpenAI":
-        ke = SPIRESEngine(template=template, **kwargs)
+    if template:
+        template_details = get_template_details(template=template)
     else:
-        model_name = selectmodel["alternative_names"][0]
-        ke = GPT4AllEngine(template=template, model=model_name, **kwargs)
+        raise ValueError("No template specified. Use -t/--template option.")
+
+    ke = SPIRESEngine(
+        template_details=template_details,
+        model=selectmodel["alternative_names"][0],
+        model_source=selectmodel["provider"].lower(),
+        **kwargs,
+    )
 
     object = yaml.safe_load(object)
     logging.info(f"Object to fill =  {object}")
@@ -1575,8 +1648,13 @@ def complete(model, input, output, output_format, show_prompt, **kwargs):
 @click.option("--input", "-i", type=click.File("r"), default=sys.stdin, help="Input file")
 def parse(template, input):
     """Parse OpenAI results."""
-    logging.info(f"Creating for {template}")
-    ke = SPIRESEngine(template)
+
+    if template:
+        template_details = get_template_details(template=template)
+    else:
+        raise ValueError("No template specified. Use -t/--template option.")
+
+    ke = SPIRESEngine(template_details=template_details)
     text = input.read()
     logging.debug(f"Input text: {text}")
     # ke.annotator = BioPortalImplementation()
