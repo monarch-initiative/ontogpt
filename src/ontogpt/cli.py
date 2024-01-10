@@ -285,7 +285,6 @@ def extract(
         ontogpt extract -t gocam.GoCamAnnotations -T GeneOrganismRelationship "the mouse Shh gene"
 
     """
-
     # Choose model based on input, or use the default
     if not model:
         model = DEFAULT_MODEL
@@ -364,7 +363,6 @@ def extract(
 @click.argument("entity")
 def generate_extract(model, entity, template, output, output_format, show_prompt, **kwargs):
     """Generate text and then extract knowledge from it."""
-
     if not model:
         model = DEFAULT_MODEL
     selectmodel = get_model_by_name(model)
@@ -423,7 +421,6 @@ def iteratively_generate_extract(
     **kwargs,
 ):
     """Iterate through generate-extract."""
-
     if not model:
         model = DEFAULT_MODEL
     selectmodel = get_model_by_name(model)
@@ -474,7 +471,6 @@ def iteratively_generate_extract(
 @click.argument("pmid")
 def pubmed_extract(model, pmid, template, output, output_format, get_pmc, show_prompt, **kwargs):
     """Extract knowledge from a single PubMed ID."""
-
     if not model:
         model = DEFAULT_MODEL
     selectmodel = get_model_by_name(model)
@@ -534,7 +530,6 @@ def pubmed_annotate(
     ontogpt pubmed-annotate -t phenotype "Takotsubo Cardiomyopathy: A Brief Review"
         --get-pmc --model gpt-3.5-turbo-16k --limit 3
     """
-
     if not model:
         model = DEFAULT_MODEL
     selectmodel = get_model_by_name(model)
@@ -729,7 +724,6 @@ def search_and_extract(
 @click.argument("url")
 def web_extract(model, template, url, output, output_format, show_prompt, **kwargs):
     """Extract knowledge from web page."""
-
     if not model:
         model = DEFAULT_MODEL
     selectmodel = get_model_by_name(model)
@@ -836,7 +830,6 @@ def recipe_extract(
 @click.argument("input")
 def convert(model, template, input, output, output_format, **kwargs):
     """Convert output format."""
-
     if not model:
         model = DEFAULT_MODEL
     selectmodel = get_model_by_name(model)
@@ -1234,87 +1227,6 @@ def categorize_mappings(
 
 
 @main.command()
-@output_option_txt
-@click.option(
-    "--strict/--no-strict",
-    default=True,
-    show_default=True,
-    help="If set, there must be a unique mappings from labels to IDs",
-)
-@click.option(
-    "--input-file",
-    "-U",
-    help="File with gene IDs to enrich (if not passed as arguments)",
-)
-@click.option(
-    "--ontological-synopsis/--no-ontological-synopsis",
-    default=True,
-    show_default=True,
-    help="If set, use automated rather than manual gene descriptions",
-)
-@click.option(
-    "--combined-synopsis/--no-combined-synopsis",
-    default=False,
-    show_default=True,
-    help="If set, both gene descriptions",
-)
-@click.option(
-    "--annotations/--no-annotations",
-    default=True,
-    show_default=True,
-    help="If set, include annotations in the prompt",
-)
-@click.option(
-    "--number-to-drop",
-    "-n",
-    type=click.types.INT,
-    default=1,
-    help="Max number of genes to drop",
-)
-# @click.option(
-#    "--randomize-gene-descriptions/--no-randomize-gene-descriptions",
-#    help="DO NOT USE EXCEPT FOR EVALUATION PUPOSES."
-# )
-@click.option(
-    "--annotations-path",
-    "-A",
-    help="Path to annotations",
-)
-@model_option
-@click.argument("genes", nargs=-1)
-def eval_enrichment(genes, input_file, number_to_drop, annotations_path, model, output, **kwargs):
-    """Run enrichment using multiple methods."""
-    if model:
-        selectmodel = get_model_by_name(model)
-        model_source = selectmodel["provider"]
-
-        if model_source != "OpenAI":
-            raise NotImplementedError(
-                "Model not yet supported for gene enrichment or enrichment evaluation."
-            )
-
-    if not genes and not input_file:
-        raise ValueError("Either genes or input file must be passed")
-    if genes:
-        gene_set = GeneSet(name="TEMP", gene_symbols=genes)
-    if input_file:
-        if genes:
-            raise ValueError("Either genes or input file must be passed")
-        gene_set = parse_gene_set(input_file)
-    if not gene_set:
-        raise ValueError("No genes passed")
-    fill_missing_gene_set_values(gene_set)
-    if not annotations_path:
-        if not _is_human(gene_set):
-            raise ValueError("No annotations path passed")
-        annotations_path = "tests/input/genes2go.tsv.gz"
-    eval_engine = EvalEnrichment(model=model)
-    eval_engine.load_annotations(annotations_path)
-    comps = eval_engine.evaluate_methods_on_gene_set(gene_set, n=number_to_drop, **kwargs)
-    output.write(dump_minimal_yaml(comps))
-
-
-@main.command()
 @recurse_option
 @model_option
 @output_option_txt
@@ -1361,7 +1273,6 @@ def eval(evaluator, num_tests, output, chunking, model, **kwargs):
 @click.argument("object")
 def fill(model, template, object: str, examples, output, output_format, show_prompt, **kwargs):
     """Fill in missing values."""
-
     ke: KnowledgeEngine
 
     # Choose model based on input, or use the default
@@ -1431,7 +1342,6 @@ def complete(model, input, output, output_format, show_prompt, **kwargs):
 @click.option("--input", "-i", type=click.File("r"), default=sys.stdin, help="Input file")
 def parse(template, input):
     """Parse OpenAI results."""
-
     if template:
         template_details = get_template_details(template=template)
     else:
