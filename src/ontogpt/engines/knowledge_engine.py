@@ -81,9 +81,9 @@ class KnowledgeEngine(ABC):
     knowledge sources plus LLMs
     """
 
-    template: TEMPLATE_NAME = ""
-    """LinkML Template to use for this engine.
-    Must be of the form <module_name>.<ClassName>"""
+    template_details: tuple
+    """Tuple containing loaded template details, including:
+    (LinkML class, module, python class, SchemaView object)"""
 
     template_class: ClassDefinition = None
     """LinkML Class for the template.
@@ -152,8 +152,13 @@ class KnowledgeEngine(ABC):
     encoding = None
 
     def __post_init__(self):
-        if self.template:
-            self.template_class = self._get_template_class(self.template)
+        if self.template_details:
+            (
+                self.template_class,
+                self.template_module,
+                self.template_pyclass,
+                self.schemaview,
+            ) = self.template_details
         if self.template_class:
             logging.info(f"Using template {self.template_class.name}")
         if not self.model:

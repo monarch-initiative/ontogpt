@@ -46,6 +46,7 @@ from ontogpt.evaluation.resolver import create_evaluator
 from ontogpt.io.csv_wrapper import output_parser, write_obj_as_csv
 from ontogpt.io.html_exporter import HTMLExporter
 from ontogpt.io.markdown_exporter import MarkdownExporter
+from ontogpt.io.template_loader import get_template_details
 from ontogpt.utils.gene_set_utils import (
     GeneSet,
     _is_human,
@@ -316,12 +317,21 @@ def extract(
     elif inputfile and not Path(inputfile).exists():
         raise FileNotFoundError(f"Cannot find input file {inputfile}")
 
-    if model_source == "OpenAI":
-        ke = SPIRESEngine(template=template, model=model_name, **kwargs)
-        if settings.cache_db:
-            ke.client.cache_db_path = settings.cache_db
-        if settings.skip_annotators:
-            ke.client.skip_annotators = settings.skip_annotators
+    if template:
+        template_details = get_template_details(template=template)
+    else:
+        raise ValueError("No template specified. Use -t/--template option.")
+
+    ke = SPIRESEngine(
+        template_details=template_details,
+        model=selectmodel["alternative_names"][0],
+        model_source=selectmodel["provider"].lower(),
+        **kwargs,
+    )
+    if settings.cache_db:
+        ke.client.cache_db_path = settings.cache_db
+    if settings.skip_annotators:
+        ke.client.skip_annotators = settings.skip_annotators
 
     elif model_source == "GPT4All":
         ke = GPT4AllEngine(template=template, model=model_name, **kwargs)
