@@ -369,8 +369,13 @@ def generate_extract(model, entity, template, output, output_format, show_prompt
         model = DEFAULT_MODEL
     selectmodel = get_model_by_name(model)
 
+    if template:
+        template_details = get_template_details(template=template)
+    else:
+        raise ValueError("No template specified. Use -t/--template option.")
+
     ke = SPIRESEngine(
-        template=template,
+        template_details=template_details,
         model=selectmodel["alternative_names"][0],
         model_source=selectmodel["provider"].lower(),
         **kwargs,
@@ -423,8 +428,13 @@ def iteratively_generate_extract(
         model = DEFAULT_MODEL
     selectmodel = get_model_by_name(model)
 
+    if template:
+        template_details = get_template_details(template=template)
+    else:
+        raise ValueError("No template specified. Use -t/--template option.")
+
     ke = SPIRESEngine(
-        template=template,
+        template_details=template_details,
         model=selectmodel["alternative_names"][0],
         model_source=selectmodel["provider"].lower(),
         **kwargs,
@@ -469,8 +479,13 @@ def pubmed_extract(model, pmid, template, output, output_format, get_pmc, show_p
         model = DEFAULT_MODEL
     selectmodel = get_model_by_name(model)
 
+    if template:
+        template_details = get_template_details(template=template)
+    else:
+        raise ValueError("No template specified. Use -t/--template option.")
+
     ke = SPIRESEngine(
-        template=template,
+        template_details=template_details,
         model=selectmodel["alternative_names"][0],
         model_source=selectmodel["provider"].lower(),
         **kwargs,
@@ -524,8 +539,13 @@ def pubmed_annotate(
         model = DEFAULT_MODEL
     selectmodel = get_model_by_name(model)
 
+    if template:
+        template_details = get_template_details(template=template)
+    else:
+        raise ValueError("No template specified. Use -t/--template option.")
+
     ke = SPIRESEngine(
-        template=template,
+        template_details=template_details,
         model=selectmodel["alternative_names"][0],
         model_source=selectmodel["provider"].lower(),
         **kwargs,
@@ -564,8 +584,13 @@ def wikipedia_extract(model, article, template, output, output_format, show_prom
         model = DEFAULT_MODEL
     selectmodel = get_model_by_name(model)
 
+    if template:
+        template_details = get_template_details(template=template)
+    else:
+        raise ValueError("No template specified. Use -t/--template option.")
+
     ke = SPIRESEngine(
-        template=template,
+        template_details=template_details,
         model=selectmodel["alternative_names"][0],
         model_source=selectmodel["provider"].lower(),
         **kwargs,
@@ -604,8 +629,13 @@ def wikipedia_search(model, topic, keyword, template, output, output_format, sho
         model = DEFAULT_MODEL
     selectmodel = get_model_by_name(model)
 
+    if template:
+        template_details = get_template_details(template=template)
+    else:
+        raise ValueError("No template specified. Use -t/--template option.")
+
     ke = SPIRESEngine(
-        template=template,
+        template_details=template_details,
         model=selectmodel["alternative_names"][0],
         model_source=selectmodel["provider"].lower(),
         **kwargs,
@@ -655,8 +685,13 @@ def search_and_extract(
         model = DEFAULT_MODEL
     selectmodel = get_model_by_name(model)
 
+    if template:
+        template_details = get_template_details(template=template)
+    else:
+        raise ValueError("No template specified. Use -t/--template option.")
+
     ke = SPIRESEngine(
-        template=template,
+        template_details=template_details,
         model=selectmodel["alternative_names"][0],
         model_source=selectmodel["provider"].lower(),
         **kwargs,
@@ -699,8 +734,13 @@ def web_extract(model, template, url, output, output_format, show_prompt, **kwar
         model = DEFAULT_MODEL
     selectmodel = get_model_by_name(model)
 
+    if template:
+        template_details = get_template_details(template=template)
+    else:
+        raise ValueError("No template specified. Use -t/--template option.")
+
     ke = SPIRESEngine(
-        template=template,
+        template_details=template_details,
         model=selectmodel["alternative_names"][0],
         model_source=selectmodel["provider"].lower(),
         **kwargs,
@@ -748,8 +788,13 @@ def recipe_extract(
         model = DEFAULT_MODEL
     selectmodel = get_model_by_name(model)
 
+    if template:
+        template_details = get_template_details(template=template)
+    else:
+        raise ValueError("No template specified. Use -t/--template option.")
+
     ke = SPIRESEngine(
-        template=template,
+        template_details=template_details,
         model=selectmodel["alternative_names"][0],
         model_source=selectmodel["provider"].lower(),
         **kwargs,
@@ -796,8 +841,13 @@ def convert(model, template, input, output, output_format, **kwargs):
         model = DEFAULT_MODEL
     selectmodel = get_model_by_name(model)
 
+    if template:
+        template_details = get_template_details(template=template)
+    else:
+        raise ValueError("No template specified. Use -t/--template option.")
+
     ke = SPIRESEngine(
-        template=template,
+        template_details=template_details,
         model=selectmodel["alternative_names"][0],
         model_source=selectmodel["provider"].lower(),
         **kwargs,
@@ -1319,8 +1369,13 @@ def fill(model, template, object: str, examples, output, output_format, show_pro
         model = DEFAULT_MODEL
     selectmodel = get_model_by_name(model)
 
+    if template:
+        template_details = get_template_details(template=template)
+    else:
+        raise ValueError("No template specified. Use -t/--template option.")
+
     ke = SPIRESEngine(
-        template=template,
+        template_details=template_details,
         model=selectmodel["alternative_names"][0],
         model_source=selectmodel["provider"].lower(),
         **kwargs,
@@ -1377,7 +1432,12 @@ def complete(model, input, output, output_format, show_prompt, **kwargs):
 def parse(template, input):
     """Parse OpenAI results."""
 
-    ke = SPIRESEngine(template)
+    if template:
+        template_details = get_template_details(template=template)
+    else:
+        raise ValueError("No template specified. Use -t/--template option.")
+
+    ke = SPIRESEngine(template_details=template_details)
     text = input.read()
     logging.debug(f"Input text: {text}")
     # ke.annotator = BioPortalImplementation()
