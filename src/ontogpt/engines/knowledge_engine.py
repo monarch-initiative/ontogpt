@@ -25,7 +25,6 @@ from requests.exceptions import ConnectionError, HTTPError, ProxyError
 
 from ontogpt import DEFAULT_MODEL
 from ontogpt.clients import OpenAIClient
-from ontogpt.io.template_loader import get_template_details
 from ontogpt.templates.core import ExtractionResult, NamedEntity
 
 this_path = Path(__file__).parent
@@ -81,9 +80,9 @@ class KnowledgeEngine(ABC):
     knowledge sources plus LLMs
     """
 
-    template: TEMPLATE_NAME = ""
-    """LinkML Template to use for this engine.
-    Must be of the form <module_name>.<ClassName>"""
+    template_details: tuple
+    """Tuple containing loaded template details, including:
+    (LinkML class, module, python class, SchemaView object)"""
 
     template_class: ClassDefinition = None
     """LinkML Class for the template.
@@ -152,14 +151,13 @@ class KnowledgeEngine(ABC):
     encoding = None
 
     def __post_init__(self):
-        if self.template:
-            template_details = get_template_details(template=self.template)
+        if self.template_details:
             (
                 self.template_class,
                 self.template_module,
                 self.template_pyclass,
                 self.schemaview,
-            ) = template_details
+            ) = self.template_details
         if self.template_class:
             logging.info(f"Using template {self.template_class.name}")
         if not self.model:
