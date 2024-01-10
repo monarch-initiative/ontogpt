@@ -1,5 +1,4 @@
 """Main Knowledge Extractor class."""
-import importlib
 import logging
 import re
 from abc import ABC
@@ -26,6 +25,7 @@ from requests.exceptions import ConnectionError, HTTPError, ProxyError
 
 from ontogpt import DEFAULT_MODEL
 from ontogpt.clients import OpenAIClient
+from ontogpt.io.template_loader import get_template_details
 from ontogpt.templates.core import ExtractionResult, NamedEntity
 
 this_path = Path(__file__).parent
@@ -153,7 +153,13 @@ class KnowledgeEngine(ABC):
 
     def __post_init__(self):
         if self.template:
-            self.template_class = self._get_template_class(self.template)
+            template_details = get_template_details(template=self.template)
+            (
+                self.template_class,
+                self.template_module,
+                self.template_pyclass,
+                self.schemaview,
+            ) = template_details
         if self.template_class:
             logging.info(f"Using template {self.template_class.name}")
         if not self.model:
@@ -223,41 +229,6 @@ class KnowledgeEngine(ABC):
 
     def map_terms(self, terms: List[str], ontology: str, show_prompt: bool) -> Dict[str, str]:
         raise NotImplementedError
-
-    def _get_template_class(self, template: TEMPLATE_NAME) -> ClassDefinition:
-        """
-        Get the LinkML class for a template.
-
-        :param template: template name of the form module.ClassName
-        :return: LinkML class definition
-        """
-        logger.info(f"Loading schema for {template}")
-        if "." in template:
-            module_name, class_name = template.split(".", 1)
-        else:
-            module_name = template
-            class_name = None
-        templates_path = this_path.parent / "templates"
-        path_to_template = str(templates_path / f"{module_name}.yaml")
-        sv = SchemaView(path_to_template)
-        if class_name is None:
-            roots = [c.name for c in sv.all_classes().values() if c.tree_root]
-            if len(roots) != 1:
-                raise ValueError(f"Template {template} does not have singular root: {roots}")
-            class_name = roots[0]
-        mod = importlib.import_module(f"ontogpt.templates.{module_name}")
-        self.template_module = mod
-        self.template_pyclass = mod.__dict__[class_name]
-        self.schemaview = sv
-        logger.info(f"Getting class for template {template}")
-        cls = None
-        for c in sv.all_classes().values():
-            if c.name == class_name:
-                cls = c
-                break
-        if not cls:
-            raise ValueError(f"Template {template} not found")
-        return cls
 
     def _get_openai_api_key(self):
         """Get the OpenAI API key from the environment."""
