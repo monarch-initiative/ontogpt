@@ -41,12 +41,6 @@ from ontogpt.io.csv_wrapper import output_parser, write_obj_as_csv
 from ontogpt.io.html_exporter import HTMLExporter
 from ontogpt.io.markdown_exporter import MarkdownExporter
 from ontogpt.io.template_loader import get_template_details
-from ontogpt.utils.gene_set_utils import (
-    GeneSet,
-    _is_human,
-    fill_missing_gene_set_values,
-    parse_gene_set,
-)
 from ontogpt.utils.gpt4all_runner import chain_gpt4all_model, set_up_gpt4all_model
 
 __all__ = [
