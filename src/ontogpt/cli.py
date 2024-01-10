@@ -342,7 +342,8 @@ def extract(
     if dictionary:
         ke.load_dictionary(dictionary)
     if target_class:
-        target_class_def = ke.schemaview.get_class(target_class)
+        schemaview = template_details[3]
+        target_class_def = schemaview.get_class(target_class)
     else:
         target_class_def = None
 
