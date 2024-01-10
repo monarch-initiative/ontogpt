@@ -213,44 +213,11 @@ ontogpt convert-examples inputfile.yaml
 
 ### convert-geneset
 
-Convert gene set to YAML.
-
-The gene set may be in JSON (msigdb format) or text (one gene symbol per line) format.
-
-See also the `create-gene-set` command (see below).
-
-Options:
-
-* `--fill` / `--no-fill` - Defaults to False (`--no-fill`). If True (`--fill`), the function will attempt to fill in missing gene values.
-* `-U`, `--input-file TEXT` - Path to a file with gene IDs to enrich (if not passed as arguments).
-
-Example:
-
-```bash
-ontogpt convert-geneset -U inputfile.json
-```
+*This command has been deprecated. It is now available through the TALISMAN package at:* <https://github.com/monarch-initiative/talisman>
 
 ### create-gene-set
 
-Create a gene set.
-
-This is primarily relevant to the TALISMAN method for creating gene set summaries.
-
-It creates a gene set given a set of gene annotations in two-column TSV or GAF format.
-
-The function also requires a single argument for the term to create the gene set with.
-
-The output is provided in YAML format.
-
-Options:
-
-* `-A`, `--annotation-path TEXT` - Path to a file containing annotations.
-
-Example:
-
-```bash
-ontogpt create-gene-set -A inputfile.tsv "positive regulation of mitotic cytokinesis"
-```
+*This command has been deprecated. It is now available through the TALISMAN package at:* <https://github.com/monarch-initiative/talisman>
 
 ### diagnose
 
@@ -315,43 +282,7 @@ For OpenAI's "text-embedding-ada-002" model, the output will be a vector of leng
 
 ### enrichment
 
-Gene class summary enriching. This is OntoGPT's implementation of TALISMAN.
-
-The goal of gene summary enrichment is to assemble a textual summary of the functions of a set of genes and their products.
-
-TALISMAN can run in three different ways:
-
-1. Map gene symbols to IDs using the resolver (unless IDs are specified)
-2. Fetch gene descriptions using Alliance API
-3. Create a prompt using descriptions
-
-Options:
-
-* `-r`, `--resolver TEXT` - OAK selector for the gene ID resolver, e.g., `sqlite:obo:hgnc` for HGNC gene IDs.
-* `-C`, `--context TEXT` - domain, e.g., anatomy, industry, health-related
-* `--strict` / `--no-strict` - If set, there must be a unique mappings from labels to IDs. Defaults to True.
-* `-U`, `--input-file TEXT` - Path to a file with gene IDs to enrich if not passed as arguments.
-* `--randomize-gene-descriptions-using-file TEXT` - For evaluation only. Path to a file containing gene identifiers and descriptions; if this option is used, TALISMAN will swap out gene descriptions with those from this gene set file.
-* `--ontological-synopsis` / `--no-ontological-synopsis` - If set, use automated rather than manual gene descriptions. Defaults to True.
-* `--combined-synopsis` / `--no-combined-synopsis` - If set, combine gene descriptions. Defaults to False.
-* `--end-marker TEXT` - Specify a character or string to end prompts with. For testing minor variants of prompts.
-* `--annotations` / `--no-annotations` - If set, include annotations in the prompt. Defaults to True.
-* `--prompt-template TEXT` - Path to a file containing the prompt.
-* `--interactive` / `--no-interactive` - Interactive mode - rather than call the API, the function will present a walkthrough process. Defaults to False.
-
-Example:
-
-```bash
-ontogpt enrichment -r sqlite:obo:hgnc -U tests/input/genesets/EDS.yaml
-```
-
-In this case, the prompt will include gene summaries retrieved from the database.
-
-The response text will include, among other fields, a summary like this:
-
-```text
-Summary: The common function among these genes is their involvement in the regulation and organization of the extracellular matrix, particularly collagen fibril organization and biosynthesis.
-```
+*This command has been deprecated. It is now available through the TALISMAN package at:* <https://github.com/monarch-initiative/talisman>
 
 ### entity-similarity
 
@@ -402,29 +333,7 @@ ontogpt eval --num-tests 1 EvalCTD
 
 ### eval-enrichment
 
-Run enrichment (TALISMAN) using multiple methods.
-
-This function runs a set of evaluations specific to the TALISMAN gene set summary process.
-
-It will iterate through all relevant models to compare results.
-
-The function assumes genes will have HGNC identifiers.
-
-Options:
-
-* `--strict` / `--no-strict` - If set, there must be a unique mappings from labels to IDs. Defaults to True.
-* `-U`, `--input-file TEXT` - Path to a file with gene IDs to enrich (if not passed as arguments)
-* `--ontological-synopsis` / `--no-ontological-synopsis` - If set, use automated rather than manual gene descriptions. Defaults to True.
-* `--combined-synopsis` / `--no-combined-synopsis` - If set, combine gene descriptions. Defaults to False.
-* `--annotations` / `--no-annotations` - If set, include annotations in the prompt. Defaults to True.
-* `-n`, `--number-to-drop INTEGER` - Maximum number of genes to drop if necessary.
-* `-A`, `--annotations-path TEXT` - Path to file containing annotations.
-
-Example:
-
-```bash
-ontogpt enrichment -U tests/input/genesets/EDS.yaml
-```
+*This command has been deprecated. It is now available through the TALISMAN package at:* <https://github.com/monarch-initiative/talisman>
 
 ### extract
 
