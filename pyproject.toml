@@ -78,7 +78,6 @@ recipes = [
     "recipe-scrapers"
 ]
 gpt4all = [
-    "gpt4all",
     "llm-gpt4all"
 ]
 textract = [
