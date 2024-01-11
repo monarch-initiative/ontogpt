@@ -1526,7 +1526,8 @@ def list_models():
         disk = model["requirements"]["diskspace"]
         memory = model["requirements"]["memory"]
 
-        print(f"{primary_name}\t{provider}\t{canonical}\t{alternative_names}\t{status}\t{disk}\t{memory}")  # type: ignore
+        print(f"{primary_name}\t{provider}\t{canonical}\t{alternative_names}\t"
+              f"{status}\t{disk}\t{memory}")
 
 
 if __name__ == "__main__":
