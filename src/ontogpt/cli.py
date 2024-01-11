@@ -41,7 +41,6 @@ from ontogpt.io.csv_wrapper import output_parser, write_obj_as_csv
 from ontogpt.io.html_exporter import HTMLExporter
 from ontogpt.io.markdown_exporter import MarkdownExporter
 from ontogpt.io.template_loader import get_template_details
-from ontogpt.utils.gpt4all_runner import chain_gpt4all_model, set_up_gpt4all_model
 
 __all__ = [
     "main",
@@ -1326,13 +1325,10 @@ def complete(model, input, output, output_format, show_prompt, **kwargs):
 
     text = open(input).read()
 
+    # TODO: add support for other models
     if model_source == "OpenAI":
         c = OpenAIClient(model=model_name)
         results = c.complete(prompt=text, show_prompt=show_prompt)
-
-    elif model_source == "GPT4All":
-        c = set_up_gpt4all_model(modelname=model_name)
-        results = chain_gpt4all_model(model=c, prompt_text=text)
 
     output.write(results)
 
@@ -1470,13 +1466,10 @@ def clinical_notes(
     model_source = selectmodel["provider"]
     model_name = selectmodel["canonical_name"]
 
+    # TODO: add support for other models
     if model_source == "OpenAI":
         c = OpenAIClient(model=model_name)
         results = c.complete(prompt=prompt, show_prompt=show_prompt)
-
-    elif model_source == "GPT4All":
-        c = set_up_gpt4all_model(modelname=model_name)
-        results = chain_gpt4all_model(model=c, prompt_text=prompt)
 
     output.write(results)
 
