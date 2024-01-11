@@ -1490,7 +1490,7 @@ def list_templates():
 @main.command()
 def list_models():
     """List all available models.
-    
+
     The following values are provided:
 
     Model Name: OntoGPT's name for the model. Use this with the -m/--model option.
@@ -1503,11 +1503,15 @@ def list_models():
 
     Status: Whether the model is currently implemented or deprecated.
 
-    Disk Space: The space required for the model to be stored on your local disk. "N/A" means the model is not stored locally.
-    
-    System Memory: The memory required for the model to run on your system. "N/A" means the model is not stored locally.
+    Disk Space: The space required for the model to be stored on your local disk.
+    "N/A" means the model is not stored locally.
+
+    System Memory: The memory required for the model to run on your system.
+    "N/A" means the model is not stored locally.
     """
-    print("Model Name\tProvider\tCanonical Name\tAlternative Names\tStatus\tDisk Space\tSystem Memory")
+    print(
+        "Model Name\tProvider\tCanonical Name\tAlternative Names\tStatus\tDisk Space\tSystem Memory"
+    )
     for model in MODELS:
         primary_name = model["name"]
         provider = model["provider"]
@@ -1522,7 +1526,7 @@ def list_models():
         disk = model["requirements"]["diskspace"]
         memory = model["requirements"]["memory"]
 
-        print(f"{primary_name}\t{provider}\t{canonical}\t{alternative_names}\t{status}\t{disk}\t{memory}")
+        print(f"{primary_name}\t{provider}\t{canonical}\t{alternative_names}\t{status}\t{disk}\t{memory}")  # type: ignore
 
 
 if __name__ == "__main__":
