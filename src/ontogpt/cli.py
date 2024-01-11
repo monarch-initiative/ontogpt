@@ -320,7 +320,7 @@ def extract(
 
     ke = SPIRESEngine(
         template_details=template_details,
-        model=selectmodel["alternative_names"][0],
+        model=selectmodel["canonical_name"],
         model_source=selectmodel["provider"].lower(),
         **kwargs,
     )
@@ -374,7 +374,7 @@ def generate_extract(model, entity, template, output, output_format, show_prompt
 
     ke = SPIRESEngine(
         template_details=template_details,
-        model=selectmodel["alternative_names"][0],
+        model=selectmodel["canonical_name"],
         model_source=selectmodel["provider"].lower(),
         **kwargs,
     )
@@ -432,7 +432,7 @@ def iteratively_generate_extract(
 
     ke = SPIRESEngine(
         template_details=template_details,
-        model=selectmodel["alternative_names"][0],
+        model=selectmodel["canonical_name"],
         model_source=selectmodel["provider"].lower(),
         **kwargs,
     )
@@ -482,7 +482,7 @@ def pubmed_extract(model, pmid, template, output, output_format, get_pmc, show_p
 
     ke = SPIRESEngine(
         template_details=template_details,
-        model=selectmodel["alternative_names"][0],
+        model=selectmodel["canonical_name"],
         model_source=selectmodel["provider"].lower(),
         **kwargs,
     )
@@ -541,7 +541,7 @@ def pubmed_annotate(
 
     ke = SPIRESEngine(
         template_details=template_details,
-        model=selectmodel["alternative_names"][0],
+        model=selectmodel["canonical_name"],
         model_source=selectmodel["provider"].lower(),
         **kwargs,
     )
@@ -586,7 +586,7 @@ def wikipedia_extract(model, article, template, output, output_format, show_prom
 
     ke = SPIRESEngine(
         template_details=template_details,
-        model=selectmodel["alternative_names"][0],
+        model=selectmodel["canonical_name"],
         model_source=selectmodel["provider"].lower(),
         **kwargs,
     )
@@ -631,7 +631,7 @@ def wikipedia_search(model, topic, keyword, template, output, output_format, sho
 
     ke = SPIRESEngine(
         template_details=template_details,
-        model=selectmodel["alternative_names"][0],
+        model=selectmodel["canonical_name"],
         model_source=selectmodel["provider"].lower(),
         **kwargs,
     )
@@ -687,7 +687,7 @@ def search_and_extract(
 
     ke = SPIRESEngine(
         template_details=template_details,
-        model=selectmodel["alternative_names"][0],
+        model=selectmodel["canonical_name"],
         model_source=selectmodel["provider"].lower(),
         **kwargs,
     )
@@ -735,7 +735,7 @@ def web_extract(model, template, url, output, output_format, show_prompt, **kwar
 
     ke = SPIRESEngine(
         template_details=template_details,
-        model=selectmodel["alternative_names"][0],
+        model=selectmodel["canonical_name"],
         model_source=selectmodel["provider"].lower(),
         **kwargs,
     )
@@ -789,7 +789,7 @@ def recipe_extract(
 
     ke = SPIRESEngine(
         template_details=template_details,
-        model=selectmodel["alternative_names"][0],
+        model=selectmodel["canonical_name"],
         model_source=selectmodel["provider"].lower(),
         **kwargs,
     )
@@ -841,7 +841,7 @@ def convert(model, template, input, output, output_format, **kwargs):
 
     ke = SPIRESEngine(
         template_details=template_details,
-        model=selectmodel["alternative_names"][0],
+        model=selectmodel["canonical_name"],
         model_source=selectmodel["provider"].lower(),
         **kwargs,
     )
@@ -1251,7 +1251,7 @@ def eval(evaluator, num_tests, output, chunking, model, **kwargs):
 
     if model:
         selectmodel = get_model_by_name(model)
-        modelname = selectmodel["alternative_names"][0]
+        modelname = selectmodel["canonical_name"]
     else:
         modelname = DEFAULT_MODEL
 
@@ -1287,7 +1287,7 @@ def fill(model, template, object: str, examples, output, output_format, show_pro
 
     ke = SPIRESEngine(
         template_details=template_details,
-        model=selectmodel["alternative_names"][0],
+        model=selectmodel["canonical_name"],
         model_source=selectmodel["provider"].lower(),
         **kwargs,
     )
@@ -1322,7 +1322,7 @@ def complete(model, input, output, output_format, show_prompt, **kwargs):
         model = DEFAULT_MODEL
     selectmodel = get_model_by_name(model)
     model_source = selectmodel["provider"]
-    model_name = selectmodel["alternative_names"][0]
+    model_name = selectmodel["canonical_name"]
 
     text = open(input).read()
 
@@ -1468,7 +1468,7 @@ def clinical_notes(
         model = DEFAULT_MODEL
     selectmodel = get_model_by_name(model)
     model_source = selectmodel["provider"]
-    model_name = selectmodel["alternative_names"][0]
+    model_name = selectmodel["canonical_name"]
 
     if model_source == "OpenAI":
         c = OpenAIClient(model=model_name)
