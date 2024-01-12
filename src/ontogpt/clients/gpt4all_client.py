@@ -45,7 +45,7 @@ class GPT4AllClient:
             logger.info(f" SENDING PROMPT:\n{prompt}")
 
         response = None
-        logger.debug(f"Prompting model for completion...")
+        logger.debug("Prompting model for completion...")
         try:
             response = self.local_model.prompt(prompt)
         except Exception as e:

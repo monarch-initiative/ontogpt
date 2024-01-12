@@ -25,6 +25,7 @@ from requests.exceptions import ConnectionError, HTTPError, ProxyError
 
 from ontogpt import DEFAULT_MODEL
 from ontogpt.clients import OpenAIClient, GPT4AllClient
+
 # from ontogpt.clients import OpenAIClient, GPT4AllClient, HFHubClient
 from ontogpt.templates.core import ExtractionResult, NamedEntity
 
@@ -175,7 +176,7 @@ class KnowledgeEngine(ABC):
 
         self.set_up_client(model_source=self.model_source)
 
-        # We retrieve encoding for OpenAI models 
+        # We retrieve encoding for OpenAI models
         # but tiktoken won't work for other models
         if self.model_source == "openai":
             try:
@@ -580,10 +581,10 @@ class KnowledgeEngine(ABC):
         return resultset[0]
 
     def set_up_client(self, model_source: str):
-        """Select the appropriate client based on the model's source.
+        """
+        Select the appropriate client based on the model's source.
 
-        Args:
-            model_source (str): lowercase string indicating the source of the model,
+        Args: model_source (str): lowercase string indicating the source of the model,
             e.g., openai
         """
         if model_source == "openai":
