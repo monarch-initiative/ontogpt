@@ -118,8 +118,9 @@ models:
       memory: "4 GB"
 
   - name: GGML_ALL_MINILM_L6_V2_F16
-    canonical_name: "ggml-all-MiniLM-L6-v2-f16"
+    canonical_name: "all-MiniLM-L6-v2-f16"
     alternative_names:
+      - ggml-all-MiniLM-L6-v2-f16
       - gpt4all-ggml-all-MiniLM-L6-v2-f16
     provider: GPT4All
     creators:
