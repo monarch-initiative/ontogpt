@@ -120,7 +120,10 @@ def get_model_by_name(modelname: str):
     """
     found = False
     for knownmodel in MODELS:
-        if modelname in knownmodel["alternative_names"] or modelname == knownmodel["name"]:
+        these_knownmodel_names = [knownmodel["name"], knownmodel["canonical_name"]] + knownmodel[
+            "alternative_names"
+        ]
+        if modelname in these_knownmodel_names:
             selectmodel = knownmodel
             found = True
             logging.info(
@@ -1519,8 +1522,10 @@ def list_models():
         disk = model["requirements"]["diskspace"]
         memory = model["requirements"]["memory"]
 
-        print(f"{primary_name}\t{provider}\t{canonical}\t{alternative_names}\t"
-              f"{status}\t{disk}\t{memory}")
+        print(
+            f"{primary_name}\t{provider}\t{canonical}\t{alternative_names}\t"
+            f"{status}\t{disk}\t{memory}"
+        )
 
 
 if __name__ == "__main__":
