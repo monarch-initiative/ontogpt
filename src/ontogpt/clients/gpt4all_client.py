@@ -1,8 +1,7 @@
 """GPT4All Client."""
 import logging
 from dataclasses import dataclass, field
-from pathlib import Path
-from typing import Iterator, Optional, Tuple
+from typing import Optional
 
 import llm
 from llm_gpt4all import Gpt4AllModel
