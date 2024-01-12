@@ -173,7 +173,7 @@ class KnowledgeEngine(ABC):
             logging.info("Using mappers (currently hardcoded)")
             self.mappers = [get_adapter("translator:")]
 
-        self.set_up_client()
+        self.set_up_client(model_source=self.model_source)
         try:
             self.encoding = tiktoken.encoding_for_model(self.client.model)
         except KeyError:
@@ -575,8 +575,17 @@ class KnowledgeEngine(ABC):
                         setattr(result, k, v)
         return resultset[0]
 
-    def set_up_client(self):
-        self.client = OpenAIClient(model=self.model)
-        logging.info("Setting up OpenAI client API Key")
-        self.api_key = self._get_openai_api_key()
-        openai.api_key = self.api_key
+    def set_up_client(self, model_source: str):
+        """Select the appropriate client based on the model's source.
+
+        Args:
+            model_source (str): lowercase string indicating the source of the model,
+            e.g., openai
+        """
+        if model_source == "openai":
+            self.client = OpenAIClient(model=self.model)
+            logging.info("Setting up OpenAI client API Key")
+            self.api_key = self._get_openai_api_key()
+            openai.api_key = self.api_key
+        elif model_source == "gpt4all":
+            self.client = GPT4AllClient(model=self.model)
