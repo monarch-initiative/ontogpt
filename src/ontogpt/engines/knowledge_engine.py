@@ -24,7 +24,8 @@ from oaklib.utilities.subsets.value_set_expander import ValueSetExpander
 from requests.exceptions import ConnectionError, HTTPError, ProxyError
 
 from ontogpt import DEFAULT_MODEL
-from ontogpt.clients import OpenAIClient
+from ontogpt.clients import OpenAIClient, GPT4AllClient
+# from ontogpt.clients import OpenAIClient, GPT4AllClient, HFHubClient
 from ontogpt.templates.core import ExtractionResult, NamedEntity
 
 this_path = Path(__file__).parent
@@ -36,6 +37,8 @@ EXAMPLE = OBJECT
 FIELD = str
 TEMPLATE_NAME = str
 MODEL_NAME = str
+CLIENT_TYPES = Union[OpenAIClient, GPT4AllClient]
+# CLIENT_TYPES = Union[OpenAIClient, GPT4AllClient, HFHubClient]
 
 # annotation metamodel
 ANNOTATION_KEY_PROMPT = "prompt"
@@ -106,6 +109,10 @@ class KnowledgeEngine(ABC):
     model: str = None
     """Language Model. This may be overridden in subclasses."""
 
+    model_source: str = None
+    """The source of the model. This determines how the model is accessed
+    (e.g. via an API or a local file)"""
+
     # annotator: TextAnnotatorInterface = None
     # """Default annotator. TODO: deprecate?"""
 
@@ -125,7 +132,7 @@ class KnowledgeEngine(ABC):
     labelers: Optional[List[BasicOntologyInterface]] = None
     """Labelers that map CURIEs to labels"""
 
-    client: Optional[OpenAIClient] = None
+    client: Optional[CLIENT_TYPES] = None
     """All calls to LLMs are delegated through this client"""
 
     dictionary: Dict[str, str] = field(default_factory=dict)

@@ -38,16 +38,9 @@ this_path = Path(__file__).parent
 RESPONSE_ATOM = Union[str, "ResponseAtom"]  # type: ignore
 RESPONSE_DICT = Dict[FIELD, Union[RESPONSE_ATOM, List[RESPONSE_ATOM]]]
 
-MODEL_SOURCES = ["openai", "gpt4all"]
-
 @dataclass
 class SPIRESEngine(KnowledgeEngine):
     """Knowledge extractor."""
-
-    model_source: str = None
-    """The source of the model. This must be one of the sources named in the
-    MODEL_SOURCES constant and determines how the model is accessed (e.g. via an API
-    or a local file)"""
 
     recurse: bool = True
     """If true, then complex non-named entity objects are always recursively parsed.
@@ -118,7 +111,7 @@ class SPIRESEngine(KnowledgeEngine):
         self, entity: str, prompt_template: str = "", show_prompt: bool = False, **kwargs
     ) -> ExtractionResult:
         """
-        Generate a description using GPT and then extract from it using SPIRES.
+        Generate a description using an LLM and then extract from it using SPIRES.
 
         :param entity:
         :param kwargs:
