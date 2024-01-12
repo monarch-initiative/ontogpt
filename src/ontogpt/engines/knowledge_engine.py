@@ -174,11 +174,15 @@ class KnowledgeEngine(ABC):
             self.mappers = [get_adapter("translator:")]
 
         self.set_up_client(model_source=self.model_source)
-        try:
-            self.encoding = tiktoken.encoding_for_model(self.client.model)
-        except KeyError:
-            self.encoding = tiktoken.encoding_for_model(DEFAULT_MODEL)
-            logger.error(f"Could not find encoding for model {self.client.model}")
+
+        # We retrieve encoding for OpenAI models 
+        # but tiktoken won't work for other models
+        if self.model_source == "openai":
+            try:
+                self.encoding = tiktoken.encoding_for_model(self.client.model)
+            except KeyError:
+                self.encoding = tiktoken.encoding_for_model(DEFAULT_MODEL)
+                logger.error(f"Could not find encoding for model {self.client.model}")
 
     def set_api_key(self, key: str):
         self.api_key = key
