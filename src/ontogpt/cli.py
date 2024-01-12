@@ -64,6 +64,8 @@ from ontogpt.io.yaml_wrapper import dump_minimal_yaml
 from ontogpt.templates.core import ExtractionResult
 
 from ontogpt.converters.output_filtered_triples import output_filtered_triples
+# from ontogpt.converters.output_filtered_triples import edit_yaml
+from ontogpt.converters.output_filtered_triples import read_template
 
 
 @dataclass
@@ -1701,9 +1703,9 @@ def clinical_notes(
 @main.command()
 @click.option("-i", "--input", help="Input file.")
 @click.option("-o", "--output", help="Output file.")
-@click.option("--subject-prefix", help="Prefix for subject.")
-@click.option("--object-prefix", help="Prefix for object.")
-@click.option("--pred-prefix", help="Prefix for .")
+@click.option("--subject-prefix", default = "MONDO", help="Prefix for subject.")
+@click.option("--object-prefix", default = "GO", help="Prefix for object.")
+@click.option("--pred-prefix", default = "RO", help="Prefix for predicate.")
 def get_triples(input, output, subject_prefix, object_prefix, pred_prefix):
     """Filter YAML format extraction output to s, p, o triples.
 
@@ -1713,11 +1715,86 @@ def get_triples(input, output, subject_prefix, object_prefix, pred_prefix):
 
     """
     triples = output_filtered_triples(input, subject_prefix, object_prefix, pred_prefix)
+    
     with open(output, "w") as file:
         file.write("Subject\tPredicate\tObject\n")
         for triple in triples:
             file.write("\t".join(triple.values()))
             file.write("\n")
+
+@main.command()
+@template_option
+@prompt_template_option
+@model_option
+@recurse_option
+@output_option_wb
+@output_format_options
+@show_prompt_option
+@click.option(
+    "--limit",
+    default=20,
+    help="Total number of citation records to return.",
+)
+@click.option(
+    "--get-pmc/--no-get-pmc",
+    default=False,
+    help="Attempt to parse PubMed Central full text(s) instead of abstract(s) alone.",
+)
+# @click.option("--subject-prefix", default = "MONDO", help="Prefix for subject.")
+# @click.option("--object-prefix", default = "GO", help="Prefix for object.")
+# @click.option("--pred-prefix", default = "RO", help="Prefix for predicate.")
+@click.option("--subject-prefix", default = None, help = "Prefix for subject.")
+@click.option("--object-prefix", default = None, help = "Prefix for object.")
+@click.option("--pred-prefix", default = None, help = "Prefix for predicate.")
+@click.argument("search")
+def pubmed_annotate_template_alter(
+    model, search, template, prompt_template, output, output_format, limit, get_pmc, show_prompt, subject_prefix, object_prefix, pred_prefix, **kwargs
+):
+    """Retrieve a collection of PubMed IDs for a search term; annotate them using a template.
+
+    Example:
+    ontogpt pubmed-annotate-template-alter -t ibd_literature 
+        --prompt-template src/ontogpt/templates/ibd_literature.yaml "inflammatory bowel disease"
+        --limit 2000 -o output.yaml -O yaml --subject-prefix CHEBI --object-prefix GO --pred-prefix RO
+    
+    """
+
+    contents = read_template(prompt_template, subject_prefix, object_prefix, pred_prefix)
+
+    pubmed_annotate(model, search, contents, output, output_format, limit, get_pmc, show_prompt)
+
+    """logging.info(f"Creating for {template}")
+
+    edit_yaml(template, subject_prefix, object_prefix, pred_prefix)
+
+    if not model:
+        model = DEFAULT_MODEL
+    selectmodel = get_model_by_name(model)
+    model_source = selectmodel["provider"]
+
+    if model_source == "OpenAI":
+        ke = SPIRESEngine(template, **kwargs)
+        if settings.cache_db:
+            ke.client.cache_db_path = settings.cache_db
+        if settings.skip_annotators:
+            ke.skip_annotators = settings.skip_annotators
+
+    elif model_source == "GPT4All":
+        model_name = selectmodel["alternative_names"][0]
+        ke = GPT4AllEngine(template=template, model=model_name, **kwargs)
+
+    pubmed_annotate_limit = limit
+    pmc = PubmedClient()
+    pmids = pmc.get_pmids(search)
+    if get_pmc:
+        logging.info("Will try to retrieve PubMed Central texts.")
+        textlist = pmc.text(pmids[: pubmed_annotate_limit + 1], pubmedcental=True)
+    else:
+        textlist = pmc.text(pmids[: pubmed_annotate_limit + 1])
+    for text in textlist:
+        logging.debug(f"Input text: {text}")
+        results = ke.extract_from_text(text=text, show_prompt=show_prompt)
+        write_extraction(results, output, output_format, ke)"""
 
 
 @main.command()
