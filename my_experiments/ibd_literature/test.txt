@@ -1,0 +1,5 @@
+Subject	Predicate	Object
+inflammatory bowel disease	pro-inflammatory	cytokine production
+ulcerative colitis	to	arachidonic acid metabolic process
+ulcerative colitis	relieving	inflammatory response
+ulcerative colitis	and	inflammatory response
