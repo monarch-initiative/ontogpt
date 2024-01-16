@@ -12,6 +12,7 @@ from starlette.templating import Jinja2Templates
 from ontogpt.engines.knowledge_engine import DATAMODELS
 from ontogpt.engines.spires_engine import SPIRESEngine
 from ontogpt.io.html_exporter import HTMLExporter
+from ontogpt.io.template_loader import get_template_details
 
 this_path = Path(__file__).parent
 static_dir = this_path / "static"
@@ -35,7 +36,8 @@ engines: Dict[str, SPIRESEngine] = {}
 
 def get_engine(datamodel: str):
     if datamodel not in engines:
-        engines[datamodel] = SPIRESEngine(datamodel)
+        template_details = get_template_details(template=datamodel)
+        engines[datamodel] = SPIRESEngine(template_details=template_details)
     return engines[datamodel]
 
 

@@ -21,7 +21,6 @@ eutils = ">=0.6.0"
 fastapi = {version = ">=0.88.0", optional = true}
 gilda = ">=1.0.0"
 gpt4 = ">=0.0.1"
-gpt4all = {version = "1.0.8", extras = ["gpt4all"], optional = true}
 httpx = ">=0.23.3"
 huggingface_hub  = {version = ">=0.15.1", extras = ["huggingface"], optional = true}
 inflect = ">=6.0.2"
@@ -30,7 +29,7 @@ jsonlines = ">=3.1.0"
 linkml = "^1.5.7"
 linkml-owl = "^0.3.0"
 llm = ">=0.8"
-llm-gpt4all = {version = "^0.1.1", extras = ["gpt4all"], optional = true}
+llm-gpt4all = {version = ">=0.2", extras = ["gpt4all"], optional = true}
 myst-parser = {version = ">=0.18.1", extras = ["docs"], optional = true}
 nlpcloud = ">=1.0.39"
 oaklib = ">=0.5.15"
@@ -79,7 +78,6 @@ recipes = [
     "recipe-scrapers"
 ]
 gpt4all = [
-    "gpt4all",
     "llm-gpt4all"
 ]
 textract = [

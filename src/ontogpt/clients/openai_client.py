@@ -29,6 +29,7 @@ class OpenAIClient:
             self.api_key = get_apikey_value("openai")
         openai.api_key = self.api_key
 
+    # TODO: Dynamically update max_tokens
     def complete(self, prompt, max_tokens=3000, show_prompt: bool = False, **kwargs) -> str:
         engine = self.model
         logger.info(f"Complete: engine={engine}, prompt[{len(prompt)}]={prompt[0:100]}...")

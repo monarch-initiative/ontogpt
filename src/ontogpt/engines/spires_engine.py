@@ -5,8 +5,8 @@ This works by recursively constructing structured prompt-completions where
 a pseudo-YAML structure is requested, where the YAML
 structure corresponds to a template class.
 
-Describe in the SPIRES manuscript
-TODO: add link
+Described in the SPIRES manuscript.
+See https://arxiv.org/abs/2304.02711
 """
 import logging
 import re
@@ -38,13 +38,9 @@ this_path = Path(__file__).parent
 RESPONSE_ATOM = Union[str, "ResponseAtom"]  # type: ignore
 RESPONSE_DICT = Dict[FIELD, Union[RESPONSE_ATOM, List[RESPONSE_ATOM]]]
 
-
 @dataclass
 class SPIRESEngine(KnowledgeEngine):
     """Knowledge extractor."""
-
-    engine: str = None
-    """The engine name."""
 
     recurse: bool = True
     """If true, then complex non-named entity objects are always recursively parsed.
@@ -115,7 +111,7 @@ class SPIRESEngine(KnowledgeEngine):
         self, entity: str, prompt_template: str = "", show_prompt: bool = False, **kwargs
     ) -> ExtractionResult:
         """
-        Generate a description using GPT and then extract from it using SPIRES.
+        Generate a description using an LLM and then extract from it using SPIRES.
 
         :param entity:
         :param kwargs:
