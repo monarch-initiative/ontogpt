@@ -46,7 +46,7 @@ try:
 except ImportError:
     logger.warning("GPT4All client not available. GPT4All support will be disabled.")
     from ontogpt.clients import OpenAIClient
-    CLIENT_TYPES = Type[OpenAIClient]
+    CLIENT_TYPES = OpenAIClient # type: ignore
 
 # annotation metamodel
 ANNOTATION_KEY_PROMPT = "prompt"
