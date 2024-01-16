@@ -5,7 +5,7 @@ from abc import ABC
 from dataclasses import dataclass, field
 from pathlib import Path
 from types import ModuleType
-from typing import Dict, Iterator, List, Optional, TextIO, Union
+from typing import Dict, Iterator, List, Optional, TextIO, Type, Union
 from urllib.parse import quote
 
 import inflection
@@ -46,9 +46,7 @@ try:
 except ImportError:
     logger.warning("GPT4All client not available. GPT4All support will be disabled.")
     from ontogpt.clients import OpenAIClient
-    CLIENT_TYPES = OpenAIClient
-
-# CLIENT_TYPES = Union[OpenAIClient, GPT4AllClient, HFHubClient]
+    CLIENT_TYPES = Type[OpenAIClient]
 
 # annotation metamodel
 ANNOTATION_KEY_PROMPT = "prompt"
