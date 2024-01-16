@@ -24,7 +24,6 @@ from oaklib.utilities.subsets.value_set_expander import ValueSetExpander
 from requests.exceptions import ConnectionError, HTTPError, ProxyError
 
 from ontogpt import DEFAULT_MODEL
-from ontogpt.clients import OpenAIClient, GPT4AllClient
 
 # from ontogpt.clients import OpenAIClient, GPT4AllClient, HFHubClient
 from ontogpt.templates.core import ExtractionResult, NamedEntity
@@ -38,7 +37,17 @@ EXAMPLE = OBJECT
 FIELD = str
 TEMPLATE_NAME = str
 MODEL_NAME = str
-CLIENT_TYPES = Union[OpenAIClient, GPT4AllClient]
+
+# GPT4All support is optional, so we don't load it
+# if it's not installed
+try:
+    from ontogpt.clients import OpenAIClient, GPT4AllClient
+    CLIENT_TYPES = Union[OpenAIClient, GPT4AllClient]
+except ImportError:
+    logger.warning("GPT4All client not available. GPT4All support will be disabled.")
+    from ontogpt.clients import OpenAIClient
+    CLIENT_TYPES = OpenAIClient
+
 # CLIENT_TYPES = Union[OpenAIClient, GPT4AllClient, HFHubClient]
 
 # annotation metamodel
