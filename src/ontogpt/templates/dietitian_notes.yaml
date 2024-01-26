@@ -1,16 +1,20 @@
 id: http://w3id.org/ontogpt/dietician_notes
-name: dietician_notes
-title: Dietician Notes Extraction Template
+name: dietitian_notes
+title: Dietitian Notes Extraction Template
 description: >-
-  A template for extracting clinical observations from dietician notes
+  A template for extracting clinical observations from dietitian notes
 license: https://creativecommons.org/publicdomain/zero/1.0/
 prefixes:
   linkml: https://w3id.org/linkml/
-  dietician_notes: http://w3id.org/ontogpt/dietician_notes
+  dietician_notes: http://w3id.org/ontogpt/dietitian_notes
   HP: http://purl.obolibrary.org/obo/HP_
 
-default_prefix: dietician_notes
+default_prefix: dietitian_notes
 default_range: string
+
+# TODO: address extracted chunks that are too large
+# TODO: find additional grounding strategies
+# TODO: provide additional examples for each class
 
 imports:
   - linkml:types
@@ -25,6 +29,8 @@ classes:
         range: ClinicalObservations
         multivalued: true
 
+  # TODO: want to capture risk for refeeding syndrome
+  # can ground to MONDO:0400005
   ClinicalObservations:
     tree_root: true
     description: >-
@@ -40,11 +46,13 @@ classes:
         annotations:
           prompt: >-
             The value and units of the patient's height.
+            'Not provided' if not provided.
         range: QuantitativeValue
       patient_weight:
         annotations:
           prompt: >-
             The value and units of the patient's weight.
+            'Not provided' if not provided.
         range: QuantitativeValue
       malnutrition_status:
         annotations:
@@ -64,16 +72,17 @@ classes:
         range: NutritionSupport
         multivalued: true
 
-  # TODO: Resolve validation errors if the values can't be parsed as floats
-  #       This may happen if no value is provided.
   QuantitativeValue:
     is_a: CompoundExpression
     annotations:
       owl: IntersectionOf
     attributes:
       value:
-        description: The value of the quantity.
-        range: float
+        description: >-
+          The value of the quantity,
+          or N/A if not provided.
+        # would prefer a float, but that's invalid if a value isn't provided
+        range: string
         annotations:
           owl: DataProperty, DataHasValue
       unit:
@@ -83,18 +92,32 @@ classes:
         annotations:
           owl: ObjectProperty, ObjectSomeValuesFrom
 
+  # TODO: make distinction between presence vs risk for malnutrition
+  # TODO: note that there are specific criteria for malnutrition diagnosis
   MalnutritionObservations:
     attributes:
       malnutrition_presence:
         description: True if the patient is malnourished, False otherwise.
         range: string
+      malnutrition_risk:
+        description: >-
+          True if the patient has a demonstrable risk for malnutrition,
+          False otherwise.
+        range: string
       severity:
         description: >-
           The severity of the patient's malnutrition, if present.
+          This may be Mild, Moderate, or Severe.
+          In general, a patient receiving less than 50% of their
+          estimated energy requirement for greater than 5 days
+          is considered to have severe malnutrition.
         range: string
       diagnosis:
+        # For MONDO this may often be MONDO:0001371,
+        # for protein-energy malnutrition
         description: >-
           The patient's malnutrition diagnosis, if present.
+          This should not include modifiers like 'severe'.
         range: Disease
 
   # TODO: distinguish whether this is currently active therapy
@@ -115,14 +138,20 @@ classes:
 
   # TODO: consider limiting to children of MAXO:0000009
   #       or a more specific group of terms
+  # TODO: consider adding dosages + frequency
+  # TODO: may need more examples
+  # TODO: consider grounding vs CHEBI? Maybe to MESH, but be careful of 
+  # synonyms - they may only be technically correct
+  # TODO: consider LOINC grounding for nutrition
   NutritionSupport:
     description: >-
       A nutrition support therapy used to treat or prevent malnutrition.
     is_a: NamedEntity
     id_prefixes:
       - MAXO
+      - EFO
     annotations:
-      annotators: sqlite:obo:maxo
+      annotators: sqlite:obo:maxo, sqlite:obo:efo, sqlite:obo:mesh
       prompt.examples: >-
         enteral nutrition intake, gavage nutrition intake,
         parenteral nutrition intake, partial parenteral nutrition intake
@@ -131,8 +160,9 @@ classes:
     is_a: NamedEntity
     id_prefixes:
       - MONDO
+      - EFO
     annotations:
-      annotators: sqlite:obo:mondo
+      annotators: sqlite:obo:mondo, sqlite:obo:mesh, sqlite:obo:efo
       prompt.examples: cardiac asystole, COVID-19, Headache, cancer
 
   Unit:
