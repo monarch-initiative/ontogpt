@@ -145,7 +145,7 @@ classes:
       - MAXO
       - EFO
     annotations:
-      annotators: sqlite:obo:maxo
+      annotators: sqlite:obo:maxo, sqlite:obo:efo, sqlite:obo:mesh
       prompt.examples: >-
         enteral nutrition intake, gavage nutrition intake,
         parenteral nutrition intake, partial parenteral nutrition intake
@@ -155,7 +155,7 @@ classes:
     id_prefixes:
       - MONDO
     annotations:
-      annotators: sqlite:obo:mondo
+      annotators: sqlite:obo:mondo, sqlite:obo:mesh
       prompt.examples: cardiac asystole, COVID-19, Headache, cancer
 
   Unit:
