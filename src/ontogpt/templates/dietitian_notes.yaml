@@ -1,15 +1,15 @@
 id: http://w3id.org/ontogpt/dietician_notes
-name: dietician_notes
-title: Dietician Notes Extraction Template
+name: dietitian_notes
+title: Dietitian Notes Extraction Template
 description: >-
-  A template for extracting clinical observations from dietician notes
+  A template for extracting clinical observations from dietitian notes
 license: https://creativecommons.org/publicdomain/zero/1.0/
 prefixes:
   linkml: https://w3id.org/linkml/
-  dietician_notes: http://w3id.org/ontogpt/dietician_notes
+  dietician_notes: http://w3id.org/ontogpt/dietitian_notes
   HP: http://purl.obolibrary.org/obo/HP_
 
-default_prefix: dietician_notes
+default_prefix: dietitian_notes
 default_range: string
 
 imports:
