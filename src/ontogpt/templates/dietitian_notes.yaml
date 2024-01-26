@@ -12,6 +12,9 @@ prefixes:
 default_prefix: dietitian_notes
 default_range: string
 
+# TODO: address extracted chunks that are too large
+# TODO: find additional grounding strategies
+
 imports:
   - linkml:types
   - core
@@ -25,6 +28,8 @@ classes:
         range: ClinicalObservations
         multivalued: true
 
+  # TODO: want to capture risk for refeeding syndrome
+  # can ground to MONDO:0400005
   ClinicalObservations:
     tree_root: true
     description: >-
@@ -83,6 +88,8 @@ classes:
         annotations:
           owl: ObjectProperty, ObjectSomeValuesFrom
 
+  # TODO: make distinction between presence vs risk for malnutrition
+  # TODO: note that there are specific criteria for malnutrition diagnosis
   MalnutritionObservations:
     attributes:
       malnutrition_presence:
@@ -115,12 +122,18 @@ classes:
 
   # TODO: consider limiting to children of MAXO:0000009
   #       or a more specific group of terms
+  # TODO: consider adding dosages + frequency
+  # TODO: may need more examples
+  # TODO: consider grounding vs CHEBI? Maybe to MESH, but be careful of 
+  # synonyms - they may only be technically correct
+  # TODO: consider LOINC grounding for nutrition
   NutritionSupport:
     description: >-
       A nutrition support therapy used to treat or prevent malnutrition.
     is_a: NamedEntity
     id_prefixes:
       - MAXO
+      - EFO
     annotations:
       annotators: sqlite:obo:maxo
       prompt.examples: >-
