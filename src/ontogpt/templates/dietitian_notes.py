@@ -49,7 +49,7 @@ class MalnutritionObservations(ConfiguredBaseModel):
     malnutrition_presence: Optional[str] = Field(None, description="""True if the patient is malnourished, False otherwise.""")
     malnutrition_risk: Optional[str] = Field(None, description="""True if the patient has a demonstrable risk for malnutrition, False otherwise.""")
     severity: Optional[str] = Field(None, description="""The severity of the patient's malnutrition, if present. This may be Mild, Moderate, or Severe. In general, a patient receiving less than 50% of their estimated energy requirement for greater than 5 days is considered to have severe malnutrition.""")
-    diagnosis: Optional[str] = Field(None, description="""The patient's malnutrition diagnosis, if present.""")
+    diagnosis: Optional[str] = Field(None, description="""The patient's malnutrition diagnosis, if present. This should not include modifiers like 'severe'.""")
     
     
 

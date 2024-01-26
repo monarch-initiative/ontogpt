@@ -110,8 +110,11 @@ classes:
           is considered to have severe malnutrition.
         range: string
       diagnosis:
+        # For MONDO this may often be MONDO:0001371,
+        # for protein-energy malnutrition
         description: >-
           The patient's malnutrition diagnosis, if present.
+          This should not include modifiers like 'severe'.
         range: Disease
 
   # TODO: distinguish whether this is currently active therapy
@@ -154,8 +157,9 @@ classes:
     is_a: NamedEntity
     id_prefixes:
       - MONDO
+      - EFO
     annotations:
-      annotators: sqlite:obo:mondo, sqlite:obo:mesh
+      annotators: sqlite:obo:mondo, sqlite:obo:mesh, qlite:obo:efo
       prompt.examples: cardiac asystole, COVID-19, Headache, cancer
 
   Unit:
