@@ -14,6 +14,7 @@ default_range: string
 
 # TODO: address extracted chunks that are too large
 # TODO: find additional grounding strategies
+# TODO: provide additional examples for each class
 
 imports:
   - linkml:types
@@ -95,9 +96,18 @@ classes:
       malnutrition_presence:
         description: True if the patient is malnourished, False otherwise.
         range: string
+      malnutrition_risk:
+        description: >-
+          True if the patient has a demonstrable risk for malnutrition,
+          False otherwise.
+        range: string
       severity:
         description: >-
           The severity of the patient's malnutrition, if present.
+          This may be Mild, Moderate, or Severe.
+          In general, a patient receiving less than 50% of their
+          estimated energy requirement for greater than 5 days
+          is considered to have severe malnutrition.
         range: string
       diagnosis:
         description: >-
