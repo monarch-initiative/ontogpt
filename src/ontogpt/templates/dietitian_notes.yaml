@@ -70,16 +70,17 @@ classes:
         range: NutritionSupport
         multivalued: true
 
-  # TODO: Resolve validation errors if the values can't be parsed as floats
-  #       This may happen if no value is provided.
   QuantitativeValue:
     is_a: CompoundExpression
     annotations:
       owl: IntersectionOf
     attributes:
       value:
-        description: The value of the quantity.
-        range: float
+        description: >-
+          The value of the quantity,
+          or N/A if not provided.
+        # would prefer a float, but that's invalid if a value isn't provided
+        range: string
         annotations:
           owl: DataProperty, DataHasValue
       unit:

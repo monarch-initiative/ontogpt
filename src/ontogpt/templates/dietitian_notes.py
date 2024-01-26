@@ -129,7 +129,7 @@ class CompoundExpression(ConfiguredBaseModel):
 
 class QuantitativeValue(CompoundExpression):
     
-    value: Optional[float] = Field(None, description="""The value of the quantity.""")
+    value: Optional[str] = Field(None, description="""The value of the quantity, or N/A if not provided.""")
     unit: Optional[str] = Field(None, description="""The unit of the quantity.""")
     
     
