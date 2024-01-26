@@ -46,11 +46,13 @@ classes:
         annotations:
           prompt: >-
             The value and units of the patient's height.
+            'Not provided' if not provided.
         range: QuantitativeValue
       patient_weight:
         annotations:
           prompt: >-
             The value and units of the patient's weight.
+            'Not provided' if not provided.
         range: QuantitativeValue
       malnutrition_status:
         annotations:
