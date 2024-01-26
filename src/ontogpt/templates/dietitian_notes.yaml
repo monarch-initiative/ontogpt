@@ -159,7 +159,7 @@ classes:
       - MONDO
       - EFO
     annotations:
-      annotators: sqlite:obo:mondo, sqlite:obo:mesh, qlite:obo:efo
+      annotators: sqlite:obo:mondo, sqlite:obo:mesh, sqlite:obo:efo
       prompt.examples: cardiac asystole, COVID-19, Headache, cancer
 
   Unit:
