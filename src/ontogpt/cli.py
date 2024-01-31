@@ -753,6 +753,38 @@ def web_extract(model, template, url, output, output_format, show_prompt, **kwar
     results = ke.extract_from_text(text=text, show_prompt=show_prompt)
     write_extraction(results, output, output_format, ke)
 
+@main.command()
+@model_option
+@recurse_option
+@output_option_wb
+@output_format_options
+@show_prompt_option
+@click.argument("url")
+def datascan(model, url, output, output_format, show_prompt, **kwargs):
+    """Extract knowledge about a dataset from multiple sources."""
+    if not model:
+        model = DEFAULT_MODEL
+    selectmodel = get_model_by_name(model)
+
+    template_details = get_template_details(template="datasheet")
+
+    ke = SPIRESEngine(
+        template_details=template_details,
+        model=selectmodel["canonical_name"],
+        model_source=selectmodel["provider"].lower(),
+        **kwargs,
+    )
+    if settings.cache_db:
+        ke.client.cache_db_path = settings.cache_db
+    if settings.skip_annotators:
+        ke.skip_annotators = settings.skip_annotators
+
+    web_client = SoupClient()
+    text = web_client.text(url)
+
+    logging.debug(f"Input text: {text}")
+    results = ke.extract_from_text(text=text, show_prompt=show_prompt)
+    write_extraction(results, output, output_format, ke)
 
 @main.command()
 @output_option_wb
