@@ -141,12 +141,14 @@ classes:
   MalnutritionObservations:
     attributes:
       malnutrition_presence:
-        description: True if the patient is malnourished, False otherwise.
+        description: >-
+          True if the patient is malnourished, False otherwise.
+          N/A if not provided.
         range: string
       malnutrition_risk:
         description: >-
           True if the patient has a demonstrable risk for malnutrition,
-          False otherwise.
+          False otherwise. N/A if not provided.
         range: string
       severity:
         description: >-
@@ -155,6 +157,7 @@ classes:
           In general, a patient receiving less than 50% of their
           estimated energy requirement for greater than 5 days
           is considered to have severe malnutrition.
+          N/A if not provided.
         range: string
       diagnosis:
         # For MONDO this may often be MONDO:0001371,
@@ -162,6 +165,7 @@ classes:
         description: >-
           The patient's malnutrition diagnosis, if present.
           This should not include modifiers like 'severe'.
+          N/A if not provided.
         range: Disease
 
   # TODO: distinguish whether this is currently active therapy
