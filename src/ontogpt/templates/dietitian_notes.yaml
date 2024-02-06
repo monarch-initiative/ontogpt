@@ -56,12 +56,15 @@ classes:
         annotations:
           prompt: >-
             The value and units of the patient's height.
+            This should include all units, percentiles, and z-scores.
             'Not provided' if not provided.
         range: QuantitativeValueWithMetric
+      # TODO: handle current vs usual body weight
       patient_weight:
         annotations:
           prompt: >-
             The value and units of the patient's weight.
+            This should include all units, percentiles, and z-scores.
             'Not provided' if not provided.
         range: QuantitativeValueWithMetric
       head_circumference:
