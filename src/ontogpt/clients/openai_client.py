@@ -11,15 +11,18 @@ from typing import Iterator, Optional, Tuple
 import numpy as np
 import openai
 from oaklib.utilities.apikey_manager import get_apikey_value
+from openai import AzureOpenAI
+from settings import AZURE_MODEL, AZURE_API_VERSION, AZURE_ENDPOINT
 
 logger = logging.getLogger(__name__)
+logger.setLevel("INFO")
 NUM_RETRIES = 3
 
 
 @dataclass
 class OpenAIClient:
     # max_tokens: int = field(default_factory=lambda: 3000)
-    model: str = field(default_factory=lambda: "gpt-3.5-turbo")
+    model: str = field(default_factory=lambda: AZURE_MODEL)
     cache_db_path: str = ""
     api_key: str = ""
     interactive: Optional[bool] = None
@@ -28,10 +31,18 @@ class OpenAIClient:
         if not self.api_key:
             self.api_key = get_apikey_value("openai")
         openai.api_key = self.api_key
+        self.client = AzureOpenAI(
+            # https://learn.microsoft.com/en-us/azure/ai-services/openai/reference#rest-api-versioning
+            api_version=AZURE_API_VERSION,
+            # https://learn.microsoft.com/en-us/azure/cognitive-services/openai/how-to/create-resource?pivots=web-portal#create-a-resource
+            azure_endpoint=AZURE_ENDPOINT,
+            api_key=self.api_key,
+            azure_deployment=AZURE_MODEL,
+        )
 
     # TODO: Dynamically update max_tokens
-    def complete(self, prompt, max_tokens=3000, show_prompt: bool = False, **kwargs) -> str:
-        engine = self.model
+    def complete(self, prompt, max_tokens=500, show_prompt: bool = False, **kwargs) -> str:
+        engine = AZURE_MODEL
         logger.info(f"Complete: engine={engine}, prompt[{len(prompt)}]={prompt[0:100]}...")
         if show_prompt:
             logger.info(f" SENDING PROMPT:\n{prompt}")
@@ -51,7 +62,7 @@ class OpenAIClient:
                 if self.interactive:
                     response = self._interactive_completion(prompt, engine, max_tokens, **kwargs)
                 elif self._must_use_chat_api():
-                    response = openai.ChatCompletion.create(
+                    response = self.client.chat.completions.create(
                         model=engine,
                         messages=[
                             {
@@ -63,11 +74,7 @@ class OpenAIClient:
                         **kwargs,
                     )
                 else:
-                    response = openai.Completion.create(
-                        engine=engine,
-                        prompt=prompt,
-                        max_tokens=max_tokens,
-                    )
+                    raise ValueError("Unsupported mode")
                 break
             except Exception as e:
                 logger.error(f"OpenAI API connection error: {e}")
@@ -77,6 +84,7 @@ class OpenAIClient:
                 logger.info(f"Retrying {i} of {NUM_RETRIES} after {sleep_time} seconds...")
                 sleep(sleep_time)
 
+        response = response.dict()
         if self.interactive:
             payload = response
         elif self._must_use_chat_api():
