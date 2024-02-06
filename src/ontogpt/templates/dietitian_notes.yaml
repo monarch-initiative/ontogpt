@@ -2,7 +2,8 @@ id: http://w3id.org/ontogpt/dietician_notes
 name: dietitian_notes
 title: Dietitian Notes Extraction Template
 description: >-
-  A template for extracting clinical observations from dietitian notes
+  A template for extracting clinical observations from dietitian notes.
+  Developed with guidance from Lauren Chan
 license: https://creativecommons.org/publicdomain/zero/1.0/
 prefixes:
   linkml: https://w3id.org/linkml/
@@ -64,13 +65,38 @@ classes:
       diet_supplementation:
         description: >-
           A semicolon-separated list of the patient's diet supplementation
-          therapies.
+          therapies. All acronyms should be expanded.
+          Relevant acronyms: PO: per os/by mouth, NPO: nil per os/nothing by
+          mouth, TPN: total parenteral nutrition, PN: parenteral nutrition,
+          EN: enteral nutrition, IBW: ideal body weight, UBW: usual body weight,
+          ABW: actual body weight, D#%: dextrose percentage (e.g. D5%) for PN
+          infusion, AA # g/kg/d: amino acid provisions (may also be in
+          percentages) for PN infusion, SMOF # g/kg/d: soy MCT olive fish oil
+          emulsion for PN infusion, GIR: glucose infusion rate, SBS: short
+          bowel syndrome, LIS: low intermittent suction, BW: birth weight,
+          HC: head circumference, EHM: exclusively human milk, RTBW: return to
+          birth weight, Mg: magnesium, Phos: phosphorus, GI: gastrointestinal,
+          PICC: peripherally inserted central catheter, DOL: day of life,
+          TG: triglycerides, KUB: Kidney ureter bladder CT
         range: DietSupplementation
         multivalued: true
       nutrition_support:
         description: >-
           A semicolon-separated list of the patient's nutrition support
           therapies, usually enteral or parenteral nutrition.
+          All acronyms should be expanded.
+          Relevant acronyms: PO: per os/by mouth, NPO: nil per os/nothing by
+          mouth, TPN: total parenteral nutrition, PN: parenteral nutrition,
+          EN: enteral nutrition, IBW: ideal body weight, UBW: usual body weight,
+          ABW: actual body weight, D#%: dextrose percentage (e.g. D5%) for PN
+          infusion, AA # g/kg/d: amino acid provisions (may also be in
+          percentages) for PN infusion, SMOF # g/kg/d: soy MCT olive fish oil
+          emulsion for PN infusion, GIR: glucose infusion rate, SBS: short
+          bowel syndrome, LIS: low intermittent suction, BW: birth weight,
+          HC: head circumference, EHM: exclusively human milk, RTBW: return to
+          birth weight, Mg: magnesium, Phos: phosphorus, GI: gastrointestinal,
+          PICC: peripherally inserted central catheter, DOL: day of life,
+          TG: triglycerides, KUB: Kidney ureter bladder CT
         range: NutritionSupport
         multivalued: true
 
