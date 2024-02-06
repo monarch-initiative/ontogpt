@@ -58,6 +58,13 @@ classes:
             The value and units of the patient's weight.
             'Not provided' if not provided.
         range: QuantitativeValue
+      head_circumference:
+        annotations:
+          prompt: >-
+            The value and units of the patient's head circumference.
+            This may be abbreviated as "HC".
+            'Not provided' if not provided.
+        range: QuantitativeValue
       malnutrition_status:
         annotations:
           prompt: >-
@@ -75,11 +82,11 @@ classes:
           AA # g/kg/d: amino acid provisions (may also be in percentages)
           for PN infusion, SMOF # g/kg/d: soy MCT olive fish oil emulsion for
           PN infusion, GIR: glucose infusion rate, SBS: short bowel syndrome,
-          LIS: low intermittent suction, BW: birth weight, HC: head
-          circumference, EHM: exclusively human milk, RTBW: return to birth
-          weight, Mg: magnesium, Phos: phosphorus, GI: gastrointestinal,
-          PICC: peripherally inserted central catheter, DOL: day of life,
-          TG: triglycerides, KUB: Kidney ureter bladder CT
+          LIS: low intermittent suction, BW: birth weight, EHM: exclusively
+          human milk, RTBW: return to birth weight, Mg: magnesium,
+          Phos: phosphorus, GI: gastrointestinal, PICC: peripherally inserted
+          central catheter, DOL: day of life, TG: triglycerides, KUB: Kidney
+          ureter bladder CT
         range: DietSupplementation
         multivalued: true
       nutrition_support:
@@ -95,8 +102,8 @@ classes:
           percentages) for PN infusion, SMOF # g/kg/d: soy MCT olive fish oil
           emulsion for PN infusion, GIR: glucose infusion rate, SBS: short
           bowel syndrome, LIS: low intermittent suction, BW: birth weight,
-          HC: head circumference, EHM: exclusively human milk, RTBW: return to
-          birth weight, Mg: magnesium, Phos: phosphorus, GI: gastrointestinal,
+          EHM: exclusively human milk, RTBW: return to birth weight,
+          Mg: magnesium, Phos: phosphorus, GI: gastrointestinal,
           PICC: peripherally inserted central catheter, DOL: day of life,
           TG: triglycerides, KUB: Kidney ureter bladder CT
         range: NutritionSupport
