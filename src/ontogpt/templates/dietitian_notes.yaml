@@ -3,7 +3,8 @@ name: dietitian_notes
 title: Dietitian Notes Extraction Template
 description: >-
   A template for extracting clinical observations from dietitian notes.
-  Developed with guidance from Lauren Chan
+  Developed with guidance from Lauren Chan, PhD, RD
+  and Alyson Lawrence, RD, CNSC
 license: https://creativecommons.org/publicdomain/zero/1.0/
 prefixes:
   linkml: https://w3id.org/linkml/
@@ -174,6 +175,9 @@ classes:
   # TODO: consider grounding vs CHEBI? Maybe to MESH, but be careful
   #  of synonyms - they may only be technically correct
   # TODO: consider LOINC grounding for nutrition
+  # TODO: consider adding a slot for the route of administration
+  # TODO: consider adding a slot for the duration of therapy
+  # TODO: consider adding a slot for general notes like "nil per os"
   NutritionSupport:
     description: >-
       A nutrition support therapy used to treat or prevent malnutrition.
