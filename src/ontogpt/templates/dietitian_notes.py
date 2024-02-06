@@ -79,6 +79,7 @@ class ClinicalObservations(NamedEntity):
     A set of clinical observations about a single patient at a single time.
     """
     is_pediatric: Optional[str] = Field(None)
+    is_preterm: Optional[str] = Field(None)
     patient_height: Optional[QuantitativeValue] = Field(None)
     patient_weight: Optional[QuantitativeValue] = Field(None)
     head_circumference: Optional[QuantitativeValue] = Field(None)

@@ -46,6 +46,12 @@ classes:
           prompt: >-
             True if the patient is a child, False otherwise.
         range: string
+      is_preterm:
+        annotations:
+          prompt: >-
+            True if the patient's birth was preterm, False otherwise.
+            A birth before 37 weeks gestation is preterm.
+        range: string
       patient_height:
         annotations:
           prompt: >-
@@ -69,6 +75,7 @@ classes:
         annotations:
           prompt: >-
             Observations of the patient's malnutrition status.
+            'Not provided' if not provided.
         range: MalnutritionObservations
       diet_supplementation:
         description: >-
