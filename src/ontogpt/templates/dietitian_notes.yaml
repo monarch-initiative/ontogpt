@@ -151,6 +151,7 @@ classes:
 
   # TODO: distinguish whether this is currently active therapy
   #       or a reccomendation for future therapy (but not yet started)
+  # TODO: consider adding dosages + frequency
   DietSupplementation:
     description: >-
       A diet supplementation therapy.
@@ -158,8 +159,9 @@ classes:
     id_prefixes:
       - FOODON
       - MAXO
+      - EFO
     annotations:
-      annotators: "sqlite:obo:foodon, sqlite:obo:chebi, sqlite:obo:maxo"
+      annotators: sqlite:obo:foodon, sqlite:obo:chebi, sqlite:obo:maxo, sqlite:obo:efo, sqlite:obo:mesh
       prompt.examples: >-
         single vitamin supplement, ginkgo biloba supplement,
         multi-mineral supplement, biotin supplementation,
