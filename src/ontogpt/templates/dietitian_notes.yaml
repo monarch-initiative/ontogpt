@@ -145,13 +145,15 @@ classes:
         description: >-
           The reported percentile of the value, as compared to a reference
           patient population. Always positive, on a scale from 0 to 99%.
-          N/A if not provided.
+          May be reported as "X%", "X%ile", or "Xth percentile", where X
+          is the value. N/A if not provided.
         # would prefer a float, but that's invalid if a value isn't provided
         range: string
       zscore:
         description: >-
           The relative standard deviation of the value, as a function of the
-          percentile. May be positive or negative. N/A if not provided.
+          percentile. May be positive or negative. May be reported as "z-score",
+          "Z-score", or "Z", followed by the value. N/A if not provided.
         # would prefer a float, but that's invalid if a value isn't provided
         range: string
 
