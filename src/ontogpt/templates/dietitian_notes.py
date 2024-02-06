@@ -51,6 +51,7 @@ class MalnutritionObservations(ConfiguredBaseModel):
     severity: Optional[str] = Field(None, description="""The severity of the patient's malnutrition, if present. This may be Mild, Moderate, or Severe. In general, a patient receiving less than 50% of their estimated energy requirement for greater than 5 days is considered to have severe malnutrition. N/A if not provided.""")
     acute_or_chronic: Optional[str] = Field(None, description="""The duration of the patient's malnutrition, if present. For pediatric patients, acute malnutrition is less than 3 months, and chronic malnutrition is greater than 3 months. This may be Acute or Chronic. N/A if not provided.""")
     diagnosis: Optional[str] = Field(None, description="""The patient's malnutrition diagnosis, if present. This should not include modifiers like 'severe'. N/A if not provided.""")
+    etiology: Optional[str] = Field(None, description="""The cause of the patient's malnutrition, if known. This may be due to acute or chronic disease or social/behavioral factors. N/A if not provided.""")
     
     
 

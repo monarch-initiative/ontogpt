@@ -201,6 +201,14 @@ classes:
           This should not include modifiers like 'severe'.
           N/A if not provided.
         range: Disease
+      etiology:
+        # TODO: add social/behavioral factors.
+        description: >-
+          The cause of the patient's malnutrition, if known.
+          This may be due to acute or chronic disease or
+          social/behavioral factors.
+          N/A if not provided.
+        range: Disease
 
   # TODO: distinguish whether this is currently active therapy
   #       or a reccomendation for future therapy (but not yet started)
