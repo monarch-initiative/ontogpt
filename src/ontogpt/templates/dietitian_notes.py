@@ -80,9 +80,9 @@ class ClinicalObservations(NamedEntity):
     """
     is_pediatric: Optional[str] = Field(None)
     is_preterm: Optional[str] = Field(None)
-    patient_height: Optional[QuantitativeValue] = Field(None)
-    patient_weight: Optional[QuantitativeValue] = Field(None)
-    head_circumference: Optional[QuantitativeValue] = Field(None)
+    patient_height: Optional[QuantitativeValueWithMetric] = Field(None)
+    patient_weight: Optional[QuantitativeValueWithMetric] = Field(None)
+    head_circumference: Optional[QuantitativeValueWithMetric] = Field(None)
     malnutrition_status: Optional[MalnutritionObservations] = Field(None)
     diet_supplementation: Optional[List[str]] = Field(default_factory=list, description="""A semicolon-separated list of the patient's diet supplementation therapies. All acronyms should be expanded, omitting the original acronym. Relevant acronyms: PO: per os/by mouth, NPO: nil per os/nothing by mouth, TPN: total parenteral nutrition, PN: parenteral nutrition, EN: enteral nutrition, IBW: ideal body weight, UBW: usual body weight, ABW: actual body weight, D#%: dextrose percentage (e.g. D5%) for PN infusion, AA # g/kg/d: amino acid provisions (may also be in percentages) for PN infusion, SMOF # g/kg/d: soy MCT olive fish oil emulsion for PN infusion, GIR: glucose infusion rate, SBS: short bowel syndrome, LIS: low intermittent suction, BW: birth weight, EHM: exclusively human milk, RTBW: return to birth weight, Mg: magnesium, Phos: phosphorus, GI: gastrointestinal, PICC: peripherally inserted central catheter, DOL: day of life, TG: triglycerides, KUB: Kidney ureter bladder CT""")
     nutrition_support: Optional[List[str]] = Field(default_factory=list, description="""A semicolon-separated list of the patient's nutrition support therapies, usually enteral or parenteral nutrition. All acronyms should be expanded, omitting the original acronym. Relevant acronyms: PO: per os/by mouth, NPO: nil per os/nothing by mouth, TPN: total parenteral nutrition, PN: parenteral nutrition, EN: enteral nutrition, IBW: ideal body weight, UBW: usual body weight, ABW: actual body weight, D#%: dextrose percentage (e.g. D5%) for PN infusion, AA # g/kg/d: amino acid provisions (may also be in percentages) for PN infusion, SMOF # g/kg/d: soy MCT olive fish oil emulsion for PN infusion, GIR: glucose infusion rate, SBS: short bowel syndrome, LIS: low intermittent suction, BW: birth weight, EHM: exclusively human milk, RTBW: return to birth weight, Mg: magnesium, Phos: phosphorus, GI: gastrointestinal, PICC: peripherally inserted central catheter, DOL: day of life, TG: triglycerides, KUB: Kidney ureter bladder CT""")
@@ -131,6 +131,15 @@ class CompoundExpression(ConfiguredBaseModel):
 
 class QuantitativeValue(CompoundExpression):
     
+    value: Optional[str] = Field(None, description="""The value of the quantity, or N/A if not provided.""")
+    unit: Optional[str] = Field(None, description="""The unit of the quantity.""")
+    
+    
+
+class QuantitativeValueWithMetric(QuantitativeValue):
+    
+    percentile: Optional[str] = Field(None, description="""The reported percentile of the value, as compared to a reference patient population. Always positive, on a scale from 0 to 99%. N/A if not provided.""")
+    zscore: Optional[str] = Field(None, description="""The relative standard deviation of the value, as a function of the percentile. May be positive or negative. N/A if not provided.""")
     value: Optional[str] = Field(None, description="""The value of the quantity, or N/A if not provided.""")
     unit: Optional[str] = Field(None, description="""The unit of the quantity.""")
     
@@ -206,6 +215,7 @@ Disease.model_rebuild()
 Unit.model_rebuild()
 CompoundExpression.model_rebuild()
 QuantitativeValue.model_rebuild()
+QuantitativeValueWithMetric.model_rebuild()
 Triple.model_rebuild()
 TextWithTriples.model_rebuild()
 TextWithEntity.model_rebuild()

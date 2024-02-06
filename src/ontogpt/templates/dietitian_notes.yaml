@@ -57,20 +57,20 @@ classes:
           prompt: >-
             The value and units of the patient's height.
             'Not provided' if not provided.
-        range: QuantitativeValue
+        range: QuantitativeValueWithMetric
       patient_weight:
         annotations:
           prompt: >-
             The value and units of the patient's weight.
             'Not provided' if not provided.
-        range: QuantitativeValue
+        range: QuantitativeValueWithMetric
       head_circumference:
         annotations:
           prompt: >-
             The value and units of the patient's head circumference.
             This may be abbreviated as "HC".
             'Not provided' if not provided.
-        range: QuantitativeValue
+        range: QuantitativeValueWithMetric
       malnutrition_status:
         annotations:
           prompt: >-
@@ -135,6 +135,25 @@ classes:
         slot_uri: qudt:unit
         annotations:
           owl: ObjectProperty, ObjectSomeValuesFrom
+
+  QuantitativeValueWithMetric:
+    is_a: QuantitativeValue
+    annotations:
+      owl: IntersectionOf
+    attributes:
+      percentile:
+        description: >-
+          The reported percentile of the value, as compared to a reference
+          patient population. Always positive, on a scale from 0 to 99%.
+          N/A if not provided.
+        # would prefer a float, but that's invalid if a value isn't provided
+        range: string
+      zscore:
+        description: >-
+          The relative standard deviation of the value, as a function of the
+          percentile. May be positive or negative. N/A if not provided.
+        # would prefer a float, but that's invalid if a value isn't provided
+        range: string
 
   # TODO: make distinction between presence vs risk for malnutrition
   # TODO: note that there are specific criteria for malnutrition diagnosis
