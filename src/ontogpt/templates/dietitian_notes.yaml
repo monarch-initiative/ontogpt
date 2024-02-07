@@ -17,8 +17,6 @@ default_range: string
 # TODO: address extracted chunks that are too large
 # TODO: find additional grounding strategies
 # TODO: provide additional examples for each class
-# TODO: set up user agent with acronyms
-#     (or try gilda)
 
 imports:
   - linkml:types
@@ -78,8 +76,11 @@ classes:
         annotations:
           prompt: >-
             Observations of the patient's malnutrition status.
+            This should include any details of malnutrition presence, risk,
+            severity, duration, diagnosis, and etiology.
             'Not provided' if not provided.
         range: MalnutritionObservations
+      # TODO: include fluids, calories, proteins, and other nutrients
       diet_supplementation:
         description: >-
           A semicolon-separated list of the patient's diet supplementation
@@ -160,7 +161,7 @@ classes:
         # would prefer a float, but that's invalid if a value isn't provided
         range: string
 
-  # TODO: make distinction between presence vs risk for malnutrition
+
   # TODO: note that there are specific criteria for malnutrition diagnosis
   MalnutritionObservations:
     attributes:
@@ -203,6 +204,7 @@ classes:
         range: Disease
       etiology:
         # TODO: add social/behavioral factors.
+        # TODO: include HP symptoms (e.g. for med side effects)
         description: >-
           The cause of the patient's malnutrition, if known.
           This may be due to acute or chronic disease or
