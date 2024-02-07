@@ -8,6 +8,7 @@ prefixes:
   biolink: https://w3id.org/biolink/vocab/
   core: http://w3id.org/ontogpt/core/
   linkml: https://w3id.org/linkml/
+  rdfs: http://www.w3.org/2000/01/rdf-schema#
 description: Core upper level
 
 default_prefix: core
