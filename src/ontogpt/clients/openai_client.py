@@ -31,10 +31,9 @@ class OpenAIClient:
         if not self.api_key:
             self.api_key = get_apikey_value("openai")
         openai.api_key = self.api_key
+        # TODO: control client (Azure vs not) using a feature flag
         self.client = AzureOpenAI(
-            # https://learn.microsoft.com/en-us/azure/ai-services/openai/reference#rest-api-versioning
             api_version=AZURE_API_VERSION,
-            # https://learn.microsoft.com/en-us/azure/cognitive-services/openai/how-to/create-resource?pivots=web-portal#create-a-resource
             azure_endpoint=AZURE_ENDPOINT,
             api_key=self.api_key,
             azure_deployment=AZURE_MODEL,
@@ -42,6 +41,7 @@ class OpenAIClient:
 
     # TODO: Dynamically update max_tokens
     def complete(self, prompt, max_tokens=500, show_prompt: bool = False, **kwargs) -> str:
+        # TODO: dynamically set model at call time
         engine = AZURE_MODEL
         logger.info(f"Complete: engine={engine}, prompt[{len(prompt)}]={prompt[0:100]}...")
         if show_prompt:

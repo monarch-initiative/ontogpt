@@ -1,5 +1,4 @@
 import os
-import sys
 from pathlib import Path
 from typing import Any, Dict
 
@@ -7,11 +6,6 @@ import dpath
 import toml
 
 BASE_DIR = Path(__file__).parent.parent.absolute()
-
-
-def is_test() -> bool:
-    """Returns true if running in a test environment."""
-    return "pytest" in sys.argv[0]
 
 
 def read_toml(path: Path) -> Dict[str, Any]:
@@ -42,26 +36,20 @@ def parse_settings(
     settings_path = os.getenv("SETTINGS_PATH", None)
     settings_name = os.getenv("SETTINGS_NAME", "local")
     etc_dir = base_dir / "etc"
-    if settings_path is None:
-        settings_path = etc_dir / f"{settings_name}.toml"
-    else:
+    default_settings = etc_dir / f"{settings_name}.toml"
+    settings_override = etc_dir / f"{settings_name}_custom.toml"
+    if settings_path:
         settings_path = Path(settings_path)
-
-    if settings_path.is_file():
-        settings = read_toml(settings_path)
+    elif settings_override.is_file():
+        settings_path = settings_override
     else:
-        settings = {}
-
-    settings_override_file = etc_dir / f"{settings_name}_custom.toml"
-    if settings_override_file.is_file() and not is_test():
-        overrides = read_toml(settings_override_file)
-        merge_settings(overrides, settings)
+        settings_path = default_settings
+    settings = read_toml(settings_path) if settings_path.is_file() else {}
 
     return settings
 
+settings_val = parse_settings(BASE_DIR)
 
-settings = parse_settings(BASE_DIR)
-
-AZURE_MODEL = dpath.get(settings, ["openai", "azure_deployment_name"])
-AZURE_API_VERSION = dpath.get(settings, ["openai", "azure_api_version"])
-AZURE_ENDPOINT = dpath.get(settings, ["openai", "azure_api_base"])
+AZURE_MODEL = dpath.get(settings_val, ["openai", "azure_deployment_name"])
+AZURE_API_VERSION = dpath.get(settings_val, ["openai", "azure_api_version"])
+AZURE_ENDPOINT = dpath.get(settings_val, ["openai", "azure_api_base"])
