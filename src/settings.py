@@ -35,15 +35,19 @@ def parse_settings(
 
     settings_path = os.getenv("SETTINGS_PATH", None)
     settings_name = os.getenv("SETTINGS_NAME", "local")
+
     etc_dir = base_dir / "etc"
     default_settings = etc_dir / f"{settings_name}.toml"
     settings_override = etc_dir / f"{settings_name}_custom.toml"
+
     if settings_path:
         settings_path = Path(settings_path)
-    elif settings_override.is_file():
-        settings_path = settings_override
+
+    if settings_path.is_file():
+        settings = read_toml(settings_path)
     else:
         settings_path = default_settings
+
     settings = read_toml(settings_path) if settings_path.is_file() else {}
 
     return settings

@@ -74,6 +74,7 @@ class OpenAIClient:
                         **kwargs,
                     )
                 else:
+                    # TODO: remove chat api flag and eliminate references to legacy completions API
                     raise ValueError("Unsupported mode")
                 break
             except Exception as e:
