@@ -46,10 +46,12 @@ class ClinicalObservationSet(ConfiguredBaseModel):
 
 class MalnutritionObservations(ConfiguredBaseModel):
     
-    malnutrition_presence: Optional[str] = Field(None, description="""True if the patient is malnourished, False otherwise.""")
-    malnutrition_risk: Optional[str] = Field(None, description="""True if the patient has a demonstrable risk for malnutrition, False otherwise.""")
-    severity: Optional[str] = Field(None, description="""The severity of the patient's malnutrition, if present. This may be Mild, Moderate, or Severe. In general, a patient receiving less than 50% of their estimated energy requirement for greater than 5 days is considered to have severe malnutrition.""")
-    diagnosis: Optional[str] = Field(None, description="""The patient's malnutrition diagnosis, if present. This should not include modifiers like 'severe'.""")
+    malnutrition_presence: Optional[str] = Field(None, description="""True if the patient is malnourished, False otherwise. N/A if not provided.""")
+    malnutrition_risk: Optional[str] = Field(None, description="""True if the patient has a demonstrable risk for malnutrition, False otherwise. N/A if not provided.""")
+    severity: Optional[str] = Field(None, description="""The severity of the patient's malnutrition, if present. This may be Mild, Moderate, or Severe. In general, a patient receiving less than 50% of their estimated energy requirement for greater than 5 days is considered to have severe malnutrition. N/A if not provided.""")
+    acute_or_chronic: Optional[str] = Field(None, description="""The duration of the patient's malnutrition, if present. For pediatric patients, acute malnutrition is less than 3 months, and chronic malnutrition is greater than 3 months. This may be Acute or Chronic. N/A if not provided.""")
+    diagnosis: Optional[str] = Field(None, description="""The patient's malnutrition diagnosis, if present. This should not include modifiers like 'severe'. N/A if not provided.""")
+    etiology: Optional[str] = Field(None, description="""The cause of the patient's malnutrition, if known. This may be due to acute or chronic disease or social/behavioral factors. N/A if not provided.""")
     
     
 
@@ -79,11 +81,13 @@ class ClinicalObservations(NamedEntity):
     A set of clinical observations about a single patient at a single time.
     """
     is_pediatric: Optional[str] = Field(None)
-    patient_height: Optional[QuantitativeValue] = Field(None)
-    patient_weight: Optional[QuantitativeValue] = Field(None)
+    is_preterm: Optional[str] = Field(None)
+    patient_height: Optional[QuantitativeValueWithMetric] = Field(None)
+    patient_weight: Optional[QuantitativeValueWithMetric] = Field(None)
+    head_circumference: Optional[QuantitativeValueWithMetric] = Field(None)
     malnutrition_status: Optional[MalnutritionObservations] = Field(None)
-    diet_supplementation: Optional[List[str]] = Field(default_factory=list, description="""A semicolon-separated list of the patient's diet supplementation therapies.""")
-    nutrition_support: Optional[List[str]] = Field(default_factory=list, description="""A semicolon-separated list of the patient's nutrition support therapies, usually enteral or parenteral nutrition.""")
+    diet_supplementation: Optional[List[str]] = Field(default_factory=list, description="""A semicolon-separated list of the patient's diet supplementation therapies. All acronyms should be expanded, omitting the original acronym. Relevant acronyms: PO: per os/by mouth, NPO: nil per os/nothing by mouth, TPN: total parenteral nutrition, PN: parenteral nutrition, EN: enteral nutrition, IBW: ideal body weight, UBW: usual body weight, ABW: actual body weight, D#%: dextrose percentage (e.g. D5%) for PN infusion, AA # g/kg/d: amino acid provisions (may also be in percentages) for PN infusion, SMOF # g/kg/d: soy MCT olive fish oil emulsion for PN infusion, GIR: glucose infusion rate, SBS: short bowel syndrome, LIS: low intermittent suction, BW: birth weight, EHM: exclusively human milk, RTBW: return to birth weight, Mg: magnesium, Phos: phosphorus, GI: gastrointestinal, PICC: peripherally inserted central catheter, DOL: day of life, TG: triglycerides, KUB: Kidney ureter bladder CT""")
+    nutrition_support: Optional[List[str]] = Field(default_factory=list, description="""A semicolon-separated list of the patient's nutrition support therapies, usually enteral or parenteral nutrition. All acronyms should be expanded, omitting the original acronym. Relevant acronyms: PO: per os/by mouth, NPO: nil per os/nothing by mouth, TPN: total parenteral nutrition, PN: parenteral nutrition, EN: enteral nutrition, IBW: ideal body weight, UBW: usual body weight, ABW: actual body weight, D#%: dextrose percentage (e.g. D5%) for PN infusion, AA # g/kg/d: amino acid provisions (may also be in percentages) for PN infusion, SMOF # g/kg/d: soy MCT olive fish oil emulsion for PN infusion, GIR: glucose infusion rate, SBS: short bowel syndrome, LIS: low intermittent suction, BW: birth weight, EHM: exclusively human milk, RTBW: return to birth weight, Mg: magnesium, Phos: phosphorus, GI: gastrointestinal, PICC: peripherally inserted central catheter, DOL: day of life, TG: triglycerides, KUB: Kidney ureter bladder CT""")
     id: str = Field(..., description="""A unique identifier for the named entity""")
     label: Optional[str] = Field(None, description="""The label (name) of the named thing""")
     
@@ -129,6 +133,15 @@ class CompoundExpression(ConfiguredBaseModel):
 
 class QuantitativeValue(CompoundExpression):
     
+    value: Optional[str] = Field(None, description="""The value of the quantity, or N/A if not provided.""")
+    unit: Optional[str] = Field(None, description="""The unit of the quantity.""")
+    
+    
+
+class QuantitativeValueWithMetric(QuantitativeValue):
+    
+    percentile: Optional[str] = Field(None, description="""The reported percentile of the value, as compared to a reference patient population. Always positive, on a scale from 0 to 99%. May be reported as \"X%\", \"X%ile\", or \"Xth percentile\", where X is the value. N/A if not provided.""")
+    zscore: Optional[str] = Field(None, description="""The relative standard deviation of the value, as a function of the percentile. May be positive or negative. May be reported as \"z-score\", \"Z-score\", or \"Z\", followed by the value. N/A if not provided.""")
     value: Optional[str] = Field(None, description="""The value of the quantity, or N/A if not provided.""")
     unit: Optional[str] = Field(None, description="""The unit of the quantity.""")
     
@@ -204,6 +217,7 @@ Disease.model_rebuild()
 Unit.model_rebuild()
 CompoundExpression.model_rebuild()
 QuantitativeValue.model_rebuild()
+QuantitativeValueWithMetric.model_rebuild()
 Triple.model_rebuild()
 TextWithTriples.model_rebuild()
 TextWithEntity.model_rebuild()

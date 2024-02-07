@@ -2,7 +2,9 @@ id: http://w3id.org/ontogpt/dietician_notes
 name: dietitian_notes
 title: Dietitian Notes Extraction Template
 description: >-
-  A template for extracting clinical observations from dietitian notes
+  A template for extracting clinical observations from dietitian notes.
+  Developed with guidance from Lauren Chan, PhD, RD
+  and Alyson Lawrence, RD, CNSC
 license: https://creativecommons.org/publicdomain/zero/1.0/
 prefixes:
   linkml: https://w3id.org/linkml/
@@ -42,33 +44,79 @@ classes:
           prompt: >-
             True if the patient is a child, False otherwise.
         range: string
+      is_preterm:
+        annotations:
+          prompt: >-
+            True if the patient's birth was preterm, False otherwise.
+            A birth before 37 weeks gestation is preterm.
+        range: string
       patient_height:
         annotations:
           prompt: >-
             The value and units of the patient's height.
+            This should include all units, percentiles, and z-scores.
             'Not provided' if not provided.
-        range: QuantitativeValue
+        range: QuantitativeValueWithMetric
+      # TODO: handle current vs usual body weight
       patient_weight:
         annotations:
           prompt: >-
             The value and units of the patient's weight.
+            This should include all units, percentiles, and z-scores.
             'Not provided' if not provided.
-        range: QuantitativeValue
+        range: QuantitativeValueWithMetric
+      head_circumference:
+        annotations:
+          prompt: >-
+            The value and units of the patient's head circumference.
+            This may be abbreviated as "HC".
+            'Not provided' if not provided.
+        range: QuantitativeValueWithMetric
       malnutrition_status:
         annotations:
           prompt: >-
             Observations of the patient's malnutrition status.
+            This should include any details of malnutrition presence, risk,
+            severity, duration, diagnosis, and etiology.
+            'Not provided' if not provided.
         range: MalnutritionObservations
+      # TODO: include fluids, calories, proteins, and other nutrients
       diet_supplementation:
         description: >-
           A semicolon-separated list of the patient's diet supplementation
-          therapies.
+          therapies. All acronyms should be expanded,
+          omitting the original acronym. Relevant acronyms: PO: per os/by mouth,
+          NPO: nil per os/nothing by mouth, TPN: total parenteral nutrition,
+          PN: parenteral nutrition, EN: enteral nutrition, IBW: ideal body
+          weight, UBW: usual body weight, ABW: actual body weight,
+          D#%: dextrose percentage (e.g. D5%) for PN infusion,
+          AA # g/kg/d: amino acid provisions (may also be in percentages)
+          for PN infusion, SMOF # g/kg/d: soy MCT olive fish oil emulsion for
+          PN infusion, GIR: glucose infusion rate, SBS: short bowel syndrome,
+          LIS: low intermittent suction, BW: birth weight, EHM: exclusively
+          human milk, RTBW: return to birth weight, Mg: magnesium,
+          Phos: phosphorus, GI: gastrointestinal, PICC: peripherally inserted
+          central catheter, DOL: day of life, TG: triglycerides, KUB: Kidney
+          ureter bladder CT
         range: DietSupplementation
         multivalued: true
       nutrition_support:
         description: >-
           A semicolon-separated list of the patient's nutrition support
           therapies, usually enteral or parenteral nutrition.
+          All acronyms should be expanded, omitting the original acronym.
+          Relevant acronyms: PO: per os/by mouth, NPO: nil per os/nothing by
+          mouth, TPN: total parenteral nutrition, PN: parenteral nutrition,
+          EN: enteral nutrition, IBW: ideal body weight, UBW: usual body weight,
+          ABW: actual body weight, D#%: dextrose percentage (e.g. D5%) for PN
+          infusion, AA # g/kg/d: amino acid provisions (may also be in
+          percentages) for PN infusion, SMOF # g/kg/d: soy MCT olive fish oil
+          emulsion for PN infusion, GIR: glucose infusion rate, SBS: short
+          bowel syndrome, LIS: low intermittent suction, BW: birth weight,
+          EHM: exclusively human milk, RTBW: return to birth weight,
+          Mg: magnesium, Phos: phosphorus, GI: gastrointestinal,
+          PICC: peripherally inserted central catheter, DOL: day of life,
+          TG: triglycerides, KUB: Kidney ureter bladder CT
         range: NutritionSupport
         multivalued: true
 
@@ -92,25 +140,60 @@ classes:
         annotations:
           owl: ObjectProperty, ObjectSomeValuesFrom
 
-  # TODO: make distinction between presence vs risk for malnutrition
+  QuantitativeValueWithMetric:
+    is_a: QuantitativeValue
+    annotations:
+      owl: IntersectionOf
+    attributes:
+      percentile:
+        # TODO: this may need some additional constraints to keep the XX% format
+        description: >-
+          The reported percentile of the value, as compared to a reference
+          patient population. Always positive, on a scale from 0 to 99%.
+          May be reported as "X%", "X%ile", or "Xth percentile", where X
+          is the value. N/A if not provided.
+        # would prefer a float, but that's invalid if a value isn't provided
+        range: string
+      zscore:
+        description: >-
+          The relative standard deviation of the value, as a function of the
+          percentile. May be positive or negative. May be reported as "z-score",
+          "Z-score", or "Z", followed by the value. N/A if not provided.
+        # would prefer a float, but that's invalid if a value isn't provided
+        range: string
+
+
   # TODO: note that there are specific criteria for malnutrition diagnosis
   MalnutritionObservations:
     attributes:
       malnutrition_presence:
-        description: True if the patient is malnourished, False otherwise.
+        description: >-
+          True if the patient is malnourished, False otherwise.
+          N/A if not provided.
         range: string
       malnutrition_risk:
         description: >-
           True if the patient has a demonstrable risk for malnutrition,
-          False otherwise.
+          False otherwise. N/A if not provided.
         range: string
       severity:
+        # TODO: incorporate the ASPEN and AND criteria for neonates
+        # TODO: ditto for peds
         description: >-
           The severity of the patient's malnutrition, if present.
           This may be Mild, Moderate, or Severe.
           In general, a patient receiving less than 50% of their
           estimated energy requirement for greater than 5 days
           is considered to have severe malnutrition.
+          N/A if not provided.
+        range: string
+      acute_or_chronic:
+        description: >-
+          The duration of the patient's malnutrition, if present.
+          For pediatric patients, acute malnutrition is less than
+          3 months, and chronic malnutrition is greater than 3 months.
+          This may be Acute or Chronic.
+          N/A if not provided.
         range: string
       diagnosis:
         # For MONDO this may often be MONDO:0001371,
@@ -118,10 +201,21 @@ classes:
         description: >-
           The patient's malnutrition diagnosis, if present.
           This should not include modifiers like 'severe'.
+          N/A if not provided.
+        range: Disease
+      etiology:
+        # TODO: add social/behavioral factors.
+        # TODO: include HP symptoms (e.g. for med side effects)
+        description: >-
+          The cause of the patient's malnutrition, if known.
+          This may be due to acute or chronic disease or
+          social/behavioral factors.
+          N/A if not provided.
         range: Disease
 
   # TODO: distinguish whether this is currently active therapy
   #       or a reccomendation for future therapy (but not yet started)
+  # TODO: consider adding dosages + frequency
   DietSupplementation:
     description: >-
       A diet supplementation therapy.
@@ -129,8 +223,9 @@ classes:
     id_prefixes:
       - FOODON
       - MAXO
+      - EFO
     annotations:
-      annotators: "sqlite:obo:foodon, sqlite:obo:chebi, sqlite:obo:maxo"
+      annotators: sqlite:obo:foodon, sqlite:obo:chebi, sqlite:obo:maxo, sqlite:obo:efo, sqlite:obo:mesh
       prompt.examples: >-
         single vitamin supplement, ginkgo biloba supplement,
         multi-mineral supplement, biotin supplementation,
@@ -140,9 +235,12 @@ classes:
   #       or a more specific group of terms
   # TODO: consider adding dosages + frequency
   # TODO: may need more examples
-  # TODO: consider grounding vs CHEBI? Maybe to MESH, but be careful of 
-  # synonyms - they may only be technically correct
+  # TODO: consider grounding vs CHEBI? Maybe to MESH, but be careful
+  #  of synonyms - they may only be technically correct
   # TODO: consider LOINC grounding for nutrition
+  # TODO: consider adding a slot for the route of administration
+  # TODO: consider adding a slot for the duration of therapy
+  # TODO: consider adding a slot for general notes like "nil per os"
   NutritionSupport:
     description: >-
       A nutrition support therapy used to treat or prevent malnutrition.
