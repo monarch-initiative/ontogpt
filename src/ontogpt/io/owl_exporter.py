@@ -49,7 +49,7 @@ class OWLExporter(Exporter):
         element_as_dataclass = self._as_dataclass_object(element, schemaview)
         doc = dumper.to_ontology_document(element_as_dataclass, schemaview.schema)
         doc.ontology.axioms.extend(axioms)
-        output.write(str(doc))
+        output.write(str(doc))  # type: ignore
 
     def _as_dataclass_object(self, element: pydantic.BaseModel, schemaview: SchemaView):
         cls_name = type(element).__name__
