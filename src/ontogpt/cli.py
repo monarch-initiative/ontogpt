@@ -1481,7 +1481,6 @@ def clinical_notes(
 @main.command()
 def list_templates():
     """List the available extraction templates."""
-
     http_prefixes = ("http", "https")
 
     # Get the list of yaml files in the templates directory
