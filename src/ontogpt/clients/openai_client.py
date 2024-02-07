@@ -43,6 +43,7 @@ class OpenAIClient:
 
     # TODO: Dynamically update max_tokens
     def complete(self, prompt, max_tokens=500, show_prompt: bool = False, **kwargs) -> str:
+        # TODO: dynamically set model at call time
         engine = AZURE_MODEL
         logger.info(f"Complete: engine={engine}, prompt[{len(prompt)}]={prompt[0:100]}...")
         if show_prompt:
