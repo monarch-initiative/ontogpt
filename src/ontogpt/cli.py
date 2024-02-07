@@ -1,4 +1,5 @@
 """Command line interface for ontogpt."""
+
 import codecs
 import json
 import logging
@@ -1494,7 +1495,7 @@ def list_templates():
             if data["id"].startswith(http_prefixes):
                 identifier = data["id"].split("/")[-1]
             else:
-                identifier = data["id"] 
+                identifier = data["id"]
             all_templates[identifier] = (data["name"], data["description"])
 
     # Sort that dict by id
@@ -1504,7 +1505,7 @@ def list_templates():
     print("ID\tName\tDescription")
     for template_id, (name, description) in all_templates.items():
         print(f"{template_id}\t{name}\t{description}")
-    
+
 
 @main.command()
 def list_models():
