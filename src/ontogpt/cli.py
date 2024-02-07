@@ -1,4 +1,5 @@
 """Command line interface for ontogpt."""
+
 import codecs
 import json
 import logging
@@ -1479,8 +1480,30 @@ def clinical_notes(
 
 @main.command()
 def list_templates():
-    """List the templates."""
-    print("TODO")
+    """List the available extraction templates."""
+    http_prefixes = ("http", "https")
+
+    # Get the list of yaml files in the templates directory
+    # and populate a dict
+    all_templates = {}
+    template_dir = Path(__file__).parent / "templates"
+    template_paths = [f for f in template_dir.glob("*.yaml")]
+    for template_path in template_paths:
+        with open(template_path, "r") as template_file:
+            data = yaml.safe_load(template_file)
+            if data["id"].startswith(http_prefixes):
+                identifier = data["id"].split("/")[-1]
+            else:
+                identifier = data["id"]
+            all_templates[identifier] = (data["name"], data["description"])
+
+    # Sort that dict by id
+    all_templates = dict(sorted(all_templates.items()))
+
+    # Write it out
+    print("ID\tName\tDescription")
+    for template_id, (name, description) in all_templates.items():
+        print(f"{template_id}\t{name}\t{description}")
 
 
 @main.command()
