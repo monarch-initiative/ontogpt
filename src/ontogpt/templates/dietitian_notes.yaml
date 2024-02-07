@@ -146,6 +146,7 @@ classes:
       owl: IntersectionOf
     attributes:
       percentile:
+        # TODO: this may need some additional constraints to keep the XX% format
         description: >-
           The reported percentile of the value, as compared to a reference
           patient population. Always positive, on a scale from 0 to 99%.
