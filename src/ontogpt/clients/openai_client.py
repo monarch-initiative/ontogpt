@@ -31,6 +31,7 @@ class OpenAIClient:
         if not self.api_key:
             self.api_key = get_apikey_value("openai")
         openai.api_key = self.api_key
+        # TODO: control client (Azure vs not) using a feature flag
         self.client = AzureOpenAI(
             # https://learn.microsoft.com/en-us/azure/ai-services/openai/reference#rest-api-versioning
             api_version=AZURE_API_VERSION,
