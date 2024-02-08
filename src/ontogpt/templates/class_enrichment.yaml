@@ -6,18 +6,18 @@ description: >-
 license: https://creativecommons.org/publicdomain/zero/1.0/
 
 prefixes:
+  OBI: http://purl.obolibrary.org/obo/OBI_
+  STATO: http://purl.obolibrary.org/obo/STATO_
+  bpa: https://bioportal.bioontology.org/annotator/
   linkml: https://w3id.org/linkml/
+  oa: http://www.w3.org/ns/oa#
   ontoenrich: https://w3id.org/oak/class-enrichment/
-  skos: http://www.w3.org/2004/02/skos/core#
   pav: http://purl.org/pav/
+  prov: http://www.w3.org/ns/prov#
   schema: http://schema.org/
   sh: https://w3id.org/shacl/
-  prov: http://www.w3.org/ns/prov#
+  skos: http://www.w3.org/2004/02/skos/core#
   sssom: http://w3id.org/sssom/
-  bpa: https://bioportal.bioontology.org/annotator/
-  oa: http://www.w3.org/ns/oa#
-  STATO: http://purl.obolibrary.org/obo/STATO_
-  OBI: http://purl.obolibrary.org/obo/OBI_
 
 default_prefix: ontoenrich
 default_range: string
