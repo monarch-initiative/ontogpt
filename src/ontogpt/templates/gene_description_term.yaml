@@ -5,12 +5,12 @@ description: >-
   A simple GO term template for NER
 license: https://creativecommons.org/publicdomain/zero/1.0/
 prefixes:
-  linkml: https://w3id.org/linkml/
-  bp: http://w3id.org/ontogpt/biological-process-template
-  HGNC: http://identifiers.org/hgnc/
   GO: http://purl.obolibrary.org/obo/GO_
-  MONDO: http://purl.obolibrary.org/obo/MONDO_
+  HGNC: http://identifiers.org/hgnc/
   MESH: http://identifiers.org/mesh/
+  MONDO: http://purl.obolibrary.org/obo/MONDO_
+  bp: http://w3id.org/ontogpt/biological-process-template
+  linkml: https://w3id.org/linkml/
 
 default_prefix: bp
 default_range: string
@@ -33,7 +33,8 @@ classes:
       about:
         range: Gene
         description: >-
-          The official symbol of the gene that is described. For example "TP53". Do not include the word "gene" in the answer.
+          The official symbol of the gene that is described.
+          For example "TP53". Do not include the word "gene" in the answer.
       narrative_summary:
         description: >-
           A free text summary describing the function of the gene
@@ -42,7 +43,8 @@ classes:
         range: GeneDescriptionTerm
         multivalued: true
         description: >-
-          A semicolon separated list of controlled terms drawn from the Gene Ontology that describe the function of the gene
+          A semicolon separated list of controlled terms drawn from the Gene
+          Ontology that describe the function of the gene
   GeneDescriptionTerm:
     tree_root: true
     is_a: NamedEntity
