@@ -5,12 +5,14 @@ description: >-
   A template for biotic interactions
 license: https://creativecommons.org/publicdomain/zero/1.0/
 prefixes:
-  linkml: https://w3id.org/linkml/
-  bp: http://w3id.org/ontogpt/biotic-interaction-template
+  MESH: http://identifiers.org/mesh/
   NCBITaxon: http://purl.obolibrary.org/obo/NCBITAXON_
+  RO: http://purl.obolibrary.org/obo/RO_
+  bp: http://w3id.org/ontogpt/biotic-interaction-template
   col: https://www.catalogueoflife.org/data/taxon/
-  itis: https://www.itis.gov/servlet/SingleRpt/SingleRpt?search_topic=TSN&search_value=
   gbif: https://www.gbif.org/species/
+  itis: https://www.itis.gov/servlet/SingleRpt/SingleRpt?search_topic=TSN&search_value=
+  linkml: https://w3id.org/linkml/
 
 default_prefix: bp
 default_range: string
