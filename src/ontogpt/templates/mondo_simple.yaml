@@ -5,6 +5,7 @@ description: >-
   Simple MONDO Disease Ontology Extraction Template
 license: https://creativecommons.org/publicdomain/zero/1.0/
 prefixes:
+  MONDO: http://purl.obolibrary.org/obo/MONDO_
   linkml: https://w3id.org/linkml/
   mondo_simple: http://w3id.org/ontogpt/emapa_simple
 
