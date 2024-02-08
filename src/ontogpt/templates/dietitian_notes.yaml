@@ -7,9 +7,14 @@ description: >-
   and Alyson Lawrence, RD, CNSC
 license: https://creativecommons.org/publicdomain/zero/1.0/
 prefixes:
-  linkml: https://w3id.org/linkml/
-  dietician_notes: http://w3id.org/ontogpt/dietitian_notes
+  EFO: http://www.ebi.ac.uk/efo/EFO_
+  FOODON: http://purl.obolibrary.org/obo/FOODON_
   HP: http://purl.obolibrary.org/obo/HP_
+  MAXO: http://purl.obolibrary.org/obo/MAXO_
+  MONDO: http://purl.obolibrary.org/obo/MONDO_
+  UO: http://purl.obolibrary.org/obo/UO_
+  dietician_notes: http://w3id.org/ontogpt/dietitian_notes
+  linkml: https://w3id.org/linkml/
 
 default_prefix: dietitian_notes
 default_range: string
@@ -161,7 +166,6 @@ classes:
           "Z-score", or "Z", followed by the value. N/A if not provided.
         # would prefer a float, but that's invalid if a value isn't provided
         range: string
-
 
   # TODO: note that there are specific criteria for malnutrition diagnosis
   MalnutritionObservations:
