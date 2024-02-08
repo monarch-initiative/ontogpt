@@ -3,7 +3,7 @@ name: ctd
 title: Chemical to Disease Template
 description: >-
   A template for Chemical to Disease associations.
-  
+
   This template is intended to represent associations between chemicals and diseases,
   and for evaluating Semantic Llama against BioCreative V Chemical Disease
   Relation (CDR) Task (BC5CDR).
@@ -13,8 +13,9 @@ see_also:
 source: https://biocreative.bioinformatics.udel.edu/tasks/biocreative-v/track-3-cdr/
 license: https://creativecommons.org/publicdomain/zero/1.0/
 prefixes:
-  linkml: https://w3id.org/linkml/
+  MESH: http://identifiers.org/mesh/
   drug: http://w3id.org/ontogpt/drug/
+  linkml: https://w3id.org/linkml/
 
 default_prefix: drug
 default_range: string
@@ -24,7 +25,6 @@ imports:
   - core
 
 classes:
-
   ChemicalToDiseaseDocument:
     description: A document that contains chemical to disease relations.
     is_a: TextWithTriples
@@ -41,7 +41,6 @@ classes:
             Monosodium Glutamate NOT INDUCES Headache;
             Imatinib TREATS cancer
           exclude: Lidocaine, cardiac asystole, Hydroxychloroquine, COVID-19, Methyldopa, Headache, Imatinib, cancer
-
 
   ChemicalToDiseaseRelationship:
     is_a: Triple
@@ -98,8 +97,6 @@ classes:
         values_from:
           - MeshChemicalIdentifier
 
-
-
   ChemicalToDiseasePredicate:
     is_a: RelationshipType
     description: >-
@@ -108,7 +105,6 @@ classes:
       - for the purposes of evaluation against BC5CDR, any predicate other than INDUCES is ignored.
 
 enums:
-
   MeshChemicalIdentifier:
     reachable_from:
       source_ontology: obo:mesh

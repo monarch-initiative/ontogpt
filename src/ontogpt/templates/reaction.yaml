@@ -5,6 +5,12 @@ description: >-
   A template for reactions
 license: https://creativecommons.org/publicdomain/zero/1.0/
 prefixes:
+  CHEBI: http://purl.obolibrary.org/obo/CHEBI_
+  ECO: http://purl.obolibrary.org/obo/ECO_
+  GO: http://purl.obolibrary.org/obo/GO_
+  MS: http://purl.obolibrary.org/obo/MS_
+  NCBITaxon: http://purl.obolibrary.org/obo/NCBITAXON_
+  OBI: http://purl.obolibrary.org/obo/OBI_
   linkml: https://w3id.org/linkml/
   reaction: http://w3id.org/ontogpt/reaction/
 
@@ -45,7 +51,9 @@ classes:
         description: name of the gene that catalyzes the reaction
       reactions:
         range: Reaction
-        description: semicolon separated list of reaction equations (e.g. A+B = C+D) catalyzed by the gene
+        description: >-
+          semicolon separated list of reaction equations (e.g. A+B = C+D)
+          catalyzed by the gene
         multivalued: true
         inlined: true
       organism:
@@ -55,11 +63,15 @@ classes:
     attributes:
       genes:
         range: Gene
-        description: semicolon separated list of genes that catalyzes the mentioned reactions
+        description: >-
+          semicolon separated list of genes that catalyzes the mentioned
+          reactions
         multivalued: true
       reactions:
         range: Reaction
-        description: semicolon separated list of reaction equations (e.g. A+B = C+D) catalyzed by the gene
+        description: >-
+          semicolon separated list of reaction equations (e.g. A+B = C+D)
+          catalyzed by the gene
         multivalued: true
         inlined: true
       gene_reaction_pairings:
@@ -75,14 +87,16 @@ classes:
         multivalued: true
 
   GeneReactionPairing:
-    is_a:   CompoundExpression
+    is_a: CompoundExpression
     attributes:
       gene:
         range: Gene
         description: name of the gene that catalyzes the reaction
       reaction:
         range: Reaction
-        description: equation describing the reaction (e.g. A+B = C+D) catalyzed by the gene
+        description: >-
+          equation describing the reaction (e.g. A+B = C+D) catalyzed by the
+          gene
 
   ReactionGrouping:
     is_a: NamedEntity
@@ -120,5 +134,3 @@ classes:
       - NCBITaxon
     annotations:
       annotators: gilda:, sqlite:obo:ncbitaxon
-
-

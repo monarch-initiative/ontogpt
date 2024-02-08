@@ -5,6 +5,9 @@ description: >-
   A template for Environmental Samples
 license: https://creativecommons.org/publicdomain/zero/1.0/
 prefixes:
+  ENVO: http://purl.obolibrary.org/obo/ENVO_
+  PATO: http://purl.obolibrary.org/obo/PATO_
+  UO: http://purl.obolibrary.org/obo/UO_
   linkml: https://w3id.org/linkml/
   sample: http://w3id.org/ontogpt/environmental-sample/
 
@@ -101,18 +104,18 @@ classes:
       annotators: sqlite:obo:uo, bioportal:ncit
 
   Measurement:
-    is_a:   CompoundExpression
+    is_a: CompoundExpression
     attributes:
-        value:
-            description: the value of the measurement
-            #range: float
-        unit:
-            description: the unit of the measurement
-            range: Unit
-        #variable:
+      value:
+        description: the value of the measurement
+        # range: float
+      unit:
+        description: the unit of the measurement
+        range: Unit
+        # variable:
 
   CausalRelationship:
-    is_a:   CompoundExpression
+    is_a: CompoundExpression
     attributes:
       cause:
         description: the variable that is the cause of the effect

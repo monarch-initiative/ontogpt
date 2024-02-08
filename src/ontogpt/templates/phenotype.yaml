@@ -5,6 +5,10 @@ description: >-
   A template for Computational Phenotypes
 license: https://creativecommons.org/publicdomain/zero/1.0/
 prefixes:
+  CHEBI: http://purl.obolibrary.org/obo/CHEBI_
+  PATO: http://purl.obolibrary.org/obo/PATO_
+  PR: http://purl.obolibrary.org/obo/PR_
+  UBERON: http://purl.obolibrary.org/obo/UBERON_
   linkml: https://w3id.org/linkml/
   phenotype: http://w3id.org/ontogpt/phenotype/
 keywords:
@@ -22,9 +26,10 @@ classes:
   Trait:
     tree_root: true
     attributes:
-    
       quality:
-        description: The property being measured, or changes in this property, for example, amount, level, increased amount, decreased concentration
+        description: >-
+          The property being measured, or changes in this property, for example,
+          amount, level, increased amount, decreased concentration
         annotations:
           prompt.example: amount, level, increased amount, decreased concentration
         range: Quality
@@ -40,7 +45,6 @@ classes:
         range: ChemicalEntity
         annotations:
           prompt.example: lysine, metabolite
-
 
   Quality:
     is_a: NamedEntity
@@ -63,4 +67,3 @@ classes:
       - UBERON
     annotations:
       annotators: sqlite:obo:uberon
-

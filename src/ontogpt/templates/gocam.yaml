@@ -5,10 +5,18 @@ description: >-
   A template for GO-CAMs
 license: https://creativecommons.org/publicdomain/zero/1.0/
 prefixes:
-  linkml: https://w3id.org/linkml/
-  gocam: http://w3id.org/ontogpt/gocam/
-  GO: http://purl.obolibrary.org/obo/GO_
+  CHEBI: http://purl.obolibrary.org/obo/CHEBI_
   CL: http://purl.obolibrary.org/obo/CL_
+  EFO: http://www.ebi.ac.uk/efo/EFO_
+  GO: http://purl.obolibrary.org/obo/GO_
+  HGNC: http://identifiers.org/hgnc/
+  NCBITaxon: http://purl.obolibrary.org/obo/NCBITAXON_
+  PR: http://purl.obolibrary.org/obo/PR_
+  PW: http://purl.obolibrary.org/obo/PW_
+  UBERON: http://purl.obolibrary.org/obo/UBERON_
+  UniProtKB: http://purl.uniprot.org/uniprot/
+  gocam: http://w3id.org/ontogpt/gocam/
+  linkml: https://w3id.org/linkml/
 
 default_prefix: gocam
 default_range: string
@@ -125,7 +133,7 @@ classes:
         range: Organism
 
   GeneMolecularActivityRelationship:
-    is_a:   CompoundExpression
+    is_a: CompoundExpression
     attributes:
       gene:
         range: Gene
@@ -138,12 +146,12 @@ classes:
     annotations:
       prompt.example: |-
         TODO
-        
+
         gene: HGNC:1234
         molecular_activity: GO:0003674
 
   GeneMolecularActivityRelationship2:
-    is_a:   CompoundExpression
+    is_a: CompoundExpression
     attributes:
       gene:
         range: Gene
@@ -159,7 +167,7 @@ classes:
           prompt: the name of the molecular entity that is the target of the molecular activity.
 
   GeneSubcellularLocalizationRelationship:
-    is_a:   CompoundExpression
+    is_a: CompoundExpression
     attributes:
       gene:
         range: Gene
@@ -167,7 +175,7 @@ classes:
         range: GeneLocation
 
   GeneGeneInteraction:
-    is_a:   CompoundExpression
+    is_a: CompoundExpression
     attributes:
       gene1:
         range: Gene
@@ -175,7 +183,6 @@ classes:
         range: Gene
 
 enums:
-
   GeneLocationEnum:
     inherits:
       - GOCellComponent

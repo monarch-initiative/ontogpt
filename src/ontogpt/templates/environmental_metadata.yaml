@@ -6,8 +6,9 @@ description: >-
   data entries. See https://github.com/EDIorg/EDIorg-repository-index
 license: https://creativecommons.org/publicdomain/zero/1.0/
 prefixes:
-  linkml: https://w3id.org/linkml/
+  ENVO: http://purl.obolibrary.org/obo/ENVO_
   envmd: http://w3id.org/ontogpt/environmental-metadata
+  linkml: https://w3id.org/linkml/
 
 default_prefix: envmd
 default_range: string

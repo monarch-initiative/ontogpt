@@ -5,9 +5,10 @@ description: >-
   Simple Mouse Developmental Anatomy Ontology Extraction Template
 license: https://creativecommons.org/publicdomain/zero/1.0/
 prefixes:
-  linkml: https://w3id.org/linkml/
-  emapa_simple: http://w3id.org/ontogpt/emapa_simple
+  EMAPA: http://purl.obolibrary.org/obo/EMAPA_
   GO: http://purl.obolibrary.org/obo/GO_
+  emapa_simple: http://w3id.org/ontogpt/emapa_simple
+  linkml: https://w3id.org/linkml/
 
 default_prefix: emapa_simple
 default_range: string

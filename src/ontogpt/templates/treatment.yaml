@@ -5,6 +5,9 @@ description: >-
   A template for MAXO treatments
 license: https://creativecommons.org/publicdomain/zero/1.0/
 prefixes:
+  HGNC: http://identifiers.org/hgnc/
+  HP: http://purl.obolibrary.org/obo/HP_
+  MAXO: http://purl.obolibrary.org/obo/MAXO_
   linkml: https://w3id.org/linkml/
   treatment: http://w3id.org/ontogpt/treatments/
 keywords:
@@ -117,7 +120,7 @@ classes:
       annotators: sqlite:obo:chebi, sqlite:obo:drugbank
 
   TreatmentMechanism:
-    is_a:   CompoundExpression
+    is_a: CompoundExpression
     attributes:
       treatment:
         range: Treatment
@@ -134,7 +137,7 @@ classes:
         multivalued: true
 
   TreatmentEfficacy:
-    is_a:   CompoundExpression
+    is_a: CompoundExpression
     attributes:
       treatment:
         range: Treatment
@@ -142,7 +145,6 @@ classes:
         range: string
 
 enums:
-
   NCITDrugType:
     reachable_from:
       source_ontology: obo:ncit

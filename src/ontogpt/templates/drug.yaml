@@ -5,8 +5,10 @@ description: >-
   A template for Drugs and drug mechanism
 license: https://creativecommons.org/publicdomain/zero/1.0/
 prefixes:
-  linkml: https://w3id.org/linkml/
+  HGNC: http://identifiers.org/hgnc/
+  MESH: http://identifiers.org/mesh/
   drug: http://w3id.org/ontogpt/drug/
+  linkml: https://w3id.org/linkml/
 
 default_prefix: drug
 default_range: string
@@ -64,7 +66,7 @@ classes:
       annotators: sqlite:obo:biolink, sqlite:obo:ro
 
   MechanismLink:
-    is_a:   CompoundExpression
+    is_a: CompoundExpression
     attributes:
       subject:
         range: MechanismElement
@@ -72,4 +74,3 @@ classes:
         range: Predicate
       object:
         range: MechanismElement
-
