@@ -55,9 +55,22 @@ models:
   - name: MODEL_GPT_4_1106_PREVIEW
     canonical_name: "gpt-4-1106-preview"
     alternative_names:
+      - "gpt4turbo-1106"
+      - "gpt-4-turbo-1106"
+      - "openai-gpt-4-1106-preview"
+    provider: OpenAI
+    creators:
+      - OpenAI
+    requirements:
+      diskspace: "N/A"
+      memory: "N/A"
+
+  - name: MODEL_GPT_4_0125_PREVIEW
+    canonical_name: "gpt-4-0125-preview"
+    alternative_names:
       - "gpt4turbo"
       - "gpt-4-turbo"
-      - "openai-gpt-4-1106-preview"
+      - "openai-gpt-4-0125-preview"
     provider: OpenAI
     creators:
       - OpenAI
