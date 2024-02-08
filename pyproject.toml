@@ -2,7 +2,7 @@
 name = "ontogpt"
 version = "0.3.8"
 description = "OntoGPT"
-authors = ["Chris Mungall <cjmungall@lbl.gov>"]
+authors = ["Chris Mungall <cjmungall@lbl.gov>, J. Harry Caufield <jhc@lbl.gov>"]
 license = "BSD-3"
 readme = "README.md"
 
