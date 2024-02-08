@@ -5,10 +5,13 @@ description: >-
   A template for genesummary
 license: https://creativecommons.org/publicdomain/zero/1.0/
 prefixes:
-  linkml: https://w3id.org/linkml/
-  genesummary: http://w3id.org/ontogpt/genesummary/
-  GO: http://purl.obolibrary.org/obo/GO_
   CL: http://purl.obolibrary.org/obo/CL_
+  GO: http://purl.obolibrary.org/obo/GO_
+  HGNC: http://identifiers.org/hgnc/
+  PR: http://purl.obolibrary.org/obo/PR_
+  UniProtKB: http://purl.uniprot.org/uniprot/
+  genesummary: http://w3id.org/ontogpt/genesummary/
+  linkml: https://w3id.org/linkml/
 
 default_prefix: genesummary
 default_range: string
