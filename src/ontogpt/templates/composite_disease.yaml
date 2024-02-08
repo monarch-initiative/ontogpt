@@ -5,8 +5,13 @@ description: >-
   A template for representing composite disease concepts
 license: https://creativecommons.org/publicdomain/zero/1.0/
 prefixes:
-  linkml: https://w3id.org/linkml/
+  CHEBI: http://purl.obolibrary.org/obo/CHEBI_
+  HGNC: http://identifiers.org/hgnc/
+  HP: http://purl.obolibrary.org/obo/HP_
+  MAXO: http://purl.obolibrary.org/obo/MAXO_
+  RO: http://purl.obolibrary.org/obo/RO_
   composite_disease: http://w3id.org/ontogpt/composite_disease/
+  linkml: https://w3id.org/linkml/
 keywords:
   - disease
   - indication
@@ -116,7 +121,7 @@ classes:
       annotators: sqlite:obo:chebi, sqlite:obo:drugbank
 
   TreatmentMechanism:
-    is_a:   CompoundExpression
+    is_a: CompoundExpression
     attributes:
       treatment:
         range: Treatment
@@ -133,7 +138,7 @@ classes:
         multivalued: true
 
   TreatmentEfficacy:
-    is_a:   CompoundExpression
+    is_a: CompoundExpression
     attributes:
       treatment:
         range: Treatment
@@ -141,42 +146,41 @@ classes:
         range: string
 
 enums:
-
   NCITDrugType:
     reachable_from:
       source_ontology: obo:ncit
       source_nodes:
-        - NCIT:C1908 ## Drug, Food, Chemical or Biomedical Material
+        - NCIT:C1908  ## Drug, Food, Chemical or Biomedical Material
 
   NCITTreatmentType:
     reachable_from:
       source_ontology: obo:ncit
       source_nodes:
-        - NCIT:C25218 ## Intervention or Procedure
+        - NCIT:C25218  ## Intervention or Procedure
 
   NCITTActivityType:
     reachable_from:
       source_ontology: obo:ncit
       source_nodes:
-        - NCIT:C43431 ## Activity
+        - NCIT:C43431  ## Activity
 
   MAXOActionType:
     reachable_from:
       source_ontology: obo:maxo
       source_nodes:
-        - MAXO:0000001 ## Medical Action
+        - MAXO:0000001  ## Medical Action
 
   MESHTherapeuticType:
     reachable_from:
       source_ontology: obo:mesh
       source_nodes:
-        - MESH:D013812 ## Therapeutics
+        - MESH:D013812  ## Therapeutics
 
   CHEBIDrugType:
     reachable_from:
       source_ontology: obo:chebi
       source_nodes:
-        - CHEBI:23888 ## drug
+        - CHEBI:23888  ## drug
       relationship_types:
         - rdfs:subClassOf
         - RO:0000087
