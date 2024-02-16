@@ -217,10 +217,27 @@ classes:
           N/A if not provided.
         range: Disease
 
+  # TODO: consider adding frequency
+  # or more specifically, adapt units for frequency
+  # TODO: make dosage multivalued somehow, to accomodate multiple ingredients
+  DietSupplementation:
+    is_a: CompoundExpression
+    annotations:
+      owl: IntersectionOf
+    attributes:
+      therapy:
+        description: >-
+          The name of the specific diet supplementation therapy.
+        range: DietSupplementationTherapy
+      amount:
+        description: >-
+          The quantity or dosage of the therapy, if provided.
+          N/A if not provided.
+        range: QuantitativeValue
+
   # TODO: distinguish whether this is currently active therapy
   #       or a reccomendation for future therapy (but not yet started)
-  # TODO: consider adding dosages + frequency
-  DietSupplementation:
+  DietSupplementationTherapy:
     description: >-
       A diet supplementation therapy.
     is_a: NamedEntity
