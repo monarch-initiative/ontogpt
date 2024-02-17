@@ -144,8 +144,8 @@ classes:
         description: >-
           A semicolon-separated list of the patient's medications.
           This should include the medication name, dosage, frequency,
-          and route of administration.
-          'Not provided' if not provided.
+          and route of administration. Relevant acronyms: PO: per os/by mouth,
+          PRN: pro re nata/as needed. 'Not provided' if not provided.
         range: DrugTherapy
         multivalued: true
 
