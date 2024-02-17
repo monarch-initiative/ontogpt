@@ -62,13 +62,19 @@ classes:
             This should include all units, percentiles, and z-scores.
             'Not provided' if not provided.
         range: QuantitativeValueWithMetric
-      # TODO: handle current vs usual body weight
-      patient_weight:
+      current_patient_weight:
         annotations:
           prompt: >-
-            The value and units of the patient's weight.
-            This should include all units, percentiles, and z-scores.
-            'Not provided' if not provided.
+            The value and units of the patient's weight at the time of the
+            current assessment. This should include all units, percentiles, and
+            z-scores. 'Not provided' if not provided.
+        range: QuantitativeValueWithMetric
+      usual_patient_weight:
+        annotations:
+          prompt: >-
+            The value and units of the patient's weight under usual conditions
+            and/or in the recent past. This should include all units,
+            percentiles, and z-scores. 'Not provided' if not provided.
         range: QuantitativeValueWithMetric
       head_circumference:
         annotations:
@@ -319,3 +325,6 @@ classes:
       - dbpediaont
     annotations:
       annotators: sqlite:obo:uo, sqlite:obo:dbpediaont, sqlite:obo:foodon
+
+# TODO: add enums for frequently used units, e.g. for frequency
+# Ditto for administration routes
