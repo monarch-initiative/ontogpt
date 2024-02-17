@@ -249,9 +249,9 @@ classes:
     annotations:
       annotators: sqlite:obo:foodon, sqlite:obo:chebi, sqlite:obo:maxo, sqlite:obo:efo, sqlite:obo:mesh
       prompt.examples: >-
-        single vitamin supplement, ginkgo biloba supplement,
-        multi-mineral supplement, biotin supplementation,
-        glucosamine supplement
+        dextrose, amino acids, single vitamin supplement,
+        ginkgo biloba supplement, multi-mineral supplement,
+        biotin supplementation, glucosamine supplement
 
   # TODO: consider limiting to children of MAXO:0000009
   #       or a more specific group of terms
