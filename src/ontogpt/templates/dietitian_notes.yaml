@@ -231,7 +231,6 @@ classes:
           N/A if not provided.
         range: Disease
 
-  # TODO: include route of administration
   DietSupplementation:
     is_a: CompoundExpression
     annotations:
@@ -257,6 +256,11 @@ classes:
           The duration of the supplementation, if provided.
           N/A if not provided.
         range: QuantitativeValue
+      route_of_administration:
+        description: >-
+          The route of administration for the supplementation, if provided.
+          N/A if not provided.
+        range: string
 
   # TODO: distinguish whether this is currently active therapy
   #       or a reccomendation for future therapy (but not yet started)
