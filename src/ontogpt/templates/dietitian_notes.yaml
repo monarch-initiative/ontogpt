@@ -89,8 +89,9 @@ classes:
       diet_supplementation:
         description: >-
           A semicolon-separated list of the patient's diet supplementation
-          therapies. All acronyms should be expanded,
-          omitting the original acronym. Relevant acronyms: PO: per os/by mouth,
+          therapies. Split on specific ingredients and their amounts.
+          All acronyms should be expanded, omitting the original acronym.
+          Relevant acronyms: PO: per os/by mouth,
           NPO: nil per os/nothing by mouth, TPN: total parenteral nutrition,
           PN: parenteral nutrition, EN: enteral nutrition, IBW: ideal body
           weight, UBW: usual body weight, ABW: actual body weight,
