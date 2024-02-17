@@ -65,16 +65,20 @@ classes:
       current_patient_weight:
         annotations:
           prompt: >-
-            The value and units of the patient's weight at the time of the
-            current assessment. This should include all units, percentiles, and
-            z-scores. 'Not provided' if not provided.
+            The value and units of the patient's actual body weight at the time
+            of the current assessment. This should include all units,
+            percentiles, and z-scores. Relevant acronyms: IBW: ideal body
+            weight, UBW: usual body weight, ABW: actual body weight.
+            'Not provided' if not provided.
         range: QuantitativeValueWithMetric
       usual_patient_weight:
         annotations:
           prompt: >-
-            The value and units of the patient's weight under usual conditions
-            and/or in the recent past. This should include all units,
-            percentiles, and z-scores. 'Not provided' if not provided.
+            The value and units of the patient's body weight under usual
+            conditions and/or in the recent past. This should include all units,
+            percentiles, and z-scores. Relevant acronyms: IBW: ideal body
+            weight, UBW: usual body weight, ABW: actual body weight.
+            'Not provided' if not provided.
         range: QuantitativeValueWithMetric
       head_circumference:
         annotations:
@@ -99,8 +103,7 @@ classes:
           All acronyms should be expanded, omitting the original acronym.
           Relevant acronyms: PO: per os/by mouth,
           NPO: nil per os/nothing by mouth, TPN: total parenteral nutrition,
-          PN: parenteral nutrition, EN: enteral nutrition, IBW: ideal body
-          weight, UBW: usual body weight, ABW: actual body weight,
+          PN: parenteral nutrition, EN: enteral nutrition,
           D#%: dextrose percentage (e.g. D5%) for PN infusion,
           AA # g/kg/d: amino acid provisions (may also be in percentages)
           for PN infusion, SMOF # g/kg/d: soy MCT olive fish oil emulsion for
@@ -119,8 +122,7 @@ classes:
           All acronyms should be expanded, omitting the original acronym.
           Relevant acronyms: PO: per os/by mouth, NPO: nil per os/nothing by
           mouth, TPN: total parenteral nutrition, PN: parenteral nutrition,
-          EN: enteral nutrition, IBW: ideal body weight, UBW: usual body weight,
-          ABW: actual body weight, D#%: dextrose percentage (e.g. D5%) for PN
+          EN: enteral nutrition, D#%: dextrose percentage (e.g. D5%) for PN
           infusion, AA # g/kg/d: amino acid provisions (may also be in
           percentages) for PN infusion, SMOF # g/kg/d: soy MCT olive fish oil
           emulsion for PN infusion, GIR: glucose infusion rate, SBS: short
