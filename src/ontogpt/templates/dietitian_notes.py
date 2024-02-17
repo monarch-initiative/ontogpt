@@ -90,6 +90,7 @@ class ClinicalObservations(NamedEntity):
     malnutrition_status: Optional[MalnutritionObservations] = Field(None)
     diet_supplementation: Optional[List[DietSupplementation]] = Field(default_factory=list, description="""A semicolon-separated list of the patient's diet supplementation therapies. Split on specific ingredients and their amounts. All acronyms should be expanded, omitting the original acronym. Relevant acronyms: PO: per os/by mouth, NPO: nil per os/nothing by mouth, TPN: total parenteral nutrition, PN: parenteral nutrition, EN: enteral nutrition, D#%: dextrose percentage (e.g. D5%) for PN infusion, AA # g/kg/d: amino acid provisions (may also be in percentages) for PN infusion, SMOF # g/kg/d: soy MCT olive fish oil emulsion for PN infusion, GIR: glucose infusion rate, SBS: short bowel syndrome, LIS: low intermittent suction, BW: birth weight, EHM: exclusively human milk, RTBW: return to birth weight, Mg: magnesium, Phos: phosphorus, GI: gastrointestinal, PICC: peripherally inserted central catheter, DOL: day of life, TG: triglycerides, KUB: Kidney ureter bladder CT""")
     nutrition_support: Optional[List[str]] = Field(default_factory=list, description="""A semicolon-separated list of the patient's nutrition support therapies, usually enteral or parenteral nutrition. All acronyms should be expanded, omitting the original acronym. Relevant acronyms: PO: per os/by mouth, NPO: nil per os/nothing by mouth, TPN: total parenteral nutrition, PN: parenteral nutrition, EN: enteral nutrition, D#%: dextrose percentage (e.g. D5%) for PN infusion, AA # g/kg/d: amino acid provisions (may also be in percentages) for PN infusion, SMOF # g/kg/d: soy MCT olive fish oil emulsion for PN infusion, GIR: glucose infusion rate, SBS: short bowel syndrome, LIS: low intermittent suction, BW: birth weight, EHM: exclusively human milk, RTBW: return to birth weight, Mg: magnesium, Phos: phosphorus, GI: gastrointestinal, PICC: peripherally inserted central catheter, DOL: day of life, TG: triglycerides, KUB: Kidney ureter bladder CT""")
+    medications: Optional[List[DrugTherapy]] = Field(default_factory=list, description="""A semicolon-separated list of the patient's medications. This should include the medication name, dosage, frequency, and route of administration. 'Not provided' if not provided.""")
     id: str = Field(..., description="""A unique identifier for the named entity""")
     label: Optional[str] = Field(None, description="""The label (name) of the named thing""")
     
@@ -114,6 +115,13 @@ class NutritionSupport(NamedEntity):
     
 
 class Disease(NamedEntity):
+    
+    id: str = Field(..., description="""A unique identifier for the named entity""")
+    label: Optional[str] = Field(None, description="""The label (name) of the named thing""")
+    
+    
+
+class Drug(NamedEntity):
     
     id: str = Field(..., description="""A unique identifier for the named entity""")
     label: Optional[str] = Field(None, description="""The label (name) of the named thing""")
@@ -164,6 +172,16 @@ class DietSupplementation(CompoundExpression):
     dosage_by_unit: Optional[str] = Field(None, description="""The unit of a patient's properties used to determine supplement dosage. Often \"kilogram\". N/A if not provided.""")
     duration: Optional[QuantitativeValue] = Field(None, description="""The duration of the supplementation, if provided. N/A if not provided.""")
     route_of_administration: Optional[str] = Field(None, description="""The route of administration for the supplementation, if provided. N/A if not provided.""")
+    
+    
+
+class DrugTherapy(CompoundExpression):
+    
+    drug: Optional[str] = Field(None, description="""The name of a specific drug for a patient's preventative or therapeutic treatment.""")
+    amount: Optional[QuantitativeValueWithFrequency] = Field(None, description="""The quantity or dosage of the drug, if provided. May include a frequency. N/A if not provided.""")
+    dosage_by_unit: Optional[str] = Field(None, description="""The unit of a patient's properties used to determine drug dosage. Often \"kilogram\". N/A if not provided.""")
+    duration: Optional[QuantitativeValue] = Field(None, description="""The duration of the drug therapy, if provided. N/A if not provided.""")
+    route_of_administration: Optional[str] = Field(None, description="""The route of administration for the drug therapy, if provided. N/A if not provided.""")
     
     
 
@@ -234,12 +252,14 @@ ClinicalObservations.model_rebuild()
 DietSupplementationMaterial.model_rebuild()
 NutritionSupport.model_rebuild()
 Disease.model_rebuild()
+Drug.model_rebuild()
 Unit.model_rebuild()
 CompoundExpression.model_rebuild()
 QuantitativeValue.model_rebuild()
 QuantitativeValueWithMetric.model_rebuild()
 QuantitativeValueWithFrequency.model_rebuild()
 DietSupplementation.model_rebuild()
+DrugTherapy.model_rebuild()
 Triple.model_rebuild()
 TextWithTriples.model_rebuild()
 TextWithEntity.model_rebuild()
