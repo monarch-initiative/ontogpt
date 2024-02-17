@@ -59,6 +59,7 @@ classes:
         annotations:
           prompt: >-
             The patient's age at the time of the current assessment.
+            Omit the word "old" from the response.
             'Not provided' if not provided.
         range: QuantitativeValue
       patient_height:
