@@ -250,8 +250,7 @@ classes:
         description: >-
           The cause of the patient's malnutrition, if known.
           This may be due to acute or chronic disease or
-          social/behavioral factors.
-          N/A if not provided.
+          social/behavioral factors. N/A if not provided.
         range: Disease
 
   DietSupplementation:
@@ -266,8 +265,7 @@ classes:
       amount:
         description: >-
           The quantity or dosage of the therapy, if provided.
-          May include a frequency.
-          N/A if not provided.
+          May include a frequency. N/A if not provided.
         range: QuantitativeValueWithFrequency
       dosage_by_unit:
         description: >-
