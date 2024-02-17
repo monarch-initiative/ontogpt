@@ -225,10 +225,10 @@ classes:
     annotations:
       owl: IntersectionOf
     attributes:
-      therapy:
+      supplement:
         description: >-
-          The name of the specific diet supplementation therapy.
-        range: DietSupplementationTherapy
+          The name of a specific material added to a patient's diet.
+        range: DietSupplementationMaterial
       amount:
         description: >-
           The quantity or dosage of the therapy, if provided.
@@ -237,9 +237,9 @@ classes:
 
   # TODO: distinguish whether this is currently active therapy
   #       or a reccomendation for future therapy (but not yet started)
-  DietSupplementationTherapy:
+  DietSupplementationMaterial:
     description: >-
-      A diet supplementation therapy.
+      A specific material added to a patient's diet.
     is_a: NamedEntity
     id_prefixes:
       - FOODON

@@ -93,9 +93,9 @@ class ClinicalObservations(NamedEntity):
     
     
 
-class DietSupplementationTherapy(NamedEntity):
+class DietSupplementationMaterial(NamedEntity):
     """
-    A diet supplementation therapy.
+    A specific material added to a patient's diet.
     """
     id: str = Field(..., description="""A unique identifier for the named entity""")
     label: Optional[str] = Field(None, description="""The label (name) of the named thing""")
@@ -149,7 +149,7 @@ class QuantitativeValueWithMetric(QuantitativeValue):
 
 class DietSupplementation(CompoundExpression):
     
-    therapy: Optional[str] = Field(None, description="""The name of the specific diet supplementation therapy.""")
+    supplement: Optional[str] = Field(None, description="""The name of a specific material added to a patient's diet.""")
     amount: Optional[QuantitativeValue] = Field(None, description="""The quantity or dosage of the therapy, if provided. N/A if not provided.""")
     
     
@@ -218,7 +218,7 @@ MalnutritionObservations.model_rebuild()
 ExtractionResult.model_rebuild()
 NamedEntity.model_rebuild()
 ClinicalObservations.model_rebuild()
-DietSupplementationTherapy.model_rebuild()
+DietSupplementationMaterial.model_rebuild()
 NutritionSupport.model_rebuild()
 Disease.model_rebuild()
 Unit.model_rebuild()
