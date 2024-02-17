@@ -249,7 +249,7 @@ classes:
     annotations:
       annotators: sqlite:obo:foodon, sqlite:obo:chebi, sqlite:obo:maxo, sqlite:obo:efo, sqlite:obo:mesh
       prompt.examples: >-
-        dextrose, amino acids, single vitamin supplement,
+        sugar, amino acids, single vitamin supplement,
         ginkgo biloba supplement, multi-mineral supplement,
         biotin supplementation, glucosamine supplement
 
