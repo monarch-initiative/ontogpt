@@ -160,6 +160,7 @@ class DietSupplementation(CompoundExpression):
     supplement: Optional[str] = Field(None, description="""The name of a specific material added to a patient's diet.""")
     amount: Optional[QuantitativeValueWithFrequency] = Field(None, description="""The quantity or dosage of the therapy, if provided. May include a frequency. N/A if not provided.""")
     dosage_by_unit: Optional[str] = Field(None, description="""The unit of a patient's properties used to determine supplement dosage. Often \"kilogram\". N/A if not provided.""")
+    duration: Optional[QuantitativeValue] = Field(None, description="""The duration of the supplementation, if provided. N/A if not provided.""")
     
     
 
