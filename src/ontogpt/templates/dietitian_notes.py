@@ -147,10 +147,18 @@ class QuantitativeValueWithMetric(QuantitativeValue):
     
     
 
+class QuantitativeValueWithFrequency(QuantitativeValue):
+    
+    frequency: Optional[str] = Field(None, description="""A phrase describing how often an event or procedure should happen. May include time phrases such as \"per day\", Latin version of the same such as \"per diem\", single words such as \"daily\", or more complex phrases such as \"every 4 hours\". N/A if not provided.""")
+    value: Optional[str] = Field(None, description="""The value of the quantity, or N/A if not provided.""")
+    unit: Optional[str] = Field(None, description="""The unit of the quantity, or N/A if not provided.""")
+    
+    
+
 class DietSupplementation(CompoundExpression):
     
     supplement: Optional[str] = Field(None, description="""The name of a specific material added to a patient's diet.""")
-    amount: Optional[QuantitativeValue] = Field(None, description="""The quantity or dosage of the therapy, if provided. N/A if not provided.""")
+    amount: Optional[QuantitativeValueWithFrequency] = Field(None, description="""The quantity or dosage of the therapy, if provided. May include a frequency. N/A if not provided.""")
     
     
 
@@ -225,6 +233,7 @@ Unit.model_rebuild()
 CompoundExpression.model_rebuild()
 QuantitativeValue.model_rebuild()
 QuantitativeValueWithMetric.model_rebuild()
+QuantitativeValueWithFrequency.model_rebuild()
 DietSupplementation.model_rebuild()
 Triple.model_rebuild()
 TextWithTriples.model_rebuild()

@@ -168,6 +168,19 @@ classes:
         # would prefer a float, but that's invalid if a value isn't provided
         range: string
 
+  QuantitativeValueWithFrequency:
+    is_a: QuantitativeValue
+    annotations:
+      owl: IntersectionOf
+    attributes:
+      frequency:
+        description: >-
+          A phrase describing how often an event or procedure should
+          happen. May include time phrases such as "per day", Latin
+          version of the same such as "per diem", single words such as "daily",
+          or more complex phrases such as "every 4 hours". N/A if not provided.
+        range: string
+
   # TODO: note that there are specific criteria for malnutrition diagnosis
   MalnutritionObservations:
     attributes:
@@ -218,9 +231,9 @@ classes:
           N/A if not provided.
         range: Disease
 
-  # TODO: consider adding frequency
-  # or more specifically, adapt units for frequency
-  # TODO: make dosage multivalued somehow, to accomodate multiple ingredients
+  # TODO: include duration
+  # TODO: include dosage by weight
+  # TODO: include route of administration
   DietSupplementation:
     is_a: CompoundExpression
     annotations:
@@ -233,8 +246,9 @@ classes:
       amount:
         description: >-
           The quantity or dosage of the therapy, if provided.
+          May include a frequency.
           N/A if not provided.
-        range: QuantitativeValue
+        range: QuantitativeValueWithFrequency
 
   # TODO: distinguish whether this is currently active therapy
   #       or a reccomendation for future therapy (but not yet started)
