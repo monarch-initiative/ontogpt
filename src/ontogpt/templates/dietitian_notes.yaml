@@ -249,6 +249,11 @@ classes:
           May include a frequency.
           N/A if not provided.
         range: QuantitativeValueWithFrequency
+      dosage_by_unit:
+        description: >-
+          The unit of a patient's properties used to determine supplement
+          dosage. Often "kilogram". N/A if not provided.
+        range: Unit
 
   # TODO: distinguish whether this is currently active therapy
   #       or a reccomendation for future therapy (but not yet started)
