@@ -82,6 +82,7 @@ class ClinicalObservations(NamedEntity):
     """
     is_pediatric: Optional[str] = Field(None)
     is_preterm: Optional[str] = Field(None)
+    patient_age: Optional[QuantitativeValue] = Field(None)
     patient_height: Optional[QuantitativeValueWithMetric] = Field(None)
     current_patient_weight: Optional[QuantitativeValueWithMetric] = Field(None)
     usual_patient_weight: Optional[QuantitativeValueWithMetric] = Field(None)

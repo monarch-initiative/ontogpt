@@ -55,6 +55,12 @@ classes:
             True if the patient's birth was preterm, False otherwise.
             A birth before 37 weeks gestation is preterm.
         range: string
+      patient_age:
+        annotations:
+          prompt: >-
+            The patient's age at the time of the current assessment.
+            'Not provided' if not provided.
+        range: QuantitativeValue
       patient_height:
         annotations:
           prompt: >-
