@@ -55,6 +55,13 @@ classes:
             True if the patient's birth was preterm, False otherwise.
             A birth before 37 weeks gestation is preterm.
         range: string
+      patient_age:
+        annotations:
+          prompt: >-
+            The patient's age at the time of the current assessment.
+            Omit the word "old" from the response.
+            'Not provided' if not provided.
+        range: QuantitativeValue
       patient_height:
         annotations:
           prompt: >-
@@ -62,12 +69,22 @@ classes:
             This should include all units, percentiles, and z-scores.
             'Not provided' if not provided.
         range: QuantitativeValueWithMetric
-      # TODO: handle current vs usual body weight
-      patient_weight:
+      current_patient_weight:
         annotations:
           prompt: >-
-            The value and units of the patient's weight.
-            This should include all units, percentiles, and z-scores.
+            The value and units of the patient's actual body weight at the time
+            of the current assessment. This should include all units,
+            percentiles, and z-scores. Relevant acronyms: IBW: ideal body
+            weight, UBW: usual body weight, ABW: actual body weight.
+            'Not provided' if not provided.
+        range: QuantitativeValueWithMetric
+      usual_patient_weight:
+        annotations:
+          prompt: >-
+            The value and units of the patient's body weight under usual
+            conditions and/or in the recent past. This should include all units,
+            percentiles, and z-scores. Relevant acronyms: IBW: ideal body
+            weight, UBW: usual body weight, ABW: actual body weight.
             'Not provided' if not provided.
         range: QuantitativeValueWithMetric
       head_circumference:
@@ -89,11 +106,11 @@ classes:
       diet_supplementation:
         description: >-
           A semicolon-separated list of the patient's diet supplementation
-          therapies. All acronyms should be expanded,
-          omitting the original acronym. Relevant acronyms: PO: per os/by mouth,
+          therapies. Split on specific ingredients and their amounts.
+          All acronyms should be expanded, omitting the original acronym.
+          Relevant acronyms: PO: per os/by mouth,
           NPO: nil per os/nothing by mouth, TPN: total parenteral nutrition,
-          PN: parenteral nutrition, EN: enteral nutrition, IBW: ideal body
-          weight, UBW: usual body weight, ABW: actual body weight,
+          PN: parenteral nutrition, EN: enteral nutrition,
           D#%: dextrose percentage (e.g. D5%) for PN infusion,
           AA # g/kg/d: amino acid provisions (may also be in percentages)
           for PN infusion, SMOF # g/kg/d: soy MCT olive fish oil emulsion for
@@ -112,8 +129,7 @@ classes:
           All acronyms should be expanded, omitting the original acronym.
           Relevant acronyms: PO: per os/by mouth, NPO: nil per os/nothing by
           mouth, TPN: total parenteral nutrition, PN: parenteral nutrition,
-          EN: enteral nutrition, IBW: ideal body weight, UBW: usual body weight,
-          ABW: actual body weight, D#%: dextrose percentage (e.g. D5%) for PN
+          EN: enteral nutrition, D#%: dextrose percentage (e.g. D5%) for PN
           infusion, AA # g/kg/d: amino acid provisions (may also be in
           percentages) for PN infusion, SMOF # g/kg/d: soy MCT olive fish oil
           emulsion for PN infusion, GIR: glucose infusion rate, SBS: short
@@ -124,6 +140,14 @@ classes:
           TG: triglycerides, KUB: Kidney ureter bladder CT
         range: NutritionSupport
         multivalued: true
+      medications:
+        description: >-
+          A semicolon-separated list of the patient's medications.
+          This should include the medication name, dosage, frequency,
+          and route of administration. Relevant acronyms: PO: per os/by mouth,
+          PRN: pro re nata/as needed. 'Not provided' if not provided.
+        range: DrugTherapy
+        multivalued: true
 
   QuantitativeValue:
     is_a: CompoundExpression
@@ -132,14 +156,14 @@ classes:
     attributes:
       value:
         description: >-
-          The value of the quantity,
-          or N/A if not provided.
+          The value of the quantity, or N/A if not provided.
         # would prefer a float, but that's invalid if a value isn't provided
         range: string
         annotations:
           owl: DataProperty, DataHasValue
       unit:
-        description: The unit of the quantity.
+        description: >-
+          The unit of the quantity, or N/A if not provided.
         range: Unit
         slot_uri: qudt:unit
         annotations:
@@ -165,6 +189,19 @@ classes:
           percentile. May be positive or negative. May be reported as "z-score",
           "Z-score", or "Z", followed by the value. N/A if not provided.
         # would prefer a float, but that's invalid if a value isn't provided
+        range: string
+
+  QuantitativeValueWithFrequency:
+    is_a: QuantitativeValue
+    annotations:
+      owl: IntersectionOf
+    attributes:
+      frequency:
+        description: >-
+          A phrase describing how often an event or procedure should
+          happen. May include time phrases such as "per day", Latin
+          version of the same such as "per diem", single words such as "daily",
+          or more complex phrases such as "every 4 hours". N/A if not provided.
         range: string
 
   # TODO: note that there are specific criteria for malnutrition diagnosis
@@ -213,16 +250,44 @@ classes:
         description: >-
           The cause of the patient's malnutrition, if known.
           This may be due to acute or chronic disease or
-          social/behavioral factors.
-          N/A if not provided.
+          social/behavioral factors. N/A if not provided.
         range: Disease
+
+  DietSupplementation:
+    is_a: CompoundExpression
+    annotations:
+      owl: IntersectionOf
+    attributes:
+      supplement:
+        description: >-
+          The name of a specific material added to a patient's diet.
+        range: DietSupplementationMaterial
+      amount:
+        description: >-
+          The quantity or dosage of the therapy, if provided.
+          May include a frequency. N/A if not provided.
+        range: QuantitativeValueWithFrequency
+      dosage_by_unit:
+        description: >-
+          The unit of a patient's properties used to determine supplement
+          dosage. Often "kilogram". N/A if not provided.
+        range: Unit
+      duration:
+        description: >-
+          The duration of the supplementation, if provided.
+          N/A if not provided.
+        range: QuantitativeValue
+      route_of_administration:
+        description: >-
+          The route of administration for the supplementation, if provided.
+          N/A if not provided.
+        range: string
 
   # TODO: distinguish whether this is currently active therapy
   #       or a reccomendation for future therapy (but not yet started)
-  # TODO: consider adding dosages + frequency
-  DietSupplementation:
+  DietSupplementationMaterial:
     description: >-
-      A diet supplementation therapy.
+      A specific material added to a patient's diet.
     is_a: NamedEntity
     id_prefixes:
       - FOODON
@@ -231,9 +296,9 @@ classes:
     annotations:
       annotators: sqlite:obo:foodon, sqlite:obo:chebi, sqlite:obo:maxo, sqlite:obo:efo, sqlite:obo:mesh
       prompt.examples: >-
-        single vitamin supplement, ginkgo biloba supplement,
-        multi-mineral supplement, biotin supplementation,
-        glucosamine supplement
+        sugar, amino acids, single vitamin supplement,
+        ginkgo biloba supplement, multi-mineral supplement,
+        biotin supplementation, glucosamine supplement
 
   # TODO: consider limiting to children of MAXO:0000009
   #       or a more specific group of terms
@@ -258,6 +323,38 @@ classes:
         enteral nutrition intake, gavage nutrition intake,
         parenteral nutrition intake, partial parenteral nutrition intake
 
+  DrugTherapy:
+    is_a: CompoundExpression
+    annotations:
+      owl: IntersectionOf
+    attributes:
+      drug:
+        description: >-
+          The name of a specific drug for a patient's preventative
+          or therapeutic treatment.
+        range: Drug
+      amount:
+        description: >-
+          The quantity or dosage of the drug, if provided.
+          May include a frequency.
+          N/A if not provided.
+        range: QuantitativeValueWithFrequency
+      dosage_by_unit:
+        description: >-
+          The unit of a patient's properties used to determine drug
+          dosage. Often "kilogram". N/A if not provided.
+        range: Unit
+      duration:
+        description: >-
+          The duration of the drug therapy, if provided.
+          N/A if not provided.
+        range: QuantitativeValue
+      route_of_administration:
+        description: >-
+          The route of administration for the drug therapy, if provided.
+          N/A if not provided.
+        range: string
+
   Disease:
     is_a: NamedEntity
     id_prefixes:
@@ -267,6 +364,17 @@ classes:
       annotators: sqlite:obo:mondo, sqlite:obo:mesh, sqlite:obo:efo
       prompt.examples: cardiac asystole, COVID-19, Headache, cancer
 
+  Drug:
+    is_a: NamedEntity
+    id_prefixes:
+      - DRUGBANK
+      - CHEBI
+      - MESH
+    annotations:
+      annotators: sqlite:obo:drugbank, sqlite:obo:chebi, sqlite:obo:mesh
+      prompt.examples: >-
+        acetaminophen, ibuprofen, furosemide, insulin, heparin, warfarin
+
   Unit:
     is_a: NamedEntity
     id_prefixes:
@@ -275,3 +383,6 @@ classes:
       - dbpediaont
     annotations:
       annotators: sqlite:obo:uo, sqlite:obo:dbpediaont, sqlite:obo:foodon
+
+# TODO: add enums for frequently used units, e.g. for frequency
+# Ditto for administration routes
