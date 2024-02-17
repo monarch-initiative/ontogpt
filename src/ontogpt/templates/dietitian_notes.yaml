@@ -132,14 +132,14 @@ classes:
     attributes:
       value:
         description: >-
-          The value of the quantity,
-          or N/A if not provided.
+          The value of the quantity, or N/A if not provided.
         # would prefer a float, but that's invalid if a value isn't provided
         range: string
         annotations:
           owl: DataProperty, DataHasValue
       unit:
-        description: The unit of the quantity.
+        description: >-
+          The unit of the quantity, or N/A if not provided.
         range: Unit
         slot_uri: qudt:unit
         annotations:

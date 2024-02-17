@@ -134,7 +134,7 @@ class CompoundExpression(ConfiguredBaseModel):
 class QuantitativeValue(CompoundExpression):
     
     value: Optional[str] = Field(None, description="""The value of the quantity, or N/A if not provided.""")
-    unit: Optional[str] = Field(None, description="""The unit of the quantity.""")
+    unit: Optional[str] = Field(None, description="""The unit of the quantity, or N/A if not provided.""")
     
     
 
@@ -143,7 +143,7 @@ class QuantitativeValueWithMetric(QuantitativeValue):
     percentile: Optional[str] = Field(None, description="""The reported percentile of the value, as compared to a reference patient population. Always positive, on a scale from 0 to 99%. May be reported as \"X%\", \"X%ile\", or \"Xth percentile\", where X is the value. N/A if not provided.""")
     zscore: Optional[str] = Field(None, description="""The relative standard deviation of the value, as a function of the percentile. May be positive or negative. May be reported as \"z-score\", \"Z-score\", or \"Z\", followed by the value. N/A if not provided.""")
     value: Optional[str] = Field(None, description="""The value of the quantity, or N/A if not provided.""")
-    unit: Optional[str] = Field(None, description="""The unit of the quantity.""")
+    unit: Optional[str] = Field(None, description="""The unit of the quantity, or N/A if not provided.""")
     
     
 
