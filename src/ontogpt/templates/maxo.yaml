@@ -6,6 +6,7 @@ description: >-
   MAXO medical action ontology.
 license: https://creativecommons.org/publicdomain/zero/1.0/
 prefixes:
+  rdf: http://www.w3.org/1999/02/22-rdf-syntax-ns#
   HP: http://purl.obolibrary.org/obo/HP_
   MAXO: http://purl.obolibrary.org/obo/MAXO_
   MONDO: http://purl.obolibrary.org/obo/MONDO_

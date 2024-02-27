@@ -9,6 +9,7 @@ see_also:
   - https://bridge2ai.github.io/data-sheets-schema
 
 prefixes:
+  rdf: http://www.w3.org/1999/02/22-rdf-syntax-ns#
   biolink: https://w3id.org/biolink/
   csvw: http://www.w3.org/ns/csvw#
   data_sheets_schema: https://w3id.org/bridge2ai/data-sheets-schema/

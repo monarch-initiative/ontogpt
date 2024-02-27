@@ -5,6 +5,7 @@ description: >-
   A template for representing composite disease concepts
 license: https://creativecommons.org/publicdomain/zero/1.0/
 prefixes:
+  rdf: http://www.w3.org/1999/02/22-rdf-syntax-ns#
   CHEBI: http://purl.obolibrary.org/obo/CHEBI_
   HGNC: http://identifiers.org/hgnc/
   HP: http://purl.obolibrary.org/obo/HP_

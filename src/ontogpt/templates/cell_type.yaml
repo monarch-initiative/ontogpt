@@ -5,6 +5,7 @@ description: >-
   A template for representing cell types
 license: https://creativecommons.org/publicdomain/zero/1.0/
 prefixes:
+  rdf: http://www.w3.org/1999/02/22-rdf-syntax-ns#
   AUTO: http://w3id.org/ontogpt/auto/
   BFO: http://purl.obolibrary.org/obo/BFO_
   CHEBI: http://purl.obolibrary.org/obo/CHEBI_

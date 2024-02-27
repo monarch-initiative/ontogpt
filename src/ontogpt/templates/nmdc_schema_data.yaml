@@ -8,6 +8,7 @@ description: >-
   of NLCD values and FAO soil taxonomy classes to ENVO.
 license: https://creativecommons.org/publicdomain/zero/1.0/
 prefixes:
+  rdf: http://www.w3.org/1999/02/22-rdf-syntax-ns#
   linkml: https://w3id.org/linkml/
   nmdcsd: http://w3id.org/ontogpt/nmdc-schema-data
 
