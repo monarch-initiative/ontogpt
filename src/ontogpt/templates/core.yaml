@@ -3,6 +3,7 @@ name: core
 title: AI core Template
 license: https://creativecommons.org/publicdomain/zero/1.0/
 prefixes:
+  rdf: http://www.w3.org/1999/02/22-rdf-syntax-ns#
   NCIT: http://purl.obolibrary.org/obo/NCIT_
   RO: http://purl.obolibrary.org/obo/RO_
   biolink: https://w3id.org/biolink/vocab/

@@ -13,6 +13,7 @@ see_also:
 source: https://biocreative.bioinformatics.udel.edu/tasks/biocreative-v/track-3-cdr/
 license: https://creativecommons.org/publicdomain/zero/1.0/
 prefixes:
+  rdf: http://www.w3.org/1999/02/22-rdf-syntax-ns#
   MESH: http://identifiers.org/mesh/
   drug: http://w3id.org/ontogpt/drug/
   linkml: https://w3id.org/linkml/

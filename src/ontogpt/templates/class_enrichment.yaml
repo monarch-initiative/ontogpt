@@ -6,6 +6,7 @@ description: >-
 license: https://creativecommons.org/publicdomain/zero/1.0/
 
 prefixes:
+  rdf: http://www.w3.org/1999/02/22-rdf-syntax-ns#
   OBI: http://purl.obolibrary.org/obo/OBI_
   STATO: http://purl.obolibrary.org/obo/STATO_
   bpa: https://bioportal.bioontology.org/annotator/

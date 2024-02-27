@@ -5,6 +5,7 @@ description: >-
   A template for extracting ChEBI, GO, NCBITAXON, PO, TO, PECO
 license: https://creativecommons.org/publicdomain/zero/1.0/
 prefixes:
+  rdf: http://www.w3.org/1999/02/22-rdf-syntax-ns#
   linkml: https://w3id.org/linkml/
   desiccation: http://w3id.org/ontogpt/desiccation
 

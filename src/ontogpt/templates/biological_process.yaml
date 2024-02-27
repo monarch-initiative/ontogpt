@@ -5,6 +5,7 @@ description: >-
   A template for GO-CAMs
 license: https://creativecommons.org/publicdomain/zero/1.0/
 prefixes:
+  rdf: http://www.w3.org/1999/02/22-rdf-syntax-ns#
   CHEBI: http://purl.obolibrary.org/obo/CHEBI_
   CL: http://purl.obolibrary.org/obo/CL_
   GO: http://purl.obolibrary.org/obo/GO_

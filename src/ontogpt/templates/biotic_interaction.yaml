@@ -5,6 +5,7 @@ description: >-
   A template for biotic interactions
 license: https://creativecommons.org/publicdomain/zero/1.0/
 prefixes:
+  rdf: http://www.w3.org/1999/02/22-rdf-syntax-ns#
   MESH: http://identifiers.org/mesh/
   NCBITaxon: http://purl.obolibrary.org/obo/NCBITAXON_
   RO: http://purl.obolibrary.org/obo/RO_

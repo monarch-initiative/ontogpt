@@ -5,6 +5,7 @@ description: >-
   A template for Environmental Samples
 license: https://creativecommons.org/publicdomain/zero/1.0/
 prefixes:
+  rdf: http://www.w3.org/1999/02/22-rdf-syntax-ns#
   ENVO: http://purl.obolibrary.org/obo/ENVO_
   PATO: http://purl.obolibrary.org/obo/PATO_
   UO: http://purl.obolibrary.org/obo/UO_
