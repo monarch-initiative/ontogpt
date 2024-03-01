@@ -108,7 +108,7 @@ classes:
           therapies. Split on specific ingredients and their amounts.
           All acronyms should be expanded, omitting the original acronym.
           Relevant acronyms: PO: per os/by mouth,
-          NPO: nil per os/nothing by mouth, TPN: total parenteral nutrition,
+          TPN: total parenteral nutrition,
           PN: parenteral nutrition, EN: enteral nutrition,
           D#%: dextrose percentage (e.g. D5%) for PN infusion,
           AA # g/kg/d: amino acid provisions (may also be in percentages)
@@ -126,9 +126,9 @@ classes:
           A semicolon-separated list of the patient's nutrition support
           therapies, usually enteral or parenteral nutrition.
           All acronyms should be expanded, omitting the original acronym.
-          Relevant acronyms: PO: per os/by mouth, NPO: nil per os/nothing by
-          mouth, TPN: total parenteral nutrition, PN: parenteral nutrition,
-          EN: enteral nutrition, D#%: dextrose percentage (e.g. D5%) for PN
+          Relevant acronyms: PO: per os/by mouth, TPN: total parenteral
+          nutrition, PN: parenteral nutrition, EN: enteral nutrition,
+          D#%: dextrose percentage (e.g. D5%) for PN
           infusion, AA # g/kg/d: amino acid provisions (may also be in
           percentages) for PN infusion, SMOF # g/kg/d: soy MCT olive fish oil
           emulsion for PN infusion, GIR: glucose infusion rate, SBS: short
@@ -147,6 +147,12 @@ classes:
           PRN: pro re nata/as needed. 'Not provided' if not provided.
         range: DrugTherapy
         multivalued: true
+      nil_per_os:
+        description: >-
+          True if the patient is not receiving any oral nutrition,
+          False otherwise. NPO means nil per os/nothing by mouth.
+          N/A if not indicated.
+        range: string
 
   QuantitativeValue:
     is_a: CompoundExpression
@@ -325,11 +331,6 @@ classes:
           The names of specific components included in a patient's diet.
         range: NutritionSupportComponent
         multivalued: true
-      nil_per_os:
-        description: >-
-          True if the patient is not receiving any oral nutrition,
-          False otherwise. N/A if not indicated.
-        range: string
 
   NutritionSupportComponent:
     is_a: CompoundExpression
