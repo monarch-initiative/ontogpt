@@ -52,6 +52,7 @@ class MalnutritionObservations(ConfiguredBaseModel):
     acute_or_chronic: Optional[str] = Field(None, description="""The duration of the patient's malnutrition, if present. For pediatric patients, acute malnutrition is less than 3 months, and chronic malnutrition is greater than 3 months. This may be Acute or Chronic. N/A if not provided.""")
     diagnosis: Optional[str] = Field(None, description="""The patient's malnutrition diagnosis, if present. This should not include modifiers like 'severe'. N/A if not provided.""")
     etiology: Optional[str] = Field(None, description="""The cause of the patient's malnutrition, if known. This may be due to acute or chronic disease or social/behavioral factors. N/A if not provided.""")
+    risk_for_refeeding_syndrome: Optional[str] = Field(None, description="""True if the patient is at risk for refeeding syndrome, False otherwise. N/A if not provided.""")
     
     
 
@@ -88,26 +89,27 @@ class ClinicalObservations(NamedEntity):
     usual_patient_weight: Optional[QuantitativeValueWithMetric] = Field(None)
     head_circumference: Optional[QuantitativeValueWithMetric] = Field(None)
     malnutrition_status: Optional[MalnutritionObservations] = Field(None)
-    diet_supplementation: Optional[List[DietSupplementation]] = Field(default_factory=list, description="""A semicolon-separated list of the patient's diet supplementation therapies. Split on specific ingredients and their amounts. All acronyms should be expanded, omitting the original acronym. Relevant acronyms: PO: per os/by mouth, NPO: nil per os/nothing by mouth, TPN: total parenteral nutrition, PN: parenteral nutrition, EN: enteral nutrition, D#%: dextrose percentage (e.g. D5%) for PN infusion, AA # g/kg/d: amino acid provisions (may also be in percentages) for PN infusion, SMOF # g/kg/d: soy MCT olive fish oil emulsion for PN infusion, GIR: glucose infusion rate, SBS: short bowel syndrome, LIS: low intermittent suction, BW: birth weight, EHM: exclusively human milk, RTBW: return to birth weight, Mg: magnesium, Phos: phosphorus, GI: gastrointestinal, PICC: peripherally inserted central catheter, DOL: day of life, TG: triglycerides, KUB: Kidney ureter bladder CT""")
-    nutrition_support: Optional[List[str]] = Field(default_factory=list, description="""A semicolon-separated list of the patient's nutrition support therapies, usually enteral or parenteral nutrition. All acronyms should be expanded, omitting the original acronym. Relevant acronyms: PO: per os/by mouth, NPO: nil per os/nothing by mouth, TPN: total parenteral nutrition, PN: parenteral nutrition, EN: enteral nutrition, D#%: dextrose percentage (e.g. D5%) for PN infusion, AA # g/kg/d: amino acid provisions (may also be in percentages) for PN infusion, SMOF # g/kg/d: soy MCT olive fish oil emulsion for PN infusion, GIR: glucose infusion rate, SBS: short bowel syndrome, LIS: low intermittent suction, BW: birth weight, EHM: exclusively human milk, RTBW: return to birth weight, Mg: magnesium, Phos: phosphorus, GI: gastrointestinal, PICC: peripherally inserted central catheter, DOL: day of life, TG: triglycerides, KUB: Kidney ureter bladder CT""")
+    diet_supplementation: Optional[List[DietSupplementation]] = Field(default_factory=list, description="""A semicolon-separated list of the patient's diet supplementation therapies. Split on specific ingredients and their amounts. All acronyms should be expanded, omitting the original acronym. Relevant acronyms: PO: per os/by mouth, TPN: total parenteral nutrition, PN: parenteral nutrition, EN: enteral nutrition, D#%: dextrose percentage (e.g. D5%) for PN infusion, AA # g/kg/d: amino acid provisions (may also be in percentages) for PN infusion, SMOF # g/kg/d: soy MCT olive fish oil emulsion for PN infusion, GIR: glucose infusion rate, SBS: short bowel syndrome, LIS: low intermittent suction, BW: birth weight, EHM: exclusively human milk, RTBW: return to birth weight, Mg: magnesium, Phos: phosphorus, GI: gastrointestinal, PICC: peripherally inserted central catheter, DOL: day of life, TG: triglycerides, KUB: Kidney ureter bladder CT""")
+    nutrition_support: Optional[List[NutritionSupport]] = Field(default_factory=list, description="""A semicolon-separated list of the patient's nutrition support therapies, usually enteral or parenteral nutrition. All acronyms should be expanded, omitting the original acronym. Relevant acronyms: PO: per os/by mouth, TPN: total parenteral nutrition, PN: parenteral nutrition, EN: enteral nutrition, D#%: dextrose percentage (e.g. D5%) for PN infusion, AA # g/kg/d: amino acid provisions (may also be in percentages) for PN infusion, SMOF # g/kg/d: soy MCT olive fish oil emulsion for PN infusion, GIR: glucose infusion rate, SBS: short bowel syndrome, LIS: low intermittent suction, BW: birth weight, EHM: exclusively human milk, RTBW: return to birth weight, Mg: magnesium, Phos: phosphorus, GI: gastrointestinal, PICC: peripherally inserted central catheter, DOL: day of life, TG: triglycerides, KUB: Kidney ureter bladder CT""")
     medications: Optional[List[DrugTherapy]] = Field(default_factory=list, description="""A semicolon-separated list of the patient's medications. This should include the medication name, dosage, frequency, and route of administration. Relevant acronyms: PO: per os/by mouth, PRN: pro re nata/as needed. 'Not provided' if not provided.""")
+    nil_per_os: Optional[str] = Field(None, description="""True if the patient is not receiving any oral nutrition, False otherwise. NPO means nil per os/nothing by mouth. N/A if not indicated.""")
     id: str = Field(..., description="""A unique identifier for the named entity""")
     label: Optional[str] = Field(None, description="""The label (name) of the named thing""")
     
     
 
-class DietSupplementationMaterial(NamedEntity):
+class TherapeuticMaterial(NamedEntity):
     """
-    A specific material added to a patient's diet.
+    A specific material added to a patient's diet or included as part of a nutritional plan.
     """
     id: str = Field(..., description="""A unique identifier for the named entity""")
     label: Optional[str] = Field(None, description="""The label (name) of the named thing""")
     
     
 
-class NutritionSupport(NamedEntity):
+class NutritionSupportMethod(NamedEntity):
     """
-    A nutrition support therapy used to treat or prevent malnutrition.
+    A method of nutrition support therapy used to treat or prevent malnutrition. This includes any method of feeding intended to replace or support oral feeding.
     """
     id: str = Field(..., description="""A unique identifier for the named entity""")
     label: Optional[str] = Field(None, description="""The label (name) of the named thing""")
@@ -172,6 +174,22 @@ class DietSupplementation(CompoundExpression):
     dosage_by_unit: Optional[str] = Field(None, description="""The unit of a patient's properties used to determine supplement dosage. Often \"kilogram\". N/A if not provided.""")
     duration: Optional[QuantitativeValue] = Field(None, description="""The duration of the supplementation, if provided. N/A if not provided.""")
     route_of_administration: Optional[str] = Field(None, description="""The route of administration for the supplementation, if provided. N/A if not provided.""")
+    
+    
+
+class NutritionSupport(CompoundExpression):
+    
+    method: Optional[str] = Field(None, description="""The name of a method used to provide nutritional support.""")
+    components: Optional[List[NutritionSupportComponent]] = Field(default_factory=list, description="""The names of specific components included in a patient's diet.""")
+    
+    
+
+class NutritionSupportComponent(CompoundExpression):
+    
+    material: Optional[str] = Field(None, description="""The name of a specific material included in a patient's diet.""")
+    amount: Optional[QuantitativeValueWithFrequency] = Field(None, description="""The quantity or dosage of the therapy, if provided. May include a frequency. N/A if not provided.""")
+    dosage_by_unit: Optional[str] = Field(None, description="""The unit of a patient's properties used to determine diet amounts. Often \"kilogram\". N/A if not provided.""")
+    duration: Optional[QuantitativeValue] = Field(None, description="""The duration of the therapy, if provided. N/A if not provided.""")
     
     
 
@@ -249,8 +267,8 @@ MalnutritionObservations.model_rebuild()
 ExtractionResult.model_rebuild()
 NamedEntity.model_rebuild()
 ClinicalObservations.model_rebuild()
-DietSupplementationMaterial.model_rebuild()
-NutritionSupport.model_rebuild()
+TherapeuticMaterial.model_rebuild()
+NutritionSupportMethod.model_rebuild()
 Disease.model_rebuild()
 Drug.model_rebuild()
 Unit.model_rebuild()
@@ -259,6 +277,8 @@ QuantitativeValue.model_rebuild()
 QuantitativeValueWithMetric.model_rebuild()
 QuantitativeValueWithFrequency.model_rebuild()
 DietSupplementation.model_rebuild()
+NutritionSupport.model_rebuild()
+NutritionSupportComponent.model_rebuild()
 DrugTherapy.model_rebuild()
 Triple.model_rebuild()
 TextWithTriples.model_rebuild()

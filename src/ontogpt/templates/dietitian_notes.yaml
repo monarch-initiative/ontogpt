@@ -37,8 +37,6 @@ classes:
         range: ClinicalObservations
         multivalued: true
 
-  # TODO: want to capture risk for refeeding syndrome
-  # can ground to MONDO:0400005
   ClinicalObservations:
     tree_root: true
     description: >-
@@ -100,8 +98,8 @@ classes:
           prompt: >-
             Observations of the patient's malnutrition status.
             This should include any details of malnutrition presence, risk,
-            severity, duration, diagnosis, and etiology.
-            'Not provided' if not provided.
+            severity, duration, diagnosis, and etiology. Should also include
+            any risk for refeeding syndrome. 'Not provided' if not provided.
         range: MalnutritionObservations
       # TODO: include fluids, calories, proteins, and other nutrients
       diet_supplementation:
@@ -110,7 +108,7 @@ classes:
           therapies. Split on specific ingredients and their amounts.
           All acronyms should be expanded, omitting the original acronym.
           Relevant acronyms: PO: per os/by mouth,
-          NPO: nil per os/nothing by mouth, TPN: total parenteral nutrition,
+          TPN: total parenteral nutrition,
           PN: parenteral nutrition, EN: enteral nutrition,
           D#%: dextrose percentage (e.g. D5%) for PN infusion,
           AA # g/kg/d: amino acid provisions (may also be in percentages)
@@ -128,9 +126,9 @@ classes:
           A semicolon-separated list of the patient's nutrition support
           therapies, usually enteral or parenteral nutrition.
           All acronyms should be expanded, omitting the original acronym.
-          Relevant acronyms: PO: per os/by mouth, NPO: nil per os/nothing by
-          mouth, TPN: total parenteral nutrition, PN: parenteral nutrition,
-          EN: enteral nutrition, D#%: dextrose percentage (e.g. D5%) for PN
+          Relevant acronyms: PO: per os/by mouth, TPN: total parenteral
+          nutrition, PN: parenteral nutrition, EN: enteral nutrition,
+          D#%: dextrose percentage (e.g. D5%) for PN
           infusion, AA # g/kg/d: amino acid provisions (may also be in
           percentages) for PN infusion, SMOF # g/kg/d: soy MCT olive fish oil
           emulsion for PN infusion, GIR: glucose infusion rate, SBS: short
@@ -149,6 +147,12 @@ classes:
           PRN: pro re nata/as needed. 'Not provided' if not provided.
         range: DrugTherapy
         multivalued: true
+      nil_per_os:
+        description: >-
+          True if the patient is not receiving any oral nutrition,
+          False otherwise. NPO means nil per os/nothing by mouth.
+          N/A if not indicated.
+        range: string
 
   QuantitativeValue:
     is_a: CompoundExpression
@@ -253,6 +257,11 @@ classes:
           This may be due to acute or chronic disease or
           social/behavioral factors. N/A if not provided.
         range: Disease
+      risk_for_refeeding_syndrome:
+        description: >-
+          True if the patient is at risk for refeeding syndrome,
+          False otherwise. N/A if not provided.
+        range: string
 
   DietSupplementation:
     is_a: CompoundExpression
@@ -262,7 +271,7 @@ classes:
       supplement:
         description: >-
           The name of a specific material added to a patient's diet.
-        range: DietSupplementationMaterial
+        range: TherapeuticMaterial
       amount:
         description: >-
           The quantity or dosage of the therapy, if provided.
@@ -286,9 +295,10 @@ classes:
 
   # TODO: distinguish whether this is currently active therapy
   #       or a reccomendation for future therapy (but not yet started)
-  DietSupplementationMaterial:
+  TherapeuticMaterial:
     description: >-
-      A specific material added to a patient's diet.
+      A specific material added to a patient's diet or
+      included as part of a nutritional plan.
     is_a: NamedEntity
     id_prefixes:
       - FOODON
@@ -303,17 +313,55 @@ classes:
 
   # TODO: consider limiting to children of MAXO:0000009
   #       or a more specific group of terms
-  # TODO: consider adding dosages + frequency
   # TODO: may need more examples
   # TODO: consider grounding vs CHEBI? Maybe to MESH, but be careful
   #  of synonyms - they may only be technically correct
   # TODO: consider LOINC grounding for nutrition
-  # TODO: consider adding a slot for the route of administration
-  # TODO: consider adding a slot for the duration of therapy
-  # TODO: consider adding a slot for general notes like "nil per os"
   NutritionSupport:
+    is_a: CompoundExpression
+    annotations:
+      owl: IntersectionOf
+    attributes:
+      method:
+        description: >-
+          The name of a method used to provide nutritional support.
+        range: NutritionSupportMethod
+      components:
+        description: >-
+          The names of specific components included in a patient's diet.
+        range: NutritionSupportComponent
+        multivalued: true
+
+  NutritionSupportComponent:
+    is_a: CompoundExpression
+    annotations:
+      owl: IntersectionOf
+    attributes:
+      material:
+        description: >-
+          The name of a specific material included in a patient's diet.
+        range: TherapeuticMaterial
+      amount:
+        description: >-
+          The quantity or dosage of the therapy, if provided.
+          May include a frequency. N/A if not provided.
+        range: QuantitativeValueWithFrequency
+      dosage_by_unit:
+        description: >-
+          The unit of a patient's properties used to determine diet
+          amounts. Often "kilogram". N/A if not provided.
+        range: Unit
+      duration:
+        description: >-
+          The duration of the therapy, if provided.
+          N/A if not provided.
+        range: QuantitativeValue
+
+  NutritionSupportMethod:
     description: >-
-      A nutrition support therapy used to treat or prevent malnutrition.
+      A method of nutrition support therapy used to treat or prevent
+      malnutrition. This includes any method of feeding intended to
+      replace or support oral feeding.
     is_a: NamedEntity
     id_prefixes:
       - MAXO
