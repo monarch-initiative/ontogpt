@@ -37,7 +37,6 @@ classes:
         range: ClinicalObservations
         multivalued: true
 
-  # TODO: want to capture risk for refeeding syndrome
   # can ground to MONDO:0400005
   ClinicalObservations:
     tree_root: true
@@ -253,6 +252,11 @@ classes:
           This may be due to acute or chronic disease or
           social/behavioral factors. N/A if not provided.
         range: Disease
+      risk_for_refeeding_syndrome:
+        description: >-
+          True if the patient is at risk for refeeding syndrome,
+          False otherwise. N/A if not provided.
+        range: string
 
   DietSupplementation:
     is_a: CompoundExpression

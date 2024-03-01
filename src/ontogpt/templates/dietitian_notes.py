@@ -52,6 +52,7 @@ class MalnutritionObservations(ConfiguredBaseModel):
     acute_or_chronic: Optional[str] = Field(None, description="""The duration of the patient's malnutrition, if present. For pediatric patients, acute malnutrition is less than 3 months, and chronic malnutrition is greater than 3 months. This may be Acute or Chronic. N/A if not provided.""")
     diagnosis: Optional[str] = Field(None, description="""The patient's malnutrition diagnosis, if present. This should not include modifiers like 'severe'. N/A if not provided.""")
     etiology: Optional[str] = Field(None, description="""The cause of the patient's malnutrition, if known. This may be due to acute or chronic disease or social/behavioral factors. N/A if not provided.""")
+    risk_for_refeeding_syndrome: Optional[str] = Field(None, description="""True if the patient is at risk for refeeding syndrome, False otherwise. N/A if not provided.""")
     
     
 
