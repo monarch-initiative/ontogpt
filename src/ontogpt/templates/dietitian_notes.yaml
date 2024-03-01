@@ -99,8 +99,8 @@ classes:
           prompt: >-
             Observations of the patient's malnutrition status.
             This should include any details of malnutrition presence, risk,
-            severity, duration, diagnosis, and etiology.
-            'Not provided' if not provided.
+            severity, duration, diagnosis, and etiology. Should also include
+            any risk for refeeding syndrome. 'Not provided' if not provided.
         range: MalnutritionObservations
       # TODO: include fluids, calories, proteins, and other nutrients
       diet_supplementation:
