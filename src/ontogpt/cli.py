@@ -197,7 +197,12 @@ show_prompt_option = click.option(
     show_default=True,
     help="If set, show all prompts passed to model through an API. Use with verbose setting.",
 )
-
+azure_select_option = click.option(
+    "--azure-select/--no-azure-select",
+    default=False,
+    show_default=True,
+    help="Use OpenAI model through Azure.",
+)
 
 @click.group()
 @click.option("-v", "--verbose", count=True)
@@ -250,6 +255,7 @@ def main(verbose: int, quiet: bool, cache_db: str, skip_annotator):
     help="Set slot value, e.g. --set-slot-value has_participant=protein",
 )
 @click.argument("input", required=False)
+@azure_select_option
 def extract(
     inputfile,
     template,
@@ -262,6 +268,7 @@ def extract(
     use_textract,
     model,
     show_prompt,
+    azure_select,
     **kwargs,
 ):
     """Extract knowledge from text guided by schema, using SPIRES engine.
@@ -325,6 +332,7 @@ def extract(
         template_details=template_details,
         model=selectmodel["canonical_name"],
         model_source=selectmodel["provider"].lower(),
+        use_azure=azure_select,
         **kwargs,
     )
     if settings.cache_db:
@@ -885,13 +893,14 @@ def synonyms(model, term, context, output, output_format, **kwargs):
 @output_option_txt
 @output_format_options
 @model_option
+@azure_select_option
 @click.option(
     "-C",
     "--context",
     help="domain e.g. anatomy, industry, health-related (NOT IMPLEMENTED - currently gene only)",
 )
 @click.argument("text", nargs=-1)
-def embed(text, context, output, model, output_format, **kwargs):
+def embed(text, context, output, model, output_format, azure_select, **kwargs):
     """Embed text.
 
     Not currently supported for open models.
@@ -908,7 +917,7 @@ def embed(text, context, output, model, output_format, **kwargs):
     if not text:
         raise ValueError("Text must be passed")
 
-    client = OpenAIClient(model=model)
+    client = OpenAIClient(model=model, use_azure=azure_select)
     resp = client.embeddings(text)
     print(resp)
 
@@ -917,13 +926,14 @@ def embed(text, context, output, model, output_format, **kwargs):
 @output_option_txt
 @output_format_options
 @model_option
+@azure_select_option
 @click.option(
     "-C",
     "--context",
     help="domain e.g. anatomy, industry, health-related (NOT IMPLEMENTED - currently gene only)",
 )
 @click.argument("text", nargs=-1)
-def text_similarity(text, context, output, model, output_format, **kwargs):
+def text_similarity(text, context, output, model, output_format, azure_select, **kwargs):
     """Embed text.
 
     Not currently supported for open models.
@@ -948,7 +958,7 @@ def text_similarity(text, context, output, model, output_format, **kwargs):
     print(text1)
     print(text2)
 
-    client = OpenAIClient(model=model)
+    client = OpenAIClient(model=model, use_azure=azure_select)
     sim = client.similarity(text1, text2, model=model)
     print(sim)
 
@@ -957,13 +967,14 @@ def text_similarity(text, context, output, model, output_format, **kwargs):
 @output_option_txt
 @output_format_options
 @model_option
+@azure_select_option
 @click.option(
     "-C",
     "--context",
     help="domain e.g. anatomy, industry, health-related (NOT IMPLEMENTED - currently gene only)",
 )
 @click.argument("text", nargs=-1)
-def text_distance(text, context, output, model, output_format, **kwargs):
+def text_distance(text, context, output, model, output_format, azure_select, **kwargs):
     """Embed text and calculate euclidian distance between embeddings.
 
     Not currently supported for open models.
@@ -988,7 +999,7 @@ def text_distance(text, context, output, model, output_format, **kwargs):
     print(text1)
     print(text2)
 
-    client = OpenAIClient(model=model)
+    client = OpenAIClient(model=model, use_azure=azure_select)
     sim = client.euclidian_distance(text1, text2, model=model)
     print(sim)
 
@@ -1318,8 +1329,9 @@ def openai_models(**kwargs):
 @output_option_txt
 @output_format_options
 @show_prompt_option
+@azure_select_option
 @click.argument("input")
-def complete(model, input, output, output_format, show_prompt, **kwargs):
+def complete(model, input, output, output_format, show_prompt, azure_select, **kwargs):
     """Prompt completion."""
     if not model:
         model = DEFAULT_MODEL
@@ -1331,7 +1343,7 @@ def complete(model, input, output, output_format, show_prompt, **kwargs):
 
     # TODO: add support for other models
     if model_source == "OpenAI":
-        c = OpenAIClient(model=model_name)
+        c = OpenAIClient(model=model, use_azure=azure_select)
         results = c.complete(prompt=text, show_prompt=show_prompt)
 
     output.write(results)
@@ -1361,12 +1373,13 @@ def parse(template, input):
 @model_option
 @click.option("-m", "match", help="Match string to use for filtering.")
 @click.option("-D", "database", help="Path to sqlite database.")
-def dump_completions(model, match, database, output, output_format):
+@azure_select_option
+def dump_completions(model, match, database, output, output_format, azure_select):
     """Dump cached completions."""
     if model:
         raise NotImplementedError("Caching not currently enabled for this model.")
     else:
-        client = OpenAIClient()
+        client = OpenAIClient(model=model, use_azure=azure_select)
 
     if database:
         client.cache_db_path = database
@@ -1442,6 +1455,7 @@ def halo(model, input, context, terms, output, **kwargs):
 @click.option(
     "--sections", multiple=True, help="sections to include e.g. medications, vital signs, etc."
 )
+@azure_select_option
 def clinical_notes(
     description,
     sections,
@@ -1449,6 +1463,7 @@ def clinical_notes(
     model,
     show_prompt,
     output_format,
+    azure_select,
     **kwargs,
 ):
     """Create mock clinical notes.
@@ -1472,7 +1487,7 @@ def clinical_notes(
 
     # TODO: add support for other models
     if model_source == "OpenAI":
-        c = OpenAIClient(model=model_name)
+        c = OpenAIClient(model=model, use_azure=azure_select)
         results = c.complete(prompt=prompt, show_prompt=show_prompt)
 
     output.write(results)
