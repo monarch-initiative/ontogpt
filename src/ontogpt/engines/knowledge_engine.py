@@ -165,6 +165,9 @@ class KnowledgeEngine(ABC):
 
     encoding = None
 
+    use_azure: Optional[bool] = None
+    """Use Azure API for OpenAI models, if True."""
+
     def __post_init__(self):
         if self.template_details:
             (
@@ -595,7 +598,7 @@ class KnowledgeEngine(ABC):
             e.g., openai
         """
         if model_source == "openai":
-            self.client = OpenAIClient(model=self.model)
+            self.client = OpenAIClient(model=self.model, use_azure=self.use_azure)
             logging.info("Setting up OpenAI client API Key")
             self.api_key = self._get_openai_api_key()
             openai.api_key = self.api_key
