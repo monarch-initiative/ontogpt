@@ -33,7 +33,7 @@ llm-gpt4all = {version = ">=0.2", extras = ["gpt4all"], optional = true}
 myst-parser = {version = ">=0.18.1", extras = ["docs"], optional = true}
 nlpcloud = ">=1.0.39"
 oaklib = ">=0.5.15"
-openai = ">=0.27.8, <1.0"
+openai = "^1.10.0"
 pydantic = ">=2.4.0"
 pystow = "^0.5.0"
 python-multipart = "^0.0.5"
@@ -50,6 +50,9 @@ tiktoken = ">=0.3.3"
 uvicorn = {version = ">=0.20.0", optional = true}
 wikipedia = ">=1.4.0"
 wikipedia-api = ">=0.5.8"
+dpath = "^2.1.6"
+toml = "^0.10.2"
+urllib3 = "<2"
 
 [tool.poetry.dev-dependencies]
 pytest = ">=7.1.2"

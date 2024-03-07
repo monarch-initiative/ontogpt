@@ -145,3 +145,6 @@ random
 LOG
 
 .DS_Store
+
+# Custom config files
+**_custom.*

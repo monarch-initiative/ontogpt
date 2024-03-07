@@ -11,7 +11,6 @@ from dataclasses import dataclass, field
 from pathlib import Path
 from typing import Any, Dict, List, Optional, Set
 
-import openai
 import pydantic
 import tiktoken
 import yaml
@@ -81,7 +80,6 @@ class HALOEngine(KnowledgeEngine):
         self.template_class = self._get_template_class("halo.OntologyElement")
         self.client = OpenAIClient(model=self.engine)
         self.api_key = self._get_openai_api_key()
-        openai.api_key = self.api_key
 
     def seed(self, seed_ontology: Ontology):
         """Seed the engine with an initial ontology.
