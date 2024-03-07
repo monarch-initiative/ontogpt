@@ -5,22 +5,23 @@ description: >-
   A template for representing cell types
 license: https://creativecommons.org/publicdomain/zero/1.0/
 prefixes:
-  linkml: https://w3id.org/linkml/
-  cell_type: http://w3id.org/ontogpt/cell_type/
-  NCIT: http://purl.obolibrary.org/obo/NCIT_
-  RO: http://purl.obolibrary.org/obo/RO_
-  MONDO: http://purl.obolibrary.org/obo/MONDO_
-  HP: http://purl.obolibrary.org/obo/HP_
-  GO: http://purl.obolibrary.org/obo/GO_
-  UBERON: http://purl.obolibrary.org/obo/UBERON_
-  FBbt: http://purl.obolibrary.org/obo/FBbt_
-  HGNC: http://identifiers.org/hgnc/
-  CL: http://purl.obolibrary.org/obo/CL_
-  IAO: http://purl.obolibrary.org/obo/IAO_
-  BFO: http://purl.obolibrary.org/obo/BFO_
+  rdf: http://www.w3.org/1999/02/22-rdf-syntax-ns#
   AUTO: http://w3id.org/ontogpt/auto/
-  PW: http://purl.obolibrary.org/obo/PW_
+  BFO: http://purl.obolibrary.org/obo/BFO_
   CHEBI: http://purl.obolibrary.org/obo/CHEBI_
+  CL: http://purl.obolibrary.org/obo/CL_
+  FBbt: http://purl.obolibrary.org/obo/FBbt_
+  GO: http://purl.obolibrary.org/obo/GO_
+  HGNC: http://identifiers.org/hgnc/
+  HP: http://purl.obolibrary.org/obo/HP_
+  IAO: http://purl.obolibrary.org/obo/IAO_
+  MONDO: http://purl.obolibrary.org/obo/MONDO_
+  NCIT: http://purl.obolibrary.org/obo/NCIT_
+  PW: http://purl.obolibrary.org/obo/PW_
+  RO: http://purl.obolibrary.org/obo/RO_
+  UBERON: http://purl.obolibrary.org/obo/UBERON_
+  cell_type: http://w3id.org/ontogpt/cell_type/
+  linkml: https://w3id.org/linkml/
   skos: http://www.w3.org/2004/02/skos/core#
 keywords:
   - disease
@@ -126,10 +127,8 @@ classes:
         multivalued: true
         range: BiologicalProcess
 
-
   ImmuneCell:
     is_a: CellType
-
     attributes:
       has_surface_markers:
         annotations:
@@ -140,7 +139,6 @@ classes:
 
   Neuron:
     is_a: CellType
-
     attributes:
       releases_neurotransitter:
         annotations:
@@ -149,7 +147,6 @@ classes:
         multivalued: true
         range: Neurotransmitter
         slot_uri: RO:0002111
-
 
   Interneuron:
     is_a: Neuron
@@ -183,7 +180,6 @@ classes:
     annotations:
       annotators: sqlite:obo:hgnc, bioportal:hgnc-nr, sqlite:obo:go, sqlite:obo:pr
 
-
   BiologicalProcess:
     is_a: NamedEntity
     id_prefixes:
@@ -213,16 +209,14 @@ classes:
     id_prefixes:
       - CHEBI
     annotations:
-      annotators:
-        sqlite:obo:chebi
+      annotators: sqlite:obo:chebi
 
   Neurotransmitter:
     is_a: ChemicalEntity
     id_prefixes:
       - CHEBI
     annotations:
-      annotators:
-        sqlite:obo:chebi
+      annotators: sqlite:obo:chebi
     slot_usage:
       id:
         values_from:
@@ -266,7 +260,6 @@ classes:
       annotators: sqlite:obo:chebi, sqlite:obo:drugbank
 
 enums:
-
   BrainRegionIdentifier:
     description: Brain region (or for now, any nervous system part)
     comments:
@@ -282,17 +275,17 @@ enums:
       - reachable_from:
           source_ontology: obo:fbbt
           relationship_types:
-              - rdfs:subClassOf
-              - BFO:0000050
+            - rdfs:subClassOf
+            - BFO:0000050
           source_nodes:
-            - FBbt:00005093 ## nervous system
+            - FBbt:00005093  ## nervous system
       - reachable_from:
           source_ontology: obo:wbbt
           relationship_types:
-              - rdfs:subClassOf
-              - BFO:0000050
+            - rdfs:subClassOf
+            - BFO:0000050
           source_nodes:
-            - WBbt:0005735 ## nervous system
+            - WBbt:0005735  ## nervous system
 
   NeurotransmitterIdentifier:
     reachable_from:
@@ -301,4 +294,4 @@ enums:
         - rdfs:subClassOf
         - RO:0000087
       source_nodes:
-        - CHEBI:35942 ## neurotransmitter agent
+        - CHEBI:35942  ## neurotransmitter agent

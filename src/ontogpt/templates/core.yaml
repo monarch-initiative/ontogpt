@@ -3,10 +3,13 @@ name: core
 title: AI core Template
 license: https://creativecommons.org/publicdomain/zero/1.0/
 prefixes:
-  linkml: https://w3id.org/linkml/
-  core: http://w3id.org/ontogpt/core/
+  rdf: http://www.w3.org/1999/02/22-rdf-syntax-ns#
   NCIT: http://purl.obolibrary.org/obo/NCIT_
   RO: http://purl.obolibrary.org/obo/RO_
+  biolink: https://w3id.org/biolink/vocab/
+  core: http://w3id.org/ontogpt/core/
+  linkml: https://w3id.org/linkml/
+  rdfs: http://www.w3.org/2000/01/rdf-schema#
 description: Core upper level
 
 default_prefix: core

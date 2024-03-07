@@ -1,6 +1,7 @@
 """OWL convertor."""
+
 from dataclasses import dataclass
-from io import BytesIO
+from io import BytesIO, StringIO
 from pathlib import Path
 from typing import TextIO, Union
 
@@ -23,9 +24,9 @@ class OWLExporter(Exporter):
         id_value=None,
     ):
         if isinstance(output, Path):
-            output = str(output)
-        if isinstance(output, str):
             output = open(str(output), "w", encoding="utf-8")
+        if isinstance(output, str):
+            output = StringIO(output)
         dumper = OWLDumper()
         element = extraction_output.extracted_object
         cls_name = type(element).__name__
@@ -48,7 +49,7 @@ class OWLExporter(Exporter):
         element_as_dataclass = self._as_dataclass_object(element, schemaview)
         doc = dumper.to_ontology_document(element_as_dataclass, schemaview.schema)
         doc.ontology.axioms.extend(axioms)
-        output.write(str(doc).encode("utf-8"))  # type: ignore
+        output.write(str(doc))  # type: ignore
 
     def _as_dataclass_object(self, element: pydantic.BaseModel, schemaview: SchemaView):
         cls_name = type(element).__name__
