@@ -9,7 +9,6 @@ from typing import Dict, Iterator, List, Optional, TextIO, Union
 from urllib.parse import quote
 
 import inflection
-import openai
 import pydantic
 import tiktoken
 import yaml
