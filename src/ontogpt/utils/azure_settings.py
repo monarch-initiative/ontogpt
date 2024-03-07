@@ -1,3 +1,5 @@
+"""Settings specific for using OpenAI models on the Azure platform."""
+
 import os
 from pathlib import Path
 from typing import Any, Dict
@@ -14,8 +16,8 @@ def read_toml(path: Path) -> Dict[str, Any]:
 
 
 def merge_settings(overrides: Dict[str, Any], defaults: Dict[str, Any]) -> None:
-    """Merges settings recursively to allow partial
-    overrides without overwriting entire sections."""
+    """Merge settings recursively to allow partial overrides without overwriting entire sections."""
+
     for key, value in overrides.items():
         if isinstance(value, dict):
             node = defaults.setdefault(key, {})
@@ -28,11 +30,11 @@ def parse_settings(
     base_dir: Path,
 ) -> Dict[str, Any]:
     """Parse configuration toml files from a directory with overrides.
+
     Args:
         base_dir: Base directory
-    Returns: Dictionary of parsed configuration values
+    Returns: Dictionary of parsed configuration values.
     """
-
     settings_path = os.getenv("SETTINGS_PATH", None)
     settings_name = os.getenv("SETTINGS_NAME", "local")
 
