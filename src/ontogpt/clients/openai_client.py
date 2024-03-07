@@ -15,7 +15,7 @@ from openai import AzureOpenAI
 from settings import AZURE_MODEL, AZURE_API_VERSION, AZURE_ENDPOINT
 
 logger = logging.getLogger(__name__)
-logger.setLevel("INFO")
+
 NUM_RETRIES = 3
 
 
