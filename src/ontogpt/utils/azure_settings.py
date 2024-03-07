@@ -36,8 +36,13 @@ def parse_settings(
     base_dir: Base directory
     Returns: Dictionary of parsed configuration values.
     """
-    settings_path = Path(os.getenv("SETTINGS_PATH", None))
-    settings_name = os.getenv("SETTINGS_NAME", "local")
+    try:
+        settings_path = Path(os.getenv("SETTINGS_PATH", None))
+        settings_name = os.getenv("SETTINGS_NAME", "local")
+    except TypeError as e:
+        logger.warning(f"Missing required settings for Azure OpenAI: {e}")
+        settings_path = None
+        settings_name = "local"
 
     etc_dir = base_dir / "etc"
     default_settings = etc_dir / f"{settings_name}.toml"
