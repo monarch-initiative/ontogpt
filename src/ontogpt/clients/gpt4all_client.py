@@ -34,6 +34,9 @@ class GPT4AllClient:
 
     def __post_init__(self):
         logging.info(f"Preparing {self.model} for local use...")
+        if self.model not in llm.get_model_aliases():
+            raise ValueError(f"Model {self.model} not found in llm.get_model_aliases()")
+        print(llm.get_model_aliases())
         self.local_model = llm.get_model(self.model)
 
     # Use this command in subsequent calls

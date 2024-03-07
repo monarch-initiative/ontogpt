@@ -13,7 +13,9 @@ from typing import List, Optional, Union
 
 import click
 import jsonlines
-import openai
+from openai import OpenAI
+
+client = OpenAI()
 import yaml
 from oaklib import get_adapter
 from oaklib.cli import query_terms_iterator
@@ -1320,7 +1322,7 @@ def fill(model, template, object: str, examples, output, output_format, show_pro
 def openai_models(**kwargs):
     """List OpenAI models for prompt completion."""
     ai = OpenAIClient()
-    for model in openai.Model.list():
+    for model in client.models.list():
         print(model)
 
 

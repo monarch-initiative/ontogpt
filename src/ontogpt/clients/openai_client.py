@@ -10,7 +10,9 @@ from time import sleep
 from typing import Iterator, Optional, Tuple
 
 import numpy as np
-import openai
+from openai import OpenAI
+
+client = OpenAI(api_key=self.api_key)
 from oaklib.utilities.apikey_manager import get_apikey_value
 from openai import AzureOpenAI
 from ontogpt.utils.azure_settings import AZURE_MODEL, AZURE_API_VERSION, AZURE_ENDPOINT
@@ -32,7 +34,6 @@ class OpenAIClient:
     def __post_init__(self):
         if not self.api_key:
             self.api_key = get_apikey_value("openai")
-        openai.api_key = self.api_key
 
         if self.use_azure:
             self.model = field(default_factory=lambda: AZURE_MODEL)
@@ -83,17 +84,15 @@ class OpenAIClient:
                         **kwargs,
                     )
                 elif self._must_use_chat_api() and not self.use_azure:
-                    response = openai.ChatCompletion.create(
-                        model=engine,
-                        messages=[
-                            {
-                                "role": "user",
-                                "content": prompt,
-                            },
-                        ],
-                        max_tokens=max_tokens,
-                        **kwargs,
-                    )                    
+                    response = client.chat.completions.create(model=engine,
+                    messages=[
+                        {
+                            "role": "user",
+                            "content": prompt,
+                        },
+                    ],
+                    max_tokens=max_tokens,
+                    **kwargs)                    
                 else:
                     # TODO: remove chat api flag and eliminate references to legacy completions API
                     raise ValueError("Unsupported mode")
@@ -110,9 +109,9 @@ class OpenAIClient:
         if self.interactive:
             payload = response
         elif self._must_use_chat_api():
-            payload = response["choices"][0]["message"]["content"]
+            payload = response.choices[0].message.content
         else:
-            payload = response["choices"][0]["text"]
+            payload = response.choices[0].text
         logger.info(f"Storing payload of len: {len(payload)}")
         cur.execute(
             "INSERT INTO cache (prompt, engine, payload) VALUES (?, ?, ?)",
@@ -195,11 +194,9 @@ class OpenAIClient:
             logger.info(f"Using cached embeddings for {model} {text[0:80]}...")
             return ast.literal_eval(payload[0])
         logger.info(f"querying OpenAI for {model} {text[0:80]}...")
-        response = openai.Embedding.create(
-            model=model,
-            input=text,
-        )
-        v = response.data[0]["embedding"]
+        response = client.embeddings.create(model=model,
+        input=text)
+        v = response.data[0].embedding
         logger.info(f"Storing embeddings of len: {len(v)}")
         cur.execute(
             "INSERT INTO embeddings_cache (text, engine, vector_as_string) VALUES (?, ?, ?)",

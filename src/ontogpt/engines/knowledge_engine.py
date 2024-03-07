@@ -197,7 +197,6 @@ class KnowledgeEngine(ABC):
 
     def set_api_key(self, key: str):
         self.api_key = key
-        openai.api_key = key
 
     def extract_from_text(
         self, text: str, cls: ClassDefinition = None, object: OBJECT = None
@@ -601,6 +600,5 @@ class KnowledgeEngine(ABC):
             self.client = OpenAIClient(model=self.model, use_azure=self.use_azure)
             logging.info("Setting up OpenAI client API Key")
             self.api_key = self._get_openai_api_key()
-            openai.api_key = self.api_key
         elif model_source == "gpt4all":
             self.client = GPT4AllClient(model=self.model)
