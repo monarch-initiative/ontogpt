@@ -13,9 +13,7 @@ from typing import List, Optional, Union
 
 import click
 import jsonlines
-from openai import OpenAI
 
-client = OpenAI()
 import yaml
 from oaklib import get_adapter
 from oaklib.cli import query_terms_iterator

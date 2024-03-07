@@ -12,7 +12,6 @@ from typing import Iterator, Optional, Tuple
 import numpy as np
 from openai import OpenAI
 
-client = OpenAI(api_key=self.api_key)
 from oaklib.utilities.apikey_manager import get_apikey_value
 from openai import AzureOpenAI
 from ontogpt.utils.azure_settings import AZURE_MODEL, AZURE_API_VERSION, AZURE_ENDPOINT
@@ -44,6 +43,8 @@ class OpenAIClient:
                 api_key=self.api_key,
                 azure_deployment=AZURE_MODEL,
             )
+        else:
+            self.client = OpenAI(api_key=self.api_key)
 
     # TODO: Dynamically update max_tokens
     def complete(self, prompt, max_tokens=500, show_prompt: bool = False, **kwargs) -> str:
@@ -84,7 +85,7 @@ class OpenAIClient:
                         **kwargs,
                     )
                 elif self._must_use_chat_api() and not self.use_azure:
-                    response = client.chat.completions.create(model=engine,
+                    response = self.client.chat.completions.create(model=engine,
                     messages=[
                         {
                             "role": "user",
@@ -105,7 +106,8 @@ class OpenAIClient:
                 logger.info(f"Retrying {i} of {NUM_RETRIES} after {sleep_time} seconds...")
                 sleep(sleep_time)
 
-        response = response.dict()
+        #response = response.dict()
+        #print(response)
         if self.interactive:
             payload = response
         elif self._must_use_chat_api():
@@ -194,7 +196,7 @@ class OpenAIClient:
             logger.info(f"Using cached embeddings for {model} {text[0:80]}...")
             return ast.literal_eval(payload[0])
         logger.info(f"querying OpenAI for {model} {text[0:80]}...")
-        response = client.embeddings.create(model=model,
+        response = self.client.embeddings.create(model=model,
         input=text)
         v = response.data[0].embedding
         logger.info(f"Storing embeddings of len: {len(v)}")
