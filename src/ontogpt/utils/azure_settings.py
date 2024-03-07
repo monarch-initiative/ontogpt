@@ -36,15 +36,12 @@ def parse_settings(
     base_dir: Base directory
     Returns: Dictionary of parsed configuration values.
     """
-    settings_path = os.getenv("SETTINGS_PATH", None)
+    settings_path = Path(os.getenv("SETTINGS_PATH", None))
     settings_name = os.getenv("SETTINGS_NAME", "local")
 
     etc_dir = base_dir / "etc"
     default_settings = etc_dir / f"{settings_name}.toml"
     settings_override = etc_dir / f"{settings_name}_custom.toml"
-
-    if settings_path:
-        settings_path = Path(settings_path)
 
     if settings_path:
         settings = read_toml(settings_path)
