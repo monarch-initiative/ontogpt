@@ -1,5 +1,6 @@
 """Settings specific for using OpenAI models on the Azure platform."""
 
+import logging
 import os
 from pathlib import Path
 from typing import Any, Dict
@@ -9,6 +10,7 @@ import toml
 
 BASE_DIR = Path(__file__).parent.parent.absolute()
 
+logger = logging.getLogger(__name__)
 
 def read_toml(path: Path) -> Dict[str, Any]:
     with path.open() as cf:
@@ -44,7 +46,7 @@ def parse_settings(
     if settings_path:
         settings_path = Path(settings_path)
 
-    if settings_path.is_file():
+    if settings_path:
         settings = read_toml(settings_path)
     else:
         settings_path = default_settings
@@ -53,9 +55,13 @@ def parse_settings(
 
     return settings
 
-
 settings_val = parse_settings(BASE_DIR)
-
-AZURE_MODEL = dpath.get(settings_val, ["openai", "azure_deployment_name"])
-AZURE_API_VERSION = dpath.get(settings_val, ["openai", "azure_api_version"])
-AZURE_ENDPOINT = dpath.get(settings_val, ["openai", "azure_api_base"])
+try:
+    AZURE_MODEL = dpath.get(settings_val, ["openai", "azure_deployment_name"])
+    AZURE_API_VERSION = dpath.get(settings_val, ["openai", "azure_api_version"])
+    AZURE_ENDPOINT = dpath.get(settings_val, ["openai", "azure_api_base"])
+except KeyError as e:
+    AZURE_MODEL = ""
+    AZURE_API_VERSION = ""
+    AZURE_ENDPOINT = ""
+    logger.warning(f"Missing required settings for Azure OpenAI: {e}")
