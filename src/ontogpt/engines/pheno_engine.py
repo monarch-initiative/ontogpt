@@ -1,4 +1,5 @@
 """Reasoner engine."""
+
 import json
 import logging
 from dataclasses import dataclass
@@ -60,6 +61,30 @@ class PhenoEngine(KnowledgeEngine):
             with open(template_path) as file:
                 template_txt = file.read()
                 template = Template(template_txt)
+        # Account for missing template fields if necessary
+        # TODO: make this its own function
+        for subject_key in ["sex", "ageAtCollection"]:
+            if subject_key not in phenopacket["subject"]:
+                logging.warning(f"Missing subject key: {subject_key}. Setting to 'UNKNOWN'.")
+                phenopacket["subject"][subject_key] = "UNKNOWN"
+            if subject_key == "ageAtCollection":
+                if "timeAtLastEncounter" in phenopacket["subject"]:
+                    if "age" in phenopacket["subject"]["timeAtLastEncounter"]:
+                        if (
+                            "iso8601duration"
+                            in phenopacket["subject"]["timeAtLastEncounter"]["age"]
+                        ):
+                            logging.warning("Found patient age in timeAtLastEncounter. Updating.")
+                            phenopacket["subject"]["ageAtCollection"] = {
+                                "age": phenopacket["subject"]["timeAtLastEncounter"]["age"][
+                                    "iso8601duration"
+                                ]
+                            }
+                else:
+                    phenopacket["subject"]["ageAtCollection"] = {"age": "UNKNOWN"}
+        if "phenotypicFeatures" not in phenopacket:
+            logging.warning(f"No phenotypicFeatures found in phenopacket {phenopacket['id']}.")
+            logging.warning("Diagnosis accuracy may be very inaccurate.")
         prompt = template.render(
             phenopacket=phenopacket,
         )
@@ -82,11 +107,18 @@ class PhenoEngine(KnowledgeEngine):
         results = []
         for phenopacket in phenopackets:
             dp = DiagnosisPrediction(case_id=phenopacket["id"], model=self.model)
-            validated_disease_ids = {disease["term"]["id"] for disease in phenopacket["diseases"]}
+            try:
+                validated_disease_ids = {
+                    disease["term"]["id"] for disease in phenopacket["diseases"]
+                }
+            except KeyError:
+                logger.warning(f"No diseases found in phenopacket {phenopacket['id']}")
+                validated_disease_ids = set()
             dp.validated_disease_ids = list(validated_disease_ids)
-            dp.validated_disease_labels = [
-                disease["term"]["label"] for disease in phenopacket["diseases"]
-            ]
+            if validated_disease_ids:
+                dp.validated_disease_labels = [
+                    disease["term"]["label"] for disease in phenopacket["diseases"]
+                ]
             dp.validated_mondo_disease_ids = []
             dp.validated_mondo_disease_labels = []
             for disease_id in validated_disease_ids:

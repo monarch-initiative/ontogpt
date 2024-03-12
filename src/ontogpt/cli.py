@@ -204,6 +204,7 @@ azure_select_option = click.option(
     help="Use OpenAI model through Azure.",
 )
 
+
 @click.group()
 @click.option("-v", "--verbose", count=True)
 @click.option("-q", "--quiet")
@@ -877,16 +878,20 @@ def synonyms(model, term, context, output, output_format, **kwargs):
     """Extract synonyms."""
     logging.info(f"Creating for {term}")
 
-    if model:
-        selectmodel = get_model_by_name(model)
-        model_source = selectmodel["provider"]
+    if not model:
+        model = DEFAULT_MODEL
 
-        if model_source != "OpenAI":
-            raise NotImplementedError("Model not yet supported for this function.")
+    selectmodel = get_model_by_name(model)
+    model_name = selectmodel["canonical_name"]
+    model_source = selectmodel["provider"]
 
-    ke = SynonymEngine()
-    out = str(ke.synonyms(term, context))
-    output.write(out)
+    if model_source != "OpenAI":
+        raise NotImplementedError("Model not yet supported for this function.")
+
+    ke = SynonymEngine(model=model_name, model_source=model_source.lower())
+    out = ke.synonyms(term, context)
+    for line in out:
+        output.write(f"{line}\n")
 
 
 @main.command()
@@ -1150,8 +1155,18 @@ def diagnose(
     **kwargs,
 ):
     """Diagnose a clinical case represented as one or more Phenopackets."""
+    if not phenopacket_files:
+        raise ValueError("No phenopacket files specified. Please provide one or more files.")
+
+    if not model:
+        model = DEFAULT_MODEL
+
+    selectmodel = get_model_by_name(model)
+    model_name = selectmodel["canonical_name"]
+    model_source = selectmodel["provider"]
+
     phenopackets = [json.load(open(f)) for f in phenopacket_files]
-    engine = PhenoEngine(model=model)
+    engine = PhenoEngine(model=model_name, model_source=model_source.lower())
     results = engine.evaluate(phenopackets)
     print(dump_minimal_yaml(results))
     write_obj_as_csv(results, output)
