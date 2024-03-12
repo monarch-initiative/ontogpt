@@ -1159,8 +1159,15 @@ def diagnose(
     if not phenopacket_files:
         raise ValueError("No phenopacket files specified. Please provide one or more files.")
 
+    if not model:
+        model = DEFAULT_MODEL
+
+    selectmodel = get_model_by_name(model)
+    model_name = selectmodel["canonical_name"]
+    model_source = selectmodel["provider"]
+
     phenopackets = [json.load(open(f)) for f in phenopacket_files]
-    engine = PhenoEngine(model=model)
+    engine = PhenoEngine(model=model_name, model_source=model_source.lower())
     results = engine.evaluate(phenopackets)
     print(dump_minimal_yaml(results))
     write_obj_as_csv(results, output)
