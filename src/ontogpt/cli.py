@@ -204,6 +204,7 @@ azure_select_option = click.option(
     help="Use OpenAI model through Azure.",
 )
 
+
 @click.group()
 @click.option("-v", "--verbose", count=True)
 @click.option("-q", "--quiet")
@@ -1154,6 +1155,10 @@ def diagnose(
     **kwargs,
 ):
     """Diagnose a clinical case represented as one or more Phenopackets."""
+
+    if not phenopacket_files:
+        raise ValueError("No phenopacket files specified. Please provide one or more files.")
+
     phenopackets = [json.load(open(f)) for f in phenopacket_files]
     engine = PhenoEngine(model=model)
     results = engine.evaluate(phenopackets)
