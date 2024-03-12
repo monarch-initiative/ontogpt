@@ -74,7 +74,7 @@ class PhenoEngine(KnowledgeEngine):
                             "iso8601duration"
                             in phenopacket["subject"]["timeAtLastEncounter"]["age"]
                         ):
-                            logging.warning(f"Found patient age in timeAtLastEncounter. Updating.")
+                            logging.warning("Found patient age in timeAtLastEncounter. Updating.")
                             phenopacket["subject"]["ageAtCollection"] = {
                                 "age": phenopacket["subject"]["timeAtLastEncounter"]["age"][
                                     "iso8601duration"
@@ -82,7 +82,7 @@ class PhenoEngine(KnowledgeEngine):
                             }
                 else:
                     phenopacket["subject"]["ageAtCollection"] = {"age": "UNKNOWN"}
-        if not "phenotypicFeatures" in phenopacket:
+        if "phenotypicFeatures" not in phenopacket:
             logging.warning(f"No phenotypicFeatures found in phenopacket {phenopacket['id']}.")
             logging.warning("Diagnosis accuracy may be very inaccurate.")
         prompt = template.render(
