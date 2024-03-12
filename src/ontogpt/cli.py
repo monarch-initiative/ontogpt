@@ -886,8 +886,9 @@ def synonyms(model, term, context, output, output_format, **kwargs):
             raise NotImplementedError("Model not yet supported for this function.")
 
     ke = SynonymEngine(model=model_name, model_source=model_source.lower())
-    out = str(ke.synonyms(term, context))
-    output.write(out)
+    out = ke.synonyms(term, context)
+    for line in out:
+        output.write(f"{line}\n")
 
 
 @main.command()
