@@ -1155,7 +1155,6 @@ def diagnose(
     **kwargs,
 ):
     """Diagnose a clinical case represented as one or more Phenopackets."""
-
     if not phenopacket_files:
         raise ValueError("No phenopacket files specified. Please provide one or more files.")
 
