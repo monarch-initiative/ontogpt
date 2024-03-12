@@ -74,6 +74,7 @@ class PhenoEngine(KnowledgeEngine):
                             "iso8601duration"
                             in phenopacket["subject"]["timeAtLastEncounter"]["age"]
                         ):
+                            logging.warning(f"Found patient age in timeAtLastEncounter. Updating.")
                             phenopacket["subject"]["ageAtCollection"] = {
                                 "age": phenopacket["subject"]["timeAtLastEncounter"]["age"][
                                     "iso8601duration"
