@@ -1,0 +1,169 @@
+Complex trait analysis of the mouse striatum: independent QTLs modulate volume and neuron number
+
+Abstract
+
+Background
+
+The striatum plays a pivotal role in modulating motor activity and higher cognitive function. We analyzed variation in striatal volume and neuron number in mice and initiated a complex trait analysis to discover polymorphic genes that modulate the structure of the basal ganglia.
+
+Results
+
+Brain weight, brain and striatal volume, neuron-packing density and number were estimated bilaterally using unbiased stereological procedures in five inbred strains (A/J, C57BL/6J, DBA/2J, BALB/cJ, and BXD5) and an F2 intercross between A/J and BXD5. Striatal volume ranged from 20 to 37 mm3. Neuron-packing density ranged from approximately 50,000 to 100,000 neurons/mm3, and the striatal neuron population ranged from 1.4 to 2.5 million. Inbred animals with larger brains had larger striata but lower neuron-packing density resulting in a narrow range of average neuron populations. In contrast, there was a strong positive correlation between volume and neuron number among intercross progeny. We mapped two quantitative trait loci (QTLs) with selective effects on striatal architecture. Bsc10a maps to the central region of Chr 10 (LRS of 17.5 near D10Mit186) and has intense effects on striatal volume and moderate effects on brain volume. Stnn19a maps to distal Chr 19 (LRS of 15 at D19Mit123) and is associated with differences of up to 400,000 neurons among animals.
+
+Conclusion
+
+We have discovered remarkable numerical and volumetric variation in the mouse striatum, and we have been able to map two QTLs that modulate independent anatomic parameters.
+
+Background
+
+The dorsal striatum is a massive nucleus in the basal forebrain that plays a pivotal role in modulating motor activity and higher cognitive function. Approximately 90% of all neurons in the striatum - 1.5 to 2.5 million in mice [1,2] and 110-200 million in humans [3,4] - belong to an unusual type 'of inhibitory projection cell referred to as medium spiny neurons [5-8]. Striatal neurons are divided into two major subpopulations (patch and matrix), that have somewhat different gene expression profiles and have different patterns of pre- and postsynaptic connections [9-13].
+
+Numbers of medium spiny neurons and ratios of these and less numerous striatal interneurons are critical variables that influence motor performance and aspects of cognition. In the case of Huntington disease the loss of 15-30% of the normal complement of medium spiny neurons leads to distinct movement disorder in both humans and transgenic mouse models [14-17]. The subset of genes that normally control the proliferation, differentiation, and survival of striatal neurons [18-20] are therefore of considerable importance in ensuring adaptive behavior at maturity.
+
+In this study we use a forward genetic approach [21, 22] to begin to map and characterize members of the subset of normally polymorphic genes that specifically modulate the production and survival of striatal neurons. Our analysis of the neurogenetic control of striatal cell populations relies on the combination of two complementary quantitative approaches. The first of these, complex trait analysis, is a comparatively new genetic method that makes it possible to map individual loci that underlie polygenic traits [22,23]. The second consists of a set of unbiased stereological procedures that can be used to obtain cell counts accurately and efficiently from large numbers of cases [24,25].
+
+From a technical point of view the mouse striatum has several advantages that make it an excellent target for complex trait analysis of the mammalian CNS. First, it is a large, cytoarchitectonically distinct region comprising approximately 5-6% of the volume of the mouse brain. Second, the dorsal striatum has a comparatively homogenous cellular composition, potentially reducing the number of quantitative trait loci (QTLs) that affect striatal neuron number. Finally, recent experiments on the molecular control of telencephalic development have highlighted a number of genes that influence neuron proliferation and differentiation of the striatum and other neighboring forebrain structures [18][26-30].
+
+We report here both neuroanatomic and genetic quantitative evidence that the size of the striatum and the number of neurons contained within it are modulated independently.
+
+Results
+
+The results are divided in two sections. The first is a biometric analysis of variation of size and neuronal populations in mouse striatum. The second section is a quantitative genetic dissection and QTL analysis of variation in the size and neuronal population of the mouse striatum.
+
+Phenotypes
+
+Strain differences
+
+Brain Weight and Striatal Volume. Five strains were chosen to represent low, mid, and high brain weights (Fig 1A). Brain weights of the two high strains, BXD5 (540 ± 9 mg SEM) and BALB/cJ (527 ± 13 mg), are significantly greater (P < .001) than that of C57BL/6J (476 ± 5 mg). Similarly, the brain weights of A/J (395 ± 5 mg) and DBA/2J (403 ± 5 mg) are significantly lower than those of the other three strains (P < .001). As anticipated, differences in striatal volume correspond well with differences in brain weight and volume. The striata of BXD5 (31.0 ± 0.9 mm3) and BALB/cJ (32.5 ± 1.6 mm3) mice are significantly larger (P < .001) than those of C57BL/6J (23.6 ± 0.6 mm3), A/J (21.7 ± 1.0 mm3), and DBA/2J (22.8 ± 0.6 mm3) strains.
+
+Figure 1
+
+Histograms of histologic phenotypes for inbred strains of mice.  A. Brain weight differences are apparent between the three categories (F4,28 = 82.1, P < .001). Asterisk indicates significant differences on post-hoc tests (P < .005). B. Striatal volume. There are significant differences in striatal volume between the low brain weight strains (A/J, DBA.2J) and the high brain weight strains (BALB/cJ, BXD5). C57BL6/J mice differ from the high, but not low brain weight strains (F4,28 = 28.9, P < .001). Asterisk indicates significant differences on post-hoc tests (P < .005). C. Neuron-packing density in the striatum. In general, brains with smaller striata have greater neuron-packing density (F4,28 = 17.6, P < .001). Asterisks indicate significant differences on post-hoc tests (P < .005). D. Neuron number in the striatum. There are no significant difference in striatal neuronal number among the five inbred strains (F4,28 = 2.0. ns).
+
+Striatal Neuron-Packing Density. There is a significant difference among strains in the packing density of striatal neurons (P < .001 for all comparisons). A/J has a higher mean density (84,800 ± 3,500 neurons/mm3) than all strains other than DBA/2J (80,400 ± 2,700 neurons/mm3). BALB/cJ (57,700 ± 2,500 neurons/mm3) and BXD5 (62,700 ± 2,600 neurons/mm3) do not differ significantly from each other, but do differ from all other strains. C57BL/6J (73,100 ± 1,700) differs from all other mice with the exception of DBA/2J. Inbred strains with smaller striatal volumes have higher neuronal packing densities (Fig 1C).
+
+Striatal Neuron Number. As a result of the reciprocal relation between volume and density, there is no significant difference in striatal neuron number among the five strains. Total striatal neuron numbers ranges over a very modest range - from a low of 1.72 ± .015 million in C57BL/6J to a high of 1.93 ± .035 million in BXD5.
+
+Correlational Statistics
+
+Our comparisons are based on five strains, and one consequence of this modest sample size is that sampling errors and intraclass correlations may bias the results [31]. We therefore also analyzed a larger sample of genetically heterogeneous ABF2 intercross animals (an F2 intercross between A/J and BXD5). We first determined that the distribution of all four dependent measures were normally distributed (Fig 2), before subjecting the data to correlational analysis. In this set of animals brain weight correlates significantly with striatal volume (r = .82, df = 42, P < .001, Fig 3A). Striatal volume is negatively correlated with neuron-packing density overall (r = -0.32, df = 42, P < .05), again indicating that the greater the striatal volume, the lower the neuron-packing density (Fig 3B). Despite this relationship, the total population of striatal neurons correlates positively with striatal volume in this larger sample (r = .60, df = 42, P < .001; Fig 3C). In this crucial respect, results from the genetically heterogeneous F2 animals differ from those of inbred strains.
+
+Figure 2
+
+Histograms of distribution of dependent measures in ABDF2 subjects. Brain weight (A: Χ2 = 2.91, df = 2, ns), striatal volume (B: Χ2 = 1.13, df = 2, ns), striatal neuron-packing density C: Χ2 = 1.64, df = 2, ns), and striatal neuron number (D: Χ2 = 0.73, df = 2, ns) are all normally distributed (Kolmogorov-Smirnov Normality Test).
+
+Figure 3
+
+Scatterplots of subjects from an F2 intercross between a BXD5 and A/J inbred strains (ABF2, N = 44) illustrating correlations of striatal volume with brains weight (A), striatal neuron-packing density (B), and striatal neuron number (C). There are significant positive correlations between striatal volume and both brain weight and neuron number. Striatal volume negatively correlates with neuron-packing density in these subjects. ***P < .001; *P < .05.
+
+QTL Analysis
+
+The analysis in this section is focused principally on two traits: striatal volume (absolute and residual values), and striatal neuron number (also absolute and residual values). Residuals for these traits were computed for both traits to minimize the influence of brain weight. Two additional traits were mapped to assess specificity of the effects of putative QTL-bearing intervals, namely brain weight and non-striatal brain weight (Table 1). This last parameter was estimated by subtracting the estimated bilateral striatal weight (assuming a specific gravity of 1.0) from that of the whole brain.
+
+Table 1
+
+Linkage Statistics for Striatal Volume and Neuron Number
+
+** Alleles inherited from BXD5 that increase a value are defined as positive additive effects. † LRS values can be converted to LOD scores by dividing by 4.6. Previously described QTL for brain weight [56]. Column headings:Trait, the phenotype used in linkage analysis; Marker, the symbol of the microsatellite loci used to genotype mice; Chr, the chromosome on which the marker is located; LRS is the likelihood ratio statistic (4.6 x the LOD score); %Var is the percentage of the total phenotypic variance apparently accounted for by differences in genotype in the an interval defined by the marker; P, the point-wise probability that the linkage is a false positive. Add and Dom are estimates of the additive and dominance effects of genetic variation. Units are the same as those of the traits (volume in mm3 or numbers of cells). The two bold loci marked with asterisks achieve genome-wide significance in this sample population.
+
+The strongest linkage was found between variation in striatal volume and an interval on chromosome 10 between the markers D10Mit194 at 29 cM and D10Mit209 at 49 cM. The likelihood ratio statistic - a value that can be read as a chi-square - peaks in this 20 cM interval at 17.5 and is associated with a P value of 0.00016 (Table 1), equivalent to a LOD score of 3.8 (Fig 4A). The genome-wide probability of achieving a linkage of this strength by chance is <0.05. This locus accounts for as much as a third of the total phenotypic variance in striatal volume and as much as 50% of the genotypic variance (h2 = 0.39). Alleles in this Chr 10 interval that are inherited from the BXD5 parental strain contribute to a significantly larger striatum than do alleles inherited from A/J. Mean bilateral volume corrected for shrinkage for the AA genotype at D10Mit186 (n = 11) is 25.3 ± 1.3 mm3 whereas that for AB and BB genotypes are 29.1 ± 0.7 mm3 and 30.0 ± 0.5 mm3 (n = 14 and 11), respectively. The insignificant difference between BB and AB genotypes suggests that the B allele is dominant. BXD5 is a recombinant inbred strain initially generated by crossing strains C57BL/6J and DBA/2J. Most of the proximal part of Chr 10 in BXD5 is derived from DBA/2J, but a short interval between 40 and 50 cM is derived exclusively from C57BL/6J. This C57BL/6J region corresponds to the peak LRS score. We estimate a single B allele inherited from the BXD5 parent increases striatal volume by approximately 2.0-2.5 mm3.
+
+Figure 4
+
+Plots of LOD scores and LRS for each of the two traits. A. Plot for Striatal volume on Chr. 10. Peak values for the LRS are around 30 cM. B. Plot for striatal neuron number on Chr. 19. Peak values for the LRS are around 50 cM.
+
+The Chr 10 interval has an appreciable effect on brain size. Variance in brain weight minus that of the striatum is associated with an LRS of 14.2 in the same location between D10Mit106 and D10Mit186. Each B allele adds 20-30 mg to total brain weight. The Chr 10 locus clearly has pleiotropic effects on the CNS, but its effect on the striatum is more intense. Nonetheless, until we know more about the scope of effects, we have opted to give this Chr 10 locus a generic name, Brain size control 10a (Bsc10a). The specific striatal component of the Bsc10a was analyzed by mapping the residual striatal values that corrects for differences in brain volume. The specific effect of a B allele is reduced from 2.5 mm3 to 0.5-1.0 mm3, and the LRS is reduced to 6.9, a value which still has a point-wise probability of only 0.03, indicating a significant independent effect.
+
+We identified a second strong candidate interval on distal Chr 19 that may modulate striatal neuron number. The LRS peaks at 15.0 (a LOD of 3.26) at one of our more distal markers (D19Mit123, 51 cM, p = .00055). In mapping neuron number we actually used the residual cell population as a trait, and we are therefore confident that this interval has a selective, although not necessarily exclusive, effect on numbers of neurons in striatum (Fig 4B). Each B allele increases the population by approximately 200,000 cells. The AA genotype has an average residual population that is 116,000 less than the mean (i.e., a residual of -116,000; n = 12), the AB heterozygotes have an average of -8,000 neurons (n = 18), and the BB homozygotes have an average of 290,000 neurons (n = 6). Corresponding absolute numbers of striatal neurons for the three genotypes are 1.8, 1.9, and 2.2 million. The two-tailed genome-wide probability of this locus is at the threshold for declaring a QTL (p = 0.035 ± 0.01 two-tailed for an additive model and 0.08 ± 0.2 for a free model). No other chromosomal interval has an LRS score remotely as high as distal Chr 19. The next highest LRS value is only 7.2 on Chr 1 near D1Mit65 and has a point-wise probability that is 50 times higher than the Chr 19 interval. Given these findings we have given the distal chromosome 19 interval the name Striatal Neuron Number 19a (Stnn19a). Allelic differences in this interval account for up to 30% of the total variance in striatal neuron number. As the heritability of this trait is 0.64, this trait can be said to account for over 80% of the genetic variance. Residual neuron counts have a higher LRS than the total neuron counts (LRS of 15.0 vs. 11.9). This indicates that the Chr 19 interval is likely to have selective effect on the striatum. Consistent with this hypothesis, the LRS for brain weight on distal Chr 19 is under 1.0, and weights of all three genotypes average 480 ± 5 mg. Linkage on Chr 19 is not affected at all by remapping with control for the striatal volume locus on Chr 10. Thus, Chr 10 and Chr 19 intervals do not interact or cooperate in controlling striatal volume or neuron number.
+
+Discussion
+
+Striatal volume correlates strongly to brain weight. Nonetheless, a significant fraction of the variation in both striatal volume and neuron number among inbred strains of mice can not be predicted on the basis of brain weight or volume. This non-predictable variation is of particular interest to us because it is generated in large part by genes that have more intense or even selective effects on the dorsal striatum than other brain regions. We have succeeded in mapping one QTL with somewhat more intense effects on the volume of the striatum than the rest of the brain to the proximal half of chromosome 10. We have also mapped a QTL with selective effects on number of neurons in the striatum to the distal end of chromosome 19.
+
+Between-strain variability
+
+Variation in the size of CNS regions and cell populations is already known to be substantial in the striatum and in many other regions of the CNS. The number of striatal cholinergic neurons, for example, varies 50% among 26 BXD RI lines [32]. Interestingly, this variation appears to be unrelated to susceptibility to haloperidol-induced catalepsy. The volume of the granule cell layer of the dentate gyrus varies as much as 40-80% among different inbred strains of mice [33-35]. More recent experiments using stereologic techniques have reported substantial variation in both neuron number and volume of the pyramidal and dentate cell layers of the hippocampus [36]. Granule cell numbers in NZB/BINJ and DBA/2 were 37-118% greater than C57BL/6J mice, and differences in volume were even larger (up to 150% larger in the DBA/2 as compared to the C57BL/6J mice). There is also substantial among-strain variation in other structures in the nervous system including the nucleus of the solitary tract [37], the spinal nucleus of the bulbocavernosus [38], and retinal ganglion cells [39, 40]. Taken together, these results point to a high level of variability in neuron number in the CNS of mice.
+
+Based on these findings, we anticipated significant differences in the striatum of inbred strains. We did find large strain differences in volume. What was surprising was that in our set of five highly divergent strains the differences in volume were not matched by significant differences in neuron number. There was in fact a strong inverse relationship between striatal volume and neuron-packing density that led to a remarkably stabile neuron number. The variation in neuron-packing density with volume contrasts somewhat with the report of Abusaad and colleagues [36], who found no significant differences (P = .06) in neuronal packing density in the dentate gyrus cell layers of the hippocampus among the three mouse strains that they examined, but did see a significant difference in the pyramidal cell layers. A recent report demonstrates a 25% range of granule cell packing density among 35 BXD recombinant inbred lines [41], a finding supporting the notion that packing density varies significantly among mouse strains.
+
+These data suggest that principles that govern the relationship between neuronal volume and neuron-packing density may differ between the striatum and the other CNS regions. The striatum may be a special case - a region in which numbers of medium spiny neurons is more tightly regulated than neuron populations in some other regions. It could also be that measuring specific neuronal subtypes would demonstrate a greater amount of variance than we currently report [32]. Given the relatively small number of strains that we have sampled, our hypothesis of lower variation in striatal cell populations requires a more extensive test, a problem which we are now pursuing using the large numbers of strains in the Mouse Brain Library .
+
+Verification of QTL Results
+
+We have quantified the population of striatal neurons on both sides of the brain in 77 cases total. This is a large sample from the perspective of stereological analysis of the mouse CNS, but from the perspective of gene mapping and quantitative genetics this is, of course, a modest-sized sample size and one that will need to be treated as a starting point for more refined genetic analysis. Nonetheless, we have succeeded in mapping one locus, Bsc10a, which modulates striatal volume with a genome-wide significance of P < 0.05. We have also discovered linkage on Chr 19 to variation in the total number of striatal neurons. These mapping data are concordant with our strain comparison and collectively suggest that there is apparently no significant genetic correlation between striatal volume and neuron number. To confirm and refine our genetic dissection of the striatum we plan to analyze the AXB and BXA recombinant inbred (RI) strains generated by crossing A/J with C57BL/6J. This large RI set has already been processed and regenotyped and is now part of the Mouse Brain Library (see  and ). An analysis of RI strains can be quickly extended by generating F1 intercrosses between A/J and the subset of RI strains that have recombinations in the QTL intervals on Chrs 10 and 19. Isogenic sets of RI-backcross progeny can be used to test specific models of gene action, for example, the dominance of the B allele at Bsc10a.
+
+A major goal of QTL mapping is to define loci that affect critical phenotypes with sufficient precision to generate short lists of candidate genes. Generating lists of candidates for QTLs will soon be greatly facilitated by more complete and better annotated mouse and human sequence databases combined with information on gene expression profiles of whole brain and striatum [42]. Once chromosomal positions of the QTLs have been determined to a precision of 1-3 cM, reducing the probability that a QTL actually represents a cluster of linked genes, it will become appropriate to assess strengths of candidates using transgenic animals and by sequence comparisons [43].
+
+Interval mapping places the QTL for Bsc10a in the central portion of Chr 10 in proximity with a number of genes known to affect brain development. One of these is Grk2, a member of the family of ionotropic glutamate receptor genes that is thought to play a role in modulating Huntington disease [44]. In the mouse, members of this receptor type act to indirectly down-regulate synaptic activity in the striatum [45]. Another gene that falls into the Bsc10a interval is Macs, the gene encoding the myristoylated alanine-rich C kinase substrate (MARCKS protein). This molecule is important in cerebral development. MARCKS-deficient mice have a high incidence of exencephaly, agenesis of the corpus callosum, and abnormalities other forebrain structure including widespread neocortical ectopias [46, 47]. The MARCKS-related protein gene is expressed in the striatum during early brain development in the rat [48].
+
+The location of the QTL modulating striatal neuron number to the distal part of chromosome 19 places it in proximity to a number of genes that have been recently been shown to be important factors in telencephalic development, particularly Vax1. Vax1 is a homeobox-containing gene and is a close relative of the Emx and Not genes. Vax1 is localized during development to the anterior ventral forebrain, and is expressed in the striatum during embryogenesis [28]. This molecule also has an important role in axon guidance: both the anterior portion of the corpus callosum and the optic chiasm are malformed or absent in Vax1 knockout mice [49]. In addition, Vax1 interacts with several molecules including sonic hedgehog,Pax2, Pax6, and Rx that are known to be important during development of the basal forebrain [27, 50].
+
+Brain volume and neuron number
+
+It has previously been shown that differences in brain weight are proportional to total brain DNA content and consequently to total CNS cell number [51, 52]. For this reason, brain weight has been suggested to be a good surrogate measure for total cell number in mice, as in humans [53]. Moreover, previous work has demonstrated a tight link between regional brain volume and neuron number [54, 55], which implies that volumetric measures reliably estimate neuron number. With this literature in mind, we expected that our measures of striatal volume would predict neuron number in this nucleus. With the inbred strains, however, we found that strains with small striata (A/J) had virtually the same number of neurons as those with large striata (BALB/cJ). This result indicates that at least for the striatum, volume is not a reliable indicator of neuron number, and that they may be two independent traits. This conclusion is bolstered at the genetic level by our report of two distinct QTLs for these two morphologic phenotypes. Taken together with previous reports [51-53], we speculate that while total neuron number in the cerebrum may relate to total brain weight, the relationship of these two variables is flexible at the regional level.
+
+Materials and Methods
+
+Subjects
+
+Thirty-four of the 78 mice that we analyzed were common inbred strains that were selected to sample a wide range of brain weights, and by expectation, striatal volumes. Low brain weight strains included A/J (n = 5) and DBA/2J (n = 8). Mid and high brain weight strains include C57BL/6J (n = 10), BALB/cJ (n = 5), and BXD5 (n = 6, formally this recombinant inbred strain is known as BXD-5/Ty). One of the ten C57BL/6J subjects was removed from the analysis because values for striatal neuron number were anomalous with Z scores more than 2.5.
+
+To map QTLs that modulate variation in CNS size and cell populations we used an F2 intercross between a strain with low brain weight (A/J) and a strain with high brain weight (BXD5). A total of 518 of these ABDF2 progeny were generated, but for this study we selected a subset of 44 cases, of which 36 were fully genotyped (see below). The sample included 20 animals in the lowest and highest quartiles, and 24 cases within 0.5 SD of the mean brain weight. We therefore measured subjects representing the full range of brain weights (see Fig 2A). The ABDF2 intercross has been used previously to map QTLs that modulate total brain weight [56] and cerebellar volume [57]. The BXD5 strain used as the paternal strain in this intercross is a recombinant inbred strain that was derived by crossing C57BL/6J and DBA/2J lines of mice [58]. As a result, ABDF2 progeny are a mixture of three genomes (50% A/J, 25% C57BL/6J, and 25% DBA/2J). However, at any given locus there will be only two alleles, A and B, or A and D. All stocks of mice were obtained from the Jackson Laboratory . ABF2 mice were generated at the University of Tennessee by Dr. Richelle Strom [56] using Jackson Laboratory foundation stock. The F2 mice ranged in age from 35 to 143 days. The standard inbred strains ranged in age from 51 to 365 days. We studied approximately equal numbers of males and females.
+
+Histological Preparation
+
+All brains analyzed in this study are part of the Mouse Brain Library (MBL). The MBL is both a physical and Internet resource. High-resolution digital images of sections from all cases are available at .
+
+Mice were anesthetized deeply with Avertin (1.25% 2,2,2-tribromoethanol and 0.8% tert-pentyl alcohol in water, 0.5-1.0 ml ip) and perfused through the left ventricle with 0.9% sodium phosphate buffered (PB) saline (pH 7.4) followed by 1.25% glutaraldehyde/1.0% paraformaldehyde in 0.1 M PB (pH 7.40) over a period of 2 to 4 min. An additional 10-ml of double-strength fixative (2.5% glutaraldehyde/2.0% paraformaldehyde) was injected for 1 to 2 min at an increased flow rate. The head with brain was placed a vial with the last fixative and stored at 4°C until dissection.
+
+Following dissection, the brains were weighed immediately. Brains were subsequently shipped to Beth Israel Deaconess Medical Center. They were immersed in fresh 10% formalin for at least one week before being embedding in celloidin [59]. Brains were cut on a sliding microtome at 30 μm in either horizontal or coronal planes. Free-floating sections were stained with cresylechtviolett and four series of every tenth section were mounted on slides and coverslipped (see  for further details).
+
+Histologic Phenotypes
+
+Total Brain Volume
+
+To accurately estimate histological shrinkage for each brain in the sample, we determined the volume of the entire brain and took a ratio of this value to the original fixed brain weight. Brain volumes were determined from serial sections using point counting and Cavalieri's rule. High-resolution (4.5 μm/pixel) images of entire sections were taken from the Mouse Brain Library, and point counting was performed on these images using NIH Image 1.55  and an Apple Macintosh computer . If the criteria for using the Cavalieri's estimator were not met (due to missing or damaged sections), a measurement method involving piecewise parabolic integration was employed [60]. Subsequent measurements of striatal volume and neuron packing density were corrected for volumetric shrinkage. The average shrinkage was 62.2 ± 0.4% (a mean residual volume of 37.8%).
+
+Striatal Volume
+
+Volume of the striatum was also determined from serial section analysis using point counting and Cavalieri's rule. Images from the sections were captured at 12.5 x and were projected onto a video monitor. Point counting was performed as above. Volume was computed separately for the right and left sides and corrected for shrinkage.
+
+Striatal Neuron-Packing Density and Neuron Number
+
+Neurons were counted using the 3-dimensional counting software of Williams and Rakic [24]. A series of six contiguous counting boxes (each 40 x 65 x 20 μm) aligned in a 3 x 2 matrix were placed randomly within the striatum, and those neurons the nucleoli of which were in focus were counted as described previously [61, 62]. This large functional counting box (80 x 195 x 20 μm) was chosen to minimize sampling variance by ensuring an equitable sampling of striatal patch and matrix. Two of these large fields were counted in each of the hemispheres. Neuron-packing density was computed as the number of cells/mm3 corrected for shrinkage. Multiplying the volume of the striatum by its cell-packing density permitted estimation of the number of neurons in that nucleus.
+
+Reliability
+
+We determined test-retest reliability by having an observer blindly re-measure striatal volume on a subset of 10 brains from the collection. The observer not only re-measured the striatal volume from the same series of sections as the original measure, but also estimated volume from a second series of 1 in 10 sections offset by 5 sections from the previous series. The correlations among the three estimations ranged from .95 to .99 (P < .05), indicating a high degree of reliability for this dependent variable.
+
+We assessed reliability of our estimates of neuronal numbers by having an observer blindly re-estimate neuron number in the same 10 brains above. The intra-observer correlation for this measure was .81 (P < .05), which is similar to the reliability seen in previous estimates of neuron number [39, 40].
+
+Genotyping and QTL Mapping
+
+Genomic DNA was extracted from spleens of F2 animals using a high-salt procedure [63]. A set of 82 microsatellite loci distributed across all autosomes and the X chromosome were typed in a set of ABDF2 animals using a standard PCR protocol [64, 65] as detailed in Zhou and Williams [66]. F2 genotypes were entered into a spreadsheet program and transferred to Map Manager QTb28 for mapping and permutation analysis [67]. Map Manager implements both simple and composite interval mapping methods described by Haley and Knott [68]. Two-tailed genome-wide significance levels were estimated by comparing the highest likelihood ratio statistic (LRS) of correctly ordered data sets with LRSs computed for 10,000 permutations of those same data sets [69]. LRS scores can be converted to LOD scores by dividing by 4.6. The 2-LOD support interval of linkage was estimated directly from interval maps. The approximate 95% support interval was estimated by application of equations in Darvasi and Soller [70]. With a modest sample size such as we have been able to examine using unbiased stereological methods, even a QTL responsible for 30 to 50% of the variance. is associated with a 95% interval of 20 to 30 cM.
+
+Regression Analysis of Trait Values
+
+The unadjusted striatal estimates vary to a large extent as a result of variation in total brain weight. However, one of our goals in this study is to map QTLs with relatively intense effects on the striatum. For this reason we also have corrected all of the parameters used in the mapping analysis for variation in brain weight using linear regression analysis. We have mapped data with and without compensation for variance in brain weight. The corrected values are referred to as residuals.
+
+Analysis
+
+All data were analyzed using regression, correlation, and ANOVA statistical tests (see StrAnatData.xls for original data used to perform this analysis). A Bonferroni/Dunn correction was used for post hoc examination of significant main effects in the ANOVA. This post-hoc test is functionally identical to a Fisher PLSD, but the alpha level is more conservative (.005).
+
+Supplementary Material
+
+StrAnatData.xls
+
+This file contains anatomic data for each of the subjects used in the current experiment.
+
+Click here to download StrAnatData.xls
+
+StrMap.qtx
+
+This file contains the genotyping data from the 82 markers used in the current experiment, in MapManager QTX format.
+
+Click here to download StrMap.qtx
+
+Acknowledgements
+
+This work was supported, in part, by grants HD20806 and NS35485 from the Public Health Service of the USA. The authors wish to thank Dr. Jing Gu, Aaron Levine, Anna Ohlis, and Stefany Palmieri for technical assistance. We thank Richelle Strom for generating the F2 intercross mice.
