@@ -82,6 +82,9 @@ class PhenoEngine(KnowledgeEngine):
                             }
                 else:
                     phenopacket["subject"]["ageAtCollection"] = {"age": "UNKNOWN"}
+        if not "phenotypicFeatures" in phenopacket:
+            logging.warning(f"No phenotypicFeatures found in phenopacket {phenopacket['id']}.")
+            logging.warning("Diagnosis accuracy may be very inaccurate.")
         prompt = template.render(
             phenopacket=phenopacket,
         )
