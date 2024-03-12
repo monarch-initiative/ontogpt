@@ -185,6 +185,11 @@ class KnowledgeEngine(ABC):
             self.mappers = [get_adapter("translator:")]
 
         self.set_up_client(model_source=self.model_source)
+        if not self.client:
+            if self.model_source:
+                raise ValueError(f"No client available for set for {self.model_source}")
+            else:
+                raise ValueError("No client available because model source is unknown.")
 
         # We retrieve encoding for OpenAI models
         # but tiktoken won't work for other models
