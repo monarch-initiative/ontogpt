@@ -106,7 +106,7 @@ def output_parser(obj: Any, file) -> List[str]:
 
 def write_obj_as_csv(obj: Any, file, minimize=True, index_field=None) -> None:
     if isinstance(obj, BaseModel):
-        obj = obj.dict()
+        obj = obj.model_dump()
     if isinstance(obj, list):
         rows = obj
     elif not isinstance(obj, dict):
@@ -120,7 +120,7 @@ def write_obj_as_csv(obj: Any, file, minimize=True, index_field=None) -> None:
         raise ValueError(f"Cannot dump {obj} as CSV")
     if isinstance(file, Path) or isinstance(file, str):
         file = open(file, "w", encoding="utf-8")
-    rows = [row.dict() if isinstance(row, BaseModel) else row for row in rows]
+    rows = [row.model_dump() if isinstance(row, BaseModel) else row for row in rows]
     writer = csv.DictWriter(file, fieldnames=rows[0].keys(), delimiter="\t")
     writer.writeheader()
     for row in rows:
