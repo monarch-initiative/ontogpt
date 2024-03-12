@@ -90,9 +90,10 @@ class KnowledgeEngine(ABC):
     knowledge sources plus LLMs
     """
 
-    template_details: tuple
+    template_details: tuple = None
     """Tuple containing loaded template details, including:
-    (LinkML class, module, python class, SchemaView object)"""
+    (LinkML class, module, python class, SchemaView object).
+    May be None because some child classes do not require a template."""
 
     template_class: ClassDefinition = None
     """LinkML Class for the template.
