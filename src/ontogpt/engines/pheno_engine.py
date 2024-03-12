@@ -113,7 +113,7 @@ class PhenoEngine(KnowledgeEngine):
                 }
             except KeyError:
                 logger.warning(f"No diseases found in phenopacket {phenopacket['id']}")
-                validated_disease_ids = {}
+                validated_disease_ids = set()
             dp.validated_disease_ids = list(validated_disease_ids)
             if validated_disease_ids:
                 dp.validated_disease_labels = [
