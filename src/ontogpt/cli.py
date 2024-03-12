@@ -879,12 +879,13 @@ def synonyms(model, term, context, output, output_format, **kwargs):
 
     if model:
         selectmodel = get_model_by_name(model)
+        model_name = selectmodel["canonical_name"]
         model_source = selectmodel["provider"]
 
         if model_source != "OpenAI":
             raise NotImplementedError("Model not yet supported for this function.")
 
-    ke = SynonymEngine(model=model, model_source=model_source.lower())
+    ke = SynonymEngine(model=model_name, model_source=model_source.lower())
     out = str(ke.synonyms(term, context))
     output.write(out)
 
