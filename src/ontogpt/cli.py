@@ -877,13 +877,15 @@ def synonyms(model, term, context, output, output_format, **kwargs):
     """Extract synonyms."""
     logging.info(f"Creating for {term}")
 
-    if model:
-        selectmodel = get_model_by_name(model)
-        model_name = selectmodel["canonical_name"]
-        model_source = selectmodel["provider"]
+    if not model:
+        model = DEFAULT_MODEL
 
-        if model_source != "OpenAI":
-            raise NotImplementedError("Model not yet supported for this function.")
+    selectmodel = get_model_by_name(model)
+    model_name = selectmodel["canonical_name"]
+    model_source = selectmodel["provider"]
+
+    if model_source != "OpenAI":
+        raise NotImplementedError("Model not yet supported for this function.")
 
     ke = SynonymEngine(model=model_name, model_source=model_source.lower())
     out = ke.synonyms(term, context)
