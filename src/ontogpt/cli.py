@@ -1019,6 +1019,61 @@ def run_kanjee_analysis(input_data_dir, output_directory, correct_diagnosis_file
                 tsv_file.write(f"{filename}\t{correct_diagnosis}\t\"{gpt_diagnosis}\"\n")
 
 
+@main.command()
+@click.argument("input_data_dir")
+@click.argument("output_directory")
+@click.argument("correct_diagnosis_file")
+def run_kanjee_analysis_output_omim(input_data_dir,
+                                    output_directory,
+                                    correct_diagnosis_file,
+                                    model="gpt-4-0125-preview"):
+    # Create the output TSV file name
+    output_file_name = input_data_dir.strip(os.sep).split(os.sep)[-1] + "_results.tsv"
+    output_file_path = os.path.join(output_directory, output_file_name)
+
+    # parse correct diagnosis file
+    def parse_diagnosis_file(file_path):
+        result_dict = {}
+        with open(file_path, 'r') as file:
+            for line in file:
+                line = line.strip()
+                if line:
+                    key, value = line.split('\t')
+                    result_dict[key] = value
+        return result_dict
+
+    correct_diagnosis_dict = parse_diagnosis_file(correct_diagnosis_file)
+
+    # Write the header to the output TSV file
+    with open(output_file_path, "w", encoding="utf-8") as tsv_file:
+        tsv_file.write("input file name\tcorrect diagnosis\tgpt diagnosis\n")
+
+        for filename in os.listdir(input_data_dir):
+            if filename.endswith(".txt"):
+                # feed to GPT and get diagonses
+                file_path = os.path.join(input_data_dir, filename)
+
+                if filename.split('-')[0] in correct_diagnosis_dict:
+                    correct_diagnosis = correct_diagnosis_dict[filename.split('-')[0]]
+                else:
+                    correct_diagnosis = \
+                        f"Couldn't find {filename} in correct diagnosis file"
+
+                with open(file_path, mode='r', encoding="utf-8") as txt_file:
+                    prompt = txt_file.read()
+
+                ai = OpenAIClient()
+                ai.model = model
+                try:
+                    gpt_diagnosis = ai.complete(prompt)
+                except openai.error.InvalidRequestError as e:
+                    gpt_diagnosis = "OPENAI API CALL FAILED"
+
+                # Write the result to the output TSV file
+                gpt_diagnosis = gpt_diagnosis.replace('"', '""')
+                tsv_file.write(f"{filename}\t{correct_diagnosis}\t\"{gpt_diagnosis}\"\n")
+
+
 
 def get_kanjee_prompt() -> str:
     """prompt from Kanjee et al. 2023"""
