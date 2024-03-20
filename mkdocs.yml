@@ -41,15 +41,28 @@ nav:
       - Biological Processes: biological_process/index.md
       - Biotic Interactions: biotic_interaction/index.md
       - Cell Types: cell_type/index.md
+      - Core: core/index.md
       - Chemical to Disease: ctd/index.md
+      - Chemical to Disease (Entities Only): ctd_ner/index.md
+      - Datasheets for Datasets: data_sheets_schema/index.md
       - Diagnostic Procedures: diagnostic_procedure/index.md
+      - Dietitian Notes: dietitian_notes/index.md
       - Drugs and Mechanisms: drug/index.md
+      - EMAPA (Mouse Developmental Anatomy Ontology): emapa_simple/index.md
       - Environmental Samples: environmental_sample/index.md
+      - Figures: figure/index.md
+      - GO Terms: go_terms/index.md
+      - GO Terms (Entities Only): go_simple/index.md
+      - Go Terms and Relations: go_terms_relational/index.md
       - GO-CAMs and Pathways: gocam/index.md
+      - Human Phenotypes: human_phenotype/index.md
       - Irritable Bowel Diseases and Literature: ibd_literature/index.md
+      - Medical Actions: maxo/index.md
       - Mendelian Diseases: mendelian_disease/index.md
       - Metabolic Processes: metabolic_process/index.md
       - Metagenome Studies: metagenome_study/index.md
+      - MONDO Diseases (Entities Only): mondo_simple/index.md
+      - NMDC Schema Data: nmdc_schema_data/index.md
       - Ontology Classes: ontology_class/index.md
       - Ontology Issues: ontology_issue/index.md
       - Recipes: recipe/index.md
