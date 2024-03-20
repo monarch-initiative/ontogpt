@@ -1,0 +1,2001 @@
+
+<!DOCTYPE html>
+
+<html class="no-js" lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width,initial-scale=1" name="viewport"/>
+<link href="https://monarch-initiative.github.io/ontogpt/data_sheets_schema/" rel="canonical"/>
+<link href="../ctd_ner/" rel="prev"/>
+<link href="../diagnostic_procedure/" rel="next"/>
+<link href="../assets/images/favicon.png" rel="icon"/>
+<meta content="mkdocs-1.5.3, mkdocs-material-9.5.8" name="generator"/>
+<title>Datasheets for Datasets - OntoGPT</title>
+<link href="../assets/stylesheets/main.f2e4d321.min.css" rel="stylesheet"/>
+<link href="../assets/stylesheets/palette.06af60db.min.css" rel="stylesheet"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&amp;display=fallback" rel="stylesheet"/>
+<style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+<script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+</head>
+<body data-md-color-accent="amber" data-md-color-primary="teal" data-md-color-scheme="default" dir="ltr">
+<input autocomplete="off" class="md-toggle" data-md-toggle="drawer" id="__drawer" type="checkbox"/>
+<input autocomplete="off" class="md-toggle" data-md-toggle="search" id="__search" type="checkbox"/>
+<label class="md-overlay" for="__drawer"></label>
+<div data-md-component="skip">
+<a class="md-skip" href="#data-sheets-schema">
+          Skip to content
+        </a>
+</div>
+<div data-md-component="announce">
+</div>
+<header class="md-header md-header--shadow" data-md-component="header">
+<nav aria-label="Header" class="md-header__inner md-grid">
+<a aria-label="OntoGPT" class="md-header__button md-logo" data-md-component="logo" href=".." title="OntoGPT">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"></path></svg>
+</a>
+<label class="md-header__button md-icon" for="__drawer">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2Z"></path></svg>
+</label>
+<div class="md-header__title" data-md-component="header-title">
+<div class="md-header__ellipsis">
+<div class="md-header__topic">
+<span class="md-ellipsis">
+            OntoGPT
+          </span>
+</div>
+<div class="md-header__topic" data-md-component="header-topic">
+<span class="md-ellipsis">
+            
+              Datasheets for Datasets
+            
+          </span>
+</div>
+</div>
+</div>
+<form class="md-header__option" data-md-component="palette">
+<input aria-label="Switch to light mode" class="md-option" data-md-color-accent="amber" data-md-color-media="(prefers-color-scheme: light)" data-md-color-primary="teal" data-md-color-scheme="default" id="__palette_0" name="__palette" type="radio"/>
+<label class="md-header__button md-icon" for="__palette_1" hidden="" title="Switch to light mode">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 2a7 7 0 0 0-7 7c0 2.38 1.19 4.47 3 5.74V17a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1v-2.26c1.81-1.27 3-3.36 3-5.74a7 7 0 0 0-7-7M9 21a1 1 0 0 0 1 1h4a1 1 0 0 0 1-1v-1H9v1Z"></path></svg>
+</label>
+<input aria-label="Switch to dark mode" class="md-option" data-md-color-accent="amber" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-primary="teal" data-md-color-scheme="slate" id="__palette_1" name="__palette" type="radio"/>
+<label class="md-header__button md-icon" for="__palette_0" hidden="" title="Switch to dark mode">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 2a7 7 0 0 1 7 7c0 2.38-1.19 4.47-3 5.74V17a1 1 0 0 1-1 1H9a1 1 0 0 1-1-1v-2.26C6.19 13.47 5 11.38 5 9a7 7 0 0 1 7-7M9 21v-1h6v1a1 1 0 0 1-1 1h-4a1 1 0 0 1-1-1m3-17a5 5 0 0 0-5 5c0 2.05 1.23 3.81 3 4.58V16h4v-2.42c1.77-.77 3-2.53 3-4.58a5 5 0 0 0-5-5Z"></path></svg>
+</label>
+</form>
+<script>var media,input,key,value,palette=__md_get("__palette");if(palette&&palette.color){"(prefers-color-scheme)"===palette.color.media&&(media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']"),palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent"));for([key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+<label class="md-header__button md-icon" for="__search">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"></path></svg>
+</label>
+<div class="md-search" data-md-component="search" role="dialog">
+<label class="md-search__overlay" for="__search"></label>
+<div class="md-search__inner" role="search">
+<form class="md-search__form" name="search">
+<input aria-label="Search" autocapitalize="off" autocomplete="off" autocorrect="off" class="md-search__input" data-md-component="search-query" name="query" placeholder="Search" required="" spellcheck="false" type="text"/>
+<label class="md-search__icon md-icon" for="__search">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"></path></svg>
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"></path></svg>
+</label>
+<nav aria-label="Search" class="md-search__options">
+<button aria-label="Clear" class="md-search__icon md-icon" tabindex="-1" title="Clear" type="reset">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41Z"></path></svg>
+</button>
+</nav>
+</form>
+<div class="md-search__output">
+<div class="md-search__scrollwrap" data-md-scrollfix="">
+<div class="md-search-result" data-md-component="search-result">
+<div class="md-search-result__meta">
+            Initializing search
+          </div>
+<ol class="md-search-result__list" role="presentation"></ol>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="md-header__source">
+<a class="md-source" data-md-component="source" href="https://github.com/monarch-initiative/ontogpt/" title="Go to repository">
+<div class="md-source__icon md-icon">
+<svg viewbox="0 0 448 512" xmlns="http://www.w3.org/2000/svg"><!--! Font Awesome Free 6.5.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"></path></svg>
+</div>
+<div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+</div>
+</nav>
+</header>
+<div class="md-container" data-md-component="container">
+<main class="md-main" data-md-component="main">
+<div class="md-main__inner md-grid">
+<div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation">
+<div class="md-sidebar__scrollwrap">
+<div class="md-sidebar__inner">
+<nav aria-label="Navigation" class="md-nav md-nav--primary" data-md-level="0">
+<label class="md-nav__title" for="__drawer">
+<a aria-label="OntoGPT" class="md-nav__button md-logo" data-md-component="logo" href=".." title="OntoGPT">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"></path></svg>
+</a>
+    OntoGPT
+  </label>
+<div class="md-nav__source">
+<a class="md-source" data-md-component="source" href="https://github.com/monarch-initiative/ontogpt/" title="Go to repository">
+<div class="md-source__icon md-icon">
+<svg viewbox="0 0 448 512" xmlns="http://www.w3.org/2000/svg"><!--! Font Awesome Free 6.5.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"></path></svg>
+</div>
+<div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+</div>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="..">
+<span class="md-ellipsis">
+    Introduction
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../setup/">
+<span class="md-ellipsis">
+    Setup
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../operation/">
+<span class="md-ellipsis">
+    Operation
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../custom/">
+<span class="md-ellipsis">
+    Custom Schemas
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../owl_exports/">
+<span class="md-ellipsis">
+    OWL Exports
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../evaluations/">
+<span class="md-ellipsis">
+    Evaluations
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../functions/">
+<span class="md-ellipsis">
+    Functions
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../start_with_owl/">
+<span class="md-ellipsis">
+    Starting with OWL
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../troubleshooting/">
+<span class="md-ellipsis">
+    Troubleshooting
+  </span>
+</a>
+</li>
+<li class="md-nav__item md-nav__item--active md-nav__item--nested">
+<input checked="" class="md-nav__toggle md-toggle" id="__nav_10" type="checkbox"/>
+<label class="md-nav__link" for="__nav_10" id="__nav_10_label" tabindex="0">
+<span class="md-ellipsis">
+    SPIRES Templates
+  </span>
+<span class="md-nav__icon md-icon"></span>
+</label>
+<nav aria-expanded="true" aria-labelledby="__nav_10_label" class="md-nav" data-md-level="1">
+<label class="md-nav__title" for="__nav_10">
+<span class="md-nav__icon md-icon"></span>
+            SPIRES Templates
+          </label>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="../core/">
+<span class="md-ellipsis">
+    Core Upper Level Schema
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../reaction/">
+<span class="md-ellipsis">
+    Biochemical Reactions
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../biological_process/">
+<span class="md-ellipsis">
+    Biological Processes
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../biotic_interaction/">
+<span class="md-ellipsis">
+    Biotic Interactions
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../cell_type/">
+<span class="md-ellipsis">
+    Cell Types
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../core/">
+<span class="md-ellipsis">
+    Core
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../ctd/">
+<span class="md-ellipsis">
+    Chemical to Disease
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../ctd_ner/">
+<span class="md-ellipsis">
+    Chemical to Disease (Entities Only)
+  </span>
+</a>
+</li>
+<li class="md-nav__item md-nav__item--active">
+<input class="md-nav__toggle md-toggle" id="__toc" type="checkbox"/>
+<label class="md-nav__link md-nav__link--active" for="__toc">
+<span class="md-ellipsis">
+    Datasheets for Datasets
+  </span>
+<span class="md-nav__icon md-icon"></span>
+</label>
+<a class="md-nav__link md-nav__link--active" href="./">
+<span class="md-ellipsis">
+    Datasheets for Datasets
+  </span>
+</a>
+<nav aria-label="Table of contents" class="md-nav md-nav--secondary">
+<label class="md-nav__title" for="__toc">
+<span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+<ul class="md-nav__list" data-md-component="toc" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#schema-diagram">
+<span class="md-ellipsis">
+      Schema Diagram
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#classes">
+<span class="md-ellipsis">
+      Classes
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#slots">
+<span class="md-ellipsis">
+      Slots
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#enumerations">
+<span class="md-ellipsis">
+      Enumerations
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#types">
+<span class="md-ellipsis">
+      Types
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#subsets">
+<span class="md-ellipsis">
+      Subsets
+    </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../diagnostic_procedure/">
+<span class="md-ellipsis">
+    Diagnostic Procedures
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../dietitian_notes/">
+<span class="md-ellipsis">
+    Dietitian Notes
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../drug/">
+<span class="md-ellipsis">
+    Drugs and Mechanisms
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../emapa_simple/">
+<span class="md-ellipsis">
+    EMAPA (Mouse Developmental Anatomy Ontology)
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../environmental_sample/">
+<span class="md-ellipsis">
+    Environmental Samples
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../figure/">
+<span class="md-ellipsis">
+    Figures
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../go_terms/">
+<span class="md-ellipsis">
+    GO Terms
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../go_simple/">
+<span class="md-ellipsis">
+    GO Terms (Entities Only)
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../go_terms_relational/">
+<span class="md-ellipsis">
+    Go Terms and Relations
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../gocam/">
+<span class="md-ellipsis">
+    GO-CAMs and Pathways
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../human_phenotype/">
+<span class="md-ellipsis">
+    Human Phenotypes
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../ibd_literature/">
+<span class="md-ellipsis">
+    Irritable Bowel Diseases and Literature
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../maxo/">
+<span class="md-ellipsis">
+    Medical Actions
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../mendelian_disease/">
+<span class="md-ellipsis">
+    Mendelian Diseases
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../metabolic_process/">
+<span class="md-ellipsis">
+    Metabolic Processes
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../metagenome_study/">
+<span class="md-ellipsis">
+    Metagenome Studies
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../mondo_simple/">
+<span class="md-ellipsis">
+    MONDO Diseases (Entities Only)
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../nmdc_schema_data/">
+<span class="md-ellipsis">
+    NMDC Schema Data
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../ontology_class/">
+<span class="md-ellipsis">
+    Ontology Classes
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../ontology_issue/">
+<span class="md-ellipsis">
+    Ontology Issues
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../recipe/">
+<span class="md-ellipsis">
+    Recipes
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../traits/">
+<span class="md-ellipsis">
+    Traits of a Taxon
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../treatment/">
+<span class="md-ellipsis">
+    Treatments
+  </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../halo/">
+<span class="md-ellipsis">
+    HALO Schema
+  </span>
+</a>
+</li>
+</ul>
+</nav>
+</div>
+</div>
+</div>
+<div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc">
+<div class="md-sidebar__scrollwrap">
+<div class="md-sidebar__inner">
+<nav aria-label="Table of contents" class="md-nav md-nav--secondary">
+<label class="md-nav__title" for="__toc">
+<span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+<ul class="md-nav__list" data-md-component="toc" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#schema-diagram">
+<span class="md-ellipsis">
+      Schema Diagram
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#classes">
+<span class="md-ellipsis">
+      Classes
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#slots">
+<span class="md-ellipsis">
+      Slots
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#enumerations">
+<span class="md-ellipsis">
+      Enumerations
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#types">
+<span class="md-ellipsis">
+      Types
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#subsets">
+<span class="md-ellipsis">
+      Subsets
+    </span>
+</a>
+</li>
+</ul>
+</nav>
+</div>
+</div>
+</div>
+<div class="md-content" data-md-component="content">
+<article class="md-content__inner md-typeset">
+<h1 id="data-sheets-schema">data-sheets-schema</h1>
+<p>A LinkML schema for Datasheets for Datasets.</p>
+<p>URI: https://w3id.org/bridge2ai/data-sheets-schema</p>
+<p>Name: data-sheets-schema</p>
+<h2 id="schema-diagram">Schema Diagram</h2>
+<div class="mermaid">erDiagram
+DatasetCollection {
+    CompressionEnum compression  
+    uriorcurie conforms_to  
+    uriorcurie conforms_to_class  
+    uriorcurie conforms_to_schema  
+    stringList created_by  
+    string created_on  
+    string description  
+    uriorcurie doi  
+    uri download_url  
+    string id  
+    string issued  
+    stringList keywords  
+    string language  
+    string last_updated_on  
+    string license  
+    string modified_by  
+    string page  
+    uriorcurie publisher  
+    uriorcurie status  
+    string title  
+    string version  
+    string was_derived_from  
+}
+Dataset {
+    integer bytes  
+    string dialect  
+    EncodingEnum encoding  
+    FormatEnum format  
+    string hash  
+    string md5  
+    string media_type  
+    string path  
+    string sha256  
+    string is_tabular  
+    CompressionEnum compression  
+    uriorcurie conforms_to  
+    uriorcurie conforms_to_class  
+    uriorcurie conforms_to_schema  
+    stringList created_by  
+    string created_on  
+    string description  
+    uriorcurie doi  
+    uri download_url  
+    string id  
+    string issued  
+    stringList keywords  
+    string language  
+    string last_updated_on  
+    string license  
+    string modified_by  
+    string page  
+    uriorcurie publisher  
+    uriorcurie status  
+    string title  
+    string version  
+    string was_derived_from  
+}
+Deidentification {
+    stringList description  
+    string id  
+    string name  
+}
+Software {
+    string version  
+    string license  
+    string url  
+    string id  
+    string name  
+    string description  
+}
+ExtensionMechanism {
+    stringList description  
+    string id  
+    string name  
+}
+VersionAccess {
+    stringList description  
+    string id  
+    string name  
+}
+RetentionLimits {
+    stringList description  
+    string id  
+    string name  
+}
+UpdatePlan {
+    stringList description  
+    string id  
+    string name  
+}
+Erratum {
+    stringList description  
+    string id  
+    string name  
+}
+Maintainer {
+    stringList description  
+    string id  
+    string name  
+}
+ExportControlRegulatoryRestrictions {
+    stringList description  
+    string id  
+    string name  
+}
+IPRestrictions {
+    stringList description  
+    string id  
+    string name  
+}
+LicenseAndUseTerms {
+    stringList description  
+    string id  
+    string name  
+}
+DistributionDate {
+    stringList description  
+    string id  
+    string name  
+}
+DistributionFormat {
+    stringList description  
+    string id  
+    string name  
+}
+DiscouragedUse {
+    stringList description  
+    string id  
+    string name  
+}
+FutureUseImpact {
+    stringList description  
+    string id  
+    string name  
+}
+OtherTask {
+    stringList description  
+    string id  
+    string name  
+}
+UseRepository {
+    stringList description  
+    string id  
+    string name  
+}
+ExistingUse {
+    stringList description  
+    string id  
+    string name  
+}
+RawData {
+    stringList description  
+    string id  
+    string name  
+}
+LabelingStrategy {
+    stringList description  
+    string id  
+    string name  
+}
+CleaningStrategy {
+    stringList description  
+    string id  
+    string name  
+}
+PreprocessingStrategy {
+    stringList description  
+    string id  
+    string name  
+}
+DataProtectionImpact {
+    stringList description  
+    string id  
+    string name  
+}
+EthicalReview {
+    stringList description  
+    string id  
+    string name  
+}
+CollectionTimeframe {
+    stringList description  
+    string id  
+    string name  
+}
+DataCollector {
+    stringList description  
+    string id  
+    string name  
+}
+SamplingStrategy {
+    stringList is_sample  
+    stringList is_random  
+    stringList source_data  
+    stringList is_representative  
+    stringList representative_verification  
+    stringList why_not_representative  
+    stringList strategies  
+    string id  
+    string name  
+    string description  
+}
+CollectionMechanism {
+    stringList description  
+    string id  
+    string name  
+}
+InstanceAcquisition {
+    stringList description  
+    string was_directly_observed  
+    string was_reported_by_subjects  
+    string was_inferred_derived  
+    string was_validated_verified  
+    string id  
+    string name  
+}
+SensitiveElement {
+    stringList description  
+    string id  
+    string name  
+}
+Subpopulation {
+    stringList identification  
+    stringList distribution  
+    string id  
+    string name  
+    string description  
+}
+ContentWarning {
+    stringList warnings  
+    string id  
+    string name  
+    string description  
+}
+Confidentiality {
+    stringList description  
+    string id  
+    string name  
+}
+ExternalResource {
+    stringList external_resources  
+    stringList future_guarantees  
+    stringList archival  
+    stringList restrictions  
+    string id  
+    string name  
+    string description  
+}
+DataAnomaly {
+    stringList description  
+    string id  
+    string name  
+}
+Instance {
+    string representation  
+    string instance_type  
+    string data_type  
+    integer counts  
+    string label  
+    string id  
+    string name  
+    string description  
+}
+MissingInfo {
+    stringList missing  
+    stringList why_missing  
+    string id  
+    string name  
+    string description  
+}
+DataSubset {
+    string is_data_split  
+    string is_subpopulation  
+    integer bytes  
+    string dialect  
+    EncodingEnum encoding  
+    FormatEnum format  
+    string hash  
+    string md5  
+    string media_type  
+    string path  
+    string sha256  
+    string is_tabular  
+    CompressionEnum compression  
+    uriorcurie conforms_to  
+    uriorcurie conforms_to_class  
+    uriorcurie conforms_to_schema  
+    stringList created_by  
+    string created_on  
+    string description  
+    uriorcurie doi  
+    uri download_url  
+    string id  
+    string issued  
+    stringList keywords  
+    string language  
+    string last_updated_on  
+    string license  
+    string modified_by  
+    string page  
+    uriorcurie publisher  
+    uriorcurie status  
+    string title  
+    string version  
+    string was_derived_from  
+}
+FundingMechanism {
+    string id  
+    string name  
+    string description  
+}
+Grant {
+    string grant_number  
+    string id  
+    string name  
+    string description  
+}
+Grantor {
+    string email  
+    ror_identifier ror_id  
+    wikidata_identifier wikidata_id  
+    string id  
+    string name  
+    string description  
+}
+Creator {
+    string id  
+    string name  
+    string description  
+}
+Organization {
+    string email  
+    ror_identifier ror_id  
+    wikidata_identifier wikidata_id  
+    string id  
+    string name  
+    string description  
+}
+Person {
+    string email  
+    string id  
+    string name  
+    string description  
+}
+AddressingGap {
+    string response  
+    string id  
+    string name  
+    string description  
+}
+Task {
+    string response  
+    string id  
+    string name  
+    string description  
+}
+Purpose {
+    string response  
+    string id  
+    string name  
+    string description  
+}
+
+DatasetCollection ||--}o Dataset : "resources"
+Dataset ||--}o Purpose : "purposes"
+Dataset ||--}o Task : "tasks"
+Dataset ||--}o AddressingGap : "addressing_gaps"
+Dataset ||--}o Creator : "creators"
+Dataset ||--}o FundingMechanism : "funders"
+Dataset ||--}o DataSubset : "subsets"
+Dataset ||--}o Instance : "instances"
+Dataset ||--}o DataAnomaly : "anomalies"
+Dataset ||--}o ExternalResource : "external_resources"
+Dataset ||--}o Confidentiality : "confidential_elements"
+Dataset ||--}o ContentWarning : "content_warnings"
+Dataset ||--}o Subpopulation : "subpopulations"
+Dataset ||--}o SensitiveElement : "sensitive_elements"
+Dataset ||--}o InstanceAcquisition : "acquisition_methods"
+Dataset ||--}o CollectionMechanism : "collection_mechanisms"
+Dataset ||--}o SamplingStrategy : "sampling_strategies"
+Dataset ||--}o DataCollector : "data_collectors"
+Dataset ||--}o CollectionTimeframe : "collection_timeframes"
+Dataset ||--}o EthicalReview : "ethical_reviews"
+Dataset ||--}o DataProtectionImpact : "data_protection_impacts"
+Dataset ||--}o PreprocessingStrategy : "preprocessing_strategies"
+Dataset ||--}o CleaningStrategy : "cleaning_strategies"
+Dataset ||--}o LabelingStrategy : "labeling_strategies"
+Dataset ||--}o RawData : "raw_sources"
+Dataset ||--}o ExistingUse : "existing_uses"
+Dataset ||--}o UseRepository : "use_repository"
+Dataset ||--}o OtherTask : "other_tasks"
+Dataset ||--}o FutureUseImpact : "future_use_impacts"
+Dataset ||--}o DiscouragedUse : "discouraged_uses"
+Dataset ||--}o DistributionFormat : "distribution_formats"
+Dataset ||--}o DistributionDate : "distribution_dates"
+Dataset ||--|o LicenseAndUseTerms : "license_and_use_terms"
+Dataset ||--|o IPRestrictions : "ip_restrictions"
+Dataset ||--|o ExportControlRegulatoryRestrictions : "regulatory_restrictions"
+Dataset ||--}o Maintainer : "maintainers"
+Dataset ||--}o Erratum : "errata"
+Dataset ||--|o UpdatePlan : "updates"
+Dataset ||--|o RetentionLimits : "retention_limit"
+Dataset ||--|o VersionAccess : "version_access"
+Dataset ||--|o ExtensionMechanism : "extension_mechanism"
+Dataset ||--|o Deidentification : "is_deidentified"
+Deidentification ||--}o Software : "used_software"
+ExtensionMechanism ||--}o Software : "used_software"
+VersionAccess ||--}o Software : "used_software"
+RetentionLimits ||--}o Software : "used_software"
+UpdatePlan ||--}o Software : "used_software"
+Erratum ||--}o Software : "used_software"
+Maintainer ||--}o Software : "used_software"
+ExportControlRegulatoryRestrictions ||--}o Software : "used_software"
+IPRestrictions ||--}o Software : "used_software"
+LicenseAndUseTerms ||--}o Software : "used_software"
+DistributionDate ||--}o Software : "used_software"
+DistributionFormat ||--}o Software : "used_software"
+DiscouragedUse ||--}o Software : "used_software"
+FutureUseImpact ||--}o Software : "used_software"
+OtherTask ||--}o Software : "used_software"
+UseRepository ||--}o Software : "used_software"
+ExistingUse ||--}o Software : "used_software"
+RawData ||--}o Software : "used_software"
+LabelingStrategy ||--}o Software : "used_software"
+CleaningStrategy ||--}o Software : "used_software"
+PreprocessingStrategy ||--}o Software : "used_software"
+DataProtectionImpact ||--}o Software : "used_software"
+EthicalReview ||--}o Software : "used_software"
+CollectionTimeframe ||--}o Software : "used_software"
+DataCollector ||--}o Software : "used_software"
+SamplingStrategy ||--}o Software : "used_software"
+CollectionMechanism ||--}o Software : "used_software"
+InstanceAcquisition ||--}o Software : "used_software"
+SensitiveElement ||--}o Software : "used_software"
+Subpopulation ||--}o Software : "used_software"
+ContentWarning ||--}o Software : "used_software"
+Confidentiality ||--}o Software : "used_software"
+ExternalResource ||--}o Software : "used_software"
+DataAnomaly ||--}o Software : "used_software"
+Instance ||--}o SamplingStrategy : "sampling_strategies"
+Instance ||--}o MissingInfo : "missing_information"
+Instance ||--}o Software : "used_software"
+MissingInfo ||--}o Software : "used_software"
+DataSubset ||--}o Purpose : "purposes"
+DataSubset ||--}o Task : "tasks"
+DataSubset ||--}o AddressingGap : "addressing_gaps"
+DataSubset ||--}o Creator : "creators"
+DataSubset ||--}o FundingMechanism : "funders"
+DataSubset ||--}o DataSubset : "subsets"
+DataSubset ||--}o Instance : "instances"
+DataSubset ||--}o DataAnomaly : "anomalies"
+DataSubset ||--}o ExternalResource : "external_resources"
+DataSubset ||--}o Confidentiality : "confidential_elements"
+DataSubset ||--}o ContentWarning : "content_warnings"
+DataSubset ||--}o Subpopulation : "subpopulations"
+DataSubset ||--}o SensitiveElement : "sensitive_elements"
+DataSubset ||--}o InstanceAcquisition : "acquisition_methods"
+DataSubset ||--}o CollectionMechanism : "collection_mechanisms"
+DataSubset ||--}o SamplingStrategy : "sampling_strategies"
+DataSubset ||--}o DataCollector : "data_collectors"
+DataSubset ||--}o CollectionTimeframe : "collection_timeframes"
+DataSubset ||--}o EthicalReview : "ethical_reviews"
+DataSubset ||--}o DataProtectionImpact : "data_protection_impacts"
+DataSubset ||--}o PreprocessingStrategy : "preprocessing_strategies"
+DataSubset ||--}o CleaningStrategy : "cleaning_strategies"
+DataSubset ||--}o LabelingStrategy : "labeling_strategies"
+DataSubset ||--}o RawData : "raw_sources"
+DataSubset ||--}o ExistingUse : "existing_uses"
+DataSubset ||--}o UseRepository : "use_repository"
+DataSubset ||--}o OtherTask : "other_tasks"
+DataSubset ||--}o FutureUseImpact : "future_use_impacts"
+DataSubset ||--}o DiscouragedUse : "discouraged_uses"
+DataSubset ||--}o DistributionFormat : "distribution_formats"
+DataSubset ||--}o DistributionDate : "distribution_dates"
+DataSubset ||--|o LicenseAndUseTerms : "license_and_use_terms"
+DataSubset ||--|o IPRestrictions : "ip_restrictions"
+DataSubset ||--|o ExportControlRegulatoryRestrictions : "regulatory_restrictions"
+DataSubset ||--}o Maintainer : "maintainers"
+DataSubset ||--}o Erratum : "errata"
+DataSubset ||--|o UpdatePlan : "updates"
+DataSubset ||--|o RetentionLimits : "retention_limit"
+DataSubset ||--|o VersionAccess : "version_access"
+DataSubset ||--|o ExtensionMechanism : "extension_mechanism"
+DataSubset ||--|o Deidentification : "is_deidentified"
+FundingMechanism ||--|o Grantor : "grantor"
+FundingMechanism ||--|o Grant : "grant"
+FundingMechanism ||--}o Software : "used_software"
+Creator ||--|o Person : "principal_investigator"
+Creator ||--|o Organization : "affiliation"
+Creator ||--}o Software : "used_software"
+Person ||--}o Organization : "affiliation"
+AddressingGap ||--}o Software : "used_software"
+Task ||--}o Software : "used_software"
+Purpose ||--}o Software : "used_software"
+
+</div>
+<h2 id="classes">Classes</h2>
+<table>
+<thead>
+<tr>
+<th>Class</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="FormatDialect/">FormatDialect</a></td>
+<td>Additional format information for a file</td>
+</tr>
+<tr>
+<td><a href="Information/">Information</a></td>
+<td>Grouping for datasets and data files</td>
+</tr>
+<tr>
+<td>        <a href="Dataset/">Dataset</a></td>
+<td>A single component of related observations and/or information that can be read, manipulated, transformed, and otherwise interpreted.</td>
+</tr>
+<tr>
+<td>                <a href="DataSubset/">DataSubset</a></td>
+<td>A subset of a dataset, likely containing multiple files of multiple potential purposes and properties.</td>
+</tr>
+<tr>
+<td>        <a href="DatasetCollection/">DatasetCollection</a></td>
+<td>A collection of related datasets, likely containing multiple files of multiple potential purposes and properties.</td>
+</tr>
+<tr>
+<td><a href="NamedThing/">NamedThing</a></td>
+<td>A generic grouping for any identifiable entity</td>
+</tr>
+<tr>
+<td>        <a href="DatasetProperty/">DatasetProperty</a></td>
+<td>Represents a single property of a dataset, or a set of related properties.</td>
+</tr>
+<tr>
+<td>                <a href="AddressingGap/">AddressingGap</a></td>
+<td>Was there a specific gap that needed to be filled by creation of the dataset?</td>
+</tr>
+<tr>
+<td>                <a href="CleaningStrategy/">CleaningStrategy</a></td>
+<td>Was any cleaning of the data done (e.g., removal of instances, processing of missing values)?</td>
+</tr>
+<tr>
+<td>                <a href="CollectionConsent/">CollectionConsent</a></td>
+<td>Did the individuals in question consent to the collection and use of their data? If so, please describe (or show with screenshots or other information) how consent was requested and provided, and provide a link or other access point to, or otherwise reproduce, the exact language to which the individuals consented.</td>
+</tr>
+<tr>
+<td>                <a href="CollectionMechanism/">CollectionMechanism</a></td>
+<td>What mechanisms or procedures were used to collect the data (e.g., hardware apparatuses or sensors, manual human curation, software programs, software APIs)? How were these mechanisms or procedures validated?</td>
+</tr>
+<tr>
+<td>                <a href="CollectionNotification/">CollectionNotification</a></td>
+<td>Were the individuals in question notified about the data collection? If so, please describe (or show with screenshots or other information) how notice was provided, and provide a link or other access point to, or otherwise reproduce, the exact language of the notification itself.</td>
+</tr>
+<tr>
+<td>                <a href="CollectionTimeframe/">CollectionTimeframe</a></td>
+<td>Over what timeframe was the data collected? Does this timeframe match the creation timeframe of the data associated with the instances (e.g., recent crawl of old news articles)? If not, please describe the timeframe in which the data associated with the instances was created.</td>
+</tr>
+<tr>
+<td>                <a href="Confidentiality/">Confidentiality</a></td>
+<td>Does the dataset contain data that might be considered confidential (e.g., data that is protected by legal privilege or by doctor patient confidentiality, data that includes the content of individuals’ non-public communications)?</td>
+</tr>
+<tr>
+<td>                <a href="ConsentRevocation/">ConsentRevocation</a></td>
+<td>If consent was obtained, were the consenting individuals provided with a mechanism to revoke their consent in the future or 8 for certain uses? If so, please provide a description, as well as a link or other access point to the mechanism (if appropriate).</td>
+</tr>
+<tr>
+<td>                <a href="ContentWarning/">ContentWarning</a></td>
+<td>Does the dataset contain data that, if viewed directly, might be offensive, insulting, threatening, or might otherwise cause anxiety? If so, please describe why.</td>
+</tr>
+<tr>
+<td>                <a href="Creator/">Creator</a></td>
+<td>Who created the dataset (e.g., which team, research group) and on behalf of which entity (e.g., company, institution, organization)? This may also be considered a team.</td>
+</tr>
+<tr>
+<td>                <a href="DataAnomaly/">DataAnomaly</a></td>
+<td>Are there any errors, sources of noise, or redundancies in the dataset? If so, please provide a description.</td>
+</tr>
+<tr>
+<td>                <a href="DataCollector/">DataCollector</a></td>
+<td>Who was involved in the data collection process (e.g., students, crowdworkers, contractors) and how were they compensated (e.g., how much were crowdworkers paid)?</td>
+</tr>
+<tr>
+<td>                <a href="DataProtectionImpact/">DataProtectionImpact</a></td>
+<td>Has an analysis of the potential impact of the dataset and its use on data subjects (e.g., a data protection impact analysis) been conducted? If so, please provide a description of this analysis, including the outcomes, as well as a link or other access point to any supporting documentation.</td>
+</tr>
+<tr>
+<td>                <a href="Deidentification/">Deidentification</a></td>
+<td>Is it possible to identify individuals (i.e., one or more natural persons), either directly or indirectly (i.e., in combination with other data) from the dataset?</td>
+</tr>
+<tr>
+<td>                <a href="DirectCollection/">DirectCollection</a></td>
+<td>Did you collect the data from the individuals in question directly, or obtain it via third parties or other sources (e.g., websites)?</td>
+</tr>
+<tr>
+<td>                <a href="DiscouragedUse/">DiscouragedUse</a></td>
+<td>Are there tasks for which the dataset should not be used?</td>
+</tr>
+<tr>
+<td>                <a href="DistributionDate/">DistributionDate</a></td>
+<td>When will the dataset be distributed?</td>
+</tr>
+<tr>
+<td>                <a href="DistributionFormat/">DistributionFormat</a></td>
+<td>How will the dataset will be distributed (e.g., tarball on website, API, GitHub)?</td>
+</tr>
+<tr>
+<td>                <a href="Erratum/">Erratum</a></td>
+<td>Is there an erratum? If so, please provide a link or other access point.</td>
+</tr>
+<tr>
+<td>                <a href="EthicalReview/">EthicalReview</a></td>
+<td>Were any ethical review processes conducted (e.g., by an institutional review board)? If so, please provide a description of these review processes, including the outcomes, as well as a link or other access point to any supporting documentation.</td>
+</tr>
+<tr>
+<td>                <a href="ExistingUse/">ExistingUse</a></td>
+<td>Has the dataset been used for any tasks already?</td>
+</tr>
+<tr>
+<td>                <a href="ExportControlRegulatoryRestrictions/">ExportControlRegulatoryRestrictions</a></td>
+<td>Do any export controls or other regulatory restrictions apply to the dataset or to individual instances? If so, please describe these restrictions, and provide a link or other access point to, or otherwise reproduce, any supporting documentation.</td>
+</tr>
+<tr>
+<td>                <a href="ExtensionMechanism/">ExtensionMechanism</a></td>
+<td>If others want to extend/augment/build on/contribute to the dataset, is there a mechanism for them to do so? If so, please provide a description. Will these contributions be validated/verified? If so, please describe how. If not, why not? Is there a process for communicating/distributing these contributions to dataset consumers? If so, please provide a description.</td>
+</tr>
+<tr>
+<td>                <a href="ExternalResource/">ExternalResource</a></td>
+<td>Is the dataset self-contained, or does it link to or otherwise rely on external resources (e.g., websites, tweets, other datasets)? If it links to or relies on external resources, a) are there guarantees that they will exist, and remain constant, over time; b) are there official archival versions of the complete dataset (i.e., including the external resources as they existed at the time the dataset was created); c) are there any restrictions (e.g., licenses, fees) associated with any of the external resources that might apply to a dataset consumer? Please provide descriptions of all external resources and any restrictions associated with them, as well as links or other access points, as appropriate.</td>
+</tr>
+<tr>
+<td>                <a href="FundingMechanism/">FundingMechanism</a></td>
+<td>Who funded the creation of the dataset? If there is an associated grant, please provide the name of the grantor and the grant name and number.</td>
+</tr>
+<tr>
+<td>                <a href="FutureUseImpact/">FutureUseImpact</a></td>
+<td>Is there anything about the composition of the dataset or the way it was collected and preprocessed/cleaned/labeled that might impact future uses? For example, is there anything that a dataset consumer might need to know to avoid uses that could result in unfair treatment of individuals or groups (e.g., stereotyping, quality of service issues) or other risks or harms (e.g., legal risks, financial harms)? If so, please provide a description. Is there anything a dataset consumer could do to mitigate these risks or harms?</td>
+</tr>
+<tr>
+<td>                <a href="Instance/">Instance</a></td>
+<td>What do the instances that comprise the dataset represent (e.g., documents, photos, people, countries)?</td>
+</tr>
+<tr>
+<td>                <a href="InstanceAcquisition/">InstanceAcquisition</a></td>
+<td>How was the data associated with each instance acquired? Was the data directly observable (e.g., raw text, movie ratings), reported by subjects (e.g., survey responses), or indirectly inferred/derived from other data (e.g., part-of-speech tags, model-based guesses for age or language)? If the data was reported by subjects or indirectly inferred/derived from other data, was the data validated/verified?</td>
+</tr>
+<tr>
+<td>                <a href="IPRestrictions/">IPRestrictions</a></td>
+<td>Have any third parties imposed IP-based or other restrictions on the data associated with the instances? If so, please describe these restrictions, and provide a link or other access point to, or otherwise reproduce, any relevant licensing terms, as well as any fees associated with these restrictions.</td>
+</tr>
+<tr>
+<td>                <a href="LabelingStrategy/">LabelingStrategy</a></td>
+<td>Was any preprocessing/cleaning/labeling of the data done (e.g., part-of-speech tagging)?</td>
+</tr>
+<tr>
+<td>                <a href="LicenseAndUseTerms/">LicenseAndUseTerms</a></td>
+<td>Will the dataset be distributed under a copyright or other intellectual property (IP) license, and/or under applicable terms of use (ToU)? If so, please describe this license and/or ToU, and provide a link or other access point to, or otherwise reproduce, any relevant licensing terms or ToU, as well as any fees associated with these restrictions.</td>
+</tr>
+<tr>
+<td>                <a href="Maintainer/">Maintainer</a></td>
+<td>Who will be supporting/hosting/maintaining the dataset?</td>
+</tr>
+<tr>
+<td>                <a href="MissingInfo/">MissingInfo</a></td>
+<td>Is any information missing from individual instances? If so, please provide a description, explaining why this information is missing (e.g., because it was unavailable). This does not include intentionally removed information, but might include, e.g., redacted text.</td>
+</tr>
+<tr>
+<td>                <a href="OtherTask/">OtherTask</a></td>
+<td>What (other) tasks could the dataset be used for?</td>
+</tr>
+<tr>
+<td>                <a href="PreprocessingStrategy/">PreprocessingStrategy</a></td>
+<td>Was any preprocessing of the data done (e.g., discretization or bucketing, tokenization, SIFT feature extraction)?</td>
+</tr>
+<tr>
+<td>                <a href="Purpose/">Purpose</a></td>
+<td>For what purpose was the dataset created?</td>
+</tr>
+<tr>
+<td>                <a href="RawData/">RawData</a></td>
+<td>Was the “raw” data saved in addition to the preprocessed/cleaned/labeled data (e.g., to support unanticipated future uses)? If so, please provide a link or other access point to the “raw” data.</td>
+</tr>
+<tr>
+<td>                <a href="Relationships/">Relationships</a></td>
+<td>Are relationships between individual instances made explicit (e.g., users’ movie ratings, social network links)? If so, please describe how these relationships are made explicit.</td>
+</tr>
+<tr>
+<td>                <a href="RetentionLimits/">RetentionLimits</a></td>
+<td>If the dataset relates to people, are there applicable limits on the retention of the data associated with the instances (e.g., were the individuals in question told that their data would be retained for a fixed period of time and then deleted)? If so, please describe these limits and explain how they will be enforced.</td>
+</tr>
+<tr>
+<td>                <a href="SamplingStrategy/">SamplingStrategy</a></td>
+<td>Does the dataset contain all possible instances or is it a sample (not necessarily random) of instances from a larger set? If the dataset is a sample, then what is the larger set? Is the sample representative of the larger set (e.g., geographic coverage)? If so, please describe how this representativeness was validated/verified. If it is not representative of the larger set, please describe why not (e.g., to cover a more diverse range of instances, because instances were withheld or unavailable).</td>
+</tr>
+<tr>
+<td>                <a href="SensitiveElement/">SensitiveElement</a></td>
+<td>Does the dataset contain data that might be considered sensitive in any way (e.g., data that reveals race or ethnic origins, sexual orientations, religious beliefs, political opinions or union memberships, or locations; financial or health data; biometric or genetic data; forms of government identification, such as social security numbers; criminal history)?</td>
+</tr>
+<tr>
+<td>                <a href="Splits/">Splits</a></td>
+<td>Are there recommended data splits (e.g., training, development/validation, testing)? If so, please provide a description of these splits, explaining the rationale behind them.</td>
+</tr>
+<tr>
+<td>                <a href="Subpopulation/">Subpopulation</a></td>
+<td>Does the dataset identify any subpopulations (e.g., by age, gender)? If so, please describe how these subpopulations are identified and provide a description of their respective distributions within the dataset.</td>
+</tr>
+<tr>
+<td>                <a href="Task/">Task</a></td>
+<td>Was there a specific task in mind for the dataset's application?</td>
+</tr>
+<tr>
+<td>                <a href="ThirdPartySharing/">ThirdPartySharing</a></td>
+<td>Will the dataset be distributed to third parties outside of the entity (e.g., company, institution, organization) on behalf of which the dataset was created?</td>
+</tr>
+<tr>
+<td>                <a href="UpdatePlan/">UpdatePlan</a></td>
+<td>Will the dataset be updated (e.g., to correct labeling errors, add new instances, delete instances)? If so, please describe how often, by whom, and how updates will be communicated to dataset consumers (e.g., mailing list, GitHub)?</td>
+</tr>
+<tr>
+<td>                <a href="UseRepository/">UseRepository</a></td>
+<td>Is there a repository that links to any or all papers or systems that use the dataset? If so, please provide a link or other access point.</td>
+</tr>
+<tr>
+<td>                <a href="VersionAccess/">VersionAccess</a></td>
+<td>Will older versions of the dataset continue to be supported/hosted/maintained? If so, please describe how. If not, please describe how its obsolescence will be communicated to dataset consumers.</td>
+</tr>
+<tr>
+<td>        <a href="Grant/">Grant</a></td>
+<td>What is the name and/or identifier of the specific mechanism providing monetary support or other resources supporting creation of the dataset?</td>
+</tr>
+<tr>
+<td>        <a href="Organization/">Organization</a></td>
+<td>A collection of people acting in common interests.</td>
+</tr>
+<tr>
+<td>                <a href="Grantor/">Grantor</a></td>
+<td>What is the name and/or identifier of the organization providing monetary support or other resources supporting creation of the dataset?</td>
+</tr>
+<tr>
+<td>        <a href="Person/">Person</a></td>
+<td>An individual human being.</td>
+</tr>
+<tr>
+<td>        <a href="Software/">Software</a></td>
+<td>A software program or library.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="slots">Slots</h2>
+<table>
+<thead>
+<tr>
+<th>Slot</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="acquisition_methods/">acquisition_methods</a></td>
+<td></td>
+</tr>
+<tr>
+<td><a href="addressing_gaps/">addressing_gaps</a></td>
+<td></td>
+</tr>
+<tr>
+<td><a href="affiliation/">affiliation</a></td>
+<td>The organization(s) to which the person belongs</td>
+</tr>
+<tr>
+<td><a href="anomalies/">anomalies</a></td>
+<td></td>
+</tr>
+<tr>
+<td><a href="archival/">archival</a></td>
+<td></td>
+</tr>
+<tr>
+<td><a href="bytes/">bytes</a></td>
+<td>Size of the data in bytes</td>
+</tr>
+<tr>
+<td><a href="cleaning_strategies/">cleaning_strategies</a></td>
+<td></td>
+</tr>
+<tr>
+<td><a href="collection_mechanisms/">collection_mechanisms</a></td>
+<td></td>
+</tr>
+<tr>
+<td><a href="collection_timeframes/">collection_timeframes</a></td>
+<td></td>
+</tr>
+<tr>
+<td><a href="comment_prefix/">comment_prefix</a></td>
+<td></td>
+</tr>
+<tr>
+<td><a href="compression/">compression</a></td>
+<td>The compression format of the data</td>
+</tr>
+<tr>
+<td><a href="confidential_elements/">confidential_elements</a></td>
+<td></td>
+</tr>
+<tr>
+<td><a href="conforms_to/">conforms_to</a></td>
+<td>The standard to which the data conforms</td>
+</tr>
+<tr>
+<td><a href="conforms_to_class/">conforms_to_class</a></td>
+<td>The class in the schema to which the data object instantiates</td>
+</tr>
+<tr>
+<td><a href="conforms_to_schema/">conforms_to_schema</a></td>
+<td>The schema to which the data conforms</td>
+</tr>
+<tr>
+<td><a href="content_warnings/">content_warnings</a></td>
+<td></td>
+</tr>
+<tr>
+<td><a href="counts/">counts</a></td>
+<td>How many instances are there in total (of each type, if appropriate)?</td>
+</tr>
+<tr>
+<td><a href="created_by/">created_by</a></td>
+<td>Agent that created the element</td>
+</tr>
+<tr>
+<td><a href="created_on/">created_on</a></td>
+<td>Date and Time at which the element was created</td>
+</tr>
+<tr>
+<td><a href="creators/">creators</a></td>
+<td></td>
+</tr>
+<tr>
+<td><a href="data_collectors/">data_collectors</a></td>
+<td></td>
+</tr>
+<tr>
+<td><a href="data_protection_impacts/">data_protection_impacts</a></td>
+<td></td>
+</tr>
+<tr>
+<td><a href="data_type/">data_type</a></td>
+<td>What data does each instance consist of? “Raw” data (e</td>
+</tr>
+<tr>
+<td><a href="delimiter/">delimiter</a></td>
+<td></td>
+</tr>
+<tr>
+<td><a href="description/">description</a></td>
+<td>human readable description of the information</td>
+</tr>
+<tr>
+<td><a href="dialect/">dialect</a></td>
+<td></td>
+</tr>
+<tr>
+<td><a href="discouraged_uses/">discouraged_uses</a></td>
+<td></td>
+</tr>
+<tr>
+<td><a href="distribution/">distribution</a></td>
+<td></td>
+</tr>
+<tr>
+<td><a href="distribution_dates/">distribution_dates</a></td>
+<td></td>
+</tr>
+<tr>
+<td><a href="distribution_formats/">distribution_formats</a></td>
+<td></td>
+</tr>
+<tr>
+<td><a href="doi/">doi</a></td>
+<td>The Digital Object Identifier of the data, with the doi prefix</td>
+</tr>
+<tr>
+<td><a href="double_quote/">double_quote</a></td>
+<td></td>
+</tr>
+<tr>
+<td><a href="download_url/">download_url</a></td>
+<td>URL from which the data can be downloaded</td>
+</tr>
+<tr>
+<td><a href="email/">email</a></td>
+<td>The email address of the person</td>
+</tr>
+<tr>
+<td><a href="encoding/">encoding</a></td>
+<td>The encoding of the data</td>
+</tr>
+<tr>
+<td><a href="errata/">errata</a></td>
+<td></td>
+</tr>
+<tr>
+<td><a href="ethical_reviews/">ethical_reviews</a></td>
+<td></td>
+</tr>
+<tr>
+<td><a href="existing_uses/">existing_uses</a></td>
+<td></td>
+</tr>
+<tr>
+<td><a href="extension_mechanism/">extension_mechanism</a></td>
+<td></td>
+</tr>
+<tr>
+<td><a href="external_resources/">external_resources</a></td>
+<td></td>
+</tr>
+<tr>
+<td><a href="format/">format</a></td>
+<td>The format of the data</td>
+</tr>
+<tr>
+<td><a href="funders/">funders</a></td>
+<td></td>
+</tr>
+<tr>
+<td><a href="future_guarantees/">future_guarantees</a></td>
+<td></td>
+</tr>
+<tr>
+<td><a href="future_use_impacts/">future_use_impacts</a></td>
+<td></td>
+</tr>
+<tr>
+<td><a href="grant/">grant</a></td>
+<td></td>
+</tr>
+<tr>
+<td><a href="grant_number/">grant_number</a></td>
+<td>The alphanumeric identifier for the grant</td>
+</tr>
+<tr>
+<td><a href="grantor/">grantor</a></td>
+<td></td>
+</tr>
+<tr>
+<td><a href="hash/">hash</a></td>
+<td>The hash representation of the data, e</td>
+</tr>
+<tr>
+<td><a href="header/">header</a></td>
+<td></td>
+</tr>
+<tr>
+<td><a href="id/">id</a></td>
+<td>the unique name of the dataset</td>
+</tr>
+<tr>
+<td><a href="identification/">identification</a></td>
+<td></td>
+</tr>
+<tr>
+<td><a href="instance_type/">instance_type</a></td>
+<td>Are there multiple types of instances (e</td>
+</tr>
+<tr>
+<td><a href="instances/">instances</a></td>
+<td></td>
+</tr>
+<tr>
+<td><a href="ip_restrictions/">ip_restrictions</a></td>
+<td></td>
+</tr>
+<tr>
+<td><a href="is_data_split/">is_data_split</a></td>
+<td>Is this subset a split of the larger dataset, e</td>
+</tr>
+<tr>
+<td><a href="is_deidentified/">is_deidentified</a></td>
+<td></td>
+</tr>
+<tr>
+<td><a href="is_random/">is_random</a></td>
+<td></td>
+</tr>
+<tr>
+<td><a href="is_representative/">is_representative</a></td>
+<td></td>
+</tr>
+<tr>
+<td><a href="is_sample/">is_sample</a></td>
+<td></td>
+</tr>
+<tr>
+<td><a href="is_subpopulation/">is_subpopulation</a></td>
+<td>Is this subset a subpopulation of the larger dataset, e</td>
+</tr>
+<tr>
+<td><a href="is_tabular/">is_tabular</a></td>
+<td></td>
+</tr>
+<tr>
+<td><a href="issued/">issued</a></td>
+<td></td>
+</tr>
+<tr>
+<td><a href="keywords/">keywords</a></td>
+<td>Keywords associated with the data</td>
+</tr>
+<tr>
+<td><a href="label/">label</a></td>
+<td>Is there a label or target associated with each instance?</td>
+</tr>
+<tr>
+<td><a href="labeling_strategies/">labeling_strategies</a></td>
+<td></td>
+</tr>
+<tr>
+<td><a href="language/">language</a></td>
+<td>language in which the information is expressed</td>
+</tr>
+<tr>
+<td><a href="last_updated_on/">last_updated_on</a></td>
+<td>Date and Time at which the element was last updated</td>
+</tr>
+<tr>
+<td><a href="license/">license</a></td>
+<td>license for the data</td>
+</tr>
+<tr>
+<td><a href="license_and_use_terms/">license_and_use_terms</a></td>
+<td></td>
+</tr>
+<tr>
+<td><a href="maintainers/">maintainers</a></td>
+<td></td>
+</tr>
+<tr>
+<td><a href="md5/">md5</a></td>
+<td>The md5 hash representation of the data</td>
+</tr>
+<tr>
+<td><a href="media_type/">media_type</a></td>
+<td>The media type of the data</td>
+</tr>
+<tr>
+<td><a href="missing/">missing</a></td>
+<td></td>
+</tr>
+<tr>
+<td><a href="missing_information/">missing_information</a></td>
+<td></td>
+</tr>
+<tr>
+<td><a href="modified_by/">modified_by</a></td>
+<td>agent that modified the element</td>
+</tr>
+<tr>
+<td><a href="name/">name</a></td>
+<td></td>
+</tr>
+<tr>
+<td><a href="other_tasks/">other_tasks</a></td>
+<td></td>
+</tr>
+<tr>
+<td><a href="page/">page</a></td>
+<td></td>
+</tr>
+<tr>
+<td><a href="path/">path</a></td>
+<td></td>
+</tr>
+<tr>
+<td><a href="preprocessing_strategies/">preprocessing_strategies</a></td>
+<td></td>
+</tr>
+<tr>
+<td><a href="principal_investigator/">principal_investigator</a></td>
+<td></td>
+</tr>
+<tr>
+<td><a href="profile/">profile</a></td>
+<td>The frictionless data profile to which the data conforms</td>
+</tr>
+<tr>
+<td><a href="publisher/">publisher</a></td>
+<td></td>
+</tr>
+<tr>
+<td><a href="purposes/">purposes</a></td>
+<td></td>
+</tr>
+<tr>
+<td><a href="quote_char/">quote_char</a></td>
+<td></td>
+</tr>
+<tr>
+<td><a href="raw_sources/">raw_sources</a></td>
+<td></td>
+</tr>
+<tr>
+<td><a href="regulatory_restrictions/">regulatory_restrictions</a></td>
+<td></td>
+</tr>
+<tr>
+<td><a href="representation/">representation</a></td>
+<td></td>
+</tr>
+<tr>
+<td><a href="representative_verification/">representative_verification</a></td>
+<td></td>
+</tr>
+<tr>
+<td><a href="resources/">resources</a></td>
+<td></td>
+</tr>
+<tr>
+<td><a href="response/">response</a></td>
+<td></td>
+</tr>
+<tr>
+<td><a href="restrictions/">restrictions</a></td>
+<td></td>
+</tr>
+<tr>
+<td><a href="retention_limit/">retention_limit</a></td>
+<td></td>
+</tr>
+<tr>
+<td><a href="ror_id/">ror_id</a></td>
+<td>Unique ROR identifier</td>
+</tr>
+<tr>
+<td><a href="sampling_strategies/">sampling_strategies</a></td>
+<td></td>
+</tr>
+<tr>
+<td><a href="sensitive_elements/">sensitive_elements</a></td>
+<td></td>
+</tr>
+<tr>
+<td><a href="sha256/">sha256</a></td>
+<td>The sha256 hash representation of the data</td>
+</tr>
+<tr>
+<td><a href="source_data/">source_data</a></td>
+<td></td>
+</tr>
+<tr>
+<td><a href="status/">status</a></td>
+<td>Status of the element in terms of its maturity or life cycle</td>
+</tr>
+<tr>
+<td><a href="strategies/">strategies</a></td>
+<td>If the dataset is a sample from a larger set, what was the sampling strategy ...</td>
+</tr>
+<tr>
+<td><a href="subpopulations/">subpopulations</a></td>
+<td></td>
+</tr>
+<tr>
+<td><a href="subsets/">subsets</a></td>
+<td></td>
+</tr>
+<tr>
+<td><a href="tasks/">tasks</a></td>
+<td></td>
+</tr>
+<tr>
+<td><a href="themes/">themes</a></td>
+<td>Themes associated with the data</td>
+</tr>
+<tr>
+<td><a href="title/">title</a></td>
+<td>the official title of the element</td>
+</tr>
+<tr>
+<td><a href="updates/">updates</a></td>
+<td></td>
+</tr>
+<tr>
+<td><a href="url/">url</a></td>
+<td></td>
+</tr>
+<tr>
+<td><a href="use_repository/">use_repository</a></td>
+<td></td>
+</tr>
+<tr>
+<td><a href="used_software/">used_software</a></td>
+<td>What software was used as part of this dataset property?</td>
+</tr>
+<tr>
+<td><a href="version/">version</a></td>
+<td>particular version of schema</td>
+</tr>
+<tr>
+<td><a href="version_access/">version_access</a></td>
+<td></td>
+</tr>
+<tr>
+<td><a href="warnings/">warnings</a></td>
+<td></td>
+</tr>
+<tr>
+<td><a href="was_derived_from/">was_derived_from</a></td>
+<td>A derivation is a transformation of an entity into another, an update of an e...</td>
+</tr>
+<tr>
+<td><a href="was_directly_observed/">was_directly_observed</a></td>
+<td>Was the data directly observable (e</td>
+</tr>
+<tr>
+<td><a href="was_inferred_derived/">was_inferred_derived</a></td>
+<td>Was the data indirectly inferred/derived from other data (e</td>
+</tr>
+<tr>
+<td><a href="was_reported_by_subjects/">was_reported_by_subjects</a></td>
+<td>Was the data reported by subjects (e</td>
+</tr>
+<tr>
+<td><a href="was_validated_verified/">was_validated_verified</a></td>
+<td>Was the data validated/verified?</td>
+</tr>
+<tr>
+<td><a href="why_missing/">why_missing</a></td>
+<td></td>
+</tr>
+<tr>
+<td><a href="why_not_representative/">why_not_representative</a></td>
+<td></td>
+</tr>
+<tr>
+<td><a href="wikidata_id/">wikidata_id</a></td>
+<td>Unique Wikidata identifier</td>
+</tr>
+</tbody>
+</table>
+<h2 id="enumerations">Enumerations</h2>
+<table>
+<thead>
+<tr>
+<th>Enumeration</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="CompressionEnum/">CompressionEnum</a></td>
+<td></td>
+</tr>
+<tr>
+<td><a href="CreatorOrMaintainerEnum/">CreatorOrMaintainerEnum</a></td>
+<td>The entity responsible for maintaining a dataset</td>
+</tr>
+<tr>
+<td><a href="EncodingEnum/">EncodingEnum</a></td>
+<td></td>
+</tr>
+<tr>
+<td><a href="FormatEnum/">FormatEnum</a></td>
+<td></td>
+</tr>
+<tr>
+<td><a href="MediaTypeEnum/">MediaTypeEnum</a></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h2 id="types">Types</h2>
+<table>
+<thead>
+<tr>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="Boolean/">Boolean</a></td>
+<td>A binary (true or false) value</td>
+</tr>
+<tr>
+<td><a href="Curie/">Curie</a></td>
+<td>a compact URI</td>
+</tr>
+<tr>
+<td><a href="Date/">Date</a></td>
+<td>a date (year, month and day) in an idealized calendar</td>
+</tr>
+<tr>
+<td><a href="DateOrDatetime/">DateOrDatetime</a></td>
+<td>Either a date or a datetime</td>
+</tr>
+<tr>
+<td><a href="Datetime/">Datetime</a></td>
+<td>The combination of a date and time</td>
+</tr>
+<tr>
+<td><a href="Decimal/">Decimal</a></td>
+<td>A real number with arbitrary precision that conforms to the xsd:decimal speci...</td>
+</tr>
+<tr>
+<td><a href="Double/">Double</a></td>
+<td>A real number that conforms to the xsd:double specification</td>
+</tr>
+<tr>
+<td><a href="Float/">Float</a></td>
+<td>A real number that conforms to the xsd:float specification</td>
+</tr>
+<tr>
+<td><a href="Integer/">Integer</a></td>
+<td>An integer</td>
+</tr>
+<tr>
+<td><a href="Jsonpath/">Jsonpath</a></td>
+<td>A string encoding a JSON Path</td>
+</tr>
+<tr>
+<td><a href="Jsonpointer/">Jsonpointer</a></td>
+<td>A string encoding a JSON Pointer</td>
+</tr>
+<tr>
+<td><a href="Ncname/">Ncname</a></td>
+<td>Prefix part of CURIE</td>
+</tr>
+<tr>
+<td><a href="Nodeidentifier/">Nodeidentifier</a></td>
+<td>A URI, CURIE or BNODE that represents a node in a model</td>
+</tr>
+<tr>
+<td><a href="Objectidentifier/">Objectidentifier</a></td>
+<td>A URI or CURIE that represents an object in the model</td>
+</tr>
+<tr>
+<td><a href="RorIdentifier/">RorIdentifier</a></td>
+<td>Identifier from Research Organization Registry</td>
+</tr>
+<tr>
+<td><a href="Sparqlpath/">Sparqlpath</a></td>
+<td>A string encoding a SPARQL Property Path</td>
+</tr>
+<tr>
+<td><a href="String/">String</a></td>
+<td>A character string</td>
+</tr>
+<tr>
+<td><a href="Time/">Time</a></td>
+<td>A time object represents a (local) time of day, independent of any particular...</td>
+</tr>
+<tr>
+<td><a href="Uri/">Uri</a></td>
+<td>a complete URI</td>
+</tr>
+<tr>
+<td><a href="Uriorcurie/">Uriorcurie</a></td>
+<td>a URI or a CURIE</td>
+</tr>
+<tr>
+<td><a href="WikidataIdentifier/">WikidataIdentifier</a></td>
+<td>Identifier from Wikidata open knowledge base</td>
+</tr>
+</tbody>
+</table>
+<h2 id="subsets">Subsets</h2>
+<table>
+<thead>
+<tr>
+<th>Subset</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="Collection/">Collection</a></td>
+<td>The questions in this section are designed to elicit information that may hel...</td>
+</tr>
+<tr>
+<td><a href="Composition/">Composition</a></td>
+<td>The questions in this section are intended to provide dataset consumers with ...</td>
+</tr>
+<tr>
+<td><a href="Distribution/">Distribution</a></td>
+<td>The questions in this section pertain to dataset distribution</td>
+</tr>
+<tr>
+<td><a href="Maintenance/">Maintenance</a></td>
+<td>The questions in this section are intended to encourage dataset creators to p...</td>
+</tr>
+<tr>
+<td><a href="Motivation/">Motivation</a></td>
+<td>The questions in this section are primarily intended to encourage dataset cre...</td>
+</tr>
+<tr>
+<td><a href="Preprocessing-Cleaning-Labeling/">Preprocessing-Cleaning-Labeling</a></td>
+<td>The questions in this section are intended to provide dataset consumers with ...</td>
+</tr>
+<tr>
+<td><a href="Uses/">Uses</a></td>
+<td>The questions in this section are intended to encourage dataset creators to r...</td>
+</tr>
+</tbody>
+</table>
+</article>
+</div>
+<script>var tabs=__md_get("__tabs");if(Array.isArray(tabs))e:for(var set of document.querySelectorAll(".tabbed-set")){var tab,labels=set.querySelector(".tabbed-labels");for(tab of tabs)for(var label of labels.getElementsByTagName("label"))if(label.innerText.trim()===tab){var input=document.getElementById(label.htmlFor);input.checked=!0;continue e}}</script>
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+</div>
+</main>
+<footer class="md-footer">
+<div class="md-footer-meta md-typeset">
+<div class="md-footer-meta__inner md-grid">
+<div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" rel="noopener" target="_blank">
+      Material for MkDocs
+    </a>
+</div>
+</div>
+</div>
+</footer>
+</div>
+<div class="md-dialog" data-md-component="dialog">
+<div class="md-dialog__inner md-typeset"></div>
+</div>
+<script id="__config" type="application/json">{"base": "..", "features": ["content.tabs.link"], "search": "../assets/javascripts/workers/search.b8dbb3d2.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
+<script src="../assets/javascripts/bundle.8fd75fb4.min.js"></script>
+<script src="https://unpkg.com/mermaid@9.3.0/dist/mermaid.min.js"></script><script>mermaid.initialize({});</script></body>
+</html>
