@@ -41,7 +41,6 @@ nav:
       - Biological Processes: biological_process/index.md
       - Biotic Interactions: biotic_interaction/index.md
       - Cell Types: cell_type/index.md
-      - Core: core/index.md
       - Chemical to Disease: ctd/index.md
       - Chemical to Disease (Entities Only): ctd_ner/index.md
       - Datasheets for Datasets: data_sheets_schema/index.md
