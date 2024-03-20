@@ -1,5 +1,4 @@
 RUN = poetry run
-# NOTE: we are currently pinned to an earlier linkml because pydantic...
 TMPRUN = 
 PACKAGE = ontogpt
 TEMPLATE_DIR = src/$(PACKAGE)/templates
@@ -110,60 +109,3 @@ tests/output/owl/imports/recipe-%-import.owl: tests/output/owl/seed-recipe-%.txt
 
 tests/output/owl/merged/recipe-%-merged.owl: tests/output/owl/imports/recipe-%-import.owl $(RECIPE_GROUPINGS)
 	robot merge -i tests/output/owl/recipe-$*.owl -i $(RECIPE_GROUPINGS) -i $< reason -r elk -o $@
-
-# enrichment
-
-GENE_SET_FILES = $(wildcard tests/input/genesets/*.yaml)
-GENE_SETS = $(patsubst tests/input/genesets/%.yaml,%,$(GENE_SET_FILES))
-
-ZFIN_GENE_SET_FILES = $(wildcard tests/input/genesets/zebrafish/*.yaml)
-ZFIN_GENE_SETS = $(patsubst tests/input/genesets/zebrafish/%.yaml,%,$(ZFIN_GENE_SET_FILES))
-
-SGD_GENE_SET_FILES = $(wildcard tests/input/genesets/yeast/*.yaml)
-SGD_GENE_SETS = $(patsubst tests/input/genesets/yeast/%.yaml,%,$(SGD_GENE_SET_FILES))
-
-t:
-	echo $(GENE_SETS)
-
-
-tests/input/genesets/%.yaml: tests/input/genesets/%.json
-	$(RUN) ontogpt convert-geneset -U $< -o $@
-.PRECIOUS: tests/input/genesets/%.yaml
-
-N=2
-
-analysis/enrichment/zebrafish/%-results-$(N).yaml: tests/input/genesets/zebrafish/%.yaml
-	$(RUN) ontogpt -vv eval-enrichment -n $(N) -U $< -A tests/input/zfin.gaf -o $@.tmp && mv $@.tmp $@
-
-
-analysis/enrichment/yeast/%-results-$(N).yaml: tests/input/genesets/yeast/%.yaml
-	$(RUN) ontogpt -vv eval-enrichment -n $(N) -U $< -A tests/input/sgd.gaf -o $@.tmp && mv $@.tmp $@
-
-
-analysis/enrichment/gpt4/%-results-$(N).yaml: tests/input/genesets/%.yaml analysis/enrichment/TRIGGER-REANALYSIS
-	$(RUN) ontogpt  -v eval-enrichment  --model gpt-4 -n $(N) -U $< -o $@.tmp && mv $@.tmp $@
-
-analysis/enrichment/%-results-$(N).yaml: tests/input/genesets/%.yaml analysis/enrichment/TRIGGER-REANALYSIS
-	$(RUN) ontogpt -v eval-enrichment -n $(N) -U $< -o $@.tmp && mv $@.tmp $@
-
-
-analysis/enrichment-summary.yaml:
-	cat analysis/enrichment/*-$(N).yaml > $@
-
-analysis/enrichment-summary-$(N).yaml:
-	cat analysis/enrichment/*-$(N).yaml > $@
-
-analysis/zebrafish-enrichment-summary-$(N).yaml:
-	cat analysis/enrichment/zebrafish/*-$(N).yaml > $@
-
-analysis/yeast-enrichment-summary-$(N).yaml:
-	cat analysis/enrichment/yeast/*-$(N).yaml > $@
-
-analysis/gpt4-enrichment-summary-$(N).yaml:
-	cat analysis/enrichment/gpt4/*-$(N).yaml > $@
-
-
-all_enrich: $(patsubst %, analysis/enrichment/%-results-$(N).yaml, $(GENE_SETS))
-all_zfin_enrich: $(patsubst %, analysis/enrichment/zebrafish/%-results-$(N).yaml, $(ZFIN_GENE_SETS))
-all_sgd_enrich: $(patsubst %, analysis/enrichment/yeast/%-results-$(N).yaml, $(SGD_GENE_SETS))
-all_gpt4_enrich: $(patsubst %, analysis/enrichment/gpt4/%-results-$(N).yaml, $(GENE_SETS))
