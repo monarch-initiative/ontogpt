@@ -3,6 +3,7 @@
 import codecs
 import json
 import logging
+import os
 import pickle
 import sys
 from copy import deepcopy
@@ -38,7 +39,7 @@ from ontogpt.engines.reasoner_engine import ReasonerEngine
 from ontogpt.engines.spires_engine import SPIRESEngine
 from ontogpt.engines.synonym_engine import SynonymEngine
 from ontogpt.evaluation.resolver import create_evaluator
-from ontogpt.io.csv_wrapper import output_parser, write_obj_as_csv
+from ontogpt.io.csv_wrapper import parse_yaml_predictions, write_graph
 from ontogpt.io.html_exporter import HTMLExporter
 from ontogpt.io.markdown_exporter import MarkdownExporter
 from ontogpt.io.template_loader import get_template_details
@@ -103,11 +104,11 @@ def write_extraction(
             exporter = OWLExporter()
             exporter.export(results, output, knowledge_engine.schemaview)
         elif output_format == "kgx":
-            # output.write(write_obj_as_csv(results))
+            # TODO: rewrite to align with other exporters
             output.write(dump_minimal_yaml(results))  # type: ignore
-            with open("output.kgx.tsv") as secondoutput:
-                for line in output_parser(obj=results, file=output):
-                    secondoutput.write(line)
+            nodes, edges = parse_yaml_predictions()
+            # Write to current working directory
+            write_graph(nodes, edges, os.getcwd())
         else:
             output.write("---\n")  # type: ignore
             output.write(dump_minimal_yaml(results))  # type: ignore
