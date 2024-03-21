@@ -1,4 +1,5 @@
 """Utilities for CSVs and TSVs."""
+
 import csv
 import logging
 from pathlib import Path
@@ -39,8 +40,7 @@ def output_parser(obj: Any, file) -> List[str]:
     # Extract all 'subject', 'predicate', and 'object' output lines
     with open(output_file, "r") as file:
         to_print = False
-        perpetuators = tuple(
-            ["  subject:", "  predicate:", "  object:", "    "])
+        perpetuators = tuple(["  subject:", "  predicate:", "  object:", "    "])
         for line in file:
             line = line.strip("\n")
             if line.startswith("extracted_object:"):
@@ -66,7 +66,7 @@ def output_parser(obj: Any, file) -> List[str]:
     i = 0
     while i < len(cleaned_lines):
         if cleaned_lines[i].startswith("extracted_object"):
-            for index, elem in enumerate(cleaned_lines[i + 1:i + 4]):
+            for index, elem in enumerate(cleaned_lines[i + 1 : i + 4]):
                 if elem.startswith("extracted_object"):
                     next_index = i + 1 + index
                     del cleaned_lines[i:next_index]
@@ -74,9 +74,7 @@ def output_parser(obj: Any, file) -> List[str]:
         i += 1
 
     # Separate extracted values into indexed items in dictionary of lists
-    grouped_lines = [
-        cleaned_lines[n:n + 4] for n in range(0, len(cleaned_lines), 4)
-    ]
+    grouped_lines = [cleaned_lines[n : n + 4] for n in range(0, len(cleaned_lines), 4)]
     trimmed_dict: dict = {"genes": [], "relationships": [], "exposures": []}
     for group in grouped_lines:
         group.pop(0)
@@ -100,7 +98,7 @@ def output_parser(obj: Any, file) -> List[str]:
         for index, elem in enumerate(value):
             if ":" in elem:
                 try:
-                    prefix = elem[:(elem.index(":"))]
+                    prefix = elem[: (elem.index(":"))]
                     adapter_str = "sqlite:obo:" + str(prefix)
                     curr_adapter = get_adapter(adapter_str)
                     trimmed_dict[key][index] = curr_adapter.label(elem)
@@ -112,14 +110,12 @@ def output_parser(obj: Any, file) -> List[str]:
 
 def write_obj_as_csv(obj: Any, file, minimize=True, index_field=None) -> None:
     if isinstance(obj, BaseModel):
-        obj = obj.dict()
+        obj = obj.model_dump()
     if isinstance(obj, list):
         rows = obj
     elif not isinstance(obj, dict):
         if not index_field:
-            index_fields = [
-                k for k, v in obj.items() if v and isinstance(v, list)
-            ]
+            index_fields = [k for k, v in obj.items() if v and isinstance(v, list)]
             if len(index_fields) == 1:
                 index_field = index_fields[0]
                 logger.warning(f"Using {index_field} as index field")
@@ -128,7 +124,7 @@ def write_obj_as_csv(obj: Any, file, minimize=True, index_field=None) -> None:
         raise ValueError(f"Cannot dump {obj} as CSV")
     if isinstance(file, Path) or isinstance(file, str):
         file = open(file, "w", encoding="utf-8")
-    rows = [row.dict() if isinstance(row, BaseModel) else row for row in rows]
+    rows = [row.model_dump() if isinstance(row, BaseModel) else row for row in rows]
     writer = csv.DictWriter(file, fieldnames=rows[0].keys(), delimiter="\t")
     writer.writeheader()
     for row in rows:
@@ -139,10 +135,7 @@ def write_obj_as_csv(obj: Any, file, minimize=True, index_field=None) -> None:
             return str(s)
 
         # row = {k: v for k, v in row.items() if "\n" not in str(v)}
-        row = {
-            k: _str(v).replace("\n", r"\n").replace("\t", " ")
-            for k, v in row.items()
-        }
+        row = {k: _str(v).replace("\n", r"\n").replace("\t", " ") for k, v in row.items()}
         writer.writerow(row)
 
 
@@ -169,20 +162,18 @@ def schema_plurals_to_camelcase(schema_path):
 
     # Get underscore names
     underscore_names = [
-        name
-        for name in schema['classes']['EntityContainingDocument']['attributes']
+        name for name in schema["classes"]["EntityContainingDocument"]["attributes"]
     ]
 
     # Convert to camelcase names
     camelcase_map = {
-        name: ''.join([part.capitalize() for part in name.split('_')])[:-1]
+        name: "".join([part.capitalize() for part in name.split("_")])[:-1]
         for name in underscore_names
     }
 
     # Confirm that the camelcase names exist
     for name in camelcase_map.values():
-        assert name in schema['classes'].keys(
-        ), f'Name {name} does not appear in classes'
+        assert name in schema["classes"].keys(), f"Name {name} does not appear in classes"
 
     return camelcase_map
 
@@ -220,7 +211,7 @@ def parse_yaml_predictions(yaml_path, schema_path):
     # time
     ent_types = {}
     for doc in tqdm(output_docs):
-        for typ, ent_list in doc['extracted_object'].items():
+        for typ, ent_list in doc["extracted_object"].items():
             for ent in ent_list:
                 if isinstance(ent, str):
                     ent_types[ent] = typ
@@ -231,48 +222,45 @@ def parse_yaml_predictions(yaml_path, schema_path):
     for doc in output_docs:
 
         # Get the elements we need
-        obj = doc['extracted_object']
-        ents = doc['named_entities']
+        obj = doc["extracted_object"]
+        ents = doc["named_entities"]
 
         # Index entities by ID
-        ent_labels = {ent['id']: ent['label'] for ent in ents}
+        ent_labels = {ent["id"]: ent["label"] for ent in ents}
 
         # Format relations
-        rel_types = {
-            k: v
-            for k, v in obj.items() if all([isinstance(rl, dict) for rl in v])
-        }
+        rel_types = {k: v for k, v in obj.items() if all([isinstance(rl, dict) for rl in v])}
         for rel_type, rels in rel_types.items():
             for rel in rels:
                 row = {}
                 for i, pair in enumerate(
-                        rel.items()
+                    rel.items()
                 ):  # Allows parsing without needing component entity types
                     # (relies on preservation of insertion order)
                     # Enforce binary relations
-                    assert len(rel) == 2, 'At least one relation is n-ary'
+                    assert len(rel) == 2, "At least one relation is n-ary"
                     # Get subject and predicate
                     if i == 0:
-                        row['subject'] = pair[1]
+                        row["subject"] = pair[1]
                     elif i == 1:
-                        row['object'] = pair[1]
+                        row["object"] = pair[1]
                 # Get other relation data
-                row['predicate'] = type_map[rel_type]
-                row['category'] = rel_type
-                row['provided_by'] = obj['id']
-                row['id'] = str(uuid.uuid4())
+                row["predicate"] = type_map[rel_type]
+                row["category"] = rel_type
+                row["provided_by"] = obj["id"]
+                row["id"] = str(uuid.uuid4())
                 rel_rows.append(row)
 
         # Format entities
         for ent, lab in ent_labels.items():
             row = {}
-            row['id'] = ent
+            row["id"] = ent
             try:
-                row['category'] = ent_types[ent]
+                row["category"] = ent_types[ent]
             except KeyError:
-                row['category'] = 'UNKNOWN'
-            row['name'] = lab
-            row['provided_by'] = obj['id']
+                row["category"] = "UNKNOWN"
+            row["name"] = lab
+            row["provided_by"] = obj["id"]
             ent_rows.append(row)
 
     # Make dataframes
