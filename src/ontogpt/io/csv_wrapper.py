@@ -174,7 +174,8 @@ def schema_process(schema_path: str, root_class: Optional[str]):
 def parse_yaml_predictions(yaml_path: str, schema_path: str, root_class=None):
     """
     Parse named entities and relations from the YAML output of OntoGPT.
-    Currently only supports binary relations.
+    Currently only supports binary relations. Assumes relations are named
+    with subject, predicate, and object.
 
     For issues, tag @serenalotreck
 
@@ -194,6 +195,7 @@ def parse_yaml_predictions(yaml_path: str, schema_path: str, root_class=None):
 
     # Get schemaview and target root class
     # This root may not be the same as the schema's root
+    # Not used yet but will be useful for more complex schemas
     sv, classdef = schema_process(schema_path, root_class)
 
     # Initialize objects to store data
@@ -215,6 +217,7 @@ def parse_yaml_predictions(yaml_path: str, schema_path: str, root_class=None):
                 if isinstance(ent, str):
                     ent_types[ent] = typ
 
+    print(ent_types)
     logger.info(f"Entity types: {ent_types}")
 
     # Parse documents
@@ -228,6 +231,13 @@ def parse_yaml_predictions(yaml_path: str, schema_path: str, root_class=None):
         obj = doc["extracted_object"]
         ents = doc["named_entities"]
 
+        # Get document ID, or generate one if not present
+        try:
+            doc_id = obj["id"]
+        except KeyError:
+            logger.info("No id found for document, generating one")
+            doc_id = doc["input_text"][0:10]
+
         # Index entities by ID
         ent_labels = {ent["id"]: ent["label"] for ent in ents}
 
@@ -236,23 +246,22 @@ def parse_yaml_predictions(yaml_path: str, schema_path: str, root_class=None):
         for rel_type, rels in rel_types.items():
             for rel in rels:
                 row = {}
-                for i, pair in enumerate(
-                    rel.items()
-                ):  # Allows parsing without needing component entity types
-                    # (relies on preservation of insertion order)
-                    # Enforce binary relations
-                    assert len(rel) == 2, "At least one relation is n-ary"
-                    # Get subject and predicate
-                    if i == 0:
-                        row["subject"] = pair[1]
-                    elif i == 1:
-                        row["object"] = pair[1]
-                # Get other relation data
-                row["predicate"] = type_map[rel_type]
-                row["category"] = rel_type
-                row["provided_by"] = obj["id"]
                 row["id"] = str(uuid.uuid4())
-                rel_rows.append(row)
+                row["category"] = rel_type
+                row["provided_by"] = doc_id
+                # TODO: permit n-ary relations, given we know what to do with them
+                try:
+                    for rel_part in ["subject", "predicate", "object"]:
+                        if not isinstance(rel[rel_part], str):
+                            raise ValueError
+                        row[rel_part] = rel[rel_part]
+                    rel_rows.append(row)
+                except KeyError:
+                    logger.warning(f"Relation {rel} missing part")
+                    continue
+                except ValueError:
+                    logger.warning(f"Relation {rel} looks n-ary: {rel_part}")
+                    continue
 
         # Format entities
         for ent, lab in ent_labels.items():
@@ -263,7 +272,7 @@ def parse_yaml_predictions(yaml_path: str, schema_path: str, root_class=None):
             except KeyError:
                 row["category"] = "UNKNOWN"
             row["name"] = lab
-            row["provided_by"] = obj["id"]
+            row["provided_by"] = doc_id
             ent_rows.append(row)
 
     # Make dataframes
@@ -271,6 +280,7 @@ def parse_yaml_predictions(yaml_path: str, schema_path: str, root_class=None):
     rel_df = pd.DataFrame(rel_rows)
 
     # Drop repeated entities
+    # TODO: provide option to retain repeated entities
     ent_df = ent_df.drop_duplicates()
     rel_df = rel_df.drop_duplicates()
 
