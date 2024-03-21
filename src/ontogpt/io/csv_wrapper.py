@@ -39,7 +39,8 @@ def output_parser(obj: Any, file) -> List[str]:
     # Extract all 'subject', 'predicate', and 'object' output lines
     with open(output_file, "r") as file:
         to_print = False
-        perpetuators = tuple(["  subject:", "  predicate:", "  object:", "    "])
+        perpetuators = tuple(
+            ["  subject:", "  predicate:", "  object:", "    "])
         for line in file:
             line = line.strip("\n")
             if line.startswith("extracted_object:"):
@@ -65,7 +66,7 @@ def output_parser(obj: Any, file) -> List[str]:
     i = 0
     while i < len(cleaned_lines):
         if cleaned_lines[i].startswith("extracted_object"):
-            for index, elem in enumerate(cleaned_lines[i + 1 : i + 4]):
+            for index, elem in enumerate(cleaned_lines[i + 1:i + 4]):
                 if elem.startswith("extracted_object"):
                     next_index = i + 1 + index
                     del cleaned_lines[i:next_index]
@@ -73,7 +74,9 @@ def output_parser(obj: Any, file) -> List[str]:
         i += 1
 
     # Separate extracted values into indexed items in dictionary of lists
-    grouped_lines = [cleaned_lines[n : n + 4] for n in range(0, len(cleaned_lines), 4)]
+    grouped_lines = [
+        cleaned_lines[n:n + 4] for n in range(0, len(cleaned_lines), 4)
+    ]
     trimmed_dict: dict = {"genes": [], "relationships": [], "exposures": []}
     for group in grouped_lines:
         group.pop(0)
@@ -97,7 +100,7 @@ def output_parser(obj: Any, file) -> List[str]:
         for index, elem in enumerate(value):
             if ":" in elem:
                 try:
-                    prefix = elem[: (elem.index(":"))]
+                    prefix = elem[:(elem.index(":"))]
                     adapter_str = "sqlite:obo:" + str(prefix)
                     curr_adapter = get_adapter(adapter_str)
                     trimmed_dict[key][index] = curr_adapter.label(elem)
@@ -114,7 +117,9 @@ def write_obj_as_csv(obj: Any, file, minimize=True, index_field=None) -> None:
         rows = obj
     elif not isinstance(obj, dict):
         if not index_field:
-            index_fields = [k for k, v in obj.items() if v and isinstance(v, list)]
+            index_fields = [
+                k for k, v in obj.items() if v and isinstance(v, list)
+            ]
             if len(index_fields) == 1:
                 index_field = index_fields[0]
                 logger.warning(f"Using {index_field} as index field")
@@ -134,8 +139,12 @@ def write_obj_as_csv(obj: Any, file, minimize=True, index_field=None) -> None:
             return str(s)
 
         # row = {k: v for k, v in row.items() if "\n" not in str(v)}
-        row = {k: _str(v).replace("\n", r"\n").replace("\t", " ") for k, v in row.items()}
+        row = {
+            k: _str(v).replace("\n", r"\n").replace("\t", " ")
+            for k, v in row.items()
+        }
         writer.writerow(row)
+
 
 def schema_plurals_to_camelcase(schema_path):
     """
@@ -151,27 +160,30 @@ def schema_plurals_to_camelcase(schema_path):
         schema_path, str: path to schema YAML file
 
     returns:
-        schema_types, dict: keys are underscored names, values are camelcase names
+        schema_types, dict: keys are underscored names, values are camelcase
+            names
     """
     # Read in the schema
     with open(schema_path) as stream:
         schema = yaml.load(stream, yaml.FullLoader)
-    
+
     # Get underscore names
     underscore_names = [
-        name for name in schema['classes']['EntityContainingDocument']['attributes']
+        name
+        for name in schema['classes']['EntityContainingDocument']['attributes']
     ]
-    
+
     # Convert to camelcase names
     camelcase_map = {
         name: ''.join([part.capitalize() for part in name.split('_')])[:-1]
         for name in underscore_names
     }
-    
+
     # Confirm that the camelcase names exist
     for name in camelcase_map.values():
-        assert name in schema['classes'].keys(), f'Name {name} does not appear in classes'
-    
+        assert name in schema['classes'].keys(
+        ), f'Name {name} does not appear in classes'
+
     return camelcase_map
 
 
@@ -193,24 +205,19 @@ def parse_yaml_predictions(yaml_path, schema_path):
     """
     # Read in the YAML file
     with open(yaml_path) as stream:
-        try:
-            output_docs = [yaml.load(stream)] ## TODO make sure this works for a single document
-            print('YAML file contains a single document. Reading...')
-        except:
-            print('YAML file contains multiple documents. Reading...')
-            output = yaml.load_all(stream, yaml.FullLoader)
-            output_docs = [data for data in output]
-    
+        output_docs = list(yaml.safe_load_all(stream))
+
     # Get type map
     type_map = schema_plurals_to_camelcase(schema_path)
-    
+
     # Initialize objects to store data
     ent_rows = []
     rel_rows = []
-    
+
     # Format entity label to type dict
-    ## Note: Have to do this here because the named entity list gets added
-    ## to with every doc, instead of just containing entities for one doc at a time
+    # Note: Have to do this here because the named entity list gets added
+    # to with every doc, instead of just containing entities for one doc at a
+    # time
     ent_types = {}
     for doc in tqdm(output_docs):
         for typ, ent_list in doc['extracted_object'].items():
@@ -219,23 +226,29 @@ def parse_yaml_predictions(yaml_path, schema_path):
                     ent_types[ent] = typ
 
     # Parse documents
-    ## Note: assumes that in extracted_object, types with strings in a list are
-    ## entities, and types with dicts in a list are relations.
-    for j, doc in enumerate(output_docs):
-        
+    # Note: assumes that in extracted_object, types with strings in a list are
+    # entities, and types with dicts in a list are relations.
+    for doc in output_docs:
+
         # Get the elements we need
         obj = doc['extracted_object']
         ents = doc['named_entities']
 
         # Index entities by ID
         ent_labels = {ent['id']: ent['label'] for ent in ents}
-        
+
         # Format relations
-        rel_types = {k: v for k, v in obj.items() if all([isinstance(rl, dict) for rl in v])}
+        rel_types = {
+            k: v
+            for k, v in obj.items() if all([isinstance(rl, dict) for rl in v])
+        }
         for rel_type, rels in rel_types.items():
             for rel in rels:
                 row = {}
-                for i, pair in enumerate(rel.items()): # Allows parsing without needing component entity types (relies on preservation of insertion order)
+                for i, pair in enumerate(
+                        rel.items()
+                ):  # Allows parsing without needing component entity types
+                    # (relies on preservation of insertion order)
                     # Enforce binary relations
                     assert len(rel) == 2, 'At least one relation is n-ary'
                     # Get subject and predicate
@@ -249,11 +262,11 @@ def parse_yaml_predictions(yaml_path, schema_path):
                 row['provided_by'] = obj['id']
                 row['id'] = str(uuid.uuid4())
                 rel_rows.append(row)
-    
+
         # Format entities
         for ent, lab in ent_labels.items():
             row = {}
-            row[f'id'] = ent
+            row['id'] = ent
             try:
                 row['category'] = ent_types[ent]
             except KeyError:
@@ -265,11 +278,9 @@ def parse_yaml_predictions(yaml_path, schema_path):
     # Make dataframes
     ent_df = pd.DataFrame(ent_rows)
     rel_df = pd.DataFrame(rel_rows)
-    
+
     # Drop repeated entities
     ent_df = ent_df.drop_duplicates()
     rel_df = rel_df.drop_duplicates()
-    
+
     return ent_df, rel_df
-
-
