@@ -292,14 +292,16 @@ def parse_yaml_predictions(yaml_path: str, schema_path: str, root_class=None):
     return ent_df, rel_df
 
 
-def write_graph(nodes: pd.DataFrame, edges: pd.DataFrame, outdir: str):
+def write_graph(nodes: pd.DataFrame, edges: pd.DataFrame):
     """
-    Write graph to CSV files for nodes and edges.
+    Convert dataframes to string representation for nodes and edges.
 
     parameters:
         nodes, pandas df: dataframe with nodes
         edges, pandas df: dataframe with edges
         outdir, str: directory to write files to
     """
-    edges.to_csv(outdir + "/edges.tsv", index=False, sep="\t")
-    nodes.to_csv(outdir + "/nodes.tsv", index=False, sep="\t")
+    nodes_str = nodes.to_string()
+    edges_str = edges.to_string()
+
+    return nodes_str, edges_str

@@ -42,7 +42,7 @@ from ontogpt.evaluation.resolver import create_evaluator
 from ontogpt.io.csv_wrapper import parse_yaml_predictions, write_graph
 from ontogpt.io.html_exporter import HTMLExporter
 from ontogpt.io.markdown_exporter import MarkdownExporter
-from ontogpt.io.template_loader import get_template_details
+from ontogpt.io.template_loader import get_template_details, get_template_path
 
 __all__ = [
     "main",
@@ -77,6 +77,7 @@ def write_extraction(
     output: BytesIO,
     output_format: str,
     knowledge_engine: KnowledgeEngine,
+    template: str,
 ):
     """Write results of extraction to a given output stream."""
     # Check if this result contains anything writable first
@@ -105,10 +106,19 @@ def write_extraction(
             exporter.export(results, output, knowledge_engine.schemaview)
         elif output_format == "kgx":
             # TODO: rewrite to align with other exporters
+            # by moving code into a dedicated KGXExporter class
             output.write(dump_minimal_yaml(results))  # type: ignore
-            nodes, edges = parse_yaml_predictions()
-            # Write to current working directory
-            write_graph(nodes, edges, os.getcwd())
+            if "." in template:
+                module_name, class_name = template.split(".", 1)
+            else:
+                module_name = template
+                class_name = None
+            schema_path = get_template_path(module_name)
+            nodes, edges = parse_yaml_predictions(
+                yaml_path=output.name, schema_path=schema_path, root_class=class_name
+            )
+            for output_type in write_graph(nodes, edges):
+                output.write(output_type)
         else:
             output.write("---\n")  # type: ignore
             output.write(dump_minimal_yaml(results))  # type: ignore
@@ -183,7 +193,7 @@ output_option_txt = click.option(
 output_format_options = click.option(
     "-O",
     "--output-format",
-    type=click.Choice(["json", "yaml", "pickle", "md", "html", "owl", "turtle", "jsonl"]),
+    type=click.Choice(["json", "yaml", "pickle", "md", "html", "owl", "turtle", "jsonl", "kgx"]),
     default="yaml",
     help="Output format.",
 )
@@ -362,7 +372,7 @@ def extract(
             for slot_value in set_slot_value:
                 slot, value = slot_value.split("=")
                 setattr(results.extracted_object, slot, value)
-        write_extraction(results, output, output_format, ke)
+        write_extraction(results, output, output_format, ke, template)
 
 
 @main.command()
@@ -400,7 +410,7 @@ def generate_extract(model, entity, template, output, output_format, show_prompt
     results = ke.generate_and_extract(
         entity=entity, prompt_template=template, show_prompt=show_prompt
     )
-    write_extraction(results, output, output_format, ke)
+    write_extraction(results, output, output_format, ke, template)
 
 
 @main.command()
@@ -465,7 +475,7 @@ def iteratively_generate_extract(
         adapter=adapter,
         clear=clear,
     ):
-        write_extraction(results, output, output_format, ke)
+        write_extraction(results, output, output_format, ke, template)
 
 
 # TODO: combine this command with pubmed_annotate - they are converging
@@ -513,7 +523,7 @@ def pubmed_extract(model, pmid, template, output, output_format, get_pmc, show_p
     for text in textlist:
         logging.debug(f"Input text: {text}")
         results = ke.extract_from_text(text=text, show_prompt=show_prompt)
-        write_extraction(results, output, output_format)
+        write_extraction(results, output, output_format, template)
 
 
 @main.command()
@@ -574,7 +584,7 @@ def pubmed_annotate(
     for text in textlist:
         logging.debug(f"Input text: {text}")
         results = ke.extract_from_text(text=text, show_prompt=show_prompt)
-        write_extraction(results, output, output_format, ke)
+        write_extraction(results, output, output_format, ke, template)
 
 
 @main.command()
@@ -614,7 +624,7 @@ def wikipedia_extract(model, article, template, output, output_format, show_prom
 
     logging.debug(f"Input text: {text}")
     results = ke.extract_from_text(text=text, show_prompt=show_prompt)
-    write_extraction(results, output, output_format, ke)
+    write_extraction(results, output, output_format, ke, template)
 
 
 @main.command()
@@ -667,7 +677,7 @@ def wikipedia_search(model, topic, keyword, template, output, output_format, sho
             # or add as cli option
             text = text[:4000]
         results = ke.extract_from_text(text=text, show_prompt=show_prompt)
-        write_extraction(results, output, output_format, ke)
+        write_extraction(results, output, output_format, ke, template)
         break
 
 
@@ -724,7 +734,7 @@ def search_and_extract(
     text = pmc.text(pmid)
     logging.info(f"Input text: {text}")
     results = ke.extract_from_text(text=text, show_prompt=show_prompt)
-    write_extraction(results, output, output_format, ke)
+    write_extraction(results, output, output_format, ke, template)
 
 
 @main.command()
@@ -762,7 +772,7 @@ def web_extract(model, template, url, output, output_format, show_prompt, **kwar
 
     logging.debug(f"Input text: {text}")
     results = ke.extract_from_text(text=text, show_prompt=show_prompt)
-    write_extraction(results, output, output_format, ke)
+    write_extraction(results, output, output_format, ke, template)
 
 
 @main.command()
@@ -832,7 +842,7 @@ def recipe_extract(
     results = ke.extract_from_text(text=text, show_prompt=show_prompt)
     logging.debug(f"Results: {results}")
     results.extracted_object.url = url
-    write_extraction(results, output, output_format, ke)
+    write_extraction(results, output, output_format, ke, template)
 
 
 @main.command()
@@ -864,7 +874,7 @@ def convert(model, template, input, output, output_format, **kwargs):
         data = yaml.safe_load(f)
     obj = cls(**data["extracted_object"])
     results = ExtractionResult(extracted_object=obj)
-    write_extraction(results, output, output_format, ke)
+    write_extraction(results, output, output_format, ke, template)
 
 
 @main.command()
