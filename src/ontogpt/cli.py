@@ -105,8 +105,11 @@ def write_extraction(
             exporter = OWLExporter()
             exporter.export(results, output, knowledge_engine.schemaview)
         elif output_format == "kgx":
+            # TODO: enable passing name without extension,
+            # since there will be multiple output files
             # TODO: rewrite to align with other exporters
             # by moving code into a dedicated KGXExporter class
+            output.write("---\n")  # type: ignore
             output.write(dump_minimal_yaml(results))  # type: ignore
             if "." in template:
                 module_name, class_name = template.split(".", 1)
