@@ -3,7 +3,7 @@
 import csv
 import logging
 from pathlib import Path
-from typing import Any, List
+from typing import Any, List, Optional
 import yaml
 import pandas as pd
 import uuid
@@ -11,8 +11,12 @@ from tqdm import tqdm
 from oaklib import get_adapter
 from pydantic import BaseModel
 
+from linkml_runtime import SchemaView
+
 logger = logging.getLogger(__name__)
 
+# These slots will not be included in entity list outputs
+SKIP_SLOTS = ["id", "label"]
 
 def output_parser(obj: Any, file) -> List[str]:
     # Declare initial variables
@@ -139,46 +143,35 @@ def write_obj_as_csv(obj: Any, file, minimize=True, index_field=None) -> None:
         writer.writerow(row)
 
 
-def schema_plurals_to_camelcase(schema_path):
+def schema_process(schema_path: str, root_class: Optional[str]):
     """
-    Returns a dictionary to map the underscored plural names to the
-    schema-defined entity and relation types. Assumes that the user follows the
-    convention that a type defined in singular with camel case is defined as
-    part of EntityContainingDocument pluralized with underscores; e.g.
-    GeneProteinInteraction --> gene_protein_interactions.
+    Process schema with SchemaView to get 
 
     For issues, tag @serenalotreck
 
     parameters:
         schema_path, str: path to schema YAML file
+        root_class, str: name of the class to use as root for the schema
 
     returns:
-        schema_types, dict: keys are underscored names, values are camelcase
-            names
+        sv, SchemaView: schema view object for the schema
+        classdef, ClassDefinition: class definition for the root class
     """
     # Read in the schema
-    with open(schema_path) as stream:
-        schema = yaml.load(stream, yaml.FullLoader)
+    sv = SchemaView(schema_path)
 
-    # Get underscore names
-    underscore_names = [
-        name for name in schema["classes"]["EntityContainingDocument"]["attributes"]
-    ]
+    # Find root if needed, or use provided name
+    if root_class is None:
+        roots = [c.name for c in sv.all_classes().values() if c.tree_root]
+        if len(roots) != 1:
+            raise ValueError(f"Schema does not have singular root: {roots}")
+        root_class = roots[0]
+    classdef = sv.get_class(root_class)
 
-    # Convert to camelcase names
-    camelcase_map = {
-        name: "".join([part.capitalize() for part in name.split("_")])[:-1]
-        for name in underscore_names
-    }
-
-    # Confirm that the camelcase names exist
-    for name in camelcase_map.values():
-        assert name in schema["classes"].keys(), f"Name {name} does not appear in classes"
-
-    return camelcase_map
+    return sv, classdef
 
 
-def parse_yaml_predictions(yaml_path, schema_path):
+def parse_yaml_predictions(yaml_path: str, schema_path: str, root_class=None):
     """
     Parse named entities and relations from the YAML output of OntoGPT.
     Currently only supports binary relations.
@@ -189,6 +182,7 @@ def parse_yaml_predictions(yaml_path, schema_path):
         yaml_path, str: path to YAML file to parse. Can contain multiple
             YAML documents.
         schema_path, str: path to schema YAML file
+        root_class, str: name of the class to use as root for the schema
 
     returns:
         ent_df, pandas df: dataframe with entities from YAML output
@@ -198,8 +192,9 @@ def parse_yaml_predictions(yaml_path, schema_path):
     with open(yaml_path) as stream:
         output_docs = list(yaml.safe_load_all(stream))
 
-    # Get type map
-    type_map = schema_plurals_to_camelcase(schema_path)
+    # Get schemaview and target root class
+    # This root may not be the same as the schema's root
+    sv, classdef = schema_process(schema_path, root_class)
 
     # Initialize objects to store data
     ent_rows = []
@@ -209,16 +204,24 @@ def parse_yaml_predictions(yaml_path, schema_path):
     # Note: Have to do this here because the named entity list gets added
     # to with every doc, instead of just containing entities for one doc at a
     # time
+    # TODO: update once issue #351 is addressed
+    # because then we could just use the named entities
     ent_types = {}
     for doc in tqdm(output_docs):
         for typ, ent_list in doc["extracted_object"].items():
+            if typ in SKIP_SLOTS:
+                continue
             for ent in ent_list:
                 if isinstance(ent, str):
                     ent_types[ent] = typ
 
+    logger.info(f"Entity types: {ent_types}")
+
     # Parse documents
     # Note: assumes that in extracted_object, types with strings in a list are
     # entities, and types with dicts in a list are relations.
+    # TODO: map categories to external model like Biolink
+    # (though this may not always be necessary)
     for doc in output_docs:
 
         # Get the elements we need
