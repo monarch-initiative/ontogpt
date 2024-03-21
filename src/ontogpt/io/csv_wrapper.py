@@ -213,9 +213,12 @@ def parse_yaml_predictions(yaml_path: str, schema_path: str, root_class=None):
         for typ, ent_list in doc["extracted_object"].items():
             if typ in SKIP_SLOTS:
                 continue
-            for ent in ent_list:
-                if isinstance(ent, str):
-                    ent_types[ent] = typ
+            if isinstance(ent_list, list):
+                for ent in ent_list:
+                    if isinstance(ent, str):
+                        ent_types[ent] = typ
+            elif isinstance(ent_list, str):
+                ent_types[ent_list] = typ
 
     print(ent_types)
     logger.info(f"Entity types: {ent_types}")
