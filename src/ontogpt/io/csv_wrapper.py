@@ -235,6 +235,7 @@ def parse_yaml_predictions(yaml_path: str, schema_path: str, root_class=None):
     # entities, and types with dicts in a list are relations.
     # TODO: map categories to external model like Biolink
     # (though this may not always be necessary)
+    i = 0
     for doc in output_docs:
 
         # Get the elements we need
@@ -245,9 +246,10 @@ def parse_yaml_predictions(yaml_path: str, schema_path: str, root_class=None):
         try:
             doc_id = obj["id"]
         except KeyError:
-            logger.info("No id found for document, generating one")
-            doc_id = doc["input_text"][0:10]
-
+            doc_id = str(i)
+            logger.warning(f"No id found for document, will assign {doc_id}")
+        i = i+1
+            
         # Index entities by ID
         ent_labels = {ent["id"]: ent["label"] for ent in ents}
 
