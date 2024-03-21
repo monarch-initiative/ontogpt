@@ -15,8 +15,11 @@ from linkml_runtime import SchemaView
 
 logger = logging.getLogger(__name__)
 
+# TODO: reconsider pandas here - may not need a full DF
+
 # These slots will not be included in entity list outputs
 SKIP_SLOTS = ["id", "label"]
+
 
 def output_parser(obj: Any, file) -> List[str]:
     # Declare initial variables
@@ -145,7 +148,7 @@ def write_obj_as_csv(obj: Any, file, minimize=True, index_field=None) -> None:
 
 def schema_process(schema_path: str, root_class: Optional[str]):
     """
-    Process schema with SchemaView to get 
+    Process schema with SchemaView to get
 
     For issues, tag @serenalotreck
 
@@ -220,7 +223,6 @@ def parse_yaml_predictions(yaml_path: str, schema_path: str, root_class=None):
             elif isinstance(ent_list, str):
                 ent_types[ent_list] = typ
 
-    print(ent_types)
     logger.info(f"Entity types: {ent_types}")
 
     # Parse documents
