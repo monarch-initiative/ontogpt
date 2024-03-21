@@ -196,7 +196,10 @@ def parse_yaml_predictions(yaml_path: str, schema_path: str, root_class=None):
     with open(yaml_path) as stream:
         logger.info(f"Parsing documents in {yaml_path}")
         output_docs = list(yaml.safe_load_all(stream))
-        logger.info(f"Found {len(output_docs)} documents.")
+        if len(output_docs) == 0:
+            logger.error(f"No documents found in {yaml_path}")
+        else:
+            logger.info(f"Found {len(output_docs)} documents.")
 
     # Get schemaview and target root class
     # This root may not be the same as the schema's root
