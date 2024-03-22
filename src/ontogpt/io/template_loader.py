@@ -47,8 +47,8 @@ def get_template_details(template: TEMPLATE_NAME) -> ClassDefinition:
         raise ValueError(f"Template {template} not found")
     return (cls, mod, pyclass, sv)
 
+
 def get_template_path(module_name: str) -> Path:
     """Get the path to the YAML file for the template."""
-
     templates_path = this_path.parent / "templates"
     return templates_path / f"{module_name}.yaml"
