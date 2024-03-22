@@ -3,7 +3,6 @@
 import codecs
 import json
 import logging
-import os
 import pickle
 import sys
 from copy import deepcopy

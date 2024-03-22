@@ -148,9 +148,7 @@ def write_obj_as_csv(obj: Any, file, minimize=True, index_field=None) -> None:
 
 def schema_process(schema_path: str, root_class: Optional[str]):
     """
-    Process schema with SchemaView to get
-
-    For issues, tag @serenalotreck
+    Process schema with SchemaView to prepare for parsing.
 
     parameters:
         schema_path, str: path to schema YAML file
@@ -177,6 +175,7 @@ def schema_process(schema_path: str, root_class: Optional[str]):
 def parse_yaml_predictions(yaml_path: str, schema_path: str, root_class=None):
     """
     Parse named entities and relations from the YAML output of OntoGPT.
+
     Currently only supports binary relations. Assumes relations are named
     with subject, predicate, and object.
 
@@ -248,8 +247,8 @@ def parse_yaml_predictions(yaml_path: str, schema_path: str, root_class=None):
         except KeyError:
             doc_id = str(i)
             logger.warning(f"No id found for document, will assign {doc_id}")
-        i = i+1
-            
+        i = i + 1
+
         # Index entities by ID
         ent_labels = {ent["id"]: ent["label"] for ent in ents}
 
