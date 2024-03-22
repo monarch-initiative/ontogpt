@@ -122,8 +122,8 @@ def write_extraction(
             schema_path = get_template_path(module_name)
             # TODO: schema_path should really be a Path object
             nodes, edges = parse_yaml_predictions(
-                yaml_path=output.name,
-                schema_path=schema_path,
+                yaml_path=output.name,  # type: ignore
+                schema_path=schema_path,  # type: ignore
                 root_class=class_name,  # type: ignore
             )
             nodestr, edgestr = write_graph(nodes, edges)
