@@ -111,6 +111,10 @@ def write_extraction(
             # by moving code into a dedicated KGXExporter class
             output.write("---\n")  # type: ignore
             output.write(dump_minimal_yaml(results))  # type: ignore
+
+            # Need to return to the top of the output just written
+            output.seek(0)
+
             if "." in template:
                 module_name, class_name = template.split(".", 1)
             else:
@@ -120,8 +124,11 @@ def write_extraction(
             nodes, edges = parse_yaml_predictions(
                 yaml_path=output.name, schema_path=schema_path, root_class=class_name
             )
-            for output_type in write_graph(nodes, edges):
-                output.write(output_type)
+            nodestr, edgestr = write_graph(nodes, edges)
+            with open("nodes.tsv", "w") as outfile:
+                outfile.write(nodestr)
+            with open("edges.tsv", "w") as outfile:
+                outfile.write(edgestr)
         else:
             output.write("---\n")  # type: ignore
             output.write(dump_minimal_yaml(results))  # type: ignore
