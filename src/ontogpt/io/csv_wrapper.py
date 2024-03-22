@@ -1,13 +1,24 @@
 """Utilities for CSVs and TSVs."""
+
 import csv
 import logging
 from pathlib import Path
-from typing import Any, List
-
+from typing import Any, List, Optional
+import yaml
+import pandas as pd
+import uuid
+from tqdm import tqdm
 from oaklib import get_adapter
 from pydantic import BaseModel
 
+from linkml_runtime import SchemaView
+
 logger = logging.getLogger(__name__)
+
+# TODO: reconsider pandas here - may not need a full DF
+
+# These slots will not be included in entity list outputs
+SKIP_SLOTS = ["id", "label"]
 
 
 def output_parser(obj: Any, file) -> List[str]:
@@ -133,3 +144,170 @@ def write_obj_as_csv(obj: Any, file, minimize=True, index_field=None) -> None:
         # row = {k: v for k, v in row.items() if "\n" not in str(v)}
         row = {k: _str(v).replace("\n", r"\n").replace("\t", " ") for k, v in row.items()}
         writer.writerow(row)
+
+
+def schema_process(schema_path: str, root_class: Optional[str]):
+    """
+    Process schema with SchemaView to prepare for parsing.
+
+    parameters:
+        schema_path, str: path to schema YAML file
+        root_class, str: name of the class to use as root for the schema
+
+    returns:
+        sv, SchemaView: schema view object for the schema
+        classdef, ClassDefinition: class definition for the root class
+    """
+    # Read in the schema
+    sv = SchemaView(schema_path)
+
+    # Find root if needed, or use provided name
+    if root_class is None:
+        roots = [c.name for c in sv.all_classes().values() if c.tree_root]
+        if len(roots) != 1:
+            raise ValueError(f"Schema does not have singular root: {roots}")
+        root_class = roots[0]
+    classdef = sv.get_class(root_class)
+
+    return sv, classdef
+
+
+def parse_yaml_predictions(yaml_path: str, schema_path: str, root_class=None):
+    """
+    Parse named entities and relations from the YAML output of OntoGPT.
+
+    Currently only supports binary relations. Assumes relations are named
+    with subject, predicate, and object.
+
+    For issues, tag @serenalotreck
+
+    parameters:
+        yaml_path, str: path to YAML file to parse. Can contain multiple
+            YAML documents.
+        schema_path, str: path to schema YAML file
+        root_class, str: name of the class to use as root for the schema
+
+    returns:
+        ent_df, pandas df: dataframe with entities from YAML output
+        rel_df, pandas df: dataframe with relations from YAML output
+    """
+    # Read in the YAML file
+    with open(yaml_path) as stream:
+        logger.info(f"Parsing documents in {yaml_path}")
+        output_docs = list(yaml.safe_load_all(stream))
+        if len(output_docs) == 0:
+            logger.error(f"No documents found in {yaml_path}")
+        else:
+            logger.info(f"Found {len(output_docs)} documents.")
+
+    # Get schemaview and target root class
+    # This root may not be the same as the schema's root
+    # Not used yet but will be useful for more complex schemas
+    sv, classdef = schema_process(schema_path, root_class)
+
+    # Initialize objects to store data
+    ent_rows = []
+    rel_rows = []
+
+    # Format entity label to type dict
+    # Note: Have to do this here because the named entity list gets added
+    # to with every doc, instead of just containing entities for one doc at a
+    # time
+    # TODO: update once issue #351 is addressed
+    # because then we could just use the named entities
+    ent_types = {}
+    for doc in tqdm(output_docs):
+        for typ, ent_list in doc["extracted_object"].items():
+            if typ in SKIP_SLOTS:
+                continue
+            if isinstance(ent_list, list):
+                for ent in ent_list:
+                    if isinstance(ent, str):
+                        ent_types[ent] = typ
+            elif isinstance(ent_list, str):
+                ent_types[ent_list] = typ
+
+    logger.info(f"Entity types: {ent_types}")
+
+    # Parse documents
+    # Note: assumes that in extracted_object, types with strings in a list are
+    # entities, and types with dicts in a list are relations.
+    # TODO: map categories to external model like Biolink
+    # (though this may not always be necessary)
+    i = 0
+    for doc in output_docs:
+
+        # Get the elements we need
+        obj = doc["extracted_object"]
+        ents = doc["named_entities"]
+
+        # Get document ID, or generate one if not present
+        try:
+            doc_id = obj["id"]
+        except KeyError:
+            doc_id = str(i)
+            logger.warning(f"No id found for document, will assign {doc_id}")
+        i = i + 1
+
+        # Index entities by ID
+        ent_labels = {ent["id"]: ent["label"] for ent in ents}
+
+        # Format relations
+        rel_types = {k: v for k, v in obj.items() if all([isinstance(rl, dict) for rl in v])}
+        for rel_type, rels in rel_types.items():
+            for rel in rels:
+                row = {}
+                row["id"] = str(uuid.uuid4())
+                row["category"] = rel_type
+                row["provided_by"] = doc_id
+                # TODO: permit n-ary relations, given we know what to do with them
+                try:
+                    for rel_part in ["subject", "predicate", "object"]:
+                        if not isinstance(rel[rel_part], str):
+                            raise ValueError
+                        row[rel_part] = rel[rel_part]
+                    rel_rows.append(row)
+                except KeyError:
+                    logger.warning(f"Relation {rel} missing part")
+                    continue
+                except ValueError:
+                    logger.warning(f"Relation {rel} looks n-ary: {rel_part}")
+                    continue
+
+        # Format entities
+        for ent, lab in ent_labels.items():
+            row = {}
+            row["id"] = ent
+            try:
+                row["category"] = ent_types[ent]
+            except KeyError:
+                row["category"] = "UNKNOWN"
+            row["name"] = lab
+            row["provided_by"] = doc_id
+            ent_rows.append(row)
+
+    # Make dataframes
+    ent_df = pd.DataFrame(ent_rows)
+    rel_df = pd.DataFrame(rel_rows)
+
+    # Drop repeated entities
+    # TODO: provide option to retain repeated entities
+    ent_df = ent_df.drop_duplicates()
+    rel_df = rel_df.drop_duplicates()
+
+    return ent_df, rel_df
+
+
+def write_graph(nodes: pd.DataFrame, edges: pd.DataFrame):
+    """
+    Convert dataframes to string representation for nodes and edges.
+
+    parameters:
+        nodes, pandas df: dataframe with nodes
+        edges, pandas df: dataframe with edges
+        outdir, str: directory to write files to
+    """
+    nodes_str = nodes.to_csv(sep="\t", index=False)
+    edges_str = edges.to_csv(sep="\t", index=False)
+
+    return nodes_str, edges_str

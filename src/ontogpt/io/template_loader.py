@@ -27,8 +27,7 @@ def get_template_details(template: TEMPLATE_NAME) -> ClassDefinition:
     else:
         module_name = template
         class_name = None
-    templates_path = this_path.parent / "templates"
-    path_to_template = str(templates_path / f"{module_name}.yaml")
+    path_to_template = get_template_path(module_name)
     sv = SchemaView(path_to_template)
     if class_name is None:
         roots = [c.name for c in sv.all_classes().values() if c.tree_root]
@@ -47,3 +46,9 @@ def get_template_details(template: TEMPLATE_NAME) -> ClassDefinition:
     if not cls:
         raise ValueError(f"Template {template} not found")
     return (cls, mod, pyclass, sv)
+
+
+def get_template_path(module_name: str) -> Path:
+    """Get the path to the YAML file for the template."""
+    templates_path = this_path.parent / "templates"
+    return templates_path / f"{module_name}.yaml"
