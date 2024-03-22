@@ -120,8 +120,9 @@ def write_extraction(
                 module_name = template
                 class_name = None
             schema_path = get_template_path(module_name)
+            # TODO: schema_path should really be a Path object
             nodes, edges = parse_yaml_predictions(
-                yaml_path=output.name, schema_path=schema_path, root_class=class_name
+                yaml_path=output.name, schema_path=schema_path, root_class=class_name  # type: ignore
             )
             nodestr, edgestr = write_graph(nodes, edges)
             with open("nodes.tsv", "w") as outfile:
