@@ -308,7 +308,7 @@ def write_graph(nodes: pd.DataFrame, edges: pd.DataFrame):
         edges, pandas df: dataframe with edges
         outdir, str: directory to write files to
     """
-    nodes_str = nodes.to_string()
-    edges_str = edges.to_string()
+    nodes_str = nodes.to_csv(sep="\t", index=False)
+    edges_str = edges.to_csv(sep="\t", index=False)
 
     return nodes_str, edges_str
