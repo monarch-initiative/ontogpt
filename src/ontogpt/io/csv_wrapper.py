@@ -260,12 +260,16 @@ def parse_yaml_predictions(yaml_path: str, schema_path: str, root_class=None):
                 row["id"] = str(uuid.uuid4())
                 row["category"] = rel_type
                 row["provided_by"] = doc_id
+                row["predicate"] = rel_type
                 # TODO: permit n-ary relations, given we know what to do with them
                 try:
-                    for rel_part in ["subject", "predicate", "object"]:
-                        if not isinstance(rel[rel_part], str):
+                    for i, rel_part in enumerate(rel.values()):
+                        if not isinstance(rel_part, str):
                             raise ValueError
-                        row[rel_part] = rel[rel_part]
+                        if i == 0:
+                            row["subject"] = rel_part
+                        elif i == 1:
+                            row["object"] = rel_part
                     rel_rows.append(row)
                 except KeyError:
                     logger.warning(f"Relation {rel} missing part")
