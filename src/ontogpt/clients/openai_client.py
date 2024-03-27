@@ -14,7 +14,6 @@ from openai import OpenAI
 
 from oaklib.utilities.apikey_manager import get_apikey_value
 from openai import AzureOpenAI
-from ontogpt.utils.azure_settings import AZURE_MODEL, AZURE_API_VERSION, AZURE_ENDPOINT
 
 logger = logging.getLogger(__name__)
 
@@ -35,6 +34,7 @@ class OpenAIClient:
             self.api_key = get_apikey_value("openai")
 
         if self.use_azure:
+            from ontogpt.utils.azure_settings import AZURE_MODEL, AZURE_API_VERSION, AZURE_ENDPOINT
             self.model = field(default_factory=lambda: AZURE_MODEL)
             # TODO: control client (Azure vs not) using a feature flag
             self.client = AzureOpenAI(
@@ -49,10 +49,7 @@ class OpenAIClient:
     # TODO: Dynamically update max_tokens
     def complete(self, prompt, max_tokens=500, show_prompt: bool = False, **kwargs) -> str:
         # TODO: dynamically set model at call time
-        if self.use_azure:
-            engine = AZURE_MODEL
-        else:
-            engine = self.model
+        engine = self.model
 
         logger.info(f"Complete: engine={engine}, prompt[{len(prompt)}]={prompt[0:100]}...")
         if show_prompt:
