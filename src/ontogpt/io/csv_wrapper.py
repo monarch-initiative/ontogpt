@@ -266,30 +266,47 @@ def parse_yaml_predictions(yaml_path: str, schema_path: str, root_class=None):
         ent_labels = {ent["id"]: ent["label"] for ent in ents}
 
         # Format relations
+        # TODO: translate to SchemaView
         rel_types = {k: v for k, v in obj.items() if all([isinstance(rl, dict) for rl in v])}
         for rel_type, rels in rel_types.items():
             for rel in rels:
+
                 row = {}
                 row["id"] = str(uuid.uuid4())
                 row["category"] = rel_type
                 row["provided_by"] = doc_id
-                row["predicate"] = rel_type
                 # TODO: permit n-ary relations, given we know what to do with them
-                try:
-                    for i, rel_part in enumerate(rel.values()):
-                        if not isinstance(rel_part, str):
-                            raise ValueError
-                        if i == 0:
-                            row["subject"] = rel_part
-                        elif i == 1:
-                            row["object"] = rel_part
+                
+                # If s, p, o are explicitly defined, use them
+                if 'subject' in rel.keys() and 'object' in rel.keys():
+                    row["subject"] = rel["subject"]
+                    row["object"] = rel["object"]
+
+                if 'predicate' in rel.keys():
+                    row["predicate"] = rel["predicate"]
+                else:
+                    row["predicate"] = rel_type
+
+                # If s, p, o are not explicitly defined, try to infer them
+                if not row.get("subject") or not row.get("object"):
+                    logger.info("s, p, o not explicitly defined in relation - inferring")
+                    try:
+                        for i, rel_part in enumerate(rel.values()):
+                            if not isinstance(rel_part, str):
+                                raise ValueError
+                            if i == 0:
+                                row["subject"] = rel_part
+                            elif i == 1:
+                                row["object"] = rel_part
+                        rel_rows.append(row)
+                    except KeyError:
+                        logger.warning(f"Relation {rel} missing part")
+                        continue
+                    except ValueError:
+                        logger.warning(f"Relation {rel} looks n-ary: {rel_part}")
+                        continue
+                else:
                     rel_rows.append(row)
-                except KeyError:
-                    logger.warning(f"Relation {rel} missing part")
-                    continue
-                except ValueError:
-                    logger.warning(f"Relation {rel} looks n-ary: {rel_part}")
-                    continue
 
         # Format entities
         for ent, lab in ent_labels.items():
