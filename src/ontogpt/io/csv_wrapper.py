@@ -238,8 +238,18 @@ def parse_yaml_predictions(yaml_path: str, schema_path: str, root_class=None):
     for doc in output_docs:
 
         # Get the elements we need
-        obj = doc["extracted_object"]
-        ents = doc["named_entities"]
+        try:
+            obj = doc["extracted_object"]
+        except KeyError:
+            logger.warning(f"No extracted_object found in document {i}")
+            i = i + 1
+            continue
+        try:
+            ents = doc["named_entities"]
+        except KeyError:
+            logger.warning(f"No named_entities found in document {i}")
+            i = i + 1
+            continue
 
         # Get document ID, or generate one if not present
         try:
