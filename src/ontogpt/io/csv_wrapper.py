@@ -217,15 +217,18 @@ def parse_yaml_predictions(yaml_path: str, schema_path: str, root_class=None):
     # because then we could just use the named entities
     ent_types = {}
     for doc in tqdm(output_docs):
-        for typ, ent_list in doc["extracted_object"].items():
-            if typ in SKIP_SLOTS:
-                continue
-            if isinstance(ent_list, list):
-                for ent in ent_list:
-                    if isinstance(ent, str):
-                        ent_types[ent] = typ
-            elif isinstance(ent_list, str):
-                ent_types[ent_list] = typ
+        try:
+            for typ, ent_list in doc["extracted_object"].items():
+                if typ in SKIP_SLOTS:
+                    continue
+                if isinstance(ent_list, list):
+                    for ent in ent_list:
+                        if isinstance(ent, str):
+                            ent_types[ent] = typ
+                elif isinstance(ent_list, str):
+                    ent_types[ent_list] = typ
+        except KeyError:
+            logger.warning("No extracted_object found in document")
 
     logger.info(f"Entity types: {ent_types}")
 
