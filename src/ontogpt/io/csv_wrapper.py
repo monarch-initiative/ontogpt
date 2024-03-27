@@ -290,6 +290,13 @@ def parse_yaml_predictions(yaml_path: str, schema_path: str, root_class=None):
             row["provided_by"] = doc_id
             ent_rows.append(row)
 
+    # Check for empties
+    # They will still be valid outputs, but may indicate an issue
+    if len(ent_rows) == 0:
+        logger.warning("No entities found in output")
+    if len(rel_rows) == 0:
+        logger.warning("No relations found in output")        
+    
     # Make dataframes
     ent_df = pd.DataFrame(ent_rows)
     rel_df = pd.DataFrame(rel_rows)
