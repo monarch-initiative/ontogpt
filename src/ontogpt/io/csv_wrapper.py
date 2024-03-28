@@ -202,7 +202,6 @@ def parse_yaml_predictions(yaml_path: str, schema_path: str, root_class=None):
 
     # Get schemaview and target root class
     # This root may not be the same as the schema's root
-    # Not used yet but will be useful for more complex schemas
     sv, classdef = schema_process(schema_path, root_class)
 
     # Initialize objects to store data
@@ -273,7 +272,10 @@ def parse_yaml_predictions(yaml_path: str, schema_path: str, root_class=None):
 
                 row = {}
                 row["id"] = str(uuid.uuid4())
-                row["category"] = rel_type
+
+                class_name = sv.get_slot(rel_type).range
+
+                row["category"] = class_name
                 row["provided_by"] = doc_id
                 # TODO: permit n-ary relations, given we know what to do with them
                 
@@ -285,7 +287,7 @@ def parse_yaml_predictions(yaml_path: str, schema_path: str, root_class=None):
                 if 'predicate' in rel.keys():
                     row["predicate"] = rel["predicate"]
                 else:
-                    row["predicate"] = rel_type
+                    row["predicate"] = class_name
 
                 # If s, p, o are not explicitly defined, try to infer them
                 if not row.get("subject") or not row.get("object"):
@@ -313,7 +315,8 @@ def parse_yaml_predictions(yaml_path: str, schema_path: str, root_class=None):
             row = {}
             row["id"] = ent
             try:
-                row["category"] = ent_types[ent]
+                class_name = sv.get_slot(ent_types[ent]).range
+                row["category"] = class_name
             except KeyError:
                 row["category"] = "UNKNOWN"
             row["name"] = lab
