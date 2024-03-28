@@ -202,7 +202,6 @@ def parse_yaml_predictions(yaml_path: str, schema_path: str, root_class=None):
 
     # Get schemaview and target root class
     # This root may not be the same as the schema's root
-    # Not used yet but will be useful for more complex schemas
     sv, classdef = schema_process(schema_path, root_class)
 
     # Initialize objects to store data
@@ -217,15 +216,18 @@ def parse_yaml_predictions(yaml_path: str, schema_path: str, root_class=None):
     # because then we could just use the named entities
     ent_types = {}
     for doc in tqdm(output_docs):
-        for typ, ent_list in doc["extracted_object"].items():
-            if typ in SKIP_SLOTS:
-                continue
-            if isinstance(ent_list, list):
-                for ent in ent_list:
-                    if isinstance(ent, str):
-                        ent_types[ent] = typ
-            elif isinstance(ent_list, str):
-                ent_types[ent_list] = typ
+        try:
+            for typ, ent_list in doc["extracted_object"].items():
+                if typ in SKIP_SLOTS:
+                    continue
+                if isinstance(ent_list, list):
+                    for ent in ent_list:
+                        if isinstance(ent, str):
+                            ent_types[ent] = typ
+                elif isinstance(ent_list, str):
+                    ent_types[ent_list] = typ
+        except KeyError:
+            logger.warning("No extracted_object found in document")
 
     logger.info(f"Entity types: {ent_types}")
 
@@ -238,8 +240,18 @@ def parse_yaml_predictions(yaml_path: str, schema_path: str, root_class=None):
     for doc in output_docs:
 
         # Get the elements we need
-        obj = doc["extracted_object"]
-        ents = doc["named_entities"]
+        try:
+            obj = doc["extracted_object"]
+        except KeyError:
+            logger.warning(f"No extracted_object found in document {i}")
+            i = i + 1
+            continue
+        try:
+            ents = doc["named_entities"]
+        except KeyError:
+            logger.warning(f"No named_entities found in document {i}")
+            i = i + 1
+            continue
 
         # Get document ID, or generate one if not present
         try:
@@ -253,43 +265,71 @@ def parse_yaml_predictions(yaml_path: str, schema_path: str, root_class=None):
         ent_labels = {ent["id"]: ent["label"] for ent in ents}
 
         # Format relations
+        # TODO: translate to SchemaView
         rel_types = {k: v for k, v in obj.items() if all([isinstance(rl, dict) for rl in v])}
         for rel_type, rels in rel_types.items():
             for rel in rels:
+
                 row = {}
                 row["id"] = str(uuid.uuid4())
-                row["category"] = rel_type
+
+                class_name = sv.get_slot(rel_type).range
+
+                row["category"] = class_name
                 row["provided_by"] = doc_id
-                row["predicate"] = rel_type
                 # TODO: permit n-ary relations, given we know what to do with them
-                try:
-                    for i, rel_part in enumerate(rel.values()):
-                        if not isinstance(rel_part, str):
-                            raise ValueError
-                        if i == 0:
-                            row["subject"] = rel_part
-                        elif i == 1:
-                            row["object"] = rel_part
+                
+                # If s, p, o are explicitly defined, use them
+                if 'subject' in rel.keys() and 'object' in rel.keys():
+                    row["subject"] = rel["subject"]
+                    row["object"] = rel["object"]
+
+                if 'predicate' in rel.keys():
+                    row["predicate"] = rel["predicate"]
+                else:
+                    row["predicate"] = class_name
+
+                # If s, p, o are not explicitly defined, try to infer them
+                if not row.get("subject") or not row.get("object"):
+                    logger.info("s, p, o not explicitly defined in relation - inferring")
+                    try:
+                        for i, rel_part in enumerate(rel.values()):
+                            if not isinstance(rel_part, str):
+                                raise ValueError
+                            if i == 0:
+                                row["subject"] = rel_part
+                            elif i == 1:
+                                row["object"] = rel_part
+                        rel_rows.append(row)
+                    except KeyError:
+                        logger.warning(f"Relation {rel} missing part")
+                        continue
+                    except ValueError:
+                        logger.warning(f"Relation {rel} looks n-ary: {rel_part}")
+                        continue
+                else:
                     rel_rows.append(row)
-                except KeyError:
-                    logger.warning(f"Relation {rel} missing part")
-                    continue
-                except ValueError:
-                    logger.warning(f"Relation {rel} looks n-ary: {rel_part}")
-                    continue
 
         # Format entities
         for ent, lab in ent_labels.items():
             row = {}
             row["id"] = ent
             try:
-                row["category"] = ent_types[ent]
+                class_name = sv.get_slot(ent_types[ent]).range
+                row["category"] = class_name
             except KeyError:
                 row["category"] = "UNKNOWN"
             row["name"] = lab
             row["provided_by"] = doc_id
             ent_rows.append(row)
 
+    # Check for empties
+    # They will still be valid outputs, but may indicate an issue
+    if len(ent_rows) == 0:
+        logger.warning("No entities found in output")
+    if len(rel_rows) == 0:
+        logger.warning("No relations found in output")        
+    
     # Make dataframes
     ent_df = pd.DataFrame(ent_rows)
     rel_df = pd.DataFrame(rel_rows)
