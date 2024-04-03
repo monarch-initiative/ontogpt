@@ -41,6 +41,7 @@ class MaxoAnnotations(ConfiguredBaseModel):
     primary_disease: Optional[str] = Field(None, description="""The main disease the text is about, or its central disease topic. This is often the disease mentioned in an article's title or in its first few sentences.""")
     medical_actions: Optional[List[str]] = Field(default_factory=list, description="""Semicolon-separated list of medical actions.""")
     symptoms: Optional[List[str]] = Field(default_factory=list, description="""Semicolon-separated list of signs or symptoms.""")
+    chemicals: Optional[List[str]] = Field(default_factory=list, description="""Semicolon-separated list of chemicals or drugs""")
     action_annotation_relationships: Optional[List[ActionAnnotationRelationship]] = Field(default_factory=list, description="""Semicolon-separated list of relationships between a disease, the mentioned signs and symptoms associated with that disease, the medical actions relating to each symptom, and the type of relationship between each action and symptom (usually TREATS or PREVENTS). The disease name must be included in the relationship, for example, \"treatment TREATS symptom IN disease\". If the medical action includes a specific chemical or drug, include the chemical or drug name in the relationship, for example, \"treatment (with chemical) TREATS symptom IN disease\".""")
     
     

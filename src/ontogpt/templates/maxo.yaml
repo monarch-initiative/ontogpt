@@ -48,6 +48,10 @@ classes:
         description: Semicolon-separated list of signs or symptoms.
         multivalued: true
         range: Symptom
+      chemicals:
+        description: Semicolon-separated list of chemicals or drugs
+        multivalued: true
+        range: Chemical
       action_annotation_relationships:
         description: >-
           Semicolon-separated list of relationships between a disease,
