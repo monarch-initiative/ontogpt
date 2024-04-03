@@ -55,7 +55,9 @@ classes:
           the medical actions relating to each symptom, and the type of
           relationship between each action and symptom (usually TREATS
           or PREVENTS). This should also include any chemicals or drugs
-          mentioned in the relationship.
+          mentioned in the relationship. The disease name must be included
+          in the relationship, for example, "treatment TREATS symptom IN
+          disease".
         multivalued: true
         range: ActionAnnotationRelationship
 
