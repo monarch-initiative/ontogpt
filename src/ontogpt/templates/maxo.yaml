@@ -59,8 +59,27 @@ classes:
         multivalued: true
         range: ActionAnnotationRelationship
 
-  ActionAnnotationRelationship:
+  ExtendedTriple:
     is_a: Triple
+    abstract: true
+    description: >-
+      Abstract parent for Relation Extraction tasks, with additional
+      support for an extension term describing some aspect
+      of the subject and object.
+    attributes:
+      subject_extension:
+        range: NamedEntity
+        description: >-
+          An optional term describing some specific aspect of the subject,
+          e.g. "analgesic agent therapy" has the aspect "analgesic"
+      object_extension:
+        range: NamedEntity
+        description: >-
+          An optional term describing some specific aspect of the object,
+          e.g. "analgesic agent therapy" has the aspect "analgesic"
+
+  ActionAnnotationRelationship:
+    is_a: ExtendedTriple
     description: >-
       An association representing a relationships between a disease,
       the mentioned signs and symptoms associated with that disease,
@@ -68,35 +87,43 @@ classes:
       relationship between each action and symptom (usually TREATS
       or PREVENTS).
     slot_usage:
-      disease:
+      qualifier:
         range: Disease
         description: >-
           The primary disease the relationship is about, or specifically
-          the disease the symptom is related to.
+          the disease the symptom is related to. For example,
+          Beck-Fahrner syndrome, hereditary retinoblastoma, progeria,
+          diabetes mellitus, infectious otitis media
       subject:
         range: MedicalAction
-        description: The medical action.
+        description: >-
+          The medical action. For example: blood transfusion, radiation therapy,
+          cardiac catheterization, pulse oximetry, otoscopy
       object:
         range: Symptom
         description: >-
           A sign or symptom associated with the disease and targeted
-          by the medical action.
+          by the medical action. For example, Low serum calcitriol,
+          hypoplasia of the thymus, chronic cough, aortic stiffness,
+          low pulse pressure
       predicate:
         range: NamedEntity
         description: >-
           The relationship type between the medical action and the symptom,
           usually TREATS or PREVENTS.
-      chemical:
+      subject_extension:
         range: Chemical
         description: >-
           A chemical or drug mentioned in the relationship between the
-          medical action and the symptom.
+          medical action and the symptom, for example,
+          "analgesic agent therapy" has the aspect "analgesic"
 
   MedicalAction:
     is_a: NamedEntity
     description: >-
       A clinically prescribed procedure, therapy, intervention, or
-      recommendation.
+      recommendation. For example: blood transfusion, radiation therapy,
+      cardiac catheterization, pulse oximetry, otoscopy
     annotations:
       annotators: sqlite:obo:maxo, sqlite:obo:ogms, sqlite:obo:ncit, sqlite:obo:obi
     id_prefixes:

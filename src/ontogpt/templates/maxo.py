@@ -68,7 +68,7 @@ class NamedEntity(ConfiguredBaseModel):
 
 class MedicalAction(NamedEntity):
     """
-    A clinically prescribed procedure, therapy, intervention, or recommendation.
+    A clinically prescribed procedure, therapy, intervention, or recommendation. For example: blood transfusion, radiation therapy, cardiac catheterization, pulse oximetry, otoscopy
     """
     id: str = Field(..., description="""A unique identifier for the named entity""")
     label: Optional[str] = Field(None, description="""The label (name) of the named thing""")
@@ -121,14 +121,31 @@ class Triple(CompoundExpression):
     
     
 
-class ActionAnnotationRelationship(Triple):
+class ExtendedTriple(Triple):
+    """
+    Abstract parent for Relation Extraction tasks, with additional support for an extension term describing some aspect of the subject and object.
+    """
+    subject_extension: Optional[str] = Field(None, description="""An optional term describing some specific aspect of the subject, e.g. \"analgesic agent therapy\" has the aspect \"analgesic\"""")
+    object_extension: Optional[str] = Field(None, description="""An optional term describing some specific aspect of the object, e.g. \"analgesic agent therapy\" has the aspect \"analgesic\"""")
+    subject: Optional[str] = Field(None)
+    predicate: Optional[str] = Field(None)
+    object: Optional[str] = Field(None)
+    qualifier: Optional[str] = Field(None, description="""A qualifier for the statements, e.g. \"NOT\" for negation""")
+    subject_qualifier: Optional[str] = Field(None, description="""An optional qualifier or modifier for the subject of the statement, e.g. \"high dose\" or \"intravenously administered\"""")
+    object_qualifier: Optional[str] = Field(None, description="""An optional qualifier or modifier for the object of the statement, e.g. \"severe\" or \"with additional complications\"""")
+    
+    
+
+class ActionAnnotationRelationship(ExtendedTriple):
     """
     An association representing a relationships between a disease, the mentioned signs and symptoms associated with that disease, the medical actions relating to each symptom, and the type of relationship between each action and symptom (usually TREATS or PREVENTS).
     """
-    subject: Optional[str] = Field(None, description="""The medical action.""")
+    subject_extension: Optional[str] = Field(None, description="""A chemical or drug mentioned in the relationship between the medical action and the symptom, for example, \"analgesic agent therapy\" has the aspect \"analgesic\"""")
+    object_extension: Optional[str] = Field(None, description="""An optional term describing some specific aspect of the object, e.g. \"analgesic agent therapy\" has the aspect \"analgesic\"""")
+    subject: Optional[str] = Field(None, description="""The medical action. For example: blood transfusion, radiation therapy, cardiac catheterization, pulse oximetry, otoscopy""")
     predicate: Optional[str] = Field(None, description="""The relationship type between the medical action and the symptom, usually TREATS or PREVENTS.""")
-    object: Optional[str] = Field(None, description="""A sign or symptom associated with the disease and targeted by the medical action.""")
-    qualifier: Optional[str] = Field(None, description="""A qualifier for the statements, e.g. \"NOT\" for negation""")
+    object: Optional[str] = Field(None, description="""A sign or symptom associated with the disease and targeted by the medical action. For example, Low serum calcitriol, hypoplasia of the thymus, chronic cough, aortic stiffness, low pulse pressure""")
+    qualifier: Optional[str] = Field(None, description="""The primary disease the relationship is about, or specifically the disease the symptom is related to. For example, Beck-Fahrner syndrome, hereditary retinoblastoma, progeria, diabetes mellitus, infectious otitis media""")
     subject_qualifier: Optional[str] = Field(None, description="""An optional qualifier or modifier for the subject of the statement, e.g. \"high dose\" or \"intravenously administered\"""")
     object_qualifier: Optional[str] = Field(None, description="""An optional qualifier or modifier for the object of the statement, e.g. \"severe\" or \"with additional complications\"""")
     
@@ -189,6 +206,7 @@ Symptom.model_rebuild()
 Chemical.model_rebuild()
 CompoundExpression.model_rebuild()
 Triple.model_rebuild()
+ExtendedTriple.model_rebuild()
 ActionAnnotationRelationship.model_rebuild()
 TextWithTriples.model_rebuild()
 TextWithEntity.model_rebuild()
