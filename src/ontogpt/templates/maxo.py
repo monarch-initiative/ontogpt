@@ -25,12 +25,6 @@ class ConfiguredBaseModel(BaseModel):
     pass
 
 
-class MAXODiagnosticProcedureEnum(str):
-    
-    
-    dummy = "dummy"
-    
-
 class NullDataOptions(str, Enum):
     
     
@@ -63,9 +57,9 @@ class NamedEntity(ConfiguredBaseModel):
     
     
 
-class DiagnosticProcedure(NamedEntity):
+class MedicalAction(NamedEntity):
     """
-    A clinically prescribed diagnostic procedure, therapy, intervention, or recommendation. These may also be called diagnostic technique procedures or diagnostic testing. For example: hearing examination, glomerular filtration rate test, chromosomal breakage analysis, clinical core needle biopsy, interferon-gamma biomarker measurement
+    A clinically prescribed procedure, therapy, intervention, or recommendation.
     """
     id: str = Field(..., description="""A unique identifier for the named entity""")
     label: Optional[str] = Field(None, description="""The label (name) of the named thing""")
@@ -84,6 +78,15 @@ class Disease(NamedEntity):
 class Symptom(NamedEntity):
     """
     A condition or phenotype resulting from an abnormal health state. For example: Low serum calcitriol, hypoplasia of the thymus, chronic cough, aortic stiffness, low pulse pressure
+    """
+    id: str = Field(..., description="""A unique identifier for the named entity""")
+    label: Optional[str] = Field(None, description="""The label (name) of the named thing""")
+    
+    
+
+class Chemical(NamedEntity):
+    """
+    A substance that has a defined molecular structure and is produced by or used in a chemical process. Includes drugs used as part of medical actions. For example: corticosteroid, folic acid, opioid analgesic
     """
     id: str = Field(..., description="""A unique identifier for the named entity""")
     label: Optional[str] = Field(None, description="""The label (name) of the named thing""")
@@ -109,33 +112,16 @@ class Triple(CompoundExpression):
     
     
 
-class DiagnosticProcedureToDiseaseRelationship(Triple):
+class ActionAnnotationRelationship(Triple):
     """
-<<<<<<< HEAD
-    A triple representing a relationship between a diagnostic procedure and a disease, for example, PET scan IS USED TO DIAGNOSE myocarditis.
-=======
-    A triple representing a relationship between a medical action (A clinically prescribed procedure, therapy, intervention, or recommendation) and a disease, for example, radiation therapy TREATS cancer, or PET scan IS USED TO DIAGNOSE myocarditis.
->>>>>>> origin/main
+    An association representing a relationships between a disease, the mentioned signs and symptoms associated with that disease, the medical actions relating to each symptom, and the type of relationship between each action and symptom (usually TREATS or PREVENTS).
     """
-    subject: Optional[str] = Field(None)
-    predicate: Optional[str] = Field(None, description="""The relationship type, usually IS USED TO DIAGNOSE""")
-    object: Optional[List[str]] = Field(default_factory=list)
+    subject: Optional[str] = Field(None, description="""The medical action.""")
+    predicate: Optional[str] = Field(None, description="""The relationship type between the medical action and the symptom, usually TREATS or PREVENTS.""")
+    object: Optional[str] = Field(None, description="""A sign or symptom associated with the disease and targeted by the medical action.""")
     qualifier: Optional[str] = Field(None, description="""A qualifier for the statements, e.g. \"NOT\" for negation""")
-    subject_qualifier: Optional[str] = Field(None, description="""An optional qualifier or modifier for the medical action.""")
-    object_qualifier: Optional[str] = Field(None, description="""An optional qualifier or modifier for the disease.""")
-    
-    
-
-class DiagnosticProcedureToSymptomRelationship(Triple):
-    """
-    A triple representing a relationship between a medical action (A clinically prescribed procedure, therapy, intervention, or recommendation) and a symptom, for example, a chest X-ray IS USED TO DIAGNOSE pleural effusion.
-    """
-    subject: Optional[str] = Field(None)
-    predicate: Optional[str] = Field(None, description="""The relationship type, usually IS USED TO DIAGNOSE""")
-    object: Optional[List[str]] = Field(default_factory=list)
-    qualifier: Optional[str] = Field(None, description="""A qualifier for the statements, e.g. \"NOT\" for negation""")
-    subject_qualifier: Optional[str] = Field(None, description="""An optional qualifier or modifier for the medical action.""")
-    object_qualifier: Optional[str] = Field(None, description="""An optional qualifier or modifier for the symptom.""")
+    subject_qualifier: Optional[str] = Field(None, description="""An optional qualifier or modifier for the subject of the statement, e.g. \"high dose\" or \"intravenously administered\"""")
+    object_qualifier: Optional[str] = Field(None, description="""An optional qualifier or modifier for the object of the statement, e.g. \"severe\" or \"with additional complications\"""")
     
     
 
@@ -150,12 +136,10 @@ class TextWithTriples(ConfiguredBaseModel):
 
 class MaxoAnnotations(TextWithTriples):
     
-    diagnostic_procedures: Optional[List[str]] = Field(default_factory=list, description="""Semicolon-separated list of diagnostic procedures.""")
+    medical_actions: Optional[List[str]] = Field(default_factory=list, description="""Semicolon-separated list of medical actions.""")
     main_disease: Optional[str] = Field(None, description="""The primary disease the text is about, or its main disease topic. This is often the disease mentioned in an article's title or in its first few sentences.""")
-    disease: Optional[List[str]] = Field(default_factory=list, description="""Semicolon-separated list of diseases.""")
-    symptom: Optional[List[str]] = Field(default_factory=list, description="""Semicolon-separated list of symptoms.""")
-    diagnostic_procedure_to_disease: Optional[List[DiagnosticProcedureToDiseaseRelationship]] = Field(default_factory=list)
-    diagnostic_procedure_to_symptom: Optional[List[DiagnosticProcedureToSymptomRelationship]] = Field(default_factory=list)
+    symptoms: Optional[List[str]] = Field(default_factory=list, description="""Semicolon-separated list of signs or symptoms.""")
+    action_annotation_relationships: Optional[List[ActionAnnotationRelationship]] = Field(default_factory=list, description="""Semicolon-separated list of relationships between a disease, the mentioned signs and symptoms associated with that disease, the medical actions relating to each symptom, and the type of relationship between each action and symptom (usually TREATS or PREVENTS). This should also include any chemicals or drugs mentioned in the relationship.""")
     publication: Optional[Publication] = Field(None)
     triples: Optional[List[Triple]] = Field(default_factory=list)
     
@@ -200,13 +184,13 @@ class AnnotatorResult(ConfiguredBaseModel):
 # see https://pydantic-docs.helpmanual.io/usage/models/#rebuilding-a-model
 ExtractionResult.model_rebuild()
 NamedEntity.model_rebuild()
-DiagnosticProcedure.model_rebuild()
+MedicalAction.model_rebuild()
 Disease.model_rebuild()
 Symptom.model_rebuild()
+Chemical.model_rebuild()
 CompoundExpression.model_rebuild()
 Triple.model_rebuild()
-DiagnosticProcedureToDiseaseRelationship.model_rebuild()
-DiagnosticProcedureToSymptomRelationship.model_rebuild()
+ActionAnnotationRelationship.model_rebuild()
 TextWithTriples.model_rebuild()
 MaxoAnnotations.model_rebuild()
 TextWithEntity.model_rebuild()
