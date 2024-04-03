@@ -42,7 +42,7 @@ from pydantic import BaseModel
 from ontogpt.engines.knowledge_engine import chunk_text
 from ontogpt.engines.spires_engine import SPIRESEngine
 from ontogpt.evaluation.evaluation_engine import SimilarityScore, SPIRESEvaluationEngine
-from ontogpt.templates.maxo import MaxoAnnotations, DiagnosticProcedureToSymptomRelationship, Publication
+from ontogpt.templates.maxo import MaxoAnnotations, ActionAnnotationRelationship, Publication
 
 THIS_DIR = Path(__file__).parent
 DATABASE_DIR = Path(__file__).parent / "test_cases"
@@ -181,7 +181,7 @@ class EvalMAXO(SPIRESEvaluationEngine):
             try:
                 for r in doc["extracted_object"]["diagnostic_procedure_to_symptom"]:
                     for object in r["object"]:
-                        t = DiagnosticProcedureToSymptomRelationship.model_validate(
+                        t = ActionAnnotationRelationship.model_validate(
                             {
                                 "subject": f"{r['subject']}",
                                 "predicate": RMAP[r["predicate"]],
@@ -244,7 +244,7 @@ class EvalMAXO(SPIRESEvaluationEngine):
                 if extraction.extracted_object is not None:
                     # Process all multi-object triples to 1 to 1 triples
                     # so they may be more directly compared
-                    for extracted_triple in extraction.extracted_object.diagnostic_procedure_to_symptom:
+                    for extracted_triple in extraction.extracted_object.action_annotation_relationships:
                         new_triple = extracted_triple
                         for object in extracted_triple.object:
                             new_triple.object = [object]
@@ -267,7 +267,7 @@ class EvalMAXO(SPIRESEvaluationEngine):
                         if entity not in named_entities:
                             named_entities.append(entity)
 
-            def included(t: DiagnosticProcedureToSymptomRelationship):
+            def included(t: ActionAnnotationRelationship):
                 if not [var for var in (t.subject, t.object, t.predicate) if var is None]:
                     return (
                         t
