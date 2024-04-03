@@ -36,6 +36,15 @@ class NullDataOptions(str, Enum):
     
     
 
+class MaxoAnnotations(ConfiguredBaseModel):
+    
+    primary_disease: Optional[str] = Field(None, description="""The main disease the text is about, or its central disease topic. This is often the disease mentioned in an article's title or in its first few sentences.""")
+    medical_actions: Optional[List[str]] = Field(default_factory=list, description="""Semicolon-separated list of medical actions.""")
+    symptoms: Optional[List[str]] = Field(default_factory=list, description="""Semicolon-separated list of signs or symptoms.""")
+    action_annotation_relationships: Optional[List[ActionAnnotationRelationship]] = Field(default_factory=list, description="""Semicolon-separated list of relationships between a disease, the mentioned signs and symptoms associated with that disease, the medical actions relating to each symptom, and the type of relationship between each action and symptom (usually TREATS or PREVENTS). This should also include any chemicals or drugs mentioned in the relationship.""")
+    
+    
+
 class ExtractionResult(ConfiguredBaseModel):
     """
     A result of extracting knowledge on text
@@ -134,17 +143,6 @@ class TextWithTriples(ConfiguredBaseModel):
     
     
 
-class MaxoAnnotations(TextWithTriples):
-    
-    medical_actions: Optional[List[str]] = Field(default_factory=list, description="""Semicolon-separated list of medical actions.""")
-    main_disease: Optional[str] = Field(None, description="""The primary disease the text is about, or its main disease topic. This is often the disease mentioned in an article's title or in its first few sentences.""")
-    symptoms: Optional[List[str]] = Field(default_factory=list, description="""Semicolon-separated list of signs or symptoms.""")
-    action_annotation_relationships: Optional[List[ActionAnnotationRelationship]] = Field(default_factory=list, description="""Semicolon-separated list of relationships between a disease, the mentioned signs and symptoms associated with that disease, the medical actions relating to each symptom, and the type of relationship between each action and symptom (usually TREATS or PREVENTS). This should also include any chemicals or drugs mentioned in the relationship.""")
-    publication: Optional[Publication] = Field(None)
-    triples: Optional[List[Triple]] = Field(default_factory=list)
-    
-    
-
 class TextWithEntity(ConfiguredBaseModel):
     """
     A text containing one or more instances of a single type of entity.
@@ -182,6 +180,7 @@ class AnnotatorResult(ConfiguredBaseModel):
 
 # Model rebuild
 # see https://pydantic-docs.helpmanual.io/usage/models/#rebuilding-a-model
+MaxoAnnotations.model_rebuild()
 ExtractionResult.model_rebuild()
 NamedEntity.model_rebuild()
 MedicalAction.model_rebuild()
@@ -192,7 +191,6 @@ CompoundExpression.model_rebuild()
 Triple.model_rebuild()
 ActionAnnotationRelationship.model_rebuild()
 TextWithTriples.model_rebuild()
-MaxoAnnotations.model_rebuild()
 TextWithEntity.model_rebuild()
 RelationshipType.model_rebuild()
 Publication.model_rebuild()

@@ -6,7 +6,6 @@ description: >-
   MAXO medical action ontology.
 license: https://creativecommons.org/publicdomain/zero/1.0/
 prefixes:
-  rdf: http://www.w3.org/1999/02/22-rdf-syntax-ns#
   HP: http://purl.obolibrary.org/obo/HP_
   MAXO: http://purl.obolibrary.org/obo/MAXO_
   MONDO: http://purl.obolibrary.org/obo/MONDO_
@@ -16,6 +15,7 @@ prefixes:
   biolink: https://w3id.org/biolink/vocab/
   linkml: https://w3id.org/linkml/
   maxo_extract: http://w3id.org/ontogpt/maxo
+  rdf: http://www.w3.org/1999/02/22-rdf-syntax-ns#
 
 default_prefix: maxo_extract
 default_range: string
@@ -27,8 +27,14 @@ imports:
 classes:
   MaxoAnnotations:
     tree_root: true
-    is_a: TextWithTriples
     attributes:
+      primary_disease:
+        description: >-
+          The main disease the text is about, or its central disease
+          topic. This is often the disease mentioned in an article's title
+          or in its first few sentences.
+        multivalued: false
+        range: Disease
       medical_actions:
         annotations:
           prompt: >-
@@ -38,13 +44,6 @@ classes:
         description: Semicolon-separated list of medical actions.
         multivalued: true
         range: MedicalAction
-      main_disease:
-        description: >-
-          The primary disease the text is about, or its main disease
-          topic. This is often the disease mentioned in an article's title
-          or in its first few sentences.
-        multivalued: false
-        range: Disease
       symptoms:
         description: Semicolon-separated list of signs or symptoms.
         multivalued: true
