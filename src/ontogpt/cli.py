@@ -1,10 +1,11 @@
 """Command line interface for ontogpt."""
+
 import codecs
 import json
 import logging
 import pickle
 import sys
-from copy import copy, deepcopy
+from copy import deepcopy
 from dataclasses import dataclass
 from io import BytesIO, TextIOWrapper
 from pathlib import Path
@@ -12,7 +13,7 @@ from typing import List, Optional, Union
 
 import click
 import jsonlines
-import openai
+
 import yaml
 from oaklib import get_adapter
 from oaklib.cli import query_terms_iterator
@@ -27,32 +28,20 @@ from ontogpt.clients import OpenAIClient
 from ontogpt.clients.pubmed_client import PubmedClient
 from ontogpt.clients.soup_client import SoupClient
 from ontogpt.clients.wikipedia_client import WikipediaClient
-from ontogpt.engines import create_engine
 from ontogpt.engines.embedding_similarity_engine import SimilarityEngine
-from ontogpt.engines.enrichment import EnrichmentEngine
 from ontogpt.engines.generic_engine import GenericEngine, QuestionCollection
-from ontogpt.engines.gpt4all_engine import GPT4AllEngine  # type: ignore
 from ontogpt.engines.halo_engine import HALOEngine  # type: ignore
-
-# from ontogpt.engines.hfhub_engine import HFHubEngine
 from ontogpt.engines.knowledge_engine import KnowledgeEngine
 from ontogpt.engines.mapping_engine import MappingEngine
 from ontogpt.engines.pheno_engine import PhenoEngine
 from ontogpt.engines.reasoner_engine import ReasonerEngine
 from ontogpt.engines.spires_engine import SPIRESEngine
 from ontogpt.engines.synonym_engine import SynonymEngine
-from ontogpt.evaluation.enrichment.eval_enrichment import EvalEnrichment
 from ontogpt.evaluation.resolver import create_evaluator
-from ontogpt.io.csv_wrapper import output_parser, write_obj_as_csv
+from ontogpt.io.csv_wrapper import parse_yaml_predictions, write_graph
 from ontogpt.io.html_exporter import HTMLExporter
 from ontogpt.io.markdown_exporter import MarkdownExporter
-from ontogpt.utils.gene_set_utils import (
-    GeneSet,
-    _is_human,
-    fill_missing_gene_set_values,
-    parse_gene_set,
-)
-from ontogpt.utils.gpt4all_runner import chain_gpt4all_model, set_up_gpt4all_model
+from ontogpt.io.template_loader import get_template_details, get_template_path
 
 __all__ = [
     "main",
@@ -87,6 +76,7 @@ def write_extraction(
     output: BytesIO,
     output_format: str,
     knowledge_engine: KnowledgeEngine,
+    template: str,
 ):
     """Write results of extraction to a given output stream."""
     # Check if this result contains anything writable first
@@ -114,16 +104,39 @@ def write_extraction(
             exporter = OWLExporter()
             exporter.export(results, output, knowledge_engine.schemaview)
         elif output_format == "kgx":
-            # output.write(write_obj_as_csv(results))
+            # TODO: enable passing name without extension,
+            # since there will be multiple output files
+            # TODO: rewrite to align with other exporters
+            # by moving code into a dedicated KGXExporter class
+            output.write("---\n")  # type: ignore
             output.write(dump_minimal_yaml(results))  # type: ignore
-            with open("output.kgx.tsv") as secondoutput:
-                for line in output_parser(obj=results, file=output):
-                    secondoutput.write(line)
+
+            # Need to return to the top of the output just written
+            output.seek(0)
+
+            if "." in template:
+                module_name, class_name = template.split(".", 1)
+            else:
+                module_name = template
+                class_name = None
+            schema_path = get_template_path(module_name)
+            # TODO: schema_path should really be a Path object
+            nodes, edges = parse_yaml_predictions(
+                yaml_path=output.name,  # type: ignore
+                schema_path=schema_path,  # type: ignore
+                root_class=class_name,  # type: ignore
+            )
+            nodestr, edgestr = write_graph(nodes, edges)
+            with open("nodes.tsv", "w") as outfile:
+                outfile.write(nodestr)
+            with open("edges.tsv", "w") as outfile:
+                outfile.write(edgestr)
         else:
             output.write("---\n")  # type: ignore
             output.write(dump_minimal_yaml(results))  # type: ignore
 
 
+# TODO: allow this to tolerate a local model
 def get_model_by_name(modelname: str):
     """Retrieve a model name and metadata from those available.
 
@@ -131,7 +144,10 @@ def get_model_by_name(modelname: str):
     """
     found = False
     for knownmodel in MODELS:
-        if modelname in knownmodel["alternative_names"] or modelname == knownmodel["name"]:
+        these_knownmodel_names = [knownmodel["name"], knownmodel["canonical_name"]] + knownmodel[
+            "alternative_names"
+        ]
+        if modelname in these_knownmodel_names:
             selectmodel = knownmodel
             found = True
             logging.info(
@@ -189,7 +205,7 @@ output_option_txt = click.option(
 output_format_options = click.option(
     "-O",
     "--output-format",
-    type=click.Choice(["json", "yaml", "pickle", "md", "html", "owl", "turtle", "jsonl"]),
+    type=click.Choice(["json", "yaml", "pickle", "md", "html", "owl", "turtle", "jsonl", "kgx"]),
     default="yaml",
     help="Output format.",
 )
@@ -203,6 +219,12 @@ show_prompt_option = click.option(
     default=False,
     show_default=True,
     help="If set, show all prompts passed to model through an API. Use with verbose setting.",
+)
+azure_select_option = click.option(
+    "--azure-select/--no-azure-select",
+    default=False,
+    show_default=True,
+    help="Use OpenAI model through Azure.",
 )
 
 
@@ -257,6 +279,7 @@ def main(verbose: int, quiet: bool, cache_db: str, skip_annotator):
     help="Set slot value, e.g. --set-slot-value has_participant=protein",
 )
 @click.argument("input", required=False)
+@azure_select_option
 def extract(
     inputfile,
     template,
@@ -269,6 +292,7 @@ def extract(
     use_textract,
     model,
     show_prompt,
+    azure_select,
     **kwargs,
 ):
     """Extract knowledge from text guided by schema, using SPIRES engine.
@@ -277,8 +301,14 @@ def extract(
 
         ontogpt extract -t gocam.GoCamAnnotations -i gocam-27929086.txt
 
-    The input argument must be either a file path or a string.
-    Use the -i/--input-file option followed by the path to the input file if using the former.
+    The input argument may be:
+        A file path,
+        A directory,
+        or a string.
+    Use the -i/--input-file option followed by the path to the input file
+    or directory.
+    If the input is a directory, all files with the .txt extension will be read.
+    This is not recursive.
     Otherwise, the input is assumed to be a string to be read as input.
 
     You can also use fragments of existing schemas, use the --target-class option (-T) to
@@ -286,21 +316,25 @@ def extract(
 
     Example:
 
-        ontogpt -extract -t gocam.GoCamAnnotations -T GeneOrganismRelationship "the mouse Shh gene"
+        ontogpt extract -t gocam.GoCamAnnotations -T GeneOrganismRelationship "the mouse Shh gene"
 
     """
-    logging.info(f"Creating for {template}")
-
     # Choose model based on input, or use the default
     if not model:
         model = DEFAULT_MODEL
     selectmodel = get_model_by_name(model)
-    model_source = selectmodel["provider"]
-    model_name = selectmodel["alternative_names"][0]
+
+    inputlist = []
 
     if not inputfile or inputfile == "-":
         text = sys.stdin.read()
-    if inputfile and Path(inputfile).exists():
+        inputlist.append(text)
+    elif inputfile and Path(inputfile).is_dir():
+        logging.info(f"Input file directory: {inputfile}")
+        inputfiles = Path(inputfile).glob("*.txt")
+        inputlist = [open(f, "r").read() for f in inputfiles if f.is_file()]
+        logging.info(f"Found {len(inputlist)} input files here.")
+    elif inputfile and Path(inputfile).exists():
         logging.info(f"Input file: {inputfile}")
         if use_textract:
             import textract
@@ -309,36 +343,48 @@ def extract(
         else:
             text = open(inputfile, "r").read()
         logging.info(f"Input text: {text}")
+        inputlist.append(text)
     elif inputfile and not Path(inputfile).exists():
         raise FileNotFoundError(f"Cannot find input file {inputfile}")
 
-    if model_source == "OpenAI":
-        ke = SPIRESEngine(template=template, model=model_name, **kwargs)
-        if settings.cache_db:
-            ke.client.cache_db_path = settings.cache_db
-        if settings.skip_annotators:
-            ke.client.skip_annotators = settings.skip_annotators
+    if template:
+        template_details = get_template_details(template=template)
+    else:
+        raise ValueError("No template specified. Use -t/--template option.")
 
-    elif model_source == "GPT4All":
-        ke = GPT4AllEngine(template=template, model=model_name, **kwargs)
-
-    elif model_source == "HuggingFace Hub":
-        raise NotImplementedError("HF Hub support temporarily disabled. Sorry!")
-        # hf_repo_name = selectmodel["hf_repo_name"]
-        # ke = HFHubEngine(template=template, local_model=hf_repo_name, **kwargs)
+    ke = SPIRESEngine(
+        template_details=template_details,
+        model=selectmodel["canonical_name"],
+        model_source=selectmodel["provider"].lower(),
+        use_azure=azure_select,
+        **kwargs,
+    )
+    if settings.cache_db:
+        ke.client.cache_db_path = settings.cache_db
+    if settings.skip_annotators:
+        ke.client.skip_annotators = settings.skip_annotators
 
     if dictionary:
         ke.load_dictionary(dictionary)
     if target_class:
-        target_class_def = ke.schemaview.get_class(target_class)
+        schemaview = template_details[3]
+        target_class_def = schemaview.get_class(target_class)
     else:
         target_class_def = None
-    results = ke.extract_from_text(text=text, cls=target_class_def, show_prompt=show_prompt)
-    if set_slot_value:
-        for slot_value in set_slot_value:
-            slot, value = slot_value.split("=")
-            setattr(results.extracted_object, slot, value)
-    write_extraction(results, output, output_format, ke)
+
+    i = 0
+    for input_entry in inputlist:
+        if len(inputlist) > 1:
+            i = i + 1
+            logging.info(f"Now extracting from file {i} of {len(inputlist)}")
+        results = ke.extract_from_text(
+            text=input_entry, cls=target_class_def, show_prompt=show_prompt
+        )
+        if set_slot_value:
+            for slot_value in set_slot_value:
+                slot, value = slot_value.split("=")
+                setattr(results.extracted_object, slot, value)
+        write_extraction(results, output, output_format, ke, template)
 
 
 @main.command()
@@ -352,29 +398,31 @@ def extract(
 @click.argument("entity")
 def generate_extract(model, entity, template, output, output_format, show_prompt, **kwargs):
     """Generate text and then extract knowledge from it."""
-    logging.info(f"Creating for {template}")
-
     if not model:
         model = DEFAULT_MODEL
     selectmodel = get_model_by_name(model)
-    model_source = selectmodel["provider"]
 
-    if model_source == "OpenAI":
-        ke = SPIRESEngine(template, **kwargs)
-        if settings.cache_db:
-            ke.client.cache_db_path = settings.cache_db
-        if settings.skip_annotators:
-            ke.skip_annotators = settings.skip_annotators
+    if template:
+        template_details = get_template_details(template=template)
+    else:
+        raise ValueError("No template specified. Use -t/--template option.")
 
-    elif model_source == "GPT4All":
-        model_name = selectmodel["alternative_names"][0]
-        ke = GPT4AllEngine(template=template, model=model_name, **kwargs)
+    ke = SPIRESEngine(
+        template_details=template_details,
+        model=selectmodel["canonical_name"],
+        model_source=selectmodel["provider"].lower(),
+        **kwargs,
+    )
+    if settings.cache_db:
+        ke.client.cache_db_path = settings.cache_db
+    if settings.skip_annotators:
+        ke.skip_annotators = settings.skip_annotators
 
     logging.debug(f"Input entity: {entity}")
     results = ke.generate_and_extract(
         entity=entity, prompt_template=template, show_prompt=show_prompt
     )
-    write_extraction(results, output, output_format, ke)
+    write_extraction(results, output, output_format, ke, template)
 
 
 @main.command()
@@ -408,23 +456,25 @@ def iteratively_generate_extract(
     **kwargs,
 ):
     """Iterate through generate-extract."""
-    logging.info(f"Creating for {template}")
-
     if not model:
         model = DEFAULT_MODEL
     selectmodel = get_model_by_name(model)
-    model_source = selectmodel["provider"]
 
-    if model_source == "OpenAI":
-        ke = SPIRESEngine(template, **kwargs)
-        if settings.cache_db:
-            ke.client.cache_db_path = settings.cache_db
-        if settings.skip_annotators:
-            ke.skip_annotators = settings.skip_annotators
+    if template:
+        template_details = get_template_details(template=template)
+    else:
+        raise ValueError("No template specified. Use -t/--template option.")
 
-    elif model_source == "GPT4All":
-        model_name = selectmodel["alternative_names"][0]
-        ke = GPT4AllEngine(template=template, model=model_name, **kwargs)
+    ke = SPIRESEngine(
+        template_details=template_details,
+        model=selectmodel["canonical_name"],
+        model_source=selectmodel["provider"].lower(),
+        **kwargs,
+    )
+    if settings.cache_db:
+        ke.client.cache_db_path = settings.cache_db
+    if settings.skip_annotators:
+        ke.skip_annotators = settings.skip_annotators
 
     logging.debug(f"Input entity: {entity}")
     adapter = get_adapter(ontology)
@@ -437,7 +487,7 @@ def iteratively_generate_extract(
         adapter=adapter,
         clear=clear,
     ):
-        write_extraction(results, output, output_format, ke)
+        write_extraction(results, output, output_format, ke, template)
 
 
 # TODO: combine this command with pubmed_annotate - they are converging
@@ -456,23 +506,25 @@ def iteratively_generate_extract(
 @click.argument("pmid")
 def pubmed_extract(model, pmid, template, output, output_format, get_pmc, show_prompt, **kwargs):
     """Extract knowledge from a single PubMed ID."""
-    logging.info(f"Creating for {template}")
-
     if not model:
         model = DEFAULT_MODEL
     selectmodel = get_model_by_name(model)
-    model_source = selectmodel["provider"]
 
-    if model_source == "OpenAI":
-        ke = SPIRESEngine(template, **kwargs)
-        if settings.cache_db:
-            ke.client.cache_db_path = settings.cache_db
-        if settings.skip_annotators:
-            ke.skip_annotators = settings.skip_annotators
+    if template:
+        template_details = get_template_details(template=template)
+    else:
+        raise ValueError("No template specified. Use -t/--template option.")
 
-    elif model_source == "GPT4All":
-        model_name = selectmodel["alternative_names"][0]
-        ke = GPT4AllEngine(template=template, model=model_name, **kwargs)
+    ke = SPIRESEngine(
+        template_details=template_details,
+        model=selectmodel["canonical_name"],
+        model_source=selectmodel["provider"].lower(),
+        **kwargs,
+    )
+    if settings.cache_db:
+        ke.client.cache_db_path = settings.cache_db
+    if settings.skip_annotators:
+        ke.skip_annotators = settings.skip_annotators
 
     pmc = PubmedClient()
     if get_pmc:
@@ -483,7 +535,7 @@ def pubmed_extract(model, pmid, template, output, output_format, get_pmc, show_p
     for text in textlist:
         logging.debug(f"Input text: {text}")
         results = ke.extract_from_text(text=text, show_prompt=show_prompt)
-        write_extraction(results, output, output_format)
+        write_extraction(results, output, output_format, template)
 
 
 @main.command()
@@ -513,23 +565,25 @@ def pubmed_annotate(
     ontogpt pubmed-annotate -t phenotype "Takotsubo Cardiomyopathy: A Brief Review"
         --get-pmc --model gpt-3.5-turbo-16k --limit 3
     """
-    logging.info(f"Creating for {template}")
-
     if not model:
         model = DEFAULT_MODEL
     selectmodel = get_model_by_name(model)
-    model_source = selectmodel["provider"]
 
-    if model_source == "OpenAI":
-        ke = SPIRESEngine(template, **kwargs)
-        if settings.cache_db:
-            ke.client.cache_db_path = settings.cache_db
-        if settings.skip_annotators:
-            ke.skip_annotators = settings.skip_annotators
+    if template:
+        template_details = get_template_details(template=template)
+    else:
+        raise ValueError("No template specified. Use -t/--template option.")
 
-    elif model_source == "GPT4All":
-        model_name = selectmodel["alternative_names"][0]
-        ke = GPT4AllEngine(template=template, model=model_name, **kwargs)
+    ke = SPIRESEngine(
+        template_details=template_details,
+        model=selectmodel["canonical_name"],
+        model_source=selectmodel["provider"].lower(),
+        **kwargs,
+    )
+    if settings.cache_db:
+        ke.client.cache_db_path = settings.cache_db
+    if settings.skip_annotators:
+        ke.skip_annotators = settings.skip_annotators
 
     pubmed_annotate_limit = limit
     pmc = PubmedClient()
@@ -542,7 +596,7 @@ def pubmed_annotate(
     for text in textlist:
         logging.debug(f"Input text: {text}")
         results = ke.extract_from_text(text=text, show_prompt=show_prompt)
-        write_extraction(results, output, output_format, ke)
+        write_extraction(results, output, output_format, ke, template)
 
 
 @main.command()
@@ -559,18 +613,22 @@ def wikipedia_extract(model, article, template, output, output_format, show_prom
     if not model:
         model = DEFAULT_MODEL
     selectmodel = get_model_by_name(model)
-    model_source = selectmodel["provider"]
 
-    if model_source == "OpenAI":
-        ke = SPIRESEngine(template=template, model=model, **kwargs)
-        if settings.cache_db:
-            ke.client.cache_db_path = settings.cache_db
-        if settings.skip_annotators:
-            ke.skip_annotators = settings.skip_annotators
+    if template:
+        template_details = get_template_details(template=template)
+    else:
+        raise ValueError("No template specified. Use -t/--template option.")
 
-    elif model_source == "GPT4All":
-        model_name = selectmodel["alternative_names"][0]
-        ke = GPT4AllEngine(template=template, model=model_name, **kwargs)
+    ke = SPIRESEngine(
+        template_details=template_details,
+        model=selectmodel["canonical_name"],
+        model_source=selectmodel["provider"].lower(),
+        **kwargs,
+    )
+    if settings.cache_db:
+        ke.client.cache_db_path = settings.cache_db
+    if settings.skip_annotators:
+        ke.skip_annotators = settings.skip_annotators
 
     logging.info(f"Creating for {template} => {article}")
     client = WikipediaClient()
@@ -578,7 +636,7 @@ def wikipedia_extract(model, article, template, output, output_format, show_prom
 
     logging.debug(f"Input text: {text}")
     results = ke.extract_from_text(text=text, show_prompt=show_prompt)
-    write_extraction(results, output, output_format, ke)
+    write_extraction(results, output, output_format, ke, template)
 
 
 @main.command()
@@ -600,14 +658,18 @@ def wikipedia_search(model, topic, keyword, template, output, output_format, sho
     if not model:
         model = DEFAULT_MODEL
     selectmodel = get_model_by_name(model)
-    model_source = selectmodel["provider"]
 
-    if model_source == "OpenAI":
-        ke = SPIRESEngine(template=template, model=model, **kwargs)
+    if template:
+        template_details = get_template_details(template=template)
+    else:
+        raise ValueError("No template specified. Use -t/--template option.")
 
-    elif model_source == "GPT4All":
-        model_name = selectmodel["alternative_names"][0]
-        ke = GPT4AllEngine(template=template, model=model_name, **kwargs)
+    ke = SPIRESEngine(
+        template_details=template_details,
+        model=selectmodel["canonical_name"],
+        model_source=selectmodel["provider"].lower(),
+        **kwargs,
+    )
 
     logging.info(f"Creating for {template} => {topic}")
     client = WikipediaClient()
@@ -627,7 +689,7 @@ def wikipedia_search(model, topic, keyword, template, output, output_format, sho
             # or add as cli option
             text = text[:4000]
         results = ke.extract_from_text(text=text, show_prompt=show_prompt)
-        write_extraction(results, output, output_format, ke)
+        write_extraction(results, output, output_format, ke, template)
         break
 
 
@@ -652,14 +714,18 @@ def search_and_extract(
     if not model:
         model = DEFAULT_MODEL
     selectmodel = get_model_by_name(model)
-    model_source = selectmodel["provider"]
 
-    if model_source == "OpenAI":
-        ke = SPIRESEngine(template, **kwargs)
+    if template:
+        template_details = get_template_details(template=template)
+    else:
+        raise ValueError("No template specified. Use -t/--template option.")
 
-    elif model_source == "GPT4All":
-        model_name = selectmodel["alternative_names"][0]
-        ke = GPT4AllEngine(template=template, model=model_name, **kwargs)
+    ke = SPIRESEngine(
+        template_details=template_details,
+        model=selectmodel["canonical_name"],
+        model_source=selectmodel["provider"].lower(),
+        **kwargs,
+    )
 
     term = " ".join(term_tokens)
     logging.info(f"Creating for {template}; search={term} kw={keyword}")
@@ -680,7 +746,7 @@ def search_and_extract(
     text = pmc.text(pmid)
     logging.info(f"Input text: {text}")
     results = ke.extract_from_text(text=text, show_prompt=show_prompt)
-    write_extraction(results, output, output_format, ke)
+    write_extraction(results, output, output_format, ke, template)
 
 
 @main.command()
@@ -693,30 +759,32 @@ def search_and_extract(
 @click.argument("url")
 def web_extract(model, template, url, output, output_format, show_prompt, **kwargs):
     """Extract knowledge from web page."""
-    logging.info(f"Creating for {template}")
-
     if not model:
         model = DEFAULT_MODEL
     selectmodel = get_model_by_name(model)
-    model_source = selectmodel["provider"]
 
-    if model_source == "OpenAI":
-        ke = SPIRESEngine(template=template, model=model, **kwargs)
-        if settings.cache_db:
-            ke.client.cache_db_path = settings.cache_db
-        if settings.skip_annotators:
-            ke.skip_annotators = settings.skip_annotators
+    if template:
+        template_details = get_template_details(template=template)
+    else:
+        raise ValueError("No template specified. Use -t/--template option.")
 
-    elif model_source == "GPT4All":
-        model_name = selectmodel["alternative_names"][0]
-        ke = GPT4AllEngine(template=template, model=model_name, **kwargs)
+    ke = SPIRESEngine(
+        template_details=template_details,
+        model=selectmodel["canonical_name"],
+        model_source=selectmodel["provider"].lower(),
+        **kwargs,
+    )
+    if settings.cache_db:
+        ke.client.cache_db_path = settings.cache_db
+    if settings.skip_annotators:
+        ke.skip_annotators = settings.skip_annotators
 
     web_client = SoupClient()
     text = web_client.text(url)
 
     logging.debug(f"Input text: {text}")
     results = ke.extract_from_text(text=text, show_prompt=show_prompt)
-    write_extraction(results, output, output_format, ke)
+    write_extraction(results, output, output_format, ke, template)
 
 
 @main.command()
@@ -748,18 +816,22 @@ def recipe_extract(
     if not model:
         model = DEFAULT_MODEL
     selectmodel = get_model_by_name(model)
-    model_source = selectmodel["provider"]
 
-    if model_source == "OpenAI":
-        ke = SPIRESEngine(template, **kwargs)
-        if settings.cache_db:
-            ke.client.cache_db_path = settings.cache_db
-        if settings.skip_annotators:
-            ke.skip_annotators = settings.skip_annotators
+    if template:
+        template_details = get_template_details(template=template)
+    else:
+        raise ValueError("No template specified. Use -t/--template option.")
 
-    elif model_source == "GPT4All":
-        model_name = selectmodel["alternative_names"][0]
-        ke = GPT4AllEngine(template=template, model=model_name, **kwargs)
+    ke = SPIRESEngine(
+        template_details=template_details,
+        model=selectmodel["canonical_name"],
+        model_source=selectmodel["provider"].lower(),
+        **kwargs,
+    )
+    if settings.cache_db:
+        ke.client.cache_db_path = settings.cache_db
+    if settings.skip_annotators:
+        ke.skip_annotators = settings.skip_annotators
 
     if recipes_urls_file:
         with open(recipes_urls_file, "r") as f:
@@ -768,8 +840,6 @@ def recipe_extract(
                 raise ValueError(f"Found {len(urls)} URLs in {recipes_urls_file}")
             url = urls[0]
     scraper = scrape_me(url)
-
-    logging.info(f"Creating for {template}")
 
     if dictionary:
         ke.load_dictionary(dictionary)
@@ -784,7 +854,7 @@ def recipe_extract(
     results = ke.extract_from_text(text=text, show_prompt=show_prompt)
     logging.debug(f"Results: {results}")
     results.extracted_object.url = url
-    write_extraction(results, output, output_format, ke)
+    write_extraction(results, output, output_format, ke, template)
 
 
 @main.command()
@@ -795,26 +865,28 @@ def recipe_extract(
 @click.argument("input")
 def convert(model, template, input, output, output_format, **kwargs):
     """Convert output format."""
-    logging.info(f"Creating for {template}")
-
     if not model:
         model = DEFAULT_MODEL
     selectmodel = get_model_by_name(model)
-    model_source = selectmodel["provider"]
 
-    if model_source == "OpenAI":
-        ke = SPIRESEngine(template, **kwargs)
+    if template:
+        template_details = get_template_details(template=template)
+    else:
+        raise ValueError("No template specified. Use -t/--template option.")
 
-    elif model_source == "GPT4All":
-        model_name = selectmodel["alternative_names"][0]
-        ke = GPT4AllEngine(template=template, model=model_name, **kwargs)
+    ke = SPIRESEngine(
+        template_details=template_details,
+        model=selectmodel["canonical_name"],
+        model_source=selectmodel["provider"].lower(),
+        **kwargs,
+    )
 
     cls = ke.template_pyclass
     with open(input, "r") as f:
         data = yaml.safe_load(f)
     obj = cls(**data["extracted_object"])
     results = ExtractionResult(extracted_object=obj)
-    write_extraction(results, output, output_format, ke)
+    write_extraction(results, output, output_format, ke, template)
 
 
 @main.command()
@@ -829,207 +901,34 @@ def synonyms(model, term, context, output, output_format, **kwargs):
     """Extract synonyms."""
     logging.info(f"Creating for {term}")
 
-    if model:
-        selectmodel = get_model_by_name(model)
-        model_source = selectmodel["provider"]
+    if not model:
+        model = DEFAULT_MODEL
 
-        if model_source != "OpenAI":
-            raise NotImplementedError("Model not yet supported for this function.")
+    selectmodel = get_model_by_name(model)
+    model_name = selectmodel["canonical_name"]
+    model_source = selectmodel["provider"]
 
-    ke = SynonymEngine()
-    out = str(ke.synonyms(term, context))
-    output.write(out)
+    if model_source != "OpenAI":
+        raise NotImplementedError("Model not yet supported for this function.")
 
-
-@main.command()
-@output_option_txt
-@output_format_options
-@click.option(
-    "--annotation-path",
-    "-A",
-    required=True,
-)
-@click.argument("term")
-def create_gene_set(term, output, output_format, annotation_path, **kwargs):
-    """Create a gene set."""
-    logging.info(f"Creating for {term}")
-    evaluator = EvalEnrichment()
-    evaluator.load_annotations(annotation_path)
-    gene_set = evaluator.create_gene_set_from_term(term)
-    print(yaml.dump(gene_set.dict(), sort_keys=False))
-
-
-@main.command()
-@output_option_txt
-@output_format_options
-@click.option("--fill/--no-fill", default=False)
-@click.option(
-    "--input-file",
-    "-U",
-    help="File with gene IDs to enrich (if not passed as arguments)",
-)
-def convert_geneset(input_file, output, output_format, fill, **kwargs):
-    """Convert gene set to YAML."""
-    gene_set = parse_gene_set(input_file)
-    if fill:
-        fill_missing_gene_set_values(gene_set)
-    output.write(dump_minimal_yaml(gene_set.dict()))
+    ke = SynonymEngine(model=model_name, model_source=model_source.lower())
+    out = ke.synonyms(term, context)
+    for line in out:
+        output.write(f"{line}\n")
 
 
 @main.command()
 @output_option_txt
 @output_format_options
 @model_option
-@show_prompt_option
-@click.option(
-    "--resolver", "-r", help="OAK selector for the gene ID resolver. E.g. sqlite:obo:hgnc"
-)
-@click.option(
-    "-C",
-    "--context",
-    help="domain e.g. anatomy, industry, health-related (NOT IMPLEMENTED - currently gene only)",
-)
-@click.option(
-    "--strict/--no-strict",
-    default=True,
-    show_default=True,
-    help="If set, there must be a unique mappings from labels to IDs",
-)
-@click.option(
-    "--input-file",
-    "-U",
-    help="File with gene IDs to enrich (if not passed as arguments)",
-)
-@click.option(
-    "--randomize-gene-descriptions-using-file",
-    help="FOR EVALUATION ONLY. Swap out gene descriptions with genes from this gene set filefile",
-)
-@click.option(
-    "--ontological-synopsis/--no-ontological-synopsis",
-    default=True,
-    show_default=True,
-    help="If set, use automated rather than manual gene descriptions",
-)
-@click.option(
-    "--combined-synopsis/--no-combined-synopsis",
-    default=False,
-    show_default=True,
-    help="If set, both gene descriptions",
-)
-@click.option(
-    "--end-marker",
-    help="For testing minor variants of prompts",
-)
-@click.option(
-    "--annotations/--no-annotations",
-    default=True,
-    show_default=True,
-    help="If set, include annotations in the prompt",
-)
-@prompt_template_option
-@interactive_option
-@click.argument("genes", nargs=-1)
-def enrichment(
-    genes,
-    context,
-    input_file,
-    resolver,
-    output,
-    model,
-    show_prompt,
-    interactive,
-    end_marker,
-    output_format,
-    randomize_gene_descriptions_using_file,
-    **kwargs,
-):
-    """Gene class summary enriching (SPINDOCTOR).
-
-    Algorithm:
-
-    1. Map gene symbols to IDs using the resolver (unless IDs specified)
-    2. Fetch gene descriptions using Alliance API
-    3. Create a prompt using descriptions
-
-    Limitations:
-
-    It is very easy to exceed the max token length with GPT-3 models.
-
-    Usage:
-
-        ontogpt enrichment -r sqlite:obo:hgnc -U tests/input/genesets/dopamine.yaml
-
-    Usage:
-
-        ontogpt enrichment -r sqlite:obo:hgnc -U tests/input/genesets/dopamine.yaml
-    """
-    if model:
-        selectmodel = get_model_by_name(model)
-        model_source = selectmodel["provider"]
-
-        if model_source != "OpenAI":
-            raise NotImplementedError(
-                "Model not yet supported for gene enrichment or enrichment evaluation."
-            )
-
-    if not genes and not input_file:
-        raise ValueError("Either genes or input file must be passed")
-    if genes:
-        gene_set = GeneSet(name="TEMP", gene_symbols=genes)
-    if input_file:
-        if genes:
-            raise ValueError("Either genes or input file must be passed")
-        gene_set = parse_gene_set(input_file)
-    if not gene_set:
-        raise ValueError("No genes passed")
-    ke = create_engine(None, EnrichmentEngine, model=model)
-    if end_marker:
-        ke.end_marker = end_marker
-    if interactive:
-        ke.client.interactive = True
-    if settings.cache_db:
-        ke.client.cache_db_path = settings.cache_db
-    if not isinstance(ke, EnrichmentEngine):
-        raise ValueError(f"Expected EnrichmentEngine, got {type(ke)}")
-    if resolver:
-        ke.add_resolver(resolver)
-    if randomize_gene_descriptions_using_file:
-        print("WARNING!! Randomly spiking gene descriptions")
-        spike_gene_set = parse_gene_set(randomize_gene_descriptions_using_file)
-        aliases = {}
-        if not spike_gene_set.gene_symbols:
-            raise ValueError("No gene symbols for spike set")
-        syms = copy(gene_set.gene_symbols)
-        if len(spike_gene_set.gene_symbols) < len(gene_set.gene_symbols):
-            raise ValueError("Not enough genes in spike set")
-        for sym in spike_gene_set.gene_symbols:
-            if not syms:
-                break
-            aliases[sym] = syms.pop()
-        results = ke.summarize(
-            spike_gene_set, normalize=resolver is not None, gene_aliases=aliases, **kwargs
-        )
-    else:
-        results = ke.summarize(gene_set, normalize=resolver is not None, **kwargs)
-    if results.truncation_factor is not None and results.truncation_factor < 1.0:
-        logging.warning(f"Text was truncated; factor = {results.truncation_factor}")
-    output = _as_text_writer(output)
-    if show_prompt:
-        print(results.prompt)
-    output.write(dump_minimal_yaml(results))
-
-
-@main.command()
-@output_option_txt
-@output_format_options
-@model_option
+@azure_select_option
 @click.option(
     "-C",
     "--context",
     help="domain e.g. anatomy, industry, health-related (NOT IMPLEMENTED - currently gene only)",
 )
 @click.argument("text", nargs=-1)
-def embed(text, context, output, model, output_format, **kwargs):
+def embed(text, context, output, model, output_format, azure_select, **kwargs):
     """Embed text.
 
     Not currently supported for open models.
@@ -1046,7 +945,7 @@ def embed(text, context, output, model, output_format, **kwargs):
     if not text:
         raise ValueError("Text must be passed")
 
-    client = OpenAIClient(model=model)
+    client = OpenAIClient(model=model, use_azure=azure_select)
     resp = client.embeddings(text)
     print(resp)
 
@@ -1055,13 +954,14 @@ def embed(text, context, output, model, output_format, **kwargs):
 @output_option_txt
 @output_format_options
 @model_option
+@azure_select_option
 @click.option(
     "-C",
     "--context",
     help="domain e.g. anatomy, industry, health-related (NOT IMPLEMENTED - currently gene only)",
 )
 @click.argument("text", nargs=-1)
-def text_similarity(text, context, output, model, output_format, **kwargs):
+def text_similarity(text, context, output, model, output_format, azure_select, **kwargs):
     """Embed text.
 
     Not currently supported for open models.
@@ -1086,7 +986,7 @@ def text_similarity(text, context, output, model, output_format, **kwargs):
     print(text1)
     print(text2)
 
-    client = OpenAIClient(model=model)
+    client = OpenAIClient(model=model, use_azure=azure_select)
     sim = client.similarity(text1, text2, model=model)
     print(sim)
 
@@ -1095,13 +995,14 @@ def text_similarity(text, context, output, model, output_format, **kwargs):
 @output_option_txt
 @output_format_options
 @model_option
+@azure_select_option
 @click.option(
     "-C",
     "--context",
     help="domain e.g. anatomy, industry, health-related (NOT IMPLEMENTED - currently gene only)",
 )
 @click.argument("text", nargs=-1)
-def text_distance(text, context, output, model, output_format, **kwargs):
+def text_distance(text, context, output, model, output_format, azure_select, **kwargs):
     """Embed text and calculate euclidian distance between embeddings.
 
     Not currently supported for open models.
@@ -1126,7 +1027,7 @@ def text_distance(text, context, output, model, output_format, **kwargs):
     print(text1)
     print(text2)
 
-    client = OpenAIClient(model=model)
+    client = OpenAIClient(model=model, use_azure=azure_select)
     sim = client.euclidian_distance(text1, text2, model=model)
     print(sim)
 
@@ -1277,8 +1178,18 @@ def diagnose(
     **kwargs,
 ):
     """Diagnose a clinical case represented as one or more Phenopackets."""
+    if not phenopacket_files:
+        raise ValueError("No phenopacket files specified. Please provide one or more files.")
+
+    if not model:
+        model = DEFAULT_MODEL
+
+    selectmodel = get_model_by_name(model)
+    model_name = selectmodel["canonical_name"]
+    model_source = selectmodel["provider"]
+
     phenopackets = [json.load(open(f)) for f in phenopacket_files]
-    engine = PhenoEngine(model=model)
+    engine = PhenoEngine(model=model_name, model_source=model_source.lower())
     results = engine.evaluate(phenopackets)
     print(dump_minimal_yaml(results))
     write_obj_as_csv(results, output)
@@ -1368,87 +1279,6 @@ def categorize_mappings(
 
 
 @main.command()
-@output_option_txt
-@click.option(
-    "--strict/--no-strict",
-    default=True,
-    show_default=True,
-    help="If set, there must be a unique mappings from labels to IDs",
-)
-@click.option(
-    "--input-file",
-    "-U",
-    help="File with gene IDs to enrich (if not passed as arguments)",
-)
-@click.option(
-    "--ontological-synopsis/--no-ontological-synopsis",
-    default=True,
-    show_default=True,
-    help="If set, use automated rather than manual gene descriptions",
-)
-@click.option(
-    "--combined-synopsis/--no-combined-synopsis",
-    default=False,
-    show_default=True,
-    help="If set, both gene descriptions",
-)
-@click.option(
-    "--annotations/--no-annotations",
-    default=True,
-    show_default=True,
-    help="If set, include annotations in the prompt",
-)
-@click.option(
-    "--number-to-drop",
-    "-n",
-    type=click.types.INT,
-    default=1,
-    help="Max number of genes to drop",
-)
-# @click.option(
-#    "--randomize-gene-descriptions/--no-randomize-gene-descriptions",
-#    help="DO NOT USE EXCEPT FOR EVALUATION PUPOSES."
-# )
-@click.option(
-    "--annotations-path",
-    "-A",
-    help="Path to annotations",
-)
-@model_option
-@click.argument("genes", nargs=-1)
-def eval_enrichment(genes, input_file, number_to_drop, annotations_path, model, output, **kwargs):
-    """Run enrichment using multiple methods."""
-    if model:
-        selectmodel = get_model_by_name(model)
-        model_source = selectmodel["provider"]
-
-        if model_source != "OpenAI":
-            raise NotImplementedError(
-                "Model not yet supported for gene enrichment or enrichment evaluation."
-            )
-
-    if not genes and not input_file:
-        raise ValueError("Either genes or input file must be passed")
-    if genes:
-        gene_set = GeneSet(name="TEMP", gene_symbols=genes)
-    if input_file:
-        if genes:
-            raise ValueError("Either genes or input file must be passed")
-        gene_set = parse_gene_set(input_file)
-    if not gene_set:
-        raise ValueError("No genes passed")
-    fill_missing_gene_set_values(gene_set)
-    if not annotations_path:
-        if not _is_human(gene_set):
-            raise ValueError("No annotations path passed")
-        annotations_path = "tests/input/genes2go.tsv.gz"
-    eval_engine = EvalEnrichment(model=model)
-    eval_engine.load_annotations(annotations_path)
-    comps = eval_engine.evaluate_methods_on_gene_set(gene_set, n=number_to_drop, **kwargs)
-    output.write(dump_minimal_yaml(comps))
-
-
-@main.command()
 @recurse_option
 @model_option
 @output_option_txt
@@ -1464,7 +1294,7 @@ def eval_enrichment(genes, input_file, number_to_drop, annotations_path, model, 
     default=False,
     show_default=True,
     help="If set, chunk input text, then prepare a separate prompt for each chunk."
-            " Otherwise the full input text is passed.",
+    " Otherwise the full input text is passed.",
 )
 @click.argument("evaluator")
 def eval(evaluator, num_tests, output, chunking, model, **kwargs):
@@ -1473,14 +1303,13 @@ def eval(evaluator, num_tests, output, chunking, model, **kwargs):
 
     if model:
         selectmodel = get_model_by_name(model)
-        modelname = selectmodel["alternative_names"][0]
+        modelname = selectmodel["canonical_name"]
     else:
         modelname = DEFAULT_MODEL
 
-    evaluator = create_evaluator(name=evaluator,
-                                 num_tests=num_tests,
-                                 chunking=chunking,
-                                 model=modelname)
+    evaluator = create_evaluator(
+        name=evaluator, num_tests=num_tests, chunking=chunking, model=modelname
+    )
     eos = evaluator.eval()
     output.write(dump_minimal_yaml(eos, minimize=False))
 
@@ -1496,21 +1325,24 @@ def eval(evaluator, num_tests, output, chunking, model, **kwargs):
 @click.argument("object")
 def fill(model, template, object: str, examples, output, output_format, show_prompt, **kwargs):
     """Fill in missing values."""
-    logging.info(f"Creating for {template}")
-
     ke: KnowledgeEngine
 
     # Choose model based on input, or use the default
     if not model:
         model = DEFAULT_MODEL
     selectmodel = get_model_by_name(model)
-    model_source = selectmodel["provider"]
 
-    if model_source == "OpenAI":
-        ke = SPIRESEngine(template=template, **kwargs)
+    if template:
+        template_details = get_template_details(template=template)
     else:
-        model_name = selectmodel["alternative_names"][0]
-        ke = GPT4AllEngine(template=template, model=model_name, **kwargs)
+        raise ValueError("No template specified. Use -t/--template option.")
+
+    ke = SPIRESEngine(
+        template_details=template_details,
+        model=selectmodel["canonical_name"],
+        model_source=selectmodel["provider"].lower(),
+        **kwargs,
+    )
 
     object = yaml.safe_load(object)
     logging.info(f"Object to fill =  {object}")
@@ -1526,7 +1358,7 @@ def fill(model, template, object: str, examples, output, output_format, show_pro
 def openai_models(**kwargs):
     """List OpenAI models for prompt completion."""
     ai = OpenAIClient()
-    for model in openai.Model.list():
+    for model in client.models.list():
         print(model)
 
 
@@ -1535,24 +1367,22 @@ def openai_models(**kwargs):
 @output_option_txt
 @output_format_options
 @show_prompt_option
+@azure_select_option
 @click.argument("input")
-def complete(model, input, output, output_format, show_prompt, **kwargs):
+def complete(model, input, output, output_format, show_prompt, azure_select, **kwargs):
     """Prompt completion."""
     if not model:
         model = DEFAULT_MODEL
     selectmodel = get_model_by_name(model)
     model_source = selectmodel["provider"]
-    model_name = selectmodel["alternative_names"][0]
+    model_name = selectmodel["canonical_name"]
 
     text = open(input).read()
 
+    # TODO: add support for other models
     if model_source == "OpenAI":
-        c = OpenAIClient(model=model_name)
+        c = OpenAIClient(model=model, use_azure=azure_select)
         results = c.complete(prompt=text, show_prompt=show_prompt)
-
-    elif model_source == "GPT4All":
-        c = set_up_gpt4all_model(modelname=model_name)
-        results = chain_gpt4all_model(model=c, prompt_text=text)
 
     output.write(results)
 
@@ -1562,8 +1392,12 @@ def complete(model, input, output, output_format, show_prompt, **kwargs):
 @click.option("--input", "-i", type=click.File("r"), default=sys.stdin, help="Input file")
 def parse(template, input):
     """Parse OpenAI results."""
-    logging.info(f"Creating for {template}")
-    ke = SPIRESEngine(template)
+    if template:
+        template_details = get_template_details(template=template)
+    else:
+        raise ValueError("No template specified. Use -t/--template option.")
+
+    ke = SPIRESEngine(template_details=template_details)
     text = input.read()
     logging.debug(f"Input text: {text}")
     # ke.annotator = BioPortalImplementation()
@@ -1577,12 +1411,13 @@ def parse(template, input):
 @model_option
 @click.option("-m", "match", help="Match string to use for filtering.")
 @click.option("-D", "database", help="Path to sqlite database.")
-def dump_completions(model, match, database, output, output_format):
+@azure_select_option
+def dump_completions(model, match, database, output, output_format, azure_select):
     """Dump cached completions."""
     if model:
         raise NotImplementedError("Caching not currently enabled for this model.")
     else:
-        client = OpenAIClient()
+        client = OpenAIClient(model=model, use_azure=azure_select)
 
     if database:
         client.cache_db_path = database
@@ -1658,6 +1493,7 @@ def halo(model, input, context, terms, output, **kwargs):
 @click.option(
     "--sections", multiple=True, help="sections to include e.g. medications, vital signs, etc."
 )
+@azure_select_option
 def clinical_notes(
     description,
     sections,
@@ -1665,6 +1501,7 @@ def clinical_notes(
     model,
     show_prompt,
     output_format,
+    azure_select,
     **kwargs,
 ):
     """Create mock clinical notes.
@@ -1684,32 +1521,73 @@ def clinical_notes(
         model = DEFAULT_MODEL
     selectmodel = get_model_by_name(model)
     model_source = selectmodel["provider"]
-    model_name = selectmodel["alternative_names"][0]
+    model_name = selectmodel["canonical_name"]
 
+    # TODO: add support for other models
     if model_source == "OpenAI":
-        c = OpenAIClient(model=model_name)
+        c = OpenAIClient(model=model, use_azure=azure_select)
         results = c.complete(prompt=prompt, show_prompt=show_prompt)
-
-    elif model_source == "GPT4All":
-        c = set_up_gpt4all_model(modelname=model_name)
-        results = chain_gpt4all_model(model=c, prompt_text=prompt)
 
     output.write(results)
 
 
 @main.command()
 def list_templates():
-    """List the templates."""
-    print("TODO")
+    """List the available extraction templates."""
+    http_prefixes = ("http", "https")
+
+    # Get the list of yaml files in the templates directory
+    # and populate a dict
+    all_templates = {}
+    template_dir = Path(__file__).parent / "templates"
+    template_paths = [f for f in template_dir.glob("*.yaml")]
+    for template_path in template_paths:
+        with open(template_path, "r") as template_file:
+            data = yaml.safe_load(template_file)
+            if data["id"].startswith(http_prefixes):
+                identifier = data["id"].split("/")[-1]
+            else:
+                identifier = data["id"]
+            all_templates[identifier] = (data["name"], data["description"])
+
+    # Sort that dict by id
+    all_templates = dict(sorted(all_templates.items()))
+
+    # Write it out
+    print("ID\tName\tDescription")
+    for template_id, (name, description) in all_templates.items():
+        print(f"{template_id}\t{name}\t{description}")
 
 
 @main.command()
 def list_models():
-    """List all available models."""
-    print("Model Name\tProvider\tAlternative Names\tStatus\tDisk Space\tSystem Memory")
+    """List all available models.
+
+    The following values are provided:
+
+    Model Name: OntoGPT's name for the model. Use this with the -m/--model option.
+
+    Provider: The service provider for the model.
+
+    Canonical Name: The name of the model as provided by the service provider.
+
+    Alternative Names: Other names for the model.
+
+    Status: Whether the model is currently implemented or deprecated.
+
+    Disk Space: The space required for the model to be stored on your local disk.
+    "N/A" means the model is not stored locally.
+
+    System Memory: The memory required for the model to run on your system.
+    "N/A" means the model is not stored locally.
+    """
+    print(
+        "Model Name\tProvider\tCanonical Name\tAlternative Names\tStatus\tDisk Space\tSystem Memory"
+    )
     for model in MODELS:
         primary_name = model["name"]
         provider = model["provider"]
+        canonical = model["canonical_name"]
         alternative_names = (
             " ".join(model["alternative_names"]) if model["alternative_names"] else ""
         )
@@ -1720,7 +1598,10 @@ def list_models():
         disk = model["requirements"]["diskspace"]
         memory = model["requirements"]["memory"]
 
-        print(f"{primary_name}\t{provider}\t{alternative_names}\t{status}\t{disk}\t{memory}")
+        print(
+            f"{primary_name}\t{provider}\t{canonical}\t{alternative_names}\t"
+            f"{status}\t{disk}\t{memory}"
+        )
 
 
 if __name__ == "__main__":

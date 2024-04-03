@@ -1,0 +1,1475 @@
+---
+id: https://w3id.org/bridge2ai/data-sheets-schema
+name: data-sheets-schema
+title: data-sheets-schema
+description: |-
+  A LinkML schema for Datasheets for Datasets.
+license: MIT
+see_also:
+  - https://bridge2ai.github.io/data-sheets-schema
+
+prefixes:
+  rdf: http://www.w3.org/1999/02/22-rdf-syntax-ns#
+  biolink: https://w3id.org/biolink/
+  csvw: http://www.w3.org/ns/csvw#
+  data_sheets_schema: https://w3id.org/bridge2ai/data-sheets-schema/
+  datasets: https://w3id.org/linkml/report
+  dcat: http://www.w3.org/ns/dcat#
+  example: https://example.org/
+  formats: http://www.w3.org/ns/formats/
+  frictionless: https://specs.frictionlessdata.io/
+  linkml: https://w3id.org/linkml/
+  mediatypes: https://www.iana.org/assignments/media-types/
+  pav: http://purl.org/pav/
+  schema: http://schema.org/
+  sh: https://w3id.org/shacl/
+  skos: http://www.w3.org/2004/02/skos/core#
+  void: http://rdfs.org/ns/void#
+default_prefix: data_sheets_schema
+default_range: string
+
+imports:
+  - linkml:types
+
+## TYPES ##
+
+types:
+  ror_identifier:
+    description: Identifier from Research Organization Registry.
+    typeof: uriorcurie
+    id_prefixes:
+      - ror
+  wikidata_identifier:
+    description: Identifier from Wikidata open knowledge base.
+    typeof: uriorcurie
+    id_prefixes:
+      - wikidata
+
+## SUBSETS ##
+subsets:
+  Motivation:
+    description: >-
+      The questions in this section are primarily intended to encourage dataset
+      creators to clearly articulate their reasons for creating the dataset and
+      to promote transparency about funding interests. The latter may be
+      particularly relevant for datasets created for research purposes.
+  Composition:
+    description: >-
+      The questions in this section are intended to provide dataset consumers
+      with the information they need to make informed decisions about using the
+      dataset for their chosen tasks. Some of the questions are designed to
+      elicit information about compliance with the EU’s General Data Protection
+      Regulation (GDPR) or comparable regulations in other jurisdictions.
+  Collection:
+    description: >-
+      The questions in this section are designed to elicit information that may
+      help researchers and practitioners to create alternative datasets with
+      similar characteristics.
+  Preprocessing-Cleaning-Labeling:
+    description: >-
+      The questions in this section are intended to provide dataset consumers
+      with the information they need to determine whether the “raw” data has
+      been processed in ways that are compatible with their chosen tasks.
+  Uses:
+    description: >-
+      The questions in this section are intended to encourage dataset creators
+      to reflect on the tasks for which the dataset should and should not be
+      used.
+  Distribution:
+    description: >-
+      The questions in this section pertain to dataset distribution.
+  Maintenance:
+    description: >-
+      The questions in this section are intended to encourage dataset creators
+      to plan for dataset maintenance and communicate this plan to dataset
+      consumers.
+
+## CLASSES ##
+classes:
+
+  NamedThing:
+    description: >-
+      A generic grouping for any identifiable entity
+    slots:
+      - id
+      - name
+      - description
+    close_mappings:
+      - schema:Thing
+
+  # Adapted from linkml Datasets schema - see
+  # https://github.com/linkml/linkml-model/blob/main/linkml_model/model/schema/datasets.yaml
+  Information:
+    abstract: true
+    description: Grouping for datasets and data files
+    close_mappings:
+      - schema:CreativeWork
+    slots:
+      - compression
+      - conforms_to
+      - conforms_to_class
+      - conforms_to_schema
+      - created_by
+      - created_on
+      - description
+      - doi
+      - download_url
+      - id
+      - issued
+      - keywords
+      - language
+      - last_updated_on
+      - license
+      - modified_by
+      - page
+      - publisher
+      - status
+      - title
+      - version
+      - was_derived_from
+
+  # From linkml Datasets schema - see
+  # https://github.com/linkml/linkml-model/blob/main/linkml_model/model/schema/datasets.yaml
+  FormatDialect:
+    description: Additional format information for a file
+    attributes:
+      comment_prefix:
+      delimiter:
+      double_quote:
+      header:
+      quote_char:
+
+  Person:
+    description: An individual human being.
+    is_a: NamedThing
+    attributes:
+      affiliation:
+        description: >-
+          The organization(s) to which the person belongs.
+        range: Organization
+        multivalued: true
+      email:
+        description: >-
+          The email address of the person.
+        range: string
+
+  # TODO: align with the Bridge2AI Standards Schema equivalent class
+  Organization:
+    description: A collection of people acting in common interests.
+    is_a: NamedThing
+    attributes:
+      email:
+        description: >-
+          The email address of the organization.
+        range: string
+      ror_id:
+        description: Unique ROR identifier.
+        examples:
+          - value: ROR:02mp31p96
+        range: ror_identifier
+        values_from:
+          - ROR
+      wikidata_id:
+        description: Unique Wikidata identifier.
+        examples:
+          - value: WIKIDATA:Q282186
+        range: wikidata_identifier
+        values_from:
+          - WIKIDATA
+
+  DatasetProperty:
+    # Individual properties have their own attributes
+    description: >-
+      Represents a single property of a dataset, or a set of related properties.
+    is_a: NamedThing
+    attributes:
+      used_software:
+        description: >-
+          What software was used as part of this dataset property?
+        range: Software
+        multivalued: true
+
+  DatasetCollection:
+    aliases:
+      - file collection
+      - dataset collection
+      - data resource collection
+    tree_root: true
+    description: >-
+      A collection of related datasets, likely containing multiple files
+      of multiple potential purposes and properties.
+    exact_mappings:
+      - dcat:Dataset
+    close_mappings:
+      - dcat:Catalog
+    is_a: Information
+    attributes:
+      resources:
+        range: Dataset
+        multivalued: true
+
+  Dataset:
+    aliases:
+      - data resource
+      - data file
+      - data package
+    class_uri: dcat:Distribution
+    exact_mappings:
+      - schema:DataDownload
+    see_also:
+      - https://specs.frictionlessdata.io/data-resource
+    description: >-
+      A single component of related observations and/or information that can be
+      read, manipulated, transformed, and otherwise interpreted.
+    is_a: Information
+    slots:
+      - bytes
+      - dialect
+      - encoding
+      - format
+      - hash
+      - md5
+      - media_type
+      - path
+      - sha256
+    attributes:
+      purposes:
+        range: Purpose
+        multivalued: true
+      tasks:
+        range: Task
+        multivalued: true
+      addressing_gaps:
+        range: AddressingGap
+        multivalued: true
+      creators:
+        range: Creator
+        multivalued: true
+      funders:
+        range: FundingMechanism
+        multivalued: true
+      subsets:
+        range: DataSubset
+        multivalued: true
+        slot_uri: dcat:distribution
+        exact_mappings:
+          - schema:distribution
+      instances:
+        range: Instance
+        multivalued: true
+      anomalies:
+        range: DataAnomaly
+        multivalued: true
+      external_resources:
+        range: ExternalResource
+        multivalued: true
+      confidential_elements:
+        range: Confidentiality
+        multivalued: true
+      content_warnings:
+        range: ContentWarning
+        multivalued: true
+      subpopulations:
+        range: Subpopulation
+        multivalued: true
+      sensitive_elements:
+        range: SensitiveElement
+        multivalued: true
+      acquisition_methods:
+        range: InstanceAcquisition
+        multivalued: true
+      collection_mechanisms:
+        range: CollectionMechanism
+        multivalued: true
+      sampling_strategies:
+        range: SamplingStrategy
+        multivalued: true
+      data_collectors:
+        range: DataCollector
+        multivalued: true
+      collection_timeframes:
+        range: CollectionTimeframe
+        multivalued: true
+      ethical_reviews:
+        range: EthicalReview
+        multivalued: true
+      data_protection_impacts:
+        range: DataProtectionImpact
+        multivalued: true
+      preprocessing_strategies:
+        range: PreprocessingStrategy
+        multivalued: true
+      cleaning_strategies:
+        range: CleaningStrategy
+        multivalued: true
+      labeling_strategies:
+        range: LabelingStrategy
+        multivalued: true
+      raw_sources:
+        range: RawData
+        multivalued: true
+      existing_uses:
+        range: ExistingUse
+        multivalued: true
+      use_repository:
+        range: UseRepository
+        multivalued: true
+      other_tasks:
+        range: OtherTask
+        multivalued: true
+      future_use_impacts:
+        range: FutureUseImpact
+        multivalued: true
+      discouraged_uses:
+        range: DiscouragedUse
+        multivalued: true
+      distribution_formats:
+        range: DistributionFormat
+        multivalued: true
+      distribution_dates:
+        range: DistributionDate
+        multivalued: true
+      license_and_use_terms:
+        range: LicenseAndUseTerms
+      ip_restrictions:
+        range: IPRestrictions
+      regulatory_restrictions:
+        range: ExportControlRegulatoryRestrictions
+      maintainers:
+        range: Maintainer
+        multivalued: true
+      errata:
+        range: Erratum
+        multivalued: true
+      updates:
+        range: UpdatePlan
+      retention_limit:
+        range: RetentionLimits
+      version_access:
+        range: VersionAccess
+      extension_mechanism:
+        range: ExtensionMechanism
+      is_deidentified:
+        range: Deidentification
+      is_tabular:
+        range: string
+
+  DataSubset:
+    description: >-
+      A subset of a dataset, likely containing multiple files
+      of multiple potential purposes and properties.
+    is_a: Dataset
+    attributes:
+      is_data_split:
+        description: >-
+          Is this subset a split of the larger dataset,
+          e.g., is it a set for model training, testing,
+          or validation?
+        range: string
+      is_subpopulation:
+        description: >-
+          Is this subset a subpopulation of the larger dataset,
+          e.g., is it a set of data for a specific demographic?
+        range: string
+
+  Software:
+    description: >-
+      A software program or library.
+    is_a: NamedThing
+    attributes:
+      version:
+        range: string
+      license:
+        range: string
+      url:
+        range: string
+
+  Purpose:
+    description: >-
+      For what purpose was the dataset created?
+    is_a: DatasetProperty
+    attributes:
+      response:
+        range: string
+    in_subset:
+      - Motivation
+
+  Task:
+    description: >-
+      Was there a specific task in mind for the dataset's application?
+    is_a: DatasetProperty
+    attributes:
+      response:
+        range: string
+    in_subset:
+      - Motivation
+
+  AddressingGap:
+    description: >-
+      Was there a specific gap that needed to be filled by creation of the
+      dataset?
+    is_a: DatasetProperty
+    attributes:
+      response:
+        range: string
+    in_subset:
+      - Motivation
+
+  Creator:
+    description: >-
+      Who created the dataset (e.g., which team, research group) and on behalf
+      of which entity (e.g., company, institution, organization)?
+      This may also be considered a team.
+    is_a: DatasetProperty
+    attributes:
+      principal_investigator:
+        range: Person
+      affiliation:
+        # Note that creators have affiliations which may differ
+        # from that of their members
+        range: Organization
+    in_subset:
+      - Motivation
+
+  FundingMechanism:
+    description: >-
+      Who funded the creation of the dataset? If there is an associated grant,
+      please provide the name of the grantor and the grant name and number.
+    is_a: DatasetProperty
+    attributes:
+      grantor:
+        range: Grantor
+      grant:
+        range: Grant
+    in_subset:
+      - Motivation
+
+  Grantor:
+    # Note this will have a name slot due to being a NamedThing
+    description: >-
+      What is the name and/or identifier of the organization providing
+      monetary support or other resources supporting creation of the dataset?
+    is_a: Organization
+
+  Grant:
+    # Note this will have a name slot due to being a NamedThing
+    description: >-
+      What is the name and/or identifier of the specific mechanism providing
+      monetary support or other resources supporting creation of the dataset?
+    is_a: NamedThing
+    attributes:
+      grant_number:  # TODO: formalize this more - probably not a URI though
+        description: The alphanumeric identifier for the grant.
+        range: string
+
+  Instance:
+    # Note this does not model the instance itself, but rather the
+    # description of each instance type or class.
+    description: >-
+      What do the instances that comprise the dataset represent (e.g.,
+      documents, photos, people, countries)?
+    is_a: DatasetProperty
+    attributes:
+      representation:  # TODO: align with Bridge2AI Standards Schema topics
+        range: string
+      instance_type:
+        description: >-
+          Are there multiple types of instances (e.g., movies, users, and
+          ratings; people and interactions between them; nodes and edges)?
+        range: string
+      data_type:  # TODO: align with Bridge2AI Standards Schema types
+        description: >-
+          What data does each instance consist of? “Raw” data (e.g., unprocessed
+          text or images) or features? In either case, please provide a
+          description.
+        range: string
+      counts:
+        description: >-
+          How many instances are there in total (of each type, if appropriate)?
+        range: integer
+      label:  # TODO: clarify what this means - it's fuzzy, and maybe redundant
+        description: >-
+          Is there a label or target associated with each instance?
+        range: string
+      sampling_strategies:
+        range: SamplingStrategy
+        multivalued: true
+      missing_information:
+        range: MissingInfo
+        multivalued: true
+    in_subset:
+      - Composition
+
+  SamplingStrategy:
+    description: >-
+      Does the dataset contain all possible instances or is it a sample (not
+      necessarily random) of instances from a larger set? If the dataset is a
+      sample, then what is the larger set? Is the sample representative of the
+      larger set (e.g., geographic coverage)? If so, please describe how this
+      representativeness was validated/verified. If it is not representative of
+      the larger set, please describe why not (e.g., to cover a more diverse
+      range of instances, because instances were withheld or unavailable).
+    is_a: DatasetProperty
+    attributes:
+      is_sample:
+        range: string
+        multivalued: true
+      is_random:
+        range: string
+        multivalued: true
+      source_data:
+        range: string
+        multivalued: true
+      is_representative:
+        range: string
+        multivalued: true
+      representative_verification:
+        range: string
+        multivalued: true
+      why_not_representative:
+        range: string
+        multivalued: true
+      strategies:
+        description: >-
+          If the dataset is a sample from a larger set, what was the sampling
+          strategy (e.g., deterministic, probabilistic with specific sampling
+          probabilities)?
+        range: string
+        multivalued: true
+    in_subset:
+      - Composition
+      - Collection
+
+  MissingInfo:
+    description: >-
+      Is any information missing from individual instances? If so, please
+      provide a description, explaining why this information is missing (e.g.,
+      because it was unavailable). This does not include intentionally removed
+      information, but might include, e.g., redacted text.
+    is_a: DatasetProperty
+    attributes:
+      missing:
+        range: string
+        multivalued: true
+      why_missing:
+        range: string
+        multivalued: true
+    in_subset:
+      - Composition
+
+  Relationships:
+    description: >-
+      Are relationships between individual instances made explicit (e.g., users’
+      movie ratings, social network links)? If so, please describe how these
+      relationships are made explicit.
+    is_a: DatasetProperty
+    attributes:
+      description:
+        range: string
+        multivalued: true
+    in_subset:
+      - Composition
+
+  Splits:
+    description: >-
+      Are there recommended data splits (e.g., training, development/validation,
+      testing)? If so, please provide a description of these splits, explaining
+      the rationale behind them.
+    is_a: DatasetProperty
+    attributes:
+      description:
+        range: string
+        multivalued: true
+    in_subset:
+      - Composition
+
+  DataAnomaly:
+    description: >-
+      Are there any errors, sources of noise, or redundancies in the dataset?
+      If so, please provide a description.
+    is_a: DatasetProperty
+    attributes:
+      description:
+        range: string
+        multivalued: true
+    in_subset:
+      - Composition
+
+  ExternalResource:
+    description: >-
+      Is the dataset self-contained, or does it link to or otherwise rely on
+      external resources (e.g., websites, tweets, other datasets)? If it links
+      to or relies on external resources, a) are there guarantees that they
+      will exist, and remain constant, over time; b) are there official
+      archival versions of the complete dataset (i.e., including the external
+      resources as they existed at the time the dataset was created); c) are
+      there any restrictions (e.g., licenses, fees) associated with any of the
+      external resources that might apply to a dataset consumer? Please provide
+      descriptions of all external resources and any restrictions associated
+      with them, as well as links or other access points, as appropriate.
+    is_a: DatasetProperty
+    attributes:
+      external_resources:
+        range: string
+        multivalued: true
+      future_guarantees:
+        range: string
+        multivalued: true
+      archival:
+        range: string
+        multivalued: true
+      restrictions:
+        range: string
+        multivalued: true
+    in_subset:
+      - Composition
+
+  Confidentiality:
+    description: >-
+      Does the dataset contain data that might be considered confidential (e.g.,
+      data that is protected by legal privilege or by doctor patient
+      confidentiality, data that includes the content of individuals’
+      non-public communications)?
+    is_a: DatasetProperty
+    attributes:
+      description:
+        range: string
+        multivalued: true
+    in_subset:
+      - Composition
+
+  ContentWarning:
+    description: >-
+      Does the dataset contain data that, if viewed directly, might be
+      offensive, insulting, threatening, or might otherwise cause anxiety? If
+      so, please describe why.
+    is_a: DatasetProperty
+    attributes:
+      warnings:
+        range: string
+        multivalued: true
+    in_subset:
+      - Composition
+
+  Subpopulation:
+    description: >-
+      Does the dataset identify any subpopulations (e.g., by age, gender)? If
+      so, please describe how these subpopulations are identified and provide a
+      description of their respective distributions within the dataset.
+    is_a: DatasetProperty
+    attributes:
+      identification:
+        range: string
+        multivalued: true
+      distribution:
+        range: string
+        multivalued: true
+    in_subset:
+      - Composition
+
+  # TODO: consider other ways to model this - is it just a boolean?
+  # or are we concerned about specific PHI subtypes?
+  # In practice, if data is Safe Harbor de-identified, that's one thing,
+  # but it could also be anonymized, and the standard for that isn't as
+  # explicit. See https://www.ncbi.nlm.nih.gov/pmc/articles/PMC5977668/
+  Deidentification:
+    description: >-
+      Is it possible to identify individuals (i.e., one or more natural
+      persons), either directly or indirectly (i.e., in combination with other
+      data) from the dataset?
+    is_a: DatasetProperty
+    attributes:
+      description:
+        range: string
+        multivalued: true
+    in_subset:
+      - Composition
+
+  SensitiveElement:
+    description: >-
+      Does the dataset contain data that might be considered sensitive in any
+      way (e.g., data that reveals race or ethnic origins, sexual orientations,
+      religious beliefs, political opinions or union memberships, or locations;
+      financial or health data; biometric or genetic data; forms of government
+      identification, such as social security numbers; criminal history)?
+    is_a: DatasetProperty
+    attributes:
+      description:
+        range: string
+        multivalued: true
+    in_subset:
+      - Composition
+
+  InstanceAcquisition:
+    description: >-
+      How was the data associated with each instance acquired? Was the data
+      directly observable (e.g., raw text, movie ratings), reported by subjects
+      (e.g., survey responses), or indirectly inferred/derived from other data
+      (e.g., part-of-speech tags, model-based guesses for age or language)? If
+      the data was reported by subjects or indirectly inferred/derived from
+      other data, was the data validated/verified?
+    is_a: DatasetProperty
+    attributes:
+      description:
+        range: string
+        multivalued: true
+      was_directly_observed:
+        description: >-
+          Was the data directly observable (e.g., raw text, movie ratings)?
+        range: string
+      was_reported_by_subjects:
+        description: >-
+          Was the data reported by subjects (e.g., survey responses)?
+        range: string
+      was_inferred_derived:
+        description: >-
+          Was the data indirectly inferred/derived from other data (e.g.,
+          part-of-speech tags, model-based guesses for age or language)?
+        range: string
+      was_validated_verified:
+        description: >-
+          Was the data validated/verified?
+        range: string
+    in_subset:
+      - Collection
+
+  CollectionMechanism:
+    description: >-
+      What mechanisms or procedures were used to collect the data (e.g.,
+      hardware apparatuses or sensors, manual human curation, software programs,
+      software APIs)? How were these mechanisms or procedures validated?
+    is_a: DatasetProperty
+    attributes:
+      description:
+        range: string
+        multivalued: true
+    in_subset:
+      - Collection
+
+  DataCollector:
+    description: >-
+      Who was involved in the data collection process (e.g., students,
+      crowdworkers, contractors) and how were they compensated (e.g., how much
+      were crowdworkers paid)?
+    is_a: DatasetProperty
+    attributes:
+      description:
+        range: string
+        multivalued: true
+    in_subset:
+      - Collection
+
+  CollectionTimeframe:
+    description: >-
+      Over what timeframe was the data collected? Does this timeframe match the
+      creation timeframe of the data associated with the instances (e.g.,
+      recent crawl of old news articles)? If not, please describe the timeframe
+      in which the data associated with the instances was created.
+    is_a: DatasetProperty
+    attributes:
+      description:
+        range: string
+        multivalued: true
+    in_subset:
+      - Collection
+
+  EthicalReview:
+    description: >-
+      Were any ethical review processes conducted (e.g., by an institutional
+      review board)? If so, please provide a description of these review
+      processes, including the outcomes, as well as a link or other access
+      point to any supporting documentation.
+    is_a: DatasetProperty
+    attributes:
+      description:
+        range: string
+        multivalued: true
+    in_subset:
+      - Collection
+
+  DirectCollection:
+    description: >-
+      Did you collect the data from the individuals in question directly, or
+      obtain it via third parties or other sources (e.g., websites)?
+    is_a: DatasetProperty
+    attributes:
+      description:
+        range: string
+        multivalued: true
+    in_subset:
+      - Collection
+
+  CollectionNotification:
+    description: >-
+      Were the individuals in question notified about the data collection? If
+      so, please describe (or show with screenshots or other information) how
+      notice was provided, and provide a link or other access point to, or
+      otherwise reproduce, the exact language of the notification itself.
+    is_a: DatasetProperty
+    attributes:
+      description:
+        range: string
+        multivalued: true
+    in_subset:
+      - Collection
+
+  CollectionConsent:
+    description: >-
+      Did the individuals in question consent to the collection and use of
+      their data? If so, please describe (or show with screenshots or other
+      information) how consent was requested and provided, and provide a link
+      or other access point to, or otherwise reproduce, the exact language to
+      which the individuals consented.
+    is_a: DatasetProperty
+    attributes:
+      description:
+        range: string
+        multivalued: true
+    in_subset:
+      - Collection
+
+  ConsentRevocation:
+    description: >-
+      If consent was obtained, were the consenting individuals provided with a
+      mechanism to revoke their consent in the future or 8 for certain uses? If
+      so, please provide a description, as well as a link or other access point
+      to the mechanism (if appropriate).
+    is_a: DatasetProperty
+    attributes:
+      description:
+        range: string
+        multivalued: true
+    in_subset:
+      - Collection
+
+  DataProtectionImpact:
+    description: >-
+      Has an analysis of the potential impact of the dataset and its use on
+      data subjects (e.g., a data protection impact analysis) been conducted?
+      If so, please provide a description of this analysis, including the
+      outcomes, as well as a link or other access point to any supporting
+      documentation.
+    is_a: DatasetProperty
+    attributes:
+      description:
+        range: string
+        multivalued: true
+    in_subset:
+      - Collection
+
+  PreprocessingStrategy:
+    description: >-
+      Was any preprocessing of the data done (e.g.,
+      discretization or bucketing, tokenization, SIFT
+      feature extraction)?
+    is_a: DatasetProperty
+    attributes:
+      description:
+        range: string
+        multivalued: true
+    in_subset:
+      - Preprocessing-Cleaning-Labeling
+
+  CleaningStrategy:
+    description: >-
+      Was any cleaning of the data done (e.g.,
+      removal of instances, processing of missing values)?
+    is_a: DatasetProperty
+    attributes:
+      description:
+        range: string
+        multivalued: true
+    in_subset:
+      - Preprocessing-Cleaning-Labeling
+
+  LabelingStrategy:
+    description: >-
+      Was any preprocessing/cleaning/labeling of the data done (e.g.,
+      part-of-speech tagging)?
+    is_a: DatasetProperty
+    attributes:
+      description:
+        range: string
+        multivalued: true
+    in_subset:
+      - Preprocessing-Cleaning-Labeling
+
+  RawData:
+    description: >-
+      Was the “raw” data saved in addition to the preprocessed/cleaned/labeled
+      data (e.g., to support unanticipated future uses)? If so, please provide
+      a link or other access point to the “raw” data.
+    is_a: DatasetProperty
+    attributes:
+      description:
+        range: string
+        multivalued: true
+    in_subset:
+      - Preprocessing-Cleaning-Labeling
+
+  ExistingUse:
+    description: >-
+      Has the dataset been used for any tasks already?
+    is_a: DatasetProperty
+    attributes:
+      description:
+        range: string
+        multivalued: true
+    in_subset:
+      - Uses
+      - Maintenance
+
+  UseRepository:
+    description: >-
+      Is there a repository that links to any or all papers or systems that use
+      the dataset? If so, please provide a link or other access point.
+    is_a: DatasetProperty
+    attributes:
+      description:
+        range: string
+        multivalued: true
+    in_subset:
+      - Uses
+
+  OtherTask:
+    description: >-
+      What (other) tasks could the dataset be used for?
+    is_a: DatasetProperty
+    attributes:
+      description:
+        range: string
+        multivalued: true
+    in_subset:
+      - Uses
+
+  FutureUseImpact:
+    description: >-
+      Is there anything about the composition of the dataset or the way it was
+      collected and preprocessed/cleaned/labeled that might impact future uses?
+      For example, is there anything that a dataset consumer might need to know
+      to avoid uses that could result in unfair treatment of individuals or
+      groups (e.g., stereotyping, quality of service issues) or other risks or
+      harms (e.g., legal risks, financial harms)? If so, please provide a
+      description. Is there anything a dataset consumer could do to mitigate
+      these risks or harms?
+    is_a: DatasetProperty
+    attributes:
+      description:
+        range: string
+        multivalued: true
+    in_subset:
+      - Uses
+
+  DiscouragedUse:
+    description: >-
+      Are there tasks for which the dataset should not be used?
+    is_a: DatasetProperty
+    attributes:
+      description:
+        range: string
+        multivalued: true
+    in_subset:
+      - Uses
+
+  ThirdPartySharing:
+    description: >-
+      Will the dataset be distributed to third parties outside of the entity
+      (e.g., company, institution, organization) on behalf of which the dataset
+      was created?
+    is_a: DatasetProperty
+    attributes:
+      description:
+        range: string
+    in_subset:
+      - Distribution
+
+  DistributionFormat:
+    description: >-
+      How will the dataset will be distributed (e.g., tarball on website, API,
+      GitHub)?
+    is_a: DatasetProperty
+    attributes:
+      description:
+        range: string
+        multivalued: true
+    in_subset:
+      - Distribution
+
+  DistributionDate:
+    description: >-
+      When will the dataset be distributed?
+    is_a: DatasetProperty
+    attributes:
+      description:
+        range: string
+        multivalued: true
+    in_subset:
+      - Distribution
+
+  LicenseAndUseTerms:
+    description: >-
+      Will the dataset be distributed under a copyright or other intellectual
+      property (IP) license, and/or under applicable terms of use (ToU)? If so,
+      please describe this license and/or ToU, and provide a link or other
+      access point to, or otherwise reproduce, any relevant licensing terms or
+      ToU, as well as any fees associated with these restrictions.
+    is_a: DatasetProperty
+    attributes:
+      description:
+        range: string
+        multivalued: true
+    in_subset:
+      - Distribution
+
+  IPRestrictions:
+    description: >-
+      Have any third parties imposed IP-based or other restrictions on the data
+      associated with the instances? If so, please describe these restrictions,
+      and provide a link or other access point to, or otherwise reproduce, any
+      relevant licensing terms, as well as any fees associated with these
+      restrictions.
+    is_a: DatasetProperty
+    attributes:
+      description:
+        range: string
+        multivalued: true
+    in_subset:
+      - Distribution
+
+  ExportControlRegulatoryRestrictions:
+    description: >-
+      Do any export controls or other regulatory restrictions apply to the
+      dataset or to individual instances? If so, please describe these
+      restrictions, and provide a link or other access point to, or otherwise
+      reproduce, any supporting documentation.
+    is_a: DatasetProperty
+    attributes:
+      description:
+        range: string
+        multivalued: true
+    in_subset:
+      - Distribution
+
+  Maintainer:
+    description: >-
+      Who will be supporting/hosting/maintaining the dataset?
+    is_a: DatasetProperty
+    attributes:
+      description:
+        # range: CreatorOrMaintainerEnum
+        range: string
+        multivalued: true
+    in_subset:
+      - Maintenance
+
+  Erratum:
+    description: >-
+      Is there an erratum? If so, please provide a link or other access point.
+    is_a: DatasetProperty
+    attributes:
+      description:
+        range: string
+        multivalued: true
+    in_subset:
+      - Maintenance
+
+  UpdatePlan:
+    description: >-
+      Will the dataset be updated (e.g., to correct labeling errors, add new
+      instances, delete instances)? If so, please describe how often, by whom,
+      and how updates will be communicated to dataset consumers (e.g., mailing
+      list, GitHub)?
+    is_a: DatasetProperty
+    attributes:
+      description:
+        range: string
+        multivalued: true
+    in_subset:
+      - Maintenance
+
+  RetentionLimits:
+    description: >-
+      If the dataset relates to people, are there applicable limits on the
+      retention of the data associated with the instances (e.g., were the
+      individuals in question told that their data would be retained for a
+      fixed period of time and then deleted)? If so, please describe these
+      limits and explain how they will be enforced.
+    is_a: DatasetProperty
+    attributes:
+      description:
+        range: string
+        multivalued: true
+    in_subset:
+      - Maintenance
+
+  VersionAccess:
+    description: >-
+      Will older versions of the dataset continue to be
+      supported/hosted/maintained? If so, please describe how. If not, please
+      describe how its obsolescence will be communicated to dataset consumers.
+    is_a: DatasetProperty
+    attributes:
+      description:
+        range: string
+        multivalued: true
+    in_subset:
+      - Maintenance
+
+  ExtensionMechanism:
+    description: >-
+      If others want to extend/augment/build on/contribute to the dataset, is
+      there a mechanism for them to do so? If so, please provide a description.
+      Will these contributions be validated/verified? If so, please describe
+      how. If not, why not? Is there a process for communicating/distributing
+      these contributions to dataset consumers? If so, please provide a
+      description.
+    is_a: DatasetProperty
+    attributes:
+      description:
+        range: string
+        multivalued: true
+    in_subset:
+      - Maintenance
+
+## SLOTS ##
+slots:
+
+  # The majority of these slots are adapted from
+  # the linkml Datasets schema - see
+  # https://github.com/linkml/linkml-model/blob/main/linkml_model/model/schema/datasets.yaml
+
+  id:
+    identifier: true
+    description: the unique name of the dataset
+    slot_uri: dcterms:identifier
+    exact_mappings:
+      - schema:name
+
+  name:
+    slot_uri: schema:name
+
+  title:
+    description: the official title of the element
+    slot_uri: dcterms:title
+
+  description:
+    description: human readable description of the information
+    slot_uri: dcterms:description
+
+  language:
+    description: language in which the information is expressed
+
+  publisher:
+    slot_uri: dcterms:publisher
+    range: uriorcurie
+
+  issued:
+    slot_uri: dcterms:issued
+    range: string
+
+  page:
+    slot_uri: dcat:landingPage
+
+  dialect:
+    slot_uri: csvw:dialect
+
+  bytes:
+    description: Size of the data in bytes.
+    range: integer
+    slot_uri: dcat:byteSize
+
+  path:
+    close_mappings:
+      - frictionless:path
+
+  download_url:
+    description: >-
+      URL from which the data can be downloaded. This is not the same as the
+      landing page, which is a page that describes the dataset. Rather, this
+      URL points directly to the data itself.
+    range: uri
+    slot_uri: dcat:downloadURL
+    exact_mappings:
+      - schema:url
+    close_mappings:
+      - frictionless:path
+
+  format:
+    description: >-
+      The format of the data. This is not the same as the media type.
+      Rather, this is the format of the data in a more specific sense,
+      e.g., CSV, JSON, etc.
+    range: FormatEnum
+    slot_uri: dcterms:format
+
+  compression:
+    description: >-
+      The compression format of the data. This is not the same as the media
+      type. Rather, this is the compression format of the data in a more
+      specific sense, e.g., zip, gzip, etc.
+    range: CompressionEnum
+
+  encoding:
+    description: >-
+      The encoding of the data. This is not the same as the media type.
+      Rather, this is the encoding of the data in a more specific sense,
+      e.g., UTF-8, ASCII, etc.
+    range: EncodingEnum
+
+  hash:
+    description: >-
+      The hash representation of the data, e.g., sha256, md5, etc.
+      Subtypes have their own slots.
+    range: string
+  sha256:
+    description: >-
+      The sha256 hash representation of the data.
+    is_a: hash
+  md5:
+    description: >-
+      The md5 hash representation of the data.
+    is_a: hash
+
+  media_type:
+    description: >-
+      The media type of the data. This is not the same as the format.
+      Rather, this is the media type of the data in a more general sense,
+      e.g., text/csv, application/json, etc., though as it is defined here
+      the media type can be any string.
+    range: string
+    examples:
+      - value: text/csv
+      - value: application/json
+    slot_uri: dcat:mediaType
+    exact_mappings:
+      - frictionless:mediatype
+      - schema:encodingFormat
+
+  conforms_to:
+    description: >-
+      The standard to which the data conforms. This is not the same as the
+      media type. Rather, this is the standard to which the data conforms
+      in a more specific sense, e.g., frictionless, schema.org, etc.
+    slot_uri: dcterms:conformsTo
+    range: uriorcurie
+
+  # TODO: Align with Bridge2AI Standards Schema
+  conforms_to_schema:
+    description: >-
+      The schema to which the data conforms. This is not the same as the
+      media type. Rather, this is the schema to which the data conforms
+      in a more specific sense, and even more specific than the general
+      set of standards it conforms to.
+    is_a: conforms_to
+    exact_mappings:
+      - frictionless:schema
+
+  conforms_to_class:
+    description: >-
+      The class in the schema to which the data object instantiates.
+    is_a: conforms_to
+
+  doi:
+    description: >-
+      The Digital Object Identifier of the data, with the doi prefix.
+    range: uriorcurie
+    examples:
+      - value: "doi:10.48550/arXiv.2310.03666"
+
+  profile:
+    description: >-
+      The frictionless data profile to which the data conforms.
+    range: uriorcurie
+    exact_mappings:
+      - frictionless:profiles
+
+  keywords:
+    description: >-
+      Keywords associated with the data. These may be provided by
+      the data creator or assigned later in a manual or automated
+      manner.
+    singular_name: keyword
+    multivalued: true
+    range: string
+    slot_uri: dcat:keyword
+    exact_mappings:
+      - schema:keywords
+
+  themes:
+    description: >-
+      Themes associated with the data. These may be provided by
+      the data creator or assigned later in a manual or automated
+      manner.
+    singular_name: theme
+    multivalued: true
+    range: uriorcurie
+    slot_uri: dcat:theme
+
+  created_by:
+    # range: CreatorOrMaintainerEnum
+    range: string
+    description: Agent that created the element
+    slot_uri: pav:createdBy
+    multivalued: true
+
+  created_on:
+    range: string
+    description: Date and Time at which the element was created
+    slot_uri: pav:createdOn
+
+  last_updated_on:
+    range: string
+    description: Date and Time at which the element was last updated
+    slot_uri: pav:lastUpdatedOn
+
+  modified_by:
+    # range: CreatorOrMaintainerEnum
+    range: string
+    description: agent that modified the element
+    slot_uri: oslc:modifiedBy
+
+  status:
+    range: uriorcurie
+    description: Status of the element in terms of its maturity or life cycle
+    slot_uri: bibo:status
+    examples:
+      - value: "bibo:draft"
+
+  license:
+    description: license for the data
+    slot_uri: dcterms:license
+    exact_mappings:
+      - frictionless:licenses
+
+  version:
+    description: particular version of schema
+    slot_uri: pav:version
+    exact_mappings:
+      - schema:version
+      - dcterms:hasVersion
+
+  was_derived_from:
+    slot_uri: prov:wasDerivedFrom
+    description: >-
+      A derivation is a transformation of an entity into another, an update
+      of an entity resulting in a new one, or the construction of a new entity
+      based on a pre-existing entity.@en
+
+## ENUMS ##
+enums:
+
+  CreatorOrMaintainerEnum:
+    description: >-
+      The entity responsible for maintaining a dataset.
+    permissible_values:
+      Person:
+      Organization:
+
+
+  # These enums are adapted from
+  # the linkml Datasets schema - see
+  # https://github.com/linkml/linkml-model/blob/main/linkml_model/model/schema/datasets.yaml
+
+  MediaTypeEnum:
+    exact_mappings:
+      - dcterms:MediaType
+    permissible_values:
+      csv:
+        meaning: mediatypes:text/csv
+      rdf-xml:
+        meaning: mediatypes:application/rdf+xml
+
+  FormatEnum:
+    permissible_values:
+      JSON-LD:
+        meaning: formats:JSON-LD
+      N3:
+        meaning: formats:N3
+      N-Triples:
+        meaning: formats:N-Triples
+      N-Quads:
+        meaning: formats:N-Quads
+      LD Patch:
+        meaning: formats:LD_Patch
+      Microdata:
+        meaning: formats:microdata
+      OWL XML Serialization:
+        meaning: formats:OWL_XML
+      OWL Functional Syntax:
+        meaning: formats:OWL_Functional
+      OWL Manchester Syntax:
+        meaning: formats:OWL_Manchester
+      POWDER:
+        meaning: formats:POWDER
+      POWDER-S:
+        meaning: formats:POWDER-S
+      PROV-N:
+        meaning: formats:PROV-N
+      PROV-XML:
+        meaning: formats:PROV-XML
+      RDFa:
+        meaning: formats:RDFa
+      RDF/JSON:
+        meaning: formats:RDF_JSON
+      RDF/XML:
+        meaning: formats:RDF_XML
+      RIF XML Syntax:
+        meaning: formats:RIF_XML
+      SPARQL Results in XML:
+        meaning: formats:SPARQL_Results_XML
+      SPARQL Results in JSON:
+        meaning: formats:SPARQL_Results_JSON
+      SPARQL Results in CSV:
+        meaning: formats:SPARQL_Results_CSV
+      SPARQL Results in TSV:
+        meaning: formats:SPARQL_Results_TSV
+      Turtle:
+        meaning: formats:Turtle
+      TriG:
+        meaning: formats:TriG
+      YAML:
+      JSON:
+
+  CompressionEnum:
+    permissible_values:
+      GZIP:
+      TAR:
+      TARGZIP:
+      ZIP:
+
+  EncodingEnum:
+    permissible_values:
+      ASCII:
+      Big5:
+      EUC-JP:
+      EUC-KR:
+      EUC-TW:
+      GB2312:
+      HZ-GB-2312:
+      ISO-2022-CN-EXT:
+      ISO-2022-CN:
+      ISO-2022-JP-2:
+      ISO-2022-JP:
+      ISO-2022-KR:
+      ISO-8859-10:
+      ISO-8859-11:
+      ISO-8859-13:
+      ISO-8859-14:
+      ISO-8859-15:
+      ISO-8859-16:
+      ISO-8859-1:
+      ISO-8859-2:
+      ISO-8859-3:
+      ISO-8859-4:
+      ISO-8859-5:
+      ISO-8859-6:
+      ISO-8859-7:
+      ISO-8859-8:
+      ISO-8859-9:
+      KOI8-R:
+      KOI8-U:
+      Shift_JIS:
+      UTF-16:
+      UTF-32:
+      UTF-7:
+      UTF-8:

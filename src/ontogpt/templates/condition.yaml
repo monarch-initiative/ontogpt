@@ -1,0 +1,83 @@
+id: http://w3id.org/ontogpt/condition
+name: condition
+title: condition FHIR Template
+description: >-
+  A FHIR-compliant template for conditions mentioned in a clinical note
+license: https://creativecommons.org/publicdomain/zero/1.0/
+prefixes:
+  linkml: https://w3id.org/linkml/
+  condition: http://w3id.org/ontogpt/condition/
+  SNOMEDCT: https://purl.bioontology.org/ontology/SNOMEDCT
+
+
+default_prefix: UNKNOWN
+
+imports:
+  - linkml:types
+  - core
+
+classes:
+  Condition:
+    tree_root: true
+    is_a: NamedEntity
+    attributes:
+      label:
+        description: The concise name of the condition, problem, or diagnosis.
+      clinical_status:
+        description: The clinical status of the condition.
+        range: ConditionClinicalStatus
+        ifabsent: string("unknown")
+        required: true
+      severity:
+        description: Subjective severity of condition.
+        range: ConditionDiagnosisSeverity
+      code:
+        description: The condition, problem, or diagnosis found in this note.
+        range: ConditionProblemDiagnosis
+        required: true
+
+  ConditionProblemDiagnosis:
+    is_a: NamedEntity
+    id_prefixes: 
+      - SNOMEDCT
+    annotations:
+      annotators: bioportal:SNOMEDCT
+    slot_usage:
+      id:
+        values_from: 
+          - ConditionProblemDiagnosisIdentifier
+
+
+
+enums:
+  ConditionClinicalStatus:
+    permissible_values:
+      active:
+        description: The subject is currently experiencing the condition or situation, there is evidence of the condition or situation, or considered to be a significant risk.
+      recurrence:
+        description: The subject is experiencing a reoccurence or repeating of a previously resolved condition or situation, e.g. urinary tract infection, food insecurity.
+      relapse:
+        description: The subject is experiencing a return of a condition or situation after a period of improvement or remission, e.g. relapse of cancer, alcoholism.
+      inactive:
+        description: The subject is no longer experiencing the condition or situation and there is no longer evidence or appreciable risk of the condition or situation.
+      remission:
+        description: The subject is not presently experiencing the condition or situation, but there is a risk of the condition or situation returning.
+      resolved:
+        description: The subject is not presently experiencing the condition or situation and there is a negligible perceived risk of the condition or situation returning.
+      unknown:
+        description: The authoring/source system does not know which of the status values currently applies for this condition.
+  
+  ConditionDiagnosisSeverity:
+    permissible_values:
+      severe:
+        meaning: SNOMEDCT:24484000
+      moderate:
+        meaning: SNOMEDCT:6736007
+      mild:
+        meaning: SNOMEDCT:255604002
+  
+  ConditionProblemDiagnosisIdentifier:
+    reachable_from:
+      source_ontology: bioportal:SNOMEDCT
+      source_nodes: 
+        - SNOMEDCT:404684003 ## clinical finding

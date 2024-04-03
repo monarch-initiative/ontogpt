@@ -1,7 +1,10 @@
 models:
   - name: MODEL_GPT_3_5_TURBO
+    canonical_name: "gpt-3.5-turbo"
     alternative_names:
-      - "gpt-3.5-turbo"
+      - "gpt3.5"
+      - "chatgpt"
+      - "chatgpt3.5"
       - "openai-gpt-3.5-turbo"
     provider: OpenAI
     creators:
@@ -11,9 +14,24 @@ models:
       memory: "N/A"
     is_default: true
 
-  - name: MODEL_GPT_3_5_TURBO_16K
+  - name: MODEL_GPT_3_5_TURBO_0125
+    canonical_name: "gpt-3.5-turbo-0125"
     alternative_names:
-      - "gpt-3.5-turbo-16k"
+      - "gpt3.5-0125"
+      - "openai-gpt-3.5-turbo-0125"
+    provider: OpenAI
+    creators:
+      - OpenAI
+    requirements:
+      diskspace: "N/A"
+      memory: "N/A"
+
+  - name: MODEL_GPT_3_5_TURBO_16K
+    canonical_name: "gpt-3.5-turbo-16k"
+    alternative_names:
+      - "gpt3.5-16k"
+      - "chatgpt-16k"
+      - "chatgpt3.5-16k"
       - "openai-gpt-3.5-turbo-16k"
     provider: OpenAI
     creators:
@@ -23,8 +41,9 @@ models:
       memory: "N/A"
 
   - name: MODEL_GPT_4
+    canonical_name: "gpt-4"
     alternative_names:
-      - "gpt-4"
+      - "gpt4"
       - "openai-gpt-4"
     provider: OpenAI
     creators:
@@ -34,8 +53,9 @@ models:
       memory: "N/A"
 
   - name: MODEL_GPT_4_32K
+    canonical_name: "gpt-4-32k"
     alternative_names:
-      - "gpt-4-32k"
+      - "gpt4-32k"
       - "openai-gpt-4-32k"
     provider: OpenAI
     creators:
@@ -45,8 +65,10 @@ models:
       memory: "N/A"
 
   - name: MODEL_GPT_4_1106_PREVIEW
+    canonical_name: "gpt-4-1106-preview"
     alternative_names:
-      - "gpt-4-1106-preview"
+      - "gpt4turbo-1106"
+      - "gpt-4-turbo-1106"
       - "openai-gpt-4-1106-preview"
     provider: OpenAI
     creators:
@@ -55,9 +77,22 @@ models:
       diskspace: "N/A"
       memory: "N/A"
 
-  - name: MODEL_GPT_3_5_TURBO_INSTRUCT
+  - name: MODEL_GPT_4_0125_PREVIEW
+    canonical_name: "gpt-4-0125-preview"
     alternative_names:
-      - "gpt-3.5-turbo-instruct"
+      - "gpt4turbo"
+      - "gpt-4-turbo"
+      - "openai-gpt-4-0125-preview"
+    provider: OpenAI
+    creators:
+      - OpenAI
+    requirements:
+      diskspace: "N/A"
+      memory: "N/A"
+
+  - name: MODEL_GPT_3_5_TURBO_INSTRUCT
+    canonical_name: "gpt-3.5-turbo-instruct"
+    alternative_names:
       - "openai-gpt-3.5-turbo-instruct"
     provider: OpenAI
     creators:
@@ -67,8 +102,8 @@ models:
       memory: "N/A"
 
   - name: MODEL_TEXT_DAVINCI_003
+    canonical_name: "text-davinci-003"
     alternative_names:
-      - "text-davinci-003"
       - "openai-text-davinci-003"
     provider: OpenAI
     creators:
@@ -79,8 +114,8 @@ models:
     deprecated: true
 
   - name: MODEL_CODE_DAVINCI_002
+    canonical_name: "code-davinci-002"
     alternative_names:
-      - "code-davinci-002"
       - "openai-code-davinci-002"
     provider: OpenAI
     creators:
@@ -91,8 +126,10 @@ models:
     deprecated: true
 
   - name: ORCA_MINI_3B
-    alternative_names: 
-      - orca-mini-3b
+    canonical_name: "orca-mini-3b-gguf2-q4_0"
+    alternative_names:
+      - "orca-mini-3b"
+      - "gpt4all-orca-mini-3b"
     provider: GPT4All
     creators:
       - "Subhabrata Mukherjee"
@@ -106,38 +143,45 @@ models:
       memory: "4 GB"
 
   - name: GGML_ALL_MINILM_L6_V2_F16
+    canonical_name: "all-MiniLM-L6-v2-f16"
     alternative_names:
       - ggml-all-MiniLM-L6-v2-f16
+      - gpt4all-ggml-all-MiniLM-L6-v2-f16
     provider: GPT4All
     creators:
       - "Google"
     requirements:
       diskspace: "43.41 MB"
-      memory: "1 GB" 
+      memory: "1 GB"
 
   - name: GGML_GPT4ALL_J_V1
+    canonical_name: "ggml-gpt4all-j-v1"
     alternative_names:
-      - ggml-gpt4all-j-v1
+      - gpt4all-ggml-gpt4all-j-v1
     provider: GPT4All
     creators:
       - "Nomic AI"
     requirements:
       diskspace: "3.53 GB"
-      memory: "8 GB" 
+      memory: "8 GB"
+    deprecated: true
 
   - name: LLAMA_2_7B_CHAT
+    canonical_name: "llama-2-7b-chat"
     alternative_names:
-      - llama-2-7b-chat
+      - gpt4all-llama-2-7b-chat
     provider: GPT4All
     creators:
       - "Meta AI"
     requirements:
       diskspace: "3.53 GB"
       memory: "8 GB"
+    deprecated: true
 
   - name: ORCA_MINI_7B
+    canonical_name: "orca-mini-7b"
     alternative_names:
-      - orca-mini-7b
+      - gpt4all-orca-mini-7b
     provider: GPT4All
     creators:
       - "Subhabrata Mukherjee"
@@ -149,21 +193,24 @@ models:
     requirements:
       diskspace: "3.53 GB"
       memory: "8 GB"
+    deprecated: true
 
-  - name: GGML_MODEL_GPT4ALL_FALCON_Q4_0
+  - name: GPT4ALL_FALCON_NEWBPE
+    canonical_name: "gpt4all-falcon-newbpe-q4_0"
     alternative_names:
-      - ggml-model-gpt4all-falcon-q4_0
+      - gtp4all-ggml-model-gpt4all-falcon-q4_0
     provider: GPT4All
     creators:
       - "Technology Innovation Institute"
       - "Nomic AI"
     requirements:
-      diskspace: "3.78 GB"
-      memory: "8 GB"      
-      
+      diskspace: "3.92 GB"
+      memory: "8 GB"
+
   - name: GGML_VICUNA_7B_1
-    alternative_names: 
-      - ggml-vicuna-7b-1
+    canonical_name: "ggml-vicuna-7b-1"
+    alternative_names:
+      - gpt4all-ggml-vicuna-7b-1
     provider: GPT4All
     creators:
       - "UC Berkeley"
@@ -173,63 +220,88 @@ models:
       - "UC San Diego"
     requirements:
       diskspace: "3.92 GB"
-      memory: "8 GB"   
+      memory: "8 GB"
+    deprecated: true
 
   - name: GGML_WIZARDLM_7B
+    canonical_name: "ggml-wizardLM-7b"
     alternative_names:
-      - ggml-wizardLM-7B
+      - gpt4all-ggml-wizardLM-7B
     provider: GPT4All
     creators:
       - "Microsoft Corporation"
       - "Peking University"
     requirements:
       diskspace: "3.92 GB"
-      memory: "8 GB"   
+      memory: "8 GB"
+    deprecated: true
+
+  - name: GGML_WIZARDLM_13B
+    canonical_name: "wizardlm-13b-v1"
+    alternative_names:
+      - wizardlm
+      - wizard1_2
+      - gpt4all-wizardlm-13b-v1
+    provider: GPT4All
+    creators:
+      - "Microsoft Corporation"
+      - "Peking University"
+    requirements:
+      diskspace: "6.86 GB"
+      memory: "16 GB"
 
   - name: GGML_MPT_7B_BASE
+    canonical_name: "ggml-mpt-7b-base"
     alternative_names:
-      - ggml-mpt-7b-base
+      - gpt4all-ggml-mpt-7b-base
     provider: GPT4All
     creators:
       - "Mosaic ML"
     requirements:
       diskspace: "4.52 GB"
-      memory: "8 GB"   
-  
+      memory: "8 GB"
+    deprecated: true
+
   - name: GGML_MPT_7B_INSTRUCT
+    canonical_name: "ggml-mpt-7b-instruct"
     alternative_names:
-      - ggml-mpt-7b-instruct
+      - gpt4all-ggml-mpt-7b-instruct
     provider: GPT4All
     creators:
       - "Mosaic ML"
     requirements:
       diskspace: "4.52 GB"
-      memory: "8 GB"   
-      
+      memory: "8 GB"
+    deprecated: true
+
   - name: GGML_MPT_7B_CHAT
+    canonical_name: "mpt-7b-chat-newbpe-q4_0"
     alternative_names:
-      - ggml-mpt-7b-chat
+      - gpt4all-ggml-mpt-7b-chat
     provider: GPT4All
     creators:
       - "Mosaic ML"
     requirements:
-      diskspace: "4.52 GB"
-      memory: "8 GB"   
+      diskspace: "3.64 GB"
+      memory: "8 GB"
 
   - name: GGML_REPLIT_CODE_V1_3B
+    canonical_name: "replit-code-v1_5-3b-newbpe-q4_0"
     alternative_names:
-      - ggml-replit-code-v1-3b
+      - "ggml-replit-code-v1-3b"
+      - gpt4all-ggml-replit-code-v1-3b
     provider: GPT4All
     creators:
       - "Replit Inc."
       - "Mosaic ML"
     requirements:
       diskspace: "4.84 GB"
-      memory: "4 GB"   
-      
+      memory: "4 GB"
+
   - name: WIZARDLM_13B_V1
+    canonical_name: "wizardlm-13b-v1"
     alternative_names:
-      - wizardlm-13b-v1
+      - gpt4all-wizardlm-13b-v1
     provider: GPT4All
     creators:
       - "Microsoft Corporation"
@@ -239,8 +311,9 @@ models:
       memory: "16 GB"
 
   - name: ORCA_MINI_13B
+    canonical_name: "orca-mini-13b"
     alternative_names:
-      - orca-mini-13b
+      - gpt4all-orca-mini-13b
     provider: GPT4All
     creators:
       - "Subhabrata Mukherjee"
@@ -254,16 +327,30 @@ models:
       memory: "16 GB"
 
   - name: STARCODERBASE-3B-GGML
+    canonical_name: "starcoderbase-3b-ggml"
     alternative_names:
-      - starcoderbase-3b-ggml
+      - gpt4all-starcoderbase-3b-ggml
     provider: GPT4All
     creators:
       - "BigCode"
     requirements:
       diskspace: "6.99 GB"
-      memory: "8 GB"  
-      
+      memory: "8 GB"
+    deprecated: true
+
+  - name: STARCODER-NEWBPE
+    canonical_name: "starcoder-newbpe-q4_0"
+    alternative_names:
+      - gpt4all-starcoder-newbpe
+    provider: GPT4All
+    creators:
+      - "BigCode"
+    requirements:
+      diskspace: "8.37 GB"
+      memory: "4 GB"
+
   - name: GPT4ALL_13B_SNOOZY
+    canonical_name: "gpt4all-13b-snoozy"
     alternative_names:
       - GPT4All-13B-snoozy
     provider: GPT4All
@@ -271,11 +358,13 @@ models:
       - "Nomic AI"
     requirements:
       diskspace: "7.58 GB"
-      memory: "16 GB" 
+      memory: "16 GB"
+    deprecated: true
 
   - name: GGML_VICUNA_13B_1
+    canonical_name: "ggml-vicuna-13b-1"
     alternative_names:
-      - ggml-vicuna-13b-1
+      - gpt4all-ggml-vicuna-13b-1
     provider: GPT4All
     creators:
       - "UC Berkeley"
@@ -285,11 +374,13 @@ models:
       - "UC San Diego"
     requirements:
       diskspace: "7.58 GB"
-      memory: "16 GB"   
+      memory: "16 GB"
+    deprecated: true
 
   - name: GGML_NOUS_GPT4_VICUNA_13B
+    canonical_name: "ggml-nous-gpt4-vicuna-13b"
     alternative_names:
-      - ggml-nous-gpt4-vicuna-13b
+      - gpt4all-ggml-nous-gpt4-vicuna-13b
     provider: GPT4All
     creators:
       - "UC Berkeley"
@@ -301,10 +392,28 @@ models:
     requirements:
       diskspace: "7.58 GB"
       memory: "16 GB"
-      
-  - name: GGML_STABLE_VICUNA_13B
+    deprecated: true
+
+  - name: NOUS_HERMES_LLAMA2_13B
+    canonical_name: "nous-hermes-llama2-13b"
     alternative_names:
-      - ggml-stable-vicuna-13B
+      - gpt4all-nous-hermes-llama2-13b
+    provider: GPT4All
+    creators:
+      - "UC Berkeley"
+      - "Carnegie Mellon University"
+      - "Stanford University"
+      - "Mohamed bin Zayed University of Artificial Intelligence"
+      - "UC San Diego"
+      - "Nous Research"
+    requirements:
+      diskspace: "6.86 GB"
+      memory: "16 GB"
+
+  - name: GGML_STABLE_VICUNA_13B
+    canonical_name: "ggml-stable-vicuna-13b"
+    alternative_names:
+      - gpt4all-ggml-stable-vicuna-13B
     provider: GPT4All
     creators:
       - "UC Berkeley"
@@ -315,10 +424,12 @@ models:
     requirements:
       diskspace: "7.58 GB"
       memory: "16 GB"
+    deprecated: true
 
   - name: NOUS_HERMES_13B
+    canonical_name: "nous-hermes-13b"
     alternative_names:
-      - nous-hermes-13b
+      - gpt4all-nous-hermes-13b
     provider: GPT4All
     creators:
       - "Nous Research"
@@ -329,10 +440,12 @@ models:
     requirements:
       diskspace: "7.58 GB"
       memory: "16 GB"
+    deprecated: true
 
   - name: WIZARDLM_13B_UNCENSORED
-    alternative_names: 
-      - wizardLM-13B-Uncensored
+    canonical_name: "wizardlm-13b-uncensored"
+    alternative_names:
+      - gpt4all-wizardLM-13B-Uncensored
     provider: GPT4All
     creators:
       - "Microsoft Corporation"
@@ -340,3 +453,47 @@ models:
     requirements:
       diskspace: "7.58 GB"
       memory: "16 GB"
+    deprecated: true
+
+  - name: ORCA_2_7B
+    canonical_name: "orca-2-7b"
+    alternative_names:
+      - gpt4all-orca-2-7b
+    provider: GPT4All
+    creators:
+      - "Subhabrata Mukherjee"
+      - "Arindam Mitra"
+      - "Ganesh Jawahar"
+      - "Sahaj Agarwal"
+      - "Hamid Palangi"
+      - "Ahmed Awadallah"
+    requirements:
+      diskspace: "3.56 GB"
+      memory: "8 GB"
+
+  - name: ORCA_2_13B
+    canonical_name: "orca-2-13b"
+    alternative_names:
+      - gpt4all-orca-2-13b
+    provider: GPT4All
+    creators:
+      - "Subhabrata Mukherjee"
+      - "Arindam Mitra"
+      - "Ganesh Jawahar"
+      - "Sahaj Agarwal"
+      - "Hamid Palangi"
+      - "Ahmed Awadallah"
+    requirements:
+      diskspace: "6.86 GB"
+      memory: "16 GB"
+
+  - name: MISTRAL_7B_OPENORCA
+    canonical_name: "mistral-7b-openorca"
+    alternative_names:
+      - gpt4all-mistral-7b-openorca
+    provider: GPT4All
+    creators:
+      - "Mistral AI"
+    requirements:
+      diskspace: "3.83 GB"
+      memory: "8 GB"

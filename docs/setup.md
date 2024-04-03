@@ -33,10 +33,11 @@ pip install ontogpt[extra_name]
 where `extra_name` is one of the following:
 
 * `docs` - dependencies for building documentation
-* `web` - dependencies for the web application
+* `gpt4all` - dependencies for running local models
+* `huggingface` - dependencies for accessing LLMs from HuggingFace Hub, remotely or locally
 * `recipes` - dependencies for recipe scraping and parsing
 * `textract` - the textract plugin
-* `huggingface` - dependencies for accessing LLMs from HuggingFace Hub, remotely or locally
+* `web` - dependencies for the web application
 
 For installation from the GitHub repository, particularly if you plan to contribute to feature development or other package code:
 
@@ -70,3 +71,9 @@ runoak set-apikey -e ncbi-email <your email address>
 runoak set-apikey -e ncbi-key <your NCBI api key>
 runoak set-apikey -e hfhub-key <your HuggingFace Hub api key>
 ```
+
+### Running local models
+
+Using local models currently depends upon using the `gpt4all` package and may require additional setup steps specific to your computing environment.
+
+See the [gpt4all documentation](https://docs.gpt4all.io/) for more details.

@@ -1,0 +1,120 @@
+id: http://w3id.org/ontogpt/go_terms
+name: go_terms
+title: Gene Ontology Term and CURIE Extraction
+description: >-
+  A template for GO Term and ID extraction.
+license: https://creativecommons.org/publicdomain/zero/1.0/
+prefixes:
+  rdf: http://www.w3.org/1999/02/22-rdf-syntax-ns#
+  linkml: https://w3id.org/linkml/
+  go_terms: http://w3id.org/ontogpt/go_terms
+
+default_prefix: go_terms
+default_range: string
+
+imports:
+  - linkml:types
+  - core
+
+classes:
+  Document:
+    tree_root: true
+    description: A document that contains biological or biomedical concepts.
+    is_a: TextWithEntity
+    attributes:
+      biologicalprocesses:
+        range: BiologicalProcess
+        multivalued: true
+        description: >-
+          One or more biological processes, as defined by the Gene Ontology.
+        annotations:
+          prompt: >-
+            A semi-colon separated list of biological processes, for
+            example: nuclear axial expansion; intracellular transport;
+            medial surface of mandible; ribosomal subunit export from nucleus;
+            pole cell development
+      cellularcomponents:
+        range: CellularComponent
+        multivalued: true
+        description: >-
+          One or more cellular components, as defined by the Gene Ontology.
+        annotations:
+          prompt: >-
+            A semi-colon separated list of cellular components and structures,
+            for example: tubulin complex; proteasome complex;
+            cytoplasm; keratohyalin granule; nucleus
+      molecularfunctions:
+        range: MolecularFunction
+        multivalued: true
+        description: >-
+          One or more molecular functions, as defined by the Gene Ontology.
+        annotations:
+          prompt: >-
+            A semi-colon separated list of molecular functions,
+            for example: catalytic activity; amine binding;
+            peptide receptor activity; oxygen carrier activity;
+            structural constituent of cytoskeleton
+
+  BiologicalProcess:
+    is_a: NamedEntity
+    annotations:
+      annotators: "sqlite:obo:go"
+      prompt.examples: >-
+        nuclear axial expansion, intracellular transport,
+        medial surface of mandible, ribosomal subunit export from nucleus,
+        pole cell development
+    id_prefixes:
+      - GO
+    slot_usage:
+      id:
+        values_from:
+          - GOBiologicalProcessType
+
+  CellularComponent:
+    is_a: NamedEntity
+    annotations:
+      annotators: "sqlite:obo:go"
+      prompt.examples: >-
+        tubulin complex, proteasome complex, cytoplasm, keratohyalin granule,
+        nucleus
+    id_prefixes:
+      - GO
+    slot_usage:
+      id:
+        values_from:
+          - GOCellComponentType
+
+  MolecularFunction:
+    is_a: NamedEntity
+    annotations:
+      annotators: "sqlite:obo:go"
+      prompt.examples: >-
+        catalytic activity, amine binding,
+        peptide receptor activity, oxygen carrier activity,
+        structural constituent of cytoskeleton
+    id_prefixes:
+      - GO
+    slot_usage:
+      id:
+        values_from:
+          - GOMolecularFunctionType
+
+enums:
+
+  GOBiologicalProcessType:
+    reachable_from:
+      source_ontology: obo:go
+      source_nodes:
+        - GO:0008150  # biological_process
+
+  GOCellComponentType:
+    reachable_from:
+      source_ontology: obo:go
+      source_nodes:
+        - GO:0005575  # cellular_component
+
+  GOMolecularFunctionType:
+    reachable_from:
+      source_ontology: obo:go
+      source_nodes:
+        - GO:0003674  # molecular_function

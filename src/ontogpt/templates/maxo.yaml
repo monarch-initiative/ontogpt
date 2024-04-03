@@ -6,15 +6,16 @@ description: >-
   MAXO medical action ontology.
 license: https://creativecommons.org/publicdomain/zero/1.0/
 prefixes:
-  linkml: https://w3id.org/linkml/
-  maxo_extract: http://w3id.org/ontogpt/maxo
+  rdf: http://www.w3.org/1999/02/22-rdf-syntax-ns#
+  HP: http://purl.obolibrary.org/obo/HP_
   MAXO: http://purl.obolibrary.org/obo/MAXO_
   MONDO: http://purl.obolibrary.org/obo/MONDO_
-  HP: http://purl.obolibrary.org/obo/HP_
-  RO: http://purl.obolibrary.org/obo/RO_
   OBA: http://purl.obolibrary.org/obo/OBA_
   PATO: http://purl.obolibrary.org/obo/PATO_
+  RO: http://purl.obolibrary.org/obo/RO_
   biolink: https://w3id.org/biolink/vocab/
+  linkml: https://w3id.org/linkml/
+  maxo_extract: http://w3id.org/ontogpt/maxo
 
 default_prefix: maxo_extract
 default_range: string
@@ -24,7 +25,6 @@ imports:
   - core
 
 classes:
-
   MaxoAnnotations:
     tree_root: true
     # This isn't really using the main slot it's inheriting
@@ -59,18 +59,19 @@ classes:
       diagnostic_procedure_to_disease:
         annotations:
           prompt: >-
-            Semicolon-separated list of diagnostic procedure to disease
-            relationships, where each is a triple representing a relationship
-            between a diagnostic procedure and a disease, for example,
-            PET scan IS USED TO DIAGNOSE myocarditis.
+            Semicolon-separated list of medical action to disease relationships,
+            where each is a triple representing a relationship between a
+            medical action and a disease, for example,
+            radiation therapy TREATS cancer,
+            or PET scan IS USED TO DIAGNOSE myocarditis.
         multivalued: true
         range: DiagnosticProcedureToDiseaseRelationship
       diagnostic_procedure_to_symptom:
         annotations:
           prompt: >-
-            Semicolon-separated list of diagnostic procedure to disease
-            relationships, where each is a triple representing a relationship
-            between a diagnostic procedure and a symptom, for example,
+            A triple representing a relationship between a medical action
+            (A clinically prescribed procedure, therapy, intervention, or
+            recommendation) and a symptom, for example,
             a chest X-ray IS USED TO DIAGNOSE pleural effusion.
         multivalued: true
         range: DiagnosticProcedureToSymptomRelationship
@@ -79,9 +80,10 @@ classes:
   DiagnosticProcedureToDiseaseRelationship:
     is_a: Triple
     description: >-
-      A triple representing a relationship between a diagnostic procedure
-      and a disease, for example,
-      PET scan IS USED TO DIAGNOSE myocarditis.
+      A triple representing a relationship between a medical action
+      (A clinically prescribed procedure, therapy, intervention, or
+      recommendation) and a disease, for example, radiation therapy TREATS
+      cancer, or PET scan IS USED TO DIAGNOSE myocarditis.
     slot_usage:
       subject:
         range: DiagnosticProcedure
@@ -90,7 +92,8 @@ classes:
         multivalued: true
       predicate:
         range: NamedEntity
-        description: The relationship type, usually IS USED TO DIAGNOSE
+        description: >- 
+          The relationship type, usually TREATS or IS USED TO DIAGNOSE
       subject_qualifier:
         range: NamedEntity
         description: >-
@@ -104,8 +107,9 @@ classes:
   DiagnosticProcedureToSymptomRelationship:
     is_a: Triple
     description: >-
-      A triple representing a relationship between a diagnostic procedure
-      and a symptom, for example,
+      A triple representing a relationship between a medical action
+      (A clinically prescribed procedure, therapy, intervention, or
+      recommendation) and a symptom, for example,
       a chest X-ray IS USED TO DIAGNOSE pleural effusion.
     slot_usage:
       subject:
@@ -128,11 +132,8 @@ classes:
   DiagnosticProcedure:
     is_a: NamedEntity
     description: >-
-      A clinically prescribed diagnostic procedure, therapy, intervention, or
-      recommendation. These may also be called diagnostic technique procedures
-      or diagnostic testing. For example: hearing examination, glomerular
-      filtration rate test, chromosomal breakage analysis, clinical core needle
-      biopsy, interferon-gamma biomarker measurement
+      A clinically prescribed procedure, therapy, intervention, or
+      recommendation.
     annotations:
       annotators: sqlite:obo:maxo, sqlite:obo:ogms, sqlite:obo:ncit, sqlite:obo:obi
     id_prefixes:
@@ -164,11 +165,3 @@ classes:
       annotators: sqlite:obo:hp, sqlite:obo:mondo, sqlite:obo:ncit
     id_prefixes:
       - HP
-
-enums:
-
-  MAXODiagnosticProcedureEnum:
-    reachable_from:
-      source_ontology: obo:maxo
-      source_nodes:
-        - MAXO:0000003  # diagnostic procedure

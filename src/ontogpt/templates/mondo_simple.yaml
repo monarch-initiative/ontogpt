@@ -1,0 +1,40 @@
+id: http://w3id.org/ontogpt/mondo_simple
+name: mondo_simple
+title: Simple MONDO Extraction Template
+description: >-
+  Simple MONDO Disease Ontology Extraction Template
+license: https://creativecommons.org/publicdomain/zero/1.0/
+prefixes:
+  rdf: http://www.w3.org/1999/02/22-rdf-syntax-ns#
+  MONDO: http://purl.obolibrary.org/obo/MONDO_
+  linkml: https://w3id.org/linkml/
+  mondo_simple: http://w3id.org/ontogpt/emapa_simple
+
+default_prefix: mondo_simple
+default_range: string
+
+imports:
+  - linkml:types
+  - core
+
+classes:
+  OntologyTermSet:
+    tree_root: true
+    is_a: NamedEntity
+    attributes:
+      terms:
+        range: OntologyTerm
+        multivalued: true
+        description: >-
+          A semicolon-separated list of any MONDO Disease Ontology terms.
+  OntologyTerm:
+    is_a: NamedEntity
+    id_prefixes:
+      - MONDO
+    annotations:
+      annotators: sqlite:obo:mondo
+      prompt: >-
+        The name of a MONDO Disease Ontology term.
+        Examples include: neurothekoma, retinal vasculitis,
+        chicken monocytic leukemia, neoplasm of spinal cord,
+        moyamoya disease 3

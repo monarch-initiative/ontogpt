@@ -13,3 +13,27 @@ There are a variety of reasons why this may happen, but one cause is if your sch
 ## I get a lot of warnings like `WARNING:root:Could not find any mappings for ...` and I don't get the expected identifiers in my extracted object
 
 Verify that the `id_prefixes` you specify in your schema correspond to those provided by the annotator. If your annotator is `sqlite:obo:hp`, for example, the prefix will be `HP` rather than `HPO`.
+
+## I need to store the annotator files OntoGPT downloads somewhere other than `~/.data/oaklib`
+
+OntoGPT uses `oaklib` to handle the ontologies it uses as annotators, and `oaklib` uses the `pystow` package to determine where downloads should go.
+
+To change the download location, set the `PYSTOW_HOME` variable in your environment to your preferred path.
+
+For example, to save downloads to `/tmp/oaklib`, set the varible like this:
+
+```bash
+export PYSTOW_HOME='/tmp/'
+```
+
+You may then reset that variable with this command:
+
+```bash
+unset PYSTOW_HOME
+```
+
+Or make the change more permanent by adding it to your `.bashrc` file and then run
+
+```bash
+source ~/.bashrc
+```

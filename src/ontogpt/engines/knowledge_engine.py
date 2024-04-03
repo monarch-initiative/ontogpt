@@ -1,5 +1,4 @@
 """Main Knowledge Extractor class."""
-import importlib
 import logging
 import re
 from abc import ABC
@@ -10,7 +9,6 @@ from typing import Dict, Iterator, List, Optional, TextIO, Union
 from urllib.parse import quote
 
 import inflection
-import openai
 import pydantic
 import tiktoken
 import yaml
@@ -25,7 +23,8 @@ from oaklib.utilities.subsets.value_set_expander import ValueSetExpander
 from requests.exceptions import ConnectionError, HTTPError, ProxyError
 
 from ontogpt import DEFAULT_MODEL
-from ontogpt.clients import OpenAIClient
+
+# from ontogpt.clients import OpenAIClient, GPT4AllClient, HFHubClient
 from ontogpt.templates.core import ExtractionResult, NamedEntity
 
 this_path = Path(__file__).parent
@@ -37,6 +36,16 @@ EXAMPLE = OBJECT
 FIELD = str
 TEMPLATE_NAME = str
 MODEL_NAME = str
+
+# GPT4All support is optional, so we don't load it
+# if it's not installed
+try:
+    from ontogpt.clients import OpenAIClient, GPT4AllClient
+    CLIENT_TYPES = Union[OpenAIClient, GPT4AllClient]
+except ImportError:
+    logger.warning("GPT4All client not available. GPT4All support will be disabled.")
+    from ontogpt.clients import OpenAIClient
+    CLIENT_TYPES = OpenAIClient # type: ignore
 
 # annotation metamodel
 ANNOTATION_KEY_PROMPT = "prompt"
@@ -81,9 +90,10 @@ class KnowledgeEngine(ABC):
     knowledge sources plus LLMs
     """
 
-    template: TEMPLATE_NAME = ""
-    """LinkML Template to use for this engine.
-    Must be of the form <module_name>.<ClassName>"""
+    template_details: tuple = None
+    """Tuple containing loaded template details, including:
+    (LinkML class, module, python class, SchemaView object).
+    May be None because some child classes do not require a template."""
 
     template_class: ClassDefinition = None
     """LinkML Class for the template.
@@ -107,6 +117,10 @@ class KnowledgeEngine(ABC):
     model: str = None
     """Language Model. This may be overridden in subclasses."""
 
+    model_source: str = None
+    """The source of the model. This determines how the model is accessed
+    (e.g. via an API or a local file)"""
+
     # annotator: TextAnnotatorInterface = None
     # """Default annotator. TODO: deprecate?"""
 
@@ -126,7 +140,7 @@ class KnowledgeEngine(ABC):
     labelers: Optional[List[BasicOntologyInterface]] = None
     """Labelers that map CURIEs to labels"""
 
-    client: Optional[OpenAIClient] = None
+    client: Optional[CLIENT_TYPES] = None
     """All calls to LLMs are delegated through this client"""
 
     dictionary: Dict[str, str] = field(default_factory=dict)
@@ -151,9 +165,17 @@ class KnowledgeEngine(ABC):
 
     encoding = None
 
+    use_azure: Optional[bool] = None
+    """Use Azure API for OpenAI models, if True."""
+
     def __post_init__(self):
-        if self.template:
-            self.template_class = self._get_template_class(self.template)
+        if self.template_details:
+            (
+                self.template_class,
+                self.template_module,
+                self.template_pyclass,
+                self.schemaview,
+            ) = self.template_details
         if self.template_class:
             logging.info(f"Using template {self.template_class.name}")
         if not self.model:
@@ -162,16 +184,24 @@ class KnowledgeEngine(ABC):
             logging.info("Using mappers (currently hardcoded)")
             self.mappers = [get_adapter("translator:")]
 
-        self.set_up_client()
-        try:
-            self.encoding = tiktoken.encoding_for_model(self.client.model)
-        except KeyError:
-            self.encoding = tiktoken.encoding_for_model(DEFAULT_MODEL)
-            logger.error(f"Could not find encoding for model {self.client.model}")
+        self.set_up_client(model_source=self.model_source)
+        if not self.client:
+            if self.model_source:
+                raise ValueError(f"No client available for {self.model_source}")
+            else:
+                raise ValueError("No client available because model source is unknown.")
+
+        # We retrieve encoding for OpenAI models
+        # but tiktoken won't work for other models
+        if self.model_source == "openai":
+            try:
+                self.encoding = tiktoken.encoding_for_model(self.client.model)
+            except KeyError:
+                self.encoding = tiktoken.encoding_for_model(DEFAULT_MODEL)
+                logger.error(f"Could not find encoding for model {self.client.model}")
 
     def set_api_key(self, key: str):
         self.api_key = key
-        openai.api_key = key
 
     def extract_from_text(
         self, text: str, cls: ClassDefinition = None, object: OBJECT = None
@@ -223,41 +253,6 @@ class KnowledgeEngine(ABC):
 
     def map_terms(self, terms: List[str], ontology: str, show_prompt: bool) -> Dict[str, str]:
         raise NotImplementedError
-
-    def _get_template_class(self, template: TEMPLATE_NAME) -> ClassDefinition:
-        """
-        Get the LinkML class for a template.
-
-        :param template: template name of the form module.ClassName
-        :return: LinkML class definition
-        """
-        logger.info(f"Loading schema for {template}")
-        if "." in template:
-            module_name, class_name = template.split(".", 1)
-        else:
-            module_name = template
-            class_name = None
-        templates_path = this_path.parent / "templates"
-        path_to_template = str(templates_path / f"{module_name}.yaml")
-        sv = SchemaView(path_to_template)
-        if class_name is None:
-            roots = [c.name for c in sv.all_classes().values() if c.tree_root]
-            if len(roots) != 1:
-                raise ValueError(f"Template {template} does not have singular root: {roots}")
-            class_name = roots[0]
-        mod = importlib.import_module(f"ontogpt.templates.{module_name}")
-        self.template_module = mod
-        self.template_pyclass = mod.__dict__[class_name]
-        self.schemaview = sv
-        logger.info(f"Getting class for template {template}")
-        cls = None
-        for c in sv.all_classes().values():
-            if c.name == class_name:
-                cls = c
-                break
-        if not cls:
-            raise ValueError(f"Template {template} not found")
-        return cls
 
     def _get_openai_api_key(self):
         """Get the OpenAI API key from the environment."""
@@ -599,8 +594,16 @@ class KnowledgeEngine(ABC):
                         setattr(result, k, v)
         return resultset[0]
 
-    def set_up_client(self):
-        self.client = OpenAIClient(model=self.model)
-        logging.info("Setting up OpenAI client API Key")
-        self.api_key = self._get_openai_api_key()
-        openai.api_key = self.api_key
+    def set_up_client(self, model_source: str):
+        """
+        Select the appropriate client based on the model's source.
+
+        Args: model_source (str): lowercase string indicating the source of the model,
+            e.g., openai
+        """
+        if model_source == "openai":
+            self.client = OpenAIClient(model=self.model, use_azure=self.use_azure)
+            logging.info("Setting up OpenAI client API Key")
+            self.api_key = self._get_openai_api_key()
+        elif model_source == "gpt4all":
+            self.client = GPT4AllClient(model=self.model)

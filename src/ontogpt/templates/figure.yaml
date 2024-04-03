@@ -1,0 +1,45 @@
+id: https://w3id.org/ontogpt/figure
+name: figure-template
+title: Plazi Figure Template
+description: >-
+  A template for Plazi figures and sub-parts
+license: https://creativecommons.org/publicdomain/zero/1.0/
+prefixes:
+  rdf: http://www.w3.org/1999/02/22-rdf-syntax-ns#
+  linkml: https://w3id.org/linkml/
+  fig: http://w3id.org/ontogpt/figure-template
+
+default_prefix: fig
+default_range: string
+
+imports:
+  - linkml:types
+  - core
+
+classes:
+  FigureCaption:
+    tree_root: true
+    description: A caption for a figure from a scientific paper. The caption may contain multiple subpanel descriptions.
+    attributes:
+      title:
+        description: the overall title of the figure caption
+      subpanel:
+        description: a subpanel of the figure
+        annotations:
+          prompt: >-
+            a semicolon separated list of descriptions of every panel in the text. Keep the panel id and text together.
+            for example: "1A: A side view of the foo; 1B: A frontal view of the foo"
+        multivalued: true
+        range: SubPanel
+
+  SubPanel:
+    description: A subcomponent of the overall figure caption.
+    attributes:
+      id:
+        description: The identifier for this figure subpanel
+        annotations:
+          prompt.example: 1, 2, A, B, I, II
+      text:
+        description: The text associated with this figure subpanel
+      info:
+        description: any information from the overall figure caption that applies to that subpanel (which may be duplicated across other subpanels).

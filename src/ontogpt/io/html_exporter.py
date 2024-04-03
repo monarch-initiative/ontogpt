@@ -59,12 +59,12 @@ class HTMLExporter(Exporter):
         self.open_div()
         if indent >= 0:
             self.open_ul()
-        for field in obj.__fields__.values():
+        for field_name, _field in obj.model_fields.items():
             if indent < 0:
-                self.h3(field.name)
+                self.h3(field_name)
             else:
-                self.li(f"<i>{field.name}</i>: ")
-            value = getattr(obj, field.name)
+                self.li(f"<i>{field_name}</i>: ")
+            value = getattr(obj, field_name)
             if isinstance(value, pydantic.BaseModel):
                 self.export_object(value, extraction_output, indent + 1)
             elif isinstance(value, list):

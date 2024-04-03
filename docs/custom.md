@@ -281,7 +281,7 @@ Ex.:
 ontogpt extract -t mendelian_disease.MendelianDisease -i marfan-wikipedia.txt
 ```
 
-OntoGPT-specific extensions are specified as _annotations_.
+OntoGPT-specific extensions are specified as *annotations*.
 
 You can specify a set of annotators for a field using the `annotators` annotation.
 
@@ -353,7 +353,7 @@ Ex. the `gocam` schema has an attribute:
         range: GeneMolecularActivityRelationship
 ```
 
-The range `GeneMolecularActivityRelationship` has been specified _inline_, so it will nest.
+The range `GeneMolecularActivityRelationship` has been specified *inline*, so it will nest.
 
 The generated prompt is:
 
@@ -367,6 +367,96 @@ The output of this is then passed through further SPIRES iterations.
 
 LLMs have context sizes limiting the combined length of their inputs and outputs. The `gpt-3.5-turbo` model, for example, has a 4,096 token limit (prompt + completion), while the `gpt-3.5-turbo-16k` model has a larger context of 16,384 tokens.
 
+## Advanced functionality with linkml-owl
+
+A LinkML schema used in OntoGPT may include annotations describing how each component relates to OWL syntax.
+
+This level of detail may be necessary if your data model includes complex logic beyond simple hierarchical relationships.
+
+For example, if you are extracting details of chemical reactions, it may be necessary to keep track of details like stoichiometry or charge. [See a relevant example here](https://linkml.io/linkml-owl/templates/).
+
+Incorporating OWL annotations into the custom schema (remember to export using the `-O owl` option) also supports importing the results into an ontology editor like Protege, at which point it may be reasoned over.
+
+The `recipe` template in OntoGPT incorporates several OWL annotations:
+
+```yaml
+classes:
+  Recipe:
+    tree_root: true
+    close_mappings:
+      - FOODON:00004081
+    attributes:
+      url:
+        identifier: true
+        range: uriorcurie
+        slot_uri: rdf:Resource
+        annotations:
+          prompt.skip: true
+      label:
+        description: the name of the recipe
+        slot_uri: rdfs:label
+        annotations:
+          owl: AnnotationProperty, AnnotationAssertion
+      description:
+        description: a brief textual description of the recipe
+        slot_uri: dcterms:description
+        annotations:
+          owl: AnnotationProperty, AnnotationAssertion
+      categories:
+        description: a semicolon separated list of the categories to which this recipe belongs
+        range: RecipeCategory
+        multivalued: true
+        slot_uri: dcterms:subject
+        annotations:
+          owl: AnnotationAssertion
+      ingredients:
+        description: a semicolon separated list of the ingredients plus quantities of the recipe
+        multivalued: true
+        range: Ingredient
+        slot_uri: FOODON:00002420
+        annotations:
+          owl: ObjectProperty, ObjectSomeValuesFrom
+      steps:
+        description: a semicolon separated list of the individual steps involved in this recipe
+        multivalued: true
+        range: Step
+        annotations:
+          owl: ObjectProperty, ObjectSomeValuesFrom
+    annotations:
+      owl: Class
+      owl.template: |
+        EquivalentClasses(
+          {{url}}
+          ObjectIntersectionOf(
+            recipe:Recipe
+            
+            {% for step in steps %}
+            ObjectSomeValuesFrom(
+              recipe:steps
+              {{tr(step)}}
+            )
+            {% endfor %}
+            {% for ingredient in ingredients %}
+            ObjectSomeValuesFrom(
+              FOODON:00002420
+              {{tr(ingredient)}}
+            )
+            {% endfor %}
+          )
+        )
+...
+```
+
+Several of the slots above, like `close_mappings` and `slot_uri`, aren't exclusive to OWL but define the parts of this data model in terms of existing vocabularies, so the schema and any extracted results will be more compatible with other models and methods. Here, `close_mappings` is used to show that the `Recipe` class is close but not necessarily identical to `FOODON:00004081`, or "food recipe".
+
+The `owl` slot under `annotations` for these attributes defines one or more corresponding OWL axiom types. Because the `label` attribute may be `AnnotationProperty, AnnotationAssertion` in OWL ([see the OWL2 syntax on Annotations](https://www.w3.org/TR/owl2-syntax/#Annotations)) we know it can be applied as a property for something else, like an axiom or a specific entity with an IRI. This is how the `rdfs:label` annotation property usually works so this isn't surprising.
+
+The `owl.template` slot defines template logic relating a Recipe to its component objects: steps and ingredients. It begins with an `EquivalentClasses` axiom to define the identifier of the recipe, which we assume to be a URL, as identical to the class expression in subsequent lines. Specifically, that `Recipe` must include both a series of steps (e.g., "fry", "chop", etc.) and a series of ingredients. The ingredients relate to the recipe through the property `FOODON:00002420`, or "has ingredient".
+
+Note that everything in {curly brackets} is a template of some kind. The Jinja template system is used in the example in lines like `{% for step in steps %}` where a loop is used. Template slots like `{{url}}` may be accessed directly with their names. So what makes `{{tr(step)}}` different from `{{step}}`? The `tr()` function used here translates its input into an OWL entity so it may be used to generate valid OWL axioms.
+
+See also: the [documentation page on OWL exports](owl_exports.md) and the [linkml-owl documentation](https://linkml.io/linkml-owl/).
+
 ## Install a custom schema
 
 If you have installed OntoGPT directly from its GitHub repository, then you may install a custom schema like this:
@@ -374,7 +464,7 @@ If you have installed OntoGPT directly from its GitHub repository, then you may 
 1. Move the schema file to the `src/ontogpt/templates` directory.
 2. Run `make` from the root of the repository to generate Pydantic versions of the schema.
 
-If you have installed OntoGPT from `pip`, _or_ if you can't use the `make` command, the process is similar, though it will depend on where the package is installed.
+If you have installed OntoGPT from `pip`, *or* if you can't use the `make` command, the process is similar, though it will depend on where the package is installed.
 
 1. Use the LinkML `gen-pydantic` tool to generate Pydantic classes. If your schema is named `alfred.yaml`, then run the following:
   

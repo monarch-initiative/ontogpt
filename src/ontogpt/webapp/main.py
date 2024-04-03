@@ -9,12 +9,10 @@ from pydantic import BaseModel
 from starlette.staticfiles import StaticFiles
 from starlette.templating import Jinja2Templates
 
-from ontogpt import MODELS
-from ontogpt.engines.enrichment import EnrichmentEngine
 from ontogpt.engines.knowledge_engine import DATAMODELS
 from ontogpt.engines.spires_engine import SPIRESEngine
 from ontogpt.io.html_exporter import HTMLExporter
-from ontogpt.utils.gene_set_utils import GeneSet
+from ontogpt.io.template_loader import get_template_details
 
 this_path = Path(__file__).parent
 static_dir = this_path / "static"
@@ -38,7 +36,8 @@ engines: Dict[str, SPIRESEngine] = {}
 
 def get_engine(datamodel: str):
     if datamodel not in engines:
-        engines[datamodel] = SPIRESEngine(datamodel)
+        template_details = get_template_details(template=datamodel)
+        engines[datamodel] = SPIRESEngine(template_details=template_details)
     return engines[datamodel]
 
 
@@ -60,30 +59,6 @@ def form_post(request: Request, datamodel: str = Form(...), text: str = Form(...
     html_exporter.export(extraction_output=ann, output=output)
     return templates.TemplateResponse(
         "results.html", context={"request": request, "inner_html": output.getvalue()}
-    )
-
-
-@app.get("/spindoctor")
-def sd_read_root(request: Request):
-    all_models = [modelname for model in MODELS for modelname in model["alternative_names"]]
-    return templates.TemplateResponse(
-        "spindoctor/form.html", context={"request": request, "models": all_models}
-    )
-
-
-@app.post("/spindoctor")
-def sd_form_post(request: Request, model: str = Form(...), text: str = Form(...)):
-    print(f"Received request with model {model}")
-    print(f"Received request with text {text}")
-    symbols = [s.strip() for s in text.split("\n")]
-    engine = EnrichmentEngine(model=model)
-    gene_set = GeneSet(name="TEMP", gene_symbols=symbols)
-    ann = engine.summarize(gene_set)
-    print(f"Got {ann}")
-    output = StringIO()
-    html_exporter.export(ann, output)
-    return templates.TemplateResponse(
-        "spindoctor/results.html", context={"request": request, "inner_html": output.getvalue()}
     )
 
 

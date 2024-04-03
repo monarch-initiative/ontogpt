@@ -1,0 +1,99 @@
+id: http://w3id.org/ontogpt/go_terms_relational
+name: go_terms_relational
+title: Gene Ontology Relation and CURIE Extraction
+description: >-
+  A template for GO Term and ID extraction,
+  as relations involving specific proteins.
+  Note this does not make a distinction between
+  GO term types.
+license: https://creativecommons.org/publicdomain/zero/1.0/
+prefixes:
+  rdf: http://www.w3.org/1999/02/22-rdf-syntax-ns#
+  linkml: https://w3id.org/linkml/
+  go_terms_relational: http://w3id.org/ontogpt/go_terms_relational
+
+default_prefix: go_terms_relational
+default_range: string
+
+imports:
+  - linkml:types
+  - core
+
+classes:
+  Document:
+    tree_root: true
+    description: A document that contains biological or biomedical concepts.
+    is_a: TextWithTriples
+    slot_usage:
+      triples:
+        range: ProteinToGORelationship
+        annotations:
+          prompt: >-
+            A semi-colon separated list of protein to GO term relationships,
+            where the relationship is HAS ANNOTATION,
+            for example:
+            RPS7B HAS ANNOTATION structural constituent of ribosome;
+            granzyme M HAS ANNOTATION endopeptidase activity;
+            Mknk1 HAS ANNOTATION nucleoplasm
+
+  ProteinToGORelationship:
+    is_a: Triple
+    description: >-
+      A triple where the subject is a protein and the object is a GO term.
+    slot_usage:
+      subject:
+        range: Protein
+        description: >-
+          The protein participating in the relationship,
+          for example: Klp61F, GATA binding protein 3, S-formylglutathione
+          hydrolase
+      object:
+        range: GOTerm
+        description: >-
+          The Gene Ontology term participating in the relationship,
+          for example: cytosol, plasma cell differentiation, small-subunit
+          processome
+      predicate:
+        range: ProteinToGOPredicate
+        description: The relationship type, usually HAS ANNOTATION.
+      subject_qualifier:
+        range: NamedEntity
+        description: >-
+          An optional qualifier or modifier for the protein.
+      object_qualifier:
+        range: NamedEntity
+        description: >-
+          An optional qualifier or modifier for the GO term.
+
+  Protein:
+    is_a: NamedEntity
+    annotations:
+      annotators: "gilda:, bioportal:hgnc-nr, sqlite:obo:pr"
+    id_prefixes:
+      - PR
+      - HGNC
+    comments:
+      - Technically gene or protein
+      - Can also be UniProt accession, etc
+
+  GOTerm:
+    is_a: NamedEntity
+    annotations:
+      annotators: "sqlite:obo:go"
+      prompt.examples: >-
+        nuclear axial expansion, intracellular transport,
+        medial surface of mandible, ribosomal subunit export from nucleus,
+        pole cell development, tubulin complex, proteasome complex, cytoplasm,
+        keratohyalin granule, catalytic activity, amine binding,
+        peptide receptor activity, oxygen carrier activity,
+        structural constituent of cytoskeleton
+    id_prefixes:
+      - GO
+
+  ProteinToGOPredicate:
+    is_a: RelationshipType
+    description: >-
+      A predicate for protein to GO term relationships.
+    comments:
+      - This may be changed to a more specific type, like RO
+      - Any changes should be reflected for the triples slot in Document

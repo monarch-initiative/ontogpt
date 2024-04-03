@@ -65,11 +65,25 @@ NOTE: We do not recommend hosting this webapp publicly without authentication.
 
 OpenAI's functions have been evaluated on test data. Please see the full documentation for details on these evaluations and how to reproduce them.
 
+## Related Projects
+
+* [TALISMAN](https://github.com/monarch-initiative/talisman/), a tool for generating summaries of functions enriched within a gene set. TALISMAN uses OntoGPT to work with LLMs.
+
+## Tutorials and Presentations
+
+- Presentation: "Staying grounded: assembling structured biological knowledge with help from large language models" - presented by Harry Caufield as part of the AgBioData Consortium webinar series (September 2023)
+  - [Slides](https://docs.google.com/presentation/d/1rMQVWaMju-ucYFif5nx4Xv3bNX2SVI_w89iBIT1bkV4/edit?usp=sharing)
+  - [Video](https://www.youtube.com/watch?v=z38lI6WyBsY)
+- Presentation: "Transforming unstructured biomedical texts with large language models" - presented by Harry Caufield as part of the BOSC track at ISMB/ECCB 2023 (July 2023)
+  - [Slides](https://docs.google.com/presentation/d/1LsOTKi-rXYczL9vUTHB1NDkaEqdA9u3ZFC5ANa0x1VU/edit?usp=sharing)
+  - [Video](https://www.youtube.com/watch?v=a34Yjz5xPp4)
+- Presentation: "OntoGPT: A framework for working with ontologies and large language models" - talk by Chris Mungall at Joint Food Ontology Workgroup (May 2023)
+  - [Slides](https://docs.google.com/presentation/d/1CosJJe8SqwyALyx85GWkw9eOT43B4HwDlAY2CmkmJgU/edit)
+  - [Video](https://www.youtube.com/watch?v=rt3wobA9hEs&t=1955s)
+
 ## Citation
 
 The information extraction approach used in OntoGPT, SPIRES, is described further in: Caufield JH, Hegde H, Emonet V, Harris NL, Joachimiak MP, Matentzoglu N, et al. Structured prompt interrogation and recursive extraction of semantics (SPIRES): A method for populating knowledge bases using zero-shot learning. arXiv publication: <http://arxiv.org/abs/2304.02711>
-
-The gene summarization approach used in OntoGPT, SPINDOCTOR, is described further in: Joachimiak MP, Caufield JH, Harris NL, Kim H, Mungall CJ. Gene Set Summarization using Large Language Models. arXiv publication: <http://arxiv.org/abs/2305.13338>
 
 ## Acknowledgements
 

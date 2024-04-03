@@ -1,0 +1,42 @@
+id: http://w3id.org/ontogpt/go_simple
+name: go_simple
+title: Simple Gene Ontology Extraction Template
+description: >-
+  Simple Gene Ontology Extraction Template
+license: https://creativecommons.org/publicdomain/zero/1.0/
+prefixes:
+  rdf: http://www.w3.org/1999/02/22-rdf-syntax-ns#
+  linkml: https://w3id.org/linkml/
+  go_simple: http://w3id.org/ontogpt/go_simple
+  GO: http://purl.obolibrary.org/obo/GO_
+
+default_prefix: go_simple
+default_range: string
+
+imports:
+  - linkml:types
+  - core
+
+classes:
+  OntologyTermSet:
+    tree_root: true
+    is_a: NamedEntity
+    attributes:
+      terms:
+        range: OntologyTerm
+        multivalued: true
+        description: >-
+          A semicolon-separated list of any Gene Ontology terms.
+
+  OntologyTerm:
+    is_a: NamedEntity
+    id_prefixes:
+      - GO
+    annotations:
+      annotators: sqlite:obo:go
+      prompt: >-
+        The name of a Gene Ontology term.
+        Examples include: regulation of dehydroepiandrosterone secretion,
+        lignan metabolic process, ITP catabolic process,
+        determination of imaginal disc primordium,
+        kinetoplast

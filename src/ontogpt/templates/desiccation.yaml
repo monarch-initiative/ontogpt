@@ -1,0 +1,68 @@
+id: http://w3id.org/ontogpt/desiccation
+name: desiccation
+title: desiccationTemplate
+description: >-
+  A template for extracting ChEBI, GO, NCBITAXON, PO, TO, PECO
+license: https://creativecommons.org/publicdomain/zero/1.0/
+prefixes:
+  rdf: http://www.w3.org/1999/02/22-rdf-syntax-ns#
+  linkml: https://w3id.org/linkml/
+  desiccation: http://w3id.org/ontogpt/desiccation
+
+default_prefix: desiccation
+default_range: string
+
+imports:
+  - linkml:types
+  - core
+
+classes:
+  EntityContainingDocument:
+    tree_root: true
+    is_a: NamedEntity
+    attributes:
+      environmental_conditions:
+        range: EnvironmentalCondition
+        multivalued: true
+        description: >- 
+          A semicolon-separated list of environmental terms.
+      taxa:
+        range: Taxon
+        multivalued: true
+        description: >- 
+          A semicolon-separated list of taxonomic terms of living things.
+      traits:
+        range: Trait
+        multivalued: true
+        description: >- 
+          A semicolon-separated list of plant traits.
+
+  EnvironmentalCondition:
+    is_a: NamedEntity
+    id_prefixes:
+      - PECO
+    annotations:
+      annotators: sqlite:obo:peco
+      prompt: >- 
+        the name of an environmental treatment.
+         Examples are drought, salt stress, cold tolerance.
+
+  Taxon:
+    is_a: NamedEntity
+    id_prefixes:
+      - NCBITaxon
+    annotations:
+      annotators: sqlite:obo:ncbitaxon
+      prompt: >- 
+        the name of a taxonomic name or species.
+         Examples are Bacillus subtilus, Bos taurus, blue whale.
+
+  Trait:
+    is_a: NamedEntity
+    id_prefixes:
+      - TO
+    annotations:
+      annotators: sqlite:obo:to
+      prompt: >- 
+        the description of a plant trait.
+         Examples of trait categories are germination ratio, fruit hollowness, arid region exposure.
