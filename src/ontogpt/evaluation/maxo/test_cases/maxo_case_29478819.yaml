@@ -24,7 +24,7 @@ named_entities:
     label: Urinary glycosaminoglycan excretion
 
 extracted_object:
-  action_to_symptom:
+  diagnostic_procedure_to_symptom:
     - subject: MAXO:0000933
       predicate: TREATS
       object:

@@ -25,7 +25,7 @@ named_entities:
   - id: MAXO:0010020
     label: amino acid supplementation
 extracted_object:
-  action_to_symptom:
+  diagnostic_procedure_to_symptom:
     - subject: MAXO:0000061
       predicate: TREATS
       object:
@@ -34,7 +34,7 @@ extracted_object:
       predicate: TREATS
       object:
         - HP:0001903
-  action_to_disease:
+  diagnostic_procedure_to_disease:
     - subject: MAXO:0010020
       predicate: TREATS
       object:

@@ -42,7 +42,7 @@ from pydantic import BaseModel
 from ontogpt.engines.knowledge_engine import chunk_text
 from ontogpt.engines.spires_engine import SPIRESEngine
 from ontogpt.evaluation.evaluation_engine import SimilarityScore, SPIRESEvaluationEngine
-from ontogpt.templates.maxo import MaxoAnnotations, ActionToSymptomRelationship, Publication
+from ontogpt.templates.maxo import MaxoAnnotations, ActionAnnotationRelationship, Publication
 
 THIS_DIR = Path(__file__).parent
 DATABASE_DIR = Path(__file__).parent / "test_cases"
@@ -179,9 +179,9 @@ class EvalMAXO(SPIRESEvaluationEngine):
             input_text = doc["input_text"]
             logger.debug(f"Text: {input_text}")
             try:
-                for r in doc["extracted_object"]["action_to_symptom"]:
+                for r in doc["extracted_object"]["diagnostic_procedure_to_symptom"]:
                     for object in r["object"]:
-                        t = ActionToSymptomRelationship.model_validate(
+                        t = ActionAnnotationRelationship.model_validate(
                             {
                                 "subject": f"{r['subject']}",
                                 "predicate": RMAP[r["predicate"]],
@@ -190,7 +190,7 @@ class EvalMAXO(SPIRESEvaluationEngine):
                         )
                         triples_by_text[input_text].append(t)
             except KeyError:  # some of the test cases may only have other relations
-                logger.info(f"Ignored {casefile} - no Action to Symptom relations")
+                logger.info(f"Ignored {casefile} - no Diagnostic Procedure to Symptom relations")
                 continue
         i = 0
         for input_text, triples in triples_by_text.items():
@@ -244,7 +244,7 @@ class EvalMAXO(SPIRESEvaluationEngine):
                 if extraction.extracted_object is not None:
                     # Process all multi-object triples to 1 to 1 triples
                     # so they may be more directly compared
-                    for extracted_triple in extraction.extracted_object.action_to_symptom:
+                    for extracted_triple in extraction.extracted_object.action_annotation_relationships:
                         new_triple = extracted_triple
                         for object in extracted_triple.object:
                             new_triple.object = [object]
@@ -267,7 +267,7 @@ class EvalMAXO(SPIRESEvaluationEngine):
                         if entity not in named_entities:
                             named_entities.append(entity)
 
-            def included(t: ActionToSymptomRelationship):
+            def included(t: ActionAnnotationRelationship):
                 if not [var for var in (t.subject, t.object, t.predicate) if var is None]:
                     return (
                         t
