@@ -7,8 +7,6 @@
 
 _OntoGPT_ is a Python package for extracting structured information from text with large language models (LLMs), _instruction prompts_, and ontology-based grounding.
 
-Two different strategies for knowledge extraction are currently implemented in OntoGPT:
-
 [For more details, please see the full documentation.](https://monarch-initiative.github.io/ontogpt/)
 
 ## Quick Start
@@ -63,7 +61,7 @@ NOTE: We do not recommend hosting this webapp publicly without authentication.
 
 ## Evaluations
 
-OpenAI's functions have been evaluated on test data. Please see the full documentation for details on these evaluations and how to reproduce them.
+OntoGPT's functions have been evaluated on test data. Please see the full documentation for details on these evaluations and how to reproduce them.
 
 ## Related Projects
 
@@ -83,7 +81,7 @@ OpenAI's functions have been evaluated on test data. Please see the full documen
 
 ## Citation
 
-The information extraction approach used in OntoGPT, SPIRES, is described further in: Caufield JH, Hegde H, Emonet V, Harris NL, Joachimiak MP, Matentzoglu N, et al. Structured prompt interrogation and recursive extraction of semantics (SPIRES): A method for populating knowledge bases using zero-shot learning. arXiv publication: <http://arxiv.org/abs/2304.02711>
+The information extraction approach used in OntoGPT, SPIRES, is described further in: Caufield JH, Hegde H, Emonet V, Harris NL, Joachimiak MP, Matentzoglu N, et al. Structured prompt interrogation and recursive extraction of semantics (SPIRES): A method for populating knowledge bases using zero-shot learning. _Bioinformatics_, Volume 40, Issue 3, March 2024, btae104, [https://doi.org/10.1093/bioinformatics/btae104](https://doi.org/10.1093/bioinformatics/btae104).
 
 ## Acknowledgements
 
