@@ -9,7 +9,7 @@ from copy import deepcopy
 from dataclasses import dataclass
 from io import BytesIO, TextIOWrapper
 from pathlib import Path
-from typing import List, Optional, Union
+from typing import Dict, List, Optional, Tuple, Union
 
 import click
 import jsonlines
@@ -1534,6 +1534,22 @@ def clinical_notes(
 @main.command()
 def list_templates():
     """List the available extraction templates."""
+
+    # Get the list of yaml files in the templates directory
+    all_templates = _get_templates()
+
+    # Sort that dict by id
+    all_templates = dict(sorted(all_templates.items()))
+
+    # Write it out
+    print("ID\tName\tDescription")
+    for template_id, (name, description) in all_templates.items():
+        print(f"{template_id}\t{name}\t{description}")
+
+
+def _get_templates() -> Dict[str, Tuple[str, str]]:
+    """Retrieve the list of all templates."""
+
     http_prefixes = ("http", "https")
 
     # Get the list of yaml files in the templates directory
@@ -1550,13 +1566,7 @@ def list_templates():
                 identifier = data["id"]
             all_templates[identifier] = (data["name"], data["description"])
 
-    # Sort that dict by id
-    all_templates = dict(sorted(all_templates.items()))
-
-    # Write it out
-    print("ID\tName\tDescription")
-    for template_id, (name, description) in all_templates.items():
-        print(f"{template_id}\t{name}\t{description}")
+    return all_templates
 
 
 @main.command()
@@ -1602,6 +1612,50 @@ def list_models():
             f"{primary_name}\t{provider}\t{canonical}\t{alternative_names}\t"
             f"{status}\t{disk}\t{memory}"
         )
+
+
+@main.command()
+@model_option
+@output_option_txt
+@output_format_options
+@show_prompt_option
+@azure_select_option
+@click.argument("input")
+def suggest_templates(input, model, output, output_format, show_prompt, azure_select, **kwargs):
+    """Provide a suggestion for an appropriate template, given a text input.
+
+    This is powered by the specified LLM.
+
+    Example:
+
+    ontogpt suggest-template "horses"
+    ontogpt suggest-template "Takotsubo Cardiomyopathy"
+    ontogpt suggest-template "I need to extract ingredients from recipes"
+
+    """
+
+    # Get the input text and preprocess it a bit
+    input_text = (
+        "Given the following table of templates, "
+        f"which are most appropriate for the following topic: {input.strip()}"
+    )
+
+    # Get the list of templates and sort
+    all_templates = _get_templates()
+    all_templates = dict(sorted(all_templates.items()))
+
+    # Assemble it into a string
+    all_templates_string = "\n".join(
+        [
+            f"{template_id}\t{name}\t{description}"
+            for template_id, (name, description) in all_templates.items()
+        ]
+    )
+
+    input_text = input_text + "\n" + "ID\tName\tDescription\n" + all_templates_string
+
+    # Write it out
+    print(input_text)
 
 
 if __name__ == "__main__":
