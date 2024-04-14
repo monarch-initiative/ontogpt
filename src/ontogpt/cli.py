@@ -1358,8 +1358,7 @@ def fill(model, template, object: str, examples, output, output_format, show_pro
 def openai_models(**kwargs):
     """List OpenAI models for prompt completion."""
     ai = OpenAIClient()
-    for model in client.models.list():
-        print(model)
+    print(ai)
 
 
 @main.command()
