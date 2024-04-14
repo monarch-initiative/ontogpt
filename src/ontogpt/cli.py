@@ -1395,11 +1395,11 @@ def _send_complete_request(model, input, output, output_format, show_prompt, azu
         model = DEFAULT_MODEL
     selectmodel = get_model_by_name(model)
     model_source = selectmodel["provider"]
-    # model_name = selectmodel["canonical_name"]
+    model_name = selectmodel["canonical_name"]
 
     # TODO: add support for other models
     if model_source == "OpenAI":
-        c = OpenAIClient(model=model, use_azure=azure_select)
+        c = OpenAIClient(model=model_name, use_azure=azure_select)
         results = c.complete(prompt=input, show_prompt=show_prompt)
     
     return results
@@ -1542,7 +1542,7 @@ def clinical_notes(
 
     # TODO: add support for other models
     if model_source == "OpenAI":
-        c = OpenAIClient(model=model, use_azure=azure_select)
+        c = OpenAIClient(model=model_name, use_azure=azure_select)
         results = c.complete(prompt=prompt, show_prompt=show_prompt)
 
     output.write(results)

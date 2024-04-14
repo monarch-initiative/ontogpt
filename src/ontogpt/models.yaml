@@ -12,7 +12,6 @@ models:
     requirements:
       diskspace: "N/A"
       memory: "N/A"
-    is_default: true
 
   - name: MODEL_GPT_3_5_TURBO_0125
     canonical_name: "gpt-3.5-turbo-0125"
@@ -80,8 +79,6 @@ models:
   - name: MODEL_GPT_4_0125_PREVIEW
     canonical_name: "gpt-4-0125-preview"
     alternative_names:
-      - "gpt4turbo"
-      - "gpt-4-turbo"
       - "openai-gpt-4-0125-preview"
     provider: OpenAI
     creators:
@@ -89,6 +86,21 @@ models:
     requirements:
       diskspace: "N/A"
       memory: "N/A"
+
+  - name: MODEL_GPT_4_TURBO
+    canonical_name: "gpt-4-turbo"
+    alternative_names:
+      - "gpt4turbo"
+      - "openai-gpt-4-turbo"
+      - "gpt4-turbo"
+      - "gpt4t"
+    provider: OpenAI
+    creators:
+      - OpenAI
+    requirements:
+      diskspace: "N/A"
+      memory: "N/A"
+    is_default: true
 
   - name: MODEL_GPT_3_5_TURBO_INSTRUCT
     canonical_name: "gpt-3.5-turbo-instruct"
