@@ -774,6 +774,15 @@
 </li>
         
           <li class="md-nav__item">
+  <a href="#suggest-template" class="md-nav__link">
+    <span class="md-ellipsis">
+      suggest-template
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#synonyms" class="md-nav__link">
     <span class="md-ellipsis">
       synonyms
@@ -1977,6 +1986,15 @@
 </li>
         
           <li class="md-nav__item">
+  <a href="#suggest-template" class="md-nav__link">
+    <span class="md-ellipsis">
+      suggest-template
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#synonyms" class="md-nav__link">
     <span class="md-ellipsis">
       synonyms
@@ -2450,6 +2468,15 @@ HP:0000629      Periorbital fullness    HP:0012228      Tension-type headache   
           state: cooked
       utensils:
         - AUTO:grill
+</code></pre>
+<h3 id="suggest-template">suggest-template</h3>
+<p>Suggest a template for a stated topic or purpose.</p>
+<p>This uses an LLM, so all options supported by the <code>extract</code> or <code>complete</code> functions are usable here as well.</p>
+<p>Example:</p>
+<pre><code class="language-bash">ontogpt suggest-template &quot;Takotsubo Cardiomyopathy&quot;
+</code></pre>
+<p>In this case, expect a response like this:</p>
+<pre><code>The most appropriate template for the topic of Takotsubo Cardiomyopathy would be the composite_disease template. This template is specifically designed for representing composite disease concepts, which fits well with the complex nature of Takotsubo Cardiomyopathy.
 </code></pre>
 <h3 id="synonyms">synonyms</h3>
 <p>Extract synonyms, based on embeddings.</p>
