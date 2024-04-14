@@ -1379,6 +1379,9 @@ def complete(model, input, output, output_format, show_prompt, azure_select, **k
 
     text = open(input).read()
 
+    # TODO: fix this so it doesn't need to be input file
+    # a raw string should also work
+
     # TODO: add support for other models
     if model_source == "OpenAI":
         c = OpenAIClient(model=model, use_azure=azure_select)
@@ -1654,9 +1657,20 @@ def suggest_templates(input, model, output, output_format, show_prompt, azure_se
 
     input_text = input_text + "\n" + "ID\tName\tDescription\n" + all_templates_string
 
-    # Write it out
-    print(input_text)
+    # TODO: use the complete function directly
+    # Complete with LLM based on input
+    if not model:
+        model = DEFAULT_MODEL
+    selectmodel = get_model_by_name(model)
+    model_source = selectmodel["provider"]
+    # model_name = selectmodel["canonical_name"]
 
+    # TODO: add support for other models
+    if model_source == "OpenAI":
+        c = OpenAIClient(model=model, use_azure=azure_select)
+        results = c.complete(prompt=input_text, show_prompt=show_prompt)
+
+    output.write(results + "\n")
 
 if __name__ == "__main__":
     main()
