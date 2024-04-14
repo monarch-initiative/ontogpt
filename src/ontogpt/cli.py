@@ -1379,24 +1379,31 @@ def complete(inputfile, model, input, output, output_format, show_prompt, azure_
     Use the -i/--input-file option followed by the path to the input file.
     Otherwise, the input is assumed to be a string to be read as input.
     """
-    if not model:
-        model = DEFAULT_MODEL
-    selectmodel = get_model_by_name(model)
-    model_source = selectmodel["provider"]
-    model_name = selectmodel["canonical_name"]
 
     if inputfile:
         text = open(inputfile).read()
     else:
         text = input.strip()
 
-    # TODO: add support for other models
-    if model_source == "OpenAI":
-        c = OpenAIClient(model=model, use_azure=azure_select)
-        results = c.complete(prompt=text, show_prompt=show_prompt)
+    results = _send_complete_request(model, text, output, output_format, show_prompt, azure_select)
 
     output.write(results + "\n")
 
+def _send_complete_request(model, input, output, output_format, show_prompt, azure_select, **kwargs) -> str:
+    """Send a completion request to an LLM endpoint."""
+    
+    if not model:
+        model = DEFAULT_MODEL
+    selectmodel = get_model_by_name(model)
+    model_source = selectmodel["provider"]
+    # model_name = selectmodel["canonical_name"]
+
+    # TODO: add support for other models
+    if model_source == "OpenAI":
+        c = OpenAIClient(model=model, use_azure=azure_select)
+        results = c.complete(prompt=input, show_prompt=show_prompt)
+    
+    return results
 
 @main.command()
 @template_option
@@ -1665,18 +1672,15 @@ def suggest_templates(input, model, output, output_format, show_prompt, azure_se
 
     input_text = input_text + "\n" + "ID\tName\tDescription\n" + all_templates_string
 
-    # TODO: use the complete function directly
-    # Complete with LLM based on input
-    if not model:
-        model = DEFAULT_MODEL
-    selectmodel = get_model_by_name(model)
-    model_source = selectmodel["provider"]
-    # model_name = selectmodel["canonical_name"]
-
-    # TODO: add support for other models
-    if model_source == "OpenAI":
-        c = OpenAIClient(model=model, use_azure=azure_select)
-        results = c.complete(prompt=input_text, show_prompt=show_prompt)
+    # Use the complete function directly to address query
+    results = _send_complete_request(
+        model=model,
+        input=input_text,
+        output=output,
+        output_format=output_format,
+        show_prompt=show_prompt,
+        azure_select=azure_select,
+    )
 
     output.write(results + "\n")
 
