@@ -9,7 +9,7 @@ from copy import deepcopy
 from dataclasses import dataclass
 from io import BytesIO, TextIOWrapper
 from pathlib import Path
-from typing import List, Optional, Union
+from typing import Dict, List, Optional, Tuple, Union
 
 import click
 import jsonlines
@@ -1358,34 +1358,51 @@ def fill(model, template, object: str, examples, output, output_format, show_pro
 def openai_models(**kwargs):
     """List OpenAI models for prompt completion."""
     ai = OpenAIClient()
-    for model in client.models.list():
-        print(model)
+    print(ai)
 
 
 @main.command()
+@inputfile_option
 @model_option
 @output_option_txt
 @output_format_options
 @show_prompt_option
 @azure_select_option
-@click.argument("input")
-def complete(model, input, output, output_format, show_prompt, azure_select, **kwargs):
-    """Prompt completion."""
+@click.argument("input", required=False)
+def complete(inputfile, model, input, output, output_format, show_prompt, azure_select, **kwargs):
+    """Prompt completion.
+    
+    The input argument may be:
+        A file path,
+        or a string.
+    Use the -i/--input-file option followed by the path to the input file.
+    Otherwise, the input is assumed to be a string to be read as input.
+    """
+
+    if inputfile:
+        text = open(inputfile).read()
+    else:
+        text = input.strip()
+
+    results = _send_complete_request(model, text, output, output_format, show_prompt, azure_select)
+
+    output.write(results + "\n")
+
+def _send_complete_request(model, input, output, output_format, show_prompt, azure_select, **kwargs) -> str:
+    """Send a completion request to an LLM endpoint."""
+    
     if not model:
         model = DEFAULT_MODEL
     selectmodel = get_model_by_name(model)
     model_source = selectmodel["provider"]
-    model_name = selectmodel["canonical_name"]
-
-    text = open(input).read()
+    # model_name = selectmodel["canonical_name"]
 
     # TODO: add support for other models
     if model_source == "OpenAI":
         c = OpenAIClient(model=model, use_azure=azure_select)
-        results = c.complete(prompt=text, show_prompt=show_prompt)
-
-    output.write(results)
-
+        results = c.complete(prompt=input, show_prompt=show_prompt)
+    
+    return results
 
 @main.command()
 @template_option
@@ -1534,6 +1551,22 @@ def clinical_notes(
 @main.command()
 def list_templates():
     """List the available extraction templates."""
+
+    # Get the list of yaml files in the templates directory
+    all_templates = _get_templates()
+
+    # Sort that dict by id
+    all_templates = dict(sorted(all_templates.items()))
+
+    # Write it out
+    print("ID\tName\tDescription")
+    for template_id, (name, description) in all_templates.items():
+        print(f"{template_id}\t{name}\t{description}")
+
+
+def _get_templates() -> Dict[str, Tuple[str, str]]:
+    """Retrieve the list of all templates."""
+
     http_prefixes = ("http", "https")
 
     # Get the list of yaml files in the templates directory
@@ -1550,13 +1583,7 @@ def list_templates():
                 identifier = data["id"]
             all_templates[identifier] = (data["name"], data["description"])
 
-    # Sort that dict by id
-    all_templates = dict(sorted(all_templates.items()))
-
-    # Write it out
-    print("ID\tName\tDescription")
-    for template_id, (name, description) in all_templates.items():
-        print(f"{template_id}\t{name}\t{description}")
+    return all_templates
 
 
 @main.command()
@@ -1603,6 +1630,58 @@ def list_models():
             f"{status}\t{disk}\t{memory}"
         )
 
+
+@main.command()
+@model_option
+@output_option_txt
+@output_format_options
+@show_prompt_option
+@azure_select_option
+@click.argument("input")
+def suggest_templates(input, model, output, output_format, show_prompt, azure_select, **kwargs):
+    """Provide a suggestion for an appropriate template, given a text input.
+
+    This is powered by the specified LLM.
+
+    Example:
+
+    ontogpt suggest-template "horses"
+    ontogpt suggest-template "Takotsubo Cardiomyopathy"
+    ontogpt suggest-template "I need to extract ingredients from recipes"
+
+    """
+
+    # Get the input text and preprocess it a bit
+    input_text = (
+        "Given the following table of templates, "
+        f"which are most appropriate for the following topic: {input.strip()}"
+    )
+
+    # Get the list of templates and sort
+    all_templates = _get_templates()
+    all_templates = dict(sorted(all_templates.items()))
+
+    # Assemble it into a string
+    all_templates_string = "\n".join(
+        [
+            f"{template_id}\t{name}\t{description}"
+            for template_id, (name, description) in all_templates.items()
+        ]
+    )
+
+    input_text = input_text + "\n" + "ID\tName\tDescription\n" + all_templates_string
+
+    # Use the complete function directly to address query
+    results = _send_complete_request(
+        model=model,
+        input=input_text,
+        output=output,
+        output_format=output_format,
+        show_prompt=show_prompt,
+        azure_select=azure_select,
+    )
+
+    output.write(results + "\n")
 
 if __name__ == "__main__":
     main()
