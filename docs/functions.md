@@ -612,6 +612,24 @@ extracted_object:
         - AUTO:grill
 ```
 
+### suggest-template
+
+Suggest a template for a stated topic or purpose.
+
+This uses an LLM, so all options supported by the `extract` or `complete` functions are usable here as well.
+
+Example:
+
+```bash
+ontogpt suggest-template "Takotsubo Cardiomyopathy"
+```
+
+In this case, expect a response like this:
+
+```
+The most appropriate template for the topic of Takotsubo Cardiomyopathy would be the composite_disease template. This template is specifically designed for representing composite disease concepts, which fits well with the complex nature of Takotsubo Cardiomyopathy.
+```
+
 ### synonyms
 
 Extract synonyms, based on embeddings.
