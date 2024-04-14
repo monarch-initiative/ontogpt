@@ -1363,31 +1363,39 @@ def openai_models(**kwargs):
 
 
 @main.command()
+@inputfile_option
 @model_option
 @output_option_txt
 @output_format_options
 @show_prompt_option
 @azure_select_option
-@click.argument("input")
-def complete(model, input, output, output_format, show_prompt, azure_select, **kwargs):
-    """Prompt completion."""
+@click.argument("input", required=False)
+def complete(inputfile, model, input, output, output_format, show_prompt, azure_select, **kwargs):
+    """Prompt completion.
+    
+    The input argument may be:
+        A file path,
+        or a string.
+    Use the -i/--input-file option followed by the path to the input file.
+    Otherwise, the input is assumed to be a string to be read as input.
+    """
     if not model:
         model = DEFAULT_MODEL
     selectmodel = get_model_by_name(model)
     model_source = selectmodel["provider"]
     model_name = selectmodel["canonical_name"]
 
-    text = open(input).read()
-
-    # TODO: fix this so it doesn't need to be input file
-    # a raw string should also work
+    if inputfile:
+        text = open(inputfile).read()
+    else:
+        text = input.strip()
 
     # TODO: add support for other models
     if model_source == "OpenAI":
         c = OpenAIClient(model=model, use_azure=azure_select)
         results = c.complete(prompt=text, show_prompt=show_prompt)
 
-    output.write(results)
+    output.write(results + "\n")
 
 
 @main.command()
