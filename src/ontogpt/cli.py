@@ -6,6 +6,7 @@ import logging
 import os
 import pickle
 import sys
+import warnings
 from copy import deepcopy
 from dataclasses import dataclass
 from io import BytesIO, TextIOWrapper
@@ -15,6 +16,7 @@ from typing import Dict, List, Optional, Tuple, Union
 import click
 import fitz
 import jsonlines
+import openai
 
 import yaml
 from oaklib import get_adapter
@@ -1238,8 +1240,9 @@ def extract_case_report_info(pdf_directory, output_directory):
 @click.argument("input_data_dir")
 @click.argument("output_directory")
 @click.argument("correct_diagnosis_file")
-def run_kanjee_analysis(input_data_dir, output_directory, correct_diagnosis_file,
-                        model="gpt-4"):
+@click.option("--ext", default=".txt")
+def run_multilingual_analysis(input_data_dir, output_directory, correct_diagnosis_file,
+                              model="gpt-4-turbo", ext=".txt"):
     # Create the output TSV file name
     output_file_name = input_data_dir.strip(os.sep).split(os.sep)[-1] + "_results.tsv"
     output_file_path = os.path.join(output_directory, output_file_name)
@@ -1262,18 +1265,20 @@ def run_kanjee_analysis(input_data_dir, output_directory, correct_diagnosis_file
         tsv_file.write("input file name\tcorrect diagnosis\tgpt diagnosis\n")
 
         for filename in os.listdir(input_data_dir):
-            if filename.endswith(".txt"):
+            if filename.endswith(ext):
                 file_path = os.path.join(input_data_dir, filename)
 
                 if filename.split('-')[0] in correct_diagnosis_dict:
                     correct_diagnosis = correct_diagnosis_dict[filename.split('-')[0]]
                 else:
-                    correct_diagnosis = \
-                        f"Couldn't find {filename} in correct diagnosis file"
+                    this_warning = f"Couldn't find {filename} in correct diagnosis file"
+                    logging.warning(this_warning)
+                    correct_diagnosis = this_warning
 
                 with open(file_path, mode='r', encoding="utf-8") as txt_file:
                     prompt = txt_file.read()
 
+                # TODO (maybe) - handle non-OpenAI models
                 ai = OpenAIClient()
                 ai.model = model
                 try:
@@ -1282,7 +1287,6 @@ def run_kanjee_analysis(input_data_dir, output_directory, correct_diagnosis_file
                     gpt_diagnosis = "OPENAI API CALL FAILED"
 
                 # Write the result to the output TSV file
-                gpt_diagnosis = gpt_diagnosis.replace('"', '""')
                 tsv_file.write(f"{filename}\t{correct_diagnosis}\t\"{gpt_diagnosis}\"\n")
 
 
