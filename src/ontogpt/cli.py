@@ -1245,6 +1245,9 @@ def run_multilingual_analysis(input_data_dir, output_directory, correct_diagnosi
                               model="gpt-4-turbo", ext=".txt"):
     # Create the output TSV file name
     output_file_name = input_data_dir.strip(os.sep).split(os.sep)[-1] + "_results.tsv"
+
+    # make sure the output directory exists
+    os.makedirs(output_directory, exist_ok=True)
     output_file_path = os.path.join(output_directory, output_file_name)
 
     # parse correct diagnosis file
