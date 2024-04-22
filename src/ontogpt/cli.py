@@ -1289,6 +1289,7 @@ def run_multilingual_analysis(input_data_dir, output_directory, correct_diagnosi
                 except openai.error.InvalidRequestError as e:
                     gpt_diagnosis = "OPENAI API CALL FAILED"
 
+                # TODO: Possibly we will need to ground the answer to OMIM using OAK
                 # Write the result to the output TSV file
                 tsv_file.write(f"{filename}\t{correct_diagnosis}\t\"{gpt_diagnosis}\"\n")
 
