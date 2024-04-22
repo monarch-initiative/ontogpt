@@ -1,0 +1,131 @@
+BASE <http://w3id.org/ontogpt/core/>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+PREFIX linkml: <https://w3id.org/linkml/>
+PREFIX rdfs1: <http://example.org/UNKNOWN/rdfs/>
+
+
+linkml:String xsd:string
+
+linkml:Integer xsd:integer
+
+linkml:Boolean xsd:boolean
+
+linkml:Float xsd:float
+
+linkml:Double xsd:double
+
+linkml:Decimal xsd:decimal
+
+linkml:Time xsd:time
+
+linkml:Date xsd:date
+
+linkml:Datetime xsd:dateTime
+
+linkml:DateOrDatetime linkml:DateOrDatetime
+
+linkml:Uriorcurie IRI
+
+linkml:Curie xsd:string
+
+linkml:Uri IRI
+
+linkml:Ncname xsd:string
+
+linkml:Objectidentifier IRI
+
+linkml:Nodeidentifier NONLITERAL
+
+linkml:Jsonpointer xsd:string
+
+linkml:Jsonpath xsd:string
+
+linkml:Sparqlpath xsd:string
+
+<AnnotatorResult> CLOSED {
+    (  $<AnnotatorResult_tes> (  <subject_text> @linkml:String ? ;
+          <object_id> @linkml:String ? ;
+          <object_text> @linkml:String ?
+       ) ;
+       rdf:type [ <AnnotatorResult> ] ?
+    )
+}
+
+<Any> CLOSED {
+    (  $<Any_tes> rdf:type . * ;
+       rdf:type [ linkml:Any ] ?
+    )
+}
+
+<CompoundExpression>  (
+    {
+       (  $<CompoundExpression_tes> rdf:type . * ;
+          rdf:type [ <CompoundExpression> ] ?
+       )
+    } OR @<Triple>
+)
+
+<ExtractionResult> CLOSED {
+    (  $<ExtractionResult_tes> (  <input_id> @linkml:String ? ;
+          <input_title> @linkml:String ? ;
+          <input_text> @linkml:String ? ;
+          <raw_completion_output> @linkml:String ? ;
+          <prompt> @linkml:String ? ;
+          <extracted_object> @<Any> ? ;
+          <named_entities> @<Any> *
+       ) ;
+       rdf:type [ <ExtractionResult> ] ?
+    )
+}
+
+<NamedEntity>  (
+    {
+       (  $<NamedEntity_tes> rdfs1:label @linkml:String ? ;
+          rdf:type [ <NamedEntity> ]
+       )
+    } OR @<RelationshipType>
+)
+
+<Publication> CLOSED {
+    (  $<Publication_tes> (  <id> @linkml:String ? ;
+          <title> @linkml:String ? ;
+          <abstract> @linkml:String ? ;
+          <combined_text> @linkml:String ? ;
+          <full_text> @linkml:String ?
+       ) ;
+       rdf:type [ <Publication> ] ?
+    )
+}
+
+<RelationshipType> CLOSED {
+    (  $<RelationshipType_tes> (  &<NamedEntity_tes> ;
+          rdf:type [ <NamedEntity> ] ?
+       ) ;
+       rdf:type [ <RelationshipType> ]
+    )
+}
+
+<TextWithTriples> CLOSED {
+    (  $<TextWithTriples_tes> (  <publication> @<Publication> ? ;
+          <triples> @<Triple> *
+       ) ;
+       rdf:type [ <TextWithTriples> ] ?
+    )
+}
+
+<Triple> {
+    (  $<Triple_tes> (  &<CompoundExpression_tes> ;
+          rdf:type [ <CompoundExpression> ] ? ;
+          <subject> @<NamedEntity> ? ;
+          <predicate> @<RelationshipType> ? ;
+          <object> @<NamedEntity> ? ;
+          <qualifier> @linkml:String ? ;
+          <subject_qualifier> @<NamedEntity> ? ;
+          <object_qualifier> @<NamedEntity> ?
+       ) ;
+       rdf:type [ <Triple> ] ?
+    )
+}
+
+

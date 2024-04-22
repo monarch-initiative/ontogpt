@@ -3,10 +3,13 @@ name: core
 title: AI core Template
 license: https://creativecommons.org/publicdomain/zero/1.0/
 prefixes:
-  linkml: https://w3id.org/linkml/
-  core: http://w3id.org/ontogpt/core/
+  rdf: http://www.w3.org/1999/02/22-rdf-syntax-ns#
   NCIT: http://purl.obolibrary.org/obo/NCIT_
   RO: http://purl.obolibrary.org/obo/RO_
+  biolink: https://w3id.org/biolink/vocab/
+  core: http://w3id.org/ontogpt/core/
+  linkml: https://w3id.org/linkml/
+  rdfs: http://www.w3.org/2000/01/rdf-schema#
 description: Core upper level
 
 default_prefix: core
@@ -90,6 +93,7 @@ classes:
           An optional qualifier or modifier for the object of the statement, e.g. "severe" or "with additional complications"
 
   TextWithTriples:
+    description: A text containing one or more relations of the Triple type.
     attributes:
       publication:
         range: Publication
@@ -101,6 +105,18 @@ classes:
         multivalued: true
         inlined: true
         inlined_as_list: true
+
+  TextWithEntity:
+    description: A text containing one or more instances of a single type of entity.
+    attributes:
+      publication:
+        range: Publication
+        inlined: true
+        annotations:
+          prompt.skip: "true"
+      entities:
+        range: NamedEntity
+        multivalued: true
 
   RelationshipType:
     is_a: NamedEntity

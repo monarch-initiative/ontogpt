@@ -5,6 +5,10 @@ description: >-
   A template for GO-CAMs
 license: https://creativecommons.org/publicdomain/zero/1.0/
 prefixes:
+  rdf: http://www.w3.org/1999/02/22-rdf-syntax-ns#
+  HGNC: http://identifiers.org/hgnc/
+  HP: http://purl.obolibrary.org/obo/HP_
+  MONDO: http://purl.obolibrary.org/obo/MONDO_
   linkml: https://w3id.org/linkml/
   mendelian_disease: http://w3id.org/ontogpt/mendelian_disease/
 
@@ -28,7 +32,7 @@ classes:
         description: a description of the disease
         examples:
           - value: >-
-             Peroxisome biogenesis disorders, Zellweger syndrome spectrum (PBD-ZSS) is a group of autosomal recessive disorders affecting the formation of functional peroxisomes, characterized by sensorineural hearing loss, pigmentary retinal degeneration, multiple organ dysfunction and psychomotor impairment
+              Peroxisome biogenesis disorders, Zellweger syndrome spectrum (PBD-ZSS) is a group of autosomal recessive disorders affecting the formation of functional peroxisomes, characterized by sensorineural hearing loss, pigmentary retinal degeneration, multiple organ dysfunction and psychomotor impairment
       synonyms:
         multivalued: true
         examples:
@@ -110,7 +114,6 @@ classes:
       decades:
         multivalued: true
       juvenile_or_adult:
-
 
   Inheritance:
     is_a: NamedEntity

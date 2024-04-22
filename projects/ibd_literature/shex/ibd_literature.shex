@@ -1,0 +1,226 @@
+BASE <http://w3id.org/ontogpt/ibd_literature/>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+PREFIX core: <http://w3id.org/ontogpt/core/>
+PREFIX linkml: <https://w3id.org/linkml/>
+PREFIX rdfs1: <http://example.org/UNKNOWN/rdfs/>
+
+
+linkml:String xsd:string
+
+linkml:Integer xsd:integer
+
+linkml:Boolean xsd:boolean
+
+linkml:Float xsd:float
+
+linkml:Double xsd:double
+
+linkml:Decimal xsd:decimal
+
+linkml:Time xsd:time
+
+linkml:Date xsd:date
+
+linkml:Datetime xsd:dateTime
+
+linkml:DateOrDatetime linkml:DateOrDatetime
+
+linkml:Uriorcurie IRI
+
+linkml:Curie xsd:string
+
+linkml:Uri IRI
+
+linkml:Ncname xsd:string
+
+linkml:Objectidentifier IRI
+
+linkml:Nodeidentifier NONLITERAL
+
+linkml:Jsonpointer xsd:string
+
+linkml:Jsonpath xsd:string
+
+linkml:Sparqlpath xsd:string
+
+core:AnnotatorResult CLOSED {
+    (  $core:AnnotatorResult_tes (  core:subject_text @linkml:String ? ;
+          core:object_id @linkml:String ? ;
+          core:object_text @linkml:String ?
+       ) ;
+       rdf:type [ core:AnnotatorResult ] ?
+    )
+}
+
+core:Any CLOSED {
+    (  $core:Any_tes rdf:type . * ;
+       rdf:type [ linkml:Any ] ?
+    )
+}
+
+<CellularProcess> CLOSED {
+    (  $<CellularProcess_tes> (  &core:NamedEntity_tes ;
+          rdf:type [ core:NamedEntity ] ?
+       ) ;
+       rdf:type [ <CellularProcess> ]
+    )
+}
+
+<ChemicalExposure> CLOSED {
+    (  $<ChemicalExposure_tes> (  &core:NamedEntity_tes ;
+          rdf:type [ core:NamedEntity ] ?
+       ) ;
+       rdf:type [ <ChemicalExposure> ]
+    )
+}
+
+<ChemicalExposureToGenePredicate> CLOSED {
+    (  $<ChemicalExposureToGenePredicate_tes> (  &core:RelationshipType_tes ;
+          rdf:type [ core:RelationshipType ] ?
+       ) ;
+       rdf:type [ <ChemicalExposureToGenePredicate> ]
+    )
+}
+
+core:CompoundExpression  (
+    {
+       (  $core:CompoundExpression_tes rdf:type . * ;
+          rdf:type [ core:CompoundExpression ] ?
+       )
+    } OR @core:Triple
+)
+
+<Disease> CLOSED {
+    (  $<Disease_tes> (  &core:NamedEntity_tes ;
+          rdf:type [ core:NamedEntity ] ?
+       ) ;
+       rdf:type [ <Disease> ]
+    )
+}
+
+<DiseaseCellularProcessRelationship> CLOSED {
+    (  $<DiseaseCellularProcessRelationship_tes> (  &core:Triple_tes ;
+          rdf:type [ core:Triple ] ? ;
+          <subject> @<Disease> ? ;
+          <predicate> @<DiseaseToCellularProcessPredicate> ? ;
+          <object> @<CellularProcess> ? ;
+          <subject_qualifier> @core:NamedEntity ? ;
+          <object_qualifier> @core:NamedEntity ?
+       ) ;
+       rdf:type [ <DiseaseCellularProcessRelationship> ] ?
+    )
+}
+
+<DiseaseToCellularProcessPredicate> CLOSED {
+    (  $<DiseaseToCellularProcessPredicate_tes> (  &core:RelationshipType_tes ;
+          rdf:type [ core:RelationshipType ] ?
+       ) ;
+       rdf:type [ <DiseaseToCellularProcessPredicate> ]
+    )
+}
+
+core:ExtractionResult CLOSED {
+    (  $core:ExtractionResult_tes (  core:input_id @linkml:String ? ;
+          core:input_title @linkml:String ? ;
+          core:input_text @linkml:String ? ;
+          core:raw_completion_output @linkml:String ? ;
+          core:prompt @linkml:String ? ;
+          core:extracted_object @core:Any ? ;
+          core:named_entities @core:Any *
+       ) ;
+       rdf:type [ core:ExtractionResult ] ?
+    )
+}
+
+<Gene> CLOSED {
+    (  $<Gene_tes> (  &core:NamedEntity_tes ;
+          rdf:type [ core:NamedEntity ] ?
+       ) ;
+       rdf:type [ <Gene> ]
+    )
+}
+
+<GeneExposureRelationship> CLOSED {
+    (  $<GeneExposureRelationship_tes> (  &core:Triple_tes ;
+          rdf:type [ core:Triple ] ? ;
+          <subject> @<ChemicalExposure> ? ;
+          <predicate> @<ChemicalExposureToGenePredicate> ? ;
+          <object> @<Gene> ? ;
+          <subject_qualifier> @core:NamedEntity ? ;
+          <object_qualifier> @core:NamedEntity ?
+       ) ;
+       rdf:type [ <GeneExposureRelationship> ] ?
+    )
+}
+
+<IBDAnnotations> CLOSED {
+    (  $<IBDAnnotations_tes> (  <genes> @<Gene> * ;
+          <exposures> @<ChemicalExposure> * ;
+          <gene_exposures_relationships> @<GeneExposureRelationship> * ;
+          <diseases> @<Disease> * ;
+          <cellular_process> @<CellularProcess> * ;
+          <disease_cellular_process_relationships> @<DiseaseCellularProcessRelationship> *
+       ) ;
+       rdf:type [ <IBDAnnotations> ] ?
+    )
+}
+
+core:NamedEntity  (
+    @<CellularProcess> OR @<ChemicalExposure> OR @<Disease> OR @<Gene> OR @core:RelationshipType
+)
+
+core:NamedEntity_struct {
+    (  $core:NamedEntity_tes rdfs1:label @linkml:String ? ;
+       rdf:type [ core:NamedEntity ]
+    )
+}
+
+core:Publication CLOSED {
+    (  $core:Publication_tes (  core:id @linkml:String ? ;
+          core:title @linkml:String ? ;
+          core:abstract @linkml:String ? ;
+          core:combined_text @linkml:String ? ;
+          core:full_text @linkml:String ?
+       ) ;
+       rdf:type [ core:Publication ] ?
+    )
+}
+
+core:RelationshipType  (
+    CLOSED {
+       (  $core:RelationshipType_tes (  &core:NamedEntity_tes ;
+             rdf:type [ core:NamedEntity ] ?
+          ) ;
+          rdf:type [ core:RelationshipType ]
+       )
+    } OR @<ChemicalExposureToGenePredicate> OR @<DiseaseToCellularProcessPredicate>
+)
+
+core:TextWithTriples CLOSED {
+    (  $core:TextWithTriples_tes (  core:publication @core:Publication ? ;
+          core:triples @core:Triple *
+       ) ;
+       rdf:type [ core:TextWithTriples ] ?
+    )
+}
+
+core:Triple  (
+    @<DiseaseCellularProcessRelationship> OR @<GeneExposureRelationship>
+)
+
+core:Triple_struct {
+    (  $core:Triple_tes (  &core:CompoundExpression_tes ;
+          rdf:type [ core:CompoundExpression ] ? ;
+          core:subject @core:NamedEntity ? ;
+          core:predicate @core:RelationshipType ? ;
+          core:object @core:NamedEntity ? ;
+          core:qualifier @linkml:String ? ;
+          core:subject_qualifier @core:NamedEntity ? ;
+          core:object_qualifier @core:NamedEntity ?
+       ) ;
+       rdf:type [ core:Triple ] ?
+    )
+}
+
+

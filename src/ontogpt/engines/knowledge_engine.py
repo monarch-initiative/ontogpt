@@ -1,5 +1,4 @@
 """Main Knowledge Extractor class."""
-import importlib
 import logging
 import re
 from abc import ABC
@@ -10,7 +9,6 @@ from typing import Dict, Iterator, List, Optional, TextIO, Union
 from urllib.parse import quote
 
 import inflection
-import openai
 import pydantic
 import tiktoken
 import yaml
@@ -22,9 +20,11 @@ from oaklib.implementations import OntoPortalImplementationBase
 from oaklib.interfaces import MappingProviderInterface, TextAnnotatorInterface
 from oaklib.utilities.apikey_manager import get_apikey_value
 from oaklib.utilities.subsets.value_set_expander import ValueSetExpander
+from requests.exceptions import ConnectionError, HTTPError, ProxyError
 
 from ontogpt import DEFAULT_MODEL
-from ontogpt.clients import OpenAIClient
+
+# from ontogpt.clients import OpenAIClient, GPT4AllClient, HFHubClient
 from ontogpt.templates.core import ExtractionResult, NamedEntity
 
 this_path = Path(__file__).parent
@@ -37,6 +37,16 @@ FIELD = str
 TEMPLATE_NAME = str
 MODEL_NAME = str
 
+# GPT4All support is optional, so we don't load it
+# if it's not installed
+try:
+    from ontogpt.clients import OpenAIClient, GPT4AllClient
+    CLIENT_TYPES = Union[OpenAIClient, GPT4AllClient]
+except ImportError:
+    logger.warning("GPT4All client not available. GPT4All support will be disabled.")
+    from ontogpt.clients import OpenAIClient
+    CLIENT_TYPES = OpenAIClient # type: ignore
+
 # annotation metamodel
 ANNOTATION_KEY_PROMPT = "prompt"
 ANNOTATION_KEY_PROMPT_SKIP = "prompt.skip"
@@ -45,14 +55,21 @@ ANNOTATION_KEY_RECURSE = "ner.recurse"
 ANNOTATION_KEY_EXAMPLES = "prompt.examples"
 
 # TODO: introspect
+# TODO: move this to its own module
 DATAMODELS = [
-    "treatment.DiseaseTreatmentSummary",
-    "gocam.GoCamAnnotations",
-    "bioloigical_process.BiologicalProcess",
+    "biological_process.BiologicalProcess",
+    "biotic_interaction.BioticInteraction",
+    "cell_type.CellTypeDocument",
+    "ctd.ChemicalToDiseaseDocument",
+    "diagnostic_procedure.DiagnosticProceduretoPhenotypeAssociation",
+    "drug.DrugMechanism",
     "environmental_sample.Study",
+    "gocam.GoCamAnnotations",
     "mendelian_disease.MendelianDisease",
+    "phenotype.Trait",
     "reaction.Reaction",
     "recipe.Recipe",
+    "treatment.DiseaseTreatmentSummary",
 ]
 
 
@@ -73,9 +90,10 @@ class KnowledgeEngine(ABC):
     knowledge sources plus LLMs
     """
 
-    template: TEMPLATE_NAME = None
-    """LinkML Template to use for this engine.
-    Must be of the form <module_name>.<ClassName>"""
+    template_details: tuple = None
+    """Tuple containing loaded template details, including:
+    (LinkML class, module, python class, SchemaView object).
+    May be None because some child classes do not require a template."""
 
     template_class: ClassDefinition = None
     """LinkML Class for the template.
@@ -85,7 +103,7 @@ class KnowledgeEngine(ABC):
     """Python class for the template.
     This is derived from the template and does not need to be set manually."""
 
-    template_module: ModuleType = None
+    template_module: Optional[ModuleType] = None
     """Python module for the template.
     This is derived from the template and does not need to be set manually."""
 
@@ -93,16 +111,20 @@ class KnowledgeEngine(ABC):
     """LinkML SchemaView over the template.
     This is derived from the template and does not need to be set manually."""
 
-    api_key: str = None
+    api_key: str = ""
     """OpenAI API key."""
 
-    model: MODEL_NAME = None
+    model: str = None
     """Language Model. This may be overridden in subclasses."""
+
+    model_source: str = None
+    """The source of the model. This determines how the model is accessed
+    (e.g. via an API or a local file)"""
 
     # annotator: TextAnnotatorInterface = None
     # """Default annotator. TODO: deprecate?"""
 
-    annotators: Dict[str, List[TextAnnotatorInterface]] = None
+    annotators: Optional[Dict[str, List[TextAnnotatorInterface]]] = None
     """Annotators for each class.
     An annotator will ground/map labels to CURIEs.
     These override the annotators annotated in the template
@@ -112,13 +134,13 @@ class KnowledgeEngine(ABC):
     """Annotators to skip.
     This overrides any specified in the schema"""
 
-    mappers: List[BasicOntologyInterface] = None
+    mappers: Optional[List[BasicOntologyInterface]] = None
     """List of concept mappers, to assist in grounding to desired ID prefix"""
 
-    labelers: List[BasicOntologyInterface] = None
+    labelers: Optional[List[BasicOntologyInterface]] = None
     """Labelers that map CURIEs to labels"""
 
-    client: OpenAIClient = None
+    client: Optional[CLIENT_TYPES] = None
     """All calls to LLMs are delegated through this client"""
 
     dictionary: Dict[str, str] = field(default_factory=dict)
@@ -132,20 +154,28 @@ class KnowledgeEngine(ABC):
     named_entities: List[NamedEntity] = field(default_factory=list)
     """Cache of all named entities"""
 
-    auto_prefix: str = None
+    auto_prefix: str = ""
     """If set then non-normalized named entities will be mapped to this prefix"""
 
-    last_text: str = None
+    last_text: str = ""
     """Cache of last text."""
 
-    last_prompt: str = None
+    last_prompt: str = ""
     """Cache of last prompt used."""
 
     encoding = None
 
+    use_azure: Optional[bool] = None
+    """Use Azure API for OpenAI models, if True."""
+
     def __post_init__(self):
-        if self.template:
-            self.template_class = self._get_template_class(self.template)
+        if self.template_details:
+            (
+                self.template_class,
+                self.template_module,
+                self.template_pyclass,
+                self.schemaview,
+            ) = self.template_details
         if self.template_class:
             logging.info(f"Using template {self.template_class.name}")
         if not self.model:
@@ -154,12 +184,24 @@ class KnowledgeEngine(ABC):
             logging.info("Using mappers (currently hardcoded)")
             self.mappers = [get_adapter("translator:")]
 
-        self.set_up_client()
-        self.encoding = tiktoken.encoding_for_model(self.client.model)
+        self.set_up_client(model_source=self.model_source)
+        if not self.client:
+            if self.model_source:
+                raise ValueError(f"No client available for {self.model_source}")
+            else:
+                raise ValueError("No client available because model source is unknown.")
+
+        # We retrieve encoding for OpenAI models
+        # but tiktoken won't work for other models
+        if self.model_source == "openai":
+            try:
+                self.encoding = tiktoken.encoding_for_model(self.client.model)
+            except KeyError:
+                self.encoding = tiktoken.encoding_for_model(DEFAULT_MODEL)
+                logger.error(f"Could not find encoding for model {self.client.model}")
 
     def set_api_key(self, key: str):
         self.api_key = key
-        openai.api_key = key
 
     def extract_from_text(
         self, text: str, cls: ClassDefinition = None, object: OBJECT = None
@@ -205,47 +247,12 @@ class KnowledgeEngine(ABC):
         raise NotImplementedError
 
     def generalize(
-        self, object: Union[pydantic.BaseModel, dict], examples: List[EXAMPLE]
+        self, object: Union[pydantic.BaseModel, dict], examples: List[EXAMPLE], show_prompt: bool
     ) -> ExtractionResult:
         raise NotImplementedError
 
-    def map_terms(self, terms: List[str], ontology: str) -> Dict[str, List[str]]:
+    def map_terms(self, terms: List[str], ontology: str, show_prompt: bool) -> Dict[str, str]:
         raise NotImplementedError
-
-    def _get_template_class(self, template: TEMPLATE_NAME) -> ClassDefinition:
-        """
-        Get the LinkML class for a template.
-
-        :param template: template name of the form module.ClassName
-        :return: LinkML class definition
-        """
-        logger.info(f"Loading schema for {template}")
-        if "." in template:
-            module_name, class_name = template.split(".", 1)
-        else:
-            module_name = template
-            class_name = None
-        templates_path = this_path.parent / "templates"
-        path_to_template = str(templates_path / f"{module_name}.yaml")
-        sv = SchemaView(path_to_template)
-        if class_name is None:
-            roots = [c.name for c in sv.all_classes().values() if c.tree_root]
-            if len(roots) != 1:
-                raise ValueError(f"Template {template} does not have singular root: {roots}")
-            class_name = roots[0]
-        mod = importlib.import_module(f"ontogpt.templates.{module_name}")
-        self.template_module = mod
-        self.template_pyclass = mod.__dict__[class_name]
-        self.schemaview = sv
-        logger.info(f"Getting class for template {template}")
-        cls = None
-        for c in sv.all_classes().values():
-            if c.name == class_name:
-                cls = c
-                break
-        if not cls:
-            raise ValueError(f"Template {template} not found")
-        return cls
 
     def _get_openai_api_key(self):
         """Get the OpenAI API key from the environment."""
@@ -310,9 +317,10 @@ class KnowledgeEngine(ABC):
         return [s for s in sv.class_induced_slots(cls.name) if not self.slot_is_skipped(s)]
 
     def slot_is_skipped(self, slot: SlotDefinition) -> bool:
-        sv = self.schemaview
         if ANNOTATION_KEY_PROMPT_SKIP in slot.annotations:
             return True
+        else:
+            return False
 
     def normalize_named_entity(self, text: str, range: ElementName) -> str:
         """
@@ -415,29 +423,33 @@ class KnowledgeEngine(ABC):
         :param cls:
         :return:
         """
-        if input_id.startswith("http://purl.bioontology.org/ontology"):
-            # TODO: this should be fixed upstream in OAK
-            logging.info(f"Normalizing BioPortal id {input_id}")
-            input_id = input_id.replace("http://purl.bioontology.org/ontology/", "").replace(
-                "/", ":"
-            )
-        if input_id.startswith("http://id.nlm.nih.gov/mesh/"):
-            # TODO: this should be fixed upstream in OAK
-            logging.info(f"Normalizing MESH id {input_id}")
-            input_id = input_id.replace("http://id.nlm.nih.gov/mesh/", "").replace("/", ":")
-        if input_id.startswith("drugbank:"):
-            input_id = input_id.replace("drugbank:", "DRUGBANK:")
-        yield input_id
-        if not cls.id_prefixes:
+        try:
+            if input_id.startswith("http://purl.bioontology.org/ontology"):
+                # TODO: this should be fixed upstream in OAK
+                logging.info(f"Normalizing BioPortal id {input_id}")
+                input_id = input_id.replace("http://purl.bioontology.org/ontology/", "").replace(
+                    "/", ":"
+                )
+            if input_id.startswith("http://id.nlm.nih.gov/mesh/"):
+                # TODO: this should be fixed upstream in OAK
+                logging.info(f"Normalizing MESH id {input_id}")
+                input_id = input_id.replace("http://id.nlm.nih.gov/mesh/", "").replace("/", ":")
+            if input_id.startswith("drugbank:"):
+                input_id = input_id.replace("drugbank:", "DRUGBANK:")
+            yield input_id
+            if not cls.id_prefixes:
+                return
+            if not self.mappers:
+                return
+            for mapper in self.mappers:
+                if isinstance(mapper, MappingProviderInterface):
+                    for mapping in mapper.sssom_mappings([input_id]):
+                        yield str(mapping.object_id)
+                else:
+                    raise ValueError(f"Unknown mapper type {mapper}")
+        except (ConnectionError, HTTPError, ProxyError) as e:
+            logging.error(f"Encountered error when normalizing {input_id}: {e}")
             return
-        if not self.mappers:
-            return
-        for mapper in self.mappers:
-            if isinstance(mapper, MappingProviderInterface):
-                for mapping in mapper.sssom_mappings([input_id]):
-                    yield str(mapping.object_id)
-            else:
-                raise ValueError(f"Unknown mapper type {mapper}")
 
     def groundings(self, text: str, cls: ClassDefinition) -> Iterator[str]:
         """
@@ -547,7 +559,7 @@ class KnowledgeEngine(ABC):
     #    raise NotImplementedError
 
     def merge_resultsets(
-        self, resultset: List[ExtractionResult], unique_fields: List[str] = None
+        self, resultset: List[ExtractionResult], unique_fields: List[str]
     ) -> ExtractionResult:
         """
         Merge all resultsets into a single resultset.
@@ -582,8 +594,16 @@ class KnowledgeEngine(ABC):
                         setattr(result, k, v)
         return resultset[0]
 
-    def set_up_client(self):
-        self.client = OpenAIClient(model=self.model)
-        logging.info("Setting up OpenAI client API Key")
-        self.api_key = self._get_openai_api_key()
-        openai.api_key = self.api_key
+    def set_up_client(self, model_source: str):
+        """
+        Select the appropriate client based on the model's source.
+
+        Args: model_source (str): lowercase string indicating the source of the model,
+            e.g., openai
+        """
+        if model_source == "openai":
+            self.client = OpenAIClient(model=self.model, use_azure=self.use_azure)
+            logging.info("Setting up OpenAI client API Key")
+            self.api_key = self._get_openai_api_key()
+        elif model_source == "gpt4all":
+            self.client = GPT4AllClient(model=self.model)

@@ -1,0 +1,41 @@
+---
+input_text: >-
+  "Prolidase Deficiency
+  Treatment of manifestations: Skin ulcers may require treatment by a wound
+  care specialist; topical proline (often 5%) or topical 5% proline-5% glycine
+  ointment applied with dressing changes has been successful in some affected
+  individuals. Standard treatment for developmental delay / intellectual
+  disability, seizures, infections, reactive airways disease / pulmonary
+  hypertension, SLE-like features, hemophagocytic lymphohistiocytosis, mast
+  cell activation, osteopenia, dental anomalies, and refractive errors. Anemia
+  and thrombocytopenia rarely require treatment, but packed red blood cell or
+  platelet transfusions may be considered in those with severe anemia or
+  thrombocytopenia, respectively."
+named_entities:
+  - id: MONDO:0008221
+    label: Prolidase Deficiency
+  - id: MAXO:0000061
+    label: antibacterial agent therapy
+  - id: HP:0200042
+    label: Skin ulcer
+  - id: MAXO:0000756
+    label: blood transfusion
+  - id: HP:0001903
+    label: anemia
+  - id: MAXO:0010020
+    label: amino acid supplementation
+extracted_object:
+  diagnostic_procedure_to_symptom:
+    - subject: MAXO:0000061
+      predicate: TREATS
+      object:
+        - HP:0200042
+    - subject: MAXO:0000756
+      predicate: TREATS
+      object:
+        - HP:0001903
+  diagnostic_procedure_to_disease:
+    - subject: MAXO:0010020
+      predicate: TREATS
+      object:
+        - MONDO:0008221

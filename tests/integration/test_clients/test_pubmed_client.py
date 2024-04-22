@@ -16,6 +16,16 @@ class TestCompletion(unittest.TestCase):
         text = self.client.text("PMID:28449677")
         print(text)
 
+    def test_multiple_lookup(self):
+        """Test lookup of multiple PMIDs."""
+        text = self.client.text(["25662031", "28449677"])
+        print(text)
+
+    def test_malformed_lookup(self):
+        """Text lookup of invalid PMID."""
+        text = self.client.text("jelly")
+        self.assertFalse(text)
+
     def test_search(self):
         """Test PMID search."""
         print("Testing...")

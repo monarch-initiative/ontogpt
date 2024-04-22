@@ -1,0 +1,36 @@
+---
+input_text: >-
+  "
+  Alagille Syndrome
+  Table 5.
+  Treatment of Liver Manifestations in Individuals with Alagille Syndrome
+  Manifestation/Concern	Treatment	Considerations/Other
+  Pruritus & xanthomas 	Choloretic agents (ursodeoxycholic acid) & other
+  medications (cholestyramine, rifampin, naltrexone)	Combination of
+  therapies often required; biliary diversion may be performed for severe
+  pruritus refractory to medical therapy.
+  End-stage liver disease 	Liver transplantation
+  Poor growth 	Optimized nutrition; replacement of fat-soluble vitamins
+  as needed	Nasogastric feeds or gastrostomy tube may be required to
+  maintain caloric intake."
+named_entities:
+  - id: MONDO:0016862
+    label: Alagille Syndrome
+  - id: MAXO:0001135
+    label: replacement of fat-soluble vitamins
+  - id: MAXO:0001175
+    label: Liver transplantation
+  - id: HP:0001508
+    label: Poor growth
+  - id: HP:0001399
+    label: End-stage liver disease
+extracted_object:
+  diagnostic_procedure_to_symptom:
+    - subject: MAXO:0001135
+      predicate: TREATS
+      object:
+        - HP:0001508
+    - subject: MAXO:0001175
+      predicate: TREATS
+      object:
+        - HP:0001399

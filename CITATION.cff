@@ -38,9 +38,10 @@ authors:
   given-names: "Christopher J."
   orcid: "https://orcid.org/0000-0002-6601-2165"
 title: "OntoGPT"
-version: 0.2.1
-date-released: 2023-04-06
+version: 0.3.8
+date-released: 2024-02-08
 url: "https://github.com/monarch-initiative/ontogpt"
+doi: 10.5281/zenodo.7894107
 preferred-citation:
   type: article
   authors:
@@ -80,7 +81,8 @@ preferred-citation:
   - family-names: "Mungall"
     given-names: "Christopher J."
     orcid: "https://orcid.org/0000-0002-6601-2165"
-  doi: "10.48550/arXiv.2304.02711"
-  journal: "arXiv [cs.AI]"
-  title: "Structured prompt interrogation and recursive extraction of semantics (SPIRES): A method for populating knowledge bases using zero-shot learning"
-  year: 2023
+  doi: "10.1093/bioinformatics/btae104"
+  journal: "Bioinformatics"
+  title: "Structured Prompt Interrogation and Recursive Extraction of Semantics (SPIRES): a method for populating knowledge bases using zero-shot learning"
+  year: 2024
+  url: https://doi.org/10.1093/bioinformatics/btae104

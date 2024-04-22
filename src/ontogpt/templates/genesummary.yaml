@@ -1,0 +1,49 @@
+id: http://w3id.org/ontogpt/gocam
+name: genesummary-template
+title: genesummary Template
+description: >-
+  A template for genesummary
+license: https://creativecommons.org/publicdomain/zero/1.0/
+prefixes:
+  rdf: http://www.w3.org/1999/02/22-rdf-syntax-ns#
+  CL: http://purl.obolibrary.org/obo/CL_
+  GO: http://purl.obolibrary.org/obo/GO_
+  HGNC: http://identifiers.org/hgnc/
+  PR: http://purl.obolibrary.org/obo/PR_
+  UniProtKB: http://purl.uniprot.org/uniprot/
+  genesummary: http://w3id.org/ontogpt/genesummary/
+  linkml: https://w3id.org/linkml/
+
+default_prefix: genesummary
+default_range: string
+
+imports:
+  - linkml:types
+  - core
+
+classes:
+  Gene:
+    is_a: NamedEntity
+    id_prefixes:
+      - HGNC
+      - PR
+      - UniProtKB
+    annotations:
+      annotators: gilda:, bioportal:hgnc-nr
+    slots:
+      - id
+
+slots:
+  summary_text:
+    description: >-
+      A summary of the abstract in a few sentences
+    range: string
+    required: true
+    multivalued: false
+    inlined: true
+  id:
+    description: >-
+      A unique identifier for the named entity
+    comments:
+      - this is populated during the grounding and normalization step
+    identifier: true

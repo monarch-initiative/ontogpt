@@ -1,0 +1,89 @@
+message AnnotatorResult
+ {
+  string subjectText = 0
+  string objectId = 0
+  string objectText = 0
+ }
+message ChemicalEntity
+ {
+  string id = 0
+  string label = 0
+ }
+message Evidence
+ {
+  string id = 0
+  string label = 0
+ }
+// A result of extracting knowledge on text
+message ExtractionResult
+ {
+  string inputId = 0
+  string inputTitle = 0
+  string inputText = 0
+  string rawCompletionOutput = 0
+  string prompt = 0
+  any extractedObject = 0
+ repeated  any namedEntities = 0
+ }
+message Gene
+ {
+  string id = 0
+  string label = 0
+ }
+message GeneReactionPairing
+ {
+  gene gene = 0
+  reaction reaction = 0
+ }
+message GeneToReaction
+ {
+  gene gene = 0
+ repeated  reaction reactions = 0
+  organism organism = 0
+ }
+message Organism
+ {
+  string id = 0
+  string label = 0
+ }
+message Publication
+ {
+  string id = 0
+  string title = 0
+  string abstract = 0
+  string combinedText = 0
+  string fullText = 0
+ }
+message Reaction
+ {
+  string id = 0
+  string label = 0
+  string description = 0
+ repeated  string synonyms = 0
+  reactionGrouping subclassOf = 0
+ repeated  chemicalEntity leftSide = 0
+ repeated  chemicalEntity rightSide = 0
+ }
+message ReactionDocument
+ {
+ repeated  gene genes = 0
+ repeated  reaction reactions = 0
+ repeated  geneReactionPairing geneReactionPairings = 0
+  organism organism = 0
+ repeated  evidence hasEvidence = 0
+ }
+message ReactionGrouping
+ {
+  string id = 0
+  string label = 0
+ }
+message RelationshipType
+ {
+  string id = 0
+  string label = 0
+ }
+message TextWithTriples
+ {
+  publication publication = 0
+ repeated  triple triples = 0
+ }

@@ -1,0 +1,297 @@
+id: http://w3id.org/ontogpt/cell_type
+name: cell_type
+title: Composite Disease
+description: >-
+  A template for representing cell types
+license: https://creativecommons.org/publicdomain/zero/1.0/
+prefixes:
+  rdf: http://www.w3.org/1999/02/22-rdf-syntax-ns#
+  AUTO: http://w3id.org/ontogpt/auto/
+  BFO: http://purl.obolibrary.org/obo/BFO_
+  CHEBI: http://purl.obolibrary.org/obo/CHEBI_
+  CL: http://purl.obolibrary.org/obo/CL_
+  FBbt: http://purl.obolibrary.org/obo/FBbt_
+  GO: http://purl.obolibrary.org/obo/GO_
+  HGNC: http://identifiers.org/hgnc/
+  HP: http://purl.obolibrary.org/obo/HP_
+  IAO: http://purl.obolibrary.org/obo/IAO_
+  MONDO: http://purl.obolibrary.org/obo/MONDO_
+  NCIT: http://purl.obolibrary.org/obo/NCIT_
+  PW: http://purl.obolibrary.org/obo/PW_
+  RO: http://purl.obolibrary.org/obo/RO_
+  UBERON: http://purl.obolibrary.org/obo/UBERON_
+  cell_type: http://w3id.org/ontogpt/cell_type/
+  linkml: https://w3id.org/linkml/
+  skos: http://www.w3.org/2004/02/skos/core#
+keywords:
+  - disease
+  - indication
+
+default_prefix: cell_type
+default_range: string
+
+imports:
+  - linkml:types
+  - core
+
+classes:
+  CellType:
+    description: Represents a cell type
+    tree_root: true
+    attributes:
+      id:
+        identifier: true
+        range: uriorcurie
+        slot_uri: rdf:Resource
+        annotations:
+          prompt.skip: true
+
+      label:
+        range: string
+        description: the concise name of the cell type
+        slot_uri: rdfs:label
+        annotations:
+          owl: AnnotationAssertion
+
+      equivalent_to:
+        description: the the cell type described
+        range: CellOntologyTerm
+        annotations:
+          prompt: the cell type described in the text
+          #owl: EquivalentClasses
+          owl: AnnotationAssertion
+        slot_uri: skos:exactMatch
+
+      definition:
+        annotations:
+          prompt: >-
+            A concise textual definition in genus-differentia form, i.e 
+            'A <genus> that <differentiating characteristics>'
+          owl: AnnotationProperty, AnnotationAssertion
+        slot_uri: IAO:0000115
+
+      parents:
+        description: categorization
+        annotations:
+          prompt: semicolon-separated list of parent (broader) cell types
+          owl: SubClassOf
+        multivalued: true
+        range: CellOntologyTerm
+
+      subtypes:
+        annotations:
+          prompt: >-
+            semicolon-separated list of the subtypes (subclasses) of this cell type.
+            Use concise terms, and separate elements in a list using semicolon (;)
+          owl.template: |
+            {% for subtype in subtypes %}
+            SubClassOf( {{ tr(subtype) }} {{ id }} )
+            {% endfor %}
+        multivalued: true
+        range: CellOntologyTerm
+
+      localizations:
+        annotations:
+          prompt: semicolon-separated list of anatomical structures in which this cell type is localized
+          owl: SubClassOf, ObjectSomeValuesFrom
+        slot_uri: BFO:0000050
+        multivalued: true
+        range: AnatomicalStructure
+
+      genes:
+        annotations:
+          prompt: semicolon-separated list of genes expressed in cells of this type
+          owl: SubClassOf, ObjectSomeValuesFrom
+        slot_uri: RO:0002292
+        multivalued: true
+        range: Gene
+
+      diseases:
+        annotations:
+          prompt: semicolon-separated list of diseases in which this cell type is implicated
+          owl.template: |
+            {% for disease in diseases %}
+            SubClassOf( {{ tr(disease) }} ObjectSomeValuesFrom( RO:0004026 {{ id }} ))
+            {% endfor %}
+        multivalued: true
+        range: Disease
+
+      roles:
+        annotations:
+          prompt: >-
+            semicolon-separated list of roles (e.g. biological processes) that this cell type plays.
+            These should be short descriptive terms corresponding to ontology terms in the GO biological process
+            hierarchy.
+          owl: SubClassOf, ObjectSomeValuesFrom
+        slot_uri: RO:0002215
+        multivalued: true
+        range: BiologicalProcess
+
+  ImmuneCell:
+    is_a: CellType
+    attributes:
+      has_surface_markers:
+        annotations:
+          prompt: semicolon-separated list of proteins or complexes expressed on the surface of the cell
+          owl: SubClassOf, ObjectSomeValuesFrom
+        multivalued: true
+        range: ProteinOrComplex
+
+  Neuron:
+    is_a: CellType
+    attributes:
+      releases_neurotransitter:
+        annotations:
+          prompt: named of chemical entity that this neuron releases
+          owl: SubClassOf, ObjectSomeValuesFrom
+        multivalued: true
+        range: Neurotransmitter
+        slot_uri: RO:0002111
+
+  Interneuron:
+    is_a: Neuron
+    attributes:
+      projects_to_or_from:
+        description: Brain structures from which this cell type projects into or receives projections from
+        annotations:
+          prompt: semicolon-separated list of anatomical structures from which this cell type projects from or into
+        multivalued: true
+        range: BrainRegion
+        slot_uri: RO:0002170
+
+  Gene:
+    is_a: NamedEntity
+    id_prefixes:
+      - HGNC
+      - MGI
+      - PR
+      - UniProtKB
+    annotations:
+      annotators: sqlite:obo:hgnc, bioportal:hgnc-nr
+
+  ProteinOrComplex:
+    is_a: NamedEntity
+    id_prefixes:
+      - HGNC
+      - MGI
+      - PR
+      - UniProtKB
+      - GO
+    annotations:
+      annotators: sqlite:obo:hgnc, bioportal:hgnc-nr, sqlite:obo:go, sqlite:obo:pr
+
+  BiologicalProcess:
+    is_a: NamedEntity
+    id_prefixes:
+      - GO
+    annotations:
+      annotators: sqlite:obo:go
+
+  Pathway:
+    is_a: NamedEntity
+    id_prefixes:
+      - GO
+      - PW
+    annotations:
+      annotators: sqlite:obo:go, sqlite:obo:pw
+
+  AnatomicalStructure:
+    is_a: NamedEntity
+    id_prefixes:
+      - UBERON
+      - FBbt
+      - WBbt
+    annotations:
+      annotators: sqlite:obo:uberon, sqlite:obo:fbbt, sqlite:obo:wbbt
+
+  ChemicalEntity:
+    is_a: NamedEntity
+    id_prefixes:
+      - CHEBI
+    annotations:
+      annotators: sqlite:obo:chebi
+
+  Neurotransmitter:
+    is_a: ChemicalEntity
+    id_prefixes:
+      - CHEBI
+    annotations:
+      annotators: sqlite:obo:chebi
+    slot_usage:
+      id:
+        values_from:
+          - NeurotransmitterIdentifier
+        identifier: true
+
+  BrainRegion:
+    is_a: AnatomicalStructure
+    id_prefixes:
+      - UBERON
+      - FBbt
+      - WBbt
+    annotations:
+      annotators: sqlite:obo:uberon, sqlite:obo:fbbt, sqlite:obo:wbbt
+    slot_usage:
+      id:
+        values_from:
+          - BrainRegionIdentifier
+        identifier: true
+
+  CellOntologyTerm:
+    is_a: NamedEntity
+    id_prefixes:
+      - CL
+      - FBbt
+      - WBbt
+    annotations:
+      annotators: sqlite:obo:cl, sqlite:obo:fbbt, sqlite:obo:wbbt
+
+  Disease:
+    is_a: NamedEntity
+    id_prefixes:
+      - MONDO
+      - HP
+    annotations:
+      annotators: sqlite:obo:mondo, sqlite:obo:hp
+
+  Drug:
+    is_a: NamedEntity
+    annotations:
+      annotators: sqlite:obo:chebi, sqlite:obo:drugbank
+
+enums:
+  BrainRegionIdentifier:
+    description: Brain region (or for now, any nervous system part)
+    comments:
+      - consider adding brain atlases here
+    include:
+      - reachable_from:
+          source_ontology: obo:uberon
+          relationship_types:
+            - rdfs:subClassOf
+            - BFO:0000050
+          source_nodes:
+            - UBERON:0001016  ## nervous system
+      - reachable_from:
+          source_ontology: obo:fbbt
+          relationship_types:
+            - rdfs:subClassOf
+            - BFO:0000050
+          source_nodes:
+            - FBbt:00005093  ## nervous system
+      - reachable_from:
+          source_ontology: obo:wbbt
+          relationship_types:
+            - rdfs:subClassOf
+            - BFO:0000050
+          source_nodes:
+            - WBbt:0005735  ## nervous system
+
+  NeurotransmitterIdentifier:
+    reachable_from:
+      source_ontology: obo:chebi
+      relationship_types:
+        - rdfs:subClassOf
+        - RO:0000087
+      source_nodes:
+        - CHEBI:35942  ## neurotransmitter agent

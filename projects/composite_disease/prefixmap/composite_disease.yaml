@@ -1,0 +1,37 @@
+{
+   "HGNC": "http://example.org/UNKNOWN/HGNC/",
+   "HP": "http://example.org/UNKNOWN/HP/",
+   "RO": "http://purl.obolibrary.org/obo/RO_",
+   "biolink": "http://example.org/UNKNOWN/biolink/",
+   "composite_disease": "http://w3id.org/ontogpt/composite_disease/",
+   "core": "http://w3id.org/ontogpt/core/",
+   "linkml": "https://w3id.org/linkml/",
+   "rdfs": "http://example.org/UNKNOWN/rdfs/",
+   "AnnotatorResult": {
+      "@id": "core:AnnotatorResult"
+   },
+   "Any": {
+      "@id": "linkml:Any"
+   },
+   "CompoundExpression": {
+      "@id": "core:CompoundExpression"
+   },
+   "ExtractionResult": {
+      "@id": "core:ExtractionResult"
+   },
+   "NamedEntity": {
+      "@id": "core:NamedEntity"
+   },
+   "Publication": {
+      "@id": "core:Publication"
+   },
+   "RelationshipType": {
+      "@id": "core:RelationshipType"
+   },
+   "TextWithTriples": {
+      "@id": "core:TextWithTriples"
+   },
+   "Triple": {
+      "@id": "core:Triple"
+   }
+}

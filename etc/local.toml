@@ -1,0 +1,7 @@
+# Copy to local_custom.toml then add secrets
+
+[openai]
+azure_openai_api_key = ""
+azure_api_base = ""
+azure_deployment_name = ""
+azure_api_version = ""

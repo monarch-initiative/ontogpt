@@ -1,4 +1,5 @@
 """OpenAI client."""
+
 import ast
 import logging
 import sqlite3
@@ -6,13 +7,16 @@ import sys
 from dataclasses import dataclass, field
 from pathlib import Path
 from time import sleep
-from typing import Iterator, Tuple
+from typing import Iterator, Optional, Tuple
 
 import numpy as np
-import openai
+from openai import OpenAI
+
 from oaklib.utilities.apikey_manager import get_apikey_value
+from openai import AzureOpenAI
 
 logger = logging.getLogger(__name__)
+
 NUM_RETRIES = 3
 
 
@@ -20,18 +24,36 @@ NUM_RETRIES = 3
 class OpenAIClient:
     # max_tokens: int = field(default_factory=lambda: 3000)
     model: str = field(default_factory=lambda: "gpt-3.5-turbo")
-    cache_db_path: str = None
-    api_key: str = None
-    interactive: bool = None
+    cache_db_path: str = ""
+    api_key: str = ""
+    interactive: Optional[bool] = None
+    use_azure: Optional[bool] = None
 
     def __post_init__(self):
         if not self.api_key:
             self.api_key = get_apikey_value("openai")
-        openai.api_key = self.api_key
 
-    def complete(self, prompt, max_tokens=3000, **kwargs) -> str:
+        if self.use_azure:
+            from ontogpt.utils.azure_settings import AZURE_MODEL, AZURE_API_VERSION, AZURE_ENDPOINT
+            self.model = field(default_factory=lambda: AZURE_MODEL)
+            # TODO: control client (Azure vs not) using a feature flag
+            self.client = AzureOpenAI(
+                api_version=AZURE_API_VERSION,
+                azure_endpoint=AZURE_ENDPOINT,
+                api_key=self.api_key,
+                azure_deployment=AZURE_MODEL,
+            )
+        else:
+            self.client = OpenAI(api_key=self.api_key)
+
+    # TODO: Dynamically update max_tokens
+    def complete(self, prompt, max_tokens=500, show_prompt: bool = False, **kwargs) -> str:
+        # TODO: dynamically set model at call time
         engine = self.model
+
         logger.info(f"Complete: engine={engine}, prompt[{len(prompt)}]={prompt[0:100]}...")
+        if show_prompt:
+            logger.info(f" SENDING PROMPT:\n{prompt}")
         cur = self.db_connection()
         res = cur.execute("SELECT payload FROM cache WHERE prompt=? AND engine=?", (prompt, engine))
         payload = res.fetchone()
@@ -47,8 +69,8 @@ class OpenAIClient:
             try:
                 if self.interactive:
                     response = self._interactive_completion(prompt, engine, max_tokens, **kwargs)
-                elif self._must_use_chat_api():
-                    response = openai.ChatCompletion.create(
+                elif self._must_use_chat_api() and self.use_azure:
+                    response = self.client.chat.completions.create(
                         model=engine,
                         messages=[
                             {
@@ -59,12 +81,19 @@ class OpenAIClient:
                         max_tokens=max_tokens,
                         **kwargs,
                     )
+                elif self._must_use_chat_api() and not self.use_azure:
+                    response = self.client.chat.completions.create(model=engine,
+                    messages=[
+                        {
+                            "role": "user",
+                            "content": prompt,
+                        },
+                    ],
+                    max_tokens=max_tokens,
+                    **kwargs)                    
                 else:
-                    response = openai.Completion.create(
-                        engine=engine,
-                        prompt=prompt,
-                        max_tokens=max_tokens,
-                    )
+                    # TODO: remove chat api flag and eliminate references to legacy completions API
+                    raise ValueError("Unsupported mode")
                 break
             except Exception as e:
                 logger.error(f"OpenAI API connection error: {e}")
@@ -74,12 +103,14 @@ class OpenAIClient:
                 logger.info(f"Retrying {i} of {NUM_RETRIES} after {sleep_time} seconds...")
                 sleep(sleep_time)
 
+        #response = response.dict()
+        #print(response)
         if self.interactive:
             payload = response
         elif self._must_use_chat_api():
-            payload = response["choices"][0]["message"]["content"]
+            payload = response.choices[0].message.content
         else:
-            payload = response["choices"][0]["text"]
+            payload = response.choices[0].text
         logger.info(f"Storing payload of len: {len(payload)}")
         cur.execute(
             "INSERT INTO cache (prompt, engine, payload) VALUES (?, ?, ?)",
@@ -99,7 +130,9 @@ class OpenAIClient:
             cur.execute("CREATE TABLE cache (prompt, engine, payload)")
         return cur
 
-    def _interactive_completion(self, prompt: str, engine: str, max_tokens: int = None, **kwargs):
+    def _interactive_completion(
+        self, prompt: str, engine: str, max_tokens: Optional[int], **kwargs
+    ):
         print("Please use the ChatGPT interface to complete the following prompt:")
         print(f"IMPORTANT: make sure model == {engine}")
         print(f"Note: max_tokens == {max_tokens}")
@@ -117,7 +150,7 @@ class OpenAIClient:
             return self._interactive_completion(prompt, engine, max_tokens, **kwargs)
 
     def cached_completions(
-        self, search_term: str = None, engine: str = None
+        self, search_term: str = "", engine: str = ""
     ) -> Iterator[Tuple[str, str, str]]:
         if search_term:
             search_term = search_term.lower()
@@ -140,8 +173,10 @@ class OpenAIClient:
             return False
         return True
 
-    def embeddings(self, text: str, model: str = None):
-        if model is None:
+    def embeddings(self, text: str, model: str = ""):
+        text = str(text)
+
+        if model == "":
             model = "text-embedding-ada-002"
         cur = self.db_connection()
         try:
@@ -158,11 +193,9 @@ class OpenAIClient:
             logger.info(f"Using cached embeddings for {model} {text[0:80]}...")
             return ast.literal_eval(payload[0])
         logger.info(f"querying OpenAI for {model} {text[0:80]}...")
-        response = openai.Embedding.create(
-            model=model,
-            input=text,
-        )
-        v = response.data[0]["embedding"]
+        response = self.client.embeddings.create(model=model,
+        input=text)
+        v = response.data[0].embedding
         logger.info(f"Storing embeddings of len: {len(v)}")
         cur.execute(
             "INSERT INTO embeddings_cache (text, engine, vector_as_string) VALUES (?, ?, ?)",

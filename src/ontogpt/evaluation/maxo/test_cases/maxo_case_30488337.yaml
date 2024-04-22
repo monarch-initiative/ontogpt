@@ -1,0 +1,26 @@
+---
+input_text: >-
+  "Canaloplasty in the Treatment of Open-Angle Glaucoma: A Review of Patient Selection and Outcomes
+  Canaloplasty is a relatively new non-penetrating surgery for the reduction of intraocular pressure 
+  in patients affected by glaucoma. The technique uses a microcatheter to perform a 360 º cannulation of 
+  Schlemm's canal and leaves in place a tension suture providing an inward distension. It aims to restore 
+  the physiological outflow pathways of the aqueous humour and is independent of external wound healing
+  Several studies have shown that canaloplasty is effective in reducing intraocular pressure and has a low rate 
+  of complications, especially compared with trabeculectomy, the gold standard for glaucoma surgery. Currently, 
+  canaloplasty is indicated in patients with open-angle glaucoma, having a mild to moderate disease, and the combination
+  with cataract phacoemulsification may provide further intraocular pressure reduction."
+
+named_entities:
+  - id: MAXO:0000959
+    label: canaloplasty
+  - id: HP:0012108
+    label: Open angle glaucoma
+  - id: MONDO:0007665
+    label: Glaucoma, Primary Open Angle
+
+extracted_object:
+  diagnostic_procedure_to_disease:
+    - subject: MAXO:0000959
+      predicate: TREATS
+      object:
+        - MONDO:0007665

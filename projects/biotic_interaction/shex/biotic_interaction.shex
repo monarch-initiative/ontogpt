@@ -1,0 +1,172 @@
+BASE <http://w3id.org/ontogpt/biotic-interaction-template/>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+PREFIX linkml: <https://w3id.org/linkml/>
+PREFIX core: <http://w3id.org/ontogpt/core/>
+PREFIX rdfs1: <http://example.org/UNKNOWN/rdfs/>
+
+
+linkml:String xsd:string
+
+linkml:Integer xsd:integer
+
+linkml:Boolean xsd:boolean
+
+linkml:Float xsd:float
+
+linkml:Double xsd:double
+
+linkml:Decimal xsd:decimal
+
+linkml:Time xsd:time
+
+linkml:Date xsd:date
+
+linkml:Datetime xsd:dateTime
+
+linkml:DateOrDatetime linkml:DateOrDatetime
+
+linkml:Uriorcurie IRI
+
+linkml:Curie xsd:string
+
+linkml:Uri IRI
+
+linkml:Ncname xsd:string
+
+linkml:Objectidentifier IRI
+
+linkml:Nodeidentifier NONLITERAL
+
+linkml:Jsonpointer xsd:string
+
+linkml:Jsonpath xsd:string
+
+linkml:Sparqlpath xsd:string
+
+core:AnnotatorResult CLOSED {
+    (  $core:AnnotatorResult_tes (  core:subject_text @linkml:String ? ;
+          core:object_id @linkml:String ? ;
+          core:object_text @linkml:String ?
+       ) ;
+       rdf:type [ core:AnnotatorResult ] ?
+    )
+}
+
+core:Any CLOSED {
+    (  $core:Any_tes rdf:type . * ;
+       rdf:type [ linkml:Any ] ?
+    )
+}
+
+<http://w3id.org/ontogpt/biotic-interaction-templateBioticInteraction> CLOSED {
+    (  $<http://w3id.org/ontogpt/biotic-interaction-templateBioticInteraction_tes> ( 
+          <http://w3id.org/ontogpt/biotic-interaction-templatesource_taxon>
+          @<http://w3id.org/ontogpt/biotic-interaction-templateTaxon> ? ;
+          <http://w3id.org/ontogpt/biotic-interaction-templatetarget_taxon>
+          @<http://w3id.org/ontogpt/biotic-interaction-templateTaxon> ? ;
+          <http://w3id.org/ontogpt/biotic-interaction-templateinteraction_type>
+          @<http://w3id.org/ontogpt/biotic-interaction-templateInteractionType> ?
+       ) ;
+       rdf:type [ <http://w3id.org/ontogpt/biotic-interaction-templateBioticInteraction> ] ?
+    )
+}
+
+core:CompoundExpression  (
+    {
+       (  $core:CompoundExpression_tes rdf:type . * ;
+          rdf:type [ core:CompoundExpression ] ?
+       )
+    } OR @core:Triple
+)
+
+<http://w3id.org/ontogpt/biotic-interaction-templateContainer> CLOSED {
+    (  $<http://w3id.org/ontogpt/biotic-interaction-templateContainer_tes>
+       <http://w3id.org/ontogpt/biotic-interaction-templateinteractions>
+       @<http://w3id.org/ontogpt/biotic-interaction-templateBioticInteraction> * ;
+       rdf:type [ <http://w3id.org/ontogpt/biotic-interaction-templateContainer> ] ?
+    )
+}
+
+core:ExtractionResult CLOSED {
+    (  $core:ExtractionResult_tes (  core:input_id @linkml:String ? ;
+          core:input_title @linkml:String ? ;
+          core:input_text @linkml:String ? ;
+          core:raw_completion_output @linkml:String ? ;
+          core:prompt @linkml:String ? ;
+          core:extracted_object @core:Any ? ;
+          core:named_entities @core:Any *
+       ) ;
+       rdf:type [ core:ExtractionResult ] ?
+    )
+}
+
+<http://w3id.org/ontogpt/biotic-interaction-templateInteractionType> CLOSED {
+    (  $<http://w3id.org/ontogpt/biotic-interaction-templateInteractionType_tes> (  &core:NamedEntity_tes ;
+          rdf:type [ core:NamedEntity ] ?
+       ) ;
+       rdf:type [ <http://w3id.org/ontogpt/biotic-interaction-templateInteractionType> ]
+    )
+}
+
+core:NamedEntity  (
+    @<http://w3id.org/ontogpt/biotic-interaction-templateInteractionType> OR @core:RelationshipType OR
+    @<http://w3id.org/ontogpt/biotic-interaction-templateTaxon>
+)
+
+core:NamedEntity_struct {
+    (  $core:NamedEntity_tes rdfs1:label @linkml:String ? ;
+       rdf:type [ core:NamedEntity ]
+    )
+}
+
+core:Publication CLOSED {
+    (  $core:Publication_tes (  core:id @linkml:String ? ;
+          core:title @linkml:String ? ;
+          core:abstract @linkml:String ? ;
+          core:combined_text @linkml:String ? ;
+          core:full_text @linkml:String ?
+       ) ;
+       rdf:type [ core:Publication ] ?
+    )
+}
+
+core:RelationshipType CLOSED {
+    (  $core:RelationshipType_tes (  &core:NamedEntity_tes ;
+          rdf:type [ core:NamedEntity ] ?
+       ) ;
+       rdf:type [ core:RelationshipType ]
+    )
+}
+
+<http://w3id.org/ontogpt/biotic-interaction-templateTaxon> CLOSED {
+    (  $<http://w3id.org/ontogpt/biotic-interaction-templateTaxon_tes> (  &core:NamedEntity_tes ;
+          rdf:type [ core:NamedEntity ] ?
+       ) ;
+       rdf:type [ <http://w3id.org/ontogpt/biotic-interaction-templateTaxon> ]
+    )
+}
+
+core:TextWithTriples CLOSED {
+    (  $core:TextWithTriples_tes (  core:publication @core:Publication ? ;
+          core:triples @core:Triple *
+       ) ;
+       rdf:type [ core:TextWithTriples ] ?
+    )
+}
+
+core:Triple {
+    (  $core:Triple_tes (  &core:CompoundExpression_tes ;
+          rdf:type [ core:CompoundExpression ] ? ;
+          core:subject @core:NamedEntity ? ;
+          core:predicate @core:RelationshipType ? ;
+          core:object @core:NamedEntity ? ;
+          core:qualifier @linkml:String ? ;
+          core:subject_qualifier @core:NamedEntity ? ;
+          core:object_qualifier @core:NamedEntity ?
+       ) ;
+       rdf:type [ core:Triple ] ?
+    )
+}
+
+

@@ -1,0 +1,97 @@
+type AnnotatorResult
+  {
+    subjectText: String
+    objectId: String
+    objectText: String
+  }
+
+type Any
+  {
+  }
+
+type Chemical
+  {
+    label: String
+    id: String!
+  }
+
+type ChemicalToDiseaseDocument
+  {
+    publication: Publication
+    triples: [ChemicalToDiseaseRelationship]
+  }
+
+type ChemicalToDiseasePredicate
+  {
+    id: String!
+    label: String
+  }
+
+type ChemicalToDiseaseRelationship
+  {
+    qualifier: String
+    subject: Chemical
+    object: Disease
+    predicate: ChemicalToDiseasePredicate
+    subjectQualifier: NamedEntity
+    objectQualifier: NamedEntity
+  }
+
+interface CompoundExpression
+  {
+  }
+
+type Disease
+  {
+    label: String
+    id: String!
+  }
+
+type ExtractionResult
+  {
+    inputId: String
+    inputTitle: String
+    inputText: String
+    rawCompletionOutput: String
+    prompt: String
+    extractedObject: Any
+    namedEntities: [Any]
+  }
+
+interface NamedEntity
+  {
+    id: String!
+    label: String
+  }
+
+type Publication
+  {
+    id: String
+    title: String
+    abstract: String
+    combinedText: String
+    fullText: String
+  }
+
+type RelationshipType
+  {
+    id: String!
+    label: String
+  }
+
+type TextWithTriples
+  {
+    publication: Publication
+    triples: [Triple]
+  }
+
+interface Triple
+  {
+    subject: NamedEntity
+    predicate: RelationshipType
+    object: NamedEntity
+    qualifier: String
+    subjectQualifier: NamedEntity
+    objectQualifier: NamedEntity
+  }
+

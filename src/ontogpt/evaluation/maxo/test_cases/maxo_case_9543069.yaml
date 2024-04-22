@@ -1,0 +1,27 @@
+---
+input_text: >-
+  A 12-year-old girl with Sly disease (mucopolysaccharidosis VII; beta-glucuronidase deficiency), who is homozygous for the A619V mutation, 
+  had a successful allogeneic BMT, donored by an HLA-identical unrelated female to replace the deficient enzyme. Within 5 months after BMT, 
+  the enzyme activity of the recipient's lymphocytes increased to normal range. No signs of acute or chronic GVHD were observed. 
+  For the successive 31 months post-BMT, beta-glucuronidase activity in her lymphocytes was maintained at almost normal levels and excretion 
+  of glycosaminoglycans in the urine was greatly diminished. Ultrastructural findings demonstrated no abnormal vacuoles and inclusion bodies 
+  in the cytoplasm of her rectal mucosal cells. Coincident with the restoration of the enzyme activity, clinical improvement was dramatic.
+  Especially notable were improvements in motor function. The patient was able to walk alone for a long time without aid, 
+  and she even became able to ride a bicycle and take a bath. In addition, recurrent infections of the upper respiratory tract and 
+  the middle ears decreased in frequency and severity, and dyspnea on exertion, severe snoring and vertigo have substantially improved. 
+  Thus, allogeneic BMT in this patient produced a better quality of life and provided a more promising outlook.
+
+named_entities:
+  - id: MONDO:0009662
+    label: Mucopolysaccharidosis Type Vii
+  - id: MAXO:0001479
+    label: allogeneic hematopoietic stem cell transplantation
+  - id: HP:0003541
+    label: Urinary glycosaminoglycan excretion
+
+extracted_object:
+  diagnostic_procedure_to_symptom:
+    - subject: MAXO:0001479
+      predicate: TREATS
+      object:
+        - HP:0003541

@@ -5,9 +5,9 @@ from collections import defaultdict
 from dataclasses import dataclass
 from pathlib import Path
 from random import shuffle
-from typing import Dict, Iterable, Iterator, List, Tuple
+from typing import Dict, Iterable, Iterator, List, Optional, Tuple
 
-from oaklib import BasicOntologyInterface, get_implementation_from_shorthand
+from oaklib import BasicOntologyInterface, get_adapter
 from oaklib.datamodels.search import SearchConfiguration
 from oaklib.datamodels.search_datamodel import SearchProperty
 from oaklib.interfaces import SearchInterface
@@ -18,12 +18,10 @@ from ontogpt.engines.spires_engine import SPIRESEngine
 from ontogpt.evaluation.evaluation_engine import SimilarityScore, SPIRESEvaluationEngine
 from ontogpt.templates.mendelian_disease import MendelianDisease
 
-THIS_DIR = Path(__file__).parent
 DATABASE_DIR = Path(__file__).parent / "database"
-TEST_CASES_DIR = THIS_DIR / "test_cases"
-EXEMPLARS_DIR = THIS_DIR / "exemplars"
-EXEMPLAR_CASES = EXEMPLARS_DIR / "drugmechdb-exemplars.yaml"
-
+TEST_CASES_DIR = Path("tests").joinpath("input")
+TEST_HPOA_FILE = "test_sample.hpoa.tsv"
+NUM_TESTS = 3  # Note: each test requires input text; see provided test cases
 
 DISEASE_ID = str
 TERM = str
@@ -32,9 +30,9 @@ PUBLICATION = str
 
 
 class PredictionHPOA(BaseModel):
-    predicted_object: MendelianDisease = None
-    test_object: MendelianDisease = None
-    scores: Dict[str, SimilarityScore] = None
+    predicted_object: Optional[MendelianDisease] = None
+    test_object: Optional[MendelianDisease] = None
+    scores: Optional[Dict[str, SimilarityScore]] = None
 
     def calculate_scores(self):
         self.scores = {}
@@ -56,14 +54,14 @@ class EvaluationObjectSetHPOA(BaseModel):
 
     test: List[MendelianDisease] = None
     training: List[MendelianDisease] = None
-    predictions: List = None
+    predictions: List = []
 
 
 class HPOAnnotation(BaseModel):
-    subject: DISEASE_ID = None
-    term: TERM = None
-    aspect: ASPECT = None
-    publication: PUBLICATION = None
+    subject: DISEASE_ID = ""
+    term: TERM = ""
+    aspect: ASPECT = ""
+    publication: PUBLICATION = ""
 
 
 @dataclass
@@ -72,18 +70,18 @@ class EvalHPOA(SPIRESEvaluationEngine):
 
     def __post_init__(self):
         self.extractor = SPIRESEngine("mendelian_disease.MendelianDisease")
-        self.mondo = get_implementation_from_shorthand("sqlite:obo:mondo")
+        self.mondo = get_adapter("sqlite:obo:mondo")
 
     def load_test_cases(self) -> List[MendelianDisease]:
         return []
 
     def disease_text(self, id: str):
-        id = id.replace("OMIM:", "omim-")
-        with open(TEST_CASES_DIR / f"{id}.txt") as f:
+        id = id.lower().replace(":", "-")
+        with open(TEST_CASES_DIR / "cases" / f"{id}.txt") as f:
             return f.read()
 
     def parse_hpoa(self) -> Iterator[HPOAnnotation]:
-        with open(TEST_CASES_DIR / "test.hpoa.tsv") as file:
+        with open(TEST_CASES_DIR / TEST_HPOA_FILE) as file:
             reader = csv.reader(file, delimiter="\t")
             for row in reader:
                 yield HPOAnnotation(
@@ -108,13 +106,13 @@ class EvalHPOA(SPIRESEvaluationEngine):
                 diseases[subject] = MendelianDisease(id=subject)
             disease = diseases[subject]
             # print(f"Adding {term} to {subject} in {aspect}")
-            if aspect == "P":
+            if aspect == "P" and disease.symptoms is not None:
                 disease.symptoms.append(term)
-            elif aspect == "C":
+            elif aspect == "C" and disease.disease_onsets is not None:
                 disease.disease_onsets.append(term)
             elif aspect == "I":
                 disease.inheritance = term
-            if pub and pub not in disease.publications:
+            if pub and pub not in disease.publications and disease.publications is not None:
                 disease.publications.append(pub)
         return list(diseases.values())
 
@@ -155,7 +153,7 @@ class EvalHPOA(SPIRESEvaluationEngine):
         obj.name = mondo.label(entity)
         obj.label = obj.name
         obj.description = mondo.definition(entity)
-        obj.subclass_of = list(mondo.hierararchical_parents(entity))
+        obj.subclass_of = list(mondo.hierarchical_parents(entity))
         obj.synonyms = list(mondo.entity_aliases(entity))
         for _s, _p, gene in mondo.relationships([entity], ["RO:0004003"]):
             gene = (
@@ -166,7 +164,7 @@ class EvalHPOA(SPIRESEvaluationEngine):
             obj.genes.append(gene)
         return obj
 
-    def eval(self, task: str = None, **kwargs) -> EvaluationObjectSetHPOA:
+    def eval(self, task: str = "", **kwargs) -> EvaluationObjectSetHPOA:
         if not task or task == "pubs":
             return self.eval_against_pubs(**kwargs)
         elif task == "omim":
@@ -176,7 +174,7 @@ class EvalHPOA(SPIRESEvaluationEngine):
         else:
             raise ValueError(f"Unknown task {task}")
 
-    def eval_against_pubs(self, num_tests=3) -> EvaluationObjectSetHPOA:
+    def eval_against_pubs(self, num_tests=NUM_TESTS) -> EvaluationObjectSetHPOA:
         ke = self.extractor
         pmc = PubmedClient()
         eos = EvaluationObjectSetHPOA()
@@ -184,13 +182,17 @@ class EvalHPOA(SPIRESEvaluationEngine):
         eos.training = []
         eos.predictions = []
         shuffle(eos.test)
-        for test_case in eos.test[0:num_tests]:
+        for test_case in eos.test[0 : num_tests - 1]:
             # text = self.disease_text(test_case.id)
             if len(test_case.publications) != 1:
                 raise ValueError(f"Expected 1 publication, got {len(test_case.publications)}")
             pub = test_case.publications[0]
             text = pmc.text(pub)
-            results = ke.extract_from_text(text)
+            if type(text) is list:  # Shouldn't happen, but could happen
+                for entry in text:
+                    results = ke.extract_from_text(entry)
+            elif type(text) is str:
+                results = ke.extract_from_text(text)
             predicted_obj = results.extracted_object
             pred = PredictionHPOA(predicted_object=predicted_obj, test_object=test_case)
             pred.calculate_scores()
@@ -204,7 +206,7 @@ class EvalHPOA(SPIRESEvaluationEngine):
         return self.eval_against_omim_or_pubs(use_publications=True)
 
     def eval_against_omim_or_pubs(
-        self, num_tests=3, use_publications=False
+        self, num_tests=NUM_TESTS, use_publications=False
     ) -> EvaluationObjectSetHPOA:
         ke = self.extractor
         eos = EvaluationObjectSetHPOA()
@@ -220,9 +222,12 @@ class EvalHPOA(SPIRESEvaluationEngine):
                 pmc = PubmedClient()
                 pub_resultset = []
                 for pmid in test_case.publications:
-                    if pmid.startswith("PMID:"):
+                    if str(pmid).startswith("PMID:"):
                         pub_text = pmc.text(pmid)
-                        pub_resultset.append(ke.extract_from_text(pub_text, object=stub))
+                        if type(pub_text) is str:  # Should just be one document.
+                            pub_resultset.append(ke.extract_from_text(pub_text, object=stub))
+                        else:
+                            continue
                 results = ke.merge_resultsets([results] + pub_resultset, ["name"])
             predicted_obj = results.extracted_object
             pred = PredictionHPOA(predicted_object=predicted_obj, test_object=test_case)

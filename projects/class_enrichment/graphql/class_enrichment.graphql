@@ -1,0 +1,28 @@
+type ClassEnrichmentConfiguration
+  {
+    pValueCutoff: Float!
+  }
+
+type ClassEnrichmentResult
+  {
+    classId: Uriorcurie!
+    classLabel: String
+    rank: Integer
+    pValue: Float!
+    pValueAdjusted: Float
+    falseDiscoveryRate: Float
+    foldEnrichment: Float
+    probability: Float
+    sampleCount: Integer
+    sampleTotal: Integer
+    backgroundCount: Integer
+    backgroundTotal: Integer
+    ancestorOfMoreInformativeResult: Boolean
+    descendantOfMoreInformativeResult: Boolean
+  }
+
+type ClassEnrichmentResultSet
+  {
+    results: [ClassEnrichmentResult]
+  }
+

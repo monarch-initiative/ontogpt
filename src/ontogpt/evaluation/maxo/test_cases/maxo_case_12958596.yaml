@@ -1,0 +1,25 @@
+---
+input_text: >-
+  Activation-induced cytidine deaminase (AID) is a 'master molecule' in immunoglobulin (Ig) 
+  class-switch recombination (CSR) and somatic hypermutation (SHM) generation, AID deficiencies are 
+  associated with hyper-IgM phenotypes in humans and mice. We show here that recessive mutations of 
+  the gene encoding uracil-DNA glycosylase (UNG) are associated with profound impairment in CSR at a 
+  DNA precleavage step and with a partial disturbance of the SHM pattern in three patients with hyper-IgM 
+  syndrome. Together with the finding that nuclear UNG expression was induced in activated B cells, 
+  these data support a model of CSR and SHM in which AID deaminates cytosine into uracil in targeted DNA 
+  (immunoglobulin switch or variable regions), followed by uracil removal by UNG.
+
+named_entities:
+  - id: MONDO:0011971
+    label: Immunodeficiency With Hyper-igm, Type 5
+  - id: MAXO:0001480
+    label: immunoglobulin infusion therapy
+  - id: HP:0004315
+    label: Decreased circulating IgG level
+
+extracted_object:
+  diagnostic_procedure_to_disease:
+    - subject: MAXO:0001480
+      predicate: TREATS
+      object:
+        - MONDO:0011971

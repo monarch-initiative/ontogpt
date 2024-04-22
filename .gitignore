@@ -1,4 +1,5 @@
 tests/output/cli_cache.db
+src/ontogpt/.gene_requests_cache.sqlite
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
@@ -142,3 +143,9 @@ training/
 preserved/
 random
 LOG
+
+.DS_Store
+
+# Custom config files
+**_custom.*
+*.tmp

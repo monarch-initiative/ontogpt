@@ -1,0 +1,82 @@
+id: http://w3id.org/ontogpt/datasheet
+name: datasheet
+title: Datasheet Extraction Template
+description: >-
+  A template for extracting metadata about a dataset,
+  as defined by the Datasheets for Datasets model
+  (see https://github.com/bridge2ai/data-sheets-schema),
+  itself based on Gebru et al. (2021)
+  (https://cacm.acm.org/magazines/2021/12/256932-datasheets-for-datasets/abstract)
+
+license: https://creativecommons.org/publicdomain/zero/1.0/
+prefixes:
+  rdf: http://www.w3.org/1999/02/22-rdf-syntax-ns#
+  linkml: https://w3id.org/linkml/
+  d4d: http://w3id.org/ontogpt/datasheet
+
+default_prefix: d4d
+default_range: string
+
+imports:
+  - linkml:types
+  - core
+
+classes:
+
+  Dataset:
+    description: A document that contains a description of a dataset.
+    tree_root: true
+    is_a: NamedEntity
+    attributes:
+      name:
+        description: The name of the dataset.
+      subsets:
+        description: >-
+          Semicolon-separated list of names of any subsets of the dataset.
+        multivalued: true
+      authors:
+        description: >-
+          Semicolon-separated list of names of creators of the dataset.
+        multivalued: true
+      funding_organization:
+        description: >-
+          Semicolon-separated list of organizations supporting
+          creation of the dataset.
+        multivalued: true
+        range: Organization
+      funding_identifiers:
+        description: >-
+          Semicolon-separated list of names, numbers, or other
+          identifiers for grants supporting creation of the dataset.
+        multivalued: true
+      purpose:
+        description: >-
+          The stated purpose of the dataset. This should be no more than 1
+          sentence.
+      limitations:
+        description: >-
+          Known limitations of the dataset. This should be no more than 1
+          sentence.
+      warnings:
+        description: >-
+          Warnings regarding content or application of the dataset.
+      references:
+        description: >-
+          Semicolon-separated list of publications describing the data or the
+          process used to produce it.
+        multivalued: true
+      license:
+        description: >-
+          The set of rules defining the rights of the developer and the users
+          of the dataset, for example, BSD-3 or CC0.
+
+  # Using wikidata as an annotator can be problematic due to ambiguity
+  # e.g., "stability" is the name of a company and the concept of robustness
+  # (wikidata:Q403605)
+  Organization:
+    is_a: NamedEntity
+    id_prefixes:
+      - wikidata
+      - NCIT
+    annotations:
+      annotators: "wikidata:, sqlite:obo:ncit"

@@ -1,0 +1,49 @@
+---
+input_text: >-
+
+  APC-associated polyposis conditions include (classic or attenuated) familial adenomatous polyposis (FAP) and gastric adenocarcinoma 
+  and proximal polyposis of the stomach (GAPPS).
+  Resection of all colonic polyps larger than 5 mm found on colonic surveillance. There is an absolute indication for colectomy when 
+  CRC is diagnosed or suspected, or when there are significant symptoms (e.g., bleeding, obstruction). Relative indications for colectomy 
+  include presence of multiple adenomas larger than 10 mm that cannot be reasonably removed endoscopically, a significant increase in adenoma 
+  number between surveillance exams, presence of adenomas with high-grade dysplasia, or inability to adequately survey the colon (e.g., due to 
+  innumerable diminutive adenomas or limited access to or compliance with colonoscopy). Endoscopic or surgical removal of duodenal adenomas is 
+  considered if polyps exhibit villous change or severe dysplasia, exceed 1 cm in diameter, or exhibit advanced stage using Spigelman scoring system. 
+  Gastrectomy is considered if advanced gastric neoplasia is found on upper endoscopy. Osteomas may be removed for cosmetic reasons. 
+  Desmoid tumors may be surgically excised or treated with nonsteroidal anti-inflammatory drugs (NSAIDs), anti-estrogens, 
+  cytotoxic chemotherapy, and/or radiation if at advanced stage. Standard treatment when needed for adrenal masses and thyroid carcinoma. 
+  Several studies have shown that NSAIDs and erlotinib have caused regression of adenomas and decreased the polyp burden in individuals with FAP, 
+  though there are currently no FDA-approved chemopreventive agents for FAP, given an unclear effect on subsequent cancer risk.
+
+named_entities:
+  - id: MONDO:0021056
+    label: denomatous Polyposis Coli
+  - id: MAXO:0000014
+    label: radiation therapy
+  - id: HP:0100245
+    label: Desmoid tumors
+  - id: MAXO:0000646
+    label: cancer chemotherapy
+  - id: MAXO:0000635
+    label: anti-estrogen agent therapy
+  - id: MAXO:0000221
+    label: nonsteroidal anti-inflammatory agent therapy
+
+extracted_object:
+  diagnostic_procedure_to_symptom:
+    - subject: MAXO:0000014
+      predicate: TREATS
+      object:
+        - HP:0100245
+    - subject: MAXO:0000646
+      predicate: TREATS
+      object:
+        - HP:0100245
+    - subject: MAXO:0000635
+      predicate: TREATS
+      object:
+        - HP:0100245
+    - subject: MAXO:0000221
+      predicate: TREATS
+      object:
+        - HP:0100245

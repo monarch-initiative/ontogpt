@@ -1,11 +1,13 @@
 """HTML Exporter."""
 import html
 from dataclasses import dataclass
+from io import BytesIO, StringIO, TextIOWrapper
 from pathlib import Path
-from typing import Any, TextIO, Union
+from typing import Any, Optional, TextIO, Union
 
 import pydantic
 import yaml
+from linkml_runtime import SchemaView
 
 from ontogpt.io.exporter import Exporter, is_curie
 from ontogpt.templates.core import ExtractionResult
@@ -19,13 +21,18 @@ class HTMLExporter(Exporter):
     TODO: rewrite to use bootstrap
     """
 
-    output: TextIO = None
+    output: Optional[Union[BytesIO, TextIO]]
 
-    def export(self, extraction_output: ExtractionResult, output: Union[str, Path, TextIO]):
+    def export(
+        self,
+        extraction_output: ExtractionResult,
+        output: Union[str, Path, TextIO, BytesIO],
+        schemaview: Optional[SchemaView] = None,
+    ):  # type: ignore
         if isinstance(output, Path):
-            output = str(output)
-        if isinstance(output, str):
             output = open(str(output), "w", encoding="utf-8")
+        if isinstance(output, str):
+            output = StringIO(output)
         self.output = output
         self.export_metadata(extraction_output)
         self.export_results(extraction_output.extracted_object, extraction_output)
@@ -52,12 +59,12 @@ class HTMLExporter(Exporter):
         self.open_div()
         if indent >= 0:
             self.open_ul()
-        for field in obj.__fields__.values():
+        for field_name, _field in obj.model_fields.items():
             if indent < 0:
-                self.h3(field.name)
+                self.h3(field_name)
             else:
-                self.li(f"<i>{field.name}</i>: ")
-            value = getattr(obj, field.name)
+                self.li(f"<i>{field_name}</i>: ")
+            value = getattr(obj, field_name)
             if isinstance(value, pydantic.BaseModel):
                 self.export_object(value, extraction_output, indent + 1)
             elif isinstance(value, list):
@@ -84,6 +91,8 @@ class HTMLExporter(Exporter):
         matches = [
             ne for ne in extraction_output.named_entities if ne.id == value and is_curie(ne.id)
         ]
+        if isinstance(output, BytesIO):
+            output = TextIOWrapper(output, encoding="utf-8")
         if matches:
             match = matches[0]
             output.write(f"{match.label} {self.link(match.id)}")
@@ -91,7 +100,9 @@ class HTMLExporter(Exporter):
             output.write(str(value))
         output.write("\n")
 
-    def details(self, text: str, output: TextIO, code: str = ""):
+    def details(self, text: Optional[str], output: Union[BytesIO, TextIO], code: str = ""):
+        if isinstance(output, BytesIO):
+            output = TextIOWrapper(output, encoding="utf-8")
         output.write("<details>\n")
         output.write("<pre>\n")
         self.w(text)
@@ -113,7 +124,7 @@ class HTMLExporter(Exporter):
     def close_div(self):
         self.output.write("</div>\n")
 
-    def li(self, text: str = None):
+    def li(self, text: str = ""):
         self.tag("li", text)
 
     def h1(self, text: str):
@@ -125,11 +136,15 @@ class HTMLExporter(Exporter):
     def h3(self, text: str):
         self.tag("h3", text)
 
-    def i(self, text: str):
+    def i(self, text: Optional[str]):
         self.tag("i", html.escape(text))
 
     def tag(self, tag: str, text: str):
+        if isinstance(self.output, BytesIO):
+            self.output = TextIOWrapper(self.output, encoding="utf-8")
         self.output.write(f"<{tag}>{text}</{tag}>\n")
 
     def w(self, text: str):
+        if isinstance(self.output, BytesIO):
+            self.output = TextIOWrapper(self.output, encoding="utf-8")
         self.output.write(html.escape(text))

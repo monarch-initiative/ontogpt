@@ -1,0 +1,25 @@
+---
+input_text: >-
+  "Saethre-Chotzen Syndrome
+  Management: Treatment of manifestations: Ongoing management by an established
+  craniofacial team which may include cranioplasty in the first year of life
+  and midface surgery in childhood as needed for dental malocclusion,
+  swallowing difficulties, and respiratory problems. If a cleft palate is
+  present, surgical repair usually follows cranioplasty. As needed: orthodontic
+  treatment and/or orthognathic surgery at the completion of facial growth;
+  developmental intervention; routine treatment of hearing loss; ophthalmologic
+  evaluation and, if ptosis is present, intervention to prevent amblyopia, with
+  surgical repair during early childhood as needed."
+named_entities:
+  - id: MONDO:0007042
+    label: Saethre-chotzen Syndrome
+  - id: MAXO:0000004
+    label: surgical procedure
+  - id: HP:0000175
+    label: cleft palate
+extracted_object:
+  diagnostic_procedure_to_symptom:
+    - subject: MAXO:0000004
+      predicate: TREATS
+      object:
+        - HP:0000175

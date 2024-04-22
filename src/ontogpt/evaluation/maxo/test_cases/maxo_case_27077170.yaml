@@ -1,0 +1,26 @@
+---
+input_text: >-
+  "Adams-Oliver Syndrome – RETIRED CHAPTER, FOR HISTORICAL
+  REFERENCE ONLY
+  Adams-Oliver syndrome (AOS) is characterized by aplasia cutis
+  congenita (ACC) of the scalp and terminal transverse limb
+  defects (TTLD).
+  Management. Treatment of manifestations: ACC. Care by a
+  pediatric dermatologist and/or plastic surgeon depending on
+  severity. Goals of non-operative therapy are to prevent infection
+  and promote healing. Large and/or deep lesions with calvarial
+  involvement require acute care and may eventually also require
+  reconstruction by a neurosurgeon."
+named_entities:
+  - id: MONDO:0013895
+    label: Adams-oliver Syndrome 3
+  - id: MAXO:0000946
+    label: neurosurgical procedure
+  - id: HP:0001057
+    label: aplasia cutis congenita
+extracted_object:
+  diagnostic_procedure_to_symptom:
+    - subject: MAXO:0000946
+      predicate: TREATS
+      object:
+        - HP:0001057

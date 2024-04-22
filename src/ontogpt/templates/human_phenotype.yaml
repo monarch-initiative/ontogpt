@@ -1,0 +1,43 @@
+id: http://w3id.org/ontogpt/human_phenotype
+name: human_phenotype-template
+title: Human Phenotype Extraction Template
+description: >-
+  A template for extracting human phenotypes to HPO terms
+license: https://creativecommons.org/publicdomain/zero/1.0/
+prefixes:
+  rdf: http://www.w3.org/1999/02/22-rdf-syntax-ns#
+  HP: http://purl.obolibrary.org/obo/HP_
+  human_phenotype: http://w3id.org/ontogpt/human_phenotype
+  linkml: https://w3id.org/linkml/
+
+default_prefix: human_phenotype
+default_range: string
+
+imports:
+  - linkml:types
+  - core
+
+classes:
+  HumanPhenotypeSet:
+    tree_root: true
+    is_a: NamedEntity
+    attributes:
+      phenotypes:
+        range: HumanPhenotype
+        multivalued: true
+        description: >-
+          A semicolon-separated list of human phenotypes, including symptoms of
+          disease. It must be semicolon-separated.
+          Labels containing the word 'with' should be split into multiple
+          phenotypes.
+
+  HumanPhenotype:
+    is_a: NamedEntity
+    id_prefixes:
+      - HP
+    annotations:
+      annotators: sqlite:obo:hp, sqlite:obo:mondo, sqlite:obo:mesh, sqlite:obo:ncit
+      prompt: >-
+        the name of a human phenotype or symptom.
+         Examples are ascites, fever, pain, seizure, increased intracranial
+         pressure, lactic acidosis.

@@ -355,7 +355,7 @@ class TestEvalEnrichment(unittest.TestCase):
         """Set up all engines in advance."""
         self.evaluator = EvalEnrichment()
         self.evaluator.load_annotations(GENES2GO_PATH)
-        self.davinci_evaluator = EvalEnrichment(model="text-davinci-003")
+        self.davinci_evaluator = EvalEnrichment(model="gpt-3.5-turbo-instruct")
         self.hgnc = get_adapter("sqlite:obo:hgnc")
 
     def test_load(self):

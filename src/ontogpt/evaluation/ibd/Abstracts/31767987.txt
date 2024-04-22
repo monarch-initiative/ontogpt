@@ -1,0 +1,16 @@
+IBD treatment is undergoing a transformation with an expanding repertoire of drugs targeting 
+different aspects of the immune response. Three novel classes of drugs have emerged in the past 
+decade that target leukocyte trafficking to the gut (vedolizumab), neutralize key cytokines with 
+antibodies (ustekinumab) and inhibit cytokine signalling pathways (tofacitinib). In advanced 
+development are other drugs for IBD, including therapies targeting other cytokines such as IL-23 and 
+IL-6. However, all agents tested so far are hampered by primary and secondary loss of response, so 
+it is desirable to develop personalized strategies to identify which patients should be treated with 
+which drugs. Stratification of patients with IBD by clinical parameters alone lacks sensitivity, and 
+alternative modalities are now needed to deliver precision medicine in IBD. High-resolution 
+profiling of immune response networks in individual patients is a promising approach and different 
+technical platforms, including in vivo real-time molecular endoscopy, tissue transcriptomics and 
+germline genetics, are promising tools to help predict responses to specific therapies. However, 
+important challenges remain regarding the clinical utility of these technologies, including their 
+scalability and accessibility. This Review focuses on unravelling some of the complexity of mucosal 
+immune responses in IBD pathogenesis and how current and emerging analytical platforms might be 
+harnessed to effectively stratify and individualise IBD therapy.

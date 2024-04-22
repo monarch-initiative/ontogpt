@@ -6,14 +6,16 @@ description: >-
   phenotypes they may contribute to.
 license: https://creativecommons.org/publicdomain/zero/1.0/
 prefixes:
-  linkml: https://w3id.org/linkml/
-  diag: http://w3id.org/ontogpt/diagnostic_procedure/
-  LOINC: http://loinc.org/rdf/
+  rdf: http://www.w3.org/1999/02/22-rdf-syntax-ns#
   HP: http://purl.obolibrary.org/obo/HP_
-  RO: http://purl.obolibrary.org/obo/RO_
+  LOINC: http://loinc.org/rdf/
   OBA: http://purl.obolibrary.org/obo/OBA_
   PATO: http://purl.obolibrary.org/obo/PATO_
+  RO: http://purl.obolibrary.org/obo/RO_
+  UO: http://purl.obolibrary.org/obo/UO_
   biolink: https://w3id.org/biolink/vocab/
+  diag: http://w3id.org/ontogpt/diagnostic_procedure/
+  linkml: https://w3id.org/linkml/
 
 default_prefix: diag
 default_range: string
@@ -22,15 +24,14 @@ imports:
   - linkml:types
   - core
 
-# TODO: LOINC isn't great for grounding, 
+# TODO: LOINC isn't great for grounding,
 # but perhaps a combo of subject, unit, and qualifier would work
 # since LOINC names are often like "IgG [Units/volume] in Serum"
 
 classes:
-
   DiagnosticProceduretoPhenotypeAssociation:
     is_a: Triple
-    description: >- 
+    description: >-
       A triple representing a relationship between a diagnostic
       procedure and an associated phenotype, e.g., "blood pressure measurement"
       is associated with "high blood pressure".
@@ -63,7 +64,7 @@ classes:
 
   DiagnosticProceduretoAttributeAssociation:
     is_a: Triple
-    description: >- 
+    description: >-
       A triple representing a relationship between a diagnostic
       procedure and a measured attribute, e.g., "blood pressure measurement"
       is associated with "blood pressure" (or in OBA, something like

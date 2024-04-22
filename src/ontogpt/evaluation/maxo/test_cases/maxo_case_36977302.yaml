@@ -1,0 +1,25 @@
+---
+input_text: >-
+  Corneal dystrophies are a group of non-inflammatory inherited disorders of the cornea. This review considers treatment options for epithelial-stromal 
+  and stromal corneal dystrophies namely Reis-Bücklers, Thiel-Behnke, lattice, Avellino, granular, macular and Schnyder corneal dystrophies. 
+  Where there is visual reduction, treatment options may include either phototherapeutic keratectomy (PTK) or corneal transplantation. 
+  Due to the anterior location of the deposits in Reis-Bücklers and Thiel-Behnke dystrophies, PTK is considered the treatment of choice. 
+  For lattice, Avellino, granular and macular corneal dystrophies, PTK provides temporary visual improvement; however, with recurrences, 
+  repeat PTK or a corneal transplant would be needed. For Schnyder dystrophy, should treatment be required, PTK may be the preferred option 
+  due to the potential for recurrence of the disease in corneal transplantation. This review discusses the literature and evidence base for 
+  the treatment of corneal dystrophies in terms of visual outcomes and recurrence rate.
+
+named_entities:
+  - id: MONDO:0012043
+    label: Corneal Dystrophy, Reis-bucklers Type
+  - id: MAXO:0010034
+    label: corneal transplantation
+  - id: HP:0001131
+    label: Corneal dystrophy
+
+extracted_object:
+  diagnostic_procedure_to_symptom:
+    - subject: MAXO:0010034
+      predicate: TREATS
+      object:
+        - HP:0001131

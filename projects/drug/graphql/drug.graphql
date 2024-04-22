@@ -1,0 +1,103 @@
+type AnnotatorResult
+  {
+    subjectText: String
+    objectId: String
+    objectText: String
+  }
+
+type Any
+  {
+  }
+
+interface CompoundExpression
+  {
+  }
+
+type Disease
+  {
+    id: String!
+    label: String
+  }
+
+type Drug
+  {
+    id: String!
+    label: String
+  }
+
+type DrugMechanism
+  {
+    disease: Disease
+    drug: Drug
+    mechanismLinks: [MechanismLink]
+    references: [String]
+    sourceText: String
+  }
+
+type ExtractionResult
+  {
+    inputId: String
+    inputTitle: String
+    inputText: String
+    rawCompletionOutput: String
+    prompt: String
+    extractedObject: Any
+    namedEntities: [Any]
+  }
+
+type MechanismElement
+  {
+    id: String!
+    label: String
+  }
+
+type MechanismLink
+  {
+    subject: MechanismElement
+    predicate: Predicate
+    object: MechanismElement
+  }
+
+interface NamedEntity
+  {
+    id: String!
+    label: String
+  }
+
+type Predicate
+  {
+    id: String!
+    label: String
+  }
+
+type Publication
+  {
+    id: String
+    title: String
+    abstract: String
+    combinedText: String
+    fullText: String
+  }
+
+type RelationshipType
+  {
+    id: String!
+    label: String
+  }
+
+type TextWithTriples
+  {
+    publication: Publication
+    triples: [Triple]
+  }
+
+interface Triple
+  {
+    subject: NamedEntity
+    predicate: RelationshipType
+    object: NamedEntity
+    qualifier: String
+    subjectQualifier: NamedEntity
+    objectQualifier: NamedEntity
+  }
+

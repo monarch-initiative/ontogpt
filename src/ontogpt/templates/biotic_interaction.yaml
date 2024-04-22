@@ -5,12 +5,15 @@ description: >-
   A template for biotic interactions
 license: https://creativecommons.org/publicdomain/zero/1.0/
 prefixes:
-  linkml: https://w3id.org/linkml/
-  bp: http://w3id.org/ontogpt/biotic-interaction-template
+  rdf: http://www.w3.org/1999/02/22-rdf-syntax-ns#
+  MESH: http://identifiers.org/mesh/
   NCBITaxon: http://purl.obolibrary.org/obo/NCBITAXON_
+  RO: http://purl.obolibrary.org/obo/RO_
+  bp: http://w3id.org/ontogpt/biotic-interaction-template
   col: https://www.catalogueoflife.org/data/taxon/
-  itis: https://www.itis.gov/servlet/SingleRpt/SingleRpt?search_topic=TSN&search_value=
   gbif: https://www.gbif.org/species/
+  itis: https://www.itis.gov/servlet/SingleRpt/SingleRpt?search_topic=TSN&search_value=
+  linkml: https://w3id.org/linkml/
 
 default_prefix: bp
 default_range: string
@@ -34,7 +37,7 @@ classes:
         description: the taxon that is the subject of the interaction
         range: Taxon
       target_taxon:
-        description: the taxon that is the object of the ineteraction
+        description: the taxon that is the object of the interaction
         range: Taxon
       interaction_type:
         description: the type of interaction
@@ -47,18 +50,18 @@ classes:
     is_a: NamedEntity
     id_prefixes:
       - NCBITaxon
-      - COL
-      - ITIS
-      - GBIF
+      - SNOMEDCT
     annotations:
-      annotators: sqlite:obo:ncbitaxon
-      prompt.example: shark, Carcharodon carcharias, elephant seal, Pandarus sinuatus, orca
+      annotators: sqlite:obo:ncbitaxon, bioportal:SNOMEDCT
+      #prompt.example: shark, Carcharodon carcharias, elephant seal, Pandarus sinuatus, orca, Panthera leo, lion, ungulates
 
   InteractionType:
     is_a: NamedEntity
     id_prefixes:
       - RO
       - MESH
+      - ECOCORE
+      - NCIT
     annotations:
       annotators: sqlite:obo:go, sqlite:obo:ro, sqlite:obo:bero
-      prompt.example: eats, competes with, parasitizes
+      #prompt.example: eat, competes with, parasitizes, subsist on a diet, kill, compete, prey consists, hunting, killed by, compete for, dominate, competitors

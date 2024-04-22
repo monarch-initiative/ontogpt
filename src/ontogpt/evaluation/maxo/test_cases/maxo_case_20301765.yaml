@@ -1,0 +1,25 @@
+---
+input_text: >-
+  Von Willebrand disease (VWD), a congenital bleeding disorder caused by deficient or defective plasma von Willebrand factor (VWF), 
+  may only become apparent on hemostatic challenge, and bleeding history may become more apparent with increasing age.  
+  Affected individuals benefit from care in a comprehensive bleeding disorders program. 
+  The two main treatments are desmopressin (1-deamino-8-D-arginine vasopressin [DDAVP]) 
+  and clotting factor concentrates (recombinant and plasma-derived) containing both VWF 
+  and FVIII (VWF/FVIII concentrate). Indirect hemostatic treatments that can reduce symptoms 
+  include fibrinolytic inhibitors; hormones for menorrhagia are also beneficial. 
+  Individuals with VWD should receive prompt treatment for severe bleeding episodes. 
+  Pregnant women with VWD are at increased risk for bleeding complications at or following childbirth.
+named_entities:
+  - id: MAXO:0000446
+    label: desmopressin agent therapy
+  - id: HP:0012147
+    label: Reduced quantity of Von Willebrand factor
+  - id: MONDO:0008668
+    label: Von Willebrand Disease, Type 1
+
+extracted_object:
+  diagnostic_procedure_to_disease:
+    - subject: MAXO:0000446
+      predicate: TREATS
+      object:
+        - MONDO:0008668

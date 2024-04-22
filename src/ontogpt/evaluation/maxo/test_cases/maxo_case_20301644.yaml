@@ -1,0 +1,49 @@
+---
+input_text: >-
+  "Spinocerebellar Ataxia Type 20
+  Evaluations Following Initial Diagnosis
+  To establish the extent of disease in an individual diagnosed with
+  spinocerebellar ataxia type 20 (SCA20), the evaluations summarized in this
+  section (if not performed as part of the evaluation that led to the diagnosis)
+  are recommended:
+  Careful clinical and neurologic evaluation
+  Speech assessment
+  Consultation with a clinical geneticist and/or genetic counselor
+  Treatment of Manifestations
+  Affected persons should be followed by a neurologist with consultation from
+  physiatrists and physical and occupational therapists.
+  Although neither exercise nor physical therapy has been shown to stem the
+  progression of incoordination or muscle weakness, individuals should maintain
+  activity. Canes and walkers help prevent falls. Modification of the home with
+  such conveniences as grab bars, raised toilet seats, and ramps to accommodate
+  motorized chairs may be necessary. Speech therapy and communication devices
+  such as writing pads and computer-based devices may benefit those with
+  dysarthria or dysphonia. Weighted eating utensils and dressing hooks help
+  maintain a sense of independence. Weight control is important because obesity
+  can exacerbate difficulties with ambulation and mobility. When dysphagia
+  becomes troublesome, videofluoroscopic swallow evaluation can identify the
+  consistency of food least likely to trigger aspiration."
+named_entities:
+  - id: MONDO:0012098
+    label: spinocerebellar ataxia type 20
+  - id: MAXO:0000930
+    label: Speech therapy
+  - id: MAXO:0000011
+    label: physical therapy
+  - id: HP:0001260
+    label: dysarthria
+  - id: HP:0001618
+    label: dysphonia
+  - id: HP:0002066
+    label: difficulties with ambulation
+extracted_object:
+  diagnostic_procedure_to_symptom:
+    - subject: MAXO:0000930
+      predicate: TREATS
+      object:
+        - HP:0001260
+        - HP:0001618
+    - subject: MAXO:0000011
+      predicate: TREATS
+      object:
+        - HP:0002066

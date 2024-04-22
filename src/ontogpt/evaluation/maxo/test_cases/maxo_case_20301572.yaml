@@ -1,0 +1,27 @@
+---
+input_text: >-
+  "Bloom syndrome (BSyn) is characterized by severe pre- and postnatal growth deficiency, immune abnormalities, sensitivity to sunlight, 
+  insulin resistance, and a high risk for many cancers that occur at an early age. 
+  Agents/circumstances to avoid: Sun exposure to the face and other exposed skin, particularly in infancy and early childhood,
+  should be avoided. Exposure to ionizing radiation should be minimized. Dose reductions and shortened courses of chemotherapy 
+  when needed to avoid significant side effects and toxicity (including secondary malignancies). Alkylating agents and radiation 
+  therapy are considered high risk and are avoided when possible in those with BSyn."
+
+named_entities:
+  - id: MONDO:0008876
+    label: Bloom Syndrome
+  - id: MAXO:0000054
+    label: radiation exposure avoidance
+  - id: MAXO:0000055
+    label: sunlight avoidance
+
+extracted_object:
+  diagnostic_procedure_to_disease:
+    - subject: MAXO:0000054
+      predicate: PREVENTS
+      object:
+        - MONDO:0008876
+    - subject: MAXO:0000055
+      predicate: PREVENTS
+      object:
+        - MONDO:0008876

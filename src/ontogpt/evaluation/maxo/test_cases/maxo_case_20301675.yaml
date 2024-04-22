@@ -1,0 +1,40 @@
+---
+input_text: >-
+  "McKusick-Kaufman Syndrome
+  Clinical characteristics: McKusick-Kaufman syndrome (MKS) is characterized by
+  the combination of postaxial polydactyly (PAP), congenital heart disease
+  (CHD), and hydrometrocolpos (HMC) in females and genital malformations in
+  males (most commonly hypospadias, cryptorchidism, and chordee). HMC in infants
+  usually presents as a large cystic abdominal mass arising out of the pelvis,
+  caused by dilatation of the vagina and uterus as a result of the accumulation
+  of cervical secretions from maternal estrogen stimulation. HMC can be caused
+  by failure of the distal third of the vagina to develop (vaginal agenesis),
+  a transverse vaginal membrane, or an imperforate hymen. PAP is the presence of
+  additional digits on the ulnar side of the hand and the fibular side of the
+  foot. A variety of congenital heart defects have been reported including
+  atrioventricular canal, atrial septal defect, ventricular septal defect,
+  or a complex congenital heart malformation. Diagnosis/testing: The clinical
+  diagnosis of MKS can be established in a proband based on clinical diagnostic
+  criteria of HMC and PAP in the absence of clinical or molecular genetic
+  findings suggestive of an alternative diagnosis. The molecular diagnosis can
+  be established in proband with suggestive findings and biallelic pathogenic
+  variants in MKKS identified by molecular genetic testing. However, care must
+  be taken to ensure that the proband does not have Bardet-Biedl syndrome, an
+  allelic condition with considerable clinical overlap and age-dependent
+  features including retinal dystrophy, obesity, and intellectual disability.
+  Management: Treatment of manifestations: Surgical repair of the obstruction
+  causing HMC and drainage of the accumulated fluid. Treatment for polydactyly
+  and congenital heart defects and any other anomalies is standard."
+named_entities:
+  - id: MONDO:0009367
+    label: McKusick-Kaufman syndrome
+  - id: MAXO:0000004
+    label: surgical repair
+  - id: HP:0030010
+    label: hydrometrocolpos
+extracted_object:
+  diagnostic_procedure_to_symptom:
+    - subject: MAXO:0000004
+      predicate: TREATS
+      object:
+        - HP:0030010

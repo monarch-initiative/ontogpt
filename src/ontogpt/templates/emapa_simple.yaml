@@ -1,0 +1,44 @@
+id: http://w3id.org/ontogpt/emapa_simple
+name: emapa_simple
+title: Simple EMAPA Extraction Template
+description: >-
+  Simple Mouse Developmental Anatomy Ontology Extraction Template
+license: https://creativecommons.org/publicdomain/zero/1.0/
+prefixes:
+  rdf: http://www.w3.org/1999/02/22-rdf-syntax-ns#
+  EMAPA: http://purl.obolibrary.org/obo/EMAPA_
+  GO: http://purl.obolibrary.org/obo/GO_
+  emapa_simple: http://w3id.org/ontogpt/emapa_simple
+  linkml: https://w3id.org/linkml/
+
+default_prefix: emapa_simple
+default_range: string
+
+imports:
+  - linkml:types
+  - core
+
+classes:
+  OntologyTermSet:
+    tree_root: true
+    is_a: NamedEntity
+    attributes:
+      terms:
+        range: OntologyTerm
+        multivalued: true
+        description: >-
+          A semicolon-separated list of any Mouse Developmental Anatomy
+          Ontology terms.
+
+  OntologyTerm:
+    is_a: NamedEntity
+    id_prefixes:
+      - EMAPA
+    annotations:
+      annotators: sqlite:obo:emapa
+      prompt: >-
+        The name of a Mouse Developmental Anatomy Ontology term.
+        Examples include: common carotid artery,
+        cerebellum anterior vermis, tailgut,
+        gastro-esophageal junction mesentery,
+        hindlimb digit 3 phalanx

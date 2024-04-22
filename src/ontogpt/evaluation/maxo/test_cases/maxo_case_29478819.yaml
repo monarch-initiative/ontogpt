@@ -1,0 +1,31 @@
+---
+input_text: >-
+  To overcome these challenges, a novel Blind Start design was utilized in a study of vestronidase alfa
+  in mucopolysaccharidosis VII (Sly syndrome), an ultra-rare lysosomal disease, that demonstrates the strengths of 
+  this approach in a challenging drug-development setting. Twelve subjects were randomized to 1 of 4 blinded groups, 
+  each crossing over to active treatment in a blinded fashion at different timepoints with efficacy analysis comparing 
+  the last assessment before cross over to after 24 weeks of treatment. Study assessments included Percentage change from baseline 
+  in urinary GAG (uGAG); a Multi-Domain Responder Index (MDRI) using prespecified minimal important differences (6-Minute Walk Test, 
+  Forced Vital Capacity, shoulder flexion, visual acuity, and Bruininks-Oseretsky Test of Motor Proficiency); fatigue as assessed by 
+  the Pediatric Quality of Life Inventory™ Multidimensional Fatigue Scale; and safety.
+  We report a novel approach used in development of vestronidase alfa (recombinant human β-glucuronidase or rhGUS),
+  an enzyme replacement therapy (ERT) for MPS VII, that included a unique Phase 3 Blind Start study design with a 
+  variable placebo run-in period masking the start of vestronidase alfa, and allowing all subjects to be assessed for efficacy. 
+  Another unique feature was the use of a Multi-Domain Responder Index (MDRI) that allowed translation of multiple clinical measures 
+  into a combination responder endpoint assessed using minimally important difference (MID) thresholds without penalizing for 
+  non-assessable endpoints in a heterogeneous patient population.
+
+named_entities:
+  - id: MONDO:0009662
+    label: Mucopolysaccharidosis Type Vii
+  - id: MAXO:0000933
+    label: enzyme replacement or supplementation therapy
+  - id: HP:0003541
+    label: Urinary glycosaminoglycan excretion
+
+extracted_object:
+  diagnostic_procedure_to_symptom:
+    - subject: MAXO:0000933
+      predicate: TREATS
+      object:
+        - HP:0003541

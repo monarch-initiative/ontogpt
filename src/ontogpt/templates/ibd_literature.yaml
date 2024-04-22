@@ -1,0 +1,158 @@
+id: http://w3id.org/ontogpt/ibd_literature
+name: ibd-literature-template
+title: IBD Literature Template
+description: >-
+  A template for extracting information from IBD literature
+license: https://creativecommons.org/publicdomain/zero/1.0/
+prefixes:
+  rdf: http://www.w3.org/1999/02/22-rdf-syntax-ns#
+  CHEBI: http://purl.obolibrary.org/obo/CHEBI_
+  ECTO: http://purl.obolibrary.org/obo/ECTO_
+  ExO: http://purl.obolibrary.org/obo/ExO_
+  HGNC: http://identifiers.org/hgnc/
+  NCIT: http://purl.obolibrary.org/obo/NCIT_
+  MONDO: http://purl.obolibrary.org/obo/MONDO_
+  GO: http://purl.obolibrary.org/obo/GO_
+  core: http://w3id.org/ontogpt/core/
+  ibdlit: http://w3id.org/ontogpt/ibd_literature/
+  linkml: https://w3id.org/linkml/
+
+default_prefix: ibdlit
+default_range: string
+
+imports:
+  - linkml:types
+  - core
+
+classes:
+  IBDAnnotations:
+    tree_root: true
+    attributes:
+      genes:
+        description: semicolon-separated list of genes
+        multivalued: true
+        range: Gene
+      exposures:
+        description: semicolon-separated list of exposures
+        annotations:
+          # prompt.example
+          prompt: a chemical or molecule whose direct or indirect effects cause one or more entities to experience biological change
+        multivalued: true
+        range: ChemicalExposure
+      gene_exposures_relationships:
+        description: semicolon-separated list of gene to molecular activity relationships
+        multivalued: true
+        range: GeneExposureRelationship
+      diseases:
+        description: semicolon-separated list of diseases
+        multivalued: true
+        range: Disease
+      cellular_process:
+        description: semicolon-separated list of cellular processes
+        multivalued: true
+        range: CellularProcess
+      disease_cellular_process_relationships:
+        description: semicolon-separated list of disease to cellular process relationships
+        multivalued: true
+        range: DiseaseCellularProcessRelationship
+
+  Gene:
+    is_a: NamedEntity
+    id_prefixes:
+      - HGNC
+    annotations:
+      annotators: sqlite:obo:hgnc, sqlite:obo:pr
+      prompt: the name of the gene in the pair. This comes second in the pair.
+
+  ChemicalExposure:
+    is_a: NamedEntity
+    id_prefixes:
+      - CHEBI
+      - ECTO
+      - ExO
+      - NCIT
+    annotations:
+      annotators: sqlite:obo:ecto, sqlite:obo:chebi
+      prompt: the name of the exposure, such as a exposure to a chemical toxin. For example, CHEBI:17968 butyrate.
+
+  ChemicalExposureToGenePredicate:
+    # is_a: RelationshipType
+    is_a: NamedEntity
+    id_prefixes:
+      - RO
+    annotations:
+      annotators: sqlite:obo:ro
+      prompt: the name of the type of relationship between a chemical exposure and a gene.
+
+  GeneExposureRelationship:
+    # is_a: Triple
+    is_a: CompoundExpression
+    attributes:
+    # slot_usage:
+      subject:
+        range: ChemicalExposure
+        description: >-
+          The name of the exposure, such as a exposure to a chemical toxin.
+      predicate:
+        range: ChemicalExposureToGenePredicate
+        description: >-
+          The name of the type of relationship between a chemical exposure and a gene.
+      object:
+        range: Gene
+        description: >-
+          The name of the gene in the pair. This comes second in the pair.
+      subject_qualifier:
+        range: NamedEntity
+        description: >-
+          An optional qualifier or modifier for the chemical exposure.
+      object_qualifier:
+        range: NamedEntity
+        description: >-
+          An optional qualifier or modifier for the gene.
+
+  Disease:
+    is_a: NamedEntity
+    id_prefixes:
+      - MONDO
+    annotations:
+      annotators: sqlite:obo:mondo
+      prompt: the name of the disease
+  
+  CellularProcess:
+    is_a: NamedEntity
+    id_prefixes:
+      - GO
+    annotations:
+      annotators: sqlite:obo:go
+      prompt: the name of the cellular process
+
+  DiseaseToCellularProcessPredicate:
+    # is_a: RelationshipType
+    is_a: NamedEntity
+    id_prefixes:
+      - RO
+    annotations:
+      annotators: sqlite:obo:ro
+      prompt: the name of the type of relationship between a disease and a cellular process.
+
+  DiseaseCellularProcessRelationship:
+    # is_a: Triple
+    is_a: CompoundExpression
+    attributes:
+    # slot_usage:
+      subject:
+        range: Disease
+        description: >-
+          The name of the disease.
+      predicate:
+        range: DiseaseToCellularProcessPredicate
+        description: >-
+          The name of the type of relationship between a disease and a cellular process.
+      object:
+        range: CellularProcess
+        description: >-
+          The name of the cellular process.
+      subject_qualifier:
+        range: NamedEntity
+      object_qualifier:
+        range: NamedEntity

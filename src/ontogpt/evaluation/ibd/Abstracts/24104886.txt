@@ -1,0 +1,17 @@
+The intestine and its immune system have evolved to meet the extraordinary task of maintaining 
+tolerance to the largest, most complex and diverse microbial commensal habitat, while meticulously 
+attacking and containing even minute numbers of occasionally incoming pathogens. While our 
+understanding is still far from complete, recent studies have provided exciting novel insights into 
+the complex interplay of the many distinct intestinal immune cell types as well as the discovery of 
+entirely new cell subsets. These studies have also revealed how proper development and function of 
+the intestinal immune system is dependent on its specific microbiota, which appears to have 
+evolutionarily co-evolved. Here we review key immune cells that maintain intestinal homeostasis and, 
+conversely, describe how altered function and imbalances may lead to inflammatory bowel disease 
+(IBD). We highlight the latest developments within this field, covering the major players in IBD 
+including intestinal epithelial cells, macrophages, dendritic cells, adaptive immune cells, and the 
+newly discovered innate lymphoid cells, which appear of characteristic importance for immune 
+function at mucosal surfaces. We set these mucosal immune pathways in the functional context of IBD 
+risk genes where such insight is available. Moreover, we frame our discussion of fundamental 
+biological pathways that have been elucidated in model systems in the context of results from 
+clinical trials in IBD that targeted key mediators secreted by these cells, as an attempt of 
+'functional' appraisal of these pathways in human disease.

@@ -1,0 +1,130 @@
+id: http://w3id.org/ontogpt/ctd_ner
+name: ctd_ner
+title: Chemical and Disease Entity Recognition Template
+description: >-
+  A template for Chemical and Disease named entity recognition.
+
+  This template is intended to represent entities (chemicals and diseases),
+  and for evaluating SPIRES against the BioCreative V Disease Named Entity
+  Recognition (DNER) results. As the test set also contains chemical names,
+  it is also appropriate to use this template for evaluating chemical NER.
+see_also:
+  - https://biocreative.bioinformatics.udel.edu/media/store/files/2015/BC5CDR_overview.final.pdf
+  - https://academic.oup.com/database/article/doi/10.1093/database/baw068/2630414
+source: >-
+  https://biocreative.bioinformatics.udel.edu/tasks/biocreative-v/track-3-cdr/
+license: https://creativecommons.org/publicdomain/zero/1.0/
+prefixes:
+  rdf: http://www.w3.org/1999/02/22-rdf-syntax-ns#
+  MESH: http://identifiers.org/mesh/
+  ctdner: http://w3id.org/ontogpt/ctd_ner
+  linkml: https://w3id.org/linkml/
+
+default_prefix: ctdner
+default_range: string
+
+imports:
+  - linkml:types
+  - core
+
+classes:
+  ChemicalToDiseaseDocument:
+    description: A document that contains chemical and disease entities.
+    is_a: TextWithEntity
+    attributes:
+      chemicals:
+        range: Chemical
+        multivalued: true
+        description: One or more chemical substances, drugs, or small molecules.
+        annotations:
+          prompt: >-
+            A semi-colon separated list of chemical names, for example: Lidocaine;
+            Hydroxychloroquine; Methyldopa; Monosodium Glutamate; Imatinib
+      diseases:
+        range: Disease
+        multivalued: true
+        description: One or more diseases or conditions.
+        annotations:
+          prompt: >-
+            A semi-colon separated list of disease names, for example: cardiac
+            asystole; COVID-19; Hypotension; Headache; cancer
+
+  Chemical:
+    is_a: NamedEntity
+    annotations:
+      annotators: "sqlite:obo:mesh, sqlite:obo:chebi, sqlite:obo:ncit, bioportal:mdm, sqlite:obo:drugbank, gilda:"
+      prompt.examples: Lidocaine, Hydroxychloroquine, Methyldopa, Imatinib
+    # For the purposes of evaluating against BC5CDR, we force normalization to MESH
+    id_prefixes:
+      - MESH
+    slot_usage:
+      id:
+        pattern: "^MESH:[CD][0-9]{6}$"
+        values_from:
+          - MeshChemicalIdentifier
+
+  Disease:
+    is_a: NamedEntity
+    annotations:
+      annotators: "sqlite:obo:mesh, sqlite:obo:mondo, sqlite:obo:hp, sqlite:obo:ncit, sqlite:obo:doid, bioportal:meddra"
+      prompt.examples: cardiac asystole, COVID-19, Headache, cancer
+    # For the purposes of evaluating against BC5CDR, we force normalization to MESH
+    id_prefixes:
+      - MESH
+    slot_usage:
+      id:
+        pattern: "^MESH:[CD][0-9]{6}$"
+        values_from:
+          - MeshDiseaseIdentifier
+
+enums:
+  MeshChemicalIdentifier:
+    reachable_from:
+      source_ontology: obo:mesh
+      source_nodes:
+        - MESH:D000602 ## Amino Acids, Peptides, and Proteins
+        - MESH:D001685 ## Biological Factors
+        - MESH:D002241 ## Carbohydrates
+        - MESH:D004364 ## Pharmaceutical Preparations
+        - MESH:D006571 ## Heterocyclic Compounds
+        - MESH:D007287 ## Inorganic Chemicals
+        - MESH:D008055 ## Lipids
+        - MESH:D009706 ## Nucleic Acids, Nucleotides, and Nucleosides
+        - MESH:D009930 ## Organic Chemicals
+        - MESH:D011083 ## Polycyclic Compounds
+        - MESH:D013812 ## Therapeutics
+        - MESH:D019602 ## Food and Beverages
+        - MESH:D045424 ## Complex Mixtures
+        - MESH:D045762 ## Enzymes and Coenzymes
+        - MESH:D046911 ## Macromolecular Substances
+  MeshDiseaseIdentifier:
+    reachable_from:
+      source_ontology: obo:mesh
+      source_nodes:
+        - MESH:D001423 ## Bacterial Infections and Mycoses
+        - MESH:D001523 ## Mental Disorders
+        - MESH:D002318 ## Cardiovascular Diseases
+        - MESH:D002943 ## Circulatory and Respiratory Physiological Phenomena
+        - MESH:D004066 ## Digestive System Diseases
+        - MESH:D004700 ## Endocrine System Diseases
+        - MESH:D005128 ## Eye Diseases
+        - MESH:D005261 ## Female Urogenital Diseases and Pregnancy Complications
+        - MESH:D006425 ## Hemic and Lymphatic Diseases
+        - MESH:D007154 ## Immune System Diseases
+        - MESH:D007280 ## Disorders of Environmental Origin
+        - MESH:D009057 ## Stomatognathic Diseases
+        - MESH:D009140 ## Musculoskeletal Diseases
+        - MESH:D009358 ## Congenital, Hereditary, and Neonatal Diseases and Abnormalities
+        - MESH:D009369 ## Neoplasms
+        - MESH:D009422 ## Nervous System Diseases
+        - MESH:D009750 ## Nutritional and Metabolic Diseases
+        - MESH:D009784 ## Occupational Diseases
+        - MESH:D010038 ## Otorhinolaryngologic Diseases
+        - MESH:D010272 ## Parasitic Diseases
+        - MESH:D012140 ## Respiratory Tract Diseases
+        - MESH:D013568 ## Pathological Conditions, Signs and Symptoms
+        - MESH:D014777 ## Virus Diseases
+        - MESH:D014947 ## Wounds and Injuries
+        - MESH:D017437 ## Skin and Connective Tissue Diseases
+        - MESH:D052801 ## Male Urogenital Diseases
+        - MESH:D064419 ## Chemically-Induced Disorders

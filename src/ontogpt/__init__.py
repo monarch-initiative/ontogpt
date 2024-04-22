@@ -8,10 +8,11 @@ from yaml import safe_load
 rel_path = Path(__file__).resolve()
 models_path = rel_path.parent / "models.yaml"
 
-with open(models_path, 'r') as models_file:
+with open(models_path, "r") as models_file:
     MODELS = (safe_load(models_file))["models"]
 for model in MODELS:
     if "is_default" in model:
+        DEFAULT_MODEL_DETAILS = model
         DEFAULT_MODEL = model["alternative_names"][0]
         break
 

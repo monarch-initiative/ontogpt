@@ -5,6 +5,7 @@ description: >-
   A template for food recipes
 license: https://creativecommons.org/publicdomain/zero/1.0/
 prefixes:
+  rdf: http://www.w3.org/1999/02/22-rdf-syntax-ns#
   linkml: https://w3id.org/linkml/
   recipe: http://w3id.org/ontogpt/recipe/
   FOODON: http://purl.obolibrary.org/obo/FOODON_
@@ -17,6 +18,10 @@ prefixes:
   qudt: http://qudt.org/schema/qudt/
   dbpediaont: http://dbpedia.org/ontology/
 
+# This template incorportates syntax from
+# linkml-owl to define OWL interpretations
+# and enable advanced functionality.
+# https://linkml.io/linkml-owl/templates/
 
 default_prefix: recipe
 default_range: string
@@ -29,14 +34,14 @@ classes:
   Recipe:
     tree_root: true
     close_mappings:
-      - FOODON:00004081
+      - FOODON:00004081  # food recipe
     attributes:
       url:
         identifier: true
         range: uriorcurie
         slot_uri: rdf:Resource
         annotations:
-          prompt.ignore: true
+          prompt.skip: true
       label:
         description: the name of the recipe
         slot_uri: rdfs:label
@@ -49,7 +54,7 @@ classes:
           owl: AnnotationProperty, AnnotationAssertion
       categories:
         description: a semicolon separated list of the categories to which this recipe belongs
-        range:  RecipeCategory
+        range: RecipeCategory
         multivalued: true
         slot_uri: dcterms:subject
         annotations:
@@ -168,7 +173,7 @@ classes:
       state:
         description: the state of the food item (e.g. chopped, diced)
         annotations:
-           owl: DataProperty, DataHasValue
+          owl: DataProperty, DataHasValue
 
   FoodType:
     is_a: NamedEntity

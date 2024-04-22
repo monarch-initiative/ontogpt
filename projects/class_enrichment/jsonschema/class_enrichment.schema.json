@@ -1,0 +1,120 @@
+{
+    "$defs": {
+        "ClassEnrichmentConfiguration": {
+            "additionalProperties": false,
+            "description": "configuration for search",
+            "properties": {
+                "p_value_cutoff": {
+                    "description": "p-value cutoff for enrichment",
+                    "type": "number"
+                }
+            },
+            "required": [
+                "p_value_cutoff"
+            ],
+            "title": "ClassEnrichmentConfiguration",
+            "type": "object"
+        },
+        "ClassEnrichmentResult": {
+            "additionalProperties": false,
+            "description": "A single enrichment result",
+            "properties": {
+                "ancestor_of_more_informative_result": {
+                    "description": "This term is more general than a previously reported result",
+                    "type": "boolean"
+                },
+                "background_count": {
+                    "description": "The background count",
+                    "type": "integer"
+                },
+                "background_total": {
+                    "description": "The background total",
+                    "type": "integer"
+                },
+                "class_id": {
+                    "description": "The class id",
+                    "type": "string"
+                },
+                "class_label": {
+                    "description": "The class label",
+                    "type": "string"
+                },
+                "descendant_of_more_informative_result": {
+                    "description": "This term is more specific than a previously reported result",
+                    "type": "boolean"
+                },
+                "false_discovery_rate": {
+                    "description": "The false discovery rate",
+                    "type": "number"
+                },
+                "fold_enrichment": {
+                    "description": "The fold enrichment",
+                    "type": "number"
+                },
+                "p_value": {
+                    "description": "The p-value",
+                    "type": "number"
+                },
+                "p_value_adjusted": {
+                    "description": "The adjusted p-value",
+                    "type": "number"
+                },
+                "probability": {
+                    "description": "The probability, as estimated by model-based approaches",
+                    "maximum": 1,
+                    "minimum": 0,
+                    "type": "number"
+                },
+                "rank": {
+                    "description": "The rank of this result",
+                    "type": "integer"
+                },
+                "sample_count": {
+                    "description": "The number of entities in the sample with this class",
+                    "type": "integer"
+                },
+                "sample_total": {
+                    "description": "The total number of entities in the sample",
+                    "type": "integer"
+                }
+            },
+            "required": [
+                "class_id",
+                "p_value"
+            ],
+            "title": "ClassEnrichmentResult",
+            "type": "object"
+        },
+        "ClassEnrichmentResultSet": {
+            "additionalProperties": false,
+            "description": "A collection of enrichemt results",
+            "properties": {
+                "results": {
+                    "description": "The enrichment results",
+                    "items": {
+                        "$ref": "#/$defs/ClassEnrichmentResult"
+                    },
+                    "type": "array"
+                }
+            },
+            "title": "ClassEnrichmentResultSet",
+            "type": "object"
+        },
+        "SortFieldEnum": {
+            "description": "The field to sort by",
+            "enum": [
+                "ANY",
+                "P_VALUE"
+            ],
+            "title": "SortFieldEnum",
+            "type": "string"
+        }
+    },
+    "$id": "https://w3id.org/oak/class-enrichment",
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "additionalProperties": true,
+    "metamodel_version": "1.7.0",
+    "title": "class-enrichment",
+    "type": "object",
+    "version": null
+}

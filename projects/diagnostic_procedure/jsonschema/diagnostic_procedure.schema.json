@@ -1,0 +1,348 @@
+{
+    "$defs": {
+        "AnnotatorResult": {
+            "additionalProperties": false,
+            "description": "",
+            "properties": {
+                "object_id": {
+                    "type": "string"
+                },
+                "object_text": {
+                    "type": "string"
+                },
+                "subject_text": {
+                    "type": "string"
+                }
+            },
+            "title": "AnnotatorResult",
+            "type": "object"
+        },
+        "Any": {
+            "additionalProperties": true,
+            "description": "",
+            "title": "Any",
+            "type": "object"
+        },
+        "ClinicalAttribute": {
+            "additionalProperties": false,
+            "description": "",
+            "properties": {
+                "id": {
+                    "description": "A unique identifier for the named entity",
+                    "type": "string"
+                },
+                "label": {
+                    "description": "The label (name) of the named thing",
+                    "type": "string"
+                },
+                "unit": {
+                    "description": "the unit used to measure the attribute",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "id"
+            ],
+            "title": "ClinicalAttribute",
+            "type": "object"
+        },
+        "DiagnosticProcedure": {
+            "additionalProperties": false,
+            "description": "",
+            "properties": {
+                "id": {
+                    "description": "A unique identifier for the named entity",
+                    "type": "string"
+                },
+                "label": {
+                    "description": "The label (name) of the named thing",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "id"
+            ],
+            "title": "DiagnosticProcedure",
+            "type": "object"
+        },
+        "DiagnosticProceduretoAttributeAssociation": {
+            "additionalProperties": false,
+            "description": "A triple representing a relationship between a diagnostic procedure and a measured attribute, e.g., \"blood pressure measurement\" is associated with \"blood pressure\" (or in OBA, something like OBA:VT0000183, \"blood pressure trait\").",
+            "properties": {
+                "object": {
+                    "description": "Any measurable clinical attribute.",
+                    "items": {
+                        "type": "string"
+                    },
+                    "type": "array"
+                },
+                "object_qualifier": {
+                    "description": "An optional qualifier or modifier for the phenotype.",
+                    "type": "string"
+                },
+                "predicate": {
+                    "description": "The relationship type, e.g. RELATED_TO",
+                    "type": "string"
+                },
+                "qualifier": {
+                    "description": "A qualifier for the statements, e.g. \"NOT\" for negation",
+                    "type": "string"
+                },
+                "subject": {
+                    "description": "A diagnostic procedure yielding a result, which in turn may be interpreted as a phenotype. Procedures include \"heart rate measurement\", \"blood pressure measurement\", \"oxygen saturation measurement\", etc. In practice, procedures may be named based on what they measure, with the \"measurement\" part left implicit.",
+                    "type": "string"
+                },
+                "subject_qualifier": {
+                    "description": "An optional qualifier or modifier for the procedure.",
+                    "type": "string"
+                }
+            },
+            "title": "DiagnosticProceduretoAttributeAssociation",
+            "type": "object"
+        },
+        "DiagnosticProceduretoPhenotypeAssociation": {
+            "additionalProperties": false,
+            "description": "A triple representing a relationship between a diagnostic procedure and an associated phenotype, e.g., \"blood pressure measurement\" is associated with \"high blood pressure\".",
+            "properties": {
+                "object": {
+                    "description": "The observable physical or biochemical characteristics of a patient. Not equivalent to a disease state, but may contribute to a diagnosis.",
+                    "items": {
+                        "type": "string"
+                    },
+                    "type": "array"
+                },
+                "object_qualifier": {
+                    "description": "An optional qualifier or modifier for the phenotype.",
+                    "type": "string"
+                },
+                "predicate": {
+                    "description": "The relationship type, e.g. RELATED_TO",
+                    "type": "string"
+                },
+                "qualifier": {
+                    "description": "A qualifier for the statements, e.g. \"NOT\" for negation",
+                    "type": "string"
+                },
+                "subject": {
+                    "description": "A diagnostic procedure yielding a result, which in turn may be interpreted as a phenotype. Procedures include \"heart rate measurement\", \"blood pressure measurement\", \"oxygen saturation measurement\", etc. In practice, procedures may be named based on what they measure, with the \"measurement\" part left implicit.",
+                    "type": "string"
+                },
+                "subject_qualifier": {
+                    "description": "An optional qualifier or modifier for the procedure.",
+                    "type": "string"
+                }
+            },
+            "title": "DiagnosticProceduretoPhenotypeAssociation",
+            "type": "object"
+        },
+        "ExtractionResult": {
+            "additionalProperties": false,
+            "description": "A result of extracting knowledge on text",
+            "properties": {
+                "extracted_object": {
+                    "$ref": "#/$defs/Any",
+                    "description": "The complex objects extracted from the text"
+                },
+                "input_id": {
+                    "type": "string"
+                },
+                "input_text": {
+                    "type": "string"
+                },
+                "input_title": {
+                    "type": "string"
+                },
+                "named_entities": {
+                    "description": "Named entities extracted from the text",
+                    "items": {
+                        "$ref": "#/$defs/Any"
+                    },
+                    "type": "array"
+                },
+                "prompt": {
+                    "type": "string"
+                },
+                "raw_completion_output": {
+                    "type": "string"
+                }
+            },
+            "title": "ExtractionResult",
+            "type": "object"
+        },
+        "NullDataOptions": {
+            "description": "",
+            "enum": [
+                "UNSPECIFIED_METHOD_OF_ADMINISTRATION",
+                "NOT_APPLICABLE",
+                "NOT_MENTIONED"
+            ],
+            "title": "NullDataOptions",
+            "type": "string"
+        },
+        "Phenotype": {
+            "additionalProperties": false,
+            "description": "",
+            "properties": {
+                "id": {
+                    "description": "A unique identifier for the named entity",
+                    "type": "string"
+                },
+                "label": {
+                    "description": "The label (name) of the named thing",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "id"
+            ],
+            "title": "Phenotype",
+            "type": "object"
+        },
+        "ProcedureToAttributePredicate": {
+            "additionalProperties": false,
+            "description": "A predicate for procedure to attribute relationships, defining \"this procedure is a measurement of this attribute\".",
+            "properties": {
+                "id": {
+                    "description": "A unique identifier for the named entity",
+                    "type": "string"
+                },
+                "label": {
+                    "description": "The label (name) of the named thing",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "id"
+            ],
+            "title": "ProcedureToAttributePredicate",
+            "type": "object"
+        },
+        "ProcedureToPhenotypePredicate": {
+            "additionalProperties": false,
+            "description": "A predicate for procedure to phenotype relationships, defining \"this procedure is intended to provide support for/against this phenotype\".",
+            "properties": {
+                "id": {
+                    "description": "A unique identifier for the named entity",
+                    "type": "string"
+                },
+                "label": {
+                    "description": "The label (name) of the named thing",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "id"
+            ],
+            "title": "ProcedureToPhenotypePredicate",
+            "type": "object"
+        },
+        "Publication": {
+            "additionalProperties": false,
+            "description": "",
+            "properties": {
+                "abstract": {
+                    "description": "The abstract of the publication",
+                    "type": "string"
+                },
+                "combined_text": {
+                    "type": "string"
+                },
+                "full_text": {
+                    "description": "The full text of the publication",
+                    "type": "string"
+                },
+                "id": {
+                    "description": "The publication identifier",
+                    "type": "string"
+                },
+                "title": {
+                    "description": "The title of the publication",
+                    "type": "string"
+                }
+            },
+            "title": "Publication",
+            "type": "object"
+        },
+        "Quality": {
+            "additionalProperties": false,
+            "description": "",
+            "properties": {
+                "id": {
+                    "description": "A unique identifier for the named entity",
+                    "type": "string"
+                },
+                "label": {
+                    "description": "The label (name) of the named thing",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "id"
+            ],
+            "title": "Quality",
+            "type": "object"
+        },
+        "RelationshipType": {
+            "additionalProperties": false,
+            "description": "",
+            "properties": {
+                "id": {
+                    "description": "A unique identifier for the named entity",
+                    "type": "string"
+                },
+                "label": {
+                    "description": "The label (name) of the named thing",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "id"
+            ],
+            "title": "RelationshipType",
+            "type": "object"
+        },
+        "TextWithTriples": {
+            "additionalProperties": false,
+            "description": "",
+            "properties": {
+                "publication": {
+                    "$ref": "#/$defs/Publication"
+                },
+                "triples": {
+                    "items": {
+                        "$ref": "#/$defs/Triple"
+                    },
+                    "type": "array"
+                }
+            },
+            "title": "TextWithTriples",
+            "type": "object"
+        },
+        "Unit": {
+            "additionalProperties": false,
+            "description": "",
+            "properties": {
+                "id": {
+                    "description": "A unique identifier for the named entity",
+                    "type": "string"
+                },
+                "label": {
+                    "description": "The label (name) of the named thing",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "id"
+            ],
+            "title": "Unit",
+            "type": "object"
+        }
+    },
+    "$id": "http://w3id.org/ontogpt/diagnostic_procedure",
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "additionalProperties": true,
+    "metamodel_version": "1.7.0",
+    "title": "diagnostic_procedure",
+    "type": "object",
+    "version": null
+}

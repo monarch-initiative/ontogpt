@@ -1,0 +1,24 @@
+---
+input_text: >-
+  delta-Aminolevulinate dehydratase deficient porphyria, a recently recognized inborn error of heme biosynthesis, 
+  results from the markedly deficient activity of the heme biosynthetic enzyme, delta-aminolevulinate dehydratase (ALA-D). 
+  The four homozygotes described to date with this disorder have remarkably distinct phenotypes, ranging from a severely 
+  affected infant with failure to thrive to an essentially asymptomatic 68-year-old male. To investigate the molecular nature 
+  of the lesions causing the severe infantile-onset form, total RNA was isolated from cultured lymphoblasts of the affected homozygote, 
+  RNA was reverse-transcribed to cDNA, and the 990-bp ALA-D-coding region was amplified by the PCR. Heterozygosity for an RsaI RFLP within 
+  the ALA-dehydratase-coding region permitted identification of the paternal and maternal mutant alleles prior to sequencing. 
+  The maternal mutation (designated G133R), a G-to-A transition of nucleotide 397, predicted a glycine-to-arginine substitution at residue 
+  133 at the carboxyl end of the highly conserved zinc-binding site in the enzyme subunit.
+
+named_entities:
+  - id: MAXO:0001175
+    label: liver transplantation
+  - id: MONDO:0013000
+    label: Porphyria, Acute Hepatic
+
+extracted_object:
+  diagnostic_procedure_to_disease:
+    - subject: MAXO:0001175
+      predicate: TREATS
+      object:
+        - MONDO:0013000

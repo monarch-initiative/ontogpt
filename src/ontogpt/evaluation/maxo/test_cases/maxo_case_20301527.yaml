@@ -1,0 +1,35 @@
+---
+input_text: >-
+  "
+  Adult Refsum disease (ARD is associated with elevated plasma phytanic acid levels, late childhood-onset (or later) retinitis pigmentosa, 
+  and variable combinations of anosmia, polyneuropathy, deafness, ataxia, and ichthyosis.
+  Plasmapheresis or lipid apheresis to decrease phytanic acid levels is used only for acute arrhythmias or extreme weakness. 
+  Dietary restriction of phytanic acid intake helps resolve ichthyosis, sensory neuropathy, and ataxia. A high-calorie diet 
+  and avoidance of fasting prevent mobilization of phytanic acid stored in adipose tissue into the plasma. Hypercaloric parenteral 
+  infusions are required during periods of severe illness or postoperatively. Supportive treatment includes hydrating creams for
+  ichthyosis and drugs for cardiac arrhythmias and cardiomyopathy
+  "
+
+named_entities:
+  - id: MAXO:0010119
+    label: dietary phytanic acid intake avoidance
+  - id: HP:0010571
+    label: Elevated circulating phytanic acid concentration
+  - id: HP:0008064
+    label: Ichthyosis
+  - id: MONDO:0009958
+    label: Refsum Disease
+
+extracted_object:
+  diagnostic_procedure_to_disease:
+    - subject: MAXO:0010119
+      predicate: TREATS
+      object:
+        - MONDO:0009958
+
+  diagnostic_procedure_to_symptom:
+    - subject: MAXO:0010119
+      predicate: TREATS
+      object:
+        - HP:0008064
+        - HP:0010571

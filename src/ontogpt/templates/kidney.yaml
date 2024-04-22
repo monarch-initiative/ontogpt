@@ -1,0 +1,47 @@
+id: https://w3id.org/ontogpt/biological_process
+name: kidney-template
+title: kidney-template
+description: >-
+  A template for extracting kidney info from literature
+license: https://creativecommons.org/publicdomain/zero/1.0/
+prefixes:
+  rdf: http://www.w3.org/1999/02/22-rdf-syntax-ns#
+  linkml: https://w3id.org/linkml/
+  kidney: http://w3id.org/ontogpt/kidney-template
+
+default_prefix: kidney
+default_range: string
+
+imports:
+  - linkml:types
+  - core
+
+classes:
+  KidneyAnnotations:
+    tree_root: true
+    attributes:
+      cell_type:
+          range: CellType
+          multivalued: true
+      gene:
+          description: >-
+            A gene
+          range: Gene
+          multivalued: true
+  CellType:
+    is_a: NamedEntity
+    id_prefixes:
+      - CL
+      - UBERON
+    annotations:
+      annotators: sqlite:obo:cl, sqlite:obo:uberon
+      prompt.examples: |
+        tubule epithelial cell, macula densa cell, glomerular endothelial cell,
+        podocyte, mesangial cell, parietal epithelial cell
+
+  Gene:
+    is_a: NamedEntity
+    id_prefixes:
+      - HGNC
+    annotations:
+      annotators: sqlite:obo:hgnc

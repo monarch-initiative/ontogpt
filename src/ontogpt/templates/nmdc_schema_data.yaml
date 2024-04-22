@@ -1,0 +1,59 @@
+id: http://w3id.org/ontogpt/nmdc-schema-data
+name: nmdc-schema-data
+title: nmdc-schema-data
+description: >-
+  A template for populating nmdc-schema required slots
+  from data entries. Primarily, this involves three different
+  levels corresponding to ENVO terms, as well as conversion
+  of NLCD values and FAO soil taxonomy classes to ENVO.
+license: https://creativecommons.org/publicdomain/zero/1.0/
+prefixes:
+  rdf: http://www.w3.org/1999/02/22-rdf-syntax-ns#
+  linkml: https://w3id.org/linkml/
+  nmdcsd: http://w3id.org/ontogpt/nmdc-schema-data
+
+default_prefix: nmdcsd
+default_range: string
+
+imports:
+  - linkml:types
+  - core
+
+classes:
+  Dataset:
+    tree_root: true
+    attributes:
+      packageid:
+        description: The internal identifier for the dataset
+        annotations:
+          prompt: single unique identifier for the dataset
+        range: string
+        multivalued: false
+
+      environmental_material:
+        description: the environmental material that was sampled
+        annotations:
+          prompt: semicolon-separated list of environmental materials
+        range: EnvironmentalMaterial
+        multivalued: true
+
+      environments:
+        description: the environmental context in which the study was conducted
+        annotations:
+          prompt: semicolon-separated list of environmental contexts in which the study was conducted
+        range: Environment
+        multivalued: true
+
+  EnvironmentalMaterial:
+    is_a: NamedEntity
+    id_prefixes:
+      - ENVO
+    annotations:
+      annotators: sqlite:obo:envo
+
+  Environment:
+    is_a: NamedEntity
+    id_prefixes:
+      - ENVO
+    annotations:
+      annotators: sqlite:obo:envo

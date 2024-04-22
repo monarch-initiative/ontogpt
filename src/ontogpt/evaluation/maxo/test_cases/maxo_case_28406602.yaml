@@ -1,0 +1,72 @@
+---
+input_text: >-
+  "Myhre Syndrome
+  The diagnosis of Myhre syndrome is established in a proband
+  with characteristic clinical findings and a heterozygous
+  pathogenic (or likely pathogenic) variant in SMAD4 detected
+  by molecular genetic testing. Management. Treatment of
+  manifestations: Feeding therapy with a low threshold for a
+  clinical and/or radiographic swallowing study; referral to
+  nutrition for poor weight gain or obesity; medical therapy
+  for systemic and/or pulmonary hypertension; long-term
+  tracheostomy may be required for those with complete or
+  recurrent tracheal stenosis; aggressive medical management
+  for constipation; physical therapy to keep joints mobile;
+  hearing aids may be helpful for those with hearing loss;
+  some keloids can be treated with intralesional steroids
+  with minimal invasiveness for lesion removal; and standard
+  treatment for orofacial clefting / velopharyngeal
+  insufficiency, congenital heart defects / pericardial disease,
+  restrictive lung disease, gastrointestinal stenosis,
+  developmental delay / intellectual disability, refractive
+  errors / strabismus / cataracts, persistent middle ear
+  effusions, immunodeficiency, diabetes mellitus, and
+  pubertal/menstrual irregularities.
+  Orofacial clefting /Velopharyngeal insufficiency
+  Standard treatment, ideally by craniofacial team
+  Multidisciplinary teams may incl surgical team (craniofacial
+  surgeon), clinical geneticist, otolaryngologist, pediatrician,
+  radiologist, psychologist, multiple dental specialists,
+  audiologist, speech therapist, & social worker.
+  Restrictive lung disease 	Symptomatic & standard treatment
+  per pulmonologist	Oxygen supplementation as necessary"
+named_entities:
+  - id: MONDO:0007688
+    label: Myhre Syndrome
+  - id: MAXO:0000011
+    label: physical therapy
+  - id: HP:0001376
+    label: Limitation of joint mobility
+  - id: HP:0001387
+    label: Joint stiffness
+  - id: MAXO:0000066
+    label: Oxygen supplementation
+  - id: HP:0002093
+    label: restrictive lung disease
+  - id: MAXO:0000504
+    label: tracheostomy
+  - id: HP:0004894
+    label: tracheal stenosis
+  - id: MAXO:0000930
+    label: speech therapist
+  - id: HP:0001608
+    label: Abnormality of the voice
+extracted_object:
+  diagnostic_procedure_to_symptom:
+    - subject: MAXO:0000011
+      predicate: TREATS
+      object:
+        - HP:0001376
+        - HP:0001387
+    - subject: MAXO:0000066
+      predicate: TREATS
+      object:
+        - HP:0002093
+    - subject: MAXO:0000504
+      predicate: TREATS
+      object:
+        - HP:0004894
+    - subject: MAXO:0000930
+      predicate: TREATS
+      object:
+        - HP:0001608

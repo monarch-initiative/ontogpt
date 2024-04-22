@@ -1,0 +1,91 @@
+message Action
+ {
+  string id = 0
+  string label = 0
+ }
+message AnnotatorResult
+ {
+  string subjectText = 0
+  string objectId = 0
+  string objectText = 0
+ }
+// A result of extracting knowledge on text
+message ExtractionResult
+ {
+  string inputId = 0
+  string inputTitle = 0
+  string inputText = 0
+  string rawCompletionOutput = 0
+  string prompt = 0
+  any extractedObject = 0
+ repeated  any namedEntities = 0
+ }
+message FoodItem
+ {
+  foodType food = 0
+  string state = 0
+ }
+message FoodType
+ {
+  string id = 0
+  string label = 0
+ }
+message Ingredient
+ {
+  foodItem foodItem = 0
+  quantity amount = 0
+ }
+message Publication
+ {
+  string id = 0
+  string title = 0
+  string abstract = 0
+  string combinedText = 0
+  string fullText = 0
+ }
+message Quantity
+ {
+  string value = 0
+  unit unit = 0
+ }
+message Recipe
+ {
+  uriorcurie url = 0
+  string label = 0
+  string description = 0
+ repeated  recipeCategory categories = 0
+ repeated  ingredient ingredients = 0
+ repeated  step steps = 0
+ }
+message RecipeCategory
+ {
+  string id = 0
+  string label = 0
+ }
+message RelationshipType
+ {
+  string id = 0
+  string label = 0
+ }
+message Step
+ {
+  action action = 0
+ repeated  foodItem inputs = 0
+ repeated  foodItem outputs = 0
+ repeated  utensilType utensils = 0
+ }
+message TextWithTriples
+ {
+  publication publication = 0
+ repeated  triple triples = 0
+ }
+message Unit
+ {
+  string id = 0
+  string label = 0
+ }
+message UtensilType
+ {
+  string id = 0
+  string label = 0
+ }

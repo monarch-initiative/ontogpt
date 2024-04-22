@@ -1,0 +1,171 @@
+id: http://w3id.org/ontogpt/maxo
+name: maxo
+title: Template for Medical Action Extraction
+description: >-
+  A template for extracting relationships relevant to the
+  MAXO medical action ontology.
+license: https://creativecommons.org/publicdomain/zero/1.0/
+prefixes:
+  HP: http://purl.obolibrary.org/obo/HP_
+  MAXO: http://purl.obolibrary.org/obo/MAXO_
+  MONDO: http://purl.obolibrary.org/obo/MONDO_
+  OBA: http://purl.obolibrary.org/obo/OBA_
+  PATO: http://purl.obolibrary.org/obo/PATO_
+  RO: http://purl.obolibrary.org/obo/RO_
+  biolink: https://w3id.org/biolink/vocab/
+  linkml: https://w3id.org/linkml/
+  maxo_extract: http://w3id.org/ontogpt/maxo
+  rdf: http://www.w3.org/1999/02/22-rdf-syntax-ns#
+
+default_prefix: maxo_extract
+default_range: string
+
+imports:
+  - linkml:types
+  - core
+
+classes:
+  MaxoAnnotations:
+    tree_root: true
+    attributes:
+      primary_disease:
+        description: >-
+          The main disease the text is about, or its central disease
+          topic. This is often the disease mentioned in an article's title
+          or in its first few sentences.
+        multivalued: false
+        range: Disease
+      medical_actions:
+        annotations:
+          prompt: >-
+            Semicolon-separated list of medical actions, where each is a
+            clinically prescribed procedure, therapy, intervention, or
+            recommendation.
+        description: Semicolon-separated list of medical actions.
+        multivalued: true
+        range: MedicalAction
+      symptoms:
+        description: Semicolon-separated list of signs or symptoms.
+        multivalued: true
+        range: Symptom
+      chemicals:
+        description: Semicolon-separated list of chemicals or drugs
+        multivalued: true
+        range: Chemical
+      action_annotation_relationships:
+        description: >-
+          Semicolon-separated list of relationships between a disease,
+          the mentioned signs and symptoms associated with that disease,
+          the medical actions relating to each symptom, and the type of
+          relationship between each action and symptom (usually TREATS
+          or PREVENTS). The disease name must be included
+          in the relationship, for example, "treatment TREATS symptom IN
+          disease". If the medical action includes a specific chemical or drug,
+          include the chemical or drug name in the relationship, for example,
+          "treatment (with chemical) TREATS symptom IN disease".
+        multivalued: true
+        range: ActionAnnotationRelationship
+
+  ExtendedTriple:
+    is_a: Triple
+    abstract: true
+    description: >-
+      Abstract parent for Relation Extraction tasks, with additional
+      support for an extension term describing some aspect
+      of the subject and object.
+    attributes:
+      subject_extension:
+        range: NamedEntity
+        description: >-
+          An optional term describing some specific aspect of the subject,
+          e.g. "analgesic agent therapy" has the aspect "analgesic"
+      object_extension:
+        range: NamedEntity
+        description: >-
+          An optional term describing some specific aspect of the object,
+          e.g. "analgesic agent therapy" has the aspect "analgesic"
+
+  ActionAnnotationRelationship:
+    is_a: ExtendedTriple
+    description: >-
+      An association representing a relationships between a disease,
+      the mentioned signs and symptoms associated with that disease,
+      the medical actions relating to each symptom, and the type of
+      relationship between each action and symptom (usually TREATS
+      or PREVENTS).
+    slot_usage:
+      qualifier:
+        range: Disease
+        description: >-
+          The primary disease the relationship is about, or specifically
+          the disease the symptom is related to. For example,
+          Beck-Fahrner syndrome, hereditary retinoblastoma, progeria,
+          diabetes mellitus, infectious otitis media
+      subject:
+        range: MedicalAction
+        description: >-
+          The medical action. For example: blood transfusion, radiation therapy,
+          cardiac catheterization, pulse oximetry, otoscopy
+      object:
+        range: Symptom
+        description: >-
+          A sign or symptom associated with the disease and targeted
+          by the medical action. For example, Low serum calcitriol,
+          hypoplasia of the thymus, chronic cough, aortic stiffness,
+          low pulse pressure
+      predicate:
+        range: NamedEntity
+        description: >-
+          The relationship type between the medical action and the symptom,
+          usually TREATS or PREVENTS.
+      subject_extension:
+        range: Chemical
+        description: >-
+          A chemical or drug mentioned in the relationship between the
+          medical action and the symptom, for example,
+          "analgesic agent therapy" has the aspect "analgesic"
+
+  MedicalAction:
+    is_a: NamedEntity
+    description: >-
+      A clinically prescribed procedure, therapy, intervention, or
+      recommendation. For example: blood transfusion, radiation therapy,
+      cardiac catheterization, pulse oximetry, otoscopy
+    annotations:
+      annotators: sqlite:obo:maxo, sqlite:obo:ogms, sqlite:obo:ncit, sqlite:obo:obi
+    id_prefixes:
+      - MAXO
+
+  Disease:
+    is_a: NamedEntity
+    description: >-
+      A disposition to undergo pathological processes that exists in an organism
+      because of one or more disorders in that organism. For example:
+      Beck-Fahrner syndrome, hereditary retinoblastoma, progeria,
+      diabetes mellitus, infectious otitis media
+    annotations:
+      annotators: sqlite:obo:mondo, sqlite:obo:hp, sqlite:obo:ncit
+    id_prefixes:
+      - MONDO
+
+  Symptom:
+    is_a: NamedEntity
+    description: >-
+      A condition or phenotype resulting from an abnormal health state.
+      For example: Low serum calcitriol, hypoplasia of the thymus,
+      chronic cough, aortic stiffness, low pulse pressure
+    annotations:
+      annotators: sqlite:obo:hp, sqlite:obo:mondo, sqlite:obo:ncit
+    id_prefixes:
+      - HP
+
+  Chemical:
+    is_a: NamedEntity
+    description: >-
+      A substance that has a defined molecular structure and is produced by or
+      used in a chemical process. Includes drugs used as part of
+      medical actions. For example: corticosteroid, folic acid, opioid analgesic
+    annotations:
+      annotators: sqlite:obo:chebi, sqlite:obo:ncit
+    id_prefixes:
+      - CHEBI
