@@ -6,7 +6,6 @@ import logging
 import os
 import pickle
 import sys
-import warnings
 from copy import deepcopy
 from dataclasses import dataclass
 from io import BytesIO, TextIOWrapper
@@ -14,7 +13,6 @@ from pathlib import Path
 from typing import Dict, List, Optional, Tuple, Union
 
 import click
-import fitz
 import jsonlines
 import openai
 
@@ -1198,43 +1196,6 @@ def diagnose(
     print(dump_minimal_yaml(results))
     write_obj_as_csv(results, output)
 
-@main.command()
-@click.argument("pdf_directory")
-@click.argument("output_directory")
-def extract_case_report_info(pdf_directory, output_directory):
-    for filename in os.listdir(pdf_directory):
-            if filename.endswith(".pdf"):
-                pdf_path = os.path.join(pdf_directory, filename)
-                txt_path = os.path.join(output_directory, os.path.splitext(filename)[0] + ".txt")
-                parsed_txt_path = os.path.join(output_directory, os.path.splitext(filename)[0] + "_parsed.txt")
-
-                doc = fitz.open(pdf_path)
-
-                font_counts, styles = fonts(doc, granularity=False)
-                size_tag = font_tags(font_counts, styles)
-                elements = headers_para(doc, size_tag)
-
-                case_info = get_section_of_interest(elements, tag_of_interest='Presentation of Case')
-                ai = OpenAIClient()
-                text = "Here is a case report: \n\n" + "\n\n" + case_info + \
-                       "\n\nTell me the age and sex of the patient. Print it on two " + \
-                       "lines, age, then sex, like this\nage: 29\nsex: male\n\nif you" + \
-                       " don't know, just print age: ?\nsex: ?\n\n"
-                age_sex = ai.complete(text)
-                elements = [age_sex] + elements
-
-                text = ""
-                for page in doc:
-                    text += page.get_text()
-
-                with open(txt_path, "w", encoding="utf-8") as txt_file:
-                    txt_file.write(text)
-
-                # output parsed text
-                with open(parsed_txt_path, "w", encoding="utf-8") as parsed_txt_file:
-                    parsed_txt_file.write("\n".join(elements))
-
-                doc.close()
 
 @main.command()
 @click.argument("input_data_dir")
@@ -1291,61 +1252,6 @@ def run_multilingual_analysis(input_data_dir, output_directory, correct_diagnosi
 
                 # TODO: Possibly we will need to ground the answer to OMIM using OAK
                 # Write the result to the output TSV file
-                tsv_file.write(f"{filename}\t{correct_diagnosis}\t\"{gpt_diagnosis}\"\n")
-
-
-@main.command()
-@click.argument("input_data_dir")
-@click.argument("output_directory")
-@click.argument("correct_diagnosis_file")
-def run_kanjee_analysis_output_omim(input_data_dir,
-                                    output_directory,
-                                    correct_diagnosis_file,
-                                    model="gpt-4-0125-preview"):
-    # Create the output TSV file name
-    output_file_name = input_data_dir.strip(os.sep).split(os.sep)[-1] + "_results.tsv"
-    output_file_path = os.path.join(output_directory, output_file_name)
-
-    # parse correct diagnosis file
-    def parse_diagnosis_file(file_path):
-        result_dict = {}
-        with open(file_path, 'r') as file:
-            for line in file:
-                line = line.strip()
-                if line:
-                    key, value = line.split('\t')
-                    result_dict[key] = value
-        return result_dict
-
-    correct_diagnosis_dict = parse_diagnosis_file(correct_diagnosis_file)
-
-    # Write the header to the output TSV file
-    with open(output_file_path, "w", encoding="utf-8") as tsv_file:
-        tsv_file.write("input file name\tcorrect diagnosis\tgpt diagnosis\n")
-
-        for filename in os.listdir(input_data_dir):
-            if filename.endswith(".txt"):
-                # feed to GPT and get diagonses
-                file_path = os.path.join(input_data_dir, filename)
-
-                if filename.split('-')[0] in correct_diagnosis_dict:
-                    correct_diagnosis = correct_diagnosis_dict[filename.split('-')[0]]
-                else:
-                    correct_diagnosis = \
-                        f"Couldn't find {filename} in correct diagnosis file"
-
-                with open(file_path, mode='r', encoding="utf-8") as txt_file:
-                    prompt = txt_file.read()
-
-                ai = OpenAIClient()
-                ai.model = model
-                try:
-                    gpt_diagnosis = ai.complete(prompt)
-                except openai.error.InvalidRequestError as e:
-                    gpt_diagnosis = "OPENAI API CALL FAILED"
-
-                # Write the result to the output TSV file
-                gpt_diagnosis = gpt_diagnosis.replace('"', '""')
                 tsv_file.write(f"{filename}\t{correct_diagnosis}\t\"{gpt_diagnosis}\"\n")
 
 
