@@ -1218,7 +1218,7 @@ def run_multilingual_analysis(input_data_dir, output_directory, correct_diagnosi
             for line in file:
                 line = line.strip()
                 if line:
-                    key, value = line.split('\t')
+                    somestr, value, key = line.split('\t')
                     result_dict[key] = value
         return result_dict
 
@@ -1231,11 +1231,10 @@ def run_multilingual_analysis(input_data_dir, output_directory, correct_diagnosi
         for filename in os.listdir(input_data_dir):
             if filename.endswith(ext):
                 file_path = os.path.join(input_data_dir, filename)
-
-                if filename.split('-')[0] in correct_diagnosis_dict:
-                    correct_diagnosis = correct_diagnosis_dict[filename.split('-')[0]]
+                if filename in correct_diagnosis_dict:
+                    correct_diagnosis = correct_diagnosis_dict[filename]
                 else:
-                    this_warning = f"Couldn't find {filename} in correct diagnosis file"
+                    this_warning = f"Couldn't find {filename} in correct diagnosis file\n"
                     logging.warning(this_warning)
                     correct_diagnosis = this_warning
 
