@@ -55,6 +55,7 @@ from ontogpt.io.yaml_wrapper import dump_minimal_yaml
 from ontogpt.templates.core import ExtractionResult
 from ontogpt.utils.pymupdf_helpers import headers_para, fonts, font_tags
 
+
 @dataclass
 class Settings:
     """Global command line settings."""
@@ -1202,8 +1203,9 @@ def diagnose(
 @click.argument("output_directory")
 @click.argument("correct_diagnosis_file")
 @click.option("--ext", default=".txt")
-def run_multilingual_analysis(input_data_dir, output_directory, correct_diagnosis_file,
-                              model="gpt-4-turbo", ext=".txt"):
+def run_multilingual_analysis(
+    input_data_dir, output_directory, correct_diagnosis_file, model="gpt-4-turbo", ext=".txt"
+):
     # Create the output TSV file name
     output_file_name = input_data_dir.strip(os.sep).split(os.sep)[-1] + "_results.tsv"
 
@@ -1212,35 +1214,39 @@ def run_multilingual_analysis(input_data_dir, output_directory, correct_diagnosi
     output_file_path = os.path.join(output_directory, output_file_name)
 
     # parse correct diagnosis file
+    # This is a TSV file with the following format:
+    # Disease name	OMIM ID	Filename of prompt
     def parse_diagnosis_file(file_path):
         result_dict = {}
-        with open(file_path, 'r') as file:
+        with open(file_path, "r") as file:
             for line in file:
                 line = line.strip()
                 if line:
-                    # The additional value here contains disease description
-                    # TODO: include disease description in the output TSV file
-                    somestr, value, key = line.split('\t')
-                    result_dict[key] = value
+                    somestr, value, key = line.split("\t")
+                    result_dict[key] = {"name": somestr, "identifier": value}
         return result_dict
 
     correct_diagnosis_dict = parse_diagnosis_file(correct_diagnosis_file)
 
     # Write the header to the output TSV file
     with open(output_file_path, "w", encoding="utf-8") as tsv_file:
-        tsv_file.write("input file name\tcorrect diagnosis\tgpt diagnosis\n")
+        tsv_file.write(
+            "input file name\tcorrect diagnosis id\tcorrect diagnosis name\tgpt diagnosis\n"
+        )
 
         for filename in os.listdir(input_data_dir):
             if filename.endswith(ext):
                 file_path = os.path.join(input_data_dir, filename)
                 if filename in correct_diagnosis_dict:
-                    correct_diagnosis = correct_diagnosis_dict[filename]
+                    correct_diagnosis_id = correct_diagnosis_dict[filename]["identifier"]
+                    correct_diagnosis_name = correct_diagnosis_dict[filename]["name"]
                 else:
                     this_warning = f"Couldn't find {filename} in correct diagnosis file\n"
                     logging.warning(this_warning)
-                    correct_diagnosis = this_warning
+                    correct_diagnosis_id = this_warning
+                    correct_diagnosis_name = ""
 
-                with open(file_path, mode='r', encoding="utf-8") as txt_file:
+                with open(file_path, mode="r", encoding="utf-8") as txt_file:
                     prompt = txt_file.read()
 
                 # TODO (maybe) - handle non-OpenAI models
@@ -1251,42 +1257,45 @@ def run_multilingual_analysis(input_data_dir, output_directory, correct_diagnosi
                 except openai.error.InvalidRequestError as e:
                     gpt_diagnosis = "OPENAI API CALL FAILED"
 
-                # TODO: Include a call to the extract function here 
+                # TODO: Include a call to the extract function here
                 # to ground the answer to OMIM (using MONDO, etc)
 
-
                 # Write the result to the output TSV file
-                tsv_file.write(f"{filename}\t{correct_diagnosis}\t\"{gpt_diagnosis}\"\n")
+                tsv_file.write(
+                    f'{filename}\t{correct_diagnosis_id}\t{correct_diagnosis_name}\t"{gpt_diagnosis}"\n'
+                )
 
 
 def get_kanjee_prompt() -> str:
     """prompt from Kanjee et al. 2023"""
-    prompt = "I am running an experiment on a clinicopathological case conference to see " \
-             "how your diagnoses compare with those of human experts. I am going to give " \
-             "you part of a medical case. These have all been published in the New England " \
-             "Journal of Medicine. You are not trying to treat any patients. As you read the " \
-             "case, you will notice that there are expert discussants giving their thoughts. " \
-             "In this case, you are \"Dr. GPT-4,\" an Al language model who is discussing " \
-             "the case along with human experts. A clinicopathological case conference has " \
-             "several unspoken rules. The first is that there is most often a single definitive " \
-             "diagnosis (though rarely there may be more than one), and it is a diagnosis that " \
-             "is known today to exist in humans. The diagnosis is almost always confirmed by " \
-             "some sort of clinical pathology test or anatomic pathology test, though in " \
-             "rare cases when such a test does not exist for a diagnosis the diagnosis can " \
-             "instead be made using validated clinical criteria or very rarely just confirmed " \
-             "by expert opinion. You will be told at the end of the case description whether " \
-             "a diagnostic test/tests are being ordered, which you can assume will make the " \
-             "diagnosis/diagnoses. After you read the case, I want you to give two pieces of " \
-             "information. The first piece of information is your most likely diagnosis/diagnoses. " \
-             "You need to be as specific as possible -- the goal is to get the correct answer, " \
-             "not a broad category of answers. You do not need to explain your reasoning, just " \
-             "give the diagnosis/diagnoses. The second piece of information is to give a robust " \
-             "differential diagnosis, ranked by their probability so that the most likely " \
-             "diagnosis is at the top, and the least likely is at the bottom. There is no limit " \
-             "to the number of diagnoses on your differential. You can give as many diagnoses " \
-             "as you think are reasonable. You do not need to explain your reasoning, just list" \
-             " the diagnoses. Again, the goal is to be as specific as possible with each of the " \
-             "diagnoses. Do you have any questions, Dr. GPT-4?\n\nHere is the case:"
+    prompt = (
+        "I am running an experiment on a clinicopathological case conference to see "
+        "how your diagnoses compare with those of human experts. I am going to give "
+        "you part of a medical case. These have all been published in the New England "
+        "Journal of Medicine. You are not trying to treat any patients. As you read the "
+        "case, you will notice that there are expert discussants giving their thoughts. "
+        'In this case, you are "Dr. GPT-4," an Al language model who is discussing '
+        "the case along with human experts. A clinicopathological case conference has "
+        "several unspoken rules. The first is that there is most often a single definitive "
+        "diagnosis (though rarely there may be more than one), and it is a diagnosis that "
+        "is known today to exist in humans. The diagnosis is almost always confirmed by "
+        "some sort of clinical pathology test or anatomic pathology test, though in "
+        "rare cases when such a test does not exist for a diagnosis the diagnosis can "
+        "instead be made using validated clinical criteria or very rarely just confirmed "
+        "by expert opinion. You will be told at the end of the case description whether "
+        "a diagnostic test/tests are being ordered, which you can assume will make the "
+        "diagnosis/diagnoses. After you read the case, I want you to give two pieces of "
+        "information. The first piece of information is your most likely diagnosis/diagnoses. "
+        "You need to be as specific as possible -- the goal is to get the correct answer, "
+        "not a broad category of answers. You do not need to explain your reasoning, just "
+        "give the diagnosis/diagnoses. The second piece of information is to give a robust "
+        "differential diagnosis, ranked by their probability so that the most likely "
+        "diagnosis is at the top, and the least likely is at the bottom. There is no limit "
+        "to the number of diagnoses on your differential. You can give as many diagnoses "
+        "as you think are reasonable. You do not need to explain your reasoning, just list"
+        " the diagnoses. Again, the goal is to be as specific as possible with each of the "
+        "diagnoses. Do you have any questions, Dr. GPT-4?\n\nHere is the case:"
+    )
     return prompt
 
 
@@ -1296,7 +1305,7 @@ def get_section_of_interest(data, tag_of_interest):
     start_index = None
     pattern = re.compile(tag_of_interest, re.IGNORECASE)
     if isinstance(data, str):
-        data = data.split('\n')
+        data = data.split("\n")
     for i, item in enumerate(data):
         if pattern.search(item):
             start_index = i
@@ -1304,21 +1313,24 @@ def get_section_of_interest(data, tag_of_interest):
 
     if start_index is not None:
         # Find the index of the next element that starts with '<p>'
-        next_index = next((i for i, item in
-                           enumerate(data[start_index + 1:],
-                                     start=start_index + 1) if
-                           item.startswith('<p>')), None)
+        next_index = next(
+            (
+                i
+                for i, item in enumerate(data[start_index + 1 :], start=start_index + 1)
+                if item.startswith("<p>")
+            ),
+            None,
+        )
 
         if next_index is not None:
             # Extract the desired element
             result = data[next_index]
             return result
         else:
-            raise ValueError(
-                "No element starting with '<p>' found after the tag_of_interest")
+            raise ValueError("No element starting with '<p>' found after the tag_of_interest")
     else:
-        raise ValueError(
-            "No element matching the tag_of_interest found in the list.")
+        raise ValueError("No element matching the tag_of_interest found in the list.")
+
 
 @main.command()
 @inputfile_option
@@ -1513,7 +1525,10 @@ def complete(inputfile, model, input, output, output_format, show_prompt, azure_
 
     output.write(results + "\n")
 
-def _send_complete_request(model, input, output, output_format, show_prompt, azure_select, **kwargs) -> str:
+
+def _send_complete_request(
+    model, input, output, output_format, show_prompt, azure_select, **kwargs
+) -> str:
     """Send a completion request to an LLM endpoint."""
 
     if not model:
@@ -1528,6 +1543,7 @@ def _send_complete_request(model, input, output, output_format, show_prompt, azu
         results = c.complete(prompt=input, show_prompt=show_prompt)
 
     return results
+
 
 @main.command()
 @template_option
@@ -1807,6 +1823,7 @@ def suggest_templates(input, model, output, output_format, show_prompt, azure_se
     )
 
     output.write(results + "\n")
+
 
 if __name__ == "__main__":
     main()
