@@ -1218,6 +1218,8 @@ def run_multilingual_analysis(input_data_dir, output_directory, correct_diagnosi
             for line in file:
                 line = line.strip()
                 if line:
+                    # The additional value here contains disease description
+                    # TODO: include disease description in the output TSV file
                     somestr, value, key = line.split('\t')
                     result_dict[key] = value
         return result_dict
@@ -1249,7 +1251,10 @@ def run_multilingual_analysis(input_data_dir, output_directory, correct_diagnosi
                 except openai.error.InvalidRequestError as e:
                     gpt_diagnosis = "OPENAI API CALL FAILED"
 
-                # TODO: Possibly we will need to ground the answer to OMIM using OAK
+                # TODO: Include a call to the extract function here 
+                # to ground the answer to OMIM (using MONDO, etc)
+
+
                 # Write the result to the output TSV file
                 tsv_file.write(f"{filename}\t{correct_diagnosis}\t\"{gpt_diagnosis}\"\n")
 
