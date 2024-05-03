@@ -1207,6 +1207,15 @@ def diagnose(
 def run_multilingual_analysis(
     input_data_dir, output_directory, correct_diagnosis_file, model="gpt-4-turbo", ext=".txt"
 ):
+    # Set up the SPIRESEngine so we can ground later
+    # TODO: use a more customized extraction template
+    template_details = get_template_details(template="mondo_simple")
+    ke = SPIRESEngine(
+        template_details=template_details,
+        model=model,
+        model_source="openai",
+    )
+
     # Create the output TSV file name
     output_file_name = input_data_dir.strip(os.sep).split(os.sep)[-1] + "_results.tsv"
 
@@ -1258,10 +1267,14 @@ def run_multilingual_analysis(
                 except openai.error.InvalidRequestError as e:
                     gpt_diagnosis = "OPENAI API CALL FAILED"
 
-                # TODO: Include a call to the extract function here
+                # Call the extract function here
                 # to ground the answer to OMIM (using MONDO, etc)
-
+                # TODO: process the result more before writing to TSV
+                extraction = ke.extract_from_text(text=gpt_diagnosis)
+                print(extraction)
+                
                 # Write the result to the output TSV file
+                # TODO: include grounded ID if available
                 tsv_file.write(
                     f'{filename}\t{correct_diagnosis_id}\t{correct_diagnosis_name}\t"{gpt_diagnosis}"\n'
                 )
