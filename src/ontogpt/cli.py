@@ -1241,7 +1241,7 @@ def run_multilingual_analysis(
     # Write the header to the output TSV file
     with open(output_file_path, "w", encoding="utf-8") as tsv_file:
         tsv_file.write(
-            "input file name\tcorrect diagnosis id\tcorrect diagnosis name\tgpt diagnosis\n"
+            "input file name\tcorrect diagnosis id\tcorrect diagnosis name\tpredicted diagnosis ids\tpredicted diagnosis names\n"
         )
 
         for filename in os.listdir(input_data_dir):
@@ -1272,12 +1272,17 @@ def run_multilingual_analysis(
                 # TODO: process the result more before writing to TSV
                 # TODO: handle case of having multiple CURIEs extracted
                 extraction = ke.extract_from_text(text=gpt_diagnosis)
-                print(extraction)
-                
+                predictions = extraction.named_entities
+                pred_ids = []
+                pred_names = []
+                for pred in predictions:
+                    pred_ids.append(pred.id)
+                    pred_names.append(pred.label)
+
                 # Write the result to the output TSV file
                 # TODO: include grounded ID if available
                 tsv_file.write(
-                    f'{filename}\t{correct_diagnosis_id}\t{correct_diagnosis_name}\t"{gpt_diagnosis}"\n'
+                    f'{filename}\t{correct_diagnosis_id}\t{correct_diagnosis_name}\t{"|".join(pred_ids)}\t{"|".join(pred_names)}\n'
                 )
 
 
