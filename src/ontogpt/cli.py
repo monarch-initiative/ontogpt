@@ -1270,6 +1270,7 @@ def run_multilingual_analysis(
                 # Call the extract function here
                 # to ground the answer to OMIM (using MONDO, etc)
                 # TODO: process the result more before writing to TSV
+                # TODO: handle case of having multiple CURIEs extracted
                 extraction = ke.extract_from_text(text=gpt_diagnosis)
                 print(extraction)
                 
