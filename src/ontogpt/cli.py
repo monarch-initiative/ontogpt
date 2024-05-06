@@ -1241,7 +1241,7 @@ def run_multilingual_analysis(
     # Write the header to the output TSV file
     with open(output_file_path, "w", encoding="utf-8") as tsv_file:
         tsv_file.write(
-            "input file name\tcorrect diagnosis id\tcorrect diagnosis name\tpredicted diagnosis ids\tpredicted diagnosis names\n"
+            "input file name\tcorrect diagnosis id\tcorrect diagnosis name\tpredicted diagnosis ids\tpredicted diagnosis names\ttop1_match\tany_match\n"
         )
 
         for filename in os.listdir(input_data_dir):
@@ -1279,10 +1279,14 @@ def run_multilingual_analysis(
                     pred_ids.append(pred.id)
                     pred_names.append(pred.label)
 
+                # Check if the top prediction matches the correct diagnosis
+                top1_match = "1" if pred_ids[0] == correct_diagnosis_id else "0"
+                any_match = "1" if correct_diagnosis_id in pred_ids else "0"
+
                 # Write the result to the output TSV file
                 # TODO: include grounded ID if available
                 tsv_file.write(
-                    f'{filename}\t{correct_diagnosis_id}\t{correct_diagnosis_name}\t{"|".join(pred_ids)}\t{"|".join(pred_names)}\n'
+                    f'{filename}\t{correct_diagnosis_id}\t{correct_diagnosis_name}\t{"|".join(pred_ids)}\t{"|".join(pred_names)}\t{top1_match}\t{any_match}\n'
                 )
 
 
