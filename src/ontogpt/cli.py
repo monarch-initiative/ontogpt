@@ -1209,7 +1209,7 @@ def run_multilingual_analysis(
 ):
     # Set up the SPIRESEngine so we can ground later
     # TODO: use a more customized extraction template
-    template_details = get_template_details(template="mondo_simple")
+    template_details = get_template_details(template="all_disease_grounding")
     ke = SPIRESEngine(
         template_details=template_details,
         model=model,
