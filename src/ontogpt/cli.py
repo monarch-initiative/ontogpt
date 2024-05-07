@@ -1204,14 +1204,18 @@ def diagnose(
 @click.argument("output_directory")
 @click.argument("correct_diagnosis_file")
 @click.option("--ext", default=".txt")
+@output_format_options
 def run_multilingual_analysis(
-    input_data_dir, output_directory, correct_diagnosis_file, model="gpt-4-turbo", ext=".txt"
+    input_data_dir, output_directory, correct_diagnosis_file, output_format, model="gpt-4-turbo", ext=".txt"
 ):
     # Set up the extraction template
-    template_details = get_template_details(template="all_disease_grounding")
+    template = "all_disease_grounding"
+    template_details = get_template_details(template=template)
 
     # make sure the output directory exists
     os.makedirs(output_directory, exist_ok=True)
+
+    output = input_data_dir.strip(os.sep).split(os.sep)[-1] + "_results.yaml"
 
     # parse correct diagnosis file
     # This is a TSV file with the following format:
@@ -1280,13 +1284,16 @@ def run_multilingual_analysis(
             with open(output_file_path, "w", encoding="utf-8") as outfile:
                 outfile.write(gpt_diagnosis)
 
-            # Write the result
+            # Log the result
             logging.info(
                 "input file name\tcorrect diagnosis id\tcorrect diagnosis name\tpredicted diagnosis ids\tpredicted diagnosis names\n"
             )
             logging.info(
                 f'{filename}\t{correct_diagnosis_id}\t{correct_diagnosis_name}\t{"|".join(pred_ids[filename])}\t{"|".join(pred_names[filename])}\n'
             )
+
+            # Write the result
+            write_extraction(extraction, output, output_format, ke, template)
 
 
 def get_kanjee_prompt() -> str:
