@@ -33,7 +33,7 @@ classes:
     id_prefixes:
       - OMIM
     annotations:
-      annotators: bioportal:OMIM
+      annotators: bioportal:OMIM, sqlite:obo:mondo
       prompt: >-
         The name of a disease.
         Examples include: neurothekoma, retinal vasculitis,
