@@ -1201,12 +1201,11 @@ def diagnose(
 @main.command()
 @click.argument("input_data_dir")
 @click.argument("output_directory")
-@click.argument("correct_diagnosis_file")
 @click.option("--ext", default=".txt")
 @output_option_wb
 @output_format_options
 def run_multilingual_analysis(
-    input_data_dir, output_directory, correct_diagnosis_file, output, output_format, model="gpt-4-turbo", ext=".txt"
+    input_data_dir, output_directory, output, output_format, model="gpt-4-turbo", ext=".txt"
 ):
     # Set up the extraction template
     template = "all_disease_grounding"
@@ -1214,21 +1213,6 @@ def run_multilingual_analysis(
 
     # make sure the output directory exists
     os.makedirs(output_directory, exist_ok=True)
-
-    # parse correct diagnosis file
-    # This is a TSV file with the following format:
-    # Disease name	OMIM ID	Filename of prompt
-    def parse_diagnosis_file(file_path):
-        result_dict = {}
-        with open(file_path, "r") as file:
-            for line in file:
-                line = line.strip()
-                if line:
-                    somestr, value, key = line.split("\t")
-                    result_dict[key] = {"name": somestr, "identifier": value}
-        return result_dict
-
-    correct_diagnosis_dict = parse_diagnosis_file(correct_diagnosis_file)
 
     # TODO (maybe) - handle non-OpenAI models
     ai = OpenAIClient()
@@ -1242,14 +1226,6 @@ def run_multilingual_analysis(
     for filename in os.listdir(input_data_dir):
         if filename.endswith(ext):
             file_path = os.path.join(input_data_dir, filename)
-            if filename in correct_diagnosis_dict:
-                correct_diagnosis_id = correct_diagnosis_dict[filename]["identifier"]
-                correct_diagnosis_name = correct_diagnosis_dict[filename]["name"]
-            else:
-                this_warning = f"Couldn't find {filename} in correct diagnosis file\n"
-                logging.warning(this_warning)
-                correct_diagnosis_id = this_warning
-                correct_diagnosis_name = ""
 
             with open(file_path, mode="r", encoding="utf-8") as txt_file:
                 prompt = txt_file.read()
@@ -1284,11 +1260,11 @@ def run_multilingual_analysis(
 
             # Log the result
             logging.info(
-                "input file name\tcorrect diagnosis id\tcorrect diagnosis name"
+                "input file name"
                 "\tpredicted diagnosis ids\tpredicted diagnosis names\n"
             )
             logging.info(
-                f'{filename}\t{correct_diagnosis_id}\t{correct_diagnosis_name}'
+                f'{filename}'
                 f'\t{"|".join(pred_ids[filename])}'
                 f'\t{"|".join(pred_names[filename])}\n'
             )
