@@ -71,6 +71,18 @@ class DiseaseTerm(NamedEntity):
     label: Optional[str] = Field(None, description="""The label (name) of the named thing""")
     
     
+    @field_validator('id')
+    def pattern_id(cls, v):
+        pattern=re.compile(r"^OMIM:[0-9]+$")
+        if isinstance(v,list):
+            for element in v:
+                if not pattern.match(element):
+                    raise ValueError(f"Invalid id format: {element}")
+        elif isinstance(v,str):
+            if not pattern.match(v):
+                raise ValueError(f"Invalid id format: {v}")
+        return v
+    
 
 class CompoundExpression(ConfiguredBaseModel):
     

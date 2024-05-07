@@ -39,3 +39,6 @@ classes:
         Examples include: neurothekoma, retinal vasculitis,
         chicken monocytic leukemia, neoplasm of spinal cord,
         moyamoya disease 3
+    slot_usage:
+      id:
+        pattern: "^OMIM:[0-9]+$"
