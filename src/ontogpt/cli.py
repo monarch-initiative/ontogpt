@@ -1208,15 +1208,10 @@ def run_multilingual_analysis(
     input_data_dir, output_directory, correct_diagnosis_file, model="gpt-4-turbo", ext=".txt"
 ):
     # Set up the extraction template
-    # TODO: use a more customized extraction template
     template_details = get_template_details(template="all_disease_grounding")
-
-    # Create the output TSV file name
-    output_file_name = input_data_dir.strip(os.sep).split(os.sep)[-1] + "_results.tsv"
 
     # make sure the output directory exists
     os.makedirs(output_directory, exist_ok=True)
-    output_file_path = os.path.join(output_directory, output_file_name)
 
     # parse correct diagnosis file
     # This is a TSV file with the following format:
@@ -1237,59 +1232,61 @@ def run_multilingual_analysis(
     ai = OpenAIClient()
     ai.model = model
 
-    # Write the header to the output TSV file
-    with open(output_file_path, "w", encoding="utf-8") as tsv_file:
-        tsv_file.write(
-            "input file name\tcorrect diagnosis id\tcorrect diagnosis name\tpredicted diagnosis ids\tpredicted diagnosis names\n"
-        )
+    # Keep track of the predictions
+    # Key is the filename, value is a list of predictions
+    pred_ids = {}
+    pred_names = {}
 
-        # Keep track of the predictions
-        # Key is the filename, value is a list of predictions
-        pred_ids = {}
-        pred_names = {}
+    for filename in os.listdir(input_data_dir):
+        if filename.endswith(ext):
+            file_path = os.path.join(input_data_dir, filename)
+            if filename in correct_diagnosis_dict:
+                correct_diagnosis_id = correct_diagnosis_dict[filename]["identifier"]
+                correct_diagnosis_name = correct_diagnosis_dict[filename]["name"]
+            else:
+                this_warning = f"Couldn't find {filename} in correct diagnosis file\n"
+                logging.warning(this_warning)
+                correct_diagnosis_id = this_warning
+                correct_diagnosis_name = ""
 
-        for filename in os.listdir(input_data_dir):
-            if filename.endswith(ext):
-                file_path = os.path.join(input_data_dir, filename)
-                if filename in correct_diagnosis_dict:
-                    correct_diagnosis_id = correct_diagnosis_dict[filename]["identifier"]
-                    correct_diagnosis_name = correct_diagnosis_dict[filename]["name"]
-                else:
-                    this_warning = f"Couldn't find {filename} in correct diagnosis file\n"
-                    logging.warning(this_warning)
-                    correct_diagnosis_id = this_warning
-                    correct_diagnosis_name = ""
+            with open(file_path, mode="r", encoding="utf-8") as txt_file:
+                prompt = txt_file.read()
 
-                with open(file_path, mode="r", encoding="utf-8") as txt_file:
-                    prompt = txt_file.read()
+            try:
+                gpt_diagnosis = ai.complete(prompt)
+            except openai.error.InvalidRequestError as e:
+                gpt_diagnosis = "OPENAI API CALL FAILED"
 
-                try:
-                    gpt_diagnosis = ai.complete(prompt)
-                except openai.error.InvalidRequestError as e:
-                    gpt_diagnosis = "OPENAI API CALL FAILED"
+            # Call the extract function here
+            # to ground the answer to OMIM (using MONDO, etc)
+            # The KE is refreshed here to avoid retaining
+            ke = SPIRESEngine(
+                template_details=template_details,
+                model=model,
+                model_source="openai",
+            )
+            extraction = ke.extract_from_text(text=gpt_diagnosis)
+            predictions = extraction.named_entities
+            pred_ids[filename] = []
+            pred_names[filename] = []
+            for pred in predictions:
+                pred_ids[filename].append(pred.id)
+                pred_names[filename].append(pred.label)
 
-                # Call the extract function here
-                # to ground the answer to OMIM (using MONDO, etc)
-                # The KE is refreshed here to avoid retaining
-                ke = SPIRESEngine(
-                    template_details=template_details,
-                    model=model,
-                    model_source="openai",
-                )
-                extraction = ke.extract_from_text(text=gpt_diagnosis)
-                predictions = extraction.named_entities
-                pred_ids[filename] = []
-                pred_names[filename] = []
-                for pred in predictions:
-                    pred_ids[filename].append(pred.id)
-                    pred_names[filename].append(pred.label)
+            # Retain the output as text
+            # Create the output filename based on the input filename
+            output_file_name = filename + ".result"
+            output_file_path = os.path.join(output_directory, output_file_name)
+            with open(output_file_path, "w", encoding="utf-8") as outfile:
+                outfile.write(gpt_diagnosis)
 
-                # Write the result to the output TSV file
-                tsv_file.write(
-                    f'{filename}\t{correct_diagnosis_id}\t{correct_diagnosis_name}\t{"|".join(pred_ids[filename])}\t{"|".join(pred_names[filename])}\n'
-                )
-
-    logging.info(f"All IDs: {pred_ids}")
+            # Write the result
+            logging.info(
+                "input file name\tcorrect diagnosis id\tcorrect diagnosis name\tpredicted diagnosis ids\tpredicted diagnosis names\n"
+            )
+            logging.info(
+                f'{filename}\t{correct_diagnosis_id}\t{correct_diagnosis_name}\t{"|".join(pred_ids[filename])}\t{"|".join(pred_names[filename])}\n'
+            )
 
 
 def get_kanjee_prompt() -> str:
