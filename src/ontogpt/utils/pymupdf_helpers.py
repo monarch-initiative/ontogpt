@@ -1,4 +1,4 @@
-"""Utilities for processing PDF files using PyMuPDF"""
+"""Utilities for processing PDF files using PyMuPDF."""
 
 from operator import itemgetter
 
