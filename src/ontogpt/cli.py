@@ -16,8 +16,8 @@ from typing import Dict, List, Optional, Tuple, Union
 import click
 import jsonlines
 import openai
-
 import yaml
+
 from oaklib import get_adapter
 from oaklib.cli import query_terms_iterator
 from oaklib.interfaces import OboGraphInterface
@@ -54,7 +54,6 @@ from ontogpt.io.owl_exporter import OWLExporter
 from ontogpt.io.rdf_exporter import RDFExporter
 from ontogpt.io.yaml_wrapper import dump_minimal_yaml
 from ontogpt.templates.core import ExtractionResult
-from ontogpt.utils.pymupdf_helpers import headers_para, fonts, font_tags
 
 
 @dataclass
@@ -1285,18 +1284,23 @@ def run_multilingual_analysis(
 
             # Log the result
             logging.info(
-                "input file name\tcorrect diagnosis id\tcorrect diagnosis name\tpredicted diagnosis ids\tpredicted diagnosis names\n"
+                "input file name\tcorrect diagnosis id\tcorrect diagnosis name"
+                "\tpredicted diagnosis ids\tpredicted diagnosis names\n"
             )
             logging.info(
-                f'{filename}\t{correct_diagnosis_id}\t{correct_diagnosis_name}\t{"|".join(pred_ids[filename])}\t{"|".join(pred_names[filename])}\n'
+                f'{filename}\t{correct_diagnosis_id}\t{correct_diagnosis_name}'
+                f'\t{"|".join(pred_ids[filename])}'
+                f'\t{"|".join(pred_names[filename])}\n'
             )
 
             # Write the result
+            # Include the input filename for the prompt in the output
+            extraction.extracted_object.label = filename
             write_extraction(extraction, output, output_format, ke, template)
 
 
 def get_kanjee_prompt() -> str:
-    """prompt from Kanjee et al. 2023"""
+    """Prompt from Kanjee et al. 2023."""
     prompt = (
         "I am running an experiment on a clinicopathological case conference to see "
         "how your diagnoses compare with those of human experts. I am going to give "

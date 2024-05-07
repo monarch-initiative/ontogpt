@@ -1,8 +1,11 @@
+"""Utilities for processing PDF files using PyMuPDF"""
+
 from operator import itemgetter
 
 
 def headers_para(doc, size_tag):
     """Scrapes headers & paragraphs from PDF and return texts with element tags.
+
     :param doc: PDF document to iterate through
     :type doc: <class 'fitz.fitz.Document'>
     :param size_tag: textual element tags for each size
@@ -17,35 +20,35 @@ def headers_para(doc, size_tag):
     for page in doc:
         blocks = page.get_text("dict")["blocks"]
         for b in blocks:  # iterate through the text blocks
-            if b['type'] == 0:  # this block contains text
+            if b["type"] == 0:  # this block contains text
 
                 # REMEMBER: multiple fonts and sizes are possible IN one block
 
                 block_string = ""  # text found in block
-                for l in b["lines"]:  # iterate through the text lines
-                    for s in l["spans"]:  # iterate through the text spans
-                        if s['text'].strip():  # removing whitespaces:
+                for line in b["lines"]:  # iterate through the text lines
+                    for span in line["spans"]:  # iterate through the text spans
+                        if span["text"].strip():  # removing whitespaces:
                             if first:
-                                previous_s = s
+                                previous_s = span
                                 first = False
-                                block_string = size_tag[s['size']] + s['text']
+                                block_string = size_tag[span["size"]] + span["text"]
                             else:
-                                if s['size'] == previous_s['size']:
+                                if span["size"] == previous_s["size"]:
 
                                     if block_string and all((c == "|") for c in block_string):
                                         # block_string only contains pipes
-                                        block_string = size_tag[s['size']] + s['text']
+                                        block_string = size_tag[span["size"]] + span["text"]
                                     if block_string == "":
                                         # new block has started, so append size tag
-                                        block_string = size_tag[s['size']] + s['text']
+                                        block_string = size_tag[span["size"]] + span["text"]
                                     else:  # in the same block, so concatenate strings
-                                        block_string += " " + s['text']
+                                        block_string += " " + span["text"]
 
                                 else:
                                     header_para.append(block_string)
-                                    block_string = size_tag[s['size']] + s['text']
+                                    block_string = size_tag[span["size"]] + span["text"]
 
-                                previous_s = s
+                                previous_s = span
 
                     # new block started, indicating with a pipe
                     block_string += "|"
@@ -56,7 +59,8 @@ def headers_para(doc, size_tag):
 
 
 def fonts(doc, granularity=False):
-    """Extracts fonts and their usage in PDF documents.
+    """Extract fonts and their usage in PDF documents.
+
     :param doc: PDF document to iterate through
     :type doc: <class 'fitz.fitz.Document'>
     :param granularity: also use 'font', 'flags' and 'color' to discriminate text
@@ -70,18 +74,26 @@ def fonts(doc, granularity=False):
     for page in doc:
         blocks = page.get_text("dict")["blocks"]
         for b in blocks:  # iterate through the text blocks
-            if b['type'] == 0:  # block contains text
-                for l in b["lines"]:  # iterate through the text lines
-                    for s in l["spans"]:  # iterate through the text spans
+            if b["type"] == 0:  # block contains text
+                for line in b["lines"]:  # iterate through the text lines
+                    for span in line["spans"]:  # iterate through the text spans
                         if granularity:
-                            identifier = "{0}_{1}_{2}_{3}".format(s['size'], s['flags'], s['font'], s['color'])
-                            styles[identifier] = {'size': s['size'], 'flags': s['flags'], 'font': s['font'],
-                                                  'color': s['color']}
+                            identifier = "{0}_{1}_{2}_{3}".format(
+                                span["size"], span["flags"], span["font"], span["color"]
+                            )
+                            styles[identifier] = {
+                                "size": span["size"],
+                                "flags": span["flags"],
+                                "font": span["font"],
+                                "color": span["color"],
+                            }
                         else:
-                            identifier = "{0}".format(s['size'])
-                            styles[identifier] = {'size': s['size'], 'font': s['font']}
+                            identifier = "{0}".format(span["size"])
+                            styles[identifier] = {"size": span["size"], "font": span["font"]}
 
-                        font_counts[identifier] = font_counts.get(identifier, 0) + 1  # count the fonts usage
+                        font_counts[identifier] = (
+                            font_counts.get(identifier, 0) + 1
+                        )  # count the fonts usage
 
     font_counts = sorted(font_counts.items(), key=itemgetter(1), reverse=True)
 
@@ -92,7 +104,7 @@ def fonts(doc, granularity=False):
 
 
 def font_tags(font_counts, styles):
-    """Returns dictionary with font sizes as keys and tags as value.
+    """Return dictionary with font sizes as keys and tags as value.
 
     :param font_counts: (font_size, count) for all fonts occuring in document
     :type font_counts: list
@@ -103,11 +115,11 @@ def font_tags(font_counts, styles):
     :return: all element tags based on font-sizes
     """
     p_style = styles[font_counts[0][0]]  # get style for most used font by count (paragraph)
-    p_size = p_style['size']  # get the paragraph's size
+    p_size = p_style["size"]  # get the paragraph's size
 
     # sorting the font sizes high to low, so that we can append the right integer to each tag
     font_sizes = []
-    for (font_size, count) in font_counts:
+    for font_size, _count in font_counts:
         font_sizes.append(float(font_size))
     font_sizes.sort(reverse=True)
 
@@ -118,10 +130,10 @@ def font_tags(font_counts, styles):
         idx += 1
         if size == p_size:
             idx = 0
-            size_tag[size] = '<p>'
+            size_tag[size] = "<p>"
         if size > p_size:
-            size_tag[size] = '<h{0}>'.format(idx)
+            size_tag[size] = "<h{0}>".format(idx)
         elif size < p_size:
-            size_tag[size] = '<s{0}>'.format(idx)
+            size_tag[size] = "<s{0}>".format(idx)
 
     return size_tag
