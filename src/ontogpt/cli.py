@@ -1207,14 +1207,9 @@ def diagnose(
 def run_multilingual_analysis(
     input_data_dir, output_directory, correct_diagnosis_file, model="gpt-4-turbo", ext=".txt"
 ):
-    # Set up the SPIRESEngine so we can ground later
+    # Set up the extraction template
     # TODO: use a more customized extraction template
     template_details = get_template_details(template="all_disease_grounding")
-    ke = SPIRESEngine(
-        template_details=template_details,
-        model=model,
-        model_source="openai",
-    )
 
     # Create the output TSV file name
     output_file_name = input_data_dir.strip(os.sep).split(os.sep)[-1] + "_results.tsv"
@@ -1238,11 +1233,20 @@ def run_multilingual_analysis(
 
     correct_diagnosis_dict = parse_diagnosis_file(correct_diagnosis_file)
 
+    # TODO (maybe) - handle non-OpenAI models
+    ai = OpenAIClient()
+    ai.model = model
+
     # Write the header to the output TSV file
     with open(output_file_path, "w", encoding="utf-8") as tsv_file:
         tsv_file.write(
             "input file name\tcorrect diagnosis id\tcorrect diagnosis name\tpredicted diagnosis ids\tpredicted diagnosis names\n"
         )
+
+        # Keep track of the predictions
+        # Key is the filename, value is a list of predictions
+        pred_ids = {}
+        pred_names = {}
 
         for filename in os.listdir(input_data_dir):
             if filename.endswith(ext):
@@ -1259,9 +1263,6 @@ def run_multilingual_analysis(
                 with open(file_path, mode="r", encoding="utf-8") as txt_file:
                     prompt = txt_file.read()
 
-                # TODO (maybe) - handle non-OpenAI models
-                ai = OpenAIClient()
-                ai.model = model
                 try:
                     gpt_diagnosis = ai.complete(prompt)
                 except openai.error.InvalidRequestError as e:
@@ -1269,18 +1270,26 @@ def run_multilingual_analysis(
 
                 # Call the extract function here
                 # to ground the answer to OMIM (using MONDO, etc)
+                # The KE is refreshed here to avoid retaining
+                ke = SPIRESEngine(
+                    template_details=template_details,
+                    model=model,
+                    model_source="openai",
+                )
                 extraction = ke.extract_from_text(text=gpt_diagnosis)
                 predictions = extraction.named_entities
-                pred_ids = []
-                pred_names = []
+                pred_ids[filename] = []
+                pred_names[filename] = []
                 for pred in predictions:
-                    pred_ids.append(pred.id)
-                    pred_names.append(pred.label)
+                    pred_ids[filename].append(pred.id)
+                    pred_names[filename].append(pred.label)
 
                 # Write the result to the output TSV file
                 tsv_file.write(
-                    f'{filename}\t{correct_diagnosis_id}\t{correct_diagnosis_name}\t{"|".join(pred_ids)}\t{"|".join(pred_names)}\n'
+                    f'{filename}\t{correct_diagnosis_id}\t{correct_diagnosis_name}\t{"|".join(pred_ids[filename])}\t{"|".join(pred_names[filename])}\n'
                 )
+
+    logging.info(f"All IDs: {pred_ids}")
 
 
 def get_kanjee_prompt() -> str:
