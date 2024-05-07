@@ -1204,9 +1204,10 @@ def diagnose(
 @click.argument("output_directory")
 @click.argument("correct_diagnosis_file")
 @click.option("--ext", default=".txt")
+@output_option_wb
 @output_format_options
 def run_multilingual_analysis(
-    input_data_dir, output_directory, correct_diagnosis_file, output_format, model="gpt-4-turbo", ext=".txt"
+    input_data_dir, output_directory, correct_diagnosis_file, output, output_format, model="gpt-4-turbo", ext=".txt"
 ):
     # Set up the extraction template
     template = "all_disease_grounding"
@@ -1214,8 +1215,6 @@ def run_multilingual_analysis(
 
     # make sure the output directory exists
     os.makedirs(output_directory, exist_ok=True)
-
-    output = input_data_dir.strip(os.sep).split(os.sep)[-1] + "_results.yaml"
 
     # parse correct diagnosis file
     # This is a TSV file with the following format:
