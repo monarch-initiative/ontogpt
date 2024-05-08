@@ -44,6 +44,3 @@ classes:
         multiple pterygium syndrome escobar variant,
         Otopalatodigital syndrome type II,
         Alzheimer disease type 3
-    slot_usage:
-      id:
-        pattern: "^(OMIM|MONDO):[0-9]+$"
