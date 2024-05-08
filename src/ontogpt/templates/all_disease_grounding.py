@@ -73,7 +73,7 @@ class DiseaseTerm(NamedEntity):
     
     @field_validator('id')
     def pattern_id(cls, v):
-        pattern=re.compile(r"^OMIM:[0-9]+$")
+        pattern=re.compile(r"^(OMIM|MONDO):[0-9]+$")
         if isinstance(v,list):
             for element in v:
                 if not pattern.match(element):

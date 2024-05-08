@@ -32,6 +32,7 @@ classes:
     is_a: NamedEntity
     id_prefixes:
       - OMIM
+      - MONDO
     annotations:
       annotators: bioportal:OMIM, sqlite:obo:mondo
       prompt: >-
@@ -41,4 +42,4 @@ classes:
         moyamoya disease 3
     slot_usage:
       id:
-        pattern: "^OMIM:[0-9]+$"
+        pattern: "^(OMIM|MONDO):[0-9]+$"
