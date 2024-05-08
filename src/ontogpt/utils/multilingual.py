@@ -12,7 +12,7 @@ from ontogpt.io.template_loader import get_template_details
 from ontogpt.io.yaml_wrapper import dump_minimal_yaml
 
 def multilingual_analysis(
-    input_data_dir, output_directory, output, model="gpt-4-turbo", ext=".txt"
+    input_data_dir, output_directory, output, model="gpt-4-turbo"
 ):
     """Run the multilingual analysis."""
     # Set up the extraction template
