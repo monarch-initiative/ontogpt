@@ -4,6 +4,7 @@ import codecs
 import logging
 import os
 
+import click
 import openai
 
 from ontogpt.clients import OpenAIClient
@@ -22,7 +23,11 @@ def multilingual_analysis(
     # make sure the output directory exists
     os.makedirs(output_directory, exist_ok=True)
 
-    output = codecs.getwriter("utf-8")(output)
+    # Anticipate either CLI or direct usage
+    if isinstance(output, click.File):
+        output = codecs.getwriter("utf-8")(output)
+    else:
+        output = codecs.open(output, "wb", encoding="utf-8")
 
     # TODO (maybe) - handle non-OpenAI models
     ai = OpenAIClient()
