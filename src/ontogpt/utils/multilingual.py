@@ -1,5 +1,6 @@
 """Utility for running multilingual analysis."""
 
+import codecs
 import logging
 import os
 
@@ -20,6 +21,8 @@ def multilingual_analysis(
 
     # make sure the output directory exists
     os.makedirs(output_directory, exist_ok=True)
+
+    output = codecs.getwriter("utf-8")(output)
 
     # TODO (maybe) - handle non-OpenAI models
     ai = OpenAIClient()
