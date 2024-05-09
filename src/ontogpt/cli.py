@@ -3,7 +3,6 @@
 import codecs
 import json
 import logging
-import os
 import pickle
 import re
 import sys
@@ -15,7 +14,6 @@ from typing import Dict, List, Optional, Tuple, Union
 
 import click
 import jsonlines
-import openai
 import yaml
 
 from oaklib import get_adapter
