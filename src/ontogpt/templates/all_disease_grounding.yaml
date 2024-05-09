@@ -1,0 +1,46 @@
+id: http://w3id.org/ontogpt/all_disease_grounding
+name: all_disease_grounding
+title: Template for grounding disease names
+description: >-
+  Template for grounding disease names
+license: https://creativecommons.org/publicdomain/zero/1.0/
+prefixes:
+  rdf: http://www.w3.org/1999/02/22-rdf-syntax-ns#
+  MONDO: http://purl.obolibrary.org/obo/MONDO_
+  OMIM: http://purl.bioontology.org/ontology/OMIM/
+  linkml: https://w3id.org/linkml/
+  mondo_simple: http://w3id.org/ontogpt/all_disease_grounding
+
+default_prefix: all_disease_grounding
+default_range: string
+
+imports:
+  - linkml:types
+  - core
+
+classes:
+  DiseaseTermSet:
+    tree_root: true
+    is_a: NamedEntity
+    attributes:
+      terms:
+        range: DiseaseTerm
+        multivalued: true
+        description: >-
+          A semicolon-separated list of any disease names.
+  DiseaseTerm:
+    is_a: NamedEntity
+    id_prefixes:
+      - OMIM
+      - MONDO
+    annotations:
+      annotators: bioportal:OMIM, sqlite:obo:mondo
+      prompt: >-
+        The name of a disease, with specific subtype if provided.
+        Examples include: neurothekoma, retinal vasculitis,
+        chicken monocytic leukemia, neoplasm of spinal cord,
+        moyamoya disease 3, noninsulin-dependent diabetes mellitus
+        with deafness, Teebi hypertelorism syndrome 1,
+        multiple pterygium syndrome escobar variant,
+        Otopalatodigital syndrome type II,
+        Alzheimer disease type 3

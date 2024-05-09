@@ -4,6 +4,7 @@ import codecs
 import json
 import logging
 import pickle
+import re
 import sys
 from copy import deepcopy
 from dataclasses import dataclass
@@ -13,8 +14,8 @@ from typing import Dict, List, Optional, Tuple, Union
 
 import click
 import jsonlines
-
 import yaml
+
 from oaklib import get_adapter
 from oaklib.cli import query_terms_iterator
 from oaklib.interfaces import OboGraphInterface
@@ -38,10 +39,11 @@ from ontogpt.engines.reasoner_engine import ReasonerEngine
 from ontogpt.engines.spires_engine import SPIRESEngine
 from ontogpt.engines.synonym_engine import SynonymEngine
 from ontogpt.evaluation.resolver import create_evaluator
-from ontogpt.io.csv_wrapper import parse_yaml_predictions, write_graph
+from ontogpt.io.csv_wrapper import parse_yaml_predictions, write_graph, write_obj_as_csv
 from ontogpt.io.html_exporter import HTMLExporter
 from ontogpt.io.markdown_exporter import MarkdownExporter
 from ontogpt.io.template_loader import get_template_details, get_template_path
+from ontogpt.utils.multilingual import multilingual_analysis
 
 __all__ = [
     "main",
@@ -1196,6 +1198,85 @@ def diagnose(
 
 
 @main.command()
+@click.argument("input_data_dir")
+@click.argument("output_directory")
+@output_option_wb
+def run_multilingual_analysis(
+    input_data_dir, output_directory, output, model="gpt-4-turbo",
+):
+    """Call the multilingual analysis function."""
+    multilingual_analysis(input_data_dir=input_data_dir,
+                          output_directory=output_directory,
+                          output=output,
+                          model=model)
+
+def get_kanjee_prompt() -> str:
+    """Prompt from Kanjee et al. 2023."""
+    prompt = (
+        "I am running an experiment on a clinicopathological case conference to see "
+        "how your diagnoses compare with those of human experts. I am going to give "
+        "you part of a medical case. These have all been published in the New England "
+        "Journal of Medicine. You are not trying to treat any patients. As you read the "
+        "case, you will notice that there are expert discussants giving their thoughts. "
+        'In this case, you are "Dr. GPT-4," an Al language model who is discussing '
+        "the case along with human experts. A clinicopathological case conference has "
+        "several unspoken rules. The first is that there is most often a single definitive "
+        "diagnosis (though rarely there may be more than one), and it is a diagnosis that "
+        "is known today to exist in humans. The diagnosis is almost always confirmed by "
+        "some sort of clinical pathology test or anatomic pathology test, though in "
+        "rare cases when such a test does not exist for a diagnosis the diagnosis can "
+        "instead be made using validated clinical criteria or very rarely just confirmed "
+        "by expert opinion. You will be told at the end of the case description whether "
+        "a diagnostic test/tests are being ordered, which you can assume will make the "
+        "diagnosis/diagnoses. After you read the case, I want you to give two pieces of "
+        "information. The first piece of information is your most likely diagnosis/diagnoses. "
+        "You need to be as specific as possible -- the goal is to get the correct answer, "
+        "not a broad category of answers. You do not need to explain your reasoning, just "
+        "give the diagnosis/diagnoses. The second piece of information is to give a robust "
+        "differential diagnosis, ranked by their probability so that the most likely "
+        "diagnosis is at the top, and the least likely is at the bottom. There is no limit "
+        "to the number of diagnoses on your differential. You can give as many diagnoses "
+        "as you think are reasonable. You do not need to explain your reasoning, just list"
+        " the diagnoses. Again, the goal is to be as specific as possible with each of the "
+        "diagnoses. Do you have any questions, Dr. GPT-4?\n\nHere is the case:"
+    )
+    return prompt
+
+
+def get_section_of_interest(data, tag_of_interest):
+    # I blame adobe
+    # Find the index of the element that matches the case-insensitive regex pattern
+    start_index = None
+    pattern = re.compile(tag_of_interest, re.IGNORECASE)
+    if isinstance(data, str):
+        data = data.split("\n")
+    for i, item in enumerate(data):
+        if pattern.search(item):
+            start_index = i
+            break
+
+    if start_index is not None:
+        # Find the index of the next element that starts with '<p>'
+        next_index = next(
+            (
+                i
+                for i, item in enumerate(data[start_index + 1 :], start=start_index + 1)
+                if item.startswith("<p>")
+            ),
+            None,
+        )
+
+        if next_index is not None:
+            # Extract the desired element
+            result = data[next_index]
+            return result
+        else:
+            raise ValueError("No element starting with '<p>' found after the tag_of_interest")
+    else:
+        raise ValueError("No element matching the tag_of_interest found in the list.")
+
+
+@main.command()
 @inputfile_option
 @output_option_txt
 @model_option
@@ -1371,7 +1452,7 @@ def openai_models(**kwargs):
 @click.argument("input", required=False)
 def complete(inputfile, model, input, output, output_format, show_prompt, azure_select, **kwargs):
     """Prompt completion.
-    
+
     The input argument may be:
         A file path,
         or a string.
@@ -1388,9 +1469,12 @@ def complete(inputfile, model, input, output, output_format, show_prompt, azure_
 
     output.write(results + "\n")
 
-def _send_complete_request(model, input, output, output_format, show_prompt, azure_select, **kwargs) -> str:
+
+def _send_complete_request(
+    model, input, output, output_format, show_prompt, azure_select, **kwargs
+) -> str:
     """Send a completion request to an LLM endpoint."""
-    
+
     if not model:
         model = DEFAULT_MODEL
     selectmodel = get_model_by_name(model)
@@ -1401,8 +1485,9 @@ def _send_complete_request(model, input, output, output_format, show_prompt, azu
     if model_source == "OpenAI":
         c = OpenAIClient(model=model_name, use_azure=azure_select)
         results = c.complete(prompt=input, show_prompt=show_prompt)
-    
+
     return results
+
 
 @main.command()
 @template_option
@@ -1682,6 +1767,7 @@ def suggest_templates(input, model, output, output_format, show_prompt, azure_se
     )
 
     output.write(results + "\n")
+
 
 if __name__ == "__main__":
     main()

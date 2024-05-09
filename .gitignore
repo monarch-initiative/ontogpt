@@ -148,3 +148,4 @@ LOG
 
 # Custom config files
 **_custom.*
+*.tmp

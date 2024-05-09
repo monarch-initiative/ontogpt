@@ -1,0 +1,1331 @@
+input file name	correct diagnosis	gpt diagnosis
+PMID_35704401-case.txt	terms “poxvirus,” “outbreak,” and “sexually transmitted infection” revealed a report that had been  posted on the same day by public health authorities in the United Kingdom. It described  four cases similar to this one, in which a diagnosis of monkeypox had been confirmed. It was  at this point that I contacted the infection control unit at our hospital to report my concern  that the patient may have monkeypox.	"Most likely diagnosis: Lymphogranuloma venereum (Chlamydia trachomatis L1-L3 serovars) 
+
+Differential Diagnoses:
+1. Lymphogranuloma venereum 
+2. Herpes simplex virus infection (HSV-2)
+3. Syphilis (Treponema pallidum subspecies pallidum)
+4. Gonorrhea (Neisseria gonorrhoeae)
+5. Granuloma inguinale (Klebsiella granulomatis)
+6. Chancroid (Haemophilus ducreyi) 
+7. Behcet’s disease
+8. Crohn's disease
+9. Drug reaction or allergy
+10. Steven-Johnson Syndrome                                                                                     "
+PMID_34965341-case.txt	In summary, this  patient’s history suggests that he had a transient ischemic attack, possibly due to moyamoya  disease. To establish the diagnosis of moyamoya  disease in this case, neuroimaging with angiography should be performed.	"Most likely diagnosis: Transient ischemic attack (TIA)
+
+Differential diagnoses:
+1. Transient ischemic attack (TIA)
+2. Todd's paralysis
+3. Hemiplegic migraine
+4. Functional neurological disorder
+5. Transient global amnesia
+6. Complex partial seizure
+7. Metabolic encephalopathy
+8. Hyperventilation syndrome
+9. Psychogenic non-epileptic seizures
+10. Migraine with brainstem aura
+11. Sodium channel genetic mutation causing episodic ataxia
+12. Panic disorder
+13. Early-onset multiple sclerosis
+"
+PMID_34670047-case.txt	available, including radionuclide scanning (with  the use of technetium-99m–labeled sestamibi),  dynamic CT, magnetic resonance imaging, and  ultrasonography. I would opt for ultrasonography in this young patient in order to avoid exposure to the radiation that is inherent with CT  and radionuclide scans. How does the finding of hyperparathyroidism  influence the diagnosis of the mandibular mass?  The possibility of the diagnosis of an atypical  ossifying fibroma is increased, given its occurrence in the context of hyperparathyroidism due  to  CDC73  mutations. Nevertheless, brown tumors  are a complication of hyperparathyroidism, and  the reported biopsy and radiographic findings  are more consistent with this type of lesion.	"Most Likely Diagnosis: Primary Hyperparathyroidism due to Parathyroid Adenoma resulting in a central giant cell lesison in mandible.
+
+Differential Diagnoses (Ranked from most likely to least likely):
+1. Primary Hyperparathyroidism due to Parathyroid Adenoma
+2. Brown Tumor of Hyperparathyroidism 
+3. Central Giant Cell Granuloma (CGCG)
+4. Cherubism
+5. Fibrous Dysplasia
+6. Osteosarcoma
+7. Metastatic cancer in the mandible
+8. Ameloblastoma
+9. Primary Parathyroid Carcinoma causing hyperparathyroidism
+10. Metabolic bone disease (ex. Paget’s disease of bone)
+11. Multifocal Giant Cell Lesion due to Hyperparathyroidism-Jaw Tumor Syndrome (HPT-JT)
+12. Neurofibromatosis type 1 (von Recklinghausen disease) with sphenoid dysplasia.
+13. Osteomyelitis of the mandible
+14. Basal cell nevus syndrome (Gorlin-Goltz syndrome)."
+PMID_36416771-case.txt	Optic nerve tumor, either optic nerve sheath  meningioma or optic nerve glioma.	"Most likely diagnosis: 
+Optic Neuropathy secondary to an immunological reaction, possibly due to a paraneoplastic syndrome
+
+Differential Diagnosis:
+1. Neuromyelitis Optica spectrum disorder (derived from the description of optic neuritis and negative anti-aquaporin-4 antibody test)
+2. Acute optic neuritis, atypical variant (because of the response to steroid therapy)
+3. Optic neuritis with underlying systemic lupus erythematosus (due to speckled pattern ANA and visual symptoms)
+4. Sarcoidosis (the granulomas could cause optic nerve enlargement)
+5. Paraneoplastic syndrome such as Collagen vascular disease causing optic neuropathy 
+6. Infectious cause of optic neuritis such as Lyme disease, Syphilis or Tuberculosis 
+7. Tumor infiltrating the optic nerve
+8. Ischemic optic neuropathy 
+9. Intracranial hypertension
+10. Migraine associated optic neuropathy 
+
+Given the patient's clinical history and current symptoms, some diagnoses are more likely than others. However, the differential diagnosis should be confirmed through further investigations for a definitive diagnosis."
+PMID_34644476-case.txt	death and a very low chance of recovery without  urgent treatment and consideration of bone  marrow transplantation.	"Most Likely Diagnosis: Severe aplastic anemia
+
+Differential Diagnoses: 
+1. Severe aplastic anemia
+2. Acute lymphocytic leukemia
+3. Myelodysplastic syndrome
+4. Acute myeloid leukemia
+5. Immune thrombocytopenic purpura
+6. Drug-induced thrombocytopenia
+7. Thrombotic thrombocytopenic purpura
+8. Hemolytic uremic syndrome
+9. Disseminated intravascular coagulation
+10. Paroxysmal nocturnal hemoglobinuria
+11. HIV infection
+12. Severe acute respiratory syndrome coronavirus 2 (SARS-CoV-2) related thrombocytopenia. "
+PMID_34910867-case.txt	medicines and that the diagnostic test was for a  blood lead level.	"Most likely diagnosis: Acute intermittent porphyria
+
+Differential diagnoses:
+
+1.   Acute intermittent porphyria 
+2.   Other types of porphyrias like Variegate porphyria or Hereditary coproporphyria
+3.   Medication-induced acute porphyria attack
+4.   Paraneoplastic syndrome associated porphyria
+5.   Psychogenic porphyria
+6.   Bowel obstruction
+7.   Chronic malnutrition
+8.   Isolated hyponatremia
+9.   Duodenal ulcer from usage of pantoprazole
+10.  Small Bowel Bacterial Overgrowth syndrome (SIBO)
+11.  Lead poisoning
+12.  Iron overload syndrome
+13.  Celiac disease."
+PMID_35020988-case.txt	The reported response rate to immunotherapy  ranges from 10 to 70%. Combination therapy  seems to be more effective than monotherapy. This patient had many of the typical sleep  symptoms reported in patients with anti-IgLON5  disease, as well as a combination of neurologic  symptoms reported in patients with clinical  subtypes of the disease. To establish this diagnosis, testing for IgLON5 autoantibodies was  performed.	"Most likely diagnosis: 
+
+1. Rapid Eye Movement (REM) sleep behavior disorder and ALS (Amyotrophic lateral sclerosis)
+
+Differential Diagnoses in order of likelihood:
+
+1. REM sleep behavior disorder and Motor neuron disease
+2. Sleep apnea syndrome with central nervous system disease
+3. Progressive Supranuclear Palsy (PSP)
+4. Multiple System Atrophy (MSA)
+5. Parkinson’s disease (with nighttime behavior and sleep issues)
+6. Central Nervous System Lymphoma
+7. Creutzfeldt-Jakob disease
+8. Vascular dementia 
+9. Alzheimer’s disease with disturbed sleep patterns
+10. Stroke with sleep disorders
+11. Paraneoplastic syndrome with sleep disorders
+12. Frontotemporal dementia with sleep disturbances
+13. Lewy Body Dementia with sleep disturbances."
+PMID_36300978-case.txt	Sarcoidosis or tuberculosis.	"1. Most likely diagnosis: Tuberculous Uveitis
+
+2. Differential Diagnoses:
+   - Tuberculous Uveitis
+   - Sarcoidosis 
+   - Behçet's disease 
+   - Lymphoma 
+   - Secondary Syphilis 
+   - Viral infection (such as CMV or Herpes simplex)
+   - Toxoplasmosis
+   - Leukemia"
+PMID_33882209-case.txt	Varicella–zoster virus infection.	"Most likely diagnoses:
+Herpes Zoster (Shingles)
+
+Differential Diagnosis:
+1. Herpes Zoster Ophthalmicus
+2. Cellulitis
+3. Fungal Infection (e.g., Blastomycosis)
+4. Cutaneous Lupus Erythematosus
+5. Erysipelas
+6. Non-melanoma Skin Cancer (e.g., Squamous cell carcinoma, Basal cell carcinoma)
+7. Granulomatosis with Polyangiitis (Wegener’s Granulomatosis)
+8. Sweet Syndrome
+9. Staphylococcal Scalded Skin Syndrome
+10. Stevens-Johnson Syndrome
+11. Leukemia cutis
+12. Lymphoma
+13. Cutaneous metastases from an unknown primary cancer
+14. Bullous Pemphigoid
+15. Dermatitis herpetiformis
+16. Aging-associated Dermatosis."
+PMID_34010534-case.txt	Lactic acidosis.	"Most Likely Diagnosis: Diarrhea-associated hemolytic uremic syndrome (HUS) secondary to acute kidney injury and dehydration.
+
+Differential Diagnosis:
+1. Diarrhea-associated hemolytic uremic syndrome (HUS)
+2. Acute interstitial nephritis, possibly related to the use of antibiotics
+3. Dehydration associated Prerenal acute kidney injury
+4. Chronic kidney disease from longstanding hypertension and diabetes mellitus
+5. Tubulointerstitial nephritis and uveitis syndrome
+6. Septicaemia-induced acute renal failure
+7. Urinary tract infection leading to pyelonephritis and resultant kidney injury
+8. Ischemic acute tubular necrosis from hypotension (due to heart failure)
+9. Diabetic nephropathy, often associated with Type 2 diabetes
+10. Rhabdomyolysis-induced acute renal failure, possibly due to the humeral fracture
+11. Polycystic kidney disease
+12. Contrast-induced nephropathy
+13. Cholesterol embolism, often associated with atherosclerotic disease
+14. Hypertension-induced end organ damage resulting in kidney failure
+15. Gout nephropathy due to use of allopurinol."
+PMID_33826823-case.txt	Normal pressure hydrocephalus.	"Most Likely Diagnosis: Parkinson’s disease
+
+Differential Diagnosis:
+1. Parkinson's Disease
+2. Normal pressure hydrocephalus
+3. Small Vessel Ischemic Disease
+4. Chronic Traumatic Encephalopathy resulting from the previous head trauma
+5. Dementia with Lewy bodies 
+6. Multisystem atrophy
+7. Progressive Supranuclear Palsy
+8. B12 or folate deficiency related neurologic symptoms
+9. Neurosyphilis
+10. Early onset Alzheimer's disease
+11. Effect of polypharmacy and/or drug side effects
+12. Frontotemporal dementia
+13. Vascular dementia
+14. Geriatric depression with cognitive impairment
+15. Creutzfeldt-Jakob disease."
+PMID_36546630-case.txt	Hepatic adenoma.	"Most Likely Diagnosis: Puerperal (Postpartum) Group B Streptococcal Sepsis with a liver abscess
+
+Differential Diagnoses (ranked by likelihood):
+
+1. Puerperal (Postpartum) Group B Streptococcal Sepsis with a liver abscess
+2. Pyelonephritis secondary to Group B Streptococcus
+3. Postpartum Endometritis caused by Group B Streptococcus
+4. Hepatic Hematoma (secondary to the post-partum hemorrhage, exacerbated by postnatal NSAIDs usage)
+5. Hepatitis (secondary to drug use, like acetaminophen toxicity)
+6. Renal calculus with secondary infection
+7. Cholecystitis 
+8. Pancreatitis secondary to gallstones (postpartum gallbladder sludging)
+9. Pleural effusion or pneumonia
+10. Postpartum Cardiomyopathy leading to hepatic congestion
+11. Deep Vein Thrombosis causing Pulmonary Embolism presenting as pleuritic pain."
+PMID_36351271-case.txt	I suspect that this patient had neuroinflammation associated with Covid-19 that contributed to depression, catatonia, and Cotard’s syndrome.	"The most likely diagnosis for this patient is Cotard's Syndrome (also known as walking corpse syndrome), a rare psychological condition where the patient believes they are dead or do not exist. 
+
+Differential diagnoses, ranked by likelihood could include: 
+
+1. Cotard's Syndrome
+2. Major Depressive Disorder with Psychotic Features
+3. Schizophrenia
+4. Dissociative Identity Disorder
+5. Bipolar Disorder with Psychotic Features
+6. Delusional Disorder
+7. Brief Psychotic Disorder
+8. Schizoaffective Disorder
+9. Complex PTSD
+10. Generalized Anxiety Disorder
+11. Conversion Disorder
+12. Acute Psychotic Disorder due to Covid-19
+13. Substance/Medication-Induced Psychotic Disorder (Steroid Psychosis due to Dexamethasone)
+14. Neurocognitive disorder due to vascular illness or other medical condition such as Covid-19
+15. Somatization Disorder."
+PMID_35704485-case.txt	Unfortunately, diagnosis is often delayed, and patients may be wheelchair-bound or bedbound by  the time of diagnosis. The tumor can be found  almost anywhere in the body, is usually benign,  and can be removed or ablated, although it can  recur years later. Tumor-induced osteomalacia is  the most likely diagnosis in this patient. I suspect that the diagnostic test was assessment for  an elevated blood level of FGF23, followed by  imaging studies to identify a tumor. It is prudent  to make a biochemical or genetic diagnosis of  tumor-induced osteomalacia before performing  imaging studies, because the tumor can occur  anywhere in the body and false positive imaging  studies are common.	"Most Likely Diagnoses: Hypophosphatasia (Adult form)
+
+Differential Diagnosis: 
+
+1. Hypophosphatasia (Adult form) - prominent with consistent fractures and normal calcium and vitamin D levels. 
+2. Osteomalacia - due to Vitamin D deficiency or metabolism issues.
+3. Fibrous Dysplasia - due to occurrence of fractures.
+4. Vitamin D-resistant rickets - despite normal Vitamin D levels, it's plausible there may be resistance.
+5. Hyperparathyroidism - usually involves raised calcium, but might still be a possibility.
+6. Multiple myeloma - repeated fractures could suggest a marrow process like this cancer.
+7. Paget's disease of bone - while usually affecting older adults, could potentially cause recurrent fractures. 
+8. Cushing syndrome - chronic glucocorticoid excess can affect bone health.
+9. Osteogenesis imperfecta - a genetic disorder causing brittle bones, although usually diagnosed in childhood.
+10. Metastatic cancer - bone metastasis might also cause repeated fractures, although no known primary detected now.
+11. McArdle disease - although rare, it can cause muscle weakness leading to frequent fractures.
+12. Acromegaly - this results from excess growth hormone and can cause changes in bone structure leading to fractures."
+PMID_33730458-case.txt	The absence of radiologic evidence of distant  metastatic spread indicated early-stage disease,  and an extended right hepatectomy with a  Roux-en-Y hepaticojejunostomy was performed  with curative intent. Pathological examination of  the resection specimen revealed an adenocarcinoma that measured 6.5 cm by 6.5 cm by 6.0 cm,  with three satellite nodules that ranged from  0.3 cm to 1.4 cm in diameter. Resection margins  were negative but close (<1 mm between the cut  margin and the tumor), and three lymph nodes  were negative for carcinoma.	"Most Likely Diagnosis: Intrahepatic cholangiocarcinoma
+
+Differential Diagnosis: 
+1. Intrahepatic cholangiocarcinoma
+2. Hepatocellular carcinoma
+3. Metastatic carcinoma to the liver
+4. Hepatic abscess
+5. Hepatic adenoma
+6. Hepatic sarcoma
+7. Focal nodular hyperplasia 
+8. Hemangioma"
+PMID_34525289-case.txt	and have relevance to patients presenting for medical care in the context of the  current pandemic. The underlying principles are  that persons with psychiatric disorders need to  be identified and connected with appropriate psychiatric care and that the distress of other members of affected populations is best addressed  through psychosocial interventions, such as psychological first aid, without labeling the normative responses to disaster trauma as abnormal.  This patient will benefit from observation for  the development of a recurrent depressive or anxiety disorder, as well as attention to address her  understandable emotional distress. A mental  health professional can assess any psychiatric  illness that may develop and can assist in the  psychosocial aspects of her recovery from her  illness through psychotherapeutic interventions  including psychosocial support, education, reassurance, and assistance with resumption of her  previous level of functioning. In my opinion, this patient is having understandable psychosocial distress in the context  of a serious medical illness during the Covid-19  pandemic. The key to understanding this case is  to acknowledge that this patient’s distress is a  normative response and does not meet criteria  for a psychiatric diagnosis.	"Most Likely Diagnosis:   
+1. COVID-19 with acute respiratory distress and psychiatric manifestation in form of acute stress disorder/depressive episode
+
+Robust Differential Diagnosis (from high to low probability):   
+1. COVID-19 exacerbated anxiety disorder
+2. Influenza with associated anxiety/depressive disorder
+3. Community Acquired Pneumonia with psychiatric manifestation
+4. COVID-19 induced acute psychosis
+5. Viral pneumonia from other sources (Respiratory Syncytial Virus, Parainfluenza Virus etc.) with concurrent psychiatric manifestation
+6. Acute stress reaction/psychological distress related to potential life threatening illnesses and suicidal ideation
+7. Dehydration and electrolyte imbalance causing mental confusion/stress reaction
+8. Serotonin syndrome from overuse of aspirin–paracetamol–caffeine
+9. Meningoencephalitis presenting with psychiatric manifestations
+10. COVID-19 induced encephalopathy
+11. Post-viral fatigue syndrome with psychiatric manifestation
+12. Panic disorder with somatic symptoms."
+PMID_35731657-case.txt	Despite this patient’s young age and inconclusive  evaluation, exocrine pancreatic cancer is the most  likely cause of the pancreatic mass. This diagnosis is supported by the persistent soft-tissue  mass with a double-duct sign (simultaneous  dilatation of the biliary and pancreatic ducts),  the persistent stricture of the distal bile duct and  obstruction of the biliary and pancreatic ducts,  the elevated CA 19-9 levels, and the absence of  an alternative diagnosis.	"Most Likely Diagnosis: Pancreatic ductal adenocarcinoma.
+
+Differential Diagnosis:
+1. Pancreatic ductal adenocarcinoma: The presence of a pancreatic mass coupled with obstructive jaundice, CA 19-9 elevation, and imaging findings suggest this diagnosis.
+2. Autoimmune pancreatitis: This could cause the symptomatology and radiological findings, however, a lack of characteristic cellular changes in the aspirate and normal IgG levels make it less likely. 
+3. Cholangiocarcinoma: Though less likely based on the mass location, it should be considered given the biliary duct dilations and symptoms.
+4. Pancreatic neuroendocrine tumor: With a pancreatic mass and symptoms, this is a possibility, but there's no mention of characteristic hormone-related symptoms. 
+5. Chronic pancreatitis: Recurrent pancreatitis could form a pancreatic mass, however, clinical history doesn't suggest ongoing pancreatitis. 
+6. Metastatic disease to the pancreas: Less likely given the patient's age and the lack of other systemic symptoms or history of primary malignancy.
+7. PanCREatic pseudocyst: Patient history does not suggest recent pancreatitis episode.
+8. Ampullary carcinoma: Can cause similar signs and symptoms; less likely given lesion location. 
+9. Parasitic infection (such as Clonorchis sinensis): Recent sushi consumption and eosinophilia could suggest a parasitic infection causing inflammation and blockage, but would be less common of an explanation for these comprehensive symptoms."
+PMID_35584159-case.txt	In pulmonary medicine, we have a saying that  “everyone aspirates.” Aspiration can be clinically  silent and can occur even in the absence of overt  reflux symptoms. The centrilobular nodules and  tree-in-bud pattern of opacities seen on this patient’s imaging studies are consistent with aspiration. In addition, this patient had secretions in  the airways, mucus plugging, a hiatal hernia, and  some residual contrast material in the esophagus,  all of which are suggestive of aspiration of oral  and gastric contents into the airways. His clinical history, especially the history of GERD and a  bitter taste in the mouth, suggests the occurrence of aspiration. This patient’s waxing and  waning clinical course would also be consistent  with aspiration into the airways. The BAL fluid  was notable for acute inflammation and the  presence of squamous cells, candida, and bacteria, findings that are consistent with — although  not specific for — aspiration of oral contents.  Given this presentation, additional testing is  warranted. On the basis of this patient’s clinical presentation and radiographic evaluation, infectious  and aspiration bronchiolitis are the most likely  diagnoses in this case. A thorough microbiologic workup was negative except for the fungal  markers. The clinical and radiographic presentations are most consistent with a diffuse aspiration bronchiolitis; however, given this patient’s  degree of immunosuppression and positive fungal markers, I would proceed with a lung biopsy  to rule out fungal pneumonia and to confirm  the diagnosis of aspiration bronchiolitis.	"Top Diagnosis: Chronic Pulmonary Aspergillosis
+
+Differential Diagnoses: 
+1. Chronic Pulmonary Aspergillosis
+2. Non-TB Mycobacteria infection
+3. Bronchiectasis with secondary bacterial infection 
+4. Interstitial lung disease 
+5. Lung abscess 
+6. Idiopathic Pulmonary Fibrosis
+7. COPD with secondary bacterial infection
+8. Lung cancer 
+9. Occupational lung disease (Chronic Hypersensitivity pneumonitis)
+10. Pneumonia due to uncommon pathogens such as Nocardia or Actinomyces
+11. Rheumatoid Lung Disease
+12. Granulomatosis with polyangiitis
+13. Pulmonary sarcoidosis
+14. Lymphangioleiomyomatosis
+15. Langerhans Cell Histiocytosis
+"
+PMID_36001715-case.txt	If specimens obtained during  bronchoscopy are nondiagnostic, then lung biopsy by means of video-assisted thoracoscopic  surgery should be performed.	"Most Likely Diagnosis: Eosinophilic granulomatosis with polyangiitis (EGPA), formerly known as Churg-Strauss syndrome 
+
+Differential Diagnoses (Ranked by Probability):
+
+1. Eosinophilic granulomatosis with polyangiitis (EGPA)
+2. Hypereosinophilic syndrome
+3. Granulomatosis with polyangiitis (Wegener's)
+4. Pulmonary Langerhans cell histiocytosis
+5.  Sarcoidosis
+6.  Metastatic neoplasms
+7. Tuberculosis
+8. Invasive moles, in the context of the described thyroid and breast nodules
+9. Histoplasmosis
+10. Hydatid disease, considering the patient’s history of living in Portugal.
+"
+PMID_35767442-case.txt	pected and, in the context of the PET-CT findings, was suggestive of PTLD related to plasmacell myeloma or non-Hodgkin’s lymphoma with  associated monoclonal protein. Given the possible diagnosis of PTLD, we elected to proceed  with biopsy of a lymph node in the inguinal region, which was the most easily accessible area  with lymphadenopathy.	"Most Likely Diagnosis: B-Cell Post-Transplantation Lymphoproliferative Disorder (PTLD)
+
+Differential Diagnosis:
+1. B-Cell Post-Transplantation Lymphoproliferative Disorder (PTLD)
+2. Graft versus Host Disease (GVHD) with CNS involvement
+3. Neurological Manifestation of Acute Lymphoblastic Leukemia
+4. Central Nervous System Infection (CNS Infection)
+5. Immune Thrombocytopenic Purpura (ITP)
+6. Multiple Sclerosis
+7. Immune Reconstitution Syndrome
+8. Neuromyelitis Optica
+9. Vasculitis."
+PMID_33567196-case.txt	To establish this diagnosis,  I would recommend performing a lung biopsy.	"Most Likely Diagnosis: Hypersensitivity pneumonitis (HP) with a potential secondary autoimmune disorder
+
+Differential Diagnosis:
+1. Hypersensitivity pneumonitis (HP)
+2. Chronic obstructive pulmonary disease (COPD)
+3. Bronchiolitis obliterans
+4. Pulmonary sarcoidosis
+5. Interstitial lung disease related to connective tissue disease 
+6. Eosinophilic granulomatosis with polyangiitis 
+7. Occupational lung disease (related to construction site exposure)
+8. Asthma with ABPA (Allergic bronchopulmonary aspergillosis)
+9. Bronchiectasis
+10. Cystic fibrosis (rare for age, but persistent bronchitis raises suspicion)
+11. Idiopathic pulmonary fibrosis 
+12. Non-Tuberculous Mycobacteria (NTM) infection 
+13. Churg-Strauss syndrome (Eosinophilic Granulomatous Polyangiitis)
+14. Pulmonary Langerhans cell histiocytosis 
+15. Pulmonary alveolar proteinosis
+16. Pulmonary vasculitis
+17. Severe allergic reaction (e.g. to her asthma medications)
+18. Goodpasture Syndrome 
+19. Lymphangioleiomyomatosis (Rare, but female predominance) 
+20. Pulmonary embolism (atypical, but could present with dyspnea and normal chest radiograph) 
+21. Amyloidosis (pulmonary)
+22. Pulmonary involvement in IgG4-related disease (Rare and atypical, but high IgE raises slight suspicion) 
+23. Lung cancer (unlikely with stable nodules and no FDG uptake, but should always be ruled out in a patient with persistent respiratory issues) 
+24. Gastroesophageal reflux disease-induced respiratory problems 
+25. Metabolic disease such as alpha-1-antitrypsin deficiency (rare and typically presents in younger individuals)
+26. Other rare infections
+27. Involutional changes related to aging 
+28. Cardiac cause of dyspnea like congestive heart failure (unlikely with normal echocardiogram, but keep in mind) 
+"
+PMID_36130001-case.txt	Inborn error of immunity.	"Most Likely Diagnosis: Autoimmune enteropathy with associated membranous glomerulonephritis
+
+Differential Diagnoses, ranked by likelihood: 
+
+1. Autoimmune enteropathy with associated membranous glomerulonephritis 
+2. Celiac disease with secondary nephropathy
+3. Intestinal lymphangiectasia with secondary nephropathy
+4. Subtle food allergy or malabsorption syndrome
+5. Inflammatory bowel disease with secondary renal pathology
+6. Immunoglobulin A vasculitis (formerly known as Henoch-Schönlein purpura)
+7. Systemic lupus erythematosus with renal and gastrointestinal involvement
+8. Immunodeficiency syndromes, like common variable immunodeficiency or selective IgA deficiency with secondary gastrointestinal issues 
+9. Crohn's disease with associated kidney complications
+10. Sarcoidosis with gastrointestinal and renal involvement."
+PMID_35172059-case.txt	The rapidity of this  patient’s disease progression, combined with the  known diagnosis of Creutzfeldt–Jakob disease in  her father, are highly suggestive of a genetic  form of Creutzfeldt–Jakob disease.	"Most Likely Diagnosis: Sporadic Creutzfeldt-Jakob disease (sCJD)
+
+Differential Diagnosis: 
+
+1. Sporadic Creutzfeldt-Jakob disease (sCJD)
+2. Cerebellar ataxia, neuropathy, and vestibular areflexia syndrome
+3. Progressive multifocal leukoencephalopathy
+4. Brainstem encephalitis
+5. Wernicke encephalopathy
+6. Stiff person syndrome
+7. Meningovascular syphilis
+8. Anti-GAD antibody syndrome
+9. Paraneoplastic syndrome
+10. Multisystem atrophy (subtype: MSA-C)
+11. Spinocerebellar ataxia 
+12. Central Pontine Myelinolysis"
+PMID_36103417-case.txt	GPA is initially responsive to glucocorticoids,  but remission requires treatment with either the  cytotoxic drug cyclophosphamide or the B-cell– depleting antibody rituximab. Rituximab takes  time to work and would not yet have been effective within the 2 weeks after treatment, when  this patient’s radiologic findings had progressed  and clinical deterioration had occurred.	"Most likely diagnosis: IgG4-related disease
+
+Differential Diagnoses (Ranked from most likely to least likely):
+1. IgG4-related disease 
+2. Giant Cell Arteritis 
+3. Sarcoidosis 
+4. Granulomatosis with polyangiitis 
+5. Takayasu's arteritis 
+6. Primary angiitis of the central nervous system 
+7. Neurosarcoidosis
+8. Relapsing polychondritis
+9. Infection (Bacterial, Viral, or Fungal)
+10. Lymphoma
+11. Behçet's disease 
+12. Cryoglobulinemia 
+13. Systemic lupus erythematosus"
+PMID_34379926-case.txt	to HIV occurred 3 weeks before hospital admission, the patient would be likely to have a detectable HIV RNA viral load and detectable HIV p24  antigen and may have detectable HIV-1 or HIV-2  antibodies; approximately 30% of patients with  acute HIV infection have evidence of an evolving  antibody response.	"Most Likely Diagnosis: Neurosyphilis
+
+Differential diagnosis (from most likely to least likely):
+
+1. Neurosyphilis
+2. Acute HIV infection
+3. Lyme disease
+4. Viral meningitis (e.g., Herpes simplex virus, Enterovirus)
+5. Cryptococcal meningitis
+6. Tuberculous meningitis
+7. Systemic lupus erythematosus with CNS involvement
+8. Central nervous system lymphoma
+9. Metastatic neoplasm in the central nervous system
+10. Toxoplasmosis (brain abscess)"
+PMID_35139277-case.txt	Diagnostic Testing	"The most likely diagnosis: Cogan's Syndrome
+
+Differential Diagnoses:
+1. Cogan's Syndrome
+2. Susac's Syndrome
+3. Rheumatoid arthritis with secondary Sjögren syndrome
+4. Relapsing Polychondritis
+5. Wegener's Granulomatosis
+6. Neurosyphilis
+7. Lyme disease
+8. Meniere's disease
+9. Sarcoidosis
+10. Behçet disease
+11. Systemic Lupus Erythematosus 
+12. Tuberculosis
+13. Acute HIV infection
+14. Syphilis."
+PMID_34161710-case.txt	To establish the diagnosis of delayed posthypoxic leukoencephalopathy, I would  recommend performing magnetic resonance  imaging (MRI) of the head with attention to the  T2-weighted fluid-attenuated inversion recovery  (FLAIR) sequences.	"Most Likely Diagnosis: Central Nervous System Metastasis of Squamous Cell Carcinoma of the Tongue
+
+Differential Diagnosis: 
+
+1. Central Nervous System Metastasis of Squamous Cell Carcinoma of the Tongue
+2. Wernicke's Encephalopathy due to chronic malnutrition and medication
+3. Vascular Dementia or Small Vessel Ischemic Disease secondary to radiotherapy
+4. Medication-induced Cognitive Impairment or Delirium
+5. Chronic Neuropathic Pain Syndrome related Cognitive Impairment
+6. Primary Neurodegenerative Disorders such as Alzheimer's Disease
+7. Normal Pressure Hydrocephalus
+8. Traumatic Brain Injury sequelae exacerbated by cancer treatment stresses
+9. Metabolic Encephalopathy.
+10. Familial Alzheimer's Disease or other familial neurodegenerative disorders based on family history. 
+11. Post-radiation Encephalopathy
+12. Cerebral Vasculitis or other inflammatory or autoimmune neurological condition. 
+13. Frontal Lobe Epilepsy or Nonconvulsive Seizure Disorder
+14. Brain Abscess or other infectious causes. 
+15. Subdural Hematoma or other space-occupying lesions.
+16. Brain tumor
+17. Hypoxic-Ischemic Encephalopathy following cardiac arrest. 
+18. Psychiatric Disorders such as depression, psychosis or bipolar disorder. 
+19. Hypothyroidism or other endocrine disorders.
+20. Neurosyphilis or other infectious neurologic conditions. 
+21. ALS/Parkinson's Disease Dementia."
+PMID_35045230-case.txt	VEXAS (vacuoles, E1 enzyme, X-linked, autoinflammatory, somatic) syndrome.	"Most Likely Diagnosis:
+Relapsing polychondritis with progression to systemic vasculitis
+
+Robust Differential Diagnosis:
+1. Relapsing Polychondritis - The patient initially presented with cartilage inflammation that affects the ears, nose, joints, and respiratory tract, which is classic for relapsing polychondritis.
+2. Systemic Lupus Erythematosus – It might be possible given the systemic nature of the symptoms, but the patient lacks some common findings such as malar rash, photosensitivity, and positive ANA.
+3. Antisynthetase syndrome - This could present with myalgia, but usually involves dysphagia and has a particular rash (mechanic’s hands), none of which the patient has.
+4. Granulomatosis with polyangiitis - This could be probable due to the systemic symptoms. However, the patient’s c-ANCA and p-ANCA tests were negative, which would argue against this diagnosis.
+5. Polymyalgia rheumatica - The initial diagnosis based on muscle pain and stiffness particularly in the morning in a person over 50 might fit, but the disease progression is not typical of Polymyalgia rheumatica.
+6. Rheumatoid Arthritis - Predominantly a joint disease, the systemic effects of Rheumatoid Arthritis could potentially align with some of the symptoms. But the lack of joint degradation and negative factor make it less likely.
+7. Giant cell arteritis - This could at first present similarly to polymyalgia rheumatica, the lack of headache, jaw claudication or vision changes makes this diagnosis less likely.
+8. Behçet’s disease - Could explain the mucosal ulceration (scleritis), venous thrombosis, and positive pathergy test. However, the patient lacks oral and genital ulcers typically seen in Behçet’s disease.
+"
+PMID_34788511-case.txt	was direct fluorescent antibody staining of an  induced-sputum specimen to test for  P. jirovecii .	"Most Likely Diagnosis: Extrapulmonary sarcoidosis with granulomatous involvement of the liver and salivary gland, and probable sarcoidosis-related pulmonary complications
+
+Differential Diagnoses:
+1. Extrapulmonary sarcoidosis with granulomatous involvement of liver and salivary gland, and sarcoidosis-related lung complications
+2. Autoimmune hepatitis
+3. Primary biliary cirrhosis
+4. Primary sclerosing cholangitis
+5. Chronic beryllium disease
+6. Lymphoma
+7. Tuberculosis
+8. Fungal infection, specific histoplasmosis, or cryptococcosis
+9. Lymphoproliferative disease associated with autoimmune disease
+10. Drug-induced liver disease (possibly related to the methotrexate)
+11. Inherited metabolic liver disease
+12. Granulomatosis with polyangiitis
+13. Hepatic infarction due to thrombosis or embolism
+14. Amyloidosis
+15. Langerhans' cell histiocytosis."
+PMID_36170504-case.txt	Alternatively, if surgical  resection of the mass is planned, pathological  examination of the resection specimen can include an evaluation for islet cells. On the basis of the patient’s presentation  with persistent hypoglycemia in the context of a  probable sacrococcygeal teratoma, I suspect that  the Sotos syndrome is the most likely diagnosis.  To establish this diagnosis, targeted sequencing  should be performed to identify variants in  NSD1 . Alternatively, whole-exome sequencing  could be performed in the infant, as well as in  the parents if possible (trio approach), to identify pathogenic variants associated with genetic  disorders that could be consistent with the patient’s clinical presentation, including the Sotos  syndrome.	"Most Likely Diagnosis: Sacrococcygeal teratoma with associated persistent hyperinsulinemic hypoglycemia of infancy (PHHI or congenital hyperinsulinism).
+
+Differential Diagnosis:
+1. Sacrococcygeal teratoma with associated persistent hyperinsulinemic hypoglycemia of infancy (PHHI).
+2. Neonatal sepsis causing hypoglycemia.
+3. Beckwith-Wiedemann Syndrome causing neonatal hypoglycemia.
+4. Inborn errors of metabolism causing hypoglycemia, such as glycogen storage disorder.
+5. Hypopituitarism-contributing hypoglycemia.
+6. Congenital adrenal hyperplasia.
+7. Pancreatic beta cell hyperplasia. 
+8. Dumping syndrome causing hypoglycemia due to rapid gastric emptying."
+PMID_34260840-case.txt	another cause, listeria infection is the most  likely diagnosis in this case.	"Most Likely Diagnosis: Septic shock due to unknown source
+
+Differential Diagnoses: 
+1. Ectopic pregnancy with rupture
+2. Appendicitis
+3. Intra-abdominal abscess
+4. Pyelonephritis
+5. Preeclampsia/HELLP syndrome
+6. Pneumonia
+7. Drug withdrawal or drug interactions
+8. Acute pancreatitis
+9. Migraine with aura
+10. Placental abruption or placenta previa
+11. Influenza or other viral syndromes
+12. Systemic lupus erythematosus (SLE) or other connective tissue disorder flare
+13. Acute fatty liver of pregnancy
+14. Mesenteric ischemia
+15. Gastrointestinal bleeding
+16. Cushing's syndrome
+17. Adrenal insufficiency. 
+18. Hepatitis or liver disease of acute nature. 
+19. Hemoglobinopathy complications 
+20. Mononucleosis and other Epstein Barr Virus (EBV) diseases. 
+21. Zika virus and other mosquito-borne diseases. 
+22. Typhoid fever and other salmonella infections."
+PMID_36577103-case.txt	In this patient with episodic exertional chest discomfort, a flushing syndrome 15  years earlier, and an intracardiac mass, we hypothesized that intratumoral metabolism may  have been altered over time and become restricted to dopamine production. With the assistance of a multidisciplinary  team of specialists — including specialists in  cardiology, interventional cardiology, oncology, radiation oncology, endocrinology, cardiac  anesthesia, and cardiac surgery — we developed a plan for perioperative and long-term  management.	"Most Likely Diagnosis: Coronary Artery Spasm
+Differential Diagnosis:
+1. Coronary Artery Spasm
+2. Hypertrophic Cardiomyopathy
+3. Microvascular Angina
+4. Vasculitis-induced myocardial ischemia (Eg: Lupus)
+5. Premature Coronary Artery Disease
+6. Aortic stenosis
+7. Above conditions in the presence of physical exertion induced Anaphylaxis
+8. Anomalous Origin of the Coronary Artery
+9. Variant Angina (Prinzmetal's Angina) 
+10. Silent Myocardial Ischemia
+11. Arrhythmogenic Right Ventricular Cardiomyopathy (ARVC) 
+12. Spontaneous Coronary Artery Dissection (SCAD)
+13. Syndrome X
+14. Anxiety/panic disorder leading to palpitations and chest discomfort."
+PMID_35196431-case.txt	mellitus, acute hyperglycemia with ketosis is a  common first presentation; subsequently, betacell destruction leads to absolute insulin deficiency. By contrast, patients with syndromes of  insulin resistance and relative insulin deficiency  rarely present with ketosis. It is worth noting  that this patient, despite his elevated anion gap  and serum ketone level, did not have acidemia.  However, the venous blood gas analysis and serum bicarbonate level are consistent with an  excess of bicarbonate, suggesting that a concurrent metabolic alkalosis (of unclear cause) kept  the serum pH in a normal range. In this patient, who had an acute presentation with new hyperglycemia and associated  ketosis, autoimmune diabetes is the leading diagnosis. Patients with classic type 1 diabetes  mellitus typically first present during childhood  or adolescence, and this patient was 68 years of  age at symptom onset. Pembrolizumab treatment is his most compelling risk factor for newonset autoimmune diabetes; I suspect that the  diagnosis is ICI-induced diabetes. There is no definitive diagnostic test to confirm this diagnosis, but it would be helpful to check blood levels  of glycated hemoglobin, islet-cell autoantibodies,  and — after treatment with insulin and stabilization of blood glucose levels — C-peptide.	"Most Likely Diagnosis: Immunotherapy-induced Type 1 Diabetes Mellitus 
+
+Differential Diagnoses ordered by decreasing probability: 
+
+1. Pembrolizumab-induced Type 1 Diabetes Mellitus (rapid onset) 
+2. Steroid-induced hyperglycemia (though use not mentioned in the case)
+3. Stress Hyperglycemia (related to Metastatic Melanoma) 
+4. Latent Autoimmune Diabetes in Adults (LADA) 
+5. Pancreatic malignancy-related Diabetes Mellitus (metastasis from melanoma unlikely but possible)
+6. Type 2 Diabetes Mellitus (less likely given rapid onset and severe hyperglycemia)
+7. Cushing's Syndrome (no mention of typical phenotypic features, only hyperglycemia)
+8. Drug induced hyperglycemia secondary to other medications (less likely)."
+PMID_35081284-case.txt	Children with IBD often “fall  off” the growth curve long before the diagnosis  is made. An early sign of growth failure is a  decrease in height velocity. The most likely diagnosis in this patient is  IBD. His initial vague gastrointestinal symptoms  are atypical of this condition; however, arthralgias and oral aphthous ulcers are both common  extraintestinal manifestations. He did not have  frankly bloody stools, which could explain why  the hemoglobin level was only mildly decreased.  The decreased albumin level and mildly elevated  lipase level are consistent with a diagnosis of  IBD, and the elevated levels of inflammatory  markers support the diagnosis. Several features of this patient’s presentation  give me pause. Presentation with arthralgias as  the dominant symptom and with only mild gastrointestinal symptoms is highly unusual, as is  the fact that the most affected joint was his  shoulder. Also, he did not have a history of weight  loss or growth failure; the absence of these features suggests a recent and rapid onset of illness. Despite his somewhat unusual presentation,  I think IBD is the most likely diagnosis in this  case. To establish this diagnosis, I would perform colonoscopy and upper endoscopy.	"Most likely diagnosis: Lyme disease
+
+Differential diagnosis, ranked from most likely to least likely:
+1. Lyme disease
+2. Infectious mononucleosis
+3. Juvenile rheumatoid arthritis
+4. Leukemia
+5. RMSF (Rocky Mountain spotted fever)
+6. Anaplasmosis/Ehrlichiosis
+7. Septic arthritis
+8. Gastroenteritis
+9. Sarcoidosis
+10. Crohn's disease"
+PMID_34879452-case.txt	Approximately 50%  of cases are associated with oral ulcers, often on  the tongue. The arthralgias, fever, presence of  anti-Ro antibodies, abnormal results on liverfunction tests, and elevated ferritin level seen in  this patient are common in patients with anti– MDA-5 dermatomyositis. I suspect that the most likely diagnosis in  this patient is anti–MDA-5 dermatomyositis. To  establish this diagnosis, I would review the results of the muscle biopsy and test for antibodies  directed against myositis-associated autoantigens,  including MDA-5.	"Most likely diagnosis: Still's disease, Adult-Onset
+
+Differential Diagnosis (beginning with most likely):
+1. Still's disease, Adult-Onset
+2. Disseminated Gonococcal infection
+3. SLE (Systemic Lupus Erythematosus)
+4. Polymyositis
+5. Rheumatoid arthritis
+6. Coccidioidomycosis
+7. Histoplasmosis
+8. Leptospirosis
+9. Hemochromatosis 
+10. Bacterial endocarditis
+11. Behçet's disease
+12. Mycobacterial infection (Mycobacterium tuberculosis)
+13. Dermatomyositis
+14. Mixed connective tissue disease (MCTD)
+15. Reactive arthritis
+16. Sjögren's Syndrome
+17. Candidiasis involving the oral cavity (thrush) 
+18. Paraneoplastic syndrome associated with hidden malignancy
+19. Neuroendocrine tumour (related to adrenal nodule)"
+PMID_34706175-case.txt	Although this patient did not have evidence of  leukemic cells on oral biopsy, the diagnosis of  leukemia would account for his weight loss,  worsening ulcers that did not respond to therapy, and increasing eosinophilia despite treatment with glucocorticoids. To establish the diagnosis in this case, I would recommend a bone  marrow biopsy.	"Most likely diagnosis: Behçet's disease, given the presence of painful oral ulcers, eye involvement, positive HLA-B51 allele, and consideration of this diagnosis already made by the rheumatology and dermatology services that initiated treatment with colchicine.
+
+Differential diagnosis, in decreasing order of likelihood:
+
+1. Behçet's disease
+2. Mucous membrane pemphigoid: Given the oral lesions and suspected esophageal involvement causing weight loss, but negative antibody tests make this less likely.
+3. Crohn’s disease: Oral ulcers could be an extra-intestinal manifestation of Crohn’s disease, with weight loss suggesting possible gastrointestinal involvement.
+4. Herpes simplex virus infection: Although the patient was tested negative, this could still be a possibility due to atypical presentation or limitations of testing.
+5. Autoimmune blistering diseases (like pemphigus vulgaris): Though negative antibody test results make these less likely.
+6. MAGIC syndrome (Mouth and Genital ulcers with Inflamed Cartilage): No genital ulcers or cartilage inflammation is present, but this could still be a consideration.
+7. Cicatricial pemphigoid: This could cause mouth ulcers, though other typical features are absent.
+8. Lymphoma: The presence of prominent lymph nodes in the CT scan raises a possible malignancy like lymphoma which can manifest with systemic symptoms like weight loss.
+9. Squamous cell carcinoma: This could present with oral ulcers and weight loss, but biopsy results do not support this diagnosis.
+10. Tuberculosis: This can sometimes present with ulcers and weight loss, and endemic areas were visited by the patient. However, lung involvement is not typical, and no other signs of infection are present.
+11. Gastroesophageal reflux disease (GERD): The patient has a medical history of GERD, which could cause weight loss due to difficulty swallowing, but it would not explain the oral ulcers."
+PMID_35443111-case.txt	Systemic lupus erythematosus.	"Most Likely Diagnosis: Systemic Lupus Erythematosus (SLE) with associated Libman-Sacks endocarditis.
+
+Differential Diagnosis:
+1. Systemic Lupus Erythematosus (SLE) with associated Libman-Sacks endocarditis.
+2. Primary Antiphospholipid Syndrome with associated cardiac vegetations.
+3. Bacterial endocarditis.
+4. Non-infectious thrombotic endocarditis (marantic endocarditis) associated with malignancy.
+5. Hypercoagulable state due to underlying malignancy leading to cardiac vegetations.
+6. Thrombotic thrombocytopenic purpura (TTP) or other microangiopathic haemolytic anemia.
+7. Mitral valve prolapse with associated myxomatous degeneration and secondary thrombus formation.
+8. Rare infectious causes of endocarditis (e.g., fungal, Q fever).
+9. Rheumatoid arthritis with cardiac involvement.
+10. Primary cardiac tumor such as myxoma."
+PMID_36260795-case.txt	Drug reaction with eosinophilia and systemic  symptoms complicated by eosinophilic myocarditis.	"Most likely diagnosis: 
+Infective Endocarditis (IE) due to Methicillin-Sensitive Staphylococcus Aureus (MSSA)
+
+Differential Diagnoses:
+1. MSSA Septicemia
+2. Congestive Heart Failure due to Valvular Heart Disease
+3. Septic Emboli
+4. Atrial Fibrillation related complications
+5. Right Heart Failure due to Severe Tricuspid Regurgitation
+6. Left Heart Failure due to Mitral Regurgitation
+7. Drug-induced hypersensitivity syndrome
+8. End-Organ Damage due to MSSA Bacteremia
+9. Postoperative complications including Ventricular tachycardia, Deep vein thrombosis, and kidney dysfunction
+10. Post-cardiotomy syndrome
+11. Anaphylactoid purpura
+12. Bacteremia-induced vasoplegia
+13. Chronic prosthetic valve dysfunction
+14. Complications from coronary artery disease and its treatment
+15. Hypothyroidism contributing to heart failure
+16. Hypersensitivity-related systemic inflammatory response syndrome
+17. Right Coronary Artery Stenosis
+18. Prosthetic valve Endocarditis
+19. Staphylococcal toxic shock syndrome
+20. Acute respiratory distress syndrome secondary to fluid overload."
+PMID_34320292-case.txt	Dr. Olivia C. Smibert’s Diagnosis	"Most likely diagnoses: Thrombotic Thrombocytopenic Purpura (TTP) triggered by calcineurin inhibitor toxicity.
+
+Differential Diagnoses:
+1. Thrombotic Thrombocytopenic Purpura (TTP)
+2. Hemolytic Uremic Syndrome (HUS)
+3. Drug-induced thrombocytopenia
+4. Disseminated Intravascular Coagulation (DIC)
+5. Immune Thrombocytopenic Purpura (ITP)
+6. Paroxysmal nocturnal hemoglobinuria
+7. Severe aplastic anemia
+8. Post-transplant lymphoproliferative disease
+9. Acute graft rejection
+10. Virally induced thrombocytopenia (such as due to CMV or EBV).
+11. Anti-phospholipid syndrome"
+PMID_34107184-case.txt	Acquired clotting-factor inhibitor.	"Most Likely Diagnosis: 
+Spontaneous hematoma secondary to anticoagulant use (aspirin), likely exacerbated by underlying vascular disease. 
+
+Differential Diagnosis:
+- Anticoagulant-Related Hematoma
+- Atraumatic Rupture of Vascular Tumor 
+- Hemophilia
+- Vascular Malformation Bleeding
+- Intramuscular Hemangioma with Spontaneous Rupture
+- Acute Compartment Syndrome due to Hematoma
+- Spontaneous Bleeding from a Coagulation Factor Deficiency (e.g., Von Willebrand Disease)
+- Bleeding Secondary to Drug-Induced Thrombocytopenia
+- Disseminated Intravascular Coagulation
+- Hematoma secondary to myositis ossificans
+- Aneurysmal Rupture"
+PMID_35476654-case.txt	Although endomyocardial  biopsy may confirm the diagnosis of myocarditis caused by  L. monocytogenes , the risks associated  with biopsy were thought to outweigh the benefits, so microbial cell-free DNA sequencing was  recommended as an alternative diagnostic test.	"Most Likely Diagnosis: Lyme carditis
+
+Differential Diagnoses Ranked: 
+
+1. Lyme Carditis
+2. Giant cell arteritis
+3. Polymyalgia rheumatica 
+4. Bacterial Endocarditis
+5. Myocarditis secondary to autoimmune disease (Systemic Lupus Erythematosus, Rheumatoid arthritis)
+6. Fibromyalgia 
+7. Serum sickness-like reaction
+8. Bacterial myocarditis
+9. Parasitic myocarditis (Toxoplasma, Chagas)
+10. Tuberculosis pericarditis or myocarditis
+11. Viral myocarditis (Influenza, Epstein-Barr, Syndrome of the acute respiratory, Hepatitis C)
+12. Endocrine disorders (hypothyroidism, adrenal insufficiency)
+13. Hemochromatosis or other metabolic storage diseases.
+14. Paraneoplastic syndromes."
+PMID_36477035-case.txt	In this patient who had no risk factors for  tuberculosis, the clinical syndrome of a progressive, fulminant illness with fever, innumerable  pulmonary nodules, splenomegaly, and hypercalcemia occurring 7 months after kidney transplantation is most likely due to donor-derived  infection with  M. tuberculosis . Some patients may  have risk factors for tuberculosis that are not  identified initially, and once such risk factors are  identified, a thorough requestioning of the patient is needed. To establish a diagnosis of tuberculosis, I would obtain pulmonary specimens  for an acid-fast bacilli smear, nucleic acid amplification testing, and culture. I would begin the  investigation by obtaining an induced sputum  sample but would rapidly pursue bronchoscopy  and biopsy of a pulmonary nodule if acid-fast  staining and nucleic acid amplification testing  are negative. I would evaluate concurrently for  several of the diagnoses discussed previously,  given the critical nature of this patient’s presentation and the possibility that an immunocompromised host may have multiple coexisting diseases at the time of presentation.	"Most Likely Diagnosis:
+Post-transplant lymphoproliferative disorder (PTLD) associated with Epstein-Barr Virus (EBV) infection.
+
+Differential Diagnosis (ranked from most likely to least likely):
+1. Post-transplant lymphoproliferative disorder (PTLD) associated with Epstein-Barr Virus (EBV) infection.
+2. Cytomegalovirus (CMV) infection.
+3. Diffuse alveolar hemorrhage due to immunosuppression.
+4. Sepsis due to bacterial or mycobacterial infection.
+5. Fungal infection such as invasive aspergillosis, particularly in the context of recent immunosuppression modification.
+6. Sarcoidosis reactivation.
+7. Kidney transplant rejection with systemic complications.
+8. Hemophagocytic lymphohistiocytosis (HLH).
+9. Pneumocystis jirovecii pneumonia. 
+10. Pulmonary embolism.
+11. Lymphoma.
+12. Paraneoplastic syndrome associated with unknown malignancy."
+PMID_35417641-case.txt	For this reason, I think that the schistocytes are  a “red herring” in this case that biased the  initial diagnosis toward a destructive process  such as TTP, rather than a production problem  such as MDS. Overall, this patient’s history and current  presentation are consistent with progression of  MDS. I suspect that the diagnostic test was a  repeat bone marrow biopsy with cytogenetic  analysis and next-generation sequencing.	"Most likely diagnosis: Hemophagocytic lymphohistiocytosis (HLH) secondary to Candida esophagitis
+
+Differential Diagnosis:
+1. Hemophagocytic lymphohistiocytosis (HLH) secondary to Candida esophagitis
+2. Thrombotic Thrombocytopenic Purpura (TTP)
+3. Autoimmune Hemolytic Anemia with Evans Syndrome
+4. Disseminated Intravascular Coagulation (DIC)
+5. Paroxysmal Nocturnal Hemoglobinuria (PNH)
+6. Antiphospholipid Syndrome (APS)
+7. Myelodysplastic Syndrome (MDS)
+8. B12 or Folate Deficiency Anemia
+9. Acute leukemia
+10. Multiple Myeloma
+11. Sepsis secondary to Candida esophagitis
+12. Hepatic Disease
+13. Pancytopenia secondary to marrow infiltration by metastatic cancer (due to presence of bilateral adnexal lesions)
+14. Drug-induced hemolysis or thrombocytopenia due to amlodipine, atorvastatin or hydrochlorothiazide."
+PMID_33497551-case.txt	The patient could have primary  disseminated tuberculosis, but she is more likely  to have reactivation of largely latent disseminated disease in the pleura and CNS as a result  of progressive chronic kidney disease, diabetes  mellitus, age, and reduced gastric acidity due to  gastrectomy.	"Most Likely Diagnosis: Paraneoplastic limbic encephalitis associated with gastric adenocarcinoma.
+
+Differential Diagnoses:
+1. Paraneoplastic limbic encephalitis associated with gastric adenocarcinoma
+2. Cerebral vasculitis
+3. Neurosyphilis
+4. Intracranial metastasis
+5. Cerebral toxoplasmosis
+6. Central nervous system lymphoma
+7. Progressive multifocal leukoencephalopathy
+8. Cerebral abscess
+9. Tuberculous meningitis
+10. Neurocysticercosis
+11. Cerebral amoebiasis
+12. Acute disseminated encephalomyelitis (ADEM)
+13. Neurosarcoidosis
+14. Inflammatory CNS demyelination (MS variant)
+15. Cerebral Whipple's disease
+16. Fungal meningitis (Cryptococcus, Coccidioides, Histoplasma)
+17. Listeria rhombencephalitis
+18. Subacute sclerosing panencephalitis (SSPE)
+19. Paraneoplastic cerebellar degeneration."
+PMID_34551232-case.txt	performed to obtain a more sensitive view of the  joints and to rule out occult osteomyelitis and  tumor. The presence of widespread lymphadenopathy on MRI would further support the diagnosis of systemic juvenile idiopathic arthritis. If  arthritis were absent but more accessible lymph  nodes were identified, diagnostic biopsy would  have been considered.	"Most Likely Diagnosis: Juvenile rheumatoid arthritis or Still's disease
+
+Differential Diagnoses, in order from most likely to least likely:
+
+1. Juvenile rheumatoid arthritis or Still's disease
+2. Kawasaki disease
+3. Hemophagocytic lymphohistiocytosis (HLH)
+4. Leukemia or other malignancy
+5. Juvenile systemic lupus erythematosus
+6. Infective Endocarditis
+7. Sepsis
+8. Acute Hepatitis
+9. Acute Rheumatic Fever
+10. Lyme disease
+11. Mevalonate kinase deficiency (Hyper IgD syndrome)
+12. Vasculitis, potentially Henoch-Schönlein purpura 
+13. Dermatomyositis
+14. Familial Mediterranean fever."
+PMID_35675180-case.txt	mixed connective-tissue disease. I would recommend further evaluation, including testing for  anti–U1-ribonucleoprotein (RNP) antibodies and  antinuclear antibodies (ANA), cardiac magnetic  resonance imaging (MRI), and renovascular  imaging.	"Most likely diagnosis: Myocarditis
+
+Differential diagnoses, from most likely to least likely: 
+
+1. Myocarditis
+2. Pericarditis
+3. Coronary artery disease
+4. Pulmonary embolism
+5. Viral infection such as Coxsackievirus B
+6. Hypertrophic cardiomyopathy
+7. Systemic lupus erythematosus (SLE)
+8. Rheumatic heart disease
+9. Lyme carditis
+10. Kawasaki disease
+11. Takotsubo cardiomyopathy
+12. Infective endocarditis
+13. Sarcoidosis
+14. Anemia
+15. Constrictive pericarditis
+16. Thalassemia
+17. Polycythemia vera
+18. Hyponatremia
+19. Hyperkalemia
+20. Addison's disease
+21. Diabetic ketoacidosis
+22. Hypothyroidism
+23. Hyperthyroidism
+24. Atrial fibrillation
+25. Pheochromocytoma
+26. Anorexia nervosa
+27. Familial Mediterranean fever
+28. Juvenile idiopathic arthritis
+29. Hemochromatosis
+30. Glycogen storage diseases
+31. Mitochondrial diseases
+32. Cystic fibrosis
+33. Hemolytic-uremic syndrome
+34. Barth syndrome
+35. Familial hypercholesterolemia."
+PMID_33704941-case.txt	and neurologic findings, we suspected that the  trigger was meningococcal disease.	"The most likely diagnosis for this case is Streptococcal Toxic Shock Syndrome (STSS) due to group A Streptococcus. 
+
+Differential diagnosis, starting from most likely to least likely:
+
+1. Streptococcal Toxic Shock Syndrome (STSS)
+2. Necrotizing fasciitis
+3. Microscopic polyangiitis
+4. Septic shock from a different bacterial infection, such as staphylococcus or a gram negative organism
+5. Hemorrhagic fever viruses
+6. Toxic epidermal necrolysis/Stevens-Johnson syndrome
+7. Meningococcemia
+8. Rocky mountain spotted fever
+9. Bacterial septicemia
+10. Disseminated intravascular coagulation 
+11. Leptospirosis
+12. Dengue fever 
+13. Kawasaki disease
+14. Hantavirus pulmonary syndrome
+15. Drug-induced vasculitis
+16. Catastrophic antiphospholipid syndrome."
+PMID_35263523-case.txt	I recommended  repeat MRI of the head with the administration  of gadolinium as the next step in the evaluation  of this patient.	"Most likely diagnosis: Creutzfeldt-Jakob disease (CJD)
+
+Differential Diagnosis:
+1. Creutzfeldt-Jakob disease (CJD)
+2. Major depressive disorder
+3. Conversion disorder
+4. Progressive multifocal leukoencephalopathy
+5. Alzheimer's disease
+6. Normal pressure hydrocephalus
+7. Multiple sclerosis
+8. Psychogenic non-epileptic seizures
+9. vascular dementia
+10. Parkinson's disease
+11. Frontotemporal dementia
+12. Glioma
+13. Wernicke-Korsakoff syndrome
+14. Chronic Traumatic Encephalopathy
+15. Lewy body dementia"
+PMID_34758256-case.txt	On the basis of the features of the patient’s  presentation, the fact that he had been healthy  the day before the seizure, and his history of  living in a rural area of Guatemala, neurocysticercosis is the most likely diagnosis in this case.  To establish this diagnosis, CT was most likely  performed, followed by MRI and EEG.	"Most likely diagnosis: Neurocysticercosis.
+
+Differential Diagnosis (ranked by probability):
+
+1. Neurocysticercosis: Given the patient's immigration history from rural Guatemala, where this parasitic infection is endemic, this could be the cause of his reported seizures and altered mental status.
+
+2. Encephalitis: This could be due to a viral, bacterial, or parasitic infection and could cause seizures and altered mental status.
+
+3. Meningitis: This can cause an altered level of consciousness and seizures, but the absence of fever and neck stiffness makes it less likely in this case.
+
+4. Brain tumor: Could cause seizures and an altered mental status, but this is less likely given the patient's relatively young age and the absence of other neurological symptoms.
+
+5. Subarachnoid hemorrhage: This could present with seizures and an altered mental state. However, the lack of a headache or vomiting makes it less likely.
+
+6. Epileptic seizures: Given the history of a first tonic-clonic seizure, primary epilepsy may be a possibility. However, given the dramatic presentation and lack of personal or family history of epilepsy, this would be a less likely diagnosis.
+
+7. Drug or Alcohol Withdrawal: Despite the patient reporting limited alcohol and no illicit drug use, withdrawal could potentially lead to seizures and altered mental status.
+
+8. Cerebral Vasculitis: This is a rare condition but could cause seizures and altered mental status due to inflammation and damage to brain tissue.
+
+9. Metabolic disturbances: Hypoglycemia, hyponatremia, hypocalcemia or any significant electrolyte imbalance could lead to neurological signs. However, given the normal blood glucose level, this seems unlikely.
+
+10. Psychogenic Non-Epileptic Seizures (PNES): These are seizure-like episodes that are psychological, not neurological, in nature. The episodes tend to be less predictable than epileptic seizures and may resemble a variety of neurological disorders."
+PMID_33761211-case.txt	-adrenergic receptors decrease insulin  release and can cause hyperglycemia. Taken together, all the features suggest that  the most likely diagnosis in this patient is pheochromocytoma. The first step in establishing this  diagnosis is to perform abdominal imaging to  look for an adrenal tumor consistent with pheochromocytoma.	"Most Likely Diagnosis: Pheochromocytoma
+
+Differential Diagnosis (from most to least likely):
+1. Pheochromocytoma – This sets off the symptoms of migraine headaches, hypertension, and increased hormonal secretion.
+2. Autonomic Dysreflexia – After his ATV accident, a spinal cord injury could potentially cause this condition which includes extremely high blood pressure.
+3. Cushing’s Syndrome/Disease – His headaches, high blood pressure, abdominal pain, and other symptoms align with this disease.
+4. Adrenal Insufficiency (due to Addison's disease or secondary causes) – While less likely, adrenal problems could potentially cause these symptoms.
+5. Neuroblastoma – Though most common in younger children, this cancer could possibly cause his symptoms.
+6. Giant Cell Arteritis – It could cause severe headaches and is related to systemic inflammation.
+7. Malignant Hypertension – It could cause headaches and high blood pressure, although it is unlikely given his age.
+8. Intracranial Hypertension – The headaches and vomiting could be symptomatic of this, but it does not explain the high blood pressure.
+9. Primary aldosteronism – Hormonal issues from the adrenal gland could theoretically cause these symptoms."
+PMID_33852783-case.txt	In summary, this patient’s presentation with  regional tender lymphadenopathy and history of  exposure to cats makes cat scratch disease the  most likely diagnosis in this case. An atypical  presentation of a systemic infection, a systemic  granulomatous process such as sarcoidosis, and  lymphoproliferative disorder cannot be ruled out.  To establish the diagnosis, I would recommend  a right inguinal lymph-node biopsy and serologic testing for  B. henselae  and other infectious  causes.	"Most Likely Diagnosis: Bacteremia secondary to urinary tract infection (UTI) caused by Escherichia coli and Klebsiella pneumoniae
+
+Differential Diagnosis: 
+1. Bacteremia secondary to UTI - E. coli & K. pneumoniae
+2. Acute Pyelonephritis, feasibly due to E. coli or K. pneumoniae
+3. Lymphogranuloma venereum or Cat-scratch disease - Due to the bilateral inguinal lymphadenopathy
+4. Tuberculous pelvic inflammatory disease - History of contact with an aunt who had tuberculosis
+5. Bacterial endocarditis - Given the persistent fever and history of UTI
+6. Pelvic inflammatory disease - Considering the lower abdominal pain and history of inserting an IUD
+7. Lymphoma - Given the presence of multiple sites of lymphadenopathy
+8. Appendicitis - Given flank pain, right side abdominal tenderness, and fever
+9. Tumors metastases - Considering her multiple enlarged lymph nodes and persistent weight loss
+10. Leukemia - Taking into account her persistent fever, lymphadenopathy, and leukocytosis.
+11. Toxoplasmosis - Considering her contact with cats and lymphadenopathy."
+PMID_36239648-case.txt	both gastric accommodation and gastric emptying. Progressive disease can lead to gastric-outlet obstruction. Because the liver is the common  venous drainage point for most of the gastrointestinal tract, it is a frequent site of hematogenous metastases, which appear as hypodense  lesions on CT. This patient initially had breakthrough heartburn that did not respond to previously effective  acid-suppression therapy, which could represent  malignant infiltration of the clasplike sling fibers  that originate from the upper stomach and form  part of the normal acid barrier. Malignant infiltration of the submucosal and muscularis propria layers of the fundus impairs normal gastric  accommodation, which leads to early satiation.  Malignant infiltration of the entire antral wall  disrupts the neurocircuitry and muscular contractions that are required for gastric emptying.  This process initially mimics gastroparesis, with  retention of solid food and nausea, but prokinetic treatments are ineffective because damage  to the muscularis propria prevents these agents  from effectively triggering antral contractions.  Liquids are initially tolerated because they are  emptied passively. However, progressive antral  disease marks a transition from gastroparesis  to gastric-outlet obstruction, and liquids are no  longer tolerated. Patients with linitis plastica  frequently present with advanced disease, and  this patient’s hypodense liver lesions may suggest metastatic disease. Given this patient’s rapidly progressive symptoms that are suggestive of specific alterations  in gastric physiology, in combination with his  imaging and EGD findings, I favor a diagnosis  of gastric cancer that is consistent with linitis  plastica. The diagnostic test of choice would be  endoscopic ultrasonography (EUS).	"Most Likely Diagnosis: 
+Gastrointestinal stromal tumor (GIST) with metastatic spread to the liver and lungs. 
+
+Differential Diagnoses Ranked by Probability: 
+
+1. Gastrointestinal stromal tumor (GIST) with metastatic spread to liver and lungs.
+2. Gastric adenocarcinoma with metastatic spread to liver and lungs.
+3. Diffuse gastric carcinoma (linitis plastica) with metastasis.
+4. Gastric lymphoma with metastatic disease.
+5. Metastatic pancreatic cancer with gastric involvement. 
+6. Gastric sarcoma with metastasis. 
+7. Systemic disease like systemic sclerosis (scleroderma) causing gastric and esophageal dysmotility.
+8. Neuroendocrine tumor with primary in the stomach or pancreas causing paraneoplastic motility disorder in the stomach.
+9. Submucosal infiltration due to any connective tissue disease with malignancy. 
+10. Peptic ulcer disease with pyloric stenosis (though unlikely given the CT findings of wall thickening and presence of pulmonary and hepatic lesions)."
+PMID_33626257-case.txt	Identification of high-grade lymphoma is an unlikely but  plausible result.	"Most Likely Diagnosis: Waldenström’s macroglobulinemia with Central Nervous System (CNS) involvement causing optic neuropathy 
+
+Differential Diagnoses: 
+
+1. Waldenström’s macroglobulinemia with CNS involvement causing optic neuropathy
+
+2. IgM monoclonal gammopathy of undetermined significance (MGUS) with optic neuropathy
+
+3. Intracranial lesion (e.g., meningioma, metastasis) compressing the optic nerve
+
+4. Infiltrative ophthalmopathy secondary to lymphoma
+
+5. Temporal (Giant cell) arteritis with vision loss
+
+6. Cryptococcal meningitis causing increased intracranial pressure and subsequent optic neuropathy
+
+7. Optic neuritis secondary to autoimmune disease (Multiple sclerosis, Sjogren’s syndrome)
+
+8. Ischemic optic neuropathy (anterior or posterior) 
+
+9. Intracranial mass effect (due to neoplasm or abscess)
+
+10. Leber's Hereditary Optic Neuropathy (LHON)
+
+11. Neurosyphilis (including tabes dorsalis)
+
+12. Neurological sequelae secondary to Lyme disease 
+
+13. Toxoplasmosis retinochoroiditis
+
+The most likely diagnosis is at the top with the least likely at the bottom. The listed conditions could present with visual symptoms and are ranked according to this specific patient’s history, examination findings, and lab results. "
+PMID_33503346-case.txt	If the diagnosis of primary amyloidosis is confirmed in  this patient, I would also recommend a bone  marrow biopsy to rule out multiple myeloma,  which occurs in 10 to 15% of patients with primary amyloidosis.	"Most Likely Diagnoses: Sarcoidosis
+
+Differential Diagnosis:
+
+1. Sarcoidosis
+2. Giant Cell Arteritis: The patient's age (over 50), jaw claudication, temporal headache, and elevated ESR places this in the differential.
+3. Orbital Tumour: Possible due to the palpable irregular mass under the patient's left superior orbital rim.
+4. Intracranial mass or aneurysm
+5. Ophthalmic Artery Occlusion
+6. Temporal Arteritis: The age, bilateral temporal artery prominence, recent temporal headache, and loss of vision make this disorder a possibility. 
+7. Dermatomyositis: Elevated muscle enzymes, fatigue, and weight loss may be pointing to this diagnosis. 
+8. Polymyalgia rheumatica: Jaw claudication and hip pain after walking could imply polymyalgia rheumatica.
+9. Primary Biliary Cirrhosis: Elevated liver function tests and alkaline phosphatase might point to this diagnosis.
+10. Amyloidosis: Systemic symptoms along with kidney and liver involvement can suggest this.
+11. Hepatitis B or C: Aspartate Aminotransferase, Alanine Aminotransferase, and alkaline phosphatase were all elevated.
+12. Primary or Metastatic Liver Cancer are also possibilities given the liver parenchyma heterogeneity and periportal lymph node enlargement identified on ultrasonography.
+13. Rare Infections such as tuberculosis or fungal infection: Given the patient's extensive travel history and globetrotting lifestyle, it is possible that he may have contracted a classical or an opportunistic infection."
+PMID_34936743-case.txt	but the  history does not suggest such an exposure. Because fat droplets are compliant enough to  pass through the pulmonary capillary bed and  embolize to the central nervous system even in  the absence of a patent foramen ovale, the diagnosis of fat embolism syndrome occurring after  the liposuction procedure best explains this patient’s combination of lung injury, diffuse alveolar hemorrhage, and cerebral injury.	"Most Likely Diagnosis: Fat Embolism Syndrome (FES)
+
+Differential Diagnoses:
+
+1. Fat Embolism Syndrome (FES)
+2. Diffuse Alveolar Hemorrhage (DAH)
+3. Severe Acute Respiratory Syndrome (SARS)
+4. Eosinophilic Pneumonia
+5. Pulmonary Hemorrhage due to Vasculitis
+6. Severe COVID-19-induced pneumonia
+7. Pulmonary Edema secondary to acute heart failure
+8. Acute Interstitial Pneumonia (AIP)
+9. Acute Respiratory Distress Syndrome (ARDS)
+10. Pulmonary Embolism
+11. Aspiration Pneumonia
+12. Drug-induced Toxicity (Antibiotics or Opiates) causing Pneumonitis
+13. Pulmonary Contusion
+14. Acute Pancreatitis leading to ARDS
+15. Trauma prompting Pulmonary Parenchymal Injury."
+PMID_34437787-case.txt	splice acceptor variant was present at both the  time of initial diagnosis and the time of relapse;  this pattern is consistent with that observed in  these similar cases.	"First Piece of Information - Most likely diagnosis:
+Relapse of Acute Myeloid Leukemia (AML) with mutated NPM1
+
+Second Piece of Information - Differential Diagnosis (from most likely to least likely):
+
+1. Relapse of Acute Myeloid Leukemia (AML) with mutated NPM1
+2. Myelodysplastic syndrome (MDS)
+3. Chronic Myelomonocytic Leukemia (CMML)
+4. Acute Lymphoblastic Leukemia (ALL)
+5. Transformation of a previously undiagnosed Myeloproliferative Neoplasm (MPN) into Acute Myeloid Leukemia (AML)
+6. Paroxysmal Nocturnal Hemoglobinuria (PNH) with secondary AML
+7. Secondary AML after chemotherapy (therapy-related AML)
+8. Hemophagocytic Lymphohistiocytosis (HLH)
+9. Aplastic anemia with dysplasia or transformation to AML
+10. Idiopathic Hypereosinophilic Syndrome (HES) with transformation to AML."
+PMID_35939582-case.txt	tory, and duration of symptoms are most consistent with a diagnosis of insulinoma. To establish  this diagnosis, I would initiate a supervised fast  to monitor for symptomatic hypoglycemia. In addition, I would measure serum levels of glucose,  insulin, C-peptide, proinsulin, and β-hydroxybutyrate.	"Most likely diagnosis: Insulinoma
+
+Differential Diagnoses:
+
+1. Insulinoma
+2. Factitious hypoglycemia
+3. Non-insulinoma pancreatogenous hypoglycemia syndrome (NIPHS)
+4. Reactive hypoglycemia
+5. Addison's disease
+6. Severe liver disease
+7. Insulin autoimmune syndrome (Hirata disease) 
+8. Inherited metabolic disorders (Rare in adults)
+9. Post gastric bypass hypoglycemia
+10. Adrenal insufficiency"
+PMID_33979492-case.txt	Hemophagocytic lymphohistiocytosis.	"Most Likely Diagnoses: Hemophagocytic lymphohistiocytosis
+
+Differential Diagnoses:
+1. Hemophagocytic lymphohistiocytosis (HLH)
+2. Paroxysmal nocturnal hemoglobinuria (PNH)
+3. Myelodysplastic syndrome
+4. Chronic lymphocytic leukemia (CLL)
+5. Autoimmune lymphoproliferative syndrome (ALPS)
+6. Systemic lupus erythematosus (SLE)
+7. Leukemia, in particular acute lymphoblastic leukemia
+8. Lymphoma, in particular non-Hodgkin lymphoma 
+9. Malaria 
+10. Cholecystitis due to the noted cholelithiasis
+11. Symptoms related to known Multiple Sclerosis
+12. Epstein-Barr virus (EBV) or other viral infection, such as cytomegalovirus (CMV)
+13. Granulomatous disease, especially sarcoidosis 
+14. Lymphoproliferative disorder due to immunosuppression. 
+15. Spleen infection or abscess
+16. Hepatosplenic T-cell lymphoma"
+PMID_35294816-case.txt	of C4, C1 inhibitor, and C1q, as well as a repeat  assessment of C1 inhibitor function, to further  investigate her previous diagnosis of acquired C1  inhibitor deficiency and the possibility of a diagnosis of hereditary angioedema with C1 inhibitor deficiency.	"Most Likely Diagnosis: Acquired angioedema due to C1 inhibitor deficiency.
+
+Differential Diagnosis: 
+
+1. Acquired angioedema due to C1 inhibitor deficiency
+2. Hereditary angioedema with normal C1 inhibitor level and function
+3. Acquired angioedema due to C1 inhibitor deficiency secondary to malignancy
+4. Systemic lupus erythematosus
+5. Auriculotemporal syndrome
+6. Cryoglobulinemia
+7. Urticarial vasculitis
+8. Pellagra or niacin deficiency
+9. Distal renal tubular acidosis
+10. Hypocomplementemic urticarial vasculitis 
+11. Acute allergic reaction, chronic idiopathic urticaria
+12. Hypersensitivity reaction to NSAIDS
+13. Episodic angioedema with eosinophilia (Gleich's syndrome)"
+PMID_34407347-case.txt	Systemic iron-overload syndrome.	"Based on the evidence provided, my most likely diagnosis is Decompensated Alcoholic Liver Disease (cirrhosis), precipitated by the patient's long history of alcohol consumption and his associated clinical findings including edema, ascites, coarsened liver texture on ultrasound, and a history of decreased albumin.
+
+A differential diagnosis, in descending order of likelihood, includes:
+
+1. Decompensated Alcoholic Liver Disease/Cirrhosis
+2. Alcoholic Hepatitis
+3. Non-alcoholic Steatohepatitis (NASH)
+4. Heart Failure
+5. Chronic Kidney Disease
+6. Diabetes with severe insulin resistance
+7. Panhypopituitarism
+8. Hypothyroidism"
+PMID_34587390-case.txt	The findings on echocardiography in  this case ruled out aneurysm involving the ascending aorta or aortic root. In view of all these factors and the overall  frequency at which these mutations arise in the  population, the most likely genetic diagnosis in  this patient, who had recurrent dissection of  medium-sized arteries and joint dysfunction in  the absence of thoracic aortic aneurysm, is the  vascular form of Ehlers–Danlos syndrome, which  is caused by mutations in  COL3A1 .	"Most Likely Diagnosis: Fibromuscular dysplasia
+
+Differential Diagnoses:
+1. Fibromuscular dysplasia
+2. Cerebral autosomal dominant arteriopathy with subcortical infarcts and leukoencephalopathy (CADASIL)
+3. Spontaneous arterial dissection
+4. Giant cell arteritis
+5. Isolated angiitis of the central nervous system
+6. Moyamoya disease
+7. Collagen vascular disease (e.g. Ehlers-Danlos syndrome, Marfan syndrome)
+8. Neurofibromatosis type 1
+9. Systemic lupus erythematosus
+10. Polyarteritis nodosa
+11. Segmental arterial mediolysis
+12. Cocaine or other stimulant use"
+PMID_33471980-case.txt	leaving us with two possible  diagnoses: myocarditis or a large myocardial infarction. When all the features of this patient’s presentation are considered, her primary diagnosis was  most likely biventricular cardiomyopathy due to  either myocarditis or pregnancy-associated myocardial infarction. Owing to the severity of the  ventricular dysfunction, a myocardial infarction  would have probably involved the left main coronary artery or multiple coronary arteries. To  further refine the differential diagnosis, I would  recommend coronary angiography to evaluate the  coronary arteries and, if possible, native endomyocardial biopsy, recognizing that the patient  is currently receiving anticoagulation for the ECMO  circuit.	"Most Likely Diagnosis: Peripartum cardiomyopathy complicated by ventricular tachycardia and cardiogenic shock, along with deep vein thrombosis.
+
+Differential Diagnoses, from most likely to least likely:
+1. Peripartum cardiomyopathy 
+2. Myocardial infarction 
+3. Acute heart failure due to other causes, such as myocarditis 
+4. Pre-eclampsia or HELLP syndrome 
+5. Massive pulmonary embolism 
+6. Severe sepsis or septic shock 
+7. Drug-induced cardiac dysfunction 
+8. Thrombotic thrombocytopenic purpura or other thrombotic microangiopathies 
+9. Amniotic fluid embolus 
+10. Pulmonary hypertension due to other causes."
+PMID_36069875-case.txt	Neuro-Behçet’s disease.	"Most Likely Diagnosis: Neuro-Behcet's disease
+
+Differential Diagnoses: 
+
+1. Neuro-Behcet's disease
+2. Meningitis (Bacterial, Fungal)
+3. Herpes Simplex Virus-1 (HSV-1) or HSV-2 encephalitis
+4. Neurological manifestations due to systemic lupus erythematosus (SLE)
+5. NeuroSarcoidosis 
+6. Central nervous system (CNS) Vasculitis
+7. Multiple sclerosis
+8. Neurological manifestation of coronavirus disease 2019
+9. Tuberculosis meningitis 
+10. Neurological manifestations of acute HIV infection.
+11. Neurosyphilis
+12. Cerebral abscess
+13. Lymphoma (particularly CNS lymphoma)
+14. Neurological manifestations of autoimmune encephalitis.
+15. Subdural empyema
+16. Neurological manifestations of lymphocytic choriomeningitis
+17. Neurological manifestations of Lyme disease."
+PMID_33596360-case.txt	Disseminated bacille Calmette–Guérin infection.	"OPENAI API CALL FAILED"
+PMID_34233100-case.txt	In this patient with the triad of cerebellar  ataxia, neuropathy, and bilateral vestibular dysfunction, the clinical syndrome of CANVAS is  the most likely diagnosis. Given the patient’s  family history of a shuffling gait and celiac disease, immune and genetic causes of this syndrome should be ruled out.	"Most Likely Diagnosis: Sensory and autonomic neuropathy with cerebellar ataxia caused by Friedreich's Ataxia
+
+Differential Diagnoses in order of likelihood:
+
+1. Sensory and autonomic neuropathy with cerebellar ataxia caused by Friedreich's Ataxia
+2. Autonomic and sensory neuropathy caused by Autosomal Dominant Sensory Ataxia (ADSA)
+3. Cerebellar Ataxia, Neuropathy, Vestibular Areflexia syndrome (CANVAS)
+4. Neurological manifestation of Systemic Lupus Erythematosus (SLE)
+5. Neurological manifestation of Sjögren's syndrome. 
+6. Multiple System Atrophy (MSA)
+7. Olivopontocerebellar atrophy (OPCA)
+8. Cerebellar variant of Multiple System Atrophy (MSA-C)
+9. Paraneoplastic cerebellar degeneration as a consequence of occult malignancy. 
+10. Widespread neoplasm metastasis including CNS.
+11. Spinocerebellar ataxias (SCA, Despite negative genetic testing for common SCAs -SCA1, SCA2, SCA3, SCA6, and SCA8)
+12. Peripheral Nerve Hyperexcitability (PNH) due to Voltage-gated Potassium Channel Complex Antibodies (VGKC)
+13. Autoimmune or paraneoplastic cerebellar ataxia
+14. Neurological manifestation of celiac disease (defined by the familial pattern and absence of celiac disease antibodies)
+15. Drug-induced cerebellar degeneration (unsure if any medications taken by the patient may cause this syndrome)
+16. Alcohol-related cerebellar degeneration."
+PMID_35857663-case.txt	a feature that is consistent with this patient’s test result. Furthermore, there is known  cross-reactivity between urine tests for histoplasma and blastomyces antigens, which could  account for this patient’s positive histoplasma  antigen test. Coupled with her epidemiologic  risk factors, including soil exposure in Vermont  and Canada, I suspect that she has blastomycosis. To establish the diagnosis of blastomycosis,  I would await maturation of the fungal cultures;  if they are negative, I would pursue transbronchial biopsy of the cavitary lesions for fungal  staining and culture.	"Most Likely Diagnosis: Ectopic adrenocorticotropic hormone (ACTH) secretion by a metastatic pancreatic neuroendocrine tumor, with concurrent Histoplasmosis infection.
+
+Differential Diagnoses:
+
+1. Ectopic adrenocorticotropic hormone (ACTH) secretion by a metastatic pancreatic neuroendocrine tumor: Supported by elevated cortisol & ACTH levels, presence of pancreatic exophytic mass, multiple metastases, histopathological findings in pituitary biopsy inconsistent with corticotroph adenoma, and no history of tuberculosis skin test positivity, differential effects on psychological health with etomidate, lorazepam interventions, and subsequent positive effects after bilateral adrenalectomy and cortisol management.
+
+2. Cushing's disease secondary to a recurrent pituitary corticotroph adenoma: Despite failing two operations and a pathology report inconsistent with this diagnosis, the history of two pituitary surgeries, residual pituitary lesion and ongoing high cortisol & ACTH levels could suggest persistent pituitary origin.
+
+3. Adrenal Cushing's syndrome: Presence of adrenal gland thickening could suggest an adrenal source of excess cortisol, although the ACTH levels would not typically be high in this scenario.
+
+4. Adrenal Carcinoma: The adrenal thickening and elevated cortisol levels could also suggest this diagnosis, however, the ACTH levels are inappropriately high for this setting.
+
+5. Chronic histoplasmosis infection: Supported by the positive urine test for histoplasma antigen, imaging findings in the right upper lung lobe and presence of immunosuppressive states (Cushing's Syndrome), but negative BAL fluid culture.
+
+6. Secondary bacterial pneumonia: Demonstrated by growth of Staphylococcus aureus in BAL fluid and imaging findings, but other concurrent infections may be more likely.
+
+7. Tuberculosis infection: A less likely diagnosis but always a consideration in individuals with immune deficits, despite the negative history of skin testing and no growth of acid-fast bacilli colonies in cultures so far.
+   
+8. Latent autoimmune diabetes in adults (LADA) or type 2 diabetes: Supported by the patient being on metformin.
+
+9. Central diabetes insipidus: Evidenced by the fact that the patient is being treated with desmopressin.
+
+10. Hypothyroidism: The patient is being treated with levothyroxine, suggesting this condition, but not related to the primary pathologies in this case.
+   
+11. Asthma: It is in the medical history, but not relevant in this current clinical scenario.
+
+12. Portal-vein thrombosis with ascites: Part of patient's past medical history but unrelated to current clinical syndrome."
+PMID_33913642-case.txt	Dr. Dorit Koren’s Initial  Diagnosis	"Most Likely Diagnosis: Cervical neuroblastoma 
+
+Differential Diagnoses, Ranked by Probability:
+1. Cervical neuroblastoma: This tumor arises from the sympathetic chain and often presents as a neck mass in neonates. The presence of displacement of the trachea without compression, along with the markedly hypervascular ultrasound image supports this diagnosis.
+2. Cervical teratoma: These are often large, vascular neck masses. The baby's increased alpha-fetoprotein levels may point to this diagnosis; however, these tumors are usually heterogeneous (containing various tissue types) and the mass in this case appears homogenous on ultrasound.
+3. Cervical lymphangioma: These benign, lymphatic malformations can present as a neck mass in newborns. However, they are typically multicystic; this mass appears solid in imaging.
+4. Other neck masses such as a branchial cleft cyst or thyroid goiter: While both of these can present as neck masses in newborns, neither is consistent with the imaging findings and other clinical characteristics of this case.
+5. Less likely differential diagnoses in a newborn can include a thymic cyst, thyroid adenoma, or parathyroid adenoma, but these all seem less likely given the clinical and radiologic findings presented here. 
+
+Diagnostic tests to be performed: From the case, it appears a diagnostic procedure is performed, likely a biopsy of the mass. The definitive diagnosis of these conditions is often made by histological examination of the mass tissue. Additional ancillary tests, such as immunohistochemistry or cytogenetic studies, can further support the diagnosis."
+PMID_35544390-case.txt	The biopsy specimens were generally small and were not targeted to the abnormalities observed on CT, because the biopsy was  not performed with CT guidance. B-cell lymphoma remained at the top of the differential  diagnosis, so the patient next underwent a CTguided transabdominal liver biopsy, which allowed the proceduralist to attempt to visualize  the targeted area of interest.	"Most likely diagnosis: Whipple's disease
+
+Differential diagnosis, ranked by probability:
+1. Whipple's disease
+2. Lymphangiectasia
+3. Gastroparesis secondary to autonomic neuropathy
+4. Carcinoid syndrome
+5. Liver cirrhosis 
+6. Eosinophilic gastroenteritis
+7. Tropical sprue
+8. Systemic lupus erythematosus (SLE)
+9. Capillary leak syndrome
+10. Erdheim-Chester disease."
+PMID_36070713-case.txt	Thus, the negative test result  does not dissuade me from making a diagnosis  of candida meningitis. I suspect the diagnostic test  was a CSF fungal culture.	"Most Likely Diagnosis:
+Neurocysticercosis
+
+Differential Diagnosis Ranked by Likelihood:
+1. Neurocysticercosis
+2. Tuberculoma
+3. Lymphoma
+4. Neurosarcoidosis
+5. Brain abscess
+6. Metastatic cancer
+7. Bacterial Meningitis
+8. Viral Meningitis
+9. Cryptococcal Meningitis
+10. Pseudotumor cerebri
+11. Intracranial hemorrhage."
+PMID_36383716-case.txt	carina, and transbronchial needle aspiration was  subsequently performed. Dr. Daniel Shepherd:  During fine-needle aspiration of the subcarinal mass, a rapid on-site  evaluation of the specimen was performed. Hematoxylin and eosin staining (Fig. 3A and 3B)  showed clusters of large epithelioid cells with  anisonucleosis, irregularly contoured nuclei,  prominent nucleoli, and occasional binucleated  forms. There was a moderate amount of thin,  delicate eosinophilic cytoplasm with occasional  intracytoplasmic mucin. These findings are consistent with poorly differentiated adenocarcinoma.  No morphologic features of small-cell carcinoma were seen, and immunohistochemical staining for neuroendocrine markers and for programmed death ligand 1 (PD-L1) was negative. Dr. Dudzinski:  Radiation and medical oncology  management decisions were made.	"My most likely diagnosis, based on the clinical history and diagnostic findings, is Non-Small Cell Lung Cancer (NSCLC), specifically poorly differentiated adenocarcinoma type.
+
+Here is my ranked differential diagnosis:
+
+1. Non-Small Cell Lung Cancer (NSCLC) - poorly differentiated adenocarcinoma
+2. Squamous cell carcinoma of the lung
+3. Small Cell Lung Cancer (SCLC)
+4. Lymphoma
+5. Metastatic extrathoracic cancer
+6. Granulomatous thoracic infection 
+7. Fibrosing mediastinitis
+8. Superior vena cava syndrome (as a secondary condition due to growth of lung tumor)
+9. Paraneoplastic syndrome (the symptoms may indicate this, however, this is likely secondary to the cancer diagnosis)
+Some of these possibilities may not be viewed as separate diagnoses, but rather extensions or different presentations of the primary condition (NSCLC). However, given the presented symptoms, pathology, and imaging, these are the potential conditions that could be considered. Further testing would help to rule out or confirm these differential diagnoses."
+PMID_35830644-case.txt	help to refine the differential diagnosis, the definitive test in this case would be a kidney biopsy to establish the cause of the kidney disease.	"Most Likely Diagnosis: 
+ANCA-associated vasculitis (granulomatosis with polyangiitis or microscopic polyangiitis)
+
+Differential Diagnoses (from most likely to least):
+1. ANCA-associated vasculitis (granulomatosis with polyangiitis or microscopic polyangiitis)
+2. Goodpasture syndrome
+3. Systemic Lupus Erythematosus 
+4. Infectious pneumonia (bacterial, viral such as COVID-19, or fungal)
+5. Acute tubular necrosis secondary to systemic infection
+6. Diffuse alveolar hemorrhage, secondary to another systemic condition
+7. Wegener’s Granulomatosis (sub-type of ANCA Vasculitis)
+8. Foreign body aspiration pneumonia
+9. Post-infectious Glomerulonephritis
+10. Immune complex kidney disease
+11. Membranoproliferative glomerulonephritis
+12. Organizing pneumonia."
+PMID_35320647-case.txt	ranges from 5 to 21 days. Leukopenia is present  in the majority of patients; the white-cell count  in this patient was near the low end of the normal range. No findings on chest CT are specific  for anaplasmosis. The CT findings observed in  this case (interlobular septal thickening, groundglass opacities, and pleural effusions) are nonspecific and can be seen with a wide array of  atypical infections, as well as noninfectious  causes. The main contribution of the imaging  findings in this case was to assist in ruling out  other possible explanations of the patient’s symptoms, such as typical bacterial pneumonia. Human ehrlichiosis may mimic anaplasmosis,  but one third of patients with ehrlichiosis have a  maculopapular or petechial rash, which was not  present in this patient. Also, ehrlichiosis is less  likely to be associated with thrombocytopenia  than is human granulocytic anaplasmosis. On  the basis of the constellation of these findings,  I overcame my bias toward Covid-19 and considered tickborne infection, particularly anaplasmosis, to be the most likely diagnosis in this  patient. To establish this diagnosis, we performed additional testing, including blood testing for Lyme disease antibodies, an examination  of thick and thin blood smears for babesia, and  nucleic acid testing for  A. phagocytophilum  DNA.	"Most Likely Diagnosis: Acute viral syndrome due to severe acute respiratory syndrome coronavirus 2 (SARS-CoV-2), or COVID-19. 
+
+Robust Differential Diagnosis:
+
+1. COVID-19: Despite the negative nasopharyngeal test result, the patient's symptoms align with SARS-CoV-2. False negatives occur in testing.
+2. Influenza: Symptoms of flu can be similar to COVID-19, and this cannot be completely ruled out despite negative testing for influenza viruses A and B.
+3. Community-Acquired Pneumonia: Negative tests for common bacterial and viral causes do not rule out all potential pathogens.
+4. Non-SARS-CoV-2 Coronavirus: Other coronaviruses can cause similar symptoms to COVID-19.
+5. Atypical Bacterial Infection: Though less likely, given the negative tests for common atypical bacteria, it is not completely ruled out.
+6. Tuberculosis: The chest imaging findings could be suggestive of TB, especially given the patient's urban dwelling status.
+7. Legionnaire's Disease: The patient has been mostly at home but the potential for exposure through a contaminated water supply cannot be ruled out.
+8. Q Fever: This can present with similar findings, though there is no mention of known exposure to farm animals.
+9. Lyme Disease: Lyme disease may sometimes present with fever, myalgia and headache, and contact with wooded areas is a risk factor.
+10. Brucellosis: Although the patient has no significant travel history or known exposure to unpasteurized dairy, cannot be completely ruled out.
+11. Autoimmune/Connective Tissue Disease: In the unlikely event of this being an acute presentation of such a disease.
+
+The final diagnosis is likely to depend upon the results of the diagnostic test performed on the eighth hospital day."
+PMID_36516093-case.txt	Because of the need to rule out adrenocortical carcinoma, laparoscopic right adrenalectomy was performed.	"Most Likely Diagnosis: Cushing’s syndrome due to an adrenal adenoma
+
+Differential Diagnoses (from most likely to least likely):
+1. Cushing's syndrome due to an adrenal adenoma
+2. Adrenocortical carcinoma
+3. Ectopic adrenocorticotropic hormone (ACTH) syndrome
+4. Hypothyroidism-associated fatigue and weight gain
+5. Pheochromocytoma
+6. Non-functional adrenal tumor
+7. Polycystic ovary syndrome-induced weight gain and fatigue
+8. Iatrogenic Cushing's syndrome from corticosteroid use
+9. Cushing's syndrome due to pituitary adenoma (Cushing's disease)
+10. Adrenal hyperplasia
+11. Adrenal metastases from an unknown primary
+12. Paraneoplastic syndrome from an undiagnosed malignancy
+13. Familial syndromes that include adrenal tumors, such as Multiple Endocrine Neoplasia Type 1
+14. Functional adrenocortical oncocytoma."
+PMID_34818483-case.txt	Cutaneous bacterial infection.	"Most Likely Diagnosis: 
+Septicemia due to Gram-negative bacteria, likely Pseudomonas aeruginosa or E. coli, contracted from handling the deer hide in the process of taxidermy. 
+
+Differential Diagnosis (from most to least likely):
+1. Infectious cellulitis - likely bacterial, related to exposure from deer hide or ticks.
+2. Necrotizing fasciitis - possibly contracted from deer hide or tick exposure.
+3. Lyme disease - caused by tick bites, possible tick exposure from deer hide.
+4. Pasteurella infection - possible exposure from the animal hide.
+5. Tularemia - possible exposure from deer hide or ticks.
+6. Pyogenic joint infection or septic arthritis - possible pathogen exposure from deer hide.
+7. Tick-born illnesses (other than Lyme disease) - ehrlichiosis, babesiosis, anaplasmosis due to tick removal from deer hide.
+8. Mycobacterium marinum infection - this is a lower probability, but may be contracted from handling raw hides or skins, particularly if there were any direct traumatic exposure.
+9. Anthrax (cutaneous) - possible exposure from handling of deer hide.
+10. Rat-bite fever - exposure possible from handling of raw hide.
+11. Rabies - very low probability, but possible exposure through handling of a raw hide from a potentially infected animal."
+PMID_34289280-case.txt	No single clue from the history, imaging  studies, or laboratory test results in this case is  specific for a diagnosis, and I suspect that a  brain and meningeal biopsy was ultimately required to establish a pathological diagnosis and  direct treatment. Reasonable diagnostic possibilities include varicella–zoster virus meningoencephalitis, neurosarcoidosis, primary CNS vasculitis, and CAA-related inflammation. Because  of the presence of multiple hemorrhagic lesions  in the brain on MRI, I think that CAA-related  inflammation is the most likely diagnosis in  this case.	"Most Likely Diagnosis: Autoimmune encephalitis (AE)
+
+Differential Diagnosis, in order of likelihood: 
+
+1. Limbic encephalitis (LE)
+2. Multiple Sclerosis (MS)
+3. Central Nervous System vasculitis (CNS)
+4. Creutzfeldt-Jakob Disease (CJD)
+5. Neurosarcoidosis
+6. Lymphomatous meningitis
+7. Central Nervous System Lymphoma (CNSL)
+8. Neurosyphilis
+9. Subacute Sclerosing Panencephalitis (SSPE)
+10. Bacterial meningitis
+11. Viral encephalitis
+12. Prion disease
+13. Alzheimer’s Disease (AD)."
+PMID_35353965-case.txt	Hypertrophic cardiomyopathy most likely due to  Fabry’s disease.	"Most Likely Diagnosis: Systemic amyloidosis, most likely senile cardiac amyloidosis (transthyretin-type)
+
+Differential Diagnosis (from most likely to least likely):
+
+1. Systemic amyloidosis, specifically senile systemic amyloidosis (transthyretin-type)
+2. Hypertrophic cardiomyopathy
+3. Idiopathic restrictive cardiomyopathy
+4. Fabry disease 
+5. Anderson-Fabry disease
+6. Endomyocardial fibrosis
+7. Sarcoidosis
+8. Lyme disease-induced cardiomyopathy
+9. Loeffler endomyocarditis
+10. Mitochondrial disease-induced cardiomyopathy
+11. Cardiac hemochromatosis (iron overload cardiomyopathy)
+12. Cardiac sarcoidosis
+13. Danon disease
+14. Rare infiltrative storage diseases like Gaucher’s disease
+15. Carcinoid heart disease.
+16. Metastatic neoplasm causing restrictive cardiomyopathy."
+PMID_34042393-case.txt	tion of the aorta were ultimately required. The  endograft was placed in a percutaneous manner  through the common femoral arteries on the day  that the patient was transferred to this hospital.  The graft lined the aorta from the level below  the renal arteries to the level of the bilateral  common iliac arteries to prevent acute aortic  rupture and hemorrhagic death from occurring  while the final diagnosis was being determined.	"Most likely diagnosis: Infective Endocarditis
+
+Differential Diagnosis (ranked from most likely to least likely):
+
+1. Infective Endocarditis
+2. Vasculitides, possibly Giant Cell Arteritis (Temporal Arteritis)
+3. Polyarteritis Nodosa
+4. Rheumatic Fever
+5. Disseminated Intravascular Coagulation
+6. Sepsis/septic shock
+7. Abdominal aortic aneurysm
+8. Acute mesenteric ischemia
+9. Granulomatosis with polyangiitis (previously known as Wegener’s granulomatosis)
+10. Tuberculosis
+11. Bacterial Meningitis
+12. Reiter's Syndrome
+13. Heroin or substance use related infection or vasculitis
+14. Chiari I-related complications"
+PMID_34133863-case.txt	However, in clinical medicine, patient presentations often do not  fit these maxims, and this is one clinical situation in which a life-threatening diagnosis —  acute pulmonary embolism — must be ruled  out. Therefore, in addition to testing the patient’s nasopharyngeal specimen for SARS-CoV-2  RNA to establish the diagnosis of Covid-19, I  would recommend obtaining a computed tomographic (CT) pulmonary angiogram to identify  pulmonary embolism.	"Most likely diagnosis: COVID-19 pneumonia complicated with Acute Respiratory Distress Syndrome (ARDS).
+
+Differential Diagnosis, ranked by probability:
+1. COVID-19 pneumonia with ARDS
+2. Pulmonary embolism secondary to COVID-19
+3. Bacterial pneumonia superinfection with underlying COVID-19
+4. Heart failure secondary to myopericarditis due to COVID-19
+5. Pulmonary fibrosis with acute exacerbation
+6. Pneumothorax or hemothorax, possibly from a fall as reported by patient’s son
+7. Pleuritis or Pleural effusion secondary to pneumonia or other infection
+8. Pulmonary tuberculosis reactivation aggravated by COVID-19."
+PMID_35613025-case.txt	This patient meets all consensus diagnostic  criteria for iMCD except for the histologic features in lymph node tissue, so a second review  of the specimen is warranted.	"Most Likely Diagnosis: Disseminated histoplasmosis.
+
+Differential Diagnosis, from most likely to least likely: 
+1. Disseminated histoplasmosis.
+2. Disseminated tuberculosis.
+3. Non-Hodgkin's lymphoma.
+4. Metastatic carcinoma.
+5. Sarcoidosis.
+6. Systemic lupus erythematosus.
+7. Anaplasmosis.
+8. Brucellosis.
+9. Parvovirus B19 infection.
+10. Castleman's disease."
