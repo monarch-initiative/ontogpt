@@ -31,7 +31,6 @@ classes:
   DiseaseTerm:
     is_a: NamedEntity
     id_prefixes:
-      - OMIM
       - MONDO
     annotations:
       annotators: bioportal:OMIM, sqlite:obo:mondo
