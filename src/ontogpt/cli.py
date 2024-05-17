@@ -24,7 +24,7 @@ from sssom.parsers import parse_sssom_table, to_mapping_set_document
 from sssom.util import to_mapping_set_dataframe
 
 import ontogpt.ontex.extractor as extractor
-from ontogpt import DEFAULT_MODEL, DEFAULT_MODEL_DETAILS, MODELS, __version__
+from ontogpt import DEFAULT_MODEL, __version__
 from ontogpt.clients import OpenAIClient
 from ontogpt.clients.llm_client import LLMClient
 from ontogpt.clients.pubmed_client import PubmedClient
@@ -1441,11 +1441,7 @@ def _send_complete_request(
 
     if not model:
         model = DEFAULT_MODEL
-    selectmodel = get_model_by_name(model)
-    model_source = selectmodel["provider"]
-    model_name = selectmodel["canonical_name"]
 
-    # TODO: add support for other models
     if model_source == "OpenAI":
         c = OpenAIClient(model=model_name, use_azure=azure_select)
         results = c.complete(prompt=input, show_prompt=show_prompt)
