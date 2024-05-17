@@ -26,6 +26,7 @@ from sssom.util import to_mapping_set_dataframe
 import ontogpt.ontex.extractor as extractor
 from ontogpt import DEFAULT_MODEL, DEFAULT_MODEL_DETAILS, MODELS, __version__
 from ontogpt.clients import OpenAIClient
+from ontogpt.clients.llm_client import LLMClient
 from ontogpt.clients.pubmed_client import PubmedClient
 from ontogpt.clients.soup_client import SoupClient
 from ontogpt.clients.wikipedia_client import WikipediaClient
@@ -924,30 +925,17 @@ def synonyms(model, term, context, output, output_format, **kwargs):
 @output_format_options
 @model_option
 @azure_select_option
-@click.option(
-    "-C",
-    "--context",
-    help="domain e.g. anatomy, industry, health-related (NOT IMPLEMENTED - currently gene only)",
-)
 @click.argument("text", nargs=-1)
-def embed(text, context, output, model, output_format, azure_select, **kwargs):
-    """Embed text.
-
-    Not currently supported for open models.
-    """
-    if model:
-        selectmodel = get_model_by_name(model)
-        model_source = selectmodel["provider"]
-
-        if model_source != "OpenAI":
-            raise NotImplementedError("Model not yet supported for embeddings.")
-    else:
+def embed(text, output, model, output_format, azure_select, **kwargs):
+    """Embed text."""
+    if model is None:
         model = "text-embedding-ada-002"
+    logging.info(f"Using model {model} for embeddings.")
 
     if not text:
-        raise ValueError("Text must be passed")
+        raise ValueError("Text must be passed to this function.")
 
-    client = OpenAIClient(model=model, use_azure=azure_select)
+    client = LLMClient(model=model, use_azure=azure_select)
     resp = client.embeddings(text)
     print(resp)
 
@@ -957,39 +945,29 @@ def embed(text, context, output, model, output_format, azure_select, **kwargs):
 @output_format_options
 @model_option
 @azure_select_option
-@click.option(
-    "-C",
-    "--context",
-    help="domain e.g. anatomy, industry, health-related (NOT IMPLEMENTED - currently gene only)",
-)
 @click.argument("text", nargs=-1)
-def text_similarity(text, context, output, model, output_format, azure_select, **kwargs):
-    """Embed text.
+def text_similarity(text, output, model, output_format, azure_select, **kwargs):
+    """Get similarity between two text inputs.
 
-    Not currently supported for open models.
+    Text should be separated by @, e.g., "text1 @ text2".
     """
-    if model:
-        selectmodel = get_model_by_name(model)
-        model_source = selectmodel["provider"]
-
-        if model_source != "OpenAI":
-            raise NotImplementedError("Model not yet supported for embeddings.")
-    else:
+    if model is None:
         model = "text-embedding-ada-002"
+    logging.info(f"Using model {model} for embeddings.")
 
     if not text:
-        raise ValueError("Text must be passed")
+        raise ValueError("Text must be passed to this function.")
     text = list(text)
     if "@" not in text:
-        raise ValueError("Text must contain @")
+        raise ValueError("Texts must be separated with @")
     ix = text.index("@")
     text1 = " ".join(text[:ix])
     text2 = " ".join(text[ix + 1 :])
-    print(text1)
-    print(text2)
+    logging.info(text1)
+    logging.info(text2)
 
-    client = OpenAIClient(model=model, use_azure=azure_select)
-    sim = client.similarity(text1, text2, model=model)
+    client = LLMClient(model=model, use_azure=azure_select)
+    sim = client.similarity(text1, text2)
     print(sim)
 
 
@@ -998,39 +976,29 @@ def text_similarity(text, context, output, model, output_format, azure_select, *
 @output_format_options
 @model_option
 @azure_select_option
-@click.option(
-    "-C",
-    "--context",
-    help="domain e.g. anatomy, industry, health-related (NOT IMPLEMENTED - currently gene only)",
-)
 @click.argument("text", nargs=-1)
-def text_distance(text, context, output, model, output_format, azure_select, **kwargs):
+def text_distance(text, output, model, output_format, azure_select, **kwargs):
     """Embed text and calculate euclidian distance between embeddings.
 
-    Not currently supported for open models.
+    Text should be separated by @, e.g., "text1 @ text2".
     """
-    if model:
-        selectmodel = get_model_by_name(model)
-        model_source = selectmodel["provider"]
-
-        if model_source != "OpenAI":
-            raise NotImplementedError("Model not yet supported for embeddings.")
-    else:
+    if model is None:
         model = "text-embedding-ada-002"
+    logging.info(f"Using model {model} for embeddings.")
 
     if not text:
-        raise ValueError("Text must be passed")
+        raise ValueError("Text must be passed to this function.")
     text = list(text)
     if "@" not in text:
-        raise ValueError("Text must contain @")
+        raise ValueError("Text must be separated with @")
     ix = text.index("@")
     text1 = " ".join(text[:ix])
     text2 = " ".join(text[ix + 1 :])
-    print(text1)
-    print(text2)
+    logging.info(text1)
+    logging.info(text2)
 
-    client = OpenAIClient(model=model, use_azure=azure_select)
-    sim = client.euclidian_distance(text1, text2, model=model)
+    client = LLMClient(model=model, use_azure=azure_select)
+    sim = client.euclidian_distance(text1, text2)
     print(sim)
 
 
@@ -1202,13 +1170,16 @@ def diagnose(
 @click.argument("output_directory")
 @output_option_wb
 def run_multilingual_analysis(
-    input_data_dir, output_directory, output, model="gpt-4-turbo",
+    input_data_dir,
+    output_directory,
+    output,
+    model="gpt-4-turbo",
 ):
     """Call the multilingual analysis function."""
-    multilingual_analysis(input_data_dir=input_data_dir,
-                          output_directory=output_directory,
-                          output=output,
-                          model=model)
+    multilingual_analysis(
+        input_data_dir=input_data_dir, output_directory=output_directory, output=output, model=model
+    )
+
 
 def get_kanjee_prompt() -> str:
     """Prompt from Kanjee et al. 2023."""
