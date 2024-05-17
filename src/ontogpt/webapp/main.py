@@ -1,4 +1,5 @@
 """Webapp main function."""
+
 from io import StringIO
 from pathlib import Path
 from typing import Dict
@@ -37,7 +38,9 @@ engines: Dict[str, SPIRESEngine] = {}
 def get_engine(datamodel: str):
     if datamodel not in engines:
         template_details = get_template_details(template=datamodel)
-        engines[datamodel] = SPIRESEngine(template_details=template_details)
+        engines[datamodel] = SPIRESEngine(
+            model="gpt-4-turbo", template_details=template_details, model_source="openai"
+        )
     return engines[datamodel]
 
 
