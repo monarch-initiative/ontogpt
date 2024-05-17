@@ -10,7 +10,6 @@ from pydantic import BaseModel
 from starlette.staticfiles import StaticFiles
 from starlette.templating import Jinja2Templates
 
-from ontogpt.engines.knowledge_engine import DATAMODELS
 from ontogpt.engines.spires_engine import SPIRESEngine
 from ontogpt.io.html_exporter import HTMLExporter
 from ontogpt.io.template_loader import get_template_details
@@ -19,6 +18,29 @@ this_path = Path(__file__).parent
 static_dir = this_path / "static"
 html_dir = this_path / "html"
 
+DATAMODELS = [
+    "biological_process.BiologicalProcess",
+    "biotic_interaction.BioticInteraction",
+    "cell_type.CellTypeDocument",
+    "condition",
+    "ctd.ChemicalToDiseaseDocument",
+    "data_sheets_schema",
+    "diagnostic_procedure.DiagnosticProceduretoPhenotypeAssociation",
+    "dietitian_notes",
+    "drug.DrugMechanism",
+    "emapa_simple",
+    "environmental_sample.Study",
+    "figure",
+    "go_simple",
+    "gocam.GoCamAnnotations",
+    "mendelian_disease.MendelianDisease",
+    "maxo",
+    "mondo_simple",
+    "phenotype.Trait",
+    "reaction.Reaction",
+    "recipe.Recipe",
+    "treatment.DiseaseTreatmentSummary",
+]
 
 class Query(BaseModel):
     text: str
