@@ -25,7 +25,6 @@ from sssom.util import to_mapping_set_dataframe
 
 import ontogpt.ontex.extractor as extractor
 from ontogpt import DEFAULT_MODEL, __version__
-from ontogpt.clients import OpenAIClient
 from ontogpt.clients.llm_client import LLMClient
 from ontogpt.clients.pubmed_client import PubmedClient
 from ontogpt.clients.soup_client import SoupClient
@@ -1442,9 +1441,8 @@ def _send_complete_request(
     if not model:
         model = DEFAULT_MODEL
 
-    if model_source == "OpenAI":
-        c = OpenAIClient(model=model_name, use_azure=azure_select)
-        results = c.complete(prompt=input, show_prompt=show_prompt)
+    c = LLMClient(model=model, use_azure=azure_select)
+    results = c.complete(prompt=input, show_prompt=show_prompt)
 
     return results
 
@@ -1476,10 +1474,7 @@ def parse(template, input):
 @azure_select_option
 def dump_completions(model, match, database, output, output_format, azure_select):
     """Dump cached completions."""
-    if model:
-        raise NotImplementedError("Caching not currently enabled for this model.")
-    else:
-        client = OpenAIClient(model=model, use_azure=azure_select)
+    client = LLMClient(model=model, use_azure=azure_select)
 
     if database:
         client.cache_db_path = database
@@ -1550,7 +1545,7 @@ def halo(model, input, context, terms, output, **kwargs):
 @click.option(
     "-d",
     "--description",
-    help="domain e.g. anatomy, industry, health-related (NOT IMPLEMENTED - currently gene only)",
+    help="Patient description, in free text",
 )
 @click.option(
     "--sections", multiple=True, help="sections to include e.g. medications, vital signs, etc."
@@ -1581,14 +1576,9 @@ def clinical_notes(
 
     if not model:
         model = DEFAULT_MODEL
-    selectmodel = get_model_by_name(model)
-    model_source = selectmodel["provider"]
-    model_name = selectmodel["canonical_name"]
 
-    # TODO: add support for other models
-    if model_source == "OpenAI":
-        c = OpenAIClient(model=model_name, use_azure=azure_select)
-        results = c.complete(prompt=prompt, show_prompt=show_prompt)
+    c = LLMClient(model=model, use_azure=azure_select)
+    results = c.complete(prompt=prompt, show_prompt=show_prompt)
 
     output.write(results)
 
