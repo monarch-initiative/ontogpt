@@ -138,37 +138,6 @@ def write_extraction(
             output.write(dump_minimal_yaml(results))  # type: ignore
 
 
-# TODO: allow this to tolerate a local model
-def get_model_by_name(modelname: str):
-    """Retrieve a model name and metadata from those available.
-
-    Returns a dict describing the selected model.
-    """
-    found = False
-    for knownmodel in MODELS:
-        these_knownmodel_names = [knownmodel["name"], knownmodel["canonical_name"]] + knownmodel[
-            "alternative_names"
-        ]
-        if modelname in these_knownmodel_names:
-            selectmodel = knownmodel
-            found = True
-            logging.info(
-                f"Found model: {selectmodel['name']}, provided by {selectmodel['provider']}."
-            )
-            if "not_implemented" in selectmodel or "deprecated" in selectmodel:
-                logging.error(f"Model {selectmodel['name']} not implemented or is deprecated.")
-                raise NotImplementedError
-            break
-    if not found:
-        logging.warning(
-            f"""Model name not recognized or not supported yet. Using default, {DEFAULT_MODEL}.
-            See all models with `ontogpt list-models`"""
-        )
-        selectmodel = DEFAULT_MODEL_DETAILS
-
-    return selectmodel
-
-
 inputfile_option = click.option("-i", "--inputfile", help="Path to a file containing input text.")
 template_option = click.option("-t", "--template", required=True, help="Template to use.")
 target_class_option = click.option(
