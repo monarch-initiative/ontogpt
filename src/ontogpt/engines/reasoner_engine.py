@@ -8,7 +8,6 @@ from typing import List, Optional, Union
 from jinja2 import Template
 from pydantic import BaseModel
 
-from ontogpt import MODELS
 from ontogpt.engines.knowledge_engine import KnowledgeEngine
 from ontogpt.ontex.extractor import (
     Answer,
@@ -22,11 +21,6 @@ from ontogpt.prompts.reasoning import DEFAULT_REASONING_PROMPT
 from ontogpt.utils.parse_utils import split_on_one_of
 
 logger = logging.getLogger(__name__)
-
-
-MODEL_GPT_4_NAMES = [
-    model["alternative_names"][0] for model in MODELS if model["name"] == "MODEL_GPT_4"
-][0]
 
 
 def flatten_list(lst):
@@ -174,27 +168,16 @@ class ReasonerEngine(KnowledgeEngine):
             prompt_length = len(self.encoding.encode(prompt)) + 10
         else:
             prompt_length = len(prompt)
-        max_len_total = 4097
-        if self.model in MODEL_GPT_4_NAMES:
-            max_len_total = 8193
-        max_len = max_len_total - completion_length
         completed = True
-        logger.info(f"PROMPT LENGTH: {prompt_length} [max={max_len}]")
-        if prompt_length > max_len:
-            if strict:
-                raise ValueError(f"Prompt length ({prompt_length}) exceeds maximum ({max_len})")
-            logger.warning(f"Prompt length ({prompt_length}) exceeds maximum ({max_len})")
-            answers = []
-            completed = False
-            payload = ""
+        logger.info(f"PROMPT LENGTH: {prompt_length}")
+
+        payload = self.client.complete(prompt, max_tokens=completion_length)
+        if task.has_multiple_answers:
+            elements = payload.split("- ")
+            answers = [self._parse_single_answer(e, task) for e in elements]
         else:
-            payload = self.client.complete(prompt, max_tokens=completion_length)
-            if task.has_multiple_answers:
-                elements = payload.split("- ")
-                answers = [self._parse_single_answer(e, task) for e in elements]
-            else:
-                answers = [self._parse_single_answer(payload, task)]
-            answers = [a for a in flatten_list(answers) if a is not None]
+            answers = [self._parse_single_answer(payload, task)]
+        answers = [a for a in flatten_list(answers) if a is not None]
         result = ReasonerResult(
             completed=completed,
             task_name=task.name,
