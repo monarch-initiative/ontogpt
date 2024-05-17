@@ -69,7 +69,8 @@ docs = [
 web = [
     "fastapi",
     "uvicorn",
-    "Jinja2"
+    "Jinja2",
+    "python-multipart"
 ]
 recipes = [
     "recipe-scrapers"

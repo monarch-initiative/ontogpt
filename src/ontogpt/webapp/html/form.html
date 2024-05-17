@@ -3,10 +3,42 @@
 <head>
     <meta charset="UTF-8">
     <title>OntoGPT SPIRES: Enter text</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        form {
+            margin: 20px;
+        }
+
+        select, textarea {
+            width: 100%;
+            padding: 5px;
+            margin-bottom: 10px;
+        }
+
+        input[type="submit"] {
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+
+        .footer {
+            background-color: #f1f1f1;
+            padding: 20px;
+            text-align: center;
+        }
+    </style>
 </head>
 <body>
 <div>
     <form method="post">
+        <h1>Information Extraction with SPIRES</h1>
         <div>
             Select Schema:
             <select name="datamodel" id="datamodel">
@@ -24,12 +56,15 @@
             </select>
         </div> -->
         <div>
-            <textarea name="text" rows="20" cols="80">enter text here (e.g. pubmed abstract)
+            <textarea name="text" rows="20" cols="80">Enter text here (e.g. PubMed abstract)
             </textarea>
         </div>
         <input type="submit">
         <div>
-            <i><please be patient, can take up to 10s)</i>
+            This process currently uses GPT-4-Turbo through the OpenAI API.
+        </div>
+        <div>
+            <i>Please be patient, can take up to 10s</i>
         </div>
     </form>
 </div>
