@@ -1,9 +1,7 @@
 """Client for running LLM completion requests through LiteLLM."""
 
-import ast
 import logging
 from dataclasses import dataclass, field
-import sqlite3
 from typing import Optional
 
 from litellm import completion, embedding

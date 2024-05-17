@@ -1,8 +1,7 @@
 """ontogpt package."""
+
 from importlib import metadata
 from pathlib import Path
-
-from yaml import safe_load
 
 # Define the default model
 rel_path = Path(__file__).resolve()
