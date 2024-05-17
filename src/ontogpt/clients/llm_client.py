@@ -56,7 +56,7 @@ class LLMClient:
             response = completion(
                 api_key=self.api_key,
                 model=self.model,
-                messages=[{"content": self.prompt, "role": "user"}],
+                messages=[{"content": prompt, "role": "user"}],
                 temperature=self.temperature,
             )
         except openai.APITimeoutError as e:
@@ -72,23 +72,9 @@ class LLMClient:
         text = str(text)
 
         # TODO: set embedding model based on model source
-        model = "text-embedding-ada-002"
-
-        # Create cache to store embeddings
-        cur = self.db_connection()
-        try:
-            logger.info("Creating embeddings cache")
-            cur.execute("CREATE TABLE embeddings_cache (text, engine, vector_as_string)")
-        except sqlite3.OperationalError:
-            logger.info("Embeddings cache table already exists")
-            pass
-        res = cur.execute(
-            "SELECT vector_as_string FROM embeddings_cache WHERE text=? AND engine=?", (text, model)
-        )
-        payload = res.fetchone()
-        if payload:
-            logger.info(f"Using cached embeddings for {model} {text[0:80]}...")
-            return ast.literal_eval(payload[0])
+        # Or at least set the default for OpenAI models
+        if self.model is None:
+            model = "text-embedding-ada-002"
 
         logger.info(f"Retrieving embeddings from {model} for text: {text[0:80]}...")
 
@@ -99,13 +85,6 @@ class LLMClient:
         )
         v = response.data[0].embedding
 
-        # Store those embeddings
-        logger.info(f"Storing embeddings of len: {len(v)}")
-        cur.execute(
-            "INSERT INTO embeddings_cache (text, engine, vector_as_string) VALUES (?, ?, ?)",
-            (text, model, str(v)),
-        )
-        cur.connection.commit()
         return v
 
     def similarity(self, text1: str, text2: str, **kwargs):
