@@ -1,14 +1,22 @@
 """Client for running LLM completion requests through LiteLLM."""
 
+import ast
 import logging
 from dataclasses import dataclass, field
+import sqlite3
 from typing import Optional
 
-from litellm import completion
+from litellm import completion, embedding
+import numpy as np
 from oaklib.utilities.apikey_manager import get_apikey_value
-import openai # For error handling
+import openai  # For error handling
 
 logger = logging.getLogger(__name__)
+
+# TODO: re-add prompt and response caching through litellm
+# see https://docs.litellm.ai/docs/caching/all_caches
+# It looks like it's supported for embeddings, too,
+# even though it's not as well documented
 
 
 @dataclass
@@ -17,7 +25,7 @@ class LLMClient:
     model: str = field(default_factory=lambda: "gpt-3.5-turbo")
     cache_db_path: str = ""
     api_key: str = ""
-    # TODO: consider deprecating this in favor 
+    # TODO: consider deprecating this in favor
     # of a more general chained mode
     interactive: Optional[bool] = None
     # TODO: deprecate in favor of how litellm handles azure endpoints
@@ -59,3 +67,54 @@ class LLMClient:
         payload = response.choices[0].message.content
 
         return payload
+
+    def embeddings(self, text: str):
+        text = str(text)
+
+        # TODO: set embedding model based on model source
+        model = "text-embedding-ada-002"
+
+        # Create cache to store embeddings
+        cur = self.db_connection()
+        try:
+            logger.info("Creating embeddings cache")
+            cur.execute("CREATE TABLE embeddings_cache (text, engine, vector_as_string)")
+        except sqlite3.OperationalError:
+            logger.info("Embeddings cache table already exists")
+            pass
+        res = cur.execute(
+            "SELECT vector_as_string FROM embeddings_cache WHERE text=? AND engine=?", (text, model)
+        )
+        payload = res.fetchone()
+        if payload:
+            logger.info(f"Using cached embeddings for {model} {text[0:80]}...")
+            return ast.literal_eval(payload[0])
+
+        logger.info(f"Retrieving embeddings from {model} for text: {text[0:80]}...")
+
+        response = embedding(
+            api_key=self.api_key,
+            model=model,
+            input=[text],
+        )
+        v = response.data[0].embedding
+
+        # Store those embeddings
+        logger.info(f"Storing embeddings of len: {len(v)}")
+        cur.execute(
+            "INSERT INTO embeddings_cache (text, engine, vector_as_string) VALUES (?, ?, ?)",
+            (text, model, str(v)),
+        )
+        cur.connection.commit()
+        return v
+
+    def similarity(self, text1: str, text2: str, **kwargs):
+        a1 = self.embeddings(text1, **kwargs)
+        a2 = self.embeddings(text2, **kwargs)
+        logger.debug(f"similarity: {a1[0:10]}... x {a2[0:10]}... // ({len(a1)} x {len(a2)})")
+        return np.dot(a1, a2) / (np.linalg.norm(a1) * np.linalg.norm(a2))
+
+    def euclidian_distance(self, text1: str, text2: str, **kwargs):
+        a1 = self.embeddings(text1, **kwargs)
+        a2 = self.embeddings(text2, **kwargs)
+        return np.linalg.norm(np.array(a1) - np.array(a2))
