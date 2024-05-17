@@ -293,7 +293,6 @@ def extract(
     # Choose model based on input, or use the default
     if not model:
         model = DEFAULT_MODEL
-    selectmodel = get_model_by_name(model)
 
     inputlist = []
 
@@ -325,8 +324,7 @@ def extract(
 
     ke = SPIRESEngine(
         template_details=template_details,
-        model=selectmodel["canonical_name"],
-        model_source=selectmodel["provider"].lower(),
+        model=model,
         use_azure=azure_select,
         **kwargs,
     )
@@ -371,7 +369,6 @@ def generate_extract(model, entity, template, output, output_format, show_prompt
     """Generate text and then extract knowledge from it."""
     if not model:
         model = DEFAULT_MODEL
-    selectmodel = get_model_by_name(model)
 
     if template:
         template_details = get_template_details(template=template)
@@ -380,8 +377,7 @@ def generate_extract(model, entity, template, output, output_format, show_prompt
 
     ke = SPIRESEngine(
         template_details=template_details,
-        model=selectmodel["canonical_name"],
-        model_source=selectmodel["provider"].lower(),
+        model=model,
         **kwargs,
     )
     if settings.cache_db:
@@ -429,7 +425,6 @@ def iteratively_generate_extract(
     """Iterate through generate-extract."""
     if not model:
         model = DEFAULT_MODEL
-    selectmodel = get_model_by_name(model)
 
     if template:
         template_details = get_template_details(template=template)
@@ -438,8 +433,7 @@ def iteratively_generate_extract(
 
     ke = SPIRESEngine(
         template_details=template_details,
-        model=selectmodel["canonical_name"],
-        model_source=selectmodel["provider"].lower(),
+        model=model,
         **kwargs,
     )
     if settings.cache_db:
@@ -479,7 +473,6 @@ def pubmed_extract(model, pmid, template, output, output_format, get_pmc, show_p
     """Extract knowledge from a single PubMed ID."""
     if not model:
         model = DEFAULT_MODEL
-    selectmodel = get_model_by_name(model)
 
     if template:
         template_details = get_template_details(template=template)
@@ -488,8 +481,7 @@ def pubmed_extract(model, pmid, template, output, output_format, get_pmc, show_p
 
     ke = SPIRESEngine(
         template_details=template_details,
-        model=selectmodel["canonical_name"],
-        model_source=selectmodel["provider"].lower(),
+        model=model,
         **kwargs,
     )
     if settings.cache_db:
@@ -538,7 +530,6 @@ def pubmed_annotate(
     """
     if not model:
         model = DEFAULT_MODEL
-    selectmodel = get_model_by_name(model)
 
     if template:
         template_details = get_template_details(template=template)
@@ -547,8 +538,7 @@ def pubmed_annotate(
 
     ke = SPIRESEngine(
         template_details=template_details,
-        model=selectmodel["canonical_name"],
-        model_source=selectmodel["provider"].lower(),
+        model=model,
         **kwargs,
     )
     if settings.cache_db:
@@ -583,7 +573,6 @@ def wikipedia_extract(model, article, template, output, output_format, show_prom
     """Extract knowledge from a Wikipedia page."""
     if not model:
         model = DEFAULT_MODEL
-    selectmodel = get_model_by_name(model)
 
     if template:
         template_details = get_template_details(template=template)
@@ -592,8 +581,7 @@ def wikipedia_extract(model, article, template, output, output_format, show_prom
 
     ke = SPIRESEngine(
         template_details=template_details,
-        model=selectmodel["canonical_name"],
-        model_source=selectmodel["provider"].lower(),
+        model=model,
         **kwargs,
     )
     if settings.cache_db:
@@ -628,7 +616,6 @@ def wikipedia_search(model, topic, keyword, template, output, output_format, sho
     """Extract knowledge from a Wikipedia page."""
     if not model:
         model = DEFAULT_MODEL
-    selectmodel = get_model_by_name(model)
 
     if template:
         template_details = get_template_details(template=template)
@@ -637,8 +624,7 @@ def wikipedia_search(model, topic, keyword, template, output, output_format, sho
 
     ke = SPIRESEngine(
         template_details=template_details,
-        model=selectmodel["canonical_name"],
-        model_source=selectmodel["provider"].lower(),
+        model=model,
         **kwargs,
     )
 
@@ -684,7 +670,6 @@ def search_and_extract(
     """Search for relevant literature and extract knowledge from it."""
     if not model:
         model = DEFAULT_MODEL
-    selectmodel = get_model_by_name(model)
 
     if template:
         template_details = get_template_details(template=template)
@@ -693,8 +678,7 @@ def search_and_extract(
 
     ke = SPIRESEngine(
         template_details=template_details,
-        model=selectmodel["canonical_name"],
-        model_source=selectmodel["provider"].lower(),
+        model=model,
         **kwargs,
     )
 
@@ -732,7 +716,6 @@ def web_extract(model, template, url, output, output_format, show_prompt, **kwar
     """Extract knowledge from web page."""
     if not model:
         model = DEFAULT_MODEL
-    selectmodel = get_model_by_name(model)
 
     if template:
         template_details = get_template_details(template=template)
@@ -741,8 +724,7 @@ def web_extract(model, template, url, output, output_format, show_prompt, **kwar
 
     ke = SPIRESEngine(
         template_details=template_details,
-        model=selectmodel["canonical_name"],
-        model_source=selectmodel["provider"].lower(),
+        model=model,
         **kwargs,
     )
     if settings.cache_db:
@@ -786,7 +768,6 @@ def recipe_extract(
 
     if not model:
         model = DEFAULT_MODEL
-    selectmodel = get_model_by_name(model)
 
     if template:
         template_details = get_template_details(template=template)
@@ -795,8 +776,7 @@ def recipe_extract(
 
     ke = SPIRESEngine(
         template_details=template_details,
-        model=selectmodel["canonical_name"],
-        model_source=selectmodel["provider"].lower(),
+        model=model,
         **kwargs,
     )
     if settings.cache_db:
@@ -838,7 +818,6 @@ def convert(model, template, input, output, output_format, **kwargs):
     """Convert output format."""
     if not model:
         model = DEFAULT_MODEL
-    selectmodel = get_model_by_name(model)
 
     if template:
         template_details = get_template_details(template=template)
@@ -847,8 +826,7 @@ def convert(model, template, input, output, output_format, **kwargs):
 
     ke = SPIRESEngine(
         template_details=template_details,
-        model=selectmodel["canonical_name"],
-        model_source=selectmodel["provider"].lower(),
+        model=model,
         **kwargs,
     )
 
@@ -875,14 +853,7 @@ def synonyms(model, term, context, output, output_format, **kwargs):
     if not model:
         model = DEFAULT_MODEL
 
-    selectmodel = get_model_by_name(model)
-    model_name = selectmodel["canonical_name"]
-    model_source = selectmodel["provider"]
-
-    if model_source != "OpenAI":
-        raise NotImplementedError("Model not yet supported for this function.")
-
-    ke = SynonymEngine(model=model_name, model_source=model_source.lower())
+    ke = SynonymEngine(model=model)
     out = ke.synonyms(term, context)
     for line in out:
         output.write(f"{line}\n")
@@ -1017,12 +988,6 @@ def entity_similarity(terms, ontology, output, model, output_format, **kwargs):
 
     Not currently supported for open models.
     """
-    if model:
-        selectmodel = get_model_by_name(model)
-        model_source = selectmodel["provider"]
-
-        if model_source != "OpenAI":
-            raise NotImplementedError("Model not yet supported for embeddings.")
 
     if not terms:
         raise ValueError("terms must be passed")
@@ -1122,12 +1087,8 @@ def diagnose(
     if not model:
         model = DEFAULT_MODEL
 
-    selectmodel = get_model_by_name(model)
-    model_name = selectmodel["canonical_name"]
-    model_source = selectmodel["provider"]
-
     phenopackets = [json.load(open(f)) for f in phenopacket_files]
-    engine = PhenoEngine(model=model_name, model_source=model_source.lower())
+    engine = PhenoEngine(model=model)
     results = engine.evaluate(phenopackets)
     print(dump_minimal_yaml(results))
     write_obj_as_csv(results, output)
@@ -1321,14 +1282,8 @@ def eval(evaluator, num_tests, output, chunking, model, **kwargs):
     """Evaluate an extractor."""
     logging.info(f"Creating for {evaluator}")
 
-    if model:
-        selectmodel = get_model_by_name(model)
-        modelname = selectmodel["canonical_name"]
-    else:
-        modelname = DEFAULT_MODEL
-
     evaluator = create_evaluator(
-        name=evaluator, num_tests=num_tests, chunking=chunking, model=modelname
+        name=evaluator, num_tests=num_tests, chunking=chunking, model=model
     )
     eos = evaluator.eval()
     output.write(dump_minimal_yaml(eos, minimize=False))
@@ -1350,7 +1305,6 @@ def fill(model, template, object: str, examples, output, output_format, show_pro
     # Choose model based on input, or use the default
     if not model:
         model = DEFAULT_MODEL
-    selectmodel = get_model_by_name(model)
 
     if template:
         template_details = get_template_details(template=template)
@@ -1359,8 +1313,7 @@ def fill(model, template, object: str, examples, output, output_format, show_pro
 
     ke = SPIRESEngine(
         template_details=template_details,
-        model=selectmodel["canonical_name"],
-        model_source=selectmodel["provider"].lower(),
+        model=model,
         **kwargs,
     )
 
