@@ -42,6 +42,9 @@ DATAMODELS = [
     "treatment.DiseaseTreatmentSummary",
 ]
 
+LLM_MODELS = ["gpt-4-turbo"]
+
+
 class Query(BaseModel):
     text: str
     datamodel: str
@@ -57,11 +60,11 @@ html_exporter = HTMLExporter(output=None)
 engines: Dict[str, SPIRESEngine] = {}
 
 
-def get_engine(datamodel: str):
+def get_engine(datamodel: str, llm_model: str):
     if datamodel not in engines:
         template_details = get_template_details(template=datamodel)
         engines[datamodel] = SPIRESEngine(
-            model="gpt-4-turbo", template_details=template_details, model_source="openai"
+            model=llm_model, template_details=template_details, model_source="openai"
         )
     return engines[datamodel]
 
@@ -69,15 +72,19 @@ def get_engine(datamodel: str):
 @app.get("/")
 def read_root(request: Request):
     return templates.TemplateResponse(
-        "form.html", context={"request": request, "datamodels": DATAMODELS}
+        "form.html",
+        context={"request": request, "datamodels": DATAMODELS, "llm_models": LLM_MODELS},
     )
 
 
 @app.post("/")
-def form_post(request: Request, datamodel: str = Form(...), text: str = Form(...)):
+def form_post(
+    request: Request, datamodel: str = Form(...), text: str = Form(...), llm_model: str = Form(...)
+):
     print(f"Received request with schema {datamodel}")
     print(f"Received request with text {text}")
-    engine = get_engine(datamodel)
+    print(f"Received request to be sent to {llm_model}")
+    engine = get_engine(datamodel, llm_model)
     ann = engine.extract_from_text(text)
     print(f"Got {ann}")
     output = StringIO()
