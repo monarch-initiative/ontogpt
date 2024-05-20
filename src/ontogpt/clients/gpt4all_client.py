@@ -1,4 +1,5 @@
 """GPT4All Client."""
+
 import logging
 from dataclasses import dataclass, field
 from typing import Optional
@@ -7,7 +8,7 @@ import llm
 
 logger = logging.getLogger(__name__)
 
-# GPT4ALL support is optional, so 
+# GPT4ALL support is optional, so
 # if it's not installed, we'll just skip it
 # Normally the __init__ gets this
 # So this bit is here in case we try a direct import
@@ -15,6 +16,7 @@ try:
     from llm_gpt4all import Gpt4AllModel
 except ModuleNotFoundError:
     logger.warning("llm_gpt4all module not found. GPT4All support will be disabled.")
+
 
 @dataclass
 class GPT4AllClient:
