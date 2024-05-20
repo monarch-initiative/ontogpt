@@ -47,21 +47,21 @@
                 {% endfor %}
             </select>
         </div>
-        <!-- <div>
-            Select Schema:
-            <select name="model" id="model">
-                {% for model in models %}
-                  <option value="{{ model[0] }}">{{ model[0] }}</option>
+        <div>
+            Select LLM:
+            <select name="llm_model" id="llm_model">
+                {% for llm_model in llm_models %}
+                  <option value="{{ llm_model }}">{{ llm_model }}</option>
                 {% endfor %}
             </select>
-        </div> -->
+        </div>
         <div>
             <textarea name="text" rows="20" cols="80">Enter text here (e.g. PubMed abstract)
             </textarea>
         </div>
         <input type="submit">
         <div>
-            This process currently uses GPT-4-Turbo through the OpenAI API.
+            This process currently uses the OpenAI API.
         </div>
         <div>
             <i>Please be patient, can take up to 10s</i>

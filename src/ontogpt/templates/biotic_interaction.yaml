@@ -52,7 +52,7 @@ classes:
       - NCBITaxon
       - SNOMEDCT
     annotations:
-      annotators: sqlite:obo:ncbitaxon, bioportal:SNOMEDCT
+      annotators: pronto:taxslim.obo, bioportal:SNOMEDCT
       #prompt.example: shark, Carcharodon carcharias, elephant seal, Pandarus sinuatus, orca, Panthera leo, lion, ungulates
 
   InteractionType:

@@ -184,7 +184,9 @@ class KnowledgeEngine(ABC):
             logging.info("Using mappers (currently hardcoded)")
             self.mappers = [get_adapter("translator:")]
 
+        logging.info(f"Model source is {self.model_source}")
         self.set_up_client(model_source=self.model_source)
+        logging.info(f"Will use this client: {type(self.client)}")
         if not self.client:
             if self.model_source:
                 raise ValueError(f"No client available for {self.model_source}")
