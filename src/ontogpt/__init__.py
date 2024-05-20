@@ -1,4 +1,5 @@
 """ontogpt package."""
+
 from importlib import metadata
 from pathlib import Path
 
@@ -15,6 +16,12 @@ for model in MODELS:
         DEFAULT_MODEL_DETAILS = model
         DEFAULT_MODEL = model["alternative_names"][0]
         break
+
+OPENAI_EMBEDDING_MODELS = [
+    "text-embedding-ada-002",
+    "text-embedding-3-small",
+    "text-embedding-3-large",
+]
 
 try:
     __version__ = metadata.version(__name__)
