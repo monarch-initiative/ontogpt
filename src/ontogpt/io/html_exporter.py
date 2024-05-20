@@ -46,7 +46,7 @@ class HTMLExporter(Exporter):
 
     def export_metadata(self, extraction_output: ExtractionResult):
         output = self.output
-        self.h1(f"Results: {extraction_output.input_id}\n\n")
+        self.h1("Extraction Results:\n\n")
         self.h2("Input")
         self.i(extraction_output.input_text)
 
