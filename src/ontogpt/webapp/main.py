@@ -42,7 +42,7 @@ DATAMODELS = [
     "treatment.DiseaseTreatmentSummary",
 ]
 
-LLM_MODELS = ["gpt-4-turbo"]
+LLM_MODELS = ["gpt-4", "gpt-4-turbo", "gpt-3.5-turbo"]
 
 
 class Query(BaseModel):
@@ -63,9 +63,16 @@ engines: Dict[str, SPIRESEngine] = {}
 def get_engine(datamodel: str, llm_model: str):
     if datamodel not in engines:
         template_details = get_template_details(template=datamodel)
-        engines[datamodel] = SPIRESEngine(
-            model=llm_model, template_details=template_details, model_source="openai"
-        )
+        try:
+            engines[datamodel] = SPIRESEngine(
+                model=llm_model, template_details=template_details, model_source="openai"
+            )
+        except ValueError as e:
+            print(f"Encountered an error setting up the knowledge engine: {e}")
+            print(f"Will fall back to defaults.")
+            engines[datamodel] = SPIRESEngine(
+                model="gpt-3.5-turbo", template_details=template_details, model_source="openai"
+            )
     return engines[datamodel]
 
 
