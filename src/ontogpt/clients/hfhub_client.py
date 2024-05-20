@@ -1,4 +1,5 @@
 """HuggingFace Hub Client."""
+
 import logging
 from dataclasses import dataclass
 
@@ -7,6 +8,7 @@ from oaklib.utilities.apikey_manager import get_apikey_value
 
 # Note: See https://huggingface.co/models?pipeline_tag=text-generation&sort=downloads
 # for all relevant models
+
 
 # TODO: make this equivalent with other clients, then integrate with KnowledgeEngine
 @dataclass

@@ -1,4 +1,5 @@
 """Pubmed Client."""
+
 import logging
 import time
 from dataclasses import dataclass
