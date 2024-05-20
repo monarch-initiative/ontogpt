@@ -62,7 +62,7 @@ class HTMLExporter(Exporter):
             self.open_ul()
         # There may not be an object returned due to errors.
         if obj is None:
-            self.h3(f"<i>Encountered an error. See raw completion output for details.</i>")
+            self.h3("<i>Encountered an error. See raw completion output for details.</i>")
         else:
             for field_name, _field in obj.model_fields.items():
                 if indent < 0:
