@@ -173,11 +173,9 @@ class OpenAIClient:
             return False
         return True
 
-    def embeddings(self, text: str, model: str = ""):
+    def embeddings(self, text: str, model: str):
         text = str(text)
 
-        if model == "":
-            model = "text-embedding-ada-002"
         cur = self.db_connection()
         try:
             logger.info("creating embeddings cache")
