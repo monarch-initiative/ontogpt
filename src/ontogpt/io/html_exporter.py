@@ -1,4 +1,5 @@
 """HTML Exporter."""
+
 import html
 from dataclasses import dataclass
 from io import BytesIO, StringIO, TextIOWrapper
@@ -59,29 +60,33 @@ class HTMLExporter(Exporter):
         self.open_div()
         if indent >= 0:
             self.open_ul()
-        for field_name, _field in obj.model_fields.items():
-            if indent < 0:
-                self.h3(field_name)
-            else:
-                self.li(f"<i>{field_name}</i>: ")
-            value = getattr(obj, field_name)
-            if isinstance(value, pydantic.BaseModel):
-                self.export_object(value, extraction_output, indent + 1)
-            elif isinstance(value, list):
-                self.open_ul()
-                n = 1
-                for item in value:
-                    self.li(f"<b>item: {n}</b>: ")
-                    n += 1
-                    if isinstance(item, pydantic.BaseModel):
-                        self.export_object(
-                            item, extraction_output=extraction_output, indent=indent + 1
-                        )
-                    else:
-                        self.export_atom(item, extraction_output, indent + 1)
-                self.close_ul()
-            else:
-                self.export_atom(value, extraction_output, indent + 1)
+        # There may not be an object returned due to errors.
+        if obj is None:
+            self.h3(f"<i>Encountered an error. See raw completion output for details.</i>")
+        else:
+            for field_name, _field in obj.model_fields.items():
+                if indent < 0:
+                    self.h3(field_name)
+                else:
+                    self.li(f"<i>{field_name}</i>: ")
+                value = getattr(obj, field_name)
+                if isinstance(value, pydantic.BaseModel):
+                    self.export_object(value, extraction_output, indent + 1)
+                elif isinstance(value, list):
+                    self.open_ul()
+                    n = 1
+                    for item in value:
+                        self.li(f"<b>item: {n}</b>: ")
+                        n += 1
+                        if isinstance(item, pydantic.BaseModel):
+                            self.export_object(
+                                item, extraction_output=extraction_output, indent=indent + 1
+                            )
+                        else:
+                            self.export_atom(item, extraction_output, indent + 1)
+                    self.close_ul()
+                else:
+                    self.export_atom(value, extraction_output, indent + 1)
         if indent >= 0:
             self.open_ul()
         self.close_div()
