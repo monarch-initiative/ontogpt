@@ -1,4 +1,5 @@
 """Main Knowledge Extractor class."""
+
 import logging
 import re
 from abc import ABC
@@ -41,11 +42,13 @@ MODEL_NAME = str
 # if it's not installed
 try:
     from ontogpt.clients import OpenAIClient, GPT4AllClient
+
     CLIENT_TYPES = Union[OpenAIClient, GPT4AllClient]
 except ImportError:
     logger.warning("GPT4All client not available. GPT4All support will be disabled.")
     from ontogpt.clients import OpenAIClient
-    CLIENT_TYPES = OpenAIClient # type: ignore
+
+    CLIENT_TYPES = OpenAIClient  # type: ignore
 
 # annotation metamodel
 ANNOTATION_KEY_PROMPT = "prompt"
@@ -53,24 +56,6 @@ ANNOTATION_KEY_PROMPT_SKIP = "prompt.skip"
 ANNOTATION_KEY_ANNOTATORS = "annotators"
 ANNOTATION_KEY_RECURSE = "ner.recurse"
 ANNOTATION_KEY_EXAMPLES = "prompt.examples"
-
-# TODO: introspect
-# TODO: move this to its own module
-DATAMODELS = [
-    "biological_process.BiologicalProcess",
-    "biotic_interaction.BioticInteraction",
-    "cell_type.CellTypeDocument",
-    "ctd.ChemicalToDiseaseDocument",
-    "diagnostic_procedure.DiagnosticProceduretoPhenotypeAssociation",
-    "drug.DrugMechanism",
-    "environmental_sample.Study",
-    "gocam.GoCamAnnotations",
-    "mendelian_disease.MendelianDisease",
-    "phenotype.Trait",
-    "reaction.Reaction",
-    "recipe.Recipe",
-    "treatment.DiseaseTreatmentSummary",
-]
 
 
 def chunk_text(text: str, window_size=3) -> Iterator[str]:
@@ -152,7 +137,8 @@ class KnowledgeEngine(ABC):
     """Min proportion of overlap in characters between text and grounding. TODO: use tokenization"""
 
     named_entities: List[NamedEntity] = field(default_factory=list)
-    """Cache of all named entities"""
+    """Cache of all named entities. This is not written to output directly as each input
+    has its own corresponding named entities."""
 
     auto_prefix: str = ""
     """If set then non-normalized named entities will be mapped to this prefix"""
