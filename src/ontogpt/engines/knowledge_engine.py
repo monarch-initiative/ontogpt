@@ -347,7 +347,7 @@ class KnowledgeEngine(ABC):
         if self.auto_prefix:
             obj_id = f"{self.auto_prefix}:{quote(text)}"
             if not any(e for e in self.named_entities if e.id == obj_id):
-                ne = NamedEntity(id=normalized_id, label=text)
+                ne = NamedEntity(id=obj_id, label=text)
                 self.named_entities.append(ne)
                 self.extracted_named_entities.append(ne)
         else:
