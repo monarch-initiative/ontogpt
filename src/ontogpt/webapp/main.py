@@ -42,7 +42,7 @@ DATAMODELS = [
     "treatment.DiseaseTreatmentSummary",
 ]
 
-LLM_MODELS = ["gpt-4", "gpt-4-turbo", "gpt-3.5-turbo"]
+LLM_MODELS = ["gpt-4o", "gpt-4", "gpt-4-turbo", "gpt-3.5-turbo"]
 
 
 class Query(BaseModel):
