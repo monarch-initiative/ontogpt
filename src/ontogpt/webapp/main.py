@@ -26,30 +26,6 @@ all_templates = dict(sorted(all_templates.items()))
 for template_id, (name, description) in all_templates.items():
     DATAMODELS[template_id] = f"{description}"
 
-""" DATAMODELS = {
-    "biological_process.BiologicalProcess",
-    "biotic_interaction.BioticInteraction",
-    "cell_type.CellTypeDocument",
-    "condition",
-    "ctd.ChemicalToDiseaseDocument",
-    "data_sheets_schema",
-    "diagnostic_procedure.DiagnosticProceduretoPhenotypeAssociation",
-    "dietitian_notes",
-    "drug.DrugMechanism",
-    "emapa_simple",
-    "environmental_sample.Study",
-    "figure",
-    "go_simple",
-    "gocam.GoCamAnnotations",
-    "mendelian_disease.MendelianDisease",
-    "maxo",
-    "mondo_simple",
-    "phenotype.Trait",
-    "reaction.Reaction",
-    "recipe.Recipe",
-    "treatment.DiseaseTreatmentSummary",
-} """
-
 LLM_MODELS = ["gpt-4o", "gpt-4", "gpt-4-turbo", "gpt-3.5-turbo"]
 
 
