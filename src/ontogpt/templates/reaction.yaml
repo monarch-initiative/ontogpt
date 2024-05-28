@@ -24,6 +24,7 @@ imports:
 
 classes:
   Reaction:
+    tree_root: true
     is_a: NamedEntity
     attributes:
       label:

@@ -21,6 +21,7 @@ imports:
 
 classes:
   MendelianDisease:
+    tree_root: true
     is_a: NamedEntity
     attributes:
       name:

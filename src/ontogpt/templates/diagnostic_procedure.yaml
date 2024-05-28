@@ -30,6 +30,7 @@ imports:
 
 classes:
   DiagnosticProceduretoPhenotypeAssociation:
+    tree_root: true
     is_a: Triple
     description: >-
       A triple representing a relationship between a diagnostic
