@@ -10,6 +10,7 @@ from pydantic import BaseModel
 from starlette.staticfiles import StaticFiles
 from starlette.templating import Jinja2Templates
 
+from ontogpt.cli import _get_templates
 from ontogpt.engines.spires_engine import SPIRESEngine
 from ontogpt.io.html_exporter import HTMLExporter
 from ontogpt.io.template_loader import get_template_details
@@ -18,7 +19,14 @@ this_path = Path(__file__).parent
 static_dir = this_path / "static"
 html_dir = this_path / "html"
 
-DATAMODELS = [
+# Populate the dict of available models
+DATAMODELS = {}
+all_templates = _get_templates()
+all_templates = dict(sorted(all_templates.items()))
+for template_id, (name, description) in all_templates.items():
+    DATAMODELS[template_id] = f"{description}"
+
+""" DATAMODELS = {
     "biological_process.BiologicalProcess",
     "biotic_interaction.BioticInteraction",
     "cell_type.CellTypeDocument",
@@ -40,7 +48,7 @@ DATAMODELS = [
     "reaction.Reaction",
     "recipe.Recipe",
     "treatment.DiseaseTreatmentSummary",
-]
+} """
 
 LLM_MODELS = ["gpt-4o", "gpt-4", "gpt-4-turbo", "gpt-3.5-turbo"]
 

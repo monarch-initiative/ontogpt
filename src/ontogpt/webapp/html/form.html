@@ -42,9 +42,9 @@
         <div>
             Select Schema:
             <select name="datamodel" id="datamodel">
-                {% for datamodel in datamodels %}
-                  <option value="{{ datamodel }}">{{ datamodel }}</option>
-                {% endfor %}
+            {% for key, value in datamodels.items() %}
+              <option value="{{ key }}">{{ key }} - {{ value }}</option>
+            {% endfor %}
             </select>
         </div>
         <div>
