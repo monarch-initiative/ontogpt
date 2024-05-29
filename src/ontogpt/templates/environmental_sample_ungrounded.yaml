@@ -1,8 +1,8 @@
-id: http://w3id.org/ontogpt/environmental-sample
-name: environmental-sample
-title: Environmental Sample Template
+id: http://w3id.org/ontogpt/environmental-sample-ungrounded
+name: environmental-sample-ungrounded
+title: Environmental Sample Template without grounding
 description: >-
-  A template for Environmental Samples
+  A template for Environmental Samples, without any grounding beyond units
 license: https://creativecommons.org/publicdomain/zero/1.0/
 prefixes:
   rdf: http://www.w3.org/1999/02/22-rdf-syntax-ns#
@@ -10,7 +10,7 @@ prefixes:
   PATO: http://purl.obolibrary.org/obo/PATO_
   UO: http://purl.obolibrary.org/obo/UO_
   linkml: https://w3id.org/linkml/
-  sample: http://w3id.org/ontogpt/environmental-sample/
+  sample: http://w3id.org/ontogpt/environmental-sample-ungrounded/
 
 default_prefix: sample
 default_range: string
@@ -63,57 +63,31 @@ classes:
 
   Location:
     is_a: NamedEntity
-    id_prefixes:
-      - ENVO
-      - GAZ
-      - ENVTHES
-    annotations:
-      annotators: sqlite:obo:envo, bioportal:gaz, bioportal:envthes
 
   EnvironmentalMaterial:
     is_a: NamedEntity
-    id_prefixes:
-      - ENVO
-      - ENVTHES
-    annotations:
-      annotators: sqlite:obo:envo, bioportal:envthes
 
   Environment:
     is_a: NamedEntity
-    id_prefixes:
-      - ENVO
-      - ENVTHES
-    annotations:
-      annotators: sqlite:obo:envo, bioportal:envthes
 
   Variable:
     is_a: NamedEntity
-    id_prefixes:
-      - ENVO
-      - MIXS
-      - PATO
-      - ENVTHES
-    annotations:
-      annotators: sqlite:obo:envo, bioportal:bero, bioportal:envthes
 
   Unit:
     is_a: NamedEntity
     id_prefixes:
       - UO
-      - NCIT
     annotations:
-      annotators: sqlite:obo:uo, bioportal:ncit
+      annotators: sqlite:obo:uo
 
   Measurement:
     is_a: CompoundExpression
     attributes:
       value:
         description: the value of the measurement
-        # range: float
       unit:
         description: the unit of the measurement
         range: Unit
-        # variable:
 
   CausalRelationship:
     is_a: CompoundExpression
