@@ -53,13 +53,13 @@ def get_template_details(template: TEMPLATE_NAME) -> ClassDefinition:
 
     else:
         logger.info(f"Loading schema for {template}")
+        path_to_template = get_template_path(module_name)
         sv = SchemaView(path_to_template)
         if "." in template:
             module_name, class_name = template.split(".", 1)
         else:
             module_name = template
             class_name = None
-        path_to_template = get_template_path(module_name)
         mod = importlib.import_module(f"ontogpt.templates.{module_name}")
 
     if class_name is None:
