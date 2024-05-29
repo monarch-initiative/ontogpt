@@ -42,9 +42,9 @@
         <div>
             Select Schema:
             <select name="datamodel" id="datamodel">
-                {% for datamodel in datamodels %}
-                  <option value="{{ datamodel }}">{{ datamodel }}</option>
-                {% endfor %}
+            {% for key, value in datamodels.items() %}
+              <option value="{{ key }}">{{ key }} - {{ value }}</option>
+            {% endfor %}
             </select>
         </div>
         <div>
@@ -59,12 +59,12 @@
             <textarea name="text" rows="20" cols="80">Enter text here (e.g. PubMed abstract)
             </textarea>
         </div>
-        <input type="submit">
+        <input type="submit" onclick="this.style.backgroundColor='#FFA500'; this.value='Processing...';">
         <div>
             This process currently uses the OpenAI API.
         </div>
         <div>
-            <i>Please be patient, can take up to 10s</i>
+            <i>Please be patient, can take up to 10s, or longer if ontology resources need to be retrieved.</i>
         </div>
     </form>
 </div>
