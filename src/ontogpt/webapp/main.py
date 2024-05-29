@@ -23,7 +23,7 @@ html_dir = this_path / "html"
 DATAMODELS = {}
 all_templates = _get_templates()
 all_templates = dict(sorted(all_templates.items()))
-for template_id, (name, description) in all_templates.items():
+for template_id, (_name, description) in all_templates.items():
     DATAMODELS[template_id] = f"{description}"
 
 LLM_MODELS = ["gpt-4o", "gpt-4", "gpt-4-turbo", "gpt-3.5-turbo"]
