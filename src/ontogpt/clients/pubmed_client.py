@@ -82,7 +82,7 @@ class PubmedClient:
 
     # TODO: this doesn't need to be hardcoded
     # and may vary based on the model in use
-    max_text_length = 3000
+    max_text_length = 10000
 
     try:
         email = get_apikey_value("ncbi-email")

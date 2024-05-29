@@ -1,0 +1,45 @@
+id: http://w3id.org/ontogpt/foodon_simple
+name: foodon_simple
+title: Simple FOODON Extraction Template
+description: >-
+  Simple Food Ontology Extraction Template
+license: https://creativecommons.org/publicdomain/zero/1.0/
+prefixes:
+  rdf: http://www.w3.org/1999/02/22-rdf-syntax-ns#
+  foodon: http://purl.obolibrary.org/obo/foodon_
+  GO: http://purl.obolibrary.org/obo/GO_
+  foodon_simple: http://w3id.org/ontogpt/foodon_simple
+  linkml: https://w3id.org/linkml/
+
+default_prefix: foodon_simple
+default_range: string
+
+imports:
+  - linkml:types
+  - core
+
+classes:
+  OntologyTermSet:
+    tree_root: true
+    is_a: NamedEntity
+    attributes:
+      terms:
+        range: OntologyTerm
+        multivalued: true
+        description: >-
+          A semicolon-separated list of any Food Ontology terms.
+
+  # Note: this does not filter to food materials or products alone
+  OntologyTerm:
+    is_a: NamedEntity
+    id_prefixes:
+      - FOODON
+      - CHEBI
+    annotations:
+      annotators: sqlite:obo:foodon
+      prompt: >-
+        The name of a Food Ontology term.
+        Examples include: vitamin A, apple juice,
+        okra pod, chocolate substitute,
+        breakfast cereal, tuna (flaked, canned),
+        beef chuck roast

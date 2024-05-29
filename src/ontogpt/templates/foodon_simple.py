@@ -121,48 +121,15 @@ class AnnotatorResult(ConfiguredBaseModel):
     object_text: Optional[str] = Field(None)
 
 
-class Study(ConfiguredBaseModel):
-    location: Optional[List[str]] = Field(default_factory=list, description="""the sites at which the study was conducted""")
-    environmental_material: Optional[List[str]] = Field(default_factory=list, description="""the environmental material that was sampled""")
-    environments: Optional[List[str]] = Field(default_factory=list)
-    causal_relationships: Optional[List[CausalRelationship]] = Field(default_factory=list)
-    variables: Optional[List[str]] = Field(default_factory=list)
-    measurements: Optional[List[Measurement]] = Field(default_factory=list)
-
-
-class Location(NamedEntity):
+class OntologyTermSet(NamedEntity):
+    terms: Optional[List[str]] = Field(default_factory=list, description="""A semicolon-separated list of any Food Ontology terms.""")
     id: str = Field(..., description="""A unique identifier for the named entity""")
     label: Optional[str] = Field(None, description="""The label (name) of the named thing""")
 
 
-class EnvironmentalMaterial(NamedEntity):
+class OntologyTerm(NamedEntity):
     id: str = Field(..., description="""A unique identifier for the named entity""")
     label: Optional[str] = Field(None, description="""The label (name) of the named thing""")
-
-
-class Environment(NamedEntity):
-    id: str = Field(..., description="""A unique identifier for the named entity""")
-    label: Optional[str] = Field(None, description="""The label (name) of the named thing""")
-
-
-class Variable(NamedEntity):
-    id: str = Field(..., description="""A unique identifier for the named entity""")
-    label: Optional[str] = Field(None, description="""The label (name) of the named thing""")
-
-
-class Unit(NamedEntity):
-    id: str = Field(..., description="""A unique identifier for the named entity""")
-    label: Optional[str] = Field(None, description="""The label (name) of the named thing""")
-
-
-class Measurement(CompoundExpression):
-    value: Optional[str] = Field(None, description="""the value of the measurement""")
-    unit: Optional[str] = Field(None, description="""the unit of the measurement""")
-
-
-class CausalRelationship(CompoundExpression):
-    cause: Optional[str] = Field(None, description="""the variable that is the cause of the effect""")
-    effect: Optional[str] = Field(None, description="""the things that is affected""")
 
 
 # Model rebuild
@@ -176,12 +143,6 @@ TextWithEntity.model_rebuild()
 RelationshipType.model_rebuild()
 Publication.model_rebuild()
 AnnotatorResult.model_rebuild()
-Study.model_rebuild()
-Location.model_rebuild()
-EnvironmentalMaterial.model_rebuild()
-Environment.model_rebuild()
-Variable.model_rebuild()
-Unit.model_rebuild()
-Measurement.model_rebuild()
-CausalRelationship.model_rebuild()
+OntologyTermSet.model_rebuild()
+OntologyTerm.model_rebuild()
 
