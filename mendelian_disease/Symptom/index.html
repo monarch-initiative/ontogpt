@@ -7,7 +7,7 @@
 <meta content="width=device-width,initial-scale=1" name="viewport"/>
 <link href="https://monarch-initiative.github.io/ontogpt/mendelian_disease/Symptom/" rel="canonical"/>
 <link href="../../assets/images/favicon.png" rel="icon"/>
-<meta content="mkdocs-1.5.3, mkdocs-material-9.5.8" name="generator"/>
+<meta content="mkdocs-1.6.0, mkdocs-material-9.5.8" name="generator"/>
 <title>Class: Symptom - OntoGPT</title>
 <link href="../../assets/stylesheets/main.f2e4d321.min.css" rel="stylesheet"/>
 <link href="../../assets/stylesheets/palette.06af60db.min.css" rel="stylesheet"/>
@@ -603,7 +603,7 @@ Symptom ||--|o Onset : "onset_of_symptom"
 </tr>
 <tr>
 <td><a href="../id/">id</a></td>
-<td>1..1 <br/> <a href="../String/">String</a></td>
+<td>1 <br/> <a href="../String/">String</a></td>
 <td>A unique identifier for the named entity</td>
 <td><a href="../NamedEntity/">NamedEntity</a></td>
 </tr>
@@ -696,18 +696,26 @@ attributes:
     name: characteristic
     from_schema: http://w3id.org/ontogpt/mendelian_disease
     rank: 1000
+    domain_of:
+    - Symptom
   affects:
     name: affects
     from_schema: http://w3id.org/ontogpt/mendelian_disease
     rank: 1000
+    domain_of:
+    - Symptom
   severity:
     name: severity
     from_schema: http://w3id.org/ontogpt/mendelian_disease
     rank: 1000
+    domain_of:
+    - Symptom
   onset_of_symptom:
     name: onset_of_symptom
     from_schema: http://w3id.org/ontogpt/mendelian_disease
     rank: 1000
+    domain_of:
+    - Symptom
     range: Onset
 
 </code></pre>

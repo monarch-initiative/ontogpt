@@ -7,7 +7,7 @@
 <meta content="width=device-width,initial-scale=1" name="viewport"/>
 <link href="https://monarch-initiative.github.io/ontogpt/biotic_interaction/BioticInteraction/" rel="canonical"/>
 <link href="../../assets/images/favicon.png" rel="icon"/>
-<meta content="mkdocs-1.5.3, mkdocs-material-9.5.8" name="generator"/>
+<meta content="mkdocs-1.6.0, mkdocs-material-9.5.8" name="generator"/>
 <title>Class: BioticInteraction - OntoGPT</title>
 <link href="../../assets/stylesheets/main.f2e4d321.min.css" rel="stylesheet"/>
 <link href="../../assets/stylesheets/palette.06af60db.min.css" rel="stylesheet"/>
@@ -654,18 +654,24 @@ attributes:
     description: the taxon that is the subject of the interaction
     from_schema: https://w3id.org/ontogpt/biotic_interaction
     rank: 1000
+    domain_of:
+    - BioticInteraction
     range: Taxon
   target_taxon:
     name: target_taxon
     description: the taxon that is the object of the interaction
     from_schema: https://w3id.org/ontogpt/biotic_interaction
     rank: 1000
+    domain_of:
+    - BioticInteraction
     range: Taxon
   interaction_type:
     name: interaction_type
     description: the type of interaction
     from_schema: https://w3id.org/ontogpt/biotic_interaction
     rank: 1000
+    domain_of:
+    - BioticInteraction
     range: InteractionType
 
 </code></pre>

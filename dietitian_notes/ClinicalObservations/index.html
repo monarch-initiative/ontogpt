@@ -7,7 +7,7 @@
 <meta content="width=device-width,initial-scale=1" name="viewport"/>
 <link href="https://monarch-initiative.github.io/ontogpt/dietitian_notes/ClinicalObservations/" rel="canonical"/>
 <link href="../../assets/images/favicon.png" rel="icon"/>
-<meta content="mkdocs-1.5.3, mkdocs-material-9.5.8" name="generator"/>
+<meta content="mkdocs-1.6.0, mkdocs-material-9.5.8" name="generator"/>
 <title>Class: ClinicalObservations - OntoGPT</title>
 <link href="../../assets/stylesheets/main.f2e4d321.min.css" rel="stylesheet"/>
 <link href="../../assets/stylesheets/palette.06af60db.min.css" rel="stylesheet"/>
@@ -685,19 +685,19 @@ QuantitativeValueWithMetric ||--|o Unit : "unit"
 </tr>
 <tr>
 <td><a href="../diet_supplementation/">diet_supplementation</a></td>
-<td>0..* <br/> <a href="../DietSupplementation/">DietSupplementation</a></td>
+<td>* <br/> <a href="../DietSupplementation/">DietSupplementation</a></td>
 <td>A semicolon-separated list of the patient's diet supplementation therapies</td>
 <td>direct</td>
 </tr>
 <tr>
 <td><a href="../nutrition_support/">nutrition_support</a></td>
-<td>0..* <br/> <a href="../NutritionSupport/">NutritionSupport</a></td>
+<td>* <br/> <a href="../NutritionSupport/">NutritionSupport</a></td>
 <td>A semicolon-separated list of the patient's nutrition support therapies, usua...</td>
 <td>direct</td>
 </tr>
 <tr>
 <td><a href="../medications/">medications</a></td>
-<td>0..* <br/> <a href="../DrugTherapy/">DrugTherapy</a></td>
+<td>* <br/> <a href="../DrugTherapy/">DrugTherapy</a></td>
 <td>A semicolon-separated list of the patient's medications</td>
 <td>direct</td>
 </tr>
@@ -709,7 +709,7 @@ QuantitativeValueWithMetric ||--|o Unit : "unit"
 </tr>
 <tr>
 <td><a href="../id/">id</a></td>
-<td>1..1 <br/> <a href="../String/">String</a></td>
+<td>1 <br/> <a href="../String/">String</a></td>
 <td>A unique identifier for the named entity</td>
 <td><a href="../NamedEntity/">NamedEntity</a></td>
 </tr>
@@ -781,6 +781,8 @@ attributes:
         value: True if the patient is a child, False otherwise.
     from_schema: http://w3id.org/ontogpt/dietician_notes
     rank: 1000
+    domain_of:
+    - ClinicalObservations
     range: string
   is_preterm:
     name: is_preterm
@@ -791,6 +793,8 @@ attributes:
           37 weeks gestation is preterm.
     from_schema: http://w3id.org/ontogpt/dietician_notes
     rank: 1000
+    domain_of:
+    - ClinicalObservations
     range: string
   patient_age:
     name: patient_age
@@ -801,6 +805,8 @@ attributes:
           "old" from the response. 'Not provided' if not provided.
     from_schema: http://w3id.org/ontogpt/dietician_notes
     rank: 1000
+    domain_of:
+    - ClinicalObservations
     range: QuantitativeValue
   patient_height:
     name: patient_height
@@ -811,6 +817,8 @@ attributes:
           units, percentiles, and z-scores. 'Not provided' if not provided.
     from_schema: http://w3id.org/ontogpt/dietician_notes
     rank: 1000
+    domain_of:
+    - ClinicalObservations
     range: QuantitativeValueWithMetric
   current_patient_weight:
     name: current_patient_weight
@@ -823,6 +831,8 @@ attributes:
           ABW: actual body weight. ''Not provided'' if not provided.'
     from_schema: http://w3id.org/ontogpt/dietician_notes
     rank: 1000
+    domain_of:
+    - ClinicalObservations
     range: QuantitativeValueWithMetric
   usual_patient_weight:
     name: usual_patient_weight
@@ -835,6 +845,8 @@ attributes:
           ABW: actual body weight. ''Not provided'' if not provided.'
     from_schema: http://w3id.org/ontogpt/dietician_notes
     rank: 1000
+    domain_of:
+    - ClinicalObservations
     range: QuantitativeValueWithMetric
   head_circumference:
     name: head_circumference
@@ -845,6 +857,8 @@ attributes:
           abbreviated as "HC". 'Not provided' if not provided.
     from_schema: http://w3id.org/ontogpt/dietician_notes
     rank: 1000
+    domain_of:
+    - ClinicalObservations
     range: QuantitativeValueWithMetric
   malnutrition_status:
     name: malnutrition_status
@@ -857,6 +871,8 @@ attributes:
           provided' if not provided.
     from_schema: http://w3id.org/ontogpt/dietician_notes
     rank: 1000
+    domain_of:
+    - ClinicalObservations
     range: MalnutritionObservations
   diet_supplementation:
     name: diet_supplementation
@@ -874,6 +890,8 @@ attributes:
     from_schema: http://w3id.org/ontogpt/dietician_notes
     rank: 1000
     multivalued: true
+    domain_of:
+    - ClinicalObservations
     range: DietSupplementation
   nutrition_support:
     name: nutrition_support
@@ -891,6 +909,8 @@ attributes:
     from_schema: http://w3id.org/ontogpt/dietician_notes
     rank: 1000
     multivalued: true
+    domain_of:
+    - ClinicalObservations
     range: NutritionSupport
   medications:
     name: medications
@@ -901,6 +921,8 @@ attributes:
     from_schema: http://w3id.org/ontogpt/dietician_notes
     rank: 1000
     multivalued: true
+    domain_of:
+    - ClinicalObservations
     range: DrugTherapy
   nil_per_os:
     name: nil_per_os
@@ -908,6 +930,8 @@ attributes:
       NPO means nil per os/nothing by mouth. N/A if not indicated.
     from_schema: http://w3id.org/ontogpt/dietician_notes
     rank: 1000
+    domain_of:
+    - ClinicalObservations
     range: string
 tree_root: true
 

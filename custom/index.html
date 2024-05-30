@@ -18,7 +18,7 @@
       
       
       <link rel="icon" href="../assets/images/favicon.png">
-      <meta name="generator" content="mkdocs-1.5.3, mkdocs-material-9.5.8">
+      <meta name="generator" content="mkdocs-1.6.0, mkdocs-material-9.5.8">
     
     
       
@@ -443,9 +443,9 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#install-a-custom-schema" class="md-nav__link">
+  <a href="#using-a-custom-schema" class="md-nav__link">
     <span class="md-ellipsis">
-      Install a custom schema
+      Using a custom schema
     </span>
   </a>
   
@@ -1385,9 +1385,9 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#install-a-custom-schema" class="md-nav__link">
+  <a href="#using-a-custom-schema" class="md-nav__link">
     <span class="md-ellipsis">
-      Install a custom schema
+      Using a custom schema
     </span>
   </a>
   
@@ -1808,26 +1808,12 @@ enums:
 <p>The <code>owl.template</code> slot defines template logic relating a Recipe to its component objects: steps and ingredients. It begins with an <code>EquivalentClasses</code> axiom to define the identifier of the recipe, which we assume to be a URL, as identical to the class expression in subsequent lines. Specifically, that <code>Recipe</code> must include both a series of steps (e.g., "fry", "chop", etc.) and a series of ingredients. The ingredients relate to the recipe through the property <code>FOODON:00002420</code>, or "has ingredient".</p>
 <p>Note that everything in {curly brackets} is a template of some kind. The Jinja template system is used in the example in lines like <code>{% for step in steps %}</code> where a loop is used. Template slots like <code>{{url}}</code> may be accessed directly with their names. So what makes <code>{{tr(step)}}</code> different from <code>{{step}}</code>? The <code>tr()</code> function used here translates its input into an OWL entity so it may be used to generate valid OWL axioms.</p>
 <p>See also: the <a href="../owl_exports/">documentation page on OWL exports</a> and the <a href="https://linkml.io/linkml-owl/">linkml-owl documentation</a>.</p>
-<h2 id="install-a-custom-schema">Install a custom schema</h2>
-<p>If you have installed OntoGPT directly from its GitHub repository, then you may install a custom schema like this:</p>
-<ol>
-<li>Move the schema file to the <code>src/ontogpt/templates</code> directory.</li>
-<li>Run <code>make</code> from the root of the repository to generate Pydantic versions of the schema.</li>
-</ol>
-<p>If you have installed OntoGPT from <code>pip</code>, <em>or</em> if you can't use the <code>make</code> command, the process is similar, though it will depend on where the package is installed.</p>
-<ol>
-<li>
-<p>Use the LinkML <code>gen-pydantic</code> tool to generate Pydantic classes. If your schema is named <code>alfred.yaml</code>, then run the following:</p>
-<p><code>bash
-gen-pydantic --pydantic_version 2 alfred.yaml &gt; alfred.py</code></p>
-</li>
-<li>
-<p>Move both the .yaml and the .py versions of your schema to the <code>templates</code> directory of wherever OntoGPT is installed. In a virtual environment named <code>temp</code> that may be something like <code>/temp/lib/python3.9/site-packages/ontogpt/templates</code>.</p>
-</li>
-</ol>
-<p>You may then use the schema like any other. For example, if your schema is named <code>albatross.yaml</code>, then an extract command is:</p>
-<pre><code class="language-bash">ontogpt extract -t albatross -i input.txt
+<h2 id="using-a-custom-schema">Using a custom schema</h2>
+<p>You may then use the schema like any other. Pass the path to your schema to the <code>--template/-t</code> option.</p>
+<p>For example, if your schema is named <code>albatross.yaml</code>, then an extract command is:</p>
+<pre><code class="language-bash">ontogpt extract -t albatross.yaml -i input.txt
 </code></pre>
+<p>Running this (or any other command including your custom schema) will install it for future use with OntoGPT, so in subsquent commands it can be referred to by its name (e.g., <code>albatross</code>, without the file extension or a full filepath).</p>
 
 
 

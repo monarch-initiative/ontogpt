@@ -7,7 +7,7 @@
 <meta content="width=device-width,initial-scale=1" name="viewport"/>
 <link href="https://monarch-initiative.github.io/ontogpt/dietitian_notes/NutritionSupport/" rel="canonical"/>
 <link href="../../assets/images/favicon.png" rel="icon"/>
-<meta content="mkdocs-1.5.3, mkdocs-material-9.5.8" name="generator"/>
+<meta content="mkdocs-1.6.0, mkdocs-material-9.5.8" name="generator"/>
 <title>Class: NutritionSupport - OntoGPT</title>
 <link href="../../assets/stylesheets/main.f2e4d321.min.css" rel="stylesheet"/>
 <link href="../../assets/stylesheets/palette.06af60db.min.css" rel="stylesheet"/>
@@ -596,7 +596,7 @@ QuantitativeValueWithFrequency ||--|o Unit : "unit"
 </tr>
 <tr>
 <td><a href="../components/">components</a></td>
-<td>0..* <br/> <a href="../NutritionSupportComponent/">NutritionSupportComponent</a></td>
+<td>* <br/> <a href="../NutritionSupportComponent/">NutritionSupportComponent</a></td>
 <td>The names of specific components included in a patient's diet</td>
 <td>direct</td>
 </tr>
@@ -677,6 +677,8 @@ attributes:
     description: The name of a method used to provide nutritional support.
     from_schema: http://w3id.org/ontogpt/dietician_notes
     rank: 1000
+    domain_of:
+    - NutritionSupport
     range: NutritionSupportMethod
   components:
     name: components
@@ -684,6 +686,8 @@ attributes:
     from_schema: http://w3id.org/ontogpt/dietician_notes
     rank: 1000
     multivalued: true
+    domain_of:
+    - NutritionSupport
     range: NutritionSupportComponent
 
 </code></pre>

@@ -7,7 +7,7 @@
 <meta content="width=device-width,initial-scale=1" name="viewport"/>
 <link href="https://monarch-initiative.github.io/ontogpt/halo/OntologyElement/" rel="canonical"/>
 <link href="../../assets/images/favicon.png" rel="icon"/>
-<meta content="mkdocs-1.5.3, mkdocs-material-9.5.8" name="generator"/>
+<meta content="mkdocs-1.6.0, mkdocs-material-9.5.8" name="generator"/>
 <title>Class: OntologyElement - OntoGPT</title>
 <link href="../../assets/stylesheets/main.f2e4d321.min.css" rel="stylesheet"/>
 <link href="../../assets/stylesheets/palette.06af60db.min.css" rel="stylesheet"/>
@@ -574,7 +574,7 @@ Category ||--}o OntologyElement : "parts"
 <tbody>
 <tr>
 <td><a href="../name/">name</a></td>
-<td>1..1 <br/> <a href="../String/">String</a></td>
+<td>1 <br/> <a href="../String/">String</a></td>
 <td>the name of the entity</td>
 <td>direct</td>
 </tr>
@@ -592,37 +592,37 @@ Category ||--}o OntologyElement : "parts"
 </tr>
 <tr>
 <td><a href="../synonyms/">synonyms</a></td>
-<td>0..* <br/> <a href="../String/">String</a></td>
+<td>* <br/> <a href="../String/">String</a></td>
 <td>a list of alternative names of the entity</td>
 <td>direct</td>
 </tr>
 <tr>
 <td><a href="../categories/">categories</a></td>
-<td>0..* <br/> <a href="../Category/">Category</a></td>
+<td>* <br/> <a href="../Category/">Category</a></td>
 <td>a list of the categories to which this entity belongs</td>
 <td>direct</td>
 </tr>
 <tr>
 <td><a href="../subclass_of/">subclass_of</a></td>
-<td>0..* <br/> <a href="./">OntologyElement</a></td>
+<td>* <br/> <a href="./">OntologyElement</a></td>
 <td>a list of parent class (superclasses) of this entity</td>
 <td>direct</td>
 </tr>
 <tr>
 <td><a href="../part_of/">part_of</a></td>
-<td>0..* <br/> <a href="./">OntologyElement</a></td>
+<td>* <br/> <a href="./">OntologyElement</a></td>
 <td>a list of things this element is part of</td>
 <td>direct</td>
 </tr>
 <tr>
 <td><a href="../subtypes/">subtypes</a></td>
-<td>0..* <br/> <a href="./">OntologyElement</a></td>
+<td>* <br/> <a href="./">OntologyElement</a></td>
 <td>a list of child classes (subclasses) of this entity</td>
 <td>direct</td>
 </tr>
 <tr>
 <td><a href="../parts/">parts</a></td>
-<td>0..* <br/> <a href="./">OntologyElement</a></td>
+<td>* <br/> <a href="./">OntologyElement</a></td>
 <td>a list of names of things this element has as parts (components)</td>
 <td>direct</td>
 </tr>
@@ -738,29 +738,39 @@ attributes:
     from_schema: https://w3id.org/ontogpt/halo
     rank: 1000
     identifier: true
+    domain_of:
+    - OntologyElement
     required: true
   context:
     name: context
     description: the ontology to which this belongs (single-valued)
     from_schema: https://w3id.org/ontogpt/halo
     rank: 1000
+    domain_of:
+    - OntologyElement
   description:
     name: description
     description: a textual description of the entity (single-valued)
     from_schema: https://w3id.org/ontogpt/halo
     rank: 1000
+    domain_of:
+    - OntologyElement
   synonyms:
     name: synonyms
     description: a list of alternative names of the entity
     from_schema: https://w3id.org/ontogpt/halo
     rank: 1000
     multivalued: true
+    domain_of:
+    - OntologyElement
   categories:
     name: categories
     description: a list of the categories to which this entity belongs
     from_schema: https://w3id.org/ontogpt/halo
     rank: 1000
     multivalued: true
+    domain_of:
+    - OntologyElement
     range: Category
   subclass_of:
     name: subclass_of
@@ -768,6 +778,8 @@ attributes:
     from_schema: https://w3id.org/ontogpt/halo
     slot_uri: rdfs:subClassOf
     multivalued: true
+    domain_of:
+    - OntologyElement
     range: OntologyElement
   part_of:
     name: part_of
@@ -775,6 +787,8 @@ attributes:
     from_schema: https://w3id.org/ontogpt/halo
     slot_uri: BFO:0000050
     multivalued: true
+    domain_of:
+    - OntologyElement
     range: OntologyElement
   subtypes:
     name: subtypes
@@ -782,6 +796,8 @@ attributes:
     from_schema: https://w3id.org/ontogpt/halo
     rank: 1000
     multivalued: true
+    domain_of:
+    - OntologyElement
     inverse: subclass_of
     range: OntologyElement
   parts:
@@ -790,6 +806,8 @@ attributes:
     from_schema: https://w3id.org/ontogpt/halo
     rank: 1000
     multivalued: true
+    domain_of:
+    - OntologyElement
     inverse: part_of
     range: OntologyElement
   equivalent_to:
@@ -798,6 +816,8 @@ attributes:
       for this entity to be an instance of this class
     from_schema: https://w3id.org/ontogpt/halo
     rank: 1000
+    domain_of:
+    - OntologyElement
     range: string
 
 </code></pre>

@@ -7,7 +7,7 @@
 <meta content="width=device-width,initial-scale=1" name="viewport"/>
 <link href="https://monarch-initiative.github.io/ontogpt/environmental_metadata/Dataset/" rel="canonical"/>
 <link href="../../assets/images/favicon.png" rel="icon"/>
-<meta content="mkdocs-1.5.3, mkdocs-material-9.5.8" name="generator"/>
+<meta content="mkdocs-1.6.0, mkdocs-material-9.5.8" name="generator"/>
 <title>Class: Dataset - OntoGPT</title>
 <link href="../../assets/stylesheets/main.f2e4d321.min.css" rel="stylesheet"/>
 <link href="../../assets/stylesheets/palette.06af60db.min.css" rel="stylesheet"/>
@@ -564,31 +564,31 @@ Dataset ||--}o Method : "methods"
 </tr>
 <tr>
 <td><a href="../topic/">topic</a></td>
-<td>0..* <br/> <a href="../Topic/">Topic</a></td>
+<td>* <br/> <a href="../Topic/">Topic</a></td>
 <td>the general scientific area of study concerning the sample(s)</td>
 <td>direct</td>
 </tr>
 <tr>
 <td><a href="../location/">location</a></td>
-<td>0..* <br/> <a href="../Location/">Location</a></td>
+<td>* <br/> <a href="../Location/">Location</a></td>
 <td>the geographic location where the sample was isolated</td>
 <td>direct</td>
 </tr>
 <tr>
 <td><a href="../environmental_material/">environmental_material</a></td>
-<td>0..* <br/> <a href="../EnvironmentalMaterial/">EnvironmentalMaterial</a></td>
+<td>* <br/> <a href="../EnvironmentalMaterial/">EnvironmentalMaterial</a></td>
 <td>the environmental material that was sampled</td>
 <td>direct</td>
 </tr>
 <tr>
 <td><a href="../environments/">environments</a></td>
-<td>0..* <br/> <a href="../Environment/">Environment</a></td>
+<td>* <br/> <a href="../Environment/">Environment</a></td>
 <td>the environmental context in which the study was conducted</td>
 <td>direct</td>
 </tr>
 <tr>
 <td><a href="../methods/">methods</a></td>
-<td>0..* <br/> <a href="../Method/">Method</a></td>
+<td>* <br/> <a href="../Method/">Method</a></td>
 <td></td>
 <td>direct</td>
 </tr>
@@ -635,6 +635,8 @@ attributes:
     from_schema: http://w3id.org/ontogpt/environmental-metadata
     rank: 1000
     multivalued: false
+    domain_of:
+    - Dataset
     range: string
   topic:
     name: topic
@@ -647,6 +649,8 @@ attributes:
     from_schema: http://w3id.org/ontogpt/environmental-metadata
     rank: 1000
     multivalued: true
+    domain_of:
+    - Dataset
     range: Topic
   location:
     name: location
@@ -658,6 +662,8 @@ attributes:
     from_schema: http://w3id.org/ontogpt/environmental-metadata
     rank: 1000
     multivalued: true
+    domain_of:
+    - Dataset
     range: Location
   environmental_material:
     name: environmental_material
@@ -669,6 +675,8 @@ attributes:
     from_schema: http://w3id.org/ontogpt/environmental-metadata
     rank: 1000
     multivalued: true
+    domain_of:
+    - Dataset
     range: EnvironmentalMaterial
   environments:
     name: environments
@@ -681,6 +689,8 @@ attributes:
     from_schema: http://w3id.org/ontogpt/environmental-metadata
     rank: 1000
     multivalued: true
+    domain_of:
+    - Dataset
     range: Environment
   methods:
     name: methods
@@ -691,6 +701,8 @@ attributes:
     from_schema: http://w3id.org/ontogpt/environmental-metadata
     rank: 1000
     multivalued: true
+    domain_of:
+    - Dataset
     range: Method
 tree_root: true
 

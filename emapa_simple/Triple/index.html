@@ -7,7 +7,7 @@
 <meta content="width=device-width,initial-scale=1" name="viewport"/>
 <link href="https://monarch-initiative.github.io/ontogpt/emapa_simple/Triple/" rel="canonical"/>
 <link href="../../assets/images/favicon.png" rel="icon"/>
-<meta content="mkdocs-1.5.3, mkdocs-material-9.5.8" name="generator"/>
+<meta content="mkdocs-1.6.0, mkdocs-material-9.5.8" name="generator"/>
 <title>Class: Triple - OntoGPT</title>
 <link href="../../assets/stylesheets/main.f2e4d321.min.css" rel="stylesheet"/>
 <link href="../../assets/stylesheets/palette.06af60db.min.css" rel="stylesheet"/>
@@ -663,22 +663,30 @@ attributes:
     name: subject
     from_schema: http://w3id.org/ontogpt/emapa_simple
     rank: 1000
+    domain_of:
+    - Triple
     range: NamedEntity
   predicate:
     name: predicate
     from_schema: http://w3id.org/ontogpt/emapa_simple
     rank: 1000
+    domain_of:
+    - Triple
     range: RelationshipType
   object:
     name: object
     from_schema: http://w3id.org/ontogpt/emapa_simple
     rank: 1000
+    domain_of:
+    - Triple
     range: NamedEntity
   qualifier:
     name: qualifier
     description: A qualifier for the statements, e.g. "NOT" for negation
     from_schema: http://w3id.org/ontogpt/emapa_simple
     rank: 1000
+    domain_of:
+    - Triple
     range: string
   subject_qualifier:
     name: subject_qualifier
@@ -686,6 +694,8 @@ attributes:
       e.g. "high dose" or "intravenously administered"
     from_schema: http://w3id.org/ontogpt/emapa_simple
     rank: 1000
+    domain_of:
+    - Triple
     range: NamedEntity
   object_qualifier:
     name: object_qualifier
@@ -693,6 +703,8 @@ attributes:
       e.g. "severe" or "with additional complications"
     from_schema: http://w3id.org/ontogpt/emapa_simple
     rank: 1000
+    domain_of:
+    - Triple
     range: NamedEntity
 
 </code></pre>

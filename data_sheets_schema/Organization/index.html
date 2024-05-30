@@ -7,7 +7,7 @@
 <meta content="width=device-width,initial-scale=1" name="viewport"/>
 <link href="https://monarch-initiative.github.io/ontogpt/data_sheets_schema/Organization/" rel="canonical"/>
 <link href="../../assets/images/favicon.png" rel="icon"/>
-<meta content="mkdocs-1.5.3, mkdocs-material-9.5.8" name="generator"/>
+<meta content="mkdocs-1.6.0, mkdocs-material-9.5.8" name="generator"/>
 <title>Class: Organization - OntoGPT</title>
 <link href="../../assets/stylesheets/main.f2e4d321.min.css" rel="stylesheet"/>
 <link href="../../assets/stylesheets/palette.06af60db.min.css" rel="stylesheet"/>
@@ -581,7 +581,7 @@ Organization {
 </tr>
 <tr>
 <td><a href="../id/">id</a></td>
-<td>1..1 <br/> <a href="../String/">String</a></td>
+<td>1 <br/> <a href="../String/">String</a></td>
 <td>the unique name of the dataset</td>
 <td><a href="../NamedThing/">NamedThing</a></td>
 </tr>
@@ -661,6 +661,9 @@ attributes:
     name: email
     description: The email address of the organization.
     from_schema: https://w3id.org/bridge2ai/data-sheets-schema
+    domain_of:
+    - Person
+    - Organization
     range: string
   ror_id:
     name: ror_id
@@ -671,6 +674,8 @@ attributes:
     rank: 1000
     values_from:
     - ROR
+    domain_of:
+    - Organization
     range: ror_identifier
   wikidata_id:
     name: wikidata_id
@@ -681,6 +686,8 @@ attributes:
     rank: 1000
     values_from:
     - WIKIDATA
+    domain_of:
+    - Organization
     range: wikidata_identifier
 
 </code></pre>

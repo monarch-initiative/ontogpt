@@ -7,7 +7,7 @@
 <meta content="width=device-width,initial-scale=1" name="viewport"/>
 <link href="https://monarch-initiative.github.io/ontogpt/go_terms/Document/" rel="canonical"/>
 <link href="../../assets/images/favicon.png" rel="icon"/>
-<meta content="mkdocs-1.5.3, mkdocs-material-9.5.8" name="generator"/>
+<meta content="mkdocs-1.6.0, mkdocs-material-9.5.8" name="generator"/>
 <title>Class: Document - OntoGPT</title>
 <link href="../../assets/stylesheets/main.f2e4d321.min.css" rel="stylesheet"/>
 <link href="../../assets/stylesheets/palette.06af60db.min.css" rel="stylesheet"/>
@@ -575,19 +575,19 @@ Document ||--}o NamedEntity : "entities"
 <tbody>
 <tr>
 <td><a href="../biologicalprocesses/">biologicalprocesses</a></td>
-<td>0..* <br/> <a href="../BiologicalProcess/">BiologicalProcess</a></td>
+<td>* <br/> <a href="../BiologicalProcess/">BiologicalProcess</a></td>
 <td>One or more biological processes, as defined by the Gene Ontology</td>
 <td>direct</td>
 </tr>
 <tr>
 <td><a href="../cellularcomponents/">cellularcomponents</a></td>
-<td>0..* <br/> <a href="../CellularComponent/">CellularComponent</a></td>
+<td>* <br/> <a href="../CellularComponent/">CellularComponent</a></td>
 <td>One or more cellular components, as defined by the Gene Ontology</td>
 <td>direct</td>
 </tr>
 <tr>
 <td><a href="../molecularfunctions/">molecularfunctions</a></td>
-<td>0..* <br/> <a href="../MolecularFunction/">MolecularFunction</a></td>
+<td>* <br/> <a href="../MolecularFunction/">MolecularFunction</a></td>
 <td>One or more molecular functions, as defined by the Gene Ontology</td>
 <td>direct</td>
 </tr>
@@ -599,7 +599,7 @@ Document ||--}o NamedEntity : "entities"
 </tr>
 <tr>
 <td><a href="../entities/">entities</a></td>
-<td>0..* <br/> <a href="../NamedEntity/">NamedEntity</a></td>
+<td>* <br/> <a href="../NamedEntity/">NamedEntity</a></td>
 <td></td>
 <td><a href="../TextWithEntity/">TextWithEntity</a></td>
 </tr>
@@ -650,6 +650,8 @@ attributes:
     from_schema: http://w3id.org/ontogpt/go_terms
     rank: 1000
     multivalued: true
+    domain_of:
+    - Document
     range: BiologicalProcess
   cellularcomponents:
     name: cellularcomponents
@@ -663,6 +665,8 @@ attributes:
     from_schema: http://w3id.org/ontogpt/go_terms
     rank: 1000
     multivalued: true
+    domain_of:
+    - Document
     range: CellularComponent
   molecularfunctions:
     name: molecularfunctions
@@ -676,6 +680,8 @@ attributes:
     from_schema: http://w3id.org/ontogpt/go_terms
     rank: 1000
     multivalued: true
+    domain_of:
+    - Document
     range: MolecularFunction
 tree_root: true
 

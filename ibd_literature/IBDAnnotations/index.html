@@ -7,7 +7,7 @@
 <meta content="width=device-width,initial-scale=1" name="viewport"/>
 <link href="https://monarch-initiative.github.io/ontogpt/ibd_literature/IBDAnnotations/" rel="canonical"/>
 <link href="../../assets/images/favicon.png" rel="icon"/>
-<meta content="mkdocs-1.5.3, mkdocs-material-9.5.8" name="generator"/>
+<meta content="mkdocs-1.6.0, mkdocs-material-9.5.8" name="generator"/>
 <title>Class: IBDAnnotations - OntoGPT</title>
 <link href="../../assets/stylesheets/main.f2e4d321.min.css" rel="stylesheet"/>
 <link href="../../assets/stylesheets/palette.06af60db.min.css" rel="stylesheet"/>
@@ -583,37 +583,37 @@ GeneExposureRelationship ||--|o NamedEntity : "object_qualifier"
 <tbody>
 <tr>
 <td><a href="../genes/">genes</a></td>
-<td>0..* <br/> <a href="../Gene/">Gene</a></td>
+<td>* <br/> <a href="../Gene/">Gene</a></td>
 <td>semicolon-separated list of genes</td>
 <td>direct</td>
 </tr>
 <tr>
 <td><a href="../exposures/">exposures</a></td>
-<td>0..* <br/> <a href="../ChemicalExposure/">ChemicalExposure</a></td>
+<td>* <br/> <a href="../ChemicalExposure/">ChemicalExposure</a></td>
 <td>semicolon-separated list of exposures</td>
 <td>direct</td>
 </tr>
 <tr>
 <td><a href="../gene_exposures_relationships/">gene_exposures_relationships</a></td>
-<td>0..* <br/> <a href="../GeneExposureRelationship/">GeneExposureRelationship</a></td>
+<td>* <br/> <a href="../GeneExposureRelationship/">GeneExposureRelationship</a></td>
 <td>semicolon-separated list of gene to molecular activity relationships</td>
 <td>direct</td>
 </tr>
 <tr>
 <td><a href="../diseases/">diseases</a></td>
-<td>0..* <br/> <a href="../Disease/">Disease</a></td>
+<td>* <br/> <a href="../Disease/">Disease</a></td>
 <td>semicolon-separated list of diseases</td>
 <td>direct</td>
 </tr>
 <tr>
 <td><a href="../cellular_process/">cellular_process</a></td>
-<td>0..* <br/> <a href="../CellularProcess/">CellularProcess</a></td>
+<td>* <br/> <a href="../CellularProcess/">CellularProcess</a></td>
 <td>semicolon-separated list of cellular processes</td>
 <td>direct</td>
 </tr>
 <tr>
 <td><a href="../disease_cellular_process_relationships/">disease_cellular_process_relationships</a></td>
-<td>0..* <br/> <a href="../DiseaseCellularProcessRelationship/">DiseaseCellularProcessRelationship</a></td>
+<td>* <br/> <a href="../DiseaseCellularProcessRelationship/">DiseaseCellularProcessRelationship</a></td>
 <td>semicolon-separated list of disease to cellular process relationships</td>
 <td>direct</td>
 </tr>
@@ -656,6 +656,8 @@ attributes:
     from_schema: http://w3id.org/ontogpt/ibd_literature
     rank: 1000
     multivalued: true
+    domain_of:
+    - IBDAnnotations
     range: Gene
   exposures:
     name: exposures
@@ -668,6 +670,8 @@ attributes:
     from_schema: http://w3id.org/ontogpt/ibd_literature
     rank: 1000
     multivalued: true
+    domain_of:
+    - IBDAnnotations
     range: ChemicalExposure
   gene_exposures_relationships:
     name: gene_exposures_relationships
@@ -675,6 +679,8 @@ attributes:
     from_schema: http://w3id.org/ontogpt/ibd_literature
     rank: 1000
     multivalued: true
+    domain_of:
+    - IBDAnnotations
     range: GeneExposureRelationship
   diseases:
     name: diseases
@@ -682,6 +688,8 @@ attributes:
     from_schema: http://w3id.org/ontogpt/ibd_literature
     rank: 1000
     multivalued: true
+    domain_of:
+    - IBDAnnotations
     range: Disease
   cellular_process:
     name: cellular_process
@@ -689,6 +697,8 @@ attributes:
     from_schema: http://w3id.org/ontogpt/ibd_literature
     rank: 1000
     multivalued: true
+    domain_of:
+    - IBDAnnotations
     range: CellularProcess
   disease_cellular_process_relationships:
     name: disease_cellular_process_relationships
@@ -696,6 +706,8 @@ attributes:
     from_schema: http://w3id.org/ontogpt/ibd_literature
     rank: 1000
     multivalued: true
+    domain_of:
+    - IBDAnnotations
     range: DiseaseCellularProcessRelationship
 tree_root: true
 

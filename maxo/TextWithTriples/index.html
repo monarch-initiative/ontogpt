@@ -7,7 +7,7 @@
 <meta content="width=device-width,initial-scale=1" name="viewport"/>
 <link href="https://monarch-initiative.github.io/ontogpt/maxo/TextWithTriples/" rel="canonical"/>
 <link href="../../assets/images/favicon.png" rel="icon"/>
-<meta content="mkdocs-1.5.3, mkdocs-material-9.5.8" name="generator"/>
+<meta content="mkdocs-1.6.0, mkdocs-material-9.5.8" name="generator"/>
 <title>Class: TextWithTriples - OntoGPT</title>
 <link href="../../assets/stylesheets/main.f2e4d321.min.css" rel="stylesheet"/>
 <link href="../../assets/stylesheets/palette.06af60db.min.css" rel="stylesheet"/>
@@ -447,13 +447,6 @@
     </label>
 <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix="">
 <li class="md-nav__item">
-<a class="md-nav__link" href="#inheritance">
-<span class="md-ellipsis">
-      Inheritance
-    </span>
-</a>
-</li>
-<li class="md-nav__item">
 <a class="md-nav__link" href="#slots">
 <span class="md-ellipsis">
       Slots
@@ -552,13 +545,7 @@ Triple ||--|o NamedEntity : "subject_qualifier"
 Triple ||--|o NamedEntity : "object_qualifier"
 
 </div>
-<h2 id="inheritance">Inheritance</h2>
-<ul>
-<li><strong>TextWithTriples</strong><ul>
-<li><a href="../MaxoAnnotations/">MaxoAnnotations</a></li>
-</ul>
-</li>
-</ul>
+<!-- no inheritance hierarchy -->
 <h2 id="slots">Slots</h2>
 <table>
 <thead>
@@ -578,7 +565,7 @@ Triple ||--|o NamedEntity : "object_qualifier"
 </tr>
 <tr>
 <td><a href="../triples/">triples</a></td>
-<td>0..* <br/> <a href="../Triple/">Triple</a></td>
+<td>* <br/> <a href="../Triple/">Triple</a></td>
 <td></td>
 <td>direct</td>
 </tr>
@@ -624,6 +611,9 @@ attributes:
         value: 'true'
     from_schema: http://w3id.org/ontogpt/maxo
     rank: 1000
+    domain_of:
+    - TextWithTriples
+    - TextWithEntity
     range: Publication
     inlined: true
   triples:
@@ -631,6 +621,8 @@ attributes:
     from_schema: http://w3id.org/ontogpt/maxo
     rank: 1000
     multivalued: true
+    domain_of:
+    - TextWithTriples
     range: Triple
     inlined: true
     inlined_as_list: true

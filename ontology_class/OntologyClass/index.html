@@ -7,7 +7,7 @@
 <meta content="width=device-width,initial-scale=1" name="viewport"/>
 <link href="https://monarch-initiative.github.io/ontogpt/ontology_class/OntologyClass/" rel="canonical"/>
 <link href="../../assets/images/favicon.png" rel="icon"/>
-<meta content="mkdocs-1.5.3, mkdocs-material-9.5.8" name="generator"/>
+<meta content="mkdocs-1.6.0, mkdocs-material-9.5.8" name="generator"/>
 <title>Class: OntologyClass - OntoGPT</title>
 <link href="../../assets/stylesheets/main.f2e4d321.min.css" rel="stylesheet"/>
 <link href="../../assets/stylesheets/palette.06af60db.min.css" rel="stylesheet"/>
@@ -581,19 +581,19 @@ LogicalDefinition ||--}o OntologyClass : "differentiating_characteristic_parents
 </tr>
 <tr>
 <td><a href="../synonyms/">synonyms</a></td>
-<td>0..* <br/> <a href="../String/">String</a></td>
+<td>* <br/> <a href="../String/">String</a></td>
 <td>alternative names of the entity</td>
 <td>direct</td>
 </tr>
 <tr>
 <td><a href="../categories/">categories</a></td>
-<td>0..* <br/> <a href="./">OntologyClass</a></td>
+<td>* <br/> <a href="./">OntologyClass</a></td>
 <td>the categories to which this entity belongs</td>
 <td>direct</td>
 </tr>
 <tr>
 <td><a href="../subclass_of/">subclass_of</a></td>
-<td>0..* <br/> <a href="./">OntologyClass</a></td>
+<td>* <br/> <a href="./">OntologyClass</a></td>
 <td></td>
 <td>direct</td>
 </tr>
@@ -605,7 +605,7 @@ LogicalDefinition ||--}o OntologyClass : "differentiating_characteristic_parents
 </tr>
 <tr>
 <td><a href="../id/">id</a></td>
-<td>1..1 <br/> <a href="../String/">String</a></td>
+<td>1 <br/> <a href="../String/">String</a></td>
 <td>A unique identifier for the named entity</td>
 <td><a href="../NamedEntity/">NamedEntity</a></td>
 </tr>
@@ -685,17 +685,24 @@ attributes:
     description: the name of the main entity being defined
     from_schema: https://w3id.org/ontogpt/ontology_class
     rank: 1000
+    domain_of:
+    - OntologyClass
+    - NamedEntity
   description:
     name: description
     description: a textual description of the entity
     from_schema: https://w3id.org/ontogpt/ontology_class
     rank: 1000
+    domain_of:
+    - OntologyClass
   synonyms:
     name: synonyms
     description: alternative names of the entity
     from_schema: https://w3id.org/ontogpt/ontology_class
     rank: 1000
     multivalued: true
+    domain_of:
+    - OntologyClass
   categories:
     name: categories
     annotations:
@@ -708,6 +715,8 @@ attributes:
     from_schema: https://w3id.org/ontogpt/ontology_class
     rank: 1000
     multivalued: true
+    domain_of:
+    - OntologyClass
     range: OntologyClass
   subclass_of:
     name: subclass_of
@@ -719,6 +728,8 @@ attributes:
     from_schema: https://w3id.org/ontogpt/ontology_class
     rank: 1000
     multivalued: true
+    domain_of:
+    - OntologyClass
     range: OntologyClass
   logical_definition:
     name: logical_definition
@@ -732,6 +743,8 @@ attributes:
       instance of this class
     from_schema: https://w3id.org/ontogpt/ontology_class
     rank: 1000
+    domain_of:
+    - OntologyClass
     range: LogicalDefinition
 tree_root: true
 

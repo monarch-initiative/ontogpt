@@ -7,7 +7,7 @@
 <meta content="width=device-width,initial-scale=1" name="viewport"/>
 <link href="https://monarch-initiative.github.io/ontogpt/treatment/TreatmentAdverseEffect/" rel="canonical"/>
 <link href="../../assets/images/favicon.png" rel="icon"/>
-<meta content="mkdocs-1.5.3, mkdocs-material-9.5.8" name="generator"/>
+<meta content="mkdocs-1.6.0, mkdocs-material-9.5.8" name="generator"/>
 <title>Class: TreatmentAdverseEffect - OntoGPT</title>
 <link href="../../assets/stylesheets/main.f2e4d321.min.css" rel="stylesheet"/>
 <link href="../../assets/stylesheets/palette.06af60db.min.css" rel="stylesheet"/>
@@ -569,7 +569,7 @@ TreatmentAdverseEffect ||--}o AdverseEffect : "adverse_effects"
 </tr>
 <tr>
 <td><a href="../adverse_effects/">adverse_effects</a></td>
-<td>0..* <br/> <a href="../AdverseEffect/">AdverseEffect</a></td>
+<td>* <br/> <a href="../AdverseEffect/">AdverseEffect</a></td>
 <td></td>
 <td>direct</td>
 </tr>
@@ -629,12 +629,18 @@ attributes:
   treatment:
     name: treatment
     from_schema: http://w3id.org/ontogpt/treatment
+    domain_of:
+    - TreatmentMechanism
+    - TreatmentAdverseEffect
+    - TreatmentEfficacy
     range: Treatment
   adverse_effects:
     name: adverse_effects
     from_schema: http://w3id.org/ontogpt/treatment
     rank: 1000
     multivalued: true
+    domain_of:
+    - TreatmentAdverseEffect
     range: AdverseEffect
 
 </code></pre>

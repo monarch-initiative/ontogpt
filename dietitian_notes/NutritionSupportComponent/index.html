@@ -7,7 +7,7 @@
 <meta content="width=device-width,initial-scale=1" name="viewport"/>
 <link href="https://monarch-initiative.github.io/ontogpt/dietitian_notes/NutritionSupportComponent/" rel="canonical"/>
 <link href="../../assets/images/favicon.png" rel="icon"/>
-<meta content="mkdocs-1.5.3, mkdocs-material-9.5.8" name="generator"/>
+<meta content="mkdocs-1.6.0, mkdocs-material-9.5.8" name="generator"/>
 <title>Class: NutritionSupportComponent - OntoGPT</title>
 <link href="../../assets/stylesheets/main.f2e4d321.min.css" rel="stylesheet"/>
 <link href="../../assets/stylesheets/palette.06af60db.min.css" rel="stylesheet"/>
@@ -680,23 +680,37 @@ attributes:
     description: The name of a specific material included in a patient's diet.
     from_schema: http://w3id.org/ontogpt/dietician_notes
     rank: 1000
+    domain_of:
+    - NutritionSupportComponent
     range: TherapeuticMaterial
   amount:
     name: amount
     description: The quantity or dosage of the therapy, if provided. May include a
       frequency. N/A if not provided.
     from_schema: http://w3id.org/ontogpt/dietician_notes
+    domain_of:
+    - DietSupplementation
+    - NutritionSupportComponent
+    - DrugTherapy
     range: QuantitativeValueWithFrequency
   dosage_by_unit:
     name: dosage_by_unit
     description: The unit of a patient's properties used to determine diet amounts.
       Often "kilogram". N/A if not provided.
     from_schema: http://w3id.org/ontogpt/dietician_notes
+    domain_of:
+    - DietSupplementation
+    - NutritionSupportComponent
+    - DrugTherapy
     range: Unit
   duration:
     name: duration
     description: The duration of the therapy, if provided. N/A if not provided.
     from_schema: http://w3id.org/ontogpt/dietician_notes
+    domain_of:
+    - DietSupplementation
+    - NutritionSupportComponent
+    - DrugTherapy
     range: QuantitativeValue
 
 </code></pre>

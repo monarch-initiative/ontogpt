@@ -7,7 +7,7 @@
 <meta content="width=device-width,initial-scale=1" name="viewport"/>
 <link href="https://monarch-initiative.github.io/ontogpt/reaction/GeneToReaction/" rel="canonical"/>
 <link href="../../assets/images/favicon.png" rel="icon"/>
-<meta content="mkdocs-1.5.3, mkdocs-material-9.5.8" name="generator"/>
+<meta content="mkdocs-1.6.0, mkdocs-material-9.5.8" name="generator"/>
 <title>Class: GeneToReaction - OntoGPT</title>
 <link href="../../assets/stylesheets/main.f2e4d321.min.css" rel="stylesheet"/>
 <link href="../../assets/stylesheets/palette.06af60db.min.css" rel="stylesheet"/>
@@ -567,7 +567,7 @@ Reaction ||--}o ChemicalEntity : "right_side"
 </tr>
 <tr>
 <td><a href="../reactions/">reactions</a></td>
-<td>0..* <br/> <a href="../Reaction/">Reaction</a></td>
+<td>* <br/> <a href="../Reaction/">Reaction</a></td>
 <td>semicolon separated list of reaction equations (e</td>
 <td>direct</td>
 </tr>
@@ -615,6 +615,9 @@ attributes:
     description: name of the gene that catalyzes the reaction
     from_schema: https://w3id.org/ontogpt/reaction
     rank: 1000
+    domain_of:
+    - GeneToReaction
+    - GeneReactionPairing
     range: Gene
   reactions:
     name: reactions
@@ -623,12 +626,18 @@ attributes:
     from_schema: https://w3id.org/ontogpt/reaction
     rank: 1000
     multivalued: true
+    domain_of:
+    - GeneToReaction
+    - ReactionDocument
     range: Reaction
     inlined: true
   organism:
     name: organism
     from_schema: https://w3id.org/ontogpt/reaction
     rank: 1000
+    domain_of:
+    - GeneToReaction
+    - ReactionDocument
     range: Organism
 
 </code></pre>

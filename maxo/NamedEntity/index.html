@@ -7,7 +7,7 @@
 <meta content="width=device-width,initial-scale=1" name="viewport"/>
 <link href="https://monarch-initiative.github.io/ontogpt/maxo/NamedEntity/" rel="canonical"/>
 <link href="../../assets/images/favicon.png" rel="icon"/>
-<meta content="mkdocs-1.5.3, mkdocs-material-9.5.8" name="generator"/>
+<meta content="mkdocs-1.6.0, mkdocs-material-9.5.8" name="generator"/>
 <title>Class: NamedEntity - OntoGPT</title>
 <link href="../../assets/stylesheets/main.f2e4d321.min.css" rel="stylesheet"/>
 <link href="../../assets/stylesheets/palette.06af60db.min.css" rel="stylesheet"/>
@@ -541,9 +541,10 @@ NamedEntity {
 <h2 id="inheritance">Inheritance</h2>
 <ul>
 <li><strong>NamedEntity</strong><ul>
-<li><a href="../Action/">Action</a></li>
+<li><a href="../MedicalAction/">MedicalAction</a></li>
 <li><a href="../Disease/">Disease</a></li>
 <li><a href="../Symptom/">Symptom</a></li>
+<li><a href="../Chemical/">Chemical</a></li>
 <li><a href="../RelationshipType/">RelationshipType</a></li>
 </ul>
 </li>
@@ -561,7 +562,7 @@ NamedEntity {
 <tbody>
 <tr>
 <td><a href="../id/">id</a></td>
-<td>1..1 <br/> <a href="../String/">String</a></td>
+<td>1 <br/> <a href="../String/">String</a></td>
 <td>A unique identifier for the named entity</td>
 <td>direct</td>
 </tr>
@@ -585,37 +586,61 @@ NamedEntity {
 </thead>
 <tbody>
 <tr>
-<td><a href="../ActionToDiseaseRelationship/">ActionToDiseaseRelationship</a></td>
-<td><a href="../predicate/">predicate</a></td>
+<td><a href="../ExtendedTriple/">ExtendedTriple</a></td>
+<td><a href="../subject_extension/">subject_extension</a></td>
 <td>range</td>
 <td><a href="./">NamedEntity</a></td>
 </tr>
 <tr>
-<td><a href="../ActionToDiseaseRelationship/">ActionToDiseaseRelationship</a></td>
+<td><a href="../ExtendedTriple/">ExtendedTriple</a></td>
+<td><a href="../object_extension/">object_extension</a></td>
+<td>range</td>
+<td><a href="./">NamedEntity</a></td>
+</tr>
+<tr>
+<td><a href="../ExtendedTriple/">ExtendedTriple</a></td>
+<td><a href="../subject/">subject</a></td>
+<td>range</td>
+<td><a href="./">NamedEntity</a></td>
+</tr>
+<tr>
+<td><a href="../ExtendedTriple/">ExtendedTriple</a></td>
+<td><a href="../object/">object</a></td>
+<td>range</td>
+<td><a href="./">NamedEntity</a></td>
+</tr>
+<tr>
+<td><a href="../ExtendedTriple/">ExtendedTriple</a></td>
 <td><a href="../subject_qualifier/">subject_qualifier</a></td>
 <td>range</td>
 <td><a href="./">NamedEntity</a></td>
 </tr>
 <tr>
-<td><a href="../ActionToDiseaseRelationship/">ActionToDiseaseRelationship</a></td>
+<td><a href="../ExtendedTriple/">ExtendedTriple</a></td>
 <td><a href="../object_qualifier/">object_qualifier</a></td>
 <td>range</td>
 <td><a href="./">NamedEntity</a></td>
 </tr>
 <tr>
-<td><a href="../ActionToSymptomRelationship/">ActionToSymptomRelationship</a></td>
+<td><a href="../ActionAnnotationRelationship/">ActionAnnotationRelationship</a></td>
+<td><a href="../object_extension/">object_extension</a></td>
+<td>range</td>
+<td><a href="./">NamedEntity</a></td>
+</tr>
+<tr>
+<td><a href="../ActionAnnotationRelationship/">ActionAnnotationRelationship</a></td>
 <td><a href="../predicate/">predicate</a></td>
 <td>range</td>
 <td><a href="./">NamedEntity</a></td>
 </tr>
 <tr>
-<td><a href="../ActionToSymptomRelationship/">ActionToSymptomRelationship</a></td>
+<td><a href="../ActionAnnotationRelationship/">ActionAnnotationRelationship</a></td>
 <td><a href="../subject_qualifier/">subject_qualifier</a></td>
 <td>range</td>
 <td><a href="./">NamedEntity</a></td>
 </tr>
 <tr>
-<td><a href="../ActionToSymptomRelationship/">ActionToSymptomRelationship</a></td>
+<td><a href="../ActionAnnotationRelationship/">ActionAnnotationRelationship</a></td>
 <td><a href="../object_qualifier/">object_qualifier</a></td>
 <td>range</td>
 <td><a href="./">NamedEntity</a></td>
@@ -696,6 +721,9 @@ attributes:
     from_schema: http://w3id.org/ontogpt/maxo
     rank: 1000
     identifier: true
+    domain_of:
+    - NamedEntity
+    - Publication
     required: true
   label:
     name: label
@@ -709,6 +737,8 @@ attributes:
     - name
     rank: 1000
     slot_uri: rdfs:label
+    domain_of:
+    - NamedEntity
     range: string
 
 </code></pre>

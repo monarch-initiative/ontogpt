@@ -7,7 +7,7 @@
 <meta content="width=device-width,initial-scale=1" name="viewport"/>
 <link href="https://monarch-initiative.github.io/ontogpt/recipe/Step/" rel="canonical"/>
 <link href="../../assets/images/favicon.png" rel="icon"/>
-<meta content="mkdocs-1.5.3, mkdocs-material-9.5.8" name="generator"/>
+<meta content="mkdocs-1.6.0, mkdocs-material-9.5.8" name="generator"/>
 <title>Class: Step - OntoGPT</title>
 <link href="../../assets/stylesheets/main.f2e4d321.min.css" rel="stylesheet"/>
 <link href="../../assets/stylesheets/palette.06af60db.min.css" rel="stylesheet"/>
@@ -586,19 +586,19 @@ FoodItem ||--|o FoodType : "food"
 </tr>
 <tr>
 <td><a href="../inputs/">inputs</a></td>
-<td>0..* <br/> <a href="../FoodItem/">FoodItem</a></td>
+<td>* <br/> <a href="../FoodItem/">FoodItem</a></td>
 <td>a semicolon separated list of the inputs of this step</td>
 <td>direct</td>
 </tr>
 <tr>
 <td><a href="../outputs/">outputs</a></td>
-<td>0..* <br/> <a href="../FoodItem/">FoodItem</a></td>
+<td>* <br/> <a href="../FoodItem/">FoodItem</a></td>
 <td>a semicolon separated list of the outputs of this step</td>
 <td>direct</td>
 </tr>
 <tr>
 <td><a href="../utensils/">utensils</a></td>
-<td>0..* <br/> <a href="../UtensilType/">UtensilType</a></td>
+<td>* <br/> <a href="../UtensilType/">UtensilType</a></td>
 <td>the kitchen utensil used in this step (e</td>
 <td>direct</td>
 </tr>
@@ -679,6 +679,8 @@ attributes:
     description: the action taken in this step (e.g. mix, add)
     from_schema: https://w3id.org/ontogpt/recipe
     rank: 1000
+    domain_of:
+    - Step
     range: Action
   inputs:
     name: inputs
@@ -691,6 +693,8 @@ attributes:
     rank: 1000
     slot_uri: RO:0002233
     multivalued: true
+    domain_of:
+    - Step
     range: FoodItem
   outputs:
     name: outputs
@@ -703,6 +707,8 @@ attributes:
     rank: 1000
     slot_uri: RO:0002234
     multivalued: true
+    domain_of:
+    - Step
     range: FoodItem
   utensils:
     name: utensils
@@ -715,6 +721,8 @@ attributes:
     rank: 1000
     slot_uri: RO:0002500
     multivalued: true
+    domain_of:
+    - Step
     range: UtensilType
 class_uri: FOODON:00004087
 

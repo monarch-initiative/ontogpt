@@ -7,7 +7,7 @@
 <meta content="width=device-width,initial-scale=1" name="viewport"/>
 <link href="https://monarch-initiative.github.io/ontogpt/ibd_literature/DiseaseCellularProcessRelationship/" rel="canonical"/>
 <link href="../../assets/images/favicon.png" rel="icon"/>
-<meta content="mkdocs-1.5.3, mkdocs-material-9.5.8" name="generator"/>
+<meta content="mkdocs-1.6.0, mkdocs-material-9.5.8" name="generator"/>
 <title>Class: DiseaseCellularProcessRelationship - OntoGPT</title>
 <link href="../../assets/stylesheets/main.f2e4d321.min.css" rel="stylesheet"/>
 <link href="../../assets/stylesheets/palette.06af60db.min.css" rel="stylesheet"/>
@@ -659,25 +659,45 @@ attributes:
     name: subject
     description: The name of the disease.
     from_schema: http://w3id.org/ontogpt/ibd_literature
+    domain_of:
+    - GeneExposureRelationship
+    - DiseaseCellularProcessRelationship
+    - Triple
     range: Disease
   predicate:
     name: predicate
     description: The name of the type of relationship between a disease and a cellular
       process.
     from_schema: http://w3id.org/ontogpt/ibd_literature
+    domain_of:
+    - GeneExposureRelationship
+    - DiseaseCellularProcessRelationship
+    - Triple
     range: DiseaseToCellularProcessPredicate
   object:
     name: object
     description: The name of the cellular process.
     from_schema: http://w3id.org/ontogpt/ibd_literature
+    domain_of:
+    - GeneExposureRelationship
+    - DiseaseCellularProcessRelationship
+    - Triple
     range: CellularProcess
   subject_qualifier:
     name: subject_qualifier
     from_schema: http://w3id.org/ontogpt/ibd_literature
+    domain_of:
+    - GeneExposureRelationship
+    - DiseaseCellularProcessRelationship
+    - Triple
     range: NamedEntity
   object_qualifier:
     name: object_qualifier
     from_schema: http://w3id.org/ontogpt/ibd_literature
+    domain_of:
+    - GeneExposureRelationship
+    - DiseaseCellularProcessRelationship
+    - Triple
     range: NamedEntity
 
 </code></pre>

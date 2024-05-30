@@ -7,7 +7,7 @@
 <meta content="width=device-width,initial-scale=1" name="viewport"/>
 <link href="https://monarch-initiative.github.io/ontogpt/emapa_simple/OntologyTermSet/" rel="canonical"/>
 <link href="../../assets/images/favicon.png" rel="icon"/>
-<meta content="mkdocs-1.5.3, mkdocs-material-9.5.8" name="generator"/>
+<meta content="mkdocs-1.6.0, mkdocs-material-9.5.8" name="generator"/>
 <title>Class: OntologyTermSet - OntoGPT</title>
 <link href="../../assets/stylesheets/main.f2e4d321.min.css" rel="stylesheet"/>
 <link href="../../assets/stylesheets/palette.06af60db.min.css" rel="stylesheet"/>
@@ -552,13 +552,13 @@ OntologyTermSet ||--}o OntologyTerm : "terms"
 <tbody>
 <tr>
 <td><a href="../terms/">terms</a></td>
-<td>0..* <br/> <a href="../OntologyTerm/">OntologyTerm</a></td>
+<td>* <br/> <a href="../OntologyTerm/">OntologyTerm</a></td>
 <td>A semicolon-separated list of any Mouse Developmental Anatomy Ontology terms</td>
 <td>direct</td>
 </tr>
 <tr>
 <td><a href="../id/">id</a></td>
-<td>1..1 <br/> <a href="../String/">String</a></td>
+<td>1 <br/> <a href="../String/">String</a></td>
 <td>A unique identifier for the named entity</td>
 <td><a href="../NamedEntity/">NamedEntity</a></td>
 </tr>
@@ -609,6 +609,8 @@ attributes:
     from_schema: http://w3id.org/ontogpt/emapa_simple
     rank: 1000
     multivalued: true
+    domain_of:
+    - OntologyTermSet
     range: OntologyTerm
 tree_root: true
 

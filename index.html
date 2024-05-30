@@ -16,7 +16,7 @@
       
       
       <link rel="icon" href="assets/images/favicon.png">
-      <meta name="generator" content="mkdocs-1.5.3, mkdocs-material-9.5.8">
+      <meta name="generator" content="mkdocs-1.6.0, mkdocs-material-9.5.8">
     
     
       
@@ -1332,17 +1332,14 @@
 
 
 <h1 id="introduction">Introduction</h1>
-<p><em>OntoGPT</em> is a Python package for extracting structured information from text with large language models (LLMs), <em>instruction prompts</em>, and ontology-based grounding. It works well with OpenAI's GPT-3.5 and GPT-4 models as well as a selection of other LLMs. OntoGPT's output can be used for general-purpose natural language tasks (e.g., named entity recognition and relation extraction), summarization, knowledge base and knowledge graph construction, and more.</p>
+<p><em>OntoGPT</em> is a Python package for extracting structured information from text with large language models (LLMs), <em>instruction prompts</em>, and ontology-based grounding. It works well with OpenAI's GPT  models as well as a selection of other LLMs. OntoGPT's output can be used for general-purpose natural language tasks (e.g., named entity recognition and relation extraction), summarization, knowledge base and knowledge graph construction, and more.</p>
 <h2 id="methods">Methods</h2>
-<p>Two different strategies for knowledge extraction are currently implemented in OntoGPT:</p>
+<p>The primary extraction method currently implemented in OntoGPT is SPIRES:</p>
 <ul>
 <li>SPIRES: <em>Structured Prompt Interrogation and Recursive Extraction of Semantics</em></li>
 <li>A Zero-shot learning (ZSL) approach to extracting nested semantic structures from text</li>
 <li>This approach takes two inputs - 1) LinkML schema 2) free text, and outputs knowledge in a structure conformant with the supplied schema in JSON, YAML, RDF or OWL formats</li>
-<li>Uses GPT-3.5-turbo, GPT-4, or one of a variety of open LLMs on your local machine</li>
-<li>SPINDOCTOR: <em>Structured Prompt Interpolation of Narrative Descriptions Or Controlled Terms for Ontological Reporting</em></li>
-<li>Summarizes gene set descriptions (pseudo gene-set enrichment)</li>
-<li>Uses GPT-3.5-turbo or GPT-4</li>
+<li>Uses OpenAI GPT models through their API, or one of a variety of LLMs on your local machine</li>
 </ul>
 <h2 id="quick-start">Quick Start</h2>
 <p>Please see the Setup page on the left for more detailed instructions.</p>
@@ -1382,7 +1379,7 @@ ontogpt extract -i example.txt -t drug</code></p>
 </code></pre>
 <p>NOTE: We do not recommend hosting this webapp publicly without authentication.</p>
 <h2 id="citation">Citation</h2>
-<p>SPIRES is described further in: Caufield JH, Hegde H, Emonet V, Harris NL, Joachimiak MP, Matentzoglu N, et al. Structured prompt interrogation and recursive extraction of semantics (SPIRES): A method for populating knowledge bases using zero-shot learning. arXiv publication: <a href="http://arxiv.org/abs/2304.02711">http://arxiv.org/abs/2304.02711</a></p>
+<p>SPIRES is described further in: Caufield JH, Hegde H, Emonet V, Harris NL, Joachimiak MP, Matentzoglu N, et al. Structured Prompt Interrogation and Recursive Extraction of Semantics (SPIRES): a method for populating knowledge bases using zero-shot learning. Bioinformatics. 2024;40. doi:<a href="http://dx.doi.org/10.1093/bioinformatics/btae104">10.1093/bioinformatics/btae104</a></p>
 <h2 id="contributing">Contributing</h2>
 <p>Contributions are welcome! One way to get started with contributing to OntoGPT is to submit an issue.</p>
 <p>Contributions on recipes to test welcome from anyone! Just make a PR <a href="https://github.com/monarch-initiative/ontogpt/blob/main/tests/input/recipe-urls.csv">here</a>. See <a href="https://github.com/hhursev/recipe-scrapers">this list</a> for accepted URLs</p>

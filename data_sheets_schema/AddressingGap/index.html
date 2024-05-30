@@ -7,7 +7,7 @@
 <meta content="width=device-width,initial-scale=1" name="viewport"/>
 <link href="https://monarch-initiative.github.io/ontogpt/data_sheets_schema/AddressingGap/" rel="canonical"/>
 <link href="../../assets/images/favicon.png" rel="icon"/>
-<meta content="mkdocs-1.5.3, mkdocs-material-9.5.8" name="generator"/>
+<meta content="mkdocs-1.6.0, mkdocs-material-9.5.8" name="generator"/>
 <title>Class: AddressingGap - OntoGPT</title>
 <link href="../../assets/stylesheets/main.f2e4d321.min.css" rel="stylesheet"/>
 <link href="../../assets/stylesheets/palette.06af60db.min.css" rel="stylesheet"/>
@@ -575,13 +575,13 @@ AddressingGap ||--}o Software : "used_software"
 </tr>
 <tr>
 <td><a href="../used_software/">used_software</a></td>
-<td>0..* <br/> <a href="../Software/">Software</a></td>
+<td>* <br/> <a href="../Software/">Software</a></td>
 <td>What software was used as part of this dataset property?</td>
 <td><a href="../DatasetProperty/">DatasetProperty</a></td>
 </tr>
 <tr>
 <td><a href="../id/">id</a></td>
-<td>1..1 <br/> <a href="../String/">String</a></td>
+<td>1 <br/> <a href="../String/">String</a></td>
 <td>the unique name of the dataset</td>
 <td><a href="../NamedThing/">NamedThing</a></td>
 </tr>
@@ -663,6 +663,10 @@ attributes:
   response:
     name: response
     from_schema: https://w3id.org/bridge2ai/data-sheets-schema
+    domain_of:
+    - Purpose
+    - Task
+    - AddressingGap
     range: string
 
 </code></pre>

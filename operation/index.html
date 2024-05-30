@@ -18,7 +18,7 @@
       
       
       <link rel="icon" href="../assets/images/favicon.png">
-      <meta name="generator" content="mkdocs-1.5.3, mkdocs-material-9.5.8">
+      <meta name="generator" content="mkdocs-1.6.0, mkdocs-material-9.5.8">
     
     
       
@@ -349,13 +349,13 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#strategy-1-knowledge-extraction-using-spires" class="md-nav__link">
+  <a href="#knowledge-extraction-using-spires" class="md-nav__link">
     <span class="md-ellipsis">
-      Strategy 1: Knowledge extraction using SPIRES
+      Knowledge extraction using SPIRES
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="Strategy 1: Knowledge extraction using SPIRES">
+    <nav class="md-nav" aria-label="Knowledge extraction using SPIRES">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
@@ -410,15 +410,6 @@
         
       </ul>
     </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#strategy-2-gene-enrichment-using-spindoctor" class="md-nav__link">
-    <span class="md-ellipsis">
-      Strategy 2: Gene Enrichment using SPINDOCTOR
-    </span>
-  </a>
   
 </li>
       
@@ -1302,13 +1293,13 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#strategy-1-knowledge-extraction-using-spires" class="md-nav__link">
+  <a href="#knowledge-extraction-using-spires" class="md-nav__link">
     <span class="md-ellipsis">
-      Strategy 1: Knowledge extraction using SPIRES
+      Knowledge extraction using SPIRES
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="Strategy 1: Knowledge extraction using SPIRES">
+    <nav class="md-nav" aria-label="Knowledge extraction using SPIRES">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
@@ -1366,15 +1357,6 @@
   
 </li>
       
-        <li class="md-nav__item">
-  <a href="#strategy-2-gene-enrichment-using-spindoctor" class="md-nav__link">
-    <span class="md-ellipsis">
-      Strategy 2: Gene Enrichment using SPINDOCTOR
-    </span>
-  </a>
-  
-</li>
-      
     </ul>
   
 </nav>
@@ -1412,7 +1394,7 @@
 ...
 </code></pre>
 <p>OntoGPT is intended to be used for information extraction. The following examples show how to accomplish this.</p>
-<h3 id="strategy-1-knowledge-extraction-using-spires">Strategy 1: Knowledge extraction using SPIRES</h3>
+<h3 id="knowledge-extraction-using-spires">Knowledge extraction using SPIRES</h3>
 <h4 id="working-mechanism">Working Mechanism</h4>
 <ol>
 <li>You provide an arbitrary data model, describing the structure you want to extract text into. This can be nested (but see limitations below). The predefined <a href="src/ontogpt/templates/">templates</a> may be used.</li>
@@ -1445,6 +1427,7 @@
 <pre><code class="language-bash">ontogpt extract -t gocam.GoCamAnnotations -i ~/path/to/abstract.txt
 </code></pre>
 <p>Note: The value accepted by the <code>-t</code> / <code>--template</code> argument is the base name of one of the LinkML schema / data model which can be found in the <a href="src/ontogpt/templates/">templates</a> folder.</p>
+<p>Or, if you create your own schema (see the page on <a href="../custom/">custom schemas</a>), you may pass the path to the .yaml file.</p>
 <h4 id="output">Output</h4>
 <p>The output returned from the above command can be optionally redirected into an output file using the <code>-o</code> / <code>--output</code>.</p>
 <p>The following is a small part of what the larger schema-compliant output looks like:</p>
@@ -1477,17 +1460,6 @@ gene_functions:
 <pre><code class="language-bash">ontogpt list-models
 </code></pre>
 <p>When specifying a local model for the first time, it will be downloaded to your local system.</p>
-<h2 id="strategy-2-gene-enrichment-using-spindoctor">Strategy 2: Gene Enrichment using SPINDOCTOR</h2>
-<p>Given a set of genes, OntoGPT can find similarities among them.</p>
-<p>Ex.:</p>
-<pre><code class="language-bash">ontogpt enrichment -U tests/input/genesets/sensory-ataxia.yaml
-</code></pre>
-<p>The default is to use ontological gene function synopses (via the Alliance API).</p>
-<ul>
-<li>To use narrative/RefSeq summaries, use the <code>--no-ontological-synopses</code> flag</li>
-<li>To run without any gene descriptions, use the <code>--no-annotations</code> flag</li>
-</ul>
-<p>This strategy does not currently support using local models.</p>
 
 
 

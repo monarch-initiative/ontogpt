@@ -7,7 +7,7 @@
 <meta content="width=device-width,initial-scale=1" name="viewport"/>
 <link href="https://monarch-initiative.github.io/ontogpt/maxo/Disease/" rel="canonical"/>
 <link href="../../assets/images/favicon.png" rel="icon"/>
-<meta content="mkdocs-1.5.3, mkdocs-material-9.5.8" name="generator"/>
+<meta content="mkdocs-1.6.0, mkdocs-material-9.5.8" name="generator"/>
 <title>Class: Disease - OntoGPT</title>
 <link href="../../assets/stylesheets/main.f2e4d321.min.css" rel="stylesheet"/>
 <link href="../../assets/stylesheets/palette.06af60db.min.css" rel="stylesheet"/>
@@ -539,7 +539,7 @@
 <div class="md-content" data-md-component="content">
 <article class="md-content__inner md-typeset">
 <h1 id="class-disease">Class: Disease</h1>
-<p><em>A disposition to undergo pathological processes that exists in an organism because of one or more disorders in that organism.</em></p>
+<p><em>A disposition to undergo pathological processes that exists in an organism because of one or more disorders in that organism. For example: Beck-Fahrner syndrome, hereditary retinoblastoma, progeria, diabetes mellitus, infectious otitis media</em></p>
 <p>URI: <a href="http://w3id.org/ontogpt/maxoDisease">maxo_extract:Disease</a></p>
 <div class="mermaid">erDiagram
 Disease {
@@ -570,7 +570,7 @@ Disease {
 <tbody>
 <tr>
 <td><a href="../id/">id</a></td>
-<td>1..1 <br/> <a href="../String/">String</a></td>
+<td>1 <br/> <a href="../String/">String</a></td>
 <td>A unique identifier for the named entity</td>
 <td><a href="../NamedEntity/">NamedEntity</a></td>
 </tr>
@@ -595,13 +595,13 @@ Disease {
 <tbody>
 <tr>
 <td><a href="../MaxoAnnotations/">MaxoAnnotations</a></td>
-<td><a href="../disease/">disease</a></td>
+<td><a href="../primary_disease/">primary_disease</a></td>
 <td>range</td>
 <td><a href="./">Disease</a></td>
 </tr>
 <tr>
-<td><a href="../ActionToDiseaseRelationship/">ActionToDiseaseRelationship</a></td>
-<td><a href="../object/">object</a></td>
+<td><a href="../ActionAnnotationRelationship/">ActionAnnotationRelationship</a></td>
+<td><a href="../qualifier/">qualifier</a></td>
 <td>range</td>
 <td><a href="./">Disease</a></td>
 </tr>
@@ -624,7 +624,7 @@ Disease {
 <tbody>
 <tr>
 <td>annotators</td>
-<td>sqlite:obo:mondo</td>
+<td>sqlite:obo:mondo, sqlite:obo:hp, sqlite:obo:ncit</td>
 </tr>
 </tbody>
 </table>
@@ -661,9 +661,10 @@ id_prefixes:
 annotations:
   annotators:
     tag: annotators
-    value: sqlite:obo:mondo
-description: A disposition to undergo pathological processes that exists in an organism
-  because of one or more disorders in that organism.
+    value: sqlite:obo:mondo, sqlite:obo:hp, sqlite:obo:ncit
+description: 'A disposition to undergo pathological processes that exists in an organism
+  because of one or more disorders in that organism. For example: Beck-Fahrner syndrome,
+  hereditary retinoblastoma, progeria, diabetes mellitus, infectious otitis media'
 from_schema: http://w3id.org/ontogpt/maxo
 is_a: NamedEntity
 
@@ -677,9 +678,10 @@ id_prefixes:
 annotations:
   annotators:
     tag: annotators
-    value: sqlite:obo:mondo
-description: A disposition to undergo pathological processes that exists in an organism
-  because of one or more disorders in that organism.
+    value: sqlite:obo:mondo, sqlite:obo:hp, sqlite:obo:ncit
+description: 'A disposition to undergo pathological processes that exists in an organism
+  because of one or more disorders in that organism. For example: Beck-Fahrner syndrome,
+  hereditary retinoblastoma, progeria, diabetes mellitus, infectious otitis media'
 from_schema: http://w3id.org/ontogpt/maxo
 is_a: NamedEntity
 attributes:

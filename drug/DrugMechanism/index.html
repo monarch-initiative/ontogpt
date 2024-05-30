@@ -7,7 +7,7 @@
 <meta content="width=device-width,initial-scale=1" name="viewport"/>
 <link href="https://monarch-initiative.github.io/ontogpt/drug/DrugMechanism/" rel="canonical"/>
 <link href="../../assets/images/favicon.png" rel="icon"/>
-<meta content="mkdocs-1.5.3, mkdocs-material-9.5.8" name="generator"/>
+<meta content="mkdocs-1.6.0, mkdocs-material-9.5.8" name="generator"/>
 <title>Class: DrugMechanism - OntoGPT</title>
 <link href="../../assets/stylesheets/main.f2e4d321.min.css" rel="stylesheet"/>
 <link href="../../assets/stylesheets/palette.06af60db.min.css" rel="stylesheet"/>
@@ -571,13 +571,13 @@ MechanismLink ||--|o MechanismElement : "object"
 </tr>
 <tr>
 <td><a href="../mechanism_links/">mechanism_links</a></td>
-<td>0..* <br/> <a href="../MechanismLink/">MechanismLink</a></td>
+<td>* <br/> <a href="../MechanismLink/">MechanismLink</a></td>
 <td>semicolon-separated list of links, where each link is a triple connecting two...</td>
 <td>direct</td>
 </tr>
 <tr>
 <td><a href="../references/">references</a></td>
-<td>0..* <br/> <a href="../String/">String</a></td>
+<td>* <br/> <a href="../String/">String</a></td>
 <td></td>
 <td>direct</td>
 </tr>
@@ -625,12 +625,16 @@ attributes:
     description: the name of the disease that is treated
     from_schema: http://w3id.org/ontogpt/drug
     rank: 1000
+    domain_of:
+    - DrugMechanism
     range: Disease
   drug:
     name: drug
     description: the name of the drug that treats the disease
     from_schema: http://w3id.org/ontogpt/drug
     rank: 1000
+    domain_of:
+    - DrugMechanism
     range: Drug
   mechanism_links:
     name: mechanism_links
@@ -639,6 +643,8 @@ attributes:
     from_schema: http://w3id.org/ontogpt/drug
     rank: 1000
     multivalued: true
+    domain_of:
+    - DrugMechanism
     range: MechanismLink
   references:
     name: references
@@ -649,6 +655,8 @@ attributes:
     from_schema: http://w3id.org/ontogpt/drug
     rank: 1000
     multivalued: true
+    domain_of:
+    - DrugMechanism
     range: string
   source_text:
     name: source_text
@@ -658,6 +666,8 @@ attributes:
         value: 'true'
     from_schema: http://w3id.org/ontogpt/drug
     rank: 1000
+    domain_of:
+    - DrugMechanism
     range: string
 tree_root: true
 

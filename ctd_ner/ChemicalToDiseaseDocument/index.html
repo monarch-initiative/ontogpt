@@ -7,7 +7,7 @@
 <meta content="width=device-width,initial-scale=1" name="viewport"/>
 <link href="https://monarch-initiative.github.io/ontogpt/ctd_ner/ChemicalToDiseaseDocument/" rel="canonical"/>
 <link href="../../assets/images/favicon.png" rel="icon"/>
-<meta content="mkdocs-1.5.3, mkdocs-material-9.5.8" name="generator"/>
+<meta content="mkdocs-1.6.0, mkdocs-material-9.5.8" name="generator"/>
 <title>Class: ChemicalToDiseaseDocument - OntoGPT</title>
 <link href="../../assets/stylesheets/main.f2e4d321.min.css" rel="stylesheet"/>
 <link href="../../assets/stylesheets/palette.06af60db.min.css" rel="stylesheet"/>
@@ -570,13 +570,13 @@ ChemicalToDiseaseDocument ||--}o NamedEntity : "entities"
 <tbody>
 <tr>
 <td><a href="../chemicals/">chemicals</a></td>
-<td>0..* <br/> <a href="../Chemical/">Chemical</a></td>
+<td>* <br/> <a href="../Chemical/">Chemical</a></td>
 <td>One or more chemical substances, drugs, or small molecules</td>
 <td>direct</td>
 </tr>
 <tr>
 <td><a href="../diseases/">diseases</a></td>
-<td>0..* <br/> <a href="../Disease/">Disease</a></td>
+<td>* <br/> <a href="../Disease/">Disease</a></td>
 <td>One or more diseases or conditions</td>
 <td>direct</td>
 </tr>
@@ -588,7 +588,7 @@ ChemicalToDiseaseDocument ||--}o NamedEntity : "entities"
 </tr>
 <tr>
 <td><a href="../entities/">entities</a></td>
-<td>0..* <br/> <a href="../NamedEntity/">NamedEntity</a></td>
+<td>* <br/> <a href="../NamedEntity/">NamedEntity</a></td>
 <td></td>
 <td><a href="../TextWithEntity/">TextWithEntity</a></td>
 </tr>
@@ -638,6 +638,8 @@ attributes:
     from_schema: http://w3id.org/ontogpt/ctd_ner
     rank: 1000
     multivalued: true
+    domain_of:
+    - ChemicalToDiseaseDocument
     range: Chemical
   diseases:
     name: diseases
@@ -650,6 +652,8 @@ attributes:
     from_schema: http://w3id.org/ontogpt/ctd_ner
     rank: 1000
     multivalued: true
+    domain_of:
+    - ChemicalToDiseaseDocument
     range: Disease
 
 </code></pre>

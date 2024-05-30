@@ -9,7 +9,7 @@
 <link href="../ibd_literature/" rel="prev"/>
 <link href="../mendelian_disease/" rel="next"/>
 <link href="../assets/images/favicon.png" rel="icon"/>
-<meta content="mkdocs-1.5.3, mkdocs-material-9.5.8" name="generator"/>
+<meta content="mkdocs-1.6.0, mkdocs-material-9.5.8" name="generator"/>
 <title>Medical Actions - OntoGPT</title>
 <link href="../assets/stylesheets/main.f2e4d321.min.css" rel="stylesheet"/>
 <link href="../assets/stylesheets/palette.06af60db.min.css" rel="stylesheet"/>
@@ -563,65 +563,43 @@
 MaxoAnnotations {
 
 }
-Triple {
-    string qualifier  
+ActionAnnotationRelationship {
+
 }
 NamedEntity {
     string id  
     string label  
 }
-RelationshipType {
+Disease {
     string id  
     string label  
-}
-Publication {
-    string id  
-    string title  
-    string abstract  
-    string combined_text  
-    string full_text  
-}
-ActionToSymptomRelationship {
-    string qualifier  
 }
 Symptom {
     string id  
     string label  
 }
-Action {
+MedicalAction {
     string id  
     string label  
 }
-ActionToDiseaseRelationship {
-    string qualifier  
-}
-Disease {
+Chemical {
     string id  
     string label  
 }
 
-MaxoAnnotations ||--}o Action : "action"
-MaxoAnnotations ||--}o Disease : "disease"
-MaxoAnnotations ||--}o Symptom : "symptom"
-MaxoAnnotations ||--}o ActionToDiseaseRelationship : "action_to_disease"
-MaxoAnnotations ||--}o ActionToSymptomRelationship : "action_to_symptom"
-MaxoAnnotations ||--|o Publication : "publication"
-MaxoAnnotations ||--}o Triple : "triples"
-Triple ||--|o NamedEntity : "subject"
-Triple ||--|o RelationshipType : "predicate"
-Triple ||--|o NamedEntity : "object"
-Triple ||--|o NamedEntity : "subject_qualifier"
-Triple ||--|o NamedEntity : "object_qualifier"
-ActionToSymptomRelationship ||--|o Action : "subject"
-ActionToSymptomRelationship ||--|o NamedEntity : "predicate"
-ActionToSymptomRelationship ||--}o Symptom : "object"
-ActionToSymptomRelationship ||--|o NamedEntity : "subject_qualifier"
-ActionToSymptomRelationship ||--|o NamedEntity : "object_qualifier"
-ActionToDiseaseRelationship ||--|o Action : "subject"
-ActionToDiseaseRelationship ||--|o NamedEntity : "predicate"
-ActionToDiseaseRelationship ||--}o Disease : "object"
-ActionToDiseaseRelationship ||--|o NamedEntity : "subject_qualifier"
-ActionToDiseaseRelationship ||--|o NamedEntity : "object_qualifier"
+MaxoAnnotations ||--|o Disease : "primary_disease"
+MaxoAnnotations ||--}o MedicalAction : "medical_actions"
+MaxoAnnotations ||--}o Symptom : "symptoms"
+MaxoAnnotations ||--}o Chemical : "chemicals"
+MaxoAnnotations ||--}o ActionAnnotationRelationship : "action_annotation_relationships"
+ActionAnnotationRelationship ||--|o Chemical : "subject_extension"
+ActionAnnotationRelationship ||--|o NamedEntity : "object_extension"
+ActionAnnotationRelationship ||--|o MedicalAction : "subject"
+ActionAnnotationRelationship ||--|o NamedEntity : "predicate"
+ActionAnnotationRelationship ||--|o Symptom : "object"
+ActionAnnotationRelationship ||--|o Disease : "qualifier"
+ActionAnnotationRelationship ||--|o NamedEntity : "subject_qualifier"
+ActionAnnotationRelationship ||--|o NamedEntity : "object_qualifier"
 
 </div>
 <h2 id="classes">Classes</h2>
@@ -650,28 +628,36 @@ ActionToDiseaseRelationship ||--|o NamedEntity : "object_qualifier"
 <td>Abstract parent for Relation Extraction tasks</td>
 </tr>
 <tr>
-<td>                <a href="ActionToDiseaseRelationship/">ActionToDiseaseRelationship</a></td>
-<td>A triple representing a relationship between a medical action (A clinically prescribed procedure, therapy, intervention, or recommendation) and a disease, for example, radiation therapy TREATS cancer, or PET scan IS USED TO DIAGNOSE myocarditis.</td>
+<td>                <a href="ExtendedTriple/">ExtendedTriple</a></td>
+<td>Abstract parent for Relation Extraction tasks, with additional support for an extension term describing some aspect of the subject and object.</td>
 </tr>
 <tr>
-<td>                <a href="ActionToSymptomRelationship/">ActionToSymptomRelationship</a></td>
-<td>A triple representing a relationship between a medical action (A clinically prescribed procedure, therapy, intervention, or recommendation) and a symptom, for example, a chest X-ray IS USED TO DIAGNOSE pleural effusion.</td>
+<td>                        <a href="ActionAnnotationRelationship/">ActionAnnotationRelationship</a></td>
+<td>An association representing a relationships between a disease, the mentioned signs and symptoms associated with that disease, the medical actions relating to each symptom, and the type of relationship between each action and symptom (usually TREATS or PREVENTS).</td>
 </tr>
 <tr>
 <td><a href="ExtractionResult/">ExtractionResult</a></td>
 <td>A result of extracting knowledge on text</td>
 </tr>
 <tr>
+<td><a href="MaxoAnnotations/">MaxoAnnotations</a></td>
+<td>None</td>
+</tr>
+<tr>
 <td><a href="NamedEntity/">NamedEntity</a></td>
 <td>None</td>
 </tr>
 <tr>
-<td>        <a href="Action/">Action</a></td>
-<td>A clinically prescribed procedure, therapy, intervention, or recommendation.</td>
+<td>        <a href="Chemical/">Chemical</a></td>
+<td>A substance that has a defined molecular structure and is produced by or used in a chemical process. Includes drugs used as part of medical actions. For example: corticosteroid, folic acid, opioid analgesic</td>
 </tr>
 <tr>
 <td>        <a href="Disease/">Disease</a></td>
-<td>A disposition to undergo pathological processes that exists in an organism because of one or more disorders in that organism.</td>
+<td>A disposition to undergo pathological processes that exists in an organism because of one or more disorders in that organism. For example: Beck-Fahrner syndrome, hereditary retinoblastoma, progeria, diabetes mellitus, infectious otitis media</td>
+</tr>
+<tr>
+<td>        <a href="MedicalAction/">MedicalAction</a></td>
+<td>A clinically prescribed procedure, therapy, intervention, or recommendation. For example: blood transfusion, radiation therapy, cardiac catheterization, pulse oximetry, otoscopy</td>
 </tr>
 <tr>
 <td>        <a href="RelationshipType/">RelationshipType</a></td>
@@ -679,7 +665,7 @@ ActionToDiseaseRelationship ||--|o NamedEntity : "object_qualifier"
 </tr>
 <tr>
 <td>        <a href="Symptom/">Symptom</a></td>
-<td>A condition or phenotype resulting from an abnormal health state.</td>
+<td>A condition or phenotype resulting from an abnormal health state. For example: Low serum calcitriol, hypoplasia of the thymus, chronic cough, aortic stiffness, low pulse pressure</td>
 </tr>
 <tr>
 <td><a href="Publication/">Publication</a></td>
@@ -692,10 +678,6 @@ ActionToDiseaseRelationship ||--|o NamedEntity : "object_qualifier"
 <tr>
 <td><a href="TextWithTriples/">TextWithTriples</a></td>
 <td>A text containing one or more relations of the Triple type.</td>
-</tr>
-<tr>
-<td>        <a href="MaxoAnnotations/">MaxoAnnotations</a></td>
-<td>None</td>
 </tr>
 </tbody>
 </table>
@@ -713,24 +695,16 @@ ActionToDiseaseRelationship ||--|o NamedEntity : "object_qualifier"
 <td>The abstract of the publication</td>
 </tr>
 <tr>
-<td><a href="action/">action</a></td>
-<td>Semicolon-separated list of medical actions</td>
+<td><a href="action_annotation_relationships/">action_annotation_relationships</a></td>
+<td>Semicolon-separated list of relationships between a disease, the mentioned si...</td>
 </tr>
 <tr>
-<td><a href="action_to_disease/">action_to_disease</a></td>
-<td></td>
-</tr>
-<tr>
-<td><a href="action_to_symptom/">action_to_symptom</a></td>
-<td></td>
+<td><a href="chemicals/">chemicals</a></td>
+<td>Semicolon-separated list of chemicals or drugs</td>
 </tr>
 <tr>
 <td><a href="combined_text/">combined_text</a></td>
 <td></td>
-</tr>
-<tr>
-<td><a href="disease/">disease</a></td>
-<td>Semicolon-separated list of diseases</td>
 </tr>
 <tr>
 <td><a href="entities/">entities</a></td>
@@ -765,12 +739,20 @@ ActionToDiseaseRelationship ||--|o NamedEntity : "object_qualifier"
 <td>The label (name) of the named thing</td>
 </tr>
 <tr>
+<td><a href="medical_actions/">medical_actions</a></td>
+<td>Semicolon-separated list of medical actions</td>
+</tr>
+<tr>
 <td><a href="named_entities/">named_entities</a></td>
 <td>Named entities extracted from the text</td>
 </tr>
 <tr>
 <td><a href="object/">object</a></td>
 <td></td>
+</tr>
+<tr>
+<td><a href="object_extension/">object_extension</a></td>
+<td>An optional term describing some specific aspect of the object, e</td>
 </tr>
 <tr>
 <td><a href="object_id/">object_id</a></td>
@@ -787,6 +769,10 @@ ActionToDiseaseRelationship ||--|o NamedEntity : "object_qualifier"
 <tr>
 <td><a href="predicate/">predicate</a></td>
 <td></td>
+</tr>
+<tr>
+<td><a href="primary_disease/">primary_disease</a></td>
+<td>The main disease the text is about, or its central disease topic</td>
 </tr>
 <tr>
 <td><a href="prompt/">prompt</a></td>
@@ -809,6 +795,10 @@ ActionToDiseaseRelationship ||--|o NamedEntity : "object_qualifier"
 <td></td>
 </tr>
 <tr>
+<td><a href="subject_extension/">subject_extension</a></td>
+<td>An optional term describing some specific aspect of the subject, e</td>
+</tr>
+<tr>
 <td><a href="subject_qualifier/">subject_qualifier</a></td>
 <td>An optional qualifier or modifier for the subject of the statement, e</td>
 </tr>
@@ -817,8 +807,8 @@ ActionToDiseaseRelationship ||--|o NamedEntity : "object_qualifier"
 <td></td>
 </tr>
 <tr>
-<td><a href="symptom/">symptom</a></td>
-<td>Semicolon-separated list of symptoms</td>
+<td><a href="symptoms/">symptoms</a></td>
+<td>Semicolon-separated list of signs or symptoms</td>
 </tr>
 <tr>
 <td><a href="title/">title</a></td>

@@ -7,7 +7,7 @@
 <meta content="width=device-width,initial-scale=1" name="viewport"/>
 <link href="https://monarch-initiative.github.io/ontogpt/reaction/ReactionDocument/" rel="canonical"/>
 <link href="../../assets/images/favicon.png" rel="icon"/>
-<meta content="mkdocs-1.5.3, mkdocs-material-9.5.8" name="generator"/>
+<meta content="mkdocs-1.6.0, mkdocs-material-9.5.8" name="generator"/>
 <title>Class: ReactionDocument - OntoGPT</title>
 <link href="../../assets/stylesheets/main.f2e4d321.min.css" rel="stylesheet"/>
 <link href="../../assets/stylesheets/palette.06af60db.min.css" rel="stylesheet"/>
@@ -564,19 +564,19 @@ Reaction ||--}o ChemicalEntity : "right_side"
 <tbody>
 <tr>
 <td><a href="../genes/">genes</a></td>
-<td>0..* <br/> <a href="../Gene/">Gene</a></td>
+<td>* <br/> <a href="../Gene/">Gene</a></td>
 <td>semicolon separated list of genes that catalyzes the mentioned reactions</td>
 <td>direct</td>
 </tr>
 <tr>
 <td><a href="../reactions/">reactions</a></td>
-<td>0..* <br/> <a href="../Reaction/">Reaction</a></td>
+<td>* <br/> <a href="../Reaction/">Reaction</a></td>
 <td>semicolon separated list of reaction equations (e</td>
 <td>direct</td>
 </tr>
 <tr>
 <td><a href="../gene_reaction_pairings/">gene_reaction_pairings</a></td>
-<td>0..* <br/> <a href="../GeneReactionPairing/">GeneReactionPairing</a></td>
+<td>* <br/> <a href="../GeneReactionPairing/">GeneReactionPairing</a></td>
 <td>semicolon separated list of gene to reaction pairings</td>
 <td>direct</td>
 </tr>
@@ -588,7 +588,7 @@ Reaction ||--}o ChemicalEntity : "right_side"
 </tr>
 <tr>
 <td><a href="../has_evidence/">has_evidence</a></td>
-<td>0..* <br/> <a href="../Evidence/">Evidence</a></td>
+<td>* <br/> <a href="../Evidence/">Evidence</a></td>
 <td>evidence for the reaction</td>
 <td>direct</td>
 </tr>
@@ -631,6 +631,8 @@ attributes:
     from_schema: https://w3id.org/ontogpt/reaction
     rank: 1000
     multivalued: true
+    domain_of:
+    - ReactionDocument
     range: Gene
   reactions:
     name: reactions
@@ -638,6 +640,9 @@ attributes:
       by the gene
     from_schema: https://w3id.org/ontogpt/reaction
     multivalued: true
+    domain_of:
+    - GeneToReaction
+    - ReactionDocument
     range: Reaction
     inlined: true
   gene_reaction_pairings:
@@ -646,11 +651,16 @@ attributes:
     from_schema: https://w3id.org/ontogpt/reaction
     rank: 1000
     multivalued: true
+    domain_of:
+    - ReactionDocument
     range: GeneReactionPairing
     inlined: true
   organism:
     name: organism
     from_schema: https://w3id.org/ontogpt/reaction
+    domain_of:
+    - GeneToReaction
+    - ReactionDocument
     range: Organism
   has_evidence:
     name: has_evidence
@@ -658,6 +668,8 @@ attributes:
     from_schema: https://w3id.org/ontogpt/reaction
     rank: 1000
     multivalued: true
+    domain_of:
+    - ReactionDocument
     range: Evidence
 
 </code></pre>

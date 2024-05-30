@@ -7,7 +7,7 @@
 <meta content="width=device-width,initial-scale=1" name="viewport"/>
 <link href="https://monarch-initiative.github.io/ontogpt/traits/Taxon/" rel="canonical"/>
 <link href="../../assets/images/favicon.png" rel="icon"/>
-<meta content="mkdocs-1.5.3, mkdocs-material-9.5.8" name="generator"/>
+<meta content="mkdocs-1.6.0, mkdocs-material-9.5.8" name="generator"/>
 <title>Class: Taxon - OntoGPT</title>
 <link href="../../assets/stylesheets/main.f2e4d321.min.css" rel="stylesheet"/>
 <link href="../../assets/stylesheets/palette.06af60db.min.css" rel="stylesheet"/>
@@ -546,55 +546,55 @@ Taxon ||--}o Trait : "preferred_environments"
 <tbody>
 <tr>
 <td><a href="../metabolic_traits/">metabolic_traits</a></td>
-<td>0..* <br/> <a href="../Trait/">Trait</a></td>
+<td>* <br/> <a href="../Trait/">Trait</a></td>
 <td>The metabolic traits for the taxon</td>
 <td>direct</td>
 </tr>
 <tr>
 <td><a href="../morphological_traits/">morphological_traits</a></td>
-<td>0..* <br/> <a href="../Trait/">Trait</a></td>
+<td>* <br/> <a href="../Trait/">Trait</a></td>
 <td>The morphological traits for the taxon</td>
 <td>direct</td>
 </tr>
 <tr>
 <td><a href="../genetic_traits/">genetic_traits</a></td>
-<td>0..* <br/> <a href="../Trait/">Trait</a></td>
+<td>* <br/> <a href="../Trait/">Trait</a></td>
 <td>The genetic traits for the taxon</td>
 <td>direct</td>
 </tr>
 <tr>
 <td><a href="../cellular_traits/">cellular_traits</a></td>
-<td>0..* <br/> <a href="../Trait/">Trait</a></td>
+<td>* <br/> <a href="../Trait/">Trait</a></td>
 <td>The cellular traits for the taxon</td>
 <td>direct</td>
 </tr>
 <tr>
 <td><a href="../ecological_traits/">ecological_traits</a></td>
-<td>0..* <br/> <a href="../Trait/">Trait</a></td>
+<td>* <br/> <a href="../Trait/">Trait</a></td>
 <td>The ecological traits for the taxon</td>
 <td>direct</td>
 </tr>
 <tr>
 <td><a href="../reproductive_traits/">reproductive_traits</a></td>
-<td>0..* <br/> <a href="../Trait/">Trait</a></td>
+<td>* <br/> <a href="../Trait/">Trait</a></td>
 <td>The reproductive traits for the taxon</td>
 <td>direct</td>
 </tr>
 <tr>
 <td><a href="../survival_traits/">survival_traits</a></td>
-<td>0..* <br/> <a href="../Trait/">Trait</a></td>
+<td>* <br/> <a href="../Trait/">Trait</a></td>
 <td>The survival traits for the taxon</td>
 <td>direct</td>
 </tr>
 <tr>
 <td><a href="../phenotypic_plasticiticy_traits/">phenotypic_plasticiticy_traits</a></td>
-<td>0..* <br/> <a href="../Trait/">Trait</a></td>
+<td>* <br/> <a href="../Trait/">Trait</a></td>
 <td>The phenotypic plasticiticy traits for the taxon</td>
 <td>direct</td>
 </tr>
 <tr>
 <td><a href="../preferred_environments/">preferred_environments</a></td>
-<td>0..* <br/> <a href="../Trait/">Trait</a></td>
+<td>* <br/> <a href="../Trait/">Trait</a></td>
 <td>The preferred environments for the taxon</td>
 <td>direct</td>
 </tr>
@@ -641,6 +641,8 @@ attributes:
     from_schema: http://w3id.org/ontogpt/traits
     rank: 1000
     multivalued: true
+    domain_of:
+    - Taxon
     range: Trait
   morphological_traits:
     name: morphological_traits
@@ -653,6 +655,8 @@ attributes:
     from_schema: http://w3id.org/ontogpt/traits
     rank: 1000
     multivalued: true
+    domain_of:
+    - Taxon
     range: Trait
   genetic_traits:
     name: genetic_traits
@@ -664,6 +668,8 @@ attributes:
     from_schema: http://w3id.org/ontogpt/traits
     rank: 1000
     multivalued: true
+    domain_of:
+    - Taxon
     range: Trait
   cellular_traits:
     name: cellular_traits
@@ -675,6 +681,8 @@ attributes:
     from_schema: http://w3id.org/ontogpt/traits
     rank: 1000
     multivalued: true
+    domain_of:
+    - Taxon
     range: Trait
   ecological_traits:
     name: ecological_traits
@@ -686,6 +694,8 @@ attributes:
     from_schema: http://w3id.org/ontogpt/traits
     rank: 1000
     multivalued: true
+    domain_of:
+    - Taxon
     range: Trait
   reproductive_traits:
     name: reproductive_traits
@@ -698,6 +708,8 @@ attributes:
     from_schema: http://w3id.org/ontogpt/traits
     rank: 1000
     multivalued: true
+    domain_of:
+    - Taxon
     range: Trait
   survival_traits:
     name: survival_traits
@@ -709,6 +721,8 @@ attributes:
     from_schema: http://w3id.org/ontogpt/traits
     rank: 1000
     multivalued: true
+    domain_of:
+    - Taxon
     range: Trait
   phenotypic_plasticiticy_traits:
     name: phenotypic_plasticiticy_traits
@@ -721,6 +735,8 @@ attributes:
     from_schema: http://w3id.org/ontogpt/traits
     rank: 1000
     multivalued: true
+    domain_of:
+    - Taxon
     range: Trait
   preferred_environments:
     name: preferred_environments
@@ -733,6 +749,8 @@ attributes:
     from_schema: http://w3id.org/ontogpt/traits
     rank: 1000
     multivalued: true
+    domain_of:
+    - Taxon
     range: Trait
 tree_root: true
 

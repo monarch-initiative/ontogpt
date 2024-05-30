@@ -7,7 +7,7 @@
 <meta content="width=device-width,initial-scale=1" name="viewport"/>
 <link href="https://monarch-initiative.github.io/ontogpt/recipe/Recipe/" rel="canonical"/>
 <link href="../../assets/images/favicon.png" rel="icon"/>
-<meta content="mkdocs-1.5.3, mkdocs-material-9.5.8" name="generator"/>
+<meta content="mkdocs-1.6.0, mkdocs-material-9.5.8" name="generator"/>
 <title>Class: Recipe - OntoGPT</title>
 <link href="../../assets/stylesheets/main.f2e4d321.min.css" rel="stylesheet"/>
 <link href="../../assets/stylesheets/palette.06af60db.min.css" rel="stylesheet"/>
@@ -577,7 +577,7 @@ Quantity ||--|o Unit : "unit"
 <tbody>
 <tr>
 <td><a href="../url/">url</a></td>
-<td>1..1 <br/> <a href="../Uriorcurie/">Uriorcurie</a></td>
+<td>1 <br/> <a href="../Uriorcurie/">Uriorcurie</a></td>
 <td></td>
 <td>direct</td>
 </tr>
@@ -595,19 +595,19 @@ Quantity ||--|o Unit : "unit"
 </tr>
 <tr>
 <td><a href="../categories/">categories</a></td>
-<td>0..* <br/> <a href="../RecipeCategory/">RecipeCategory</a></td>
+<td>* <br/> <a href="../RecipeCategory/">RecipeCategory</a></td>
 <td>a semicolon separated list of the categories to which this recipe belongs</td>
 <td>direct</td>
 </tr>
 <tr>
 <td><a href="../ingredients/">ingredients</a></td>
-<td>0..* <br/> <a href="../Ingredient/">Ingredient</a></td>
+<td>* <br/> <a href="../Ingredient/">Ingredient</a></td>
 <td>a semicolon separated list of the ingredients plus quantities of the recipe</td>
 <td>direct</td>
 </tr>
 <tr>
 <td><a href="../steps/">steps</a></td>
-<td>0..* <br/> <a href="../Step/">Step</a></td>
+<td>* <br/> <a href="../Step/">Step</a></td>
 <td>a semicolon separated list of the individual steps involved in this recipe</td>
 <td>direct</td>
 </tr>
@@ -714,6 +714,8 @@ attributes:
     rank: 1000
     slot_uri: rdf:Resource
     identifier: true
+    domain_of:
+    - Recipe
     range: uriorcurie
     required: true
   label:
@@ -726,6 +728,9 @@ attributes:
     from_schema: https://w3id.org/ontogpt/recipe
     rank: 1000
     slot_uri: rdfs:label
+    domain_of:
+    - Recipe
+    - NamedEntity
   description:
     name: description
     annotations:
@@ -736,6 +741,8 @@ attributes:
     from_schema: https://w3id.org/ontogpt/recipe
     rank: 1000
     slot_uri: dcterms:description
+    domain_of:
+    - Recipe
   categories:
     name: categories
     annotations:
@@ -748,6 +755,8 @@ attributes:
     rank: 1000
     slot_uri: dcterms:subject
     multivalued: true
+    domain_of:
+    - Recipe
     range: RecipeCategory
   ingredients:
     name: ingredients
@@ -761,6 +770,8 @@ attributes:
     rank: 1000
     slot_uri: FOODON:00002420
     multivalued: true
+    domain_of:
+    - Recipe
     range: Ingredient
   steps:
     name: steps
@@ -773,6 +784,8 @@ attributes:
     from_schema: https://w3id.org/ontogpt/recipe
     rank: 1000
     multivalued: true
+    domain_of:
+    - Recipe
     range: Step
 tree_root: true
 

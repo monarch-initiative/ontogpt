@@ -9,7 +9,7 @@
 <link href="../data_sheets_schema/" rel="prev"/>
 <link href="../dietitian_notes/" rel="next"/>
 <link href="../assets/images/favicon.png" rel="icon"/>
-<meta content="mkdocs-1.5.3, mkdocs-material-9.5.8" name="generator"/>
+<meta content="mkdocs-1.6.0, mkdocs-material-9.5.8" name="generator"/>
 <title>Diagnostic Procedures - OntoGPT</title>
 <link href="../assets/stylesheets/main.f2e4d321.min.css" rel="stylesheet"/>
 <link href="../assets/stylesheets/palette.06af60db.min.css" rel="stylesheet"/>
@@ -563,10 +563,7 @@
 DiagnosticProceduretoPhenotypeAssociation {
     string qualifier  
 }
-DiagnosticProceduretoAttributeAssociation {
-    string qualifier  
-}
-DiagnosticProcedure {
+NamedEntity {
     string id  
     string label  
 }
@@ -574,67 +571,13 @@ Phenotype {
     string id  
     string label  
 }
-ClinicalAttribute {
-    string id  
-    string label  
-}
-Quality {
-    string id  
-    string label  
-}
 ProcedureToPhenotypePredicate {
     string id  
     string label  
 }
-ProcedureToAttributePredicate {
+DiagnosticProcedure {
     string id  
     string label  
-}
-Unit {
-    string id  
-    string label  
-}
-Any {
-
-}
-ExtractionResult {
-    string input_id  
-    string input_title  
-    string input_text  
-    string raw_completion_output  
-    string prompt  
-}
-NamedEntity {
-    string id  
-    string label  
-}
-CompoundExpression {
-
-}
-Triple {
-    string qualifier  
-}
-TextWithTriples {
-
-}
-TextWithEntity {
-
-}
-RelationshipType {
-    string id  
-    string label  
-}
-Publication {
-    string id  
-    string title  
-    string abstract  
-    string combined_text  
-    string full_text  
-}
-AnnotatorResult {
-    string subject_text  
-    string object_id  
-    string object_text  
 }
 
 DiagnosticProceduretoPhenotypeAssociation ||--|o DiagnosticProcedure : "subject"
@@ -642,23 +585,6 @@ DiagnosticProceduretoPhenotypeAssociation ||--|o ProcedureToPhenotypePredicate :
 DiagnosticProceduretoPhenotypeAssociation ||--}o Phenotype : "object"
 DiagnosticProceduretoPhenotypeAssociation ||--|o NamedEntity : "subject_qualifier"
 DiagnosticProceduretoPhenotypeAssociation ||--|o NamedEntity : "object_qualifier"
-DiagnosticProceduretoAttributeAssociation ||--|o DiagnosticProcedure : "subject"
-DiagnosticProceduretoAttributeAssociation ||--|o ProcedureToAttributePredicate : "predicate"
-DiagnosticProceduretoAttributeAssociation ||--}o ClinicalAttribute : "object"
-DiagnosticProceduretoAttributeAssociation ||--|o NamedEntity : "subject_qualifier"
-DiagnosticProceduretoAttributeAssociation ||--|o Quality : "object_qualifier"
-ClinicalAttribute ||--|o Unit : "unit"
-ExtractionResult ||--|o Any : "extracted_object"
-ExtractionResult ||--}o Any : "named_entities"
-Triple ||--|o NamedEntity : "subject"
-Triple ||--|o RelationshipType : "predicate"
-Triple ||--|o NamedEntity : "object"
-Triple ||--|o NamedEntity : "subject_qualifier"
-Triple ||--|o NamedEntity : "object_qualifier"
-TextWithTriples ||--|o Publication : "publication"
-TextWithTriples ||--}o Triple : "triples"
-TextWithEntity ||--|o Publication : "publication"
-TextWithEntity ||--}o NamedEntity : "entities"
 
 </div>
 <h2 id="classes">Classes</h2>

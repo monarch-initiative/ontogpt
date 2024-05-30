@@ -7,7 +7,7 @@
 <meta content="width=device-width,initial-scale=1" name="viewport"/>
 <link href="https://monarch-initiative.github.io/ontogpt/data_sheets_schema/SamplingStrategy/" rel="canonical"/>
 <link href="../../assets/images/favicon.png" rel="icon"/>
-<meta content="mkdocs-1.5.3, mkdocs-material-9.5.8" name="generator"/>
+<meta content="mkdocs-1.6.0, mkdocs-material-9.5.8" name="generator"/>
 <title>Class: SamplingStrategy - OntoGPT</title>
 <link href="../../assets/stylesheets/main.f2e4d321.min.css" rel="stylesheet"/>
 <link href="../../assets/stylesheets/palette.06af60db.min.css" rel="stylesheet"/>
@@ -575,55 +575,55 @@ SamplingStrategy ||--}o Software : "used_software"
 <tbody>
 <tr>
 <td><a href="../is_sample/">is_sample</a></td>
-<td>0..* <br/> <a href="../String/">String</a></td>
+<td>* <br/> <a href="../String/">String</a></td>
 <td></td>
 <td>direct</td>
 </tr>
 <tr>
 <td><a href="../is_random/">is_random</a></td>
-<td>0..* <br/> <a href="../String/">String</a></td>
+<td>* <br/> <a href="../String/">String</a></td>
 <td></td>
 <td>direct</td>
 </tr>
 <tr>
 <td><a href="../source_data/">source_data</a></td>
-<td>0..* <br/> <a href="../String/">String</a></td>
+<td>* <br/> <a href="../String/">String</a></td>
 <td></td>
 <td>direct</td>
 </tr>
 <tr>
 <td><a href="../is_representative/">is_representative</a></td>
-<td>0..* <br/> <a href="../String/">String</a></td>
+<td>* <br/> <a href="../String/">String</a></td>
 <td></td>
 <td>direct</td>
 </tr>
 <tr>
 <td><a href="../representative_verification/">representative_verification</a></td>
-<td>0..* <br/> <a href="../String/">String</a></td>
+<td>* <br/> <a href="../String/">String</a></td>
 <td></td>
 <td>direct</td>
 </tr>
 <tr>
 <td><a href="../why_not_representative/">why_not_representative</a></td>
-<td>0..* <br/> <a href="../String/">String</a></td>
+<td>* <br/> <a href="../String/">String</a></td>
 <td></td>
 <td>direct</td>
 </tr>
 <tr>
 <td><a href="../strategies/">strategies</a></td>
-<td>0..* <br/> <a href="../String/">String</a></td>
+<td>* <br/> <a href="../String/">String</a></td>
 <td>If the dataset is a sample from a larger set, what was the sampling strategy ...</td>
 <td>direct</td>
 </tr>
 <tr>
 <td><a href="../used_software/">used_software</a></td>
-<td>0..* <br/> <a href="../Software/">Software</a></td>
+<td>* <br/> <a href="../Software/">Software</a></td>
 <td>What software was used as part of this dataset property?</td>
 <td><a href="../DatasetProperty/">DatasetProperty</a></td>
 </tr>
 <tr>
 <td><a href="../id/">id</a></td>
-<td>1..1 <br/> <a href="../String/">String</a></td>
+<td>1 <br/> <a href="../String/">String</a></td>
 <td>the unique name of the dataset</td>
 <td><a href="../NamedThing/">NamedThing</a></td>
 </tr>
@@ -718,36 +718,48 @@ attributes:
     from_schema: https://w3id.org/bridge2ai/data-sheets-schema
     rank: 1000
     multivalued: true
+    domain_of:
+    - SamplingStrategy
     range: string
   is_random:
     name: is_random
     from_schema: https://w3id.org/bridge2ai/data-sheets-schema
     rank: 1000
     multivalued: true
+    domain_of:
+    - SamplingStrategy
     range: string
   source_data:
     name: source_data
     from_schema: https://w3id.org/bridge2ai/data-sheets-schema
     rank: 1000
     multivalued: true
+    domain_of:
+    - SamplingStrategy
     range: string
   is_representative:
     name: is_representative
     from_schema: https://w3id.org/bridge2ai/data-sheets-schema
     rank: 1000
     multivalued: true
+    domain_of:
+    - SamplingStrategy
     range: string
   representative_verification:
     name: representative_verification
     from_schema: https://w3id.org/bridge2ai/data-sheets-schema
     rank: 1000
     multivalued: true
+    domain_of:
+    - SamplingStrategy
     range: string
   why_not_representative:
     name: why_not_representative
     from_schema: https://w3id.org/bridge2ai/data-sheets-schema
     rank: 1000
     multivalued: true
+    domain_of:
+    - SamplingStrategy
     range: string
   strategies:
     name: strategies
@@ -756,6 +768,8 @@ attributes:
     from_schema: https://w3id.org/bridge2ai/data-sheets-schema
     rank: 1000
     multivalued: true
+    domain_of:
+    - SamplingStrategy
     range: string
 
 </code></pre>

@@ -7,7 +7,7 @@
 <meta content="width=device-width,initial-scale=1" name="viewport"/>
 <link href="https://monarch-initiative.github.io/ontogpt/environmental_sample/Study/" rel="canonical"/>
 <link href="../../assets/images/favicon.png" rel="icon"/>
-<meta content="mkdocs-1.5.3, mkdocs-material-9.5.8" name="generator"/>
+<meta content="mkdocs-1.6.0, mkdocs-material-9.5.8" name="generator"/>
 <title>Class: Study - OntoGPT</title>
 <link href="../../assets/stylesheets/main.f2e4d321.min.css" rel="stylesheet"/>
 <link href="../../assets/stylesheets/palette.06af60db.min.css" rel="stylesheet"/>
@@ -568,37 +568,37 @@ CausalRelationship ||--|o Variable : "effect"
 <tbody>
 <tr>
 <td><a href="../location/">location</a></td>
-<td>0..* <br/> <a href="../Location/">Location</a></td>
+<td>* <br/> <a href="../Location/">Location</a></td>
 <td>the sites at which the study was conducted</td>
 <td>direct</td>
 </tr>
 <tr>
 <td><a href="../environmental_material/">environmental_material</a></td>
-<td>0..* <br/> <a href="../EnvironmentalMaterial/">EnvironmentalMaterial</a></td>
+<td>* <br/> <a href="../EnvironmentalMaterial/">EnvironmentalMaterial</a></td>
 <td>the environmental material that was sampled</td>
 <td>direct</td>
 </tr>
 <tr>
 <td><a href="../environments/">environments</a></td>
-<td>0..* <br/> <a href="../Environment/">Environment</a></td>
+<td>* <br/> <a href="../Environment/">Environment</a></td>
 <td></td>
 <td>direct</td>
 </tr>
 <tr>
 <td><a href="../causal_relationships/">causal_relationships</a></td>
-<td>0..* <br/> <a href="../CausalRelationship/">CausalRelationship</a></td>
+<td>* <br/> <a href="../CausalRelationship/">CausalRelationship</a></td>
 <td></td>
 <td>direct</td>
 </tr>
 <tr>
 <td><a href="../variables/">variables</a></td>
-<td>0..* <br/> <a href="../Variable/">Variable</a></td>
+<td>* <br/> <a href="../Variable/">Variable</a></td>
 <td></td>
 <td>direct</td>
 </tr>
 <tr>
 <td><a href="../measurements/">measurements</a></td>
-<td>0..* <br/> <a href="../Measurement/">Measurement</a></td>
+<td>* <br/> <a href="../Measurement/">Measurement</a></td>
 <td></td>
 <td>direct</td>
 </tr>
@@ -641,12 +641,14 @@ attributes:
       prompt:
         tag: prompt
         value: semicolon-separated list of sites at which the study was conducted.
-          give specific place names. if you cannot find a specific place name leave
+          Give specific place names. if you cannot find a specific place name leave
           the field as empty.
     description: the sites at which the study was conducted
     from_schema: http://w3id.org/ontogpt/environmental-sample
     rank: 1000
     multivalued: true
+    domain_of:
+    - Study
     range: Location
   environmental_material:
     name: environmental_material
@@ -658,6 +660,8 @@ attributes:
     from_schema: http://w3id.org/ontogpt/environmental-sample
     rank: 1000
     multivalued: true
+    domain_of:
+    - Study
     range: EnvironmentalMaterial
   environments:
     name: environments
@@ -669,6 +673,8 @@ attributes:
     from_schema: http://w3id.org/ontogpt/environmental-sample
     rank: 1000
     multivalued: true
+    domain_of:
+    - Study
     range: Environment
   causal_relationships:
     name: causal_relationships
@@ -680,6 +686,8 @@ attributes:
     from_schema: http://w3id.org/ontogpt/environmental-sample
     rank: 1000
     multivalued: true
+    domain_of:
+    - Study
     range: CausalRelationship
   variables:
     name: variables
@@ -690,6 +698,8 @@ attributes:
     from_schema: http://w3id.org/ontogpt/environmental-sample
     rank: 1000
     multivalued: true
+    domain_of:
+    - Study
     range: Variable
   measurements:
     name: measurements
@@ -700,6 +710,8 @@ attributes:
     from_schema: http://w3id.org/ontogpt/environmental-sample
     rank: 1000
     multivalued: true
+    domain_of:
+    - Study
     range: Measurement
 tree_root: true
 
@@ -716,7 +728,7 @@ attributes:
       prompt:
         tag: prompt
         value: semicolon-separated list of sites at which the study was conducted.
-          give specific place names. if you cannot find a specific place name leave
+          Give specific place names. if you cannot find a specific place name leave
           the field as empty.
     description: the sites at which the study was conducted
     from_schema: http://w3id.org/ontogpt/environmental-sample

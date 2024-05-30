@@ -18,7 +18,7 @@
       
       
       <link rel="icon" href="../assets/images/favicon.png">
-      <meta name="generator" content="mkdocs-1.5.3, mkdocs-material-9.5.8">
+      <meta name="generator" content="mkdocs-1.6.0, mkdocs-material-9.5.8">
     
     
       
@@ -2094,9 +2094,9 @@
 <p>In the latter case, all .txt files will be assumed to be input, and the path will <em>not</em> be parsed recursively.</p>
 <h3 id="template">template</h3>
 <p>Use the option <code>--template</code> to specify a template to use. This is a required parameter.</p>
-<p>Only the name is required, without any filename suffix.</p>
+<p>Only the name is required, without any filename suffix, unless you are using a custom schema for the first time. In that case, provide the path to the schema, including the .yaml file extension.</p>
 <p>To use the <code>gocam</code> template, for example, the parameter will be <code>--template gocam</code></p>
-<p>This may be one of the templates included with OntoGPT or a custom template, but in the latter case, the schema, generated Pydantic classes, and any imported schemas should be present in the same location.</p>
+<p>Or, for a custom template, the parameter may be <code>--template custom.yaml</code></p>
 <h3 id="target-class">target-class</h3>
 <p>Use the option <code>--target-class</code> to specify a class in a schema to treat as the root.</p>
 <p>If a schema does not already specify a root class, this is required.</p>

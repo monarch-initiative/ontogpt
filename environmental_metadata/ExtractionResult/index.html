@@ -7,7 +7,7 @@
 <meta content="width=device-width,initial-scale=1" name="viewport"/>
 <link href="https://monarch-initiative.github.io/ontogpt/environmental_metadata/ExtractionResult/" rel="canonical"/>
 <link href="../../assets/images/favicon.png" rel="icon"/>
-<meta content="mkdocs-1.5.3, mkdocs-material-9.5.8" name="generator"/>
+<meta content="mkdocs-1.6.0, mkdocs-material-9.5.8" name="generator"/>
 <title>Class: ExtractionResult - OntoGPT</title>
 <link href="../../assets/stylesheets/main.f2e4d321.min.css" rel="stylesheet"/>
 <link href="../../assets/stylesheets/palette.06af60db.min.css" rel="stylesheet"/>
@@ -579,7 +579,7 @@ ExtractionResult ||--}o Any : "named_entities"
 </tr>
 <tr>
 <td><a href="../named_entities/">named_entities</a></td>
-<td>0..* <br/> <a href="../Any/">Any</a></td>
+<td>* <br/> <a href="../Any/">Any</a></td>
 <td>Named entities extracted from the text</td>
 <td>direct</td>
 </tr>
@@ -621,27 +621,39 @@ attributes:
     name: input_id
     from_schema: http://w3id.org/ontogpt/environmental-metadata
     rank: 1000
+    domain_of:
+    - ExtractionResult
   input_title:
     name: input_title
     from_schema: http://w3id.org/ontogpt/environmental-metadata
     rank: 1000
+    domain_of:
+    - ExtractionResult
   input_text:
     name: input_text
     from_schema: http://w3id.org/ontogpt/environmental-metadata
     rank: 1000
+    domain_of:
+    - ExtractionResult
   raw_completion_output:
     name: raw_completion_output
     from_schema: http://w3id.org/ontogpt/environmental-metadata
     rank: 1000
+    domain_of:
+    - ExtractionResult
   prompt:
     name: prompt
     from_schema: http://w3id.org/ontogpt/environmental-metadata
     rank: 1000
+    domain_of:
+    - ExtractionResult
   extracted_object:
     name: extracted_object
     description: The complex objects extracted from the text
     from_schema: http://w3id.org/ontogpt/environmental-metadata
     rank: 1000
+    domain_of:
+    - ExtractionResult
     range: Any
     inlined: true
   named_entities:
@@ -650,6 +662,8 @@ attributes:
     from_schema: http://w3id.org/ontogpt/environmental-metadata
     rank: 1000
     multivalued: true
+    domain_of:
+    - ExtractionResult
     range: Any
     inlined: true
     inlined_as_list: true

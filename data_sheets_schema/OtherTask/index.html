@@ -7,7 +7,7 @@
 <meta content="width=device-width,initial-scale=1" name="viewport"/>
 <link href="https://monarch-initiative.github.io/ontogpt/data_sheets_schema/OtherTask/" rel="canonical"/>
 <link href="../../assets/images/favicon.png" rel="icon"/>
-<meta content="mkdocs-1.5.3, mkdocs-material-9.5.8" name="generator"/>
+<meta content="mkdocs-1.6.0, mkdocs-material-9.5.8" name="generator"/>
 <title>Class: OtherTask - OntoGPT</title>
 <link href="../../assets/stylesheets/main.f2e4d321.min.css" rel="stylesheet"/>
 <link href="../../assets/stylesheets/palette.06af60db.min.css" rel="stylesheet"/>
@@ -568,19 +568,19 @@ OtherTask ||--}o Software : "used_software"
 <tbody>
 <tr>
 <td><a href="../description/">description</a></td>
-<td>0..* <br/> <a href="../String/">String</a></td>
+<td>* <br/> <a href="../String/">String</a></td>
 <td></td>
 <td>direct</td>
 </tr>
 <tr>
 <td><a href="../used_software/">used_software</a></td>
-<td>0..* <br/> <a href="../Software/">Software</a></td>
+<td>* <br/> <a href="../Software/">Software</a></td>
 <td>What software was used as part of this dataset property?</td>
 <td><a href="../DatasetProperty/">DatasetProperty</a></td>
 </tr>
 <tr>
 <td><a href="../id/">id</a></td>
-<td>1..1 <br/> <a href="../String/">String</a></td>
+<td>1 <br/> <a href="../String/">String</a></td>
 <td>the unique name of the dataset</td>
 <td><a href="../NamedThing/">NamedThing</a></td>
 </tr>
@@ -656,6 +656,46 @@ attributes:
     name: description
     from_schema: https://w3id.org/bridge2ai/data-sheets-schema
     multivalued: true
+    domain_of:
+    - NamedThing
+    - Information
+    - Relationships
+    - Splits
+    - DataAnomaly
+    - Confidentiality
+    - Deidentification
+    - SensitiveElement
+    - InstanceAcquisition
+    - CollectionMechanism
+    - DataCollector
+    - CollectionTimeframe
+    - EthicalReview
+    - DirectCollection
+    - CollectionNotification
+    - CollectionConsent
+    - ConsentRevocation
+    - DataProtectionImpact
+    - PreprocessingStrategy
+    - CleaningStrategy
+    - LabelingStrategy
+    - RawData
+    - ExistingUse
+    - UseRepository
+    - OtherTask
+    - FutureUseImpact
+    - DiscouragedUse
+    - ThirdPartySharing
+    - DistributionFormat
+    - DistributionDate
+    - LicenseAndUseTerms
+    - IPRestrictions
+    - ExportControlRegulatoryRestrictions
+    - Maintainer
+    - Erratum
+    - UpdatePlan
+    - RetentionLimits
+    - VersionAccess
+    - ExtensionMechanism
     range: string
 
 </code></pre>

@@ -7,7 +7,7 @@
 <meta content="width=device-width,initial-scale=1" name="viewport"/>
 <link href="https://monarch-initiative.github.io/ontogpt/ibd/IBDAnnotations/" rel="canonical"/>
 <link href="../../assets/images/favicon.png" rel="icon"/>
-<meta content="mkdocs-1.5.3, mkdocs-material-9.5.8" name="generator"/>
+<meta content="mkdocs-1.6.0, mkdocs-material-9.5.8" name="generator"/>
 <title>Class: IBDAnnotations - OntoGPT</title>
 <link href="../../assets/stylesheets/main.f2e4d321.min.css" rel="stylesheet"/>
 <link href="../../assets/stylesheets/palette.06af60db.min.css" rel="stylesheet"/>
@@ -586,55 +586,55 @@ GeneOrganismRelationship ||--|o Organism : "organism"
 <tbody>
 <tr>
 <td><a href="../genes/">genes</a></td>
-<td>0..* <br/> <a href="../Gene/">Gene</a></td>
+<td>* <br/> <a href="../Gene/">Gene</a></td>
 <td>semicolon-separated list of genes</td>
 <td>direct</td>
 </tr>
 <tr>
 <td><a href="../organisms/">organisms</a></td>
-<td>0..* <br/> <a href="../Organism/">Organism</a></td>
+<td>* <br/> <a href="../Organism/">Organism</a></td>
 <td>semicolon-separated list of organism taxons</td>
 <td>direct</td>
 </tr>
 <tr>
 <td><a href="../gene_organisms/">gene_organisms</a></td>
-<td>0..* <br/> <a href="../GeneOrganismRelationship/">GeneOrganismRelationship</a></td>
+<td>* <br/> <a href="../GeneOrganismRelationship/">GeneOrganismRelationship</a></td>
 <td></td>
 <td>direct</td>
 </tr>
 <tr>
 <td><a href="../activities/">activities</a></td>
-<td>0..* <br/> <a href="../MolecularActivity/">MolecularActivity</a></td>
+<td>* <br/> <a href="../MolecularActivity/">MolecularActivity</a></td>
 <td>semicolon-separated list of molecular activities</td>
 <td>direct</td>
 </tr>
 <tr>
 <td><a href="../gene_functions/">gene_functions</a></td>
-<td>0..* <br/> <a href="../GeneMolecularActivityRelationship/">GeneMolecularActivityRelationship</a></td>
+<td>* <br/> <a href="../GeneMolecularActivityRelationship/">GeneMolecularActivityRelationship</a></td>
 <td>semicolon-separated list of gene to molecular activity relationships</td>
 <td>direct</td>
 </tr>
 <tr>
 <td><a href="../cellular_processes/">cellular_processes</a></td>
-<td>0..* <br/> <a href="../CellularProcess/">CellularProcess</a></td>
+<td>* <br/> <a href="../CellularProcess/">CellularProcess</a></td>
 <td>semicolon-separated list of cellular processes</td>
 <td>direct</td>
 </tr>
 <tr>
 <td><a href="../pathways/">pathways</a></td>
-<td>0..* <br/> <a href="../Pathway/">Pathway</a></td>
+<td>* <br/> <a href="../Pathway/">Pathway</a></td>
 <td>semicolon-separated list of pathways</td>
 <td>direct</td>
 </tr>
 <tr>
 <td><a href="../gene_gene_interactions/">gene_gene_interactions</a></td>
-<td>0..* <br/> <a href="../GeneGeneInteraction/">GeneGeneInteraction</a></td>
+<td>* <br/> <a href="../GeneGeneInteraction/">GeneGeneInteraction</a></td>
 <td>semicolon-separated list of gene to gene interactions</td>
 <td>direct</td>
 </tr>
 <tr>
 <td><a href="../gene_localizations/">gene_localizations</a></td>
-<td>0..* <br/> <a href="../GeneSubcellularLocalizationRelationship/">GeneSubcellularLocalizationRelationship</a></td>
+<td>* <br/> <a href="../GeneSubcellularLocalizationRelationship/">GeneSubcellularLocalizationRelationship</a></td>
 <td>semicolon-separated list of genes plus their location in the cell; for exampl...</td>
 <td>direct</td>
 </tr>
@@ -677,6 +677,8 @@ attributes:
     from_schema: http://w3id.org/ontogpt/gocam
     rank: 1000
     multivalued: true
+    domain_of:
+    - IBDAnnotations
     range: Gene
   organisms:
     name: organisms
@@ -684,6 +686,8 @@ attributes:
     from_schema: http://w3id.org/ontogpt/gocam
     rank: 1000
     multivalued: true
+    domain_of:
+    - IBDAnnotations
     range: Organism
   gene_organisms:
     name: gene_organisms
@@ -694,6 +698,8 @@ attributes:
     from_schema: http://w3id.org/ontogpt/gocam
     rank: 1000
     multivalued: true
+    domain_of:
+    - IBDAnnotations
     range: GeneOrganismRelationship
   activities:
     name: activities
@@ -701,6 +707,8 @@ attributes:
     from_schema: http://w3id.org/ontogpt/gocam
     rank: 1000
     multivalued: true
+    domain_of:
+    - IBDAnnotations
     range: MolecularActivity
   gene_functions:
     name: gene_functions
@@ -708,6 +716,8 @@ attributes:
     from_schema: http://w3id.org/ontogpt/gocam
     rank: 1000
     multivalued: true
+    domain_of:
+    - IBDAnnotations
     range: GeneMolecularActivityRelationship
   cellular_processes:
     name: cellular_processes
@@ -715,6 +725,8 @@ attributes:
     from_schema: http://w3id.org/ontogpt/gocam
     rank: 1000
     multivalued: true
+    domain_of:
+    - IBDAnnotations
     range: CellularProcess
   pathways:
     name: pathways
@@ -722,6 +734,8 @@ attributes:
     from_schema: http://w3id.org/ontogpt/gocam
     rank: 1000
     multivalued: true
+    domain_of:
+    - IBDAnnotations
     range: Pathway
   gene_gene_interactions:
     name: gene_gene_interactions
@@ -729,6 +743,8 @@ attributes:
     from_schema: http://w3id.org/ontogpt/gocam
     rank: 1000
     multivalued: true
+    domain_of:
+    - IBDAnnotations
     range: GeneGeneInteraction
   gene_localizations:
     name: gene_localizations
@@ -737,6 +753,8 @@ attributes:
     from_schema: http://w3id.org/ontogpt/gocam
     rank: 1000
     multivalued: true
+    domain_of:
+    - IBDAnnotations
     range: GeneSubcellularLocalizationRelationship
 tree_root: true
 

@@ -7,7 +7,7 @@
 <meta content="width=device-width,initial-scale=1" name="viewport"/>
 <link href="https://monarch-initiative.github.io/ontogpt/reaction/Reaction/" rel="canonical"/>
 <link href="../../assets/images/favicon.png" rel="icon"/>
-<meta content="mkdocs-1.5.3, mkdocs-material-9.5.8" name="generator"/>
+<meta content="mkdocs-1.6.0, mkdocs-material-9.5.8" name="generator"/>
 <title>Class: Reaction - OntoGPT</title>
 <link href="../../assets/stylesheets/main.f2e4d321.min.css" rel="stylesheet"/>
 <link href="../../assets/stylesheets/palette.06af60db.min.css" rel="stylesheet"/>
@@ -579,7 +579,7 @@ Reaction ||--}o ChemicalEntity : "right_side"
 </tr>
 <tr>
 <td><a href="../synonyms/">synonyms</a></td>
-<td>0..* <br/> <a href="../String/">String</a></td>
+<td>* <br/> <a href="../String/">String</a></td>
 <td>alternative names of the reaction</td>
 <td>direct</td>
 </tr>
@@ -591,19 +591,19 @@ Reaction ||--}o ChemicalEntity : "right_side"
 </tr>
 <tr>
 <td><a href="../left_side/">left_side</a></td>
-<td>0..* <br/> <a href="../ChemicalEntity/">ChemicalEntity</a></td>
+<td>* <br/> <a href="../ChemicalEntity/">ChemicalEntity</a></td>
 <td>semicolon separated list of chemical entities on the left side</td>
 <td>direct</td>
 </tr>
 <tr>
 <td><a href="../right_side/">right_side</a></td>
-<td>0..* <br/> <a href="../ChemicalEntity/">ChemicalEntity</a></td>
+<td>* <br/> <a href="../ChemicalEntity/">ChemicalEntity</a></td>
 <td>semicolon separated list of chemical entities on the right side</td>
 <td>direct</td>
 </tr>
 <tr>
 <td><a href="../id/">id</a></td>
-<td>1..1 <br/> <a href="../String/">String</a></td>
+<td>1 <br/> <a href="../String/">String</a></td>
 <td>A unique identifier for the named entity</td>
 <td><a href="../NamedEntity/">NamedEntity</a></td>
 </tr>
@@ -677,22 +677,31 @@ attributes:
     description: the name of the reaction
     from_schema: https://w3id.org/ontogpt/reaction
     rank: 1000
+    domain_of:
+    - Reaction
+    - NamedEntity
   description:
     name: description
     description: a textual description of the reaction
     from_schema: https://w3id.org/ontogpt/reaction
     rank: 1000
+    domain_of:
+    - Reaction
   synonyms:
     name: synonyms
     description: alternative names of the reaction
     from_schema: https://w3id.org/ontogpt/reaction
     rank: 1000
     multivalued: true
+    domain_of:
+    - Reaction
   subclass_of:
     name: subclass_of
     description: the category to which this biological process belongs
     from_schema: https://w3id.org/ontogpt/reaction
     rank: 1000
+    domain_of:
+    - Reaction
     range: ReactionGrouping
   left_side:
     name: left_side
@@ -700,6 +709,8 @@ attributes:
     from_schema: https://w3id.org/ontogpt/reaction
     rank: 1000
     multivalued: true
+    domain_of:
+    - Reaction
     range: ChemicalEntity
   right_side:
     name: right_side
@@ -707,7 +718,10 @@ attributes:
     from_schema: https://w3id.org/ontogpt/reaction
     rank: 1000
     multivalued: true
+    domain_of:
+    - Reaction
     range: ChemicalEntity
+tree_root: true
 
 </code></pre>
 </details>
@@ -800,6 +814,7 @@ attributes:
     - Publication
     range: string
     required: true
+tree_root: true
 
 </code></pre>
 </details>

@@ -7,7 +7,7 @@
 <meta content="width=device-width,initial-scale=1" name="viewport"/>
 <link href="https://monarch-initiative.github.io/ontogpt/data_sheets_schema/DatasetCollection/" rel="canonical"/>
 <link href="../../assets/images/favicon.png" rel="icon"/>
-<meta content="mkdocs-1.5.3, mkdocs-material-9.5.8" name="generator"/>
+<meta content="mkdocs-1.6.0, mkdocs-material-9.5.8" name="generator"/>
 <title>Class: DatasetCollection - OntoGPT</title>
 <link href="../../assets/stylesheets/main.f2e4d321.min.css" rel="stylesheet"/>
 <link href="../../assets/stylesheets/palette.06af60db.min.css" rel="stylesheet"/>
@@ -1000,7 +1000,7 @@ Purpose ||--}o Software : "used_software"
 <tbody>
 <tr>
 <td><a href="../resources/">resources</a></td>
-<td>0..* <br/> <a href="../Dataset/">Dataset</a></td>
+<td>* <br/> <a href="../Dataset/">Dataset</a></td>
 <td></td>
 <td>direct</td>
 </tr>
@@ -1030,7 +1030,7 @@ Purpose ||--}o Software : "used_software"
 </tr>
 <tr>
 <td><a href="../created_by/">created_by</a></td>
-<td>0..* <br/> <a href="../String/">String</a></td>
+<td>* <br/> <a href="../String/">String</a></td>
 <td>Agent that created the element</td>
 <td><a href="../Information/">Information</a></td>
 </tr>
@@ -1060,7 +1060,7 @@ Purpose ||--}o Software : "used_software"
 </tr>
 <tr>
 <td><a href="../id/">id</a></td>
-<td>1..1 <br/> <a href="../String/">String</a></td>
+<td>1 <br/> <a href="../String/">String</a></td>
 <td>the unique name of the dataset</td>
 <td><a href="../Information/">Information</a></td>
 </tr>
@@ -1072,7 +1072,7 @@ Purpose ||--}o Software : "used_software"
 </tr>
 <tr>
 <td><a href="../keywords/">keywords</a></td>
-<td>0..* <br/> <a href="../String/">String</a></td>
+<td>* <br/> <a href="../String/">String</a></td>
 <td>Keywords associated with the data</td>
 <td><a href="../Information/">Information</a></td>
 </tr>
@@ -1199,6 +1199,8 @@ attributes:
     from_schema: https://w3id.org/bridge2ai/data-sheets-schema
     rank: 1000
     multivalued: true
+    domain_of:
+    - DatasetCollection
     range: Dataset
 tree_root: true
 

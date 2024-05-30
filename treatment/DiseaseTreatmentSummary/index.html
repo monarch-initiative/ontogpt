@@ -7,7 +7,7 @@
 <meta content="width=device-width,initial-scale=1" name="viewport"/>
 <link href="https://monarch-initiative.github.io/ontogpt/treatment/DiseaseTreatmentSummary/" rel="canonical"/>
 <link href="../../assets/images/favicon.png" rel="icon"/>
-<meta content="mkdocs-1.5.3, mkdocs-material-9.5.8" name="generator"/>
+<meta content="mkdocs-1.6.0, mkdocs-material-9.5.8" name="generator"/>
 <title>Class: DiseaseTreatmentSummary - OntoGPT</title>
 <link href="../../assets/stylesheets/main.f2e4d321.min.css" rel="stylesheet"/>
 <link href="../../assets/stylesheets/palette.06af60db.min.css" rel="stylesheet"/>
@@ -580,37 +580,37 @@ TreatmentMechanism ||--|o Mechanism : "mechanism"
 </tr>
 <tr>
 <td><a href="../drugs/">drugs</a></td>
-<td>0..* <br/> <a href="../Drug/">Drug</a></td>
+<td>* <br/> <a href="../Drug/">Drug</a></td>
 <td>semicolon-separated list of named small molecule drugs</td>
 <td>direct</td>
 </tr>
 <tr>
 <td><a href="../treatments/">treatments</a></td>
-<td>0..* <br/> <a href="../Treatment/">Treatment</a></td>
+<td>* <br/> <a href="../Treatment/">Treatment</a></td>
 <td>semicolon-separated list of therapies and treatments are indicated for treati...</td>
 <td>direct</td>
 </tr>
 <tr>
 <td><a href="../contraindications/">contraindications</a></td>
-<td>0..* <br/> <a href="../Treatment/">Treatment</a></td>
+<td>* <br/> <a href="../Treatment/">Treatment</a></td>
 <td>semicolon-separated list of therapies and treatments that are contra-indicate...</td>
 <td>direct</td>
 </tr>
 <tr>
 <td><a href="../treatment_mechanisms/">treatment_mechanisms</a></td>
-<td>0..* <br/> <a href="../TreatmentMechanism/">TreatmentMechanism</a></td>
+<td>* <br/> <a href="../TreatmentMechanism/">TreatmentMechanism</a></td>
 <td>semicolon-separated list of treatment to asterisk-separated mechanism associa...</td>
 <td>direct</td>
 </tr>
 <tr>
 <td><a href="../treatment_efficacies/">treatment_efficacies</a></td>
-<td>0..* <br/> <a href="../TreatmentEfficacy/">TreatmentEfficacy</a></td>
+<td>* <br/> <a href="../TreatmentEfficacy/">TreatmentEfficacy</a></td>
 <td>semicolon-separated list of treatment to efficacy associations, e</td>
 <td>direct</td>
 </tr>
 <tr>
 <td><a href="../treatment_adverse_effects/">treatment_adverse_effects</a></td>
-<td>0..* <br/> <a href="../TreatmentAdverseEffect/">TreatmentAdverseEffect</a></td>
+<td>* <br/> <a href="../TreatmentAdverseEffect/">TreatmentAdverseEffect</a></td>
 <td>semicolon-separated list of treatment to adverse effect associations, e</td>
 <td>direct</td>
 </tr>
@@ -652,6 +652,8 @@ attributes:
     description: the name of the disease that is treated.
     from_schema: http://w3id.org/ontogpt/treatment
     rank: 1000
+    domain_of:
+    - DiseaseTreatmentSummary
     range: Disease
   drugs:
     name: drugs
@@ -659,6 +661,8 @@ attributes:
     from_schema: http://w3id.org/ontogpt/treatment
     rank: 1000
     multivalued: true
+    domain_of:
+    - DiseaseTreatmentSummary
     range: Drug
   treatments:
     name: treatments
@@ -671,6 +675,8 @@ attributes:
     from_schema: http://w3id.org/ontogpt/treatment
     rank: 1000
     multivalued: true
+    domain_of:
+    - DiseaseTreatmentSummary
     range: Treatment
   contraindications:
     name: contraindications
@@ -683,6 +689,8 @@ attributes:
     from_schema: http://w3id.org/ontogpt/treatment
     rank: 1000
     multivalued: true
+    domain_of:
+    - DiseaseTreatmentSummary
     range: Treatment
   treatment_mechanisms:
     name: treatment_mechanisms
@@ -695,6 +703,8 @@ attributes:
     from_schema: http://w3id.org/ontogpt/treatment
     rank: 1000
     multivalued: true
+    domain_of:
+    - DiseaseTreatmentSummary
     range: TreatmentMechanism
   treatment_efficacies:
     name: treatment_efficacies
@@ -707,6 +717,8 @@ attributes:
     from_schema: http://w3id.org/ontogpt/treatment
     rank: 1000
     multivalued: true
+    domain_of:
+    - DiseaseTreatmentSummary
     range: TreatmentEfficacy
   treatment_adverse_effects:
     name: treatment_adverse_effects
@@ -719,6 +731,8 @@ attributes:
     from_schema: http://w3id.org/ontogpt/treatment
     rank: 1000
     multivalued: true
+    domain_of:
+    - DiseaseTreatmentSummary
     range: TreatmentAdverseEffect
 tree_root: true
 

@@ -7,7 +7,7 @@
 <meta content="width=device-width,initial-scale=1" name="viewport"/>
 <link href="https://monarch-initiative.github.io/ontogpt/maxo/Symptom/" rel="canonical"/>
 <link href="../../assets/images/favicon.png" rel="icon"/>
-<meta content="mkdocs-1.5.3, mkdocs-material-9.5.8" name="generator"/>
+<meta content="mkdocs-1.6.0, mkdocs-material-9.5.8" name="generator"/>
 <title>Class: Symptom - OntoGPT</title>
 <link href="../../assets/stylesheets/main.f2e4d321.min.css" rel="stylesheet"/>
 <link href="../../assets/stylesheets/palette.06af60db.min.css" rel="stylesheet"/>
@@ -539,7 +539,7 @@
 <div class="md-content" data-md-component="content">
 <article class="md-content__inner md-typeset">
 <h1 id="class-symptom">Class: Symptom</h1>
-<p><em>A condition or phenotype resulting from an abnormal health state.</em></p>
+<p><em>A condition or phenotype resulting from an abnormal health state. For example: Low serum calcitriol, hypoplasia of the thymus, chronic cough, aortic stiffness, low pulse pressure</em></p>
 <p>URI: <a href="http://w3id.org/ontogpt/maxoSymptom">maxo_extract:Symptom</a></p>
 <div class="mermaid">erDiagram
 Symptom {
@@ -570,7 +570,7 @@ Symptom {
 <tbody>
 <tr>
 <td><a href="../id/">id</a></td>
-<td>1..1 <br/> <a href="../String/">String</a></td>
+<td>1 <br/> <a href="../String/">String</a></td>
 <td>A unique identifier for the named entity</td>
 <td><a href="../NamedEntity/">NamedEntity</a></td>
 </tr>
@@ -595,12 +595,12 @@ Symptom {
 <tbody>
 <tr>
 <td><a href="../MaxoAnnotations/">MaxoAnnotations</a></td>
-<td><a href="../symptom/">symptom</a></td>
+<td><a href="../symptoms/">symptoms</a></td>
 <td>range</td>
 <td><a href="./">Symptom</a></td>
 </tr>
 <tr>
-<td><a href="../ActionToSymptomRelationship/">ActionToSymptomRelationship</a></td>
+<td><a href="../ActionAnnotationRelationship/">ActionAnnotationRelationship</a></td>
 <td><a href="../object/">object</a></td>
 <td>range</td>
 <td><a href="./">Symptom</a></td>
@@ -624,7 +624,7 @@ Symptom {
 <tbody>
 <tr>
 <td>annotators</td>
-<td>sqlite:obo:hp</td>
+<td>sqlite:obo:hp, sqlite:obo:mondo, sqlite:obo:ncit</td>
 </tr>
 </tbody>
 </table>
@@ -661,8 +661,10 @@ id_prefixes:
 annotations:
   annotators:
     tag: annotators
-    value: sqlite:obo:hp
-description: A condition or phenotype resulting from an abnormal health state.
+    value: sqlite:obo:hp, sqlite:obo:mondo, sqlite:obo:ncit
+description: 'A condition or phenotype resulting from an abnormal health state. For
+  example: Low serum calcitriol, hypoplasia of the thymus, chronic cough, aortic stiffness,
+  low pulse pressure'
 from_schema: http://w3id.org/ontogpt/maxo
 is_a: NamedEntity
 
@@ -676,8 +678,10 @@ id_prefixes:
 annotations:
   annotators:
     tag: annotators
-    value: sqlite:obo:hp
-description: A condition or phenotype resulting from an abnormal health state.
+    value: sqlite:obo:hp, sqlite:obo:mondo, sqlite:obo:ncit
+description: 'A condition or phenotype resulting from an abnormal health state. For
+  example: Low serum calcitriol, hypoplasia of the thymus, chronic cough, aortic stiffness,
+  low pulse pressure'
 from_schema: http://w3id.org/ontogpt/maxo
 is_a: NamedEntity
 attributes:

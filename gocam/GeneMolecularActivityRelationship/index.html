@@ -7,7 +7,7 @@
 <meta content="width=device-width,initial-scale=1" name="viewport"/>
 <link href="https://monarch-initiative.github.io/ontogpt/gocam/GeneMolecularActivityRelationship/" rel="canonical"/>
 <link href="../../assets/images/favicon.png" rel="icon"/>
-<meta content="mkdocs-1.5.3, mkdocs-material-9.5.8" name="generator"/>
+<meta content="mkdocs-1.6.0, mkdocs-material-9.5.8" name="generator"/>
 <title>Class: GeneMolecularActivityRelationship - OntoGPT</title>
 <link href="../../assets/stylesheets/main.f2e4d321.min.css" rel="stylesheet"/>
 <link href="../../assets/stylesheets/palette.06af60db.min.css" rel="stylesheet"/>
@@ -666,6 +666,11 @@ attributes:
         tag: prompt
         value: the name of the gene in the pair. This comes first.
     from_schema: http://w3id.org/ontogpt/gocam
+    domain_of:
+    - GeneOrganismRelationship
+    - GeneMolecularActivityRelationship
+    - GeneMolecularActivityRelationship2
+    - GeneSubcellularLocalizationRelationship
     range: Gene
   molecular_activity:
     name: molecular_activity
@@ -676,6 +681,9 @@ attributes:
           May be a GO term.
     from_schema: http://w3id.org/ontogpt/gocam
     rank: 1000
+    domain_of:
+    - GeneMolecularActivityRelationship
+    - GeneMolecularActivityRelationship2
     range: MolecularActivity
 
 </code></pre>

@@ -7,7 +7,7 @@
 <meta content="width=device-width,initial-scale=1" name="viewport"/>
 <link href="https://monarch-initiative.github.io/ontogpt/cell_type/Neuron/" rel="canonical"/>
 <link href="../../assets/images/favicon.png" rel="icon"/>
-<meta content="mkdocs-1.5.3, mkdocs-material-9.5.8" name="generator"/>
+<meta content="mkdocs-1.6.0, mkdocs-material-9.5.8" name="generator"/>
 <title>Class: Neuron - OntoGPT</title>
 <link href="../../assets/stylesheets/main.f2e4d321.min.css" rel="stylesheet"/>
 <link href="../../assets/stylesheets/palette.06af60db.min.css" rel="stylesheet"/>
@@ -583,13 +583,13 @@ Neuron ||--}o BiologicalProcess : "roles"
 <tbody>
 <tr>
 <td><a href="../releases_neurotransitter/">releases_neurotransitter</a></td>
-<td>0..* <br/> <a href="../Neurotransmitter/">Neurotransmitter</a></td>
+<td>* <br/> <a href="../Neurotransmitter/">Neurotransmitter</a></td>
 <td></td>
 <td>direct</td>
 </tr>
 <tr>
 <td><a href="../id/">id</a></td>
-<td>1..1 <br/> <a href="../Uriorcurie/">Uriorcurie</a></td>
+<td>1 <br/> <a href="../Uriorcurie/">Uriorcurie</a></td>
 <td></td>
 <td><a href="../CellType/">CellType</a></td>
 </tr>
@@ -613,37 +613,37 @@ Neuron ||--}o BiologicalProcess : "roles"
 </tr>
 <tr>
 <td><a href="../parents/">parents</a></td>
-<td>0..* <br/> <a href="../CellOntologyTerm/">CellOntologyTerm</a></td>
+<td>* <br/> <a href="../CellOntologyTerm/">CellOntologyTerm</a></td>
 <td>categorization</td>
 <td><a href="../CellType/">CellType</a></td>
 </tr>
 <tr>
 <td><a href="../subtypes/">subtypes</a></td>
-<td>0..* <br/> <a href="../CellOntologyTerm/">CellOntologyTerm</a></td>
+<td>* <br/> <a href="../CellOntologyTerm/">CellOntologyTerm</a></td>
 <td></td>
 <td><a href="../CellType/">CellType</a></td>
 </tr>
 <tr>
 <td><a href="../localizations/">localizations</a></td>
-<td>0..* <br/> <a href="../AnatomicalStructure/">AnatomicalStructure</a></td>
+<td>* <br/> <a href="../AnatomicalStructure/">AnatomicalStructure</a></td>
 <td></td>
 <td><a href="../CellType/">CellType</a></td>
 </tr>
 <tr>
 <td><a href="../genes/">genes</a></td>
-<td>0..* <br/> <a href="../Gene/">Gene</a></td>
+<td>* <br/> <a href="../Gene/">Gene</a></td>
 <td></td>
 <td><a href="../CellType/">CellType</a></td>
 </tr>
 <tr>
 <td><a href="../diseases/">diseases</a></td>
-<td>0..* <br/> <a href="../Disease/">Disease</a></td>
+<td>* <br/> <a href="../Disease/">Disease</a></td>
 <td></td>
 <td><a href="../CellType/">CellType</a></td>
 </tr>
 <tr>
 <td><a href="../roles/">roles</a></td>
-<td>0..* <br/> <a href="../BiologicalProcess/">BiologicalProcess</a></td>
+<td>* <br/> <a href="../BiologicalProcess/">BiologicalProcess</a></td>
 <td></td>
 <td><a href="../CellType/">CellType</a></td>
 </tr>
@@ -694,6 +694,8 @@ attributes:
     rank: 1000
     slot_uri: RO:0002111
     multivalued: true
+    domain_of:
+    - Neuron
     range: Neurotransmitter
 
 </code></pre>

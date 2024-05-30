@@ -7,7 +7,7 @@
 <meta content="width=device-width,initial-scale=1" name="viewport"/>
 <link href="https://monarch-initiative.github.io/ontogpt/maxo/MaxoAnnotations/" rel="canonical"/>
 <link href="../../assets/images/favicon.png" rel="icon"/>
-<meta content="mkdocs-1.5.3, mkdocs-material-9.5.8" name="generator"/>
+<meta content="mkdocs-1.6.0, mkdocs-material-9.5.8" name="generator"/>
 <title>Class: MaxoAnnotations - OntoGPT</title>
 <link href="../../assets/stylesheets/main.f2e4d321.min.css" rel="stylesheet"/>
 <link href="../../assets/stylesheets/palette.06af60db.min.css" rel="stylesheet"/>
@@ -447,13 +447,6 @@
     </label>
 <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix="">
 <li class="md-nav__item">
-<a class="md-nav__link" href="#inheritance">
-<span class="md-ellipsis">
-      Inheritance
-    </span>
-</a>
-</li>
-<li class="md-nav__item">
 <a class="md-nav__link" href="#slots">
 <span class="md-ellipsis">
       Slots
@@ -523,74 +516,46 @@
 MaxoAnnotations {
 
 }
-Triple {
-    string qualifier  
+ActionAnnotationRelationship {
+
 }
 NamedEntity {
     string id  
     string label  
 }
-RelationshipType {
+Disease {
     string id  
     string label  
-}
-Publication {
-    string id  
-    string title  
-    string abstract  
-    string combined_text  
-    string full_text  
-}
-ActionToSymptomRelationship {
-    string qualifier  
 }
 Symptom {
     string id  
     string label  
 }
-Action {
+MedicalAction {
     string id  
     string label  
 }
-ActionToDiseaseRelationship {
-    string qualifier  
-}
-Disease {
+Chemical {
     string id  
     string label  
 }
 
-MaxoAnnotations ||--}o Action : "action"
-MaxoAnnotations ||--}o Disease : "disease"
-MaxoAnnotations ||--}o Symptom : "symptom"
-MaxoAnnotations ||--}o ActionToDiseaseRelationship : "action_to_disease"
-MaxoAnnotations ||--}o ActionToSymptomRelationship : "action_to_symptom"
-MaxoAnnotations ||--|o Publication : "publication"
-MaxoAnnotations ||--}o Triple : "triples"
-Triple ||--|o NamedEntity : "subject"
-Triple ||--|o RelationshipType : "predicate"
-Triple ||--|o NamedEntity : "object"
-Triple ||--|o NamedEntity : "subject_qualifier"
-Triple ||--|o NamedEntity : "object_qualifier"
-ActionToSymptomRelationship ||--|o Action : "subject"
-ActionToSymptomRelationship ||--|o NamedEntity : "predicate"
-ActionToSymptomRelationship ||--}o Symptom : "object"
-ActionToSymptomRelationship ||--|o NamedEntity : "subject_qualifier"
-ActionToSymptomRelationship ||--|o NamedEntity : "object_qualifier"
-ActionToDiseaseRelationship ||--|o Action : "subject"
-ActionToDiseaseRelationship ||--|o NamedEntity : "predicate"
-ActionToDiseaseRelationship ||--}o Disease : "object"
-ActionToDiseaseRelationship ||--|o NamedEntity : "subject_qualifier"
-ActionToDiseaseRelationship ||--|o NamedEntity : "object_qualifier"
+MaxoAnnotations ||--|o Disease : "primary_disease"
+MaxoAnnotations ||--}o MedicalAction : "medical_actions"
+MaxoAnnotations ||--}o Symptom : "symptoms"
+MaxoAnnotations ||--}o Chemical : "chemicals"
+MaxoAnnotations ||--}o ActionAnnotationRelationship : "action_annotation_relationships"
+ActionAnnotationRelationship ||--|o Chemical : "subject_extension"
+ActionAnnotationRelationship ||--|o NamedEntity : "object_extension"
+ActionAnnotationRelationship ||--|o MedicalAction : "subject"
+ActionAnnotationRelationship ||--|o NamedEntity : "predicate"
+ActionAnnotationRelationship ||--|o Symptom : "object"
+ActionAnnotationRelationship ||--|o Disease : "qualifier"
+ActionAnnotationRelationship ||--|o NamedEntity : "subject_qualifier"
+ActionAnnotationRelationship ||--|o NamedEntity : "object_qualifier"
 
 </div>
-<h2 id="inheritance">Inheritance</h2>
-<ul>
-<li><a href="../TextWithTriples/">TextWithTriples</a><ul>
-<li><strong>MaxoAnnotations</strong></li>
-</ul>
-</li>
-</ul>
+<!-- no inheritance hierarchy -->
 <h2 id="slots">Slots</h2>
 <table>
 <thead>
@@ -603,46 +568,34 @@ ActionToDiseaseRelationship ||--|o NamedEntity : "object_qualifier"
 </thead>
 <tbody>
 <tr>
-<td><a href="../action/">action</a></td>
-<td>0..* <br/> <a href="../Action/">Action</a></td>
+<td><a href="../primary_disease/">primary_disease</a></td>
+<td>0..1 <br/> <a href="../Disease/">Disease</a></td>
+<td>The main disease the text is about, or its central disease topic</td>
+<td>direct</td>
+</tr>
+<tr>
+<td><a href="../medical_actions/">medical_actions</a></td>
+<td>* <br/> <a href="../MedicalAction/">MedicalAction</a></td>
 <td>Semicolon-separated list of medical actions</td>
 <td>direct</td>
 </tr>
 <tr>
-<td><a href="../disease/">disease</a></td>
-<td>0..* <br/> <a href="../Disease/">Disease</a></td>
-<td>Semicolon-separated list of diseases</td>
+<td><a href="../symptoms/">symptoms</a></td>
+<td>* <br/> <a href="../Symptom/">Symptom</a></td>
+<td>Semicolon-separated list of signs or symptoms</td>
 <td>direct</td>
 </tr>
 <tr>
-<td><a href="../symptom/">symptom</a></td>
-<td>0..* <br/> <a href="../Symptom/">Symptom</a></td>
-<td>Semicolon-separated list of symptoms</td>
+<td><a href="../chemicals/">chemicals</a></td>
+<td>* <br/> <a href="../Chemical/">Chemical</a></td>
+<td>Semicolon-separated list of chemicals or drugs</td>
 <td>direct</td>
 </tr>
 <tr>
-<td><a href="../action_to_disease/">action_to_disease</a></td>
-<td>0..* <br/> <a href="../ActionToDiseaseRelationship/">ActionToDiseaseRelationship</a></td>
-<td></td>
+<td><a href="../action_annotation_relationships/">action_annotation_relationships</a></td>
+<td>* <br/> <a href="../ActionAnnotationRelationship/">ActionAnnotationRelationship</a></td>
+<td>Semicolon-separated list of relationships between a disease, the mentioned si...</td>
 <td>direct</td>
-</tr>
-<tr>
-<td><a href="../action_to_symptom/">action_to_symptom</a></td>
-<td>0..* <br/> <a href="../ActionToSymptomRelationship/">ActionToSymptomRelationship</a></td>
-<td></td>
-<td>direct</td>
-</tr>
-<tr>
-<td><a href="../publication/">publication</a></td>
-<td>0..1 <br/> <a href="../Publication/">Publication</a></td>
-<td></td>
-<td><a href="../TextWithTriples/">TextWithTriples</a></td>
-</tr>
-<tr>
-<td><a href="../triples/">triples</a></td>
-<td>0..* <br/> <a href="../Triple/">Triple</a></td>
-<td></td>
-<td><a href="../TextWithTriples/">TextWithTriples</a></td>
 </tr>
 </tbody>
 </table>
@@ -676,10 +629,20 @@ ActionToDiseaseRelationship ||--|o NamedEntity : "object_qualifier"
 <details>
 <pre><code class="language-yaml">name: MaxoAnnotations
 from_schema: http://w3id.org/ontogpt/maxo
-is_a: TextWithTriples
 attributes:
-  action:
-    name: action
+  primary_disease:
+    name: primary_disease
+    description: The main disease the text is about, or its central disease topic.
+      This is often the disease mentioned in an article's title or in its first few
+      sentences.
+    from_schema: http://w3id.org/ontogpt/maxo
+    rank: 1000
+    multivalued: false
+    domain_of:
+    - MaxoAnnotations
+    range: Disease
+  medical_actions:
+    name: medical_actions
     annotations:
       prompt:
         tag: prompt
@@ -689,46 +652,43 @@ attributes:
     from_schema: http://w3id.org/ontogpt/maxo
     rank: 1000
     multivalued: true
-    range: Action
-  disease:
-    name: disease
-    description: Semicolon-separated list of diseases.
+    domain_of:
+    - MaxoAnnotations
+    range: MedicalAction
+  symptoms:
+    name: symptoms
+    description: Semicolon-separated list of signs or symptoms.
     from_schema: http://w3id.org/ontogpt/maxo
     rank: 1000
     multivalued: true
-    range: Disease
-  symptom:
-    name: symptom
-    description: Semicolon-separated list of symptoms.
-    from_schema: http://w3id.org/ontogpt/maxo
-    rank: 1000
-    multivalued: true
+    domain_of:
+    - MaxoAnnotations
     range: Symptom
-  action_to_disease:
-    name: action_to_disease
-    annotations:
-      prompt:
-        tag: prompt
-        value: Semicolon-separated list of medical action to disease relationships,
-          where each is a triple representing a relationship between a medical action
-          and a disease, for example, radiation therapy TREATS cancer, or PET scan
-          IS USED TO DIAGNOSE myocarditis.
+  chemicals:
+    name: chemicals
+    description: Semicolon-separated list of chemicals or drugs
     from_schema: http://w3id.org/ontogpt/maxo
     rank: 1000
     multivalued: true
-    range: ActionToDiseaseRelationship
-  action_to_symptom:
-    name: action_to_symptom
-    annotations:
-      prompt:
-        tag: prompt
-        value: A triple representing a relationship between a medical action (A clinically
-          prescribed procedure, therapy, intervention, or recommendation) and a symptom,
-          for example, a chest X-ray IS USED TO DIAGNOSE pleural effusion.
+    domain_of:
+    - MaxoAnnotations
+    range: Chemical
+  action_annotation_relationships:
+    name: action_annotation_relationships
+    description: Semicolon-separated list of relationships between a disease, the
+      mentioned signs and symptoms associated with that disease, the medical actions
+      relating to each symptom, and the type of relationship between each action and
+      symptom (usually TREATS or PREVENTS). The disease name must be included in the
+      relationship, for example, "treatment TREATS symptom IN disease". If the medical
+      action includes a specific chemical or drug, include the chemical or drug name
+      in the relationship, for example, "treatment (with chemical) TREATS symptom
+      IN disease".
     from_schema: http://w3id.org/ontogpt/maxo
     rank: 1000
     multivalued: true
-    range: ActionToSymptomRelationship
+    domain_of:
+    - MaxoAnnotations
+    range: ActionAnnotationRelationship
 tree_root: true
 
 </code></pre>
@@ -737,10 +697,22 @@ tree_root: true
 <details>
 <pre><code class="language-yaml">name: MaxoAnnotations
 from_schema: http://w3id.org/ontogpt/maxo
-is_a: TextWithTriples
 attributes:
-  action:
-    name: action
+  primary_disease:
+    name: primary_disease
+    description: The main disease the text is about, or its central disease topic.
+      This is often the disease mentioned in an article's title or in its first few
+      sentences.
+    from_schema: http://w3id.org/ontogpt/maxo
+    rank: 1000
+    multivalued: false
+    alias: primary_disease
+    owner: MaxoAnnotations
+    domain_of:
+    - MaxoAnnotations
+    range: Disease
+  medical_actions:
+    name: medical_actions
     annotations:
       prompt:
         tag: prompt
@@ -750,93 +722,51 @@ attributes:
     from_schema: http://w3id.org/ontogpt/maxo
     rank: 1000
     multivalued: true
-    alias: action
+    alias: medical_actions
     owner: MaxoAnnotations
     domain_of:
     - MaxoAnnotations
-    range: Action
-  disease:
-    name: disease
-    description: Semicolon-separated list of diseases.
+    range: MedicalAction
+  symptoms:
+    name: symptoms
+    description: Semicolon-separated list of signs or symptoms.
     from_schema: http://w3id.org/ontogpt/maxo
     rank: 1000
     multivalued: true
-    alias: disease
-    owner: MaxoAnnotations
-    domain_of:
-    - MaxoAnnotations
-    range: Disease
-  symptom:
-    name: symptom
-    description: Semicolon-separated list of symptoms.
-    from_schema: http://w3id.org/ontogpt/maxo
-    rank: 1000
-    multivalued: true
-    alias: symptom
+    alias: symptoms
     owner: MaxoAnnotations
     domain_of:
     - MaxoAnnotations
     range: Symptom
-  action_to_disease:
-    name: action_to_disease
-    annotations:
-      prompt:
-        tag: prompt
-        value: Semicolon-separated list of medical action to disease relationships,
-          where each is a triple representing a relationship between a medical action
-          and a disease, for example, radiation therapy TREATS cancer, or PET scan
-          IS USED TO DIAGNOSE myocarditis.
+  chemicals:
+    name: chemicals
+    description: Semicolon-separated list of chemicals or drugs
     from_schema: http://w3id.org/ontogpt/maxo
     rank: 1000
     multivalued: true
-    alias: action_to_disease
+    alias: chemicals
     owner: MaxoAnnotations
     domain_of:
     - MaxoAnnotations
-    range: ActionToDiseaseRelationship
-  action_to_symptom:
-    name: action_to_symptom
-    annotations:
-      prompt:
-        tag: prompt
-        value: A triple representing a relationship between a medical action (A clinically
-          prescribed procedure, therapy, intervention, or recommendation) and a symptom,
-          for example, a chest X-ray IS USED TO DIAGNOSE pleural effusion.
+    range: Chemical
+  action_annotation_relationships:
+    name: action_annotation_relationships
+    description: Semicolon-separated list of relationships between a disease, the
+      mentioned signs and symptoms associated with that disease, the medical actions
+      relating to each symptom, and the type of relationship between each action and
+      symptom (usually TREATS or PREVENTS). The disease name must be included in the
+      relationship, for example, "treatment TREATS symptom IN disease". If the medical
+      action includes a specific chemical or drug, include the chemical or drug name
+      in the relationship, for example, "treatment (with chemical) TREATS symptom
+      IN disease".
     from_schema: http://w3id.org/ontogpt/maxo
     rank: 1000
     multivalued: true
-    alias: action_to_symptom
+    alias: action_annotation_relationships
     owner: MaxoAnnotations
     domain_of:
     - MaxoAnnotations
-    range: ActionToSymptomRelationship
-  publication:
-    name: publication
-    annotations:
-      prompt.skip:
-        tag: prompt.skip
-        value: 'true'
-    from_schema: http://w3id.org/ontogpt/maxo
-    rank: 1000
-    alias: publication
-    owner: MaxoAnnotations
-    domain_of:
-    - TextWithTriples
-    - TextWithEntity
-    range: Publication
-    inlined: true
-  triples:
-    name: triples
-    from_schema: http://w3id.org/ontogpt/maxo
-    rank: 1000
-    multivalued: true
-    alias: triples
-    owner: MaxoAnnotations
-    domain_of:
-    - TextWithTriples
-    range: Triple
-    inlined: true
-    inlined_as_list: true
+    range: ActionAnnotationRelationship
 tree_root: true
 
 </code></pre>

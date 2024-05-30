@@ -7,7 +7,7 @@
 <meta content="width=device-width,initial-scale=1" name="viewport"/>
 <link href="https://monarch-initiative.github.io/ontogpt/halo/Category/" rel="canonical"/>
 <link href="../../assets/images/favicon.png" rel="icon"/>
-<meta content="mkdocs-1.5.3, mkdocs-material-9.5.8" name="generator"/>
+<meta content="mkdocs-1.6.0, mkdocs-material-9.5.8" name="generator"/>
 <title>Class: Category - OntoGPT</title>
 <link href="../../assets/stylesheets/main.f2e4d321.min.css" rel="stylesheet"/>
 <link href="../../assets/stylesheets/palette.06af60db.min.css" rel="stylesheet"/>
@@ -574,7 +574,7 @@ OntologyElement ||--}o OntologyElement : "parts"
 <tbody>
 <tr>
 <td><a href="../name/">name</a></td>
-<td>1..1 <br/> <a href="../String/">String</a></td>
+<td>1 <br/> <a href="../String/">String</a></td>
 <td>the name of the entity</td>
 <td><a href="../OntologyElement/">OntologyElement</a></td>
 </tr>
@@ -592,37 +592,37 @@ OntologyElement ||--}o OntologyElement : "parts"
 </tr>
 <tr>
 <td><a href="../synonyms/">synonyms</a></td>
-<td>0..* <br/> <a href="../String/">String</a></td>
+<td>* <br/> <a href="../String/">String</a></td>
 <td>a list of alternative names of the entity</td>
 <td><a href="../OntologyElement/">OntologyElement</a></td>
 </tr>
 <tr>
 <td><a href="../categories/">categories</a></td>
-<td>0..* <br/> <a href="./">Category</a></td>
+<td>* <br/> <a href="./">Category</a></td>
 <td>a list of the categories to which this entity belongs</td>
 <td><a href="../OntologyElement/">OntologyElement</a></td>
 </tr>
 <tr>
 <td><a href="../subclass_of/">subclass_of</a></td>
-<td>0..* <br/> <a href="../OntologyElement/">OntologyElement</a></td>
+<td>* <br/> <a href="../OntologyElement/">OntologyElement</a></td>
 <td>a list of parent class (superclasses) of this entity</td>
 <td><a href="../OntologyElement/">OntologyElement</a></td>
 </tr>
 <tr>
 <td><a href="../part_of/">part_of</a></td>
-<td>0..* <br/> <a href="../OntologyElement/">OntologyElement</a></td>
+<td>* <br/> <a href="../OntologyElement/">OntologyElement</a></td>
 <td>a list of things this element is part of</td>
 <td><a href="../OntologyElement/">OntologyElement</a></td>
 </tr>
 <tr>
 <td><a href="../subtypes/">subtypes</a></td>
-<td>0..* <br/> <a href="../OntologyElement/">OntologyElement</a></td>
+<td>* <br/> <a href="../OntologyElement/">OntologyElement</a></td>
 <td>a list of child classes (subclasses) of this entity</td>
 <td><a href="../OntologyElement/">OntologyElement</a></td>
 </tr>
 <tr>
 <td><a href="../parts/">parts</a></td>
-<td>0..* <br/> <a href="../OntologyElement/">OntologyElement</a></td>
+<td>* <br/> <a href="../OntologyElement/">OntologyElement</a></td>
 <td>a list of names of things this element has as parts (components)</td>
 <td><a href="../OntologyElement/">OntologyElement</a></td>
 </tr>

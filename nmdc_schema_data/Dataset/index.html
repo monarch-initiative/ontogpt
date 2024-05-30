@@ -7,7 +7,7 @@
 <meta content="width=device-width,initial-scale=1" name="viewport"/>
 <link href="https://monarch-initiative.github.io/ontogpt/nmdc_schema_data/Dataset/" rel="canonical"/>
 <link href="../../assets/images/favicon.png" rel="icon"/>
-<meta content="mkdocs-1.5.3, mkdocs-material-9.5.8" name="generator"/>
+<meta content="mkdocs-1.6.0, mkdocs-material-9.5.8" name="generator"/>
 <title>Class: Dataset - OntoGPT</title>
 <link href="../../assets/stylesheets/main.f2e4d321.min.css" rel="stylesheet"/>
 <link href="../../assets/stylesheets/palette.06af60db.min.css" rel="stylesheet"/>
@@ -549,13 +549,13 @@ Dataset ||--}o Environment : "environments"
 </tr>
 <tr>
 <td><a href="../environmental_material/">environmental_material</a></td>
-<td>0..* <br/> <a href="../EnvironmentalMaterial/">EnvironmentalMaterial</a></td>
+<td>* <br/> <a href="../EnvironmentalMaterial/">EnvironmentalMaterial</a></td>
 <td>the environmental material that was sampled</td>
 <td>direct</td>
 </tr>
 <tr>
 <td><a href="../environments/">environments</a></td>
-<td>0..* <br/> <a href="../Environment/">Environment</a></td>
+<td>* <br/> <a href="../Environment/">Environment</a></td>
 <td>the environmental context in which the study was conducted</td>
 <td>direct</td>
 </tr>
@@ -602,6 +602,8 @@ attributes:
     from_schema: http://w3id.org/ontogpt/nmdc-schema-data
     rank: 1000
     multivalued: false
+    domain_of:
+    - Dataset
     range: string
   environmental_material:
     name: environmental_material
@@ -613,6 +615,8 @@ attributes:
     from_schema: http://w3id.org/ontogpt/nmdc-schema-data
     rank: 1000
     multivalued: true
+    domain_of:
+    - Dataset
     range: EnvironmentalMaterial
   environments:
     name: environments
@@ -625,6 +629,8 @@ attributes:
     from_schema: http://w3id.org/ontogpt/nmdc-schema-data
     rank: 1000
     multivalued: true
+    domain_of:
+    - Dataset
     range: Environment
 tree_root: true
 

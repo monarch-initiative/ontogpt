@@ -7,7 +7,7 @@
 <meta content="width=device-width,initial-scale=1" name="viewport"/>
 <link href="https://monarch-initiative.github.io/ontogpt/biotic_interaction/Container/" rel="canonical"/>
 <link href="../../assets/images/favicon.png" rel="icon"/>
-<meta content="mkdocs-1.5.3, mkdocs-material-9.5.8" name="generator"/>
+<meta content="mkdocs-1.6.0, mkdocs-material-9.5.8" name="generator"/>
 <title>Class: Container - OntoGPT</title>
 <link href="../../assets/stylesheets/main.f2e4d321.min.css" rel="stylesheet"/>
 <link href="../../assets/stylesheets/palette.06af60db.min.css" rel="stylesheet"/>
@@ -548,7 +548,7 @@ BioticInteraction ||--|o InteractionType : "interaction_type"
 <tbody>
 <tr>
 <td><a href="../interactions/">interactions</a></td>
-<td>0..* <br/> <a href="../BioticInteraction/">BioticInteraction</a></td>
+<td>* <br/> <a href="../BioticInteraction/">BioticInteraction</a></td>
 <td></td>
 <td>direct</td>
 </tr>
@@ -590,6 +590,8 @@ attributes:
     from_schema: https://w3id.org/ontogpt/biotic_interaction
     rank: 1000
     multivalued: true
+    domain_of:
+    - Container
     range: BioticInteraction
     inlined: true
     inlined_as_list: true

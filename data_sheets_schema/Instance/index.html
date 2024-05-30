@@ -7,7 +7,7 @@
 <meta content="width=device-width,initial-scale=1" name="viewport"/>
 <link href="https://monarch-initiative.github.io/ontogpt/data_sheets_schema/Instance/" rel="canonical"/>
 <link href="../../assets/images/favicon.png" rel="icon"/>
-<meta content="mkdocs-1.5.3, mkdocs-material-9.5.8" name="generator"/>
+<meta content="mkdocs-1.6.0, mkdocs-material-9.5.8" name="generator"/>
 <title>Class: Instance - OntoGPT</title>
 <link href="../../assets/stylesheets/main.f2e4d321.min.css" rel="stylesheet"/>
 <link href="../../assets/stylesheets/palette.06af60db.min.css" rel="stylesheet"/>
@@ -626,25 +626,25 @@ SamplingStrategy ||--}o Software : "used_software"
 </tr>
 <tr>
 <td><a href="../sampling_strategies/">sampling_strategies</a></td>
-<td>0..* <br/> <a href="../SamplingStrategy/">SamplingStrategy</a></td>
+<td>* <br/> <a href="../SamplingStrategy/">SamplingStrategy</a></td>
 <td></td>
 <td>direct</td>
 </tr>
 <tr>
 <td><a href="../missing_information/">missing_information</a></td>
-<td>0..* <br/> <a href="../MissingInfo/">MissingInfo</a></td>
+<td>* <br/> <a href="../MissingInfo/">MissingInfo</a></td>
 <td></td>
 <td>direct</td>
 </tr>
 <tr>
 <td><a href="../used_software/">used_software</a></td>
-<td>0..* <br/> <a href="../Software/">Software</a></td>
+<td>* <br/> <a href="../Software/">Software</a></td>
 <td>What software was used as part of this dataset property?</td>
 <td><a href="../DatasetProperty/">DatasetProperty</a></td>
 </tr>
 <tr>
 <td><a href="../id/">id</a></td>
-<td>1..1 <br/> <a href="../String/">String</a></td>
+<td>1 <br/> <a href="../String/">String</a></td>
 <td>the unique name of the dataset</td>
 <td><a href="../NamedThing/">NamedThing</a></td>
 </tr>
@@ -727,6 +727,8 @@ attributes:
     name: representation
     from_schema: https://w3id.org/bridge2ai/data-sheets-schema
     rank: 1000
+    domain_of:
+    - Instance
     range: string
   instance_type:
     name: instance_type
@@ -734,6 +736,8 @@ attributes:
       people and interactions between them; nodes and edges)?
     from_schema: https://w3id.org/bridge2ai/data-sheets-schema
     rank: 1000
+    domain_of:
+    - Instance
     range: string
   data_type:
     name: data_type
@@ -741,29 +745,40 @@ attributes:
       text or images) or features? In either case, please provide a description.
     from_schema: https://w3id.org/bridge2ai/data-sheets-schema
     rank: 1000
+    domain_of:
+    - Instance
     range: string
   counts:
     name: counts
     description: How many instances are there in total (of each type, if appropriate)?
     from_schema: https://w3id.org/bridge2ai/data-sheets-schema
     rank: 1000
+    domain_of:
+    - Instance
     range: integer
   label:
     name: label
     description: Is there a label or target associated with each instance?
     from_schema: https://w3id.org/bridge2ai/data-sheets-schema
     rank: 1000
+    domain_of:
+    - Instance
     range: string
   sampling_strategies:
     name: sampling_strategies
     from_schema: https://w3id.org/bridge2ai/data-sheets-schema
     multivalued: true
+    domain_of:
+    - Dataset
+    - Instance
     range: SamplingStrategy
   missing_information:
     name: missing_information
     from_schema: https://w3id.org/bridge2ai/data-sheets-schema
     rank: 1000
     multivalued: true
+    domain_of:
+    - Instance
     range: MissingInfo
 
 </code></pre>

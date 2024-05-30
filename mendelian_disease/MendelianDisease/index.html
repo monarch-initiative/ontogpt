@@ -7,7 +7,7 @@
 <meta content="width=device-width,initial-scale=1" name="viewport"/>
 <link href="https://monarch-initiative.github.io/ontogpt/mendelian_disease/MendelianDisease/" rel="canonical"/>
 <link href="../../assets/images/favicon.png" rel="icon"/>
-<meta content="mkdocs-1.5.3, mkdocs-material-9.5.8" name="generator"/>
+<meta content="mkdocs-1.6.0, mkdocs-material-9.5.8" name="generator"/>
 <title>Class: MendelianDisease - OntoGPT</title>
 <link href="../../assets/stylesheets/main.f2e4d321.min.css" rel="stylesheet"/>
 <link href="../../assets/stylesheets/palette.06af60db.min.css" rel="stylesheet"/>
@@ -602,19 +602,19 @@ Symptom ||--|o Onset : "onset_of_symptom"
 </tr>
 <tr>
 <td><a href="../synonyms/">synonyms</a></td>
-<td>0..* <br/> <a href="../String/">String</a></td>
+<td>* <br/> <a href="../String/">String</a></td>
 <td></td>
 <td>direct</td>
 </tr>
 <tr>
 <td><a href="../subclass_of/">subclass_of</a></td>
-<td>0..* <br/> <a href="../DiseaseCategory/">DiseaseCategory</a></td>
+<td>* <br/> <a href="../DiseaseCategory/">DiseaseCategory</a></td>
 <td></td>
 <td>direct</td>
 </tr>
 <tr>
 <td><a href="../symptoms/">symptoms</a></td>
-<td>0..* <br/> <a href="../Symptom/">Symptom</a></td>
+<td>* <br/> <a href="../Symptom/">Symptom</a></td>
 <td></td>
 <td>direct</td>
 </tr>
@@ -626,25 +626,25 @@ Symptom ||--|o Onset : "onset_of_symptom"
 </tr>
 <tr>
 <td><a href="../genes/">genes</a></td>
-<td>0..* <br/> <a href="../Gene/">Gene</a></td>
+<td>* <br/> <a href="../Gene/">Gene</a></td>
 <td></td>
 <td>direct</td>
 </tr>
 <tr>
 <td><a href="../disease_onsets/">disease_onsets</a></td>
-<td>0..* <br/> <a href="../Onset/">Onset</a></td>
+<td>* <br/> <a href="../Onset/">Onset</a></td>
 <td></td>
 <td>direct</td>
 </tr>
 <tr>
 <td><a href="../publications/">publications</a></td>
-<td>0..* <br/> <a href="../Publication/">Publication</a></td>
+<td>* <br/> <a href="../Publication/">Publication</a></td>
 <td></td>
 <td>direct</td>
 </tr>
 <tr>
 <td><a href="../id/">id</a></td>
-<td>1..1 <br/> <a href="../String/">String</a></td>
+<td>1 <br/> <a href="../String/">String</a></td>
 <td>A unique identifier for the named entity</td>
 <td><a href="../NamedEntity/">NamedEntity</a></td>
 </tr>
@@ -695,6 +695,8 @@ attributes:
     - value: peroxisome biogenesis disorder
     from_schema: http://w3id.org/ontogpt/mendelian_disease
     rank: 1000
+    domain_of:
+    - MendelianDisease
   description:
     name: description
     description: a description of the disease
@@ -705,6 +707,8 @@ attributes:
         degeneration, multiple organ dysfunction and psychomotor impairment
     from_schema: http://w3id.org/ontogpt/mendelian_disease
     rank: 1000
+    domain_of:
+    - MendelianDisease
   synonyms:
     name: synonyms
     examples:
@@ -713,6 +717,8 @@ attributes:
     from_schema: http://w3id.org/ontogpt/mendelian_disease
     rank: 1000
     multivalued: true
+    domain_of:
+    - MendelianDisease
   subclass_of:
     name: subclass_of
     examples:
@@ -721,6 +727,8 @@ attributes:
     from_schema: http://w3id.org/ontogpt/mendelian_disease
     rank: 1000
     multivalued: true
+    domain_of:
+    - MendelianDisease
     range: DiseaseCategory
   symptoms:
     name: symptoms
@@ -730,6 +738,8 @@ attributes:
     from_schema: http://w3id.org/ontogpt/mendelian_disease
     rank: 1000
     multivalued: true
+    domain_of:
+    - MendelianDisease
     range: Symptom
   inheritance:
     name: inheritance
@@ -737,6 +747,8 @@ attributes:
     - value: autosomal recessive
     from_schema: http://w3id.org/ontogpt/mendelian_disease
     rank: 1000
+    domain_of:
+    - MendelianDisease
     range: Inheritance
   genes:
     name: genes
@@ -752,6 +764,8 @@ attributes:
     from_schema: http://w3id.org/ontogpt/mendelian_disease
     rank: 1000
     multivalued: true
+    domain_of:
+    - MendelianDisease
     range: Gene
   disease_onsets:
     name: disease_onsets
@@ -763,6 +777,8 @@ attributes:
     from_schema: http://w3id.org/ontogpt/mendelian_disease
     rank: 1000
     multivalued: true
+    domain_of:
+    - MendelianDisease
     range: Onset
   publications:
     name: publications
@@ -773,7 +789,10 @@ attributes:
     from_schema: http://w3id.org/ontogpt/mendelian_disease
     rank: 1000
     multivalued: true
+    domain_of:
+    - MendelianDisease
     range: Publication
+tree_root: true
 
 </code></pre>
 </details>
@@ -944,6 +963,7 @@ attributes:
     domain_of:
     - NamedEntity
     range: string
+tree_root: true
 
 </code></pre>
 </details>

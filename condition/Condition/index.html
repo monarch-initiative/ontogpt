@@ -7,7 +7,7 @@
 <meta content="width=device-width,initial-scale=1" name="viewport"/>
 <link href="https://monarch-initiative.github.io/ontogpt/condition/Condition/" rel="canonical"/>
 <link href="../../assets/images/favicon.png" rel="icon"/>
-<meta content="mkdocs-1.5.3, mkdocs-material-9.5.8" name="generator"/>
+<meta content="mkdocs-1.6.0, mkdocs-material-9.5.8" name="generator"/>
 <title>Class: Condition - OntoGPT</title>
 <link href="../../assets/stylesheets/main.f2e4d321.min.css" rel="stylesheet"/>
 <link href="../../assets/stylesheets/palette.06af60db.min.css" rel="stylesheet"/>
@@ -560,7 +560,7 @@ Condition ||--|| ConditionProblemDiagnosis : "code"
 </tr>
 <tr>
 <td><a href="../clinical_status/">clinical_status</a></td>
-<td>1..1 <br/> <a href="../ConditionClinicalStatus/">ConditionClinicalStatus</a></td>
+<td>1 <br/> <a href="../ConditionClinicalStatus/">ConditionClinicalStatus</a></td>
 <td>The clinical status of the condition</td>
 <td>direct</td>
 </tr>
@@ -572,13 +572,13 @@ Condition ||--|| ConditionProblemDiagnosis : "code"
 </tr>
 <tr>
 <td><a href="../code/">code</a></td>
-<td>1..1 <br/> <a href="../ConditionProblemDiagnosis/">ConditionProblemDiagnosis</a></td>
+<td>1 <br/> <a href="../ConditionProblemDiagnosis/">ConditionProblemDiagnosis</a></td>
 <td>The condition, problem, or diagnosis found in this note</td>
 <td>direct</td>
 </tr>
 <tr>
 <td><a href="../id/">id</a></td>
-<td>1..1 <br/> <a href="../String/">String</a></td>
+<td>1 <br/> <a href="../String/">String</a></td>
 <td>A unique identifier for the named entity</td>
 <td><a href="../NamedEntity/">NamedEntity</a></td>
 </tr>
@@ -621,12 +621,17 @@ attributes:
     description: The concise name of the condition, problem, or diagnosis.
     from_schema: http://w3id.org/ontogpt/condition
     rank: 1000
+    domain_of:
+    - Condition
+    - NamedEntity
   clinical_status:
     name: clinical_status
     description: The clinical status of the condition.
     from_schema: http://w3id.org/ontogpt/condition
     rank: 1000
     ifabsent: string("unknown")
+    domain_of:
+    - Condition
     range: ConditionClinicalStatus
     required: true
   severity:
@@ -634,12 +639,16 @@ attributes:
     description: Subjective severity of condition.
     from_schema: http://w3id.org/ontogpt/condition
     rank: 1000
+    domain_of:
+    - Condition
     range: ConditionDiagnosisSeverity
   code:
     name: code
     description: The condition, problem, or diagnosis found in this note.
     from_schema: http://w3id.org/ontogpt/condition
     rank: 1000
+    domain_of:
+    - Condition
     range: ConditionProblemDiagnosis
     required: true
 tree_root: true

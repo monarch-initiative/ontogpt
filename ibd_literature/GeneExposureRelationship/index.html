@@ -7,7 +7,7 @@
 <meta content="width=device-width,initial-scale=1" name="viewport"/>
 <link href="https://monarch-initiative.github.io/ontogpt/ibd_literature/GeneExposureRelationship/" rel="canonical"/>
 <link href="../../assets/images/favicon.png" rel="icon"/>
-<meta content="mkdocs-1.5.3, mkdocs-material-9.5.8" name="generator"/>
+<meta content="mkdocs-1.6.0, mkdocs-material-9.5.8" name="generator"/>
 <title>Class: GeneExposureRelationship - OntoGPT</title>
 <link href="../../assets/stylesheets/main.f2e4d321.min.css" rel="stylesheet"/>
 <link href="../../assets/stylesheets/palette.06af60db.min.css" rel="stylesheet"/>
@@ -660,6 +660,10 @@ attributes:
     description: The name of the exposure, such as a exposure to a chemical toxin.
     from_schema: http://w3id.org/ontogpt/ibd_literature
     rank: 1000
+    domain_of:
+    - GeneExposureRelationship
+    - DiseaseCellularProcessRelationship
+    - Triple
     range: ChemicalExposure
   predicate:
     name: predicate
@@ -667,24 +671,40 @@ attributes:
       and a gene.
     from_schema: http://w3id.org/ontogpt/ibd_literature
     rank: 1000
+    domain_of:
+    - GeneExposureRelationship
+    - DiseaseCellularProcessRelationship
+    - Triple
     range: ChemicalExposureToGenePredicate
   object:
     name: object
     description: The name of the gene in the pair. This comes second in the pair.
     from_schema: http://w3id.org/ontogpt/ibd_literature
     rank: 1000
+    domain_of:
+    - GeneExposureRelationship
+    - DiseaseCellularProcessRelationship
+    - Triple
     range: Gene
   subject_qualifier:
     name: subject_qualifier
     description: An optional qualifier or modifier for the chemical exposure.
     from_schema: http://w3id.org/ontogpt/ibd_literature
     rank: 1000
+    domain_of:
+    - GeneExposureRelationship
+    - DiseaseCellularProcessRelationship
+    - Triple
     range: NamedEntity
   object_qualifier:
     name: object_qualifier
     description: An optional qualifier or modifier for the gene.
     from_schema: http://w3id.org/ontogpt/ibd_literature
     rank: 1000
+    domain_of:
+    - GeneExposureRelationship
+    - DiseaseCellularProcessRelationship
+    - Triple
     range: NamedEntity
 
 </code></pre>

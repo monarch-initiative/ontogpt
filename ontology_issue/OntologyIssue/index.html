@@ -7,7 +7,7 @@
 <meta content="width=device-width,initial-scale=1" name="viewport"/>
 <link href="https://monarch-initiative.github.io/ontogpt/ontology_issue/OntologyIssue/" rel="canonical"/>
 <link href="../../assets/images/favicon.png" rel="icon"/>
-<meta content="mkdocs-1.5.3, mkdocs-material-9.5.8" name="generator"/>
+<meta content="mkdocs-1.6.0, mkdocs-material-9.5.8" name="generator"/>
 <title>Class: OntologyIssue - OntoGPT</title>
 <link href="../../assets/stylesheets/main.f2e4d321.min.css" rel="stylesheet"/>
 <link href="../../assets/stylesheets/palette.06af60db.min.css" rel="stylesheet"/>
@@ -571,19 +571,19 @@ OntologyProblem ||--}o OntologyClass : "about"
 </tr>
 <tr>
 <td><a href="../domains/">domains</a></td>
-<td>0..* <br/> <a href="../OntologyClass/">OntologyClass</a></td>
+<td>* <br/> <a href="../OntologyClass/">OntologyClass</a></td>
 <td>What part of the ontology does this pertain to</td>
 <td>direct</td>
 </tr>
 <tr>
 <td><a href="../problem_list/">problem_list</a></td>
-<td>0..* <br/> <a href="../OntologyProblem/">OntologyProblem</a></td>
+<td>* <br/> <a href="../OntologyProblem/">OntologyProblem</a></td>
 <td>A list of problems stated at a high level</td>
 <td>direct</td>
 </tr>
 <tr>
 <td><a href="../proposed_changes/">proposed_changes</a></td>
-<td>0..* <br/> <a href="../OntologyChange/">OntologyChange</a></td>
+<td>* <br/> <a href="../OntologyChange/">OntologyChange</a></td>
 <td>What part of the ontology does this pertain to</td>
 <td>direct</td>
 </tr>
@@ -625,6 +625,9 @@ attributes:
     description: the title of the issue
     from_schema: https://w3id.org/ontogpt/ontology_issue
     rank: 1000
+    domain_of:
+    - OntologyIssue
+    - Publication
   summary:
     name: summary
     annotations:
@@ -635,10 +638,14 @@ attributes:
     description: a high level summary
     from_schema: https://w3id.org/ontogpt/ontology_issue
     rank: 1000
+    domain_of:
+    - OntologyIssue
   status:
     name: status
     from_schema: https://w3id.org/ontogpt/ontology_issue
     rank: 1000
+    domain_of:
+    - OntologyIssue
   domains:
     name: domains
     annotations:
@@ -649,6 +656,8 @@ attributes:
     from_schema: https://w3id.org/ontogpt/ontology_issue
     rank: 1000
     multivalued: true
+    domain_of:
+    - OntologyIssue
     range: OntologyClass
   problem_list:
     name: problem_list
@@ -661,6 +670,8 @@ attributes:
     from_schema: https://w3id.org/ontogpt/ontology_issue
     rank: 1000
     multivalued: true
+    domain_of:
+    - OntologyIssue
     range: OntologyProblem
   proposed_changes:
     name: proposed_changes
@@ -674,6 +685,8 @@ attributes:
     from_schema: https://w3id.org/ontogpt/ontology_issue
     rank: 1000
     multivalued: true
+    domain_of:
+    - OntologyIssue
     range: OntologyChange
 tree_root: true
 
