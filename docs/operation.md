@@ -32,7 +32,7 @@ Perhaps the squid crossed the coral reef for a variety of reasons:
 
 OntoGPT is intended to be used for information extraction. The following examples show how to accomplish this.
 
-### Strategy 1: Knowledge extraction using SPIRES
+### Knowledge extraction using SPIRES
 
 #### Working Mechanism
 
@@ -71,6 +71,8 @@ ontogpt extract -t gocam.GoCamAnnotations -i ~/path/to/abstract.txt
 ```
 
 Note: The value accepted by the `-t` / `--template` argument is the base name of one of the LinkML schema / data model which can be found in the [templates](src/ontogpt/templates/) folder.
+
+Or, if you create your own schema (see the page on [custom schemas](custom.md)), you may pass the path to the .yaml file.
 
 #### Output
 
@@ -117,20 +119,3 @@ ontogpt list-models
 ```
 
 When specifying a local model for the first time, it will be downloaded to your local system.
-
-## Strategy 2: Gene Enrichment using SPINDOCTOR
-
-Given a set of genes, OntoGPT can find similarities among them.
-
-Ex.:
-
-```bash
-ontogpt enrichment -U tests/input/genesets/sensory-ataxia.yaml
-```
-
-The default is to use ontological gene function synopses (via the Alliance API).
-
-* To use narrative/RefSeq summaries, use the `--no-ontological-synopses` flag
-* To run without any gene descriptions, use the `--no-annotations` flag
-
-This strategy does not currently support using local models.

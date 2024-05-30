@@ -44,11 +44,11 @@ In the latter case, all .txt files will be assumed to be input, and the path wil
 
 Use the option `--template` to specify a template to use. This is a required parameter.
 
-Only the name is required, without any filename suffix.
+Only the name is required, without any filename suffix, unless you are using a custom schema for the first time. In that case, provide the path to the schema, including the .yaml file extension.
 
 To use the `gocam` template, for example, the parameter will be `--template gocam`
 
-This may be one of the templates included with OntoGPT or a custom template, but in the latter case, the schema, generated Pydantic classes, and any imported schemas should be present in the same location.
+Or, for a custom template, the parameter may be `--template custom.yaml`
 
 ### target-class
 

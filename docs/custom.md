@@ -457,25 +457,14 @@ Note that everything in {curly brackets} is a template of some kind. The Jinja t
 
 See also: the [documentation page on OWL exports](owl_exports.md) and the [linkml-owl documentation](https://linkml.io/linkml-owl/).
 
-## Install a custom schema
+## Using a custom schema
 
-If you have installed OntoGPT directly from its GitHub repository, then you may install a custom schema like this:
+You may then use the schema like any other. Pass the path to your schema to the `--template/-t` option.
 
-1. Move the schema file to the `src/ontogpt/templates` directory.
-2. Run `make` from the root of the repository to generate Pydantic versions of the schema.
-
-If you have installed OntoGPT from `pip`, *or* if you can't use the `make` command, the process is similar, though it will depend on where the package is installed.
-
-1. Use the LinkML `gen-pydantic` tool to generate Pydantic classes. If your schema is named `alfred.yaml`, then run the following:
-  
-    ```bash
-    gen-pydantic --pydantic_version 2 alfred.yaml > alfred.py
-    ```
-
-2. Move both the .yaml and the .py versions of your schema to the `templates` directory of wherever OntoGPT is installed. In a virtual environment named `temp` that may be something like `/temp/lib/python3.9/site-packages/ontogpt/templates`.
-
-You may then use the schema like any other. For example, if your schema is named `albatross.yaml`, then an extract command is:
+For example, if your schema is named `albatross.yaml`, then an extract command is:
 
 ```bash
-ontogpt extract -t albatross -i input.txt
+ontogpt extract -t albatross.yaml -i input.txt
 ```
+
+Running this (or any other command including your custom schema) will install it for future use with OntoGPT, so in subsquent commands it can be referred to by its name (e.g., `albatross`, without the file extension or a full filepath).
