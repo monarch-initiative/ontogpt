@@ -8,6 +8,12 @@ rel_path = Path(__file__).resolve()
 
 DEFAULT_MODEL = "gpt-4-turbo"
 
+OPENAI_EMBEDDING_MODELS = [
+    "text-embedding-ada-002",
+    "text-embedding-3-small",
+    "text-embedding-3-large",
+]
+
 try:
     __version__ = metadata.version(__name__)
 except metadata.PackageNotFoundError:

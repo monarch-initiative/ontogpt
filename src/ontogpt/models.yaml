@@ -113,6 +113,28 @@ models:
       diskspace: "N/A"
       memory: "N/A"
 
+  - name: MODEL_GPT_4o
+    canonical_name: "gpt-4o"
+    alternative_names:
+      - "gpt-4o"
+    provider: OpenAI
+    creators:
+      - OpenAI
+    requirements:
+      diskspace: "N/A"
+      memory: "N/A"
+
+  - name: MODEL_GPT_4o_2024_05_13
+    canonical_name: "gpt-4o-2024-05-13"
+    alternative_names:
+      - "gpt-4o-2024-05-13"
+    provider: OpenAI
+    creators:
+      - OpenAI
+    requirements:
+      diskspace: "N/A"
+      memory: "N/A"
+
   - name: MODEL_TEXT_DAVINCI_003
     canonical_name: "text-davinci-003"
     alternative_names:

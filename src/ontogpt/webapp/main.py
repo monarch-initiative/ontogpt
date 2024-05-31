@@ -1,4 +1,5 @@
 """Webapp main function."""
+
 from io import StringIO
 from pathlib import Path
 from typing import Dict
@@ -9,7 +10,7 @@ from pydantic import BaseModel
 from starlette.staticfiles import StaticFiles
 from starlette.templating import Jinja2Templates
 
-from ontogpt.engines.knowledge_engine import DATAMODELS
+from ontogpt.cli import _get_templates
 from ontogpt.engines.spires_engine import SPIRESEngine
 from ontogpt.io.html_exporter import HTMLExporter
 from ontogpt.io.template_loader import get_template_details
@@ -17,6 +18,15 @@ from ontogpt.io.template_loader import get_template_details
 this_path = Path(__file__).parent
 static_dir = this_path / "static"
 html_dir = this_path / "html"
+
+# Populate the dict of available models
+DATAMODELS = {}
+all_templates = _get_templates()
+all_templates = dict(sorted(all_templates.items()))
+for template_id, (_name, description) in all_templates.items():
+    DATAMODELS[template_id] = f"{description}"
+
+LLM_MODELS = ["gpt-4o", "gpt-4", "gpt-4-turbo", "gpt-3.5-turbo"]
 
 
 class Query(BaseModel):
@@ -34,25 +44,38 @@ html_exporter = HTMLExporter(output=None)
 engines: Dict[str, SPIRESEngine] = {}
 
 
-def get_engine(datamodel: str):
+def get_engine(datamodel: str, llm_model: str):
     if datamodel not in engines:
         template_details = get_template_details(template=datamodel)
-        engines[datamodel] = SPIRESEngine(template_details=template_details)
+        try:
+            engines[datamodel] = SPIRESEngine(
+                model=llm_model, template_details=template_details, model_source="openai"
+            )
+        except ValueError as e:
+            print(f"Encountered an error setting up the knowledge engine: {e}")
+            print("Will fall back to defaults.")
+            engines[datamodel] = SPIRESEngine(
+                model="gpt-3.5-turbo", template_details=template_details, model_source="openai"
+            )
     return engines[datamodel]
 
 
 @app.get("/")
 def read_root(request: Request):
     return templates.TemplateResponse(
-        "form.html", context={"request": request, "datamodels": DATAMODELS}
+        "form.html",
+        context={"request": request, "datamodels": DATAMODELS, "llm_models": LLM_MODELS},
     )
 
 
 @app.post("/")
-def form_post(request: Request, datamodel: str = Form(...), text: str = Form(...)):
+def form_post(
+    request: Request, datamodel: str = Form(...), text: str = Form(...), llm_model: str = Form(...)
+):
     print(f"Received request with schema {datamodel}")
     print(f"Received request with text {text}")
-    engine = get_engine(datamodel)
+    print(f"Received request to be sent to {llm_model}")
+    engine = get_engine(datamodel, llm_model)
     ann = engine.extract_from_text(text)
     print(f"Got {ann}")
     output = StringIO()

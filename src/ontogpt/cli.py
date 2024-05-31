@@ -877,6 +877,8 @@ def embed(text, output, model, output_format, azure_select, **kwargs):
         model = "text-embedding-ada-002"
     logging.info(f"Using model {model} for embeddings.")
 
+    logging.info(f"Embedding with model {model}")
+
     if not text:
         raise ValueError("Text must be passed to this function.")
 
@@ -899,6 +901,8 @@ def text_similarity(text, output, model, output_format, azure_select, **kwargs):
     if model is None:
         model = "text-embedding-ada-002"
     logging.info(f"Using model {model} for embeddings.")
+
+    logging.info(f"Embedding with model {model}")
 
     if not text:
         raise ValueError("Text must be passed to this function.")
@@ -930,6 +934,8 @@ def text_distance(text, output, model, output_format, azure_select, **kwargs):
     if model is None:
         model = "text-embedding-ada-002"
     logging.info(f"Using model {model} for embeddings.")
+
+    logging.info(f"Embedding with model {model}")
 
     if not text:
         raise ValueError("Text must be passed to this function.")

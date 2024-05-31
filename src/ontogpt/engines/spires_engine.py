@@ -69,6 +69,8 @@ class SPIRESEngine(KnowledgeEngine):
         :param object: optional stub object
         :return:
         """
+        self.extracted_named_entities = [] # Clear the named entity buffer
+
         if self.sentences_per_window:
             chunks = chunk_text(text, self.sentences_per_window)
             extracted_object = None
@@ -95,12 +97,15 @@ class SPIRESEngine(KnowledgeEngine):
             extracted_object = self.parse_completion_payload(
                 raw_text, cls, object=object  # type: ignore
             )
+
         return ExtractionResult(
             input_text=text,
             raw_completion_output=raw_text,
             prompt=self.last_prompt,
             extracted_object=extracted_object,
-            named_entities=self.named_entities,
+            named_entities=self.extracted_named_entities,
+            # Note these are the named entities from the last extraction,
+            # not the full list of all named entities across all extractions
         )
 
     def _extract_from_text_to_dict(self, text: str, cls: ClassDefinition = None) -> RESPONSE_DICT:

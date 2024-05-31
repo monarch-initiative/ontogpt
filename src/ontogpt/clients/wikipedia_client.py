@@ -1,4 +1,5 @@
 """Pubmed Client."""
+
 from dataclasses import dataclass
 
 import requests

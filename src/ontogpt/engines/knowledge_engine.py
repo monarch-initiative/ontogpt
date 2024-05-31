@@ -1,4 +1,5 @@
 """Main Knowledge Extractor class."""
+
 import logging
 import re
 from abc import ABC
@@ -41,11 +42,13 @@ MODEL_NAME = str
 # if it's not installed
 try:
     from ontogpt.clients import OpenAIClient, GPT4AllClient
+
     CLIENT_TYPES = Union[OpenAIClient, GPT4AllClient]
 except ImportError:
     logger.warning("GPT4All client not available. GPT4All support will be disabled.")
     from ontogpt.clients import OpenAIClient
-    CLIENT_TYPES = OpenAIClient # type: ignore
+
+    CLIENT_TYPES = OpenAIClient  # type: ignore
 
 # annotation metamodel
 ANNOTATION_KEY_PROMPT = "prompt"
@@ -53,24 +56,6 @@ ANNOTATION_KEY_PROMPT_SKIP = "prompt.skip"
 ANNOTATION_KEY_ANNOTATORS = "annotators"
 ANNOTATION_KEY_RECURSE = "ner.recurse"
 ANNOTATION_KEY_EXAMPLES = "prompt.examples"
-
-# TODO: introspect
-# TODO: move this to its own module
-DATAMODELS = [
-    "biological_process.BiologicalProcess",
-    "biotic_interaction.BioticInteraction",
-    "cell_type.CellTypeDocument",
-    "ctd.ChemicalToDiseaseDocument",
-    "diagnostic_procedure.DiagnosticProceduretoPhenotypeAssociation",
-    "drug.DrugMechanism",
-    "environmental_sample.Study",
-    "gocam.GoCamAnnotations",
-    "mendelian_disease.MendelianDisease",
-    "phenotype.Trait",
-    "reaction.Reaction",
-    "recipe.Recipe",
-    "treatment.DiseaseTreatmentSummary",
-]
 
 
 def chunk_text(text: str, window_size=3) -> Iterator[str]:
@@ -152,7 +137,11 @@ class KnowledgeEngine(ABC):
     """Min proportion of overlap in characters between text and grounding. TODO: use tokenization"""
 
     named_entities: List[NamedEntity] = field(default_factory=list)
-    """Cache of all named entities"""
+    """Cache of all named entities. This is not written to output directly as each input
+    has its own corresponding named entities."""
+
+    extracted_named_entities: List[NamedEntity] = field(default_factory=list)
+    """Temporary cache of named entities, to be cleared between extractions."""
 
     auto_prefix: str = ""
     """If set then non-normalized named entities will be mapped to this prefix"""
@@ -184,7 +173,9 @@ class KnowledgeEngine(ABC):
             logging.info("Using mappers (currently hardcoded)")
             self.mappers = [get_adapter("translator:")]
 
+        logging.info(f"Model source is {self.model_source}")
         self.set_up_client(model_source=self.model_source)
+        logging.info(f"Will use this client: {type(self.client)}")
         if not self.client:
             if self.model_source:
                 raise ValueError(f"No client available for {self.model_source}")
@@ -347,14 +338,18 @@ class KnowledgeEngine(ABC):
             logger.info(f"Grounding {text} to {obj_id}; next step is to normalize")
             for normalized_id in self.normalize_identifier(obj_id, cls):
                 if not any(e for e in self.named_entities if e.id == normalized_id):
-                    self.named_entities.append(NamedEntity(id=normalized_id, label=text))
+                    ne = NamedEntity(id=normalized_id, label=text)
+                    self.named_entities.append(ne)
+                    self.extracted_named_entities.append(ne)
                 logger.info(f"Normalized {text} with {obj_id} to {normalized_id}")
                 return normalized_id
         logger.info(f"Could not ground and normalize {text} to {cls.name}")
         if self.auto_prefix:
             obj_id = f"{self.auto_prefix}:{quote(text)}"
             if not any(e for e in self.named_entities if e.id == obj_id):
-                self.named_entities.append(NamedEntity(id=obj_id, label=text))
+                ne = NamedEntity(id=obj_id, label=text)
+                self.named_entities.append(ne)
+                self.extracted_named_entities.append(ne)
         else:
             obj_id = text
         if ANNOTATION_KEY_RECURSE in cls.annotations:
@@ -368,6 +363,7 @@ class KnowledgeEngine(ABC):
                 except ValueError as e:
                     logger.error(f"No id for {obj} {e}")
                 self.named_entities.append(obj)
+                self.extracted_named_entities.append(obj)
         return obj_id
 
     def is_valid_identifier(self, input_id: str, cls: ClassDefinition) -> bool:

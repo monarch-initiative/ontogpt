@@ -121,13 +121,13 @@ class AnnotatorResult(ConfiguredBaseModel):
     object_text: Optional[str] = Field(None)
 
 
-class DiseaseTermSet(NamedEntity):
-    terms: Optional[List[str]] = Field(default_factory=list, description="""A semicolon-separated list of any disease names.""")
+class OntologyTermSet(NamedEntity):
+    terms: Optional[List[str]] = Field(default_factory=list, description="""A semicolon-separated list of any Food Ontology terms.""")
     id: str = Field(..., description="""A unique identifier for the named entity""")
     label: Optional[str] = Field(None, description="""The label (name) of the named thing""")
 
 
-class DiseaseTerm(NamedEntity):
+class OntologyTerm(NamedEntity):
     id: str = Field(..., description="""A unique identifier for the named entity""")
     label: Optional[str] = Field(None, description="""The label (name) of the named thing""")
 
@@ -143,6 +143,6 @@ TextWithEntity.model_rebuild()
 RelationshipType.model_rebuild()
 Publication.model_rebuild()
 AnnotatorResult.model_rebuild()
-DiseaseTermSet.model_rebuild()
-DiseaseTerm.model_rebuild()
+OntologyTermSet.model_rebuild()
+OntologyTerm.model_rebuild()
 
