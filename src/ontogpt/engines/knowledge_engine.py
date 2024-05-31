@@ -24,8 +24,7 @@ from oaklib.utilities.subsets.value_set_expander import ValueSetExpander
 from requests.exceptions import ConnectionError, HTTPError, ProxyError
 
 from ontogpt import DEFAULT_MODEL
-
-# from ontogpt.clients import OpenAIClient, GPT4AllClient, HFHubClient
+from ontogpt.clients.llm_client import LLMClient
 from ontogpt.templates.core import ExtractionResult, NamedEntity
 
 this_path = Path(__file__).parent
@@ -37,18 +36,6 @@ EXAMPLE = OBJECT
 FIELD = str
 TEMPLATE_NAME = str
 MODEL_NAME = str
-
-# GPT4All support is optional, so we don't load it
-# if it's not installed
-try:
-    from ontogpt.clients import OpenAIClient, GPT4AllClient
-
-    CLIENT_TYPES = Union[OpenAIClient, GPT4AllClient]
-except ImportError:
-    logger.warning("GPT4All client not available. GPT4All support will be disabled.")
-    from ontogpt.clients import OpenAIClient
-
-    CLIENT_TYPES = OpenAIClient  # type: ignore
 
 # annotation metamodel
 ANNOTATION_KEY_PROMPT = "prompt"
@@ -102,13 +89,6 @@ class KnowledgeEngine(ABC):
     model: str = None
     """Language Model. This may be overridden in subclasses."""
 
-    model_source: str = None
-    """The source of the model. This determines how the model is accessed
-    (e.g. via an API or a local file)"""
-
-    # annotator: TextAnnotatorInterface = None
-    # """Default annotator. TODO: deprecate?"""
-
     annotators: Optional[Dict[str, List[TextAnnotatorInterface]]] = None
     """Annotators for each class.
     An annotator will ground/map labels to CURIEs.
@@ -125,7 +105,7 @@ class KnowledgeEngine(ABC):
     labelers: Optional[List[BasicOntologyInterface]] = None
     """Labelers that map CURIEs to labels"""
 
-    client: Optional[CLIENT_TYPES] = None
+    client: LLMClient = None
     """All calls to LLMs are delegated through this client"""
 
     dictionary: Dict[str, str] = field(default_factory=dict)
@@ -173,23 +153,13 @@ class KnowledgeEngine(ABC):
             logging.info("Using mappers (currently hardcoded)")
             self.mappers = [get_adapter("translator:")]
 
-        logging.info(f"Model source is {self.model_source}")
-        self.set_up_client(model_source=self.model_source)
-        logging.info(f"Will use this client: {type(self.client)}")
         if not self.client:
-            if self.model_source:
-                raise ValueError(f"No client available for {self.model_source}")
-            else:
-                raise ValueError("No client available because model source is unknown.")
-
-        # We retrieve encoding for OpenAI models
-        # but tiktoken won't work for other models
-        if self.model_source == "openai":
-            try:
-                self.encoding = tiktoken.encoding_for_model(self.client.model)
-            except KeyError:
-                self.encoding = tiktoken.encoding_for_model(DEFAULT_MODEL)
-                logger.error(f"Could not find encoding for model {self.client.model}")
+            self.client = LLMClient(model=self.model)
+        
+        # We retrieve encoding
+        # but tiktoken won't work for non-openai models
+        # TODO: let litellm handle this; see
+        # https://litellm.vercel.app/docs/completion/token_usage
 
     def set_api_key(self, key: str):
         self.api_key = key
@@ -551,9 +521,6 @@ class KnowledgeEngine(ABC):
                 except Exception as e:
                     logger.error(f"Error with {annotator} for {text}: {e}")
 
-    # def ground_text_to_id(self, text: str, cls: ClassDefinition = None) -> str:
-    #    raise NotImplementedError
-
     def merge_resultsets(
         self, resultset: List[ExtractionResult], unique_fields: List[str]
     ) -> ExtractionResult:
@@ -589,17 +556,3 @@ class KnowledgeEngine(ABC):
                     if v:
                         setattr(result, k, v)
         return resultset[0]
-
-    def set_up_client(self, model_source: str):
-        """
-        Select the appropriate client based on the model's source.
-
-        Args: model_source (str): lowercase string indicating the source of the model,
-            e.g., openai
-        """
-        if model_source == "openai":
-            self.client = OpenAIClient(model=self.model, use_azure=self.use_azure)
-            logging.info("Setting up OpenAI client API Key")
-            self.api_key = self._get_openai_api_key()
-        elif model_source == "gpt4all":
-            self.client = GPT4AllClient(model=self.model)

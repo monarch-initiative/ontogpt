@@ -9,6 +9,8 @@ import numpy as np
 from oaklib.utilities.apikey_manager import get_apikey_value
 import openai  # For error handling
 
+from ontogpt import DEFAULT_MODEL
+
 logger = logging.getLogger(__name__)
 
 # TODO: re-add prompt and response caching through litellm
@@ -20,7 +22,7 @@ logger = logging.getLogger(__name__)
 @dataclass
 class LLMClient:
 
-    model: str = field(default_factory=lambda: "gpt-3.5-turbo")
+    model: str = field(default_factory=lambda: DEFAULT_MODEL)
     cache_db_path: str = ""
     api_key: str = ""
     # TODO: consider deprecating this in favor
@@ -34,7 +36,6 @@ class LLMClient:
     temperature: float = 1.0
 
     def __post_init__(self):
-
         # TODO: get appropriate API key for the model source
         if not self.api_key:
             self.api_key = get_apikey_value("openai")
