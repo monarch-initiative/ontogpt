@@ -1,0 +1,45 @@
+id: http://w3id.org/ontogpt/gene_extraction
+name: gene_extraction
+title: Gene Extraction Template
+description: >-
+  A template demonstrating a general strategy for extracting gene symbols from
+  ambiguous context.
+license: https://creativecommons.org/publicdomain/zero/1.0/
+prefixes:
+  rdf: http://www.w3.org/1999/02/22-rdf-syntax-ns#
+  HGNC: http://identifiers.org/hgnc/
+  geneextraction: http://w3id.org/ontogpt/gene_extraction
+  linkml: https://w3id.org/linkml/
+
+default_prefix: geneextraction
+default_range: string
+
+imports:
+  - linkml:types
+  - core
+
+classes:
+  AcronymList:
+    tree_root: true
+    is_a: NamedEntity
+    attributes:
+      genes:
+        annotations:
+          prompt: >-
+            A semicolon-delimited list of potential gene symbols within
+            the text. Include all acronyms that could be gene symbols,
+            i.e., any string of capital letters, particularly if it is
+            followed by a number. Examples of gene symbols include:
+            BRCA1, TP53, EGR2, ITGB6, PRKCD. Gene symbols may resemble
+            acronyms referring to diseases or phenotypes,
+            and may be surrounded by punctuation or other text.
+        range: Gene
+        multivalued: true
+
+  Gene:
+    is_a: NamedEntity
+    description: a single gene symbol.
+    id_prefixes:
+      - HGNC
+    annotations:
+      annotators: bioportal:hgnc-nr, bioportal:gexo
