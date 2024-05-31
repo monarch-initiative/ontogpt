@@ -1827,26 +1827,6 @@ openai = "*"
 requests = "*"
 
 [[package]]
-name = "gpt4all"
-version = "2.6.0"
-description = "Python bindings for GPT4All"
-optional = true
-python-versions = ">=3.8"
-files = [
-    {file = "gpt4all-2.6.0-py3-none-macosx_10_15_universal2.whl", hash = "sha256:2d750cf20a3dbfd9ed0ffbd780161eb2720ae923130e8a259e9dcc9a9b108983"},
-    {file = "gpt4all-2.6.0-py3-none-manylinux1_x86_64.whl", hash = "sha256:506a0e0089044e36e0a0792cd7abba0e2f688669101bc927b8bae4f82409dcec"},
-    {file = "gpt4all-2.6.0-py3-none-win_amd64.whl", hash = "sha256:997c40a4c9ef639eef74861d9eb731e80be29ac8a455b2530df98fdeded6557f"},
-]
-
-[package.dependencies]
-requests = "*"
-tqdm = "*"
-typing-extensions = {version = ">=4.3.0", markers = "python_version >= \"3.9\" and python_version < \"3.11\""}
-
-[package.extras]
-dev = ["black", "isort", "mkautodoc", "mkdocs-jupyter", "mkdocs-material", "mkdocstrings[python]", "pytest", "setuptools", "twine", "typing-extensions (>=3.10)", "wheel"]
-
-[[package]]
 name = "graphviz"
 version = "0.20.3"
 description = "Simple Python interface for Graphviz"
@@ -3290,25 +3270,6 @@ sqlite-utils = ">=3.35.0"
 
 [package.extras]
 test = ["black (>=24.1.0)", "cogapp", "mypy (>=1.10.0)", "numpy", "pytest", "pytest-httpx", "ruff", "types-PyYAML", "types-click", "types-setuptools"]
-
-[[package]]
-name = "llm-gpt4all"
-version = "0.4"
-description = "Plugin for LLM adding support for GPT4ALL models"
-optional = true
-python-versions = ">=3.9"
-files = [
-    {file = "llm_gpt4all-0.4-py3-none-any.whl", hash = "sha256:4f7dd866025bd7b804aab81b85e9f5a5ac45171e6fd52b3c4fb75f30e762b384"},
-    {file = "llm_gpt4all-0.4.tar.gz", hash = "sha256:3e498ae6fa0d146d11cf1885e24cc218b77280102d5cfe666d6732c6fdc59927"},
-]
-
-[package.dependencies]
-gpt4all = ">=2.5.1"
-httpx = "*"
-llm = ">=0.11"
-
-[package.extras]
-test = ["pytest"]
 
 [[package]]
 name = "lxml"
@@ -8250,8 +8211,6 @@ test = ["big-O", "jaraco.functools", "jaraco.itertools", "jaraco.test", "more-it
 
 [extras]
 docs = ["myst-parser", "sphinx", "sphinx-autodoc-typehints", "sphinx-click", "sphinx-rtd-theme"]
-gpt4all = ["llm-gpt4all"]
-huggingface = ["huggingface_hub"]
 recipes = ["recipe-scrapers"]
 textract = ["textract"]
 web = ["Jinja2", "fastapi", "uvicorn"]
@@ -8259,4 +8218,4 @@ web = ["Jinja2", "fastapi", "uvicorn"]
 [metadata]
 lock-version = "2.0"
 python-versions = ">=3.9,<3.9.7 || >3.9.7,<4.0"
-content-hash = "d4953fad5d7b30302ccc08d8b4bb74ebb3df81b453e3204058abe7d8b728c20a"
+content-hash = "fb6509f83cd5a2b5f5964725c3bb8d33ea1e3180f485cb285c79e88316f6ad8c"

@@ -14,7 +14,6 @@ You may also set additional API keys for optional resources:
 
 * [BioPortal](https://bioportal.bioontology.org/) account (for grounding). The BioPortal key is necessary for using ontologies from [BioPortal](https://bioportal.bioontology.org/). You may get a key by signing up for an account on their web site.
 * [NCBI E-utilities](https://ncbiinsights.ncbi.nlm.nih.gov/2017/11/02/new-api-keys-for-the-e-utilities/). The NCBI email address and API key are used for retrieving text and metadata from PubMed. You may still access these resources without identifying yourself, but you may encounter rate limiting and errors.
-* [HuggingFace Hub](https://huggingface.co/docs/api-inference/quicktour#get-your-api-token). This API key is necessary to retrieve models from the HuggingFace Hub service.
 
 ## Installation
 
@@ -33,7 +32,6 @@ pip install ontogpt[extra_name]
 where `extra_name` is one of the following:
 
 * `docs` - dependencies for building documentation
-* `huggingface` - dependencies for accessing LLMs from HuggingFace Hub, remotely or locally
 * `recipes` - dependencies for recipe scraping and parsing
 * `textract` - the textract plugin
 * `web` - dependencies for the web application
@@ -68,11 +66,4 @@ The optional keys may be set as follows:
 runoak set-apikey -e bioportal <your bioportal api key>
 runoak set-apikey -e ncbi-email <your email address>
 runoak set-apikey -e ncbi-key <your NCBI api key>
-runoak set-apikey -e hfhub-key <your HuggingFace Hub api key>
 ```
-
-### Running local models
-
-Using local models currently depends upon using the `gpt4all` package and may require additional setup steps specific to your computing environment.
-
-See the [gpt4all documentation](https://docs.gpt4all.io/) for more details.
