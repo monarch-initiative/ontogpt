@@ -6,13 +6,7 @@ from pathlib import Path
 # Define the default model
 rel_path = Path(__file__).resolve()
 
-DEFAULT_MODEL = "gpt-4-turbo"
-
-OPENAI_EMBEDDING_MODELS = [
-    "text-embedding-ada-002",
-    "text-embedding-3-small",
-    "text-embedding-3-large",
-]
+DEFAULT_MODEL = "gpt-4o"
 
 try:
     __version__ = metadata.version(__name__)
