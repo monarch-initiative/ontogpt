@@ -63,7 +63,11 @@ class LLMClient:
         except Exception as e:
             print(f"Encountered error: {type(e)}, Error: {e}")
 
-        payload = response.choices[0].message.content
+        if response is not None:
+            payload = response.choices[0].message.content
+        else:
+            logger.error(f"No response or response is empty.")
+            payload = ""
 
         return payload
 
