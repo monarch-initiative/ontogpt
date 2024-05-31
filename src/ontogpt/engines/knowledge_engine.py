@@ -95,10 +95,6 @@ class KnowledgeEngine(ABC):
     These override the annotators annotated in the template
     """
 
-    skip_annotators: Optional[List[TextAnnotatorInterface]] = None
-    """Annotators to skip.
-    This overrides any specified in the schema"""
-
     mappers: Optional[List[BasicOntologyInterface]] = None
     """List of concept mappers, to assist in grounding to desired ID prefix"""
 
@@ -242,14 +238,10 @@ class KnowledgeEngine(ABC):
                 logger.error(f"No annotators for {cls.name}")
                 return []
             annotators = cls.annotations[ANNOTATION_KEY_ANNOTATORS].value.split(", ")
-        logger.info(f" Annotators: {annotators} [will skip: {self.skip_annotators}]")
         annotators = []
         for annotator in annotators:
             if isinstance(annotator, str):
                 logger.info(f"Loading annotator {annotator}")
-                if self.skip_annotators and annotator in self.skip_annotators:
-                    logger.info(f"Skipping annotator {annotator}")
-                    continue
                 if annotator not in self.annotators:
                     self.annotators[annotator] = get_adapter(annotator)
                 annotators.append(self.annotators[annotator])
@@ -492,14 +484,12 @@ class KnowledgeEngine(ABC):
                 annotators = []
             else:
                 annotators = cls.annotations[ANNOTATION_KEY_ANNOTATORS].value.split(", ")
-        logger.info(f" Annotators: {annotators} [will skip: {self.skip_annotators}]")
+
         # prioritize whole matches by running these first
         for matches_whole_text in [True, False]:
             config = TextAnnotationConfiguration(matches_whole_text=matches_whole_text)
             for annotator in annotators:
                 if isinstance(annotator, str):
-                    if self.skip_annotators and annotator in self.skip_annotators:
-                        continue
                     if self.annotators is None:
                         self.annotators = {}
                     if annotator not in self.annotators:

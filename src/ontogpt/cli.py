@@ -61,7 +61,6 @@ class Settings:
     """Global command line settings."""
 
     cache_db: Optional[str] = None
-    skip_annotators: Optional[List[str]] = None
 
 
 settings = Settings()
@@ -217,7 +216,7 @@ azure_select_option = click.option(
     help="Skip one or more annotators (e.g. --skip-annotator gilda)",
 )
 @click.version_option(__version__)
-def main(verbose: int, quiet: bool, cache_db: str, skip_annotator):
+def main(verbose: int, quiet: bool, cache_db: str):
     """CLI for ontogpt.
 
     :param verbose: Verbosity while running.
@@ -235,8 +234,6 @@ def main(verbose: int, quiet: bool, cache_db: str, skip_annotator):
     logger.info(f"Logger {logger.name} set to level {logger.level}")
     if cache_db:
         settings.cache_db = cache_db
-    if skip_annotator:
-        settings.skip_annotators = list(skip_annotator)
 
 
 @main.command()
@@ -338,8 +335,6 @@ def extract(
     )
     if settings.cache_db:
         ke.client.cache_db_path = settings.cache_db
-    if settings.skip_annotators:
-        ke.client.skip_annotators = settings.skip_annotators
 
     if dictionary:
         ke.load_dictionary(dictionary)
@@ -390,8 +385,6 @@ def generate_extract(model, entity, template, output, output_format, show_prompt
     )
     if settings.cache_db:
         ke.client.cache_db_path = settings.cache_db
-    if settings.skip_annotators:
-        ke.skip_annotators = settings.skip_annotators
 
     logging.debug(f"Input entity: {entity}")
     results = ke.generate_and_extract(
@@ -446,8 +439,7 @@ def iteratively_generate_extract(
     )
     if settings.cache_db:
         ke.client.cache_db_path = settings.cache_db
-    if settings.skip_annotators:
-        ke.skip_annotators = settings.skip_annotators
+
 
     logging.debug(f"Input entity: {entity}")
     adapter = get_adapter(ontology)
@@ -494,8 +486,7 @@ def pubmed_extract(model, pmid, template, output, output_format, get_pmc, show_p
     )
     if settings.cache_db:
         ke.client.cache_db_path = settings.cache_db
-    if settings.skip_annotators:
-        ke.skip_annotators = settings.skip_annotators
+
 
     pmc = PubmedClient()
     if get_pmc:
@@ -551,8 +542,7 @@ def pubmed_annotate(
     )
     if settings.cache_db:
         ke.client.cache_db_path = settings.cache_db
-    if settings.skip_annotators:
-        ke.skip_annotators = settings.skip_annotators
+
 
     pubmed_annotate_limit = limit
     pmc = PubmedClient()
@@ -594,8 +584,7 @@ def wikipedia_extract(model, article, template, output, output_format, show_prom
     )
     if settings.cache_db:
         ke.client.cache_db_path = settings.cache_db
-    if settings.skip_annotators:
-        ke.skip_annotators = settings.skip_annotators
+
 
     logging.info(f"Creating for {template} => {article}")
     client = WikipediaClient()
@@ -737,8 +726,7 @@ def web_extract(model, template, url, output, output_format, show_prompt, **kwar
     )
     if settings.cache_db:
         ke.client.cache_db_path = settings.cache_db
-    if settings.skip_annotators:
-        ke.skip_annotators = settings.skip_annotators
+
 
     web_client = SoupClient()
     text = web_client.text(url)
@@ -789,8 +777,6 @@ def recipe_extract(
     )
     if settings.cache_db:
         ke.client.cache_db_path = settings.cache_db
-    if settings.skip_annotators:
-        ke.skip_annotators = settings.skip_annotators
 
     if recipes_urls_file:
         with open(recipes_urls_file, "r") as f:
