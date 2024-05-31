@@ -133,6 +133,9 @@ class KnowledgeEngine(ABC):
     use_azure: Optional[bool] = None
     """Use Azure API for OpenAI models, if True."""
 
+    temperature: float = 1.0
+    """Temperature for LLM completions - this is passed to the LLMClient."""
+
     def __post_init__(self):
         if self.template_details:
             (
@@ -150,7 +153,7 @@ class KnowledgeEngine(ABC):
             self.mappers = [get_adapter("translator:")]
 
         if not self.client:
-            self.client = LLMClient(model=self.model)
+            self.client = LLMClient(model=self.model, temperature=self.temperature)
         
         # We retrieve encoding
         # but tiktoken won't work for non-openai models

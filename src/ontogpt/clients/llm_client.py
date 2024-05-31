@@ -32,7 +32,6 @@ class LLMClient:
     # see https://docs.litellm.ai/docs/providers/azure
     use_azure: Optional[bool] = None
 
-    # TODO: expose to CLI
     temperature: float = 1.0
 
     def __post_init__(self):

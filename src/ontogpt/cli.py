@@ -204,17 +204,19 @@ azure_select_option = click.option(
     show_default=True,
     help="Use OpenAI model through Azure.",
 )
+temperature_option = click.option(
+    "-p",
+    "--temperature",
+    type=click.FLOAT,
+    default=1.0,
+    help="Temperature for model completion.",
+)
 
 
 @click.group()
 @click.option("-v", "--verbose", count=True)
 @click.option("-q", "--quiet")
 @click.option("--cache-db", help="Path to sqlite database to cache prompt-completion results")
-@click.option(
-    "--skip-annotator",
-    multiple=True,
-    help="Skip one or more annotators (e.g. --skip-annotator gilda)",
-)
 @click.version_option(__version__)
 def main(verbose: int, quiet: bool, cache_db: str):
     """CLI for ontogpt.
@@ -256,6 +258,7 @@ def main(verbose: int, quiet: bool, cache_db: str):
 )
 @click.argument("input", required=False)
 @azure_select_option
+@temperature_option
 def extract(
     inputfile,
     template,
@@ -269,6 +272,7 @@ def extract(
     model,
     show_prompt,
     azure_select,
+    temperature,
     **kwargs,
 ):
     """Extract knowledge from text guided by schema, using SPIRES engine.
@@ -331,6 +335,7 @@ def extract(
         template_details=template_details,
         model=model,
         use_azure=azure_select,
+        temperature=temperature,
         **kwargs,
     )
     if settings.cache_db:
@@ -367,8 +372,9 @@ def extract(
 @output_format_options
 @auto_prefix_option
 @show_prompt_option
+@temperature_option
 @click.argument("entity")
-def generate_extract(model, entity, template, output, output_format, show_prompt, **kwargs):
+def generate_extract(model, entity, template, output, output_format, show_prompt, temperature, **kwargs):
     """Generate text and then extract knowledge from it."""
     if not model:
         model = DEFAULT_MODEL
@@ -381,6 +387,7 @@ def generate_extract(model, entity, template, output, output_format, show_prompt
     ke = SPIRESEngine(
         template_details=template_details,
         model=model,
+        temperature=temperature,
         **kwargs,
     )
     if settings.cache_db:
@@ -408,6 +415,7 @@ def generate_extract(model, entity, template, output, output_format, show_prompt
 @click.option(
     "--clear/--no-clear", default=False, show_default=True, help="Clear the db before starting"
 )
+@temperature_option
 @click.argument("entity")
 def iteratively_generate_extract(
     model,
@@ -421,6 +429,7 @@ def iteratively_generate_extract(
     clear,
     ontology,
     show_prompt,
+    temperature,
     **kwargs,
 ):
     """Iterate through generate-extract."""
@@ -435,6 +444,7 @@ def iteratively_generate_extract(
     ke = SPIRESEngine(
         template_details=template_details,
         model=model,
+        temperature=temperature,
         **kwargs,
     )
     if settings.cache_db:
@@ -468,8 +478,9 @@ def iteratively_generate_extract(
     default=False,
     help="Attempt to parse PubMed Central full text(s) instead of abstract(s) alone.",
 )
+@temperature_option
 @click.argument("pmid")
-def pubmed_extract(model, pmid, template, output, output_format, get_pmc, show_prompt, **kwargs):
+def pubmed_extract(model, pmid, template, output, output_format, get_pmc, show_prompt, temperature, **kwargs):
     """Extract knowledge from a single PubMed ID."""
     if not model:
         model = DEFAULT_MODEL
@@ -482,6 +493,7 @@ def pubmed_extract(model, pmid, template, output, output_format, get_pmc, show_p
     ke = SPIRESEngine(
         template_details=template_details,
         model=model,
+        temperature=temperature,
         **kwargs,
     )
     if settings.cache_db:
@@ -517,9 +529,10 @@ def pubmed_extract(model, pmid, template, output, output_format, get_pmc, show_p
     default=False,
     help="Attempt to parse PubMed Central full text(s) instead of abstract(s) alone.",
 )
+@temperature_option
 @click.argument("search")
 def pubmed_annotate(
-    model, search, template, output, output_format, limit, get_pmc, show_prompt, **kwargs
+    model, search, template, output, output_format, limit, get_pmc, show_prompt, temperature, **kwargs
 ):
     """Retrieve a collection of PubMed IDs for a search term; annotate them using a template.
 
@@ -566,8 +579,9 @@ def pubmed_annotate(
 @output_format_options
 @show_prompt_option
 @click.option("--auto-prefix", default="AUTO", help="Prefix to use for auto-generated classes.")
+@temperature_option
 @click.argument("article")
-def wikipedia_extract(model, article, template, output, output_format, show_prompt, **kwargs):
+def wikipedia_extract(model, article, template, output, output_format, show_prompt, temperature, **kwargs):
     """Extract knowledge from a Wikipedia page."""
     if not model:
         model = DEFAULT_MODEL
@@ -580,11 +594,11 @@ def wikipedia_extract(model, article, template, output, output_format, show_prom
     ke = SPIRESEngine(
         template_details=template_details,
         model=model,
+        temperature=temperature,
         **kwargs,
     )
     if settings.cache_db:
         ke.client.cache_db_path = settings.cache_db
-
 
     logging.info(f"Creating for {template} => {article}")
     client = WikipediaClient()
@@ -608,8 +622,9 @@ def wikipedia_extract(model, article, template, output, output_format, show_prom
     multiple=True,
     help="Keyword to search for (e.g. --keyword therapy). Also obtained from schema",
 )
+@temperature_option
 @click.argument("topic")
-def wikipedia_search(model, topic, keyword, template, output, output_format, show_prompt, **kwargs):
+def wikipedia_search(model, topic, keyword, template, output, output_format, show_prompt, temperature, **kwargs):
     """Extract knowledge from a Wikipedia page."""
     if not model:
         model = DEFAULT_MODEL
@@ -622,6 +637,7 @@ def wikipedia_search(model, topic, keyword, template, output, output_format, sho
     ke = SPIRESEngine(
         template_details=template_details,
         model=model,
+        temperature=temperature,
         **kwargs,
     )
 
@@ -660,9 +676,10 @@ def wikipedia_search(model, topic, keyword, template, output, output_format, sho
     multiple=True,
     help="Keyword to search for (e.g. --keyword therapy). Also obtained from schema",
 )
+@temperature_option
 @click.argument("term_tokens", nargs=-1)
 def search_and_extract(
-    model, term_tokens, keyword, template, output, output_format, show_prompt, **kwargs
+    model, term_tokens, keyword, template, output, output_format, show_prompt, temperature, **kwargs
 ):
     """Search for relevant literature and extract knowledge from it."""
     if not model:
@@ -676,6 +693,7 @@ def search_and_extract(
     ke = SPIRESEngine(
         template_details=template_details,
         model=model,
+        temperature=temperature,
         **kwargs,
     )
 
@@ -708,8 +726,9 @@ def search_and_extract(
 @output_option_wb
 @output_format_options
 @show_prompt_option
+@temperature_option
 @click.argument("url")
-def web_extract(model, template, url, output, output_format, show_prompt, **kwargs):
+def web_extract(model, template, url, output, output_format, show_prompt, temperature, **kwargs):
     """Extract knowledge from web page."""
     if not model:
         model = DEFAULT_MODEL
@@ -722,6 +741,7 @@ def web_extract(model, template, url, output, output_format, show_prompt, **kwar
     ke = SPIRESEngine(
         template_details=template_details,
         model=model,
+        temperature=temperature,
         **kwargs,
     )
     if settings.cache_db:
@@ -748,9 +768,10 @@ def web_extract(model, template, url, output, output_format, show_prompt, **kwar
 @click.option("--auto-prefix", default="AUTO", help="Prefix to use for auto-generated classes.")
 @model_option
 @show_prompt_option
+@temperature_option
 @click.argument("url")
 def recipe_extract(
-    model, url, recipes_urls_file, dictionary, output, output_format, show_prompt, **kwargs
+    model, url, recipes_urls_file, dictionary, output, output_format, show_prompt, temperature, **kwargs
 ):
     """Extract from recipe on the web."""
     try:
@@ -773,6 +794,7 @@ def recipe_extract(
     ke = SPIRESEngine(
         template_details=template_details,
         model=model,
+        temperature=temperature,
         **kwargs,
     )
     if settings.cache_db:
@@ -807,8 +829,9 @@ def recipe_extract(
 @template_option
 @output_option_wb
 @output_format_options
+@temperature_option
 @click.argument("input")
-def convert(model, template, input, output, output_format, **kwargs):
+def convert(model, template, input, output, output_format, temperature, **kwargs):
     """Convert output format."""
     if not model:
         model = DEFAULT_MODEL
@@ -821,6 +844,7 @@ def convert(model, template, input, output, output_format, **kwargs):
     ke = SPIRESEngine(
         template_details=template_details,
         model=model,
+        temperature=temperature,
         **kwargs,
     )
 
@@ -1297,8 +1321,9 @@ def eval(evaluator, num_tests, output, chunking, model, **kwargs):
 @output_option_wb
 @output_format_options
 @show_prompt_option
+@temperature_option
 @click.argument("object")
-def fill(model, template, object: str, examples, output, output_format, show_prompt, **kwargs):
+def fill(model, template, object: str, examples, output, output_format, show_prompt, temperature, **kwargs):
     """Fill in missing values."""
     ke: KnowledgeEngine
 
@@ -1314,6 +1339,7 @@ def fill(model, template, object: str, examples, output, output_format, show_pro
     ke = SPIRESEngine(
         template_details=template_details,
         model=model,
+        temperature=temperature,
         **kwargs,
     )
 
@@ -1334,8 +1360,9 @@ def fill(model, template, object: str, examples, output, output_format, show_pro
 @output_format_options
 @show_prompt_option
 @azure_select_option
+@temperature_option
 @click.argument("input", required=False)
-def complete(inputfile, model, input, output, output_format, show_prompt, azure_select, **kwargs):
+def complete(inputfile, model, input, output, output_format, show_prompt, azure_select, temperature, **kwargs):
     """Prompt completion.
 
     The input argument may be:
@@ -1350,20 +1377,20 @@ def complete(inputfile, model, input, output, output_format, show_prompt, azure_
     else:
         text = input.strip()
 
-    results = _send_complete_request(model, text, output, output_format, show_prompt, azure_select)
+    results = _send_complete_request(model, text, output, output_format, show_prompt, azure_select, temperature)
 
     output.write(results + "\n")
 
 
 def _send_complete_request(
-    model, input, output, output_format, show_prompt, azure_select, **kwargs
+    model, input, output, output_format, show_prompt, azure_select, temperature, **kwargs
 ) -> str:
     """Send a completion request to an LLM endpoint."""
 
     if not model:
         model = DEFAULT_MODEL
 
-    c = LLMClient(model=model, use_azure=azure_select)
+    c = LLMClient(model=model, use_azure=azure_select, temperature=temperature)
     results = c.complete(prompt=input, show_prompt=show_prompt)
 
     return results
@@ -1473,6 +1500,7 @@ def halo(model, input, context, terms, output, **kwargs):
     "--sections", multiple=True, help="sections to include e.g. medications, vital signs, etc."
 )
 @azure_select_option
+@temperature_option
 def clinical_notes(
     description,
     sections,
@@ -1481,6 +1509,7 @@ def clinical_notes(
     show_prompt,
     output_format,
     azure_select,
+    temperature,
     **kwargs,
 ):
     """Create mock clinical notes.
@@ -1499,7 +1528,7 @@ def clinical_notes(
     if not model:
         model = DEFAULT_MODEL
 
-    c = LLMClient(model=model, use_azure=azure_select)
+    c = LLMClient(model=model, use_azure=azure_select, temperature=temperature)
     results = c.complete(prompt=prompt, show_prompt=show_prompt)
 
     output.write(results)
