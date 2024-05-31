@@ -16,6 +16,7 @@ import click
 import jsonlines
 import yaml
 
+from litellm import get_model_cost_map
 from oaklib import get_adapter
 from oaklib.cli import query_terms_iterator
 from oaklib.interfaces import OboGraphInterface
@@ -1559,45 +1560,43 @@ def _get_templates() -> Dict[str, Tuple[str, str]]:
 def list_models():
     """List all available models.
 
+    Note this is a partial list of models available through litellm
+    for use in the OntoGPT CLI. More models may be available from
+    other sources.
+
     The following values are provided:
 
-    Model Name: OntoGPT's name for the model. Use this with the -m/--model option.
+    Model Name: Name of the model. Use this with the -m/--model option.
 
     Provider: The service provider for the model.
 
-    Canonical Name: The name of the model as provided by the service provider.
+    Functionality: The relevance of the model to OntoGPT functions.
+    "chat" or "completion" models are used for generating text and may
+    be used with extract-based functions. "embedding" models are used
+    for generating embeddings and may be used with similarity functions.
 
-    Alternative Names: Other names for the model.
-
-    Status: Whether the model is currently implemented or deprecated.
-
-    Disk Space: The space required for the model to be stored on your local disk.
-    "N/A" means the model is not stored locally.
-
-    System Memory: The memory required for the model to run on your system.
-    "N/A" means the model is not stored locally.
+    Max Tokens: Token limit for the model. Note that models may
+    tokenize text differently and calculate input and/or output tokens
+    in particular ways, so consult a model's original documentaion for
+    further details.
     """
-    print(
-        "Model Name\tProvider\tCanonical Name\tAlternative Names\tStatus\tDisk Space\tSystem Memory"
-    )
-    for model in MODELS:
-        primary_name = model["name"]
-        provider = model["provider"]
-        canonical = model["canonical_name"]
-        alternative_names = (
-            " ".join(model["alternative_names"]) if model["alternative_names"] else ""
-        )
-        if "not_implemented" in model or "deprecated" in model:
-            status = "Not Implemented"
-        else:
-            status = "Implemented"
-        disk = model["requirements"]["diskspace"]
-        memory = model["requirements"]["memory"]
+    models = get_model_cost_map("")
 
-        print(
-            f"{primary_name}\t{provider}\t{canonical}\t{alternative_names}\t"
-            f"{status}\t{disk}\t{memory}"
-        )
+    print("Model Name\tProvider\tFunctionality\tMax Tokens")
+    for model in models:
+        primary_name = model
+        provider = models[model]["litellm_provider"]
+
+        if "mode" in models[model]:
+            functionality = models[model]["mode"]
+            if functionality not in ["chat", "completion", "embedding"]:
+                continue
+        else:
+            continue
+
+        max_tokens = models[model]["max_tokens"]
+
+        print(f"{primary_name}\t{provider}\t{functionality}\t{max_tokens}")
 
 
 @main.command()
