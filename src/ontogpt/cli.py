@@ -139,7 +139,13 @@ def write_extraction(
 
 
 inputfile_option = click.option("-i", "--inputfile", help="Path to a file containing input text.")
-template_option = click.option("-t", "--template", required=True, help="Template to use.")
+template_option = click.option(
+    "-t",
+    "--template",
+    required=True,
+    help="Template to use. This may be the name of a predefined template or a path to a schema file."
+    " In the latter case, the schema file should be a YAML file and the path should include the .yaml file suffix.",
+)
 target_class_option = click.option(
     "-T", "--target-class", help="Target class (if not already root)."
 )
