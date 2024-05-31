@@ -33,7 +33,6 @@ pip install ontogpt[extra_name]
 where `extra_name` is one of the following:
 
 * `docs` - dependencies for building documentation
-* `gpt4all` - dependencies for running local models
 * `huggingface` - dependencies for accessing LLMs from HuggingFace Hub, remotely or locally
 * `recipes` - dependencies for recipe scraping and parsing
 * `textract` - the textract plugin
