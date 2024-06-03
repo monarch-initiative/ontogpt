@@ -563,9 +563,14 @@ def pubmed_extract(model, pmid, template, output, output_format, get_pmc, show_p
     default=False,
     help="Attempt to parse PubMed Central full text(s) instead of abstract(s) alone.",
 )
+@click.option(
+    "--max-text-length",
+    default=3000,
+    help="Maximum text length for each input chunk. Dependent on context size of model used."
+)
 @click.argument("search")
 def pubmed_annotate(
-    model, search, template, output, output_format, limit, get_pmc, show_prompt, **kwargs
+    model, search, template, output, output_format, limit, get_pmc, show_prompt, max_text_length, **kwargs
 ):
     """Retrieve a collection of PubMed IDs for a search term; annotate them using a template.
 
@@ -595,6 +600,7 @@ def pubmed_annotate(
 
     pubmed_annotate_limit = limit
     pmc = PubmedClient()
+    pmc.max_text_length = max_text_length
     pmids = pmc.get_pmids(search)
     if get_pmc:
         logging.info("Will try to retrieve PubMed Central texts.")
