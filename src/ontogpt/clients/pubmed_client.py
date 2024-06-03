@@ -80,9 +80,10 @@ class PubmedClient:
     This class is a wrapper around the Entrez API.
     """
 
-    # TODO: this doesn't need to be hardcoded
-    # and may vary based on the model in use
-    max_text_length = 10000
+    # The maximum length of text, in characters, to include in
+    # a single input chunk. This may be set in the CLI
+    # with the max_text_length option.
+    max_text_length: int = 10000
 
     try:
         email = get_apikey_value("ncbi-email")

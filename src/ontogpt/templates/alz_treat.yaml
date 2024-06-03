@@ -1,0 +1,96 @@
+id: http://w3id.org/ontogpt/alz_treat
+name: alz_treat
+title: Template for extracting Alzheimer's Disease Treatments
+description: >-
+  Template for extracting Alzheimer's disease treatments and related concepts.
+  Assumes a large input text, on the order of a full scientific article or
+  review. Try with this review - PMID:33302541
+license: https://creativecommons.org/publicdomain/zero/1.0/
+prefixes:
+  rdf: http://www.w3.org/1999/02/22-rdf-syntax-ns#
+  alz_treat: http://w3id.org/ontogpt/alz_treat
+  linkml: https://w3id.org/linkml/
+
+default_prefix: alz_treat
+default_range: string
+
+imports:
+  - linkml:types
+  - core
+
+classes:
+  Document:
+    tree_root: true
+    is_a: NamedEntity
+    attributes:
+      sections:
+        range: DocumentSection
+        multivalued: true
+        description: >-
+          A semicolon-separated list of full sections of the document.
+          If semicolons are present in the section text, they should
+          be replaced with (SEMICOLON) to avoid parsing errors.
+          A section is a major division of the document, such as an abstract,
+          introduction, methods, results, discussion, or conclusion,
+          or a subsection of one of these. The text should include the section
+          title. A single phrase or ID is not a section.
+          Do not format in Markdown.
+
+  DocumentSection:
+    is_a: CompoundExpression
+    attributes:
+      summary:
+        range: string
+        description: >-
+          A brief summary of the section, suitable for display in a table of
+          contents or search results. This should be a single sentence or
+          phrase, not a full paragraph. Do not format in Markdown.
+      symptoms:
+        range: Symptom
+        multivalued: true
+        description: >-
+          A semicolon-separated list of symptoms mentioned in the section.
+      diagnostics:
+        range: Diagnostic
+        multivalued: true
+        description: >-
+          A semicolon-separated list of diagnostic procedures mentioned in the
+          section.
+      treatments:
+        range: Treatment
+        multivalued: true
+        description: >-
+          A semicolon-separated list of treatments mentioned in the section.
+          These may be drugs or other therapeutic procedures.
+
+  Symptom:
+    is_a: NamedEntity
+    id_prefixes:
+      - HP
+    annotations:
+      annotators: sqlite:obo:hp, sqlite:obo:mondo, sqlite:obo:mesh, sqlite:obo:ncit
+      prompt: >-
+        the name of a human phenotype or symptom.
+        Examples are ascites, fever, pain, seizure, increased intracranial
+        pressure, lactic acidosis.
+
+  Diagnostic:
+    is_a: NamedEntity
+    id_prefixes:
+      - MAXO
+    annotations:
+      annotators: sqlite:obo:maxo, sqlite:obo:mesh, bioportal:SNOMEDCT, sqlite:obo:ncit
+      prompt: >-
+        the name of a diagnostic procedure or test.
+        Examples are MRI, PET scan, lumbar puncture, blood test, biopsy.
+
+  Treatment:
+    is_a: NamedEntity
+    id_prefixes:
+      - DRUGBANK
+      - MAXO
+    annotations:
+      annotators: sqlite:obo:drugbank, sqlite:obo:maxo, sqlite:obo:mesh, sqlite:obo:ncit
+      prompt: >-
+        the name of a drug or therapeutic procedure.
+        Examples are aspirin, chemotherapy, radiation therapy, surgery.
