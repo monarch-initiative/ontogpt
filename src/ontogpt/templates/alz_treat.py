@@ -122,17 +122,16 @@ class AnnotatorResult(ConfiguredBaseModel):
 
 
 class Document(NamedEntity):
-    sections: Optional[List[str]] = Field(default_factory=list, description="""A semicolon-separated list of full sections of the document. If semicolons are present in the section text, they should be replaced with (SEMICOLON) to avoid parsing errors.""")
+    sections: Optional[List[DocumentSection]] = Field(default_factory=list, description="""A semicolon-separated list of full sections of the document. If semicolons are present in the section text, they should be replaced with (SEMICOLON) to avoid parsing errors. A section is a major division of the document, such as an abstract, introduction, methods, results, discussion, or conclusion, or a subsection of one of these. The text should include the section title. A single phrase or ID is not a section. Do not format in Markdown.""")
     id: str = Field(..., description="""A unique identifier for the named entity""")
     label: Optional[str] = Field(None, description="""The label (name) of the named thing""")
 
 
-class DocumentSection(NamedEntity):
+class DocumentSection(CompoundExpression):
+    summary: Optional[str] = Field(None, description="""A brief summary of the section, suitable for display in a table of contents or search results. This should be a single sentence or phrase, not a full paragraph. Do not format in Markdown.""")
     symptoms: Optional[List[str]] = Field(default_factory=list, description="""A semicolon-separated list of symptoms mentioned in the section.""")
     diagnostics: Optional[List[str]] = Field(default_factory=list, description="""A semicolon-separated list of diagnostic procedures mentioned in the section.""")
     treatments: Optional[List[str]] = Field(default_factory=list, description="""A semicolon-separated list of treatments mentioned in the section. These may be drugs or other therapeutic procedures.""")
-    id: str = Field(..., description="""A unique identifier for the named entity""")
-    label: Optional[str] = Field(None, description="""The label (name) of the named thing""")
 
 
 class Symptom(NamedEntity):
