@@ -1,0 +1,63 @@
+id: http://w3id.org/ontogpt/onto_usage
+name: onto_usage
+title: Ontology Usage Extraction Template
+description: >-
+  A template for extracting statements about the usage of ontologies in
+  scientific literature.
+license: https://creativecommons.org/publicdomain/zero/1.0/
+prefixes:
+  rdf: http://www.w3.org/1999/02/22-rdf-syntax-ns#
+  onto_usage: http://w3id.org/ontogpt/onto_usage
+  linkml: https://w3id.org/linkml/
+
+default_prefix: onto_usage
+default_range: string
+
+imports:
+  - linkml:types
+  - core
+
+classes:
+  Document:
+    tree_root: true
+    is_a: NamedEntity
+    attributes:
+      ontologies:
+        annotations:
+          prompt: >-
+            A semicolon-delimited list of all ontologies
+            mentioned in the text, either in name or abbreviation.
+            For example, "Gene Ontology", "GO", "Human Phenotype Ontology",
+            "HPO". Include all ontologies, even if they are not the focus
+            of a specific use case.
+        range: Ontology
+        multivalued: true
+      use_cases:
+        annotations:
+          prompt: >-
+            A semicolon-delimited list of all use cases
+            mentioned in the text. A use case is a specific application
+            or context in which an ontology is used. For example,
+            "Gene Ontology USED FOR gene function prediction",
+            "MONDO Disease Ontology USED FOR disease diagnosis"
+        range: UseCase
+        multivalued: true
+
+  Ontology:
+    is_a: NamedEntity
+    description: a single ontology name or abbreviation.
+
+  UseCase:
+    is_a: CompoundExpression
+    annotations:
+      owl: IntersectionOf
+    attributes:
+      ontology:
+        description: >-
+          The ontology involved in a specific use case.
+        range: Ontology
+      usecase:
+        description: >-
+          A short description of the use case, in one or two
+          sentences.
+        range: string
