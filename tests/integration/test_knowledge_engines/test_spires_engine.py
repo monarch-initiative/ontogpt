@@ -1,4 +1,5 @@
 """Core tests."""
+
 import unittest
 
 import yaml
@@ -9,6 +10,7 @@ from ontogpt.clients.pubmed_client import PubmedClient
 from ontogpt.engines import create_engine
 from ontogpt.engines.knowledge_engine import chunk_text
 from ontogpt.engines.spires_engine import SPIRESEngine
+from ontogpt.io.template_loader import get_template_details
 from ontogpt.io.yaml_wrapper import dump_minimal_yaml
 from ontogpt.templates.biological_process import BiologicalProcess
 from ontogpt.templates.gocam import (
@@ -20,6 +22,9 @@ from ontogpt.templates.gocam import (
 )
 
 TEMPLATE = "gocam.GoCamAnnotations"
+
+MODEL = "gpt-4o"
+MODEL_SOURCE = "openai"
 
 PAPER = """
 Title: β-Catenin Is Required for the cGAS/STING Signaling Pathway but
@@ -90,7 +95,151 @@ gene_gene_interactions: US3 - β-Catenin; β-Catenin - US3
 gene_localizations: β-Catenin - Nuclear; US3 - Hyperphosphorylation
 """
 
+EXAMPLE_RESULTS_MARKDOWN = """
+```
+genes: β-Catenin; cGAS; STING; US3; IFN; ISG
+organisms: Herpes Simplex Virus I (HSV-1);
+gene_organisms: β-Catenin - Human; cGAS - Human; STING - Human;
+US3 - Human; IFN - Human; ISG - Human.
+activities: Transcription; Production; Downregulation; Replication; Nuclear Translocation
+gene_functions: β-Catenin - Enhances Transcription; US3 - Antagonizes Production;
+US3 - Downregulates IFN-I; US3 - Blocks Nuclear Translocation; β-Catenin - Enhances Production
+cellular_processes: DNA-sensing; Interferon Production; Antiviral Innate Immunity;
+Host Innate Immune Responses; Interaction with Host; Evade Host Antiviral Immunity
+pathways: cGAS/STING-mediated DNA-sensing; Wnt Signaling; IFN pathway
+gene_gene_interactions: US3 - β-Catenin; β-Catenin - US3
+gene_localizations: β-Catenin - Nuclear; US3 - Hyperphosphorylation
+```
+"""
+
+EXAMPLE_RESULTS_JSON = """
+{
+  "genes": [
+    "β-Catenin",
+    "cGAS",
+    "STING",
+    "US3",
+    "IFN",
+    "ISG"
+  ],
+  "organisms": [
+    "Herpes Simplex Virus I (HSV-1)"
+  ],
+  "gene_organisms": {
+    "β-Catenin": "Human",
+    "cGAS": "Human",
+    "STING": "Human",
+    "US3": "Human",
+    "IFN": "Human",
+    "ISG": "Human"
+  },
+  "activities": [
+    "Transcription",
+    "Production",
+    "Downregulation",
+    "Replication",
+    "Nuclear Translocation"
+  ],
+  "gene_functions": {
+    "β-Catenin": [
+      "Enhances Transcription",
+      "Enhances Production"
+    ],
+    "US3": [
+      "Antagonizes Production",
+      "Downregulates IFN-I",
+      "Blocks Nuclear Translocation"
+    ]
+  },
+  "cellular_processes": [
+    "DNA-sensing",
+    "Interferon Production",
+    "Antiviral Innate Immunity",
+    "Host Innate Immune Responses",
+    "Interaction with Host",
+    "Evade Host Antiviral Immunity"
+  ],
+  "pathways": [
+    "cGAS/STING-mediated DNA-sensing",
+    "Wnt Signaling",
+    "IFN pathway"
+  ],
+  "gene_gene_interactions": {
+    "US3": "β-Catenin",
+    "β-Catenin": "US3"
+  },
+  "gene_localizations": {
+    "β-Catenin": "Nuclear",
+    "US3": "Hyperphosphorylation"
+  }
+}
+"""
+
+EXAMPLE_RESULTS_MARKDOWN_JSON = """
+{
+  "genes": [
+    "β-Catenin",
+    "cGAS",
+    "STING",
+    "US3",
+    "IFN",
+    "ISG"
+  ],
+  "organisms": [
+    "Herpes Simplex Virus I (HSV-1)"
+  ],
+  "gene_organisms": {
+    "β-Catenin": "Human",
+    "cGAS": "Human",
+    "STING": "Human",
+    "US3": "Human",
+    "IFN": "Human",
+    "ISG": "Human"
+  },
+  "activities": [
+    "Transcription",
+    "Production",
+    "Downregulation",
+    "Replication",
+    "Nuclear Translocation"
+  ],
+  "gene_functions": {
+    "β-Catenin": [
+      "Enhances Transcription",
+      "Enhances Production"
+    ],
+    "US3": [
+      "Antagonizes Production",
+      "Downregulates IFN-I",
+      "Blocks Nuclear Translocation"
+    ]
+  },
+  "cellular_processes": [
+    "DNA-sensing",
+    "Interferon Production",
+    "Antiviral Innate Immunity",
+    "Host Innate Immune Responses",
+    "Interaction with Host",
+    "Evade Host Antiviral Immunity"
+  ],
+  "pathways": [
+    "cGAS/STING-mediated DNA-sensing",
+    "Wnt Signaling",
+    "IFN pathway"
+  ],
+  "gene_gene_interactions": {
+    "US3": "β-Catenin",
+    "β-Catenin": "US3"
+  },
+  "gene_localizations": {
+    "β-Catenin": "Nuclear",
+    "US3": "Hyperphosphorylation"
+  }
+}
+"""
+
 TEST_PROCESS = BiologicalProcess(
+    id="c5ad63a6-575d-4c65-8150-d16f0cd9fb31",
     label="autophagosome assembly",
     description="The formation of a double membrane-bounded structure, the autophagosome,\
         that occurs when a specialized membrane sac, called the isolation membrane,\
@@ -117,7 +266,13 @@ class TestCore(unittest.TestCase):
 
     def setUp(self) -> None:
         """Set up."""
-        self.ke = create_engine(TEMPLATE, SPIRESEngine)
+        template_details = get_template_details(template=TEMPLATE)
+        self.ke = SPIRESEngine(
+            template_details=template_details,
+            model=MODEL,
+            model_source=MODEL_SOURCE,
+            use_azure=False,
+    )
 
     def test_setup(self):
         """Tests template and module is loaded."""
@@ -173,7 +328,7 @@ class TestCore(unittest.TestCase):
         label = "beta-D-lyxofuranose biosynthesis"
         ann = ke.generalize({"label": label}, examples)
         print(f"RESULTS={ann}")
-        print(yaml.dump(ann.dict()))
+        print(yaml.dump(ann.model_dump()))
         self.assertEqual(label, ann.label)
         self.assertEqual(["CHEBI:151400"], ann.outputs)
 
@@ -189,7 +344,7 @@ class TestCore(unittest.TestCase):
         ke = self.ke
         ann = ke.extract_from_text(PAPER)
         print(f"RESULTS={ann}")
-        print(yaml.dump(ann.dict()))
+        print(yaml.dump(ann.model_dump()))
         results = ann.extracted_object
         if not isinstance(results, GoCamAnnotations):
             raise ValueError(f"Expected GoCamAnnotations, got {type(results)}")
@@ -200,7 +355,7 @@ class TestCore(unittest.TestCase):
         ke = self.ke
         ann = ke.extract_from_text(PAPER, object={"pathways": ["GO:0140896"]})
         print(f"RESULTS={ann}")
-        print(yaml.dump(ann.dict()))
+        print(yaml.dump(ann.model_dump()))
         results = ann.extracted_object
         if not isinstance(results, GoCamAnnotations):
             raise ValueError(f"Expected GoCamAnnotations, got {type(results)}")
@@ -212,7 +367,7 @@ class TestCore(unittest.TestCase):
         cls = ke.schemaview.get_class("GeneMolecularActivityRelationship")
         ann = ke.extract_from_text("β-Catenin-Translocation", cls)
         print(f"RESULTS={ann}")
-        print(yaml.dump(ann.dict()))
+        print(yaml.dump(ann.model_dump()))
         self.assertEqual({"gene": "HGNC:2514", "molecular_activity": "Translocation"}, ann.dict())
         # try and fool it
         ann = ke._extract_from_text_to_dict("foobaz", cls)
@@ -254,7 +409,7 @@ class TestCore(unittest.TestCase):
         ke = self.ke
         ann = ke.parse_completion_payload(EXAMPLE_RESULTS)
         print(f"PARSED={ann}")
-        print(yaml.dump(ann.dict()))
+        print(yaml.dump(ann.model_dump()))
         self.assertIn("HGNC:2514", ann.genes)
         self.assertEqual(2, len(ann.pathways))
 
@@ -407,7 +562,7 @@ class TestCore(unittest.TestCase):
         print(text)
         ann = ke.extract_from_text(PAPER)
         print(f"RESULTS={ann}")
-        print(yaml.dump(ann.dict()))
+        print(yaml.dump(ann.model_dump()))
 
     def test_merge(self):
         bp1 = BiologicalProcess(
