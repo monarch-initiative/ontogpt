@@ -35,6 +35,7 @@ from ontogpt.templates.core import ExtractionResult
 
 this_path = Path(__file__).parent
 
+CODE_FENCE = "```"
 
 RESPONSE_ATOM = Union[str, "ResponseAtom"]  # type: ignore
 RESPONSE_DICT = Dict[FIELD, Union[RESPONSE_ATOM, List[RESPONSE_ATOM]]]
@@ -454,10 +455,7 @@ class SPIRESEngine(KnowledgeEngine):
         is_json = False
 
         # Handle code formatting if present
-        if results.startswith("```"):
-            results = results[3:-3]
-
-        if results.startswith("json"):
+        if results.startswith("```json"):
             results = results[4:]
             is_json = True
         elif results.startswith("{"):
@@ -499,6 +497,8 @@ class SPIRESEngine(KnowledgeEngine):
                     continued_line = line
                     continue
                 if not line:
+                    continue
+                if line.startswith(CODE_FENCE):
                     continue
                 if ":" not in line:
                     if len(promptable_slots) == 1:
