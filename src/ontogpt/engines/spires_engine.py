@@ -456,17 +456,17 @@ class SPIRESEngine(KnowledgeEngine):
         # Handle code formatting if present
         if results.startswith("```"):
             results = results[3:-3]
-        # elif results.startswith("```json"):
-        #     is_json = True
-        #     logging.info("Parsing JSON response within Markdown")
-        #     results = results[7:-3]
-        # elif results.startswith("{"):
-        #     is_json = True
-        #     logging.info("Parsing raw JSON response")
+
+        if results.startswith("json"):
+            results = results[4:]
+            is_json = True
+        elif results.startswith("{"):
+            is_json = True
 
         # The JSON may still be malformed.
         # If so, it's not JSON and we need to parse it as YAML-like
         if is_json:
+            logging.info("Parsing what looks like a JSON response.")
             try:
                 ann = json.loads(results)
             except json.decoder.JSONDecodeError:
@@ -489,8 +489,15 @@ class SPIRESEngine(KnowledgeEngine):
         else:
             lines = results.splitlines()
             ann = {}
+            continued_line = ""
             for line in lines:
                 line = line.strip()
+                # The line may be split into multiple lines,
+                # and we can only tell if there's a delimiter at the end of this one
+                # TODO: this could be a different delimiter, globally defined
+                if line.endswith(";"):
+                    continued_line = line
+                    continue
                 if not line:
                     continue
                 if ":" not in line:
@@ -500,6 +507,8 @@ class SPIRESEngine(KnowledgeEngine):
                             f"Coercing to YAML-like with key {slot.name}: Original line: {line}"
                         )
                         line = f"{slot.name}: {line}"
+                    elif len(continued_line) > 0:
+                        line = continued_line + line
                     # Continue if the line just contains an integer
                     elif (line.split("."))[0].isdigit():
                         logging.warning(f"Line '{line}' is a numeric value; continuing")
@@ -509,6 +518,8 @@ class SPIRESEngine(KnowledgeEngine):
                             f"Line '{line}' does not contain a colon; ignoring"
                         )
                         continue
+                else:
+                    continued_line = ""
                 r = self._parse_line_to_dict(line, cls)
                 if r is not None:
                     field, val = r
