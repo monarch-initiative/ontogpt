@@ -8,6 +8,7 @@ structure corresponds to a template class.
 Described in the SPIRES manuscript.
 See https://arxiv.org/abs/2304.02711
 """
+
 import json
 import logging
 import re
@@ -40,6 +41,7 @@ CODE_FENCE = "```"
 RESPONSE_ATOM = Union[str, "ResponseAtom"]  # type: ignore
 RESPONSE_DICT = Dict[FIELD, Union[RESPONSE_ATOM, List[RESPONSE_ATOM]]]
 
+
 @dataclass
 class SPIRESEngine(KnowledgeEngine):
     """Knowledge extractor."""
@@ -71,7 +73,7 @@ class SPIRESEngine(KnowledgeEngine):
         :param object: optional stub object
         :return:
         """
-        self.extracted_named_entities = [] # Clear the named entity buffer
+        self.extracted_named_entities = []  # Clear the named entity buffer
 
         if self.sentences_per_window:
             chunks = chunk_text(text, self.sentences_per_window)
@@ -454,32 +456,30 @@ class SPIRESEngine(KnowledgeEngine):
         promptable_slots = self.promptable_slots(cls)
         is_json = False
 
-        # Handle code formatting if present
-        if results.startswith("```json"):
-            results = results[4:]
-            is_json = True
-        elif results.startswith("{"):
-            is_json = True
+        # First remove any code fences
+        # and any adjacent strings on the same line
+        results = re.sub(r"```[^`\n]*", "", results)
 
+        # Try to parse as JSON
         # The JSON may still be malformed.
         # If so, it's not JSON and we need to parse it as YAML-like
-        if is_json:
-            logging.info("Parsing what looks like a JSON response.")
-            try:
-                ann = json.loads(results)
-            except json.decoder.JSONDecodeError:
-                is_json = False
-                for ch in ['{', "}", "\""]:
-                    results = results.replace(ch, "")
-                logging.warning(
-                    "JSON parsing failed; falling back to YAML-like parsing"
-                )
+        # So just to be sure we remove the JSON delimiters in that case
+        try:
+            ann = json.loads(results)
+            is_json = True
+        except json.decoder.JSONDecodeError:
+            for ch in ["{", "}", '"']:
+                results = results.replace(ch, "")
 
         if is_json:
-            for kv in ann:
-                line = f"{kv}: {ann[kv]}"
-                if isinstance(ann[kv], str) and ";" in ann[kv]:
-                    ann[kv] = [v.strip() for v in ann[kv].split(";")]
+            for entry in ann:
+                if isinstance(ann[entry], list):
+                    values = "; ".join(ann[entry])
+                elif isinstance(ann[entry], dict):
+                    values = "; ".join([f"{k} - {v}" for k, v in ann[entry].items()])
+                else:
+                    values = ann[entry]
+                line = f"{entry}: {values}"
                 r = self._parse_line_to_dict(line, cls)
                 if r is not None:
                     field, val = r
@@ -514,9 +514,7 @@ class SPIRESEngine(KnowledgeEngine):
                         logging.warning(f"Line '{line}' is a numeric value; continuing")
                         continue
                     else:
-                        logging.error(
-                            f"Line '{line}' does not contain a colon; ignoring"
-                        )
+                        logging.error(f"Line '{line}' does not contain a colon; ignoring")
                         continue
                 else:
                     continued_line = ""
