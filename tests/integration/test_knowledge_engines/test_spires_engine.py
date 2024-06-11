@@ -176,6 +176,7 @@ EXAMPLE_RESULTS_JSON = """
 """
 
 EXAMPLE_RESULTS_MARKDOWN_JSON = """
+```json
 {
   "genes": [
     "β-Catenin",
@@ -236,6 +237,7 @@ EXAMPLE_RESULTS_MARKDOWN_JSON = """
     "US3": "Hyperphosphorylation"
   }
 }
+```
 """
 
 TEST_PROCESS = BiologicalProcess(
@@ -272,7 +274,7 @@ class TestCore(unittest.TestCase):
             model=MODEL,
             model_source=MODEL_SOURCE,
             use_azure=False,
-    )
+        )
 
     def test_setup(self):
         """Tests template and module is loaded."""
@@ -416,29 +418,25 @@ class TestCore(unittest.TestCase):
     def test_parse_response_to_dict(self):
         """Tests parsing of textual payload from openai API."""
         ke = self.ke
-        ann = ke._parse_response_to_dict(EXAMPLE_RESULTS)
-        print(f"PARSED={ann}")
-        print(yaml.dump(ann))
-        self.assertIn("STING", ann["genes"])
-        self.assertIn({"gene": "β-Catenin", "organism": "host"}, ann["gene_organisms"])
-        # test resilience to missing internal separators
-        ann = ke._parse_response_to_dict("gene_organisms: a ; b ; c\ngenes: g")
-        self.assertEqual(ann["genes"], ["g"])
-        self.assertEqual(["genes"], list(ann.keys()))
-        # test resilience to multiple internal separators
-        ann = ke._parse_response_to_dict("gene_organisms: a-b-c")
-        self.assertEqual(ann["gene_organisms"], [{"gene": "a", "organism": "b-c"}])
-
-    def test_parse_completion_payload_alt(self):
-        """Tests parsing of textual payload from openai API.
-
-        This uses a variant of the output, sometimes OpenAI will
-        use ':' as separators instead of ' - '.
-        """
-        ke = self.ke
-        ann = ke.parse_completion_payload(EXAMPLE_RESULTS_ALT)
-        print(f"PARSED={ann}")
-        print(dump_minimal_yaml(ann))
+        for example_set in [
+            EXAMPLE_RESULTS,
+            EXAMPLE_RESULTS_ALT,
+            EXAMPLE_RESULTS_MARKDOWN,
+            EXAMPLE_RESULTS_JSON,
+            EXAMPLE_RESULTS_MARKDOWN_JSON,
+        ]:
+            ann = ke._parse_response_to_dict(example_set)
+            print(f"PARSED={ann}")
+            print(yaml.dump(ann))
+            self.assertIn("STING", ann["genes"])
+            self.assertIn({"gene": "β-Catenin", "organism": "host"}, ann["gene_organisms"])
+            # test resilience to missing internal separators
+            ann = ke._parse_response_to_dict("gene_organisms: a ; b ; c\ngenes: g")
+            self.assertEqual(ann["genes"], ["g"])
+            self.assertEqual(["genes"], list(ann.keys()))
+            # test resilience to multiple internal separators
+            ann = ke._parse_response_to_dict("gene_organisms: a-b-c")
+            self.assertEqual(ann["gene_organisms"], [{"gene": "a", "organism": "b-c"}])
 
     def test_ground_annotation_object(self):
         """
