@@ -458,7 +458,7 @@ class SPIRESEngine(KnowledgeEngine):
 
         # First remove any code fences
         # and any adjacent strings on the same line
-        results = re.sub(r"```[^`\n]*", "", results)
+        results = re.sub(r"```.*?", "", results, flags=re.DOTALL)
 
         # Try to parse as JSON
         # The JSON may still be malformed.
@@ -492,6 +492,7 @@ class SPIRESEngine(KnowledgeEngine):
                 line = line.strip()
                 # The line may be split into multiple lines,
                 # and we can only tell if there's a delimiter at the end of this one
+                # (though it may just be a misplaced delimiter)
                 # TODO: this could be a different delimiter, globally defined
                 if line.endswith(";"):
                     continued_line = line
@@ -516,9 +517,8 @@ class SPIRESEngine(KnowledgeEngine):
                     else:
                         logging.error(f"Line '{line}' does not contain a colon; ignoring")
                         continue
-                else:
-                    continued_line = ""
                 r = self._parse_line_to_dict(line, cls)
+                continued_line = ""
                 if r is not None:
                     field, val = r
                     ann[field] = val
