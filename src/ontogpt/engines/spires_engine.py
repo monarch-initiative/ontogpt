@@ -8,6 +8,7 @@ structure corresponds to a template class.
 Described in the SPIRES manuscript.
 See https://arxiv.org/abs/2304.02711
 """
+import json
 import logging
 import re
 import uuid
@@ -440,30 +441,72 @@ class SPIRESEngine(KnowledgeEngine):
 
             {"foo": ["a", "b", "c"]}
 
+        The response may already be in markdown and/or JSON,
+        in which case we need to recognize the format.
+
         :param results:
         :return:
         """
-        lines = results.splitlines()
-        ann = {}
         promptable_slots = self.promptable_slots(cls)
-        for line in lines:
-            line = line.strip()
-            if not line:
-                continue
-            if ":" not in line:
-                if len(promptable_slots) == 1:
-                    slot = promptable_slots[0]
-                    logging.warning(
-                        f"Coercing to YAML-like with key {slot.name}: Original line: {line}"
-                    )
-                    line = f"{slot.name}: {line}"
-                else:
-                    logging.error(f"Line '{line}' does not contain a colon; ignoring")
-                    return None
-            r = self._parse_line_to_dict(line, cls)
-            if r is not None:
-                field, val = r
-                ann[field] = val
+        is_json = False
+
+        if results.startswith("```json"):
+            is_json = True
+            logging.info("Parsing JSON response within Markdown")
+            results = results[7:-3]
+        elif results.startswith("{"):
+            is_json = True
+            logging.info("Parsing raw JSON response")
+
+        # The JSON may still be malformed.
+        # If so, it's not JSON and we need to parse it as YAML-like
+        if is_json:
+            try:
+                ann = json.loads(results)
+            except json.decoder.JSONDecodeError:
+                is_json = False
+                for ch in ['{', "}", "\""]:
+                    results = results.replace(ch, "")
+                logging.warning(
+                    "JSON parsing failed; falling back to YAML-like parsing"
+                )
+
+        if is_json:
+            for kv in ann:
+                line = f"{kv}: {ann[kv]}"
+                if isinstance(ann[kv], str) and ";" in ann[kv]:
+                    ann[kv] = [v.strip() for v in ann[kv].split(";")]
+                r = self._parse_line_to_dict(line, cls)
+                if r is not None:
+                    field, val = r
+                    ann[field] = val
+        else:
+            lines = results.splitlines()
+            ann = {}
+            for line in lines:
+                line = line.strip()
+                if not line:
+                    continue
+                if ":" not in line:
+                    if len(promptable_slots) == 1:
+                        slot = promptable_slots[0]
+                        logging.warning(
+                            f"Coercing to YAML-like with key {slot.name}: Original line: {line}"
+                        )
+                        line = f"{slot.name}: {line}"
+                    # Continue if the line just contains an integer
+                    elif (line.split("."))[0].isdigit():
+                        logging.warning(f"Line '{line}' is a numeric value; continuing")
+                        continue
+                    else:
+                        logging.error(
+                            f"Line '{line}' does not contain a colon; ignoring"
+                        )
+                        return None
+                r = self._parse_line_to_dict(line, cls)
+                if r is not None:
+                    field, val = r
+                    ann[field] = val
         return ann
 
     def _parse_line_to_dict(
