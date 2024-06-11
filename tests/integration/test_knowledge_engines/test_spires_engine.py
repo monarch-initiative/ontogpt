@@ -240,6 +240,18 @@ EXAMPLE_RESULTS_MARKDOWN_JSON = """
 ```
 """
 
+CLASSES = [
+    "activities",
+    "genes",
+    "organisms",
+    "gene_organisms",
+    "gene_functions",
+    "cellular_processes",
+    "pathways",
+    "gene_gene_interactions",
+    "gene_localizations",
+]
+
 TEST_PROCESS = BiologicalProcess(
     id="c5ad63a6-575d-4c65-8150-d16f0cd9fb31",
     label="autophagosome assembly",
@@ -428,8 +440,10 @@ class TestCore(unittest.TestCase):
             ann = ke._parse_response_to_dict(example_set)
             print(f"PARSED={ann}")
             print(yaml.dump(ann))
+            for dataclass in CLASSES:
+                self.assertIn(dataclass, ann.keys())
             self.assertIn("STING", ann["genes"])
-            #self.assertIn({"gene": "β-Catenin", "organism": "host"}, ann["gene_organisms"])
+            # self.assertIn({"gene": "β-Catenin", "organism": "host"}, ann["gene_organisms"])
 
     def test_ground_annotation_object(self):
         """
