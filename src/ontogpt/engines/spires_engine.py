@@ -443,6 +443,9 @@ class SPIRESEngine(KnowledgeEngine):
 
         The response may already be in markdown and/or JSON,
         in which case we need to recognize the format.
+        JSON may be parsed as-is but may be malformed or over-processed
+        as compared to our template (e.g., it may separate key-value pairs
+        where we expect them to be concatenated)
 
         :param results:
         :return:
@@ -450,13 +453,16 @@ class SPIRESEngine(KnowledgeEngine):
         promptable_slots = self.promptable_slots(cls)
         is_json = False
 
-        if results.startswith("```json"):
-            is_json = True
-            logging.info("Parsing JSON response within Markdown")
-            results = results[7:-3]
-        elif results.startswith("{"):
-            is_json = True
-            logging.info("Parsing raw JSON response")
+        # Handle code formatting if present
+        if results.startswith("```"):
+            results = results[3:-3]
+        # elif results.startswith("```json"):
+        #     is_json = True
+        #     logging.info("Parsing JSON response within Markdown")
+        #     results = results[7:-3]
+        # elif results.startswith("{"):
+        #     is_json = True
+        #     logging.info("Parsing raw JSON response")
 
         # The JSON may still be malformed.
         # If so, it's not JSON and we need to parse it as YAML-like
@@ -502,7 +508,7 @@ class SPIRESEngine(KnowledgeEngine):
                         logging.error(
                             f"Line '{line}' does not contain a colon; ignoring"
                         )
-                        return None
+                        continue
                 r = self._parse_line_to_dict(line, cls)
                 if r is not None:
                     field, val = r
