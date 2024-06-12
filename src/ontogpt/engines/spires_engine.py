@@ -458,7 +458,7 @@ class SPIRESEngine(KnowledgeEngine):
 
         # First remove any code fences
         # and any adjacent strings on the same line
-        results = re.sub(r"```.*?", "", results, flags=re.DOTALL)
+        results = re.sub(r"```[^`\n]*", "", results, flags=re.DOTALL)
 
         # Try to parse as JSON
         # The JSON may still be malformed.
@@ -495,6 +495,7 @@ class SPIRESEngine(KnowledgeEngine):
                 # (though it may just be a misplaced delimiter)
                 # TODO: this could be a different delimiter, globally defined
                 if line.endswith(";"):
+                    logging.warning(f"This line ends in a delimiter, assuming continuation: {line}")
                     continued_line = line
                     continue
                 if not line:
