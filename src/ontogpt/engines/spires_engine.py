@@ -498,7 +498,8 @@ class SPIRESEngine(KnowledgeEngine):
                     logging.info(f"This line ends in a delimiter, assuming continuation: {line}")
                     continued_line = line
                     continue
-                # If there's nothing after the colon, we may be continuing as a numeric list or the like
+                # If there's nothing after the colon,
+                # we may be continuing as a numeric list or the like
                 if ":" in line and not line.split(":", 1)[1].strip():
                     logging.info(f"This line looks empty, assuming continuation: {line}")
                     if len(continued_line) > 0:
