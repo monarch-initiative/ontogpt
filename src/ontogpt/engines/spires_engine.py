@@ -498,6 +498,18 @@ class SPIRESEngine(KnowledgeEngine):
                     logging.warning(f"This line ends in a delimiter, assuming continuation: {line}")
                     continued_line = line
                     continue
+                # If there's nothing after the colon, we may be continuing as a numeric list or the like
+                if ":" in line and not line.split(":", 1)[1].strip():
+                    logging.warning(f"This line looks empty, assuming continuation: {line}")
+                    continued_line = line
+                    continue
+                # We may be continuing a numeric list
+                if (line.split("."))[0].isdigit():
+                    logging.warning(f"Line '{line}' is a numeric item; continuing from {continued_line}")
+                    # Remove the leading numeral from the line
+                    line = line.split(".", 1)[1].strip()
+                    continued_line = continued_line + line + ";"
+                    continue
                 if not line:
                     continue
                 if line.startswith(CODE_FENCE):
@@ -510,16 +522,24 @@ class SPIRESEngine(KnowledgeEngine):
                         )
                         line = f"{slot.name}: {line}"
                     elif len(continued_line) > 0:
+                        logging.warning(f"Line '{line}' continuing from {continued_line}")
                         line = continued_line + line
-                    # Continue if the line just contains an integer
-                    elif (line.split("."))[0].isdigit():
-                        logging.warning(f"Line '{line}' is a numeric value; continuing")
-                        continue
-                    else:
+                    if ":" not in line:
                         logging.error(f"Line '{line}' does not contain a colon; ignoring")
                         continue
+                else:
+                    # We made it this far but still have a continued line
+                    # So parse that first
+                    if len(continued_line) > 0:
+                        line = continued_line
                 r = self._parse_line_to_dict(line, cls)
                 continued_line = ""
+                if r is not None:
+                    field, val = r
+                    ann[field] = val
+            if len(continued_line) > 0:
+                logging.warning(f"Finishing continued line: {continued_line}")
+                r = self._parse_line_to_dict(continued_line, cls)
                 if r is not None:
                     field, val = r
                     ann[field] = val
