@@ -261,7 +261,7 @@ CLASSES = [
 ]
 
 EXAMPLE_LIST = """
-list_items:
+activities:
   1. protein binding
   2. enzyme binding
   3. dna-binding transcription factor activity
@@ -480,7 +480,7 @@ class TestCore(unittest.TestCase):
         ann = ke._parse_response_to_dict(EXAMPLE_LIST)
         print(f"PARSED={ann}")
         print(yaml.dump(ann))
-        self.assertEqual(10, len(ann["list_items"]))
+        self.assertEqual(10, len(ann["activities"]))
 
     def test_ground_annotation_object(self):
         """
