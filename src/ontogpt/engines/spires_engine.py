@@ -8,6 +8,8 @@ structure corresponds to a template class.
 Described in the SPIRES manuscript.
 See https://arxiv.org/abs/2304.02711
 """
+
+import json
 import logging
 import re
 import uuid
@@ -34,9 +36,11 @@ from ontogpt.templates.core import ExtractionResult
 
 this_path = Path(__file__).parent
 
+CODE_FENCE = "```"
 
 RESPONSE_ATOM = Union[str, "ResponseAtom"]  # type: ignore
 RESPONSE_DICT = Dict[FIELD, Union[RESPONSE_ATOM, List[RESPONSE_ATOM]]]
+
 
 @dataclass
 class SPIRESEngine(KnowledgeEngine):
@@ -69,7 +73,7 @@ class SPIRESEngine(KnowledgeEngine):
         :param object: optional stub object
         :return:
         """
-        self.extracted_named_entities = [] # Clear the named entity buffer
+        self.extracted_named_entities = []  # Clear the named entity buffer
 
         if self.sentences_per_window:
             chunks = chunk_text(text, self.sentences_per_window)
@@ -240,7 +244,7 @@ class SPIRESEngine(KnowledgeEngine):
             prompt += f"{self.serialize_object(example)}\n\n"
         prompt += "\n\n===\n\n"
         if isinstance(object, pydantic.BaseModel):
-            object = object.dict()
+            object = object.model_dump()
         for k, v in object.items():
             if v:
                 slot = sv.induced_slot(k, cls.name)
@@ -334,7 +338,7 @@ class SPIRESEngine(KnowledgeEngine):
         if isinstance(example, str):
             return example
         if isinstance(example, pydantic.BaseModel):
-            example = example.dict()
+            example = example.model_dump()
         lines = []
         sv = self.schemaview
         for k, v in example.items():
@@ -419,7 +423,7 @@ class SPIRESEngine(KnowledgeEngine):
             if cls is None:
                 cls = self.template_class
             if isinstance(object, pydantic.BaseModel):
-                object = object.dict()
+                object = object.model_dump()
             for k, v in object.items():
                 if v:
                     slot = self.schemaview.induced_slot(k, cls.name)
@@ -440,30 +444,114 @@ class SPIRESEngine(KnowledgeEngine):
 
             {"foo": ["a", "b", "c"]}
 
+        The response may already be in markdown and/or JSON,
+        in which case we need to recognize the format.
+        JSON may be parsed as-is but may be malformed or over-processed
+        as compared to our template (e.g., it may separate key-value pairs
+        where we expect them to be concatenated)
+
         :param results:
         :return:
         """
-        lines = results.splitlines()
-        ann = {}
         promptable_slots = self.promptable_slots(cls)
-        for line in lines:
-            line = line.strip()
-            if not line:
-                continue
-            if ":" not in line:
-                if len(promptable_slots) == 1:
-                    slot = promptable_slots[0]
-                    logging.warning(
-                        f"Coercing to YAML-like with key {slot.name}: Original line: {line}"
-                    )
-                    line = f"{slot.name}: {line}"
+        is_json = False
+
+        # First remove any code fences
+        # and any adjacent strings on the same line
+        results = re.sub(r"```[^`\n]*", "", results, flags=re.DOTALL)
+
+        # Try to parse as JSON
+        # The JSON may still be malformed.
+        # If so, it's not JSON and we need to parse it as YAML-like
+        # So just to be sure we remove the JSON delimiters in that case
+        try:
+            ann = json.loads(results)
+            is_json = True
+        except json.decoder.JSONDecodeError:
+            for ch in ["{", "}", '"']:
+                results = results.replace(ch, "")
+
+        if is_json:
+            for entry in ann:
+                if isinstance(ann[entry], list):
+                    values = "; ".join(ann[entry])
+                elif isinstance(ann[entry], dict):
+                    values = "; ".join([f"{k} - {v}" for k, v in ann[entry].items()])
                 else:
-                    logging.error(f"Line '{line}' does not contain a colon; ignoring")
-                    return None
-            r = self._parse_line_to_dict(line, cls)
-            if r is not None:
-                field, val = r
-                ann[field] = val
+                    values = ann[entry]
+                line = f"{entry}: {values}"
+                r = self._parse_line_to_dict(line, cls)
+                if r is not None:
+                    field, val = r
+                    ann[field] = val
+        else:
+            lines = results.splitlines()
+            ann = {}
+            continued_line = ""
+            for line in lines:
+                line = line.strip()
+                # The line may be split into multiple lines,
+                # and we can only tell if there's a delimiter at the end of this one
+                # (though it may just be a misplaced delimiter)
+                # TODO: this could be a different delimiter, globally defined
+                if line.endswith(";"):
+                    logging.info(f"This line ends in a delimiter, assuming continuation: {line}")
+                    continued_line = line
+                    continue
+                # If there's nothing after the colon,
+                # we may be continuing as a numeric list or the like
+                if ":" in line and not line.split(":", 1)[1].strip():
+                    logging.info(f"This line looks empty, assuming continuation: {line}")
+                    if len(continued_line) > 0:
+                        logging.info(f"Finishing previous continued line: {continued_line}")
+                        r = self._parse_line_to_dict(continued_line, cls)
+                        if r is not None:
+                            field, val = r
+                            ann[field] = val
+                    continued_line = line
+                    continue
+                # We may be continuing a numeric list
+                if (line.split("."))[0].isdigit():
+                    logging.info(
+                        f"Line '{line}' is a numeric item; continuing from {continued_line}"
+                    )
+                    # Remove the leading numeral from the line
+                    line = line.split(".", 1)[1].strip()
+                    continued_line = continued_line + line + ";"
+                    continue
+                if not line:
+                    continue
+                if line.startswith(CODE_FENCE):
+                    continue
+                if ":" not in line:
+                    if len(promptable_slots) == 1:
+                        slot = promptable_slots[0]
+                        logging.info(
+                            f"Coercing to YAML-like with key {slot.name}: Original line: {line}"
+                        )
+                        line = f"{slot.name}: {line}"
+                    elif len(continued_line) > 0:
+                        logging.info(f"Line '{line}' continuing from {continued_line}")
+                        line = continued_line + line
+                    if ":" not in line:
+                        logging.error(f"Line '{line}' does not contain a colon; ignoring")
+                        continue
+                else:
+                    # We made it this far but may still have a continued line
+                    # So parse that first
+                    if len(continued_line) > 0:
+                        line = continued_line
+                r = self._parse_line_to_dict(line, cls)
+                continued_line = ""
+                if r is not None:
+                    field, val = r
+                    ann[field] = val
+            if len(continued_line) > 0:
+                logging.info(f"Finishing continued line: {continued_line}")
+                r = self._parse_line_to_dict(continued_line, cls)
+                if r is not None:
+                    field, val = r
+                    ann[field] = val
         return ann
 
     def _parse_line_to_dict(
