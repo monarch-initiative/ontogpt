@@ -274,6 +274,25 @@ activities:
   10. heme binding activity
 """
 
+EXAMPLE_LIST_MULTI = """
+activities:
+  1. protein binding
+  2. enzyme binding
+  3. dna-binding transcription factor activity
+  4. rna polymerase ii-specific transcription factor activity
+  5. receptor binding activity
+  6. atp binding activity
+  7. cytoskeletal protein binding activity
+  8. growth factor activity
+  9. carbohydrate binding activity
+  10. heme binding activity
+genes:
+  1. β-Catenin
+  2. cGAS
+  3. STING
+"""
+
+
 TEST_PROCESS = BiologicalProcess(
     id="c5ad63a6-575d-4c65-8150-d16f0cd9fb31",
     label="autophagosome assembly",
@@ -474,13 +493,17 @@ class TestCore(unittest.TestCase):
             self.assertIn("STING", ann["genes"])
             # self.assertIn({"gene": "β-Catenin", "organism": "host"}, ann["gene_organisms"])
 
-    def test_parse_numeric_list(self):
+    def test_parse_numeric_lists(self):
         """Tests parsing of textual payload from openai API, if it contains a numeric list."""
         ke = self.ke
         ann = ke._parse_response_to_dict(EXAMPLE_LIST)
         print(f"PARSED={ann}")
         print(yaml.dump(ann))
         self.assertEqual(10, len(ann["activities"]))
+        ann_multi = ke._parse_response_to_dict(EXAMPLE_LIST_MULTI)
+        print(f"PARSED={ann_multi}")
+        print(yaml.dump(ann_multi))
+        self.assertEqual(3, len(ann_multi["genes"]))
 
     def test_ground_annotation_object(self):
         """
