@@ -244,7 +244,7 @@ class SPIRESEngine(KnowledgeEngine):
             prompt += f"{self.serialize_object(example)}\n\n"
         prompt += "\n\n===\n\n"
         if isinstance(object, pydantic.BaseModel):
-            object = object.dict()
+            object = object.model_dump()
         for k, v in object.items():
             if v:
                 slot = sv.induced_slot(k, cls.name)
@@ -338,7 +338,7 @@ class SPIRESEngine(KnowledgeEngine):
         if isinstance(example, str):
             return example
         if isinstance(example, pydantic.BaseModel):
-            example = example.dict()
+            example = example.model_dump()
         lines = []
         sv = self.schemaview
         for k, v in example.items():
@@ -423,7 +423,7 @@ class SPIRESEngine(KnowledgeEngine):
             if cls is None:
                 cls = self.template_class
             if isinstance(object, pydantic.BaseModel):
-                object = object.dict()
+                object = object.model_dump()
             for k, v in object.items():
                 if v:
                     slot = self.schemaview.induced_slot(k, cls.name)
@@ -495,14 +495,14 @@ class SPIRESEngine(KnowledgeEngine):
                 # (though it may just be a misplaced delimiter)
                 # TODO: this could be a different delimiter, globally defined
                 if line.endswith(";"):
-                    logging.warning(f"This line ends in a delimiter, assuming continuation: {line}")
+                    logging.info(f"This line ends in a delimiter, assuming continuation: {line}")
                     continued_line = line
                     continue
                 # If there's nothing after the colon, we may be continuing as a numeric list or the like
                 if ":" in line and not line.split(":", 1)[1].strip():
-                    logging.warning(f"This line looks empty, assuming continuation: {line}")
+                    logging.info(f"This line looks empty, assuming continuation: {line}")
                     if len(continued_line) > 0:
-                        logging.warning(f"Finishing previous continued line: {continued_line}")
+                        logging.info(f"Finishing previous continued line: {continued_line}")
                         r = self._parse_line_to_dict(continued_line, cls)
                         if r is not None:
                             field, val = r
@@ -511,7 +511,9 @@ class SPIRESEngine(KnowledgeEngine):
                     continue
                 # We may be continuing a numeric list
                 if (line.split("."))[0].isdigit():
-                    logging.warning(f"Line '{line}' is a numeric item; continuing from {continued_line}")
+                    logging.info(
+                        f"Line '{line}' is a numeric item; continuing from {continued_line}"
+                    )
                     # Remove the leading numeral from the line
                     line = line.split(".", 1)[1].strip()
                     continued_line = continued_line + line + ";"
@@ -523,12 +525,12 @@ class SPIRESEngine(KnowledgeEngine):
                 if ":" not in line:
                     if len(promptable_slots) == 1:
                         slot = promptable_slots[0]
-                        logging.warning(
+                        logging.info(
                             f"Coercing to YAML-like with key {slot.name}: Original line: {line}"
                         )
                         line = f"{slot.name}: {line}"
                     elif len(continued_line) > 0:
-                        logging.warning(f"Line '{line}' continuing from {continued_line}")
+                        logging.info(f"Line '{line}' continuing from {continued_line}")
                         line = continued_line + line
                     if ":" not in line:
                         logging.error(f"Line '{line}' does not contain a colon; ignoring")
@@ -544,7 +546,7 @@ class SPIRESEngine(KnowledgeEngine):
                     field, val = r
                     ann[field] = val
             if len(continued_line) > 0:
-                logging.warning(f"Finishing continued line: {continued_line}")
+                logging.info(f"Finishing continued line: {continued_line}")
                 r = self._parse_line_to_dict(continued_line, cls)
                 if r is not None:
                     field, val = r
