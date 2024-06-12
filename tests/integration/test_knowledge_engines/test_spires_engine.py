@@ -503,6 +503,7 @@ class TestCore(unittest.TestCase):
         ann_multi = ke._parse_response_to_dict(EXAMPLE_LIST_MULTI)
         print(f"PARSED={ann_multi}")
         print(yaml.dump(ann_multi))
+        self.assertEqual(10, len(ann_multi["activities"]))
         self.assertEqual(3, len(ann_multi["genes"]))
 
     def test_ground_annotation_object(self):
