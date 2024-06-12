@@ -501,6 +501,12 @@ class SPIRESEngine(KnowledgeEngine):
                 # If there's nothing after the colon, we may be continuing as a numeric list or the like
                 if ":" in line and not line.split(":", 1)[1].strip():
                     logging.warning(f"This line looks empty, assuming continuation: {line}")
+                    if len(continued_line) > 0:
+                        logging.warning(f"Finishing previous continued line: {continued_line}")
+                        r = self._parse_line_to_dict(continued_line, cls)
+                        if r is not None:
+                            field, val = r
+                            ann[field] = val
                     continued_line = line
                     continue
                 # We may be continuing a numeric list
@@ -528,7 +534,7 @@ class SPIRESEngine(KnowledgeEngine):
                         logging.error(f"Line '{line}' does not contain a colon; ignoring")
                         continue
                 else:
-                    # We made it this far but still have a continued line
+                    # We made it this far but may still have a continued line
                     # So parse that first
                     if len(continued_line) > 0:
                         line = continued_line
