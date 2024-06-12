@@ -1,0 +1,228 @@
+id: https://w3id.org/ontogpt/storms
+name: storms-template
+title: Storms Evaluation Template
+description: >-
+  A template for extracting information using STORMS checklist
+license: https://creativecommons.org/publicdomain/zero/1.0/
+see_also:
+  - https://www.nature.com/articles/s41591-021-01552-x
+prefixes:
+  rdf: http://www.w3.org/1999/02/22-rdf-syntax-ns#
+  linkml: https://w3id.org/linkml/
+  storms: http://w3id.org/ontogpt/storms/
+
+default_prefix: storms
+default_range: string
+
+imports:
+  - linkml:types
+  - core
+
+classes:
+  STORMSChecklist:
+    tree_root: true
+    description: A checklist of items that should be reported in a microbiome study. Try and provide a value for ALL items. If an item is not reported, say NOT REPORTED.
+    annotations:
+      prompt: Try and provide a value for ALL items. If an item is not reported, say NOT REPORTED
+    attributes:
+      abstract_structured_or_unstructured:
+        description: Abstract should include information on background, methods, results, and conclusions in structured or unstructured format.
+        slot_group: abstract
+        range: string
+      abstract_study_design:
+        description: State study design in abstract.
+        slot_group: abstract
+        range: string
+      abstract_sequencing_methods:
+        description: State the strategy used for metagenomic classification.
+        slot_group: abstract
+        range: string
+      abstract_specimens:
+        description: Describe body site(s) studied.
+        slot_group: abstract
+        range: string
+      introduction_background_and_rationale:
+        description: Summarize the underlying background, scientific evidence, or theory driving the current hypothesis as well as the study objectives.
+        slot_group: introduction
+        range: string
+      introduction_hypotheses:
+        description: State the pre-specified hypothesis. If the study is exploratory, state any pre-specified study objectives.
+        slot_group: introduction
+        range: string
+      methods_study_design:
+        description: Describe the study design.
+        slot_group: methods
+        range: string
+      methods_participants:
+        description: State what the population of interest is, and the method by which participants are sampled from that population.
+        slot_group: methods
+        range: string
+      methods_geographic_location:
+        description: State the geographic region(s) where participants were sampled from.
+        slot_group: methods
+        range: string
+      methods_relevant_dates:
+        description: State the start and end dates for recruitment, follow-up, and data collection.
+        slot_group: methods
+        range: string
+      methods_eligibility_criteria:
+        description: List any criteria for inclusion and exclusion of recruited participants.
+        slot_group: methods
+        range: string
+      methods_antibiotics_usage:
+        description: List what is known about antibiotics usage before or during sample collection.
+        slot_group: methods
+        range: string
+      methods_analytic_sample_size:
+        description: Explain how the final analytic sample size was calculated, including the number of cases and controls if relevant, and reasons for dropout at each stage of the study.
+        slot_group: methods
+        range: string
+      methods_longitudinal_studies:
+        description: For longitudinal studies, state how many follow-ups were conducted, describe sample size at follow-up by group or condition, and discuss any loss to follow-up.
+        slot_group: methods
+        range: string
+      methods_matching:
+        description: For matched studies, give matching criteria.
+        slot_group: methods
+        range: string
+      methods_ethics:
+        description: State the name of the institutional review board that approved the study and protocols, protocol number and date of approval, and procedures for obtaining informed consent from participants.
+        slot_group: methods
+        range: string
+      methods_laboratory_methods:
+        description: State the laboratory/center where laboratory work was done.
+        slot_group: methods
+        range: string
+      methods_specimen_collection:
+        description: State the body site(s) sampled from and how specimens were collected.
+        slot_group: methods
+        range: string
+      methods_shipping:
+        description: Describe how samples were stored and shipped to the laboratory.
+        slot_group: methods
+        range: string
+      methods_storage:
+        description: Describe how the laboratory stored samples, including time between collection and storage and any preservation buffers or refrigeration used.
+        slot_group: methods
+        range: string
+      methods_dna_extraction:
+        description: Provide DNA extraction method, including kit and version if relevant.
+        slot_group: methods
+        range: string
+      methods_human_dna_sequence_depletion_or_microbial_dna_enrichment:
+        description: Describe whether human DNA sequence depletion or enrichment of microbial or viral DNA was performed.
+        slot_group: methods
+        range: string
+      methods_primer_selection:
+        description: Provide primer selection and DNA amplification methods as well as variable region sequenced (if applicable).
+        slot_group: methods
+        range: string
+      methods_positive_controls:
+        description: Describe any positive controls (mock communities) if used.
+        slot_group: methods
+        range: string
+      methods_negative_controls:
+        description: Describe any negative controls if used.
+        slot_group: methods
+        range: string
+      methods_contaminant_mitigation_and_identification:
+        description: Provide any laboratory or computational methods used to control for or identify microbiome contamination from the environment, reagents, or laboratory.
+        slot_group: methods
+        range: string
+      methods_replication:
+        description: Describe any biological or technical replicates included in the sequencing, including which steps were replicated between them.
+        slot_group: methods
+        range: string
+      methods_sequencing_strategy:
+        description: Major divisions of strategy, such as shotgun or amplicon sequencing.
+        slot_group: methods
+        range: string
+      methods_sequencing_methods:
+        description: State whether experimental quantification was used (QMP/cell count based, spike-in based) or whether relative abundance methods were applied.
+        slot_group: methods
+        range: string
+      methods_batch_effects:
+        description: Detail any blocking or randomization used in study design to avoid confounding of batches with exposures or outcomes. Discuss any likely sources of batch effects, if known.
+        slot_group: methods
+        range: string
+      methods_metatranscriptomics:
+        description: Detail whether any mRNA enrichment was performed and whether/how retrotranscription was performed prior to sequencing. Provide size range of isolated transcripts. Describe whether the sequencing library was stranded or not. Provide details on sequencing methods and platforms.
+        slot_group: methods
+        range: string
+      methods_metaproteomics:
+        description: Detail which protease was used for digestion. Provide details on proteomic methods and platforms (e.g. LC-MS/MS, instrument type, column type, mass range, resolution, scan speed, maximum injection time, isolation window, normalised collision energy, and resolution).
+        slot_group: methods
+        range: string
+      methods_metabolomics:
+        description: Specify the analytic method used (such as nuclear magnetic resonance spectroscopy or mass spectrometry). For mass spectrometry, detail which fractions were obtained (polar and/or non polar) and how these were analyzed. Provide details on metabolomics methods and platforms (e.g. derivatization, instrument type, injection type, column type and instrument settings).
+        slot_group: methods
+        range: string
+      results_descriptive_data:
+        description: Give characteristics of study participants (e.g. dietary, demographic, clinical, social) and information on exposures and potential confounders.
+        slot_group: results
+        range: string
+      results_microbiome_data:
+        description: Report descriptive findings for microbiome analyses with all applicable outcomes and covariates.
+        slot_group: results
+        range: string
+      results_taxonomy:
+        description: Identify taxonomy using standardized taxon classifications that are sufficient to uniquely identify taxa.
+        slot_group: results
+        range: string
+      results_differential_abundance:
+        description: Report results of differential abundance analysis by the variable of interest and (if applicable) by time, clearly indicating the direction of change and total number of taxa tested.
+        slot_group: results
+        range: string
+      results_other_data_types:
+        description: Report other data analyzed--e.g. metabolic function, functional potential, MAG assembly, and RNAseq.
+        slot_group: results
+        range: string
+      results_other_statistical_analysis:
+        description: Report any statistical data analysis not covered above.
+        slot_group: results
+        range: string
+      discussion_key_results:
+        description: Summarize key results with reference to study objectives.
+        slot_group: discussion
+        range: string
+      discussion_interpretation:
+        description: Give a cautious overall interpretation of results considering objectives, limitations, multiplicity of analyses, results from similar studies, and other relevant evidence.
+        slot_group: discussion
+        range: string
+      discussion_limitations:
+        description: Discuss limitations of the study, taking into account sources of potential bias or imprecision.
+        slot_group: discussion
+        range: string
+      discussion_bias:
+        description: Discuss any potential for bias to influence study findings.
+        slot_group: discussion
+        range: string
+      discussion_generalizability:
+        description: Discuss the generalizability (external validity) of the study results.
+        slot_group: discussion
+        range: string
+      discussion_ongoing_future_work:
+        description: Describe potential future research or ongoing research based on the study's findings.
+        slot_group: discussion
+        range: string
+      other_information_funding:
+        description: Give the source of funding and the role of the funders for the present study and, if applicable, for the original study on which the present article is based.
+        slot_group: other_information
+        range: string
+      other_information_acknowledgements:
+        description: Include acknowledgements of those who contributed to the research but did not meet criteria for authorship.
+        slot_group: other_information
+        range: string
+      other_information_conflicts_of_interest:
+        description: Include a conflicts of interest statement.
+        slot_group: other_information
+        range: string
+      other_information_supplements:
+        description: Indicate where supplements may be accessed and what materials they contain.
+        slot_group: other_information
+        range: string
+      other_information_supplementary_data:
+        description: Provide supplementary data files of results with all taxa and all outcome variables analyzed. Indicate the taxonomic level of all taxa.
+        slot_group: other_information
+        range: string
+
