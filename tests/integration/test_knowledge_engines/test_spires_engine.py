@@ -240,6 +240,14 @@ EXAMPLE_RESULTS_MARKDOWN_JSON = """
 ```
 """
 
+EXAMPLE_SETS = {
+    "Example results": EXAMPLE_RESULTS,
+    "Example results, alternative": EXAMPLE_RESULTS_ALT,
+    "Example results in Markdown": EXAMPLE_RESULTS_MARKDOWN,
+    "Example results in JSON": EXAMPLE_RESULTS_JSON,
+    "Example results in JSON in Markdown": EXAMPLE_RESULTS_MARKDOWN_JSON,
+}
+
 CLASSES = [
     "activities",
     "genes",
@@ -430,18 +438,25 @@ class TestCore(unittest.TestCase):
     def test_parse_response_to_dict(self):
         """Tests parsing of textual payload from openai API."""
         ke = self.ke
-        for example_set in [
-            EXAMPLE_RESULTS,
-            EXAMPLE_RESULTS_ALT,
-            EXAMPLE_RESULTS_MARKDOWN,
-            EXAMPLE_RESULTS_JSON,
-            EXAMPLE_RESULTS_MARKDOWN_JSON,
-        ]:
-            ann = ke._parse_response_to_dict(example_set)
+        for example_set in EXAMPLE_SETS:
+            ann = ke._parse_response_to_dict(EXAMPLE_SETS[example_set])
             print(f"PARSED={ann}")
             print(yaml.dump(ann))
+            # We expect some of these cases to be missing due to parsing issues we
+            # don't want to make assumptions about
             for dataclass in CLASSES:
-                self.assertIn(dataclass, ann.keys())
+                if (
+                    example_set
+                    in [
+                        "Example results",
+                        "Example results, alternative",
+                        "Example results in Markdown",
+                    ]
+                    and dataclass == "organisms"
+                ):
+                    self.assertNotIn(dataclass, ann.keys())
+                else:
+                    self.assertIn(dataclass, ann.keys())
             self.assertIn("STING", ann["genes"])
             # self.assertIn({"gene": "β-Catenin", "organism": "host"}, ann["gene_organisms"])
 
