@@ -511,8 +511,13 @@ def iteratively_generate_extract(
     default=False,
     help="Attempt to parse PubMed Central full text(s) instead of abstract(s) alone.",
 )
+@click.option(
+    "--max-text-length",
+    default=3000,
+    help="Maximum text length for each input chunk. Dependent on context size of model used."
+)
 @click.argument("pmid")
-def pubmed_extract(model, pmid, template, output, output_format, get_pmc, show_prompt, **kwargs):
+def pubmed_extract(model, pmid, template, output, output_format, get_pmc, show_prompt, max_text_length, **kwargs):
     """Extract knowledge from a single PubMed ID."""
     if not model:
         model = DEFAULT_MODEL
@@ -534,16 +539,18 @@ def pubmed_extract(model, pmid, template, output, output_format, get_pmc, show_p
     if settings.skip_annotators:
         ke.skip_annotators = settings.skip_annotators
 
-    pmc = PubmedClient()
+    pmc = PubmedClient(max_text_length=max_text_length)
     if get_pmc:
         logging.info(f"Will try to retrieve PubMed Central text for {pmid}.")
         textlist = pmc.text(pmid, pubmedcental=True)
     else:
         textlist = pmc.text(pmid)
+    if not isinstance(textlist, list):
+        textlist = [textlist]
     for text in textlist:
         logging.debug(f"Input text: {text}")
         results = ke.extract_from_text(text=text, show_prompt=show_prompt)
-        write_extraction(results, output, output_format, template)
+        write_extraction(results, output, output_format, ke, template)
 
 
 @main.command()
