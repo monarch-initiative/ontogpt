@@ -128,6 +128,7 @@ class Document(NamedEntity):
 
 
 class DocumentSection(CompoundExpression):
+    taxon: Optional[str] = Field(None, description="""A semicolon-separated list of taxa or species of organisms  mentioned in the section.""")
     summary: Optional[str] = Field(None, description="""A brief summary of the section, suitable for display in a table of contents or search results. This should be a single sentence or phrase, not a full paragraph. Do not format in Markdown.""")
     symptoms: Optional[List[str]] = Field(default_factory=list, description="""A semicolon-separated list of symptoms mentioned in the section.""")
     diagnostics: Optional[List[str]] = Field(default_factory=list, description="""A semicolon-separated list of diagnostic procedures mentioned in the section.""")
@@ -140,6 +141,11 @@ class Symptom(NamedEntity):
 
 
 class Diagnostic(NamedEntity):
+    id: str = Field(..., description="""A unique identifier for the named entity""")
+    label: Optional[str] = Field(None, description="""The label (name) of the named thing""")
+
+
+class Taxon(NamedEntity):
     id: str = Field(..., description="""A unique identifier for the named entity""")
     label: Optional[str] = Field(None, description="""The label (name) of the named thing""")
 
@@ -164,5 +170,6 @@ Document.model_rebuild()
 DocumentSection.model_rebuild()
 Symptom.model_rebuild()
 Diagnostic.model_rebuild()
+Taxon.model_rebuild()
 Treatment.model_rebuild()
 

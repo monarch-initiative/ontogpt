@@ -4,7 +4,8 @@ title: Template for extracting Alzheimer's Disease Treatments
 description: >-
   Template for extracting Alzheimer's disease treatments and related concepts.
   Assumes a large input text, on the order of a full scientific article or
-  review. Try with this review - PMID:33302541
+  review. Focus is on extracting the methods and metrics used
+  with different model organisms. Try with this review - PMID:33302541
 license: https://creativecommons.org/publicdomain/zero/1.0/
 prefixes:
   rdf: http://www.w3.org/1999/02/22-rdf-syntax-ns#
@@ -39,6 +40,11 @@ classes:
   DocumentSection:
     is_a: CompoundExpression
     attributes:
+      taxon:
+        range: Taxon
+        description: >-
+          A semicolon-separated list of taxa or species of organisms 
+          mentioned in the section.
       summary:
         range: string
         description: >-
@@ -81,8 +87,21 @@ classes:
     annotations:
       annotators: sqlite:obo:maxo, sqlite:obo:mesh, bioportal:SNOMEDCT, sqlite:obo:ncit
       prompt: >-
-        the name of a diagnostic procedure or test.
+        The name of a diagnostic procedure or test.
         Examples are MRI, PET scan, lumbar puncture, blood test, biopsy.
+
+  # TODO: use a taxon slim
+  # TODO: Consider making this an enum of known model organisms for AD/RD
+  Taxon:
+    is_a: NamedEntity
+    id_prefixes:
+      - NCBI
+    annotations:
+      annotators: sqlite:obo:ncbitaxon
+      prompt: >-
+        The taxonomic group or species of a model organism.
+        Examples are "human", "mouse", "rat", "Rhesus macaque",
+        "canine", "marmoset", "fruit fly", "C. elegans", "S. cerevisiae".
 
   Treatment:
     is_a: NamedEntity
