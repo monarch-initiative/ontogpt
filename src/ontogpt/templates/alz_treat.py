@@ -128,7 +128,7 @@ class Document(NamedEntity):
 
 
 class DocumentSection(CompoundExpression):
-    taxon: Optional[str] = Field(None, description="""A semicolon-separated list of taxa or species of organisms  mentioned in the section.""")
+    taxon: Optional[List[str]] = Field(default_factory=list, description="""A semicolon-separated list of taxa or species of organisms  mentioned in the section.""")
     summary: Optional[str] = Field(None, description="""A brief summary of the section, suitable for display in a table of contents or search results. This should be a single sentence or phrase, not a full paragraph. Do not format in Markdown.""")
     symptoms: Optional[List[str]] = Field(default_factory=list, description="""A semicolon-separated list of symptoms mentioned in the section.""")
     diagnostics: Optional[List[str]] = Field(default_factory=list, description="""A semicolon-separated list of diagnostic procedures mentioned in the section.""")

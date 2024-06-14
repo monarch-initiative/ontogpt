@@ -42,6 +42,7 @@ classes:
     attributes:
       taxon:
         range: Taxon
+        multivalued: true
         description: >-
           A semicolon-separated list of taxa or species of organisms 
           mentioned in the section.
