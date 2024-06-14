@@ -123,7 +123,7 @@ classes:
   Taxon:
     is_a: NamedEntity
     id_prefixes:
-      - NCBITAXON
+      - NCBITaxon
     annotations:
       annotators: sqlite:obo:ncbitaxon
       prompt: >-
