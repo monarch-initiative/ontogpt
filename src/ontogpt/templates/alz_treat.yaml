@@ -50,6 +50,7 @@ classes:
           mentioned in the section. Where possible, translate to the
           binomial species name (e.g., change "mouse" to "Mus musculus"),
           unless a different species name is provided in the text.
+          If no taxa are mentioned, return NONE.
       summary:
         range: string
         description: >-
@@ -63,13 +64,13 @@ classes:
           A semicolon-separated list of symptoms mentioned in the section. These
           are signs of disease or other conditions that are experienced by a
           human or experimental model organism. They may include physical or
-          behavioral signs.
+          behavioral signs. If no symptoms are mentioned, return NONE.
       diagnostics:
         range: Diagnostic
         multivalued: true
         description: >-
           A semicolon-separated list of diagnostic procedures mentioned in the
-          section.
+          section. If no diagnostic procedures are mentioned, return NONE.
       experimental_metrics:
         range: Metric
         multivalued: true
@@ -80,13 +81,15 @@ classes:
           treatments on symptoms or diagnostics, or of the progression of
           Alzheimer's disease and related dementias. For example,
           Amyloid beta (Aβ) levels are a frequently used metric for assessing
-          the progression of Alzheimer's disease.
+          the progression of Alzheimer's disease. If no experimental metrics are
+          mentioned, return NONE.
 
   Metric:
     is_a: NamedEntity
     id_prefixes:
       - NCIT
       - MESH
+      - SNOMEDCT
     annotations:
       annotators: sqlite:obo:maxo, sqlite:obo:mesh, bioportal:SNOMEDCT, sqlite:obo:ncit
       prompt: >-
@@ -112,6 +115,7 @@ classes:
     is_a: NamedEntity
     id_prefixes:
       - MAXO
+      - SNOMEDCT
     annotations:
       annotators: sqlite:obo:maxo, sqlite:obo:mesh, bioportal:SNOMEDCT, sqlite:obo:ncit
       prompt: >-
