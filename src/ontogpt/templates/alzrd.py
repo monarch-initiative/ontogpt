@@ -128,12 +128,12 @@ class Document(NamedEntity):
 
 
 class DocumentSection(CompoundExpression):
-    taxon: Optional[List[str]] = Field(default_factory=list, description="""A semicolon-separated list of taxa or species of organisms mentioned in the section. Where possible, translate to the binomial species name (e.g., change \"mouse\" to \"Mus musculus\"), unless a different species name is provided in the text. If no taxa are mentioned, return NONE.""")
+    taxon: Optional[List[str]] = Field(default_factory=list, description="""A semicolon-separated list of taxa or species of organisms mentioned in the section. Where possible, translate to the binomial species name (e.g., change \"mouse\" to \"Mus musculus\"), unless a different species name is provided in the text.""")
     summary: Optional[str] = Field(None, description="""A brief summary of the section, suitable for display in a table of contents or search results. This should be a single sentence or phrase, not a full paragraph. Do not format in Markdown.""")
     symptoms: Optional[List[str]] = Field(default_factory=list, description="""A semicolon-separated list of symptoms mentioned in the section. These are signs of disease or other conditions that are experienced by a human or experimental model organism. They may include physical or behavioral signs. If no symptoms are mentioned, return NONE.""")
     diagnostics: Optional[List[str]] = Field(default_factory=list, description="""A semicolon-separated list of diagnostic procedures mentioned in the section. If no diagnostic procedures are mentioned, return NONE.""")
     experimental_metrics: Optional[List[str]] = Field(default_factory=list, description="""A semicolon-separated list of experimental metrics or outcomes mentioned in the section. These may be quantitative or qualitative measures, including biomolecular assays. They measure the effects of treatments on symptoms or diagnostics, or of the progression of Alzheimer's disease and related dementias. For example, Amyloid beta (Aβ) levels are a frequently used metric for assessing the progression of Alzheimer's disease. If no experimental metrics are mentioned, return NONE.""")
-    taxon_experimental_metrics: Optional[List[TaxonExperimentalMetric]] = Field(default_factory=list, description="""Semicolon-separated list of associations between a specific taxon and an experimental metric used to measure progression of Alzheimer's disease and related dementias, or an experimental analogue, in the taxon. For example, synaptic density MEASURED_IN Mus musculus.""")
+    taxon_experimental_metrics: Optional[List[TaxonToExperimentalMetricRelationship]] = Field(default_factory=list, description="""Semicolon-separated list of relationships between a specific taxon and an experimental metric used to measure progression of Alzheimer's disease and related dementias, or an experimental analogue, in the taxon. For example, synaptic density MEASURED_IN Mus musculus.""")
 
 
 class Metric(NamedEntity):
@@ -156,9 +156,16 @@ class Taxon(NamedEntity):
     label: Optional[str] = Field(None, description="""The label (name) of the named thing""")
 
 
-class TaxonExperimentalMetric(CompoundExpression):
-    taxon: Optional[str] = Field(None)
-    mechanism: Optional[str] = Field(None)
+class TaxonToExperimentalMetricRelationship(Triple):
+    """
+    A triple where the subject is a taxon, the object is an experimental metric, and the predicate describes the relationship between the taxon and the metric, usually MEASURED_IN.
+    """
+    subject: Optional[str] = Field(None, description="""The taxon or species of the model organism in which the experimental metric is measured. For example, Mus musculus, Rattus norvegicus.""")
+    predicate: Optional[str] = Field(None, description="""The relationship type, generally MEASURED_IN""")
+    object: Optional[str] = Field(None, description="""The experimental metric or outcome used to measure the effects of treatments on symptoms or diagnostics, or of the progression of Alzheimer's disease and related dementias.""")
+    qualifier: Optional[str] = Field(None, description="""A qualifier for the statements, e.g. \"NOT\" for negation""")
+    subject_qualifier: Optional[str] = Field(None, description="""An optional qualifier or modifier for the taxon. This may include a strain or genetic background of the model organism.""")
+    object_qualifier: Optional[str] = Field(None, description="""An optional qualifier or modifier for the experimental metric. This may include the method of measurement or the specific assay used.""")
 
 
 # Model rebuild
@@ -178,5 +185,5 @@ Metric.model_rebuild()
 Symptom.model_rebuild()
 Diagnostic.model_rebuild()
 Taxon.model_rebuild()
-TaxonExperimentalMetric.model_rebuild()
+TaxonToExperimentalMetricRelationship.model_rebuild()
 

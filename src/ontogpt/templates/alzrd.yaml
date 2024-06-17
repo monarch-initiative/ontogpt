@@ -46,12 +46,13 @@ classes:
       taxon:
         range: Taxon
         multivalued: true
+        # NOTE: Don't ask the LLM to return NONE here or it may get
+        # grounded to NCBITaxon:32644 (unidentified)
         description: >-
           A semicolon-separated list of taxa or species of organisms
           mentioned in the section. Where possible, translate to the
           binomial species name (e.g., change "mouse" to "Mus musculus"),
           unless a different species name is provided in the text.
-          If no taxa are mentioned, return NONE.
       summary:
         range: string
         description: >-
@@ -86,15 +87,13 @@ classes:
           mentioned, return NONE.
       taxon_experimental_metrics:
         description: >-
-          Semicolon-separated list of associations between
+          Semicolon-separated list of relationships between
           a specific taxon and an experimental metric used to measure
           progression of Alzheimer's disease and related dementias,
           or an experimental analogue, in the taxon. For example,
           synaptic density MEASURED_IN Mus musculus.
         multivalued: true
-        range: TaxonExperimentalMetric
-        annotations:
-          prompt.separator: "MEASURED_IN"
+        range: TaxonToExperimentalMetricRelationship
 
   Metric:
     is_a: NamedEntity
@@ -147,10 +146,34 @@ classes:
         Examples are "human", "mouse", "rat", "Rhesus macaque",
         "canine", "marmoset", "fruit fly", "C. elegans", "S. cerevisiae".
 
-  TaxonExperimentalMetric:
-    is_a: CompoundExpression
-    attributes:
-      taxon:
+  TaxonToExperimentalMetricRelationship:
+    is_a: Triple
+    description: >-
+      A triple where the subject is a taxon, the object is an experimental
+      metric, and the predicate describes the relationship between the taxon
+      and the metric, usually MEASURED_IN.
+    slot_usage:
+      subject:
+        description: >-
+          The taxon or species of the model organism in which the experimental
+          metric is measured. For example, Mus musculus, Rattus norvegicus.
         range: Taxon
-      mechanism:
+      object:
+        description: >-
+          The experimental metric or outcome used to measure the effects of
+          treatments on symptoms or diagnostics, or of the progression of
+          Alzheimer's disease and related dementias.
         range: Metric
+      predicate:
+        range: NamedEntity
+        description: The relationship type, generally MEASURED_IN
+      subject_qualifier:
+        range: NamedEntity
+        description: >-
+          An optional qualifier or modifier for the taxon.
+          This may include a strain or genetic background of the model organism.
+      object_qualifier:
+        range: NamedEntity
+        description: >-
+          An optional qualifier or modifier for the experimental metric.
+          This may include the method of measurement or the specific assay used.
