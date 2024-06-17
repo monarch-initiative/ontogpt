@@ -1,19 +1,19 @@
-id: http://w3id.org/ontogpt/alz_treat
-name: alz_treat
+id: http://w3id.org/ontogpt/alzrd
+name: alzrd
 title: Template for extracting Alzheimer's Disease Phenotypes
 description: >-
-  Template for extracting Alzheimer's disease phenotypes and related concepts
-  across multiple model organism types.
+  Template for extracting phenotypes of Alzheimer's disease and related
+  dementias along with experimental metrics and model organisms.
   Assumes a large input text, on the order of a full scientific article or
   review. Focus is on extracting the methods and metrics used
   with different model organisms. Try with this review - PMID:33302541
 license: https://creativecommons.org/publicdomain/zero/1.0/
 prefixes:
   rdf: http://www.w3.org/1999/02/22-rdf-syntax-ns#
-  alz_treat: http://w3id.org/ontogpt/alz_treat
+  alzrd: http://w3id.org/ontogpt/alzrd
   linkml: https://w3id.org/linkml/
 
-default_prefix: alz_treat
+default_prefix: alzrd
 default_range: string
 
 imports:
