@@ -128,13 +128,14 @@ class Document(NamedEntity):
 
 
 class DocumentSection(CompoundExpression):
+    taxon: Optional[List[str]] = Field(default_factory=list, description="""A semicolon-separated list of taxa or species of organisms mentioned in the section. Where possible, translate to the binomial species name (e.g., change \"mouse\" to \"Mus musculus\"), unless a different species name is provided in the text.""")
     summary: Optional[str] = Field(None, description="""A brief summary of the section, suitable for display in a table of contents or search results. This should be a single sentence or phrase, not a full paragraph. Do not format in Markdown.""")
-    symptoms: Optional[List[str]] = Field(default_factory=list, description="""A semicolon-separated list of symptoms mentioned in the section.""")
-    diagnostics: Optional[List[str]] = Field(default_factory=list, description="""A semicolon-separated list of diagnostic procedures mentioned in the section.""")
-    treatments: Optional[List[str]] = Field(default_factory=list, description="""A semicolon-separated list of treatments mentioned in the section. These may be drugs or other therapeutic procedures.""")
+    diagnostics: Optional[List[str]] = Field(default_factory=list, description="""A semicolon-separated list of diagnostic procedures mentioned in the section. If no diagnostic procedures are mentioned, return NONE.""")
+    experimental_metrics_and_indicators: Optional[List[str]] = Field(default_factory=list, description="""A semicolon-separated list of of a experimental metrics, signs, symptoms, or outcomes used to measure the progression of Alzheimer's disease and related dementias. These may be quantitative or qualitative measures, including biomolecular assays. In experimental animal models these are analogues of cognitive impairment or indicators of disease progression modeling those observed in humans. Examples are Amyloid beta (Aβ) levels, Morris water maze test, tau phosphorylation, neurofibrillary tangles, and cognitive decline. If no experimental metrics are mentioned, return NONE.""")
+    taxon_experimental_metrics: Optional[List[TaxonToExperimentalMetricRelationship]] = Field(default_factory=list, description="""Semicolon-separated list of relationships between a specific taxon and an experimental metric, sign, symptom, or outcome used to measure progression of Alzheimer's disease and related dementias, or an experimental analogue, in the taxon. For example, \"Mus musculus is measured with Amyloid beta (Aβ) levels\" or \"Rattus norvegicus is measured with Morris water maze test\"""")
 
 
-class Symptom(NamedEntity):
+class MetricOrIndicator(NamedEntity):
     id: str = Field(..., description="""A unique identifier for the named entity""")
     label: Optional[str] = Field(None, description="""The label (name) of the named thing""")
 
@@ -144,9 +145,21 @@ class Diagnostic(NamedEntity):
     label: Optional[str] = Field(None, description="""The label (name) of the named thing""")
 
 
-class Treatment(NamedEntity):
+class Taxon(NamedEntity):
     id: str = Field(..., description="""A unique identifier for the named entity""")
     label: Optional[str] = Field(None, description="""The label (name) of the named thing""")
+
+
+class TaxonToExperimentalMetricRelationship(Triple):
+    """
+    A triple where the subject is a taxon, the object is an experimental metric, and the predicate describes the relationship between the taxon and the metric, usually MEASURED_WITH.
+    """
+    subject: Optional[str] = Field(None, description="""The taxon or species of the model organism in which the experimental metric is measured. For example, Mus musculus, Rattus norvegicus.""")
+    predicate: Optional[str] = Field(None, description="""The relationship type, generally MEASURED_WITH""")
+    object: Optional[str] = Field(None, description="""The name of an experimental metric, sign, symptom, or outcome used to measure the effects of treatments on symptoms or diagnostics, or of the progression of Alzheimer's disease and related dementias. In experimental animal models these are analogues of cognitive impairment or indicators of disease progression modeling those observed in humans. Examples are Amyloid beta (Aβ) levels, Morris water maze test, tau phosphorylation, neurofibrillary tangles, and cognitive decline.""")
+    qualifier: Optional[str] = Field(None, description="""A qualifier for the statements, e.g. \"NOT\" for negation""")
+    subject_qualifier: Optional[str] = Field(None, description="""An optional qualifier or modifier for the taxon. This may include a strain or genetic background of the model organism.""")
+    object_qualifier: Optional[str] = Field(None, description="""An optional qualifier or modifier for the experimental metric. This may include the method of measurement or the specific assay used.""")
 
 
 # Model rebuild
@@ -162,7 +175,8 @@ Publication.model_rebuild()
 AnnotatorResult.model_rebuild()
 Document.model_rebuild()
 DocumentSection.model_rebuild()
-Symptom.model_rebuild()
+MetricOrIndicator.model_rebuild()
 Diagnostic.model_rebuild()
-Treatment.model_rebuild()
+Taxon.model_rebuild()
+TaxonToExperimentalMetricRelationship.model_rebuild()
 
