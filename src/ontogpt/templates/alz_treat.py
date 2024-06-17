@@ -130,9 +130,8 @@ class Document(NamedEntity):
 class DocumentSection(CompoundExpression):
     taxon: Optional[List[str]] = Field(default_factory=list, description="""A semicolon-separated list of taxa or species of organisms mentioned in the section. Where possible, translate to the binomial species name (e.g., change \"mouse\" to \"Mus musculus\"), unless a different species name is provided in the text.""")
     summary: Optional[str] = Field(None, description="""A brief summary of the section, suitable for display in a table of contents or search results. This should be a single sentence or phrase, not a full paragraph. Do not format in Markdown.""")
-    symptoms: Optional[List[str]] = Field(default_factory=list, description="""A semicolon-separated list of symptoms mentioned in the section.""")
+    symptoms: Optional[List[str]] = Field(default_factory=list, description="""A semicolon-separated list of symptoms mentioned in the section. These are signs of disease or other conditions that are experienced by a human or experimental model organism. They may include physical or behavioral signs.""")
     diagnostics: Optional[List[str]] = Field(default_factory=list, description="""A semicolon-separated list of diagnostic procedures mentioned in the section.""")
-    treatments: Optional[List[str]] = Field(default_factory=list, description="""A semicolon-separated list of treatments mentioned in the section. These may be drugs or other therapeutic procedures.""")
     experimental_metrics: Optional[List[str]] = Field(default_factory=list, description="""A semicolon-separated list of experimental metrics or outcomes mentioned in the section. These may be quantitative or qualitative measures, including biomolecular assays. They measure the effects of treatments on symptoms or diagnostics, or of the progression of Alzheimer's disease and related dementias. For example, Amyloid beta (Aβ) levels are a frequently used metric for assessing the progression of Alzheimer's disease.""")
 
 
@@ -156,11 +155,6 @@ class Taxon(NamedEntity):
     label: Optional[str] = Field(None, description="""The label (name) of the named thing""")
 
 
-class Treatment(NamedEntity):
-    id: str = Field(..., description="""A unique identifier for the named entity""")
-    label: Optional[str] = Field(None, description="""The label (name) of the named thing""")
-
-
 # Model rebuild
 # see https://pydantic-docs.helpmanual.io/usage/models/#rebuilding-a-model
 ExtractionResult.model_rebuild()
@@ -178,5 +172,4 @@ Metric.model_rebuild()
 Symptom.model_rebuild()
 Diagnostic.model_rebuild()
 Taxon.model_rebuild()
-Treatment.model_rebuild()
 

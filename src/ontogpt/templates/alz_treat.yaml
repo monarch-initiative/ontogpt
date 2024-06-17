@@ -60,19 +60,16 @@ classes:
         range: Symptom
         multivalued: true
         description: >-
-          A semicolon-separated list of symptoms mentioned in the section.
+          A semicolon-separated list of symptoms mentioned in the section. These
+          are signs of disease or other conditions that are experienced by a
+          human or experimental model organism. They may include physical or
+          behavioral signs.
       diagnostics:
         range: Diagnostic
         multivalued: true
         description: >-
           A semicolon-separated list of diagnostic procedures mentioned in the
           section.
-      treatments:
-        range: Treatment
-        multivalued: true
-        description: >-
-          A semicolon-separated list of treatments mentioned in the section.
-          These may be drugs or other therapeutic procedures.
       experimental_metrics:
         range: Metric
         multivalued: true
@@ -97,12 +94,15 @@ classes:
         effects of treatments on symptoms or diagnostics, or of the progression
         of Alzheimer's disease and related dementias.
 
+  # TODO: make signs species-specific if possible
   Symptom:
     is_a: NamedEntity
     id_prefixes:
       - HP
+      - MP
+      - NBO
     annotations:
-      annotators: sqlite:obo:hp, sqlite:obo:mondo, sqlite:obo:mesh, sqlite:obo:ncit
+      annotators: sqlite:obo:hp, sqlite:obo:mondo, sqlite:obo:mp, sqlite:obo:nbo, sqlite:obo:mesh, sqlite:obo:ncit
       prompt: >-
         the name of a human phenotype or symptom.
         Examples are ascites, fever, pain, seizure, increased intracranial
@@ -130,14 +130,3 @@ classes:
         The taxonomic group or species of a model organism.
         Examples are "human", "mouse", "rat", "Rhesus macaque",
         "canine", "marmoset", "fruit fly", "C. elegans", "S. cerevisiae".
-
-  Treatment:
-    is_a: NamedEntity
-    id_prefixes:
-      - DRUGBANK
-      - MAXO
-    annotations:
-      annotators: sqlite:obo:drugbank, sqlite:obo:maxo, sqlite:obo:mesh, sqlite:obo:ncit
-      prompt: >-
-        the name of a drug or therapeutic procedure.
-        Examples are aspirin, chemotherapy, radiation therapy, surgery.
