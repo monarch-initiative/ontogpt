@@ -133,6 +133,7 @@ class DocumentSection(CompoundExpression):
     symptoms: Optional[List[str]] = Field(default_factory=list, description="""A semicolon-separated list of symptoms mentioned in the section. These are signs of disease or other conditions that are experienced by a human or experimental model organism. They may include physical or behavioral signs. If no symptoms are mentioned, return NONE.""")
     diagnostics: Optional[List[str]] = Field(default_factory=list, description="""A semicolon-separated list of diagnostic procedures mentioned in the section. If no diagnostic procedures are mentioned, return NONE.""")
     experimental_metrics: Optional[List[str]] = Field(default_factory=list, description="""A semicolon-separated list of experimental metrics or outcomes mentioned in the section. These may be quantitative or qualitative measures, including biomolecular assays. They measure the effects of treatments on symptoms or diagnostics, or of the progression of Alzheimer's disease and related dementias. For example, Amyloid beta (Aβ) levels are a frequently used metric for assessing the progression of Alzheimer's disease. If no experimental metrics are mentioned, return NONE.""")
+    taxon_experimental_metrics: Optional[List[TaxonExperimentalMetric]] = Field(default_factory=list, description="""Semicolon-separated list of associations between a specific taxon and an experimental metric used to measure progression of Alzheimer's disease and related dementias, or an experimental analogue, in the taxon. For example, synaptic density MEASURED_IN Mus musculus.""")
 
 
 class Metric(NamedEntity):
@@ -155,6 +156,11 @@ class Taxon(NamedEntity):
     label: Optional[str] = Field(None, description="""The label (name) of the named thing""")
 
 
+class TaxonExperimentalMetric(CompoundExpression):
+    taxon: Optional[str] = Field(None)
+    mechanism: Optional[str] = Field(None)
+
+
 # Model rebuild
 # see https://pydantic-docs.helpmanual.io/usage/models/#rebuilding-a-model
 ExtractionResult.model_rebuild()
@@ -172,4 +178,5 @@ Metric.model_rebuild()
 Symptom.model_rebuild()
 Diagnostic.model_rebuild()
 Taxon.model_rebuild()
+TaxonExperimentalMetric.model_rebuild()
 

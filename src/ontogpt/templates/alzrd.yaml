@@ -84,6 +84,17 @@ classes:
           Amyloid beta (Aβ) levels are a frequently used metric for assessing
           the progression of Alzheimer's disease. If no experimental metrics are
           mentioned, return NONE.
+      taxon_experimental_metrics:
+        description: >-
+          Semicolon-separated list of associations between
+          a specific taxon and an experimental metric used to measure
+          progression of Alzheimer's disease and related dementias,
+          or an experimental analogue, in the taxon. For example,
+          synaptic density MEASURED_IN Mus musculus.
+        multivalued: true
+        range: TaxonExperimentalMetric
+        annotations:
+          prompt.separator: "MEASURED_IN"
 
   Metric:
     is_a: NamedEntity
@@ -135,3 +146,11 @@ classes:
         The taxonomic group or species of a model organism.
         Examples are "human", "mouse", "rat", "Rhesus macaque",
         "canine", "marmoset", "fruit fly", "C. elegans", "S. cerevisiae".
+
+  TaxonExperimentalMetric:
+    is_a: CompoundExpression
+    attributes:
+      taxon:
+        range: Taxon
+      mechanism:
+        range: Metric
