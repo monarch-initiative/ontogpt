@@ -158,10 +158,10 @@ class Taxon(NamedEntity):
 
 class TaxonToExperimentalMetricRelationship(Triple):
     """
-    A triple where the subject is a taxon, the object is an experimental metric, and the predicate describes the relationship between the taxon and the metric, usually MEASURED_IN.
+    A triple where the subject is a taxon, the object is an experimental metric, and the predicate describes the relationship between the taxon and the metric, usually MEASURED_WITH.
     """
     subject: Optional[str] = Field(None, description="""The taxon or species of the model organism in which the experimental metric is measured. For example, Mus musculus, Rattus norvegicus.""")
-    predicate: Optional[str] = Field(None, description="""The relationship type, generally MEASURED_IN""")
+    predicate: Optional[str] = Field(None, description="""The relationship type, generally MEASURED_WITH""")
     object: Optional[str] = Field(None, description="""The experimental metric or outcome used to measure the effects of treatments on symptoms or diagnostics, or of the progression of Alzheimer's disease and related dementias.""")
     qualifier: Optional[str] = Field(None, description="""A qualifier for the statements, e.g. \"NOT\" for negation""")
     subject_qualifier: Optional[str] = Field(None, description="""An optional qualifier or modifier for the taxon. This may include a strain or genetic background of the model organism.""")

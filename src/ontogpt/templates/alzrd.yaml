@@ -151,7 +151,7 @@ classes:
     description: >-
       A triple where the subject is a taxon, the object is an experimental
       metric, and the predicate describes the relationship between the taxon
-      and the metric, usually MEASURED_IN.
+      and the metric, usually MEASURED_WITH.
     slot_usage:
       subject:
         description: >-
@@ -166,7 +166,7 @@ classes:
         range: Metric
       predicate:
         range: NamedEntity
-        description: The relationship type, generally MEASURED_IN
+        description: The relationship type, generally MEASURED_WITH
       subject_qualifier:
         range: NamedEntity
         description: >-
