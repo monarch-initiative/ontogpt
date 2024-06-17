@@ -91,14 +91,15 @@ classes:
           a specific taxon and an experimental metric used to measure
           progression of Alzheimer's disease and related dementias,
           or an experimental analogue, in the taxon. For example,
-          synaptic density MEASURED_IN Mus musculus.
+          "Mus musculus is measured with Amyloid beta (Aβ) levels"
+          or "Rattus norvegicus is measured with Morris water maze test"
         multivalued: true
         range: TaxonToExperimentalMetricRelationship
 
   Metric:
     is_a: NamedEntity
     id_prefixes:
-      - NCIT
+      - MAXO
       - MESH
       - SNOMEDCT
     annotations:
