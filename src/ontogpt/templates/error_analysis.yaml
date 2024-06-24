@@ -1,0 +1,68 @@
+id: http://w3id.org/ontogpt/error_analysis
+name: error_analysis
+title: Template for aggregating and summarizing LinkML data validation errors
+description: >-
+  Template for aggregating and summarizing data validation errors.
+  See also the LinkML validation report model
+  (https://github.com/linkml/linkml-model/blob/main/linkml_model/model/schema/validation.yaml).
+license: https://creativecommons.org/publicdomain/zero/1.0/
+prefixes:
+  rdf: http://www.w3.org/1999/02/22-rdf-syntax-ns#
+  error_analysis: http://w3id.org/ontogpt/error_analysis
+  linkml: https://w3id.org/linkml/
+
+default_prefix: error_analysis
+default_range: string
+
+imports:
+  - linkml:types
+  - core
+
+classes:
+  ValidationReport:
+    tree_root: true
+    is_a: NamedEntity
+    description: >-
+      A report object containing one or more validation errors
+      or notifications.
+    attributes:
+      fatal_result_summary:
+        range: string
+        multivalued: true
+        description: >-
+          Identify similarities among errors in the report with the
+          category of FATAL. What is similar about these errors?
+          Do they include many of the same prefixes or namespaces?
+          If the same patterns or rules are violated, what are they?
+          Separate each summary with a semicolons.
+          If no errors are present, this field should be NONE.
+      error_result_summary:
+        range: string
+        multivalued: true
+        description: >-
+          Identify similarities among errors in the report with the
+          category of ERROR. What is similar about these errors?
+          Do they include many of the same prefixes or namespaces?
+          If the same patterns or rules are violated, what are they?
+          Separate each summary with a semicolons.
+          If no errors are present, this field should be NONE.
+      warning_result_summary:
+        range: string
+        multivalued: true
+        description: >-
+          Identify similarities among errors in the report with the
+          category of WARNING. What is similar about these errors?
+          Do they include many of the same prefixes or namespaces?
+          If the same patterns or rules are violated, what are they?
+          Separate each summary with a semicolons.
+          If no errors are present, this field should be NONE.
+      info_result_summary:
+        range: string
+        multivalued: true
+        description: >-
+          Identify similarities among errors in the report with the
+          category of INFO. What is similar about these errors?
+          Do they include many of the same prefixes or namespaces?
+          If the same patterns or rules are violated, what are they?
+          Separate each summary with a semicolons.
+          If no errors are present, this field should be NONE.

@@ -473,14 +473,19 @@ def iteratively_generate_extract(
 @output_option_wb
 @output_format_options
 @show_prompt_option
+@temperature_option
 @click.option(
     "--get-pmc/--no-get-pmc",
     default=False,
     help="Attempt to parse PubMed Central full text(s) instead of abstract(s) alone.",
 )
-@temperature_option
 @click.argument("pmid")
-def pubmed_extract(model, pmid, template, output, output_format, get_pmc, show_prompt, temperature, **kwargs):
+@click.option(
+    "--max-text-length",
+    default=3000,
+    help="Maximum text length for each input chunk. Dependent on context size of model used."
+)
+def pubmed_extract(model, pmid, template, output, output_format, get_pmc, show_prompt, max_text_length, temperature, **kwargs):
     """Extract knowledge from a single PubMed ID."""
     if not model:
         model = DEFAULT_MODEL
@@ -500,16 +505,18 @@ def pubmed_extract(model, pmid, template, output, output_format, get_pmc, show_p
         ke.client.cache_db_path = settings.cache_db
 
 
-    pmc = PubmedClient()
+    pmc = PubmedClient(max_text_length=max_text_length)
     if get_pmc:
         logging.info(f"Will try to retrieve PubMed Central text for {pmid}.")
         textlist = pmc.text(pmid, pubmedcental=True)
     else:
         textlist = pmc.text(pmid)
+    if not isinstance(textlist, list):
+        textlist = [textlist]
     for text in textlist:
         logging.debug(f"Input text: {text}")
         results = ke.extract_from_text(text=text, show_prompt=show_prompt)
-        write_extraction(results, output, output_format, template)
+        write_extraction(results, output, output_format, ke, template)
 
 
 @main.command()
@@ -531,8 +538,14 @@ def pubmed_extract(model, pmid, template, output, output_format, get_pmc, show_p
 )
 @temperature_option
 @click.argument("search")
+@click.option(
+    "--max-text-length",
+    default=3000,
+    help="Maximum text length for each input chunk. Dependent on context size of model used."
+)
+@click.argument("search")
 def pubmed_annotate(
-    model, search, template, output, output_format, limit, get_pmc, show_prompt, temperature, **kwargs
+    model, search, template, output, output_format, limit, get_pmc, show_prompt, max_text_length, temperature, **kwargs
 ):
     """Retrieve a collection of PubMed IDs for a search term; annotate them using a template.
 
@@ -551,6 +564,7 @@ def pubmed_annotate(
     ke = SPIRESEngine(
         template_details=template_details,
         model=model,
+        temperature=temperature,
         **kwargs,
     )
     if settings.cache_db:
@@ -559,6 +573,7 @@ def pubmed_annotate(
 
     pubmed_annotate_limit = limit
     pmc = PubmedClient()
+    pmc.max_text_length = max_text_length
     pmids = pmc.get_pmids(search)
     if get_pmc:
         logging.info("Will try to retrieve PubMed Central texts.")
