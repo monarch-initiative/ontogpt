@@ -102,7 +102,7 @@ classes:
           For example, "Mus musculus is measured with Amyloid beta (Aβ) levels"
           or "Rattus norvegicus is measured with Morris water maze test"
         multivalued: true
-        range: TaxonToExperimentalMetricRelationship
+        range: ExperimentalMetricToTaxonRelationship
 
   # Entities
 
@@ -177,19 +177,14 @@ classes:
 
   # Relationships
 
-  TaxonToExperimentalMetricRelationship:
+  ExperimentalMetricToTaxonRelationship:
     is_a: Triple
     description: >-
-      A triple where the subject is a taxon, the object is an experimental
-      metric, and the predicate describes the relationship between the taxon
-      and the metric, usually MEASURED_WITH.
+      A triple where the subject is an experimental metric, the object is an
+      taxon, metric, and the predicate describes the relationship between the
+      metric and the taxon, usually MEASURED_IN.
     slot_usage:
       subject:
-        description: >-
-          The taxon or species of the model organism in which the experimental
-          metric is measured. For example, Mus musculus, Rattus norvegicus.
-        range: Taxon
-      object:
         description: >-
           The name of an experimental metric, sign, symptom, or outcome used to
           measure the effects of treatments on symptoms or diagnostics, or of
@@ -198,10 +193,17 @@ classes:
           or indicators of disease progression modeling those observed in
           humans. Examples are Amyloid beta (Aβ) levels, Morris water maze test,
           tau phosphorylation, neurofibrillary tangles, and cognitive decline.
+        range: Taxon
+      object:
+        description: >-
+          The taxon or species of the model organism in which the experimental
+          metric is measured. For example, Mus musculus, Rattus norvegicus.
         range: MetricOrIndicator
       predicate:
         range: NamedEntity
-        description: The relationship type, generally MEASURED_WITH
+        description: >-
+          The relationship type, generally MEASURED_IN to indicate a metric
+          is measured in a taxon.
       subject_qualifier:
         range: NamedEntity
         description: >-
