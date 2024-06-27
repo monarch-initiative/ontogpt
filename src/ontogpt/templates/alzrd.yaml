@@ -65,6 +65,21 @@ classes:
         description: >-
           A semicolon-separated list of diagnostic procedures mentioned in the
           section. If no diagnostic procedures are mentioned, return NONE.
+      chemical:
+        range: Chemical
+        multivalued: true
+        description: >-
+          A semicolon-separated list of chemicals, drugs, or other substances
+          mentioned in the section. If no chemicals are mentioned, return NONE.
+      environmental_exposures:
+        range: EnvironmentalExposure
+        multivalued: true
+        description: >-
+          A semicolon-separated list of environmental exposures mentioned in
+          the section. These may include exposure to general classes of
+          materials, e.g., "exposure to pesticides", or other phenomena,
+          e.g., "chronic stress". If no environmental exposures are mentioned,
+          return NONE.
       experimental_metrics_and_indicators:
         range: MetricOrIndicator
         multivalued: true
@@ -88,6 +103,8 @@ classes:
           or "Rattus norvegicus is measured with Morris water maze test"
         multivalued: true
         range: TaxonToExperimentalMetricRelationship
+
+  # Entities
 
   # TODO: make signs species-specific if possible
   MetricOrIndicator:
@@ -133,6 +150,32 @@ classes:
         The taxonomic group or species of a model organism.
         Examples are "human", "mouse", "rat", "Rhesus macaque",
         "canine", "marmoset", "fruit fly", "C. elegans", "S. cerevisiae".
+
+  Chemical:
+    is_a: NamedEntity
+    id_prefixes:
+      - CHEBI
+      - MESH
+    annotations:
+      annotators: sqlite:obo:chebi, sqlite:obo:mesh
+      prompt: >-
+        The name of a chemical, drug, or other substance.
+        Examples are "donepezil", "Aβ42", "Aβ40", "tau", "insulin",
+        "caffeine", "nicotine", "alcohol".
+
+  EnvironmentalExposure:
+    is_a: NamedEntity
+    id_prefixes:
+      - ENVO
+      - MESH
+    annotations:
+      annotators: sqlite:obo:envo, sqlite:obo:mesh
+      prompt: >-
+        The name of an environmental exposure or condition.
+        Examples are "pesticides", "chronic stress", "air pollution",
+        "heavy metals", "radiation", "heat stress".
+
+  # Relationships
 
   TaxonToExperimentalMetricRelationship:
     is_a: Triple
