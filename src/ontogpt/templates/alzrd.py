@@ -131,6 +131,7 @@ class DocumentSection(CompoundExpression):
     taxon: Optional[List[str]] = Field(default_factory=list, description="""A semicolon-separated list of taxa or species of organisms mentioned in the section. Where possible, translate to the binomial species name (e.g., change \"mouse\" to \"Mus musculus\"), unless a different species name is provided in the text.""")
     summary: Optional[str] = Field(None, description="""A brief summary of the section, suitable for display in a table of contents or search results. This should be a single sentence or phrase, not a full paragraph. Do not format in Markdown.""")
     diagnostics: Optional[List[str]] = Field(default_factory=list, description="""A semicolon-separated list of diagnostic procedures mentioned in the section. If no diagnostic procedures are mentioned, return NONE.""")
+    diseases: Optional[List[str]] = Field(default_factory=list, description="""A semicolon-separated list of diseases or conditions mentioned in the section. If no diseases are mentioned, return NONE.""")
     chemical: Optional[List[str]] = Field(default_factory=list, description="""A semicolon-separated list of chemicals, drugs, or other substances mentioned in the section. If no chemicals are mentioned, return NONE.""")
     environmental_exposures: Optional[List[str]] = Field(default_factory=list, description="""A semicolon-separated list of environmental exposures mentioned in the section. These may include exposure to general classes of materials, e.g., \"exposure to pesticides\", or other phenomena, e.g., \"chronic stress\". If no environmental exposures are mentioned, return NONE.""")
     experimental_metrics_and_indicators: Optional[List[str]] = Field(default_factory=list, description="""A semicolon-separated list of of a experimental metrics, signs, symptoms, or outcomes used to measure the progression of Alzheimer's disease and related dementias. These may be quantitative or qualitative measures, including biomolecular assays. In experimental animal models these are analogues of cognitive impairment or indicators of disease progression modeling those observed in humans. Examples are Amyloid beta (Aβ) levels, Morris water maze test, tau phosphorylation, neurofibrillary tangles, and cognitive decline. If no experimental metrics are mentioned, return NONE.""")
@@ -143,6 +144,11 @@ class MetricOrIndicator(NamedEntity):
 
 
 class Diagnostic(NamedEntity):
+    id: str = Field(..., description="""A unique identifier for the named entity""")
+    label: Optional[str] = Field(None, description="""The label (name) of the named thing""")
+
+
+class Disease(NamedEntity):
     id: str = Field(..., description="""A unique identifier for the named entity""")
     label: Optional[str] = Field(None, description="""The label (name) of the named thing""")
 
@@ -189,6 +195,7 @@ Document.model_rebuild()
 DocumentSection.model_rebuild()
 MetricOrIndicator.model_rebuild()
 Diagnostic.model_rebuild()
+Disease.model_rebuild()
 Taxon.model_rebuild()
 Chemical.model_rebuild()
 EnvironmentalExposure.model_rebuild()

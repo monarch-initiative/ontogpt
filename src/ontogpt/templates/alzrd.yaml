@@ -65,6 +65,12 @@ classes:
         description: >-
           A semicolon-separated list of diagnostic procedures mentioned in the
           section. If no diagnostic procedures are mentioned, return NONE.
+      diseases:
+        range: Disease
+        multivalued: true
+        description: >-
+          A semicolon-separated list of diseases or conditions mentioned in the
+          section. If no diseases are mentioned, return NONE.
       chemical:
         range: Chemical
         multivalued: true
@@ -137,6 +143,16 @@ classes:
       prompt: >-
         The name of a diagnostic procedure or test.
         Examples are MRI, PET scan, lumbar puncture, blood test, biopsy.
+
+  Disease:
+    is_a: NamedEntity
+    id_prefixes:
+      - MONDO
+    annotations:
+      annotators: sqlite:obo:mondo
+      prompt: >-
+        The name of a disease or condition.
+        Examples are Alzheimer's disease, Parkinson's disease, Huntington's disease.
 
   # TODO: use a taxon slim
   # TODO: Consider making this an enum of known model organisms for AD/RD
