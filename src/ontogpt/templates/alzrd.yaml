@@ -99,14 +99,15 @@ classes:
           humans. Examples are Amyloid beta (Aβ) levels, Morris water maze test,
           tau phosphorylation, neurofibrillary tangles, and cognitive decline.
           If no experimental metrics are mentioned, return NONE.
-      taxon_experimental_metrics:
+      experimental_metrics_to_taxon_relationships:
         description: >-
           Semicolon-separated list of relationships between
-          a specific taxon and an experimental metric, sign, symptom,
-          or outcome used to measure progression of Alzheimer's disease and
+          a specific experimental metric, sign, symptom,
+          or outcome and a taxon, where the relationship is used to measure
+          progression of Alzheimer's disease and
           related dementias, or an experimental analogue, in the taxon.
-          For example, "Mus musculus is measured with Amyloid beta (Aβ) levels"
-          or "Rattus norvegicus is measured with Morris water maze test"
+          For example, "Amyloid beta (Aβ) levels are measured in Mus musculus"
+          or "Morris water maze test is measured with Rattus norvegicus".
         multivalued: true
         range: ExperimentalMetricToTaxonRelationship
 
