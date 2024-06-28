@@ -34,6 +34,28 @@ classes:
           A brief summary of the input text, suitable for display in a table of
           contents or search results. This should be no more than three
           sentences. Do not format in Markdown.
+      article_type:
+        range: string
+        description: >-
+          The type of article, e.g., "research article", "review", "case
+          report".
+      modeling_approach:
+        range: string
+        description: >-
+          A brief description of the modeling approach used in the input text,
+          e.g., "experimental", "observational", "computational", "review".
+      modeling_summary:
+        range: string
+        description: >-
+          A brief summary of the modeling approach used in the input text,
+          suitable for display in a table of contents or search results.
+          Include any details about how a model of disease is defined,
+          including the use of model organisms, cell lines, or in silico
+          models, as well as the experimental metrics used to model human
+          disease. If this is a study of human subjects, include details about
+          the study design and the human subjects involved.
+          This should be no more than three sentences. Do not format in
+          Markdown.
       taxon:
         range: Taxon
         multivalued: true
