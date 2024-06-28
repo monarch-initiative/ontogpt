@@ -230,12 +230,12 @@ classes:
           or indicators of disease progression modeling those observed in
           humans. Examples are Amyloid beta (Aβ) levels, Morris water maze test,
           tau phosphorylation, neurofibrillary tangles, and cognitive decline.
-        range: Taxon
+        range: MetricOrIndicator
       object:
         description: >-
           The taxon or species of the model organism in which the experimental
           metric is measured. For example, Mus musculus, Rattus norvegicus.
-        range: MetricOrIndicator
+        range: Taxon
       predicate:
         range: NamedEntity
         description: >-
