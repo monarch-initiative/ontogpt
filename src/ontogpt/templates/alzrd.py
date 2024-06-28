@@ -128,9 +128,9 @@ class Document(NamedEntity):
 
 
 class DocumentSection(CompoundExpression):
-    taxon: Optional[List[str]] = Field(default_factory=list, description="""A semicolon-separated list of taxa or species of organisms mentioned in the section. Where possible, translate to the binomial species name (e.g., change \"mouse\" to \"Mus musculus\"), unless a different species name is provided in the text. If no taxon is mentioned, return NOT FOUND.""")
     part_of: Optional[str] = Field(None, description="""The major document division that this section is a part of. Examples are \"introduction\", \"methods\", \"results\", \"discussion\", or \"conclusions\". Do not format in Markdown.""")
     summary: Optional[str] = Field(None, description="""A brief summary of the section, suitable for display in a table of contents or search results. This should be a single sentence or phrase, not a full paragraph. Do not format in Markdown.""")
+    taxon: Optional[List[str]] = Field(default_factory=list, description="""A semicolon-separated list of taxa or species of organisms mentioned in the section. Where possible, translate to the binomial species name (e.g., change \"mouse\" to \"Mus musculus\"), unless a different species name is provided in the text. If no taxon is mentioned, return NOT FOUND.""")
     diagnostics: Optional[List[str]] = Field(default_factory=list, description="""A semicolon-separated list of diagnostic procedures mentioned in the section. If no diagnostic procedures are mentioned, return NOT FOUND.""")
     diseases: Optional[List[str]] = Field(default_factory=list, description="""A semicolon-separated list of diseases or conditions mentioned in the section. If no diseases are mentioned, return NOT FOUND.""")
     chemical: Optional[List[str]] = Field(default_factory=list, description="""A semicolon-separated list of chemicals, drugs, or other substances mentioned in the section. If no chemicals are mentioned, return NOT FOUND.""")
