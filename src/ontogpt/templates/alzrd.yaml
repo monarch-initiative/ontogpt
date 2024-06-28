@@ -53,6 +53,7 @@ classes:
           mentioned in the section. Where possible, translate to the
           binomial species name (e.g., change "mouse" to "Mus musculus"),
           unless a different species name is provided in the text.
+          If no taxon is mentioned, return NOT FOUND.
       part_of:
         range: string
         description: >-
@@ -70,19 +71,20 @@ classes:
         multivalued: true
         description: >-
           A semicolon-separated list of diagnostic procedures mentioned in the
-          section. If no diagnostic procedures are mentioned, return NONE.
+          section. If no diagnostic procedures are mentioned, return NOT FOUND.
       diseases:
         range: Disease
         multivalued: true
         description: >-
           A semicolon-separated list of diseases or conditions mentioned in the
-          section. If no diseases are mentioned, return NONE.
+          section. If no diseases are mentioned, return NOT FOUND.
       chemical:
         range: Chemical
         multivalued: true
         description: >-
           A semicolon-separated list of chemicals, drugs, or other substances
-          mentioned in the section. If no chemicals are mentioned, return NONE.
+          mentioned in the section. If no chemicals are mentioned, return NOT
+          FOUND.
       environmental_exposures:
         range: EnvironmentalExposure
         multivalued: true
@@ -91,7 +93,7 @@ classes:
           the section. These may include exposure to general classes of
           materials, e.g., "exposure to pesticides", or other phenomena,
           e.g., "chronic stress". If no environmental exposures are mentioned,
-          return NONE.
+          return NOT FOUND.
       experimental_metrics_and_indicators:
         range: MetricOrIndicator
         multivalued: true
@@ -104,7 +106,7 @@ classes:
           or indicators of disease progression modeling those observed in
           humans. Examples are Amyloid beta (Aβ) levels, Morris water maze test,
           tau phosphorylation, neurofibrillary tangles, and cognitive decline.
-          If no experimental metrics are mentioned, return NONE.
+          If no experimental metrics are mentioned, return NOT FOUND.
       experimental_metrics_to_taxon_relationships:
         description: >-
           Semicolon-separated list of relationships between
