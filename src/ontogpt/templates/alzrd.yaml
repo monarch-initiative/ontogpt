@@ -155,9 +155,9 @@ classes:
     is_a: NamedEntity
     id_prefixes:
       - MAXO
-      - SNOMEDCT
+      - MESH
     annotations:
-      annotators: sqlite:obo:maxo, sqlite:obo:mesh, bioportal:SNOMEDCT, sqlite:obo:ncit
+      annotators: sqlite:obo:maxo, sqlite:obo:mesh, sqlite:obo:ncit
       prompt: >-
         The name of a diagnostic procedure or test.
         Examples are MRI, PET scan, lumbar puncture, blood test, biopsy.
