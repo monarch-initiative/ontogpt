@@ -56,7 +56,7 @@ classes:
           the study design and the human subjects involved.
           This should be no more than three sentences. Do not format in
           Markdown.
-      taxon:
+      taxa:
         range: Taxon
         multivalued: true
         description: >-
