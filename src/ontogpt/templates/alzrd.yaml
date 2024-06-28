@@ -31,13 +31,14 @@ classes:
         range: DocumentSection
         multivalued: true
         description: >-
-          A semicolon-separated list of full sections of the document.
-          If semicolons are present in the section text, they should
-          be replaced with (SEMICOLON) to avoid parsing errors.
-          A section is a major division of the document, such as an abstract,
-          introduction, methods, results, discussion, or conclusion,
-          or a subsection of one of these. The text should include the section
-          title. A single phrase or ID is not a section.
+          A semicolon-separated list of full sections of the document,
+          including the full text of that section alone, beginning with the
+          major division of the document, such as ABSTRACT,
+          INTRODUCTION, METHODS, RESULTS, DISCUSSION, CONCLUSIONS,
+          or a similar heading used by the text. The text should include the
+          section title. If semicolons are present in the section text, they
+          must be replaced with (SEMICOLON) to avoid parsing errors.
+          A single phrase or ID is not a section.
           Do not format in Markdown.
 
   DocumentSection:
