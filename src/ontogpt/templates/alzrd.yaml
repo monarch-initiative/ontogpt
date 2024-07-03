@@ -248,13 +248,13 @@ classes:
   # the other thing, where appropriate
 
   ExperimentalMetricToTaxonRelationship:
-    is_a: Triple
+    is_a: CompoundExpression
     description: >-
       A triple where the subject is an experimental metric, the object is an
       taxon, metric, and the predicate describes the relationship between the
       metric and the taxon, usually MEASURED_IN.
-    slot_usage:
-      subject:
+    attributes:
+      metric:
         description: >-
           The name of an experimental metric, sign, symptom, or outcome used to
           measure the effects of treatments on symptoms or diagnostics, or of
@@ -264,7 +264,7 @@ classes:
           humans. Examples are Amyloid beta (Aβ) levels, Morris water maze test,
           tau phosphorylation, neurofibrillary tangles, and cognitive decline.
         range: MetricOrIndicator
-      object:
+      taxon:
         description: >-
           The taxon or species of the model organism in which the experimental
           metric is measured. For example, Mus musculus, Rattus norvegicus.
@@ -274,27 +274,27 @@ classes:
         description: >-
           The relationship type, generally MEASURED_IN to indicate a metric
           is measured in a taxon.
-      subject_qualifier:
-        range: NamedEntity
-        description: >-
-          An optional qualifier or modifier for the taxon, as described
-          in the input text.
-          This may include a strain or genetic background of the model organism.
-      object_qualifier:
+      metric_qualifier:
         range: NamedEntity
         description: >-
           An optional qualifier or modifier for the experimental metric,
           as described in the input text.
           This may include the method of measurement or the specific assay used.
+      taxon_qualifier:
+        range: NamedEntity
+        description: >-
+         An optional qualifier or modifier for the taxon, as described
+          in the input text.
+          This may include a strain or genetic background of the model organism.
 
   ExperimentalMetricToDiseaseRelationship:
-    is_a: Triple
+    is_a: CompoundExpression
     description: >-
       A triple where the subject is an experimental metric, the object is a
       disease or condition, and the predicate describes the relationship between
       the metric and the disease, usually USED_TO_MODEL.
-    slot_usage:
-      subject:
+    attributes:
+      metric:
         description: >-
           The name of an experimental metric, sign, symptom, or outcome used to
           measure the effects of treatments on symptoms or diagnostics, or of
@@ -304,7 +304,7 @@ classes:
           humans. Examples are Amyloid beta (Aβ) levels, Morris water maze test,
           tau phosphorylation, neurofibrillary tangles, and cognitive decline.
         range: MetricOrIndicator
-      object:
+      disease:
         description: >-
           The name of a disease or condition.
           Examples are Alzheimer's disease, Parkinson's disease, Huntington's
@@ -315,13 +315,13 @@ classes:
         description: >-
           The relationship type, generally USED_TO_MODEL to indicate a metric
           is used to model a disease or condition.
-      subject_qualifier:
+      metric_qualifier:
         range: NamedEntity
         description: >-
           An optional qualifier or modifier for the experimental metric,
           as described in the input text.
           This may include the method of measurement or the specific assay used.
-      object_qualifier:
+      disease_qualifier:
         range: NamedEntity
         description: >-
           An optional qualifier or modifier for the disease or condition,
@@ -329,14 +329,14 @@ classes:
           This may include the stage or subtype of the disease.
 
   ExperimentalMetricToEnvironmentRelationship:
-    is_a: Triple
+    is_a: CompoundExpression
     description: >-
       A triple where the subject is an experimental metric, the object is an
       environmental exposure or condition, and the predicate describes the
       relationship between the metric and the environmental exposure, usually
       MEASURED_IN_RESPONSE_TO.
-    slot_usage:
-      subject:
+    attributes:
+      metric:
         description: >-
           The name of an experimental metric, sign, symptom, or outcome used
           to measure the effects of treatments on symptoms or diagnostics, or
@@ -347,7 +347,7 @@ classes:
           water maze test, tau phosphorylation, neurofibrillary tangles, and
           cognitive decline.
         range: MetricOrIndicator
-      object:
+      environment:
         description: >-
           The name of an environmental exposure or condition.
           Examples are "pesticides", "chronic stress", "air pollution",
@@ -358,13 +358,13 @@ classes:
         description: >-
           The relationship type, generally MEASURED_IN_RESPONSE_TO to indicate
           a metric is measured in response to an environmental exposure.
-      subject_qualifier:
+      metric_qualifier:
         range: NamedEntity
         description: >-
           An optional qualifier or modifier for the experimental metric,
           as described in the input text. This may include the method of
           measurement or the specific assay used.
-      object_qualifier:
+      environment_qualifier:
         range: NamedEntity
         description: >-
           An optional qualifier or modifier for the environmental exposure,
@@ -372,14 +372,14 @@ classes:
           This may include the duration or intensity of the exposure.
 
   ExperimentalMetricToChemicalRelationship:
-    is_a: Triple
+    is_a: CompoundExpression
     description: >-
       A triple where the subject is an experimental metric, the object is a
       chemical, drug, or other substance, and the predicate describes the
       relationship between the metric and the chemical, usually
       MEASURED_IN_RESPONSE_TO.
-    slot_usage:
-      subject:
+    attributes:
+      metric:
         description: >-
           The name of an experimental metric, sign, symptom, or outcome used
           to measure the effects of treatments on symptoms or diagnostics, or
@@ -390,7 +390,7 @@ classes:
           water maze test, tau phosphorylation, neurofibrillary tangles, and
           cognitive decline.
         range: MetricOrIndicator
-      object:
+      chemical:
         description: >-
           The name of a chemical, drug, or other substance.
           Examples are "donepezil", "Aβ42", "Aβ40", "tau", "insulin",
@@ -401,13 +401,13 @@ classes:
         description: >-
           The relationship type, generally MEASURED_IN_RESPONSE_TO to indicate
           a metric is measured in response to a chemical.
-      subject_qualifier:
+      metric_qualifier:
         range: NamedEntity
         description: >-
           An optional qualifier or modifier for the experimental metric,
           as described in the input text. This may include the method of
           measurement or the specific assay used.
-      object_qualifier:
+      chemical_qualifier:
         range: NamedEntity
         description: >-
           An optional qualifier or modifier for the chemical, drug, or other

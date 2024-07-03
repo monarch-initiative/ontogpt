@@ -170,52 +170,50 @@ class EnvironmentalExposure(NamedEntity):
     label: Optional[str] = Field(None, description="""The label (name) of the named thing""")
 
 
-class ExperimentalMetricToTaxonRelationship(Triple):
+class ExperimentalMetricToTaxonRelationship(CompoundExpression):
     """
     A triple where the subject is an experimental metric, the object is an taxon, metric, and the predicate describes the relationship between the metric and the taxon, usually MEASURED_IN.
     """
-    subject: Optional[str] = Field(None, description="""The name of an experimental metric, sign, symptom, or outcome used to measure the effects of treatments on symptoms or diagnostics, or of the progression of Alzheimer's disease and related dementias. In experimental animal models these are analogues of cognitive impairment or indicators of disease progression modeling those observed in humans. Examples are Amyloid beta (Aβ) levels, Morris water maze test, tau phosphorylation, neurofibrillary tangles, and cognitive decline.""")
+    metric: Optional[str] = Field(None, description="""The name of an experimental metric, sign, symptom, or outcome used to measure the effects of treatments on symptoms or diagnostics, or of the progression of Alzheimer's disease and related dementias. In experimental animal models these are analogues of cognitive impairment or indicators of disease progression modeling those observed in humans. Examples are Amyloid beta (Aβ) levels, Morris water maze test, tau phosphorylation, neurofibrillary tangles, and cognitive decline.""")
+    taxon: Optional[str] = Field(None, description="""The taxon or species of the model organism in which the experimental metric is measured. For example, Mus musculus, Rattus norvegicus.""")
     predicate: Optional[str] = Field(None, description="""The relationship type, generally MEASURED_IN to indicate a metric is measured in a taxon.""")
-    object: Optional[str] = Field(None, description="""The taxon or species of the model organism in which the experimental metric is measured. For example, Mus musculus, Rattus norvegicus.""")
-    qualifier: Optional[str] = Field(None, description="""A qualifier for the statements, e.g. \"NOT\" for negation""")
-    subject_qualifier: Optional[str] = Field(None, description="""An optional qualifier or modifier for the taxon, as described in the input text. This may include a strain or genetic background of the model organism.""")
-    object_qualifier: Optional[str] = Field(None, description="""An optional qualifier or modifier for the experimental metric, as described in the input text. This may include the method of measurement or the specific assay used.""")
+    metric_qualifier: Optional[str] = Field(None, description="""An optional qualifier or modifier for the experimental metric, as described in the input text. This may include the method of measurement or the specific assay used.""")
+    taxon_qualifier: Optional[str] = Field(None, description="""An optional qualifier or modifier for the taxon, as described
+ in the input text.
+ This may include a strain or genetic background of the model organism.""")
 
 
-class ExperimentalMetricToDiseaseRelationship(Triple):
+class ExperimentalMetricToDiseaseRelationship(CompoundExpression):
     """
     A triple where the subject is an experimental metric, the object is a disease or condition, and the predicate describes the relationship between the metric and the disease, usually USED_TO_MODEL.
     """
-    subject: Optional[str] = Field(None, description="""The name of an experimental metric, sign, symptom, or outcome used to measure the effects of treatments on symptoms or diagnostics, or of the progression of Alzheimer's disease and related dementias. In experimental animal models these are analogues of cognitive impairment or indicators of disease progression modeling those observed in humans. Examples are Amyloid beta (Aβ) levels, Morris water maze test, tau phosphorylation, neurofibrillary tangles, and cognitive decline.""")
+    metric: Optional[str] = Field(None, description="""The name of an experimental metric, sign, symptom, or outcome used to measure the effects of treatments on symptoms or diagnostics, or of the progression of Alzheimer's disease and related dementias. In experimental animal models these are analogues of cognitive impairment or indicators of disease progression modeling those observed in humans. Examples are Amyloid beta (Aβ) levels, Morris water maze test, tau phosphorylation, neurofibrillary tangles, and cognitive decline.""")
+    disease: Optional[str] = Field(None, description="""The name of a disease or condition. Examples are Alzheimer's disease, Parkinson's disease, Huntington's disease.""")
     predicate: Optional[str] = Field(None, description="""The relationship type, generally USED_TO_MODEL to indicate a metric is used to model a disease or condition.""")
-    object: Optional[str] = Field(None, description="""The name of a disease or condition. Examples are Alzheimer's disease, Parkinson's disease, Huntington's disease.""")
-    qualifier: Optional[str] = Field(None, description="""A qualifier for the statements, e.g. \"NOT\" for negation""")
-    subject_qualifier: Optional[str] = Field(None, description="""An optional qualifier or modifier for the experimental metric, as described in the input text. This may include the method of measurement or the specific assay used.""")
-    object_qualifier: Optional[str] = Field(None, description="""An optional qualifier or modifier for the disease or condition, as described in the input text. This may include the stage or subtype of the disease.""")
+    metric_qualifier: Optional[str] = Field(None, description="""An optional qualifier or modifier for the experimental metric, as described in the input text. This may include the method of measurement or the specific assay used.""")
+    disease_qualifier: Optional[str] = Field(None, description="""An optional qualifier or modifier for the disease or condition, as described in the input text. This may include the stage or subtype of the disease.""")
 
 
-class ExperimentalMetricToEnvironmentRelationship(Triple):
+class ExperimentalMetricToEnvironmentRelationship(CompoundExpression):
     """
     A triple where the subject is an experimental metric, the object is an environmental exposure or condition, and the predicate describes the relationship between the metric and the environmental exposure, usually MEASURED_IN_RESPONSE_TO.
     """
-    subject: Optional[str] = Field(None, description="""The name of an experimental metric, sign, symptom, or outcome used to measure the effects of treatments on symptoms or diagnostics, or of the progression of Alzheimer's disease and related dementias. In experimental animal models these are analogues of cognitive impairment or indicators of disease progression modeling those observed in humans. Examples are Amyloid beta (Aβ) levels, Morris water maze test, tau phosphorylation, neurofibrillary tangles, and cognitive decline.""")
+    metric: Optional[str] = Field(None, description="""The name of an experimental metric, sign, symptom, or outcome used to measure the effects of treatments on symptoms or diagnostics, or of the progression of Alzheimer's disease and related dementias. In experimental animal models these are analogues of cognitive impairment or indicators of disease progression modeling those observed in humans. Examples are Amyloid beta (Aβ) levels, Morris water maze test, tau phosphorylation, neurofibrillary tangles, and cognitive decline.""")
+    environment: Optional[str] = Field(None, description="""The name of an environmental exposure or condition. Examples are \"pesticides\", \"chronic stress\", \"air pollution\", \"heavy metals\", \"radiation\", \"heat stress\".""")
     predicate: Optional[str] = Field(None, description="""The relationship type, generally MEASURED_IN_RESPONSE_TO to indicate a metric is measured in response to an environmental exposure.""")
-    object: Optional[str] = Field(None, description="""The name of an environmental exposure or condition. Examples are \"pesticides\", \"chronic stress\", \"air pollution\", \"heavy metals\", \"radiation\", \"heat stress\".""")
-    qualifier: Optional[str] = Field(None, description="""A qualifier for the statements, e.g. \"NOT\" for negation""")
-    subject_qualifier: Optional[str] = Field(None, description="""An optional qualifier or modifier for the experimental metric, as described in the input text. This may include the method of measurement or the specific assay used.""")
-    object_qualifier: Optional[str] = Field(None, description="""An optional qualifier or modifier for the environmental exposure, as described in the input text. This may include the duration or intensity of the exposure.""")
+    metric_qualifier: Optional[str] = Field(None, description="""An optional qualifier or modifier for the experimental metric, as described in the input text. This may include the method of measurement or the specific assay used.""")
+    environment_qualifier: Optional[str] = Field(None, description="""An optional qualifier or modifier for the environmental exposure, as described in the input text. This may include the duration or intensity of the exposure.""")
 
 
-class ExperimentalMetricToChemicalRelationship(Triple):
+class ExperimentalMetricToChemicalRelationship(CompoundExpression):
     """
     A triple where the subject is an experimental metric, the object is a chemical, drug, or other substance, and the predicate describes the relationship between the metric and the chemical, usually MEASURED_IN_RESPONSE_TO.
     """
-    subject: Optional[str] = Field(None, description="""The name of an experimental metric, sign, symptom, or outcome used to measure the effects of treatments on symptoms or diagnostics, or of the progression of Alzheimer's disease and related dementias. In experimental animal models these are analogues of cognitive impairment or indicators of disease progression modeling those observed in humans. Examples are Amyloid beta (Aβ) levels, Morris water maze test, tau phosphorylation, neurofibrillary tangles, and cognitive decline.""")
+    metric: Optional[str] = Field(None, description="""The name of an experimental metric, sign, symptom, or outcome used to measure the effects of treatments on symptoms or diagnostics, or of the progression of Alzheimer's disease and related dementias. In experimental animal models these are analogues of cognitive impairment or indicators of disease progression modeling those observed in humans. Examples are Amyloid beta (Aβ) levels, Morris water maze test, tau phosphorylation, neurofibrillary tangles, and cognitive decline.""")
+    chemical: Optional[str] = Field(None, description="""The name of a chemical, drug, or other substance. Examples are \"donepezil\", \"Aβ42\", \"Aβ40\", \"tau\", \"insulin\", \"caffeine\", \"nicotine\", \"alcohol\".""")
     predicate: Optional[str] = Field(None, description="""The relationship type, generally MEASURED_IN_RESPONSE_TO to indicate a metric is measured in response to a chemical.""")
-    object: Optional[str] = Field(None, description="""The name of a chemical, drug, or other substance. Examples are \"donepezil\", \"Aβ42\", \"Aβ40\", \"tau\", \"insulin\", \"caffeine\", \"nicotine\", \"alcohol\".""")
-    qualifier: Optional[str] = Field(None, description="""A qualifier for the statements, e.g. \"NOT\" for negation""")
-    subject_qualifier: Optional[str] = Field(None, description="""An optional qualifier or modifier for the experimental metric, as described in the input text. This may include the method of measurement or the specific assay used.""")
-    object_qualifier: Optional[str] = Field(None, description="""An optional qualifier or modifier for the chemical, drug, or other substance, as described in the input text. This may include the dose or route of administration.""")
+    metric_qualifier: Optional[str] = Field(None, description="""An optional qualifier or modifier for the experimental metric, as described in the input text. This may include the method of measurement or the specific assay used.""")
+    chemical_qualifier: Optional[str] = Field(None, description="""An optional qualifier or modifier for the chemical, drug, or other substance, as described in the input text. This may include the dose or route of administration.""")
 
 
 # Model rebuild
