@@ -243,8 +243,6 @@ classes:
 
   # Relationships
 
-  # TODO: add whether there is an observed association between the metric and
-  # the other thing, where appropriate
   # TODO: ensure all relevant material is passed to the relations
 
   ExperimentalMetricToTaxonRelationship:
@@ -339,6 +337,12 @@ classes:
           Whether the relationship between the metric and the disease is direct
           or indirect. UNKNOWN if this is not specified in the text
           or is unclear.
+      association:
+        range: string
+        description: >-
+          The type of any observed association between the value of the metric
+          and the disease. May be "positive", "negative", "inconclusive", or
+          UNKNOWN if this is not specified in the text or is unclear.
 
   ExperimentalMetricToEnvironmentRelationship:
     is_a: CompoundExpression
@@ -388,6 +392,13 @@ classes:
           Whether the relationship between the metric and the environmental
           exposure is direct or indirect. UNKNOWN if this is not specified in
           the text or is unclear.
+      association:
+        range: string
+        description: >-
+          The type of any observed association between the value of the metric
+          and the environmental exposure. May be "positive", "negative",
+          "inconclusive", or UNKNOWN if this is not specified in the text
+          or is unclear.
 
   ExperimentalMetricToChemicalRelationship:
     is_a: CompoundExpression
@@ -437,3 +448,9 @@ classes:
           Whether the relationship between the metric and the chemical is
           direct or indirect. UNKNOWN if this is not specified in the text
           or is unclear.
+      association:
+        range: string
+        description: >-
+          The type of any observed association between the value of the metric
+          and the chemical. May be "positive", "negative", "inconclusive",
+          or UNKNOWN if this is not specified in the text or is unclear.

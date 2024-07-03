@@ -194,6 +194,7 @@ class ExperimentalMetricToDiseaseRelationship(CompoundExpression):
     metric_qualifier: Optional[str] = Field(None, description="""An optional qualifier or modifier for the experimental metric, as described in the input text. This may include the method of measurement or the specific assay used.""")
     disease_qualifier: Optional[str] = Field(None, description="""An optional qualifier or modifier for the disease or condition, as described in the input text. This may include the stage or subtype of the disease.""")
     direct_or_indirect: Optional[str] = Field(None, description="""Whether the relationship between the metric and the disease is direct or indirect. UNKNOWN if this is not specified in the text or is unclear.""")
+    association: Optional[str] = Field(None, description="""The type of any observed association between the value of the metric and the disease. May be \"positive\", \"negative\", \"inconclusive\", or UNKNOWN if this is not specified in the text or is unclear.""")
 
 
 class ExperimentalMetricToEnvironmentRelationship(CompoundExpression):
@@ -206,6 +207,7 @@ class ExperimentalMetricToEnvironmentRelationship(CompoundExpression):
     metric_qualifier: Optional[str] = Field(None, description="""An optional qualifier or modifier for the experimental metric, as described in the input text. This may include the method of measurement or the specific assay used.""")
     environment_qualifier: Optional[str] = Field(None, description="""An optional qualifier or modifier for the environmental exposure, as described in the input text. This may include the duration or intensity of the exposure.""")
     direct_or_indirect: Optional[str] = Field(None, description="""Whether the relationship between the metric and the environmental exposure is direct or indirect. UNKNOWN if this is not specified in the text or is unclear.""")
+    association: Optional[str] = Field(None, description="""The type of any observed association between the value of the metric and the environmental exposure. May be \"positive\", \"negative\", \"inconclusive\", or UNKNOWN if this is not specified in the text or is unclear.""")
 
 
 class ExperimentalMetricToChemicalRelationship(CompoundExpression):
@@ -218,6 +220,7 @@ class ExperimentalMetricToChemicalRelationship(CompoundExpression):
     metric_qualifier: Optional[str] = Field(None, description="""An optional qualifier or modifier for the experimental metric, as described in the input text. This may include the method of measurement or the specific assay used.""")
     chemical_qualifier: Optional[str] = Field(None, description="""An optional qualifier or modifier for the chemical, drug, or other substance, as described in the input text. This may include the dose or route of administration.""")
     direct_or_indirect: Optional[str] = Field(None, description="""Whether the relationship between the metric and the chemical is direct or indirect. UNKNOWN if this is not specified in the text or is unclear.""")
+    association: Optional[str] = Field(None, description="""The type of any observed association between the value of the metric and the chemical. May be \"positive\", \"negative\", \"inconclusive\", or UNKNOWN if this is not specified in the text or is unclear.""")
 
 
 # Model rebuild
