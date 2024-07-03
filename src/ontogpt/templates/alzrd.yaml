@@ -243,9 +243,9 @@ classes:
 
   # Relationships
 
-  # TODO: add whether the relationship is direct or indirect
   # TODO: add whether there is an observed association between the metric and
   # the other thing, where appropriate
+  # TODO: ensure all relevant material is passed to the relations
 
   ExperimentalMetricToTaxonRelationship:
     is_a: CompoundExpression
@@ -286,6 +286,12 @@ classes:
          An optional qualifier or modifier for the taxon, as described
           in the input text.
           This may include a strain or genetic background of the model organism.
+      direct_or_indirect:
+        range: string
+        description: >-
+          Whether the relationship between the metric and the taxon is direct
+          or indirect. UNKNOWN if this is not specified in the text
+          or is unclear.
 
   ExperimentalMetricToDiseaseRelationship:
     is_a: CompoundExpression
@@ -327,6 +333,12 @@ classes:
           An optional qualifier or modifier for the disease or condition,
           as described in the input text.
           This may include the stage or subtype of the disease.
+      direct_or_indirect:
+        range: string
+        description: >-
+          Whether the relationship between the metric and the disease is direct
+          or indirect. UNKNOWN if this is not specified in the text
+          or is unclear.
 
   ExperimentalMetricToEnvironmentRelationship:
     is_a: CompoundExpression
@@ -370,6 +382,12 @@ classes:
           An optional qualifier or modifier for the environmental exposure,
           as described in the input text.
           This may include the duration or intensity of the exposure.
+      direct_or_indirect:
+        range: string
+        description: >-
+          Whether the relationship between the metric and the environmental
+          exposure is direct or indirect. UNKNOWN if this is not specified in
+          the text or is unclear.
 
   ExperimentalMetricToChemicalRelationship:
     is_a: CompoundExpression
@@ -413,3 +431,9 @@ classes:
           An optional qualifier or modifier for the chemical, drug, or other
           substance, as described in the input text.
           This may include the dose or route of administration.
+      direct_or_indirect:
+        range: string
+        description: >-
+          Whether the relationship between the metric and the chemical is
+          direct or indirect. UNKNOWN if this is not specified in the text
+          or is unclear.

@@ -181,6 +181,7 @@ class ExperimentalMetricToTaxonRelationship(CompoundExpression):
     taxon_qualifier: Optional[str] = Field(None, description="""An optional qualifier or modifier for the taxon, as described
  in the input text.
  This may include a strain or genetic background of the model organism.""")
+    direct_or_indirect: Optional[str] = Field(None, description="""Whether the relationship between the metric and the taxon is direct or indirect. UNKNOWN if this is not specified in the text or is unclear.""")
 
 
 class ExperimentalMetricToDiseaseRelationship(CompoundExpression):
@@ -192,6 +193,7 @@ class ExperimentalMetricToDiseaseRelationship(CompoundExpression):
     predicate: Optional[str] = Field(None, description="""The relationship type, generally USED_TO_MODEL to indicate a metric is used to model a disease or condition.""")
     metric_qualifier: Optional[str] = Field(None, description="""An optional qualifier or modifier for the experimental metric, as described in the input text. This may include the method of measurement or the specific assay used.""")
     disease_qualifier: Optional[str] = Field(None, description="""An optional qualifier or modifier for the disease or condition, as described in the input text. This may include the stage or subtype of the disease.""")
+    direct_or_indirect: Optional[str] = Field(None, description="""Whether the relationship between the metric and the disease is direct or indirect. UNKNOWN if this is not specified in the text or is unclear.""")
 
 
 class ExperimentalMetricToEnvironmentRelationship(CompoundExpression):
@@ -203,6 +205,7 @@ class ExperimentalMetricToEnvironmentRelationship(CompoundExpression):
     predicate: Optional[str] = Field(None, description="""The relationship type, generally MEASURED_IN_RESPONSE_TO to indicate a metric is measured in response to an environmental exposure.""")
     metric_qualifier: Optional[str] = Field(None, description="""An optional qualifier or modifier for the experimental metric, as described in the input text. This may include the method of measurement or the specific assay used.""")
     environment_qualifier: Optional[str] = Field(None, description="""An optional qualifier or modifier for the environmental exposure, as described in the input text. This may include the duration or intensity of the exposure.""")
+    direct_or_indirect: Optional[str] = Field(None, description="""Whether the relationship between the metric and the environmental exposure is direct or indirect. UNKNOWN if this is not specified in the text or is unclear.""")
 
 
 class ExperimentalMetricToChemicalRelationship(CompoundExpression):
@@ -214,6 +217,7 @@ class ExperimentalMetricToChemicalRelationship(CompoundExpression):
     predicate: Optional[str] = Field(None, description="""The relationship type, generally MEASURED_IN_RESPONSE_TO to indicate a metric is measured in response to a chemical.""")
     metric_qualifier: Optional[str] = Field(None, description="""An optional qualifier or modifier for the experimental metric, as described in the input text. This may include the method of measurement or the specific assay used.""")
     chemical_qualifier: Optional[str] = Field(None, description="""An optional qualifier or modifier for the chemical, drug, or other substance, as described in the input text. This may include the dose or route of administration.""")
+    direct_or_indirect: Optional[str] = Field(None, description="""Whether the relationship between the metric and the chemical is direct or indirect. UNKNOWN if this is not specified in the text or is unclear.""")
 
 
 # Model rebuild
