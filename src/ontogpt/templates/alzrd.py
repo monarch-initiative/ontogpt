@@ -134,6 +134,8 @@ class Document(NamedEntity):
     experimental_metrics_and_indicators: Optional[List[str]] = Field(default_factory=list, description="""A semicolon-separated list of of experimental metrics, signs, symptoms, or outcomes used to measure the progression of Alzheimer's disease and related dementias, mentioned in the input text. These may be quantitative or qualitative measures, including biomolecular assays. In experimental animal models these are analogues of cognitive impairment or indicators of disease progression modeling those observed in humans. Examples are Amyloid beta (Aβ) levels, Morris water maze test, tau phosphorylation, neurofibrillary tangles, and cognitive decline. If no experimental metrics are mentioned, return NOT FOUND.""")
     experimental_metrics_to_taxon_relationships: Optional[List[ExperimentalMetricToTaxonRelationship]] = Field(default_factory=list, description="""Semicolon-separated list of relationships between a specific experimental metric, sign, symptom, or outcome and a taxon, as described in the input text. These are cases in which the relationship is used to measure progression of Alzheimer's disease and related dementias, or an experimental analogue, in the taxon. For example, \"Amyloid beta (Aβ) levels are measured in Mus musculus\" or \"Morris water maze test is measured with Rattus norvegicus\".""")
     experimental_metric_to_disease_relationships: Optional[List[ExperimentalMetricToDiseaseRelationship]] = Field(default_factory=list, description="""Semicolon-separated list of relationships between a specific experimental metric, sign, symptom, or outcome and a disease or condition, as described in the input text. These are cases in which the relationship is used as an experimental model of progression or presence of a disease. For example, \"Amyloid beta (Aβ) levels are used to model Alzheimer's disease\" or \"Morris water maze test is used to model Parkinson's disease\".""")
+    experimental_metric_to_environment_relationships: Optional[List[ExperimentalMetricToEnvironmentRelationship]] = Field(default_factory=list, description="""Semicolon-separated list of relationships between a specific experimental metric, sign, symptom, or outcome and an environmental exposure or condition, as described in the input text. These are cases in which the relationship is used to measure the effects of an environmental exposure on the progression of Alzheimer's disease and related dementias, or an experimental analogue. For example, \"Amyloid beta (Aβ) levels are measured in response to chronic stress\" or \"Morris water maze test is measured in response to air pollution\".""")
+    experimental_metric_to_chemical_relationships: Optional[List[ExperimentalMetricToChemicalRelationship]] = Field(default_factory=list, description="""Semicolon-separated list of relationships between a specific experimental metric, sign, symptom, or outcome and a chemical, drug, or other substance, as described in the input text. These are cases in which the relationship is used to measure the effects of a chemical on the progression of Alzheimer's disease and related dementias, or an experimental analogue. For example, \"Amyloid beta (Aβ) levels are measured in response to donepezil\" or \"Morris water maze test is measured in response to caffeine\".""")
     id: str = Field(..., description="""A unique identifier for the named entity""")
     label: Optional[str] = Field(None, description="""The label (name) of the named thing""")
 
@@ -192,6 +194,30 @@ class ExperimentalMetricToDiseaseRelationship(Triple):
     object_qualifier: Optional[str] = Field(None, description="""An optional qualifier or modifier for the disease or condition, as described in the input text. This may include the stage or subtype of the disease.""")
 
 
+class ExperimentalMetricToEnvironmentRelationship(Triple):
+    """
+    A triple where the subject is an experimental metric, the object is an environmental exposure or condition, and the predicate describes the relationship between the metric and the environmental exposure, usually MEASURED_IN_RESPONSE_TO.
+    """
+    subject: Optional[str] = Field(None, description="""The name of an experimental metric, sign, symptom, or outcome used to measure the effects of treatments on symptoms or diagnostics, or of the progression of Alzheimer's disease and related dementias. In experimental animal models these are analogues of cognitive impairment or indicators of disease progression modeling those observed in humans. Examples are Amyloid beta (Aβ) levels, Morris water maze test, tau phosphorylation, neurofibrillary tangles, and cognitive decline.""")
+    predicate: Optional[str] = Field(None, description="""The relationship type, generally MEASURED_IN_RESPONSE_TO to indicate a metric is measured in response to an environmental exposure.""")
+    object: Optional[str] = Field(None, description="""The name of an environmental exposure or condition. Examples are \"pesticides\", \"chronic stress\", \"air pollution\", \"heavy metals\", \"radiation\", \"heat stress\".""")
+    qualifier: Optional[str] = Field(None, description="""A qualifier for the statements, e.g. \"NOT\" for negation""")
+    subject_qualifier: Optional[str] = Field(None, description="""An optional qualifier or modifier for the experimental metric, as described in the input text. This may include the method of measurement or the specific assay used.""")
+    object_qualifier: Optional[str] = Field(None, description="""An optional qualifier or modifier for the environmental exposure, as described in the input text. This may include the duration or intensity of the exposure.""")
+
+
+class ExperimentalMetricToChemicalRelationship(Triple):
+    """
+    A triple where the subject is an experimental metric, the object is a chemical, drug, or other substance, and the predicate describes the relationship between the metric and the chemical, usually MEASURED_IN_RESPONSE_TO.
+    """
+    subject: Optional[str] = Field(None, description="""The name of an experimental metric, sign, symptom, or outcome used to measure the effects of treatments on symptoms or diagnostics, or of the progression of Alzheimer's disease and related dementias. In experimental animal models these are analogues of cognitive impairment or indicators of disease progression modeling those observed in humans. Examples are Amyloid beta (Aβ) levels, Morris water maze test, tau phosphorylation, neurofibrillary tangles, and cognitive decline.""")
+    predicate: Optional[str] = Field(None, description="""The relationship type, generally MEASURED_IN_RESPONSE_TO to indicate a metric is measured in response to a chemical.""")
+    object: Optional[str] = Field(None, description="""The name of a chemical, drug, or other substance. Examples are \"donepezil\", \"Aβ42\", \"Aβ40\", \"tau\", \"insulin\", \"caffeine\", \"nicotine\", \"alcohol\".""")
+    qualifier: Optional[str] = Field(None, description="""A qualifier for the statements, e.g. \"NOT\" for negation""")
+    subject_qualifier: Optional[str] = Field(None, description="""An optional qualifier or modifier for the experimental metric, as described in the input text. This may include the method of measurement or the specific assay used.""")
+    object_qualifier: Optional[str] = Field(None, description="""An optional qualifier or modifier for the chemical, drug, or other substance, as described in the input text. This may include the dose or route of administration.""")
+
+
 # Model rebuild
 # see https://pydantic-docs.helpmanual.io/usage/models/#rebuilding-a-model
 ExtractionResult.model_rebuild()
@@ -212,4 +238,6 @@ Chemical.model_rebuild()
 EnvironmentalExposure.model_rebuild()
 ExperimentalMetricToTaxonRelationship.model_rebuild()
 ExperimentalMetricToDiseaseRelationship.model_rebuild()
+ExperimentalMetricToEnvironmentRelationship.model_rebuild()
+ExperimentalMetricToChemicalRelationship.model_rebuild()
 

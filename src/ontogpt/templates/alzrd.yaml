@@ -132,6 +132,32 @@ classes:
           disease".
         multivalued: true
         range: ExperimentalMetricToDiseaseRelationship
+      experimental_metric_to_environment_relationships:
+        description: >-
+          Semicolon-separated list of relationships between
+          a specific experimental metric, sign, symptom,
+          or outcome and an environmental exposure or condition, as described
+          in the input text. These are cases in which the relationship is used
+          to measure the effects of an environmental exposure on the progression
+          of Alzheimer's disease and related dementias, or an experimental
+          analogue. For example, "Amyloid beta (Aβ) levels are measured in
+          response to chronic stress" or "Morris water maze test is measured
+          in response to air pollution".
+        multivalued: true
+        range: ExperimentalMetricToEnvironmentRelationship
+      experimental_metric_to_chemical_relationships:
+        description: >-
+          Semicolon-separated list of relationships between
+          a specific experimental metric, sign, symptom,
+          or outcome and a chemical, drug, or other substance, as described
+          in the input text. These are cases in which the relationship is used
+          to measure the effects of a chemical on the progression of Alzheimer's
+          disease and related dementias, or an experimental analogue. For
+          example, "Amyloid beta (Aβ) levels are measured in response to
+          donepezil" or "Morris water maze test is measured in response to
+          caffeine".
+        multivalued: true
+        range: ExperimentalMetricToChemicalRelationship
 
   # Entities
 
@@ -175,7 +201,8 @@ classes:
       annotators: sqlite:obo:mondo
       prompt: >-
         The name of a disease or condition.
-        Examples are Alzheimer's disease, Parkinson's disease, Huntington's disease.
+        Examples are Alzheimer's disease, Parkinson's disease, Huntington's
+        disease.
 
   # TODO: use a taxon slim
   # TODO: Consider making this an enum of known model organisms for AD/RD
@@ -215,6 +242,10 @@ classes:
         "heavy metals", "radiation", "heat stress".
 
   # Relationships
+
+  # TODO: add whether the relationship is direct or indirect
+  # TODO: add whether there is an observed association between the metric and
+  # the other thing, where appropriate
 
   ExperimentalMetricToTaxonRelationship:
     is_a: Triple
@@ -296,3 +327,89 @@ classes:
           An optional qualifier or modifier for the disease or condition,
           as described in the input text.
           This may include the stage or subtype of the disease.
+
+  ExperimentalMetricToEnvironmentRelationship:
+    is_a: Triple
+    description: >-
+      A triple where the subject is an experimental metric, the object is an
+      environmental exposure or condition, and the predicate describes the
+      relationship between the metric and the environmental exposure, usually
+      MEASURED_IN_RESPONSE_TO.
+    slot_usage:
+      subject:
+        description: >-
+          The name of an experimental metric, sign, symptom, or outcome used
+          to measure the effects of treatments on symptoms or diagnostics, or
+          of the progression of Alzheimer's disease and related dementias. In
+          experimental animal models these are analogues of cognitive
+          impairment or indicators of disease progression modeling those
+          observed in humans. Examples are Amyloid beta (Aβ) levels, Morris
+          water maze test, tau phosphorylation, neurofibrillary tangles, and
+          cognitive decline.
+        range: MetricOrIndicator
+      object:
+        description: >-
+          The name of an environmental exposure or condition.
+          Examples are "pesticides", "chronic stress", "air pollution",
+          "heavy metals", "radiation", "heat stress".
+        range: EnvironmentalExposure
+      predicate:
+        range: NamedEntity
+        description: >-
+          The relationship type, generally MEASURED_IN_RESPONSE_TO to indicate
+          a metric is measured in response to an environmental exposure.
+      subject_qualifier:
+        range: NamedEntity
+        description: >-
+          An optional qualifier or modifier for the experimental metric,
+          as described in the input text. This may include the method of
+          measurement or the specific assay used.
+      object_qualifier:
+        range: NamedEntity
+        description: >-
+          An optional qualifier or modifier for the environmental exposure,
+          as described in the input text.
+          This may include the duration or intensity of the exposure.
+
+  ExperimentalMetricToChemicalRelationship:
+    is_a: Triple
+    description: >-
+      A triple where the subject is an experimental metric, the object is a
+      chemical, drug, or other substance, and the predicate describes the
+      relationship between the metric and the chemical, usually
+      MEASURED_IN_RESPONSE_TO.
+    slot_usage:
+      subject:
+        description: >-
+          The name of an experimental metric, sign, symptom, or outcome used
+          to measure the effects of treatments on symptoms or diagnostics, or
+          of the progression of Alzheimer's disease and related dementias. In
+          experimental animal models these are analogues of cognitive
+          impairment or indicators of disease progression modeling those
+          observed in humans. Examples are Amyloid beta (Aβ) levels, Morris
+          water maze test, tau phosphorylation, neurofibrillary tangles, and
+          cognitive decline.
+        range: MetricOrIndicator
+      object:
+        description: >-
+          The name of a chemical, drug, or other substance.
+          Examples are "donepezil", "Aβ42", "Aβ40", "tau", "insulin",
+          "caffeine", "nicotine", "alcohol".
+        range: Chemical
+      predicate:
+        range: NamedEntity
+        description: >-
+          The relationship type, generally MEASURED_IN_RESPONSE_TO to indicate
+          a metric is measured in response to a chemical.
+      subject_qualifier:
+        range: NamedEntity
+        description: >-
+          An optional qualifier or modifier for the experimental metric,
+          as described in the input text. This may include the method of
+          measurement or the specific assay used.
+      object_qualifier:
+        range: NamedEntity
+        description: >-
+          An optional qualifier or modifier for the chemical, drug, or other
+          substance, as described in the input text.
+          This may include the dose or route of administration.
