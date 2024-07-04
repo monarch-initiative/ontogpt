@@ -99,14 +99,15 @@ def multilingual_analysis(
             with open(output_file_path, "w", encoding="utf-8") as outfile:
                 if completed and grounded:
                     outfile.write(gpt_diagnosis)
+
+                    # Write the result
+                    # Include the input filename for the prompt in the output
+                    extraction.extracted_object.label = filename
+                    output.write("---\n")
+                    output.write(dump_minimal_yaml(extraction))
+
                 else:
                     outfile.write(f"Error: {errors[filename]}")
-
-            # Write the result
-            # Include the input filename for the prompt in the output
-            extraction.extracted_object.label = filename
-            output.write("---\n")
-            output.write(dump_minimal_yaml(extraction))
 
             # If there were errors, log them to a file
             if len(errors) > 0:
