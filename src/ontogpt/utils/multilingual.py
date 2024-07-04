@@ -63,19 +63,23 @@ def multilingual_analysis(
             # to ground the answer to OMIM (using MONDO, etc)
             # The KE is refreshed here to avoid retaining
             if completed:
-                ke = SPIRESEngine(
-                    template_details=template_details,
-                    model=model,
-                    model_source="openai",
-                )
-                extraction = ke.extract_from_text(text=gpt_diagnosis)
-                predictions = extraction.named_entities
-                pred_ids[filename] = []
-                pred_names[filename] = []
-                for pred in predictions:
-                    pred_ids[filename].append(pred.id)
-                    pred_names[filename].append(pred.label)
-                grounded = True
+                try:
+                    ke = SPIRESEngine(
+                        template_details=template_details,
+                        model=model,
+                        model_source="openai",
+                    )
+                    extraction = ke.extract_from_text(text=gpt_diagnosis)
+                    predictions = extraction.named_entities
+                    pred_ids[filename] = []
+                    pred_names[filename] = []
+                    for pred in predictions:
+                        pred_ids[filename].append(pred.id)
+                        pred_names[filename].append(pred.label)
+                    grounded = True
+                except Exception as e:
+                    errors[filename] = e
+                    logging.error(f"Error: {e}")
 
             # Retain the output as text
             # Create the output filename based on the input filename
