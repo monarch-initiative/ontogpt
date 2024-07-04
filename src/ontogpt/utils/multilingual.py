@@ -5,16 +5,14 @@ import logging
 import os
 from io import TextIOWrapper
 
-import openai
 
 from ontogpt.clients import OpenAIClient
 from ontogpt.engines.spires_engine import SPIRESEngine
 from ontogpt.io.template_loader import get_template_details
 from ontogpt.io.yaml_wrapper import dump_minimal_yaml
 
-def multilingual_analysis(
-    input_data_dir, output_directory, output, model="gpt-4-turbo"
-):
+
+def multilingual_analysis(input_data_dir, output_directory, output, model="gpt-4-turbo"):
     """Run the multilingual analysis."""
     # Set up the extraction template
     template = "all_disease_grounding"
@@ -79,11 +77,10 @@ def multilingual_analysis(
 
                     # Log the result
                     logging.info(
-                        "input file name"
-                        "\tpredicted diagnosis ids\tpredicted diagnosis names\n"
+                        "input file name" "\tpredicted diagnosis ids\tpredicted diagnosis names\n"
                     )
                     logging.info(
-                        f'{filename}'
+                        f"{filename}"
                         f'\t{"|".join(pred_ids[filename])}'
                         f'\t{"|".join(pred_names[filename])}\n'
                     )
