@@ -49,11 +49,13 @@ def multilingual_analysis(
                 prompt = txt_file.read()
 
             # TODO: attempt to retry the request if it fails
+            #       or rather, ensure the OpenAI client does this as expected
+            # TODO: ensure the OpenAI client lets us know about errors as expected
 
             try:
                 gpt_diagnosis = ai.complete(prompt)
                 completed = True
-            except openai.error.InvalidRequestError as e:
+            except Exception as e:
                 errors[filename] = e
                 logging.error(f"Error: {e}")
 
