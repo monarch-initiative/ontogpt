@@ -76,6 +76,17 @@ def multilingual_analysis(
                     for pred in predictions:
                         pred_ids[filename].append(pred.id)
                         pred_names[filename].append(pred.label)
+
+                    # Log the result
+                    logging.info(
+                        "input file name"
+                        "\tpredicted diagnosis ids\tpredicted diagnosis names\n"
+                    )
+                    logging.info(
+                        f'{filename}'
+                        f'\t{"|".join(pred_ids[filename])}'
+                        f'\t{"|".join(pred_names[filename])}\n'
+                    )
                     grounded = True
                 except Exception as e:
                     errors[filename] = e
@@ -90,17 +101,6 @@ def multilingual_analysis(
                     outfile.write(gpt_diagnosis)
                 else:
                     outfile.write(f"Error: {errors[filename]}")
-
-            # Log the result
-            logging.info(
-                "input file name"
-                "\tpredicted diagnosis ids\tpredicted diagnosis names\n"
-            )
-            logging.info(
-                f'{filename}'
-                f'\t{"|".join(pred_ids[filename])}'
-                f'\t{"|".join(pred_names[filename])}\n'
-            )
 
             # Write the result
             # Include the input filename for the prompt in the output
