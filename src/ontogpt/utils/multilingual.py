@@ -6,7 +6,7 @@ import os
 from io import TextIOWrapper
 
 
-from ontogpt.clients import OpenAIClient
+from ontogpt.clients import LLMClient
 from ontogpt.engines.spires_engine import SPIRESEngine
 from ontogpt.io.template_loader import get_template_details
 from ontogpt.io.yaml_wrapper import dump_minimal_yaml
@@ -25,8 +25,7 @@ def multilingual_analysis(input_data_dir, output_directory, output, model="gpt-4
     if not isinstance(output, TextIOWrapper):
         output = codecs.getwriter("utf-8")(output)
 
-    # TODO (maybe) - handle non-OpenAI models
-    ai = OpenAIClient()
+    ai = LLMClient()
     ai.model = model
 
     # Keep track of the predictions
@@ -46,10 +45,6 @@ def multilingual_analysis(input_data_dir, output_directory, output, model="gpt-4
             with open(file_path, mode="r", encoding="utf-8") as txt_file:
                 prompt = txt_file.read()
 
-            # TODO: attempt to retry the request if it fails
-            #       or rather, ensure the OpenAI client does this as expected
-            # TODO: ensure the OpenAI client lets us know about errors as expected
-
             try:
                 gpt_diagnosis = ai.complete(prompt)
                 completed = True
@@ -65,7 +60,6 @@ def multilingual_analysis(input_data_dir, output_directory, output, model="gpt-4
                     ke = SPIRESEngine(
                         template_details=template_details,
                         model=model,
-                        model_source="openai",
                     )
                     extraction = ke.extract_from_text(text=gpt_diagnosis)
                     predictions = extraction.named_entities

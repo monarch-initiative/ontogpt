@@ -22,16 +22,23 @@ class LLMClient:
     model: str = field(default_factory=lambda: DEFAULT_MODEL)
     cache_db_path: str = ""
     api_key: str = ""
-    # TODO: deprecate in favor of how litellm handles azure endpoints
-    # see https://docs.litellm.ai/docs/providers/azure
-    use_azure: Optional[bool] = None
+    api_base: str = None
+    api_version: str = None
 
     temperature: float = 1.0
 
     def __post_init__(self):
-        # TODO: get appropriate API key for the model source
+        # Get appropriate API key for the model source
+        # and other details if needed
         if not self.api_key:
             self.api_key = get_apikey_value("openai")
+        else:
+            if self.model.startswith("azure"):
+                self.api_key = get_apikey_value("azure-key")
+                if self.api_base is None:
+                    self.api_base = get_apikey_value("azure-base")
+                if self.api_version is None:
+                    self.api_version = get_apikey_value("azure-version")
 
         # Set up the cache, and set the cache path if provided
         if len(self.cache_db_path) == 0:
@@ -51,6 +58,8 @@ class LLMClient:
             # TODO: expose user prompt to CLI
             response = completion(
                 api_key=self.api_key,
+                api_base=self.api_base,
+                api_version=self.api_version,
                 model=self.model,
                 messages=[{"content": prompt, "role": "user"}],
                 temperature=self.temperature,

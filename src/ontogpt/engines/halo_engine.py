@@ -21,7 +21,7 @@ from oaklib.datamodels.vocabulary import IS_A
 from oaklib.interfaces.obograph_interface import OboGraphInterface
 from tiktoken import Encoding
 
-from ontogpt.clients import OpenAIClient
+from ontogpt.clients import LLMClient
 from ontogpt.engines.knowledge_engine import FIELD, KnowledgeEngine
 from ontogpt.io.yaml_wrapper import dump_minimal_yaml
 from ontogpt.templates.halo import Ontology, OntologyElement
@@ -78,7 +78,7 @@ class HALOEngine(KnowledgeEngine):
 
     def __post_init__(self):
         self.template_class = self._get_template_class("halo.OntologyElement")
-        self.client = OpenAIClient(model=self.engine)
+        self.client = LLMClient(model=self.engine)
         self.api_key = self._get_openai_api_key()
 
     def seed(self, seed_ontology: Ontology):

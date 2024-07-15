@@ -84,10 +84,16 @@ class KnowledgeEngine(ABC):
     This is derived from the template and does not need to be set manually."""
 
     api_key: str = ""
-    """OpenAI API key."""
+    """API key for accessing external language model."""
+
+    api_base: str = None
+    """Base URL for the API."""
+
+    api_version: str = None
+    """API version."""
 
     model: str = None
-    """Language Model. This may be overridden in subclasses."""
+    """Language model or deployment name. This may be overridden in subclasses."""
 
     annotators: Optional[Dict[str, List[TextAnnotatorInterface]]] = None
     """Annotators for each class.
@@ -153,8 +159,13 @@ class KnowledgeEngine(ABC):
             self.mappers = [get_adapter("translator:")]
 
         if not self.client:
-            self.client = LLMClient(model=self.model, temperature=self.temperature)
-        
+            self.client = LLMClient(
+                model=self.model,
+                temperature=self.temperature,
+                api_version=self.api_version,
+                api_base=self.api_base,
+            )
+
         # We retrieve encoding
         # but tiktoken won't work for non-openai models
         # TODO: let litellm handle this; see
