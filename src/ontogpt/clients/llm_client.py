@@ -15,6 +15,11 @@ from ontogpt import DEFAULT_MODEL
 
 logger = logging.getLogger(__name__)
 
+# These are model sources which we expect to be explicitly named
+# within the model or deployment name, e.g. "ollama/llama2"
+# TODO: Let litellm handle this too
+SERVICES = ["azure", "huggingface", "ollama", "openrouter", "replicate"]
+
 
 @dataclass
 class LLMClient:
@@ -33,12 +38,13 @@ class LLMClient:
         if not self.api_key:
             self.api_key = get_apikey_value("openai")
         else:
-            if self.model.startswith("azure"):
-                self.api_key = get_apikey_value("azure-key")
-                if self.api_base is None:
-                    self.api_base = get_apikey_value("azure-base")
-                if self.api_version is None:
-                    self.api_version = get_apikey_value("azure-version")
+            for service in SERVICES:
+                if self.model.startswith(service):
+                    self.api_key = get_apikey_value(service + "-key")
+                    if service == "azure" and self.api_base is None:
+                        self.api_base = get_apikey_value(service + "-base")
+                    if service == "azure" and self.api_version is None:
+                        self.api_version = get_apikey_value(service + "-version")
 
         # Set up the cache, and set the cache path if provided
         if len(self.cache_db_path) == 0:
