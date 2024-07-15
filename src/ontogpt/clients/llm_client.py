@@ -22,9 +22,6 @@ class LLMClient:
     model: str = field(default_factory=lambda: DEFAULT_MODEL)
     cache_db_path: str = ""
     api_key: str = ""
-    # TODO: consider deprecating this in favor
-    # of a more general chained mode
-    interactive: Optional[bool] = None
     # TODO: deprecate in favor of how litellm handles azure endpoints
     # see https://docs.litellm.ai/docs/providers/azure
     use_azure: Optional[bool] = None
@@ -51,8 +48,6 @@ class LLMClient:
         response = None
 
         try:
-            if self.interactive:
-                raise NotImplementedError("Interactive mode not yet supported")
             # TODO: expose user prompt to CLI
             response = completion(
                 api_key=self.api_key,

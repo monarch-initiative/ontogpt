@@ -150,12 +150,6 @@ template_option = click.option(
 target_class_option = click.option(
     "-T", "--target-class", help="Target class (if not already root)."
 )
-interactive_option = click.option(
-    "--interactive/--no-interactive",
-    default=False,
-    show_default=True,
-    help="Interactive mode - rather than call the LLM API it will prompt you do this.",
-)
 model_option = click.option(
     "-m",
     "--model",
