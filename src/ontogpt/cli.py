@@ -192,11 +192,17 @@ show_prompt_option = click.option(
     show_default=True,
     help="If set, show all prompts passed to model through an API. Use with verbose setting.",
 )
-azure_select_option = click.option(
-    "--azure-select/--no-azure-select",
+api_base_option = click.option(
+    "--api-base",
     default=False,
-    show_default=True,
-    help="Use OpenAI model through Azure.",
+    help="Base to use for LLM API, e.g. for the Azure OpenAI API."
+    " Note this may also be set through the runoak set-apikey command.",
+)
+api_version_option = click.option(
+    "--api-version",
+    default=False,
+    help="Version to use for LLM API, e.g. for the Azure OpenAI API."
+    " Note this may also be set through the runoak set-apikey command.",
 )
 temperature_option = click.option(
     "-p",
@@ -251,7 +257,8 @@ def main(verbose: int, quiet: bool, cache_db: str):
     help="Set slot value, e.g. --set-slot-value has_participant=protein",
 )
 @click.argument("input", required=False)
-@azure_select_option
+@api_base_option
+@api_version_option
 @temperature_option
 def extract(
     inputfile,
@@ -267,6 +274,8 @@ def extract(
     show_prompt,
     azure_select,
     temperature,
+    api_base,
+    api_version,
     **kwargs,
 ):
     """Extract knowledge from text guided by schema, using SPIRES engine.
@@ -426,6 +435,8 @@ def iteratively_generate_extract(
     ontology,
     show_prompt,
     temperature,
+    api_base,
+    api_version,
     **kwargs,
 ):
     """Iterate through generate-extract."""
@@ -490,6 +501,8 @@ def pubmed_extract(
     show_prompt,
     max_text_length,
     temperature,
+    api_base,
+    api_version,
     **kwargs,
 ):
     """Extract knowledge from a single PubMed ID."""
@@ -560,6 +573,8 @@ def pubmed_annotate(
     show_prompt,
     max_text_length,
     temperature,
+    api_base,
+    api_version,
     **kwargs,
 ):
     """Retrieve a collection of PubMed IDs for a search term; annotate them using a template.
@@ -811,6 +826,8 @@ def recipe_extract(
     output_format,
     show_prompt,
     temperature,
+    api_base,
+    api_version,
     **kwargs,
 ):
     """Extract from recipe on the web."""
@@ -918,7 +935,8 @@ def synonyms(model, term, context, output, **kwargs):
 
 @main.command()
 @model_option
-@azure_select_option
+@api_base_option
+@api_version_option
 @click.argument("text", nargs=-1)
 def embed(text, model, azure_select, **kwargs):
     """Embed text."""
@@ -938,7 +956,8 @@ def embed(text, model, azure_select, **kwargs):
 
 @main.command()
 @model_option
-@azure_select_option
+@api_base_option
+@api_version_option
 @click.argument("text", nargs=-1)
 def text_similarity(text, model, azure_select, **kwargs):
     """Get similarity between two text inputs.
@@ -969,7 +988,8 @@ def text_similarity(text, model, azure_select, **kwargs):
 
 @main.command()
 @model_option
-@azure_select_option
+@api_base_option
+@api_version_option
 @click.argument("text", nargs=-1)
 def text_distance(text, model, azure_select, **kwargs):
     """Embed text and calculate euclidian distance between embeddings.
@@ -1365,6 +1385,8 @@ def fill(
     output_format,
     show_prompt,
     temperature,
+    api_base,
+    api_version,
     **kwargs,
 ):
     """Fill in missing values."""
@@ -1402,7 +1424,8 @@ def fill(
 @output_option_txt
 @output_format_options
 @show_prompt_option
-@azure_select_option
+@api_base_option
+@api_version_option
 @temperature_option
 @click.argument("input", required=False)
 def complete(
@@ -1467,7 +1490,8 @@ def parse(template, input):
 @model_option
 @click.option("-m", "match", help="Match string to use for filtering.")
 @click.option("-D", "database", help="Path to sqlite database.")
-@azure_select_option
+@api_base_option
+@api_version_option
 def dump_completions(model, match, database, output, output_format, azure_select):
     """Dump cached completions."""
     client = LLMClient(model=model, use_azure=azure_select)
@@ -1546,7 +1570,8 @@ def halo(model, input, context, terms, output, **kwargs):
 @click.option(
     "--sections", multiple=True, help="sections to include e.g. medications, vital signs, etc."
 )
-@azure_select_option
+@api_base_option
+@api_version_option
 @temperature_option
 def clinical_notes(
     description,
@@ -1557,6 +1582,8 @@ def clinical_notes(
     output_format,
     azure_select,
     temperature,
+    api_base,
+    api_version,
     **kwargs,
 ):
     """Create mock clinical notes.
@@ -1667,7 +1694,8 @@ def list_models():
 @output_option_txt
 @output_format_options
 @show_prompt_option
-@azure_select_option
+@api_base_option
+@api_version_option
 @click.argument("input")
 def suggest_templates(input, model, output, output_format, show_prompt, azure_select, **kwargs):
     """Provide a suggestion for an appropriate template, given a text input.
