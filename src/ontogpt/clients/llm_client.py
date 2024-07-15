@@ -1,10 +1,12 @@
 """Client for running LLM completion requests through LiteLLM."""
 
+import litellm
 import logging
 from dataclasses import dataclass, field
 from typing import Optional
 
 from litellm import completion, embedding
+from litellm.caching import Cache
 import numpy as np
 from oaklib.utilities.apikey_manager import get_apikey_value
 import openai  # For error handling
@@ -12,11 +14,6 @@ import openai  # For error handling
 from ontogpt import DEFAULT_MODEL
 
 logger = logging.getLogger(__name__)
-
-# TODO: re-add prompt and response caching through litellm
-# see https://docs.litellm.ai/docs/caching/all_caches
-# It looks like it's supported for embeddings, too,
-# even though it's not as well documented
 
 
 @dataclass
@@ -39,6 +36,12 @@ class LLMClient:
         if not self.api_key:
             self.api_key = get_apikey_value("openai")
 
+        # Set up the cache, and set the cache path if provided
+        if len(self.cache_db_path) == 0:
+            litellm.cache = Cache(type="disk")
+        else:
+            litellm.cache = Cache(type="disk", disk_cache_dir=self.cache_db_path)
+
     def complete(self, prompt, show_prompt: bool = False, **kwargs) -> str:
 
         logger.info(f"Complete: engine={self.model}, prompt[{len(prompt)}]={prompt[0:100]}...")
@@ -56,6 +59,7 @@ class LLMClient:
                 model=self.model,
                 messages=[{"content": prompt, "role": "user"}],
                 temperature=self.temperature,
+                caching=True,
             )
         except openai.APITimeoutError as e:
             print(f"Encountered API timeout error: {e}")
@@ -84,6 +88,7 @@ class LLMClient:
             api_key=self.api_key,
             model=model,
             input=[text],
+            caching=True,
         )
         v = response.data[0].embedding
 
