@@ -1090,6 +1090,17 @@ files = [
 packaging = "*"
 
 [[package]]
+name = "diskcache"
+version = "5.6.3"
+description = "Disk Cache -- Disk and file backed persistent cache."
+optional = false
+python-versions = ">=3"
+files = [
+    {file = "diskcache-5.6.3-py3-none-any.whl", hash = "sha256:5e31b2d5fbad117cc363ebaf6b689474db18a1f6438bc82358b024abd4c2ca19"},
+    {file = "diskcache-5.6.3.tar.gz", hash = "sha256:2c3a3fa2743d8535d832ec61c2054a1641f41775aa7c556758a109941e33e4fc"},
+]
+
+[[package]]
 name = "distlib"
 version = "0.3.8"
 description = "Distribution utilities"
@@ -1826,28 +1837,6 @@ files = [
 [package.dependencies]
 openai = "*"
 requests = "*"
-
-[[package]]
-name = "gpt4all"
-version = "2.7.0"
-description = "Python bindings for GPT4All"
-optional = true
-python-versions = ">=3.8"
-files = [
-    {file = "gpt4all-2.7.0-py3-none-macosx_10_15_universal2.whl", hash = "sha256:6e3263fbf4817916a09a7c1af36f90104fcb450b33a66bdb163dcd7587f56188"},
-    {file = "gpt4all-2.7.0-py3-none-manylinux1_x86_64.whl", hash = "sha256:35891bb52f9179e82b07f61602b37e7b4cb695d1a9fa458e1fe3c01b4ad6abce"},
-    {file = "gpt4all-2.7.0-py3-none-win_amd64.whl", hash = "sha256:b83275ff9ace9c5237cbee4a776b13f2187de22e7999639cb4e8ef84a171fcea"},
-]
-
-[package.dependencies]
-requests = "*"
-tqdm = "*"
-typing-extensions = {version = ">=4.3.0", markers = "python_version >= \"3.9\" and python_version < \"3.11\""}
-
-[package.extras]
-all = ["gpt4all[cuda]"]
-cuda = ["nvidia-cublas-cu12", "nvidia-cuda-runtime-cu12"]
-dev = ["black", "gpt4all[all]", "isort", "mkautodoc", "mkdocs-jupyter", "mkdocs-material", "mkdocstrings[python]", "pytest", "setuptools", "twine", "typing-extensions (>=3.10)", "wheel"]
 
 [[package]]
 name = "graphviz"
@@ -8247,4 +8236,4 @@ web = ["Jinja2", "fastapi", "uvicorn"]
 [metadata]
 lock-version = "2.0"
 python-versions = ">=3.9,<3.9.7 || >3.9.7,<4.0"
-content-hash = "fb6509f83cd5a2b5f5964725c3bb8d33ea1e3180f485cb285c79e88316f6ad8c"
+content-hash = "c3ca7daa5693e5fce7401a5748d15082fd42c5d03d045436ee1ce27edebfacf2"

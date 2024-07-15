@@ -46,6 +46,7 @@ toml = "^0.10.2"
 urllib3 = "<2"
 frontend = "^0.0.3"
 litellm = "^1.37.14"
+diskcache = "^5.6.3"
 
 [tool.poetry.dev-dependencies]
 pytest = ">=7.1.2"
