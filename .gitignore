@@ -1,5 +1,6 @@
 tests/output/cli_cache.db
 src/ontogpt/.gene_requests_cache.sqlite
+.litellm_cache
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
