@@ -368,7 +368,9 @@ def extract(
 @show_prompt_option
 @temperature_option
 @click.argument("entity")
-def generate_extract(model, entity, template, output, output_format, show_prompt, temperature, **kwargs):
+def generate_extract(
+    model, entity, template, output, output_format, show_prompt, temperature, **kwargs
+):
     """Generate text and then extract knowledge from it."""
     if not model:
         model = DEFAULT_MODEL
@@ -444,7 +446,6 @@ def iteratively_generate_extract(
     if settings.cache_db:
         ke.client.cache_db_path = settings.cache_db
 
-
     logging.debug(f"Input entity: {entity}")
     adapter = get_adapter(ontology)
     for results in ke.iteratively_generate_and_extract(
@@ -477,9 +478,20 @@ def iteratively_generate_extract(
 @click.option(
     "--max-text-length",
     default=3000,
-    help="Maximum text length for each input chunk. Dependent on context size of model used."
+    help="Maximum text length for each input chunk. Dependent on context size of model used.",
 )
-def pubmed_extract(model, pmid, template, output, output_format, get_pmc, show_prompt, max_text_length, temperature, **kwargs):
+def pubmed_extract(
+    model,
+    pmid,
+    template,
+    output,
+    output_format,
+    get_pmc,
+    show_prompt,
+    max_text_length,
+    temperature,
+    **kwargs,
+):
     """Extract knowledge from a single PubMed ID."""
     if not model:
         model = DEFAULT_MODEL
@@ -497,7 +509,6 @@ def pubmed_extract(model, pmid, template, output, output_format, get_pmc, show_p
     )
     if settings.cache_db:
         ke.client.cache_db_path = settings.cache_db
-
 
     pmc = PubmedClient(max_text_length=max_text_length)
     if get_pmc:
@@ -535,11 +546,21 @@ def pubmed_extract(model, pmid, template, output, output_format, get_pmc, show_p
 @click.option(
     "--max-text-length",
     default=3000,
-    help="Maximum text length for each input chunk. Dependent on context size of model used."
+    help="Maximum text length for each input chunk. Dependent on context size of model used.",
 )
 @click.argument("search")
 def pubmed_annotate(
-    model, search, template, output, output_format, limit, get_pmc, show_prompt, max_text_length, temperature, **kwargs
+    model,
+    search,
+    template,
+    output,
+    output_format,
+    limit,
+    get_pmc,
+    show_prompt,
+    max_text_length,
+    temperature,
+    **kwargs,
 ):
     """Retrieve a collection of PubMed IDs for a search term; annotate them using a template.
 
@@ -563,7 +584,6 @@ def pubmed_annotate(
     )
     if settings.cache_db:
         ke.client.cache_db_path = settings.cache_db
-
 
     pubmed_annotate_limit = limit
     pmc = PubmedClient()
@@ -590,7 +610,9 @@ def pubmed_annotate(
 @click.option("--auto-prefix", default="AUTO", help="Prefix to use for auto-generated classes.")
 @temperature_option
 @click.argument("article")
-def wikipedia_extract(model, article, template, output, output_format, show_prompt, temperature, **kwargs):
+def wikipedia_extract(
+    model, article, template, output, output_format, show_prompt, temperature, **kwargs
+):
     """Extract knowledge from a Wikipedia page."""
     if not model:
         model = DEFAULT_MODEL
@@ -633,7 +655,9 @@ def wikipedia_extract(model, article, template, output, output_format, show_prom
 )
 @temperature_option
 @click.argument("topic")
-def wikipedia_search(model, topic, keyword, template, output, output_format, show_prompt, temperature, **kwargs):
+def wikipedia_search(
+    model, topic, keyword, template, output, output_format, show_prompt, temperature, **kwargs
+):
     """Extract knowledge from a Wikipedia page."""
     if not model:
         model = DEFAULT_MODEL
@@ -756,7 +780,6 @@ def web_extract(model, template, url, output, output_format, show_prompt, temper
     if settings.cache_db:
         ke.client.cache_db_path = settings.cache_db
 
-
     web_client = SoupClient()
     text = web_client.text(url)
 
@@ -780,7 +803,15 @@ def web_extract(model, template, url, output, output_format, show_prompt, temper
 @temperature_option
 @click.argument("url")
 def recipe_extract(
-    model, url, recipes_urls_file, dictionary, output, output_format, show_prompt, temperature, **kwargs
+    model,
+    url,
+    recipes_urls_file,
+    dictionary,
+    output,
+    output_format,
+    show_prompt,
+    temperature,
+    **kwargs,
 ):
     """Extract from recipe on the web."""
     try:
@@ -868,12 +899,11 @@ def convert(model, template, input, output, output_format, temperature, **kwargs
 @main.command()
 @model_option
 @output_option_txt
-@output_format_options
 @click.option(
     "-C", "--context", required=True, help="domain e.g. anatomy, industry, health-related"
 )
 @click.argument("term")
-def synonyms(model, term, context, output, output_format, **kwargs):
+def synonyms(model, term, context, output, **kwargs):
     """Extract synonyms."""
     logging.info(f"Creating for {term}")
 
@@ -887,12 +917,10 @@ def synonyms(model, term, context, output, output_format, **kwargs):
 
 
 @main.command()
-@output_option_txt
-@output_format_options
 @model_option
 @azure_select_option
 @click.argument("text", nargs=-1)
-def embed(text, output, model, output_format, azure_select, **kwargs):
+def embed(text, model, azure_select, **kwargs):
     """Embed text."""
     if model is None:
         model = "text-embedding-ada-002"
@@ -909,12 +937,10 @@ def embed(text, output, model, output_format, azure_select, **kwargs):
 
 
 @main.command()
-@output_option_txt
-@output_format_options
 @model_option
 @azure_select_option
 @click.argument("text", nargs=-1)
-def text_similarity(text, output, model, output_format, azure_select, **kwargs):
+def text_similarity(text, model, azure_select, **kwargs):
     """Get similarity between two text inputs.
 
     Text should be separated by @, e.g., "text1 @ text2".
@@ -942,12 +968,10 @@ def text_similarity(text, output, model, output_format, azure_select, **kwargs):
 
 
 @main.command()
-@output_option_txt
-@output_format_options
 @model_option
 @azure_select_option
 @click.argument("text", nargs=-1)
-def text_distance(text, output, model, output_format, azure_select, **kwargs):
+def text_distance(text, model, azure_select, **kwargs):
     """Embed text and calculate euclidian distance between embeddings.
 
     Text should be separated by @, e.g., "text1 @ text2".
@@ -1332,7 +1356,17 @@ def eval(evaluator, num_tests, output, chunking, model, **kwargs):
 @show_prompt_option
 @temperature_option
 @click.argument("object")
-def fill(model, template, object: str, examples, output, output_format, show_prompt, temperature, **kwargs):
+def fill(
+    model,
+    template,
+    object: str,
+    examples,
+    output,
+    output_format,
+    show_prompt,
+    temperature,
+    **kwargs,
+):
     """Fill in missing values."""
     ke: KnowledgeEngine
 
@@ -1371,7 +1405,9 @@ def fill(model, template, object: str, examples, output, output_format, show_pro
 @azure_select_option
 @temperature_option
 @click.argument("input", required=False)
-def complete(inputfile, model, input, output, output_format, show_prompt, azure_select, temperature, **kwargs):
+def complete(
+    inputfile, model, input, output, output_format, show_prompt, azure_select, temperature, **kwargs
+):
     """Prompt completion.
 
     The input argument may be:
@@ -1386,7 +1422,9 @@ def complete(inputfile, model, input, output, output_format, show_prompt, azure_
     else:
         text = input.strip()
 
-    results = _send_complete_request(model, text, output, output_format, show_prompt, azure_select, temperature)
+    results = _send_complete_request(
+        model, text, output, output_format, show_prompt, azure_select, temperature
+    )
 
     output.write(results + "\n")
 
