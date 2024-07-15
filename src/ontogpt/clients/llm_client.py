@@ -18,7 +18,14 @@ logger = logging.getLogger(__name__)
 # These are model sources which we expect to be explicitly named
 # within the model or deployment name, e.g. "ollama/llama2"
 # TODO: Let litellm handle this too
-SERVICES = ["azure", "huggingface", "ollama", "openrouter", "replicate"]
+SERVICES = [
+    "azure",
+    "huggingface",
+    "mistral",
+    "ollama",
+    "openrouter",
+    "replicate",
+]
 
 
 @dataclass
