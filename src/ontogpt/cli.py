@@ -194,15 +194,18 @@ show_prompt_option = click.option(
 )
 api_base_option = click.option(
     "--api-base",
-    default=False,
     help="Base to use for LLM API, e.g. for the Azure OpenAI API."
     " Note this may also be set through the runoak set-apikey command.",
 )
 api_version_option = click.option(
     "--api-version",
-    default=False,
     help="Version to use for LLM API, e.g. for the Azure OpenAI API."
     " Note this may also be set through the runoak set-apikey command.",
+)
+model_provider_option = click.option(
+    "--model-provider",
+    help="Specify a provider if model is not specified in the model name."
+    " If using a proxy using the OpenAI API format, this should be set to 'openai'.",
 )
 temperature_option = click.option(
     "-p",
@@ -259,6 +262,7 @@ def main(verbose: int, quiet: bool, cache_db: str):
 @click.argument("input", required=False)
 @api_base_option
 @api_version_option
+@model_provider_option
 @temperature_option
 def extract(
     inputfile,
@@ -276,6 +280,7 @@ def extract(
     temperature,
     api_base,
     api_version,
+    model_provider,
     **kwargs,
 ):
     """Extract knowledge from text guided by schema, using SPIRES engine.
@@ -437,6 +442,7 @@ def iteratively_generate_extract(
     temperature,
     api_base,
     api_version,
+    model_provider,
     **kwargs,
 ):
     """Iterate through generate-extract."""
@@ -503,6 +509,7 @@ def pubmed_extract(
     temperature,
     api_base,
     api_version,
+    model_provider,
     **kwargs,
 ):
     """Extract knowledge from a single PubMed ID."""
@@ -575,6 +582,7 @@ def pubmed_annotate(
     temperature,
     api_base,
     api_version,
+    model_provider,
     **kwargs,
 ):
     """Retrieve a collection of PubMed IDs for a search term; annotate them using a template.
@@ -828,6 +836,7 @@ def recipe_extract(
     temperature,
     api_base,
     api_version,
+    model_provider,
     **kwargs,
 ):
     """Extract from recipe on the web."""
@@ -937,6 +946,7 @@ def synonyms(model, term, context, output, **kwargs):
 @model_option
 @api_base_option
 @api_version_option
+@model_provider_option
 @click.argument("text", nargs=-1)
 def embed(text, model, azure_select, **kwargs):
     """Embed text."""
@@ -958,6 +968,7 @@ def embed(text, model, azure_select, **kwargs):
 @model_option
 @api_base_option
 @api_version_option
+@model_provider_option
 @click.argument("text", nargs=-1)
 def text_similarity(text, model, azure_select, **kwargs):
     """Get similarity between two text inputs.
@@ -990,6 +1001,7 @@ def text_similarity(text, model, azure_select, **kwargs):
 @model_option
 @api_base_option
 @api_version_option
+@model_provider_option
 @click.argument("text", nargs=-1)
 def text_distance(text, model, azure_select, **kwargs):
     """Embed text and calculate euclidian distance between embeddings.
@@ -1387,6 +1399,7 @@ def fill(
     temperature,
     api_base,
     api_version,
+    model_provider,
     **kwargs,
 ):
     """Fill in missing values."""
@@ -1426,6 +1439,7 @@ def fill(
 @show_prompt_option
 @api_base_option
 @api_version_option
+@model_provider_option
 @temperature_option
 @click.argument("input", required=False)
 def complete(
@@ -1492,6 +1506,7 @@ def parse(template, input):
 @click.option("-D", "database", help="Path to sqlite database.")
 @api_base_option
 @api_version_option
+@model_provider_option
 def dump_completions(model, match, database, output, output_format, azure_select):
     """Dump cached completions."""
     client = LLMClient(model=model, use_azure=azure_select)
@@ -1572,6 +1587,7 @@ def halo(model, input, context, terms, output, **kwargs):
 )
 @api_base_option
 @api_version_option
+@model_provider_option
 @temperature_option
 def clinical_notes(
     description,
@@ -1584,6 +1600,7 @@ def clinical_notes(
     temperature,
     api_base,
     api_version,
+    model_provider,
     **kwargs,
 ):
     """Create mock clinical notes.
@@ -1696,6 +1713,7 @@ def list_models():
 @show_prompt_option
 @api_base_option
 @api_version_option
+@model_provider_option
 @click.argument("input")
 def suggest_templates(input, model, output, output_format, show_prompt, azure_select, **kwargs):
     """Provide a suggestion for an appropriate template, given a text input.
