@@ -276,7 +276,6 @@ def extract(
     use_textract,
     model,
     show_prompt,
-    azure_select,
     temperature,
     api_base,
     api_version,
@@ -947,7 +946,7 @@ def synonyms(model, term, context, output, **kwargs):
 @api_version_option
 @model_provider_option
 @click.argument("text", nargs=-1)
-def embed(text, model, azure_select, **kwargs):
+def embed(text, model, **kwargs):
     """Embed text."""
     if model is None:
         model = "text-embedding-ada-002"
@@ -969,7 +968,7 @@ def embed(text, model, azure_select, **kwargs):
 @api_version_option
 @model_provider_option
 @click.argument("text", nargs=-1)
-def text_similarity(text, model, azure_select, **kwargs):
+def text_similarity(text, model, **kwargs):
     """Get similarity between two text inputs.
 
     Text should be separated by @, e.g., "text1 @ text2".
@@ -1002,7 +1001,7 @@ def text_similarity(text, model, azure_select, **kwargs):
 @api_version_option
 @model_provider_option
 @click.argument("text", nargs=-1)
-def text_distance(text, model, azure_select, **kwargs):
+def text_distance(text, model, **kwargs):
     """Embed text and calculate euclidian distance between embeddings.
 
     Text should be separated by @, e.g., "text1 @ text2".
@@ -1442,7 +1441,7 @@ def fill(
 @temperature_option
 @click.argument("input", required=False)
 def complete(
-    inputfile, model, input, output, output_format, show_prompt, azure_select, temperature, **kwargs
+    inputfile, model, input, output, output_format, show_prompt, temperature, **kwargs
 ):
     """Prompt completion.
 
@@ -1459,14 +1458,14 @@ def complete(
         text = input.strip()
 
     results = _send_complete_request(
-        model, text, output, output_format, show_prompt, azure_select, temperature
+        model, text, output, output_format, show_prompt, temperature
     )
 
     output.write(results + "\n")
 
 
 def _send_complete_request(
-    model, input, output, output_format, show_prompt, azure_select, temperature, **kwargs
+    model, input, output, output_format, show_prompt, temperature, **kwargs
 ) -> str:
     """Send a completion request to an LLM endpoint."""
 
@@ -1506,7 +1505,7 @@ def parse(template, input):
 @api_base_option
 @api_version_option
 @model_provider_option
-def dump_completions(model, match, database, output, output_format, azure_select):
+def dump_completions(model, match, database, output, output_format):
     """Dump cached completions."""
     client = LLMClient(model=model)
 
@@ -1595,7 +1594,6 @@ def clinical_notes(
     model,
     show_prompt,
     output_format,
-    azure_select,
     temperature,
     api_base,
     api_version,
@@ -1714,7 +1712,7 @@ def list_models():
 @api_version_option
 @model_provider_option
 @click.argument("input")
-def suggest_templates(input, model, output, output_format, show_prompt, azure_select, **kwargs):
+def suggest_templates(input, model, output, output_format, show_prompt, **kwargs):
     """Provide a suggestion for an appropriate template, given a text input.
 
     This is powered by the specified LLM.
@@ -1754,7 +1752,6 @@ def suggest_templates(input, model, output, output_format, show_prompt, azure_se
         output=output,
         output_format=output_format,
         show_prompt=show_prompt,
-        azure_select=azure_select,
     )
 
     output.write(results + "\n")
