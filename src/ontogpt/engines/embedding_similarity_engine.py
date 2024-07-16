@@ -50,7 +50,7 @@ class SimilarityEngine(KnowledgeEngine):
 
     def search(self, entity1: str, entities: List[str]) -> Iterable[EmbeddingSimilarity]:
         """Get similarity."""
-        client = OpenAIClient()
+        client = LLMClient()
         t1 = self.entity_text(entity1)
         sims = []
         for entity2 in entities:
