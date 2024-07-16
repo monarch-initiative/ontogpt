@@ -342,6 +342,9 @@ def extract(
         template_details=template_details,
         model=model,
         temperature=temperature,
+        api_base=api_base,
+        api_version=api_version,
+        model_provider=model_provider,
         **kwargs,
     )
     if settings.cache_db:
@@ -379,9 +382,22 @@ def extract(
 @auto_prefix_option
 @show_prompt_option
 @temperature_option
+@api_base_option
+@api_version_option
+@model_provider_option
 @click.argument("entity")
 def generate_extract(
-    model, entity, template, output, output_format, show_prompt, temperature, **kwargs
+    model,
+    entity,
+    template,
+    output,
+    output_format,
+    show_prompt,
+    temperature,
+    api_base,
+    api_version,
+    model_provider,
+    **kwargs,
 ):
     """Generate text and then extract knowledge from it."""
     if not model:
@@ -396,6 +412,9 @@ def generate_extract(
         template_details=template_details,
         model=model,
         temperature=temperature,
+        api_base=api_base,
+        api_version=api_version,
+        model_provider=model_provider,
         **kwargs,
     )
     if settings.cache_db:
@@ -424,6 +443,9 @@ def generate_extract(
     "--clear/--no-clear", default=False, show_default=True, help="Clear the db before starting"
 )
 @temperature_option
+@api_base_option
+@api_version_option
+@model_provider_option
 @click.argument("entity")
 def iteratively_generate_extract(
     model,
@@ -456,6 +478,9 @@ def iteratively_generate_extract(
         template_details=template_details,
         model=model,
         temperature=temperature,
+        api_base=api_base,
+        api_version=api_version,
+        model_provider=model_provider,
         **kwargs,
     )
     if settings.cache_db:
@@ -1440,9 +1465,7 @@ def fill(
 @model_provider_option
 @temperature_option
 @click.argument("input", required=False)
-def complete(
-    inputfile, model, input, output, output_format, show_prompt, temperature, **kwargs
-):
+def complete(inputfile, model, input, output, output_format, show_prompt, temperature, **kwargs):
     """Prompt completion.
 
     The input argument may be:
@@ -1457,9 +1480,7 @@ def complete(
     else:
         text = input.strip()
 
-    results = _send_complete_request(
-        model, text, output, output_format, show_prompt, temperature
-    )
+    results = _send_complete_request(model, text, output, output_format, show_prompt, temperature)
 
     output.write(results + "\n")
 
