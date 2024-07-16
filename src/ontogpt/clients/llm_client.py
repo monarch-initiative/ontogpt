@@ -22,6 +22,7 @@ SERVICES = [
     "huggingface",
     "mistral",
     "ollama",
+    "openai", # For proxy access
     "openrouter",
     "replicate",
 ]
@@ -97,11 +98,15 @@ class LLMClient:
         # Or at least set the default for OpenAI models
         if self.model is None:
             model = "text-embedding-ada-002"
+        else:
+            model = self.model
 
         logger.info(f"Retrieving embeddings from {model} for text: {text[0:80]}...")
 
         response = embedding(
             api_key=self.api_key,
+            api_base=self.api_base,
+            api_version=self.api_version,
             model=model,
             input=[text],
             caching=True,
