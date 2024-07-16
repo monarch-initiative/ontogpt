@@ -11,7 +11,6 @@ from urllib.parse import quote
 
 import inflection
 import pydantic
-import tiktoken
 import yaml
 from linkml_runtime import SchemaView
 from linkml_runtime.linkml_model import ClassDefinition, ElementName, SlotDefinition

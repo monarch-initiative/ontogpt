@@ -3,7 +3,6 @@
 import litellm
 import logging
 from dataclasses import dataclass, field
-from typing import Optional
 
 from litellm import completion, embedding
 from litellm.caching import Cache
@@ -86,7 +85,7 @@ class LLMClient:
         if response is not None:
             payload = response.choices[0].message.content
         else:
-            logger.error(f"No response or response is empty.")
+            logger.error("No response or response is empty.")
             payload = ""
 
         return payload
