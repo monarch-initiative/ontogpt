@@ -518,6 +518,9 @@ def iteratively_generate_extract(
     help="Attempt to parse PubMed Central full text(s) instead of abstract(s) alone.",
 )
 @temperature_option
+@api_base_option
+@api_version_option
+@model_provider_option
 @click.argument("search")
 @click.option(
     "--max-text-length",
@@ -559,6 +562,9 @@ def pubmed_annotate(
         template_details=template_details,
         model=model,
         temperature=temperature,
+        api_base=api_base,
+        api_version=api_version,
+        model_provider=model_provider,
         **kwargs,
     )
     if settings.cache_db:
@@ -588,9 +594,22 @@ def pubmed_annotate(
 @show_prompt_option
 @click.option("--auto-prefix", default="AUTO", help="Prefix to use for auto-generated classes.")
 @temperature_option
+@api_base_option
+@api_version_option
+@model_provider_option
 @click.argument("article")
 def wikipedia_extract(
-    model, article, template, output, output_format, show_prompt, temperature, **kwargs
+    model,
+    article,
+    template,
+    output,
+    output_format,
+    show_prompt,
+    temperature,
+    api_base,
+    api_version,
+    model_provider,
+    **kwargs,
 ):
     """Extract knowledge from a Wikipedia page."""
     if not model:
@@ -605,6 +624,9 @@ def wikipedia_extract(
         template_details=template_details,
         model=model,
         temperature=temperature,
+        api_base=api_base,
+        api_version=api_version,
+        model_provider=model_provider,
         **kwargs,
     )
     if settings.cache_db:
@@ -633,9 +655,23 @@ def wikipedia_extract(
     help="Keyword to search for (e.g. --keyword therapy). Also obtained from schema",
 )
 @temperature_option
+@api_base_option
+@api_version_option
+@model_provider_option
 @click.argument("topic")
 def wikipedia_search(
-    model, topic, keyword, template, output, output_format, show_prompt, temperature, **kwargs
+    model,
+    topic,
+    keyword,
+    template,
+    output,
+    output_format,
+    show_prompt,
+    temperature,
+    api_base,
+    api_version,
+    model_provider,
+    **kwargs,
 ):
     """Extract knowledge from a Wikipedia page."""
     if not model:
@@ -650,6 +686,9 @@ def wikipedia_search(
         template_details=template_details,
         model=model,
         temperature=temperature,
+        api_base=api_base,
+        api_version=api_version,
+        model_provider=model_provider,
         **kwargs,
     )
 
@@ -689,9 +728,23 @@ def wikipedia_search(
     help="Keyword to search for (e.g. --keyword therapy). Also obtained from schema",
 )
 @temperature_option
+@api_base_option
+@api_version_option
+@model_provider_option
 @click.argument("term_tokens", nargs=-1)
 def search_and_extract(
-    model, term_tokens, keyword, template, output, output_format, show_prompt, temperature, **kwargs
+    model,
+    term_tokens,
+    keyword,
+    template,
+    output,
+    output_format,
+    show_prompt,
+    temperature,
+    api_base,
+    api_version,
+    model_provider,
+    **kwargs,
 ):
     """Search for relevant literature and extract knowledge from it."""
     if not model:
@@ -706,6 +759,9 @@ def search_and_extract(
         template_details=template_details,
         model=model,
         temperature=temperature,
+        api_base=api_base,
+        api_version=api_version,
+        model_provider=model_provider,
         **kwargs,
     )
 
@@ -739,8 +795,23 @@ def search_and_extract(
 @output_format_options
 @show_prompt_option
 @temperature_option
+@api_base_option
+@api_version_option
+@model_provider_option
 @click.argument("url")
-def web_extract(model, template, url, output, output_format, show_prompt, temperature, **kwargs):
+def web_extract(
+    model,
+    template,
+    url,
+    output,
+    output_format,
+    show_prompt,
+    temperature,
+    api_base,
+    api_version,
+    model_provider,
+    **kwargs,
+):
     """Extract knowledge from web page."""
     if not model:
         model = DEFAULT_MODEL
@@ -754,6 +825,9 @@ def web_extract(model, template, url, output, output_format, show_prompt, temper
         template_details=template_details,
         model=model,
         temperature=temperature,
+        api_base=api_base,
+        api_version=api_version,
+        model_provider=model_provider,
         **kwargs,
     )
     if settings.cache_db:
@@ -780,6 +854,9 @@ def web_extract(model, template, url, output, output_format, show_prompt, temper
 @model_option
 @show_prompt_option
 @temperature_option
+@api_base_option
+@api_version_option
+@model_provider_option
 @click.argument("url")
 def recipe_extract(
     model,
@@ -803,20 +880,18 @@ def recipe_extract(
             f"Did not find recipe_scrapers. Try: poetry install extras=recipes. Error: {e}"
         )
 
-    template = "recipe"
-
     if not model:
         model = DEFAULT_MODEL
 
-    if template:
-        template_details = get_template_details(template=template)
-    else:
-        raise ValueError("No template specified. Use -t/--template option.")
+    template_details = get_template_details(template="recipe")
 
     ke = SPIRESEngine(
         template_details=template_details,
         model=model,
         temperature=temperature,
+        api_base=api_base,
+        api_version=api_version,
+        model_provider=model_provider,
         **kwargs,
     )
     if settings.cache_db:
@@ -843,7 +918,7 @@ def recipe_extract(
     results = ke.extract_from_text(text=text, show_prompt=show_prompt)
     logging.debug(f"Results: {results}")
     results.extracted_object.url = url
-    write_extraction(results, output, output_format, ke, template)
+    write_extraction(results, output, output_format, ke, "recipe")
 
 
 @main.command()
@@ -852,8 +927,22 @@ def recipe_extract(
 @output_option_wb
 @output_format_options
 @temperature_option
+@api_base_option
+@api_version_option
+@model_provider_option
 @click.argument("input")
-def convert(model, template, input, output, output_format, temperature, **kwargs):
+def convert(
+    model,
+    template,
+    input,
+    output,
+    output_format,
+    temperature,
+    api_base,
+    api_version,
+    model_provider,
+    **kwargs,
+):
     """Convert output format."""
     if not model:
         model = DEFAULT_MODEL
@@ -867,6 +956,9 @@ def convert(model, template, input, output, output_format, temperature, **kwargs
         template_details=template_details,
         model=model,
         temperature=temperature,
+        api_base=api_base,
+        api_version=api_version,
+        model_provider=model_provider,
         **kwargs,
     )
 
@@ -881,18 +973,31 @@ def convert(model, template, input, output, output_format, temperature, **kwargs
 @main.command()
 @model_option
 @output_option_txt
+@temperature_option
+@api_base_option
+@api_version_option
+@model_provider_option
 @click.option(
     "-C", "--context", required=True, help="domain e.g. anatomy, industry, health-related"
 )
 @click.argument("term")
-def synonyms(model, term, context, output, **kwargs):
+def synonyms(
+    model, term, context, output, temperature, api_base, api_version, model_provider, **kwargs
+):
     """Extract synonyms."""
     logging.info(f"Creating for {term}")
 
     if not model:
         model = DEFAULT_MODEL
 
-    ke = SynonymEngine(model=model)
+    ke = SynonymEngine(
+        model=model,
+        temperature=temperature,
+        api_base=api_base,
+        api_version=api_version,
+        model_provider=model_provider,
+        **kwargs,
+    )
     out = ke.synonyms(term, context)
     for line in out:
         output.write(f"{line}\n")
@@ -904,7 +1009,7 @@ def synonyms(model, term, context, output, **kwargs):
 @api_version_option
 @model_provider_option
 @click.argument("text", nargs=-1)
-def embed(text, model, **kwargs):
+def embed(text, model, api_base, api_version, model_provider, **kwargs):
     """Embed text."""
     if model is None:
         model = "text-embedding-ada-002"
@@ -915,7 +1020,9 @@ def embed(text, model, **kwargs):
     if not text:
         raise ValueError("Text must be passed to this function.")
 
-    client = LLMClient(model=model)
+    client = LLMClient(
+        model=model, api_base=api_base, api_version=api_version, custom_llm_provider=model_provider
+    )
     resp = client.embeddings(text)
     print(resp)
 
@@ -926,7 +1033,7 @@ def embed(text, model, **kwargs):
 @api_version_option
 @model_provider_option
 @click.argument("text", nargs=-1)
-def text_similarity(text, model, **kwargs):
+def text_similarity(text, model, api_base, api_version, model_provider, **kwargs):
     """Get similarity between two text inputs.
 
     Text should be separated by @, e.g., "text1 @ text2".
@@ -948,7 +1055,9 @@ def text_similarity(text, model, **kwargs):
     logging.info(text1)
     logging.info(text2)
 
-    client = LLMClient(model=model)
+    client = LLMClient(
+        model=model, api_base=api_base, api_version=api_version, custom_llm_provider=model_provider
+    )
     sim = client.similarity(text1, text2)
     print(sim)
 
@@ -959,7 +1068,7 @@ def text_similarity(text, model, **kwargs):
 @api_version_option
 @model_provider_option
 @click.argument("text", nargs=-1)
-def text_distance(text, model, **kwargs):
+def text_distance(text, model, api_base, api_version, model_provider, **kwargs):
     """Embed text and calculate euclidian distance between embeddings.
 
     Text should be separated by @, e.g., "text1 @ text2".
@@ -981,7 +1090,9 @@ def text_distance(text, model, **kwargs):
     logging.info(text1)
     logging.info(text2)
 
-    client = LLMClient(model=model)
+    client = LLMClient(
+        model=model, api_base=api_base, api_version=api_version, custom_llm_provider=model_provider
+    )
     sim = client.euclidian_distance(text1, text2)
     print(sim)
 
@@ -1028,10 +1139,15 @@ def text_distance(text, model, **kwargs):
     help="Include synonyms in the text to embed",
 )
 @click.argument("terms", nargs=-1)
-def entity_similarity(terms, ontology, output, model, output_format, **kwargs):
-    """Embed text.
+@api_base_option
+@api_version_option
+@model_provider_option
+def entity_similarity(
+    terms, ontology, output, model, output_format, api_base, api_version, model_provider, **kwargs
+):
+    """Identify similarity between two entities in an ontology.
 
-    Not currently supported for open models.
+    Text should be separated by @, e.g., "entitiy1 @ entity2".
     """
 
     if not terms:
@@ -1049,7 +1165,14 @@ def entity_similarity(terms, ontology, output, model, output_format, **kwargs):
     entities1 = list(query_terms_iterator(terms1, adapter))
     entities2 = list(query_terms_iterator(terms2, adapter))
 
-    engine = SimilarityEngine(model=model, adapter=adapter, **kwargs)
+    engine = SimilarityEngine(
+        model=model,
+        adapter=adapter,
+        api_base=api_base,
+        api_version=api_version,
+        model_provider=model_provider,
+        **kwargs,
+    )
     writer = StreamingCsvWriter(output, heterogeneous_keys=False)
 
     for e1 in entities1:
@@ -1062,6 +1185,10 @@ def entity_similarity(terms, ontology, output, model, output_format, **kwargs):
 @inputfile_option
 @output_option_txt
 @model_option
+@temperature_option
+@api_base_option
+@api_version_option
+@model_provider_option
 @click.option("--task-file")
 @click.option("--task-type")
 @click.option("--tsv-output")
@@ -1080,10 +1207,20 @@ def reason(
     tsv_output,
     all_methods,
     evaluate,
+    temperature,
+    api_base,
+    api_version,
+    model_provider,
     **kwargs,
 ):
     """Reason."""
-    reasoner = ReasonerEngine(model=model)
+    reasoner = ReasonerEngine(
+        model=model,
+        temperature=temperature,
+        api_base=api_base,
+        api_version=api_version,
+        model_provider=model_provider,
+    )
     if task_file:
         tc = extractor.TaskCollection.load(task_file)
     else:
@@ -1110,7 +1247,7 @@ def reason(
         for task in tc.tasks:
             task.include_explanations = explain
     resultset = reasoner.reason_multiple(tc, evaluate=evaluate)
-    dump_minimal_yaml(resultset.dict(), file=output)
+    dump_minimal_yaml(resultset.model_dump(), file=output)
     if tsv_output:
         write_obj_as_csv(resultset.results, tsv_output)
 
@@ -1118,11 +1255,19 @@ def reason(
 @main.command()
 @output_option_txt
 @model_option
+@temperature_option
+@api_base_option
+@api_version_option
+@model_provider_option
 @click.argument("phenopacket_files", nargs=-1)
 def diagnose(
     phenopacket_files,
     model,
     output,
+    temperature,
+    api_base,
+    api_version,
+    model_provider,
     **kwargs,
 ):
     """Diagnose a clinical case represented as one or more Phenopackets."""
@@ -1133,7 +1278,13 @@ def diagnose(
         model = DEFAULT_MODEL
 
     phenopackets = [json.load(open(f)) for f in phenopacket_files]
-    engine = PhenoEngine(model=model)
+    engine = PhenoEngine(
+        model=model,
+        temperature=temperature,
+        api_base=api_base,
+        api_version=api_version,
+        model_provider=model_provider,
+    )
     results = engine.evaluate(phenopackets)
     print(dump_minimal_yaml(results))
     write_obj_as_csv(results, output)
@@ -1143,10 +1294,19 @@ def diagnose(
 @click.argument("input_data_dir")
 @click.argument("output_directory")
 @output_option_wb
+@model_option
+@temperature_option
+@api_base_option
+@api_version_option
+@model_provider_option
 def run_multilingual_analysis(
     input_data_dir,
     output_directory,
     output,
+    temperature,
+    api_base,
+    api_version,
+    model_provider,
     model="gpt-4-turbo",
 ):
     """Call the multilingual analysis function."""
@@ -1227,17 +1387,31 @@ def get_section_of_interest(data, tag_of_interest):
 @model_option
 @click.option("--tsv-output")
 @click.option("--template-path")
+@temperature_option
+@api_base_option
+@api_version_option
+@model_provider_option
 def answer(
     inputfile,
     model,
     template_path,
     output,
     tsv_output,
+    temperature,
+    api_base,
+    api_version,
+    model_provider,
     **kwargs,
 ):
     """Answer a set of questions defined in YAML."""
     qc = QuestionCollection(**yaml.safe_load(open(inputfile)))
-    engine = GenericEngine(model=model)
+    engine = GenericEngine(
+        model=model,
+        temperature=temperature,
+        api_base=api_base,
+        api_version=api_version,
+        model_provider=model_provider,
+    )
     qs = []
     for q in engine.run(qc, template_path=template_path):
         print(dump_minimal_yaml(q))
@@ -1252,6 +1426,10 @@ def answer(
 @inputfile_option
 @output_option_txt
 @model_option
+@temperature_option
+@api_base_option
+@api_version_option
+@model_provider_option
 @click.option("--task-file")
 @click.option("--task-type")
 @click.option("--tsv-output")
@@ -1270,14 +1448,24 @@ def categorize_mappings(
     yaml_output,
     all_methods,
     evaluate,
+    temperature,
+    api_base,
+    api_version,
+    model_provider,
     **kwargs,
 ):
     """Categorize a collection of SSSOM mappings."""
-    mapper = MappingEngine(model=model)
+    mapper = MappingEngine(
+        model=model,
+        temperature=temperature,
+        api_base=api_base,
+        api_version=api_version,
+        model_provider=model_provider,
+    )
     if tsv_output:
         tc = mapper.from_sssom(inputfile)
         for cm in mapper.run_tasks(tc, evaluate=evaluate):
-            print(dump_minimal_yaml(cm.dict()))
+            print(dump_minimal_yaml(cm.model_dump()))
             # dump_minimal_yaml(cm.dict(), file=output)
         # write_obj_as_csv(resultset.results, tsv_output)
     else:
@@ -1294,7 +1482,7 @@ def categorize_mappings(
                 continue
             mapping, cm = mapper.categorize_sssom_mapping(mapping)
             mappings.append(mapping)
-            cms.append(cm.dict())
+            cms.append(cm.model_dump())
             done.append(pair)
         msd.mapping_set.mappings = mappings
         msdf = to_mapping_set_dataframe(msd)
@@ -1308,6 +1496,10 @@ def categorize_mappings(
 @recurse_option
 @model_option
 @output_option_txt
+@temperature_option
+@api_base_option
+@api_version_option
+@model_provider_option
 @click.option(
     "--num-tests",
     type=click.INT,
@@ -1323,7 +1515,18 @@ def categorize_mappings(
     " Otherwise the full input text is passed.",
 )
 @click.argument("evaluator")
-def eval(evaluator, num_tests, output, chunking, model, **kwargs):
+def eval(
+    evaluator,
+    num_tests,
+    output,
+    chunking,
+    model,
+    temperature,
+    api_base,
+    api_version,
+    model_provider,
+    **kwargs,
+):
     """Evaluate an extractor."""
     logging.info(f"Creating for {evaluator}")
 
@@ -1343,6 +1546,9 @@ def eval(evaluator, num_tests, output, chunking, model, **kwargs):
 @output_format_options
 @show_prompt_option
 @temperature_option
+@api_base_option
+@api_version_option
+@model_provider_option
 @click.argument("object")
 def fill(
     model,
@@ -1374,6 +1580,9 @@ def fill(
         template_details=template_details,
         model=model,
         temperature=temperature,
+        api_base=api_base,
+        api_version=api_version,
+        model_provider=model_provider,
         **kwargs,
     )
 
@@ -1384,7 +1593,7 @@ def fill(
     logging.debug(f"Input object: {object}")
     results = ke.generalize(object=object, examples=examples, show_prompt=show_prompt)
 
-    output.write(yaml.dump(results.dict()))
+    output.write(yaml.dump(results.model_dump()))
 
 
 @main.command()
@@ -1397,8 +1606,23 @@ def fill(
 @api_version_option
 @model_provider_option
 @temperature_option
+@api_base_option
+@api_version_option
+@model_provider_option
 @click.argument("input", required=False)
-def complete(inputfile, model, input, output, output_format, show_prompt, temperature, **kwargs):
+def complete(
+    inputfile,
+    model,
+    input,
+    output,
+    output_format,
+    show_prompt,
+    temperature,
+    api_base,
+    api_version,
+    model_provider,
+    **kwargs,
+):
     """Prompt completion.
 
     The input argument may be:
@@ -1413,20 +1637,45 @@ def complete(inputfile, model, input, output, output_format, show_prompt, temper
     else:
         text = input.strip()
 
-    results = _send_complete_request(model, text, output, output_format, show_prompt, temperature)
+    results = _send_complete_request(
+        model,
+        text,
+        output,
+        output_format,
+        show_prompt,
+        temperature,
+        api_base,
+        api_version,
+        model_provider,
+    )
 
     output.write(results + "\n")
 
 
 def _send_complete_request(
-    model, input, output, output_format, show_prompt, temperature, **kwargs
+    model,
+    input,
+    output,
+    output_format,
+    show_prompt,
+    temperature,
+    api_base,
+    api_version,
+    model_provider,
+    **kwargs,
 ) -> str:
     """Send a completion request to an LLM endpoint."""
 
     if not model:
         model = DEFAULT_MODEL
 
-    c = LLMClient(model=model, temperature=temperature)
+    c = LLMClient(
+        model=model,
+        temperature=temperature,
+        api_base=api_base,
+        api_version=api_version,
+        custom_llm_provider=model_provider,
+    )
     results = c.complete(prompt=input, show_prompt=show_prompt)
 
     return results
@@ -1450,6 +1699,7 @@ def parse(template, input):
     print(yaml.dump(results))
 
 
+# TODO: rewrite for use with litellm's disk cache
 @main.command()
 @click.option("-o", "--output", type=click.File(mode="w"), default=sys.stdout, help="Output file.")
 @output_format_options
@@ -1541,6 +1791,9 @@ def halo(model, input, context, terms, output, **kwargs):
 @api_version_option
 @model_provider_option
 @temperature_option
+@api_base_option
+@api_version_option
+@model_provider_option
 def clinical_notes(
     description,
     sections,
@@ -1570,7 +1823,13 @@ def clinical_notes(
     if not model:
         model = DEFAULT_MODEL
 
-    c = LLMClient(model=model, temperature=temperature)
+    c = LLMClient(
+        model=model,
+        temperature=temperature,
+        api_base=api_base,
+        api_version=api_version,
+        custom_llm_provider=model_provider,
+    )
     results = c.complete(prompt=prompt, show_prompt=show_prompt)
 
     output.write(results)
@@ -1666,7 +1925,17 @@ def list_models():
 @api_version_option
 @model_provider_option
 @click.argument("input")
-def suggest_templates(input, model, output, output_format, show_prompt, **kwargs):
+def suggest_templates(
+    input,
+    model,
+    output,
+    output_format,
+    show_prompt,
+    api_base,
+    api_version,
+    model_provider,
+    **kwargs,
+):
     """Provide a suggestion for an appropriate template, given a text input.
 
     This is powered by the specified LLM.
@@ -1706,6 +1975,9 @@ def suggest_templates(input, model, output, output_format, show_prompt, **kwargs
         output=output,
         output_format=output_format,
         show_prompt=show_prompt,
+        api_base=api_base,
+        api_version=api_version,
+        model_provider=model_provider,
     )
 
     output.write(results + "\n")
