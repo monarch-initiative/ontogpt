@@ -326,7 +326,6 @@ class TestCore(unittest.TestCase):
             template_details=template_details,
             model=MODEL,
             model_source=MODEL_SOURCE,
-            use_azure=False,
         )
 
     def test_setup(self):

@@ -342,7 +342,6 @@ def extract(
     ke = SPIRESEngine(
         template_details=template_details,
         model=model,
-        use_azure=azure_select,
         temperature=temperature,
         **kwargs,
     )
@@ -959,7 +958,7 @@ def embed(text, model, azure_select, **kwargs):
     if not text:
         raise ValueError("Text must be passed to this function.")
 
-    client = LLMClient(model=model, use_azure=azure_select)
+    client = LLMClient(model=model)
     resp = client.embeddings(text)
     print(resp)
 
@@ -992,7 +991,7 @@ def text_similarity(text, model, azure_select, **kwargs):
     logging.info(text1)
     logging.info(text2)
 
-    client = LLMClient(model=model, use_azure=azure_select)
+    client = LLMClient(model=model)
     sim = client.similarity(text1, text2)
     print(sim)
 
@@ -1025,7 +1024,7 @@ def text_distance(text, model, azure_select, **kwargs):
     logging.info(text1)
     logging.info(text2)
 
-    client = LLMClient(model=model, use_azure=azure_select)
+    client = LLMClient(model=model)
     sim = client.euclidian_distance(text1, text2)
     print(sim)
 
@@ -1474,7 +1473,7 @@ def _send_complete_request(
     if not model:
         model = DEFAULT_MODEL
 
-    c = LLMClient(model=model, use_azure=azure_select, temperature=temperature)
+    c = LLMClient(model=model, temperature=temperature)
     results = c.complete(prompt=input, show_prompt=show_prompt)
 
     return results
@@ -1509,7 +1508,7 @@ def parse(template, input):
 @model_provider_option
 def dump_completions(model, match, database, output, output_format, azure_select):
     """Dump cached completions."""
-    client = LLMClient(model=model, use_azure=azure_select)
+    client = LLMClient(model=model)
 
     if database:
         client.cache_db_path = database
@@ -1619,7 +1618,7 @@ def clinical_notes(
     if not model:
         model = DEFAULT_MODEL
 
-    c = LLMClient(model=model, use_azure=azure_select, temperature=temperature)
+    c = LLMClient(model=model, temperature=temperature)
     results = c.complete(prompt=prompt, show_prompt=show_prompt)
 
     output.write(results)

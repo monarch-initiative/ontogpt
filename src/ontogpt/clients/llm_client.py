@@ -37,6 +37,10 @@ class LLMClient:
     api_base: str = None
     api_version: str = None
 
+    # litellm uses this param to specify client when it isn't clear from
+    # the model name
+    custom_llm_provider: str = None
+
     temperature: float = 1.0
 
     def __post_init__(self):
@@ -77,6 +81,7 @@ class LLMClient:
                 messages=[{"content": prompt, "role": "user"}],
                 temperature=self.temperature,
                 caching=True,
+                custom_llm_provider=self.custom_llm_provider,
             )
         except openai.APITimeoutError as e:
             print(f"Encountered API timeout error: {e}")

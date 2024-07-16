@@ -135,9 +135,6 @@ class KnowledgeEngine(ABC):
 
     encoding = None
 
-    use_azure: Optional[bool] = None
-    """Use Azure API for OpenAI models, if True."""
-
     temperature: float = 1.0
     """Temperature for LLM completions - this is passed to the LLMClient."""
 
