@@ -489,7 +489,7 @@ class SPIRESEngine(KnowledgeEngine):
             ann = {}
             continued_line = ""
             for line in lines:
-                line = line.strip()
+                line = line.replace("*","").strip()
                 # The line may be split into multiple lines,
                 # and we can only tell if there's a delimiter at the end of this one
                 # (though it may just be a misplaced delimiter)
@@ -564,7 +564,7 @@ class SPIRESEngine(KnowledgeEngine):
         logging.info(f"PARSING LINE: {line}")
         field, val = line.split(":", 1)
         # Field nornalization:
-        # The LLML may mutate the output format somewhat,
+        # The LLM may mutate the output format somewhat,
         # randomly pluralizing or replacing spaces with underscores
         field = field.lower().replace(" ", "_")
         logging.debug(f"  FIELD: {field}")
@@ -573,14 +573,15 @@ class SPIRESEngine(KnowledgeEngine):
         if field in cls_slots:
             slot = sv.induced_slot(field, cls.name)
         else:
-            # TODO: check this
+
+            # Try removing pluralization
             if field.endswith("s"):
                 field = field[:-1]
+
             if field in cls_slots:
                 slot = sv.induced_slot(field, cls.name)
         if not slot:
             logging.error(f"Cannot find slot for {field} in {line}")
-            # raise ValueError(f"Cannot find slot for {field} in {line}")
             return None
         if not val:
             msg = f"Empty value in key-value line: {line}"
