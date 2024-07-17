@@ -94,6 +94,9 @@ class KnowledgeEngine(ABC):
     model: str = None
     """Language model or deployment name. This may be overridden in subclasses."""
 
+    model_provider: str = None
+    """Provider of the model if access requires specifying client type, e.g. openai, etc."""
+
     annotators: Optional[Dict[str, List[TextAnnotatorInterface]]] = None
     """Annotators for each class.
     An annotator will ground/map labels to CURIEs.
@@ -160,6 +163,7 @@ class KnowledgeEngine(ABC):
                 temperature=self.temperature,
                 api_version=self.api_version,
                 api_base=self.api_base,
+                custom_llm_provider=self.model_provider,
             )
 
         # We retrieve encoding
