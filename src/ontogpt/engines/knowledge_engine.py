@@ -11,7 +11,6 @@ from urllib.parse import quote
 
 import inflection
 import pydantic
-import tiktoken
 import yaml
 from linkml_runtime import SchemaView
 from linkml_runtime.linkml_model import ClassDefinition, ElementName, SlotDefinition
@@ -24,8 +23,7 @@ from oaklib.utilities.subsets.value_set_expander import ValueSetExpander
 from requests.exceptions import ConnectionError, HTTPError, ProxyError
 
 from ontogpt import DEFAULT_MODEL
-
-# from ontogpt.clients import OpenAIClient, GPT4AllClient, HFHubClient
+from ontogpt.clients.llm_client import LLMClient
 from ontogpt.templates.core import ExtractionResult, NamedEntity
 
 this_path = Path(__file__).parent
@@ -37,18 +35,6 @@ EXAMPLE = OBJECT
 FIELD = str
 TEMPLATE_NAME = str
 MODEL_NAME = str
-
-# GPT4All support is optional, so we don't load it
-# if it's not installed
-try:
-    from ontogpt.clients import OpenAIClient, GPT4AllClient
-
-    CLIENT_TYPES = Union[OpenAIClient, GPT4AllClient]
-except ImportError:
-    logger.warning("GPT4All client not available. GPT4All support will be disabled.")
-    from ontogpt.clients import OpenAIClient
-
-    CLIENT_TYPES = OpenAIClient  # type: ignore
 
 # annotation metamodel
 ANNOTATION_KEY_PROMPT = "prompt"
@@ -97,17 +83,19 @@ class KnowledgeEngine(ABC):
     This is derived from the template and does not need to be set manually."""
 
     api_key: str = ""
-    """OpenAI API key."""
+    """API key for accessing external language model."""
+
+    api_base: str = None
+    """Base URL for the API."""
+
+    api_version: str = None
+    """API version."""
 
     model: str = None
-    """Language Model. This may be overridden in subclasses."""
+    """Language model or deployment name. This may be overridden in subclasses."""
 
-    model_source: str = None
-    """The source of the model. This determines how the model is accessed
-    (e.g. via an API or a local file)"""
-
-    # annotator: TextAnnotatorInterface = None
-    # """Default annotator. TODO: deprecate?"""
+    model_provider: str = None
+    """Provider of the model if access requires specifying client type, e.g. openai, etc."""
 
     annotators: Optional[Dict[str, List[TextAnnotatorInterface]]] = None
     """Annotators for each class.
@@ -115,17 +103,13 @@ class KnowledgeEngine(ABC):
     These override the annotators annotated in the template
     """
 
-    skip_annotators: Optional[List[TextAnnotatorInterface]] = None
-    """Annotators to skip.
-    This overrides any specified in the schema"""
-
     mappers: Optional[List[BasicOntologyInterface]] = None
     """List of concept mappers, to assist in grounding to desired ID prefix"""
 
     labelers: Optional[List[BasicOntologyInterface]] = None
     """Labelers that map CURIEs to labels"""
 
-    client: Optional[CLIENT_TYPES] = None
+    client: LLMClient = None
     """All calls to LLMs are delegated through this client"""
 
     dictionary: Dict[str, str] = field(default_factory=dict)
@@ -154,8 +138,8 @@ class KnowledgeEngine(ABC):
 
     encoding = None
 
-    use_azure: Optional[bool] = None
-    """Use Azure API for OpenAI models, if True."""
+    temperature: float = 1.0
+    """Temperature for LLM completions - this is passed to the LLMClient."""
 
     def __post_init__(self):
         if self.template_details:
@@ -173,23 +157,19 @@ class KnowledgeEngine(ABC):
             logging.info("Using mappers (currently hardcoded)")
             self.mappers = [get_adapter("translator:")]
 
-        logging.info(f"Model source is {self.model_source}")
-        self.set_up_client(model_source=self.model_source)
-        logging.info(f"Will use this client: {type(self.client)}")
         if not self.client:
-            if self.model_source:
-                raise ValueError(f"No client available for {self.model_source}")
-            else:
-                raise ValueError("No client available because model source is unknown.")
+            self.client = LLMClient(
+                model=self.model,
+                temperature=self.temperature,
+                api_version=self.api_version,
+                api_base=self.api_base,
+                custom_llm_provider=self.model_provider,
+            )
 
-        # We retrieve encoding for OpenAI models
-        # but tiktoken won't work for other models
-        if self.model_source == "openai":
-            try:
-                self.encoding = tiktoken.encoding_for_model(self.client.model)
-            except KeyError:
-                self.encoding = tiktoken.encoding_for_model(DEFAULT_MODEL)
-                logger.error(f"Could not find encoding for model {self.client.model}")
+        # We retrieve encoding
+        # but tiktoken won't work for non-openai models
+        # TODO: let litellm handle this; see
+        # https://litellm.vercel.app/docs/completion/token_usage
 
     def set_api_key(self, key: str):
         self.api_key = key
@@ -272,14 +252,10 @@ class KnowledgeEngine(ABC):
                 logger.error(f"No annotators for {cls.name}")
                 return []
             annotators = cls.annotations[ANNOTATION_KEY_ANNOTATORS].value.split(", ")
-        logger.info(f" Annotators: {annotators} [will skip: {self.skip_annotators}]")
         annotators = []
         for annotator in annotators:
             if isinstance(annotator, str):
                 logger.info(f"Loading annotator {annotator}")
-                if self.skip_annotators and annotator in self.skip_annotators:
-                    logger.info(f"Skipping annotator {annotator}")
-                    continue
                 if annotator not in self.annotators:
                     self.annotators[annotator] = get_adapter(annotator)
                 annotators.append(self.annotators[annotator])
@@ -522,14 +498,12 @@ class KnowledgeEngine(ABC):
                 annotators = []
             else:
                 annotators = cls.annotations[ANNOTATION_KEY_ANNOTATORS].value.split(", ")
-        logger.info(f" Annotators: {annotators} [will skip: {self.skip_annotators}]")
+
         # prioritize whole matches by running these first
         for matches_whole_text in [True, False]:
             config = TextAnnotationConfiguration(matches_whole_text=matches_whole_text)
             for annotator in annotators:
                 if isinstance(annotator, str):
-                    if self.skip_annotators and annotator in self.skip_annotators:
-                        continue
                     if self.annotators is None:
                         self.annotators = {}
                     if annotator not in self.annotators:
@@ -550,9 +524,6 @@ class KnowledgeEngine(ABC):
                         yield result.object_id
                 except Exception as e:
                     logger.error(f"Error with {annotator} for {text}: {e}")
-
-    # def ground_text_to_id(self, text: str, cls: ClassDefinition = None) -> str:
-    #    raise NotImplementedError
 
     def merge_resultsets(
         self, resultset: List[ExtractionResult], unique_fields: List[str]
@@ -589,17 +560,3 @@ class KnowledgeEngine(ABC):
                     if v:
                         setattr(result, k, v)
         return resultset[0]
-
-    def set_up_client(self, model_source: str):
-        """
-        Select the appropriate client based on the model's source.
-
-        Args: model_source (str): lowercase string indicating the source of the model,
-            e.g., openai
-        """
-        if model_source == "openai":
-            self.client = OpenAIClient(model=self.model, use_azure=self.use_azure)
-            logging.info("Setting up OpenAI client API Key")
-            self.api_key = self._get_openai_api_key()
-        elif model_source == "gpt4all":
-            self.client = GPT4AllClient(model=self.model)

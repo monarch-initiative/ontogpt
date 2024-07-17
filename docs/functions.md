@@ -123,6 +123,32 @@ Showing the full prompt is off by default.
 
 Enable it by using `--show-prompt` and setting the verbosity level to high (`-vvv`).
 
+### api-base
+
+Use the option `api-base` to specify a base URL to use for your LLM API, e.g. for the Azure OpenAI API.
+
+Note this may also be set through the runoak set-apikey command (e.g., `runoak set-apikey -e azure-base`)
+
+### api-version
+
+Use the option `api-version` to specify an API version to use for your LLM API, e.g. for the Azure OpenAI API.
+
+Note this may also be set through the runoak set-apikey command (e.g., `runoak set-apikey -e azure-version`)
+
+### model-provider
+
+Use the option `model-provider` to specify a provider if not specified in the model name.
+
+For example, if using a proxy using the OpenAI API format, this should be set to 'openai'
+
+### temperature
+
+Use the option `temperature` to specify the temperature the model should generate using.
+
+The range may vary per model, but for the OpenAI API this value must range from 0 to 2, with a default of 1.0.
+
+Higher temperatures generally correspond to greater randomness, which may be desirable.
+
 ## Functions
 
 ### categorize-mappings
@@ -481,7 +507,7 @@ ontogpt iteratively-generate-extract -t cell_type -r sqlite:obo:cl -D cells.yaml
 
 ### list-models
 
-List all available models.
+List all available models. These will include all models `litellm` knows about, but may not include all local models present on your system (use `ollama list` to see those).
 
 Example:
 

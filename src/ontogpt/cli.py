@@ -10,12 +10,13 @@ from copy import deepcopy
 from dataclasses import dataclass
 from io import BytesIO, TextIOWrapper
 from pathlib import Path
-from typing import Dict, List, Optional, Tuple, Union
+from typing import Dict, Optional, Tuple, Union
 
 import click
 import jsonlines
 import yaml
 
+from litellm import get_model_cost_map
 from oaklib import get_adapter
 from oaklib.cli import query_terms_iterator
 from oaklib.interfaces import OboGraphInterface
@@ -24,14 +25,8 @@ from sssom.parsers import parse_sssom_table, to_mapping_set_document
 from sssom.util import to_mapping_set_dataframe
 
 import ontogpt.ontex.extractor as extractor
-from ontogpt import (
-    DEFAULT_MODEL,
-    DEFAULT_MODEL_DETAILS,
-    MODELS,
-    OPENAI_EMBEDDING_MODELS,
-    __version__,
-)
-from ontogpt.clients import OpenAIClient
+from ontogpt import DEFAULT_MODEL, __version__
+from ontogpt.clients.llm_client import LLMClient
 from ontogpt.clients.pubmed_client import PubmedClient
 from ontogpt.clients.soup_client import SoupClient
 from ontogpt.clients.wikipedia_client import WikipediaClient
@@ -66,7 +61,6 @@ class Settings:
     """Global command line settings."""
 
     cache_db: Optional[str] = None
-    skip_annotators: Optional[List[str]] = None
 
 
 settings = Settings()
@@ -144,47 +138,17 @@ def write_extraction(
             output.write(dump_minimal_yaml(results))  # type: ignore
 
 
-# TODO: allow this to tolerate a local model
-def get_model_by_name(modelname: str):
-    """Retrieve a model name and metadata from those available.
-
-    Returns a dict describing the selected model.
-    """
-    found = False
-    for knownmodel in MODELS:
-        these_knownmodel_names = [knownmodel["name"], knownmodel["canonical_name"]] + knownmodel[
-            "alternative_names"
-        ]
-        if modelname in these_knownmodel_names:
-            selectmodel = knownmodel
-            found = True
-            logging.info(
-                f"Found model: {selectmodel['name']}, provided by {selectmodel['provider']}."
-            )
-            if "not_implemented" in selectmodel or "deprecated" in selectmodel:
-                logging.error(f"Model {selectmodel['name']} not implemented or is deprecated.")
-                raise NotImplementedError
-            break
-    if not found:
-        logging.warning(
-            f"""Model name not recognized or not supported yet. Using default, {DEFAULT_MODEL}.
-            See all models with `ontogpt list-models`"""
-        )
-        selectmodel = DEFAULT_MODEL_DETAILS
-
-    return selectmodel
-
-
 inputfile_option = click.option("-i", "--inputfile", help="Path to a file containing input text.")
-template_option = click.option("-t", "--template", required=True, help="Template to use.")
+template_option = click.option(
+    "-t",
+    "--template",
+    required=True,
+    help="Template to use. This may be the name of a predefined template"
+    " or a path to a schema file. In the latter case, the schema file should"
+    " be a YAML file and the path should include the .yaml file suffix.",
+)
 target_class_option = click.option(
     "-T", "--target-class", help="Target class (if not already root)."
-)
-interactive_option = click.option(
-    "--interactive/--no-interactive",
-    default=False,
-    show_default=True,
-    help="Interactive mode - rather than call the LLM API it will prompt you do this.",
 )
 model_option = click.option(
     "-m",
@@ -228,11 +192,27 @@ show_prompt_option = click.option(
     show_default=True,
     help="If set, show all prompts passed to model through an API. Use with verbose setting.",
 )
-azure_select_option = click.option(
-    "--azure-select/--no-azure-select",
-    default=False,
-    show_default=True,
-    help="Use OpenAI model through Azure.",
+api_base_option = click.option(
+    "--api-base",
+    help="Base to use for LLM API, e.g. for the Azure OpenAI API."
+    " Note this may also be set through the runoak set-apikey command.",
+)
+api_version_option = click.option(
+    "--api-version",
+    help="Version to use for LLM API, e.g. for the Azure OpenAI API."
+    " Note this may also be set through the runoak set-apikey command.",
+)
+model_provider_option = click.option(
+    "--model-provider",
+    help="Specify a provider if model is not specified in the model name."
+    " If using a proxy using the OpenAI API format, this should be set to 'openai'.",
+)
+temperature_option = click.option(
+    "-p",
+    "--temperature",
+    type=click.FLOAT,
+    default=1.0,
+    help="Temperature for model completion.",
 )
 
 
@@ -240,13 +220,8 @@ azure_select_option = click.option(
 @click.option("-v", "--verbose", count=True)
 @click.option("-q", "--quiet")
 @click.option("--cache-db", help="Path to sqlite database to cache prompt-completion results")
-@click.option(
-    "--skip-annotator",
-    multiple=True,
-    help="Skip one or more annotators (e.g. --skip-annotator gilda)",
-)
 @click.version_option(__version__)
-def main(verbose: int, quiet: bool, cache_db: str, skip_annotator):
+def main(verbose: int, quiet: bool, cache_db: str):
     """CLI for ontogpt.
 
     :param verbose: Verbosity while running.
@@ -264,8 +239,6 @@ def main(verbose: int, quiet: bool, cache_db: str, skip_annotator):
     logger.info(f"Logger {logger.name} set to level {logger.level}")
     if cache_db:
         settings.cache_db = cache_db
-    if skip_annotator:
-        settings.skip_annotators = list(skip_annotator)
 
 
 @main.command()
@@ -287,7 +260,10 @@ def main(verbose: int, quiet: bool, cache_db: str, skip_annotator):
     help="Set slot value, e.g. --set-slot-value has_participant=protein",
 )
 @click.argument("input", required=False)
-@azure_select_option
+@api_base_option
+@api_version_option
+@model_provider_option
+@temperature_option
 def extract(
     inputfile,
     template,
@@ -300,7 +276,10 @@ def extract(
     use_textract,
     model,
     show_prompt,
-    azure_select,
+    temperature,
+    api_base,
+    api_version,
+    model_provider,
     **kwargs,
 ):
     """Extract knowledge from text guided by schema, using SPIRES engine.
@@ -330,7 +309,6 @@ def extract(
     # Choose model based on input, or use the default
     if not model:
         model = DEFAULT_MODEL
-    selectmodel = get_model_by_name(model)
 
     inputlist = []
 
@@ -362,15 +340,15 @@ def extract(
 
     ke = SPIRESEngine(
         template_details=template_details,
-        model=selectmodel["canonical_name"],
-        model_source=selectmodel["provider"].lower(),
-        use_azure=azure_select,
+        model=model,
+        temperature=temperature,
+        api_base=api_base,
+        api_version=api_version,
+        model_provider=model_provider,
         **kwargs,
     )
     if settings.cache_db:
         ke.client.cache_db_path = settings.cache_db
-    if settings.skip_annotators:
-        ke.client.skip_annotators = settings.skip_annotators
 
     if dictionary:
         ke.load_dictionary(dictionary)
@@ -403,12 +381,27 @@ def extract(
 @output_format_options
 @auto_prefix_option
 @show_prompt_option
+@temperature_option
+@api_base_option
+@api_version_option
+@model_provider_option
 @click.argument("entity")
-def generate_extract(model, entity, template, output, output_format, show_prompt, **kwargs):
+def generate_extract(
+    model,
+    entity,
+    template,
+    output,
+    output_format,
+    show_prompt,
+    temperature,
+    api_base,
+    api_version,
+    model_provider,
+    **kwargs,
+):
     """Generate text and then extract knowledge from it."""
     if not model:
         model = DEFAULT_MODEL
-    selectmodel = get_model_by_name(model)
 
     if template:
         template_details = get_template_details(template=template)
@@ -417,14 +410,15 @@ def generate_extract(model, entity, template, output, output_format, show_prompt
 
     ke = SPIRESEngine(
         template_details=template_details,
-        model=selectmodel["canonical_name"],
-        model_source=selectmodel["provider"].lower(),
+        model=model,
+        temperature=temperature,
+        api_base=api_base,
+        api_version=api_version,
+        model_provider=model_provider,
         **kwargs,
     )
     if settings.cache_db:
         ke.client.cache_db_path = settings.cache_db
-    if settings.skip_annotators:
-        ke.skip_annotators = settings.skip_annotators
 
     logging.debug(f"Input entity: {entity}")
     results = ke.generate_and_extract(
@@ -448,6 +442,10 @@ def generate_extract(model, entity, template, output, output_format, show_prompt
 @click.option(
     "--clear/--no-clear", default=False, show_default=True, help="Clear the db before starting"
 )
+@temperature_option
+@api_base_option
+@api_version_option
+@model_provider_option
 @click.argument("entity")
 def iteratively_generate_extract(
     model,
@@ -461,12 +459,15 @@ def iteratively_generate_extract(
     clear,
     ontology,
     show_prompt,
+    temperature,
+    api_base,
+    api_version,
+    model_provider,
     **kwargs,
 ):
     """Iterate through generate-extract."""
     if not model:
         model = DEFAULT_MODEL
-    selectmodel = get_model_by_name(model)
 
     if template:
         template_details = get_template_details(template=template)
@@ -475,14 +476,15 @@ def iteratively_generate_extract(
 
     ke = SPIRESEngine(
         template_details=template_details,
-        model=selectmodel["canonical_name"],
-        model_source=selectmodel["provider"].lower(),
+        model=model,
+        temperature=temperature,
+        api_base=api_base,
+        api_version=api_version,
+        model_provider=model_provider,
         **kwargs,
     )
     if settings.cache_db:
         ke.client.cache_db_path = settings.cache_db
-    if settings.skip_annotators:
-        ke.skip_annotators = settings.skip_annotators
 
     logging.debug(f"Input entity: {entity}")
     adapter = get_adapter(ontology)
@@ -495,61 +497,6 @@ def iteratively_generate_extract(
         adapter=adapter,
         clear=clear,
     ):
-        write_extraction(results, output, output_format, ke, template)
-
-
-# TODO: combine this command with pubmed_annotate - they are converging
-@main.command()
-@template_option
-@model_option
-@recurse_option
-@output_option_wb
-@output_format_options
-@show_prompt_option
-@click.option(
-    "--get-pmc/--no-get-pmc",
-    default=False,
-    help="Attempt to parse PubMed Central full text(s) instead of abstract(s) alone.",
-)
-@click.option(
-    "--max-text-length",
-    default=3000,
-    help="Maximum text length for each input chunk. Dependent on context size of model used."
-)
-@click.argument("pmid")
-def pubmed_extract(model, pmid, template, output, output_format, get_pmc, show_prompt, max_text_length, **kwargs):
-    """Extract knowledge from a single PubMed ID."""
-    if not model:
-        model = DEFAULT_MODEL
-    selectmodel = get_model_by_name(model)
-
-    if template:
-        template_details = get_template_details(template=template)
-    else:
-        raise ValueError("No template specified. Use -t/--template option.")
-
-    ke = SPIRESEngine(
-        template_details=template_details,
-        model=selectmodel["canonical_name"],
-        model_source=selectmodel["provider"].lower(),
-        **kwargs,
-    )
-    if settings.cache_db:
-        ke.client.cache_db_path = settings.cache_db
-    if settings.skip_annotators:
-        ke.skip_annotators = settings.skip_annotators
-
-    pmc = PubmedClient(max_text_length=max_text_length)
-    if get_pmc:
-        logging.info(f"Will try to retrieve PubMed Central text for {pmid}.")
-        textlist = pmc.text(pmid, pubmedcental=True)
-    else:
-        textlist = pmc.text(pmid)
-    if not isinstance(textlist, list):
-        textlist = [textlist]
-    for text in textlist:
-        logging.debug(f"Input text: {text}")
-        results = ke.extract_from_text(text=text, show_prompt=show_prompt)
         write_extraction(results, output, output_format, ke, template)
 
 
@@ -570,14 +517,32 @@ def pubmed_extract(model, pmid, template, output, output_format, get_pmc, show_p
     default=False,
     help="Attempt to parse PubMed Central full text(s) instead of abstract(s) alone.",
 )
+@temperature_option
+@api_base_option
+@api_version_option
+@model_provider_option
+@click.argument("search")
 @click.option(
     "--max-text-length",
     default=3000,
-    help="Maximum text length for each input chunk. Dependent on context size of model used."
+    help="Maximum text length for each input chunk. Dependent on context size of model used.",
 )
 @click.argument("search")
 def pubmed_annotate(
-    model, search, template, output, output_format, limit, get_pmc, show_prompt, max_text_length, **kwargs
+    model,
+    search,
+    template,
+    output,
+    output_format,
+    limit,
+    get_pmc,
+    show_prompt,
+    max_text_length,
+    temperature,
+    api_base,
+    api_version,
+    model_provider,
+    **kwargs,
 ):
     """Retrieve a collection of PubMed IDs for a search term; annotate them using a template.
 
@@ -587,7 +552,6 @@ def pubmed_annotate(
     """
     if not model:
         model = DEFAULT_MODEL
-    selectmodel = get_model_by_name(model)
 
     if template:
         template_details = get_template_details(template=template)
@@ -596,14 +560,15 @@ def pubmed_annotate(
 
     ke = SPIRESEngine(
         template_details=template_details,
-        model=selectmodel["canonical_name"],
-        model_source=selectmodel["provider"].lower(),
+        model=model,
+        temperature=temperature,
+        api_base=api_base,
+        api_version=api_version,
+        model_provider=model_provider,
         **kwargs,
     )
     if settings.cache_db:
         ke.client.cache_db_path = settings.cache_db
-    if settings.skip_annotators:
-        ke.skip_annotators = settings.skip_annotators
 
     pubmed_annotate_limit = limit
     pmc = PubmedClient()
@@ -628,12 +593,27 @@ def pubmed_annotate(
 @output_format_options
 @show_prompt_option
 @click.option("--auto-prefix", default="AUTO", help="Prefix to use for auto-generated classes.")
+@temperature_option
+@api_base_option
+@api_version_option
+@model_provider_option
 @click.argument("article")
-def wikipedia_extract(model, article, template, output, output_format, show_prompt, **kwargs):
+def wikipedia_extract(
+    model,
+    article,
+    template,
+    output,
+    output_format,
+    show_prompt,
+    temperature,
+    api_base,
+    api_version,
+    model_provider,
+    **kwargs,
+):
     """Extract knowledge from a Wikipedia page."""
     if not model:
         model = DEFAULT_MODEL
-    selectmodel = get_model_by_name(model)
 
     if template:
         template_details = get_template_details(template=template)
@@ -642,14 +622,15 @@ def wikipedia_extract(model, article, template, output, output_format, show_prom
 
     ke = SPIRESEngine(
         template_details=template_details,
-        model=selectmodel["canonical_name"],
-        model_source=selectmodel["provider"].lower(),
+        model=model,
+        temperature=temperature,
+        api_base=api_base,
+        api_version=api_version,
+        model_provider=model_provider,
         **kwargs,
     )
     if settings.cache_db:
         ke.client.cache_db_path = settings.cache_db
-    if settings.skip_annotators:
-        ke.skip_annotators = settings.skip_annotators
 
     logging.info(f"Creating for {template} => {article}")
     client = WikipediaClient()
@@ -673,12 +654,28 @@ def wikipedia_extract(model, article, template, output, output_format, show_prom
     multiple=True,
     help="Keyword to search for (e.g. --keyword therapy). Also obtained from schema",
 )
+@temperature_option
+@api_base_option
+@api_version_option
+@model_provider_option
 @click.argument("topic")
-def wikipedia_search(model, topic, keyword, template, output, output_format, show_prompt, **kwargs):
+def wikipedia_search(
+    model,
+    topic,
+    keyword,
+    template,
+    output,
+    output_format,
+    show_prompt,
+    temperature,
+    api_base,
+    api_version,
+    model_provider,
+    **kwargs,
+):
     """Extract knowledge from a Wikipedia page."""
     if not model:
         model = DEFAULT_MODEL
-    selectmodel = get_model_by_name(model)
 
     if template:
         template_details = get_template_details(template=template)
@@ -687,8 +684,11 @@ def wikipedia_search(model, topic, keyword, template, output, output_format, sho
 
     ke = SPIRESEngine(
         template_details=template_details,
-        model=selectmodel["canonical_name"],
-        model_source=selectmodel["provider"].lower(),
+        model=model,
+        temperature=temperature,
+        api_base=api_base,
+        api_version=api_version,
+        model_provider=model_provider,
         **kwargs,
     )
 
@@ -727,14 +727,28 @@ def wikipedia_search(model, topic, keyword, template, output, output_format, sho
     multiple=True,
     help="Keyword to search for (e.g. --keyword therapy). Also obtained from schema",
 )
+@temperature_option
+@api_base_option
+@api_version_option
+@model_provider_option
 @click.argument("term_tokens", nargs=-1)
 def search_and_extract(
-    model, term_tokens, keyword, template, output, output_format, show_prompt, **kwargs
+    model,
+    term_tokens,
+    keyword,
+    template,
+    output,
+    output_format,
+    show_prompt,
+    temperature,
+    api_base,
+    api_version,
+    model_provider,
+    **kwargs,
 ):
     """Search for relevant literature and extract knowledge from it."""
     if not model:
         model = DEFAULT_MODEL
-    selectmodel = get_model_by_name(model)
 
     if template:
         template_details = get_template_details(template=template)
@@ -743,8 +757,11 @@ def search_and_extract(
 
     ke = SPIRESEngine(
         template_details=template_details,
-        model=selectmodel["canonical_name"],
-        model_source=selectmodel["provider"].lower(),
+        model=model,
+        temperature=temperature,
+        api_base=api_base,
+        api_version=api_version,
+        model_provider=model_provider,
         **kwargs,
     )
 
@@ -777,12 +794,27 @@ def search_and_extract(
 @output_option_wb
 @output_format_options
 @show_prompt_option
+@temperature_option
+@api_base_option
+@api_version_option
+@model_provider_option
 @click.argument("url")
-def web_extract(model, template, url, output, output_format, show_prompt, **kwargs):
+def web_extract(
+    model,
+    template,
+    url,
+    output,
+    output_format,
+    show_prompt,
+    temperature,
+    api_base,
+    api_version,
+    model_provider,
+    **kwargs,
+):
     """Extract knowledge from web page."""
     if not model:
         model = DEFAULT_MODEL
-    selectmodel = get_model_by_name(model)
 
     if template:
         template_details = get_template_details(template=template)
@@ -791,14 +823,15 @@ def web_extract(model, template, url, output, output_format, show_prompt, **kwar
 
     ke = SPIRESEngine(
         template_details=template_details,
-        model=selectmodel["canonical_name"],
-        model_source=selectmodel["provider"].lower(),
+        model=model,
+        temperature=temperature,
+        api_base=api_base,
+        api_version=api_version,
+        model_provider=model_provider,
         **kwargs,
     )
     if settings.cache_db:
         ke.client.cache_db_path = settings.cache_db
-    if settings.skip_annotators:
-        ke.skip_annotators = settings.skip_annotators
 
     web_client = SoupClient()
     text = web_client.text(url)
@@ -820,9 +853,24 @@ def web_extract(model, template, url, output, output_format, show_prompt, **kwar
 @click.option("--auto-prefix", default="AUTO", help="Prefix to use for auto-generated classes.")
 @model_option
 @show_prompt_option
+@temperature_option
+@api_base_option
+@api_version_option
+@model_provider_option
 @click.argument("url")
 def recipe_extract(
-    model, url, recipes_urls_file, dictionary, output, output_format, show_prompt, **kwargs
+    model,
+    url,
+    recipes_urls_file,
+    dictionary,
+    output,
+    output_format,
+    show_prompt,
+    temperature,
+    api_base,
+    api_version,
+    model_provider,
+    **kwargs,
 ):
     """Extract from recipe on the web."""
     try:
@@ -832,27 +880,22 @@ def recipe_extract(
             f"Did not find recipe_scrapers. Try: poetry install extras=recipes. Error: {e}"
         )
 
-    template = "recipe"
-
     if not model:
         model = DEFAULT_MODEL
-    selectmodel = get_model_by_name(model)
 
-    if template:
-        template_details = get_template_details(template=template)
-    else:
-        raise ValueError("No template specified. Use -t/--template option.")
+    template_details = get_template_details(template="recipe")
 
     ke = SPIRESEngine(
         template_details=template_details,
-        model=selectmodel["canonical_name"],
-        model_source=selectmodel["provider"].lower(),
+        model=model,
+        temperature=temperature,
+        api_base=api_base,
+        api_version=api_version,
+        model_provider=model_provider,
         **kwargs,
     )
     if settings.cache_db:
         ke.client.cache_db_path = settings.cache_db
-    if settings.skip_annotators:
-        ke.skip_annotators = settings.skip_annotators
 
     if recipes_urls_file:
         with open(recipes_urls_file, "r") as f:
@@ -875,7 +918,7 @@ def recipe_extract(
     results = ke.extract_from_text(text=text, show_prompt=show_prompt)
     logging.debug(f"Results: {results}")
     results.extracted_object.url = url
-    write_extraction(results, output, output_format, ke, template)
+    write_extraction(results, output, output_format, ke, "recipe")
 
 
 @main.command()
@@ -883,12 +926,26 @@ def recipe_extract(
 @template_option
 @output_option_wb
 @output_format_options
+@temperature_option
+@api_base_option
+@api_version_option
+@model_provider_option
 @click.argument("input")
-def convert(model, template, input, output, output_format, **kwargs):
+def convert(
+    model,
+    template,
+    input,
+    output,
+    output_format,
+    temperature,
+    api_base,
+    api_version,
+    model_provider,
+    **kwargs,
+):
     """Convert output format."""
     if not model:
         model = DEFAULT_MODEL
-    selectmodel = get_model_by_name(model)
 
     if template:
         template_details = get_template_details(template=template)
@@ -897,8 +954,11 @@ def convert(model, template, input, output, output_format, **kwargs):
 
     ke = SPIRESEngine(
         template_details=template_details,
-        model=selectmodel["canonical_name"],
-        model_source=selectmodel["provider"].lower(),
+        model=model,
+        temperature=temperature,
+        api_base=api_base,
+        api_version=api_version,
+        model_provider=model_provider,
         **kwargs,
     )
 
@@ -913,140 +973,127 @@ def convert(model, template, input, output, output_format, **kwargs):
 @main.command()
 @model_option
 @output_option_txt
-@output_format_options
+@temperature_option
+@api_base_option
+@api_version_option
+@model_provider_option
 @click.option(
     "-C", "--context", required=True, help="domain e.g. anatomy, industry, health-related"
 )
 @click.argument("term")
-def synonyms(model, term, context, output, output_format, **kwargs):
+def synonyms(
+    model, term, context, output, temperature, api_base, api_version, model_provider, **kwargs
+):
     """Extract synonyms."""
     logging.info(f"Creating for {term}")
 
     if not model:
         model = DEFAULT_MODEL
 
-    selectmodel = get_model_by_name(model)
-    model_name = selectmodel["canonical_name"]
-    model_source = selectmodel["provider"]
-
-    if model_source != "OpenAI":
-        raise NotImplementedError("Model not yet supported for this function.")
-
-    ke = SynonymEngine(model=model_name, model_source=model_source.lower())
+    ke = SynonymEngine(
+        model=model,
+        temperature=temperature,
+        api_base=api_base,
+        api_version=api_version,
+        model_provider=model_provider,
+        **kwargs,
+    )
     out = ke.synonyms(term, context)
     for line in out:
         output.write(f"{line}\n")
 
 
 @main.command()
-@output_option_txt
-@output_format_options
 @model_option
-@azure_select_option
-@click.option(
-    "-C",
-    "--context",
-    help="domain e.g. anatomy, industry, health-related (NOT IMPLEMENTED - currently gene only)",
-)
+@api_base_option
+@api_version_option
+@model_provider_option
 @click.argument("text", nargs=-1)
-def embed(text, context, output, model, output_format, azure_select, **kwargs):
-    """Embed text.
-
-    Not currently supported for open models.
-    """
-    if model:
-        if model not in OPENAI_EMBEDDING_MODELS:
-            raise NotImplementedError("Model not recognized or not yet supported for embeddings.")
-    else:
+def embed(text, model, api_base, api_version, model_provider, **kwargs):
+    """Embed text."""
+    if model is None:
         model = "text-embedding-ada-002"
+    logging.info(f"Using model {model} for embeddings.")
 
     logging.info(f"Embedding with model {model}")
 
     if not text:
-        raise ValueError("Text must be passed")
+        raise ValueError("Text must be passed to this function.")
 
-    client = OpenAIClient(model=model, use_azure=azure_select)
-    resp = client.embeddings(text=text, model=model)
+    client = LLMClient(
+        model=model, api_base=api_base, api_version=api_version, custom_llm_provider=model_provider
+    )
+    resp = client.embeddings(text)
     print(resp)
 
 
 @main.command()
-@output_option_txt
-@output_format_options
 @model_option
-@azure_select_option
-@click.option(
-    "-C",
-    "--context",
-    help="domain e.g. anatomy, industry, health-related (NOT IMPLEMENTED - currently gene only)",
-)
+@api_base_option
+@api_version_option
+@model_provider_option
 @click.argument("text", nargs=-1)
-def text_similarity(text, context, output, model, output_format, azure_select, **kwargs):
-    """Embed text.
+def text_similarity(text, model, api_base, api_version, model_provider, **kwargs):
+    """Get similarity between two text inputs.
 
-    Not currently supported for open models.
+    Text should be separated by @, e.g., "text1 @ text2".
     """
-    if model:
-        if model not in OPENAI_EMBEDDING_MODELS:
-            raise NotImplementedError("Model not recognized or not yet supported for embeddings.")
-    else:
+    if model is None:
         model = "text-embedding-ada-002"
+    logging.info(f"Using model {model} for embeddings.")
 
     logging.info(f"Embedding with model {model}")
 
     if not text:
-        raise ValueError("Text must be passed")
+        raise ValueError("Text must be passed to this function.")
     text = list(text)
     if "@" not in text:
-        raise ValueError("Text must contain @")
+        raise ValueError("Texts must be separated with @")
     ix = text.index("@")
     text1 = " ".join(text[:ix])
     text2 = " ".join(text[ix + 1 :])
-    print(text1)
-    print(text2)
+    logging.info(text1)
+    logging.info(text2)
 
-    client = OpenAIClient(model=model, use_azure=azure_select)
-    sim = client.similarity(text1, text2, model=model)
+    client = LLMClient(
+        model=model, api_base=api_base, api_version=api_version, custom_llm_provider=model_provider
+    )
+    sim = client.similarity(text1, text2)
     print(sim)
 
 
 @main.command()
-@output_option_txt
-@output_format_options
 @model_option
-@azure_select_option
-@click.option(
-    "-C",
-    "--context",
-    help="domain e.g. anatomy, industry, health-related (NOT IMPLEMENTED - currently gene only)",
-)
+@api_base_option
+@api_version_option
+@model_provider_option
 @click.argument("text", nargs=-1)
-def text_distance(text, context, output, model, output_format, azure_select, **kwargs):
+def text_distance(text, model, api_base, api_version, model_provider, **kwargs):
     """Embed text and calculate euclidian distance between embeddings.
 
-    Not currently supported for open models.
+    Text should be separated by @, e.g., "text1 @ text2".
     """
-    if model:
-        if model not in OPENAI_EMBEDDING_MODELS:
-            raise NotImplementedError("Model not recognized or not yet supported for embeddings.")
-    else:
+    if model is None:
         model = "text-embedding-ada-002"
+    logging.info(f"Using model {model} for embeddings.")
 
     logging.info(f"Embedding with model {model}")
 
     if not text:
-        raise ValueError("Text must be passed")
+        raise ValueError("Text must be passed to this function.")
     text = list(text)
     if "@" not in text:
-        raise ValueError("Text must contain @")
+        raise ValueError("Text must be separated with @")
     ix = text.index("@")
     text1 = " ".join(text[:ix])
     text2 = " ".join(text[ix + 1 :])
-    print(text1)
-    print(text2)
+    logging.info(text1)
+    logging.info(text2)
 
-    client = OpenAIClient(model=model, use_azure=azure_select)
-    sim = client.euclidian_distance(text1, text2, model=model)
+    client = LLMClient(
+        model=model, api_base=api_base, api_version=api_version, custom_llm_provider=model_provider
+    )
+    sim = client.euclidian_distance(text1, text2)
     print(sim)
 
 
@@ -1092,18 +1139,16 @@ def text_distance(text, context, output, model, output_format, azure_select, **k
     help="Include synonyms in the text to embed",
 )
 @click.argument("terms", nargs=-1)
-def entity_similarity(terms, ontology, output, model, output_format, **kwargs):
-    """Embed text.
+@api_base_option
+@api_version_option
+@model_provider_option
+def entity_similarity(
+    terms, ontology, output, model, output_format, api_base, api_version, model_provider, **kwargs
+):
+    """Identify similarity between two entities in an ontology.
 
-    Not currently supported for open models.
+    Text should be separated by @, e.g., "entitiy1 @ entity2".
     """
-    if model:
-        if model not in OPENAI_EMBEDDING_MODELS:
-            raise NotImplementedError("Model not recognized or not yet supported for embeddings.")
-    else:
-        model = "text-embedding-ada-002"
-
-    logging.info(f"Embedding with model {model}")
 
     if not terms:
         raise ValueError("terms must be passed")
@@ -1120,7 +1165,14 @@ def entity_similarity(terms, ontology, output, model, output_format, **kwargs):
     entities1 = list(query_terms_iterator(terms1, adapter))
     entities2 = list(query_terms_iterator(terms2, adapter))
 
-    engine = SimilarityEngine(model=model, adapter=adapter, **kwargs)
+    engine = SimilarityEngine(
+        model=model,
+        adapter=adapter,
+        api_base=api_base,
+        api_version=api_version,
+        model_provider=model_provider,
+        **kwargs,
+    )
     writer = StreamingCsvWriter(output, heterogeneous_keys=False)
 
     for e1 in entities1:
@@ -1133,6 +1185,10 @@ def entity_similarity(terms, ontology, output, model, output_format, **kwargs):
 @inputfile_option
 @output_option_txt
 @model_option
+@temperature_option
+@api_base_option
+@api_version_option
+@model_provider_option
 @click.option("--task-file")
 @click.option("--task-type")
 @click.option("--tsv-output")
@@ -1151,10 +1207,20 @@ def reason(
     tsv_output,
     all_methods,
     evaluate,
+    temperature,
+    api_base,
+    api_version,
+    model_provider,
     **kwargs,
 ):
     """Reason."""
-    reasoner = ReasonerEngine(model=model)
+    reasoner = ReasonerEngine(
+        model=model,
+        temperature=temperature,
+        api_base=api_base,
+        api_version=api_version,
+        model_provider=model_provider,
+    )
     if task_file:
         tc = extractor.TaskCollection.load(task_file)
     else:
@@ -1181,7 +1247,7 @@ def reason(
         for task in tc.tasks:
             task.include_explanations = explain
     resultset = reasoner.reason_multiple(tc, evaluate=evaluate)
-    dump_minimal_yaml(resultset.dict(), file=output)
+    dump_minimal_yaml(resultset.model_dump(), file=output)
     if tsv_output:
         write_obj_as_csv(resultset.results, tsv_output)
 
@@ -1189,11 +1255,19 @@ def reason(
 @main.command()
 @output_option_txt
 @model_option
+@temperature_option
+@api_base_option
+@api_version_option
+@model_provider_option
 @click.argument("phenopacket_files", nargs=-1)
 def diagnose(
     phenopacket_files,
     model,
     output,
+    temperature,
+    api_base,
+    api_version,
+    model_provider,
     **kwargs,
 ):
     """Diagnose a clinical case represented as one or more Phenopackets."""
@@ -1203,12 +1277,14 @@ def diagnose(
     if not model:
         model = DEFAULT_MODEL
 
-    selectmodel = get_model_by_name(model)
-    model_name = selectmodel["canonical_name"]
-    model_source = selectmodel["provider"]
-
     phenopackets = [json.load(open(f)) for f in phenopacket_files]
-    engine = PhenoEngine(model=model_name, model_source=model_source.lower())
+    engine = PhenoEngine(
+        model=model,
+        temperature=temperature,
+        api_base=api_base,
+        api_version=api_version,
+        model_provider=model_provider,
+    )
     results = engine.evaluate(phenopackets)
     print(dump_minimal_yaml(results))
     write_obj_as_csv(results, output)
@@ -1218,10 +1294,19 @@ def diagnose(
 @click.argument("input_data_dir")
 @click.argument("output_directory")
 @output_option_wb
+@model_option
+@temperature_option
+@api_base_option
+@api_version_option
+@model_provider_option
 def run_multilingual_analysis(
     input_data_dir,
     output_directory,
     output,
+    temperature,
+    api_base,
+    api_version,
+    model_provider,
     model="gpt-4-turbo",
 ):
     """Call the multilingual analysis function."""
@@ -1302,17 +1387,31 @@ def get_section_of_interest(data, tag_of_interest):
 @model_option
 @click.option("--tsv-output")
 @click.option("--template-path")
+@temperature_option
+@api_base_option
+@api_version_option
+@model_provider_option
 def answer(
     inputfile,
     model,
     template_path,
     output,
     tsv_output,
+    temperature,
+    api_base,
+    api_version,
+    model_provider,
     **kwargs,
 ):
     """Answer a set of questions defined in YAML."""
     qc = QuestionCollection(**yaml.safe_load(open(inputfile)))
-    engine = GenericEngine(model=model)
+    engine = GenericEngine(
+        model=model,
+        temperature=temperature,
+        api_base=api_base,
+        api_version=api_version,
+        model_provider=model_provider,
+    )
     qs = []
     for q in engine.run(qc, template_path=template_path):
         print(dump_minimal_yaml(q))
@@ -1327,6 +1426,10 @@ def answer(
 @inputfile_option
 @output_option_txt
 @model_option
+@temperature_option
+@api_base_option
+@api_version_option
+@model_provider_option
 @click.option("--task-file")
 @click.option("--task-type")
 @click.option("--tsv-output")
@@ -1345,14 +1448,24 @@ def categorize_mappings(
     yaml_output,
     all_methods,
     evaluate,
+    temperature,
+    api_base,
+    api_version,
+    model_provider,
     **kwargs,
 ):
     """Categorize a collection of SSSOM mappings."""
-    mapper = MappingEngine(model=model)
+    mapper = MappingEngine(
+        model=model,
+        temperature=temperature,
+        api_base=api_base,
+        api_version=api_version,
+        model_provider=model_provider,
+    )
     if tsv_output:
         tc = mapper.from_sssom(inputfile)
         for cm in mapper.run_tasks(tc, evaluate=evaluate):
-            print(dump_minimal_yaml(cm.dict()))
+            print(dump_minimal_yaml(cm.model_dump()))
             # dump_minimal_yaml(cm.dict(), file=output)
         # write_obj_as_csv(resultset.results, tsv_output)
     else:
@@ -1369,7 +1482,7 @@ def categorize_mappings(
                 continue
             mapping, cm = mapper.categorize_sssom_mapping(mapping)
             mappings.append(mapping)
-            cms.append(cm.dict())
+            cms.append(cm.model_dump())
             done.append(pair)
         msd.mapping_set.mappings = mappings
         msdf = to_mapping_set_dataframe(msd)
@@ -1383,6 +1496,10 @@ def categorize_mappings(
 @recurse_option
 @model_option
 @output_option_txt
+@temperature_option
+@api_base_option
+@api_version_option
+@model_provider_option
 @click.option(
     "--num-tests",
     type=click.INT,
@@ -1398,18 +1515,23 @@ def categorize_mappings(
     " Otherwise the full input text is passed.",
 )
 @click.argument("evaluator")
-def eval(evaluator, num_tests, output, chunking, model, **kwargs):
+def eval(
+    evaluator,
+    num_tests,
+    output,
+    chunking,
+    model,
+    temperature,
+    api_base,
+    api_version,
+    model_provider,
+    **kwargs,
+):
     """Evaluate an extractor."""
     logging.info(f"Creating for {evaluator}")
 
-    if model:
-        selectmodel = get_model_by_name(model)
-        modelname = selectmodel["canonical_name"]
-    else:
-        modelname = DEFAULT_MODEL
-
     evaluator = create_evaluator(
-        name=evaluator, num_tests=num_tests, chunking=chunking, model=modelname
+        name=evaluator, num_tests=num_tests, chunking=chunking, model=model
     )
     eos = evaluator.eval()
     output.write(dump_minimal_yaml(eos, minimize=False))
@@ -1423,15 +1545,31 @@ def eval(evaluator, num_tests, output, chunking, model, **kwargs):
 @output_option_wb
 @output_format_options
 @show_prompt_option
+@temperature_option
+@api_base_option
+@api_version_option
+@model_provider_option
 @click.argument("object")
-def fill(model, template, object: str, examples, output, output_format, show_prompt, **kwargs):
+def fill(
+    model,
+    template,
+    object: str,
+    examples,
+    output,
+    output_format,
+    show_prompt,
+    temperature,
+    api_base,
+    api_version,
+    model_provider,
+    **kwargs,
+):
     """Fill in missing values."""
     ke: KnowledgeEngine
 
     # Choose model based on input, or use the default
     if not model:
         model = DEFAULT_MODEL
-    selectmodel = get_model_by_name(model)
 
     if template:
         template_details = get_template_details(template=template)
@@ -1440,8 +1578,11 @@ def fill(model, template, object: str, examples, output, output_format, show_pro
 
     ke = SPIRESEngine(
         template_details=template_details,
-        model=selectmodel["canonical_name"],
-        model_source=selectmodel["provider"].lower(),
+        model=model,
+        temperature=temperature,
+        api_base=api_base,
+        api_version=api_version,
+        model_provider=model_provider,
         **kwargs,
     )
 
@@ -1452,14 +1593,7 @@ def fill(model, template, object: str, examples, output, output_format, show_pro
     logging.debug(f"Input object: {object}")
     results = ke.generalize(object=object, examples=examples, show_prompt=show_prompt)
 
-    output.write(yaml.dump(results.dict()))
-
-
-@main.command()
-def openai_models(**kwargs):
-    """List OpenAI models for prompt completion."""
-    ai = OpenAIClient()
-    print(ai)
+    output.write(yaml.dump(results.model_dump()))
 
 
 @main.command()
@@ -1468,9 +1602,27 @@ def openai_models(**kwargs):
 @output_option_txt
 @output_format_options
 @show_prompt_option
-@azure_select_option
+@api_base_option
+@api_version_option
+@model_provider_option
+@temperature_option
+@api_base_option
+@api_version_option
+@model_provider_option
 @click.argument("input", required=False)
-def complete(inputfile, model, input, output, output_format, show_prompt, azure_select, **kwargs):
+def complete(
+    inputfile,
+    model,
+    input,
+    output,
+    output_format,
+    show_prompt,
+    temperature,
+    api_base,
+    api_version,
+    model_provider,
+    **kwargs,
+):
     """Prompt completion.
 
     The input argument may be:
@@ -1485,26 +1637,46 @@ def complete(inputfile, model, input, output, output_format, show_prompt, azure_
     else:
         text = input.strip()
 
-    results = _send_complete_request(model, text, output, output_format, show_prompt, azure_select)
+    results = _send_complete_request(
+        model,
+        text,
+        output,
+        output_format,
+        show_prompt,
+        temperature,
+        api_base,
+        api_version,
+        model_provider,
+    )
 
     output.write(results + "\n")
 
 
 def _send_complete_request(
-    model, input, output, output_format, show_prompt, azure_select, **kwargs
+    model,
+    input,
+    output,
+    output_format,
+    show_prompt,
+    temperature,
+    api_base,
+    api_version,
+    model_provider,
+    **kwargs,
 ) -> str:
     """Send a completion request to an LLM endpoint."""
 
     if not model:
         model = DEFAULT_MODEL
-    selectmodel = get_model_by_name(model)
-    model_source = selectmodel["provider"]
-    model_name = selectmodel["canonical_name"]
 
-    # TODO: add support for other models
-    if model_source == "OpenAI":
-        c = OpenAIClient(model=model_name, use_azure=azure_select)
-        results = c.complete(prompt=input, show_prompt=show_prompt)
+    c = LLMClient(
+        model=model,
+        temperature=temperature,
+        api_base=api_base,
+        api_version=api_version,
+        custom_llm_provider=model_provider,
+    )
+    results = c.complete(prompt=input, show_prompt=show_prompt)
 
     return results
 
@@ -1527,19 +1699,19 @@ def parse(template, input):
     print(yaml.dump(results))
 
 
+# TODO: rewrite for use with litellm's disk cache
 @main.command()
 @click.option("-o", "--output", type=click.File(mode="w"), default=sys.stdout, help="Output file.")
 @output_format_options
 @model_option
 @click.option("-m", "match", help="Match string to use for filtering.")
 @click.option("-D", "database", help="Path to sqlite database.")
-@azure_select_option
-def dump_completions(model, match, database, output, output_format, azure_select):
+@api_base_option
+@api_version_option
+@model_provider_option
+def dump_completions(model, match, database, output, output_format):
     """Dump cached completions."""
-    if model:
-        raise NotImplementedError("Caching not currently enabled for this model.")
-    else:
-        client = OpenAIClient(model=model, use_azure=azure_select)
+    client = LLMClient(model=model)
 
     if database:
         client.cache_db_path = database
@@ -1610,12 +1782,18 @@ def halo(model, input, context, terms, output, **kwargs):
 @click.option(
     "-d",
     "--description",
-    help="domain e.g. anatomy, industry, health-related (NOT IMPLEMENTED - currently gene only)",
+    help="Patient description, in free text",
 )
 @click.option(
     "--sections", multiple=True, help="sections to include e.g. medications, vital signs, etc."
 )
-@azure_select_option
+@api_base_option
+@api_version_option
+@model_provider_option
+@temperature_option
+@api_base_option
+@api_version_option
+@model_provider_option
 def clinical_notes(
     description,
     sections,
@@ -1623,7 +1801,10 @@ def clinical_notes(
     model,
     show_prompt,
     output_format,
-    azure_select,
+    temperature,
+    api_base,
+    api_version,
+    model_provider,
     **kwargs,
 ):
     """Create mock clinical notes.
@@ -1641,14 +1822,15 @@ def clinical_notes(
 
     if not model:
         model = DEFAULT_MODEL
-    selectmodel = get_model_by_name(model)
-    model_source = selectmodel["provider"]
-    model_name = selectmodel["canonical_name"]
 
-    # TODO: add support for other models
-    if model_source == "OpenAI":
-        c = OpenAIClient(model=model_name, use_azure=azure_select)
-        results = c.complete(prompt=prompt, show_prompt=show_prompt)
+    c = LLMClient(
+        model=model,
+        temperature=temperature,
+        api_base=api_base,
+        api_version=api_version,
+        custom_llm_provider=model_provider,
+    )
+    results = c.complete(prompt=prompt, show_prompt=show_prompt)
 
     output.write(results)
 
@@ -1695,45 +1877,43 @@ def _get_templates() -> Dict[str, Tuple[str, str]]:
 def list_models():
     """List all available models.
 
+    Note this is a partial list of models available through litellm
+    for use in the OntoGPT CLI. More models may be available from
+    other sources.
+
     The following values are provided:
 
-    Model Name: OntoGPT's name for the model. Use this with the -m/--model option.
+    Model Name: Name of the model. Use this with the -m/--model option.
 
     Provider: The service provider for the model.
 
-    Canonical Name: The name of the model as provided by the service provider.
+    Functionality: The relevance of the model to OntoGPT functions.
+    "chat" or "completion" models are used for generating text and may
+    be used with extract-based functions. "embedding" models are used
+    for generating embeddings and may be used with similarity functions.
 
-    Alternative Names: Other names for the model.
-
-    Status: Whether the model is currently implemented or deprecated.
-
-    Disk Space: The space required for the model to be stored on your local disk.
-    "N/A" means the model is not stored locally.
-
-    System Memory: The memory required for the model to run on your system.
-    "N/A" means the model is not stored locally.
+    Max Tokens: Token limit for the model. Note that models may
+    tokenize text differently and calculate input and/or output tokens
+    in particular ways, so consult a model's original documentaion for
+    further details.
     """
-    print(
-        "Model Name\tProvider\tCanonical Name\tAlternative Names\tStatus\tDisk Space\tSystem Memory"
-    )
-    for model in MODELS:
-        primary_name = model["name"]
-        provider = model["provider"]
-        canonical = model["canonical_name"]
-        alternative_names = (
-            " ".join(model["alternative_names"]) if model["alternative_names"] else ""
-        )
-        if "not_implemented" in model or "deprecated" in model:
-            status = "Not Implemented"
-        else:
-            status = "Implemented"
-        disk = model["requirements"]["diskspace"]
-        memory = model["requirements"]["memory"]
+    models = get_model_cost_map("")
 
-        print(
-            f"{primary_name}\t{provider}\t{canonical}\t{alternative_names}\t"
-            f"{status}\t{disk}\t{memory}"
-        )
+    print("Model Name\tProvider\tFunctionality\tMax Tokens")
+    for model in models:
+        primary_name = model
+        provider = models[model]["litellm_provider"]
+
+        if "mode" in models[model]:
+            functionality = models[model]["mode"]
+            if functionality not in ["chat", "completion", "embedding"]:
+                continue
+        else:
+            continue
+
+        max_tokens = models[model]["max_tokens"]
+
+        print(f"{primary_name}\t{provider}\t{functionality}\t{max_tokens}")
 
 
 @main.command()
@@ -1741,9 +1921,21 @@ def list_models():
 @output_option_txt
 @output_format_options
 @show_prompt_option
-@azure_select_option
+@api_base_option
+@api_version_option
+@model_provider_option
 @click.argument("input")
-def suggest_templates(input, model, output, output_format, show_prompt, azure_select, **kwargs):
+def suggest_templates(
+    input,
+    model,
+    output,
+    output_format,
+    show_prompt,
+    api_base,
+    api_version,
+    model_provider,
+    **kwargs,
+):
     """Provide a suggestion for an appropriate template, given a text input.
 
     This is powered by the specified LLM.
@@ -1783,7 +1975,9 @@ def suggest_templates(input, model, output, output_format, show_prompt, azure_se
         output=output,
         output_format=output_format,
         show_prompt=show_prompt,
-        azure_select=azure_select,
+        api_base=api_base,
+        api_version=api_version,
+        model_provider=model_provider,
     )
 
     output.write(results + "\n")

@@ -54,31 +54,6 @@ class TestCommandLineInterface(unittest.TestCase):
                 out = result.stdout
                 print(out)
 
-    def test_pubmed_extract(self):
-        cases = [
-            ("PMID:32044947", "treatment.DiseaseTreatmentSummary"),
-        ]
-        for pmid, template in cases:
-            for fmt in ["yaml", "html"]:
-                output_file = str(CLI_OUTPUT_DIR / f"pmid-{pmid}-{template}.{fmt}")
-                cmd = [
-                    "--cache-db",
-                    CACHE_DB,
-                    "pubmed-extract",
-                    "-t",
-                    template,
-                    pmid,
-                    "-O",
-                    fmt,
-                    "-o",
-                    output_file,
-                ]
-                print(cmd)
-                result = self.runner.invoke(main, cmd)
-                self.assertEqual(0, result.exit_code)
-                out = result.stdout
-                print(out)
-
     def test_search_and_extract(self):
         cases = [
             ("treatment.DiseaseTreatmentSummary", "COVID-19", ["review"]),

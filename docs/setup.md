@@ -4,6 +4,8 @@
 
 OntoGPT may be installed through `pip` or used directly from the GitHub repository. In the latter case, you will need to install the `poetry` dependency manager and precede commands with `poetry run`. [See the poetry installation documentation for more details.](https://python-poetry.org/docs/#installation)
 
+OntoGPT uses `litellm` to interface with LLM endpoints. Familiarity with this framework is not necessary to use OntoGPT but may be helpful for troubleshooting. See the `litellm` [docs here](https://litellm.vercel.app/docs/).
+
 ### Additional requirements and options
 
 * Python 3.9+
@@ -14,7 +16,6 @@ You may also set additional API keys for optional resources:
 
 * [BioPortal](https://bioportal.bioontology.org/) account (for grounding). The BioPortal key is necessary for using ontologies from [BioPortal](https://bioportal.bioontology.org/). You may get a key by signing up for an account on their web site.
 * [NCBI E-utilities](https://ncbiinsights.ncbi.nlm.nih.gov/2017/11/02/new-api-keys-for-the-e-utilities/). The NCBI email address and API key are used for retrieving text and metadata from PubMed. You may still access these resources without identifying yourself, but you may encounter rate limiting and errors.
-* [HuggingFace Hub](https://huggingface.co/docs/api-inference/quicktour#get-your-api-token). This API key is necessary to retrieve models from the HuggingFace Hub service.
 
 ## Installation
 
@@ -33,8 +34,6 @@ pip install ontogpt[extra_name]
 where `extra_name` is one of the following:
 
 * `docs` - dependencies for building documentation
-* `gpt4all` - dependencies for running local models
-* `huggingface` - dependencies for accessing LLMs from HuggingFace Hub, remotely or locally
 * `recipes` - dependencies for recipe scraping and parsing
 * `textract` - the textract plugin
 * `web` - dependencies for the web application
@@ -63,17 +62,38 @@ One OntoGPT and all of its dependencies are installed, you will need to set your
 runoak set-apikey -e openai <your openai api key>
 ```
 
-The optional keys may be set as follows:
+Other optional keys may be set as follows:
 
 ```bash
 runoak set-apikey -e bioportal <your bioportal api key>
 runoak set-apikey -e ncbi-email <your email address>
 runoak set-apikey -e ncbi-key <your NCBI api key>
-runoak set-apikey -e hfhub-key <your HuggingFace Hub api key>
 ```
 
-### Running local models
+Other API keys may also be set this way, generally by using the name of the service hosting the API:
 
-Using local models currently depends upon using the `gpt4all` package and may require additional setup steps specific to your computing environment.
+```bash
+runoak set-apikey -e mistral-key <your Mistral api key>
+runoak set-apikey -e anthropic-key <your Anthropic api key>
+runoak set-apikey -e huggingface-key <your HuggingFace api key>
+```
 
-See the [gpt4all documentation](https://docs.gpt4all.io/) for more details.
+This is also a convenient way to set details for custom endpoints, e.g., for Azure OpenAI (set API key, API base URL, and API version):
+
+```bash
+runoak set-apikey -e azure-key <your Azure api key>
+runoak set-apikey -e azure-base <your Azure base URL, like 'https://example-endpoint.openai.azure.com'>
+runoak set-apikey -e azure-version <your Azure API version, like '2023-05-15'>
+```
+
+### Setup for local models
+
+OntoGPT uses `ollama` to retrieve and run local models.
+
+You will need to install `ollama` (see their [GitHub repo](https://github.com/ollama/ollama)), and you may need to start it as a service.
+
+This may require a command like `ollama serve` or `sudo systemctl start ollama`.
+
+Then retrieve a model with `ollama pull <modelname>`, e.g., `ollama pull llama3`.
+
+The model may then be used in OntoGPT by prefixing its name with `ollama/`, e.g., `ollama/llama3`.
