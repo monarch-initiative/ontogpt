@@ -10,23 +10,12 @@ import numpy as np
 from oaklib.utilities.apikey_manager import get_apikey_value
 import openai  # For error handling
 
-from ontogpt import DEFAULT_MODEL
+from ontogpt import DEFAULT_MODEL, MODELS
 
 logger = logging.getLogger(__name__)
 
-# These are model sources which we expect to be explicitly named
-# within the model or deployment name, e.g. "ollama/llama2"
-# TODO: Let litellm handle this too
-SERVICES = [
-    "azure",
-    "huggingface",
-    "mistral",
-    "ollama",
-    "openai", # For proxy access
-    "openrouter",
-    "replicate",
-]
-
+# Just get the part before the slash in each model name
+SERVICES = {model.split("/")[0] for model in MODELS.keys() if len(model.split("/")) > 1}
 
 @dataclass
 class LLMClient:
