@@ -485,73 +485,78 @@ class SPIRESEngine(KnowledgeEngine):
                     field, val = r
                     ann[field] = val
         else:
-            lines = results.splitlines()
+            # First split the text into sections, denoted by presence of multiple newlines
+            # Each section may still have multiple fields, but we don't know how
+            # they will be formatted
+            sections = results.replace("*","").split("\n\n")
             ann = {}
-            continued_line = ""
-            for line in lines:
-                line = line.replace("*","").strip()
-                # The line may be split into multiple lines,
-                # and we can only tell if there's a delimiter at the end of this one
-                # (though it may just be a misplaced delimiter)
-                # TODO: this could be a different delimiter, globally defined
-                if line.endswith(";"):
-                    logging.info(f"This line ends in a delimiter, assuming continuation: {line}")
-                    continued_line = line
-                    continue
-                # If there's nothing after the colon,
-                # we may be continuing as a numeric list or the like
-                if ":" in line and not line.split(":", 1)[1].strip():
-                    logging.info(f"This line looks empty, assuming continuation: {line}")
-                    if len(continued_line) > 0:
-                        logging.info(f"Finishing previous continued line: {continued_line}")
-                        r = self._parse_line_to_dict(continued_line, cls)
-                        if r is not None:
-                            field, val = r
-                            ann[field] = val
-                    continued_line = line
-                    continue
-                # We may be continuing a numeric list
-                if (line.split("."))[0].isdigit():
-                    logging.info(
-                        f"Line '{line}' is a numeric item; continuing from {continued_line}"
-                    )
-                    # Remove the leading numeral from the line
-                    line = line.split(".", 1)[1].strip()
-                    continued_line = continued_line + line + ";"
-                    continue
-                if not line:
-                    continue
-                if line.startswith(CODE_FENCE):
-                    continue
-                if ":" not in line:
-                    if len(promptable_slots) == 1:
-                        slot = promptable_slots[0]
-                        logging.info(
-                            f"Coercing to YAML-like with key {slot.name}: Original line: {line}"
-                        )
-                        line = f"{slot.name}: {line}"
-                    elif len(continued_line) > 0:
-                        logging.info(f"Line '{line}' continuing from {continued_line}")
-                        line = continued_line + line
-                    if ":" not in line:
-                        logging.error(f"Line '{line}' does not contain a colon; ignoring")
-                        continue
-                else:
-                    # We made it this far but may still have a continued line
-                    # So parse that first
-                    if len(continued_line) > 0:
-                        line = continued_line
-                r = self._parse_line_to_dict(line, cls)
+            for section in sections:
+                lines = section.splitlines()
                 continued_line = ""
-                if r is not None:
-                    field, val = r
-                    ann[field] = val
-            if len(continued_line) > 0:
-                logging.info(f"Finishing continued line: {continued_line}")
-                r = self._parse_line_to_dict(continued_line, cls)
-                if r is not None:
-                    field, val = r
-                    ann[field] = val
+                for line in lines:
+                    line = line.replace("*","").strip()
+                    # The line may be split into multiple lines,
+                    # and we can only tell if there's a delimiter at the end of this one
+                    # (though it may just be a misplaced delimiter)
+                    # TODO: this could be a different delimiter, globally defined
+                    if line.endswith(";"):
+                        logging.info(f"This line ends in a delimiter, assuming continuation: {line}")
+                        continued_line = line
+                        continue
+                    # If there's nothing after the colon,
+                    # we may be continuing as a numeric list or the like
+                    if ":" in line and not line.split(":", 1)[1].strip():
+                        logging.info(f"This line looks empty, assuming continuation: {line}")
+                        if len(continued_line) > 0:
+                            logging.info(f"Finishing previous continued line: {continued_line}")
+                            r = self._parse_line_to_dict(continued_line, cls)
+                            if r is not None:
+                                field, val = r
+                                ann[field] = val
+                        continued_line = line
+                        continue
+                    # We may be continuing a numeric list
+                    if (line.split("."))[0].isdigit():
+                        logging.info(
+                            f"Line '{line}' is a numeric item; continuing from {continued_line}"
+                        )
+                        # Remove the leading numeral from the line
+                        line = line.split(".", 1)[1].strip()
+                        continued_line = continued_line + line + ";"
+                        continue
+                    if not line:
+                        continue
+                    if line.startswith(CODE_FENCE):
+                        continue
+                    if ":" not in line:
+                        if len(promptable_slots) == 1:
+                            slot = promptable_slots[0]
+                            logging.info(
+                                f"Coercing to YAML-like with key {slot.name}: Original line: {line}"
+                            )
+                            line = f"{slot.name}: {line}"
+                        elif len(continued_line) > 0:
+                            logging.info(f"Line '{line}' continuing from {continued_line}")
+                            line = continued_line + ";" + line
+                        if ":" not in line:
+                            logging.error(f"Line '{line}' does not contain a colon; ignoring")
+                            continue
+                    else:
+                        # We made it this far but may still have a continued line
+                        # So parse that first
+                        if len(continued_line) > 0:
+                            line = continued_line
+                    r = self._parse_line_to_dict(line, cls)
+                    continued_line = ""
+                    if r is not None:
+                        field, val = r
+                        ann[field] = val
+                if len(continued_line) > 0:
+                    logging.info(f"Finishing continued line: {continued_line}")
+                    r = self._parse_line_to_dict(continued_line, cls)
+                    if r is not None:
+                        field, val = r
+                        ann[field] = val
         return ann
 
     def _parse_line_to_dict(
