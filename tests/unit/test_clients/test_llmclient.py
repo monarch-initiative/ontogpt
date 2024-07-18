@@ -41,8 +41,10 @@ class TestCompletion(unittest.TestCase):
 
     def test_euclidean_distance(self):
         """Test euclidean distance.
+
         Or euclidian distance.
-        One of those."""
+        One of those.
+        """
         text1 = "I like to eat apples."
         text2 = "I like to eat egg salad."
         distance = self.embedding_client.euclidian_distance(text1, text2)
