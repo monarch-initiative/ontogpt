@@ -17,6 +17,7 @@ class TestCompletion(unittest.TestCase):
         self.client = LLMClient()
         self.embedding_client = LLMClient(model="text-embedding-ada-002")
 
+    @unittest.skip("Need to set API key first")
     def test_complete(self):
         """Test completion."""
         text = self.client.complete(
@@ -25,12 +26,14 @@ class TestCompletion(unittest.TestCase):
         )
         self.assertEqual("test", text.lower().replace(".", ""))
 
+    @unittest.skip("Need to set API key first")
     def test_embeddings(self):
         """Test embedding retrieval."""
         results = self.embedding_client.embeddings("Egg salad")
         self.assertTrue(type(results) == list)
         self.assertEqual(len(results), 1536)
 
+    @unittest.skip("Need to set API key first")
     def test_similarity(self):
         """Test similarity."""
         text1 = "I like to eat apples."
@@ -39,6 +42,7 @@ class TestCompletion(unittest.TestCase):
         self.assertTrue(type(similarity) == np.float64)
         self.assertGreater(float(similarity), 0.8)
 
+    @unittest.skip("Need to set API key first")
     def test_euclidean_distance(self):
         """Test euclidean distance.
 
