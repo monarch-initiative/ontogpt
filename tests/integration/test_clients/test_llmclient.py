@@ -1,10 +1,10 @@
-"""Open AI client tests."""
+"""LLMClient tests."""
 import re
 import unittest
 
 import yaml
 
-from ontogpt.clients.openai_client import OpenAIClient
+from ontogpt.clients import LLMClient
 from tests import PROMPTS_FILE
 
 PROMPT = """
@@ -148,7 +148,7 @@ class TestCompletion(unittest.TestCase):
 
     def setUp(self) -> None:
         """Set up."""
-        self.llm_client = OpenAIClient()
+        self.llm_client = LLMClient()
 
     def test_all_prompts(self):
         """Test all prompts."""
