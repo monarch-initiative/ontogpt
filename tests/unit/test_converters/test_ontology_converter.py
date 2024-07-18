@@ -57,7 +57,7 @@ class TestOntologyConverter(unittest.TestCase):
         self.assertCountEqual(["cell nucleus", "horsetail nucleus"], nucleus.synonyms)
         self.assertIn("A membrane-bounded organelle", nucleus.description)
         [nm] = [x for x in ontology.elements if x.name == "NuclearMembrane"]
-        print(yaml.dump(nm.dict()))
+        print(yaml.dump(nm.model_dump()))
         self.assertEqual("Membrane and part of some Nucleus", nm.equivalent_to)
         with open(TEST_ONTOLOGY_OUTPUT, "w") as f:
             f.write(dump_minimal_yaml(ontology))
