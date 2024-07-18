@@ -105,9 +105,14 @@ class LLMClient:
             input=[text],
             caching=True,
         )
-        v = response.data[0].embedding
 
-        return v
+        if response is not None:
+            payload = response.data[0]['embedding']
+        else:
+            logger.error("No response or response is empty.")
+            payload = ""
+
+        return payload
 
     def similarity(self, text1: str, text2: str, **kwargs):
         a1 = self.embeddings(text1, **kwargs)
