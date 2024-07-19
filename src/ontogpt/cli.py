@@ -1762,8 +1762,6 @@ def convert_examples(input, output):
 @click.argument("terms", nargs=-1)
 def halo(model, input, context, terms, output, **kwargs):
     """Run HALO over inputs."""
-    if model:
-        raise NotImplementedError("HALO not currently supported for this model.")
 
     engine = HALOEngine()
     engine.seed_from_file(input)
