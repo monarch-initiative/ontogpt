@@ -1700,37 +1700,16 @@ def parse(template, input):
 
 
 # TODO: rewrite for use with litellm's disk cache
+# See https://grantjenks.com/docs/diskcache/tutorial.html
 @main.command()
 @click.option("-o", "--output", type=click.File(mode="w"), default=sys.stdout, help="Output file.")
 @output_format_options
 @model_option
 @click.option("-m", "match", help="Match string to use for filtering.")
 @click.option("-D", "database", help="Path to sqlite database.")
-@api_base_option
-@api_version_option
-@model_provider_option
 def dump_completions(model, match, database, output, output_format):
     """Dump cached completions."""
-    client = LLMClient(model=model)
-
-    if database:
-        client.cache_db_path = database
-    if output_format == "jsonl":
-        writer = jsonlines.Writer(output)
-        for _engine, prompt, completion in client.cached_completions(match):
-            writer.write(dict(engine=model, prompt=prompt, completion=completion))
-    elif output_format == "yaml":
-        for _engine, prompt, completion in client.cached_completions(match):
-            output.write(
-                dump_minimal_yaml(dict(engine=model, prompt=prompt, completion=completion))
-            )
-    else:
-        output.write("# Cached Completions:\n")
-        for engine, prompt, completion in client.cached_completions(match):
-            output.write("## Entry\n")
-            output.write(f"### Engine: {engine}\n")
-            output.write(f"### Prompt:\n\n {prompt}\n\n")
-            output.write(f"### Completion:\n\n {completion}\n\n")
+    raise NotImplementedError("This function is not implemented at this time.")
 
 
 @main.command()
