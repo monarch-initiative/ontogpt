@@ -3,6 +3,9 @@
 import time
 from oaklib import get_adapter
 
+# TODO: Set this up to be more general
+# TODO: merge the null checker into the knowledge engine
+
 NULL_VALS = [
     "",
     "Not mentioned",
@@ -143,7 +146,7 @@ forprint(mondo_go)
 subjects_with_names = []
 # for elem in subjects_with_chebi:
 for elem in subjects_with_mondo:
-    curr = [elem[:]]
+    curr = [elem]
     curr[0] = adapter.label(curr[0])
     subjects_with_names.append(curr)
 
