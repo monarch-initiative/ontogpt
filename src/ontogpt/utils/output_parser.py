@@ -129,6 +129,7 @@ for _key, value in trimmed_dict.copy().items():
 # objects_with_ecto = []
 subjects_with_mondo = []
 key = next(iter(trimmed_dict))
+curr: list[str] = []
 for i in range(len(trimmed_dict[key])):
     curr = []
     for value in trimmed_dict.values():
@@ -145,8 +146,8 @@ forprint(mondo_go)
 
 subjects_with_names = []
 # for elem in subjects_with_chebi:
-for elem in subjects_with_mondo:
-    curr = [elem]
+for elem in subjects_with_mondo: # type: ignore
+    curr.append(elem)
     curr[0] = adapter.label(curr[0])
     subjects_with_names.append(curr)
 
