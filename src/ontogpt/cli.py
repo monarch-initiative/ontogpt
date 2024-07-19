@@ -746,7 +746,12 @@ def search_and_extract(
     model_provider,
     **kwargs,
 ):
-    """Search for relevant literature and extract knowledge from it."""
+    """Search for relevant literature through PubMed and extract knowledge from it.
+    
+    Example:
+
+    ontogpt search-and-extract -m ollama/llama3 -t mondo_simple --keyword "kidney failure"
+    """
     if not model:
         model = DEFAULT_MODEL
 
@@ -991,7 +996,7 @@ def synonyms(
     ontogpt synonyms -m ollama/llama3 --context "political" "abdicate"
 
     ontogpt synonyms -m ollama/llama3 --context "biological" "dessicate"
-    
+
     """
     logging.info(f"Creating for {term}")
 
