@@ -1,4 +1,5 @@
 """Resolver engine."""
+
 from typing import Optional, Type, Union
 
 from class_resolver import ClassResolver
@@ -21,6 +22,6 @@ def create_engine(
     if isinstance(engine, str):
         engine = resolver.get_class(engine)(**kwargs)
     if engine is not None and not isinstance(engine, str):
-        return engine(template_details=template_details, **kwargs) # type: ignore
+        return engine(template_details=template_details, **kwargs)  # type: ignore
     else:
         return SPIRESEngine  # type: ignore
