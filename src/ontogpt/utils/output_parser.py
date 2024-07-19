@@ -101,7 +101,7 @@ while i < len(cleaned_lines):
 grouped_lines = [cleaned_lines[n : n + 4] for n in range(0, len(cleaned_lines), 4)]
 
 # trimmed_dict = {"genes": [], "relationships": [], "exposures": []}
-trimmed_dict = {"diseases": [], "relationships": [], "cellular processes": []}
+trimmed_dict: dict = {"diseases": [], "relationships": [], "cellular processes": []}
 for group in grouped_lines:
     group.pop(0)
 
@@ -143,7 +143,7 @@ forprint(mondo_go)
 subjects_with_names = []
 # for elem in subjects_with_chebi:
 for elem in subjects_with_mondo:
-    curr = elem[:]
+    curr = [elem[:]]
     curr[0] = adapter.label(curr[0])
     subjects_with_names.append(curr)
 

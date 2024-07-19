@@ -128,7 +128,7 @@ for i, line in enumerate(cleaned_lines.copy()):
         cleaned_lines[i] = line[2:]
 
 grouped_lines = [cleaned_lines[n : n + 3] for n in range(0, len(cleaned_lines), 3)]
-trimmed_dict = {"diseases": [], "relationships": [], "cellular processes": []}
+trimmed_dict: dict = {"diseases": [], "relationships": [], "cellular processes": []}
 for group in grouped_lines:
     subject = group[0].split(":", 1)[1].strip()
     relation = group[1].split(":", 1)[1].strip()
@@ -145,7 +145,7 @@ for _key, value in trimmed_dict.copy().items():
 
 # subjects_with_chebi = []
 # objects_with_ecto = []
-subjects_with_mondo = []
+subjects_with_mondo: list = []
 mondo_go = []
 key = next(iter(trimmed_dict))
 for i in range(len(trimmed_dict[key])):
@@ -166,7 +166,7 @@ forprint(mondo_go)
 subjects_with_names = []
 # for elem in subjects_with_chebi:
 for elem in subjects_with_mondo:
-    curr = elem[:]
+    curr = [elem[:]]
     curr[0] = adapter.label(curr[0])
     subjects_with_names.append(curr)
 
