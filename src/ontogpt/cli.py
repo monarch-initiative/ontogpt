@@ -1837,7 +1837,17 @@ def clinical_notes(
 
 @main.command()
 def list_templates():
-    """List the available extraction templates."""
+    """List the available extraction templates.
+
+    The following values are provided:
+
+    ID: The ID of the template. Use this with the -t/--template option in another command.
+
+    Name: The name of the template.
+
+    Description: A brief description of the template.
+    
+    """
 
     # Get the list of yaml files in the templates directory
     all_templates = _get_templates()
