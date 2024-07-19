@@ -705,10 +705,6 @@ def wikipedia_search(
         title = result["title"]
         text = client.text(title)
         logging.debug(f"Input text: {text}")
-        if len(text) > 4000:
-            # TODO - expand this to fit context limits better
-            # or add as cli option
-            text = text[:4000]
         results = ke.extract_from_text(text=text, show_prompt=show_prompt)
         write_extraction(results, output, output_format, ke, template)
         break
