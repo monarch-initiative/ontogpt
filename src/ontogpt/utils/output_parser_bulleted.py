@@ -140,7 +140,7 @@ for group in grouped_lines:
 for key, value in trimmed_dict.copy().items():
     for i, elem in enumerate(value):
         if elem.lower() in (val.lower() for val in NULL_VALS):
-            for key, value in trimmed_dict.items():
+            for _key, value in trimmed_dict.items():
                 del value[i]
 
 # subjects_with_chebi = []

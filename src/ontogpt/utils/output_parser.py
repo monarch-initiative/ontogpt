@@ -67,7 +67,8 @@ with open(output_file, "r") as file:
     for line in file:
         line = line.strip("\n")
         if line.startswith("extracted_object:"):
-            # if line.startswith("  disease_cellular_process_relationships:") and not line.startswith("  disease_cellular_process_relationships: "):
+            # if line.startswith("  disease_cellular_process_relationships:") 
+            # and not line.startswith("  disease_cellular_process_relationships: "):
             to_print = True
         elif not line.startswith(perpetuators):
             to_print = False
@@ -118,7 +119,7 @@ for group in grouped_lines:
 for key, value in trimmed_dict.copy().items():
     for i, elem in enumerate(value):
         if elem.lower() in (val.lower() for val in NULL_VALS):
-            for key, value in trimmed_dict.items():
+            for _key, value in trimmed_dict.items():
                 del value[i]
 
 # subjects_with_chebi = []
