@@ -984,7 +984,15 @@ def convert(
 def synonyms(
     model, term, context, output, temperature, api_base, api_version, model_provider, **kwargs
 ):
-    """Extract synonyms."""
+    """Extract synonyms.
+    
+    Examples:
+
+    ontogpt synonyms -m ollama/llama3 --context "political" "abdicate"
+
+    ontogpt synonyms -m ollama/llama3 --context "biological" "dessicate"
+    
+    """
     logging.info(f"Creating for {term}")
 
     if not model:
