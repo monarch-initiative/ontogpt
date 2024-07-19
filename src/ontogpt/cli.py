@@ -1921,6 +1921,7 @@ def list_models():
 @output_option_txt
 @output_format_options
 @show_prompt_option
+@temperature_option
 @api_base_option
 @api_version_option
 @model_provider_option
@@ -1931,6 +1932,7 @@ def suggest_templates(
     output,
     output_format,
     show_prompt,
+    temperature,
     api_base,
     api_version,
     model_provider,
@@ -1975,6 +1977,7 @@ def suggest_templates(
         output=output,
         output_format=output_format,
         show_prompt=show_prompt,
+        temperature=temperature,
         api_base=api_base,
         api_version=api_version,
         model_provider=model_provider,
