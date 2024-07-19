@@ -116,7 +116,7 @@ for group in grouped_lines:
     trimmed_dict["relationships"].append(relation)
     trimmed_dict["cellular processes"].append(object)
 
-for key, value in trimmed_dict.copy().items():
+for _key, value in trimmed_dict.copy().items():
     for i, elem in enumerate(value):
         if elem.lower() in (val.lower() for val in NULL_VALS):
             for _key, value in trimmed_dict.items():
