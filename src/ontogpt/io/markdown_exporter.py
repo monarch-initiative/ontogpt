@@ -1,4 +1,5 @@
 """Markdown exporter."""
+
 from dataclasses import dataclass
 from io import BytesIO, StringIO, TextIOWrapper
 from pathlib import Path
@@ -47,7 +48,7 @@ class MarkdownExporter(Exporter):
         output: TextIO,
         indent: int,
     ):
-        for field in obj.__fields__.values():
+        for field in obj.model_fields.values():
             if indent < 0:
                 output.write(f"\n\n### {field.name}\n\n")
             else:
