@@ -13,7 +13,7 @@ from ontogpt.ontex.extractor import (
     Answer,
     Axiom,
     Explanation,
-    GPTReasonMethodType,
+    LLMReasonMethodType,
     Task,
     TaskCollection,
 )
@@ -41,7 +41,7 @@ class ReasonerResult(BaseModel):
     task_name: Optional[str] = None
     task_type: Optional[str] = None
     task_obfuscated: Optional[bool] = None
-    method: Optional[GPTReasonMethodType] = None
+    method: Optional[LLMReasonMethodType] = None
     model: Optional[str] = None
     description: Optional[str] = None
     answers: Optional[List[Answer]] = None
@@ -159,9 +159,9 @@ class ReasonerEngine(KnowledgeEngine):
             examples=task.examples,
         )
         completion_length = self.completion_length
-        if task.method == GPTReasonMethodType.EXPLANATION:
+        if task.method == LLMReasonMethodType.EXPLANATION:
             completion_length *= 2
-        elif task.method == GPTReasonMethodType.CHAIN_OF_THOUGHT:
+        elif task.method == LLMReasonMethodType.CHAIN_OF_THOUGHT:
             completion_length *= 2
         logger.info(f"Prompt: {prompt}")
         if self.encoding is not None:

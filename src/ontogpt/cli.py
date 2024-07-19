@@ -1248,7 +1248,7 @@ def reason(
         tasks = []
         print(f"Cloning {len(tc.tasks)} tasks")
         for core_task in tc.tasks:
-            for m in extractor.GPTReasonMethodType:
+            for m in extractor.LLMReasonMethodType:
                 print(f"Cloning {m}")
                 task = deepcopy(core_task)
                 task.method = m
