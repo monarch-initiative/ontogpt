@@ -1,0 +1,106 @@
+---
+input_text: Spain is a significant contributor to the global agricultural sector,
+  with its primary exports demonstrating the country's diverse climate and agricultural
+  capacity. The nation leads the world in olive oil production and export, renowned
+  for its quality. Spain is also one of the top wine producers globally, with notable
+  regions including Rioja and Ribera del Duero. It exports a wide range of fruits,
+  particularly citrus fruits such as oranges and lemons from Valencia, as well as
+  peaches, strawberries, melons, and apples. Vegetable exports are substantial, with
+  tomatoes, peppers, cucumbers, and lettuce being predominant, especially from the
+  Almería region known for its greenhouse production. Spain is recognized for its
+  premium pork products, notably jamón ibérico and jamón serrano, and is a leading
+  exporter of nuts, particularly almonds and hazelnuts. Additionally, Spain exports
+  significant quantities of fish and seafood, including sardines, tuna, and shrimp,
+  facilitated by its extensive coastline and fishing traditions.
+raw_completion_output: |-
+  terms: Olive oil;Wine;Citrus fruits;Oranges;Lemons;Peaches;Strawberries;Melons;Apples;Tomatoes;Peppers;Cucumbers;Lettuce;Pork products;Jamón ibérico;Jamón serrano;Nuts;Almonds;Hazelnuts;Fish;Seafood;Sardines;Tuna;Shrimp
+  label: Spain
+prompt: |+
+  From the text below, extract the following entities in the following format:
+
+  terms: <A semicolon-separated list of any Food Ontology terms.>
+  label: <The label (name) of the named thing>
+
+
+  Text:
+  Spain is a significant contributor to the global agricultural sector, with its primary exports demonstrating the country's diverse climate and agricultural capacity. The nation leads the world in olive oil production and export, renowned for its quality. Spain is also one of the top wine producers globally, with notable regions including Rioja and Ribera del Duero. It exports a wide range of fruits, particularly citrus fruits such as oranges and lemons from Valencia, as well as peaches, strawberries, melons, and apples. Vegetable exports are substantial, with tomatoes, peppers, cucumbers, and lettuce being predominant, especially from the Almería region known for its greenhouse production. Spain is recognized for its premium pork products, notably jamón ibérico and jamón serrano, and is a leading exporter of nuts, particularly almonds and hazelnuts. Additionally, Spain exports significant quantities of fish and seafood, including sardines, tuna, and shrimp, facilitated by its extensive coastline and fishing traditions.
+
+  ===
+
+extracted_object:
+  id: c2a2b5c7-c262-46b7-a3d7-a733a5a83c7a
+  label: Spain
+  terms:
+    - FOODON:03301826
+    - AUTO:Wine
+    - FOODON:00003324
+    - FOODON:03315106
+    - FOODON:03315104
+    - FOODON:03315502
+    - FOODON:00003443
+    - FOODON:00003597
+    - FOODON:00002473
+    - FOODON:03301453
+    - FOODON:00003520
+    - FOODON:00003415
+    - FOODON:00001998
+    - AUTO:Pork%20products
+    - AUTO:Jam%C3%B3n%20ib%C3%A9rico
+    - AUTO:Jam%C3%B3n%20serrano
+    - FOODON:03303171
+    - FOODON:00003523
+    - FOODON:00002933
+    - FOODON:03411222
+    - AUTO:Seafood
+    - FOODON:03411558
+    - FOODON:03411269
+    - FOODON:03411237
+named_entities:
+  - id: FOODON:03301826
+    label: Olive oil
+  - id: AUTO:Wine
+    label: Wine
+  - id: FOODON:00003324
+    label: Citrus fruits
+  - id: FOODON:03315106
+    label: Oranges
+  - id: FOODON:03315104
+    label: Lemons
+  - id: FOODON:03315502
+    label: Peaches
+  - id: FOODON:00003443
+    label: Strawberries
+  - id: FOODON:00003597
+    label: Melons
+  - id: FOODON:00002473
+    label: Apples
+  - id: FOODON:03301453
+    label: Tomatoes
+  - id: FOODON:00003520
+    label: Peppers
+  - id: FOODON:00003415
+    label: Cucumbers
+  - id: FOODON:00001998
+    label: Lettuce
+  - id: AUTO:Pork%20products
+    label: Pork products
+  - id: AUTO:Jam%C3%B3n%20ib%C3%A9rico
+    label: Jamón ibérico
+  - id: AUTO:Jam%C3%B3n%20serrano
+    label: Jamón serrano
+  - id: FOODON:03303171
+    label: Nuts
+  - id: FOODON:00003523
+    label: Almonds
+  - id: FOODON:00002933
+    label: Hazelnuts
+  - id: FOODON:03411222
+    label: Fish
+  - id: AUTO:Seafood
+    label: Seafood
+  - id: FOODON:03411558
+    label: Sardines
+  - id: FOODON:03411269
+    label: Tuna
+  - id: FOODON:03411237
+    label: Shrimp
