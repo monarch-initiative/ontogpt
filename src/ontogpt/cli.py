@@ -750,7 +750,7 @@ def search_and_extract(
     
     Example:
 
-    ontogpt search-and-extract -m ollama/llama3 -t mondo_simple --keyword "kidney failure"
+    ontogpt search-and-extract -m ollama/llama3 -t phenotype --keyword "kidney failure"
     """
     if not model:
         model = DEFAULT_MODEL
