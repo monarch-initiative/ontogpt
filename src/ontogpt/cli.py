@@ -399,7 +399,12 @@ def generate_extract(
     model_provider,
     **kwargs,
 ):
-    """Generate text and then extract knowledge from it."""
+    """Generate text and then extract knowledge from it.
+    
+    Example:
+
+    ontogpt generate-extract -m ollama/llama3 -t kidney "kidney failure"
+    """
     if not model:
         model = DEFAULT_MODEL
 
