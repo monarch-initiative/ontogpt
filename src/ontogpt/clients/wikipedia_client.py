@@ -1,4 +1,4 @@
-"""Pubmed Client."""
+"""Wikipedia Client."""
 
 from dataclasses import dataclass
 
@@ -8,12 +8,12 @@ import wikipediaapi
 
 @dataclass
 class WikipediaClient:
-    """A client for Wikipedia articles."""
+    """A client for extracting text from Wikipedia articles."""
 
     language: str = "en"
 
     def text(self, title: str) -> str:
-        """Get the text of a an article."""
+        """Get the text of an article."""
         wiki = wikipediaapi.Wikipedia("ontogpt", self.language)
         page = wiki.page(title)
 

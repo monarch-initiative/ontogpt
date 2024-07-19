@@ -1,4 +1,5 @@
 """Tools to extract sub-ontologies and reasoner tasks."""
+
 import base64
 import logging
 import random
@@ -170,7 +171,7 @@ class Example(BaseModel):
     query_answers: Optional[List[ExampleQueryAnswers]] = None
 
 
-class GPTReasonMethodType(str, Enum):
+class LLMReasonMethodType(str, Enum):
     BASIC = "basic"
     EXPLANATION = "explanation"
     CHAIN_OF_THOUGHT = "chain_of_thought"
@@ -198,7 +199,7 @@ class Task(BaseModel):
     examples: Optional[List[Example]] = None
     obfuscated: Optional[bool] = False
 
-    method: Optional[GPTReasonMethodType] = None
+    method: Optional[LLMReasonMethodType] = None
 
     include_explanations: Optional[bool] = False
     """If true then completing the task must involve providing explanations for each answer."""
@@ -245,19 +246,19 @@ class Task(BaseModel):
     def init_method(self):
         if self.method:
             logger.info(f"Initializing method for {self.name}")
-            if not isinstance(self.method, GPTReasonMethodType):
-                self.method = GPTReasonMethodType(self.method)
-            if self.method == GPTReasonMethodType.EXPLANATION:
+            if not isinstance(self.method, LLMReasonMethodType):
+                self.method = LLMReasonMethodType(self.method)
+            if self.method == LLMReasonMethodType.EXPLANATION:
                 self.include_explanations = True
-            elif self.method == GPTReasonMethodType.CHAIN_OF_THOUGHT:
+            elif self.method == LLMReasonMethodType.CHAIN_OF_THOUGHT:
                 self.chain_of_thought = True
         else:
             if self.include_explanations:
-                self.method = GPTReasonMethodType.EXPLANATION
+                self.method = LLMReasonMethodType.EXPLANATION
             elif self.chain_of_thought:
-                self.method = GPTReasonMethodType.CHAIN_OF_THOUGHT
+                self.method = LLMReasonMethodType.CHAIN_OF_THOUGHT
             else:
-                self.method = GPTReasonMethodType.BASIC
+                self.method = LLMReasonMethodType.BASIC
 
 
 class OntologyCoherencyTask(Task):
@@ -1050,9 +1051,9 @@ class TaskCollection(BaseModel):
             typ = task_dict["type"]
             cls = current_module.__dict__[typ]
             task = cls(**task_dict)
-            if not isinstance(task.method, GPTReasonMethodType):
+            if not isinstance(task.method, LLMReasonMethodType):
                 # TODO: figure how to get pydantic to do this
-                task.method = GPTReasonMethodType(task.method)
+                task.method = LLMReasonMethodType(task.method)
             tasks.append(task)
         tc_dict["tasks"] = tasks
         return TaskCollection(**tc_dict)

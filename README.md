@@ -1,5 +1,7 @@
 # OntoGPT
 
+![OntoGPT Logo](/images/ontogpt_logo_3.jpg)
+
 [![DOI](https://zenodo.org/badge/13996/monarch-initiative/ontogpt.svg)](https://zenodo.org/badge/latestdoi/13996/monarch-initiative/ontogpt)
 ![PyPI](https://img.shields.io/pypi/v/ontogpt)
 

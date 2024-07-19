@@ -34,7 +34,7 @@ def get_template_details(template: TEMPLATE_NAME) -> ClassDefinition:
         # Check if file exists first
         if not path_to_template.exists():
             raise FileNotFoundError(f"Template file not found at {template}")
-        
+
         # Copy the schema to the templates directory
         # So it will have access to imports like the core schema
         templates_path = this_path.parent / "templates"
@@ -47,7 +47,7 @@ def get_template_details(template: TEMPLATE_NAME) -> ClassDefinition:
 
         gen = PydanticGenerator(str(new_path_to_template), pydantic_version=2)
         path_to_module.write_text(gen.serialize())
-        
+
         mod = importlib.import_module(f"ontogpt.templates.{module_name}")
         class_name = None
 

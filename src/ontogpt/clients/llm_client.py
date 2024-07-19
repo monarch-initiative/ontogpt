@@ -35,8 +35,10 @@ class LLMClient:
     def __post_init__(self):
         # Get appropriate API key for the model source
         # and other details if needed
-        if not self.api_key:
+        if not self.api_key and not self.custom_llm_provider:
             self.api_key = get_apikey_value("openai")
+        elif self.custom_llm_provider == "anthropic":
+            self.api_key = get_apikey_value("anthropic-key")
         else:
             for service in SERVICES:
                 if self.model.startswith(service):

@@ -1,0 +1,175 @@
+---
+input_text: Zambia and the DR Congo are situated in the central African Copperbelt,
+  which is part of the Lufilian geological structure arc stretching over from Kolwezi
+  in Katanga Province in the DRC to Luanshya in Copperbelt Province in Zambia. The
+  area has large copper-cobalt deposits of which the extraction causes severe ecosystem
+  damage due to pollution of water, food crops, and the ambient air negatively impacting
+  population health. Contamination of drinking water for domestic use and foods (cereals,
+  roots and tubers, vegetables, and fruits) was determined by assessing the contents
+  of trace metals including Mn, Ni, Pb, Zn, Co, As, U, Cd, and Cu and through a questionnaire
+  for environmental damage. Food samples were analyzed by inductively coupled argon
+  plasma/optical emission spectroscopy (ICP-OES), while water and urine samples were
+  analyzed by inductively coupled argon plasma mass spectrometry (ICP-MS). Concentrations
+  of Ni, Pb, and Cd were higher in almost all food crops, although Cu was more in
+  samples of Cucurbita maxima and Amaranthus hybridus. Mean contents (μg/L) of Mn,
+  Zn, Cd, Pb, and U were, respectively, 5,454.6, 2552.2, 138.7, 39.7, 2361.1, and
+  21.4 in the DRC and 108.9, 543.3, 0.3, 0.2, 1.5, and 0.5 in Zambia, being significantly
+  higher and always far above World Health Organization maximum limits in the DRC.
+  Urine samples taken only from the DRC contained trace metals with children's samples
+  being more contaminated than adult ones. Our results conclusively echo the most
+  critical challenges of toxic pollutants causing numerous health issues among the
+  population. Given an outcry among households adjacent to mines about land degradation
+  and food spoilage, and health problems over years, joint efforts are needed from
+  public and private sectors for stringent mining exploitation monitoring for sustainable
+  governance to protect the environment and ensure food and nutrition safety, and
+  population well-being in Zambia and the DR Congo.
+raw_completion_output: |-
+  location: Kolwezi;Katanga Province;Luanshya;Copperbelt Province
+  environmental_material: water;food crops;ambient air;drinking water;cereals;roots and tubers;vegetables;fruits;food samples;urine samples
+  environments: Copperbelt;Lufilian geological structure arc
+  causal_relationships: effect of extraction on ecosystem damage;effect of pollution on population health;effect of trace metals on contamination of drinking water and foods;effect of pollutants on health issues
+  variables: Mn;Ni;Pb;Zn;Co;As;U;Cd;Cu;toxic pollutants;health issues;land degradation;food spoilage;children's samples;adult samples
+  measurements: Mn-5454.6 μg/L;Zn-2552.2 μg/L;Cd-138.7 μg/L;Pb-39.7 μg/L;U-2361.1 μg/L;Mn-108.9 μg/L;Zn-543.3 μg/L;Cd-0.3 μg/L;Pb-0.2 μg/L;U-1.5 μg/L;U-0.5 μg/L
+prompt: |+
+  Split the following piece of text into fields in the following format:
+
+  value: <the value of the measurement>
+  unit: <the unit of the measurement>
+
+
+  Text:
+  U-0.5 μg/L
+
+  ===
+
+extracted_object:
+  location:
+    - AUTO:Kolwezi
+    - AUTO:Katanga%20Province
+    - AUTO:Luanshya
+    - GAZ:00009425
+  environmental_material:
+    - ENVO:00002006
+    - ENVTHES:20523
+    - ENVTHES:23
+    - ENVO:00003064
+    - AUTO:cereals
+    - AUTO:roots%20and%20tubers
+    - AUTO:vegetables
+    - ENVTHES:20576
+    - ENVTHES:20523
+    - ENVTHES:10152
+  environments:
+    - AUTO:Copperbelt
+    - ENVTHES:10358
+  causal_relationships:
+    - cause: AUTO:extraction
+      effect: ENVO:01001110
+    - cause: ENVO:02500036
+      effect: ENVTHES:20715
+    - cause: ENVO:01001069
+      effect: ENVO:00003064
+    - cause: ENVTHES:20893
+      effect: AUTO:health%20issues
+  variables:
+    - AUTO:Mn
+    - AUTO:Ni
+    - AUTO:Pb
+    - AUTO:Zn
+    - AUTO:Co
+    - AUTO:As
+    - AUTO:U
+    - AUTO:Cd
+    - AUTO:Cu
+    - ENVTHES:20893
+    - AUTO:health%20issues
+    - ENVO:02500005
+    - ENVTHES:20523
+    - ENVTHES:10152
+    - ENVTHES:10152
+  measurements:
+    - value: '5454.6'
+      unit: AUTO:%CE%BCg/L
+    - value: '2552.2'
+      unit: AUTO:%CE%BCg/L
+    - value: '39.7'
+      unit: AUTO:%CE%BCg/L
+    - value: '2361.1'
+      unit: AUTO:%CE%BCg/L
+    - value: '108.9'
+      unit: AUTO:%CE%BCg/L
+    - value: '0.3'
+      unit: AUTO:%CE%BCg/L
+    - value: '0.2'
+      unit: AUTO:%CE%BCg/L
+    - value: '1.5'
+      unit: AUTO:%CE%BCg/L
+    - value: '0.5'
+      unit: AUTO:%CE%BCg/L
+named_entities:
+  - id: AUTO:Kolwezi
+    label: Kolwezi
+  - id: AUTO:Katanga%20Province
+    label: Katanga Province
+  - id: AUTO:Luanshya
+    label: Luanshya
+  - id: GAZ:00009425
+    label: Copperbelt Province
+  - id: ENVO:00002006
+    label: water
+  - id: ENVTHES:20523
+    label: food crops
+  - id: ENVTHES:23
+    label: ambient air
+  - id: ENVO:00003064
+    label: drinking water
+  - id: AUTO:cereals
+    label: cereals
+  - id: AUTO:roots%20and%20tubers
+    label: roots and tubers
+  - id: AUTO:vegetables
+    label: vegetables
+  - id: ENVTHES:20576
+    label: fruits
+  - id: ENVTHES:10152
+    label: urine samples
+  - id: AUTO:Copperbelt
+    label: Copperbelt
+  - id: ENVTHES:10358
+    label: Lufilian geological structure arc
+  - id: AUTO:extraction
+    label: extraction
+  - id: ENVO:01001110
+    label: ecosystem damage
+  - id: ENVO:02500036
+    label: pollution
+  - id: ENVTHES:20715
+    label: population health
+  - id: ENVO:01001069
+    label: trace metals
+  - id: ENVTHES:20893
+    label: pollutants
+  - id: AUTO:health%20issues
+    label: health issues
+  - id: AUTO:Mn
+    label: Mn
+  - id: AUTO:Ni
+    label: Ni
+  - id: AUTO:Pb
+    label: Pb
+  - id: AUTO:Zn
+    label: Zn
+  - id: AUTO:Co
+    label: Co
+  - id: AUTO:As
+    label: As
+  - id: AUTO:U
+    label: U
+  - id: AUTO:Cd
+    label: Cd
+  - id: AUTO:Cu
+    label: Cu
+  - id: ENVO:02500005
+    label: land degradation
+  - id: AUTO:%CE%BCg/L
+    label: μg/L

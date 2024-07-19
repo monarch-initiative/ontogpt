@@ -1,4 +1,5 @@
 """RDF convertor."""
+
 import logging
 from dataclasses import dataclass
 from io import BytesIO

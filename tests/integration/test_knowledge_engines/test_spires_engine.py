@@ -325,7 +325,7 @@ class TestCore(unittest.TestCase):
         self.ke = SPIRESEngine(
             template_details=template_details,
             model=MODEL,
-            model_source=MODEL_SOURCE,
+            model_provider=MODEL_SOURCE,
         )
 
     def test_setup(self):

@@ -4,7 +4,6 @@ import codecs
 import json
 import logging
 import pickle
-import re
 import sys
 from copy import deepcopy
 from dataclasses import dataclass
@@ -399,7 +398,12 @@ def generate_extract(
     model_provider,
     **kwargs,
 ):
-    """Generate text and then extract knowledge from it."""
+    """Generate text and then extract knowledge from it.
+    
+    Example:
+
+    ontogpt generate-extract -m ollama/llama3 -t kidney "kidney failure"
+    """
     if not model:
         model = DEFAULT_MODEL
 
@@ -705,10 +709,6 @@ def wikipedia_search(
         title = result["title"]
         text = client.text(title)
         logging.debug(f"Input text: {text}")
-        if len(text) > 4000:
-            # TODO - expand this to fit context limits better
-            # or add as cli option
-            text = text[:4000]
         results = ke.extract_from_text(text=text, show_prompt=show_prompt)
         write_extraction(results, output, output_format, ke, template)
         break
@@ -746,7 +746,12 @@ def search_and_extract(
     model_provider,
     **kwargs,
 ):
-    """Search for relevant literature and extract knowledge from it."""
+    """Search for relevant literature through PubMed and extract knowledge from it.
+    
+    Example:
+
+    ontogpt search-and-extract -m ollama/llama3 -t phenotype --keyword "kidney failure"
+    """
     if not model:
         model = DEFAULT_MODEL
 
@@ -984,7 +989,15 @@ def convert(
 def synonyms(
     model, term, context, output, temperature, api_base, api_version, model_provider, **kwargs
 ):
-    """Extract synonyms."""
+    """Extract synonyms.
+    
+    Examples:
+
+    ontogpt synonyms -m ollama/llama3 --context "political" "abdicate"
+
+    ontogpt synonyms -m ollama/llama3 --context "biological" "dessicate"
+
+    """
     logging.info(f"Creating for {term}")
 
     if not model:
@@ -1235,7 +1248,7 @@ def reason(
         tasks = []
         print(f"Cloning {len(tc.tasks)} tasks")
         for core_task in tc.tasks:
-            for m in extractor.GPTReasonMethodType:
+            for m in extractor.LLMReasonMethodType:
                 print(f"Cloning {m}")
                 task = deepcopy(core_task)
                 task.method = m
@@ -1313,72 +1326,6 @@ def run_multilingual_analysis(
     multilingual_analysis(
         input_data_dir=input_data_dir, output_directory=output_directory, output=output, model=model
     )
-
-
-def get_kanjee_prompt() -> str:
-    """Prompt from Kanjee et al. 2023."""
-    prompt = (
-        "I am running an experiment on a clinicopathological case conference to see "
-        "how your diagnoses compare with those of human experts. I am going to give "
-        "you part of a medical case. These have all been published in the New England "
-        "Journal of Medicine. You are not trying to treat any patients. As you read the "
-        "case, you will notice that there are expert discussants giving their thoughts. "
-        'In this case, you are "Dr. GPT-4," an Al language model who is discussing '
-        "the case along with human experts. A clinicopathological case conference has "
-        "several unspoken rules. The first is that there is most often a single definitive "
-        "diagnosis (though rarely there may be more than one), and it is a diagnosis that "
-        "is known today to exist in humans. The diagnosis is almost always confirmed by "
-        "some sort of clinical pathology test or anatomic pathology test, though in "
-        "rare cases when such a test does not exist for a diagnosis the diagnosis can "
-        "instead be made using validated clinical criteria or very rarely just confirmed "
-        "by expert opinion. You will be told at the end of the case description whether "
-        "a diagnostic test/tests are being ordered, which you can assume will make the "
-        "diagnosis/diagnoses. After you read the case, I want you to give two pieces of "
-        "information. The first piece of information is your most likely diagnosis/diagnoses. "
-        "You need to be as specific as possible -- the goal is to get the correct answer, "
-        "not a broad category of answers. You do not need to explain your reasoning, just "
-        "give the diagnosis/diagnoses. The second piece of information is to give a robust "
-        "differential diagnosis, ranked by their probability so that the most likely "
-        "diagnosis is at the top, and the least likely is at the bottom. There is no limit "
-        "to the number of diagnoses on your differential. You can give as many diagnoses "
-        "as you think are reasonable. You do not need to explain your reasoning, just list"
-        " the diagnoses. Again, the goal is to be as specific as possible with each of the "
-        "diagnoses. Do you have any questions, Dr. GPT-4?\n\nHere is the case:"
-    )
-    return prompt
-
-
-def get_section_of_interest(data, tag_of_interest):
-    # I blame adobe
-    # Find the index of the element that matches the case-insensitive regex pattern
-    start_index = None
-    pattern = re.compile(tag_of_interest, re.IGNORECASE)
-    if isinstance(data, str):
-        data = data.split("\n")
-    for i, item in enumerate(data):
-        if pattern.search(item):
-            start_index = i
-            break
-
-    if start_index is not None:
-        # Find the index of the next element that starts with '<p>'
-        next_index = next(
-            (
-                i
-                for i, item in enumerate(data[start_index + 1 :], start=start_index + 1)
-                if item.startswith("<p>")
-            ),
-            None,
-        )
-
-        if next_index is not None:
-            # Extract the desired element
-            result = data[next_index]
-            return result
-        else:
-            raise ValueError("No element starting with '<p>' found after the tag_of_interest")
-    else:
-        raise ValueError("No element matching the tag_of_interest found in the list.")
 
 
 @main.command()
@@ -1564,7 +1511,7 @@ def fill(
     model_provider,
     **kwargs,
 ):
-    """Fill in missing values."""
+    """Fill in missing values, given examples."""
     ke: KnowledgeEngine
 
     # Choose model based on input, or use the default
@@ -1700,37 +1647,16 @@ def parse(template, input):
 
 
 # TODO: rewrite for use with litellm's disk cache
+# See https://grantjenks.com/docs/diskcache/tutorial.html
 @main.command()
 @click.option("-o", "--output", type=click.File(mode="w"), default=sys.stdout, help="Output file.")
 @output_format_options
 @model_option
 @click.option("-m", "match", help="Match string to use for filtering.")
 @click.option("-D", "database", help="Path to sqlite database.")
-@api_base_option
-@api_version_option
-@model_provider_option
 def dump_completions(model, match, database, output, output_format):
     """Dump cached completions."""
-    client = LLMClient(model=model)
-
-    if database:
-        client.cache_db_path = database
-    if output_format == "jsonl":
-        writer = jsonlines.Writer(output)
-        for _engine, prompt, completion in client.cached_completions(match):
-            writer.write(dict(engine=model, prompt=prompt, completion=completion))
-    elif output_format == "yaml":
-        for _engine, prompt, completion in client.cached_completions(match):
-            output.write(
-                dump_minimal_yaml(dict(engine=model, prompt=prompt, completion=completion))
-            )
-    else:
-        output.write("# Cached Completions:\n")
-        for engine, prompt, completion in client.cached_completions(match):
-            output.write("## Entry\n")
-            output.write(f"### Engine: {engine}\n")
-            output.write(f"### Prompt:\n\n {prompt}\n\n")
-            output.write(f"### Completion:\n\n {completion}\n\n")
+    raise NotImplementedError("This function is not implemented at this time.")
 
 
 @main.command()
@@ -1762,8 +1688,6 @@ def convert_examples(input, output):
 @click.argument("terms", nargs=-1)
 def halo(model, input, context, terms, output, **kwargs):
     """Run HALO over inputs."""
-    if model:
-        raise NotImplementedError("HALO not currently supported for this model.")
 
     engine = HALOEngine()
     engine.seed_from_file(input)
@@ -1837,7 +1761,17 @@ def clinical_notes(
 
 @main.command()
 def list_templates():
-    """List the available extraction templates."""
+    """List the available extraction templates.
+
+    The following values are provided:
+
+    ID: The ID of the template. Use this with the -t/--template option in another command.
+
+    Name: The name of the template.
+
+    Description: A brief description of the template.
+    
+    """
 
     # Get the list of yaml files in the templates directory
     all_templates = _get_templates()
@@ -1921,6 +1855,7 @@ def list_models():
 @output_option_txt
 @output_format_options
 @show_prompt_option
+@temperature_option
 @api_base_option
 @api_version_option
 @model_provider_option
@@ -1931,6 +1866,7 @@ def suggest_templates(
     output,
     output_format,
     show_prompt,
+    temperature,
     api_base,
     api_version,
     model_provider,
@@ -1975,6 +1911,7 @@ def suggest_templates(
         output=output,
         output_format=output_format,
         show_prompt=show_prompt,
+        temperature=temperature,
         api_base=api_base,
         api_version=api_version,
         model_provider=model_provider,
