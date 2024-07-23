@@ -35,7 +35,7 @@ where `extra_name` is one of the following:
 
 * `docs` - dependencies for building documentation
 * `recipes` - dependencies for recipe scraping and parsing
-* `textract` - the textract plugin
+* `textract` - the textract plugin (use the alternative `textract-py3` if you encounter build issues)
 * `web` - dependencies for the web application
 
 For installation from the GitHub repository, particularly if you plan to contribute to feature development or other package code:
