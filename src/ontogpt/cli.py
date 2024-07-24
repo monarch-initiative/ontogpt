@@ -548,7 +548,6 @@ def iteratively_generate_extract(
 @api_base_option
 @api_version_option
 @model_provider_option
-@click.argument("search")
 @click.option(
     "--max-text-length",
     default=3000,
