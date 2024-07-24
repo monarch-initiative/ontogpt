@@ -78,11 +78,19 @@ def write_extraction(
     output_format: str,
     knowledge_engine: KnowledgeEngine,
     template: str,
+    cut_input_text: bool,
 ):
     """Write results of extraction to a given output stream."""
     # Check if this result contains anything writable first
     if results.extracted_object:
         exporter: Union[MarkdownExporter, HTMLExporter, RDFExporter, OWLExporter]
+
+        if cut_input_text:
+            truncate_len = 1000
+            remaining_len = len(results.input_text) - truncate_len
+            results.input_text = (
+                results.input_text[:truncate_len] + f"...{remaining_len} chars not shown."
+            )
 
         if output_format not in ["pickle"]:
             output = _as_text_writer(output)
@@ -213,6 +221,13 @@ temperature_option = click.option(
     default=1.0,
     help="Temperature for model completion.",
 )
+cut_input_text_option = click.option(
+    "--cut-input-text/--no-cut-input-text",
+    default=False,
+    show_default=True,
+    help="If set, outputs will contain only the first 1000 characters of each input text."
+    " This is useful when processing many documents.",
+)
 
 
 @click.group()
@@ -263,6 +278,7 @@ def main(verbose: int, quiet: bool, cache_db: str):
 @api_version_option
 @model_provider_option
 @temperature_option
+@cut_input_text_option
 def extract(
     inputfile,
     template,
@@ -276,6 +292,7 @@ def extract(
     model,
     show_prompt,
     temperature,
+    cut_input_text,
     api_base,
     api_version,
     model_provider,
@@ -369,7 +386,7 @@ def extract(
             for slot_value in set_slot_value:
                 slot, value = slot_value.split("=")
                 setattr(results.extracted_object, slot, value)
-        write_extraction(results, output, output_format, ke, template)
+        write_extraction(results, output, output_format, ke, template, cut_input_text)
 
 
 @main.command()
@@ -381,6 +398,7 @@ def extract(
 @auto_prefix_option
 @show_prompt_option
 @temperature_option
+@cut_input_text_option
 @api_base_option
 @api_version_option
 @model_provider_option
@@ -393,13 +411,14 @@ def generate_extract(
     output_format,
     show_prompt,
     temperature,
+    cut_input_text,
     api_base,
     api_version,
     model_provider,
     **kwargs,
 ):
     """Generate text and then extract knowledge from it.
-    
+
     Example:
 
     ontogpt generate-extract -m ollama/llama3 -t kidney "kidney failure"
@@ -428,7 +447,7 @@ def generate_extract(
     results = ke.generate_and_extract(
         entity=entity, prompt_template=template, show_prompt=show_prompt
     )
-    write_extraction(results, output, output_format, ke, template)
+    write_extraction(results, output, output_format, ke, template, cut_input_text)
 
 
 @main.command()
@@ -447,6 +466,7 @@ def generate_extract(
     "--clear/--no-clear", default=False, show_default=True, help="Clear the db before starting"
 )
 @temperature_option
+@cut_input_text_option
 @api_base_option
 @api_version_option
 @model_provider_option
@@ -464,6 +484,7 @@ def iteratively_generate_extract(
     ontology,
     show_prompt,
     temperature,
+    cut_input_text,
     api_base,
     api_version,
     model_provider,
@@ -501,7 +522,7 @@ def iteratively_generate_extract(
         adapter=adapter,
         clear=clear,
     ):
-        write_extraction(results, output, output_format, ke, template)
+        write_extraction(results, output, output_format, ke, template, cut_input_text)
 
 
 @main.command()
@@ -522,10 +543,10 @@ def iteratively_generate_extract(
     help="Attempt to parse PubMed Central full text(s) instead of abstract(s) alone.",
 )
 @temperature_option
+@cut_input_text_option
 @api_base_option
 @api_version_option
 @model_provider_option
-@click.argument("search")
 @click.option(
     "--max-text-length",
     default=3000,
@@ -543,6 +564,7 @@ def pubmed_annotate(
     show_prompt,
     max_text_length,
     temperature,
+    cut_input_text,
     api_base,
     api_version,
     model_provider,
@@ -586,7 +608,7 @@ def pubmed_annotate(
     for text in textlist:
         logging.debug(f"Input text: {text}")
         results = ke.extract_from_text(text=text, show_prompt=show_prompt)
-        write_extraction(results, output, output_format, ke, template)
+        write_extraction(results, output, output_format, ke, template, cut_input_text)
 
 
 @main.command()
@@ -598,6 +620,7 @@ def pubmed_annotate(
 @show_prompt_option
 @click.option("--auto-prefix", default="AUTO", help="Prefix to use for auto-generated classes.")
 @temperature_option
+@cut_input_text_option
 @api_base_option
 @api_version_option
 @model_provider_option
@@ -610,6 +633,7 @@ def wikipedia_extract(
     output_format,
     show_prompt,
     temperature,
+    cut_input_text,
     api_base,
     api_version,
     model_provider,
@@ -642,7 +666,7 @@ def wikipedia_extract(
 
     logging.debug(f"Input text: {text}")
     results = ke.extract_from_text(text=text, show_prompt=show_prompt)
-    write_extraction(results, output, output_format, ke, template)
+    write_extraction(results, output, output_format, ke, template, cut_input_text)
 
 
 @main.command()
@@ -659,6 +683,7 @@ def wikipedia_extract(
     help="Keyword to search for (e.g. --keyword therapy). Also obtained from schema",
 )
 @temperature_option
+@cut_input_text_option
 @api_base_option
 @api_version_option
 @model_provider_option
@@ -672,6 +697,7 @@ def wikipedia_search(
     output_format,
     show_prompt,
     temperature,
+    cut_input_text,
     api_base,
     api_version,
     model_provider,
@@ -710,7 +736,7 @@ def wikipedia_search(
         text = client.text(title)
         logging.debug(f"Input text: {text}")
         results = ke.extract_from_text(text=text, show_prompt=show_prompt)
-        write_extraction(results, output, output_format, ke, template)
+        write_extraction(results, output, output_format, ke, template, cut_input_text)
         break
 
 
@@ -728,6 +754,7 @@ def wikipedia_search(
     help="Keyword to search for (e.g. --keyword therapy). Also obtained from schema",
 )
 @temperature_option
+@cut_input_text_option
 @api_base_option
 @api_version_option
 @model_provider_option
@@ -741,13 +768,14 @@ def search_and_extract(
     output_format,
     show_prompt,
     temperature,
+    cut_input_text,
     api_base,
     api_version,
     model_provider,
     **kwargs,
 ):
     """Search for relevant literature through PubMed and extract knowledge from it.
-    
+
     Example:
 
     ontogpt search-and-extract -m ollama/llama3 -t phenotype --keyword "kidney failure"
@@ -789,7 +817,7 @@ def search_and_extract(
     text = pmc.text(pmid)
     logging.info(f"Input text: {text}")
     results = ke.extract_from_text(text=text, show_prompt=show_prompt)
-    write_extraction(results, output, output_format, ke, template)
+    write_extraction(results, output, output_format, ke, template, cut_input_text)
 
 
 @main.command()
@@ -800,6 +828,7 @@ def search_and_extract(
 @output_format_options
 @show_prompt_option
 @temperature_option
+@cut_input_text_option
 @api_base_option
 @api_version_option
 @model_provider_option
@@ -812,6 +841,7 @@ def web_extract(
     output_format,
     show_prompt,
     temperature,
+    cut_input_text,
     api_base,
     api_version,
     model_provider,
@@ -843,7 +873,7 @@ def web_extract(
 
     logging.debug(f"Input text: {text}")
     results = ke.extract_from_text(text=text, show_prompt=show_prompt)
-    write_extraction(results, output, output_format, ke, template)
+    write_extraction(results, output, output_format, ke, template, cut_input_text)
 
 
 @main.command()
@@ -859,6 +889,7 @@ def web_extract(
 @model_option
 @show_prompt_option
 @temperature_option
+@cut_input_text_option
 @api_base_option
 @api_version_option
 @model_provider_option
@@ -872,6 +903,7 @@ def recipe_extract(
     output_format,
     show_prompt,
     temperature,
+    cut_input_text,
     api_base,
     api_version,
     model_provider,
@@ -923,7 +955,7 @@ def recipe_extract(
     results = ke.extract_from_text(text=text, show_prompt=show_prompt)
     logging.debug(f"Results: {results}")
     results.extracted_object.url = url
-    write_extraction(results, output, output_format, ke, "recipe")
+    write_extraction(results, output, output_format, ke, "recipe", cut_input_text)
 
 
 @main.command()
@@ -932,6 +964,7 @@ def recipe_extract(
 @output_option_wb
 @output_format_options
 @temperature_option
+@cut_input_text_option
 @api_base_option
 @api_version_option
 @model_provider_option
@@ -943,6 +976,7 @@ def convert(
     output,
     output_format,
     temperature,
+    cut_input_text,
     api_base,
     api_version,
     model_provider,
@@ -972,13 +1006,14 @@ def convert(
         data = yaml.safe_load(f)
     obj = cls(**data["extracted_object"])
     results = ExtractionResult(extracted_object=obj)
-    write_extraction(results, output, output_format, ke, template)
+    write_extraction(results, output, output_format, ke, template, cut_input_text)
 
 
 @main.command()
 @model_option
 @output_option_txt
 @temperature_option
+@cut_input_text_option
 @api_base_option
 @api_version_option
 @model_provider_option
@@ -990,7 +1025,7 @@ def synonyms(
     model, term, context, output, temperature, api_base, api_version, model_provider, **kwargs
 ):
     """Extract synonyms.
-    
+
     Examples:
 
     ontogpt synonyms -m ollama/llama3 --context "political" "abdicate"
@@ -1199,6 +1234,7 @@ def entity_similarity(
 @output_option_txt
 @model_option
 @temperature_option
+@cut_input_text_option
 @api_base_option
 @api_version_option
 @model_provider_option
@@ -1221,6 +1257,7 @@ def reason(
     all_methods,
     evaluate,
     temperature,
+    cut_input_text,
     api_base,
     api_version,
     model_provider,
@@ -1269,6 +1306,7 @@ def reason(
 @output_option_txt
 @model_option
 @temperature_option
+@cut_input_text_option
 @api_base_option
 @api_version_option
 @model_provider_option
@@ -1278,6 +1316,7 @@ def diagnose(
     model,
     output,
     temperature,
+    cut_input_text,
     api_base,
     api_version,
     model_provider,
@@ -1309,6 +1348,7 @@ def diagnose(
 @output_option_wb
 @model_option
 @temperature_option
+@cut_input_text_option
 @api_base_option
 @api_version_option
 @model_provider_option
@@ -1317,6 +1357,7 @@ def run_multilingual_analysis(
     output_directory,
     output,
     temperature,
+    cut_input_text,
     api_base,
     api_version,
     model_provider,
@@ -1335,6 +1376,7 @@ def run_multilingual_analysis(
 @click.option("--tsv-output")
 @click.option("--template-path")
 @temperature_option
+@cut_input_text_option
 @api_base_option
 @api_version_option
 @model_provider_option
@@ -1345,6 +1387,7 @@ def answer(
     output,
     tsv_output,
     temperature,
+    cut_input_text,
     api_base,
     api_version,
     model_provider,
@@ -1374,6 +1417,7 @@ def answer(
 @output_option_txt
 @model_option
 @temperature_option
+@cut_input_text_option
 @api_base_option
 @api_version_option
 @model_provider_option
@@ -1396,6 +1440,7 @@ def categorize_mappings(
     all_methods,
     evaluate,
     temperature,
+    cut_input_text,
     api_base,
     api_version,
     model_provider,
@@ -1444,6 +1489,7 @@ def categorize_mappings(
 @model_option
 @output_option_txt
 @temperature_option
+@cut_input_text_option
 @api_base_option
 @api_version_option
 @model_provider_option
@@ -1469,6 +1515,7 @@ def eval(
     chunking,
     model,
     temperature,
+    cut_input_text,
     api_base,
     api_version,
     model_provider,
@@ -1493,6 +1540,7 @@ def eval(
 @output_format_options
 @show_prompt_option
 @temperature_option
+@cut_input_text_option
 @api_base_option
 @api_version_option
 @model_provider_option
@@ -1506,6 +1554,7 @@ def fill(
     output_format,
     show_prompt,
     temperature,
+    cut_input_text,
     api_base,
     api_version,
     model_provider,
@@ -1553,6 +1602,7 @@ def fill(
 @api_version_option
 @model_provider_option
 @temperature_option
+@cut_input_text_option
 @api_base_option
 @api_version_option
 @model_provider_option
@@ -1565,6 +1615,7 @@ def complete(
     output_format,
     show_prompt,
     temperature,
+    cut_input_text,
     api_base,
     api_version,
     model_provider,
@@ -1591,6 +1642,7 @@ def complete(
         output_format,
         show_prompt,
         temperature,
+        cut_input_text,
         api_base,
         api_version,
         model_provider,
@@ -1606,6 +1658,7 @@ def _send_complete_request(
     output_format,
     show_prompt,
     temperature,
+    cut_input_text,
     api_base,
     api_version,
     model_provider,
@@ -1715,6 +1768,7 @@ def halo(model, input, context, terms, output, **kwargs):
 @api_version_option
 @model_provider_option
 @temperature_option
+@cut_input_text_option
 @api_base_option
 @api_version_option
 @model_provider_option
@@ -1726,6 +1780,7 @@ def clinical_notes(
     show_prompt,
     output_format,
     temperature,
+    cut_input_text,
     api_base,
     api_version,
     model_provider,
@@ -1770,7 +1825,7 @@ def list_templates():
     Name: The name of the template.
 
     Description: A brief description of the template.
-    
+
     """
 
     # Get the list of yaml files in the templates directory
@@ -1856,6 +1911,7 @@ def list_models():
 @output_format_options
 @show_prompt_option
 @temperature_option
+@cut_input_text_option
 @api_base_option
 @api_version_option
 @model_provider_option
@@ -1867,6 +1923,7 @@ def suggest_templates(
     output_format,
     show_prompt,
     temperature,
+    cut_input_text,
     api_base,
     api_version,
     model_provider,

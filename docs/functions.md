@@ -149,6 +149,12 @@ The range may vary per model, but for the OpenAI API this value must range from 
 
 Higher temperatures generally correspond to greater randomness, which may be desirable.
 
+### cut-input-text
+
+Use the option `cut-input-text` to truncate all input_text in output to 1000 characters each.
+
+This can be useful when processing many inputs and/or full texts, as without this option the full input will be included.
+
 ## Functions
 
 ### categorize-mappings
