@@ -87,10 +87,9 @@ def write_extraction(
 
         if cut_input_text:
             truncate_len = 1000
-            remaining_len = len(results.extracted_object["input_text"]) - truncate_len
-            results.extracted_object["input_text"] = (
-                results.extracted_object["input_text"][:truncate_len]
-                + f"...{remaining_len} chars not shown."
+            remaining_len = len(results.input_text) - truncate_len
+            results.input_text = (
+                results.input_text[:truncate_len] + f"...{remaining_len} chars not shown."
             )
 
         if output_format not in ["pickle"]:
