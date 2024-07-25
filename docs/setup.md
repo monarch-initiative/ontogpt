@@ -96,4 +96,4 @@ This may require a command like `ollama serve` or `sudo systemctl start ollama`.
 
 Then retrieve a model with `ollama pull <modelname>`, e.g., `ollama pull llama3`.
 
-The model may then be used in OntoGPT by prefixing its name with `ollama/`, e.g., `ollama/llama3`.
+The model may then be used in OntoGPT by prefixing its name with `ollama/`, e.g., `ollama/llama3`, along with the `--model` option.

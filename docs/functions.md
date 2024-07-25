@@ -70,6 +70,10 @@ Consult the full list of available models with:
 ontogpt list-models
 ```
 
+Note this will list all models available across a variety of sources - API keys will still be required to access many.
+
+The name in the first column is the model name to be used with the `--model` option, e.g., `--model mistral/mistral-medium`.
+
 ### recurse
 
 Use the option `recurse` to specify whether recursion should be used when parsing the schema.
