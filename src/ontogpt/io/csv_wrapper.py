@@ -278,13 +278,13 @@ def parse_yaml_predictions(yaml_path: str, schema_path: str, root_class=None):
                 row["category"] = class_name
                 row["provided_by"] = doc_id
                 # TODO: permit n-ary relations, given we know what to do with them
-                
+
                 # If s, p, o are explicitly defined, use them
-                if 'subject' in rel.keys() and 'object' in rel.keys():
+                if "subject" in rel.keys() and "object" in rel.keys():
                     row["subject"] = rel["subject"]
                     row["object"] = rel["object"]
 
-                if 'predicate' in rel.keys():
+                if "predicate" in rel.keys():
                     row["predicate"] = rel["predicate"]
                 else:
                     row["predicate"] = class_name
@@ -328,8 +328,8 @@ def parse_yaml_predictions(yaml_path: str, schema_path: str, root_class=None):
     if len(ent_rows) == 0:
         logger.warning("No entities found in output")
     if len(rel_rows) == 0:
-        logger.warning("No relations found in output")        
-    
+        logger.warning("No relations found in output")
+
     # Make dataframes
     ent_df = pd.DataFrame(ent_rows)
     rel_df = pd.DataFrame(rel_rows)
