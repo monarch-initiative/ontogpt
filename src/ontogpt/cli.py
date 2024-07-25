@@ -1361,7 +1361,7 @@ def run_multilingual_analysis(
     api_base,
     api_version,
     model_provider,
-    model="gpt-4-turbo",
+    model,
 ):
     """Call the multilingual analysis function."""
     multilingual_analysis(
