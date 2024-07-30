@@ -26,7 +26,16 @@ all_templates = dict(sorted(all_templates.items()))
 for template_id, (_name, description) in all_templates.items():
     DATAMODELS[template_id] = f"{description}"
 
-LLM_MODELS = ["gpt-4o", "gpt-4", "gpt-4-turbo", "gpt-3.5-turbo"]
+LLM_MODELS = [
+    "gpt-4o-mini",
+    "gpt-4o",
+    "gpt-4",
+    "gpt-4-turbo",
+    "gpt-3.5-turbo",
+    "ollama/llama2",
+    "ollama/llama3",
+    "ollama/orca-mini",
+]
 
 
 class Query(BaseModel):

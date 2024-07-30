@@ -48,7 +48,7 @@
             </select>
         </div>
         <div>
-            Select LLM:
+            Select LLM (non-GPT models will require ollama to be running):
             <select name="llm_model" id="llm_model">
                 {% for llm_model in llm_models %}
                   <option value="{{ llm_model }}">{{ llm_model }}</option>
@@ -61,7 +61,7 @@
         </div>
         <input type="submit" onclick="this.style.backgroundColor='#FFA500'; this.value='Processing...';">
         <div>
-            This process currently uses the OpenAI API.
+            GPT models are used the OpenAI API and may incur costs.
         </div>
         <div>
             <i>Please be patient, can take up to 10s, or longer if ontology resources need to be retrieved.</i>
