@@ -76,7 +76,7 @@
             <textarea name="text" rows="20" cols="80">Enter text here (e.g. PubMed abstract)
             </textarea>
         </div>
-        <input type="submit" id="submitBtn" onclick="showLoading(); this.style.backgroundColor='#FFA500'; this.value='Processing...';">
+        <input type="submit" onclick="showLoading(); this.style.backgroundColor='#FFA500'; this.value='Processing...'; return true;">
         <div class="loading" id="loading">
             <img src="static/loading.gif" alt="Loading...">
         </div>
