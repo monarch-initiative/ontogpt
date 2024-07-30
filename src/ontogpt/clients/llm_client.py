@@ -17,6 +17,7 @@ logger = logging.getLogger(__name__)
 # Just get the part before the slash in each model name
 SERVICES = {model.split("/")[0] for model in MODELS.keys() if len(model.split("/")) > 1}
 
+
 @dataclass
 class LLMClient:
 
@@ -109,7 +110,7 @@ class LLMClient:
         )
 
         if response is not None:
-            payload = response.data[0]['embedding']
+            payload = response.data[0]["embedding"]
         else:
             logger.error("No response or response is empty.")
             payload = ""
