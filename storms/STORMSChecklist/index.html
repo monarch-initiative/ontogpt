@@ -1,0 +1,2112 @@
+
+<!DOCTYPE html>
+
+<html class="no-js" lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width,initial-scale=1" name="viewport"/>
+<link href="https://monarch-initiative.github.io/ontogpt/storms/STORMSChecklist/" rel="canonical"/>
+<link href="../../assets/images/favicon.png" rel="icon"/>
+<meta content="mkdocs-1.6.0, mkdocs-material-9.5.28" name="generator"/>
+<title>Class: STORMSChecklist - OntoGPT</title>
+<link href="../../assets/stylesheets/main.6543a935.min.css" rel="stylesheet"/>
+<link href="../../assets/stylesheets/palette.06af60db.min.css" rel="stylesheet"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&amp;display=fallback" rel="stylesheet"/>
+<style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+<script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+</head>
+<body data-md-color-accent="amber" data-md-color-primary="teal" data-md-color-scheme="default" dir="ltr">
+<input autocomplete="off" class="md-toggle" data-md-toggle="drawer" id="__drawer" type="checkbox"/>
+<input autocomplete="off" class="md-toggle" data-md-toggle="search" id="__search" type="checkbox"/>
+<label class="md-overlay" for="__drawer"></label>
+<div data-md-component="skip">
+<a class="md-skip" href="#class-stormschecklist">
+          Skip to content
+        </a>
+</div>
+<div data-md-component="announce">
+</div>
+<header class="md-header md-header--shadow" data-md-component="header">
+<nav aria-label="Header" class="md-header__inner md-grid">
+<a aria-label="OntoGPT" class="md-header__button md-logo" data-md-component="logo" href="../.." title="OntoGPT">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"></path></svg>
+</a>
+<label class="md-header__button md-icon" for="__drawer">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2Z"></path></svg>
+</label>
+<div class="md-header__title" data-md-component="header-title">
+<div class="md-header__ellipsis">
+<div class="md-header__topic">
+<span class="md-ellipsis">
+            OntoGPT
+          </span>
+</div>
+<div class="md-header__topic" data-md-component="header-topic">
+<span class="md-ellipsis">
+            
+              Class: STORMSChecklist
+            
+          </span>
+</div>
+</div>
+</div>
+<form class="md-header__option" data-md-component="palette">
+<input aria-label="Switch to light mode" class="md-option" data-md-color-accent="amber" data-md-color-media="(prefers-color-scheme: light)" data-md-color-primary="teal" data-md-color-scheme="default" id="__palette_0" name="__palette" type="radio"/>
+<label class="md-header__button md-icon" for="__palette_1" hidden="" title="Switch to light mode">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 2a7 7 0 0 0-7 7c0 2.38 1.19 4.47 3 5.74V17a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1v-2.26c1.81-1.27 3-3.36 3-5.74a7 7 0 0 0-7-7M9 21a1 1 0 0 0 1 1h4a1 1 0 0 0 1-1v-1H9v1Z"></path></svg>
+</label>
+<input aria-label="Switch to dark mode" class="md-option" data-md-color-accent="amber" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-primary="teal" data-md-color-scheme="slate" id="__palette_1" name="__palette" type="radio"/>
+<label class="md-header__button md-icon" for="__palette_0" hidden="" title="Switch to dark mode">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 2a7 7 0 0 1 7 7c0 2.38-1.19 4.47-3 5.74V17a1 1 0 0 1-1 1H9a1 1 0 0 1-1-1v-2.26C6.19 13.47 5 11.38 5 9a7 7 0 0 1 7-7M9 21v-1h6v1a1 1 0 0 1-1 1h-4a1 1 0 0 1-1-1m3-17a5 5 0 0 0-5 5c0 2.05 1.23 3.81 3 4.58V16h4v-2.42c1.77-.77 3-2.53 3-4.58a5 5 0 0 0-5-5Z"></path></svg>
+</label>
+</form>
+<script>var media,input,key,value,palette=__md_get("__palette");if(palette&&palette.color){"(prefers-color-scheme)"===palette.color.media&&(media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']"),palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent"));for([key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+<label class="md-header__button md-icon" for="__search">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"></path></svg>
+</label>
+<div class="md-search" data-md-component="search" role="dialog">
+<label class="md-search__overlay" for="__search"></label>
+<div class="md-search__inner" role="search">
+<form class="md-search__form" name="search">
+<input aria-label="Search" autocapitalize="off" autocomplete="off" autocorrect="off" class="md-search__input" data-md-component="search-query" name="query" placeholder="Search" required="" spellcheck="false" type="text"/>
+<label class="md-search__icon md-icon" for="__search">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"></path></svg>
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"></path></svg>
+</label>
+<nav aria-label="Search" class="md-search__options">
+<button aria-label="Clear" class="md-search__icon md-icon" tabindex="-1" title="Clear" type="reset">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41Z"></path></svg>
+</button>
+</nav>
+</form>
+<div class="md-search__output">
+<div class="md-search__scrollwrap" data-md-scrollfix="" tabindex="0">
+<div class="md-search-result" data-md-component="search-result">
+<div class="md-search-result__meta">
+            Initializing search
+          </div>
+<ol class="md-search-result__list" role="presentation"></ol>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="md-header__source">
+<a class="md-source" data-md-component="source" href="https://github.com/monarch-initiative/ontogpt/" title="Go to repository">
+<div class="md-source__icon md-icon">
+<svg viewbox="0 0 448 512" xmlns="http://www.w3.org/2000/svg"><!--! Font Awesome Free 6.5.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"></path></svg>
+</div>
+<div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+</div>
+</nav>
+</header>
+<div class="md-container" data-md-component="container">
+<main class="md-main" data-md-component="main">
+<div class="md-main__inner md-grid">
+<div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation">
+<div class="md-sidebar__scrollwrap">
+<div class="md-sidebar__inner">
+<nav aria-label="Navigation" class="md-nav md-nav--primary" data-md-level="0">
+<label class="md-nav__title" for="__drawer">
+<a aria-label="OntoGPT" class="md-nav__button md-logo" data-md-component="logo" href="../.." title="OntoGPT">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"></path></svg>
+</a>
+    OntoGPT
+  </label>
+<div class="md-nav__source">
+<a class="md-source" data-md-component="source" href="https://github.com/monarch-initiative/ontogpt/" title="Go to repository">
+<div class="md-source__icon md-icon">
+<svg viewbox="0 0 448 512" xmlns="http://www.w3.org/2000/svg"><!--! Font Awesome Free 6.5.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"></path></svg>
+</div>
+<div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+</div>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="../..">
+<span class="md-ellipsis">
+    Introduction
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../setup/">
+<span class="md-ellipsis">
+    Setup
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../operation/">
+<span class="md-ellipsis">
+    Operation
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../custom/">
+<span class="md-ellipsis">
+    Custom Schemas
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../owl_exports/">
+<span class="md-ellipsis">
+    OWL Exports
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../evaluations/">
+<span class="md-ellipsis">
+    Evaluations
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../functions/">
+<span class="md-ellipsis">
+    Functions
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../start_with_owl/">
+<span class="md-ellipsis">
+    Starting with OWL
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../troubleshooting/">
+<span class="md-ellipsis">
+    Troubleshooting
+  </span>
+</a>
+</li>
+<li class="md-nav__item md-nav__item--nested">
+<input class="md-nav__toggle md-toggle" id="__nav_10" type="checkbox"/>
+<label class="md-nav__link" for="__nav_10" id="__nav_10_label" tabindex="0">
+<span class="md-ellipsis">
+    SPIRES Templates
+  </span>
+<span class="md-nav__icon md-icon"></span>
+</label>
+<nav aria-expanded="false" aria-labelledby="__nav_10_label" class="md-nav" data-md-level="1">
+<label class="md-nav__title" for="__nav_10">
+<span class="md-nav__icon md-icon"></span>
+            SPIRES Templates
+          </label>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../core/">
+<span class="md-ellipsis">
+    Core Upper Level Schema
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../alzrd/">
+<span class="md-ellipsis">
+    Alzheimer's Disease
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../reaction/">
+<span class="md-ellipsis">
+    Biochemical Reactions
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../biological_process/">
+<span class="md-ellipsis">
+    Biological Processes
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../biotic_interaction/">
+<span class="md-ellipsis">
+    Biotic Interactions
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../cell_type/">
+<span class="md-ellipsis">
+    Cell Types
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../ctd/">
+<span class="md-ellipsis">
+    Chemical to Disease
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../ctd_ner/">
+<span class="md-ellipsis">
+    Chemical to Disease (Entities Only)
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../data_sheets_schema/">
+<span class="md-ellipsis">
+    Datasheets for Datasets
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../diagnostic_procedure/">
+<span class="md-ellipsis">
+    Diagnostic Procedures
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../dietitian_notes/">
+<span class="md-ellipsis">
+    Dietitian Notes
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../drug/">
+<span class="md-ellipsis">
+    Drugs and Mechanisms
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../emapa_simple/">
+<span class="md-ellipsis">
+    EMAPA (Mouse Developmental Anatomy Ontology)
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../environmental_sample/">
+<span class="md-ellipsis">
+    Environmental Samples
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../error_analysis/">
+<span class="md-ellipsis">
+    Error Analysis
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../figure/">
+<span class="md-ellipsis">
+    Figures
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../go_terms/">
+<span class="md-ellipsis">
+    GO Terms
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../go_simple/">
+<span class="md-ellipsis">
+    GO Terms (Entities Only)
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../go_terms_relational/">
+<span class="md-ellipsis">
+    Go Terms and Relations
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../gocam/">
+<span class="md-ellipsis">
+    GO-CAMs and Pathways
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../human_phenotype/">
+<span class="md-ellipsis">
+    Human Phenotypes
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../ibd_literature/">
+<span class="md-ellipsis">
+    Irritable Bowel Diseases and Literature
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../maxo/">
+<span class="md-ellipsis">
+    Medical Actions
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../mendelian_disease/">
+<span class="md-ellipsis">
+    Mendelian Diseases
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../metabolic_process/">
+<span class="md-ellipsis">
+    Metabolic Processes
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../metagenome_study/">
+<span class="md-ellipsis">
+    Metagenome Studies
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../mondo_simple/">
+<span class="md-ellipsis">
+    MONDO Diseases (Entities Only)
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../nmdc_schema_data/">
+<span class="md-ellipsis">
+    NMDC Schema Data
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../ontology_class/">
+<span class="md-ellipsis">
+    Ontology Classes
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../ontology_issue/">
+<span class="md-ellipsis">
+    Ontology Issues
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../onto_usage/">
+<span class="md-ellipsis">
+    Ontology Usage
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../recipe/">
+<span class="md-ellipsis">
+    Recipes
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../">
+<span class="md-ellipsis">
+    STORMS Checklist
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../traits/">
+<span class="md-ellipsis">
+    Traits of a Taxon
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../treatment/">
+<span class="md-ellipsis">
+    Treatments
+  </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../halo/">
+<span class="md-ellipsis">
+    HALO Schema
+  </span>
+</a>
+</li>
+</ul>
+</nav>
+</div>
+</div>
+</div>
+<div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc">
+<div class="md-sidebar__scrollwrap">
+<div class="md-sidebar__inner">
+<nav aria-label="Table of contents" class="md-nav md-nav--secondary">
+<label class="md-nav__title" for="__toc">
+<span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+<ul class="md-nav__list" data-md-component="toc" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#slots">
+<span class="md-ellipsis">
+      Slots
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#identifier-and-mapping-information">
+<span class="md-ellipsis">
+      Identifier and Mapping Information
+    </span>
+</a>
+<nav aria-label="Identifier and Mapping Information" class="md-nav">
+<ul class="md-nav__list">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#annotations">
+<span class="md-ellipsis">
+      Annotations
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#schema-source">
+<span class="md-ellipsis">
+      Schema Source
+    </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#mappings">
+<span class="md-ellipsis">
+      Mappings
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#linkml-source">
+<span class="md-ellipsis">
+      LinkML Source
+    </span>
+</a>
+<nav aria-label="LinkML Source" class="md-nav">
+<ul class="md-nav__list">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#direct">
+<span class="md-ellipsis">
+      Direct
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#induced">
+<span class="md-ellipsis">
+      Induced
+    </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+</ul>
+</nav>
+</div>
+</div>
+</div>
+<div class="md-content" data-md-component="content">
+<article class="md-content__inner md-typeset">
+<h1 id="class-stormschecklist">Class: STORMSChecklist</h1>
+<p><em>A checklist of items that should be reported in a microbiome study. Try and provide a value for ALL items. If an item is not reported, say NOT REPORTED.</em></p>
+<p>URI: <a href="http://w3id.org/ontogpt/storms/STORMSChecklist">storms:STORMSChecklist</a></p>
+<div class="mermaid">erDiagram
+STORMSChecklist {
+    string abstract_structured_or_unstructured  
+    string abstract_study_design  
+    string abstract_sequencing_methods  
+    string abstract_specimens  
+    string introduction_background_and_rationale  
+    string introduction_hypotheses  
+    string methods_study_design  
+    string methods_participants  
+    string methods_geographic_location  
+    string methods_relevant_dates  
+    string methods_eligibility_criteria  
+    string methods_antibiotics_usage  
+    string methods_analytic_sample_size  
+    string methods_longitudinal_studies  
+    string methods_matching  
+    string methods_ethics  
+    string methods_laboratory_methods  
+    string methods_specimen_collection  
+    string methods_shipping  
+    string methods_storage  
+    string methods_dna_extraction  
+    string methods_human_dna_sequence_depletion_or_microbial_dna_enrichment  
+    string methods_primer_selection  
+    string methods_positive_controls  
+    string methods_negative_controls  
+    string methods_contaminant_mitigation_and_identification  
+    string methods_replication  
+    string methods_sequencing_strategy  
+    string methods_sequencing_methods  
+    string methods_batch_effects  
+    string methods_metatranscriptomics  
+    string methods_metaproteomics  
+    string methods_metabolomics  
+    string results_descriptive_data  
+    string results_microbiome_data  
+    string results_taxonomy  
+    string results_differential_abundance  
+    string results_other_data_types  
+    string results_other_statistical_analysis  
+    string discussion_key_results  
+    string discussion_interpretation  
+    string discussion_limitations  
+    string discussion_bias  
+    string discussion_generalizability  
+    string discussion_ongoing_future_work  
+    string other_information_funding  
+    string other_information_acknowledgements  
+    string other_information_conflicts_of_interest  
+    string other_information_supplements  
+    string other_information_supplementary_data  
+}
+
+
+
+</div>
+<!-- no inheritance hierarchy -->
+<h2 id="slots">Slots</h2>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Cardinality and Range</th>
+<th>Description</th>
+<th>Inheritance</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="../abstract_structured_or_unstructured/">abstract_structured_or_unstructured</a></td>
+<td>0..1 <br/> <a href="../String/">String</a></td>
+<td>Abstract should include information on background, methods, results, and conc...</td>
+<td>direct</td>
+</tr>
+<tr>
+<td><a href="../abstract_study_design/">abstract_study_design</a></td>
+<td>0..1 <br/> <a href="../String/">String</a></td>
+<td>State study design in abstract</td>
+<td>direct</td>
+</tr>
+<tr>
+<td><a href="../abstract_sequencing_methods/">abstract_sequencing_methods</a></td>
+<td>0..1 <br/> <a href="../String/">String</a></td>
+<td>State the strategy used for metagenomic classification</td>
+<td>direct</td>
+</tr>
+<tr>
+<td><a href="../abstract_specimens/">abstract_specimens</a></td>
+<td>0..1 <br/> <a href="../String/">String</a></td>
+<td>Describe body site(s) studied</td>
+<td>direct</td>
+</tr>
+<tr>
+<td><a href="../introduction_background_and_rationale/">introduction_background_and_rationale</a></td>
+<td>0..1 <br/> <a href="../String/">String</a></td>
+<td>Summarize the underlying background, scientific evidence, or theory driving t...</td>
+<td>direct</td>
+</tr>
+<tr>
+<td><a href="../introduction_hypotheses/">introduction_hypotheses</a></td>
+<td>0..1 <br/> <a href="../String/">String</a></td>
+<td>State the pre-specified hypothesis</td>
+<td>direct</td>
+</tr>
+<tr>
+<td><a href="../methods_study_design/">methods_study_design</a></td>
+<td>0..1 <br/> <a href="../String/">String</a></td>
+<td>Describe the study design</td>
+<td>direct</td>
+</tr>
+<tr>
+<td><a href="../methods_participants/">methods_participants</a></td>
+<td>0..1 <br/> <a href="../String/">String</a></td>
+<td>State what the population of interest is, and the method by which participant...</td>
+<td>direct</td>
+</tr>
+<tr>
+<td><a href="../methods_geographic_location/">methods_geographic_location</a></td>
+<td>0..1 <br/> <a href="../String/">String</a></td>
+<td>State the geographic region(s) where participants were sampled from</td>
+<td>direct</td>
+</tr>
+<tr>
+<td><a href="../methods_relevant_dates/">methods_relevant_dates</a></td>
+<td>0..1 <br/> <a href="../String/">String</a></td>
+<td>State the start and end dates for recruitment, follow-up, and data collection</td>
+<td>direct</td>
+</tr>
+<tr>
+<td><a href="../methods_eligibility_criteria/">methods_eligibility_criteria</a></td>
+<td>0..1 <br/> <a href="../String/">String</a></td>
+<td>List any criteria for inclusion and exclusion of recruited participants</td>
+<td>direct</td>
+</tr>
+<tr>
+<td><a href="../methods_antibiotics_usage/">methods_antibiotics_usage</a></td>
+<td>0..1 <br/> <a href="../String/">String</a></td>
+<td>List what is known about antibiotics usage before or during sample collection</td>
+<td>direct</td>
+</tr>
+<tr>
+<td><a href="../methods_analytic_sample_size/">methods_analytic_sample_size</a></td>
+<td>0..1 <br/> <a href="../String/">String</a></td>
+<td>Explain how the final analytic sample size was calculated, including the numb...</td>
+<td>direct</td>
+</tr>
+<tr>
+<td><a href="../methods_longitudinal_studies/">methods_longitudinal_studies</a></td>
+<td>0..1 <br/> <a href="../String/">String</a></td>
+<td>For longitudinal studies, state how many follow-ups were conducted, describe ...</td>
+<td>direct</td>
+</tr>
+<tr>
+<td><a href="../methods_matching/">methods_matching</a></td>
+<td>0..1 <br/> <a href="../String/">String</a></td>
+<td>For matched studies, give matching criteria</td>
+<td>direct</td>
+</tr>
+<tr>
+<td><a href="../methods_ethics/">methods_ethics</a></td>
+<td>0..1 <br/> <a href="../String/">String</a></td>
+<td>State the name of the institutional review board that approved the study and ...</td>
+<td>direct</td>
+</tr>
+<tr>
+<td><a href="../methods_laboratory_methods/">methods_laboratory_methods</a></td>
+<td>0..1 <br/> <a href="../String/">String</a></td>
+<td>State the laboratory/center where laboratory work was done</td>
+<td>direct</td>
+</tr>
+<tr>
+<td><a href="../methods_specimen_collection/">methods_specimen_collection</a></td>
+<td>0..1 <br/> <a href="../String/">String</a></td>
+<td>State the body site(s) sampled from and how specimens were collected</td>
+<td>direct</td>
+</tr>
+<tr>
+<td><a href="../methods_shipping/">methods_shipping</a></td>
+<td>0..1 <br/> <a href="../String/">String</a></td>
+<td>Describe how samples were stored and shipped to the laboratory</td>
+<td>direct</td>
+</tr>
+<tr>
+<td><a href="../methods_storage/">methods_storage</a></td>
+<td>0..1 <br/> <a href="../String/">String</a></td>
+<td>Describe how the laboratory stored samples, including time between collection...</td>
+<td>direct</td>
+</tr>
+<tr>
+<td><a href="../methods_dna_extraction/">methods_dna_extraction</a></td>
+<td>0..1 <br/> <a href="../String/">String</a></td>
+<td>Provide DNA extraction method, including kit and version if relevant</td>
+<td>direct</td>
+</tr>
+<tr>
+<td><a href="../methods_human_dna_sequence_depletion_or_microbial_dna_enrichment/">methods_human_dna_sequence_depletion_or_microbial_dna_enrichment</a></td>
+<td>0..1 <br/> <a href="../String/">String</a></td>
+<td>Describe whether human DNA sequence depletion or enrichment of microbial or v...</td>
+<td>direct</td>
+</tr>
+<tr>
+<td><a href="../methods_primer_selection/">methods_primer_selection</a></td>
+<td>0..1 <br/> <a href="../String/">String</a></td>
+<td>Provide primer selection and DNA amplification methods as well as variable re...</td>
+<td>direct</td>
+</tr>
+<tr>
+<td><a href="../methods_positive_controls/">methods_positive_controls</a></td>
+<td>0..1 <br/> <a href="../String/">String</a></td>
+<td>Describe any positive controls (mock communities) if used</td>
+<td>direct</td>
+</tr>
+<tr>
+<td><a href="../methods_negative_controls/">methods_negative_controls</a></td>
+<td>0..1 <br/> <a href="../String/">String</a></td>
+<td>Describe any negative controls if used</td>
+<td>direct</td>
+</tr>
+<tr>
+<td><a href="../methods_contaminant_mitigation_and_identification/">methods_contaminant_mitigation_and_identification</a></td>
+<td>0..1 <br/> <a href="../String/">String</a></td>
+<td>Provide any laboratory or computational methods used to control for or identi...</td>
+<td>direct</td>
+</tr>
+<tr>
+<td><a href="../methods_replication/">methods_replication</a></td>
+<td>0..1 <br/> <a href="../String/">String</a></td>
+<td>Describe any biological or technical replicates included in the sequencing, i...</td>
+<td>direct</td>
+</tr>
+<tr>
+<td><a href="../methods_sequencing_strategy/">methods_sequencing_strategy</a></td>
+<td>0..1 <br/> <a href="../String/">String</a></td>
+<td>Major divisions of strategy, such as shotgun or amplicon sequencing</td>
+<td>direct</td>
+</tr>
+<tr>
+<td><a href="../methods_sequencing_methods/">methods_sequencing_methods</a></td>
+<td>0..1 <br/> <a href="../String/">String</a></td>
+<td>State whether experimental quantification was used (QMP/cell count based, spi...</td>
+<td>direct</td>
+</tr>
+<tr>
+<td><a href="../methods_batch_effects/">methods_batch_effects</a></td>
+<td>0..1 <br/> <a href="../String/">String</a></td>
+<td>Detail any blocking or randomization used in study design to avoid confoundin...</td>
+<td>direct</td>
+</tr>
+<tr>
+<td><a href="../methods_metatranscriptomics/">methods_metatranscriptomics</a></td>
+<td>0..1 <br/> <a href="../String/">String</a></td>
+<td>Detail whether any mRNA enrichment was performed and whether/how retrotranscr...</td>
+<td>direct</td>
+</tr>
+<tr>
+<td><a href="../methods_metaproteomics/">methods_metaproteomics</a></td>
+<td>0..1 <br/> <a href="../String/">String</a></td>
+<td>Detail which protease was used for digestion</td>
+<td>direct</td>
+</tr>
+<tr>
+<td><a href="../methods_metabolomics/">methods_metabolomics</a></td>
+<td>0..1 <br/> <a href="../String/">String</a></td>
+<td>Specify the analytic method used (such as nuclear magnetic resonance spectros...</td>
+<td>direct</td>
+</tr>
+<tr>
+<td><a href="../results_descriptive_data/">results_descriptive_data</a></td>
+<td>0..1 <br/> <a href="../String/">String</a></td>
+<td>Give characteristics of study participants (e</td>
+<td>direct</td>
+</tr>
+<tr>
+<td><a href="../results_microbiome_data/">results_microbiome_data</a></td>
+<td>0..1 <br/> <a href="../String/">String</a></td>
+<td>Report descriptive findings for microbiome analyses with all applicable outco...</td>
+<td>direct</td>
+</tr>
+<tr>
+<td><a href="../results_taxonomy/">results_taxonomy</a></td>
+<td>0..1 <br/> <a href="../String/">String</a></td>
+<td>Identify taxonomy using standardized taxon classifications that are sufficien...</td>
+<td>direct</td>
+</tr>
+<tr>
+<td><a href="../results_differential_abundance/">results_differential_abundance</a></td>
+<td>0..1 <br/> <a href="../String/">String</a></td>
+<td>Report results of differential abundance analysis by the variable of interest...</td>
+<td>direct</td>
+</tr>
+<tr>
+<td><a href="../results_other_data_types/">results_other_data_types</a></td>
+<td>0..1 <br/> <a href="../String/">String</a></td>
+<td>Report other data analyzed--e</td>
+<td>direct</td>
+</tr>
+<tr>
+<td><a href="../results_other_statistical_analysis/">results_other_statistical_analysis</a></td>
+<td>0..1 <br/> <a href="../String/">String</a></td>
+<td>Report any statistical data analysis not covered above</td>
+<td>direct</td>
+</tr>
+<tr>
+<td><a href="../discussion_key_results/">discussion_key_results</a></td>
+<td>0..1 <br/> <a href="../String/">String</a></td>
+<td>Summarize key results with reference to study objectives</td>
+<td>direct</td>
+</tr>
+<tr>
+<td><a href="../discussion_interpretation/">discussion_interpretation</a></td>
+<td>0..1 <br/> <a href="../String/">String</a></td>
+<td>Give a cautious overall interpretation of results considering objectives, lim...</td>
+<td>direct</td>
+</tr>
+<tr>
+<td><a href="../discussion_limitations/">discussion_limitations</a></td>
+<td>0..1 <br/> <a href="../String/">String</a></td>
+<td>Discuss limitations of the study, taking into account sources of potential bi...</td>
+<td>direct</td>
+</tr>
+<tr>
+<td><a href="../discussion_bias/">discussion_bias</a></td>
+<td>0..1 <br/> <a href="../String/">String</a></td>
+<td>Discuss any potential for bias to influence study findings</td>
+<td>direct</td>
+</tr>
+<tr>
+<td><a href="../discussion_generalizability/">discussion_generalizability</a></td>
+<td>0..1 <br/> <a href="../String/">String</a></td>
+<td>Discuss the generalizability (external validity) of the study results</td>
+<td>direct</td>
+</tr>
+<tr>
+<td><a href="../discussion_ongoing_future_work/">discussion_ongoing_future_work</a></td>
+<td>0..1 <br/> <a href="../String/">String</a></td>
+<td>Describe potential future research or ongoing research based on the study's f...</td>
+<td>direct</td>
+</tr>
+<tr>
+<td><a href="../other_information_funding/">other_information_funding</a></td>
+<td>0..1 <br/> <a href="../String/">String</a></td>
+<td>Give the source of funding and the role of the funders for the present study ...</td>
+<td>direct</td>
+</tr>
+<tr>
+<td><a href="../other_information_acknowledgements/">other_information_acknowledgements</a></td>
+<td>0..1 <br/> <a href="../String/">String</a></td>
+<td>Include acknowledgements of those who contributed to the research but did not...</td>
+<td>direct</td>
+</tr>
+<tr>
+<td><a href="../other_information_conflicts_of_interest/">other_information_conflicts_of_interest</a></td>
+<td>0..1 <br/> <a href="../String/">String</a></td>
+<td>Include a conflicts of interest statement</td>
+<td>direct</td>
+</tr>
+<tr>
+<td><a href="../other_information_supplements/">other_information_supplements</a></td>
+<td>0..1 <br/> <a href="../String/">String</a></td>
+<td>Indicate where supplements may be accessed and what materials they contain</td>
+<td>direct</td>
+</tr>
+<tr>
+<td><a href="../other_information_supplementary_data/">other_information_supplementary_data</a></td>
+<td>0..1 <br/> <a href="../String/">String</a></td>
+<td>Provide supplementary data files of results with all taxa and all outcome var...</td>
+<td>direct</td>
+</tr>
+</tbody>
+</table>
+<h2 id="identifier-and-mapping-information">Identifier and Mapping Information</h2>
+<h3 id="annotations">Annotations</h3>
+<table>
+<thead>
+<tr>
+<th>property</th>
+<th>value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>prompt</td>
+<td>Try and provide a value for ALL items. If an item is not reported, say NOT REPORTED</td>
+</tr>
+</tbody>
+</table>
+<h3 id="schema-source">Schema Source</h3>
+<ul>
+<li>from schema: https://w3id.org/ontogpt/storms</li>
+</ul>
+<h2 id="mappings">Mappings</h2>
+<table>
+<thead>
+<tr>
+<th>Mapping Type</th>
+<th>Mapped Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>self</td>
+<td>storms:STORMSChecklist</td>
+</tr>
+<tr>
+<td>native</td>
+<td>storms:STORMSChecklist</td>
+</tr>
+</tbody>
+</table>
+<h2 id="linkml-source">LinkML Source</h2>
+<!-- TODO: investigate https://stackoverflow.com/questions/37606292/how-to-create-tabbed-code-blocks-in-mkdocs-or-sphinx -->
+<h3 id="direct">Direct</h3>
+<details>
+<pre><code class="language-yaml">name: STORMSChecklist
+annotations:
+  prompt:
+    tag: prompt
+    value: Try and provide a value for ALL items. If an item is not reported, say
+      NOT REPORTED
+description: A checklist of items that should be reported in a microbiome study. Try
+  and provide a value for ALL items. If an item is not reported, say NOT REPORTED.
+from_schema: https://w3id.org/ontogpt/storms
+attributes:
+  abstract_structured_or_unstructured:
+    name: abstract_structured_or_unstructured
+    description: Abstract should include information on background, methods, results,
+      and conclusions in structured or unstructured format.
+    from_schema: https://w3id.org/ontogpt/storms
+    rank: 1000
+    domain_of:
+    - STORMSChecklist
+    slot_group: abstract
+    range: string
+  abstract_study_design:
+    name: abstract_study_design
+    description: State study design in abstract.
+    from_schema: https://w3id.org/ontogpt/storms
+    rank: 1000
+    domain_of:
+    - STORMSChecklist
+    slot_group: abstract
+    range: string
+  abstract_sequencing_methods:
+    name: abstract_sequencing_methods
+    description: State the strategy used for metagenomic classification.
+    from_schema: https://w3id.org/ontogpt/storms
+    rank: 1000
+    domain_of:
+    - STORMSChecklist
+    slot_group: abstract
+    range: string
+  abstract_specimens:
+    name: abstract_specimens
+    description: Describe body site(s) studied.
+    from_schema: https://w3id.org/ontogpt/storms
+    rank: 1000
+    domain_of:
+    - STORMSChecklist
+    slot_group: abstract
+    range: string
+  introduction_background_and_rationale:
+    name: introduction_background_and_rationale
+    description: Summarize the underlying background, scientific evidence, or theory
+      driving the current hypothesis as well as the study objectives.
+    from_schema: https://w3id.org/ontogpt/storms
+    rank: 1000
+    domain_of:
+    - STORMSChecklist
+    slot_group: introduction
+    range: string
+  introduction_hypotheses:
+    name: introduction_hypotheses
+    description: State the pre-specified hypothesis. If the study is exploratory,
+      state any pre-specified study objectives.
+    from_schema: https://w3id.org/ontogpt/storms
+    rank: 1000
+    domain_of:
+    - STORMSChecklist
+    slot_group: introduction
+    range: string
+  methods_study_design:
+    name: methods_study_design
+    description: Describe the study design.
+    from_schema: https://w3id.org/ontogpt/storms
+    rank: 1000
+    domain_of:
+    - STORMSChecklist
+    slot_group: methods
+    range: string
+  methods_participants:
+    name: methods_participants
+    description: State what the population of interest is, and the method by which
+      participants are sampled from that population.
+    from_schema: https://w3id.org/ontogpt/storms
+    rank: 1000
+    domain_of:
+    - STORMSChecklist
+    slot_group: methods
+    range: string
+  methods_geographic_location:
+    name: methods_geographic_location
+    description: State the geographic region(s) where participants were sampled from.
+    from_schema: https://w3id.org/ontogpt/storms
+    rank: 1000
+    domain_of:
+    - STORMSChecklist
+    slot_group: methods
+    range: string
+  methods_relevant_dates:
+    name: methods_relevant_dates
+    description: State the start and end dates for recruitment, follow-up, and data
+      collection.
+    from_schema: https://w3id.org/ontogpt/storms
+    rank: 1000
+    domain_of:
+    - STORMSChecklist
+    slot_group: methods
+    range: string
+  methods_eligibility_criteria:
+    name: methods_eligibility_criteria
+    description: List any criteria for inclusion and exclusion of recruited participants.
+    from_schema: https://w3id.org/ontogpt/storms
+    rank: 1000
+    domain_of:
+    - STORMSChecklist
+    slot_group: methods
+    range: string
+  methods_antibiotics_usage:
+    name: methods_antibiotics_usage
+    description: List what is known about antibiotics usage before or during sample
+      collection.
+    from_schema: https://w3id.org/ontogpt/storms
+    rank: 1000
+    domain_of:
+    - STORMSChecklist
+    slot_group: methods
+    range: string
+  methods_analytic_sample_size:
+    name: methods_analytic_sample_size
+    description: Explain how the final analytic sample size was calculated, including
+      the number of cases and controls if relevant, and reasons for dropout at each
+      stage of the study.
+    from_schema: https://w3id.org/ontogpt/storms
+    rank: 1000
+    domain_of:
+    - STORMSChecklist
+    slot_group: methods
+    range: string
+  methods_longitudinal_studies:
+    name: methods_longitudinal_studies
+    description: For longitudinal studies, state how many follow-ups were conducted,
+      describe sample size at follow-up by group or condition, and discuss any loss
+      to follow-up.
+    from_schema: https://w3id.org/ontogpt/storms
+    rank: 1000
+    domain_of:
+    - STORMSChecklist
+    slot_group: methods
+    range: string
+  methods_matching:
+    name: methods_matching
+    description: For matched studies, give matching criteria.
+    from_schema: https://w3id.org/ontogpt/storms
+    rank: 1000
+    domain_of:
+    - STORMSChecklist
+    slot_group: methods
+    range: string
+  methods_ethics:
+    name: methods_ethics
+    description: State the name of the institutional review board that approved the
+      study and protocols, protocol number and date of approval, and procedures for
+      obtaining informed consent from participants.
+    from_schema: https://w3id.org/ontogpt/storms
+    rank: 1000
+    domain_of:
+    - STORMSChecklist
+    slot_group: methods
+    range: string
+  methods_laboratory_methods:
+    name: methods_laboratory_methods
+    description: State the laboratory/center where laboratory work was done.
+    from_schema: https://w3id.org/ontogpt/storms
+    rank: 1000
+    domain_of:
+    - STORMSChecklist
+    slot_group: methods
+    range: string
+  methods_specimen_collection:
+    name: methods_specimen_collection
+    description: State the body site(s) sampled from and how specimens were collected.
+    from_schema: https://w3id.org/ontogpt/storms
+    rank: 1000
+    domain_of:
+    - STORMSChecklist
+    slot_group: methods
+    range: string
+  methods_shipping:
+    name: methods_shipping
+    description: Describe how samples were stored and shipped to the laboratory.
+    from_schema: https://w3id.org/ontogpt/storms
+    rank: 1000
+    domain_of:
+    - STORMSChecklist
+    slot_group: methods
+    range: string
+  methods_storage:
+    name: methods_storage
+    description: Describe how the laboratory stored samples, including time between
+      collection and storage and any preservation buffers or refrigeration used.
+    from_schema: https://w3id.org/ontogpt/storms
+    rank: 1000
+    domain_of:
+    - STORMSChecklist
+    slot_group: methods
+    range: string
+  methods_dna_extraction:
+    name: methods_dna_extraction
+    description: Provide DNA extraction method, including kit and version if relevant.
+    from_schema: https://w3id.org/ontogpt/storms
+    rank: 1000
+    domain_of:
+    - STORMSChecklist
+    slot_group: methods
+    range: string
+  methods_human_dna_sequence_depletion_or_microbial_dna_enrichment:
+    name: methods_human_dna_sequence_depletion_or_microbial_dna_enrichment
+    description: Describe whether human DNA sequence depletion or enrichment of microbial
+      or viral DNA was performed.
+    from_schema: https://w3id.org/ontogpt/storms
+    rank: 1000
+    domain_of:
+    - STORMSChecklist
+    slot_group: methods
+    range: string
+  methods_primer_selection:
+    name: methods_primer_selection
+    description: Provide primer selection and DNA amplification methods as well as
+      variable region sequenced (if applicable).
+    from_schema: https://w3id.org/ontogpt/storms
+    rank: 1000
+    domain_of:
+    - STORMSChecklist
+    slot_group: methods
+    range: string
+  methods_positive_controls:
+    name: methods_positive_controls
+    description: Describe any positive controls (mock communities) if used.
+    from_schema: https://w3id.org/ontogpt/storms
+    rank: 1000
+    domain_of:
+    - STORMSChecklist
+    slot_group: methods
+    range: string
+  methods_negative_controls:
+    name: methods_negative_controls
+    description: Describe any negative controls if used.
+    from_schema: https://w3id.org/ontogpt/storms
+    rank: 1000
+    domain_of:
+    - STORMSChecklist
+    slot_group: methods
+    range: string
+  methods_contaminant_mitigation_and_identification:
+    name: methods_contaminant_mitigation_and_identification
+    description: Provide any laboratory or computational methods used to control for
+      or identify microbiome contamination from the environment, reagents, or laboratory.
+    from_schema: https://w3id.org/ontogpt/storms
+    rank: 1000
+    domain_of:
+    - STORMSChecklist
+    slot_group: methods
+    range: string
+  methods_replication:
+    name: methods_replication
+    description: Describe any biological or technical replicates included in the sequencing,
+      including which steps were replicated between them.
+    from_schema: https://w3id.org/ontogpt/storms
+    rank: 1000
+    domain_of:
+    - STORMSChecklist
+    slot_group: methods
+    range: string
+  methods_sequencing_strategy:
+    name: methods_sequencing_strategy
+    description: Major divisions of strategy, such as shotgun or amplicon sequencing.
+    from_schema: https://w3id.org/ontogpt/storms
+    rank: 1000
+    domain_of:
+    - STORMSChecklist
+    slot_group: methods
+    range: string
+  methods_sequencing_methods:
+    name: methods_sequencing_methods
+    description: State whether experimental quantification was used (QMP/cell count
+      based, spike-in based) or whether relative abundance methods were applied.
+    from_schema: https://w3id.org/ontogpt/storms
+    rank: 1000
+    domain_of:
+    - STORMSChecklist
+    slot_group: methods
+    range: string
+  methods_batch_effects:
+    name: methods_batch_effects
+    description: Detail any blocking or randomization used in study design to avoid
+      confounding of batches with exposures or outcomes. Discuss any likely sources
+      of batch effects, if known.
+    from_schema: https://w3id.org/ontogpt/storms
+    rank: 1000
+    domain_of:
+    - STORMSChecklist
+    slot_group: methods
+    range: string
+  methods_metatranscriptomics:
+    name: methods_metatranscriptomics
+    description: Detail whether any mRNA enrichment was performed and whether/how
+      retrotranscription was performed prior to sequencing. Provide size range of
+      isolated transcripts. Describe whether the sequencing library was stranded or
+      not. Provide details on sequencing methods and platforms.
+    from_schema: https://w3id.org/ontogpt/storms
+    rank: 1000
+    domain_of:
+    - STORMSChecklist
+    slot_group: methods
+    range: string
+  methods_metaproteomics:
+    name: methods_metaproteomics
+    description: Detail which protease was used for digestion. Provide details on
+      proteomic methods and platforms (e.g. LC-MS/MS, instrument type, column type,
+      mass range, resolution, scan speed, maximum injection time, isolation window,
+      normalised collision energy, and resolution).
+    from_schema: https://w3id.org/ontogpt/storms
+    rank: 1000
+    domain_of:
+    - STORMSChecklist
+    slot_group: methods
+    range: string
+  methods_metabolomics:
+    name: methods_metabolomics
+    description: Specify the analytic method used (such as nuclear magnetic resonance
+      spectroscopy or mass spectrometry). For mass spectrometry, detail which fractions
+      were obtained (polar and/or non polar) and how these were analyzed. Provide
+      details on metabolomics methods and platforms (e.g. derivatization, instrument
+      type, injection type, column type and instrument settings).
+    from_schema: https://w3id.org/ontogpt/storms
+    rank: 1000
+    domain_of:
+    - STORMSChecklist
+    slot_group: methods
+    range: string
+  results_descriptive_data:
+    name: results_descriptive_data
+    description: Give characteristics of study participants (e.g. dietary, demographic,
+      clinical, social) and information on exposures and potential confounders.
+    from_schema: https://w3id.org/ontogpt/storms
+    rank: 1000
+    domain_of:
+    - STORMSChecklist
+    slot_group: results
+    range: string
+  results_microbiome_data:
+    name: results_microbiome_data
+    description: Report descriptive findings for microbiome analyses with all applicable
+      outcomes and covariates.
+    from_schema: https://w3id.org/ontogpt/storms
+    rank: 1000
+    domain_of:
+    - STORMSChecklist
+    slot_group: results
+    range: string
+  results_taxonomy:
+    name: results_taxonomy
+    description: Identify taxonomy using standardized taxon classifications that are
+      sufficient to uniquely identify taxa.
+    from_schema: https://w3id.org/ontogpt/storms
+    rank: 1000
+    domain_of:
+    - STORMSChecklist
+    slot_group: results
+    range: string
+  results_differential_abundance:
+    name: results_differential_abundance
+    description: Report results of differential abundance analysis by the variable
+      of interest and (if applicable) by time, clearly indicating the direction of
+      change and total number of taxa tested.
+    from_schema: https://w3id.org/ontogpt/storms
+    rank: 1000
+    domain_of:
+    - STORMSChecklist
+    slot_group: results
+    range: string
+  results_other_data_types:
+    name: results_other_data_types
+    description: Report other data analyzed--e.g. metabolic function, functional potential,
+      MAG assembly, and RNAseq.
+    from_schema: https://w3id.org/ontogpt/storms
+    rank: 1000
+    domain_of:
+    - STORMSChecklist
+    slot_group: results
+    range: string
+  results_other_statistical_analysis:
+    name: results_other_statistical_analysis
+    description: Report any statistical data analysis not covered above.
+    from_schema: https://w3id.org/ontogpt/storms
+    rank: 1000
+    domain_of:
+    - STORMSChecklist
+    slot_group: results
+    range: string
+  discussion_key_results:
+    name: discussion_key_results
+    description: Summarize key results with reference to study objectives.
+    from_schema: https://w3id.org/ontogpt/storms
+    rank: 1000
+    domain_of:
+    - STORMSChecklist
+    slot_group: discussion
+    range: string
+  discussion_interpretation:
+    name: discussion_interpretation
+    description: Give a cautious overall interpretation of results considering objectives,
+      limitations, multiplicity of analyses, results from similar studies, and other
+      relevant evidence.
+    from_schema: https://w3id.org/ontogpt/storms
+    rank: 1000
+    domain_of:
+    - STORMSChecklist
+    slot_group: discussion
+    range: string
+  discussion_limitations:
+    name: discussion_limitations
+    description: Discuss limitations of the study, taking into account sources of
+      potential bias or imprecision.
+    from_schema: https://w3id.org/ontogpt/storms
+    rank: 1000
+    domain_of:
+    - STORMSChecklist
+    slot_group: discussion
+    range: string
+  discussion_bias:
+    name: discussion_bias
+    description: Discuss any potential for bias to influence study findings.
+    from_schema: https://w3id.org/ontogpt/storms
+    rank: 1000
+    domain_of:
+    - STORMSChecklist
+    slot_group: discussion
+    range: string
+  discussion_generalizability:
+    name: discussion_generalizability
+    description: Discuss the generalizability (external validity) of the study results.
+    from_schema: https://w3id.org/ontogpt/storms
+    rank: 1000
+    domain_of:
+    - STORMSChecklist
+    slot_group: discussion
+    range: string
+  discussion_ongoing_future_work:
+    name: discussion_ongoing_future_work
+    description: Describe potential future research or ongoing research based on the
+      study's findings.
+    from_schema: https://w3id.org/ontogpt/storms
+    rank: 1000
+    domain_of:
+    - STORMSChecklist
+    slot_group: discussion
+    range: string
+  other_information_funding:
+    name: other_information_funding
+    description: Give the source of funding and the role of the funders for the present
+      study and, if applicable, for the original study on which the present article
+      is based.
+    from_schema: https://w3id.org/ontogpt/storms
+    rank: 1000
+    domain_of:
+    - STORMSChecklist
+    slot_group: other_information
+    range: string
+  other_information_acknowledgements:
+    name: other_information_acknowledgements
+    description: Include acknowledgements of those who contributed to the research
+      but did not meet criteria for authorship.
+    from_schema: https://w3id.org/ontogpt/storms
+    rank: 1000
+    domain_of:
+    - STORMSChecklist
+    slot_group: other_information
+    range: string
+  other_information_conflicts_of_interest:
+    name: other_information_conflicts_of_interest
+    description: Include a conflicts of interest statement.
+    from_schema: https://w3id.org/ontogpt/storms
+    rank: 1000
+    domain_of:
+    - STORMSChecklist
+    slot_group: other_information
+    range: string
+  other_information_supplements:
+    name: other_information_supplements
+    description: Indicate where supplements may be accessed and what materials they
+      contain.
+    from_schema: https://w3id.org/ontogpt/storms
+    rank: 1000
+    domain_of:
+    - STORMSChecklist
+    slot_group: other_information
+    range: string
+  other_information_supplementary_data:
+    name: other_information_supplementary_data
+    description: Provide supplementary data files of results with all taxa and all
+      outcome variables analyzed. Indicate the taxonomic level of all taxa.
+    from_schema: https://w3id.org/ontogpt/storms
+    rank: 1000
+    domain_of:
+    - STORMSChecklist
+    slot_group: other_information
+    range: string
+tree_root: true
+
+</code></pre>
+</details>
+<h3 id="induced">Induced</h3>
+<details>
+<pre><code class="language-yaml">name: STORMSChecklist
+annotations:
+  prompt:
+    tag: prompt
+    value: Try and provide a value for ALL items. If an item is not reported, say
+      NOT REPORTED
+description: A checklist of items that should be reported in a microbiome study. Try
+  and provide a value for ALL items. If an item is not reported, say NOT REPORTED.
+from_schema: https://w3id.org/ontogpt/storms
+attributes:
+  abstract_structured_or_unstructured:
+    name: abstract_structured_or_unstructured
+    description: Abstract should include information on background, methods, results,
+      and conclusions in structured or unstructured format.
+    from_schema: https://w3id.org/ontogpt/storms
+    rank: 1000
+    alias: abstract_structured_or_unstructured
+    owner: STORMSChecklist
+    domain_of:
+    - STORMSChecklist
+    slot_group: abstract
+    range: string
+  abstract_study_design:
+    name: abstract_study_design
+    description: State study design in abstract.
+    from_schema: https://w3id.org/ontogpt/storms
+    rank: 1000
+    alias: abstract_study_design
+    owner: STORMSChecklist
+    domain_of:
+    - STORMSChecklist
+    slot_group: abstract
+    range: string
+  abstract_sequencing_methods:
+    name: abstract_sequencing_methods
+    description: State the strategy used for metagenomic classification.
+    from_schema: https://w3id.org/ontogpt/storms
+    rank: 1000
+    alias: abstract_sequencing_methods
+    owner: STORMSChecklist
+    domain_of:
+    - STORMSChecklist
+    slot_group: abstract
+    range: string
+  abstract_specimens:
+    name: abstract_specimens
+    description: Describe body site(s) studied.
+    from_schema: https://w3id.org/ontogpt/storms
+    rank: 1000
+    alias: abstract_specimens
+    owner: STORMSChecklist
+    domain_of:
+    - STORMSChecklist
+    slot_group: abstract
+    range: string
+  introduction_background_and_rationale:
+    name: introduction_background_and_rationale
+    description: Summarize the underlying background, scientific evidence, or theory
+      driving the current hypothesis as well as the study objectives.
+    from_schema: https://w3id.org/ontogpt/storms
+    rank: 1000
+    alias: introduction_background_and_rationale
+    owner: STORMSChecklist
+    domain_of:
+    - STORMSChecklist
+    slot_group: introduction
+    range: string
+  introduction_hypotheses:
+    name: introduction_hypotheses
+    description: State the pre-specified hypothesis. If the study is exploratory,
+      state any pre-specified study objectives.
+    from_schema: https://w3id.org/ontogpt/storms
+    rank: 1000
+    alias: introduction_hypotheses
+    owner: STORMSChecklist
+    domain_of:
+    - STORMSChecklist
+    slot_group: introduction
+    range: string
+  methods_study_design:
+    name: methods_study_design
+    description: Describe the study design.
+    from_schema: https://w3id.org/ontogpt/storms
+    rank: 1000
+    alias: methods_study_design
+    owner: STORMSChecklist
+    domain_of:
+    - STORMSChecklist
+    slot_group: methods
+    range: string
+  methods_participants:
+    name: methods_participants
+    description: State what the population of interest is, and the method by which
+      participants are sampled from that population.
+    from_schema: https://w3id.org/ontogpt/storms
+    rank: 1000
+    alias: methods_participants
+    owner: STORMSChecklist
+    domain_of:
+    - STORMSChecklist
+    slot_group: methods
+    range: string
+  methods_geographic_location:
+    name: methods_geographic_location
+    description: State the geographic region(s) where participants were sampled from.
+    from_schema: https://w3id.org/ontogpt/storms
+    rank: 1000
+    alias: methods_geographic_location
+    owner: STORMSChecklist
+    domain_of:
+    - STORMSChecklist
+    slot_group: methods
+    range: string
+  methods_relevant_dates:
+    name: methods_relevant_dates
+    description: State the start and end dates for recruitment, follow-up, and data
+      collection.
+    from_schema: https://w3id.org/ontogpt/storms
+    rank: 1000
+    alias: methods_relevant_dates
+    owner: STORMSChecklist
+    domain_of:
+    - STORMSChecklist
+    slot_group: methods
+    range: string
+  methods_eligibility_criteria:
+    name: methods_eligibility_criteria
+    description: List any criteria for inclusion and exclusion of recruited participants.
+    from_schema: https://w3id.org/ontogpt/storms
+    rank: 1000
+    alias: methods_eligibility_criteria
+    owner: STORMSChecklist
+    domain_of:
+    - STORMSChecklist
+    slot_group: methods
+    range: string
+  methods_antibiotics_usage:
+    name: methods_antibiotics_usage
+    description: List what is known about antibiotics usage before or during sample
+      collection.
+    from_schema: https://w3id.org/ontogpt/storms
+    rank: 1000
+    alias: methods_antibiotics_usage
+    owner: STORMSChecklist
+    domain_of:
+    - STORMSChecklist
+    slot_group: methods
+    range: string
+  methods_analytic_sample_size:
+    name: methods_analytic_sample_size
+    description: Explain how the final analytic sample size was calculated, including
+      the number of cases and controls if relevant, and reasons for dropout at each
+      stage of the study.
+    from_schema: https://w3id.org/ontogpt/storms
+    rank: 1000
+    alias: methods_analytic_sample_size
+    owner: STORMSChecklist
+    domain_of:
+    - STORMSChecklist
+    slot_group: methods
+    range: string
+  methods_longitudinal_studies:
+    name: methods_longitudinal_studies
+    description: For longitudinal studies, state how many follow-ups were conducted,
+      describe sample size at follow-up by group or condition, and discuss any loss
+      to follow-up.
+    from_schema: https://w3id.org/ontogpt/storms
+    rank: 1000
+    alias: methods_longitudinal_studies
+    owner: STORMSChecklist
+    domain_of:
+    - STORMSChecklist
+    slot_group: methods
+    range: string
+  methods_matching:
+    name: methods_matching
+    description: For matched studies, give matching criteria.
+    from_schema: https://w3id.org/ontogpt/storms
+    rank: 1000
+    alias: methods_matching
+    owner: STORMSChecklist
+    domain_of:
+    - STORMSChecklist
+    slot_group: methods
+    range: string
+  methods_ethics:
+    name: methods_ethics
+    description: State the name of the institutional review board that approved the
+      study and protocols, protocol number and date of approval, and procedures for
+      obtaining informed consent from participants.
+    from_schema: https://w3id.org/ontogpt/storms
+    rank: 1000
+    alias: methods_ethics
+    owner: STORMSChecklist
+    domain_of:
+    - STORMSChecklist
+    slot_group: methods
+    range: string
+  methods_laboratory_methods:
+    name: methods_laboratory_methods
+    description: State the laboratory/center where laboratory work was done.
+    from_schema: https://w3id.org/ontogpt/storms
+    rank: 1000
+    alias: methods_laboratory_methods
+    owner: STORMSChecklist
+    domain_of:
+    - STORMSChecklist
+    slot_group: methods
+    range: string
+  methods_specimen_collection:
+    name: methods_specimen_collection
+    description: State the body site(s) sampled from and how specimens were collected.
+    from_schema: https://w3id.org/ontogpt/storms
+    rank: 1000
+    alias: methods_specimen_collection
+    owner: STORMSChecklist
+    domain_of:
+    - STORMSChecklist
+    slot_group: methods
+    range: string
+  methods_shipping:
+    name: methods_shipping
+    description: Describe how samples were stored and shipped to the laboratory.
+    from_schema: https://w3id.org/ontogpt/storms
+    rank: 1000
+    alias: methods_shipping
+    owner: STORMSChecklist
+    domain_of:
+    - STORMSChecklist
+    slot_group: methods
+    range: string
+  methods_storage:
+    name: methods_storage
+    description: Describe how the laboratory stored samples, including time between
+      collection and storage and any preservation buffers or refrigeration used.
+    from_schema: https://w3id.org/ontogpt/storms
+    rank: 1000
+    alias: methods_storage
+    owner: STORMSChecklist
+    domain_of:
+    - STORMSChecklist
+    slot_group: methods
+    range: string
+  methods_dna_extraction:
+    name: methods_dna_extraction
+    description: Provide DNA extraction method, including kit and version if relevant.
+    from_schema: https://w3id.org/ontogpt/storms
+    rank: 1000
+    alias: methods_dna_extraction
+    owner: STORMSChecklist
+    domain_of:
+    - STORMSChecklist
+    slot_group: methods
+    range: string
+  methods_human_dna_sequence_depletion_or_microbial_dna_enrichment:
+    name: methods_human_dna_sequence_depletion_or_microbial_dna_enrichment
+    description: Describe whether human DNA sequence depletion or enrichment of microbial
+      or viral DNA was performed.
+    from_schema: https://w3id.org/ontogpt/storms
+    rank: 1000
+    alias: methods_human_dna_sequence_depletion_or_microbial_dna_enrichment
+    owner: STORMSChecklist
+    domain_of:
+    - STORMSChecklist
+    slot_group: methods
+    range: string
+  methods_primer_selection:
+    name: methods_primer_selection
+    description: Provide primer selection and DNA amplification methods as well as
+      variable region sequenced (if applicable).
+    from_schema: https://w3id.org/ontogpt/storms
+    rank: 1000
+    alias: methods_primer_selection
+    owner: STORMSChecklist
+    domain_of:
+    - STORMSChecklist
+    slot_group: methods
+    range: string
+  methods_positive_controls:
+    name: methods_positive_controls
+    description: Describe any positive controls (mock communities) if used.
+    from_schema: https://w3id.org/ontogpt/storms
+    rank: 1000
+    alias: methods_positive_controls
+    owner: STORMSChecklist
+    domain_of:
+    - STORMSChecklist
+    slot_group: methods
+    range: string
+  methods_negative_controls:
+    name: methods_negative_controls
+    description: Describe any negative controls if used.
+    from_schema: https://w3id.org/ontogpt/storms
+    rank: 1000
+    alias: methods_negative_controls
+    owner: STORMSChecklist
+    domain_of:
+    - STORMSChecklist
+    slot_group: methods
+    range: string
+  methods_contaminant_mitigation_and_identification:
+    name: methods_contaminant_mitigation_and_identification
+    description: Provide any laboratory or computational methods used to control for
+      or identify microbiome contamination from the environment, reagents, or laboratory.
+    from_schema: https://w3id.org/ontogpt/storms
+    rank: 1000
+    alias: methods_contaminant_mitigation_and_identification
+    owner: STORMSChecklist
+    domain_of:
+    - STORMSChecklist
+    slot_group: methods
+    range: string
+  methods_replication:
+    name: methods_replication
+    description: Describe any biological or technical replicates included in the sequencing,
+      including which steps were replicated between them.
+    from_schema: https://w3id.org/ontogpt/storms
+    rank: 1000
+    alias: methods_replication
+    owner: STORMSChecklist
+    domain_of:
+    - STORMSChecklist
+    slot_group: methods
+    range: string
+  methods_sequencing_strategy:
+    name: methods_sequencing_strategy
+    description: Major divisions of strategy, such as shotgun or amplicon sequencing.
+    from_schema: https://w3id.org/ontogpt/storms
+    rank: 1000
+    alias: methods_sequencing_strategy
+    owner: STORMSChecklist
+    domain_of:
+    - STORMSChecklist
+    slot_group: methods
+    range: string
+  methods_sequencing_methods:
+    name: methods_sequencing_methods
+    description: State whether experimental quantification was used (QMP/cell count
+      based, spike-in based) or whether relative abundance methods were applied.
+    from_schema: https://w3id.org/ontogpt/storms
+    rank: 1000
+    alias: methods_sequencing_methods
+    owner: STORMSChecklist
+    domain_of:
+    - STORMSChecklist
+    slot_group: methods
+    range: string
+  methods_batch_effects:
+    name: methods_batch_effects
+    description: Detail any blocking or randomization used in study design to avoid
+      confounding of batches with exposures or outcomes. Discuss any likely sources
+      of batch effects, if known.
+    from_schema: https://w3id.org/ontogpt/storms
+    rank: 1000
+    alias: methods_batch_effects
+    owner: STORMSChecklist
+    domain_of:
+    - STORMSChecklist
+    slot_group: methods
+    range: string
+  methods_metatranscriptomics:
+    name: methods_metatranscriptomics
+    description: Detail whether any mRNA enrichment was performed and whether/how
+      retrotranscription was performed prior to sequencing. Provide size range of
+      isolated transcripts. Describe whether the sequencing library was stranded or
+      not. Provide details on sequencing methods and platforms.
+    from_schema: https://w3id.org/ontogpt/storms
+    rank: 1000
+    alias: methods_metatranscriptomics
+    owner: STORMSChecklist
+    domain_of:
+    - STORMSChecklist
+    slot_group: methods
+    range: string
+  methods_metaproteomics:
+    name: methods_metaproteomics
+    description: Detail which protease was used for digestion. Provide details on
+      proteomic methods and platforms (e.g. LC-MS/MS, instrument type, column type,
+      mass range, resolution, scan speed, maximum injection time, isolation window,
+      normalised collision energy, and resolution).
+    from_schema: https://w3id.org/ontogpt/storms
+    rank: 1000
+    alias: methods_metaproteomics
+    owner: STORMSChecklist
+    domain_of:
+    - STORMSChecklist
+    slot_group: methods
+    range: string
+  methods_metabolomics:
+    name: methods_metabolomics
+    description: Specify the analytic method used (such as nuclear magnetic resonance
+      spectroscopy or mass spectrometry). For mass spectrometry, detail which fractions
+      were obtained (polar and/or non polar) and how these were analyzed. Provide
+      details on metabolomics methods and platforms (e.g. derivatization, instrument
+      type, injection type, column type and instrument settings).
+    from_schema: https://w3id.org/ontogpt/storms
+    rank: 1000
+    alias: methods_metabolomics
+    owner: STORMSChecklist
+    domain_of:
+    - STORMSChecklist
+    slot_group: methods
+    range: string
+  results_descriptive_data:
+    name: results_descriptive_data
+    description: Give characteristics of study participants (e.g. dietary, demographic,
+      clinical, social) and information on exposures and potential confounders.
+    from_schema: https://w3id.org/ontogpt/storms
+    rank: 1000
+    alias: results_descriptive_data
+    owner: STORMSChecklist
+    domain_of:
+    - STORMSChecklist
+    slot_group: results
+    range: string
+  results_microbiome_data:
+    name: results_microbiome_data
+    description: Report descriptive findings for microbiome analyses with all applicable
+      outcomes and covariates.
+    from_schema: https://w3id.org/ontogpt/storms
+    rank: 1000
+    alias: results_microbiome_data
+    owner: STORMSChecklist
+    domain_of:
+    - STORMSChecklist
+    slot_group: results
+    range: string
+  results_taxonomy:
+    name: results_taxonomy
+    description: Identify taxonomy using standardized taxon classifications that are
+      sufficient to uniquely identify taxa.
+    from_schema: https://w3id.org/ontogpt/storms
+    rank: 1000
+    alias: results_taxonomy
+    owner: STORMSChecklist
+    domain_of:
+    - STORMSChecklist
+    slot_group: results
+    range: string
+  results_differential_abundance:
+    name: results_differential_abundance
+    description: Report results of differential abundance analysis by the variable
+      of interest and (if applicable) by time, clearly indicating the direction of
+      change and total number of taxa tested.
+    from_schema: https://w3id.org/ontogpt/storms
+    rank: 1000
+    alias: results_differential_abundance
+    owner: STORMSChecklist
+    domain_of:
+    - STORMSChecklist
+    slot_group: results
+    range: string
+  results_other_data_types:
+    name: results_other_data_types
+    description: Report other data analyzed--e.g. metabolic function, functional potential,
+      MAG assembly, and RNAseq.
+    from_schema: https://w3id.org/ontogpt/storms
+    rank: 1000
+    alias: results_other_data_types
+    owner: STORMSChecklist
+    domain_of:
+    - STORMSChecklist
+    slot_group: results
+    range: string
+  results_other_statistical_analysis:
+    name: results_other_statistical_analysis
+    description: Report any statistical data analysis not covered above.
+    from_schema: https://w3id.org/ontogpt/storms
+    rank: 1000
+    alias: results_other_statistical_analysis
+    owner: STORMSChecklist
+    domain_of:
+    - STORMSChecklist
+    slot_group: results
+    range: string
+  discussion_key_results:
+    name: discussion_key_results
+    description: Summarize key results with reference to study objectives.
+    from_schema: https://w3id.org/ontogpt/storms
+    rank: 1000
+    alias: discussion_key_results
+    owner: STORMSChecklist
+    domain_of:
+    - STORMSChecklist
+    slot_group: discussion
+    range: string
+  discussion_interpretation:
+    name: discussion_interpretation
+    description: Give a cautious overall interpretation of results considering objectives,
+      limitations, multiplicity of analyses, results from similar studies, and other
+      relevant evidence.
+    from_schema: https://w3id.org/ontogpt/storms
+    rank: 1000
+    alias: discussion_interpretation
+    owner: STORMSChecklist
+    domain_of:
+    - STORMSChecklist
+    slot_group: discussion
+    range: string
+  discussion_limitations:
+    name: discussion_limitations
+    description: Discuss limitations of the study, taking into account sources of
+      potential bias or imprecision.
+    from_schema: https://w3id.org/ontogpt/storms
+    rank: 1000
+    alias: discussion_limitations
+    owner: STORMSChecklist
+    domain_of:
+    - STORMSChecklist
+    slot_group: discussion
+    range: string
+  discussion_bias:
+    name: discussion_bias
+    description: Discuss any potential for bias to influence study findings.
+    from_schema: https://w3id.org/ontogpt/storms
+    rank: 1000
+    alias: discussion_bias
+    owner: STORMSChecklist
+    domain_of:
+    - STORMSChecklist
+    slot_group: discussion
+    range: string
+  discussion_generalizability:
+    name: discussion_generalizability
+    description: Discuss the generalizability (external validity) of the study results.
+    from_schema: https://w3id.org/ontogpt/storms
+    rank: 1000
+    alias: discussion_generalizability
+    owner: STORMSChecklist
+    domain_of:
+    - STORMSChecklist
+    slot_group: discussion
+    range: string
+  discussion_ongoing_future_work:
+    name: discussion_ongoing_future_work
+    description: Describe potential future research or ongoing research based on the
+      study's findings.
+    from_schema: https://w3id.org/ontogpt/storms
+    rank: 1000
+    alias: discussion_ongoing_future_work
+    owner: STORMSChecklist
+    domain_of:
+    - STORMSChecklist
+    slot_group: discussion
+    range: string
+  other_information_funding:
+    name: other_information_funding
+    description: Give the source of funding and the role of the funders for the present
+      study and, if applicable, for the original study on which the present article
+      is based.
+    from_schema: https://w3id.org/ontogpt/storms
+    rank: 1000
+    alias: other_information_funding
+    owner: STORMSChecklist
+    domain_of:
+    - STORMSChecklist
+    slot_group: other_information
+    range: string
+  other_information_acknowledgements:
+    name: other_information_acknowledgements
+    description: Include acknowledgements of those who contributed to the research
+      but did not meet criteria for authorship.
+    from_schema: https://w3id.org/ontogpt/storms
+    rank: 1000
+    alias: other_information_acknowledgements
+    owner: STORMSChecklist
+    domain_of:
+    - STORMSChecklist
+    slot_group: other_information
+    range: string
+  other_information_conflicts_of_interest:
+    name: other_information_conflicts_of_interest
+    description: Include a conflicts of interest statement.
+    from_schema: https://w3id.org/ontogpt/storms
+    rank: 1000
+    alias: other_information_conflicts_of_interest
+    owner: STORMSChecklist
+    domain_of:
+    - STORMSChecklist
+    slot_group: other_information
+    range: string
+  other_information_supplements:
+    name: other_information_supplements
+    description: Indicate where supplements may be accessed and what materials they
+      contain.
+    from_schema: https://w3id.org/ontogpt/storms
+    rank: 1000
+    alias: other_information_supplements
+    owner: STORMSChecklist
+    domain_of:
+    - STORMSChecklist
+    slot_group: other_information
+    range: string
+  other_information_supplementary_data:
+    name: other_information_supplementary_data
+    description: Provide supplementary data files of results with all taxa and all
+      outcome variables analyzed. Indicate the taxonomic level of all taxa.
+    from_schema: https://w3id.org/ontogpt/storms
+    rank: 1000
+    alias: other_information_supplementary_data
+    owner: STORMSChecklist
+    domain_of:
+    - STORMSChecklist
+    slot_group: other_information
+    range: string
+tree_root: true
+
+</code></pre>
+</details>
+</article>
+</div>
+<script>var tabs=__md_get("__tabs");if(Array.isArray(tabs))e:for(var set of document.querySelectorAll(".tabbed-set")){var tab,labels=set.querySelector(".tabbed-labels");for(tab of tabs)for(var label of labels.getElementsByTagName("label"))if(label.innerText.trim()===tab){var input=document.getElementById(label.htmlFor);input.checked=!0;continue e}}</script>
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+</div>
+</main>
+<footer class="md-footer">
+<div class="md-footer-meta md-typeset">
+<div class="md-footer-meta__inner md-grid">
+<div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" rel="noopener" target="_blank">
+      Material for MkDocs
+    </a>
+</div>
+</div>
+</div>
+</footer>
+</div>
+<div class="md-dialog" data-md-component="dialog">
+<div class="md-dialog__inner md-typeset"></div>
+</div>
+<script id="__config" type="application/json">{"base": "../..", "features": ["content.tabs.link"], "search": "../../assets/javascripts/workers/search.b8dbb3d2.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
+<script src="../../assets/javascripts/bundle.fe8b6f2b.min.js"></script>
+<script src="https://unpkg.com/mermaid@9.3.0/dist/mermaid.min.js"></script><script>mermaid.initialize({});</script></body>
+</html>
