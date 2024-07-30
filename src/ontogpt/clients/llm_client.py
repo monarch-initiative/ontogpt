@@ -17,6 +17,7 @@ logger = logging.getLogger(__name__)
 # Just get the part before the slash in each model name
 SERVICES = {model.split("/")[0] for model in MODELS.keys() if len(model.split("/")) > 1}
 
+
 @dataclass
 class LLMClient:
 
@@ -35,6 +36,8 @@ class LLMClient:
     def __post_init__(self):
         # Get appropriate API key for the model source
         # and other details if needed
+        if self.model.startswith("ollama"):
+            self.api_key = "" # Don't need an API key
         if not self.api_key and not self.custom_llm_provider:
             self.api_key = get_apikey_value("openai")
         elif self.custom_llm_provider == "anthropic":
@@ -109,7 +112,7 @@ class LLMClient:
         )
 
         if response is not None:
-            payload = response.data[0]['embedding']
+            payload = response.data[0]["embedding"]
         else:
             logger.error("No response or response is empty.")
             payload = ""

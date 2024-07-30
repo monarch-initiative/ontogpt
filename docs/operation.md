@@ -36,7 +36,7 @@ OntoGPT is intended to be used for information extraction. The following example
 
 #### Working Mechanism
 
-1. You provide an arbitrary data model, describing the structure you want to extract text into. This can be nested (but see limitations below). The predefined [templates](src/ontogpt/templates/) may be used.
+1. You provide an arbitrary data model, describing the structure you want to extract text into. This can be nested (but see limitations below). The predefined templates may be used.
 2. Provide your preferred annotations for grounding `NamedEntity` fields
 3. OntoGPT will:
     * Generate a prompt
@@ -46,7 +46,7 @@ OntoGPT is intended to be used for information extraction. The following example
 
 #### Input
 
-Consider some text from one of the input files being used in the OntoGPT test suite. You can find the text file [here](tests/input/cases/gocam-betacat.txt). You can download the raw file from the GitHub link to that input text file, or copy its contents over into another file, say, `abstract.txt`. An excerpt:
+Consider some text from one of the input files being used in the OntoGPT test suite. You can find the text file [here](https://github.com/monarch-initiative/ontogpt/blob/main/tests/input/cases/gocam-betacat.txt). You can download the raw file from the GitHub link to that input text file, or copy its contents over into another file, say, `abstract.txt`. An excerpt:
 
   > The cGAS/STING-mediated DNA-sensing signaling pathway is crucial
   for interferon (IFN) production and host antiviral
@@ -62,7 +62,7 @@ Consider some text from one of the input files being used in the OntoGPT test su
   > ...
   > ...
 
-We can extract knowledge from the above text this into the [GO pathway datamodel](src/ontogpt/templates/gocam.yaml) by running the following command:
+We can extract knowledge from the above text this into the [GO pathway datamodel](https://github.com/monarch-initiative/ontogpt/blob/main/src/ontogpt/templates/gocam.yaml) by running the following command:
 
 #### Command
 
@@ -70,7 +70,9 @@ We can extract knowledge from the above text this into the [GO pathway datamodel
 ontogpt extract -t gocam.GoCamAnnotations -i ~/path/to/abstract.txt
 ```
 
-Note: The value accepted by the `-t` / `--template` argument is the base name of one of the LinkML schema / data model which can be found in the [templates](src/ontogpt/templates/) folder.
+Note: The value accepted by the `-t` / `--template` argument is the base name of one of the LinkML schema / data model available to OntoGPT.
+
+Use the command `ontogpt list-templates` to see all templates. Use the name in the first column with the `--template` option.
 
 Or, if you create your own schema (see the page on [custom schemas](custom.md)), you may pass the path to the .yaml file.
 
@@ -104,18 +106,20 @@ gene_functions:
 
 #### Local Models
 
-To use a local model, specify it with the `-m` or `--model` option.
+To use a local model, download it through `ollama` (see the setup page for more details: <https://monarch-initiative.github.io/ontogpt/setup/>)
+
+Then specify it with the `-m` or `--model` option.
 
 Example:
 
 ```bash
-ontogpt extract -t drug -i ~/path/to/abstract.txt -m nous-hermes-13b
+ontogpt extract -t drug -i ~/path/to/abstract.txt -m ollama/llama3
 ```
 
-See the list of all available models with this command:
+See the list of all downloaded models with this command:
 
 ```bash
-ontogpt list-models
+ollama list
 ```
 
-When specifying a local model for the first time, it will be downloaded to your local system.
+Note that models can and will vary in performance and larger models will not always perform more accurately or more efficiently.

@@ -28,12 +28,29 @@
             cursor: pointer;
         }
 
+        .loading {
+            display: none;
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .loading img {
+            width: 50px;
+            height: 50px;
+        }
+
         .footer {
             background-color: #f1f1f1;
             padding: 20px;
             text-align: center;
         }
     </style>
+    <script>
+        function showLoading() {
+            document.getElementById("loading").style.display = "block";
+            document.getElementById("submitBtn").disabled = true;
+        }
+    </script>
 </head>
 <body>
 <div>
@@ -48,7 +65,7 @@
             </select>
         </div>
         <div>
-            Select LLM:
+            Select LLM (non-GPT models will require ollama to be running):
             <select name="llm_model" id="llm_model">
                 {% for llm_model in llm_models %}
                   <option value="{{ llm_model }}">{{ llm_model }}</option>
@@ -59,12 +76,15 @@
             <textarea name="text" rows="20" cols="80">Enter text here (e.g. PubMed abstract)
             </textarea>
         </div>
-        <input type="submit" onclick="this.style.backgroundColor='#FFA500'; this.value='Processing...';">
-        <div>
-            This process currently uses the OpenAI API.
+        <input type="submit" onclick="showLoading(); this.style.backgroundColor='#FFA500'; this.value='Processing...'; return true;">
+        <div class="loading" id="loading">
+            <img src="static/loading.gif" alt="Loading...">
         </div>
         <div>
-            <i>Please be patient, can take up to 10s, or longer if ontology resources need to be retrieved.</i>
+            GPT models use the OpenAI API and may incur costs.
+        </div>
+        <div>
+            <i>Please be patient, can take up to 10s, or longer if ontology resources need to be retrieved and/or using large local models.</i>
         </div>
     </form>
 </div>

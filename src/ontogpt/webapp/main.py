@@ -26,7 +26,16 @@ all_templates = dict(sorted(all_templates.items()))
 for template_id, (_name, description) in all_templates.items():
     DATAMODELS[template_id] = f"{description}"
 
-LLM_MODELS = ["gpt-4o", "gpt-4", "gpt-4-turbo", "gpt-3.5-turbo"]
+LLM_MODELS = [
+    "gpt-4o-mini",
+    "gpt-4o",
+    "gpt-4",
+    "gpt-4-turbo",
+    "gpt-3.5-turbo",
+    "ollama/llama2",
+    "ollama/llama3",
+    "ollama/orca-mini",
+]
 
 
 class Query(BaseModel):
@@ -47,15 +56,8 @@ engines: Dict[str, SPIRESEngine] = {}
 def get_engine(datamodel: str, llm_model: str):
     if datamodel not in engines:
         template_details = get_template_details(template=datamodel)
-        try:
-            engines[datamodel] = SPIRESEngine(
-                model=llm_model, template_details=template_details, model_provider="openai"
-            )
-        except ValueError as e:
-            print(f"Encountered an error setting up the knowledge engine: {e}")
-            print("Will fall back to defaults.")
-            engines[datamodel] = SPIRESEngine(
-                model="gpt-3.5-turbo", template_details=template_details, model_provider="openai"
+        engines[datamodel] = SPIRESEngine(
+                model=llm_model, template_details=template_details
             )
     return engines[datamodel]
 

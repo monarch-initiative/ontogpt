@@ -61,6 +61,48 @@ web-ontogpt
 
 NOTE: We do not recommend hosting this webapp publicly without authentication.
 
+## Model APIs
+
+OntoGPT uses the `litellm` package (<https://litellm.vercel.app/>) to interface with LLMs.
+
+This means most APIs are supported, including OpenAI, Azure, Anthropic, Mistral, Replicate, and beyond.
+
+The model name to use may be found from the command `ontogpt list-models` - use the name in the first column with the `--model` option.
+
+In most cases, this will require setting the API key for a particular service as above:
+
+```bash
+runoak set-apikey -e anthropic-key <your anthropic api key>
+```
+
+Some endpoints, such as OpenAI models through Azure, require setting additional details. These may be set similarly:
+
+```bash
+runoak set-apikey -e azure-key <your azure api key>
+runoak set-apikey -e azure-base <your azure endpoint url>
+runoak set-apikey -e azure-version <your azure api version, e.g. "2023-05-15">
+```
+
+These details may also be set as environment variables as follows:
+
+```bash
+export AZURE_API_KEY="my-azure-api-key"
+export AZURE_API_BASE="https://example-endpoint.openai.azure.com"
+export AZURE_API_VERSION="2023-05-15"
+```
+
+## Open Models
+
+Open LLMs may be retrieved and run through the `ollama` package (<https://ollama.com/>).
+
+You will need to install `ollama` (see the [GitHub repo](https://github.com/ollama/ollama)), and you may need to start it as a service with a command like `ollama serve` or `sudo systemctl start ollama`.
+
+Then retrieve a model with `ollama pull <modelname>`, e.g., `ollama pull llama3`.
+
+The model may then be used in OntoGPT by prefixing its name with `ollama/`, e.g., `ollama/llama3`, along with the `--model` option.
+
+Some ollama models may not be listed in `ontogpt list-models` but the full list of downloaded LLMs can be seen with `ollama list` command.
+
 ## Evaluations
 
 OntoGPT's functions have been evaluated on test data. Please see the full documentation for details on these evaluations and how to reproduce them.
@@ -71,15 +113,15 @@ OntoGPT's functions have been evaluated on test data. Please see the full docume
 
 ## Tutorials and Presentations
 
-- Presentation: "Staying grounded: assembling structured biological knowledge with help from large language models" - presented by Harry Caufield as part of the AgBioData Consortium webinar series (September 2023)
-  - [Slides](https://docs.google.com/presentation/d/1rMQVWaMju-ucYFif5nx4Xv3bNX2SVI_w89iBIT1bkV4/edit?usp=sharing)
-  - [Video](https://www.youtube.com/watch?v=z38lI6WyBsY)
-- Presentation: "Transforming unstructured biomedical texts with large language models" - presented by Harry Caufield as part of the BOSC track at ISMB/ECCB 2023 (July 2023)
-  - [Slides](https://docs.google.com/presentation/d/1LsOTKi-rXYczL9vUTHB1NDkaEqdA9u3ZFC5ANa0x1VU/edit?usp=sharing)
-  - [Video](https://www.youtube.com/watch?v=a34Yjz5xPp4)
-- Presentation: "OntoGPT: A framework for working with ontologies and large language models" - talk by Chris Mungall at Joint Food Ontology Workgroup (May 2023)
-  - [Slides](https://docs.google.com/presentation/d/1CosJJe8SqwyALyx85GWkw9eOT43B4HwDlAY2CmkmJgU/edit)
-  - [Video](https://www.youtube.com/watch?v=rt3wobA9hEs&t=1955s)
+* Presentation: "Staying grounded: assembling structured biological knowledge with help from large language models" - presented by Harry Caufield as part of the AgBioData Consortium webinar series (September 2023)
+  * [Slides](https://docs.google.com/presentation/d/1rMQVWaMju-ucYFif5nx4Xv3bNX2SVI_w89iBIT1bkV4/edit?usp=sharing)
+  * [Video](https://www.youtube.com/watch?v=z38lI6WyBsY)
+* Presentation: "Transforming unstructured biomedical texts with large language models" - presented by Harry Caufield as part of the BOSC track at ISMB/ECCB 2023 (July 2023)
+  * [Slides](https://docs.google.com/presentation/d/1LsOTKi-rXYczL9vUTHB1NDkaEqdA9u3ZFC5ANa0x1VU/edit?usp=sharing)
+  * [Video](https://www.youtube.com/watch?v=a34Yjz5xPp4)
+* Presentation: "OntoGPT: A framework for working with ontologies and large language models" - talk by Chris Mungall at Joint Food Ontology Workgroup (May 2023)
+  * [Slides](https://docs.google.com/presentation/d/1CosJJe8SqwyALyx85GWkw9eOT43B4HwDlAY2CmkmJgU/edit)
+  * [Video](https://www.youtube.com/watch?v=rt3wobA9hEs&t=1955s)
 
 ## Citation
 
