@@ -104,18 +104,20 @@ gene_functions:
 
 #### Local Models
 
-To use a local model, specify it with the `-m` or `--model` option.
+To use a local model, download it through `ollama` (see the setup page for more details: <https://monarch-initiative.github.io/ontogpt/setup/>)
+
+Then specify it with the `-m` or `--model` option.
 
 Example:
 
 ```bash
-ontogpt extract -t drug -i ~/path/to/abstract.txt -m nous-hermes-13b
+ontogpt extract -t drug -i ~/path/to/abstract.txt -m ollama/llama3
 ```
 
-See the list of all available models with this command:
+See the list of all downloaded models with this command:
 
 ```bash
-ontogpt list-models
+ollama list
 ```
 
-When specifying a local model for the first time, it will be downloaded to your local system.
+Note that models can and will vary in performance and larger models will not always perform more accurately or more efficiently.
