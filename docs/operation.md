@@ -123,3 +123,31 @@ ollama list
 ```
 
 Note that models can and will vary in performance and larger models will not always perform more accurately or more efficiently.
+
+#### OpenAI-compatible Proxy Servers
+
+If accessing an LLM though an OpenAI client-compatible proxy server, you will need to set the following:
+
+* Your API key. Set this the same way as the OpenAI API key, either as
+
+```bash
+runoak set-apikey -e openai <your openai api key>
+```
+
+or
+
+```bash
+export OPENAI_API_KEY="key goes here"
+```
+
+* The model name. This will go with the `--model` parameter.
+
+* The base URL. This will go with the `--api-base` parameter.
+
+* The provider name. Because this is an OpenAI-style proxy, this value should be `openai` and will go with the `--model-provider` parameter.
+
+Here is an example with the `extract` command (this is not a public proxy and will not work without an API key):
+
+```bash
+ontogpt -vvv extract -t go_terms -i temp/genetest.txt -m anthropic/claude-opus --model-provider openai --api-base "https://api.cborg.lbl.gov"
+```
