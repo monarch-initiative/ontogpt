@@ -403,6 +403,15 @@
   
 </li>
         
+          <li class="md-nav__item">
+  <a href="#openai-compatible-proxy-servers" class="md-nav__link">
+    <span class="md-ellipsis">
+      OpenAI-compatible Proxy Servers
+    </span>
+  </a>
+  
+</li>
+        
       </ul>
     </nav>
   
@@ -1431,6 +1440,15 @@
   
 </li>
         
+          <li class="md-nav__item">
+  <a href="#openai-compatible-proxy-servers" class="md-nav__link">
+    <span class="md-ellipsis">
+      OpenAI-compatible Proxy Servers
+    </span>
+  </a>
+  
+</li>
+        
       </ul>
     </nav>
   
@@ -1546,6 +1564,30 @@ gene_functions:
 <pre><code class="language-bash">ollama list
 </code></pre>
 <p>Note that models can and will vary in performance and larger models will not always perform more accurately or more efficiently.</p>
+<h4 id="openai-compatible-proxy-servers">OpenAI-compatible Proxy Servers</h4>
+<p>If accessing an LLM though an OpenAI client-compatible proxy server, you will need to set the following:</p>
+<ul>
+<li>Your API key. Set this the same way as the OpenAI API key, either as</li>
+</ul>
+<pre><code class="language-bash">runoak set-apikey -e openai &lt;your openai api key&gt;
+</code></pre>
+<p>or</p>
+<pre><code class="language-bash">export OPENAI_API_KEY=&quot;key goes here&quot;
+</code></pre>
+<ul>
+<li>
+<p>The model name. This will go with the <code>--model</code> parameter.</p>
+</li>
+<li>
+<p>The base URL. This will go with the <code>--api-base</code> parameter.</p>
+</li>
+<li>
+<p>The provider name. Because this is an OpenAI-style proxy, this value should be <code>openai</code> and will go with the <code>--model-provider</code> parameter.</p>
+</li>
+</ul>
+<p>Here is an example with the <code>extract</code> command (this is not a public proxy and will not work without an API key):</p>
+<pre><code class="language-bash">ontogpt -vvv extract -t go_terms -i temp/genetest.txt -m anthropic/claude-opus --model-provider openai --api-base &quot;https://api.cborg.lbl.gov&quot;
+</code></pre>
 
 
 
