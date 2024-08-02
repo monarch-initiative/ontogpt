@@ -343,7 +343,7 @@ def extract(
 
             text = textract.process(inputfile).decode("utf-8")
         else:
-            text = open(inputfile, "r").read()
+            text = open(inputfile, "rb").read().decode(encoding="utf-8",errors="ignore")
         logging.info(f"Input text: {text}")
         inputlist.append(text)
     elif inputfile and not Path(inputfile).exists():
