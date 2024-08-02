@@ -114,7 +114,7 @@ def write_extraction(
             exporter = OWLExporter()
             exporter.export(results, output, knowledge_engine.schemaview)
         elif output_format == "json":
-            output.write(dump_minimal_json(results)) 
+            output.write(dump_minimal_json(results))  # type: ignore
         elif output_format == "kgx":
             # TODO: enable passing name without extension,
             # since there will be multiple output files
@@ -346,7 +346,7 @@ def extract(
 
             text = textract.process(inputfile).decode("utf-8")
         else:
-            text = open(inputfile, "rb").read().decode(encoding="utf-8",errors="ignore")
+            text = open(inputfile, "rb").read().decode(encoding="utf-8", errors="ignore")
         logging.info(f"Input text: {text}")
         inputlist.append(text)
     elif inputfile and not Path(inputfile).exists():
