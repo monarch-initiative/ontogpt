@@ -51,6 +51,7 @@ __all__ = [
 
 from ontogpt.io.owl_exporter import OWLExporter
 from ontogpt.io.rdf_exporter import RDFExporter
+from ontogpt.io.json_wrapper import dump_minimal_json
 from ontogpt.io.yaml_wrapper import dump_minimal_yaml
 from ontogpt.templates.core import ExtractionResult
 
@@ -112,6 +113,8 @@ def write_extraction(
         elif output_format == "owl":
             exporter = OWLExporter()
             exporter.export(results, output, knowledge_engine.schemaview)
+        elif output_format == "json":
+            output.write(dump_minimal_json(results)) 
         elif output_format == "kgx":
             # TODO: enable passing name without extension,
             # since there will be multiple output files
@@ -386,6 +389,7 @@ def extract(
             for slot_value in set_slot_value:
                 slot, value = slot_value.split("=")
                 setattr(results.extracted_object, slot, value)
+        logging.info(f"Output format: {output_format}")
         write_extraction(results, output, output_format, ke, template, cut_input_text)
 
 
