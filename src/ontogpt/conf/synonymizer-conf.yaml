@@ -22,4 +22,3 @@ rules:
       match: "(.*) food product"
       match_scope: "FOODON"
       replacement: "\\1"
-

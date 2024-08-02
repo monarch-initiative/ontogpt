@@ -25,6 +25,7 @@ def eliminate_empty(obj: Any, preserve=False) -> Any:
     else:
         return obj
 
+
 def dump_minimal_json(obj: Any, minimize=True, file: Optional[TextIO] = None) -> str:
     """Dump a JSON string, but eliminate Nones and empty lists and dicts."""
     if not file:

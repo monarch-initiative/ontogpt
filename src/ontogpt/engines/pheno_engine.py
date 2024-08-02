@@ -1,4 +1,4 @@
-"""Reasoner engine."""
+"""Pheno engine."""
 
 import json
 import logging

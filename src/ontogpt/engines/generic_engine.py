@@ -1,4 +1,5 @@
-"""Synonym engine."""
+"""Generic engine."""
+
 import logging
 from copy import deepcopy
 from dataclasses import dataclass
