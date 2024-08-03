@@ -51,6 +51,7 @@ __all__ = [
 
 from ontogpt.io.owl_exporter import OWLExporter
 from ontogpt.io.rdf_exporter import RDFExporter
+from ontogpt.io.csv_exporter import CSVExporter
 from ontogpt.io.json_wrapper import dump_minimal_json
 from ontogpt.io.yaml_wrapper import dump_minimal_yaml
 from ontogpt.templates.core import ExtractionResult
@@ -115,6 +116,9 @@ def write_extraction(
             exporter.export(results, output, knowledge_engine.schemaview)
         elif output_format == "json":
             output.write(dump_minimal_json(results))  # type: ignore
+        elif output_format == "csv":
+            exporter = CSVExporter()
+            exporter.export(results, output, knowledge_engine.schemaview)
         elif output_format == "kgx":
             # TODO: enable passing name without extension,
             # since there will be multiple output files
@@ -187,7 +191,7 @@ output_option_txt = click.option(
 output_format_options = click.option(
     "-O",
     "--output-format",
-    type=click.Choice(["json", "yaml", "pickle", "md", "html", "owl", "turtle", "jsonl", "kgx"]),
+    type=click.Choice(["json", "yaml", "pickle", "md", "html", "owl", "turtle", "jsonl", "kgx", "csv"]),
     default="yaml",
     help="Output format.",
 )
