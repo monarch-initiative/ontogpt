@@ -119,6 +119,10 @@ def write_extraction(
         elif output_format == "csv":
             exporter = CSVExporter()
             exporter.export(results, output, knowledge_engine.schemaview)
+        elif output_format == "tsv":
+            exporter = CSVExporter()
+            exporter.sep = "\t"
+            exporter.export(results, output, knowledge_engine.schemaview)
         elif output_format == "kgx":
             # TODO: enable passing name without extension,
             # since there will be multiple output files
@@ -191,7 +195,9 @@ output_option_txt = click.option(
 output_format_options = click.option(
     "-O",
     "--output-format",
-    type=click.Choice(["json", "yaml", "pickle", "md", "html", "owl", "turtle", "jsonl", "kgx", "csv"]),
+    type=click.Choice(
+        ["json", "yaml", "pickle", "md", "html", "owl", "turtle", "jsonl", "kgx", "csv", "tsv"]
+    ),
     default="yaml",
     help="Output format.",
 )

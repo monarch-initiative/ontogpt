@@ -15,6 +15,9 @@ from ontogpt.templates.core import ExtractionResult
 
 @dataclass
 class CSVExporter(Exporter):
+
+    sep: str = ","
+
     def export(
         self,
         extraction_output: ExtractionResult,
@@ -31,4 +34,4 @@ class CSVExporter(Exporter):
         df = pd.DataFrame.from_dict(out_dict, orient="index")
         df.columns = ["values"]
         df = df.explode("values")
-        df.to_csv(output)
+        df.to_csv(path_or_buf=output, sep=self.sep, header=True)
