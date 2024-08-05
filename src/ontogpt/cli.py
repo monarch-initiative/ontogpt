@@ -85,7 +85,7 @@ def write_extraction(
     """Write results of extraction to a given output stream."""
     # Check if this result contains anything writable first
     if results.extracted_object:
-        exporter: Union[MarkdownExporter, HTMLExporter, RDFExporter, OWLExporter]
+        exporter: Union[CSVExporter, MarkdownExporter, HTMLExporter, RDFExporter, OWLExporter]
 
         if cut_input_text:
             truncate_len = 1000
@@ -120,8 +120,7 @@ def write_extraction(
             exporter = CSVExporter()
             exporter.export(results, output, knowledge_engine.schemaview)
         elif output_format == "tsv":
-            exporter = CSVExporter()
-            exporter.sep = "\t"
+            exporter = CSVExporter(sep="\t")
             exporter.export(results, output, knowledge_engine.schemaview)
         elif output_format == "kgx":
             # TODO: enable passing name without extension,
