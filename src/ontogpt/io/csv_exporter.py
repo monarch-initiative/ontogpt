@@ -1,4 +1,4 @@
-"""CSV exporter class"""
+"""CSV exporter class."""
 
 from dataclasses import dataclass
 from io import BytesIO
@@ -11,6 +11,7 @@ import pandas as pd
 from linkml_runtime import SchemaView
 
 from ontogpt.templates.core import ExtractionResult
+
 
 @dataclass
 class CSVExporter(Exporter):
