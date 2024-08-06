@@ -1,0 +1,9 @@
+code	task	description
+default='sat'	OntologyCoherencyTask	A task to determine if an ontology is coherent.      There should be a single answer, which is a boolean.
+default='indirect'	EntailedIndirectSuperClassTask	A task to determine the indirect superclasses of a class.
+default='superc'	EntailedTransitiveSuperClassTask	A task to determine the all transitive superclasses of a class.
+default='expr'	EntailedSubClassOfExpressionTask	A task to determine the subclasses of a class expression.
+default='dir-sup'	EntailedDirectSuperClassTask	A task to determine the direct superclasses of a class.      Includes those entailed by other axioms, e.g. equivalence axioms.      Context: a standard pattern in bio-ontologies is to infer the structure     of one ontology from another - e.g. the metabolic process branch in GO     may be entailed by GO equivalence axioms plus the IS_A links in CHEBI.
+default='mrca'	MostRecentCommonSubsumerTask	A task to determine the most specific common ancestors.
+default='tc'	TaxonConstraintTask	A task to determine inapplicable classes by taxon.
+default='abox'	ABoxTask	A task to infer assertions over property chains and transitvity in aboxes.
