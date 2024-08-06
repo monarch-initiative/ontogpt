@@ -179,11 +179,11 @@ prompt_template_option = click.option(
 recurse_option = click.option(
     "--recurse/--no-recurse", default=True, show_default=True, help="Recursively parse structures."
 )
-use_textract_options = click.option(
-    "--use-textract/--no-use-textract",
+use_pdf_options = click.option(
+    "--use-pdf/--no-use-pdf",
     default=False,
     show_default=True,
-    help="Use textract to extract text.",
+    help="Load text from a PDF. Without this option, the input is assumed to be plain text."
 )
 output_option_wb = click.option(
     "-o", "--output", type=click.File(mode="wb"), default=sys.stdout, help="Output file."
@@ -276,7 +276,7 @@ def main(verbose: int, quiet: bool, cache_db: str):
 @output_option_wb
 @click.option("--dictionary")
 @output_format_options
-@use_textract_options
+@use_pdf_options
 @auto_prefix_option
 @show_prompt_option
 @click.option(
@@ -300,7 +300,7 @@ def extract(
     output,
     output_format,
     set_slot_value,
-    use_textract,
+    use_pdf,
     model,
     show_prompt,
     temperature,
@@ -350,10 +350,13 @@ def extract(
         logging.info(f"Found {len(inputlist)} input files here.")
     elif inputfile and Path(inputfile).exists():
         logging.info(f"Input file: {inputfile}")
-        if use_textract:
-            import textract
+        if use_pdf:
+            import pymupdf
 
-            text = textract.process(inputfile).decode("utf-8")
+            doc = pymupdf.open(inputfile)
+            text = ""
+            for page in doc:
+                text = text + (page.get_text())
         else:
             text = open(inputfile, "rb").read().decode(encoding="utf-8", errors="ignore")
         logging.info(f"Input text: {text}")
