@@ -106,7 +106,7 @@ class TestDrugMechDB(unittest.TestCase):
         obj = _fix_source_mechanism(objs[0])
         src_mechanism = Mechanism(**obj)
         r = self.engine.transform_mechanism(src_mechanism)
-        print(yaml.dump(r.dict()))
+        print(yaml.dump(r.model_dump()))
 
     def test_load_and_transform_source_database(self):
         """
