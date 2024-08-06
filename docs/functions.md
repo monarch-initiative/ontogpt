@@ -82,13 +82,21 @@ Recursion is on by default.
 
 Disable it with `--no-recurse`.
 
-### use-textract
+### use-pdf
 
-Use the option `use-textract` to specify whether to use the [textract](https://textract.readthedocs.io/en/stable/) package to extract text from the input document. Textract supports retrieving raw text from PDFs, images, audio, and a variety of other formats.
+Use the option `use-pdf` to specify whether to extract text from a PDF.
 
-Textract extraction is off by default.
+This is done through the `pymupdf` package, which also supports extracting text from EPUB, MOBI, DOCX, and more.
 
-Enable it with `--use-textract`.
+See <https://pymupdf.readthedocs.io/en/latest/about.html#about-feature-matrix> for the full list.
+
+Extraction from these file types is off by default.
+
+Example:
+
+```bash
+ontogpt extract -i temp/test1.pdf -m gpt-4o --use-pdf -t composite_disease --output-format json -o test.json
+```
 
 ### output
 
