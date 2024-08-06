@@ -131,6 +131,8 @@ class PubmedClient:
             data = response.json()
             resultcount = int(data["esearchresult"]["count"])
             logging.info(f"Search returned {resultcount} PMIDs matching search term {term}")
+        elif response.status_code == 500:
+            logging.error("Internal server error in searching PubMed:", response.status_code)
         elif response.status_code == 429:
             logging.error("Too many requests to NCBI API. Try again later, or use API key.")
         else:
