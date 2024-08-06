@@ -38,7 +38,7 @@ class HTMLExporter(Exporter):
         self.export_metadata(extraction_output)
         self.export_results(extraction_output.extracted_object, extraction_output)
         self.h2("YAML Object")
-        self.details(yaml.dump(extraction_output.dict()), output, code="yaml")
+        self.details(yaml.dump(extraction_output.model_dump()), output, code="yaml")
         self.h2("Prompt")
         self.details(extraction_output.prompt, output)
         self.h2("Completion")

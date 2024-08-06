@@ -1,4 +1,5 @@
 """Core tests."""
+
 import pickle
 import unittest
 

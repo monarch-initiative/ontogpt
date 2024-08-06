@@ -54,7 +54,7 @@ class OWLExporter(Exporter):
     def _as_dataclass_object(self, element: pydantic.BaseModel, schemaview: SchemaView):
         cls_name = type(element).__name__
         schemaview.merge_imports()
-        element_dict = element.dict()
+        element_dict = element.model_dump()
         dataclasses_module = PythonGenerator(schemaview.schema).compile_module()
         target_class_py = dataclasses_module.__dict__[cls_name]
         element_as_dataclass = target_class_py(**element_dict)

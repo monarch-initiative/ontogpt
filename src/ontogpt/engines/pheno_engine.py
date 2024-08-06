@@ -142,7 +142,7 @@ class PhenoEngine(KnowledgeEngine):
                     dp.rank = i
                     dp.matching_disease_ids = list(matches)
                     break
-            print(dump_minimal_yaml(dp.dict()))
+            print(dump_minimal_yaml(dp.model_dump()))
             results.append(dp)
         return results
 
