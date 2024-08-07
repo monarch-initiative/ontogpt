@@ -1,0 +1,307 @@
+id: http://w3id.org/ontogpt/miro
+name: miro
+title: MIRO Extraction Template
+description: >-
+  A template for extracting the minimal information for reporting
+  an ontology, as per the MIRO guidelines.
+  See doi:10.1186/s13326-017-0172-7
+  The target for this template should be a report or publication
+  describing a single ontology.
+license: https://creativecommons.org/publicdomain/zero/1.0/
+prefixes:
+  rdf: http://www.w3.org/1999/02/22-rdf-syntax-ns#
+  onto_usage: http://w3id.org/ontogpt/onto_usage
+  linkml: https://w3id.org/linkml/
+
+default_prefix: miro
+default_range: string
+
+imports:
+  - linkml:types
+  - core
+
+classes:
+  Ontology:
+    tree_root: true
+    is_a: NamedEntity
+    attributes:
+      name:
+        annotations:
+          prompt: >-
+            The full name of the ontology, including the acronym and the
+            version number referred to in the report.
+        range: string
+      owners:
+        annotations:
+          prompt: >-
+             A semicolon delimited list of the names, affiliations (where
+             appropriate) and contact details of the person, people or
+             consortium that manage the development of the ontology.
+        range: Owner
+        multivalued: true
+      license:
+        annotations:
+          prompt: >-
+            The licence which governs the permissions surrounding the ontology.
+        range: string
+      url:
+        annotations:
+          prompt: >-
+            The web location where the ontology file is available.
+        range: string
+      repository:
+        annotations:
+          prompt: >-
+            The web location (URL) of the version control system where current
+            and previous versions of the ontology can be found.
+        range: string
+      methodological_framework:
+        annotations:
+          prompt: >-
+            A name or description of the steps taken to develop the ontology.
+            This should describe the overall organisation of the ontology
+            development process.
+        range: string
+      need:
+        annotations:
+          prompt: >-
+             Justification of why the ontology is required.
+        range: string
+      competition:
+        annotations:
+          prompt: >-
+            A semicolon delimited list of the names and citations for other
+            ontology or ontologies in the same general area as the one being
+            reported upon, together with a description on why the one being
+            reported is needed instead or in addition to the others.
+            Include the version of the ontology being cited.
+        range: CitedOntology
+        multivalued: true
+      target_audience:
+        annotations:
+          prompt: >-
+            The community or organisation performing some task or use for which
+            the ontology was developed.
+        range: string
+      scope_and_coverage:
+        annotations:
+          prompt: >-
+            The domain or field of interest for the ontology and the boundaries,
+            granularity of representation and coverage of the ontology. State
+            the requirements of the ontology, such as the competency questions
+            it should satisfy. A visualisation or tabular representation is
+            optional, but often helpful to illustrate the scope.
+        range: string
+      development_community:
+        annotations:
+          prompt: >-
+            The person, group of people or organisation that actually creates
+            the content of the ontology. This is distinct from the Ontology
+            Owner that is concerned with the management of the
+            ontology's development.
+        range: string
+      communication:
+        annotations:
+          prompt: >-
+            Location, usually URL, of the email list and/or the issue tracking
+            systems used for development and managing feature requests for the
+            ontology.
+        range: string
+      knowledge_acquisition_method:
+        annotations:
+          prompt: >-
+            How the knowledge in the ontology was gathered, sorted, verified,
+            etc.
+        range: string
+      source_knowledge_location:
+        annotations:
+          prompt: >-
+            The location of the source whence the knowledge was gathered.
+        range: string
+      content_selection:
+        annotations:
+          prompt: >-
+            The prioritisation of entities to be represented in the ontology
+            and how that prioritisation was achieved. Some knowledge is more
+            important or of greater priority to be in the ontology to support
+            the requirements of that ontology.
+        range: string
+      knowledge_representation_language:
+        annotations:
+          prompt: >-
+            The knowledge representation language used and why it was used. For
+            a language like OWL, indicate the OWL profile and expressivity.
+        range: string
+      development_environment:
+        annotations:
+          prompt: >-
+            The tool(s) used in developing the ontology.
+        range: string
+      ontology_metrics:
+        # This could be modeled as multivalued but for simplicity it is not.
+        annotations:
+          prompt: >-
+            List of the numbers of classes, properties,
+            axioms and types of axioms, rules and individuals in the ontology.
+        range: string
+      incorporation_of_ontologies:
+        annotations:
+          prompt: >-
+            A semicolon delimited list of the names, versions and citations of
+            external ontologies imported into the ontology and where they are
+            placed in the host ontology.
+        range: CitedOntology
+        multivalued: true
+      entity_naming_convention:
+        annotations:
+          prompt: >-
+            The naming scheme for the entities in the ontology, capturing
+            orthography, organisation rules, acronyms, and so on.
+        range: string
+      identifier_generation_policy:
+        annotations:
+          prompt: >-
+            The scheme used for creating identifiers for entities in the
+            ontology. State whether identifiers are semantic-free or meaningful.
+        range: string
+      entity_metadata_policy:
+        annotations:
+          prompt: >-
+            What metadata for each entity is to be present. This could include,
+            but not be limited to: A natural language definition, editor, edit
+            history, examples, entity label and synonyms, etc.
+        range: string
+      upper_ontology:
+        annotations:
+          prompt: >-
+            If an upper ontology is used, which one is used and why is it used?
+            If not used, then why not?
+        range: string
+      ontology_relationships:
+        annotations:
+          prompt: >-
+            The relationships or properties used in the ontology, which were
+            used and why? Were new relationships required? Why?
+        range: string
+      axiom_patterns:
+        annotations:
+          prompt: >-
+            An axiom pattern is a regular design of axioms or a template for
+            axioms used to represent a category of entities or common aspects
+            of a variety of types of entities. An axiom pattern may comprise
+            both asserted and inferred axioms. The aim of a pattern is to
+            achieve a consistent style of representation. An important family
+            of axiom patterns are Ontology Design pattern (ODP) which are
+            commonly used solutions for issues in representation.
+        range: string
+      dereferencable_iri:
+        annotations:
+          prompt: >-
+            State whether or not the IRI used are dereferenceable to a Web
+            resource. Provide any standard prefix (CURIE).
+        range: string
+      sustainability_plan:
+        annotations:
+          prompt: >-
+            State whether the ontology will be actively maintained and
+            developed. Describe a plan for how the ontology will be kept up to
+            date.
+        range: string
+      deprecation_strategy:
+        annotations:
+          prompt: >-
+            Describe the procedures for managing entities that become removed,
+            split or redefined.
+        range: string
+      versioning_policy:
+        annotations:
+          prompt: >-
+            State or make reference to the policy that governs when new versions
+            of the ontology are created and released.
+        range: string
+      testing:
+        annotations:
+          prompt: >-
+            Description of the procedure used to judge whether the ontology
+            achieves the claims made for the ontology. State, for example,
+            whether the ontology is logically consistent, answers the queries
+            it claims to answer, and whether it can answer them in a time that
+            is reasonable for the projected use case scenario (benchmarking).
+        range: string
+      evaluation:
+        annotations:
+          prompt: >-
+            A determination of whether the ontology is of value and
+            significance. An evaluation should show that the motivation is
+            justified and that the objectives of the ontology’s development are
+            met effectively and satisfactorily. Describe whether or not the
+            ontology meets its stated requirements, competency questions and
+            goals.
+        range: string
+      examples_of_use:
+        annotations:
+          prompt: >-
+            A semicolon delimited list of illustrations of the ontology in use
+            in its application setting or use case.
+        range: UseExample
+        multivalued: true
+      institutional_endorsement:
+        annotations:
+          prompt: >-
+            State whether the ontology is endorsed by the W3C, the OBO foundry
+            or some organisation representing a community.
+        range: string
+      evidence_of_use:
+        annotations:
+          prompt: >-
+            An illustration of active projects and applications that use the
+            ontology.
+        range: string
+
+  Owner:
+    is_a: NamedEntity
+    annotations:
+      owl: IntersectionOf
+    attributes:
+      name:
+        description: >-
+          The name of a person, group of people, organization, or consortium
+          that manages development of the ontology.
+        range: string
+      affiliation:
+        description: >-
+          The name of the organization with which the owner is affiliated.
+        range: string
+      contact:
+        description: >-
+          The contact details of the owner. This is typically an email address.
+        range: string
+
+  CitedOntology:
+    is_a: NamedEntity
+    attributes:
+      name:
+        description: >-
+          The name of the ontology being cited.
+        range: string
+      version:
+        description: >-
+          The version of the ontology being cited.
+        range: string
+      citation:
+        description: >-
+          The citation for the ontology being cited.
+        range: string
+      integration:
+        description: >-
+          A description of how the ontology being cited is integrated into the
+          ontology being reported.
+        range: string
+
+  UseExample:
+    attributes:
+      example_description:
+        description: >-
+          A description of the ontology in use in its application setting or
+          use case.
+        range: string
