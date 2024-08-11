@@ -1,0 +1,68 @@
+id: http://w3id.org/ontogpt/drug
+name: drug_to_disease
+title: Drug to Disease Extraction Template
+description: >-
+  A template for extracting relationships between drugs and diseases
+license: https://creativecommons.org/publicdomain/zero/1.0/
+prefixes:
+  rdf: http://www.w3.org/1999/02/22-rdf-syntax-ns#
+  HGNC: http://identifiers.org/hgnc/
+  MESH: http://identifiers.org/mesh/
+  drug: http://w3id.org/ontogpt/drug/
+  linkml: https://w3id.org/linkml/
+
+default_prefix: drug_to_disease
+default_range: string
+
+imports:
+  - linkml:types
+  - core
+
+classes:
+  Article:
+    tree_root: true
+    attributes:
+      diseases:
+        description: >-
+          A semicolon-separated list of diseases mentioned in the text.
+        multivalued: true
+        range: Disease
+      drug:
+        description: >-
+          A semicolon-separated list of drugs mentioned in the text.
+        multivalued: true
+        range: Drug
+      drug_to_disease_relationships:
+        description: >-
+          A semicolon-separated list of relationships, where each is a triple
+          connecting a drug to a disease. Each relationship should have a
+          type (predicate) and two entities (subject and object). The predicate
+          may be one of the following: 'treats', 'causes', 'prevents'.
+          For example: "Drug1 treats Disease1; Drug2 causes Disease2".
+        multivalued: true
+        range: DrugToDisease
+
+  Disease:
+    is_a: NamedEntity
+    id_prefixes:
+      - MONDO
+    annotations:
+      annotators: sqlite:obo:mondo
+
+  Drug:
+    is_a: NamedEntity
+    id_prefixes:
+      - DRUGBANK
+      - CHEBI
+    annotations:
+      annotators: sqlite:obo:drugbank, sqlite:obo:chebi
+
+  DrugToDisease:
+    is_a: CompoundExpression
+    attributes:
+      subject:
+        range: Drug
+      predicate:
+        range: string
+      object:
+        range: Disease
