@@ -19,7 +19,7 @@ imports:
   - core
 
 classes:
-  DrugMechanism:
+  Article:
     tree_root: true
     attributes:
       diseases:

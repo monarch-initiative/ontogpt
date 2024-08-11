@@ -16,22 +16,13 @@ from typing import (
     Optional,
     Union
 )
-from pydantic.version import VERSION  as PYDANTIC_VERSION 
-if int(PYDANTIC_VERSION[0])>=2:
-    from pydantic import (
-        BaseModel,
-        ConfigDict,
-        Field,
-        RootModel,
-        field_validator
-    )
-else:
-    from pydantic import (
-        BaseModel,
-        Field,
-        validator
-    )
-
+from pydantic import (
+    BaseModel,
+    ConfigDict,
+    Field,
+    RootModel,
+    field_validator
+)
 metamodel_version = "None"
 version = "None"
 
@@ -107,17 +98,20 @@ class ExtractionResult(ConfiguredBaseModel):
     raw_completion_output: Optional[str] = Field(None, json_schema_extra = { "linkml_meta": {'alias': 'raw_completion_output', 'domain_of': ['ExtractionResult']} })
     prompt: Optional[str] = Field(None, json_schema_extra = { "linkml_meta": {'alias': 'prompt', 'domain_of': ['ExtractionResult']} })
     extracted_object: Optional[Any] = Field(None, description="""The complex objects extracted from the text""", json_schema_extra = { "linkml_meta": {'alias': 'extracted_object', 'domain_of': ['ExtractionResult']} })
-    named_entities: Optional[List[Any]] = Field(default_factory=list, description="""Named entities extracted from the text""", json_schema_extra = { "linkml_meta": {'alias': 'named_entities', 'domain_of': ['ExtractionResult']} })
+    named_entities: Optional[List[Any]] = Field(None, description="""Named entities extracted from the text""", json_schema_extra = { "linkml_meta": {'alias': 'named_entities', 'domain_of': ['ExtractionResult']} })
 
 
 class NamedEntity(ConfiguredBaseModel):
     linkml_meta: ClassVar[LinkMLMeta] = LinkMLMeta({'abstract': True, 'from_schema': 'http://w3id.org/ontogpt/core'})
 
     id: str = Field(..., description="""A unique identifier for the named entity""", json_schema_extra = { "linkml_meta": {'alias': 'id',
+         'annotations': {'prompt.skip': {'tag': 'prompt.skip', 'value': 'true'}},
          'comments': ['this is populated during the grounding and normalization step'],
          'domain_of': ['NamedEntity', 'Publication']} })
     label: Optional[str] = Field(None, description="""The label (name) of the named thing""", json_schema_extra = { "linkml_meta": {'alias': 'label',
          'aliases': ['name'],
+         'annotations': {'owl': {'tag': 'owl',
+                                 'value': 'AnnotationProperty, AnnotationAssertion'}},
          'domain_of': ['NamedEntity'],
          'slot_uri': 'rdfs:label'} })
 
@@ -148,8 +142,10 @@ class TextWithTriples(ConfiguredBaseModel):
     """
     linkml_meta: ClassVar[LinkMLMeta] = LinkMLMeta({'from_schema': 'http://w3id.org/ontogpt/core'})
 
-    publication: Optional[Publication] = Field(None, json_schema_extra = { "linkml_meta": {'alias': 'publication', 'domain_of': ['TextWithTriples', 'TextWithEntity']} })
-    triples: Optional[List[Triple]] = Field(default_factory=list, json_schema_extra = { "linkml_meta": {'alias': 'triples', 'domain_of': ['TextWithTriples']} })
+    publication: Optional[Publication] = Field(None, json_schema_extra = { "linkml_meta": {'alias': 'publication',
+         'annotations': {'prompt.skip': {'tag': 'prompt.skip', 'value': 'true'}},
+         'domain_of': ['TextWithTriples', 'TextWithEntity']} })
+    triples: Optional[List[Triple]] = Field(None, json_schema_extra = { "linkml_meta": {'alias': 'triples', 'domain_of': ['TextWithTriples']} })
 
 
 class TextWithEntity(ConfiguredBaseModel):
@@ -158,8 +154,10 @@ class TextWithEntity(ConfiguredBaseModel):
     """
     linkml_meta: ClassVar[LinkMLMeta] = LinkMLMeta({'from_schema': 'http://w3id.org/ontogpt/core'})
 
-    publication: Optional[Publication] = Field(None, json_schema_extra = { "linkml_meta": {'alias': 'publication', 'domain_of': ['TextWithTriples', 'TextWithEntity']} })
-    entities: Optional[List[str]] = Field(default_factory=list, json_schema_extra = { "linkml_meta": {'alias': 'entities', 'domain_of': ['TextWithEntity']} })
+    publication: Optional[Publication] = Field(None, json_schema_extra = { "linkml_meta": {'alias': 'publication',
+         'annotations': {'prompt.skip': {'tag': 'prompt.skip', 'value': 'true'}},
+         'domain_of': ['TextWithTriples', 'TextWithEntity']} })
+    entities: Optional[List[str]] = Field(None, json_schema_extra = { "linkml_meta": {'alias': 'entities', 'domain_of': ['TextWithEntity']} })
 
 
 class RelationshipType(NamedEntity):
@@ -167,10 +165,13 @@ class RelationshipType(NamedEntity):
          'id_prefixes': ['RO', 'biolink']})
 
     id: str = Field(..., description="""A unique identifier for the named entity""", json_schema_extra = { "linkml_meta": {'alias': 'id',
+         'annotations': {'prompt.skip': {'tag': 'prompt.skip', 'value': 'true'}},
          'comments': ['this is populated during the grounding and normalization step'],
          'domain_of': ['NamedEntity', 'Publication']} })
     label: Optional[str] = Field(None, description="""The label (name) of the named thing""", json_schema_extra = { "linkml_meta": {'alias': 'label',
          'aliases': ['name'],
+         'annotations': {'owl': {'tag': 'owl',
+                                 'value': 'AnnotationProperty, AnnotationAssertion'}},
          'domain_of': ['NamedEntity'],
          'slot_uri': 'rdfs:label'} })
 
@@ -193,12 +194,12 @@ class AnnotatorResult(ConfiguredBaseModel):
     object_text: Optional[str] = Field(None, json_schema_extra = { "linkml_meta": {'alias': 'object_text', 'domain_of': ['AnnotatorResult']} })
 
 
-class DrugMechanism(ConfiguredBaseModel):
+class Article(ConfiguredBaseModel):
     linkml_meta: ClassVar[LinkMLMeta] = LinkMLMeta({'from_schema': 'http://w3id.org/ontogpt/drug', 'tree_root': True})
 
-    diseases: Optional[str] = Field(None, description="""A semicolon-separated list of diseases mentioned in the text.""", json_schema_extra = { "linkml_meta": {'alias': 'diseases', 'domain_of': ['DrugMechanism']} })
-    drug: Optional[str] = Field(None, description="""A semicolon-separated list of drugs mentioned in the text.""", json_schema_extra = { "linkml_meta": {'alias': 'drug', 'domain_of': ['DrugMechanism']} })
-    drug_to_disease_relationships: Optional[List[DrugToDisease]] = Field(default_factory=list, description="""A semicolon-separated list of relationships, where each is a triple connecting a drug to a disease. Each relationship should have a type (predicate) and two entities (subject and object). The predicate may be one of the following: 'treats', 'causes', 'prevents'. For example: \"Drug1 treats Disease1; Drug2 causes Disease2\".""", json_schema_extra = { "linkml_meta": {'alias': 'drug_to_disease_relationships', 'domain_of': ['DrugMechanism']} })
+    diseases: Optional[str] = Field(None, description="""A semicolon-separated list of diseases mentioned in the text.""", json_schema_extra = { "linkml_meta": {'alias': 'diseases', 'domain_of': ['Article']} })
+    drug: Optional[str] = Field(None, description="""A semicolon-separated list of drugs mentioned in the text.""", json_schema_extra = { "linkml_meta": {'alias': 'drug', 'domain_of': ['Article']} })
+    drug_to_disease_relationships: Optional[List[DrugToDisease]] = Field(None, description="""A semicolon-separated list of relationships, where each is a triple connecting a drug to a disease. Each relationship should have a type (predicate) and two entities (subject and object). The predicate may be one of the following: 'treats', 'causes', 'prevents'. For example: \"Drug1 treats Disease1; Drug2 causes Disease2\".""", json_schema_extra = { "linkml_meta": {'alias': 'drug_to_disease_relationships', 'domain_of': ['Article']} })
 
 
 class Disease(NamedEntity):
@@ -208,10 +209,13 @@ class Disease(NamedEntity):
          'id_prefixes': ['MONDO']})
 
     id: str = Field(..., description="""A unique identifier for the named entity""", json_schema_extra = { "linkml_meta": {'alias': 'id',
+         'annotations': {'prompt.skip': {'tag': 'prompt.skip', 'value': 'true'}},
          'comments': ['this is populated during the grounding and normalization step'],
          'domain_of': ['NamedEntity', 'Publication']} })
     label: Optional[str] = Field(None, description="""The label (name) of the named thing""", json_schema_extra = { "linkml_meta": {'alias': 'label',
          'aliases': ['name'],
+         'annotations': {'owl': {'tag': 'owl',
+                                 'value': 'AnnotationProperty, AnnotationAssertion'}},
          'domain_of': ['NamedEntity'],
          'slot_uri': 'rdfs:label'} })
 
@@ -224,10 +228,13 @@ class Drug(NamedEntity):
          'id_prefixes': ['DRUGBANK', 'CHEBI']})
 
     id: str = Field(..., description="""A unique identifier for the named entity""", json_schema_extra = { "linkml_meta": {'alias': 'id',
+         'annotations': {'prompt.skip': {'tag': 'prompt.skip', 'value': 'true'}},
          'comments': ['this is populated during the grounding and normalization step'],
          'domain_of': ['NamedEntity', 'Publication']} })
     label: Optional[str] = Field(None, description="""The label (name) of the named thing""", json_schema_extra = { "linkml_meta": {'alias': 'label',
          'aliases': ['name'],
+         'annotations': {'owl': {'tag': 'owl',
+                                 'value': 'AnnotationProperty, AnnotationAssertion'}},
          'domain_of': ['NamedEntity'],
          'slot_uri': 'rdfs:label'} })
 
@@ -251,7 +258,7 @@ TextWithEntity.model_rebuild()
 RelationshipType.model_rebuild()
 Publication.model_rebuild()
 AnnotatorResult.model_rebuild()
-DrugMechanism.model_rebuild()
+Article.model_rebuild()
 Disease.model_rebuild()
 Drug.model_rebuild()
 DrugToDisease.model_rebuild()
