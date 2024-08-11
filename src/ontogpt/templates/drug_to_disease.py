@@ -197,8 +197,8 @@ class AnnotatorResult(ConfiguredBaseModel):
 class Article(ConfiguredBaseModel):
     linkml_meta: ClassVar[LinkMLMeta] = LinkMLMeta({'from_schema': 'http://w3id.org/ontogpt/drug', 'tree_root': True})
 
-    diseases: Optional[str] = Field(None, description="""A semicolon-separated list of diseases mentioned in the text.""", json_schema_extra = { "linkml_meta": {'alias': 'diseases', 'domain_of': ['Article']} })
-    drug: Optional[str] = Field(None, description="""A semicolon-separated list of drugs mentioned in the text.""", json_schema_extra = { "linkml_meta": {'alias': 'drug', 'domain_of': ['Article']} })
+    diseases: Optional[List[str]] = Field(None, description="""A semicolon-separated list of diseases mentioned in the text.""", json_schema_extra = { "linkml_meta": {'alias': 'diseases', 'domain_of': ['Article']} })
+    drug: Optional[List[str]] = Field(None, description="""A semicolon-separated list of drugs mentioned in the text.""", json_schema_extra = { "linkml_meta": {'alias': 'drug', 'domain_of': ['Article']} })
     drug_to_disease_relationships: Optional[List[DrugToDisease]] = Field(None, description="""A semicolon-separated list of relationships, where each is a triple connecting a drug to a disease. Each relationship should have a type (predicate) and two entities (subject and object). The predicate may be one of the following: 'treats', 'causes', 'prevents'. For example: \"Drug1 treats Disease1; Drug2 causes Disease2\".""", json_schema_extra = { "linkml_meta": {'alias': 'drug_to_disease_relationships', 'domain_of': ['Article']} })
 
 

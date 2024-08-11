@@ -25,10 +25,12 @@ classes:
       diseases:
         description: >-
           A semicolon-separated list of diseases mentioned in the text.
+        multivalued: true
         range: Disease
       drug:
         description: >-
           A semicolon-separated list of drugs mentioned in the text.
+        multivalued: true
         range: Drug
       drug_to_disease_relationships:
         description: >-
