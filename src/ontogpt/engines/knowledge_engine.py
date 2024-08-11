@@ -106,7 +106,7 @@ class KnowledgeEngine(ABC):
     mappers: Optional[List[BasicOntologyInterface]] = None
     """List of concept mappers, to assist in grounding to desired ID prefix"""
 
-    map_cache: Dict[str, str] = field(default_factory=dict)
+    map_cache: Dict[str, List[str]] = field(default_factory=dict)
     """Cache of mappings obtained using the specified mappers."""
 
     labelers: Optional[List[BasicOntologyInterface]] = None
@@ -425,7 +425,7 @@ class KnowledgeEngine(ABC):
             for mapper in self.mappers:
                 if isinstance(mapper, MappingProviderInterface):
                     for mapping in mapper.sssom_mappings([input_id]):
-                        self.map_cache[input_id].append(str(mapping.object_id))
+                        (self.map_cache[input_id]).append(str(mapping.object_id))
                         yield str(mapping.object_id)
                 else:
                     raise ValueError(f"Unknown mapper type {mapper}")
