@@ -1,4 +1,5 @@
 """Reasoner engine."""
+
 import logging
 import re
 from dataclasses import dataclass
@@ -72,10 +73,10 @@ class ReasonerResultSet(BaseModel):
 
 @dataclass
 class ReasonerEngine(KnowledgeEngine):
-    """Engine for performing reasoning using GPT.
+    """Engine for performing reasoning using an LLM.
 
     This engine takes as input an Ontology, and a query Task,
-    and then translates this to a GPT prompt that asks GPT to
+    and then translates this to an LLM prompt that asks the LLM to
     perform the task over the ontology after reasoning over it.
 
     The Task is typically a query such as finding superclasses of
@@ -83,10 +84,10 @@ class ReasonerEngine(KnowledgeEngine):
 
     This is intended primarily for investigation purposes. For practical
     scenarios, it is recommended to use a dedicated OWL reasoner. The goal
-    of this engine is to evaluate the extent to which GPT can perform
+    of this engine is to evaluate the extent to which the LLM can perform
     reasoning-like tasks, including deduction and abduction (explanation).
 
-    Due to token-length constraints on GPT models, it is usually necessary
+    Due to token-length constraints on some models, it is usually necessary
     to extract a submodule prior to reasoning. This can be done using the
     OntologyExtractor:
 
