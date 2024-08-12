@@ -1,4 +1,5 @@
-"""Core tests."""
+"""Core tests for extraction."""
+
 import csv
 import logging
 import unittest

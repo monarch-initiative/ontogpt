@@ -1,4 +1,5 @@
 """PubMed client tests."""
+
 import unittest
 
 from ontogpt.clients import PubmedClient
