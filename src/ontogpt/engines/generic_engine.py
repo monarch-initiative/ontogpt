@@ -10,7 +10,6 @@ from jinja2 import Template
 from pydantic import BaseModel
 
 from ontogpt.engines.knowledge_engine import KnowledgeEngine
-from ontogpt.prompts.qa import GENERIC_QA_PROMPT
 
 logger = logging.getLogger(__name__)
 
@@ -48,11 +47,10 @@ class GenericEngine(KnowledgeEngine):
         question_collection: QuestionCollection,
         template_path: Union[str, Path] = "",
     ) -> Iterator[Question]:
-        if template_path is None:
-            template_path = GENERIC_QA_PROMPT
         if isinstance(template_path, Path):
             template_path = str(template_path)
         if isinstance(template_path, str):
+            # Note: The default is a string, so this will always be true
             # create a Jinja2 template object
             with open(template_path) as file:
                 template_txt = file.read()
