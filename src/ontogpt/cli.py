@@ -242,8 +242,7 @@ cut_input_text_option = click.option(
 )
 system_message_option = click.option(
     "--system-message",
-    help="System message to provide to the LLM, e.g., 'You will extract knowledge from this text.'"
-    " This may be a path to a file containing the message or text of the message itself.",
+    help="System message to provide to the LLM, e.g., 'You will extract knowledge from this text.'",
 )
 
 
