@@ -4,7 +4,7 @@ import unittest
 
 from ontogpt.clients import PubmedClient
 
-
+@unittest.skip("PubMed API is experiencing difficulties, i.e., 500 errors")
 class TestCompletion(unittest.TestCase):
     """Test annotation."""
 

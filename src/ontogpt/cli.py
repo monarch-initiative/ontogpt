@@ -183,7 +183,7 @@ use_pdf_options = click.option(
     "--use-pdf/--no-use-pdf",
     default=False,
     show_default=True,
-    help="Load text from a PDF. Without this option, the input is assumed to be plain text."
+    help="Load text from a PDF. Without this option, the input is assumed to be plain text.",
 )
 output_option_wb = click.option(
     "-o", "--output", type=click.File(mode="wb"), default=sys.stdout, help="Output file."
@@ -240,6 +240,10 @@ cut_input_text_option = click.option(
     help="If set, outputs will contain only the first 1000 characters of each input text."
     " This is useful when processing many documents.",
 )
+system_message_option = click.option(
+    "--system-message",
+    help="System message to provide to the LLM, e.g., 'You will extract knowledge from this text.'",
+)
 
 
 @click.group()
@@ -289,6 +293,7 @@ def main(verbose: int, quiet: bool, cache_db: str):
 @api_base_option
 @api_version_option
 @model_provider_option
+@system_message_option
 @temperature_option
 @cut_input_text_option
 def extract(
@@ -308,6 +313,7 @@ def extract(
     api_base,
     api_version,
     model_provider,
+    system_message,
     **kwargs,
 ):
     """Extract knowledge from text guided by schema, using SPIRES engine.
@@ -376,6 +382,7 @@ def extract(
         api_base=api_base,
         api_version=api_version,
         model_provider=model_provider,
+        system_message=system_message,
         **kwargs,
     )
     if settings.cache_db:
@@ -418,6 +425,7 @@ def extract(
 @api_base_option
 @api_version_option
 @model_provider_option
+@system_message_option
 @click.argument("entity")
 def generate_extract(
     model,
@@ -431,6 +439,7 @@ def generate_extract(
     api_base,
     api_version,
     model_provider,
+    system_message,
     **kwargs,
 ):
     """Generate text and then extract knowledge from it.
@@ -454,6 +463,7 @@ def generate_extract(
         api_base=api_base,
         api_version=api_version,
         model_provider=model_provider,
+        system_message=system_message,
         **kwargs,
     )
     if settings.cache_db:
@@ -486,6 +496,7 @@ def generate_extract(
 @api_base_option
 @api_version_option
 @model_provider_option
+@system_message_option
 @click.argument("entity")
 def iteratively_generate_extract(
     model,
@@ -504,6 +515,7 @@ def iteratively_generate_extract(
     api_base,
     api_version,
     model_provider,
+    system_message,
     **kwargs,
 ):
     """Iterate through generate-extract."""
@@ -522,6 +534,7 @@ def iteratively_generate_extract(
         api_base=api_base,
         api_version=api_version,
         model_provider=model_provider,
+        system_message=system_message,
         **kwargs,
     )
     if settings.cache_db:
@@ -563,6 +576,7 @@ def iteratively_generate_extract(
 @api_base_option
 @api_version_option
 @model_provider_option
+@system_message_option
 @click.option(
     "--max-text-length",
     default=3000,
@@ -584,6 +598,7 @@ def pubmed_annotate(
     api_base,
     api_version,
     model_provider,
+    system_message,
     **kwargs,
 ):
     """Retrieve a collection of PubMed IDs for a search term; annotate them using a template.
@@ -607,6 +622,7 @@ def pubmed_annotate(
         api_base=api_base,
         api_version=api_version,
         model_provider=model_provider,
+        system_message=system_message,
         **kwargs,
     )
     if settings.cache_db:
@@ -640,6 +656,7 @@ def pubmed_annotate(
 @api_base_option
 @api_version_option
 @model_provider_option
+@system_message_option
 @click.argument("article")
 def wikipedia_extract(
     model,
@@ -653,6 +670,7 @@ def wikipedia_extract(
     api_base,
     api_version,
     model_provider,
+    system_message,
     **kwargs,
 ):
     """Extract knowledge from a Wikipedia page."""
@@ -671,6 +689,7 @@ def wikipedia_extract(
         api_base=api_base,
         api_version=api_version,
         model_provider=model_provider,
+        system_message=system_message,
         **kwargs,
     )
     if settings.cache_db:
@@ -703,6 +722,7 @@ def wikipedia_extract(
 @api_base_option
 @api_version_option
 @model_provider_option
+@system_message_option
 @click.argument("topic")
 def wikipedia_search(
     model,
@@ -717,6 +737,7 @@ def wikipedia_search(
     api_base,
     api_version,
     model_provider,
+    system_message,
     **kwargs,
 ):
     """Extract knowledge from a Wikipedia page."""
@@ -735,6 +756,7 @@ def wikipedia_search(
         api_base=api_base,
         api_version=api_version,
         model_provider=model_provider,
+        system_message=system_message,
         **kwargs,
     )
 
@@ -774,6 +796,7 @@ def wikipedia_search(
 @api_base_option
 @api_version_option
 @model_provider_option
+@system_message_option
 @click.argument("term_tokens", nargs=-1)
 def search_and_extract(
     model,
@@ -788,6 +811,7 @@ def search_and_extract(
     api_base,
     api_version,
     model_provider,
+    system_message,
     **kwargs,
 ):
     """Search for relevant literature through PubMed and extract knowledge from it.
@@ -811,6 +835,7 @@ def search_and_extract(
         api_base=api_base,
         api_version=api_version,
         model_provider=model_provider,
+        system_message=system_message,
         **kwargs,
     )
 
@@ -848,6 +873,7 @@ def search_and_extract(
 @api_base_option
 @api_version_option
 @model_provider_option
+@system_message_option
 @click.argument("url")
 def web_extract(
     model,
@@ -861,6 +887,7 @@ def web_extract(
     api_base,
     api_version,
     model_provider,
+    system_message,
     **kwargs,
 ):
     """Extract knowledge from web page."""
@@ -879,6 +906,7 @@ def web_extract(
         api_base=api_base,
         api_version=api_version,
         model_provider=model_provider,
+        system_message=system_message,
         **kwargs,
     )
     if settings.cache_db:
@@ -909,6 +937,7 @@ def web_extract(
 @api_base_option
 @api_version_option
 @model_provider_option
+@system_message_option
 @click.argument("url")
 def recipe_extract(
     model,
@@ -923,6 +952,7 @@ def recipe_extract(
     api_base,
     api_version,
     model_provider,
+    system_message,
     **kwargs,
 ):
     """Extract from recipe on the web."""
@@ -945,6 +975,7 @@ def recipe_extract(
         api_base=api_base,
         api_version=api_version,
         model_provider=model_provider,
+        system_message=system_message,
         **kwargs,
     )
     if settings.cache_db:
@@ -984,6 +1015,7 @@ def recipe_extract(
 @api_base_option
 @api_version_option
 @model_provider_option
+@system_message_option
 @click.argument("input")
 def convert(
     model,
@@ -996,6 +1028,7 @@ def convert(
     api_base,
     api_version,
     model_provider,
+    system_message,
     **kwargs,
 ):
     """Convert output format."""
@@ -1014,6 +1047,7 @@ def convert(
         api_base=api_base,
         api_version=api_version,
         model_provider=model_provider,
+        system_message=system_message,
         **kwargs,
     )
 
@@ -1033,12 +1067,22 @@ def convert(
 @api_base_option
 @api_version_option
 @model_provider_option
+@system_message_option
 @click.option(
     "-C", "--context", required=True, help="domain e.g. anatomy, industry, health-related"
 )
 @click.argument("term")
 def synonyms(
-    model, term, context, output, temperature, api_base, api_version, model_provider, **kwargs
+    model,
+    term,
+    context,
+    output,
+    temperature,
+    api_base,
+    api_version,
+    model_provider,
+    system_message,
+    **kwargs,
 ):
     """Extract synonyms.
 
@@ -1060,6 +1104,7 @@ def synonyms(
         api_base=api_base,
         api_version=api_version,
         model_provider=model_provider,
+        system_message=system_message,
         **kwargs,
     )
     out = ke.synonyms(term, context)
@@ -1254,6 +1299,7 @@ def entity_similarity(
 @api_base_option
 @api_version_option
 @model_provider_option
+@system_message_option
 @click.option("--task-file")
 @click.option("--task-type")
 @click.option("--tsv-output")
@@ -1277,6 +1323,7 @@ def reason(
     api_base,
     api_version,
     model_provider,
+    system_message,
     **kwargs,
 ):
     """Reason."""
@@ -1286,6 +1333,7 @@ def reason(
         api_base=api_base,
         api_version=api_version,
         model_provider=model_provider,
+        system_message=system_message,
     )
     if task_file:
         tc = extractor.TaskCollection.load(task_file)
@@ -1326,6 +1374,7 @@ def reason(
 @api_base_option
 @api_version_option
 @model_provider_option
+@system_message_option
 @click.argument("phenopacket_files", nargs=-1)
 def diagnose(
     phenopacket_files,
@@ -1336,6 +1385,7 @@ def diagnose(
     api_base,
     api_version,
     model_provider,
+    system_message,
     **kwargs,
 ):
     """Diagnose a clinical case represented as one or more Phenopackets."""
@@ -1352,6 +1402,7 @@ def diagnose(
         api_base=api_base,
         api_version=api_version,
         model_provider=model_provider,
+        system_message=system_message,
     )
     results = engine.evaluate(phenopackets)
     print(dump_minimal_yaml(results))
@@ -1368,6 +1419,7 @@ def diagnose(
 @api_base_option
 @api_version_option
 @model_provider_option
+@system_message_option
 def run_multilingual_analysis(
     input_data_dir,
     output_directory,
@@ -1377,6 +1429,7 @@ def run_multilingual_analysis(
     api_base,
     api_version,
     model_provider,
+    system_message,
     model,
 ):
     """Call the multilingual analysis function."""
@@ -1396,6 +1449,7 @@ def run_multilingual_analysis(
 @api_base_option
 @api_version_option
 @model_provider_option
+@system_message_option
 def answer(
     inputfile,
     model,
@@ -1407,6 +1461,7 @@ def answer(
     api_base,
     api_version,
     model_provider,
+    system_message,
     **kwargs,
 ):
     """Answer a set of questions defined in YAML."""
@@ -1417,6 +1472,7 @@ def answer(
         api_base=api_base,
         api_version=api_version,
         model_provider=model_provider,
+        system_message=system_message,
     )
     qs = []
     for q in engine.run(qc, template_path=template_path):
@@ -1437,6 +1493,7 @@ def answer(
 @api_base_option
 @api_version_option
 @model_provider_option
+@system_message_option
 @click.option("--task-file")
 @click.option("--task-type")
 @click.option("--tsv-output")
@@ -1460,6 +1517,7 @@ def categorize_mappings(
     api_base,
     api_version,
     model_provider,
+    system_message,
     **kwargs,
 ):
     """Categorize a collection of SSSOM mappings."""
@@ -1469,6 +1527,7 @@ def categorize_mappings(
         api_base=api_base,
         api_version=api_version,
         model_provider=model_provider,
+        system_message=system_message,
     )
     if tsv_output:
         tc = mapper.from_sssom(inputfile)
@@ -1509,6 +1568,7 @@ def categorize_mappings(
 @api_base_option
 @api_version_option
 @model_provider_option
+@system_message_option
 @click.option(
     "--num-tests",
     type=click.INT,
@@ -1535,6 +1595,7 @@ def eval(
     api_base,
     api_version,
     model_provider,
+    system_message,
     **kwargs,
 ):
     """Evaluate an extractor."""
@@ -1560,6 +1621,7 @@ def eval(
 @api_base_option
 @api_version_option
 @model_provider_option
+@system_message_option
 @click.argument("object")
 def fill(
     model,
@@ -1574,6 +1636,7 @@ def fill(
     api_base,
     api_version,
     model_provider,
+    system_message,
     **kwargs,
 ):
     """Fill in missing values, given examples."""
@@ -1595,6 +1658,7 @@ def fill(
         api_base=api_base,
         api_version=api_version,
         model_provider=model_provider,
+        system_message=system_message,
         **kwargs,
     )
 
@@ -1617,11 +1681,13 @@ def fill(
 @api_base_option
 @api_version_option
 @model_provider_option
+@system_message_option
 @temperature_option
 @cut_input_text_option
 @api_base_option
 @api_version_option
 @model_provider_option
+@system_message_option
 @click.argument("input", required=False)
 def complete(
     inputfile,
@@ -1635,6 +1701,7 @@ def complete(
     api_base,
     api_version,
     model_provider,
+    system_message,
     **kwargs,
 ):
     """Prompt completion.
@@ -1662,6 +1729,7 @@ def complete(
         api_base,
         api_version,
         model_provider,
+        system_message,
     )
 
     output.write(results + "\n")
@@ -1678,6 +1746,7 @@ def _send_complete_request(
     api_base,
     api_version,
     model_provider,
+    system_message,
     **kwargs,
 ) -> str:
     """Send a completion request to an LLM endpoint."""
@@ -1691,6 +1760,7 @@ def _send_complete_request(
         api_base=api_base,
         api_version=api_version,
         custom_llm_provider=model_provider,
+        system_message=system_message,
     )
     results = c.complete(prompt=input, show_prompt=show_prompt)
 
@@ -1783,11 +1853,13 @@ def halo(model, input, context, terms, output, **kwargs):
 @api_base_option
 @api_version_option
 @model_provider_option
+@system_message_option
 @temperature_option
 @cut_input_text_option
 @api_base_option
 @api_version_option
 @model_provider_option
+@system_message_option
 def clinical_notes(
     description,
     sections,
@@ -1800,6 +1872,7 @@ def clinical_notes(
     api_base,
     api_version,
     model_provider,
+    system_message,
     **kwargs,
 ):
     """Create mock clinical notes.
@@ -1824,6 +1897,7 @@ def clinical_notes(
         api_base=api_base,
         api_version=api_version,
         custom_llm_provider=model_provider,
+        system_message=system_message,
     )
     results = c.complete(prompt=prompt, show_prompt=show_prompt)
 
@@ -1931,6 +2005,7 @@ def list_models():
 @api_base_option
 @api_version_option
 @model_provider_option
+@system_message_option
 @click.argument("input")
 def suggest_templates(
     input,
@@ -1943,6 +2018,7 @@ def suggest_templates(
     api_base,
     api_version,
     model_provider,
+    system_message,
     **kwargs,
 ):
     """Provide a suggestion for an appropriate template, given a text input.
@@ -1988,6 +2064,7 @@ def suggest_templates(
         api_base=api_base,
         api_version=api_version,
         model_provider=model_provider,
+        system_message=system_message,
     )
 
     output.write(results + "\n")

@@ -33,6 +33,9 @@ class LLMClient:
 
     temperature: float = 1.0
 
+    system_message: str = ""
+    """System message to be provided to the LLM."""
+
     def __post_init__(self):
         # Get appropriate API key for the model source
         # and other details if needed
@@ -65,6 +68,11 @@ class LLMClient:
 
         response = None
 
+        these_messages = [{"content": prompt, "role": "user"}]
+
+        if self.system_message:
+            these_messages.insert(0, {"content": self.system_message, "role": "system"})
+
         try:
             # TODO: expose user prompt to CLI
             response = completion(
@@ -72,7 +80,7 @@ class LLMClient:
                 api_base=self.api_base,
                 api_version=self.api_version,
                 model=self.model,
-                messages=[{"content": prompt, "role": "user"}],
+                messages=these_messages,
                 temperature=self.temperature,
                 caching=True,
                 custom_llm_provider=self.custom_llm_provider,

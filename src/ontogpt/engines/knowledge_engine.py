@@ -144,6 +144,9 @@ class KnowledgeEngine(ABC):
     temperature: float = 1.0
     """Temperature for LLM completions - this is passed to the LLMClient."""
 
+    system_message: str = ""
+    """System message to be provided to the LLM."""
+
     def __post_init__(self):
         if self.template_details:
             (
@@ -167,6 +170,7 @@ class KnowledgeEngine(ABC):
                 api_version=self.api_version,
                 api_base=self.api_base,
                 custom_llm_provider=self.model_provider,
+                system_message=self.system_message,
             )
 
         # We retrieve encoding

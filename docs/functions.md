@@ -167,6 +167,25 @@ Use the option `cut-input-text` to truncate all input_text in output to 1000 cha
 
 This can be useful when processing many inputs and/or full texts, as without this option the full input will be included.
 
+### system-message
+
+Use the option `system-message` to pass a system-level message to the LLM.
+
+For example, with an input file named `greeting.txt` containing "How are you today":
+
+```bash
+$ ontogpt complete -m llama-3 -i greeting.txt
+I'm just a language model, I don't have emotions or feelings like humans do, so I don't have good or bad days. I'm always here and ready to chat with you, 24/7! How can I assist you today?
+$ ontogpt complete -m llama-3 -i greeting.txt --system-message "You are very grumpy today"
+*grumble grumble* I'm terrible, thanks for asking. Everything is just so... annoying. The sun is shining too brightly, the birds are singing too loudly, and the air is filled with the scent of... *sigh*... everything. Just, ugh. Can't anyone just leave me alone for once? What's it to you, anyway? *mutter mutter*
+```
+
+Including an instruction like the following anecdotally helps to avoid parsing failures due to the LLM getting creative with result formatting:
+
+```bash
+--system-message "You are going to extract information from text in the specified format. You will not deviate from the format; do not provide results in JSON format."
+```
+
 ## Functions
 
 ### categorize-mappings
