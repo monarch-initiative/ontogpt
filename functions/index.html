@@ -507,9 +507,9 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#use-textract" class="md-nav__link">
+  <a href="#use-pdf" class="md-nav__link">
     <span class="md-ellipsis">
-      use-textract
+      use-pdf
     </span>
   </a>
   
@@ -591,6 +591,15 @@
   <a href="#cut-input-text" class="md-nav__link">
     <span class="md-ellipsis">
       cut-input-text
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#system-message" class="md-nav__link">
+    <span class="md-ellipsis">
+      system-message
     </span>
   </a>
   
@@ -1848,9 +1857,9 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#use-textract" class="md-nav__link">
+  <a href="#use-pdf" class="md-nav__link">
     <span class="md-ellipsis">
-      use-textract
+      use-pdf
     </span>
   </a>
   
@@ -1932,6 +1941,15 @@
   <a href="#cut-input-text" class="md-nav__link">
     <span class="md-ellipsis">
       cut-input-text
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#system-message" class="md-nav__link">
+    <span class="md-ellipsis">
+      system-message
     </span>
   </a>
   
@@ -2287,10 +2305,14 @@
 <p>Use the option <code>recurse</code> to specify whether recursion should be used when parsing the schema.</p>
 <p>Recursion is on by default.</p>
 <p>Disable it with <code>--no-recurse</code>.</p>
-<h3 id="use-textract">use-textract</h3>
-<p>Use the option <code>use-textract</code> to specify whether to use the <a href="https://textract.readthedocs.io/en/stable/">textract</a> package to extract text from the input document. Textract supports retrieving raw text from PDFs, images, audio, and a variety of other formats.</p>
-<p>Textract extraction is off by default.</p>
-<p>Enable it with <code>--use-textract</code>.</p>
+<h3 id="use-pdf">use-pdf</h3>
+<p>Use the option <code>use-pdf</code> to specify whether to extract text from a PDF.</p>
+<p>This is done through the <code>pymupdf</code> package, which also supports extracting text from EPUB, MOBI, DOCX, and more.</p>
+<p>See <a href="https://pymupdf.readthedocs.io/en/latest/about.html#about-feature-matrix">https://pymupdf.readthedocs.io/en/latest/about.html#about-feature-matrix</a> for the full list.</p>
+<p>Extraction from these file types is off by default.</p>
+<p>Example:</p>
+<pre><code class="language-bash">ontogpt extract -i temp/test1.pdf -m gpt-4o --use-pdf -t composite_disease --output-format json -o test.json
+</code></pre>
 <h3 id="output">output</h3>
 <p>Use the option <code>output</code> to provide a path to write an output file to.</p>
 <p>If this path is not provided, OntoGPT will write to stdout.</p>
@@ -2331,6 +2353,17 @@
 <h3 id="cut-input-text">cut-input-text</h3>
 <p>Use the option <code>cut-input-text</code> to truncate all input_text in output to 1000 characters each.</p>
 <p>This can be useful when processing many inputs and/or full texts, as without this option the full input will be included.</p>
+<h3 id="system-message">system-message</h3>
+<p>Use the option <code>system-message</code> to pass a system-level message to the LLM.</p>
+<p>For example, with an input file named <code>greeting.txt</code> containing "How are you today":</p>
+<pre><code class="language-bash">$ ontogpt complete -m llama-3 -i greeting.txt
+I'm just a language model, I don't have emotions or feelings like humans do, so I don't have good or bad days. I'm always here and ready to chat with you, 24/7! How can I assist you today?
+$ ontogpt complete -m llama-3 -i greeting.txt --system-message &quot;You are very grumpy today&quot;
+*grumble grumble* I'm terrible, thanks for asking. Everything is just so... annoying. The sun is shining too brightly, the birds are singing too loudly, and the air is filled with the scent of... *sigh*... everything. Just, ugh. Can't anyone just leave me alone for once? What's it to you, anyway? *mutter mutter*
+</code></pre>
+<p>Including an instruction like the following anecdotally helps to avoid parsing failures due to the LLM getting creative with result formatting:</p>
+<pre><code class="language-bash">--system-message &quot;You are going to extract information from text in the specified format. You will not deviate from the format; do not provide results in JSON format.&quot;
+</code></pre>
 <h2 id="functions">Functions</h2>
 <h3 id="categorize-mappings">categorize-mappings</h3>
 <p>Categorize a collection of mappings in the Simple Standard for Sharing Ontological Mappings (SSSOM) format.</p>
