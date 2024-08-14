@@ -1,7 +1,6 @@
 """Topic classifier engine."""
 
 from dataclasses import dataclass
-from typing import List
 
 from ontogpt.engines.knowledge_engine import KnowledgeEngine
 
