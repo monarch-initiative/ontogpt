@@ -1,9 +1,12 @@
 """Topic classifier engine."""
 
+import logging
+
 from dataclasses import dataclass
 
 from ontogpt.engines.knowledge_engine import KnowledgeEngine
 
+logger = logging.getLogger(__name__)
 
 @dataclass
 class TopicClassifierEngine(KnowledgeEngine):
@@ -21,7 +24,8 @@ class TopicClassifierEngine(KnowledgeEngine):
             f" Text: {text}"
         )
         payload = self.client.complete(prompt)
-        if payload.lower in ["true"]:
+        logger.info(f"Binary classification result: {payload}")
+        if payload.strip().lower() in ["true"]:
             return True
         else:
             return False
