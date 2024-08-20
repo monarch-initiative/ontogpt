@@ -1,0 +1,43 @@
+id: http://w3id.org/ontogpt/food
+name: food
+title: Food Extraction Template
+description: >-
+  A template for extracting food names and terms from text.
+license: https://creativecommons.org/publicdomain/zero/1.0/
+prefixes:
+  rdf: http://www.w3.org/1999/02/22-rdf-syntax-ns#
+  foodon: http://purl.obolibrary.org/obo/foodon_
+  GO: http://purl.obolibrary.org/obo/GO_
+  food: http://w3id.org/ontogpt/food
+  linkml: https://w3id.org/linkml/
+
+default_prefix: food
+default_range: string
+
+imports:
+  - linkml:types
+  - core
+
+classes:
+  FoodSet:
+    tree_root: true
+    is_a: NamedEntity
+    attributes:
+      terms:
+        range: FoodTerm
+        multivalued: true
+        description: >-
+          A semicolon-separated list of any names of foods.
+
+  FoodTerm:
+    is_a: NamedEntity
+    id_prefixes:
+      - FOODON
+    annotations:
+      annotators: sqlite:obo:foodon
+      prompt: >-
+        The name of a food.
+        Examples include: apple juice,
+        okra pod, chocolate substitute,
+        breakfast cereal, tuna (flaked, canned),
+        beef chuck roast
