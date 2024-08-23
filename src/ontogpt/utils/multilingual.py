@@ -26,7 +26,10 @@ def multilingual_analysis(
     pred_ids = {}
     pred_names = {}
 
-    gpt_diagnosis = ai.complete(prompt)
+    try:
+        gpt_diagnosis = ai.complete(prompt)
+    except Exception as e:
+        raise Exception(f"Error in completion: {e}")
 
     # Call the extract function here
     # to ground the answer to OMIM (using MONDO, etc)
@@ -42,6 +45,9 @@ def multilingual_analysis(
     for pred in predictions:
         pred_ids[filename].append(pred.id)
         pred_names[filename].append(pred.label)
+
+    if len(pred_ids[filename]) == 0:
+        raise Exception(f"No grounded IDs found for {filename}")
 
     # Log the result
     logging.info("input file name" "\tpredicted diagnosis ids\tpredicted diagnosis names\n")

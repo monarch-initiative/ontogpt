@@ -1514,7 +1514,7 @@ def run_multilingual_analysis(
     model,
 ):
     """Call the multilingual analysis function.
-    
+
     Requires an input data directory and an output directory.
     """
     template = "all_disease_grounding"
@@ -1524,10 +1524,8 @@ def run_multilingual_analysis(
     elif input_data_dir and Path(input_data_dir).is_dir():
         logging.info(f"Input file directory: {input_data_dir}")
         inputfiles = Path(input_data_dir).glob("*.txt")
-        inputdict = {str(f):open(f, "r").read() for f in inputfiles if f.is_file()}
+        inputdict = {str(f.name): open(f, "r").read() for f in inputfiles if f.is_file()}
         logging.info(f"Found {len(inputdict)} input files here.")
-
-    print(inputdict)
 
     i = 0
     errors = {}
@@ -1548,7 +1546,8 @@ def run_multilingual_analysis(
             continue
 
         logging.info(f"Output format: {output_format}")
-        write_extraction(results, output_path, output_format, ke, template, cut_input_text)
+        with open(output_path, "w", encoding="utf-8") as outfile:
+            write_extraction(results, outfile, output_format, ke, template, cut_input_text)
 
     # If there were errors, log them to a file
     if len(errors) > 0:
