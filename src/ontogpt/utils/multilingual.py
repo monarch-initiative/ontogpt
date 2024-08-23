@@ -36,6 +36,7 @@ def multilingual_analysis(
 
     try:
         gpt_diagnosis = ai.complete(prompt)
+        print(gpt_diagnosis)
     except Exception as e:
         raise Exception(f"Error in completion: {e}")
 

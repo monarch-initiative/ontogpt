@@ -1516,6 +1516,11 @@ def run_multilingual_analysis(
     """Call the multilingual analysis function.
 
     Requires an input data directory and an output directory.
+
+    Example:
+
+    ontogpt run-multilingual-analysis -m gpt-4o en_test/ test_multiling_out/
+
     """
     template = "all_disease_grounding"
 
@@ -1535,7 +1540,7 @@ def run_multilingual_analysis(
         logging.info(f"Processing {i} of {len(inputdict)}: {filename}")
         try:
             results, output_path, ke = multilingual_analysis(
-                prompt=input_entry,
+                prompt=inputdict[input_entry],
                 filename=filename,
                 output_directory=output_directory,
                 model=model,
