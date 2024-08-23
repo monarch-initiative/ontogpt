@@ -11,7 +11,15 @@ from ontogpt.templates.core import ExtractionResult
 
 
 def multilingual_analysis(
-    prompt, filename, output_directory, model
+    prompt,
+    filename,
+    output_directory,
+    model,
+    temperature,
+    api_base,
+    api_version,
+    model_provider,
+    system_message,
 ) -> Tuple[ExtractionResult, str, SPIRESEngine]:
     """Run the multilingual analysis."""
     # Set up the extraction template
@@ -37,6 +45,11 @@ def multilingual_analysis(
     ke = SPIRESEngine(
         template_details=template_details,
         model=model,
+        temperature=temperature,
+        api_base=api_base,
+        api_version=api_version,
+        model_provider=model_provider,
+        system_message=system_message,
     )
     extraction = ke.extract_from_text(text=gpt_diagnosis)
     predictions = extraction.named_entities

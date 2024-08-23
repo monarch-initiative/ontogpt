@@ -1539,6 +1539,11 @@ def run_multilingual_analysis(
                 filename=filename,
                 output_directory=output_directory,
                 model=model,
+                temperature=temperature,
+                api_base=api_base,
+                api_version=api_version,
+                model_provider=model_provider,
+                system_message=system_message,
             )
         except Exception as e:
             logging.error(f"Error with {filename}: {e}")
