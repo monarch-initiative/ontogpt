@@ -1493,7 +1493,6 @@ def diagnose(
 @main.command()
 @click.argument("input_data_dir")
 @click.argument("output_directory")
-@output_option_wb
 @output_format_options
 @model_option
 @temperature_option
@@ -1505,7 +1504,6 @@ def diagnose(
 def run_multilingual_analysis(
     input_data_dir,
     output_directory,
-    output,
     output_format,
     temperature,
     cut_input_text,
@@ -1515,7 +1513,10 @@ def run_multilingual_analysis(
     system_message,
     model,
 ):
-    """Call the multilingual analysis function."""
+    """Call the multilingual analysis function.
+    
+    Requires an input data directory and an output directory.
+    """
     template = "all_disease_grounding"
 
     if not input_data_dir:
@@ -1523,27 +1524,38 @@ def run_multilingual_analysis(
     elif input_data_dir and Path(input_data_dir).is_dir():
         logging.info(f"Input file directory: {input_data_dir}")
         inputfiles = Path(input_data_dir).glob("*.txt")
-        inputlist = [open(f, "r").read() for f in inputfiles if f.is_file()]
-        logging.info(f"Found {len(inputlist)} input files here.")
+        inputdict = {str(f):open(f, "r").read() for f in inputfiles if f.is_file()}
+        logging.info(f"Found {len(inputdict)} input files here.")
+
+    print(inputdict)
 
     i = 0
-    for input_entry in inputlist:
-        if len(inputlist) > 1:
-            i = i + 1
-            logging.info(f"Processing {i} of {len(inputlist)}")
+    errors = {}
+    for input_entry in inputdict:
+        filename = input_entry
+        i = i + 1
+        logging.info(f"Processing {i} of {len(inputdict)}: {filename}")
         try:
-            results = multilingual_analysis(
+            results, output_path, ke = multilingual_analysis(
                 prompt=input_entry,
+                filename=filename,
                 output_directory=output_directory,
-                output=output,
-                model=model
+                model=model,
             )
         except Exception as e:
-            logging.error(f"Error: {e}")
+            logging.error(f"Error with {filename}: {e}")
+            errors[filename] = e
             continue
 
         logging.info(f"Output format: {output_format}")
-        write_extraction(results, output, output_format, ke, template, cut_input_text)
+        write_extraction(results, output_path, output_format, ke, template, cut_input_text)
+
+    # If there were errors, log them to a file
+    if len(errors) > 0:
+        error_file_path = Path(output_directory) / "errors.txt"
+        with open(error_file_path, "w", encoding="utf-8") as outfile:
+            for error in errors:
+                outfile.write(f"{error}\t{errors[error]}\n")
 
 
 @main.command()

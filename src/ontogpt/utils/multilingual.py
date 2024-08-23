@@ -2,15 +2,17 @@
 
 import logging
 import os
+from typing import Tuple
 
 from ontogpt.clients import LLMClient
 from ontogpt.engines.spires_engine import SPIRESEngine
 from ontogpt.io.template_loader import get_template_details
-from ontogpt.io.yaml_wrapper import dump_minimal_yaml
 from ontogpt.templates.core import ExtractionResult
 
 
-def multilingual_analysis(prompt, output_directory, output, model) -> ExtractionResult:
+def multilingual_analysis(
+    prompt, filename, output_directory, model
+) -> Tuple[ExtractionResult, str, SPIRESEngine]:
     """Run the multilingual analysis."""
     # Set up the extraction template
     template = "all_disease_grounding"
@@ -24,70 +26,33 @@ def multilingual_analysis(prompt, output_directory, output, model) -> Extraction
     pred_ids = {}
     pred_names = {}
 
-    # Log all errors, with prompt filename as key and error as value
-    errors = {}
-
-    completed = False
-    grounded = False
-
-    try:
-        gpt_diagnosis = ai.complete(prompt)
-        completed = True
-    except Exception as e:
-        errors[filename] = e
-        logging.error(f"Error: {e}")
+    gpt_diagnosis = ai.complete(prompt)
 
     # Call the extract function here
     # to ground the answer to OMIM (using MONDO, etc)
     # The KE is refreshed here to avoid retaining
-    if completed:
-        try:
-            ke = SPIRESEngine(
-                template_details=template_details,
-                model=model,
-            )
-            extraction = ke.extract_from_text(text=gpt_diagnosis)
-            predictions = extraction.named_entities
-            pred_ids[filename] = []
-            pred_names[filename] = []
-            for pred in predictions:
-                pred_ids[filename].append(pred.id)
-                pred_names[filename].append(pred.label)
+    ke = SPIRESEngine(
+        template_details=template_details,
+        model=model,
+    )
+    extraction = ke.extract_from_text(text=gpt_diagnosis)
+    predictions = extraction.named_entities
+    pred_ids[filename] = []
+    pred_names[filename] = []
+    for pred in predictions:
+        pred_ids[filename].append(pred.id)
+        pred_names[filename].append(pred.label)
 
-            # Log the result
-            logging.info(
-                "input file name" "\tpredicted diagnosis ids\tpredicted diagnosis names\n"
-            )
-            logging.info(
-                f"{filename}"
-                f'\t{"|".join(pred_ids[filename])}'
-                f'\t{"|".join(pred_names[filename])}\n'
-            )
-            grounded = True
-        except Exception as e:
-            errors[filename] = e
-            logging.error(f"Error: {e}")
+    # Log the result
+    logging.info("input file name" "\tpredicted diagnosis ids\tpredicted diagnosis names\n")
+    logging.info(
+        f"{filename}" f'\t{"|".join(pred_ids[filename])}' f'\t{"|".join(pred_names[filename])}\n'
+    )
 
-    # Retain the output as text
+    # Retain the output as an ExtractionResult object
     # Create the output filename based on the input filename
     output_file_name = filename + ".result"
     output_file_path = os.path.join(output_directory, output_file_name)
-    with open(output_file_path, "w", encoding="utf-8") as outfile:
-        if completed and grounded:
-            outfile.write(gpt_diagnosis)
+    extraction.extracted_object.label = filename
 
-            # Write the result
-            # Include the input filename for the prompt in the output
-            extraction.extracted_object.label = filename
-            output.write("---\n")
-            output.write(dump_minimal_yaml(extraction))
-
-        else:
-            outfile.write(f"Error: {errors[filename]}")
-
-    # If there were errors, log them to a file
-    if len(errors) > 0:
-        error_file_path = os.path.join(output_directory, "errors.txt")
-        with open(error_file_path, "w", encoding="utf-8") as outfile:
-            for error in errors:
-                outfile.write(f"{error}\t{errors[error]}\n")
+    return (extraction, output_file_path, ke)
