@@ -1494,6 +1494,7 @@ def diagnose(
 @click.argument("input_data_dir")
 @click.argument("output_directory")
 @output_option_wb
+@output_format_options
 @model_option
 @temperature_option
 @cut_input_text_option
@@ -1505,6 +1506,7 @@ def run_multilingual_analysis(
     input_data_dir,
     output_directory,
     output,
+    output_format,
     temperature,
     cut_input_text,
     api_base,
@@ -1514,9 +1516,34 @@ def run_multilingual_analysis(
     model,
 ):
     """Call the multilingual analysis function."""
-    multilingual_analysis(
-        input_data_dir=input_data_dir, output_directory=output_directory, output=output, model=model
-    )
+    template = "all_disease_grounding"
+
+    if not input_data_dir:
+        raise ValueError("No input data directory specified. Please provide one.")
+    elif input_data_dir and Path(input_data_dir).is_dir():
+        logging.info(f"Input file directory: {input_data_dir}")
+        inputfiles = Path(input_data_dir).glob("*.txt")
+        inputlist = [open(f, "r").read() for f in inputfiles if f.is_file()]
+        logging.info(f"Found {len(inputlist)} input files here.")
+
+    i = 0
+    for input_entry in inputlist:
+        if len(inputlist) > 1:
+            i = i + 1
+            logging.info(f"Processing {i} of {len(inputlist)}")
+        try:
+            results = multilingual_analysis(
+                prompt=input_entry,
+                output_directory=output_directory,
+                output=output,
+                model=model
+            )
+        except Exception as e:
+            logging.error(f"Error: {e}")
+            continue
+
+        logging.info(f"Output format: {output_format}")
+        write_extraction(results, output, output_format, ke, template, cut_input_text)
 
 
 @main.command()
