@@ -31,8 +31,8 @@ def multilingual_analysis(
 
     # Keep track of the predictions
     # Key is the filename, value is a list of predictions
-    pred_ids = {}
-    pred_names = {}
+    pred_ids: dict[str, list[str]] = {}
+    pred_names: dict[str, list[str]] = {}
 
     try:
         gpt_diagnosis = ai.complete(prompt)
