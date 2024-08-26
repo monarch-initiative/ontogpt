@@ -76,6 +76,7 @@ classes:
         range: string
         annotations:
           prompt.example: active, chronic, focal
+        multivalued: true
       severity:
         description: >-
           The severity of the pathology, for example, mild, moderate, or severe.

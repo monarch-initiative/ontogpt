@@ -217,7 +217,7 @@ class PathologyStatement(ConfiguredBaseModel):
                                                      'dysplasia'}},
          'domain_of': ['PathologyStatement']} })
     qualities: Optional[List[str]] = Field(None, description="""A semicolon-delimited list of properties being measured, or changes in this property, for example, severity, size, or color. If not specified, this value must be \"N/A\".""", json_schema_extra = { "linkml_meta": {'alias': 'qualities', 'domain_of': ['PathologyStatement']} })
-    qualifier: Optional[str] = Field(None, description="""A semicolon-delimited list of descriptors other than those for severity. If not specified, this value must be \"N/A\".""", json_schema_extra = { "linkml_meta": {'alias': 'qualifier',
+    qualifier: Optional[List[str]] = Field(None, description="""A semicolon-delimited list of descriptors other than those for severity. If not specified, this value must be \"N/A\".""", json_schema_extra = { "linkml_meta": {'alias': 'qualifier',
          'annotations': {'prompt.example': {'tag': 'prompt.example',
                                             'value': 'active, chronic, focal'}},
          'domain_of': ['Triple', 'PathologyStatement']} })
