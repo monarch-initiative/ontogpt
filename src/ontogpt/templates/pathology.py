@@ -225,7 +225,7 @@ class PathologyStatement(ConfiguredBaseModel):
          'annotations': {'prompt.example': {'tag': 'prompt.example',
                                             'value': 'mild, moderate, severe'}},
          'domain_of': ['PathologyStatement']} })
-    anatomical_entity: Optional[str] = Field(None, description="""The anatomical location or tissue that the pathology is measured in. This may need to be inferred from the text, for example, \"colitis\" means the entity should be \"colon\". If this is not specified or cannot be inferred then this value must be \"N/A\".""", json_schema_extra = { "linkml_meta": {'alias': 'anatomical_entity',
+    anatomical_entities: Optional[List[str]] = Field(None, description="""Semicolon-delimited list of anatomical locations or tissues the pathology is measured in. This may need to be inferred from the text, for example, \"colitis\" means the entity should be \"colon\". If this is not specified or cannot be inferred then this value must be \"N/A\".""", json_schema_extra = { "linkml_meta": {'alias': 'anatomical_entities',
          'annotations': {'prompt.example': {'tag': 'prompt.example',
                                             'value': 'duodenum, colonic mucosa, '
                                                      'liver'}},
