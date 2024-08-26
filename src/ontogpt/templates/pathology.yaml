@@ -21,6 +21,10 @@ imports:
   - linkml:types
   - core
 
+# TODO: Tune the anatomy extraction; it seems to miss many instances
+# TODO: Try to be more specific about SNOMED terms, e.g., hemosiderin deposition
+# grounds to SNOMEDCT:70748002 but that's specific to "Hemosiderin measurement, urine" 
+
 classes:
 
   PathologyReport:
