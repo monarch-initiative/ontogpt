@@ -57,6 +57,7 @@ from ontogpt.io.json_wrapper import dump_minimal_json
 from ontogpt.io.yaml_wrapper import dump_minimal_yaml
 from ontogpt.templates.core import ExtractionResult
 
+VALID_INPUT_FORMATS = ["txt", "pdf"]
 
 @dataclass
 class Settings:
@@ -173,7 +174,9 @@ def parse_input(
                 parsedlist = [parse_pdf_input(f) for f in inputfiles if f.is_file()]
             logging.info(f"Parsed {len(parsedlist)} PDF files.")
         else:
-            inputfiles = Path(input).glob("*.txt")
+            inputfiles = []
+            for ext in VALID_INPUT_FORMATS:
+                inputfiles.extend(Path(input).glob(f"*.{ext}"))
             if return_dict:
                 parsedlist = {f: open(f, "r").read() for f in inputfiles if f.is_file()}
             else:
