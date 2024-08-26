@@ -9,12 +9,11 @@ from copy import deepcopy
 from dataclasses import dataclass
 from io import BytesIO, TextIOWrapper
 from pathlib import Path
-from typing import Dict, Optional, Tuple, Union
+from typing import Dict, List, Optional, Tuple, Union
 
 import click
 import jsonlines
 import yaml
-
 from litellm import get_model_cost_map
 from oaklib import get_adapter
 from oaklib.cli import query_terms_iterator
@@ -50,14 +49,17 @@ __all__ = [
     "main",
 ]
 
-from ontogpt.io.owl_exporter import OWLExporter
-from ontogpt.io.rdf_exporter import RDFExporter
 from ontogpt.io.csv_exporter import CSVExporter
 from ontogpt.io.json_wrapper import dump_minimal_json
+from ontogpt.io.owl_exporter import OWLExporter
+from ontogpt.io.rdf_exporter import RDFExporter
 from ontogpt.io.yaml_wrapper import dump_minimal_yaml
 from ontogpt.templates.core import ExtractionResult
 
-VALID_INPUT_FORMATS = ["txt", "pdf"]
+VALID_INPUT_FORMATS = [".csv", ".tsv", ".txt", ".od", ".odf", ".ods", ".pdf", ".xls", ".xlsx"]
+VALID_TABULAR_FORMATS = [".csv", ".tsv"]
+VALID_SPREADSHEET_FORMATS = [".od", ".odf", ".ods", ".xls", ".xlsb", ".xlsm", ".xlsx"]
+
 
 @dataclass
 class Settings:
@@ -207,6 +209,25 @@ def parse_pdf_input(inputpath: str) -> str:
     text = ""
     for page in doc:
         text = text + (page.get_text())
+    return text
+
+
+def parse_tabular_input(inputpath: str, selectcols: List[str]) -> str:
+    """Parse input filepath to a spreadsheet or other tabular values and return text.
+
+    The selectcols argument is a list of column names to select from the input file.
+    """
+    import pandas as pd
+
+    if Path(inputpath).suffix in VALID_TABULAR_FORMATS:
+        df = pd.read_csv(
+            inputpath, usecols=selectcols, sep="\t" if Path(inputpath).suffix == ".tsv" else ","
+        )
+    elif Path(inputpath).suffix in VALID_SPREADSHEET_FORMATS:
+        df = pd.read_excel(io=inputpath, usecols=selectcols)
+    text = ""
+    for col in df.columns:
+        text += "\t".join(df[col].astype(str)) + "\n"
     return text
 
 
