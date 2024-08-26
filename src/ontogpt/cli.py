@@ -156,6 +156,57 @@ def write_extraction(
             output.write(dump_minimal_yaml(results))  # type: ignore
 
 
+def parse_input(
+    input: str, use_pdf: bool = False, return_dict: bool = False
+) -> Union[list, Dict[str, str]]:
+    """Parse input argument to use as one or more input texts."""
+    if use_pdf:
+        logging.info("Will parse input as PDF.")
+
+    if Path(input).is_dir():
+        logging.info(f"Input file directory: {input}")
+        if use_pdf:
+            inputfiles = Path(input).glob("*.pdf")
+            logging.info(f"Found {len(inputfiles)} PDF files here.")
+            if return_dict:
+                parsedlist = {f: parse_pdf_input(f) for f in inputfiles if f.is_file()}
+            else:
+                parsedlist = [parse_pdf_input(f) for f in inputfiles if f.is_file()]
+        else:
+            inputfiles = Path(input).glob("*.txt")
+            logging.info(f"Found {len(inputfiles)} input files here.")
+            if return_dict:
+                parsedlist = {f: open(f, "r").read() for f in inputfiles if f.is_file()}
+            else:
+                parsedlist = [open(f, "r").read() for f in inputfiles if f.is_file()]
+    elif Path(input).exists():
+        logging.info(f"Input file: {input}")
+        if use_pdf:
+            text = parse_pdf_input(input)
+            logging.info(f"Input text: {len(text)} characters.")
+        else:
+            text = open(input, "rb").read().decode(encoding="utf-8", errors="ignore")
+            logging.info(f"Input text: {text}")
+        parsedlist = [text]
+    else:
+        logging.info(f"Input text: {input}")
+        parsedlist = [input]
+    if return_dict and isinstance(parsedlist, list) and parsedlist:
+        return {"input": parsedlist[0]}
+    return parsedlist
+
+
+def parse_pdf_input(inputpath: str) -> str:
+    """Parse input filepath to a PDF document and return text."""
+    import pymupdf
+
+    doc = pymupdf.open(inputpath)
+    text = ""
+    for page in doc:
+        text = text + (page.get_text())
+    return text
+
+
 inputfile_option = click.option("-i", "--inputfile", help="Path to a file containing input text.")
 template_option = click.option(
     "-t",
@@ -345,31 +396,13 @@ def extract(
     if not model:
         model = DEFAULT_MODEL
 
-    inputlist = []
-
     if not inputfile or inputfile == "-":
         text = sys.stdin.read()
-        inputlist.append(text)
-    elif inputfile and Path(inputfile).is_dir():
-        logging.info(f"Input file directory: {inputfile}")
-        inputfiles = Path(inputfile).glob("*.txt")
-        inputlist = [open(f, "r").read() for f in inputfiles if f.is_file()]
-        logging.info(f"Found {len(inputlist)} input files here.")
-    elif inputfile and Path(inputfile).exists():
-        logging.info(f"Input file: {inputfile}")
-        if use_pdf:
-            import pymupdf
-
-            doc = pymupdf.open(inputfile)
-            text = ""
-            for page in doc:
-                text = text + (page.get_text())
-        else:
-            text = open(inputfile, "rb").read().decode(encoding="utf-8", errors="ignore")
-        logging.info(f"Input text: {text}")
-        inputlist.append(text)
+        inputlist = [text]
     elif inputfile and not Path(inputfile).exists():
         raise FileNotFoundError(f"Cannot find input file {inputfile}")
+    else:
+        inputlist = parse_input(input=inputfile, use_pdf=use_pdf, return_dict=False)
 
     if template:
         template_details = get_template_details(template=template)
@@ -1153,31 +1186,13 @@ def classify_by_topic(
     if not model:
         model = DEFAULT_MODEL
 
-    inputdict = {}
-
     if not inputfile or inputfile == "-":
         text = sys.stdin.read()
-        inputdict["Input"] = text
-    elif inputfile and Path(inputfile).is_dir():
-        logging.info(f"Input file directory: {inputfile}")
-        inputfiles = Path(inputfile).glob("*.txt")
-        inputdict = {f: (open(f, "r").read()) for f in inputfiles if f.is_file()}
-        logging.info(f"Found {len(inputdict)} input files here.")
-    elif inputfile and Path(inputfile).exists():
-        logging.info(f"Input file: {inputfile}")
-        if use_pdf:
-            import pymupdf
-
-            doc = pymupdf.open(inputfile)
-            text = ""
-            for page in doc:
-                text = text + (page.get_text())
-        else:
-            text = open(inputfile, "rb").read().decode(encoding="utf-8", errors="ignore")
-        logging.info(f"Input text: {text}")
-        inputdict[inputfile] = text
+        inputdict = {"input":text}
     elif inputfile and not Path(inputfile).exists():
         raise FileNotFoundError(f"Cannot find input file {inputfile}")
+    else:
+        inputdict = parse_input(input=inputfile, use_pdf=use_pdf, return_dict=True)
 
     ke = TopicClassifierEngine(
         model=model,
