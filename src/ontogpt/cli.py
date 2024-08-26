@@ -160,7 +160,7 @@ def write_extraction(
 
 
 def parse_input(
-    input: str, use_pdf: bool = False, return_dict: bool = False
+    input: str, use_pdf: bool = False, return_dict: bool = False, selectcols: List[str] = []
 ) -> Union[list, Dict[str, str]]:
     """Parse input argument to use as one or more input texts."""
     if use_pdf:
@@ -178,7 +178,7 @@ def parse_input(
         else:
             inputfiles = []
             for ext in VALID_INPUT_FORMATS:
-                inputfiles.extend(Path(input).glob(f"*.{ext}"))
+                inputfiles.extend(Path(input).glob(f"*{ext}"))
             if return_dict:
                 parsedlist = {f: open(f, "r").read() for f in inputfiles if f.is_file()}
             else:
@@ -189,6 +189,12 @@ def parse_input(
         if use_pdf:
             text = parse_pdf_input(input)
             logging.info(f"Input text: {len(text)} characters.")
+        elif (
+            Path(input).suffix in VALID_TABULAR_FORMATS
+            or Path(input).suffix in VALID_SPREADSHEET_FORMATS
+        ):
+            text = [parse_tabular_input(input, selectcols)]
+            logging.info(f"Input text: {text}")
         else:
             text = open(input, "rb").read().decode(encoding="utf-8", errors="ignore")
             logging.info(f"Input text: {text}")
@@ -196,6 +202,7 @@ def parse_input(
     else:
         logging.info(f"Input text: {input}")
         parsedlist = [input]
+    # If we still have a list, make it a dict, but assume the only item is the input
     if return_dict and isinstance(parsedlist, list) and parsedlist:
         return {"input": parsedlist[0]}
     return parsedlist
@@ -219,12 +226,17 @@ def parse_tabular_input(inputpath: str, selectcols: List[str]) -> str:
     """
     import pandas as pd
 
+    if len(selectcols) == 0:
+        usecols = None
+    else:
+        usecols = selectcols
+
     if Path(inputpath).suffix in VALID_TABULAR_FORMATS:
         df = pd.read_csv(
-            inputpath, usecols=selectcols, sep="\t" if Path(inputpath).suffix == ".tsv" else ","
+            inputpath, usecols=usecols, sep="\t" if Path(inputpath).suffix == ".tsv" else ","
         )
     elif Path(inputpath).suffix in VALID_SPREADSHEET_FORMATS:
-        df = pd.read_excel(io=inputpath, usecols=selectcols)
+        df = pd.read_excel(io=inputpath, usecols=usecols)
     text = ""
     for col in df.columns:
         text += "\t".join(df[col].astype(str)) + "\n"
