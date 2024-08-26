@@ -216,7 +216,6 @@ class PathologyStatement(ConfiguredBaseModel):
                                             'value': 'colitis, inflammation, '
                                                      'dysplasia'}},
          'domain_of': ['PathologyStatement']} })
-    qualities: Optional[List[str]] = Field(None, description="""A semicolon-delimited list of properties being measured, or changes in this property, for example, severity, size, or color. If not specified, this value must be \"N/A\".""", json_schema_extra = { "linkml_meta": {'alias': 'qualities', 'domain_of': ['PathologyStatement']} })
     qualifiers: Optional[List[str]] = Field(None, description="""A semicolon-delimited list of descriptors other than those for severity. If not specified, this value must be \"N/A\".""", json_schema_extra = { "linkml_meta": {'alias': 'qualifiers',
          'annotations': {'prompt.example': {'tag': 'prompt.example',
                                             'value': 'active, chronic, focal'}},
@@ -241,24 +240,6 @@ class Diagnosis(NamedEntity):
                                         'value': 'bioportal:SNOMEDCT'}},
          'from_schema': 'http://w3id.org/ontogpt/pathology',
          'id_prefixes': ['SNOMEDCT']})
-
-    id: str = Field(..., description="""A unique identifier for the named entity""", json_schema_extra = { "linkml_meta": {'alias': 'id',
-         'annotations': {'prompt.skip': {'tag': 'prompt.skip', 'value': 'true'}},
-         'comments': ['this is populated during the grounding and normalization step'],
-         'domain_of': ['NamedEntity', 'Publication']} })
-    label: Optional[str] = Field(None, description="""The label (name) of the named thing""", json_schema_extra = { "linkml_meta": {'alias': 'label',
-         'aliases': ['name'],
-         'annotations': {'owl': {'tag': 'owl',
-                                 'value': 'AnnotationProperty, AnnotationAssertion'}},
-         'domain_of': ['NamedEntity'],
-         'slot_uri': 'rdfs:label'} })
-
-
-class Quality(NamedEntity):
-    linkml_meta: ClassVar[LinkMLMeta] = LinkMLMeta({'annotations': {'annotators': {'tag': 'annotators',
-                                        'value': 'sqlite:obo:pato'}},
-         'from_schema': 'http://w3id.org/ontogpt/pathology',
-         'id_prefixes': ['PATO']})
 
     id: str = Field(..., description="""A unique identifier for the named entity""", json_schema_extra = { "linkml_meta": {'alias': 'id',
          'annotations': {'prompt.skip': {'tag': 'prompt.skip', 'value': 'true'}},
@@ -304,6 +285,5 @@ AnnotatorResult.model_rebuild()
 PathologyReport.model_rebuild()
 PathologyStatement.model_rebuild()
 Diagnosis.model_rebuild()
-Quality.model_rebuild()
 AnatomicalEntity.model_rebuild()
 
