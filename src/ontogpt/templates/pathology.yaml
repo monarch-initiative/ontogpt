@@ -1,0 +1,110 @@
+id: http://w3id.org/ontogpt/pathology
+name: pathology
+title: Pathology Grounding Template
+description: >-
+  A template for extracting and grounding pathology descriptions from text.
+license: https://creativecommons.org/publicdomain/zero/1.0/
+prefixes:
+  rdf: http://www.w3.org/1999/02/22-rdf-syntax-ns#
+  PATO: http://purl.obolibrary.org/obo/PATO_
+  UBERON: http://purl.obolibrary.org/obo/UBERON_
+  linkml: https://w3id.org/linkml/
+  pathology: http://w3id.org/ontogpt/pathology
+keywords:
+  - pathology
+  - phenotype
+
+default_prefix: pathology
+default_range: string
+
+imports:
+  - linkml:types
+  - core
+
+classes:
+
+  PathologyReport:
+    tree_root: true
+    description: >-
+      A semicolon-delimited list of statements, each describing a pathology,
+      including any diagnoses, one or more specific qualities being measured
+      and the anatomical location or tissue the pathology is measured in. Each
+      statement should describe a single condition.
+    attributes:
+      pathology_statements:
+        description: >-
+          A semicolon-delimited list of pathology statements, each describing a
+          pathology, including any diagnoses, one or more specific qualities
+          being measured and the anatomical location or tissue the pathology is
+          measured in. If any of the pathology statements are negative, the
+          negation should be included in each statment, e.g., "no granulomas or
+          viropathic changes" should become "no granulomas" and "no viropathic
+          changes".
+        range: PathologyStatement
+        multivalued: true
+
+  PathologyStatement:
+    description: >-
+      A statement that describes a pathology, including any diagnoses,
+      one or more specific qualities being measured and the anatomical
+      location or tissue the pathology is measured in.
+    attributes:
+      diagnosis:
+        description: >-
+          The diagnosis or pathology being described, for example, "colitis",
+          "inflammation", or "dysplasia".
+        range: Diagnosis
+        annotations:
+          prompt.example: colitis, inflammation, dysplasia
+      qualities:
+        description: >-
+          A semicolon-delimited list of properties being measured,
+          or changes in this property, for example, severity,
+          size, or color. If not specified, this value must be left blank.
+        range: Quality
+        multivalued: true
+      severity:
+        description: >-
+          The severity of the pathology, for example, mild, moderate, or severe.
+          If not specified, this value must be left blank.
+        range: string
+        annotations:
+          prompt.example: mild, moderate, severe
+      anatomical_entity:
+        description: >-
+          The anatomical location or tissue that the chemical entity is
+          measured in. This may need to be inferred from the text, for example,
+          "colitis" means the entity should be "colon". If this is not specified
+          or cannot be inferred then this value must be left blank.
+        range: AnatomicalEntity
+        annotations:
+          prompt.example: duodenum, colonic mucosa, liver
+      negative:
+        description: >-
+          Whether the pathology is negative or not present. A statement of
+          "no significant pathologic abnormality" or the short form "nspa"
+          would have a value of true.
+        range: string
+        annotations:
+          prompt.example: true, false
+
+  Diagnosis:
+    is_a: NamedEntity
+    id_prefixes:
+      - SNOMEDCT
+    annotations:
+      annotators: bioportal:SNOMEDCT
+
+  Quality:
+    is_a: NamedEntity
+    id_prefixes:
+      - PATO
+    annotations:
+      annotators: sqlite:obo:pato
+
+  AnatomicalEntity:
+    is_a: NamedEntity
+    id_prefixes:
+      - UBERON
+    annotations:
+      annotators: sqlite:obo:uberon
