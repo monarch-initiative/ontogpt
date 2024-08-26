@@ -180,9 +180,27 @@ def parse_input(
             for ext in VALID_INPUT_FORMATS:
                 inputfiles.extend(Path(input).glob(f"*{ext}"))
             if return_dict:
-                parsedlist = {f: open(f, "r").read() for f in inputfiles if f.is_file()}
+                parsedlist = {
+                    f: (
+                        parse_tabular_input(f, selectcols)
+                        if Path(f).suffix in VALID_TABULAR_FORMATS
+                        or Path(f).suffix in VALID_SPREADSHEET_FORMATS
+                        else open(f, "r").read()
+                    )
+                    for f in inputfiles
+                    if f.is_file()
+                }
             else:
-                parsedlist = [open(f, "r").read() for f in inputfiles if f.is_file()]
+                parsedlist = [
+                    (
+                        parse_tabular_input(f, selectcols)
+                        if Path(f).suffix in VALID_TABULAR_FORMATS
+                        or Path(f).suffix in VALID_SPREADSHEET_FORMATS
+                        else open(f, "r").read()
+                    )
+                    for f in inputfiles
+                    if f.is_file()
+                ]
             logging.info(f"Parsed {len(parsedlist)} files.")
     elif Path(input).exists():
         logging.info(f"Input file: {input}")
