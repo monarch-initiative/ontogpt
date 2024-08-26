@@ -350,6 +350,10 @@ system_message_option = click.option(
     "--system-message",
     help="System message to provide to the LLM, e.g., 'You will extract knowledge from this text.'",
 )
+selectcols_option = click.option(
+    "--selectcols",
+    help="Columns to select from tabular input, e.g. --selectcols name,description",
+)
 
 
 @click.group()
@@ -402,6 +406,7 @@ def main(verbose: int, quiet: bool, cache_db: str):
 @system_message_option
 @temperature_option
 @cut_input_text_option
+@selectcols_option
 def extract(
     inputfile,
     template,
@@ -420,6 +425,7 @@ def extract(
     api_version,
     model_provider,
     system_message,
+    selectcols,
     **kwargs,
 ):
     """Extract knowledge from text guided by schema, using SPIRES engine.
@@ -456,7 +462,9 @@ def extract(
     elif inputfile and not Path(inputfile).exists():
         raise FileNotFoundError(f"Cannot find input file {inputfile}")
     else:
-        inputlist = parse_input(input=inputfile, use_pdf=use_pdf, return_dict=False)
+        inputlist = parse_input(
+            input=inputfile, use_pdf=use_pdf, return_dict=False, selectcols=selectcols
+        )
 
     if template:
         template_details = get_template_details(template=template)
@@ -1209,6 +1217,7 @@ def synonyms(
 @api_version_option
 @model_provider_option
 @system_message_option
+@selectcols_option
 @click.argument("topic")
 def classify_by_topic(
     inputfile,
@@ -1220,6 +1229,7 @@ def classify_by_topic(
     system_message,
     topic,
     use_pdf,
+    selectcols,
 ):
     """Classify input text by topic.
 
@@ -1246,7 +1256,9 @@ def classify_by_topic(
     elif inputfile and not Path(inputfile).exists():
         raise FileNotFoundError(f"Cannot find input file {inputfile}")
     else:
-        inputdict = parse_input(input=inputfile, use_pdf=use_pdf, return_dict=True)
+        inputdict = parse_input(
+            input=inputfile, use_pdf=use_pdf, return_dict=True, selectcols=selectcols
+        )
 
     ke = TopicClassifierEngine(
         model=model,
