@@ -67,6 +67,13 @@ classes:
           size, or color. If not specified, this value must be left blank.
         range: Quality
         multivalued: true
+      qualifier:
+        description: >-
+          A semicolon-delimited list of descriptors other than those for
+          severity. If not specified, this value must be left blank.
+        range: string
+        annotations:
+          prompt.example: active, chronic, focal
       severity:
         description: >-
           The severity of the pathology, for example, mild, moderate, or severe.
@@ -76,7 +83,7 @@ classes:
           prompt.example: mild, moderate, severe
       anatomical_entity:
         description: >-
-          The anatomical location or tissue that the chemical entity is
+          The anatomical location or tissue that the pathology is
           measured in. This may need to be inferred from the text, for example,
           "colitis" means the entity should be "colon". If this is not specified
           or cannot be inferred then this value must be left blank.
