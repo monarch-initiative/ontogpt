@@ -167,18 +167,18 @@ def parse_input(
         logging.info(f"Input file directory: {input}")
         if use_pdf:
             inputfiles = Path(input).glob("*.pdf")
-            logging.info(f"Found {len(inputfiles)} PDF files here.")
             if return_dict:
                 parsedlist = {f: parse_pdf_input(f) for f in inputfiles if f.is_file()}
             else:
                 parsedlist = [parse_pdf_input(f) for f in inputfiles if f.is_file()]
+            logging.info(f"Parsed {len(parsedlist)} PDF files.")
         else:
             inputfiles = Path(input).glob("*.txt")
-            logging.info(f"Found {len(inputfiles)} input files here.")
             if return_dict:
                 parsedlist = {f: open(f, "r").read() for f in inputfiles if f.is_file()}
             else:
                 parsedlist = [open(f, "r").read() for f in inputfiles if f.is_file()]
+            logging.info(f"Parsed {len(parsedlist)} files.")
     elif Path(input).exists():
         logging.info(f"Input file: {input}")
         if use_pdf:
@@ -1188,7 +1188,7 @@ def classify_by_topic(
 
     if not inputfile or inputfile == "-":
         text = sys.stdin.read()
-        inputdict = {"input":text}
+        inputdict = {"input": text}
     elif inputfile and not Path(inputfile).exists():
         raise FileNotFoundError(f"Cannot find input file {inputfile}")
     else:
