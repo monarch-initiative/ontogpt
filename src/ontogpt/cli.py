@@ -160,8 +160,10 @@ def write_extraction(
 
 
 def parse_input(
-    input: str, use_pdf: bool = False, return_dict: bool = False, selectcols: List[str] = []
+    input: str, use_pdf: bool = False, return_dict: bool = False, selectcols: Optional[List[str]] = None
 ) -> Union[list, Dict[str, str]]:
+    if selectcols is None:
+        selectcols = []
     """Parse input argument to use as one or more input texts."""
     if use_pdf:
         logging.info("Will parse input as PDF.")
