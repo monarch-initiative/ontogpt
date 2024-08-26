@@ -211,7 +211,7 @@ class PathologyStatement(ConfiguredBaseModel):
     """
     linkml_meta: ClassVar[LinkMLMeta] = LinkMLMeta({'from_schema': 'http://w3id.org/ontogpt/pathology'})
 
-    diagnosis: Optional[str] = Field(None, description="""The diagnosis or pathology being described, for example, \"colitis\", \"inflammation\", or \"dysplasia\". If not specified or cannot be identified (e.g., due to lack of tissue sample), this value must be \"N/A\".""", json_schema_extra = { "linkml_meta": {'alias': 'diagnosis',
+    diagnosis: Optional[str] = Field(None, description="""The diagnosis or pathology being described. This may include full diagnoses or observations, for example, \"colitis\", \"inflammation\", \"dysplasia\", \"polyp\". If not specified or cannot be identified (e.g., due to lack of tissue sample), this value must be \"N/A\".""", json_schema_extra = { "linkml_meta": {'alias': 'diagnosis',
          'annotations': {'prompt.example': {'tag': 'prompt.example',
                                             'value': 'colitis, inflammation, '
                                                      'dysplasia'}},
@@ -224,7 +224,7 @@ class PathologyStatement(ConfiguredBaseModel):
          'annotations': {'prompt.example': {'tag': 'prompt.example',
                                             'value': 'mild, moderate, severe'}},
          'domain_of': ['PathologyStatement']} })
-    anatomical_entities: Optional[List[str]] = Field(None, description="""Semicolon-delimited list of anatomical locations or tissues the pathology is measured in. This may need to be inferred from the text, for example, \"colitis\" means the entity should be \"colon\". If this is not specified or cannot be inferred then this value must be \"N/A\".""", json_schema_extra = { "linkml_meta": {'alias': 'anatomical_entities',
+    anatomical_entities: Optional[List[str]] = Field(None, description="""Semicolon-delimited list of anatomical locations or tissues the pathology is measured in. This may need to be inferred from the text, for example, \"colitis\" means the entity should be \"colon\". A statement of \"gastric antral-type mucosa\" should be changed to include only the anatomical entity, in this case \"gastric mucosa\". If this is not specified or cannot be inferred then this value must be \"N/A\".""", json_schema_extra = { "linkml_meta": {'alias': 'anatomical_entities',
          'annotations': {'prompt.example': {'tag': 'prompt.example',
                                             'value': 'duodenum, colonic mucosa, '
                                                      'liver'}},

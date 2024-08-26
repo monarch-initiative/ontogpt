@@ -24,6 +24,8 @@ imports:
 # TODO: Tune the anatomy extraction; it seems to miss many instances
 # TODO: Try to be more specific about SNOMED terms, e.g., hemosiderin deposition
 # grounds to SNOMEDCT:70748002 but that's specific to "Hemosiderin measurement, urine" 
+# This may require instructions to reprocess the text to be more like SNOMED, e.g.,
+# "hepatitis" doesn't have a specific term but maybe inflammation is appropriate
 
 classes:
 
@@ -55,8 +57,9 @@ classes:
     attributes:
       diagnosis:
         description: >-
-          The diagnosis or pathology being described, for example, "colitis",
-          "inflammation", or "dysplasia". If not specified or cannot be
+          The diagnosis or pathology being described. This may include
+          full diagnoses or observations, for example, "colitis",
+          "inflammation", "dysplasia", "polyp". If not specified or cannot be
           identified (e.g., due to lack of tissue sample), this value must be
           "N/A".
         range: Diagnosis
@@ -82,6 +85,8 @@ classes:
           Semicolon-delimited list of anatomical locations or tissues
           the pathology is measured in. This may need to be inferred from the
           text, for example, "colitis" means the entity should be "colon".
+          A statement of "gastric antral-type mucosa" should be changed to
+          include only the anatomical entity, in this case "gastric mucosa".
           If this is not specified or cannot be inferred then this value must
           be "N/A".
         range: AnatomicalEntity
