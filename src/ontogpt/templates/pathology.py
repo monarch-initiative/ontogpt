@@ -211,21 +211,21 @@ class PathologyStatement(ConfiguredBaseModel):
     """
     linkml_meta: ClassVar[LinkMLMeta] = LinkMLMeta({'from_schema': 'http://w3id.org/ontogpt/pathology'})
 
-    diagnosis: Optional[str] = Field(None, description="""The diagnosis or pathology being described, for example, \"colitis\", \"inflammation\", or \"dysplasia\".""", json_schema_extra = { "linkml_meta": {'alias': 'diagnosis',
+    diagnosis: Optional[str] = Field(None, description="""The diagnosis or pathology being described, for example, \"colitis\", \"inflammation\", or \"dysplasia\". If not specified or cannot be identified (e.g., due to lack of tissue sample), this value must be \"N/A\".""", json_schema_extra = { "linkml_meta": {'alias': 'diagnosis',
          'annotations': {'prompt.example': {'tag': 'prompt.example',
                                             'value': 'colitis, inflammation, '
                                                      'dysplasia'}},
          'domain_of': ['PathologyStatement']} })
-    qualities: Optional[List[str]] = Field(None, description="""A semicolon-delimited list of properties being measured, or changes in this property, for example, severity, size, or color. If not specified, this value must be left blank.""", json_schema_extra = { "linkml_meta": {'alias': 'qualities', 'domain_of': ['PathologyStatement']} })
-    qualifier: Optional[str] = Field(None, description="""A semicolon-delimited list of descriptors other than those for severity. If not specified, this value must be left blank.""", json_schema_extra = { "linkml_meta": {'alias': 'qualifier',
+    qualities: Optional[List[str]] = Field(None, description="""A semicolon-delimited list of properties being measured, or changes in this property, for example, severity, size, or color. If not specified, this value must be \"N/A\".""", json_schema_extra = { "linkml_meta": {'alias': 'qualities', 'domain_of': ['PathologyStatement']} })
+    qualifier: Optional[str] = Field(None, description="""A semicolon-delimited list of descriptors other than those for severity. If not specified, this value must be \"N/A\".""", json_schema_extra = { "linkml_meta": {'alias': 'qualifier',
          'annotations': {'prompt.example': {'tag': 'prompt.example',
                                             'value': 'active, chronic, focal'}},
          'domain_of': ['Triple', 'PathologyStatement']} })
-    severity: Optional[str] = Field(None, description="""The severity of the pathology, for example, mild, moderate, or severe. If not specified, this value must be left blank.""", json_schema_extra = { "linkml_meta": {'alias': 'severity',
+    severity: Optional[str] = Field(None, description="""The severity of the pathology, for example, mild, moderate, or severe. If not specified, this value must be \"N/A\".""", json_schema_extra = { "linkml_meta": {'alias': 'severity',
          'annotations': {'prompt.example': {'tag': 'prompt.example',
                                             'value': 'mild, moderate, severe'}},
          'domain_of': ['PathologyStatement']} })
-    anatomical_entity: Optional[str] = Field(None, description="""The anatomical location or tissue that the pathology is measured in. This may need to be inferred from the text, for example, \"colitis\" means the entity should be \"colon\". If this is not specified or cannot be inferred then this value must be left blank.""", json_schema_extra = { "linkml_meta": {'alias': 'anatomical_entity',
+    anatomical_entity: Optional[str] = Field(None, description="""The anatomical location or tissue that the pathology is measured in. This may need to be inferred from the text, for example, \"colitis\" means the entity should be \"colon\". If this is not specified or cannot be inferred then this value must be \"N/A\".""", json_schema_extra = { "linkml_meta": {'alias': 'anatomical_entity',
          'annotations': {'prompt.example': {'tag': 'prompt.example',
                                             'value': 'duodenum, colonic mucosa, '
                                                      'liver'}},
