@@ -605,6 +605,15 @@
   
 </li>
         
+          <li class="md-nav__item">
+  <a href="#selectcols" class="md-nav__link">
+    <span class="md-ellipsis">
+      selectcols
+    </span>
+  </a>
+  
+</li>
+        
       </ul>
     </nav>
   
@@ -1955,6 +1964,15 @@
   
 </li>
         
+          <li class="md-nav__item">
+  <a href="#selectcols" class="md-nav__link">
+    <span class="md-ellipsis">
+      selectcols
+    </span>
+  </a>
+  
+</li>
+        
       </ul>
     </nav>
   
@@ -2283,7 +2301,12 @@
 <h3 id="inputfile">inputfile</h3>
 <p>Use the option <code>--inputfile</code> to specify a path to a file containing input text.</p>
 <p>For the <code>extract</code> command, this may be a single file or a directory of files.</p>
-<p>In the latter case, all .txt files will be assumed to be input, and the path will <em>not</em> be parsed recursively.</p>
+<p>In the latter case, all files in the following formats will be assumed to be input:</p>
+<pre><code class="language-txt">&quot;.csv&quot;, &quot;.tsv&quot;, &quot;.txt&quot;, &quot;.od&quot;, &quot;.odf&quot;, &quot;.ods&quot;, &quot;.pdf&quot;, &quot;.xls&quot;, &quot;.xlsx&quot;
+</code></pre>
+<p>The path will <em>not</em> be parsed recursively.</p>
+<p>When parsing PDF files, use the <code>use-pdf</code> option as described below.</p>
+<p>When parsing tabular files like tsv or xlsx, you may specify exact columns to load with the <code>selectcols</code> option as described below.</p>
 <h3 id="template">template</h3>
 <p>Use the option <code>--template</code> to specify a template to use. This is a required parameter.</p>
 <p>Only the name is required, without any filename suffix, unless you are using a custom schema for the first time. In that case, provide the path to the schema, including the .yaml file extension.</p>
@@ -2307,9 +2330,7 @@
 <p>Disable it with <code>--no-recurse</code>.</p>
 <h3 id="use-pdf">use-pdf</h3>
 <p>Use the option <code>use-pdf</code> to specify whether to extract text from a PDF.</p>
-<p>This is done through the <code>pymupdf</code> package, which also supports extracting text from EPUB, MOBI, DOCX, and more.</p>
-<p>See <a href="https://pymupdf.readthedocs.io/en/latest/about.html#about-feature-matrix">https://pymupdf.readthedocs.io/en/latest/about.html#about-feature-matrix</a> for the full list.</p>
-<p>Extraction from these file types is off by default.</p>
+<p>This is done through the <code>pymupdf</code> package.</p>
 <p>Example:</p>
 <pre><code class="language-bash">ontogpt extract -i temp/test1.pdf -m gpt-4o --use-pdf -t composite_disease --output-format json -o test.json
 </code></pre>
@@ -2363,6 +2384,11 @@ $ ontogpt complete -m llama-3 -i greeting.txt --system-message &quot;You are ver
 </code></pre>
 <p>Including an instruction like the following anecdotally helps to avoid parsing failures due to the LLM getting creative with result formatting:</p>
 <pre><code class="language-bash">--system-message &quot;You are going to extract information from text in the specified format. You will not deviate from the format; do not provide results in JSON format.&quot;
+</code></pre>
+<h3 id="selectcols">selectcols</h3>
+<p>Use the option <code>selectcols</code> to specify exact colums to use when parsing tabular files as input.</p>
+<p>Example:</p>
+<pre><code class="language-bash">ontogpt extract -t food -i inputs/myfile.tsv -o output.yaml --selectcols cheeses,grapes,flavors
 </code></pre>
 <h2 id="functions">Functions</h2>
 <h3 id="categorize-mappings">categorize-mappings</h3>
