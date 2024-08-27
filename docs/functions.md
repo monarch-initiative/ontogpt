@@ -38,7 +38,17 @@ Use the option `--inputfile` to specify a path to a file containing input text.
 
 For the `extract` command, this may be a single file or a directory of files.
 
-In the latter case, all .txt files will be assumed to be input, and the path will *not* be parsed recursively.
+In the latter case, all files in the following formats will be assumed to be input:
+
+```txt
+".csv", ".tsv", ".txt", ".od", ".odf", ".ods", ".pdf", ".xls", ".xlsx"
+```
+
+The path will *not* be parsed recursively.
+
+When parsing PDF files, use the `use-pdf` option as described below.
+
+When parsing tabular files like tsv or xlsx, you may specify exact columns to load with the `selectcols` option as described below.
 
 ### template
 
@@ -86,11 +96,7 @@ Disable it with `--no-recurse`.
 
 Use the option `use-pdf` to specify whether to extract text from a PDF.
 
-This is done through the `pymupdf` package, which also supports extracting text from EPUB, MOBI, DOCX, and more.
-
-See <https://pymupdf.readthedocs.io/en/latest/about.html#about-feature-matrix> for the full list.
-
-Extraction from these file types is off by default.
+This is done through the `pymupdf` package.
 
 Example:
 
@@ -184,6 +190,16 @@ Including an instruction like the following anecdotally helps to avoid parsing f
 
 ```bash
 --system-message "You are going to extract information from text in the specified format. You will not deviate from the format; do not provide results in JSON format."
+```
+
+### selectcols
+
+Use the option `selectcols` to specify exact colums to use when parsing tabular files as input.
+
+Example:
+
+```bash
+ontogpt extract -t food -i inputs/myfile.tsv -o output.yaml --selectcols cheeses,grapes,flavors
 ```
 
 ## Functions
