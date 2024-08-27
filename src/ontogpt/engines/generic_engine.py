@@ -1,4 +1,4 @@
-"""Generic engine."""
+"""Generic LLM interface engine."""
 
 import logging
 from copy import deepcopy

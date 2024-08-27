@@ -58,7 +58,7 @@ class KnowledgeEngine(ABC):
     Abstract base class for all knowledge engines.
 
     A Knowledge Engine is able to extract knowledge from text, utilizing
-    knowledge sources plus LLMs
+    knowledge sources plus LLMs.
     """
 
     template_details: tuple = None
