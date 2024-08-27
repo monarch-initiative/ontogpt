@@ -160,7 +160,10 @@ def write_extraction(
 
 
 def parse_input(
-    input: str, use_pdf: bool = False, return_dict: bool = False, selectcols: Optional[List[str]] = None
+    input: str,
+    use_pdf: bool = False,
+    return_dict: bool = False,
+    selectcols: Optional[List[str]] = None,
 ) -> Union[list, Dict[str, str]]:
     if selectcols is None:
         selectcols = []
@@ -168,23 +171,26 @@ def parse_input(
     if use_pdf:
         logging.info("Will parse input as PDF.")
 
+    inputfiles: List[Path]
+    parsedlist: Union[list, Dict[str, str]]
+
     if Path(input).is_dir():
         logging.info(f"Input file directory: {input}")
         if use_pdf:
-            inputfiles = Path(input).glob("*.pdf")
+            inputfiles = list(Path(input).glob("*.pdf"))
             if return_dict:
-                parsedlist = {f: parse_pdf_input(f) for f in inputfiles if f.is_file()}
+                parsedlist = {str(f): parse_pdf_input(str(f)) for f in inputfiles if f.is_file()}
             else:
-                parsedlist = [parse_pdf_input(f) for f in inputfiles if f.is_file()]
+                parsedlist = [parse_pdf_input(str(f)) for f in inputfiles if f.is_file()]
             logging.info(f"Parsed {len(parsedlist)} PDF files.")
         else:
-            inputfiles = []
+            inputfiles = []  # type: ignore
             for ext in VALID_INPUT_FORMATS:
                 inputfiles.extend(Path(input).glob(f"*{ext}"))
             if return_dict:
                 parsedlist = {
-                    f: (
-                        parse_tabular_input(f, selectcols)
+                    str(f): (
+                        parse_tabular_input(str(f), selectcols)
                         if Path(f).suffix in VALID_TABULAR_FORMATS
                         or Path(f).suffix in VALID_SPREADSHEET_FORMATS
                         else open(f, "r").read()
@@ -195,7 +201,7 @@ def parse_input(
             else:
                 parsedlist = [
                     (
-                        parse_tabular_input(f, selectcols)
+                        parse_tabular_input(str(f), selectcols)
                         if Path(f).suffix in VALID_TABULAR_FORMATS
                         or Path(f).suffix in VALID_SPREADSHEET_FORMATS
                         else open(f, "r").read()
@@ -213,7 +219,7 @@ def parse_input(
             Path(input).suffix in VALID_TABULAR_FORMATS
             or Path(input).suffix in VALID_SPREADSHEET_FORMATS
         ):
-            text = [parse_tabular_input(input, selectcols)]
+            text = parse_tabular_input(input, selectcols)
             logging.info(f"Input text: {text}")
         else:
             text = open(input, "rb").read().decode(encoding="utf-8", errors="ignore")
