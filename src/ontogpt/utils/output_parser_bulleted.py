@@ -1,4 +1,4 @@
-"""Output parser utilities for bulleted output."""
+"""Experimental output parser utilities for bulleted output."""
 
 import time
 from oaklib import get_adapter
@@ -23,9 +23,6 @@ NULL_VALS = [
 ]
 lines = []
 adapter = get_adapter("sqlite:obo:MONDO")
-# output_file = "output_2000_0719.yaml"
-# output_file = "output_100_0817.yaml"
-# output_file = "output_100_0818.yaml"
 output_file = "output_100.0911.yaml"
 
 
@@ -161,13 +158,9 @@ mondo_go = [x for x in mondo_go if x[0].startswith("MONDO:") and x[2].startswith
 
 forprint(mondo_go)
 
-# forprint(subjects_with_mondo)
-
 subjects_with_names = []
-# for elem in subjects_with_chebi:
+
 for elem in subjects_with_mondo:
     curr = [elem[:]]
     curr[0] = adapter.label(curr[0])
     subjects_with_names.append(curr)
-
-# forprint(subjects_with_names)

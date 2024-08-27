@@ -12,6 +12,7 @@ def split_on_one_of(text: str, separators: List[str]) -> List[str]:
             return text.split(sep)
     return [text]
 
+
 def get_section_of_interest(data, tag_of_interest):
     # I blame adobe
     # Find the index of the element that matches the case-insensitive regex pattern
