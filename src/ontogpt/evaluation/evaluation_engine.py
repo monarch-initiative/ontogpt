@@ -11,7 +11,7 @@ An evaluation engine incorporates different components to evaluate KE:
 """
 
 from dataclasses import dataclass
-from typing import List, Optional, Set, Type, Union 
+from typing import List, Optional, Set, Type, Union
 
 from oaklib import BasicOntologyInterface
 from pydantic import BaseModel
