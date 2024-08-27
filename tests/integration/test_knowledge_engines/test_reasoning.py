@@ -1,4 +1,5 @@
-"""Core tests."""
+"""Core tests for reasoning with knowledge engines."""
+
 import logging
 import unittest
 from typing import Iterator, List
@@ -145,7 +146,7 @@ class TestReasoning(unittest.TestCase):
         results = []
         for task in self.tasks():
             result = reasoner.reason(task)
-            print(yaml.dump(result.dict(), sort_keys=False))
+            print(yaml.dump(result.model_dump(), sort_keys=False))
             print(result.prompt)
             results.append(result)
             ReasonerResultSet(results=[result])
@@ -163,7 +164,7 @@ class TestReasoning(unittest.TestCase):
             task.include_explanations = True
             result = reasoner.reason(task)
             print(result.prompt)
-            print(yaml.dump(result.dict(), sort_keys=False))
+            print(yaml.dump(result.model_dump(), sort_keys=False))
             results.append(result)
         for result in results:
             print(
@@ -179,7 +180,7 @@ class TestReasoning(unittest.TestCase):
             task.chain_of_thought = True
             result = reasoner.reason(task)
             print(result.prompt)
-            print(yaml.dump(result.dict(), sort_keys=False))
+            print(yaml.dump(result.model_dump(), sort_keys=False))
             results.append(result)
         for result in results:
             print(
