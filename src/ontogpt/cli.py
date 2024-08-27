@@ -9,12 +9,11 @@ from copy import deepcopy
 from dataclasses import dataclass
 from io import BytesIO, TextIOWrapper
 from pathlib import Path
-from typing import Dict, Optional, Tuple, Union
+from typing import Dict, List, Optional, Tuple, Union
 
 import click
 import jsonlines
 import yaml
-
 from litellm import get_model_cost_map
 from oaklib import get_adapter
 from oaklib.cli import query_terms_iterator
@@ -50,12 +49,16 @@ __all__ = [
     "main",
 ]
 
-from ontogpt.io.owl_exporter import OWLExporter
-from ontogpt.io.rdf_exporter import RDFExporter
 from ontogpt.io.csv_exporter import CSVExporter
 from ontogpt.io.json_wrapper import dump_minimal_json
+from ontogpt.io.owl_exporter import OWLExporter
+from ontogpt.io.rdf_exporter import RDFExporter
 from ontogpt.io.yaml_wrapper import dump_minimal_yaml
 from ontogpt.templates.core import ExtractionResult
+
+VALID_INPUT_FORMATS = [".csv", ".tsv", ".txt", ".od", ".odf", ".ods", ".pdf", ".xls", ".xlsx"]
+VALID_TABULAR_FORMATS = [".csv", ".tsv"]
+VALID_SPREADSHEET_FORMATS = [".od", ".odf", ".ods", ".xls", ".xlsb", ".xlsm", ".xlsx"]
 
 
 @dataclass
@@ -156,6 +159,116 @@ def write_extraction(
             output.write(dump_minimal_yaml(results))  # type: ignore
 
 
+def parse_input(
+    input: str,
+    use_pdf: bool = False,
+    return_dict: bool = False,
+    selectcols: Optional[List[str]] = None,
+) -> Union[list, Dict[str, str]]:
+    if selectcols is None:
+        selectcols = []
+    """Parse input argument to use as one or more input texts."""
+    if use_pdf:
+        logging.info("Will parse input as PDF.")
+
+    inputfiles: List[Path]
+    parsedlist: Union[list, Dict[str, str]]
+
+    if Path(input).is_dir():
+        logging.info(f"Input file directory: {input}")
+        if use_pdf:
+            inputfiles = list(Path(input).glob("*.pdf"))
+            if return_dict:
+                parsedlist = {str(f): parse_pdf_input(str(f)) for f in inputfiles if f.is_file()}
+            else:
+                parsedlist = [parse_pdf_input(str(f)) for f in inputfiles if f.is_file()]
+            logging.info(f"Parsed {len(parsedlist)} PDF files.")
+        else:
+            inputfiles = []  # type: ignore
+            for ext in VALID_INPUT_FORMATS:
+                inputfiles.extend(Path(input).glob(f"*{ext}"))
+            if return_dict:
+                parsedlist = {
+                    str(f): (
+                        parse_tabular_input(str(f), selectcols)
+                        if Path(f).suffix in VALID_TABULAR_FORMATS
+                        or Path(f).suffix in VALID_SPREADSHEET_FORMATS
+                        else open(f, "r").read()
+                    )
+                    for f in inputfiles
+                    if f.is_file()
+                }
+            else:
+                parsedlist = [
+                    (
+                        parse_tabular_input(str(f), selectcols)
+                        if Path(f).suffix in VALID_TABULAR_FORMATS
+                        or Path(f).suffix in VALID_SPREADSHEET_FORMATS
+                        else open(f, "r").read()
+                    )
+                    for f in inputfiles
+                    if f.is_file()
+                ]
+            logging.info(f"Parsed {len(parsedlist)} files.")
+    elif Path(input).exists():
+        logging.info(f"Input file: {input}")
+        if use_pdf:
+            text = parse_pdf_input(input)
+            logging.info(f"Input text: {len(text)} characters.")
+        elif (
+            Path(input).suffix in VALID_TABULAR_FORMATS
+            or Path(input).suffix in VALID_SPREADSHEET_FORMATS
+        ):
+            text = parse_tabular_input(input, selectcols)
+            logging.info(f"Input text: {text}")
+        else:
+            text = open(input, "rb").read().decode(encoding="utf-8", errors="ignore")
+            logging.info(f"Input text: {text}")
+        parsedlist = [text]
+    else:
+        logging.info(f"Input text: {input}")
+        parsedlist = [input]
+    # If we still have a list, make it a dict, but assume the only item is the input
+    if return_dict and isinstance(parsedlist, list) and parsedlist:
+        return {"input": parsedlist[0]}
+    return parsedlist
+
+
+def parse_pdf_input(inputpath: str) -> str:
+    """Parse input filepath to a PDF document and return text."""
+    import pymupdf
+
+    doc = pymupdf.open(inputpath)
+    text = ""
+    for page in doc:
+        text = text + (page.get_text())
+    return text
+
+
+def parse_tabular_input(inputpath: str, selectcols: List[str]) -> str:
+    """Parse input filepath to a spreadsheet or other tabular values and return text.
+
+    The selectcols argument is a list of column names to select from the input file.
+    """
+    import pandas as pd
+
+    if len(selectcols) == 0:
+        usecols = None
+    else:
+        usecols = selectcols
+
+    if Path(inputpath).suffix in VALID_TABULAR_FORMATS:
+        df = pd.read_csv(
+            inputpath, usecols=usecols, sep="\t" if Path(inputpath).suffix == ".tsv" else ","
+        )
+    elif Path(inputpath).suffix in VALID_SPREADSHEET_FORMATS:
+        df = pd.read_excel(io=inputpath, usecols=usecols)
+    text = ""
+    for col in df.columns:
+        text += "\t".join(df[col].astype(str)) + "\n"
+    return text
+
+
 inputfile_option = click.option("-i", "--inputfile", help="Path to a file containing input text.")
 template_option = click.option(
     "-t",
@@ -245,6 +358,10 @@ system_message_option = click.option(
     "--system-message",
     help="System message to provide to the LLM, e.g., 'You will extract knowledge from this text.'",
 )
+selectcols_option = click.option(
+    "--selectcols",
+    help="Columns to select from tabular input, e.g. --selectcols name,description",
+)
 
 
 @click.group()
@@ -297,6 +414,7 @@ def main(verbose: int, quiet: bool, cache_db: str):
 @system_message_option
 @temperature_option
 @cut_input_text_option
+@selectcols_option
 def extract(
     inputfile,
     template,
@@ -315,6 +433,7 @@ def extract(
     api_version,
     model_provider,
     system_message,
+    selectcols,
     **kwargs,
 ):
     """Extract knowledge from text guided by schema, using SPIRES engine.
@@ -345,31 +464,15 @@ def extract(
     if not model:
         model = DEFAULT_MODEL
 
-    inputlist = []
-
     if not inputfile or inputfile == "-":
         text = sys.stdin.read()
-        inputlist.append(text)
-    elif inputfile and Path(inputfile).is_dir():
-        logging.info(f"Input file directory: {inputfile}")
-        inputfiles = Path(inputfile).glob("*.txt")
-        inputlist = [open(f, "r").read() for f in inputfiles if f.is_file()]
-        logging.info(f"Found {len(inputlist)} input files here.")
-    elif inputfile and Path(inputfile).exists():
-        logging.info(f"Input file: {inputfile}")
-        if use_pdf:
-            import pymupdf
-
-            doc = pymupdf.open(inputfile)
-            text = ""
-            for page in doc:
-                text = text + (page.get_text())
-        else:
-            text = open(inputfile, "rb").read().decode(encoding="utf-8", errors="ignore")
-        logging.info(f"Input text: {text}")
-        inputlist.append(text)
+        inputlist = [text]
     elif inputfile and not Path(inputfile).exists():
         raise FileNotFoundError(f"Cannot find input file {inputfile}")
+    else:
+        inputlist = parse_input(
+            input=inputfile, use_pdf=use_pdf, return_dict=False, selectcols=selectcols
+        )
 
     if template:
         template_details = get_template_details(template=template)
@@ -1122,6 +1225,7 @@ def synonyms(
 @api_version_option
 @model_provider_option
 @system_message_option
+@selectcols_option
 @click.argument("topic")
 def classify_by_topic(
     inputfile,
@@ -1133,6 +1237,7 @@ def classify_by_topic(
     system_message,
     topic,
     use_pdf,
+    selectcols,
 ):
     """Classify input text by topic.
 
@@ -1153,31 +1258,15 @@ def classify_by_topic(
     if not model:
         model = DEFAULT_MODEL
 
-    inputdict = {}
-
     if not inputfile or inputfile == "-":
         text = sys.stdin.read()
-        inputdict["Input"] = text
-    elif inputfile and Path(inputfile).is_dir():
-        logging.info(f"Input file directory: {inputfile}")
-        inputfiles = Path(inputfile).glob("*.txt")
-        inputdict = {f: (open(f, "r").read()) for f in inputfiles if f.is_file()}
-        logging.info(f"Found {len(inputdict)} input files here.")
-    elif inputfile and Path(inputfile).exists():
-        logging.info(f"Input file: {inputfile}")
-        if use_pdf:
-            import pymupdf
-
-            doc = pymupdf.open(inputfile)
-            text = ""
-            for page in doc:
-                text = text + (page.get_text())
-        else:
-            text = open(inputfile, "rb").read().decode(encoding="utf-8", errors="ignore")
-        logging.info(f"Input text: {text}")
-        inputdict[inputfile] = text
+        inputdict = {"input": text}
     elif inputfile and not Path(inputfile).exists():
         raise FileNotFoundError(f"Cannot find input file {inputfile}")
+    else:
+        inputdict = parse_input(
+            input=inputfile, use_pdf=use_pdf, return_dict=True, selectcols=selectcols
+        )
 
     ke = TopicClassifierEngine(
         model=model,
