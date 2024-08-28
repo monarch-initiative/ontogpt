@@ -364,7 +364,6 @@ selectcols_option = click.option(
 )
 max_text_length_option = click.option(
     "--max-text-length",
-    default=10000,
     help="Maximum text length in characters for each input chunk. Dependent on context size of model used.",
 )
 
@@ -419,6 +418,7 @@ def main(verbose: int, quiet: bool, cache_db: str):
 @temperature_option
 @cut_input_text_option
 @selectcols_option
+@max_text_length_option
 def extract(
     inputfile,
     template,
@@ -438,6 +438,7 @@ def extract(
     model_provider,
     system_message,
     selectcols,
+    max_text_length,
     **kwargs,
 ):
     """Extract knowledge from text guided by schema, using SPIRES engine.
