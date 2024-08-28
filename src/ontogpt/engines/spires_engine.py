@@ -102,7 +102,7 @@ class SPIRESEngine(KnowledgeEngine):
                     extracted_object = next_object
                 else:
                     # If the input is too small, which may happen with chunking,
-                    # there may be an extracted object but it's empty,
+                    # there may be a new extracted object but it's empty,
                     # raising an AttributeError on items.
                     try:
                         for k, v in next_object.items():
