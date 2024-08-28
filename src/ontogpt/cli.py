@@ -735,7 +735,9 @@ def pubmed_annotate(
 
     pubmed_annotate_limit = limit
     pmc = PubmedClient()
-    pmc.max_text_length = max_text_length
+    if max_text_length:
+        logging.info(f"Using max text length of {max_text_length} - each input will be chunked.")
+        pmc.max_text_length = max_text_length
     pmids = pmc.get_pmids(search)
     if get_pmc:
         logging.info("Will try to retrieve PubMed Central texts.")

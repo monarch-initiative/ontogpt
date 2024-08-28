@@ -83,7 +83,7 @@ class PubmedClient:
     # The maximum length of text, in characters, to include in
     # a single input chunk. This may be set in the CLI
     # with the max_text_length option.
-    max_text_length: int = 10000
+    max_text_length: int = 0
 
     try:
         email = get_apikey_value("ncbi-email")
@@ -343,12 +343,15 @@ class PubmedClient:
         txt = []
         onetxt = ""
         for doc in these_docs:
-            if len(doc) > self.max_text_length and not raw:
-                logging.warning(
-                    f'Truncating entry beginning "{doc[:50]}" to {str(self.max_text_length)} chars'
-                )
-                shortdoc = doc[0 : self.max_text_length]
-                txt.append(shortdoc)
+            if self.max_text_length > 0:
+                if len(doc) > self.max_text_length and not raw:
+                    logging.warning(
+                        f'Truncating entry beginning "{doc[:50]}" to {str(self.max_text_length)} chars'
+                    )
+                    shortdoc = doc[0 : self.max_text_length]
+                    txt.append(shortdoc)
+                else:
+                    txt.append(doc)
             else:
                 txt.append(doc)
             if singledoc and not pubmedcental:
