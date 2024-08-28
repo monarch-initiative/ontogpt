@@ -17,6 +17,8 @@ logger = logging.getLogger(__name__)
 # Just get the part before the slash in each model name
 SERVICES = {model.split("/")[0] for model in MODELS.keys() if len(model.split("/")) > 1}
 
+# Necessary to avoid repeated debug messages
+litellm.suppress_debug_info = True
 
 @dataclass
 class LLMClient:
