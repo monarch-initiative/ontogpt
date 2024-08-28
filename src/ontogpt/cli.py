@@ -362,7 +362,11 @@ selectcols_option = click.option(
     "--selectcols",
     help="Columns to select from tabular input, e.g. --selectcols name,description",
 )
-
+max_text_length_option = click.option(
+    "--max-text-length",
+    default=10000,
+    help="Maximum text length in characters for each input chunk. Dependent on context size of model used.",
+)
 
 @click.group()
 @click.option("-v", "--verbose", count=True)
@@ -681,11 +685,7 @@ def iteratively_generate_extract(
 @api_version_option
 @model_provider_option
 @system_message_option
-@click.option(
-    "--max-text-length",
-    default=3000,
-    help="Maximum text length for each input chunk. Dependent on context size of model used.",
-)
+@max_text_length_option
 @click.argument("search")
 def pubmed_annotate(
     model,
