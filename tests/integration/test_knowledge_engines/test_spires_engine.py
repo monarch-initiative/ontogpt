@@ -8,7 +8,7 @@ from oaklib import get_implementation_from_shorthand
 
 from ontogpt.clients.pubmed_client import PubmedClient
 from ontogpt.engines import create_engine
-from ontogpt.engines.knowledge_engine import chunk_text
+from ontogpt.engines.knowledge_engine import chunk_text_by_sentence
 from ontogpt.engines.spires_engine import SPIRESEngine
 from ontogpt.io.template_loader import get_template_details
 from ontogpt.io.yaml_wrapper import dump_minimal_yaml
@@ -346,7 +346,7 @@ class TestCore(unittest.TestCase):
     def test_chunk_text(self):
         """Test chunking."""
         text = "Title: foo. Abstract: Sentence 1. Sentence 2.\n Sentence 3. Sentence 4."
-        chunks = list(chunk_text(text))
+        chunks = list(chunk_text_by_sentence(text))
         for chunk in chunks:
             print(chunk)
         self.assertEqual(len(chunks), 4)

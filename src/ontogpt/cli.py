@@ -364,6 +364,7 @@ selectcols_option = click.option(
 )
 max_text_length_option = click.option(
     "--max-text-length",
+    type=click.INT,
     help="Maximum text length in characters for each input chunk. Dependent on context size of model used.",
 )
 
@@ -492,6 +493,7 @@ def extract(
         api_version=api_version,
         model_provider=model_provider,
         system_message=system_message,
+        max_text_length=max_text_length,
         **kwargs,
     )
     if settings.cache_db:

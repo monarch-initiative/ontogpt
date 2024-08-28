@@ -29,7 +29,8 @@ from ontogpt.engines.knowledge_engine import (
     FIELD,
     OBJECT,
     KnowledgeEngine,
-    chunk_text,
+    chunk_text_by_char,
+    chunk_text_by_sentence,
 )
 from ontogpt.io.yaml_wrapper import dump_minimal_yaml
 from ontogpt.templates.core import ExtractionResult
@@ -58,6 +59,9 @@ class SPIRESEngine(KnowledgeEngine):
     where this determines the maximum number of sentences per chain.
     The results are then merged together."""
 
+    max_text_length: Optional[int] = None
+    """If set, this will split the text into chunks based on this number of characters."""
+
     def extract_from_text(
         self,
         text: str,
@@ -75,8 +79,18 @@ class SPIRESEngine(KnowledgeEngine):
         """
         self.extracted_named_entities = []  # Clear the named entity buffer
 
+        # This indicates that the text will be chunked in some way
+        have_chunks = False
+
         if self.sentences_per_window:
-            chunks = chunk_text(text, self.sentences_per_window)
+            chunks = chunk_text_by_sentence(text, self.sentences_per_window)
+            have_chunks = True
+
+        if self.max_text_length:
+            chunks = chunk_text_by_char(text, self.max_text_length)
+            have_chunks = True
+
+        if have_chunks:
             extracted_object = None
             for chunk in chunks:
                 raw_text = self._raw_extract(chunk, cls=cls, object=object, show_prompt=show_prompt)
@@ -87,14 +101,20 @@ class SPIRESEngine(KnowledgeEngine):
                 if extracted_object is None:
                     extracted_object = next_object
                 else:
-                    for k, v in next_object.items():
-                        if isinstance(v, list):
-                            extracted_object[k] += v
-                        else:
-                            if k not in extracted_object:
-                                extracted_object[k] = v
+                    # If the input is too small, which may happen with chunking,
+                    # there may be an extracted object but it's empty,
+                    # raising an AttributeError on items.
+                    try:
+                        for k, v in next_object.items():
+                            if isinstance(v, list):
+                                extracted_object[k] += v
                             else:
-                                extracted_object[k] = v
+                                if k not in extracted_object:
+                                    extracted_object[k] = v
+                                else:
+                                    extracted_object[k] = v
+                    except AttributeError:
+                        logging.error(f"Empty object: {next_object}")
         else:
             raw_text = self._raw_extract(text=text, cls=cls, object=object, show_prompt=show_prompt)
             logging.info(f"RAW TEXT: {raw_text}")
