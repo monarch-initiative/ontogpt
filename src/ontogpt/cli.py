@@ -365,8 +365,10 @@ selectcols_option = click.option(
 max_text_length_option = click.option(
     "--max-text-length",
     type=click.INT,
-    help="Maximum text length in characters for each input chunk. Dependent on context size of model used.",
+    help="Maximum text length in characters for each input chunk."
+    " By default, the entire input is passed to the model.",
 )
+
 
 @click.group()
 @click.option("-v", "--verbose", count=True)
