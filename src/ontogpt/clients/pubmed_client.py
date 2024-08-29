@@ -345,8 +345,9 @@ class PubmedClient:
         for doc in these_docs:
             if self.max_text_length > 0:
                 if len(doc) > self.max_text_length and not raw:
+                    charnum = str(self.max_text_length)
                     logging.warning(
-                        f'Truncating entry beginning "{doc[:50]}" to {str(self.max_text_length)} chars'
+                        f'Truncating entry beginning "{doc[:50]}" to {charnum} chars'
                     )
                     shortdoc = doc[0 : self.max_text_length]
                     txt.append(shortdoc)
