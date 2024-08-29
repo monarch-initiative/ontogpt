@@ -362,6 +362,12 @@ selectcols_option = click.option(
     "--selectcols",
     help="Columns to select from tabular input, e.g. --selectcols name,description",
 )
+max_text_length_option = click.option(
+    "--max-text-length",
+    type=click.INT,
+    help="Maximum text length in characters for each input chunk."
+    " By default, the entire input is passed to the model.",
+)
 
 
 @click.group()
@@ -415,6 +421,7 @@ def main(verbose: int, quiet: bool, cache_db: str):
 @temperature_option
 @cut_input_text_option
 @selectcols_option
+@max_text_length_option
 def extract(
     inputfile,
     template,
@@ -434,6 +441,7 @@ def extract(
     model_provider,
     system_message,
     selectcols,
+    max_text_length,
     **kwargs,
 ):
     """Extract knowledge from text guided by schema, using SPIRES engine.
@@ -487,6 +495,7 @@ def extract(
         api_version=api_version,
         model_provider=model_provider,
         system_message=system_message,
+        max_text_length=max_text_length,
         **kwargs,
     )
     if settings.cache_db:
@@ -681,11 +690,7 @@ def iteratively_generate_extract(
 @api_version_option
 @model_provider_option
 @system_message_option
-@click.option(
-    "--max-text-length",
-    default=3000,
-    help="Maximum text length for each input chunk. Dependent on context size of model used.",
-)
+@max_text_length_option
 @click.argument("search")
 def pubmed_annotate(
     model,
@@ -734,7 +739,9 @@ def pubmed_annotate(
 
     pubmed_annotate_limit = limit
     pmc = PubmedClient()
-    pmc.max_text_length = max_text_length
+    if max_text_length:
+        logging.info(f"Using max text length of {max_text_length} - each input will be chunked.")
+        pmc.max_text_length = max_text_length
     pmids = pmc.get_pmids(search)
     if get_pmc:
         logging.info("Will try to retrieve PubMed Central texts.")

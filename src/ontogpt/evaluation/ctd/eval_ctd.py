@@ -32,7 +32,7 @@ from bioc import biocxml
 from oaklib import BasicOntologyInterface, get_adapter
 from pydantic import BaseModel
 
-from ontogpt.engines.knowledge_engine import chunk_text
+from ontogpt.engines.knowledge_engine import chunk_text_by_sentence
 from ontogpt.engines.spires_engine import SPIRESEngine
 from ontogpt.evaluation.evaluation_engine import SimilarityScore, SPIRESEvaluationEngine
 from ontogpt.templates.ctd import (
@@ -220,7 +220,7 @@ class EvalCTD(SPIRESEvaluationEngine):
             ke.named_entities = []  # This stores the NEs the extractor knows about
 
             if self.chunking:
-                text_list = chunk_text(text)
+                text_list = chunk_text_by_sentence(text)
             else:
                 text_list = iter([text])
 
