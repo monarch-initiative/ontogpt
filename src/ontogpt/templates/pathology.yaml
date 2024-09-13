@@ -27,6 +27,14 @@ imports:
 # This may require instructions to reprocess the text to be more like SNOMED, e.g.,
 # "hepatitis" doesn't have a specific term but maybe inflammation is appropriate
 
+# TODO: Add slot to represent case of benign tissue, e.g., "benign colonic mucosa"
+
+# TODO: For SNOMED, exclude qualifiers
+
+# TODO: Add more annotators (NCIT, MeSH, MONDO, DO, ICD10)
+
+# TODO: Include final classification of the overall pathology
+
 classes:
 
   PathologyReport:
