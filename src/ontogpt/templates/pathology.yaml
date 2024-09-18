@@ -27,8 +27,6 @@ imports:
 # This may require instructions to reprocess the text to be more like SNOMED, e.g.,
 # "hepatitis" doesn't have a specific term but maybe inflammation is appropriate
 
-# TODO: Include final classification of the overall pathology
-
 classes:
 
   PathologyReport:
