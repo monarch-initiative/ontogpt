@@ -71,7 +71,8 @@ classes:
           full diagnoses or observations, for example, "colitis",
           "inflammation", "dysplasia", "polyp". If not specified or cannot be
           identified (e.g., due to lack of tissue sample), this value must be
-          "N/A".
+          "N/A". Do not include qualifiers in this field, e.g., "active colitis"
+          should be "colitis".
         range: Diagnosis
         annotations:
           prompt.example: colitis, inflammation, dysplasia
@@ -117,7 +118,7 @@ classes:
     id_prefixes:
       - SNOMEDCT
     annotations:
-      annotators: bioportal:SNOMEDCT
+      annotators: bioportal:SNOMEDCT, bioportal:ICD10CM, sqlite:obo:ncit, sqlite:obo:mesh, sqlite:obo:mondo
 
   AnatomicalEntity:
     is_a: NamedEntity
