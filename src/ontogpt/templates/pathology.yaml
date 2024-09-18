@@ -29,11 +29,7 @@ imports:
 
 # TODO: Add slot to represent case of benign tissue, e.g., "benign colonic mucosa"
 
-# TODO: For SNOMED, exclude qualifiers
-
 # TODO: Include final classification of the overall pathology
-
-# TODO: SNOMEDCT:385432009 is properly grounded from "N/A" but it should be kept as N/A
 
 classes:
 
@@ -116,6 +112,7 @@ classes:
     is_a: NamedEntity
     id_prefixes:
       - SNOMEDCT
+      - ICD10CM
     annotations:
       annotators: bioportal:SNOMEDCT, bioportal:ICD10CM, sqlite:obo:ncit, sqlite:obo:mesh, sqlite:obo:mondo
 
