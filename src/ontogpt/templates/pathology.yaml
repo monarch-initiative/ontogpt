@@ -65,6 +65,8 @@ classes:
           more severe pathologies. If not specified, this value must be
           "Not Specified". Examples: gastric intestinal metaplasia,
           ulceration, lymphangiectasia
+        range: string
+        multivalued: true
       overall_classification:
         description: >-
           The final classification of the overall pathology. This must be one of
