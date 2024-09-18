@@ -87,6 +87,34 @@ class NullDataOptions(str, Enum):
     NOT_MENTIONED = "NOT_MENTIONED"
 
 
+class SeverityLevel(str, Enum):
+    """
+    The severity of a pathology.
+    """
+    # A pathology that is mild in severity.
+    mild = "mild"
+    # A pathology that is moderate in severity.
+    moderate = "moderate"
+    # A pathology that is severe in severity.
+    severe = "severe"
+    # The severity of the pathology is not specified.
+    Not_Specified = "Not Specified"
+
+
+class PathologyClassification(str, Enum):
+    """
+    The final classification of the overall pathology.
+    """
+    # The final classification of the overall pathology is unclear.
+    Unclear = "Unclear"
+    # The final classification of the overall pathology is benign.
+    Benign = "Benign"
+    # The final classification of the overall pathology is malignant.
+    Malignant = "Malignant"
+    # The final classification of the overall pathology is inflammation.
+    Inflammation = "Inflammation"
+
+
 
 class ExtractionResult(ConfiguredBaseModel):
     """
@@ -203,6 +231,12 @@ class PathologyReport(ConfiguredBaseModel):
     linkml_meta: ClassVar[LinkMLMeta] = LinkMLMeta({'from_schema': 'http://w3id.org/ontogpt/pathology', 'tree_root': True})
 
     pathology_statements: Optional[List[PathologyStatement]] = Field(None, description="""A semicolon-delimited list of pathology statements, each describing a pathology, including any diagnoses, one or more specific qualities being measured and the anatomical location or tissue the pathology is measured in. If any of the pathology statements are negative, the negation should be included in each statment, e.g., \"no granulomas or viropathic changes\" should become \"no granulomas\" and \"no viropathic changes\".""", json_schema_extra = { "linkml_meta": {'alias': 'pathology_statements', 'domain_of': ['PathologyReport']} })
+    is_benign: Optional[str] = Field(None, description="""Whether the overall pathology appears to be benign and not malignant. Other pathologies may be present, but if tissue is described as benign and/or if a carcinoma is explicitly excluded, this value should be true. A statement of \"no significant pathologic abnormality\" or the short form \"nspa\" would also have a value of true. It it otherwise false.""", json_schema_extra = { "linkml_meta": {'alias': 'is_benign',
+         'annotations': {'prompt.example': {'tag': 'prompt.example',
+                                            'value': 'true, false'}},
+         'domain_of': ['PathologyReport']} })
+    risks: Optional[List[str]] = Field(None, description="""A semicolon-delimited list of risks for development of more severe pathologies. If not specified, this value must be \"Not Specified\". Examples: gastric intestinal metaplasia, ulceration, lymphangiectasia""", json_schema_extra = { "linkml_meta": {'alias': 'risks', 'domain_of': ['PathologyReport']} })
+    overall_classification: Optional[PathologyClassification] = Field(None, description="""The final classification of the overall pathology. This must be one of the following: \"Unclear\", \"Benign\", \"Malignant\", or \"Inflammation\".""", json_schema_extra = { "linkml_meta": {'alias': 'overall_classification', 'domain_of': ['PathologyReport']} })
 
 
 class PathologyStatement(ConfiguredBaseModel):
@@ -211,16 +245,16 @@ class PathologyStatement(ConfiguredBaseModel):
     """
     linkml_meta: ClassVar[LinkMLMeta] = LinkMLMeta({'from_schema': 'http://w3id.org/ontogpt/pathology'})
 
-    diagnosis: Optional[str] = Field(None, description="""The diagnosis or pathology being described. This may include full diagnoses or observations, for example, \"colitis\", \"inflammation\", \"dysplasia\", \"polyp\". If not specified or cannot be identified (e.g., due to lack of tissue sample), this value must be \"N/A\".""", json_schema_extra = { "linkml_meta": {'alias': 'diagnosis',
+    diagnosis: Optional[str] = Field(None, description="""The diagnosis or pathology being described. This may include full diagnoses or observations, for example, \"colitis\", \"inflammation\", \"dysplasia\", \"polyp\". If not specified, this value must be \"Not Specified\". If a diagnosis cannot be reached (e.g., due to lack of tissue sample), this value must be \"No Diagnosis\". Do not include qualifiers in this field, e.g., \"active colitis\" should be \"colitis\".""", json_schema_extra = { "linkml_meta": {'alias': 'diagnosis',
          'annotations': {'prompt.example': {'tag': 'prompt.example',
                                             'value': 'colitis, inflammation, '
                                                      'dysplasia'}},
          'domain_of': ['PathologyStatement']} })
-    qualifiers: Optional[List[str]] = Field(None, description="""A semicolon-delimited list of descriptors other than those for severity. If not specified, this value must be \"N/A\".""", json_schema_extra = { "linkml_meta": {'alias': 'qualifiers',
+    qualifiers: Optional[List[str]] = Field(None, description="""A semicolon-delimited list of descriptors other than those for severity. If not specified, this value must be \"Not Specified\".""", json_schema_extra = { "linkml_meta": {'alias': 'qualifiers',
          'annotations': {'prompt.example': {'tag': 'prompt.example',
                                             'value': 'active, chronic, focal'}},
          'domain_of': ['PathologyStatement']} })
-    severity: Optional[str] = Field(None, description="""The severity of the pathology, for example, mild, moderate, or severe. If not specified, this value must be \"N/A\".""", json_schema_extra = { "linkml_meta": {'alias': 'severity',
+    severity: Optional[SeverityLevel] = Field(None, description="""The severity of the pathology, for example, mild, moderate, or severe. If not specified, this value must be \"N/A\".""", json_schema_extra = { "linkml_meta": {'alias': 'severity',
          'annotations': {'prompt.example': {'tag': 'prompt.example',
                                             'value': 'mild, moderate, severe'}},
          'domain_of': ['PathologyStatement']} })
@@ -229,7 +263,7 @@ class PathologyStatement(ConfiguredBaseModel):
                                             'value': 'duodenum, colonic mucosa, '
                                                      'liver'}},
          'domain_of': ['PathologyStatement']} })
-    negative: Optional[str] = Field(None, description="""Whether the pathology is negative or not present. A statement of \"no significant pathologic abnormality\" or the short form \"nspa\" would have a value of true.""", json_schema_extra = { "linkml_meta": {'alias': 'negative',
+    negative: Optional[str] = Field(None, description="""Whether the pathology is negative or not present. This must be explicitly stated in the input, e.g., \"no granulomas\", in order to be true. It is otherwise false.""", json_schema_extra = { "linkml_meta": {'alias': 'negative',
          'annotations': {'prompt.example': {'tag': 'prompt.example',
                                             'value': 'true, false'}},
          'domain_of': ['PathologyStatement']} })
@@ -237,9 +271,11 @@ class PathologyStatement(ConfiguredBaseModel):
 
 class Diagnosis(NamedEntity):
     linkml_meta: ClassVar[LinkMLMeta] = LinkMLMeta({'annotations': {'annotators': {'tag': 'annotators',
-                                        'value': 'bioportal:SNOMEDCT'}},
+                                        'value': 'bioportal:SNOMEDCT, '
+                                                 'bioportal:ICD10CM, sqlite:obo:ncit, '
+                                                 'sqlite:obo:mesh, sqlite:obo:mondo'}},
          'from_schema': 'http://w3id.org/ontogpt/pathology',
-         'id_prefixes': ['SNOMEDCT']})
+         'id_prefixes': ['SNOMEDCT', 'ICD10CM']})
 
     id: str = Field(..., description="""A unique identifier for the named entity""", json_schema_extra = { "linkml_meta": {'alias': 'id',
          'annotations': {'prompt.skip': {'tag': 'prompt.skip', 'value': 'true'}},
@@ -271,6 +307,24 @@ class AnatomicalEntity(NamedEntity):
          'slot_uri': 'rdfs:label'} })
 
 
+class Qualifier(NamedEntity):
+    linkml_meta: ClassVar[LinkMLMeta] = LinkMLMeta({'annotations': {'annotators': {'tag': 'annotators',
+                                        'value': 'sqlite:obo:pato'}},
+         'from_schema': 'http://w3id.org/ontogpt/pathology',
+         'id_prefixes': ['PATO']})
+
+    id: str = Field(..., description="""A unique identifier for the named entity""", json_schema_extra = { "linkml_meta": {'alias': 'id',
+         'annotations': {'prompt.skip': {'tag': 'prompt.skip', 'value': 'true'}},
+         'comments': ['this is populated during the grounding and normalization step'],
+         'domain_of': ['NamedEntity', 'Publication']} })
+    label: Optional[str] = Field(None, description="""The label (name) of the named thing""", json_schema_extra = { "linkml_meta": {'alias': 'label',
+         'aliases': ['name'],
+         'annotations': {'owl': {'tag': 'owl',
+                                 'value': 'AnnotationProperty, AnnotationAssertion'}},
+         'domain_of': ['NamedEntity'],
+         'slot_uri': 'rdfs:label'} })
+
+
 # Model rebuild
 # see https://pydantic-docs.helpmanual.io/usage/models/#rebuilding-a-model
 ExtractionResult.model_rebuild()
@@ -286,4 +340,5 @@ PathologyReport.model_rebuild()
 PathologyStatement.model_rebuild()
 Diagnosis.model_rebuild()
 AnatomicalEntity.model_rebuild()
+Qualifier.model_rebuild()
 

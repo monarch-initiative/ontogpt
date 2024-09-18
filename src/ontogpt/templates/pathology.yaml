@@ -27,6 +27,10 @@ imports:
 # This may require instructions to reprocess the text to be more like SNOMED, e.g.,
 # "hepatitis" doesn't have a specific term but maybe inflammation is appropriate
 
+# TODO: tune the risk factor list, it seems to identify negative instances as present
+# e.g. "gastric antral-type mucosa with reactive gastropathy; no helicobacter organisms, intestinal metaplasia or dysplasia; see comment."
+# identifies "gastric intestinal metaplasia" as a risk factor
+
 classes:
 
   PathologyReport:
@@ -48,6 +52,30 @@ classes:
           changes".
         range: PathologyStatement
         multivalued: true
+      is_benign:
+        description: >-
+          Whether the overall pathology appears to be benign and not malignant.
+          Other pathologies may be present, but if tissue is described as
+          benign and/or if a carcinoma is explicitly excluded, this value should
+          be true. A statement of "no significant pathologic abnormality"
+          or the short form "nspa" would also have a value of true.
+          It it otherwise false.
+        range: string
+        annotations:
+          prompt.example: true, false
+      risks:
+        description: >-
+          A semicolon-delimited list of risks for development of
+          more severe pathologies. If not specified, this value must be
+          "Not Specified". Examples: gastric intestinal metaplasia,
+          ulceration, lymphangiectasia
+        range: string
+        multivalued: true
+      overall_classification:
+        description: >-
+          The final classification of the overall pathology. This must be one of
+          the following: "Unclear", "Benign", "Malignant", or "Inflammation".
+        range: PathologyClassification
 
   PathologyStatement:
     description: >-
@@ -59,17 +87,19 @@ classes:
         description: >-
           The diagnosis or pathology being described. This may include
           full diagnoses or observations, for example, "colitis",
-          "inflammation", "dysplasia", "polyp". If not specified or cannot be
-          identified (e.g., due to lack of tissue sample), this value must be
-          "N/A".
+          "inflammation", "dysplasia", "polyp". If not specified, this value
+          must be "Not Specified". If a diagnosis cannot be reached
+          (e.g., due to lack of tissue sample), this value must be
+          "No Diagnosis". Do not include qualifiers in this field,
+          e.g., "active colitis" should be "colitis".
         range: Diagnosis
         annotations:
           prompt.example: colitis, inflammation, dysplasia
       qualifiers:
         description: >-
           A semicolon-delimited list of descriptors other than those for
-          severity. If not specified, this value must be "N/A".
-        range: string
+          severity. If not specified, this value must be "Not Specified".
+        range: Qualifier
         annotations:
           prompt.example: active, chronic, focal
         multivalued: true
@@ -77,7 +107,7 @@ classes:
         description: >-
           The severity of the pathology, for example, mild, moderate, or severe.
           If not specified, this value must be "N/A".
-        range: string
+        range: SeverityLevel
         annotations:
           prompt.example: mild, moderate, severe
       anatomical_entities:
@@ -95,9 +125,9 @@ classes:
         multivalued: true
       negative:
         description: >-
-          Whether the pathology is negative or not present. A statement of
-          "no significant pathologic abnormality" or the short form "nspa"
-          would have a value of true.
+          Whether the pathology is negative or not present. This must be
+          explicitly stated in the input, e.g., "no granulomas", in order
+          to be true. It is otherwise false.
         range: string
         annotations:
           prompt.example: true, false
@@ -106,8 +136,9 @@ classes:
     is_a: NamedEntity
     id_prefixes:
       - SNOMEDCT
+      - ICD10CM
     annotations:
-      annotators: bioportal:SNOMEDCT
+      annotators: bioportal:SNOMEDCT, bioportal:ICD10CM, sqlite:obo:ncit, sqlite:obo:mesh, sqlite:obo:mondo
 
   AnatomicalEntity:
     is_a: NamedEntity
@@ -115,3 +146,48 @@ classes:
       - UBERON
     annotations:
       annotators: sqlite:obo:uberon
+
+  Qualifier:
+    is_a: NamedEntity
+    id_prefixes:
+      - PATO
+    annotations:
+      annotators: sqlite:obo:pato
+
+enums:
+  SeverityLevel:
+    description: >-
+      The severity of a pathology.
+    permissible_values:
+      mild:
+        description: >-
+          A pathology that is mild in severity.
+        meaning: PATO:0000394
+      moderate:
+        description: >-
+          A pathology that is moderate in severity.
+        meaning: PATO:0000395
+      severe:
+        description: >-
+          A pathology that is severe in severity.
+        meaning: PATO:0000396
+      Not Specified:
+        description: >-
+          The severity of the pathology is not specified.
+  PathologyClassification:
+    description: >-
+      The final classification of the overall pathology.
+    permissible_values:
+      Unclear:
+        description: >-
+          The final classification of the overall pathology is unclear.
+      Benign:
+        description: >-
+          The final classification of the overall pathology is benign.
+      Malignant:
+        description: >-
+          The final classification of the overall pathology is malignant.
+      Inflammation:
+        description: >-
+          The final classification of the overall pathology is inflammation.
+
