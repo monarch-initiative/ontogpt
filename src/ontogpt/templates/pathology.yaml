@@ -52,6 +52,15 @@ classes:
           changes".
         range: PathologyStatement
         multivalued: true
+      is_benign:
+        description: >-
+          Whether the overall pathology appears to be benign and not malignant.
+          Other pathologies may be present, but if tissue is described as
+          benign and/or if a carcinoma is explicitly excluded, this value should
+          be true. It it otherwise false.
+        range: string
+        annotations:
+          prompt.example: true, false
 
   PathologyStatement:
     description: >-
