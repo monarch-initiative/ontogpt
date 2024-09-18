@@ -27,8 +27,6 @@ imports:
 # This may require instructions to reprocess the text to be more like SNOMED, e.g.,
 # "hepatitis" doesn't have a specific term but maybe inflammation is appropriate
 
-# TODO: Add slot to represent case of benign tissue, e.g., "benign colonic mucosa"
-
 # TODO: Include final classification of the overall pathology
 
 classes:
@@ -57,10 +55,23 @@ classes:
           Whether the overall pathology appears to be benign and not malignant.
           Other pathologies may be present, but if tissue is described as
           benign and/or if a carcinoma is explicitly excluded, this value should
-          be true. It it otherwise false.
+          be true. A statement of "no significant pathologic abnormality"
+          or the short form "nspa" would also have a value of true.
+          It it otherwise false.
         range: string
         annotations:
           prompt.example: true, false
+      risks:
+        description: >-
+          A semicolon-delimited list of risks for development of
+          more severe pathologies. If not specified, this value must be
+          "Not Specified". Examples: gastric intestinal metaplasia,
+          ulceration, lymphangiectasia
+      overall_classification:
+        description: >-
+          The final classification of the overall pathology. This must be one of
+          the following: "Unclear", "Benign", "Malignant", or "Inflammation".
+        range: PathologyClassification
 
   PathologyStatement:
     description: >-
@@ -110,9 +121,9 @@ classes:
         multivalued: true
       negative:
         description: >-
-          Whether the pathology is negative or not present. A statement of
-          "no significant pathologic abnormality" or the short form "nspa"
-          would have a value of true.
+          Whether the pathology is negative or not present. This must be
+          explicitly stated in the input, e.g., "no granulomas", in order
+          to be true. It is otherwise false.
         range: string
         annotations:
           prompt.example: true, false
@@ -159,3 +170,20 @@ enums:
       Not Specified:
         description: >-
           The severity of the pathology is not specified.
+  PathologyClassification:
+    description: >-
+      The final classification of the overall pathology.
+    permissible_values:
+      Unclear:
+        description: >-
+          The final classification of the overall pathology is unclear.
+      Benign:
+        description: >-
+          The final classification of the overall pathology is benign.
+      Malignant:
+        description: >-
+          The final classification of the overall pathology is malignant.
+      Inflammation:
+        description: >-
+          The final classification of the overall pathology is inflammation.
+
