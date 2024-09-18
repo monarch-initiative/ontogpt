@@ -134,6 +134,8 @@ enums:
 
   SNOMEDClinicalFinding:
     reachable_from:
-      source_ontology: bioportal:SNOMEDCT
+      source_ontology: "snomedct:clinical_findings"
+      relationship_types:
+        - rdfs:subClassOf
       source_nodes:
         - SNOMEDCT:404684003  ## Clinical finding
