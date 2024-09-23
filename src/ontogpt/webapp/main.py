@@ -31,7 +31,6 @@ LLM_MODELS = [
     "gpt-4o",
     "gpt-4",
     "gpt-4-turbo",
-    "gpt-3.5-turbo",
     "ollama/llama2",
     "ollama/llama3",
     "ollama/orca-mini",
