@@ -714,7 +714,7 @@ def pubmed_annotate(
 
     Example:
     ontogpt pubmed-annotate -t phenotype "Takotsubo Cardiomyopathy: A Brief Review"
-        --get-pmc --model gpt-3.5-turbo-16k --limit 3
+        --get-pmc --model gpt-4o --limit 3
     """
     if not model:
         model = DEFAULT_MODEL
