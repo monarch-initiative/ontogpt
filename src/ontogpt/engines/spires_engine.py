@@ -286,10 +286,6 @@ class SPIRESEngine(KnowledgeEngine):
         """
         Map the given terms to the given ontology.
 
-        EXPERIMENTAL
-
-        currently GPT-3 does not do so well with this task.
-
         :param terms:
         :param ontology:
         :return:
