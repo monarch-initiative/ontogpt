@@ -1,0 +1,183 @@
+
+
+# Class: Protein
+
+
+
+URI: [go_terms_relational:Protein](http://w3id.org/ontogpt/go_terms_relationalProtein)
+
+
+
+```mermaid
+erDiagram
+Protein {
+    string id  
+    string label  
+}
+
+
+
+```
+
+
+
+
+## Inheritance
+* [NamedEntity](NamedEntity.md)
+    * **Protein**
+
+
+
+## Slots
+
+| Name | Cardinality and Range | Description | Inheritance |
+| ---  | --- | --- | --- |
+| [id](id.md) | 1 <br/> [String](String.md) | A unique identifier for the named entity | [NamedEntity](NamedEntity.md) |
+| [label](label.md) | 0..1 <br/> [String](String.md) | The label (name) of the named thing | [NamedEntity](NamedEntity.md) |
+
+
+
+
+
+## Usages
+
+| used by | used in | type | used |
+| ---  | --- | --- | --- |
+| [ProteinToGORelationship](ProteinToGORelationship.md) | [subject](subject.md) | range | [Protein](Protein.md) |
+
+
+
+
+
+
+## Comments
+
+* Technically gene or protein
+* Can also be UniProt accession, etc
+
+## Identifier and Mapping Information
+
+
+### Valid ID Prefixes
+
+Instances of this class *should* have identifiers with one of the following prefixes:
+
+* PR
+
+* HGNC
+
+
+
+
+
+
+### Annotations
+
+| property | value |
+| --- | --- |
+| annotators | gilda:, bioportal:hgnc-nr, sqlite:obo:pr |
+
+
+
+### Schema Source
+
+
+* from schema: http://w3id.org/ontogpt/go_terms_relational
+
+
+
+
+
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | go_terms_relational:Protein |
+| native | go_terms_relational:Protein |
+
+
+
+
+
+## LinkML Source
+
+<!-- TODO: investigate https://stackoverflow.com/questions/37606292/how-to-create-tabbed-code-blocks-in-mkdocs-or-sphinx -->
+
+### Direct
+
+<details>
+```yaml
+name: Protein
+id_prefixes:
+- PR
+- HGNC
+annotations:
+  annotators:
+    tag: annotators
+    value: gilda:, bioportal:hgnc-nr, sqlite:obo:pr
+comments:
+- Technically gene or protein
+- Can also be UniProt accession, etc
+from_schema: http://w3id.org/ontogpt/go_terms_relational
+is_a: NamedEntity
+
+```
+</details>
+
+### Induced
+
+<details>
+```yaml
+name: Protein
+id_prefixes:
+- PR
+- HGNC
+annotations:
+  annotators:
+    tag: annotators
+    value: gilda:, bioportal:hgnc-nr, sqlite:obo:pr
+comments:
+- Technically gene or protein
+- Can also be UniProt accession, etc
+from_schema: http://w3id.org/ontogpt/go_terms_relational
+is_a: NamedEntity
+attributes:
+  id:
+    name: id
+    annotations:
+      prompt.skip:
+        tag: prompt.skip
+        value: 'true'
+    description: A unique identifier for the named entity
+    comments:
+    - this is populated during the grounding and normalization step
+    from_schema: http://w3id.org/ontogpt/go_terms_relational
+    rank: 1000
+    identifier: true
+    alias: id
+    owner: Protein
+    domain_of:
+    - NamedEntity
+    - Publication
+    range: string
+    required: true
+  label:
+    name: label
+    annotations:
+      owl:
+        tag: owl
+        value: AnnotationProperty, AnnotationAssertion
+    description: The label (name) of the named thing
+    from_schema: http://w3id.org/ontogpt/go_terms_relational
+    aliases:
+    - name
+    rank: 1000
+    slot_uri: rdfs:label
+    alias: label
+    owner: Protein
+    domain_of:
+    - NamedEntity
+    range: string
+
+```
+</details>

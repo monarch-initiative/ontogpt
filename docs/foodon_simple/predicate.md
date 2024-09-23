@@ -1,0 +1,75 @@
+
+
+# Slot: predicate
+
+URI: [foodon_simple:predicate](http://w3id.org/ontogpt/foodon_simplepredicate)
+
+
+
+<!-- no inheritance hierarchy -->
+
+
+
+
+
+## Applicable Classes
+
+| Name | Description | Modifies Slot |
+| --- | --- | --- |
+| [Triple](Triple.md) | Abstract parent for Relation Extraction tasks |  no  |
+
+
+
+
+
+
+
+## Properties
+
+* Range: [RelationshipType](RelationshipType.md)
+
+
+
+
+
+## Identifier and Mapping Information
+
+
+
+
+
+
+
+### Schema Source
+
+
+* from schema: http://w3id.org/ontogpt/foodon_simple
+
+
+
+
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | foodon_simple:predicate |
+| native | foodon_simple:predicate |
+
+
+
+
+## LinkML Source
+
+<details>
+```yaml
+name: predicate
+from_schema: http://w3id.org/ontogpt/foodon_simple
+rank: 1000
+alias: predicate
+owner: Triple
+domain_of:
+- Triple
+range: RelationshipType
+
+```
+</details>

@@ -1,0 +1,97 @@
+
+
+# Class: CompoundExpression
+
+
+* __NOTE__: this is an abstract class and should not be instantiated directly
+
+
+URI: [cell_type:CompoundExpression](http://w3id.org/ontogpt/cell_type/CompoundExpression)
+
+
+
+```mermaid
+erDiagram
+CompoundExpression {
+
+}
+
+
+
+```
+
+
+
+
+## Inheritance
+* **CompoundExpression**
+    * [Triple](Triple.md)
+
+
+
+## Slots
+
+| Name | Cardinality and Range | Description | Inheritance |
+| ---  | --- | --- | --- |
+
+
+
+
+
+
+
+
+
+## Identifier and Mapping Information
+
+
+
+
+
+
+
+### Schema Source
+
+
+* from schema: http://w3id.org/ontogpt/cell_type
+
+
+
+
+
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | cell_type:CompoundExpression |
+| native | cell_type:CompoundExpression |
+
+
+
+
+
+## LinkML Source
+
+<!-- TODO: investigate https://stackoverflow.com/questions/37606292/how-to-create-tabbed-code-blocks-in-mkdocs-or-sphinx -->
+
+### Direct
+
+<details>
+```yaml
+name: CompoundExpression
+from_schema: http://w3id.org/ontogpt/cell_type
+abstract: true
+
+```
+</details>
+
+### Induced
+
+<details>
+```yaml
+name: CompoundExpression
+from_schema: http://w3id.org/ontogpt/cell_type
+abstract: true
+
+```
+</details>
