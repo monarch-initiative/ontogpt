@@ -596,7 +596,7 @@ Options:
 Examples:
 
 ```bash
-ontogpt pubmed-annotate -t phenotype "Takotsubo Cardiomyopathy: A Brief Review" --get-pmc --model gpt-3.5-turbo-16k --limit 3
+ontogpt pubmed-annotate -t phenotype "Takotsubo Cardiomyopathy: A Brief Review" --get-pmc --model gpt-4o --limit 3
 ```
 
 ```bash
@@ -770,7 +770,7 @@ Even relatively short pages may exceed a model's context size, so larger context
 Example:
 
 ```bash
-ontogpt web-extract -t reaction.Reaction -m gpt-3.5-turbo-16k https://www.scienceofcooking.com/maillard_reaction.htm 
+ontogpt web-extract -t reaction.Reaction -m gpt-4o https://www.scienceofcooking.com/maillard_reaction.htm 
 ```
 
 ### wikipedia-extract
@@ -784,7 +784,7 @@ Even relatively short pages may exceed a model's context size, so larger context
 Example:
 
 ```bash
-ontogpt wikipedia-extract -t mendelian_disease.MendelianDisease -m gpt-3.5-turbo-16k "Cartilage–hair hypoplasia"
+ontogpt wikipedia-extract -t mendelian_disease.MendelianDisease -m gpt-4o  "Cartilage–hair hypoplasia"
 ```
 
 ### wikipedia-search
@@ -798,5 +798,5 @@ Even relatively short pages may exceed a model's context size, so larger context
 Example:
 
 ```bash
-ontogpt wikipedia-search -t biological_process -m gpt-3.5-turbo-16k "digestion"
+ontogpt wikipedia-search -t biological_process -m gpt-4o "digestion"
 ```
