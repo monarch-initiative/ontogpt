@@ -9,8 +9,6 @@ from ontogpt.engines.knowledge_engine import KnowledgeEngine
 class SynonymEngine(KnowledgeEngine):
     """Engine for generating synonyms."""
 
-    engine: str = "gpt-3.5-turbo-instruct"
-
     def synonyms(self, named_entity: str, domain: str) -> List[str]:
         """Get synonyms for a given text."""
         prompt = f"List the example formal scientific\

@@ -1174,7 +1174,6 @@ def convert(
 @model_option
 @output_option_txt
 @temperature_option
-@cut_input_text_option
 @api_base_option
 @api_version_option
 @model_provider_option
