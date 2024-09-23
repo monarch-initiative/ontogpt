@@ -57,7 +57,6 @@ class StructuredPrompt(pydantic.BaseModel):
 class HALOEngine(KnowledgeEngine):
     """Engine for Hallucinating Latent Ontologies."""
 
-    engine: str = "gpt-3.5-turbo"
     ontology: Ontology = None
     traverse_slots: List[FIELD] = field(
         default_factory=lambda: ["subtypes", "parts", "subclass_of", "part_of"]
