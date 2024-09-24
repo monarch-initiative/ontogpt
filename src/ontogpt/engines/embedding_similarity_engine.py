@@ -2,7 +2,7 @@
 Embedding similarity engine.
 
 This module provides functionality for calculating the similarity between entities
-using embeddings and cosine similarity. It includes classes and methods for 
+using embeddings and cosine similarity. It includes classes and methods for
 searching for similar entities and retrieving textual representations of entities.
 
 Classes:

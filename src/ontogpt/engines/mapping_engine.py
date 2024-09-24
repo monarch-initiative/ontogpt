@@ -1,7 +1,11 @@
 """
 Mapping engine.
 
-This module provides the `MappingEngine` class, which is responsible for generating and resolving mappings between concepts in different ontologies. It utilizes various classes and enums to represent mapping tasks, categorized mappings, and confidence levels.
+This module provides the `MappingEngine` class,
+which is responsible for generating and resolving
+mappings between concepts in different ontologies.
+It utilizes various classes and enums to represent
+mapping tasks, categorized mappings, and confidence levels.
 
 Classes:
     MappingPredicate: Enum representing different types of mapping predicates.
@@ -14,11 +18,13 @@ Classes:
     MappingEngine: Engine class for generating and resolving mappings.
 
 Functions:
-    categorize_mapping: Categorizes a mapping between a subject and an object using a template.
+    categorize_mapping: Categorizes a mapping between a subject
+    and an object using a template.
     _parse: Parses the payload from the categorization process into a `CategorizedMapping`.
     categorize_mappings: Categorizes multiple mappings between subjects and object sources.
     run_tasks: Runs a collection of mapping tasks and categorizes the results.
-    generate_tasks: Generates mapping tasks from a collection or specified subjects and object sources.
+    generate_tasks: Generates mapping tasks from a collection or
+    specified subjects and object sources.
     from_sssom: Generates tasks from an SSSOM file.
     categorize_sssom_mapping: Categorizes a single SSSOM mapping.
     _concept: Retrieves a concept from an ontology adapter.
