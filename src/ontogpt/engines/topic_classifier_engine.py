@@ -8,6 +8,7 @@ from ontogpt.engines.knowledge_engine import KnowledgeEngine
 
 logger = logging.getLogger(__name__)
 
+
 @dataclass
 class TopicClassifierEngine(KnowledgeEngine):
     """Engine for classifying input text based on its topic."""
