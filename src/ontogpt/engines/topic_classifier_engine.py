@@ -1,4 +1,17 @@
-"""Topic classifier engine."""
+"""
+Topic classifier engine.
+
+This module contains the `TopicClassifierEngine` class, which inherits from `KnowledgeEngine`.
+The engine is designed to classify input text based on a given topic.
+
+Classes:
+    TopicClassifierEngine: Engine for classifying input text based on its topic.
+
+Methods:
+    binary_classify(topic: str, text: str) -> bool:
+        Given a topic description, indicate whether it applies to the input text.
+        Returns True if the text matches the topic, otherwise returns False.
+"""
 
 import logging
 

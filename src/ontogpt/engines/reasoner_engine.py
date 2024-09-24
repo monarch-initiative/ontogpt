@@ -1,4 +1,24 @@
-"""Reasoner engine."""
+"""
+Reasoner engine.
+
+This module provides the implementation of the ReasonerEngine class, which is used to perform reasoning tasks using a Language Model (LLM). The engine takes an ontology and a query task as input, translates it into an LLM prompt, and performs reasoning over the ontology.
+
+Classes:
+    ReasonerResult: Represents the result of a reason query.
+    ReasonerResultSet: Represents a set of reasoner results.
+    ReasonerEngine: Engine for performing reasoning using an LLM.
+
+Functions:
+    flatten_list(lst): Flattens a nested list into a single list.
+    reason(task, template_path=None, strict=False, evaluate=None): Performs reasoning over axioms and query entailments.
+    reason_multiple(task_collection, **kwargs): Performs reasoning over multiple tasks.
+    _parse_single_answer(payload, task): Parses a single answer from the payload.
+    evaluate(result, task): Evaluates the result against the task.
+
+Usage:
+    The ReasonerEngine can be used to perform reasoning tasks such as finding superclasses of a given class.
+    It can also provide explanations for the reasoning process.
+"""
 
 import logging
 import re

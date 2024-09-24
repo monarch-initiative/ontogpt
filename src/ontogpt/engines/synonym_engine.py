@@ -1,4 +1,16 @@
-"""Synonym engine."""
+"""
+Synonym engine.
+
+This module defines the SynonymEngine class, which is responsible for generating synonyms for given named entities within a specified domain.
+
+Classes:
+    SynonymEngine: Inherits from KnowledgeEngine and provides a method to retrieve synonyms.
+
+Methods:
+    synonyms(named_entity: str, domain: str) -> List[str]:
+        Retrieves synonyms for the given named entity within the specified domain.
+"""
+
 from dataclasses import dataclass
 from typing import List
 
