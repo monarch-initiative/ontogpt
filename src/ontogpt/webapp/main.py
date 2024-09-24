@@ -55,9 +55,7 @@ engines: Dict[str, SPIRESEngine] = {}
 def get_engine(datamodel: str, llm_model: str):
     if datamodel not in engines:
         template_details = get_template_details(template=datamodel)
-        engines[datamodel] = SPIRESEngine(
-                model=llm_model, template_details=template_details
-            )
+        engines[datamodel] = SPIRESEngine(model=llm_model, template_details=template_details)
     return engines[datamodel]
 
 

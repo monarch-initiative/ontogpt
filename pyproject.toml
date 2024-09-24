@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "ontogpt"
-version = "1.0.4"
+version = "1.0.5"
 description = "OntoGPT"
 authors = ["Chris Mungall <cjmungall@lbl.gov>", "J. Harry Caufield <jhc@lbl.gov>"]
 license = "BSD-3"
@@ -19,7 +19,7 @@ fastapi = {version = ">=0.88.0", optional = true}
 gilda = ">=1.0.0"
 inflect = ">=6.0.2"
 inflection = ">=0.5.1"
-linkml = "^1.8.0"
+linkml = "^1.8.3"
 linkml-owl = "^0.3.0"
 myst-parser = {version = ">=0.18.1", extras = ["docs"], optional = true}
 oaklib = ">=0.5.28"

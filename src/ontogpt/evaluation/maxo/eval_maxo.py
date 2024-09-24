@@ -244,7 +244,9 @@ class EvalMAXO(SPIRESEvaluationEngine):
                 if extraction.extracted_object is not None:
                     # Process all multi-object triples to 1 to 1 triples
                     # so they may be more directly compared
-                    for extracted_triple in extraction.extracted_object.action_annotation_relationships:
+                    for (
+                        extracted_triple
+                    ) in extraction.extracted_object.action_annotation_relationships:
                         new_triple = extracted_triple
                         for object in extracted_triple.object:
                             new_triple.object = [object]

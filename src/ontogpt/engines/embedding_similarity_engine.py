@@ -1,4 +1,22 @@
-"""Similarity engine."""
+"""
+Embedding similarity engine.
+
+This module provides functionality for calculating the similarity between entities
+using embeddings and cosine similarity. It includes classes and methods for
+searching for similar entities and retrieving textual representations of entities.
+
+Classes:
+    EmbeddingSimilarity: A dataclass representing the similarity between two entities.
+    SimilarityEngine: A class for calculating similarity between entities.
+
+Methods:
+    SimilarityEngine.similarity(entity1: str, entity2: str) -> EmbeddingSimilarity:
+        Get similarity between two entities.
+    SimilarityEngine.search(entity1: str, entities: List[str]) -> Iterable[EmbeddingSimilarity]:
+        Search for similar entities.
+    SimilarityEngine.entity_text(entity: str) -> str:
+        Get text representation for an entity.
+"""
 
 import logging
 from dataclasses import dataclass
@@ -25,7 +43,7 @@ class EmbeddingSimilarity:
 
 @dataclass
 class SimilarityEngine(KnowledgeEngine):
-    """Engine for generating synonyms."""
+    """Engine for finding embedding similarity."""
 
     adapter: BasicOntologyInterface = None
     autolabel: bool = True
