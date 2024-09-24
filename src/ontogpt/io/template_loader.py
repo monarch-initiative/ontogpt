@@ -45,7 +45,7 @@ def get_template_details(template: TEMPLATE_NAME) -> ClassDefinition:
 
         sv = SchemaView(new_path_to_template)
 
-        gen = PydanticGenerator(str(new_path_to_template), pydantic_version=2)
+        gen = PydanticGenerator(str(new_path_to_template))
         path_to_module.write_text(gen.serialize())
 
         mod = importlib.import_module(f"ontogpt.templates.{module_name}")
