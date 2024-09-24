@@ -504,19 +504,21 @@ class SPIRESEngine(KnowledgeEngine):
             # First split the text into sections, denoted by presence of multiple newlines
             # Each section may still have multiple fields, but we don't know how
             # they will be formatted
-            sections = results.replace("*","").split("\n\n")
+            sections = results.replace("*", "").split("\n\n")
             ann = {}
             for section in sections:
                 lines = section.splitlines()
                 continued_line = ""
                 for line in lines:
-                    line = line.replace("*","").strip()
+                    line = line.replace("*", "").strip()
                     # The line may be split into multiple lines,
                     # and we can only tell if there's a delimiter at the end of this one
                     # (though it may just be a misplaced delimiter)
                     # TODO: this could be a different delimiter, globally defined
                     if line.endswith(";"):
-                        logging.info(f"This line ends in a delimiter, assuming continuation: {line}")
+                        logging.info(
+                            f"This line ends in a delimiter, assuming continuation: {line}"
+                        )
                         continued_line = line
                         continue
                     # If there's nothing after the colon,
