@@ -27,10 +27,6 @@ imports:
 # This may require instructions to reprocess the text to be more like SNOMED, e.g.,
 # "hepatitis" doesn't have a specific term but maybe inflammation is appropriate
 
-# TODO: tune the risk factor list, it seems to identify negative instances as present
-# e.g. "gastric antral-type mucosa with reactive gastropathy; no helicobacter organisms, intestinal metaplasia or dysplasia; see comment."
-# identifies "gastric intestinal metaplasia" as a risk factor
-
 classes:
 
   PathologyReport:
