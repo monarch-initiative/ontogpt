@@ -66,10 +66,12 @@ classes:
       risks:
         description: >-
           A semicolon-delimited list of risks for development of
-          more severe pathologies. If not specified, this value must be
-          "Not Specified". Examples: gastric intestinal metaplasia,
-          ulceration, lymphangiectasia
-        range: string
+          more severe pathologies, along with what they are a risk for.
+          Format each in parentheses as "risk factor (potential pathology)".
+          If not specified, this value must be "Not Specified".
+        any_of:
+          - range: Risk
+          - range: string
         multivalued: true
       overall_classification:
         description: >-
@@ -146,6 +148,23 @@ classes:
       - UBERON
     annotations:
       annotators: sqlite:obo:uberon
+
+  Risk:
+    description: >-
+      A risk factor for development of more severe pathologies,
+      including but not limited to cancer. These will be in the format
+      "risk factor (potential pathology)".
+    attributes:
+      risk_factor:
+        description: >-
+          The risk factor for development of more severe pathologies.
+        range: string
+      potential_pathology:
+        description: >-
+          The pathology that the risk factor is a risk for.
+        range: Diagnosis
+    notes:
+      - Model may not be very good at this without more context
 
   Qualifier:
     is_a: NamedEntity
