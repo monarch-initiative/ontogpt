@@ -59,10 +59,10 @@ classes:
           benign and/or if a carcinoma is explicitly excluded, this value should
           be true. A statement of "no significant pathologic abnormality"
           or the short form "nspa" would also have a value of true.
-          It it otherwise false.
+          It it otherwise 'unclear'.
         range: string
         annotations:
-          prompt.example: true, false
+          prompt.example: true, false, unclear
       risks:
         description: >-
           A semicolon-delimited list of risks for development of
@@ -88,9 +88,9 @@ classes:
           The diagnosis or pathology being described. This may include
           full diagnoses or observations, for example, "colitis",
           "inflammation", "dysplasia", "polyp". If not specified, this value
-          must be "Not Specified". If a diagnosis cannot be reached
+          must be "Clinical finding". If a diagnosis cannot be reached
           (e.g., due to lack of tissue sample), this value must be
-          "No Diagnosis". Do not include qualifiers in this field,
+          "Clinical finding". Do not include qualifiers in this field,
           e.g., "active colitis" should be "colitis".
         range: Diagnosis
         annotations:
