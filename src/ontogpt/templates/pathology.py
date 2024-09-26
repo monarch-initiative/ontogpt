@@ -231,11 +231,13 @@ class PathologyReport(ConfiguredBaseModel):
     linkml_meta: ClassVar[LinkMLMeta] = LinkMLMeta({'from_schema': 'http://w3id.org/ontogpt/pathology', 'tree_root': True})
 
     pathology_statements: Optional[List[PathologyStatement]] = Field(None, description="""A semicolon-delimited list of pathology statements, each describing a pathology, including any diagnoses, one or more specific qualities being measured and the anatomical location or tissue the pathology is measured in. If any of the pathology statements are negative, the negation should be included in each statment, e.g., \"no granulomas or viropathic changes\" should become \"no granulomas\" and \"no viropathic changes\".""", json_schema_extra = { "linkml_meta": {'alias': 'pathology_statements', 'domain_of': ['PathologyReport']} })
-    is_benign: Optional[str] = Field(None, description="""Whether the overall pathology appears to be benign and not malignant. Other pathologies may be present, but if tissue is described as benign and/or if a carcinoma is explicitly excluded, this value should be true. A statement of \"no significant pathologic abnormality\" or the short form \"nspa\" would also have a value of true. It it otherwise false.""", json_schema_extra = { "linkml_meta": {'alias': 'is_benign',
+    is_benign: Optional[str] = Field(None, description="""Whether the overall pathology appears to be benign and not malignant. Other pathologies may be present, but if tissue is described as benign and/or if a carcinoma is explicitly excluded, this value should be true. A statement of \"no significant pathologic abnormality\" or the short form \"nspa\" would also have a value of true. It it otherwise 'unclear'.""", json_schema_extra = { "linkml_meta": {'alias': 'is_benign',
          'annotations': {'prompt.example': {'tag': 'prompt.example',
-                                            'value': 'true, false'}},
+                                            'value': 'true, false, unclear'}},
          'domain_of': ['PathologyReport']} })
-    risks: Optional[List[str]] = Field(None, description="""A semicolon-delimited list of risks for development of more severe pathologies. If not specified, this value must be \"Not Specified\". Examples: gastric intestinal metaplasia, ulceration, lymphangiectasia""", json_schema_extra = { "linkml_meta": {'alias': 'risks', 'domain_of': ['PathologyReport']} })
+    risks: Optional[List[Union[Risk, str]]] = Field(None, description="""A semicolon-delimited list of risks for development of more severe pathologies, along with what they are a risk for. Format each in parentheses as \"risk factor (potential pathology)\". If not specified, this value must be \"Not Specified\".""", json_schema_extra = { "linkml_meta": {'alias': 'risks',
+         'any_of': [{'range': 'Risk'}, {'range': 'string'}],
+         'domain_of': ['PathologyReport']} })
     overall_classification: Optional[PathologyClassification] = Field(None, description="""The final classification of the overall pathology. This must be one of the following: \"Unclear\", \"Benign\", \"Malignant\", or \"Inflammation\".""", json_schema_extra = { "linkml_meta": {'alias': 'overall_classification', 'domain_of': ['PathologyReport']} })
 
 
@@ -245,7 +247,7 @@ class PathologyStatement(ConfiguredBaseModel):
     """
     linkml_meta: ClassVar[LinkMLMeta] = LinkMLMeta({'from_schema': 'http://w3id.org/ontogpt/pathology'})
 
-    diagnosis: Optional[str] = Field(None, description="""The diagnosis or pathology being described. This may include full diagnoses or observations, for example, \"colitis\", \"inflammation\", \"dysplasia\", \"polyp\". If not specified, this value must be \"Not Specified\". If a diagnosis cannot be reached (e.g., due to lack of tissue sample), this value must be \"No Diagnosis\". Do not include qualifiers in this field, e.g., \"active colitis\" should be \"colitis\".""", json_schema_extra = { "linkml_meta": {'alias': 'diagnosis',
+    diagnosis: Optional[str] = Field(None, description="""The diagnosis or pathology being described. This may include full diagnoses or observations, for example, \"colitis\", \"inflammation\", \"dysplasia\", \"polyp\". If not specified, this value must be \"Clinical finding\". If a diagnosis cannot be reached (e.g., due to lack of tissue sample), this value must be \"Clinical finding\". Do not include qualifiers in this field, e.g., \"active colitis\" should be \"colitis\".""", json_schema_extra = { "linkml_meta": {'alias': 'diagnosis',
          'annotations': {'prompt.example': {'tag': 'prompt.example',
                                             'value': 'colitis, inflammation, '
                                                      'dysplasia'}},
@@ -307,6 +309,17 @@ class AnatomicalEntity(NamedEntity):
          'slot_uri': 'rdfs:label'} })
 
 
+class Risk(ConfiguredBaseModel):
+    """
+    A risk factor for development of more severe pathologies, including but not limited to cancer. These will be in the format \"risk factor (potential pathology)\".
+    """
+    linkml_meta: ClassVar[LinkMLMeta] = LinkMLMeta({'from_schema': 'http://w3id.org/ontogpt/pathology',
+         'notes': ['Model may not be very good at this without more context']})
+
+    risk_factor: Optional[str] = Field(None, description="""The risk factor for development of more severe pathologies.""", json_schema_extra = { "linkml_meta": {'alias': 'risk_factor', 'domain_of': ['Risk']} })
+    potential_pathology: Optional[str] = Field(None, description="""The pathology that the risk factor is a risk for.""", json_schema_extra = { "linkml_meta": {'alias': 'potential_pathology', 'domain_of': ['Risk']} })
+
+
 class Qualifier(NamedEntity):
     linkml_meta: ClassVar[LinkMLMeta] = LinkMLMeta({'annotations': {'annotators': {'tag': 'annotators',
                                         'value': 'sqlite:obo:pato'}},
@@ -340,5 +353,6 @@ PathologyReport.model_rebuild()
 PathologyStatement.model_rebuild()
 Diagnosis.model_rebuild()
 AnatomicalEntity.model_rebuild()
+Risk.model_rebuild()
 Qualifier.model_rebuild()
 
