@@ -58,7 +58,7 @@ def get_span_values(text: str, find_text: str) -> List[str]:
     span_values = []
     start = 0
 
-    pattern = re.compile(re.escape(find_text))
+    pattern = re.compile(re.escape(find_text), re.IGNORECASE)
 
     # Remove all newlines, replace with space
     text = text.replace("\n", " ")
