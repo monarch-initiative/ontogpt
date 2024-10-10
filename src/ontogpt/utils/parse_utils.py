@@ -44,9 +44,12 @@ def get_section_of_interest(data, tag_of_interest):
             raise ValueError("No element starting with '<p>' found after the tag_of_interest")
     else:
         raise ValueError("No element matching the tag_of_interest found in the list.")
-    
+
+
 def get_span_values(text: str, find_text: str) -> List[str]:
     """
+    Find spans in text.
+
     Given an input text and a text to find, return a list of span values
     containing the text to find. This is a list because the text may appear
     multiple times.
