@@ -53,11 +53,15 @@ def get_span_values(text: str, find_text: str) -> List[str]:
     The coordinates are inclusive. For example, "10:25" means the span starting
     from the 10th character and ending with the 25th character. The first
     character in the text has index 0.
+    All newlines are treated as single characters.
     """
     span_values = []
     start = 0
 
     pattern = re.compile(re.escape(find_text))
+
+    # Remove all newlines, replace with space
+    text = text.replace("\n", " ")
 
     for match in pattern.finditer(text):
         start = match.start()
