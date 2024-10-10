@@ -33,7 +33,8 @@ from ontogpt.engines.knowledge_engine import (
     chunk_text_by_sentence,
 )
 from ontogpt.io.yaml_wrapper import dump_minimal_yaml
-from ontogpt.templates.core import ExtractionResult
+from ontogpt.templates.core import ExtractionResult, NamedEntity
+from ontogpt.utils.parse_utils import get_span_values
 
 this_path = Path(__file__).parent
 
@@ -121,6 +122,11 @@ class SPIRESEngine(KnowledgeEngine):
             extracted_object = self.parse_completion_payload(
                 raw_text, cls, object=object  # type: ignore
             )
+
+        # Add spans to entities
+        self.extracted_named_entities = self.get_spans(
+            input_text=text, named_entities=self.extracted_named_entities
+        )
 
         return ExtractionResult(
             input_text=text,
@@ -765,3 +771,20 @@ class SPIRESEngine(KnowledgeEngine):
         logging.info(new_ann)
         py_cls = self.template_module.__dict__[cls.name]
         return py_cls(**new_ann)
+
+    def get_spans(self, input_text: str, named_entities: list[NamedEntity]) -> list[NamedEntity]:
+        """
+        Get the spans for the named entities in the input text.
+
+        :param input_text: The full input text for the overall extraction
+        :param extracted_object: The extracted object to be updated
+        :return: The extracted object with spans
+        """
+
+        named_entities_with_spans = []
+
+        for ne in named_entities:
+            ne.original_spans = get_span_values(input_text, ne.label)
+            named_entities_with_spans.append(ne)
+
+        return named_entities_with_spans

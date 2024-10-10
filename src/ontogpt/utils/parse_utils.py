@@ -44,3 +44,31 @@ def get_section_of_interest(data, tag_of_interest):
             raise ValueError("No element starting with '<p>' found after the tag_of_interest")
     else:
         raise ValueError("No element matching the tag_of_interest found in the list.")
+
+
+def get_span_values(text: str, find_text: str) -> List[str]:
+    """
+    Find spans in text.
+
+    Given an input text and a text to find, return a list of span values
+    containing the text to find. This is a list because the text may appear
+    multiple times.
+    The coordinates are inclusive. For example, "10:25" means the span starting
+    from the 10th character and ending with the 25th character. The first
+    character in the text has index 0.
+    All newlines are treated as single characters.
+    """
+    span_values = []
+    start = 0
+
+    pattern = re.compile(re.escape(find_text), re.IGNORECASE)
+
+    # Remove all newlines, replace with space
+    text = text.replace("\n", " ")
+
+    for match in pattern.finditer(text):
+        start = match.start()
+        end = match.end() - 1
+        span_values.append(f"{start}:{end}")
+
+    return span_values
