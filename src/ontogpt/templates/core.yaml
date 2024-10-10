@@ -64,26 +64,19 @@ classes:
         slot_uri: rdfs:label
         annotations:
           owl: AnnotationProperty, AnnotationAssertion
-      original_text:
-        description: >-
-          The original text from which the named entity was extracted
-        comments:
-          - This is populated during the processing of an individual entity
-          - LLMs are not very good at this or we would just ask
-        range: string
-        annotations:
-          prompt.skip: "true"
-      original_span:
+      original_spans:
         description: >-
           The coordinates of the original text span from which the named entity
           was extracted, inclusive. For example, "10:25" means the span starting
           from the 10th character and ending with the 25th character. The first
-          character in the text has index 0.
+          character in the text has index 0. Newlines are treated as single
+          characters. Multivalued as there may be multiple spans for a single
+          text.
         comments:
-          - This is populated during the processing of an individual entity
-          - It is propagated from the initial input so we can retain the
-            original text span
+          - This is determined during grounding and normalization
+          - But is based on the full input text
         range: string
+        multivalued: true
         pattern: "^\\d+:\\d+$"
         annotations:
           prompt.skip: "true"
