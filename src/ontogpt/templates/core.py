@@ -120,9 +120,14 @@ class NamedEntity(ConfiguredBaseModel):
          'slot_uri': 'rdfs:label'} })
     original_text: Optional[str] = Field(None, description="""The original text from which the named entity was extracted""", json_schema_extra = { "linkml_meta": {'alias': 'original_text',
          'annotations': {'prompt.skip': {'tag': 'prompt.skip', 'value': 'true'}},
+         'comments': ['This is populated during the processing of an individual entity',
+                      'LLMs are not very good at this or we would just ask'],
          'domain_of': ['NamedEntity']} })
     original_span: Optional[str] = Field(None, description="""The coordinates of the original text span from which the named entity was extracted, inclusive. For example, \"10:25\" means the span starting from the 10th character and ending with the 25th character. The first character in the text has index 0.""", json_schema_extra = { "linkml_meta": {'alias': 'original_span',
          'annotations': {'prompt.skip': {'tag': 'prompt.skip', 'value': 'true'}},
+         'comments': ['This is populated during the processing of an individual entity',
+                      'It is propagated from the initial input so we can retain the '
+                      'original text span'],
          'domain_of': ['NamedEntity']} })
 
     @field_validator('original_span')
@@ -198,9 +203,14 @@ class RelationshipType(NamedEntity):
          'slot_uri': 'rdfs:label'} })
     original_text: Optional[str] = Field(None, description="""The original text from which the named entity was extracted""", json_schema_extra = { "linkml_meta": {'alias': 'original_text',
          'annotations': {'prompt.skip': {'tag': 'prompt.skip', 'value': 'true'}},
+         'comments': ['This is populated during the processing of an individual entity',
+                      'LLMs are not very good at this or we would just ask'],
          'domain_of': ['NamedEntity']} })
     original_span: Optional[str] = Field(None, description="""The coordinates of the original text span from which the named entity was extracted, inclusive. For example, \"10:25\" means the span starting from the 10th character and ending with the 25th character. The first character in the text has index 0.""", json_schema_extra = { "linkml_meta": {'alias': 'original_span',
          'annotations': {'prompt.skip': {'tag': 'prompt.skip', 'value': 'true'}},
+         'comments': ['This is populated during the processing of an individual entity',
+                      'It is propagated from the initial input so we can retain the '
+                      'original text span'],
          'domain_of': ['NamedEntity']} })
 
     @field_validator('original_span')

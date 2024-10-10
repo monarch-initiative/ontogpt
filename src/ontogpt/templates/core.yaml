@@ -67,6 +67,9 @@ classes:
       original_text:
         description: >-
           The original text from which the named entity was extracted
+        comments:
+          - This is populated during the processing of an individual entity
+          - LLMs are not very good at this or we would just ask
         range: string
         annotations:
           prompt.skip: "true"
@@ -76,6 +79,10 @@ classes:
           was extracted, inclusive. For example, "10:25" means the span starting
           from the 10th character and ending with the 25th character. The first
           character in the text has index 0.
+        comments:
+          - This is populated during the processing of an individual entity
+          - It is propagated from the initial input so we can retain the
+            original text span
         range: string
         pattern: "^\\d+:\\d+$"
         annotations:
