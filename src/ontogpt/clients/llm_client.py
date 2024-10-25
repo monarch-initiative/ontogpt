@@ -76,6 +76,8 @@ class LLMClient:
         if self.system_message:
             these_messages.insert(0, {"content": self.system_message, "role": "system"})
 
+        print(prompt)
+
         try:
             # TODO: expose user prompt to CLI
             response = completion(
@@ -88,11 +90,22 @@ class LLMClient:
                 caching=True,
                 custom_llm_provider=self.custom_llm_provider,
             )
+            if not response.choices[0].message.content:
+                # This happens when the prompting was successful but the
+                # response is empty.
+                raise ValueError(f"Empty response from LLM for prompt: {prompt}")
+            if response.choices[0].message.content.strip().endswith(":"):
+                raise ValueError(
+                    f"Invalid response from LLM, contains only a slot name: {response.choices[0].message.content}"
+                )
         except openai.APITimeoutError as e:
             print(f"Encountered API timeout error: {e}")
         except Exception as e:
             print(f"Encountered error: {type(e)}, Error: {e}")
 
+        # Note that even if there is an error, a payload is still returned,
+        # it's just empty. This is to allow for continuing through a full
+        # set of inputs.
         if response is not None:
             payload = response.choices[0].message.content
         else:
