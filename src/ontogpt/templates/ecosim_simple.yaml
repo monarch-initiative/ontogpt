@@ -1,0 +1,39 @@
+id: http://w3id.org/ontogpt/ecosim_simple
+name: ecosim_simple
+title: Simple EcoSIM Extraction Template
+description: >-
+  Simple EcoSIM Extraction Template
+license: https://creativecommons.org/publicdomain/zero/1.0/
+prefixes:
+  rdf: http://www.w3.org/1999/02/22-rdf-syntax-ns#
+  linkml: https://w3id.org/linkml/
+  ecosim_simple: http://w3id.org/ontogpt/ecosim_simple
+  ecosim: http://purl.obolibrary.org/obo/ecosim
+
+default_prefix: ecosim_simple
+default_range: string
+
+imports:
+  - linkml:types
+  - core
+
+classes:
+  TermSet:
+    tree_root: true
+    is_a: NamedEntity
+    attributes:
+      terms:
+        range: Term
+        multivalued: true
+        description: >-
+          A semicolon-separated list of variables
+          for earth system simulation. Do not include
+          abbreviations in parentheses, e.g., "Carbon (C)"
+          should be represented as "carbon". Examples include:          carboxylation, sodium, underground irrigation.
+
+  Term:
+    is_a: NamedEntity
+    annotations:
+      annotators: bioportal:ECOSIM
+      prompt: >-
+        The name of a variable for earth system simulation.

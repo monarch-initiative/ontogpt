@@ -1,0 +1,99 @@
+id: http://w3id.org/ontogpt/ecosim_methods
+name: ecosim_methods
+title: EcoSIM Methods Extraction Template
+description: >-
+  EcoSIM Methods Extraction Template
+license: https://creativecommons.org/publicdomain/zero/1.0/
+prefixes:
+  rdf: http://www.w3.org/1999/02/22-rdf-syntax-ns#
+  linkml: https://w3id.org/linkml/
+  ecosim_simple: http://w3id.org/ontogpt/ecosim_simple
+  ecosim: http://purl.obolibrary.org/obo/ecosim
+
+default_prefix: ecosim_methods
+default_range: string
+
+imports:
+  - linkml:types
+  - core
+
+classes:
+  TermSet:
+    tree_root: true
+    is_a: NamedEntity
+    attributes:
+      locations:
+        range: Location
+        multivalued: true
+        description: >-
+          A semicolon-separated list of research locations.
+          Examples include: Vermont, New York City,
+          Ethiopia
+      methods:
+        range: Method
+        multivalued: true
+        description: >-
+          A semicolon-separated list of methods used in
+          environmental and earth science research. Examples
+          include: sampling, spectroscopy
+      variables:
+        range: Variable
+        description: >-
+          A semicolon-separated list of variables measured in
+          environmental and earth science research. Examples
+          include: root shape, biomass, water turbidity
+      equipments:
+        range: Equipment
+        description: >-
+          A semicolon-separated list of equipment used in
+          environmental and earth science research.
+      equipment_to_variable_relationships:
+        range: EquipmentMeasuresVariable
+        description: >-
+          A semicolon separated list of relationships
+          between specific equipment and variables
+          they are used to measure as described in the input.
+          Example: NMR spectrometer was used to measure
+          chemical content
+        multivalued: true
+        inlined: true
+
+  Location:
+    is_a: NamedEntity
+    annotations:
+      prompt: >-
+        The name of a location used in research.
+
+  Method:
+    is_a: NamedEntity
+    annotations:
+      annotators: bioportal:ECOSIM
+      prompt: >-
+        The name of a method used in environment and
+        earth science research.
+
+  Variable:
+    is_a: NamedEntity
+    annotations:
+      annotators: bioportal:ECOSIM
+      prompt: >-
+        The name of a variable measured in environment and
+        earth science research.
+
+  Equipment:
+    is_a: NamedEntity
+    annotations:
+      prompt: >-
+        The name of a piece of equipment used in
+        environment and earth science research.
+
+  EquipmentMeasuresVariable:
+    is_a: CompoundExpression
+    attributes:
+      equipment:
+        range: Equipment
+        description: Name of the equipment used to measure a variable.
+      variable:
+        range: Variable
+        description: Name of the variable being measured.
+

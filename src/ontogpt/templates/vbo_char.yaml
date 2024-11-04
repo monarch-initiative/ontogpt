@@ -1,0 +1,124 @@
+id: http://w3id.org/ontogpt/vbo_char
+name: vbo_char
+title: Extraction Template for Animal Breeds and their Characteristics
+description: >-
+  An extraction template for animal names present in VBO,
+  along with the characteristics of each breed
+license: https://creativecommons.org/publicdomain/zero/1.0/
+prefixes:
+  rdf: http://www.w3.org/1999/02/22-rdf-syntax-ns#
+  linkml: https://w3id.org/linkml/
+  vbo_char: http://w3id.org/ontogpt/vbo_char
+  vbo: http://purl.obolibrary.org/obo/vbo
+
+default_prefix: vbo_char
+default_range: string
+
+imports:
+  - linkml:types
+  - core
+
+classes:
+  NameSet:
+    tree_root: true
+    is_a: NamedEntity
+    attributes:
+      animal_names:
+        range: AnimalName
+        multivalued: true
+        description: >-
+          A semicolon-separated list of names of animals
+          used in the input text. These are general names,
+          e.g., if any breed of cat is mentioned, this
+          list should include "Cat breed", or for any pig,
+          include "Pig breed".
+      names:
+        range: BreedName
+        multivalued: true
+        description: >-
+          A semicolon-separated list of names of animal breeds
+          used in the input text. These should be as specific
+          as possible about the breed of the animal.
+          Examples include:
+          Gimbsheimer Enten, Debao pony, Baixi
+      characteristics:
+        range: BreedToCharacteristic
+        multivalued: true
+        inlined: true
+        inlined_as_list: true
+        description: >-
+          A semicolon-separated list of names of animal breeds
+          used in the input text, along with a single characteristic
+          mentioned for that breed. These should be as specific
+          as possible about the breed of the animal. The characteristic
+          may be color, dimensions, physical properties, abilities,
+          or other features. Each statement should contain just one
+          pair of breed name and characteristic.
+          It should be formatted as
+          "Breed IS Characteristic", or "Breed HAS Characteristic",
+          e.g., Gimbsheimer Enten IS blue,
+          Debao pony IS short,
+          Baixi IS circular
+          Each additional characteristic for a breed should get
+          its own statement, e.g., "breed name is tall and wide"
+          should become "Breed IS tall" and "Breed is wide".
+
+  AnimalName:
+    is_a: NamedEntity
+    annotations:
+      annotators: sqlite:obo:vbo
+      prompt: >-
+        The name of a grouping category of vertebrate
+        animal breeds.
+
+  BreedName:
+    is_a: NamedEntity
+    annotations:
+      annotators: sqlite:obo:vbo
+      prompt: >-
+        The name of a vertebrate animal breed.
+
+  Characteristic:
+    is_a: NamedEntity
+    annotations:
+      annotators: sqlite:obo:uberon, sqlite:obo:pato
+      prompt: >-
+        The name of a characteristic of an animal.
+
+  Descriptor:
+    is_a: NamedEntity
+    annotations:
+      annotators: sqlite:obo:pato
+      prompt: >-
+        A descriptor for a characteristic.
+
+  BreedToCharacteristic:
+    is_a: Triple
+    description: >- 
+      A triple in which the subject is an animal breed,
+      the object is a characteristic, and the predicate
+      is usually "IS" or "HAS".
+    slot_usage:
+      subject:
+        range: BreedName
+      object:
+        description: >-
+          The specific characteristic.
+          This is generally a noun of the characteristic,
+          e.g., with "blue fin" the object is "fin".
+        range: Characteristic
+      predicate:
+        range: NamedEntity
+        description: >-
+          The relationship type, generally IS or HAS to indicate a breed
+          is defined by having a specific characteristic.
+      subject_qualifier:
+        range: NamedEntity
+        description: >-
+          An optional qualifier or modifier for the breed.
+      object_qualifier:
+        range: Descriptor
+        description: >-
+          An optional qualifier or modifier for the characteristic.
+          This is generally a descriptor of the characteristic,
+          e.g., with "blue fin" the qualifier is "blue".
