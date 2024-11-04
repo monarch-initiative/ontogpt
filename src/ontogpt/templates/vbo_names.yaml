@@ -1,0 +1,57 @@
+id: http://w3id.org/ontogpt/vbo_names
+name: vbo_names
+title: Extraction Template for Animal Names
+description: >-
+  An extraction template for animal names present in VBO
+license: https://creativecommons.org/publicdomain/zero/1.0/
+prefixes:
+  rdf: http://www.w3.org/1999/02/22-rdf-syntax-ns#
+  linkml: https://w3id.org/linkml/
+  vbo_names: http://w3id.org/ontogpt/ecosim_simple
+  vbo: http://purl.obolibrary.org/obo/vbo
+
+default_prefix: vbo_names
+default_range: string
+
+imports:
+  - linkml:types
+  - core
+
+classes:
+  NameSet:
+    tree_root: true
+    is_a: NamedEntity
+    attributes:
+      animal_names:
+        range: AnimalName
+        multivalued: true
+        description: >-
+          A semicolon-separated list of names of animals
+          used in the input text. These are general names,
+          e.g., if any breed of cat is mentioned, this
+          list should include "Cat breed", or for any pig,
+          include "Pig breed".
+      names:
+        range: BreedName
+        multivalued: true
+        description: >-
+          A semicolon-separated list of names of animal breeds
+          used in the input text. These should be as specific
+          as possible about the breed of the animal.
+          Examples include:
+          Gimbsheimer Enten, Debao pony, Baixi
+
+  AnimalName:
+    is_a: NamedEntity
+    annotations:
+      annotators: sqlite:obo:vbo
+      prompt: >-
+        The name of a grouping category of vertebrate
+        animal breeds.
+
+  BreedName:
+    is_a: NamedEntity
+    annotations:
+      annotators: sqlite:obo:vbo
+      prompt: >-
+        The name of a vertebrate animal breed.
