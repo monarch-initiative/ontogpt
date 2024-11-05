@@ -974,6 +974,7 @@ def search_and_extract(
 
 @main.command()
 @template_option
+@target_class_option
 @model_option
 @recurse_option
 @output_option_wb
@@ -989,6 +990,7 @@ def search_and_extract(
 def web_extract(
     model,
     template,
+    target_class,
     url,
     output,
     output_format,
@@ -1026,8 +1028,14 @@ def web_extract(
     web_client = SoupClient()
     text = web_client.text(url)
 
+    if target_class:
+        schemaview = template_details[3]
+        target_class_def = schemaview.get_class(target_class)
+    else:
+        target_class_def = None
+
     logging.debug(f"Input text: {text}")
-    results = ke.extract_from_text(text=text, show_prompt=show_prompt)
+    results = ke.extract_from_text(text=text, cls=target_class_def, show_prompt=show_prompt)
     write_extraction(results, output, output_format, ke, template, cut_input_text)
 
 
