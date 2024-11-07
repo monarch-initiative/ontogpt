@@ -69,11 +69,41 @@ classes:
           - range: Risk
           - range: string
         multivalued: true
-      overall_classification:
+      overall_classification_one:
         description: >-
-          The final classification of the overall pathology. This must be one of
-          the following: "Unclear", "Benign", "Malignant", or "Inflammation".
-        range: PathologyClassification
+          The final classification of the overall pathology. This must be a
+          single number, corresponding to one of
+          the following: 1 if No significant pathological abnormality, 2 if
+          Neoplastic malignant, 3 if Dysplastic, 4 if Proliferative
+          non-neoplastic, or 5 if Inflammatory and other non-proliferative
+          abnormalities.
+        range: PathologyClassificationOne
+      overall_classification_two:
+        description: >-
+          The final classification of the overall pathology. This must be a
+          code, like the following (i.e., "2" or "2a" are acceptable):
+          1. No significant pathological abnormality
+          2. Neoplastic malignant pathology
+          2a. Carcinoma
+          2b. Sarcoma
+          2c. Lymphoma
+          2d. Other neoplastic malignant growth
+          3. Dysplastic
+          3a. High grade dysplasia
+          3b. Low grade dysplasia
+          4. Proliferative non-neoplastic pathology
+          5. Inflammatory and other non-proliferative abnormalities
+          5a. Acute or active inflammation
+          5b. Chronic inflammation
+          5c. Eosinophils present
+          5d. Granulomas / histiocytes / macrophages present
+          5e. Organisms (Bacterial, Viral, Parasitic, Fungal) present
+          5f. Collagen abnormalities
+          5g. Vessel abnormalities
+          5h. Apoptosis
+          5i. Mast cells
+          5j. Amyloid
+        range: PathologyClassificationTwo
 
   PathologyStatement:
     description: >-
@@ -189,20 +219,93 @@ enums:
       Not Specified:
         description: >-
           The severity of the pathology is not specified.
-  PathologyClassification:
+  PathologyClassificationOne:
     description: >-
-      The final classification of the overall pathology.
+      The final classification of the overall pathology. This uses
+      a system of five categories, identified numerically.
     permissible_values:
-      Unclear:
+      1:
         description: >-
-          The final classification of the overall pathology is unclear.
-      Benign:
+          No significant pathological abnormality was observed.
+      2:
         description: >-
-          The final classification of the overall pathology is benign.
-      Malignant:
+          Neoplastic malignant growth was observed.
+      3:
         description: >-
-          The final classification of the overall pathology is malignant.
-      Inflammation:
+          Dysplastic pathology was observed (i.e., abnormal or atypical cell
+          growth and/or appearance).
+      4:
         description: >-
-          The final classification of the overall pathology is inflammation.
-
+          Proliferative non-neoplastic pathology was observed.
+      5:
+        description: >-
+          Inflammatory or other non-proliferative abnormalities were observed.
+  PathologyClassificationTwo:
+    description: >-
+      The final classification of the overall pathology. This must be a
+      code, "2" or "2a".
+    permissible_values:
+      1:
+        description: >-
+          No significant pathological abnormality was observed.
+      2:
+        description: >-
+          Neoplastic malignant pathology was observed.
+      2a:
+        description: >-
+          Carcinoma was observed.
+      2b:
+        description: >-
+          Sarcoma was observed.
+      2c:
+        description: >-
+          Lymphoma was observed.
+      2d:
+        description: >-
+          Other neoplastic malignant growth was observed.
+      3:
+        description: >-
+          Dysplastic pathology was observed (i.e., abnormal or atypical cell
+          growth and/or appearance).
+      3a:
+        description: >-
+          High grade dysplasia was observed.
+      3b:
+        description: >-
+          Low grade dysplasia was observed.
+      4:
+        description: >-
+          Proliferative non-neoplastic pathology was observed.
+      5:
+        description: >-
+          Inflammatory or other non-proliferative abnormalities were observed.
+      5a:
+        description: >-
+          Acute or active inflammation was observed.
+      5b:
+        description: >-
+          Chronic inflammation was observed.
+      5c:
+        description: >-
+          Eosinophils were present.
+      5d:
+        description: >-
+          Granulomas / histiocytes / macrophages were present.
+      5e:
+        description: >-
+          Organisms (Bacterial, Viral, Parasitic, Fungal) were present.
+      5f:
+        description: >-
+          Collagen abnormalities were observed.
+      5g:
+        description: >-
+          Vessel abnormalities were observed.
+      5h:
+        description: >-
+          Apoptosis was observed.
+      5i:
+        description: >-
+          Mast cells were observed.
+      5j:
+        description: >-
+          Amyloid was observed.

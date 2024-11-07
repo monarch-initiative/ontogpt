@@ -1,22 +1,24 @@
 from __future__ import annotations 
+
+import re
+import sys
 from datetime import (
-    datetime,
     date,
+    datetime,
     time
 )
 from decimal import Decimal 
 from enum import Enum 
-import re
-import sys
 from typing import (
     Any,
     ClassVar,
+    Dict,
     List,
     Literal,
-    Dict,
     Optional,
     Union
 )
+
 from pydantic import (
     BaseModel,
     ConfigDict,
@@ -24,6 +26,8 @@ from pydantic import (
     RootModel,
     field_validator
 )
+
+
 metamodel_version = "None"
 version = "None"
 
@@ -101,18 +105,68 @@ class SeverityLevel(str, Enum):
     Not_Specified = "Not Specified"
 
 
-class PathologyClassification(str, Enum):
+class PathologyClassificationOne(str, Enum):
     """
-    The final classification of the overall pathology.
+    The final classification of the overall pathology. This uses a system of five categories, identified numerically.
     """
-    # The final classification of the overall pathology is unclear.
-    Unclear = "Unclear"
-    # The final classification of the overall pathology is benign.
-    Benign = "Benign"
-    # The final classification of the overall pathology is malignant.
-    Malignant = "Malignant"
-    # The final classification of the overall pathology is inflammation.
-    Inflammation = "Inflammation"
+    # No significant pathological abnormality was observed.
+    number_1 = "1"
+    # Neoplastic malignant growth was observed.
+    number_2 = "2"
+    # Dysplastic pathology was observed (i.e., abnormal or atypical cell growth and/or appearance).
+    number_3 = "3"
+    # Proliferative non-neoplastic pathology was observed.
+    number_4 = "4"
+    # Inflammatory or other non-proliferative abnormalities were observed.
+    number_5 = "5"
+
+
+class PathologyClassificationTwo(str, Enum):
+    """
+    The final classification of the overall pathology. This must be a code, "2" or "2a".
+    """
+    # No significant pathological abnormality was observed.
+    number_1 = "1"
+    # Neoplastic malignant pathology was observed.
+    number_2 = "2"
+    # Carcinoma was observed.
+    number_2a = "2a"
+    # Sarcoma was observed.
+    number_2b = "2b"
+    # Lymphoma was observed.
+    number_2c = "2c"
+    # Other neoplastic malignant growth was observed.
+    number_2d = "2d"
+    # Dysplastic pathology was observed (i.e., abnormal or atypical cell growth and/or appearance).
+    number_3 = "3"
+    # High grade dysplasia was observed.
+    number_3a = "3a"
+    # Low grade dysplasia was observed.
+    number_3b = "3b"
+    # Proliferative non-neoplastic pathology was observed.
+    number_4 = "4"
+    # Inflammatory or other non-proliferative abnormalities were observed.
+    number_5 = "5"
+    # Acute or active inflammation was observed.
+    number_5a = "5a"
+    # Chronic inflammation was observed.
+    number_5b = "5b"
+    # Eosinophils were present.
+    number_5c = "5c"
+    # Granulomas / histiocytes / macrophages were present.
+    number_5d = "5d"
+    # Organisms (Bacterial, Viral, Parasitic, Fungal) were present.
+    number_5e = "5e"
+    # Collagen abnormalities were observed.
+    number_5f = "5f"
+    # Vessel abnormalities were observed.
+    number_5g = "5g"
+    # Apoptosis was observed.
+    number_5h = "5h"
+    # Mast cells were observed.
+    number_5i = "5i"
+    # Amyloid was observed.
+    number_5j = "5j"
 
 
 
@@ -144,6 +198,23 @@ class NamedEntity(ConfiguredBaseModel):
                                  'value': 'AnnotationProperty, AnnotationAssertion'}},
          'domain_of': ['NamedEntity'],
          'slot_uri': 'rdfs:label'} })
+    original_spans: Optional[List[str]] = Field(None, description="""The coordinates of the original text span from which the named entity was extracted, inclusive. For example, \"10:25\" means the span starting from the 10th character and ending with the 25th character. The first character in the text has index 0. Newlines are treated as single characters. Multivalued as there may be multiple spans for a single text.""", json_schema_extra = { "linkml_meta": {'alias': 'original_spans',
+         'annotations': {'prompt.skip': {'tag': 'prompt.skip', 'value': 'true'}},
+         'comments': ['This is determined during grounding and normalization',
+                      'But is based on the full input text'],
+         'domain_of': ['NamedEntity']} })
+
+    @field_validator('original_spans')
+    def pattern_original_spans(cls, v):
+        pattern=re.compile(r"^\d+:\d+$")
+        if isinstance(v,list):
+            for element in v:
+                if isinstance(v, str) and not pattern.match(element):
+                    raise ValueError(f"Invalid original_spans format: {element}")
+        elif isinstance(v,str):
+            if not pattern.match(v):
+                raise ValueError(f"Invalid original_spans format: {v}")
+        return v
 
 
 class CompoundExpression(ConfiguredBaseModel):
@@ -204,6 +275,23 @@ class RelationshipType(NamedEntity):
                                  'value': 'AnnotationProperty, AnnotationAssertion'}},
          'domain_of': ['NamedEntity'],
          'slot_uri': 'rdfs:label'} })
+    original_spans: Optional[List[str]] = Field(None, description="""The coordinates of the original text span from which the named entity was extracted, inclusive. For example, \"10:25\" means the span starting from the 10th character and ending with the 25th character. The first character in the text has index 0. Newlines are treated as single characters. Multivalued as there may be multiple spans for a single text.""", json_schema_extra = { "linkml_meta": {'alias': 'original_spans',
+         'annotations': {'prompt.skip': {'tag': 'prompt.skip', 'value': 'true'}},
+         'comments': ['This is determined during grounding and normalization',
+                      'But is based on the full input text'],
+         'domain_of': ['NamedEntity']} })
+
+    @field_validator('original_spans')
+    def pattern_original_spans(cls, v):
+        pattern=re.compile(r"^\d+:\d+$")
+        if isinstance(v,list):
+            for element in v:
+                if isinstance(v, str) and not pattern.match(element):
+                    raise ValueError(f"Invalid original_spans format: {element}")
+        elif isinstance(v,str):
+            if not pattern.match(v):
+                raise ValueError(f"Invalid original_spans format: {v}")
+        return v
 
 
 class Publication(ConfiguredBaseModel):
@@ -238,7 +326,8 @@ class PathologyReport(ConfiguredBaseModel):
     risks: Optional[List[Union[Risk, str]]] = Field(None, description="""A semicolon-delimited list of risks for development of more severe pathologies, along with what they are a risk for. Format each in parentheses as \"risk factor (potential pathology)\". If not specified, this value must be \"Not Specified\".""", json_schema_extra = { "linkml_meta": {'alias': 'risks',
          'any_of': [{'range': 'Risk'}, {'range': 'string'}],
          'domain_of': ['PathologyReport']} })
-    overall_classification: Optional[PathologyClassification] = Field(None, description="""The final classification of the overall pathology. This must be one of the following: \"Unclear\", \"Benign\", \"Malignant\", or \"Inflammation\".""", json_schema_extra = { "linkml_meta": {'alias': 'overall_classification', 'domain_of': ['PathologyReport']} })
+    overall_classification_one: Optional[PathologyClassificationOne] = Field(None, description="""The final classification of the overall pathology. This must be a single number, corresponding to one of the following: 1 if No significant pathological abnormality, 2 if Neoplastic malignant, 3 if Dysplastic, 4 if Proliferative non-neoplastic, or 5 if Inflammatory and other non-proliferative abnormalities.""", json_schema_extra = { "linkml_meta": {'alias': 'overall_classification_one', 'domain_of': ['PathologyReport']} })
+    overall_classification_two: Optional[PathologyClassificationTwo] = Field(None, description="""The final classification of the overall pathology. This must be a code, like the following (i.e., \"2\" or \"2a\" are acceptable): 1. No significant pathological abnormality 2. Neoplastic malignant pathology 2a. Carcinoma 2b. Sarcoma 2c. Lymphoma 2d. Other neoplastic malignant growth 3. Dysplastic 3a. High grade dysplasia 3b. Low grade dysplasia 4. Proliferative non-neoplastic pathology 5. Inflammatory and other non-proliferative abnormalities 5a. Acute or active inflammation 5b. Chronic inflammation 5c. Eosinophils present 5d. Granulomas / histiocytes / macrophages present 5e. Organisms (Bacterial, Viral, Parasitic, Fungal) present 5f. Collagen abnormalities 5g. Vessel abnormalities 5h. Apoptosis 5i. Mast cells 5j. Amyloid""", json_schema_extra = { "linkml_meta": {'alias': 'overall_classification_two', 'domain_of': ['PathologyReport']} })
 
 
 class PathologyStatement(ConfiguredBaseModel):
@@ -289,6 +378,23 @@ class Diagnosis(NamedEntity):
                                  'value': 'AnnotationProperty, AnnotationAssertion'}},
          'domain_of': ['NamedEntity'],
          'slot_uri': 'rdfs:label'} })
+    original_spans: Optional[List[str]] = Field(None, description="""The coordinates of the original text span from which the named entity was extracted, inclusive. For example, \"10:25\" means the span starting from the 10th character and ending with the 25th character. The first character in the text has index 0. Newlines are treated as single characters. Multivalued as there may be multiple spans for a single text.""", json_schema_extra = { "linkml_meta": {'alias': 'original_spans',
+         'annotations': {'prompt.skip': {'tag': 'prompt.skip', 'value': 'true'}},
+         'comments': ['This is determined during grounding and normalization',
+                      'But is based on the full input text'],
+         'domain_of': ['NamedEntity']} })
+
+    @field_validator('original_spans')
+    def pattern_original_spans(cls, v):
+        pattern=re.compile(r"^\d+:\d+$")
+        if isinstance(v,list):
+            for element in v:
+                if isinstance(v, str) and not pattern.match(element):
+                    raise ValueError(f"Invalid original_spans format: {element}")
+        elif isinstance(v,str):
+            if not pattern.match(v):
+                raise ValueError(f"Invalid original_spans format: {v}")
+        return v
 
 
 class AnatomicalEntity(NamedEntity):
@@ -307,6 +413,23 @@ class AnatomicalEntity(NamedEntity):
                                  'value': 'AnnotationProperty, AnnotationAssertion'}},
          'domain_of': ['NamedEntity'],
          'slot_uri': 'rdfs:label'} })
+    original_spans: Optional[List[str]] = Field(None, description="""The coordinates of the original text span from which the named entity was extracted, inclusive. For example, \"10:25\" means the span starting from the 10th character and ending with the 25th character. The first character in the text has index 0. Newlines are treated as single characters. Multivalued as there may be multiple spans for a single text.""", json_schema_extra = { "linkml_meta": {'alias': 'original_spans',
+         'annotations': {'prompt.skip': {'tag': 'prompt.skip', 'value': 'true'}},
+         'comments': ['This is determined during grounding and normalization',
+                      'But is based on the full input text'],
+         'domain_of': ['NamedEntity']} })
+
+    @field_validator('original_spans')
+    def pattern_original_spans(cls, v):
+        pattern=re.compile(r"^\d+:\d+$")
+        if isinstance(v,list):
+            for element in v:
+                if isinstance(v, str) and not pattern.match(element):
+                    raise ValueError(f"Invalid original_spans format: {element}")
+        elif isinstance(v,str):
+            if not pattern.match(v):
+                raise ValueError(f"Invalid original_spans format: {v}")
+        return v
 
 
 class Risk(ConfiguredBaseModel):
@@ -336,6 +459,23 @@ class Qualifier(NamedEntity):
                                  'value': 'AnnotationProperty, AnnotationAssertion'}},
          'domain_of': ['NamedEntity'],
          'slot_uri': 'rdfs:label'} })
+    original_spans: Optional[List[str]] = Field(None, description="""The coordinates of the original text span from which the named entity was extracted, inclusive. For example, \"10:25\" means the span starting from the 10th character and ending with the 25th character. The first character in the text has index 0. Newlines are treated as single characters. Multivalued as there may be multiple spans for a single text.""", json_schema_extra = { "linkml_meta": {'alias': 'original_spans',
+         'annotations': {'prompt.skip': {'tag': 'prompt.skip', 'value': 'true'}},
+         'comments': ['This is determined during grounding and normalization',
+                      'But is based on the full input text'],
+         'domain_of': ['NamedEntity']} })
+
+    @field_validator('original_spans')
+    def pattern_original_spans(cls, v):
+        pattern=re.compile(r"^\d+:\d+$")
+        if isinstance(v,list):
+            for element in v:
+                if isinstance(v, str) and not pattern.match(element):
+                    raise ValueError(f"Invalid original_spans format: {element}")
+        elif isinstance(v,str):
+            if not pattern.match(v):
+                raise ValueError(f"Invalid original_spans format: {v}")
+        return v
 
 
 # Model rebuild
