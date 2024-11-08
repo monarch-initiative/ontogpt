@@ -1,4 +1,68 @@
-"""Tools to extract sub-ontologies and reasoner tasks."""
+"""Tools to extract sub-ontologies and reasoner tasks.
+
+This module provides classes and functions to extract sub-ontologies and reasoner tasks from a
+given ontology. These tasks can be used to query or evaluate the ontology using a ReasonerEngine
+object.
+
+Classes:
+    Axiom: Represents an individual logical axiom.
+    Ontology: Represents a collection of axioms.
+    Query: Represents a query.
+    Explanation: Represents a set of axioms that entail some explained axiom.
+    Answer: Represents an individual answer to a query.
+    ObjectAnswer: Represents an answer that is an object, e.g., class.
+    ClassAnswer: Represents an answer that is an OWL class.
+    InstanceAnswer: Represents an answer that is an OWL individual.
+    BooleanAnswer: Represents an answer that is a boolean, e.g., true or false.
+    AxiomAnswer: Represents an answer that is an axiom.
+    ExampleQueryAnswers: Represents an example query plus all expected answers.
+    Example: Represents an example of a query plus answers in the context of an ontology.
+    LLMReasonMethodType: Enum representing different reasoning method types.
+    Task: Represents a task which is a query on an ontology that has a set of defined answers.
+    OntologyCoherencyTask: Represents a task to determine if an ontology is coherent.
+    EntailedIndirectSuperClassTask: Represents a task to determine the indirect superclasses of a
+        class.
+    EntailedTransitiveSuperClassTask: Represents a task to determine all transitive superclasses of
+        a class.
+    EntailedSubClassOfExpressionTask: Represents a task to determine the subclasses of a class
+        expression.
+    EntailedDirectSuperClassTask: Represents a task to determine the direct superclasses of a class.
+    MostRecentCommonSubsumerTask: Represents a task to determine the most specific common ancestors.
+    TaxonConstraintTask: Represents a task to determine inapplicable classes by taxon.
+    ABoxTask: Represents a task to infer assertions over property chains and transitivity in
+        aboxes.
+    TaskCollection: Represents a collection of tasks.
+    OntologyExtractor: Extracts Task objects from an ontology.
+
+Functions:
+    TaskCollection.load(file_or_object): Loads a TaskCollection from a file or object.
+    OntologyExtractor.create_task(task_type, parameters, **kwargs): Creates a task of the specified
+        type.
+    OntologyExtractor.create_random_tasks(num_tasks_per_type, methods, abox): Creates random tasks.
+    OntologyExtractor.extract_ontology(terms, roots, predicates, include_abox): Extracts an ontology
+        module.
+    OntologyExtractor.extract_indirect_superclasses_task(subclass, siblings, roots, predicates,
+        select_random, **kwargs): Extracts a task for finding all indirect superclasses of a class.
+    OntologyExtractor.extract_transitive_superclasses_task(subclass, siblings, roots, predicates,
+        select_random, **kwargs): Extracts a task for finding all
+        transitive superclasses of a class.
+    OntologyExtractor.extract_abox_task(subject, siblings, predicate, select_random, **kwargs):
+        Extracts a task for finding all entailed edges.
+    OntologyExtractor.extract_most_recent_common_subsumers_task(subclass1, subclass2, siblings,
+        roots, predicates, select_random, **kwargs): Extracts a task for finding all MRCAs of a pair
+        of classes.
+    OntologyExtractor.extract_subclass_of_expression_task(superclass, predicate, siblings,
+        predicates, select_random, **kwargs): Extracts a task for finding all subclasses of a class
+        expression.
+    OntologyExtractor.extract_incoherent_ontology_task(incoherents, siblings, disjoints,
+        spiked_relationships, roots, select_random, **kwargs): Extracts a task for testing ability
+        to find incoherencies based on disjointness axioms.
+    OntologyExtractor.extract_taxon_constraint_task(term, taxon, siblings, never_in, select_random,
+        **kwargs): Extracts a task for evaluating taxon constraints.
+    OntologyExtractor._axiom(rel, tbox): Creates an axiom from a relationship.
+    OntologyExtractor._name(curie): Returns the name of a CURIE.
+    OntologyExtractor.extract_rbox(): Extracts RBox axioms.
+"""
 
 import base64
 import logging

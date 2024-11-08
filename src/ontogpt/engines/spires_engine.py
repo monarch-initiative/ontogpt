@@ -1,5 +1,5 @@
 """
-Main Knowledge Extractor class.
+Main SPIRES Knowledge Extractor class.
 
 This works by recursively constructing structured prompt-completions where
 a pseudo-YAML structure is requested, where the YAML

@@ -1,0 +1,42 @@
+id: https://w3id.org/linkml/examples/personinfo
+name: personinfo
+prefixes:
+  linkml: https://w3id.org/linkml/
+  personinfo: https://w3id.org/linkml/examples/personinfo/
+imports:
+  - linkml:types
+  - core
+default_range: string
+
+default_prefix: personinfo
+
+classes:
+
+  Container:
+    tree_root: true
+    attributes:
+      persons:
+        description: >-
+          A semicolon-delimited list of people named in the text.
+        multivalued: true
+        inlined_as_list: true
+        annotations:
+          owl: ObjectProperty, ObjectSomeValuesFrom
+        range: Person
+
+  Person:
+    is_a: NamedEntity
+    description: >-
+      A person.
+    attributes:
+      full_name:
+        description: >-
+          The full name of the person.
+        range: string
+      id:
+        description: >-
+          A unique identifier for the person.
+          This is their full name without spaces
+          or special characters.
+        identifier: true
+        range: string
