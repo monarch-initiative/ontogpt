@@ -21,7 +21,8 @@ Functions:
     set_api_key(key: str):
         Set the API key for accessing external language model.
 
-    extract_from_text(text: str, cls: ClassDefinition = None, object: OBJECT = None) -> ExtractionResult:
+    extract_from_text(text: str, cls: ClassDefinition = None,
+        object: OBJECT = None) -> ExtractionResult:
         Abstract method to extract knowledge from text.
 
     extract_from_file(file: Union[str, Path, TextIO]) -> pydantic.BaseModel:
@@ -33,7 +34,8 @@ Functions:
     synthesize(cls: ClassDefinition = None, object: OBJECT = None) -> ExtractionResult:
         Abstract method to synthesize extraction results.
 
-    generalize(object: Union[pydantic.BaseModel, dict], examples: List[EXAMPLE], show_prompt: bool) -> ExtractionResult:
+    generalize(object: Union[pydantic.BaseModel, dict],
+        examples: List[EXAMPLE], show_prompt: bool) -> ExtractionResult:
         Abstract method to generalize extraction results.
 
     map_terms(terms: List[str], ontology: str, show_prompt: bool) -> Dict[str, str]:
@@ -62,7 +64,8 @@ Functions:
 
     groundings(text: str, cls: ClassDefinition) -> Iterator[str]:
 
-    merge_resultsets(resultset: List[ExtractionResult], unique_fields: List[str]) -> ExtractionResult:
+    merge_resultsets(resultset: List[ExtractionResult],
+        unique_fields: List[str]) -> ExtractionResult:
 
 """
 
