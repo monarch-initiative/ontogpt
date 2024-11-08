@@ -1,4 +1,70 @@
-"""Main Knowledge Extractor class."""
+"""Main Knowledge Extractor class.
+
+This module defines the KnowledgeEngine class, an
+abstract base class for extracting knowledge from
+text using knowledge sources and language models.
+It includes methods for chunking text, extracting
+annotations from text and files, loading dictionaries,
+synthesizing and generalizing extraction results,
+mapping terms, and normalizing named entities.
+
+Classes:
+    KnowledgeEngine: Abstract base class for all knowledge engines.
+
+Functions:
+    chunk_text_by_sentence(text: str, window_size=3) -> Iterator[str]:
+        Chunk text into windows of sentences.
+
+    chunk_text_by_char(text: str, window_size=1000) -> Iterator[str]:
+        Chunk text into windows of characters.
+
+    set_api_key(key: str):
+        Set the API key for accessing external language model.
+
+    extract_from_text(text: str, cls: ClassDefinition = None, object: OBJECT = None) -> ExtractionResult:
+        Abstract method to extract knowledge from text.
+
+    extract_from_file(file: Union[str, Path, TextIO]) -> pydantic.BaseModel:
+        Extract annotations from the given text file.
+
+    load_dictionary(path: Union[str, Path, list]):
+        Load a dictionary from a given path or list.
+
+    synthesize(cls: ClassDefinition = None, object: OBJECT = None) -> ExtractionResult:
+        Abstract method to synthesize extraction results.
+
+    generalize(object: Union[pydantic.BaseModel, dict], examples: List[EXAMPLE], show_prompt: bool) -> ExtractionResult:
+        Abstract method to generalize extraction results.
+
+    map_terms(terms: List[str], ontology: str, show_prompt: bool) -> Dict[str, str]:
+        Abstract method to map terms to ontology.
+
+    _get_openai_api_key():
+        Get the OpenAI API key from the environment.
+
+    get_annotators(cls: ClassDefinition = None) -> List[BasicOntologyInterface]:
+
+    promptable_slots(cls: Optional[ClassDefinition] = None) -> List[SlotDefinition]:
+
+    slot_is_skipped(slot: SlotDefinition) -> bool:
+        Check if a slot is skipped for prompting.
+
+    normalize_named_entity(text: str, range: ElementName) -> str:
+        Ground and normalize named entities to preferred ID prefixes.
+
+    is_valid_identifier(input_id: str, cls: ClassDefinition) -> bool:
+        Check if an identifier is valid for a given class.
+
+    normalize_identifier(input_id: str, cls: ClassDefinition) -> Iterator[str]:
+
+    map_identifier(input_id: str, cls: ClassDefinition) -> Iterator[str]:
+        Map an identifier to a preferred prefix.
+
+    groundings(text: str, cls: ClassDefinition) -> Iterator[str]:
+
+    merge_resultsets(resultset: List[ExtractionResult], unique_fields: List[str]) -> ExtractionResult:
+
+"""
 
 import logging
 import re
