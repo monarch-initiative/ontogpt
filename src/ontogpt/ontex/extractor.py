@@ -39,7 +39,7 @@ Functions:
     OntologyExtractor.create_task(task_type, parameters, **kwargs): Creates a task of the specified
         type.
     OntologyExtractor.create_random_tasks(num_tasks_per_type, methods, abox): Creates random tasks.
-    OntologyExtractor.extract_ontology(terms, roots, predicates, include_abox): Extracts an ontology 
+    OntologyExtractor.extract_ontology(terms, roots, predicates, include_abox): Extracts an ontology
         module.
     OntologyExtractor.extract_indirect_superclasses_task(subclass, siblings, roots, predicates,
         select_random, **kwargs): Extracts a task for finding all indirect superclasses of a class.
