@@ -2179,6 +2179,8 @@ def _get_templates() -> Dict[str, Tuple[str, str]]:
                 identifier = data["id"].split("/")[-1]
             else:
                 identifier = data["id"]
+            if "description" not in data.keys():
+                data["description"] = ""
             all_templates[identifier] = (data["name"], data["description"])
 
     return all_templates
