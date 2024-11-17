@@ -47,6 +47,10 @@ scipy = [
     {version = "^1.13.0", python = "<3.13"},
     {version = "^1.14.1", python = ">=3.13"}
 ]
+numpy = [
+    {version = ">=1.23,<2.1", python = "<3.13"},
+    {version = "^2.1", python = ">=3.13"}
+]
 
 [tool.poetry.dev-dependencies]
 pytest = ">=7.1.2"
