@@ -4682,13 +4682,13 @@ files = [
 
 [[package]]
 name = "portalocker"
-version = "2.10.1"
+version = "3.0.0"
 description = "Wraps the portalocker recipe for easy usage"
 optional = false
 python-versions = ">=3.8"
 files = [
-    {file = "portalocker-2.10.1-py3-none-any.whl", hash = "sha256:53a5984ebc86a025552264b459b46a2086e269b21823cb572f8f28ee759e45bf"},
-    {file = "portalocker-2.10.1.tar.gz", hash = "sha256:ef1bf844e878ab08aee7e40184156e1151f228f103aa5c6bd0724cc330960f8f"},
+    {file = "portalocker-3.0.0-py3-none-any.whl", hash = "sha256:211916b539a0dc3c128a3d9e86893ecfefec5379c4ff684e798f0a00f99db406"},
+    {file = "portalocker-3.0.0.tar.gz", hash = "sha256:21f535de2e7a82c94c130c054adb5c7421d480d5619d61073996e2f89bcb879b"},
 ]
 
 [package.dependencies]
@@ -7722,4 +7722,4 @@ web = ["Jinja2", "fastapi", "python-multipart", "uvicorn"]
 [metadata]
 lock-version = "2.0"
 python-versions = ">=3.9,<3.9.7 || >3.9.7,<4.0"
-content-hash = "16c53029a0009a30384ef58e9880090810cd14044ac69aaeac8604c41449ee66"
+content-hash = "cb1f6cb532d22712c0c2f519789ddc80aa071b3daa4470fe3c9685e0707761f0"
