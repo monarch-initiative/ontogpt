@@ -807,7 +807,8 @@ class MostRecentCommonSubsumerTask(Task):
                             text="E",
                             explanations=[
                                 Explanation(
-                                    text="""E is the most specific common entailed superclass of E2 and E because
+                                    text="""E is the most specific common
+                                    entailed superclass of E2 and E because
                                     trivially E2 SubClassOf E""",
                                     axioms=[
                                         Axiom(text="E2 SubClassOf E"),
