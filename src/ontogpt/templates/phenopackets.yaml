@@ -1,0 +1,138 @@
+id: http://w3id.org/ontogpt/phenopackets
+name: phenopackets
+title: Phenopackets Schema v2
+description: >-
+  A template for extracting a phenopacket, an anonymous
+  phenotypic description of an individual or biosample
+  with potential genes of interest and/or diagnoses.
+  This template is based on the Phenopackets schema v2,
+  originally defined in Protobuf. All classes are
+  defined in a single schema here, with their corresponding
+  module provided in a comment (e.g., core/individual).
+prefixes:
+  linkml: https://w3id.org/linkml/
+  phenopackets_schema: http://w3id.org/ontogpt/phenopackets
+see_also:
+  - https://github.com/phenopackets/phenopacket-schema
+keywords:
+  - phenotype
+
+default_prefix: phenopackets_schema
+default_range: string
+
+imports:
+  - linkml:types
+  - core
+
+classes:
+  Phenopacket:
+    tree_root: true
+    description: >-
+      An anonymous phenotypic description of an individual or biosample with potential genes of interest and/or diagnoses.
+      This is a bundle of high-level concepts with no specifically defined relational concepts. It is expected that the
+      resources sharing the phenopackets will define and enforce their own semantics and level of requirements for included
+      fields.
+    attributes:
+      id:
+        description: An identifier specific for this phenopacket.
+        range: string
+        annotations:
+          prompt: >-
+            A unique identifier. This must be generated and may not be
+            provided in the input text.
+          prompt.example: "THP-1 Control1"
+      subject:
+        description: >-
+          The individual representing the focus of this packet - e.g. the proband in rare disease cases or cancer patient
+        range: Individual
+        annotations:
+          prompt: >-
+            The individual or biosample being described in the input text.
+      phenotypic_features:
+        description: >-
+          Phenotypic features relating to the subject of the phenopacket
+        range: PhenotypicFeature
+        multivalued: true
+        inlined: true
+        annotations:
+          prompt: >-
+            A semicolon-separated list of phenotypic features observed in the
+            individual or biosample.
+      measurements:
+        description: >-
+          Quantifiable measurements related to the individual
+        range: Measurement
+        multivalued: true
+        inlined: true
+        annotations:
+          prompt: >-
+            A semicolon-separated list of measurements taken from the individual
+            or biosample.
+      biosample:
+        description: >-
+          Biosample(s) derived from the patient or a collection of biosamples in isolation
+        range: Biosample
+        multivalued: true
+        inlined: true
+        annotations:
+          prompt: >-
+            The biosample from which the phenopacket was derived.
+      interpretations:
+        description: >-
+          Interpretations of the phenopacket
+        range: Interpretation
+        multivalued: true
+        inlined: true
+        annotations:
+          prompt: >-
+            A semicolon-separated list of interpretations of the input text.
+      diseases:
+        description: >-
+          Field for disease identifiers - could be used for listing either diagnosed or suspected conditions. The
+          resources using these fields should define what this represents in their context.
+        range: Disease
+        multivalued: true
+        inlined: true
+        annotations:
+          prompt: >-
+            A semicolon-separated list of diagnosed or suspected disease
+            conditions.
+      medical_actions:
+        description: >-
+          Field for medical action identifiers - could be used for listing either performed or planned actions. The
+          resources using these fields should define what this represents in their context.
+        range: MedicalAction
+        multivalued: true
+        inlined: true
+        annotations:
+          prompt: >-
+            A semicolon-separated list of medical actions taken or planned.
+      files:
+        description: >-
+          Pointer to the relevant file(s) for the individual
+        range: File
+        multivalued: true
+        inlined: true
+        annotations:
+          prompt: >-
+            A semicolon-separated list of file identifiers specified in the
+            input text.
+      meta_data:
+        description: >-
+          Structured definitions of the resources and ontologies used within the phenopacket. REQUIRED
+        range: MetaData
+        required: true
+        annotations:
+          prompt: >-
+            Additional metadata for the phenopacket.
+
+# core/base
+# core/biosample
+# core/disease
+# core/interpretation
+# core/individual
+# core/measurement
+# core/medical_action
+# core/meta_data
+# core/pedigree
+# core/phenotypic_feature
