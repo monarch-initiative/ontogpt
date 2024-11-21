@@ -7,7 +7,7 @@ license = "BSD-3"
 readme = "README.md"
 
 [tool.poetry.dependencies]
-python = ">=3.9,<3.9.7 || >3.9.7,<4.0"
+python = ">=3.9,<3.9.7 || >3.9.7,<3.13"
 "ruamel.yaml" = ">=0.17.31"
 Jinja2 = {version = ">=3.1.2", optional = true}
 aiohttp = ">=3.8.4"
@@ -51,7 +51,6 @@ numpy = [
     {version = ">=1.23,<2.1", python = "<3.13"},
     {version = ">=2.0.0", python = ">=3.13"}
 ]
-scikit-learn = ">=1.5.0"
 
 [tool.poetry.dev-dependencies]
 pytest = ">=7.1.2"
