@@ -126,6 +126,129 @@ classes:
           prompt: >-
             Additional metadata for the phenopacket.
 
+  Family:
+    description: >-
+      Phenotype, sample and pedigree data required for a genomic diagnosis.
+      Equivalent to the Genomics England InterpretationRequestRD
+      https://github.com/genomicsengland/GelReportModels/blob/master/schemas/IDLs/org.gel.models.report.avro/5.0.0/InterpretationRequestRD.avdl
+    attributes:
+      id:
+        description: An identifier specific for this family.
+        range: string
+        annotations:
+          prompt: >-
+            A unique identifier. This must be generated and may not be
+            provided in the input text.
+          prompt.example: "Fam1"
+      proband:
+        description: >-
+          The individual representing the focus of this packet - e.g. the proband in rare disease cases or cancer patient
+        range: Phenopacket
+        annotations:
+          prompt: >-
+            The individual representing the focus of this input text,
+            as a Phenopacket object.
+      relatives:
+        description: >-
+          Individuals related in some way to the patient. For instance, the individuals may be genetically related or may
+          be members of a cohort. If this field is used, then  it is expected that a pedigree will be included for
+          genetically related individuals for use cases such as genomic diagnostics. If a phenopacket is being used to
+          describe one member of a cohort, then in general one phenopacket will be created for each of the individuals in
+          the cohort.`
+        range: Phenopacket
+        multivalued: true
+        annotations:
+          prompt: >-
+            A semicolon-separated list of relatives of the proband,
+            as Phenopacket objects.
+      consanguinous_parents:
+        description: >-
+          flag to indicate that the parents of the proband are consanguinous
+        range: boolean
+        annotations:
+          prompt: >-
+            Flag to indicate that the parents of the proband are consanguinous.
+            This must be a boolean value - true or false.
+            If unknown, do not include this field or a value for this field.
+      pedigree:
+        description: >-
+          The pedigree defining the relations between the proband and their relatives. Pedigree.individual_id should
+          map to the PhenoPacket.Individual.id
+        range: Pedigree
+        annotations:
+          prompt: >-
+            The pedigree defining the relations between the proband and their
+            relatives.
+      files:
+        description: >-
+          Pointer to the relevant file(s) for the family. These should be files relating to one or more of the family
+          members e.g a multi-sample VCF. Files relating exclusively to individual phenopackets should be contained in the
+          Phenopacket.
+        range: File
+        multivalued: true
+        inlined: true
+        annotations:
+          prompt: >-
+            A semicolon-separated list of file identifiers specified in the
+            input text, relating to the family.
+      meta_data:
+        description: >-
+          Structured definitions of the resources and ontologies used within the phenopacket. REQUIRED
+        range: MetaData
+        required: true
+        annotations:
+          prompt: >-
+            Additional metadata for the phenopacket.
+
+  Cohort:
+    description: >-
+      A group of individuals related in some phenotypic or genotypic aspect.
+    attributes:
+      id:
+        description: An identifier specific for this cohort.
+        range: string
+        annotations:
+          prompt: >-
+            A unique identifier. This must be generated and may not be
+            provided in the input text.
+          prompt.example: "Cohort1"
+      description:
+        description: >-
+          A description of the cohort, including the phenotypic or genotypic aspect that relates the individuals.
+        range: string
+        annotations:
+          prompt: >-
+            A description of the cohort, including the phenotypic or genotypic
+            aspect that relates the individuals.
+      members:
+        description: >-
+          Individuals in the cohort. Each individual should be described in a separate Phenopacket.
+        range: Phenopacket
+        multivalued: true
+        annotations:
+          prompt: >-
+            A semicolon-separated list of individuals in the cohort,
+            as Phenopacket objects.
+      files:
+        description: >-
+          Pointer to relevant file(s) for the cohort. Files relating exclusively to individual phenopackets should be
+          contained in the Phenopacket.
+        range: File
+        multivalued: true
+        inlined: true
+        annotations:
+          prompt: >-
+            A semicolon-separated list of file identifiers specified in the
+            input text, relating to the cohort.
+      meta_data:
+        description: >-
+          Structured definitions of the resources and ontologies used within the phenopacket. REQUIRED
+        range: MetaData
+        required: true
+        annotations:
+          prompt: >-
+            Additional metadata for the phenopacket.
+
 # core/base
 # core/biosample
 # core/disease
