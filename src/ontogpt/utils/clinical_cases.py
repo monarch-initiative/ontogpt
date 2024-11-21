@@ -1,4 +1,14 @@
-"""Utilities for working with clinical case reports."""
+"""Utilities for working with clinical case reports.
+
+The prompt in get_kanjee_prompt() is that used by
+the following citation:
+    Kanjee Z, Crowe B, Rodman A. Accuracy of a
+    generative artificial intelligence model in
+    a complex diagnostic challenge. JAMA.
+    2023 Jul 3;330(1):78–80.
+    http://dx.doi.org/10.1001/jama.2023.8288
+    PMCID: PMC10273128
+"""
 
 def get_kanjee_prompt() -> str:
     """Prompt from Kanjee et al. 2023."""
