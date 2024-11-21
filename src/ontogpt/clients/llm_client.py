@@ -1,14 +1,15 @@
 """Client for running LLM completion requests through LiteLLM."""
 
-import litellm
 import logging
+import sys
 from dataclasses import dataclass, field
 
+import litellm
+import numpy as np
+import openai  # For error handling
 from litellm import completion, embedding
 from litellm.caching import Cache
-import numpy as np
 from oaklib.utilities.apikey_manager import get_apikey_value
-import openai  # For error handling
 
 from ontogpt import DEFAULT_MODEL, MODELS
 
@@ -76,6 +77,11 @@ class LLMClient:
         if self.system_message:
             these_messages.insert(0, {"content": self.system_message, "role": "system"})
 
+        # This toggle controls whether we can continue or not.
+        # Some errors may be temporary, while others, such as authentication errors,
+        # require action before we may continue.
+        force_stop = False
+
         try:
             # TODO: expose user prompt to CLI
             response = completion(
@@ -89,9 +95,40 @@ class LLMClient:
                 custom_llm_provider=self.custom_llm_provider,
             )
         except openai.APITimeoutError as e:
-            print(f"Encountered API timeout error: {e}")
+            logger.error(f"Encountered API timeout error: {e}")
+        except litellm.exceptions.AuthenticationError as e:
+            logger.error(f"Encountered authentication error: {e}")
+            force_stop = True
+        except litellm.exceptions.NotFoundError as e:
+            logger.error(f"Encountered error due to unrecognized model or endpoint: {e}")
+            force_stop = True
+        except litellm.exceptions.BadRequestError as e:
+            logger.error(f"Encountered error due to bad request: {e}")
+            force_stop = True
+        except litellm.exceptions.UnprocessableEntityError as e:
+            logger.error(f"Encountered error due to unprocessable entity: {e}")
+        except litellm.exceptions.PermissionDeniedError as e:
+            logger.error(f"Encountered error - permission denied: {e}")
+            force_stop = True
+        except litellm.exceptions.RateLimitError as e:
+            logger.error(f"Encountered rate limiting: {e}")
+        except litellm.exceptions.ContextWindowExceededError as e:
+            logger.error(f"Exceeded context window: {e}")
+        except litellm.exceptions.ServiceUnavailableError as e:
+            logger.error(f"Service unavailable: {e}")
+            force_stop = True
+        except litellm.exceptions.InternalServerError as e:
+            logger.error(f"Internal server error: {e}")
+            force_stop = True
+        except litellm.exceptions.APIError as e:
+            logger.error(f"API returned an invalid response: {e}")
+        except litellm.exceptions.APIConnectionError as e:
+            logger.error(f"API connection error: {e}")
         except Exception as e:
-            print(f"Encountered error: {type(e)}, Error: {e}")
+            logger.error(f"Encountered error: {type(e)}, Error: {e}")
+
+        if force_stop:
+            sys.exit("Exiting...")
 
         if response is not None:
             payload = response.choices[0].message.content
