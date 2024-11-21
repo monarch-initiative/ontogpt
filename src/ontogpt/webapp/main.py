@@ -1,4 +1,33 @@
-"""Webapp main function."""
+"""OntoGPT Webapp main function.
+
+This module sets up a FastAPI web application for
+the OntoGPT project. It includes routes for handling
+GET and POST requests, and integrates with components
+such as SPIRESEngine and HTMLExporter to process and
+display data.
+
+Classes:
+    Query: A Pydantic model representing the structure
+    of the form data.
+
+Functions:
+    get_engine(datamodel: str, llm_model: str) -> SPIRESEngine:
+        Retrieves or initializes a SPIRESEngine instance for
+        the given datamodel and LLM model.
+
+    read_root(request: Request) -> TemplateResponse:
+        Handles GET requests to the root URL,
+        rendering the form.html template.
+
+    form_post(request: Request, datamodel: str = Form(...),
+        text: str = Form(...), llm_model: str = Form(...))
+        -> TemplateResponse:
+        Handles POST requests to the root URL, processing
+        the form data and rendering the results.html template.
+
+    start():
+        Launches the FastAPI application using Uvicorn.
+"""
 
 from io import StringIO
 from pathlib import Path

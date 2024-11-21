@@ -6,8 +6,8 @@ from class_resolver import ClassResolver
 
 from ontogpt.evaluation.ctd.eval_ctd import EvalCTD
 from ontogpt.evaluation.ctd.eval_ctd_ner import EvalCTDNER
-from ontogpt.evaluation.maxo.eval_maxo import EvalMAXO
 from ontogpt.evaluation.evaluation_engine import SPIRESEvaluationEngine
+from ontogpt.evaluation.maxo.eval_maxo import EvalMAXO
 
 resolver = ClassResolver([EvalCTD, EvalCTDNER, EvalMAXO], base=SPIRESEvaluationEngine)
 
