@@ -785,10 +785,146 @@ Evidence:
           - ARGO:primary_diagnosis.submitter_primary_diagnosis_id
         inlined: true
         range: OntologyClass
-# core/interpretation
+
+  # core/interpretation
+
+  Diagnosis:
+    description: ""
+    attributes:
+      disease:
+        description: >-
+          The disease/condition assigned to the diagnosis.
+          Details about this disease may be contained in the `diseases` field
+          in the Phenopacket.
+        inlined: true
+        range: OntologyClass
+      genomicInterpretations:
+        description: >-
+          genomic features containing the status of their contribution towards
+          the diagnosis
+        inlined_as_list: true
+        multivalued: true
+        range: GenomicInterpretation
+
+  GenomicInterpretation:
+    description: >-
+      A statement about the contribution of a genomic element towards the
+      observed phenotype. Note that this does not intend to encode any
+      knowledge or results of specific computations.
+    attributes:
+      gene:
+        description: ""
+        inlined: true
+        range: GeneDescriptor
+      interpretationStatus:
+        description: ""
+        range: InterpretationStatus
+      subjectOrBiosampleId:
+        description: >-
+          identifier for the subject of the interpretation. This MUST be the
+          individual id or a biosample id of the enclosing phenopacket.
+        range: string
+      variantInterpretation:
+        description: ""
+        range: VariantInterpretation
+    rules:
+      - postconditions:
+          exactly_one_of:
+            - slot_conditions:
+                gene:
+                  required: true
+            - slot_conditions:
+                variantInterpretation:
+                  required: true
+
+  Interpretation:
+    description: ""
+    attributes:
+      diagnosis:
+        description: The diagnosis made in this interpretation
+        range: Diagnosis
+      id:
+        annotations:
+          percent_encoded: true
+        description: id of the interpretation
+        range: string
+      progressStatus:
+        description: ""
+        range: ProgressStatus
+      summary:
+        description: ""
+        range: string
+
+  VariantInterpretation:
+    description: ""
+    attributes:
+      acmgPathogenicityClassification:
+        description: ""
+        range: AcmgPathogenicityClassification
+      therapeuticActionability:
+        description: ""
+        range: TherapeuticActionability
+      variationDescriptor:
+        description: ""
+        range: VariationDescriptor
 # core/individual
 # core/measurement
 # core/medical_action
 # core/meta_data
 # core/pedigree
 # core/phenotypic_feature
+
+# TODO: enums need to be described in prompts
+enums:
+  # core/interpretation
+
+  AcmgPathogenicityClassification:
+    description: ""
+    permissible_values:
+      BENIGN:
+        description: ""
+      LIKELY_BENIGN:
+        description: ""
+      LIKELY_PATHOGENIC:
+        description: ""
+      NOT_PROVIDED:
+        description: ""
+      PATHOGENIC:
+        description: ""
+      UNCERTAIN_SIGNIFICANCE:
+        description: ""
+  InterpretationStatus:
+    description: ""
+    permissible_values:
+      CANDIDATE:
+        description: ""
+      CAUSATIVE:
+        description: ""
+      CONTRIBUTORY:
+        description: ""
+      REJECTED:
+        description: ""
+      UNKNOWN_STATUS:
+        description: ""
+  ProgressStatus:
+    description: ""
+    permissible_values:
+      COMPLETED:
+        description: ""
+      IN_PROGRESS:
+        description: ""
+      SOLVED:
+        description: ""
+      UNKNOWN_PROGRESS:
+        description: ""
+      UNSOLVED:
+        description: ""
+  TherapeuticActionability:
+    description: ""
+    permissible_values:
+      ACTIONABLE:
+        description: ""
+      NOT_ACTIONABLE:
+        description: ""
+      UNKNOWN_ACTIONABILITY:
+        description: ""
