@@ -14,7 +14,14 @@ description: >-
   (see https://github.com/cmungall/linkml-phenopackets).
 prefixes:
   ARGO: https://docs.icgc-argo.org/dictionary/
+  GENO: http://purl.obolibrary.org/obo/GENO_
+  HP: http://purl.obolibrary.org/obo/HP_
+  LOINC: https://loinc.org/
+  MONDO: http://purl.obolibrary.org/obo/MONDO_
   NCIT: http://purl.obolibrary.org/obo/NCIT_
+  UBERON: http://purl.obolibrary.org/obo/UBERON_
+  UCUM: http://unitsofmeasure.org/
+  UO: http://purl.obolibrary.org/obo/UO_
   linkml: https://w3id.org/linkml/
   phenopackets_schema: http://w3id.org/ontogpt/phenopackets
 see_also:
