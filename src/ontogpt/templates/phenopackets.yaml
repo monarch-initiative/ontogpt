@@ -965,7 +965,129 @@ Evidence:
         inlined: true
         range: TimeElement
 
-# core/measurement
+  # core/measurement
+
+  ComplexValue:
+    description: ""
+    attributes:
+      typedQuantities:
+        description: >-
+          The quantities required to fully describe the complex value. For
+          example the systolic and diastolic blood pressure quantities
+        inlined_as_list: true
+        multivalued: true
+        range: TypedQuantity
+
+  Measurement:
+    description: >-
+      FHIR mapping: Observation (https://www.hl7.org/fhir/observation.html)
+    attributes:
+      assay:
+        description: >-
+          An ontology class which describes the assay used to produce the
+          measurement. For example "body temperature" (CMO:0000015) or
+          "Platelets [#/volume] in Blood" (LOINC:26515-7) FHIR mapping:
+          Observation.code'
+        inlined: true
+        range: OntologyClass
+      complexValue:
+        description: ""
+        range: ComplexValue
+      description:
+        description: >-
+          Free-text description of the feature. Note this is not a acceptable
+          place to document/describe the phenotype - the type and onset etc...
+          fields should be used for this purpose.
+        range: string
+      procedure:
+        description: >-
+          Clinical procedure performed on the subject in order to produce the
+          measurement.
+        range: Procedure
+      timeObserved:
+        description: The time at which the measurement was made
+        inlined: true
+        range: TimeElement
+      value:
+        description: ""
+        range: Value
+    rules:
+      - postconditions:
+          exactly_one_of:
+            - slot_conditions:
+                value:
+                  required: true
+            - slot_conditions:
+                complexValue:
+                  required: true
+
+  Quantity:
+    description: ""
+    attributes:
+      referenceRange:
+        description: >-
+          Reference range for the quantity e.g. The normal range of platelets
+          is 150,000 to 450,000 platelets/uL.
+        range: ReferenceRange
+      unit:
+        description: >-
+          For instance, NCIT subhierarchy, Unit of Measure (Code C25709),
+          https://www.ebi.ac.uk/ols/ontologies/uo
+        inlined: true
+        range: OntologyClass
+      value:
+        description: the value of the quantity in the units e.g. 2.0 mg
+        range: double
+
+  ReferenceRange:
+    description: ""
+    attributes:
+      high:
+        description: ""
+        range: double
+      low:
+        description: ""
+        range: double
+      unit:
+        description: ""
+        inlined: true
+        range: OntologyClass
+
+  TypedQuantity:
+    description: >-
+      For complex measurements, such as blood pressure where more than one
+      component quantity is required to describe the measurement
+    attributes:
+      quantity:
+        description: e.g. mm Hg
+        range: Quantity
+      type:
+        description: e.g. diastolic, systolic
+        inlined: true
+        range: OntologyClass
+
+  Value:
+    description: ""
+    attributes:
+      ontologyClass:
+        description: >-
+          for use with things such as categories 'red', 'yellow' or
+          'absent'/'present'
+        inlined: true
+        range: OntologyClass
+      quantity:
+        description: ""
+        range: Quantity
+    rules:
+      - postconditions:
+          exactly_one_of:
+            - slot_conditions:
+                quantity:
+                  required: true
+            - slot_conditions:
+                ontologyClass:
+                  required: true
+
 # core/medical_action
 # core/meta_data
 # core/pedigree
