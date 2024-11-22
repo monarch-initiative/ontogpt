@@ -867,7 +867,104 @@ Evidence:
       variationDescriptor:
         description: ""
         range: VariationDescriptor
-# core/individual
+
+  # core/individual
+
+  Individual:
+    description: >-
+      An individual (or subject) typically corresponds to an individual human
+      or another organism. FHIR mapping: Patient
+      (https://www.hl7.org/fhir/patient.html)."
+    attributes:
+      alternateIds:
+        description: >-
+          An optional list of alternative identifiers for this individual. This
+          field is provided for the convenience of users who may have multiple
+          mappings to an individual which they need to track.
+        multivalued: true
+        range: string
+      dateOfBirth:
+        description: >-
+          The date of birth of the individual as an ISO8601 UTC timestamp -
+          rounded down to the closest known year/month/day/hour/minute e.g.
+          "2018-03-01T00:00:00Z" for someone born on an unknown day in March
+          2018 or "2018-01-01T00:00:00Z" for someone born on an unknown day in
+          2018 or empty if unknown/ not stated.
+        range: string
+        annotations:
+          prompt.example: "2018-03-01T00:00:00Z"
+      gender:
+        description: Self-identified gender
+        inlined: true
+        range: OntologyClass
+      id:
+        annotations:
+          percent_encoded: true
+        description: >-
+          An identifier for the individual. This must be unique within the
+          record. ARGO mapping donor::submitter_donor_id
+        exact_mappings:
+          - ARGO:donor.submitter_donor_id
+        range: string
+      karyotypicSex:
+        description: The karyotypic sex of the individual
+        range: KaryotypicSex
+      sex:
+        description: >-
+          The phenotypic sex of the individual ARGO mapping
+          sample_registration::gender (this is complicated as ARGO only have
+          male/female/other which maps to the phenopacket Sex field)
+        exact_mappings:
+          - ARGO:sample_registration.gender
+        range: Sex
+      taxonomy:
+        description: >-
+          NCBI taxonomic identifier NCBITaxon e.g. NCBITaxon:9606 or
+          NCBITaxon:1337 For resources where there may be more than one
+          organism being studied it is advisable to indicate the taxonomic
+          identifier of that organism, to its most specific level
+        inlined: true
+        range: OntologyClass
+      timeAtLastEncounter:
+        description: >-
+          An TimeElement object describing the age of the individual at the
+          last time of collection. The Age object allows the encoding of the
+          age either as ISO8601 duration or time interval (preferred), or as
+          ontology term object. See http://build.fhir.org/datatypes
+        inlined: true
+        range: TimeElement
+      vitalStatus:
+        description: >-
+          Vital status of the individual. If not present it is assumed that the
+          individual is alive. If present it will default to 'false' i.e. the
+          individual was alive when the data was collected.
+          ARGO mapping donor::vital_status
+        exact_mappings:
+          - ARGO:donor.vital_status
+        range: VitalStatus
+
+  VitalStatus:
+    description: ""
+    attributes:
+      causeOfDeath:
+        description: ARGO mapping donor::cause_of_death
+        exact_mappings:
+          - ARGO:donor.cause_of_death
+        inlined: true
+        range: OntologyClass
+      status:
+        description: ""
+        range: Status
+      survivalTimeInDays:
+        description: ARGO mapping donor::survival_time
+        exact_mappings:
+          - ARGO:donor.survival_time
+        range: integer
+      timeOfDeath:
+        description: ""
+        inlined: true
+        range: TimeElement
+
 # core/measurement
 # core/medical_action
 # core/meta_data
@@ -927,4 +1024,56 @@ enums:
       NOT_ACTIONABLE:
         description: ""
       UNKNOWN_ACTIONABILITY:
+        description: ""
+
+  # core/individual
+
+  KaryotypicSex:
+    description: Karyotypic sex of the individual
+    permissible_values:
+      OTHER_KARYOTYPE:
+        description: ""
+      UNKNOWN_KARYOTYPE:
+        description: ""
+      XO:
+        description: ""
+      XX:
+        description: ""
+      XXX:
+        description: ""
+      XXXX:
+        description: ""
+      XXXY:
+        description: ""
+      XXY:
+        description: ""
+      XXYY:
+        description: ""
+      XY:
+        description: ""
+      XYY:
+        description: ""
+  Sex:
+    description: >-
+      Sex of an individual FHIR mapping: AdministrativeGender
+      (https://www.hl7.org/fhir/codesystem-administrative-gender.html)
+    permissible_values:
+      FEMALE:
+        description: Female
+      MALE:
+        description: Male
+      OTHER_SEX:
+        description: >-
+          It is not possible, to accurately assess the applicability of
+          MALE/FEMALE.
+      UNKNOWN_SEX:
+        description: Not assessed / available.
+  Status:
+    description: Default = false i.e. the individual is alive. MUST be true if
+    permissible_values:
+      ALIVE:
+        description: ""
+      DECEASED:
+        description: ""
+      UNKNOWN_STATUS:
         description: ""
