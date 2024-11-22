@@ -1088,7 +1088,185 @@ Evidence:
                 ontologyClass:
                   required: true
 
-# core/medical_action
+  # core/medical_action
+
+  DoseInterval:
+    description: e.g. 50mg/ml 3 times daily for two weeks
+    attributes:
+      interval:
+        description: ""
+        inlined: true
+        range: TimeInterval
+      quantity:
+        description: ""
+        range: Quantity
+      scheduleFrequency:
+        description: ""
+        inlined: true
+        range: OntologyClass
+
+  MedicalAction:
+    description: >-
+      medication, procedure, other actions taken for clinical management
+    attributes:
+      adverseEvents:
+        description: ARGO mapping treatment::adverse_events
+        exact_mappings:
+          - ARGO:treatment.adverse_events
+        inlined_as_list: true
+        multivalued: true
+        range: OntologyClass
+      procedure:
+        description: ""
+        range: Procedure
+      radiationTherapy:
+        description: ""
+        range: RadiationTherapy
+      responseToTreatment:
+        description: ARGO mapping treatment::response_to_treatment
+        exact_mappings:
+          - ARGO:treatment.response_to_treatment
+        inlined: true
+        range: OntologyClass
+      therapeuticRegimen:
+        description: ""
+        range: TherapeuticRegimen
+      treatment:
+        description: ""
+        range: Treatment
+      treatmentIntent:
+        description: >-
+          Whether the intention of the treatment was curative, palliative,
+          ARGO mapping treatment::treatment_intent
+        exact_mappings:
+          - ARGO:treatment.treatment_intent
+        inlined: true
+        range: OntologyClass
+      treatmentTarget:
+        description: >-
+          The condition or disease that this treatment was intended to address.
+          FHIR mapping Procedure::reasonCode
+        inlined: true
+        range: OntologyClass
+      treatmentTerminationReason:
+        description: ARGO mapping treatment::treatment_outcome
+        exact_mappings:
+          - ARGO:treatment.treatment_outcome
+        inlined: true
+        range: OntologyClass
+    rules:
+      - postconditions:
+          exactly_one_of:
+            - slot_conditions:
+                procedure:
+                  required: true
+            - slot_conditions:
+                treatment:
+                  required: true
+            - slot_conditions:
+                radiationTherapy:
+                  required: true
+            - slot_conditions:
+                therapeuticRegimen:
+                  required: true
+
+  RadiationTherapy:
+    description: RadiationTherapy
+    attributes:
+      bodySite:
+        description: >-
+          The anatomical site where radiation therapy was administered.
+          REQUIRED. ARGO mapping radiation::anatomical_site_irradiated
+        exact_mappings:
+          - ARGO:radiation.anatomical_site_irradiated
+        inlined: true
+        range: OntologyClass
+        required: true
+      dosage:
+        description: >-
+          The total dose given in units of Gray (Gy).
+          REQUIRED. ARGO mapping radiation::radiation_therapy_dosage
+        exact_mappings:
+          - ARGO:radiation.radiation_therapy_dosage
+        range: integer
+        required: true
+      fractions:
+        description: >-
+          The total number of fractions delivered as part of treatment.
+          REQUIRED. ARGO mapping radiation::radiation_therapy_fractions
+        exact_mappings:
+          - ARGO:radiation.radiation_therapy_fractions
+        range: integer
+        required: true
+      modality:
+        description: >-
+          The modality of radiation therapy (e.g., electron, photon,…).
+          REQUIRED. ARGO mapping radiation::radiation_therapy_modality
+        exact_mappings:
+          - ARGO:radiation.radiation_therapy_modality
+        inlined: true
+        range: OntologyClass
+        required: true
+
+  TherapeuticRegimen:
+    description: ARGO mapping radiation::radiation_therapy_type (missing)
+    attributes:
+      endTime:
+        description: end time can be empty which would indicate ongoing
+        inlined: true
+        range: TimeElement
+      externalReference:
+        description: ""
+        inlined: true
+        range: ExternalReference
+      ontologyClass:
+        description: ""
+        inlined: true
+        range: OntologyClass
+      regimenStatus:
+        description: ""
+        range: RegimenStatus
+      startTime:
+        description: possibly undefined;
+        inlined: true
+        range: TimeElement
+    rules:
+      - postconditions:
+          exactly_one_of:
+            - slot_conditions:
+                externalReference:
+                  required: true
+            - slot_conditions:
+                ontologyClass:
+                  required: true
+
+  Treatment:
+    description: >-
+      ARGO mapping treatment::is_primary_treatment (missing) treatment with an
+      agent, such as a drug
+    attributes:
+      agent:
+        description: ""
+        inlined: true
+        range: OntologyClass
+      cumulativeDose:
+        description: ARGO mapping chemotherapy::cumulative_drug_dosage
+        exact_mappings:
+          - ARGO:chemotherapy.cumulative_drug_dosage
+        range: Quantity
+      doseIntervals:
+        description: ""
+        inlined_as_list: true
+        multivalued: true
+        range: DoseInterval
+      drugType:
+        description: ""
+        range: DrugType
+      routeOfAdministration:
+        description: ""
+        inlined: true
+        range: OntologyClass
+
 # core/meta_data
 # core/pedigree
 # core/phenotypic_feature
@@ -1196,6 +1374,31 @@ enums:
       ALIVE:
         description: ""
       DECEASED:
+        description: ""
+      UNKNOWN_STATUS:
+        description: ""
+
+  # core/medical_action
+
+  DrugType:
+    description: A simplified version of ODHSI-DRUG_EXPOSURE
+    permissible_values:
+      ADMINISTRATION_RELATED_TO_PROCEDURE:
+        description: ""
+      EHR_MEDICATION_LIST:
+        description: ""
+      PRESCRIPTION:
+        description: ""
+      UNKNOWN_DRUG_TYPE:
+        description: ""
+  RegimenStatus:
+    description: ""
+    permissible_values:
+      COMPLETED:
+        description: ""
+      DISCONTINUED:
+        description: ""
+      STARTED:
         description: ""
       UNKNOWN_STATUS:
         description: ""
