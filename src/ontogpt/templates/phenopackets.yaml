@@ -335,20 +335,20 @@ classes:
           prompt: >-
             Human readable title or display string for the reference.
 
-Evidence:
-  description: >-
-    FHIR mapping: Condition.evidence
-    https://www.hl7.org/fhir/condition-definitions.html#Condition.evidence
-  attributes:
-    evidence_code:
-      description: >-
-        The encoded evidence type using, for example the Evidence & Conclusion
-        Ontology (ECO - http://purl.obolibrary.org/obo/eco.owl)
-      range: OntologyClass
-    reference:
-      description: >-
-        FHIR mapping: Condition.evidence.detail
-      range: ExternalReference
+  Evidence:
+    description: >-
+      FHIR mapping: Condition.evidence
+      https://www.hl7.org/fhir/condition-definitions.html#Condition.evidence
+    attributes:
+      evidence_code:
+        description: >-
+          The encoded evidence type using, for example the Evidence & Conclusion
+          Ontology (ECO - http://purl.obolibrary.org/obo/eco.owl)
+        range: OntologyClass
+      reference:
+        description: >-
+          FHIR mapping: Condition.evidence.detail
+        range: ExternalReference
 
   Procedure:
     description: >-
