@@ -1634,6 +1634,655 @@ classes:
         range: string
     description: ""
 
+  # vrs
+
+  Abundance:
+    attributes:
+      copyNumber:
+        annotations:
+          rank: 1
+        description: ""
+        range: CopyNumber
+    description: ""
+    rules:
+      - postconditions:
+          exactly_one_of:
+            - slot_conditions:
+                copyNumber:
+                  required: true
+
+  Allele:
+    attributes:
+      chromosomeLocation:
+        annotations:
+          rank: 3
+        description: ""
+        range: ChromosomeLocation
+      curie:
+        annotations:
+          rank: 2
+        description: ""
+        range: string
+      derivedSequenceExpression:
+        annotations:
+          rank: 6
+        description: ""
+        range: DerivedSequenceExpression
+      id:
+        annotations:
+          percent_encoded: true
+          rank: 1
+        description: ""
+        range: string
+      literalSequenceExpression:
+        annotations:
+          rank: 5
+        description: ""
+        range: LiteralSequenceExpression
+      repeatedSequenceExpression:
+        annotations:
+          rank: 7
+        description: ""
+        range: RepeatedSequenceExpression
+      sequenceLocation:
+        annotations:
+          rank: 4
+        description: ""
+        range: SequenceLocation
+    description: ""
+    rules:
+      - postconditions:
+          exactly_one_of:
+            - slot_conditions:
+                literalSequenceExpression:
+                  required: true
+            - slot_conditions:
+                derivedSequenceExpression:
+                  required: true
+            - slot_conditions:
+                repeatedSequenceExpression:
+                  required: true
+
+  ChromosomeLocation:
+    attributes:
+      chr:
+        annotations:
+          rank: 3
+        description: ""
+        range: string
+      id:
+        annotations:
+          percent_encoded: true
+          rank: 1
+        description: ""
+        range: string
+      interval:
+        annotations:
+          rank: 4
+        description: ""
+        inlined: true
+        range: CytobandInterval
+      speciesId:
+        annotations:
+          rank: 2
+        description: ""
+        range: string
+    description: ""
+
+  CopyNumber:
+    attributes:
+      allele:
+        annotations:
+          rank: 2
+        description: ""
+        range: Allele
+      curie:
+        annotations:
+          rank: 8
+        description: ""
+        range: string
+      definiteRange:
+        annotations:
+          rank: 11
+        description: ""
+        range: DefiniteRange
+      derivedSequenceExpression:
+        annotations:
+          rank: 6
+        description: ""
+        range: DerivedSequenceExpression
+      gene:
+        annotations:
+          rank: 4
+        description: ""
+        range: Gene
+      haplotype:
+        annotations:
+          rank: 3
+        description: ""
+        range: Haplotype
+      id:
+        annotations:
+          percent_encoded: true
+          rank: 1
+        description: ""
+        range: string
+      indefiniteRange:
+        annotations:
+          rank: 10
+        description: ""
+        range: IndefiniteRange
+      literalSequenceExpression:
+        annotations:
+          rank: 5
+        description: ""
+        range: LiteralSequenceExpression
+      number:
+        annotations:
+          rank: 9
+        description: ""
+        range: Number
+      repeatedSequenceExpression:
+        annotations:
+          rank: 7
+        description: ""
+        range: RepeatedSequenceExpression
+    description: ""
+    rules:
+      - postconditions:
+          exactly_one_of:
+            - slot_conditions:
+                number:
+                  required: true
+            - slot_conditions:
+                indefiniteRange:
+                  required: true
+            - slot_conditions:
+                definiteRange:
+                  required: true
+
+  CytobandInterval:
+    attributes:
+      end:
+        annotations:
+          rank: 2
+        description: ""
+        range: string
+      start:
+        annotations:
+          rank: 1
+        description: ""
+        range: string
+    description: ""
+
+  DefiniteRange:
+    attributes:
+      max:
+        annotations:
+          rank: 2
+        description: ""
+        range: integer
+      min:
+        annotations:
+          rank: 1
+        description: ""
+        range: integer
+    description: ""
+
+  DerivedSequenceExpression:
+    attributes:
+      location:
+        annotations:
+          rank: 1
+        description: ""
+        range: SequenceLocation
+      reverseComplement:
+        annotations:
+          rank: 2
+        description: ""
+        range: boolean
+    description: ""
+
+  Feature:
+    attributes:
+      gene:
+        annotations:
+          rank: 1
+        description: ""
+        range: Gene
+    description: ""
+    rules:
+      - postconditions:
+          exactly_one_of:
+            - slot_conditions:
+                gene:
+                  required: true
+
+  Gene:
+    attributes:
+      geneId:
+        annotations:
+          rank: 1
+        description: ""
+        range: string
+    description: ""
+
+  Haplotype:
+    description: ""
+
+  IndefiniteRange:
+    attributes:
+      comparator:
+        annotations:
+          rank: 2
+        description: ""
+        range: string
+      value:
+        annotations:
+          rank: 1
+        description: ""
+        range: integer
+    description: ""
+
+  LiteralSequenceExpression:
+    attributes:
+      sequence:
+        annotations:
+          rank: 1
+        description: ""
+        range: string
+    description: ""
+
+  Location:
+    attributes:
+      chromosomeLocation:
+        annotations:
+          rank: 1
+        description: ""
+        range: ChromosomeLocation
+      sequenceLocation:
+        annotations:
+          rank: 2
+        description: ""
+        range: SequenceLocation
+    description: ""
+    rules:
+      - postconditions:
+          exactly_one_of:
+            - slot_conditions:
+                chromosomeLocation:
+                  required: true
+            - slot_conditions:
+                sequenceLocation:
+                  required: true
+
+  Member:
+    attributes:
+      allele:
+        annotations:
+          rank: 2
+        description: ""
+        range: Allele
+      copyNumber:
+        annotations:
+          rank: 4
+        description: ""
+        range: CopyNumber
+      curie:
+        annotations:
+          rank: 1
+        description: ""
+        range: string
+      haplotype:
+        annotations:
+          rank: 3
+        description: ""
+        range: Haplotype
+      id:
+        annotations:
+          percent_encoded: true
+          rank: 1
+        description: ""
+        range: string
+      members:
+        annotations:
+          rank: 2
+        description: ""
+        inlined_as_list: true
+        multivalued: true
+        range: Member
+      text:
+        annotations:
+          rank: 5
+        description: ""
+        range: Text
+      variationSet:
+        annotations:
+          rank: 6
+        description: ""
+        range: VariationSet
+    description: ""
+    rules:
+      - postconditions:
+          exactly_one_of:
+            - slot_conditions:
+                curie:
+                  required: true
+            - slot_conditions:
+                allele:
+                  required: true
+            - slot_conditions:
+                haplotype:
+                  required: true
+            - slot_conditions:
+                copyNumber:
+                  required: true
+            - slot_conditions:
+                text:
+                  required: true
+            - slot_conditions:
+                variationSet:
+                  required: true
+
+  MolecularVariation:
+    attributes:
+      allele:
+        annotations:
+          rank: 1
+        description: ""
+        range: Allele
+      haplotype:
+        annotations:
+          rank: 2
+        description: ""
+        range: Haplotype
+    description: ""
+    rules:
+      - postconditions:
+          exactly_one_of:
+            - slot_conditions:
+                allele:
+                  required: true
+            - slot_conditions:
+                haplotype:
+                  required: true
+
+  Number:
+    attributes:
+      value:
+        annotations:
+          rank: 1
+        description: ""
+        range: integer
+    description: ""
+
+  RepeatedSequenceExpression:
+    attributes:
+      definiteRange:
+        annotations:
+          rank: 5
+        description: ""
+        range: DefiniteRange
+      derivedSequenceExpression:
+        annotations:
+          rank: 2
+        description: ""
+        range: DerivedSequenceExpression
+      indefiniteRange:
+        annotations:
+          rank: 4
+        description: ""
+        range: IndefiniteRange
+      literalSequenceExpression:
+        annotations:
+          rank: 1
+        description: ""
+        range: LiteralSequenceExpression
+      number:
+        annotations:
+          rank: 3
+        description: ""
+        range: Number
+    description: ""
+    rules:
+      - postconditions:
+          exactly_one_of:
+            - slot_conditions:
+                number:
+                  required: true
+            - slot_conditions:
+                indefiniteRange:
+                  required: true
+            - slot_conditions:
+                definiteRange:
+                  required: true
+
+  SequenceExpression:
+    attributes:
+      derivedSequenceExpression:
+        annotations:
+          rank: 2
+        description: ""
+        range: DerivedSequenceExpression
+      literalSequenceExpression:
+        annotations:
+          rank: 1
+        description: ""
+        range: LiteralSequenceExpression
+      repeatedSequenceExpression:
+        annotations:
+          rank: 3
+        description: ""
+        range: RepeatedSequenceExpression
+    description: ""
+    rules:
+      - postconditions:
+          exactly_one_of:
+            - slot_conditions:
+                literalSequenceExpression:
+                  required: true
+            - slot_conditions:
+                derivedSequenceExpression:
+                  required: true
+            - slot_conditions:
+                repeatedSequenceExpression:
+                  required: true
+
+  SequenceInterval:
+    attributes:
+      endDefiniteRange:
+        annotations:
+          rank: 6
+        description: ""
+        range: DefiniteRange
+      endIndefiniteRange:
+        annotations:
+          rank: 5
+        description: ""
+        range: IndefiniteRange
+      endNumber:
+        annotations:
+          rank: 4
+        description: ""
+        range: Number
+      startDefiniteRange:
+        annotations:
+          rank: 3
+        description: ""
+        range: DefiniteRange
+      startIndefiniteRange:
+        annotations:
+          rank: 2
+        description: ""
+        range: IndefiniteRange
+      startNumber:
+        annotations:
+          rank: 1
+        description: ""
+        range: Number
+    description: ""
+    rules:
+      - postconditions:
+          exactly_one_of:
+            - slot_conditions:
+                endNumber:
+                  required: true
+            - slot_conditions:
+                endIndefiniteRange:
+                  required: true
+            - slot_conditions:
+                endDefiniteRange:
+                  required: true
+
+  SequenceLocation:
+    attributes:
+      id:
+        annotations:
+          percent_encoded: true
+          rank: 1
+        description: ""
+        range: string
+      sequenceId:
+        annotations:
+          rank: 2
+        description: ""
+        range: string
+      sequenceInterval:
+        annotations:
+          rank: 3
+        description: ""
+        range: SequenceInterval
+    description: ""
+    rules:
+      - postconditions:
+          exactly_one_of:
+            - slot_conditions:
+                sequenceInterval:
+                  required: true
+
+  SequenceState:
+    attributes:
+      sequence:
+        annotations:
+          rank: 1
+        description: ""
+        range: string
+    description: ""
+
+  SimpleInterval:
+    attributes:
+      end:
+        annotations:
+          rank: 2
+        description: ""
+        range: integer
+      start:
+        annotations:
+          rank: 1
+        description: ""
+        range: integer
+    description: ""
+
+  SystemicVariation:
+    attributes:
+      copyNumber:
+        annotations:
+          rank: 1
+        description: ""
+        range: CopyNumber
+    description: ""
+    rules:
+      - postconditions:
+          exactly_one_of:
+            - slot_conditions:
+                copyNumber:
+                  required: true
+
+  Text:
+    attributes:
+      definition:
+        annotations:
+          rank: 2
+        description: ""
+        range: string
+      id:
+        annotations:
+          percent_encoded: true
+          rank: 1
+        description: ""
+        range: string
+    description: ""
+
+  UtilityVariation:
+    attributes:
+      text:
+        annotations:
+          rank: 1
+        description: ""
+        range: Text
+      variationSet:
+        annotations:
+          rank: 2
+        description: ""
+        range: VariationSet
+    description: ""
+    rules:
+      - postconditions:
+          exactly_one_of:
+            - slot_conditions:
+                text:
+                  required: true
+            - slot_conditions:
+                variationSet:
+                  required: true
+
+  Variation:
+    attributes:
+      allele:
+        annotations:
+          rank: 1
+        description: ""
+        range: Allele
+      copyNumber:
+        annotations:
+          rank: 3
+        description: ""
+        range: CopyNumber
+      haplotype:
+        annotations:
+          rank: 2
+        description: ""
+        range: Haplotype
+      text:
+        annotations:
+          rank: 4
+        description: ""
+        range: Text
+      variationSet:
+        annotations:
+          rank: 5
+        description: ""
+        range: VariationSet
+    description: ""
+    rules:
+      - postconditions:
+          exactly_one_of:
+            - slot_conditions:
+                allele:
+                  required: true
+            - slot_conditions:
+                haplotype:
+                  required: true
+            - slot_conditions:
+                copyNumber:
+                  required: true
+            - slot_conditions:
+                text:
+                  required: true
+            - slot_conditions:
+                variationSet:
+                  required: true
+
 # TODO: enums need to be described in prompts
 enums:
   # core/interpretation
