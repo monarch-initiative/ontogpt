@@ -12,8 +12,10 @@ description: >-
   Some rendering also adapted from Chris Mungall's
   linkml-phenopackets
   (see https://github.com/cmungall/linkml-phenopackets).
+  This does not include the VRS or VRSATILE schemas.
 prefixes:
   ARGO: https://docs.icgc-argo.org/dictionary/
+  EFO: http://www.ebi.ac.uk/efo/EFO_
   GENO: http://purl.obolibrary.org/obo/GENO_
   HP: http://purl.obolibrary.org/obo/HP_
   LOINC: https://loinc.org/
