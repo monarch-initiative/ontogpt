@@ -2283,6 +2283,9 @@ classes:
                 variationSet:
                   required: true
 
+  VariationSet:
+    description: ""
+
 # TODO: enums need to be described in prompts
 enums:
   # core/interpretation
