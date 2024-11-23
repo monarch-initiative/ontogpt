@@ -1388,7 +1388,39 @@ Evidence:
           the phenopacket. OPTIONAL
         range: string
 
-# core/pedigree
+  # core/pedigree
+
+  Pedigree:
+    description: https://software.broadinstitute.org/gatk/documentation/article?id=11016
+    attributes:
+      persons:
+        description: ""
+        inlined_as_list: true
+        multivalued: true
+        range: Person
+
+  Person:
+    description: ""
+    attributes:
+      affectedStatus:
+        description: ""
+        range: AffectedStatus
+      familyId:
+        description: ""
+        range: string
+      individualId:
+        description: ""
+        range: string
+      maternalId:
+        description: ""
+        range: string
+      paternalId:
+        description: ""
+        range: string
+      sex:
+        description: ""
+        range: Sex
+
 # core/phenotypic_feature
 
 # TODO: enums need to be described in prompts
@@ -1521,4 +1553,16 @@ enums:
       STARTED:
         description: ""
       UNKNOWN_STATUS:
+        description: ""
+
+  # core/pedigree
+
+  AffectedStatus:
+    description: ""
+    permissible_values:
+      AFFECTED:
+        description: ""
+      MISSING:
+        description: ""
+      UNAFFECTED:
         description: ""
