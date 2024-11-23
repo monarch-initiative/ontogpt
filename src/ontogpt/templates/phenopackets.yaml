@@ -12,7 +12,6 @@ description: >-
   Some rendering also adapted from Chris Mungall's
   linkml-phenopackets
   (see https://github.com/cmungall/linkml-phenopackets).
-  This does not include the VRS or VRSATILE schemas.
 prefixes:
   ARGO: https://docs.icgc-argo.org/dictionary/
   EFO: http://www.ebi.ac.uk/efo/EFO_
@@ -1494,6 +1493,147 @@ classes:
         inlined: true
         range: OntologyClass
 
+  # vrsatile
+
+  Expression:
+    attributes:
+      syntax:
+        description: ""
+        range: string
+      value:
+        description: ""
+        range: string
+      version:
+        description: ""
+        range: string
+    description: >-
+      https://vrsatile.readthedocs.io/en/latest/value_object_descriptor/vod_index.html#expression
+  Extension:
+    attributes:
+      name:
+        description: ""
+        range: string
+      value:
+        description: ""
+        multivalued: true
+        range: string
+    description: >-
+      https://vrsatile.readthedocs.io/en/latest/value_object_descriptor/vod_index.html#extension
+  GeneDescriptor:
+    attributes:
+      alternateIds:
+        description: Alternate IDs (should be CURIE) for the same concept may be placed in alternate_ids
+        multivalued: true
+        range: string
+      alternateSymbols:
+        description: Takes the place of alternate_labels field in a generic descriptor
+        multivalued: true
+        range: string
+      description:
+        description: A free-text description of the value object
+        range: string
+      symbol:
+        description: The primary gene symbol. Takes the place of the label field in a generic descriptor
+        range: string
+      valueId:
+        description: The official gene identifier as designated by the organism gene nomenclature committee e.g. HGNC:3477 or MGI:2385071 This should be a CURIE linking the reference to a namespace where it can be retrieved. Mirrors the value_id field of a generic value object descriptor
+        range: string
+      xrefs:
+        description: Related concept IDs (e.g. gene ortholog IDs) may be placed in xrefs
+        multivalued: true
+        range: string
+    description: https://vrsatile.readthedocs.io/en/latest/value_object_descriptor/vod_index.html#gene-descriptor
+
+  VariationDescriptor:
+    attributes:
+      allelicState:
+        description: We RECOMMEND that the allelic_state of variant be described by terms from the Genotype Ontology (GENO). These SHOULD descend from concept GENO:0000875.
+        inlined: true
+        range: OntologyClass
+      alternateLabels:
+        description: Common aliases for a variant, e.g. EGFR vIII, are alternate labels
+        multivalued: true
+        range: string
+      description:
+        description: ""
+        range: string
+      expressions:
+        description: HGVS, SPDI, and gnomAD-style strings should be represented as Expressions
+        inlined_as_list: true
+        multivalued: true
+        range: Expression
+      extensions:
+        description: ""
+        inlined_as_list: true
+        multivalued: true
+        range: Extension
+      geneContext:
+        description: A specific gene context that applies to this variant.
+        inlined: true
+        range: GeneDescriptor
+      id:
+        annotations:
+          percent_encoded: true
+        description: ""
+        range: string
+      label:
+        description: ""
+        range: string
+      moleculeContext:
+        description: The molecular context of the vrs variation. Must be one of “genomic”, “transcript”, or “protein”. Defaults to "unspecified_molecule_context"
+        range: MoleculeContext
+      structuralType:
+        description: The structural variant type associated with this variant, such as a substitution, deletion, or fusion. We RECOMMEND using a descendent term of SO:0001537.
+        inlined: true
+        range: OntologyClass
+      variation:
+        description: ""
+        range: Variation
+      vcfRecord:
+        description: A VCF Record of the variant. This SHOULD be a single allele, the VCF genotype (GT) field should be represented in the allelic_state
+        range: VcfRecord
+      vrsRefAlleleSeq:
+        description: A Sequence corresponding to a “ref allele”, describing the sequence expected at a SequenceLocation reference.
+        range: string
+      xrefs:
+        description: Allele registry, ClinVar, or other related IDs should be included as xrefs
+        multivalued: true
+        range: string
+    description: ""
+
+  VcfRecord:
+    attributes:
+      alt:
+        description: ""
+        range: string
+      chrom:
+        description: ""
+        range: string
+      filter:
+        description: ""
+        range: string
+      genomeAssembly:
+        description: ""
+        range: string
+      id:
+        annotations:
+          percent_encoded: true
+        description: ""
+        range: string
+      info:
+        description: ""
+        range: string
+      pos:
+        description: ""
+        range: integer
+      qual:
+        description: ""
+        range: string
+      ref:
+        description: ""
+        range: string
+    description: ""
+
 # TODO: enums need to be described in prompts
 enums:
   # core/interpretation
@@ -1636,4 +1776,18 @@ enums:
       MISSING:
         description: ""
       UNAFFECTED:
+        description: ""
+
+  # vrsatile
+
+  MoleculeContext:
+    description: ""
+    permissible_values:
+      genomic:
+        description: ""
+      protein:
+        description: ""
+      transcript:
+        description: ""
+      unspecified_molecule_context:
         description: ""
