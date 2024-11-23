@@ -60,11 +60,13 @@ classes:
       id:
         description: An identifier specific for this phenopacket.
         range: string
+        identifier: true
         annotations:
-          prompt: >-
-            A unique identifier. This must be generated and may not be
-            provided in the input text.
-          prompt.example: "THP-1 Control1"
+          prompt.skip: "true"
+        comments:
+          - This is not produced through generation
+          - Must be assigned at write time
+          - Example - PMID_10874631_II.2
       subject:
         description: >-
           The individual representing the focus of this packet - e.g. the proband in rare disease cases or cancer patient
@@ -159,11 +161,11 @@ classes:
       id:
         description: An identifier specific for this family.
         range: string
+        identifier: true
         annotations:
-          prompt: >-
-            A unique identifier. This must be generated and may not be
-            provided in the input text.
-          prompt.example: "Fam1"
+          prompt.skip: "true"
+        comments:
+          - Must be assigned at write time
       proband:
         description: >-
           The individual representing the focus of this packet - e.g. the proband in rare disease cases or cancer patient
@@ -231,11 +233,11 @@ classes:
       id:
         description: An identifier specific for this cohort.
         range: string
+        identifier: true
         annotations:
-          prompt: >-
-            A unique identifier. This must be generated and may not be
-            provided in the input text.
-          prompt.example: "Cohort1"
+          prompt.skip: "true"
+        comments:
+          - Must be assigned at write time
       description:
         description: >-
           A description of the cohort, including the phenotypic or genotypic aspect that relates the individuals.
@@ -288,10 +290,11 @@ classes:
           REQUIRED!
         range: uriorcurie
         required: true
+        identifier: true
         annotations:
-          prompt: >-
-            The identifier of the class in the ontology.
-            Must be a CURIE.
+          prompt.skip: "true"
+        comments:
+          - Assigned through grounding and normalization
       label:
         description: >-
           class label, aka name. E.g. "Abnormality of cardiovascular system"
@@ -309,11 +312,11 @@ classes:
           e.g. ISBN, PMID:123456, DOI:...,
           FHIR mapping: Reference.identifier
         range: uriorcurie
+        identifier: true
         annotations:
-          prompt: >-
-            The identifier of the reference.
-            Must be a CURIE.
-          prompt.example: PMID:123456
+          prompt.skip: "true"
+        comments:
+          - Must be assigned at write time
       reference:
         description: >-
           A full or partial URL pointing to the external reference if no commonly resolvable identifier can be used in the
@@ -851,10 +854,14 @@ Evidence:
         description: The diagnosis made in this interpretation
         range: Diagnosis
       id:
-        annotations:
-          percent_encoded: true
         description: id of the interpretation
         range: string
+        identifier: true
+        annotations:
+          prompt.skip: "true"
+          percent_encoded: true
+        comments:
+          - Must be assigned at write time
       progressStatus:
         description: ""
         range: ProgressStatus
@@ -905,14 +912,18 @@ Evidence:
         inlined: true
         range: OntologyClass
       id:
-        annotations:
-          percent_encoded: true
         description: >-
           An identifier for the individual. This must be unique within the
           record. ARGO mapping donor::submitter_donor_id
         exact_mappings:
           - ARGO:donor.submitter_donor_id
         range: string
+        identifier: true
+        annotations:
+          prompt.skip: "true"
+          percent_encoded: true
+        comments:
+          - Must be assigned at write time
       karyotypicSex:
         description: The karyotypic sex of the individual
         range: KaryotypicSex
