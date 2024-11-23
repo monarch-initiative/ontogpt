@@ -905,8 +905,6 @@ classes:
           2018 or "2018-01-01T00:00:00Z" for someone born on an unknown day in
           2018 or empty if unknown/ not stated.
         range: string
-        annotations:
-          prompt.example: "2018-03-01T00:00:00Z"
       gender:
         description: Self-identified gender
         inlined: true
@@ -1295,8 +1293,6 @@ classes:
           ISO8601 UTC timestamp for when this phenopacket was created in ISO
           "2018-03-01T00:00:00Z"
         range: string
-        attributes:
-          prompt.example: "2018-03-01T00:00:00Z"
       createdBy:
         description: >-
           some kind of identifier for the contributor/ program ARGO
