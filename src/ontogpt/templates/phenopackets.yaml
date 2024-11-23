@@ -1421,7 +1421,64 @@ Evidence:
         description: ""
         range: Sex
 
-# core/phenotypic_feature
+  # core/phenotypic_feature
+
+  PhenotypicFeature:
+    description: >-
+      An individual phenotypic feature, observed as either present or absent
+      (negated), with possible onset, modifiers and frequency FHIR mapping:
+      Condition (https://www.hl7.org/fhir/condition.html) or Observation
+      (https://www.hl7.org/fhir/observation.html)
+    attributes:
+      description:
+        description: >-
+          Free-text description of the phenotype. Note this is not a acceptable
+          place to document/describe the phenotype - the type and onset etc...
+          fields should be used for this purpose.
+        range: string
+      evidence:
+        description: Evidences for how the phenotype was determined.
+        multivalued: true
+        range: Evidence
+      excluded:
+        description: >-
+          Flag to indicate whether the phenotype was observed or not. Default
+          is 'false', in other words the phenotype was observed. Therefore it
+          is only required in cases to indicate that the phenotype was looked
+          for, but found to be absent. More formally, this modifier indicates
+          the logical negation of the OntologyClass used in the 'type' field.
+          *CAUTION* It is imperative to check this field for correct
+          interpretation of the phenotype!
+        range: boolean
+      modifiers:
+        description: >-
+          subclasses of HP:0012823 ! Clinical modifier apart from Severity
+          HP:0012824 - Severity
+        inlined_as_list: true
+        multivalued: true
+        range: OntologyClass
+      onset:
+        description: >-
+          the values of this will come from the HPO onset hierarchy i.e.
+          subclasses of HP:0003674 FHIR mapping: Condition.onset
+        inlined: true
+        range: TimeElement
+      resolution:
+        description: ""
+        inlined: true
+        range: TimeElement
+      severity:
+        description: >-
+          Severity of the condition e.g. subclasses of HP:0012824-Severity or
+          SNOMED:272141005-Severities FHIR mapping: Condition.severity
+        inlined: true
+        range: OntologyClass
+      type:
+        description: >-
+          The primary ontology class which describes the phenotype. For example
+          "HP:0001363"  "Craniosynostosis" FHIR mapping: Condition.identifier'
+        inlined: true
+        range: OntologyClass
 
 # TODO: enums need to be described in prompts
 enums:
