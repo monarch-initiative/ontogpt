@@ -50,10 +50,13 @@ imports:
 classes:
   Phenopacket:
     tree_root: true
+    is_a: NamedEntity
     description: >-
-      An anonymous phenotypic description of an individual or biosample with potential genes of interest and/or diagnoses.
-      This is a bundle of high-level concepts with no specifically defined relational concepts. It is expected that the
-      resources sharing the phenopackets will define and enforce their own semantics and level of requirements for included
+      An anonymous phenotypic description of an individual or biosample with
+      potential genes of interest and/or diagnoses. This is a bundle of
+      high-level concepts with no specifically defined relational concepts.
+      It is expected that the resources sharing the phenopackets will define
+      and enforce their own semantics and level of requirements for included
       fields.
     attributes:
       id:
@@ -68,88 +71,107 @@ classes:
           - Example - PMID_10874631_II.2
       subject:
         description: >-
-          The individual representing the focus of this packet - e.g. the proband in rare disease cases or cancer patient
-        range: Individual
+          The individual representing the focus of this packet - e.g. the
+          proband in rare disease cases or cancer patient
+        # range: Individual
+        range: string
         annotations:
           prompt: >-
             The individual or biosample being described in the input text.
+            This must include a unique identifier for the subject.
       phenotypic_features:
         description: >-
           Phenotypic features relating to the subject of the phenopacket
-        range: PhenotypicFeature
+        # range: PhenotypicFeature
+        range: string
         multivalued: true
-        inlined: true
+        # inlined: true
         annotations:
           prompt: >-
             A semicolon-separated list of phenotypic features observed in the
-            individual or biosample.
+            individual or biosample. At minimum, each should include
+            a free-text description of a single phenotype. If this is not
+            provided, write only "NA".
       measurements:
         description: >-
           Quantifiable measurements related to the individual
-        range: Measurement
+        # range: Measurement
+        range: string
         multivalued: true
-        inlined: true
+        # inlined: true
         annotations:
           prompt: >-
             A semicolon-separated list of measurements taken from the individual
-            or biosample.
+            or biosample. If this is not provided, write only "NA".
       biosample:
         description: >-
-          Biosample(s) derived from the patient or a collection of biosamples in isolation
-        range: Biosample
+          Biosample(s) derived from the patient or a collection of biosamples
+          in isolation
+        # range: Biosample
+        range: string
         multivalued: true
-        inlined: true
+        # inlined: true
         annotations:
           prompt: >-
-            The biosample from which the phenopacket was derived.
+            A semicolon-separated list of biosamples from which the phenopacket
+            was derived. If this is not provided, write only "NA".
       interpretations:
         description: >-
           Interpretations of the phenopacket
-        range: Interpretation
+        # range: Interpretation
+        range: string
         multivalued: true
-        inlined: true
+        # inlined: true
         annotations:
           prompt: >-
             A semicolon-separated list of interpretations of the input text.
+            If this is not provided, write only "NA".
       diseases:
         description: >-
           Field for disease identifiers - could be used for listing either diagnosed or suspected conditions. The
           resources using these fields should define what this represents in their context.
-        range: Disease
+        # range: Disease
+        range: string
         multivalued: true
-        inlined: true
+        # inlined: true
         annotations:
           prompt: >-
             A semicolon-separated list of diagnosed or suspected disease
-            conditions.
+            conditions. If this is not provided, write only "NA".
       medical_actions:
         description: >-
           Field for medical action identifiers - could be used for listing either performed or planned actions. The
           resources using these fields should define what this represents in their context.
-        range: MedicalAction
+        # range: MedicalAction
+        range: string
         multivalued: true
-        inlined: true
+        # inlined: true
         annotations:
           prompt: >-
             A semicolon-separated list of medical actions taken or planned.
+            If this is not provided, write only "NA".
       files:
         description: >-
           Pointer to the relevant file(s) for the individual
-        range: File
+        # range: File
+        range: string
         multivalued: true
-        inlined: true
+        # inlined: true
         annotations:
           prompt: >-
             A semicolon-separated list of file identifiers specified in the
-            input text.
+            input text. If this is not provided, write only "NA".
       meta_data:
         description: >-
-          Structured definitions of the resources and ontologies used within the phenopacket. REQUIRED
-        range: MetaData
+          Structured definitions of the resources and ontologies used within
+          the phenopacket. REQUIRED
+        # range: MetaData
+        range: string
         required: true
         annotations:
           prompt: >-
             Additional metadata for the phenopacket.
+            If this is not provided, write only "NA".
 
   Family:
     description: >-

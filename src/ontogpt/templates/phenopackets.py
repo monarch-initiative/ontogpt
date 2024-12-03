@@ -412,7 +412,7 @@ class AnnotatorResult(ConfiguredBaseModel):
     object_text: Optional[str] = Field(None, json_schema_extra = { "linkml_meta": {'alias': 'object_text', 'domain_of': ['AnnotatorResult']} })
 
 
-class Phenopacket(ConfiguredBaseModel):
+class Phenopacket(NamedEntity):
     """
     An anonymous phenotypic description of an individual or biosample with potential genes of interest and/or diagnoses. This is a bundle of high-level concepts with no specifically defined relational concepts. It is expected that the resources sharing the phenopackets will define and enforce their own semantics and level of requirements for included fields.
     """
@@ -445,51 +445,87 @@ class Phenopacket(ConfiguredBaseModel):
     subject: Optional[str] = Field(None, description="""The individual representing the focus of this packet - e.g. the proband in rare disease cases or cancer patient""", json_schema_extra = { "linkml_meta": {'alias': 'subject',
          'annotations': {'prompt': {'tag': 'prompt',
                                     'value': 'The individual or biosample being '
-                                             'described in the input text.'}},
+                                             'described in the input text. This must '
+                                             'include a unique identifier for the '
+                                             'subject.'}},
          'domain_of': ['Triple', 'Phenopacket']} })
-    phenotypic_features: Optional[List[PhenotypicFeature]] = Field(None, description="""Phenotypic features relating to the subject of the phenopacket""", json_schema_extra = { "linkml_meta": {'alias': 'phenotypic_features',
+    phenotypic_features: Optional[List[str]] = Field(None, description="""Phenotypic features relating to the subject of the phenopacket""", json_schema_extra = { "linkml_meta": {'alias': 'phenotypic_features',
          'annotations': {'prompt': {'tag': 'prompt',
                                     'value': 'A semicolon-separated list of phenotypic '
                                              'features observed in the individual or '
-                                             'biosample.'}},
+                                             'biosample. At minimum, each should '
+                                             'include a free-text description of a '
+                                             'single phenotype. If this is not '
+                                             'provided, write only "NA".'}},
          'domain_of': ['Phenopacket']} })
-    measurements: Optional[List[Measurement]] = Field(None, description="""Quantifiable measurements related to the individual""", json_schema_extra = { "linkml_meta": {'alias': 'measurements',
+    measurements: Optional[List[str]] = Field(None, description="""Quantifiable measurements related to the individual""", json_schema_extra = { "linkml_meta": {'alias': 'measurements',
          'annotations': {'prompt': {'tag': 'prompt',
                                     'value': 'A semicolon-separated list of '
                                              'measurements taken from the individual '
-                                             'or biosample.'}},
+                                             'or biosample. If this is not provided, '
+                                             'write only "NA".'}},
          'domain_of': ['Phenopacket', 'Biosample']} })
-    biosample: Optional[List[Biosample]] = Field(None, description="""Biosample(s) derived from the patient or a collection of biosamples in isolation""", json_schema_extra = { "linkml_meta": {'alias': 'biosample',
+    biosample: Optional[List[str]] = Field(None, description="""Biosample(s) derived from the patient or a collection of biosamples in isolation""", json_schema_extra = { "linkml_meta": {'alias': 'biosample',
          'annotations': {'prompt': {'tag': 'prompt',
-                                    'value': 'The biosample from which the phenopacket '
-                                             'was derived.'}},
+                                    'value': 'A semicolon-separated list of biosamples '
+                                             'from which the phenopacket was derived. '
+                                             'If this is not provided, write only '
+                                             '"NA".'}},
          'domain_of': ['Phenopacket']} })
-    interpretations: Optional[Dict[str, Interpretation]] = Field(None, description="""Interpretations of the phenopacket""", json_schema_extra = { "linkml_meta": {'alias': 'interpretations',
+    interpretations: Optional[List[str]] = Field(None, description="""Interpretations of the phenopacket""", json_schema_extra = { "linkml_meta": {'alias': 'interpretations',
          'annotations': {'prompt': {'tag': 'prompt',
                                     'value': 'A semicolon-separated list of '
-                                             'interpretations of the input text.'}},
+                                             'interpretations of the input text. If '
+                                             'this is not provided, write only "NA".'}},
          'domain_of': ['Phenopacket']} })
-    diseases: Optional[List[Disease]] = Field(None, description="""Field for disease identifiers - could be used for listing either diagnosed or suspected conditions. The resources using these fields should define what this represents in their context.""", json_schema_extra = { "linkml_meta": {'alias': 'diseases',
+    diseases: Optional[List[str]] = Field(None, description="""Field for disease identifiers - could be used for listing either diagnosed or suspected conditions. The resources using these fields should define what this represents in their context.""", json_schema_extra = { "linkml_meta": {'alias': 'diseases',
          'annotations': {'prompt': {'tag': 'prompt',
                                     'value': 'A semicolon-separated list of diagnosed '
-                                             'or suspected disease conditions.'}},
+                                             'or suspected disease conditions. If this '
+                                             'is not provided, write only "NA".'}},
          'domain_of': ['Phenopacket']} })
-    medical_actions: Optional[List[MedicalAction]] = Field(None, description="""Field for medical action identifiers - could be used for listing either performed or planned actions. The resources using these fields should define what this represents in their context.""", json_schema_extra = { "linkml_meta": {'alias': 'medical_actions',
+    medical_actions: Optional[List[str]] = Field(None, description="""Field for medical action identifiers - could be used for listing either performed or planned actions. The resources using these fields should define what this represents in their context.""", json_schema_extra = { "linkml_meta": {'alias': 'medical_actions',
          'annotations': {'prompt': {'tag': 'prompt',
                                     'value': 'A semicolon-separated list of medical '
-                                             'actions taken or planned.'}},
+                                             'actions taken or planned. If this is not '
+                                             'provided, write only "NA".'}},
          'domain_of': ['Phenopacket']} })
-    files: Optional[List[File]] = Field(None, description="""Pointer to the relevant file(s) for the individual""", json_schema_extra = { "linkml_meta": {'alias': 'files',
+    files: Optional[List[str]] = Field(None, description="""Pointer to the relevant file(s) for the individual""", json_schema_extra = { "linkml_meta": {'alias': 'files',
          'annotations': {'prompt': {'tag': 'prompt',
                                     'value': 'A semicolon-separated list of file '
-                                             'identifiers specified in the input '
-                                             'text.'}},
+                                             'identifiers specified in the input text. '
+                                             'If this is not provided, write only '
+                                             '"NA".'}},
          'domain_of': ['Phenopacket', 'Family', 'Cohort', 'Biosample']} })
-    meta_data: MetaData = Field(..., description="""Structured definitions of the resources and ontologies used within the phenopacket. REQUIRED""", json_schema_extra = { "linkml_meta": {'alias': 'meta_data',
+    meta_data: str = Field(..., description="""Structured definitions of the resources and ontologies used within the phenopacket. REQUIRED""", json_schema_extra = { "linkml_meta": {'alias': 'meta_data',
          'annotations': {'prompt': {'tag': 'prompt',
-                                    'value': 'Additional metadata for the '
-                                             'phenopacket.'}},
+                                    'value': 'Additional metadata for the phenopacket. '
+                                             'If this is not provided, write only '
+                                             '"NA".'}},
          'domain_of': ['Phenopacket', 'Family', 'Cohort']} })
+    label: Optional[str] = Field(None, description="""The label (name) of the named thing""", json_schema_extra = { "linkml_meta": {'alias': 'label',
+         'aliases': ['name'],
+         'annotations': {'owl': {'tag': 'owl',
+                                 'value': 'AnnotationProperty, AnnotationAssertion'}},
+         'domain_of': ['NamedEntity', 'OntologyClass', 'VariationDescriptor'],
+         'slot_uri': 'rdfs:label'} })
+    original_spans: Optional[List[str]] = Field(None, description="""The coordinates of the original text span from which the named entity was extracted, inclusive. For example, \"10:25\" means the span starting from the 10th character and ending with the 25th character. The first character in the text has index 0. Newlines are treated as single characters. Multivalued as there may be multiple spans for a single text.""", json_schema_extra = { "linkml_meta": {'alias': 'original_spans',
+         'annotations': {'prompt.skip': {'tag': 'prompt.skip', 'value': 'true'}},
+         'comments': ['This is determined during grounding and normalization',
+                      'But is based on the full input text'],
+         'domain_of': ['NamedEntity']} })
+
+    @field_validator('original_spans')
+    def pattern_original_spans(cls, v):
+        pattern=re.compile(r"^\d+:\d+$")
+        if isinstance(v,list):
+            for element in v:
+                if isinstance(v, str) and not pattern.match(element):
+                    raise ValueError(f"Invalid original_spans format: {element}")
+        elif isinstance(v,str):
+            if not pattern.match(v):
+                raise ValueError(f"Invalid original_spans format: {v}")
+        return v
 
 
 class Family(ConfiguredBaseModel):
