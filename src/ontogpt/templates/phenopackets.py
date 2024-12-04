@@ -442,12 +442,22 @@ class Phenopacket(NamedEntity):
                        'Member',
                        'SequenceLocation',
                        'Text']} })
-    subject: Optional[str] = Field(None, description="""The individual representing the focus of this packet - e.g. the proband in rare disease cases or cancer patient""", json_schema_extra = { "linkml_meta": {'alias': 'subject',
+    subject: Optional[Individual] = Field(None, description="""The individual representing the focus of this packet - e.g. the proband in rare disease cases or cancer patient""", json_schema_extra = { "linkml_meta": {'alias': 'subject',
          'annotations': {'prompt': {'tag': 'prompt',
                                     'value': 'The individual or biosample being '
-                                             'described in the input text. This must '
-                                             'include a unique identifier for the '
-                                             'subject.'}},
+                                             'described in the input text. If multiple '
+                                             'individuals are described, include only '
+                                             'information about the first individual. '
+                                             'This must include a unique identifier '
+                                             'for the subject. Use the same identifier '
+                                             'as that used in the text if possible. '
+                                             'Otherwise, create a unique identifier '
+                                             'such as "Patient 1". This description '
+                                             'must also include any of the following, '
+                                             'if provided: the date of birth, gender, '
+                                             'sex, karyotypic sex, the time of last '
+                                             'encounter, and whether the individual is '
+                                             'alive or deceased.'}},
          'domain_of': ['Triple', 'Phenopacket']} })
     phenotypic_features: Optional[List[str]] = Field(None, description="""Phenotypic features relating to the subject of the phenopacket""", json_schema_extra = { "linkml_meta": {'alias': 'phenotypic_features',
          'annotations': {'prompt': {'tag': 'prompt',
@@ -1075,13 +1085,40 @@ class Individual(ConfiguredBaseModel):
     """
     linkml_meta: ClassVar[LinkMLMeta] = LinkMLMeta({'from_schema': 'http://w3id.org/ontogpt/phenopackets'})
 
-    alternateIds: Optional[List[str]] = Field(None, description="""An optional list of alternative identifiers for this individual. This field is provided for the convenience of users who may have multiple mappings to an individual which they need to track.""", json_schema_extra = { "linkml_meta": {'alias': 'alternateIds', 'domain_of': ['Individual', 'GeneDescriptor']} })
-    dateOfBirth: Optional[str] = Field(None, description="""The date of birth of the individual as an ISO8601 UTC timestamp - rounded down to the closest known year/month/day/hour/minute e.g. \"2018-03-01T00:00:00Z\" for someone born on an unknown day in March 2018 or \"2018-01-01T00:00:00Z\" for someone born on an unknown day in 2018 or empty if unknown/ not stated.""", json_schema_extra = { "linkml_meta": {'alias': 'dateOfBirth', 'domain_of': ['Individual']} })
-    gender: Optional[OntologyClass] = Field(None, description="""Self-identified gender""", json_schema_extra = { "linkml_meta": {'alias': 'gender', 'domain_of': ['Individual']} })
+    alternateIds: Optional[List[str]] = Field(None, description="""An optional list of alternative identifiers for this individual. This field is provided for the convenience of users who may have multiple mappings to an individual which they need to track.""", json_schema_extra = { "linkml_meta": {'alias': 'alternateIds',
+         'annotations': {'prompt': {'tag': 'prompt',
+                                    'value': 'A semicolon-separated list of '
+                                             'alternative identifiers for this '
+                                             'individual, if any.'}},
+         'domain_of': ['Individual', 'GeneDescriptor']} })
+    dateOfBirth: Optional[str] = Field(None, description="""The date of birth of the individual as an ISO8601 UTC timestamp - rounded down to the closest known year/month/day/hour/minute e.g. \"2018-03-01T00:00:00Z\" for someone born on an unknown day in March 2018 or \"2018-01-01T00:00:00Z\" for someone born on an unknown day in 2018 or empty if unknown/ not stated.""", json_schema_extra = { "linkml_meta": {'alias': 'dateOfBirth',
+         'annotations': {'prompt': {'tag': 'prompt',
+                                    'value': 'The date of birth of the individual as '
+                                             'an ISO8601 UTC timestamp. This should be '
+                                             'rounded down to the closest known '
+                                             'year/month/day. If the day is unknown, '
+                                             'use the first day of the month. If the '
+                                             'month is unknown, use the first month of '
+                                             'the year. If the year is unknown, do not '
+                                             'provide a value.'}},
+         'domain_of': ['Individual']} })
+    gender: Optional[str] = Field(None, description="""Self-identified gender""", json_schema_extra = { "linkml_meta": {'alias': 'gender',
+         'annotations': {'prompt': {'tag': 'prompt',
+                                    'value': 'The self-identified gender of the '
+                                             'individual. This may or may not be the '
+                                             "same as the individual's sex. Must be "
+                                             'one of Female, Male, Other (if it is not '
+                                             'possible to accurately assess the '
+                                             'applicability of Male/Female or neither '
+                                             'is applicable) or Unknown if the '
+                                             'information is unknown.'}},
+         'domain_of': ['Individual']} })
     id: str = Field(..., description="""An identifier for the individual. This must be unique within the record. ARGO mapping donor::submitter_donor_id""", json_schema_extra = { "linkml_meta": {'alias': 'id',
          'annotations': {'percent_encoded': {'tag': 'percent_encoded', 'value': True},
-                         'prompt.skip': {'tag': 'prompt.skip', 'value': 'true'}},
-         'comments': ['Must be assigned at write time'],
+                         'prompt': {'tag': 'prompt',
+                                    'value': 'An identifier for the individual. This '
+                                             'is identical to the label.'}},
+         'comments': ['Not assigned at write time as this identifier is inherited'],
          'domain_of': ['NamedEntity',
                        'Publication',
                        'Phenopacket',
@@ -1102,24 +1139,66 @@ class Individual(ConfiguredBaseModel):
                        'SequenceLocation',
                        'Text'],
          'exact_mappings': ['ARGO:donor.submitter_donor_id']} })
-    karyotypicSex: Optional[KaryotypicSex] = Field(None, description="""The karyotypic sex of the individual""", json_schema_extra = { "linkml_meta": {'alias': 'karyotypicSex', 'domain_of': ['Individual']} })
+    karyotypicSex: Optional[KaryotypicSex] = Field(None, description="""The karyotypic sex of the individual""", json_schema_extra = { "linkml_meta": {'alias': 'karyotypicSex',
+         'annotations': {'prompt': {'tag': 'prompt',
+                                    'value': 'The karyotypic sex of the individual '
+                                             '(their karyotype, or the sex chromosomes '
+                                             'they have). Must be one of XO, XX, XY, '
+                                             'XXY, XYY, XXX, XXXX, XXYY, XXXY, '
+                                             'OTHER_KARYOTYPE (if not among the '
+                                             'previous values) or UNKNOWN (if not '
+                                             'specified)'}},
+         'domain_of': ['Individual']} })
     sex: Optional[Sex] = Field(None, description="""The phenotypic sex of the individual ARGO mapping sample_registration::gender (this is complicated as ARGO only have male/female/other which maps to the phenopacket Sex field)""", json_schema_extra = { "linkml_meta": {'alias': 'sex',
+         'annotations': {'prompt': {'tag': 'prompt',
+                                    'value': 'The phenotypic sex of the individual. '
+                                             'Must be one of FEMALE, MALE, OTHER_SEX '
+                                             '(if it is not possible to accurately '
+                                             'assess the applicability of MALE/FEMALE) '
+                                             'or UNKNOWN_SEX if the information is '
+                                             "unknown. IF the individual's gender is "
+                                             'known and sex is not specified, use the '
+                                             'corresponding value for sex (e.g., if '
+                                             'the individual has female gender, '
+                                             'specify female sex unless there is '
+                                             'information to the contrary).'}},
          'domain_of': ['Individual', 'Person'],
          'exact_mappings': ['ARGO:sample_registration.gender']} })
-    taxonomy: Optional[OntologyClass] = Field(None, description="""NCBI taxonomic identifier NCBITaxon e.g. NCBITaxon:9606 or NCBITaxon:1337 For resources where there may be more than one organism being studied it is advisable to indicate the taxonomic identifier of that organism, to its most specific level""", json_schema_extra = { "linkml_meta": {'alias': 'taxonomy', 'domain_of': ['Biosample', 'Individual']} })
-    timeAtLastEncounter: Optional[TimeElement] = Field(None, description="""An TimeElement object describing the age of the individual at the last time of collection. The Age object allows the encoding of the age either as ISO8601 duration or time interval (preferred), or as ontology term object. See http://build.fhir.org/datatypes""", json_schema_extra = { "linkml_meta": {'alias': 'timeAtLastEncounter', 'domain_of': ['Individual']} })
-    vitalStatus: Optional[VitalStatus] = Field(None, description="""Vital status of the individual. If not present it is assumed that the individual is alive. If present it will default to 'false' i.e. the individual was alive when the data was collected. ARGO mapping donor::vital_status""", json_schema_extra = { "linkml_meta": {'alias': 'vitalStatus',
+    taxonomy: Optional[str] = Field(None, description="""NCBI taxonomic identifier NCBITaxon e.g. NCBITaxon:9606 or NCBITaxon:1337 For resources where there may be more than one organism being studied it is advisable to indicate the taxonomic identifier of that organism, to its most specific level""", json_schema_extra = { "linkml_meta": {'alias': 'taxonomy',
+         'annotations': {'prompt': {'tag': 'prompt',
+                                    'value': 'The NCBI taxonomic identifier of the '
+                                             'individual. If this is a human, this '
+                                             'value is always NCBITaxon:9606.'}},
+         'domain_of': ['Biosample', 'Individual']} })
+    timeAtLastEncounter: Optional[str] = Field(None, description="""An TimeElement object describing the age of the individual at the last time of collection. The Age object allows the encoding of the age either as ISO8601 duration or time interval (preferred), or as ontology term object. See http://build.fhir.org/datatypes""", json_schema_extra = { "linkml_meta": {'alias': 'timeAtLastEncounter',
+         'annotations': {'prompt': {'tag': 'prompt',
+                                    'value': 'The age of the individual at the last '
+                                             'time of encounter. This should be an '
+                                             'ISO8601 duration or time interval. Do '
+                                             'not provide units.'}},
+         'domain_of': ['Individual']} })
+    vitalStatus: Optional[str] = Field(None, description="""Vital status of the individual. If not present it is assumed that the individual is alive. If present it will default to 'false' i.e. the individual was alive when the data was collected. ARGO mapping donor::vital_status""", json_schema_extra = { "linkml_meta": {'alias': 'vitalStatus',
+         'annotations': {'prompt': {'tag': 'prompt',
+                                    'value': 'The vital status of the individual. Must '
+                                             'include any of the following '
+                                             'information, as available: the cause of '
+                                             'death, the status, the survival time in '
+                                             'days (integer only), and/or the time of '
+                                             'death.'}},
          'domain_of': ['Individual'],
          'exact_mappings': ['ARGO:donor.vital_status']} })
 
 
 class VitalStatus(ConfiguredBaseModel):
+    """
+    The vital status of an individual.
+    """
     linkml_meta: ClassVar[LinkMLMeta] = LinkMLMeta({'from_schema': 'http://w3id.org/ontogpt/phenopackets'})
 
     causeOfDeath: Optional[OntologyClass] = Field(None, description="""ARGO mapping donor::cause_of_death""", json_schema_extra = { "linkml_meta": {'alias': 'causeOfDeath',
          'domain_of': ['VitalStatus'],
          'exact_mappings': ['ARGO:donor.cause_of_death']} })
-    status: Optional[Status] = Field(None, json_schema_extra = { "linkml_meta": {'alias': 'status', 'domain_of': ['VitalStatus']} })
+    status: Optional[Status] = Field(None, description="""Status of an individual.""", json_schema_extra = { "linkml_meta": {'alias': 'status', 'domain_of': ['VitalStatus']} })
     survivalTimeInDays: Optional[int] = Field(None, description="""ARGO mapping donor::survival_time""", json_schema_extra = { "linkml_meta": {'alias': 'survivalTimeInDays',
          'domain_of': ['VitalStatus'],
          'exact_mappings': ['ARGO:donor.survival_time']} })

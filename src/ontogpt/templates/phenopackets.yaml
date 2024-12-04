@@ -41,7 +41,11 @@ imports:
 # NOTE: this is currently set up to extract details on
 # a single patient at a time. Adapting to cohort-level
 # extractions will require a container class and a
-# mechanism for isolating specific patient details.
+# mechanism for isolating specific patient details
+# and linking them to the appropriate patient.
+# See the "subject" slot in the Phenopacket class
+# for the specific prompt as this restricts
+# the extraction to a single patient.
 
 # TODO: identify which fields should not be generated
 # (these are usually the identifiers, and we want be
@@ -73,12 +77,20 @@ classes:
         description: >-
           The individual representing the focus of this packet - e.g. the
           proband in rare disease cases or cancer patient
-        # range: Individual
-        range: string
+        range: Individual
+        inlined: true
         annotations:
           prompt: >-
             The individual or biosample being described in the input text.
-            This must include a unique identifier for the subject.
+            If multiple individuals are described, include only information
+            about the first individual.
+            This must include a unique identifier for the subject. Use
+            the same identifier as that used in the text if possible.
+            Otherwise, create a unique identifier such as "Patient 1".
+            This description must also include any of the following,
+            if provided: the date of birth, gender, sex, karyotypic sex,
+            the time of last encounter, and whether the individual is
+            alive or deceased.
       phenotypic_features:
         description: >-
           Phenotypic features relating to the subject of the phenopacket
@@ -172,6 +184,9 @@ classes:
           prompt: >-
             Additional metadata for the phenopacket.
             If this is not provided, write only "NA".
+      # TODO: metadata should be populated after the phenopacket is created,
+      # as it depends upon the external references and namespaces
+      # used in the phenopacket
 
   Family:
     description: >-
@@ -918,6 +933,10 @@ classes:
           mappings to an individual which they need to track.
         multivalued: true
         range: string
+        annotations:
+          prompt: >-
+            A semicolon-separated list of alternative identifiers for this
+            individual, if any.
       dateOfBirth:
         description: >-
           The date of birth of the individual as an ISO8601 UTC timestamp -
@@ -926,10 +945,25 @@ classes:
           2018 or "2018-01-01T00:00:00Z" for someone born on an unknown day in
           2018 or empty if unknown/ not stated.
         range: string
-      gender:
+        annotations:
+          prompt: >-
+            The date of birth of the individual as an ISO8601 UTC timestamp.
+            This should be rounded down to the closest known year/month/day.
+            If the day is unknown, use the first day of the month.
+            If the month is unknown, use the first month of the year.
+            If the year is unknown, do not provide a value.
+      gender:  # TODO: ground the corresponding ID
         description: Self-identified gender
         inlined: true
-        range: OntologyClass
+        # range: OntologyClass
+        range: string
+        annotations:
+          prompt: >-
+            The self-identified gender of the individual. This
+            may or may not be the same as the individual's sex.
+            Must be one of Female, Male, Other (if it is not possible to
+            accurately assess the applicability of Male/Female or neither
+            is applicable) or Unknown if the information is unknown.
       id:
         description: >-
           An identifier for the individual. This must be unique within the
@@ -939,13 +973,21 @@ classes:
         range: string
         identifier: true
         annotations:
-          prompt.skip: "true"
           percent_encoded: true
+          prompt: >-
+            An identifier for the individual. This is identical to the label.
         comments:
-          - Must be assigned at write time
+          - Not assigned at write time as this identifier is inherited
       karyotypicSex:
         description: The karyotypic sex of the individual
         range: KaryotypicSex
+        annotations:
+          prompt: >-
+            The karyotypic sex of the individual (their karyotype,
+            or the sex chromosomes they have). Must be one
+            of XO, XX, XY, XXY, XYY, XXX, XXXX, XXYY, XXXY,
+            OTHER_KARYOTYPE (if not among the previous values)
+            or UNKNOWN (if not specified)
       sex:
         description: >-
           The phenotypic sex of the individual ARGO mapping
@@ -954,23 +996,43 @@ classes:
         exact_mappings:
           - ARGO:sample_registration.gender
         range: Sex
-      taxonomy:
+        annotations:
+          prompt: >-
+            The phenotypic sex of the individual. Must be one of
+            FEMALE, MALE, OTHER_SEX (if it is not possible to accurately
+            assess the applicability of MALE/FEMALE) or UNKNOWN_SEX
+            if the information is unknown. IF the individual's gender
+            is known and sex is not specified, use the corresponding
+            value for sex (e.g., if the individual has female gender,
+            specify female sex unless there is information to the contrary).
+      taxonomy:  # TODO: ground the corresponding ID
         description: >-
           NCBI taxonomic identifier NCBITaxon e.g. NCBITaxon:9606 or
           NCBITaxon:1337 For resources where there may be more than one
           organism being studied it is advisable to indicate the taxonomic
           identifier of that organism, to its most specific level
-        inlined: true
-        range: OntologyClass
-      timeAtLastEncounter:
+        # inlined: true
+        # range: OntologyClass
+        range: string
+        annotations:
+          prompt: >-
+            The NCBI taxonomic identifier of the individual.
+            If this is a human, this value is always NCBITaxon:9606.
+      timeAtLastEncounter:  # TODO: cast as properly formatted TimeElement
         description: >-
           An TimeElement object describing the age of the individual at the
           last time of collection. The Age object allows the encoding of the
           age either as ISO8601 duration or time interval (preferred), or as
           ontology term object. See http://build.fhir.org/datatypes
-        inlined: true
-        range: TimeElement
-      vitalStatus:
+        # inlined: true
+        # range: TimeElement
+        range: string
+        annotations:
+          prompt: >-
+            The age of the individual at the last time of encounter.
+            This should be an ISO8601 duration or time interval.
+            Do not provide units.
+      vitalStatus:  # TODO: ground further to VitalStatus class
         description: >-
           Vital status of the individual. If not present it is assumed that the
           individual is alive. If present it will default to 'false' i.e. the
@@ -978,10 +1040,17 @@ classes:
           ARGO mapping donor::vital_status
         exact_mappings:
           - ARGO:donor.vital_status
-        range: VitalStatus
+        # range: VitalStatus
+        range: string
+        annotations:
+          prompt: >-
+            The vital status of the individual. Must include any of the
+            following information, as available: the cause of death,
+            the status, the survival time in days (integer only),
+            and/or the time of death.
 
   VitalStatus:
-    description: ""
+    description: The vital status of an individual.
     attributes:
       causeOfDeath:
         description: ARGO mapping donor::cause_of_death
@@ -990,7 +1059,7 @@ classes:
         inlined: true
         range: OntologyClass
       status:
-        description: ""
+        description: Status of an individual.
         range: Status
       survivalTimeInDays:
         description: ARGO mapping donor::survival_time
