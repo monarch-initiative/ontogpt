@@ -459,14 +459,20 @@ class Phenopacket(NamedEntity):
                                              'encounter, and whether the individual is '
                                              'alive or deceased.'}},
          'domain_of': ['Triple', 'Phenopacket']} })
-    phenotypic_features: Optional[List[str]] = Field(None, description="""Phenotypic features relating to the subject of the phenopacket""", json_schema_extra = { "linkml_meta": {'alias': 'phenotypic_features',
+    phenotypic_features: Optional[List[PhenotypicFeature]] = Field(None, description="""Phenotypic features relating to the subject of the phenopacket""", json_schema_extra = { "linkml_meta": {'alias': 'phenotypic_features',
          'annotations': {'prompt': {'tag': 'prompt',
                                     'value': 'A semicolon-separated list of phenotypic '
                                              'features observed in the individual or '
-                                             'biosample. At minimum, each should '
-                                             'include a free-text description of a '
-                                             'single phenotype. If this is not '
-                                             'provided, write only "NA".'}},
+                                             'biosample, including any explicitly '
+                                             'excluded. If this is not provided, write '
+                                             'only "NA". Include the following '
+                                             'information as available: a description '
+                                             'of the observed phenotype, evidence '
+                                             'supporting the phenotype, whether it was '
+                                             'excluded, any modifiers of the '
+                                             'phenotype, age of onset, time required '
+                                             'to resolve the phenotype (if '
+                                             'applicable), and its severity.'}},
          'domain_of': ['Phenopacket']} })
     measurements: Optional[List[str]] = Field(None, description="""Quantifiable measurements related to the individual""", json_schema_extra = { "linkml_meta": {'alias': 'measurements',
          'annotations': {'prompt': {'tag': 'prompt',
@@ -1468,6 +1474,12 @@ class PhenotypicFeature(ConfiguredBaseModel):
     linkml_meta: ClassVar[LinkMLMeta] = LinkMLMeta({'from_schema': 'http://w3id.org/ontogpt/phenopackets'})
 
     description: Optional[str] = Field(None, description="""Free-text description of the phenotype. Note this is not a acceptable place to document/describe the phenotype - the type and onset etc... fields should be used for this purpose.""", json_schema_extra = { "linkml_meta": {'alias': 'description',
+         'annotations': {'prompt': {'tag': 'prompt',
+                                    'value': 'A free-text description of the observed '
+                                             'phenotype. This should be a description '
+                                             'of the observation, not the phenotype '
+                                             'itself. Do not include type, onset, or '
+                                             'other classifications.'}},
          'domain_of': ['Cohort',
                        'ExternalReference',
                        'Biosample',
@@ -1475,13 +1487,48 @@ class PhenotypicFeature(ConfiguredBaseModel):
                        'PhenotypicFeature',
                        'GeneDescriptor',
                        'VariationDescriptor']} })
-    evidence: Optional[List[Evidence]] = Field(None, description="""Evidences for how the phenotype was determined.""", json_schema_extra = { "linkml_meta": {'alias': 'evidence', 'domain_of': ['PhenotypicFeature']} })
-    excluded: Optional[bool] = Field(None, description="""Flag to indicate whether the phenotype was observed or not. Default is 'false', in other words the phenotype was observed. Therefore it is only required in cases to indicate that the phenotype was looked for, but found to be absent. More formally, this modifier indicates the logical negation of the OntologyClass used in the 'type' field. *CAUTION* It is imperative to check this field for correct interpretation of the phenotype!""", json_schema_extra = { "linkml_meta": {'alias': 'excluded', 'domain_of': ['Disease', 'PhenotypicFeature']} })
-    modifiers: Optional[List[OntologyClass]] = Field(None, description="""subclasses of HP:0012823 ! Clinical modifier apart from Severity HP:0012824 - Severity""", json_schema_extra = { "linkml_meta": {'alias': 'modifiers', 'domain_of': ['PhenotypicFeature']} })
-    onset: Optional[TimeElement] = Field(None, description="""the values of this will come from the HPO onset hierarchy i.e. subclasses of HP:0003674 FHIR mapping: Condition.onset""", json_schema_extra = { "linkml_meta": {'alias': 'onset', 'domain_of': ['Disease', 'PhenotypicFeature']} })
-    resolution: Optional[TimeElement] = Field(None, json_schema_extra = { "linkml_meta": {'alias': 'resolution', 'domain_of': ['Disease', 'PhenotypicFeature']} })
-    severity: Optional[OntologyClass] = Field(None, description="""Severity of the condition e.g. subclasses of HP:0012824-Severity or SNOMED:272141005-Severities FHIR mapping: Condition.severity""", json_schema_extra = { "linkml_meta": {'alias': 'severity', 'domain_of': ['PhenotypicFeature']} })
-    type: Optional[OntologyClass] = Field(None, description="""The primary ontology class which describes the phenotype. For example \"HP:0001363\"  \"Craniosynostosis\" FHIR mapping: Condition.identifier'""", json_schema_extra = { "linkml_meta": {'alias': 'type', 'domain_of': ['TypedQuantity', 'PhenotypicFeature']} })
+    evidence: Optional[List[str]] = Field(None, description="""Evidences for how the phenotype was determined.""", json_schema_extra = { "linkml_meta": {'alias': 'evidence',
+         'annotations': {'prompt': {'tag': 'prompt',
+                                    'value': 'Semicolon-delimited list of evidences '
+                                             'for how the phenotype was determined.'}},
+         'domain_of': ['PhenotypicFeature']} })
+    excluded: Optional[str] = Field(None, description="""Flag to indicate whether the phenotype was observed or not. Default is 'false', in other words the phenotype was observed. Therefore it is only required in cases to indicate that the phenotype was looked for, but found to be absent. More formally, this modifier indicates the logical negation of the OntologyClass used in the 'type' field. *CAUTION* It is imperative to check this field for correct interpretation of the phenotype!""", json_schema_extra = { "linkml_meta": {'alias': 'excluded',
+         'annotations': {'prompt': {'tag': 'prompt',
+                                    'value': 'A boolean flag to indicate whether the '
+                                             'phenotype was observed or not. If the '
+                                             'phenotype was observed, this field '
+                                             'should be left empty. If the phenotype '
+                                             'was not observed, set this field to '
+                                             "'true'."}},
+         'domain_of': ['Disease', 'PhenotypicFeature']} })
+    modifiers: Optional[List[str]] = Field(None, description="""subclasses of HP:0012823 ! Clinical modifier apart from Severity HP:0012824 - Severity""", json_schema_extra = { "linkml_meta": {'alias': 'modifiers',
+         'annotations': {'prompt': {'tag': 'prompt',
+                                    'value': 'Semicolon-delimited list of modifiers '
+                                             'for the phenotype.'}},
+         'domain_of': ['PhenotypicFeature']} })
+    onset: Optional[str] = Field(None, description="""the values of this will come from the HPO onset hierarchy i.e. subclasses of HP:0003674 FHIR mapping: Condition.onset""", json_schema_extra = { "linkml_meta": {'alias': 'onset',
+         'annotations': {'prompt': {'tag': 'prompt',
+                                    'value': 'The onset of the phenotype, or the '
+                                             'period of life in which this phenotype '
+                                             'was first observed in the individual. '
+                                             'For example, "Late onset", "Congenital '
+                                             'onset", or "Early young adult onset".'}},
+         'domain_of': ['Disease', 'PhenotypicFeature']} })
+    resolution: Optional[str] = Field(None, description="""Time required to resolve the phenotype, if applicable.""", json_schema_extra = { "linkml_meta": {'alias': 'resolution',
+         'annotations': {'prompt': {'tag': 'prompt',
+                                    'value': 'The time required to resolve the '
+                                             'phenotype, if applicable.'}},
+         'domain_of': ['Disease', 'PhenotypicFeature']} })
+    severity: Optional[str] = Field(None, description="""Severity of the condition e.g. subclasses of HP:0012824-Severity or SNOMED:272141005-Severities FHIR mapping: Condition.severity""", json_schema_extra = { "linkml_meta": {'alias': 'severity',
+         'annotations': {'prompt': {'tag': 'prompt',
+                                    'value': 'The severity of the phenotype.'}},
+         'domain_of': ['PhenotypicFeature']} })
+    type: Optional[str] = Field(None, description="""The primary ontology class which describes the phenotype. For example \"HP:0001363\"  \"Craniosynostosis\" FHIR mapping: Condition.identifier'""", json_schema_extra = { "linkml_meta": {'alias': 'type',
+         'annotations': {'prompt': {'tag': 'prompt',
+                                    'value': 'The primary ontology class which '
+                                             'describes the phenotype. For example, '
+                                             '"Craniosynostosis".'}},
+         'domain_of': ['TypedQuantity', 'PhenotypicFeature']} })
 
 
 class Expression(ConfiguredBaseModel):

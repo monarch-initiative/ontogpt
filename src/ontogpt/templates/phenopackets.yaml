@@ -94,16 +94,18 @@ classes:
       phenotypic_features:
         description: >-
           Phenotypic features relating to the subject of the phenopacket
-        # range: PhenotypicFeature
-        range: string
+        range: PhenotypicFeature
         multivalued: true
-        # inlined: true
+        inlined: true
         annotations:
           prompt: >-
             A semicolon-separated list of phenotypic features observed in the
-            individual or biosample. At minimum, each should include
-            a free-text description of a single phenotype. If this is not
-            provided, write only "NA".
+            individual or biosample, including any explicitly excluded.
+            If this is not provided, write only "NA". Include the following
+            information as available: a description of the observed phenotype,
+            evidence supporting the phenotype, whether it was excluded,
+            any modifiers of the phenotype, age of onset, time required
+            to resolve the phenotype (if applicable), and its severity.
       measurements:
         description: >-
           Quantifiable measurements related to the individual
@@ -1540,10 +1542,20 @@ classes:
           place to document/describe the phenotype - the type and onset etc...
           fields should be used for this purpose.
         range: string
-      evidence:
+        annotations:
+          prompt: >-
+            A free-text description of the observed phenotype. This should be a
+            description of the observation, not the phenotype itself.
+            Do not include type, onset, or other classifications.
+      evidence:  # TODO: ground
         description: Evidences for how the phenotype was determined.
         multivalued: true
-        range: Evidence
+        # range: Evidence
+        range: string
+        annotations:
+          prompt: >-
+            Semicolon-delimited list of evidences for how the phenotype was
+            determined.
       excluded:
         description: >-
           Flag to indicate whether the phenotype was observed or not. Default
@@ -1553,36 +1565,65 @@ classes:
           the logical negation of the OntologyClass used in the 'type' field.
           *CAUTION* It is imperative to check this field for correct
           interpretation of the phenotype!
-        range: boolean
-      modifiers:
+        # range: boolean
+        range: string
+        annotations:
+          prompt: >-
+            A boolean flag to indicate whether the phenotype was observed or
+            not. If the phenotype was observed, this field should be left
+            empty. If the phenotype was not observed, set this field to 'true'.
+      modifiers:  # TODO: ground
         description: >-
           subclasses of HP:0012823 ! Clinical modifier apart from Severity
           HP:0012824 - Severity
-        inlined_as_list: true
+        # inlined_as_list: true
         multivalued: true
-        range: OntologyClass
-      onset:
+        # range: OntologyClass
+        range: string
+        annotations:
+          prompt: >-
+            Semicolon-delimited list of modifiers for the phenotype.
+      onset:  # TODO: ground
         description: >-
           the values of this will come from the HPO onset hierarchy i.e.
           subclasses of HP:0003674 FHIR mapping: Condition.onset
-        inlined: true
-        range: TimeElement
-      resolution:
-        description: ""
-        inlined: true
-        range: TimeElement
-      severity:
+        # inlined: true
+        # range: TimeElement
+        range: string
+        annotations:
+          prompt: >-
+            The onset of the phenotype, or the period of life in which
+            this phenotype was first observed in the individual.
+            For example, "Late onset", "Congenital onset", or
+            "Early young adult onset".
+      resolution:  # TODO: ground
+        description: Time required to resolve the phenotype, if applicable.
+        # inlined: true
+        # range: TimeElement
+        range: string
+        annotations:
+          prompt: >-
+            The time required to resolve the phenotype, if applicable.
+      severity:  # TODO: ground
         description: >-
           Severity of the condition e.g. subclasses of HP:0012824-Severity or
           SNOMED:272141005-Severities FHIR mapping: Condition.severity
-        inlined: true
-        range: OntologyClass
-      type:
+        # inlined: true
+        # range: OntologyClass
+        annotations:
+          prompt: >-
+            The severity of the phenotype.
+      type:  # TODO: ground
         description: >-
           The primary ontology class which describes the phenotype. For example
           "HP:0001363"  "Craniosynostosis" FHIR mapping: Condition.identifier'
-        inlined: true
-        range: OntologyClass
+        # inlined: true
+        # range: OntologyClass
+        range: string
+        annotations:
+          prompt: >-
+            The primary ontology class which describes the phenotype.
+            For example, "Craniosynostosis".
 
   # vrsatile
 
