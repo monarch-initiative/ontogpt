@@ -380,8 +380,8 @@ classes:
           - Must be assigned at write time
       reference:
         description: >-
-          A full or partial URL pointing to the external reference if no commonly resolvable identifier can be used in the
-          `id` field
+          A full or partial URL pointing to the external reference if no
+          commonly resolvable identifier can be used in the `id` field
           FHIR mapping Reference.reference
         range: string
         annotations:
@@ -413,12 +413,14 @@ classes:
 
   Procedure:
     description: >-
-      A clinical procedure performed on a subject. By preference a single concept to indicate both the procedure and the
-      body site should be used. In cases where this is not possible, the body site should be indicated using a separate
-      ontology class.
+      A clinical procedure performed on a subject. By preference a single
+      concept to indicate both the procedure and thebody site should be used.
+      In cases where this is not possible, the body site should be indicated
+      using a separate ontology class.
       e.g.
       {"code":{"NCIT:C51585": "Biopsy of Soft Palate"}}
-      {"code":{"NCIT:C28743": "Punch Biopsy"}, "body_site":{"UBERON:0003403": "skin of forearm"}} - a punch biopsy of the skin from the forearm
+      {"code":{"NCIT:C28743": "Punch Biopsy"}, "body_site":{"UBERON:0003403":
+      "skin of forearm"}} - a punch biopsy of the skin from the forearm
       FHIR mapping: Procedure (https://www.hl7.org/fhir/procedure.html)
     attributes:
       code:
@@ -467,8 +469,10 @@ classes:
   # TODO: use an extant LinkML type for this
   Age:
     description: >-
-      See http://build.fhir.org/datatypes and http://build.fhir.org/condition-definitions.html#Condition.onset_x_
-      In FHIR this is represented as a UCUM measurement - http://unitsofmeasure.org/trac/
+      See http://build.fhir.org/datatypes and
+      http://build.fhir.org/condition-definitions.html#Condition.onset_x_
+      In FHIR this is represented as a UCUM measurement -
+      http://unitsofmeasure.org/trac/
     attributes:
       iso8601duration:
         description: >-
@@ -553,7 +557,8 @@ classes:
     attributes:
       uri:
         description: >-
-          URI for the file e.g. file://data/genomes/file1.vcf.gz or https://opensnp.org/data/60.23andme-exome-vcf.231?1341012444
+          URI for the file e.g. file://data/genomes/file1.vcf.gz or
+          https://opensnp.org/data/60.23andme-exome-vcf.231?1341012444
         range: string
         annotations:
           prompt: >-
@@ -672,7 +677,7 @@ classes:
         inlined: true
         range: OntologyClass
       measurements:
-        description: ""
+        description: Measurements obtained for the sample.
         inlined_as_list: true
         multivalued: true
         range: Measurement
@@ -1030,7 +1035,7 @@ classes:
             is known and sex is not specified, use the corresponding
             value for sex (e.g., if the individual has female gender,
             specify female sex unless there is information to the contrary).
-      taxonomy: # TODO: ground the corresponding ID
+      taxonomy:  # TODO: ground the corresponding ID
         description: >-
           NCBI taxonomic identifier NCBITaxon e.g. NCBITaxon:9606 or
           NCBITaxon:1337 For resources where there may be more than one
@@ -1057,7 +1062,7 @@ classes:
             The age of the individual at the last time of encounter.
             This should be an ISO8601 duration or time interval.
             Do not provide units.
-      vitalStatus: # TODO: ground further to VitalStatus class
+      vitalStatus:  # TODO: ground further to VitalStatus class
         description: >-
           Vital status of the individual. If not present it is assumed that the
           individual is alive. If present it will default to 'false' i.e. the
@@ -1606,7 +1611,7 @@ classes:
         annotations:
           prompt: >-
             Semicolon-delimited list of modifiers for the phenotype.
-      onset: # TODO: ground
+      onset:  # TODO: ground
         description: >-
           the values of this will come from the HPO onset hierarchy i.e.
           subclasses of HP:0003674 FHIR mapping: Condition.onset
@@ -1619,7 +1624,7 @@ classes:
             this phenotype was first observed in the individual.
             For example, "Late onset", "Congenital onset", or
             "Early young adult onset".
-      resolution: # TODO: ground
+      resolution:  # TODO: ground
         description: Time required to resolve the phenotype, if applicable.
         # inlined: true
         # range: TimeElement
@@ -1627,7 +1632,7 @@ classes:
         annotations:
           prompt: >-
             The time required to resolve the phenotype, if applicable.
-      severity: # TODO: ground
+      severity:  # TODO: ground
         description: >-
           Severity of the condition e.g. subclasses of HP:0012824-Severity or
           SNOMED:272141005-Severities FHIR mapping: Condition.severity
@@ -1636,7 +1641,7 @@ classes:
         annotations:
           prompt: >-
             The severity of the phenotype.
-      type: # TODO: ground
+      type:  # TODO: ground
         description: >-
           The primary ontology class which describes the phenotype. For example
           "HP:0001363"  "Craniosynostosis" FHIR mapping: Condition.identifier'
@@ -1677,43 +1682,61 @@ classes:
   GeneDescriptor:
     attributes:
       alternateIds:
-        description: Alternate IDs (should be CURIE) for the same concept may be placed in alternate_ids
+        description: >-
+          Alternate IDs (should be CURIE) for the same concept may be placed in
+          alternate_ids
         multivalued: true
         range: string
       alternateSymbols:
-        description: Takes the place of alternate_labels field in a generic descriptor
+        description: >-
+          Takes the place of alternate_labels field in a generic descriptor
         multivalued: true
         range: string
       description:
         description: A free-text description of the value object
         range: string
       symbol:
-        description: The primary gene symbol. Takes the place of the label field in a generic descriptor
+        description: >-
+          The primary gene symbol. Takes the place of the label field in a
+          generic descriptor
         range: string
       valueId:
-        description: The official gene identifier as designated by the organism gene nomenclature committee e.g. HGNC:3477 or MGI:2385071 This should be a CURIE linking the reference to a namespace where it can be retrieved. Mirrors the value_id field of a generic value object descriptor
+        description: >-
+          The official gene identifier as designated by the organism gene
+          nomenclature committee e.g. HGNC:3477 or MGI:2385071
+          This should be a CURIE linking the reference to a namespace where it
+          can be retrieved. Mirrors the value_id field of a generic value
+          object descriptor
         range: string
       xrefs:
-        description: Related concept IDs (e.g. gene ortholog IDs) may be placed in xrefs
+        description: >-
+          Related concept IDs (e.g. gene ortholog IDs) may be placed in xrefs
         multivalued: true
         range: string
-    description: https://vrsatile.readthedocs.io/en/latest/value_object_descriptor/vod_index.html#gene-descriptor
+    description: >-
+      https://vrsatile.readthedocs.io/en/latest/value_object_descriptor/vod_index.html#gene-descriptor
 
   VariationDescriptor:
     attributes:
       allelicState:
-        description: We RECOMMEND that the allelic_state of variant be described by terms from the Genotype Ontology (GENO). These SHOULD descend from concept GENO:0000875.
+        description: >-
+          We RECOMMEND that the allelic_state of variant be described by terms
+          from the Genotype Ontology (GENO). These SHOULD descend from concept
+          GENO:0000875.
         inlined: true
         range: OntologyClass
       alternateLabels:
-        description: Common aliases for a variant, e.g. EGFR vIII, are alternate labels
+        description: >-
+          Common aliases for a variant, e.g. EGFR vIII, are alternate labels
         multivalued: true
         range: string
       description:
         description: ""
         range: string
       expressions:
-        description: HGVS, SPDI, and gnomAD-style strings should be represented as Expressions
+        description: >-
+          HGVS, SPDI, and gnomAD-style strings should be represented as
+          Expressions
         inlined_as_list: true
         multivalued: true
         range: Expression
@@ -1735,23 +1758,34 @@ classes:
         description: ""
         range: string
       moleculeContext:
-        description: The molecular context of the vrs variation. Must be one of “genomic”, “transcript”, or “protein”. Defaults to "unspecified_molecule_context"
+        description: >-
+          The molecular context of the vrs variation. Must be one of “genomic”,
+          “transcript”, or “protein”. Defaults to "unspecified_molecule_context"
         range: MoleculeContext
       structuralType:
-        description: The structural variant type associated with this variant, such as a substitution, deletion, or fusion. We RECOMMEND using a descendent term of SO:0001537.
+        description: >-
+          The structural variant type associated with this variant, such as a
+          substitution, deletion, or fusion. We RECOMMEND using a descendent
+          term of SO:0001537.
         inlined: true
         range: OntologyClass
       variation:
         description: ""
         range: Variation
       vcfRecord:
-        description: A VCF Record of the variant. This SHOULD be a single allele, the VCF genotype (GT) field should be represented in the allelic_state
+        description: >-
+          A VCF Record of the variant. This SHOULD be a single allele, the VCF
+          genotype (GT) field should be represented in the allelic_state
         range: VcfRecord
       vrsRefAlleleSeq:
-        description: A Sequence corresponding to a “ref allele”, describing the sequence expected at a SequenceLocation reference.
+        description: >-
+          A Sequence corresponding to a “ref allele”, describing the sequence
+          expected at a SequenceLocation reference.
         range: string
       xrefs:
-        description: Allele registry, ClinVar, or other related IDs should be included as xrefs
+        description: >-
+          Allele registry, ClinVar, or other related IDs should be included as
+          xrefs
         multivalued: true
         range: string
     description: ""

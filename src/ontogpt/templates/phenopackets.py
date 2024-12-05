@@ -785,7 +785,7 @@ class Evidence(ConfiguredBaseModel):
 
 class Procedure(ConfiguredBaseModel):
     """
-    A clinical procedure performed on a subject. By preference a single concept to indicate both the procedure and the body site should be used. In cases where this is not possible, the body site should be indicated using a separate ontology class. e.g. {\"code\":{\"NCIT:C51585\": \"Biopsy of Soft Palate\"}} {\"code\":{\"NCIT:C28743\": \"Punch Biopsy\"}, \"body_site\":{\"UBERON:0003403\": \"skin of forearm\"}} - a punch biopsy of the skin from the forearm FHIR mapping: Procedure (https://www.hl7.org/fhir/procedure.html)
+    A clinical procedure performed on a subject. By preference a single concept to indicate both the procedure and thebody site should be used. In cases where this is not possible, the body site should be indicated using a separate ontology class. e.g. {\"code\":{\"NCIT:C51585\": \"Biopsy of Soft Palate\"}} {\"code\":{\"NCIT:C28743\": \"Punch Biopsy\"}, \"body_site\":{\"UBERON:0003403\": \"skin of forearm\"}} - a punch biopsy of the skin from the forearm FHIR mapping: Procedure (https://www.hl7.org/fhir/procedure.html)
     """
     linkml_meta: ClassVar[LinkMLMeta] = LinkMLMeta({'from_schema': 'http://w3id.org/ontogpt/phenopackets'})
 
@@ -990,7 +990,7 @@ class Biosample(ConfiguredBaseModel):
     materialSample: Optional[OntologyClass] = Field(None, description="""This element can be used to specify the status of the sample. For instance, a status may be used as a normal control, often in combination with another sample that is thought to contain a pathological finding. We recommend use of ontology terms such as: EFO:0009654 (reference sample) or EFO:0009655 (abnormal sample) ARGO mapping sample_registration::tumour_normal_designation""", json_schema_extra = { "linkml_meta": {'alias': 'materialSample',
          'domain_of': ['Biosample'],
          'exact_mappings': ['ARGO:sample_registration.tumour_normal_designation']} })
-    measurements: Optional[List[Measurement]] = Field(None, json_schema_extra = { "linkml_meta": {'alias': 'measurements', 'domain_of': ['Phenopacket', 'Biosample']} })
+    measurements: Optional[List[Measurement]] = Field(None, description="""Measurements obtained for the sample.""", json_schema_extra = { "linkml_meta": {'alias': 'measurements', 'domain_of': ['Phenopacket', 'Biosample']} })
     pathologicalStage: Optional[OntologyClass] = Field(None, description="""ARGO mapping specimen::pathological_tumour_staging_system ARGO mapping specimen::pathological_stage_group""", json_schema_extra = { "linkml_meta": {'alias': 'pathologicalStage',
          'domain_of': ['Biosample'],
          'exact_mappings': ['ARGO:specimen.pathological_tumour_staging_system']} })
