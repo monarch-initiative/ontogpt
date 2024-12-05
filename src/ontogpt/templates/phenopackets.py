@@ -71,7 +71,7 @@ linkml_meta = LinkMLMeta({'default_prefix': 'phenopackets_schema',
                     'is based on the Phenopackets schema v2, originally defined in '
                     'Protobuf. All classes are defined in a single schema here, '
                     'with their corresponding module provided in a comment (e.g., '
-                    'core/individual). Some rendering also adapted from Chris '
+                    'core/individual). Much of this modeling is adapted from Chris '
                     "Mungall's linkml-phenopackets (see "
                     'https://github.com/cmungall/linkml-phenopackets).',
      'id': 'http://w3id.org/ontogpt/phenopackets',
@@ -421,8 +421,7 @@ class Phenopacket(NamedEntity):
     id: str = Field(..., description="""An identifier specific for this phenopacket.""", json_schema_extra = { "linkml_meta": {'alias': 'id',
          'annotations': {'prompt.skip': {'tag': 'prompt.skip', 'value': 'true'}},
          'comments': ['This is not produced through generation',
-                      'Must be assigned at write time',
-                      'Example - PMID_10874631_II.2'],
+                      'Must be assigned at write time'],
          'domain_of': ['NamedEntity',
                        'Publication',
                        'Phenopacket',
@@ -444,7 +443,7 @@ class Phenopacket(NamedEntity):
                        'Text']} })
     subject: Optional[Individual] = Field(None, description="""The individual representing the focus of this packet - e.g. the proband in rare disease cases or cancer patient""", json_schema_extra = { "linkml_meta": {'alias': 'subject',
          'annotations': {'prompt': {'tag': 'prompt',
-                                    'value': 'The individual or biosample being '
+                                    'value': 'One individual person or animal '
                                              'described in the input text. If multiple '
                                              'individuals are described, include only '
                                              'information about the first individual. '
@@ -474,31 +473,55 @@ class Phenopacket(NamedEntity):
                                              'to resolve the phenotype (if '
                                              'applicable), and its severity.'}},
          'domain_of': ['Phenopacket']} })
-    measurements: Optional[List[str]] = Field(None, description="""Quantifiable measurements related to the individual""", json_schema_extra = { "linkml_meta": {'alias': 'measurements',
+    measurements: Optional[List[Measurement]] = Field(None, description="""Quantifiable measurements related to the individual""", json_schema_extra = { "linkml_meta": {'alias': 'measurements',
          'annotations': {'prompt': {'tag': 'prompt',
                                     'value': 'A semicolon-separated list of '
                                              'measurements taken from the individual '
                                              'or biosample. If this is not provided, '
-                                             'write only "NA".'}},
+                                             'write only "NA". Include the following '
+                                             'information as available: the name of '
+                                             'the assay or test performed, the value '
+                                             'of the result, a free-text description '
+                                             'of the result, and the time when the '
+                                             'measurement was made.'}},
          'domain_of': ['Phenopacket', 'Biosample']} })
-    biosample: Optional[List[str]] = Field(None, description="""Biosample(s) derived from the patient or a collection of biosamples in isolation""", json_schema_extra = { "linkml_meta": {'alias': 'biosample',
+    biosample: Optional[List[Biosample]] = Field(None, description="""Biosample(s) derived from the patient or a collection of biosamples in isolation""", json_schema_extra = { "linkml_meta": {'alias': 'biosample',
          'annotations': {'prompt': {'tag': 'prompt',
                                     'value': 'A semicolon-separated list of biosamples '
                                              'from which the phenopacket was derived. '
                                              'If this is not provided, write only '
-                                             '"NA".'}},
+                                             '"NA". Include the following information '
+                                             'as available: a description of the '
+                                             'biosample, the overall type of the '
+                                             'sample, the tissue of the sample, '
+                                             'presence of any biomarkers, a '
+                                             'histological diagnosis (including any '
+                                             'negative or inconclusive findings), '
+                                             'procedures performed to extract or '
+                                             'process the sample'}},
          'domain_of': ['Phenopacket']} })
-    interpretations: Optional[List[str]] = Field(None, description="""Interpretations of the phenopacket""", json_schema_extra = { "linkml_meta": {'alias': 'interpretations',
+    interpretations: Optional[Dict[str, Interpretation]] = Field(None, description="""Interpretations of the phenopacket""", json_schema_extra = { "linkml_meta": {'alias': 'interpretations',
          'annotations': {'prompt': {'tag': 'prompt',
                                     'value': 'A semicolon-separated list of '
-                                             'interpretations of the input text. If '
-                                             'this is not provided, write only "NA".'}},
+                                             'interpretations of the input text, '
+                                             'primarily any diagnoses and summaries of '
+                                             'patient status. If this is not provided, '
+                                             'write only "NA".'}},
          'domain_of': ['Phenopacket']} })
-    diseases: Optional[List[str]] = Field(None, description="""Field for disease identifiers - could be used for listing either diagnosed or suspected conditions. The resources using these fields should define what this represents in their context.""", json_schema_extra = { "linkml_meta": {'alias': 'diseases',
+    diseases: Optional[List[Disease]] = Field(None, description="""Field for disease identifiers - could be used for listing either diagnosed or suspected conditions. The resources using these fields should define what this represents in their context.""", json_schema_extra = { "linkml_meta": {'alias': 'diseases',
          'annotations': {'prompt': {'tag': 'prompt',
                                     'value': 'A semicolon-separated list of diagnosed '
                                              'or suspected disease conditions. If this '
-                                             'is not provided, write only "NA".'}},
+                                             'is not provided, write only "NA". Also '
+                                             'include explicitly excluded diseases, '
+                                             'clearly denoting they are excluded with '
+                                             'the word EXCLUDED. Include the following '
+                                             'information as available: name of the '
+                                             'disease, a free-text description of the '
+                                             'disease, any cancer diagnosis or related '
+                                             'findings, disease stage, laterality, '
+                                             'onset, and primary disease site in the '
+                                             'body.'}},
          'domain_of': ['Phenopacket']} })
     medical_actions: Optional[List[str]] = Field(None, description="""Field for medical action identifiers - could be used for listing either performed or planned actions. The resources using these fields should define what this represents in their context.""", json_schema_extra = { "linkml_meta": {'alias': 'medical_actions',
          'annotations': {'prompt': {'tag': 'prompt',
@@ -1212,6 +1235,9 @@ class VitalStatus(ConfiguredBaseModel):
 
 
 class ComplexValue(ConfiguredBaseModel):
+    """
+    A value expressed as multiple quantities.
+    """
     linkml_meta: ClassVar[LinkMLMeta] = LinkMLMeta({'from_schema': 'http://w3id.org/ontogpt/phenopackets'})
 
     typedQuantities: Optional[List[TypedQuantity]] = Field(None, description="""The quantities required to fully describe the complex value. For example the systolic and diastolic blood pressure quantities""", json_schema_extra = { "linkml_meta": {'alias': 'typedQuantities', 'domain_of': ['ComplexValue']} })
@@ -1228,7 +1254,7 @@ class Measurement(ConfiguredBaseModel):
                                                                                                 'required': True}}}]}}]})
 
     assay: Optional[OntologyClass] = Field(None, description="""An ontology class which describes the assay used to produce the measurement. For example \"body temperature\" (CMO:0000015) or \"Platelets [#/volume] in Blood\" (LOINC:26515-7) FHIR mapping: Observation.code'""", json_schema_extra = { "linkml_meta": {'alias': 'assay', 'domain_of': ['Measurement']} })
-    complexValue: Optional[ComplexValue] = Field(None, json_schema_extra = { "linkml_meta": {'alias': 'complexValue', 'domain_of': ['Measurement']} })
+    complexValue: Optional[ComplexValue] = Field(None, description="""The measurement result, expressed as multiple values.""", json_schema_extra = { "linkml_meta": {'alias': 'complexValue', 'domain_of': ['Measurement']} })
     description: Optional[str] = Field(None, description="""Free-text description of the feature. Note this is not a acceptable place to document/describe the phenotype - the type and onset etc... fields should be used for this purpose.""", json_schema_extra = { "linkml_meta": {'alias': 'description',
          'domain_of': ['Cohort',
                        'ExternalReference',

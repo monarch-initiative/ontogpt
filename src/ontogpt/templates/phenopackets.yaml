@@ -9,7 +9,7 @@ description: >-
   originally defined in Protobuf. All classes are
   defined in a single schema here, with their corresponding
   module provided in a comment (e.g., core/individual).
-  Some rendering also adapted from Chris Mungall's
+  Much of this modeling is adapted from Chris Mungall's
   linkml-phenopackets
   (see https://github.com/cmungall/linkml-phenopackets).
 prefixes:
@@ -72,7 +72,6 @@ classes:
         comments:
           - This is not produced through generation
           - Must be assigned at write time
-          - Example - PMID_10874631_II.2
       subject:
         description: >-
           The individual representing the focus of this packet - e.g. the
@@ -81,7 +80,7 @@ classes:
         inlined: true
         annotations:
           prompt: >-
-            The individual or biosample being described in the input text.
+            One individual person or animal described in the input text.
             If multiple individuals are described, include only information
             about the first individual.
             This must include a unique identifier for the subject. Use
@@ -109,53 +108,67 @@ classes:
       measurements:
         description: >-
           Quantifiable measurements related to the individual
-        # range: Measurement
-        range: string
+        range: Measurement
         multivalued: true
-        # inlined: true
+        inlined: true
         annotations:
           prompt: >-
             A semicolon-separated list of measurements taken from the individual
             or biosample. If this is not provided, write only "NA".
+            Include the following information as available: the name
+            of the assay or test performed, the value of the result, a
+            free-text description of the result, and the time when the
+            measurement was made.
       biosample:
         description: >-
           Biosample(s) derived from the patient or a collection of biosamples
           in isolation
-        # range: Biosample
-        range: string
+        range: Biosample
         multivalued: true
-        # inlined: true
+        inlined: true
         annotations:
-          prompt: >-
+          prompt: >- # TODO: expand this prompt; this is a very complex class
             A semicolon-separated list of biosamples from which the phenopacket
-            was derived. If this is not provided, write only "NA".
+            was derived. If this is not provided, write only "NA". Include the
+            following information as available: a description of the biosample,
+            the overall type of the sample, the tissue of the sample,
+            presence of any biomarkers, a histological diagnosis (including
+            any negative or inconclusive findings), procedures performed to
+            extract or process the sample
       interpretations:
         description: >-
           Interpretations of the phenopacket
-        # range: Interpretation
-        range: string
+        range: Interpretation
         multivalued: true
-        # inlined: true
+        inlined: true
         annotations:
           prompt: >-
-            A semicolon-separated list of interpretations of the input text.
+            A semicolon-separated list of interpretations of the input text,
+            primarily any diagnoses and summaries of patient status.
             If this is not provided, write only "NA".
       diseases:
         description: >-
-          Field for disease identifiers - could be used for listing either diagnosed or suspected conditions. The
-          resources using these fields should define what this represents in their context.
-        # range: Disease
-        range: string
+          Field for disease identifiers - could be used for listing either
+          diagnosed or suspected conditions. The resources using these fields
+          should define what this represents in their context.
+        range: Disease
         multivalued: true
-        # inlined: true
+        inlined: true
         annotations:
           prompt: >-
             A semicolon-separated list of diagnosed or suspected disease
             conditions. If this is not provided, write only "NA".
+            Also include explicitly excluded diseases, clearly denoting
+            they are excluded with the word EXCLUDED.
+            Include the following information as available:
+            name of the disease, a free-text description of the disease,
+            any cancer diagnosis or related findings, disease stage,
+            laterality, onset, and primary disease site in the body.
       medical_actions:
         description: >-
-          Field for medical action identifiers - could be used for listing either performed or planned actions. The
-          resources using these fields should define what this represents in their context.
+          Field for medical action identifiers - could be used for listing
+          either performed or planned actions. The resources using these fields
+          should define what this represents in their context.
         # range: MedicalAction
         range: string
         multivalued: true
@@ -206,7 +219,8 @@ classes:
           - Must be assigned at write time
       proband:
         description: >-
-          The individual representing the focus of this packet - e.g. the proband in rare disease cases or cancer patient
+          The individual representing the focus of this packet - e.g. the
+          proband in rare disease cases or cancer patient
         range: Phenopacket
         annotations:
           prompt: >-
@@ -214,11 +228,13 @@ classes:
             as a Phenopacket object.
       relatives:
         description: >-
-          Individuals related in some way to the patient. For instance, the individuals may be genetically related or may
-          be members of a cohort. If this field is used, then  it is expected that a pedigree will be included for
-          genetically related individuals for use cases such as genomic diagnostics. If a phenopacket is being used to
-          describe one member of a cohort, then in general one phenopacket will be created for each of the individuals in
-          the cohort.
+          Individuals related in some way to the patient. For instance, the
+          individuals may be genetically related or may be members of a cohort.
+          If this field is used, then  it is expected that a pedigree will be
+          included for genetically related individuals for use cases such as
+          genomic diagnostics. If a phenopacket is being used to describe one
+          member of a cohort, then in general one phenopacket will be created
+          for each of the individuals in the cohort.
         range: Phenopacket
         multivalued: true
         annotations:
@@ -236,8 +252,9 @@ classes:
             If unknown, do not include this field or a value for this field.
       pedigree:
         description: >-
-          The pedigree defining the relations between the proband and their relatives. Pedigree.individual_id should
-          map to the PhenoPacket.Individual.id
+          The pedigree defining the relations between the proband and their
+          relatives. Pedigree.individual_id should map to the
+          PhenoPacket.Individual.id
         range: Pedigree
         annotations:
           prompt: >-
@@ -245,9 +262,10 @@ classes:
             relatives.
       files:
         description: >-
-          Pointer to the relevant file(s) for the family. These should be files relating to one or more of the family
-          members e.g a multi-sample VCF. Files relating exclusively to individual phenopackets should be contained in the
-          Phenopacket.
+          Pointer to the relevant file(s) for the family. These should be files
+          relating to one or more of the family members e.g a multi-sample VCF.
+          Files relating exclusively to individual phenopackets should be
+          contained in the Phenopacket.
         range: File
         multivalued: true
         inlined: true
@@ -257,7 +275,8 @@ classes:
             input text, relating to the family.
       meta_data:
         description: >-
-          Structured definitions of the resources and ontologies used within the phenopacket. REQUIRED
+          Structured definitions of the resources and ontologies used within
+          the phenopacket. REQUIRED
         range: MetaData
         required: true
         annotations:
@@ -278,7 +297,8 @@ classes:
           - Must be assigned at write time
       description:
         description: >-
-          A description of the cohort, including the phenotypic or genotypic aspect that relates the individuals.
+          A description of the cohort, including the phenotypic or genotypic
+          aspect that relates the individuals.
         range: string
         annotations:
           prompt: >-
@@ -286,7 +306,8 @@ classes:
             aspect that relates the individuals.
       members:
         description: >-
-          Individuals in the cohort. Each individual should be described in a separate Phenopacket.
+          Individuals in the cohort. Each individual should be described in a
+          separate Phenopacket.
         range: Phenopacket
         multivalued: true
         annotations:
@@ -295,7 +316,8 @@ classes:
             as Phenopacket objects.
       files:
         description: >-
-          Pointer to relevant file(s) for the cohort. Files relating exclusively to individual phenopackets should be
+          Pointer to relevant file(s) for the cohort. Files relating
+          exclusively to individual phenopackets should be
           contained in the Phenopacket.
         range: File
         multivalued: true
@@ -306,7 +328,8 @@ classes:
             input text, relating to the cohort.
       meta_data:
         description: >-
-          Structured definitions of the resources and ontologies used within the phenopacket. REQUIRED
+          Structured definitions of the resources and ontologies used within
+          the phenopacket. REQUIRED
         range: MetaData
         required: true
         annotations:
@@ -954,7 +977,7 @@ classes:
             If the day is unknown, use the first day of the month.
             If the month is unknown, use the first month of the year.
             If the year is unknown, do not provide a value.
-      gender:  # TODO: ground the corresponding ID
+      gender: # TODO: ground the corresponding ID
         description: Self-identified gender
         inlined: true
         # range: OntologyClass
@@ -1007,7 +1030,7 @@ classes:
             is known and sex is not specified, use the corresponding
             value for sex (e.g., if the individual has female gender,
             specify female sex unless there is information to the contrary).
-      taxonomy:  # TODO: ground the corresponding ID
+      taxonomy: # TODO: ground the corresponding ID
         description: >-
           NCBI taxonomic identifier NCBITaxon e.g. NCBITaxon:9606 or
           NCBITaxon:1337 For resources where there may be more than one
@@ -1020,7 +1043,7 @@ classes:
           prompt: >-
             The NCBI taxonomic identifier of the individual.
             If this is a human, this value is always NCBITaxon:9606.
-      timeAtLastEncounter:  # TODO: cast as properly formatted TimeElement
+      timeAtLastEncounter: # TODO: cast as properly formatted TimeElement
         description: >-
           An TimeElement object describing the age of the individual at the
           last time of collection. The Age object allows the encoding of the
@@ -1034,7 +1057,7 @@ classes:
             The age of the individual at the last time of encounter.
             This should be an ISO8601 duration or time interval.
             Do not provide units.
-      vitalStatus:  # TODO: ground further to VitalStatus class
+      vitalStatus: # TODO: ground further to VitalStatus class
         description: >-
           Vital status of the individual. If not present it is assumed that the
           individual is alive. If present it will default to 'false' i.e. the
@@ -1076,7 +1099,7 @@ classes:
   # core/measurement
 
   ComplexValue:
-    description: ""
+    description: A value expressed as multiple quantities.
     attributes:
       typedQuantities:
         description: >-
@@ -1099,7 +1122,7 @@ classes:
         inlined: true
         range: OntologyClass
       complexValue:
-        description: ""
+        description: The measurement result, expressed as multiple values.
         range: ComplexValue
       description:
         description: >-
@@ -1547,7 +1570,7 @@ classes:
             A free-text description of the observed phenotype. This should be a
             description of the observation, not the phenotype itself.
             Do not include type, onset, or other classifications.
-      evidence:  # TODO: ground
+      evidence: # TODO: ground
         description: Evidences for how the phenotype was determined.
         multivalued: true
         # range: Evidence
@@ -1572,7 +1595,7 @@ classes:
             A boolean flag to indicate whether the phenotype was observed or
             not. If the phenotype was observed, this field should be left
             empty. If the phenotype was not observed, set this field to 'true'.
-      modifiers:  # TODO: ground
+      modifiers: # TODO: ground
         description: >-
           subclasses of HP:0012823 ! Clinical modifier apart from Severity
           HP:0012824 - Severity
@@ -1583,7 +1606,7 @@ classes:
         annotations:
           prompt: >-
             Semicolon-delimited list of modifiers for the phenotype.
-      onset:  # TODO: ground
+      onset: # TODO: ground
         description: >-
           the values of this will come from the HPO onset hierarchy i.e.
           subclasses of HP:0003674 FHIR mapping: Condition.onset
@@ -1596,7 +1619,7 @@ classes:
             this phenotype was first observed in the individual.
             For example, "Late onset", "Congenital onset", or
             "Early young adult onset".
-      resolution:  # TODO: ground
+      resolution: # TODO: ground
         description: Time required to resolve the phenotype, if applicable.
         # inlined: true
         # range: TimeElement
@@ -1604,7 +1627,7 @@ classes:
         annotations:
           prompt: >-
             The time required to resolve the phenotype, if applicable.
-      severity:  # TODO: ground
+      severity: # TODO: ground
         description: >-
           Severity of the condition e.g. subclasses of HP:0012824-Severity or
           SNOMED:272141005-Severities FHIR mapping: Condition.severity
@@ -1613,7 +1636,7 @@ classes:
         annotations:
           prompt: >-
             The severity of the phenotype.
-      type:  # TODO: ground
+      type: # TODO: ground
         description: >-
           The primary ontology class which describes the phenotype. For example
           "HP:0001363"  "Craniosynostosis" FHIR mapping: Condition.identifier'
