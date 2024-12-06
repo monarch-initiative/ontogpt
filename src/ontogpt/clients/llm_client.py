@@ -47,7 +47,7 @@ class LLMClient:
         # then configs handled by oaklib.
         if self.model.startswith("ollama"):
             self.api_key = ""  # Don't need an API key
-        if not self.api_key and not self.custom_llm_provider:
+        elif not self.api_key and not self.custom_llm_provider:
             self.api_key = get_apikey_value("openai")
         elif self.custom_llm_provider == "anthropic":
             self.api_key = get_apikey_value("anthropic-key")
