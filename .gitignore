@@ -141,6 +141,7 @@ tests/output/eval-*
 
 tasks/
 training/
+!tests/input/training/
 preserved/
 random
 LOG
