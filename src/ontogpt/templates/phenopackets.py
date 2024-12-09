@@ -1069,13 +1069,25 @@ class GenomicInterpretation(ConfiguredBaseModel):
 
 
 class Interpretation(ConfiguredBaseModel):
+    """
+    Interpretation of clinical findings.
+    """
     linkml_meta: ClassVar[LinkMLMeta] = LinkMLMeta({'from_schema': 'http://w3id.org/ontogpt/phenopackets'})
 
-    diagnosis: Optional[Diagnosis] = Field(None, description="""The diagnosis made in this interpretation""", json_schema_extra = { "linkml_meta": {'alias': 'diagnosis', 'domain_of': ['Interpretation']} })
+    diagnosis: Optional[str] = Field(None, description="""The diagnosis made in this interpretation.""", json_schema_extra = { "linkml_meta": {'alias': 'diagnosis',
+         'annotations': {'prompt': {'tag': 'prompt',
+                                    'value': 'The diagnosis made in this '
+                                             'interpretation. This should be a '
+                                             'human-readable label.'}},
+         'domain_of': ['Interpretation']} })
     id: str = Field(..., description="""id of the interpretation""", json_schema_extra = { "linkml_meta": {'alias': 'id',
          'annotations': {'percent_encoded': {'tag': 'percent_encoded', 'value': True},
-                         'prompt.skip': {'tag': 'prompt.skip', 'value': 'true'}},
-         'comments': ['Must be assigned at write time'],
+                         'prompt': {'tag': 'prompt',
+                                    'value': 'An identifier for the interpretation. '
+                                             'This must be unique within the '
+                                             'phenopacket but may be a single '
+                                             'integer.'}},
+         'comments': ['Must be generated'],
          'domain_of': ['NamedEntity',
                        'Publication',
                        'Phenopacket',
@@ -1095,8 +1107,14 @@ class Interpretation(ConfiguredBaseModel):
                        'Member',
                        'SequenceLocation',
                        'Text']} })
-    progressStatus: Optional[ProgressStatus] = Field(None, json_schema_extra = { "linkml_meta": {'alias': 'progressStatus', 'domain_of': ['Interpretation']} })
-    summary: Optional[str] = Field(None, json_schema_extra = { "linkml_meta": {'alias': 'summary', 'domain_of': ['Interpretation']} })
+    progressStatus: Optional[str] = Field(None, description="""The status of the interpretation.""", json_schema_extra = { "linkml_meta": {'alias': 'progressStatus',
+         'annotations': {'prompt': {'tag': 'prompt',
+                                    'value': 'The status of the interpretation. Must '
+                                             'be one of the following: COMPLETED, '
+                                             'IN_PROGRESS, SOLVED, UNKNOWN_PROGRESS, '
+                                             'or UNSOLVED.'}},
+         'domain_of': ['Interpretation']} })
+    summary: Optional[str] = Field(None, description="""A brief summary of the interpretation.""", json_schema_extra = { "linkml_meta": {'alias': 'summary', 'domain_of': ['Interpretation']} })
 
 
 class VariantInterpretation(ConfiguredBaseModel):
@@ -1253,7 +1271,7 @@ class Measurement(ConfiguredBaseModel):
                                                           {'slot_conditions': {'complexValue': {'name': 'complexValue',
                                                                                                 'required': True}}}]}}]})
 
-    assay: Optional[OntologyClass] = Field(None, description="""An ontology class which describes the assay used to produce the measurement. For example \"body temperature\" (CMO:0000015) or \"Platelets [#/volume] in Blood\" (LOINC:26515-7) FHIR mapping: Observation.code'""", json_schema_extra = { "linkml_meta": {'alias': 'assay', 'domain_of': ['Measurement']} })
+    assay: Optional[str] = Field(None, description="""An ontology class which describes the assay used to produce the measurement. For example \"body temperature\" (CMO:0000015) or \"Platelets [#/volume] in Blood\" (LOINC:26515-7) FHIR mapping: Observation.code'""", json_schema_extra = { "linkml_meta": {'alias': 'assay', 'domain_of': ['Measurement']} })
     complexValue: Optional[ComplexValue] = Field(None, description="""The measurement result, expressed as multiple values.""", json_schema_extra = { "linkml_meta": {'alias': 'complexValue', 'domain_of': ['Measurement']} })
     description: Optional[str] = Field(None, description="""Free-text description of the feature. Note this is not a acceptable place to document/describe the phenotype - the type and onset etc... fields should be used for this purpose.""", json_schema_extra = { "linkml_meta": {'alias': 'description',
          'domain_of': ['Cohort',
@@ -1263,10 +1281,17 @@ class Measurement(ConfiguredBaseModel):
                        'PhenotypicFeature',
                        'GeneDescriptor',
                        'VariationDescriptor']} })
-    procedure: Optional[Procedure] = Field(None, description="""Clinical procedure performed on the subject in order to produce the measurement.""", json_schema_extra = { "linkml_meta": {'alias': 'procedure',
+    procedure: Optional[str] = Field(None, description="""Clinical procedure performed on the subject in order to produce the measurement.""", json_schema_extra = { "linkml_meta": {'alias': 'procedure',
+         'annotations': {'prompt': {'tag': 'prompt',
+                                    'value': 'The clinical procedure performed on the '
+                                             'subject in order to produce the '
+                                             'measurement. This should include the '
+                                             'name of the procedure, the name of the '
+                                             'body site, and the time the procedure '
+                                             'was performed, if known.'}},
          'domain_of': ['Biosample', 'Measurement', 'MedicalAction']} })
     timeObserved: Optional[TimeElement] = Field(None, description="""The time at which the measurement was made""", json_schema_extra = { "linkml_meta": {'alias': 'timeObserved', 'domain_of': ['Measurement']} })
-    value: Optional[Value] = Field(None, json_schema_extra = { "linkml_meta": {'alias': 'value',
+    value: Optional[str] = Field(None, description="""The result of the measurement.""", json_schema_extra = { "linkml_meta": {'alias': 'value',
          'domain_of': ['Measurement',
                        'Quantity',
                        'Expression',
