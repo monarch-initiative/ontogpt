@@ -17,7 +17,7 @@ Please see the Setup page on the left for more detailed instructions.
 
 OntoGPT runs on the command line, though there's also a minimal web app interface (see `Web Application` section below).
 
-1. Ensure you have Python 3.9 or greater installed.
+1. Ensure you have Python (3.9 to 3.12) installed.
 2. Install with `pip`:
 
     ```bash
