@@ -589,10 +589,15 @@ class SPIRESEngine(KnowledgeEngine):
         if cls is None:
             cls = self.template_class
         sv = self.schemaview
-        # each line is a key-value pair
+        # each line is a key-value pair, with key as field
+        # and value as val. An error gets raised if the value is empty
         logging.info(f"PARSING LINE: {line}")
-        field, val = line.split(":", 1)
-        # Field nornalization:
+        try:
+            field, val = line.split(":", 1)
+        except ValueError:
+            field = line.split(":", 1)[0]
+            val = ""
+        # Field normalization:
         # The LLM may mutate the output format somewhat,
         # randomly pluralizing or replacing spaces with underscores
         field = field.lower().replace(" ", "_")
