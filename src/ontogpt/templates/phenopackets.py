@@ -412,16 +412,48 @@ class AnnotatorResult(ConfiguredBaseModel):
     object_text: Optional[str] = Field(None, json_schema_extra = { "linkml_meta": {'alias': 'object_text', 'domain_of': ['AnnotatorResult']} })
 
 
-class Phenopacket(NamedEntity):
+class PhenopacketCollection(ConfiguredBaseModel):
+    """
+    A collection of phenopackets. Each phenopacket is a phenotypic description of an individual or biosample with potential genes of interest and/or diagnoses. Each phenopacket describes a single individual, experimental animal, or biosample.
+    """
+    linkml_meta: ClassVar[LinkMLMeta] = LinkMLMeta({'comments': ['This is not part of the Phenopackets Schema.',
+                      'It is specific to the OntoGPT implementation.'],
+         'from_schema': 'http://w3id.org/ontogpt/phenopackets',
+         'tree_root': True})
+
+    phenopackets: Optional[List[Phenopacket]] = Field(None, json_schema_extra = { "linkml_meta": {'alias': 'phenopackets',
+         'annotations': {'prompt': {'tag': 'prompt',
+                                    'value': 'A semicolon-separated list in which each '
+                                             'object of the list includes all details '
+                                             'of a single individual, experimental '
+                                             'animal, or biosample. Each object should '
+                                             'include the full input text, edited to '
+                                             'be specific to the individual, animal, '
+                                             'or biosample. Each individual should be '
+                                             'assigned an identifier following that '
+                                             'used in the text, or a unique identifier '
+                                             'if one is not provided. Do not use a '
+                                             'name or other personally identifying '
+                                             'information.'}},
+         'domain_of': ['PhenopacketCollection']} })
+
+
+class Phenopacket(ConfiguredBaseModel):
     """
     An anonymous phenotypic description of an individual or biosample with potential genes of interest and/or diagnoses. This is a bundle of high-level concepts with no specifically defined relational concepts. It is expected that the resources sharing the phenopackets will define and enforce their own semantics and level of requirements for included fields.
     """
-    linkml_meta: ClassVar[LinkMLMeta] = LinkMLMeta({'from_schema': 'http://w3id.org/ontogpt/phenopackets', 'tree_root': True})
+    linkml_meta: ClassVar[LinkMLMeta] = LinkMLMeta({'from_schema': 'http://w3id.org/ontogpt/phenopackets'})
 
     id: str = Field(..., description="""An identifier specific for this phenopacket.""", json_schema_extra = { "linkml_meta": {'alias': 'id',
-         'annotations': {'prompt.skip': {'tag': 'prompt.skip', 'value': 'true'}},
-         'comments': ['This is not produced through generation',
-                      'Must be assigned at write time'],
+         'annotations': {'prompt': {'tag': 'prompt',
+                                    'value': 'An identifier for the individual person, '
+                                             'animal, or sample described in the input '
+                                             'text. This must be a unique identifier. '
+                                             'Use the same identifier as that used in '
+                                             'the text if possible. Otherwise, create '
+                                             'a unique identifier such as "Patient 1". '
+                                             'Do not use a name or other personally '
+                                             'identifying information.'}},
          'domain_of': ['NamedEntity',
                        'Publication',
                        'Phenopacket',
@@ -441,24 +473,17 @@ class Phenopacket(NamedEntity):
                        'Member',
                        'SequenceLocation',
                        'Text']} })
-    subject: Optional[Individual] = Field(None, description="""The individual representing the focus of this packet - e.g. the proband in rare disease cases or cancer patient""", json_schema_extra = { "linkml_meta": {'alias': 'subject',
+    subject: Optional[str] = Field(None, description="""The individual representing the focus of this packet - e.g. the proband in rare disease cases or cancer patient""", json_schema_extra = { "linkml_meta": {'alias': 'subject',
          'annotations': {'prompt': {'tag': 'prompt',
-                                    'value': 'One individual person or animal '
-                                             'described in the input text. If multiple '
-                                             'individuals are described, include only '
-                                             'information about the first individual. '
-                                             'This must include a unique identifier '
-                                             'for the subject. Use the same identifier '
-                                             'as that used in the text if possible. '
-                                             'Otherwise, create a unique identifier '
-                                             'such as "Patient 1". This description '
-                                             'must also include any of the following, '
-                                             'if provided: the date of birth, gender, '
-                                             'sex, karyotypic sex, the time of last '
-                                             'encounter, and whether the individual is '
-                                             'alive or deceased.'}},
+                                    'value': 'A description of the individual '
+                                             'representing the focus of this packet. '
+                                             'This description must also include any '
+                                             'of the following, if provided: the date '
+                                             'of birth, gender, sex, karyotypic sex, '
+                                             'the time of last encounter, and whether '
+                                             'the individual is alive or deceased.'}},
          'domain_of': ['Triple', 'Phenopacket']} })
-    phenotypic_features: Optional[List[PhenotypicFeature]] = Field(None, description="""Phenotypic features relating to the subject of the phenopacket""", json_schema_extra = { "linkml_meta": {'alias': 'phenotypic_features',
+    phenotypic_features: Optional[List[str]] = Field(None, description="""Phenotypic features relating to the subject of the phenopacket""", json_schema_extra = { "linkml_meta": {'alias': 'phenotypic_features',
          'annotations': {'prompt': {'tag': 'prompt',
                                     'value': 'A semicolon-separated list of phenotypic '
                                              'features observed in the individual or '
@@ -473,7 +498,7 @@ class Phenopacket(NamedEntity):
                                              'to resolve the phenotype (if '
                                              'applicable), and its severity.'}},
          'domain_of': ['Phenopacket']} })
-    measurements: Optional[List[Measurement]] = Field(None, description="""Quantifiable measurements related to the individual""", json_schema_extra = { "linkml_meta": {'alias': 'measurements',
+    measurements: Optional[List[str]] = Field(None, description="""Quantifiable measurements related to the individual""", json_schema_extra = { "linkml_meta": {'alias': 'measurements',
          'annotations': {'prompt': {'tag': 'prompt',
                                     'value': 'A semicolon-separated list of '
                                              'measurements taken from the individual '
@@ -485,7 +510,7 @@ class Phenopacket(NamedEntity):
                                              'of the result, and the time when the '
                                              'measurement was made.'}},
          'domain_of': ['Phenopacket', 'Biosample']} })
-    biosample: Optional[List[Biosample]] = Field(None, description="""Biosample(s) derived from the patient or a collection of biosamples in isolation""", json_schema_extra = { "linkml_meta": {'alias': 'biosample',
+    biosample: Optional[List[str]] = Field(None, description="""Biosample(s) derived from the patient or a collection of biosamples in isolation""", json_schema_extra = { "linkml_meta": {'alias': 'biosample',
          'annotations': {'prompt': {'tag': 'prompt',
                                     'value': 'A semicolon-separated list of biosamples '
                                              'from which the phenopacket was derived. '
@@ -508,7 +533,7 @@ class Phenopacket(NamedEntity):
                                              'patient status. If this is not provided, '
                                              'write only "NA".'}},
          'domain_of': ['Phenopacket']} })
-    diseases: Optional[List[Disease]] = Field(None, description="""Field for disease identifiers - could be used for listing either diagnosed or suspected conditions. The resources using these fields should define what this represents in their context.""", json_schema_extra = { "linkml_meta": {'alias': 'diseases',
+    diseases: Optional[List[str]] = Field(None, description="""Field for disease identifiers - could be used for listing either diagnosed or suspected conditions. The resources using these fields should define what this represents in their context.""", json_schema_extra = { "linkml_meta": {'alias': 'diseases',
          'annotations': {'prompt': {'tag': 'prompt',
                                     'value': 'A semicolon-separated list of diagnosed '
                                              'or suspected disease conditions. If this '
@@ -542,29 +567,6 @@ class Phenopacket(NamedEntity):
                                              'If this is not provided, write only '
                                              '"NA".'}},
          'domain_of': ['Phenopacket', 'Family', 'Cohort']} })
-    label: Optional[str] = Field(None, description="""The label (name) of the named thing""", json_schema_extra = { "linkml_meta": {'alias': 'label',
-         'aliases': ['name'],
-         'annotations': {'owl': {'tag': 'owl',
-                                 'value': 'AnnotationProperty, AnnotationAssertion'}},
-         'domain_of': ['NamedEntity', 'OntologyClass', 'VariationDescriptor'],
-         'slot_uri': 'rdfs:label'} })
-    original_spans: Optional[List[str]] = Field(None, description="""The coordinates of the original text span from which the named entity was extracted, inclusive. For example, \"10:25\" means the span starting from the 10th character and ending with the 25th character. The first character in the text has index 0. Newlines are treated as single characters. Multivalued as there may be multiple spans for a single text.""", json_schema_extra = { "linkml_meta": {'alias': 'original_spans',
-         'annotations': {'prompt.skip': {'tag': 'prompt.skip', 'value': 'true'}},
-         'comments': ['This is determined during grounding and normalization',
-                      'But is based on the full input text'],
-         'domain_of': ['NamedEntity']} })
-
-    @field_validator('original_spans')
-    def pattern_original_spans(cls, v):
-        pattern=re.compile(r"^\d+:\d+$")
-        if isinstance(v,list):
-            for element in v:
-                if isinstance(v, str) and not pattern.match(element):
-                    raise ValueError(f"Invalid original_spans format: {element}")
-        elif isinstance(v,str):
-            if not pattern.match(v):
-                raise ValueError(f"Invalid original_spans format: {v}")
-        return v
 
 
 class Family(ConfiguredBaseModel):
@@ -1161,11 +1163,10 @@ class Individual(ConfiguredBaseModel):
                                              'information is unknown.'}},
          'domain_of': ['Individual']} })
     id: str = Field(..., description="""An identifier for the individual. This must be unique within the record. ARGO mapping donor::submitter_donor_id""", json_schema_extra = { "linkml_meta": {'alias': 'id',
-         'annotations': {'percent_encoded': {'tag': 'percent_encoded', 'value': True},
-                         'prompt': {'tag': 'prompt',
+         'annotations': {'prompt': {'tag': 'prompt',
                                     'value': 'An identifier for the individual. This '
-                                             'is identical to the label.'}},
-         'comments': ['Not assigned at write time as this identifier is inherited'],
+                                             'is identical to the id assigned to the '
+                                             'phenopacket.'}},
          'domain_of': ['NamedEntity',
                        'Publication',
                        'Phenopacket',
@@ -2328,6 +2329,7 @@ TextWithEntity.model_rebuild()
 RelationshipType.model_rebuild()
 Publication.model_rebuild()
 AnnotatorResult.model_rebuild()
+PhenopacketCollection.model_rebuild()
 Phenopacket.model_rebuild()
 Family.model_rebuild()
 Cohort.model_rebuild()

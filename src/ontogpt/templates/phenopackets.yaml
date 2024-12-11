@@ -59,9 +59,32 @@ imports:
 # if a field will already be treated as a NamedEntity.
 
 classes:
-  Phenopacket:
+  PhenopacketCollection:
     tree_root: true
-    is_a: NamedEntity
+    description: >-
+      A collection of phenopackets. Each phenopacket is a phenotypic
+      description of an individual or biosample with potential genes of
+      interest and/or diagnoses. Each phenopacket describes a single
+      individual, experimental animal, or biosample.
+    comments:
+      - This is not part of the Phenopackets Schema.
+      - It is specific to the OntoGPT implementation.
+    attributes:
+      phenopackets:
+        range: Phenopacket
+        multivalued: true
+        annotations:
+          prompt: >-
+            A semicolon-separated list in which each object of the list
+            includes all details of a single individual, experimental animal,
+            or biosample. Each object should include the full input text,
+            edited to be specific to the individual, animal, or biosample.
+            Each individual should be assigned an identifier following that
+            used in the text, or a unique identifier if one is not provided.
+            Do not use a name or other personally identifying information.
+        inlined_as_list: true
+
+  Phenopacket:
     description: >-
       An anonymous phenotypic description of an individual or biosample with
       potential genes of interest and/or diagnoses. This is a bundle of
@@ -71,38 +94,38 @@ classes:
       fields.
     attributes:
       id:
-        description: An identifier specific for this phenopacket.
+        description: >-
+          An identifier specific for this phenopacket.
         range: string
         identifier: true
         annotations:
-          prompt.skip: "true"
-        comments:
-          - This is not produced through generation
-          - Must be assigned at write time
+          prompt: >-
+            An identifier for the individual person, animal, or sample
+            described in the input text. This must be a unique identifier.
+            Use the same identifier as that used in the text if possible.
+            Otherwise, create a unique identifier such as "Patient 1".
+            Do not use a name or other personally identifying information.
       subject:
         description: >-
           The individual representing the focus of this packet - e.g. the
           proband in rare disease cases or cancer patient
-        range: Individual
-        inlined: true
+        # range: Individual
+        # inlined: true
+        range: string
         annotations:
           prompt: >-
-            One individual person or animal described in the input text.
-            If multiple individuals are described, include only information
-            about the first individual.
-            This must include a unique identifier for the subject. Use
-            the same identifier as that used in the text if possible.
-            Otherwise, create a unique identifier such as "Patient 1".
-            This description must also include any of the following,
+            A description of the individual representing the focus of this
+            packet. This description must also include any of the following,
             if provided: the date of birth, gender, sex, karyotypic sex,
             the time of last encounter, and whether the individual is
             alive or deceased.
       phenotypic_features:
         description: >-
           Phenotypic features relating to the subject of the phenopacket
-        range: PhenotypicFeature
+        # range: PhenotypicFeature
         multivalued: true
-        inlined: true
+        # inlined: true
+        range: string
         annotations:
           prompt: >-
             A semicolon-separated list of phenotypic features observed in the
@@ -115,9 +138,10 @@ classes:
       measurements:
         description: >-
           Quantifiable measurements related to the individual
-        range: Measurement
+        # range: Measurement
         multivalued: true
-        inlined: true
+        # inlined: true
+        range: string
         annotations:
           prompt: >-
             A semicolon-separated list of measurements taken from the individual
@@ -130,9 +154,10 @@ classes:
         description: >-
           Biosample(s) derived from the patient or a collection of biosamples
           in isolation
-        range: Biosample
+        # range: Biosample
         multivalued: true
-        inlined: true
+        # inlined: true
+        range: string
         annotations:
           prompt: >- # TODO: expand this prompt; this is a very complex class
             A semicolon-separated list of biosamples from which the phenopacket
@@ -159,9 +184,10 @@ classes:
           Field for disease identifiers - could be used for listing either
           diagnosed or suspected conditions. The resources using these fields
           should define what this represents in their context.
-        range: Disease
+        # range: Disease
         multivalued: true
-        inlined: true
+        # inlined: true
+        range: string
         annotations:
           prompt: >-
             A semicolon-separated list of diagnosed or suspected disease
@@ -1026,11 +1052,9 @@ classes:
         range: string
         identifier: true
         annotations:
-          percent_encoded: true
           prompt: >-
-            An identifier for the individual. This is identical to the label.
-        comments:
-          - Not assigned at write time as this identifier is inherited
+            An identifier for the individual. This is identical to the id
+            assigned to the phenopacket.
       karyotypicSex:
         description: The karyotypic sex of the individual
         range: KaryotypicSex
@@ -1058,7 +1082,7 @@ classes:
             is known and sex is not specified, use the corresponding
             value for sex (e.g., if the individual has female gender,
             specify female sex unless there is information to the contrary).
-      taxonomy:  # TODO: ground the corresponding ID
+      taxonomy: # TODO: ground the corresponding ID
         description: >-
           NCBI taxonomic identifier NCBITaxon e.g. NCBITaxon:9606 or
           NCBITaxon:1337 For resources where there may be more than one
@@ -1085,7 +1109,7 @@ classes:
             The age of the individual at the last time of encounter.
             This should be an ISO8601 duration or time interval.
             Do not provide units.
-      vitalStatus:  # TODO: ground further to VitalStatus class
+      vitalStatus: # TODO: ground further to VitalStatus class
         description: >-
           Vital status of the individual. If not present it is assumed that the
           individual is alive. If present it will default to 'false' i.e. the
@@ -1643,7 +1667,7 @@ classes:
         annotations:
           prompt: >-
             Semicolon-delimited list of modifiers for the phenotype.
-      onset:  # TODO: ground
+      onset: # TODO: ground
         description: >-
           the values of this will come from the HPO onset hierarchy i.e.
           subclasses of HP:0003674 FHIR mapping: Condition.onset
@@ -1656,7 +1680,7 @@ classes:
             this phenotype was first observed in the individual.
             For example, "Late onset", "Congenital onset", or
             "Early young adult onset".
-      resolution:  # TODO: ground
+      resolution: # TODO: ground
         description: Time required to resolve the phenotype, if applicable.
         # inlined: true
         # range: TimeElement
@@ -1664,7 +1688,7 @@ classes:
         annotations:
           prompt: >-
             The time required to resolve the phenotype, if applicable.
-      severity:  # TODO: ground
+      severity: # TODO: ground
         description: >-
           Severity of the condition e.g. subclasses of HP:0012824-Severity or
           SNOMED:272141005-Severities FHIR mapping: Condition.severity
@@ -1673,7 +1697,7 @@ classes:
         annotations:
           prompt: >-
             The severity of the phenotype.
-      type:  # TODO: ground
+      type: # TODO: ground
         description: >-
           The primary ontology class which describes the phenotype. For example
           "HP:0001363"  "Craniosynostosis" FHIR mapping: Condition.identifier'
