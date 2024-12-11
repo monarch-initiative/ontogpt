@@ -473,15 +473,22 @@ class Phenopacket(ConfiguredBaseModel):
                        'Member',
                        'SequenceLocation',
                        'Text']} })
-    subject: Optional[str] = Field(None, description="""The individual representing the focus of this packet - e.g. the proband in rare disease cases or cancer patient""", json_schema_extra = { "linkml_meta": {'alias': 'subject',
+    subject: Optional[Individual] = Field(None, description="""The individual representing the focus of this packet - e.g. the proband in rare disease cases or cancer patient""", json_schema_extra = { "linkml_meta": {'alias': 'subject',
          'annotations': {'prompt': {'tag': 'prompt',
                                     'value': 'A description of the individual '
                                              'representing the focus of this packet. '
-                                             'This description must also include any '
-                                             'of the following, if provided: the date '
-                                             'of birth, gender, sex, karyotypic sex, '
-                                             'the time of last encounter, and whether '
-                                             'the individual is alive or deceased.'}},
+                                             'It must include the unique identifier '
+                                             'used for the individual. Use the same '
+                                             'identifier as that used in the text if '
+                                             'possible. Otherwise, create a unique '
+                                             'identifier such as "Patient 1". Do not '
+                                             'use a name or other personally '
+                                             'identifying information. This '
+                                             'description must also include any of the '
+                                             'following, if provided: the date of '
+                                             'birth, gender, sex, karyotypic sex, the '
+                                             'time of last encounter, and whether the '
+                                             'individual is alive or deceased.'}},
          'domain_of': ['Triple', 'Phenopacket']} })
     phenotypic_features: Optional[List[str]] = Field(None, description="""Phenotypic features relating to the subject of the phenopacket""", json_schema_extra = { "linkml_meta": {'alias': 'phenotypic_features',
          'annotations': {'prompt': {'tag': 'prompt',
@@ -1164,9 +1171,12 @@ class Individual(ConfiguredBaseModel):
          'domain_of': ['Individual']} })
     id: str = Field(..., description="""An identifier for the individual. This must be unique within the record. ARGO mapping donor::submitter_donor_id""", json_schema_extra = { "linkml_meta": {'alias': 'id',
          'annotations': {'prompt': {'tag': 'prompt',
-                                    'value': 'An identifier for the individual. This '
-                                             'is identical to the id assigned to the '
-                                             'phenopacket.'}},
+                                    'value': 'The identifier for the individual. These '
+                                             'may also be present in the '
+                                             'alternativeIds field. If an individual '
+                                             'is referred to with a phrase like '
+                                             '"identified as", this is the identifier. '
+                                             'Must not be blank.'}},
          'domain_of': ['NamedEntity',
                        'Publication',
                        'Phenopacket',
@@ -1225,14 +1235,15 @@ class Individual(ConfiguredBaseModel):
                                              'ISO8601 duration or time interval. Do '
                                              'not provide units.'}},
          'domain_of': ['Individual']} })
-    vitalStatus: Optional[str] = Field(None, description="""Vital status of the individual. If not present it is assumed that the individual is alive. If present it will default to 'false' i.e. the individual was alive when the data was collected. ARGO mapping donor::vital_status""", json_schema_extra = { "linkml_meta": {'alias': 'vitalStatus',
+    vitalStatus: Optional[VitalStatus] = Field(None, description="""Vital status of the individual. If not present it is assumed that the individual is alive. If present it will default to 'false' i.e. the individual was alive when the data was collected. ARGO mapping donor::vital_status""", json_schema_extra = { "linkml_meta": {'alias': 'vitalStatus',
          'annotations': {'prompt': {'tag': 'prompt',
                                     'value': 'The vital status of the individual. Must '
                                              'include any of the following '
                                              'information, as available: the cause of '
-                                             'death, the status, the survival time in '
-                                             'days (integer only), and/or the time of '
-                                             'death.'}},
+                                             'death, the status (alive or dead at time '
+                                             'of data collection), the survival time '
+                                             'in days (integer only), and/or the time '
+                                             'of death. This must be included.'}},
          'domain_of': ['Individual'],
          'exact_mappings': ['ARGO:donor.vital_status']} })
 
@@ -1243,14 +1254,28 @@ class VitalStatus(ConfiguredBaseModel):
     """
     linkml_meta: ClassVar[LinkMLMeta] = LinkMLMeta({'from_schema': 'http://w3id.org/ontogpt/phenopackets'})
 
-    causeOfDeath: Optional[OntologyClass] = Field(None, description="""ARGO mapping donor::cause_of_death""", json_schema_extra = { "linkml_meta": {'alias': 'causeOfDeath',
+    causeOfDeath: Optional[str] = Field(None, description="""ARGO mapping donor::cause_of_death""", json_schema_extra = { "linkml_meta": {'alias': 'causeOfDeath',
+         'annotations': {'prompt': {'tag': 'prompt',
+                                    'value': 'The cause of death of the individual.'}},
          'domain_of': ['VitalStatus'],
          'exact_mappings': ['ARGO:donor.cause_of_death']} })
-    status: Optional[Status] = Field(None, description="""Status of an individual.""", json_schema_extra = { "linkml_meta": {'alias': 'status', 'domain_of': ['VitalStatus']} })
-    survivalTimeInDays: Optional[int] = Field(None, description="""ARGO mapping donor::survival_time""", json_schema_extra = { "linkml_meta": {'alias': 'survivalTimeInDays',
+    status: Optional[str] = Field(None, description="""Status of an individual.""", json_schema_extra = { "linkml_meta": {'alias': 'status',
+         'annotations': {'prompt': {'tag': 'prompt',
+                                    'value': 'The status of the individual. Must be '
+                                             'one of ALIVE, DECEASED, or '
+                                             'UNKNOWN_STATUS.'}},
+         'domain_of': ['VitalStatus']} })
+    survivalTimeInDays: Optional[str] = Field(None, description="""ARGO mapping donor::survival_time""", json_schema_extra = { "linkml_meta": {'alias': 'survivalTimeInDays',
+         'annotations': {'prompt': {'tag': 'prompt',
+                                    'value': 'The survival time of the individual in '
+                                             'days. This should be an integer.'}},
          'domain_of': ['VitalStatus'],
          'exact_mappings': ['ARGO:donor.survival_time']} })
-    timeOfDeath: Optional[TimeElement] = Field(None, json_schema_extra = { "linkml_meta": {'alias': 'timeOfDeath', 'domain_of': ['VitalStatus']} })
+    timeOfDeath: Optional[str] = Field(None, description="""The time of death, if applicable.""", json_schema_extra = { "linkml_meta": {'alias': 'timeOfDeath',
+         'annotations': {'prompt': {'tag': 'prompt',
+                                    'value': 'The time of death of the individual. '
+                                             'This should be an ISO 8601 timestamp.'}},
+         'domain_of': ['VitalStatus']} })
 
 
 class ComplexValue(ConfiguredBaseModel):
