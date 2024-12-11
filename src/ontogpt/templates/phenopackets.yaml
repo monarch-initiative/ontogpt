@@ -145,9 +145,10 @@ classes:
       interpretations:
         description: >-
           Interpretations of the phenopacket
-        range: Interpretation
+        # range: Interpretation
+        range: string
         multivalued: true
-        inlined: true
+        # inlined: true
         annotations:
           prompt: >-
             A semicolon-separated list of interpretations of the input text,

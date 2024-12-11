@@ -500,7 +500,7 @@ class Phenopacket(NamedEntity):
                                              'procedures performed to extract or '
                                              'process the sample'}},
          'domain_of': ['Phenopacket']} })
-    interpretations: Optional[Dict[str, Interpretation]] = Field(None, description="""Interpretations of the phenopacket""", json_schema_extra = { "linkml_meta": {'alias': 'interpretations',
+    interpretations: Optional[List[str]] = Field(None, description="""Interpretations of the phenopacket""", json_schema_extra = { "linkml_meta": {'alias': 'interpretations',
          'annotations': {'prompt': {'tag': 'prompt',
                                     'value': 'A semicolon-separated list of '
                                              'interpretations of the input text, '
