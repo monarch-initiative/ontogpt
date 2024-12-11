@@ -141,10 +141,9 @@ classes:
       measurements:
         description: >-
           Quantifiable measurements related to the individual
-        # range: Measurement
+        range: Measurement
         multivalued: true
-        # inlined: true
-        range: string
+        inlined: true
         annotations:
           prompt: >-
             A semicolon-separated list of measurements taken from the individual
@@ -475,11 +474,15 @@ classes:
         range: string
         annotations:
           prompt: >-
-            The code for the body site of the procedure.
+            The code for the body site of the procedure. This may
+            require inference from the procedure, e.g., a colonoscopy
+            is done on the colon, bronchoscopy is done on the lungs,
+            and so on.
       performed:
         description: >-
           When the procedure was performed.
-        range: TimeElement
+        # range: TimeElement
+        range: string
         annotations:
           prompt: >-
             The date and time the procedure was performed.
@@ -1184,6 +1187,11 @@ classes:
         inlined_as_list: true
         multivalued: true
         range: TypedQuantity
+        annotations:
+          prompt: >-
+            A semicolon-delimited list of the quantities required to fully
+            describe the complex value. For example, the systolic and diastolic
+            blood pressure quantities.
 
   Measurement:
     description: >-
@@ -1198,21 +1206,33 @@ classes:
         # inlined: true
         # range: OntologyClass
         range: string
+        annotations:
+          prompt: >-
+            The assay used to produce the measurement. Do not include
+            acronyms or abbreviations; if the assay is referred to with
+            an acronym then expand to its full name.
+          prompt.examples: body temperature; platelets in blood
       complexValue:
         description: The measurement result, expressed as multiple values.
         range: ComplexValue
+        annotations:
+          prompt: >-
+            The measurement result, expressed as multiple values.
       description:
         description: >-
           Free-text description of the feature. Note this is not a acceptable
           place to document/describe the phenotype - the type and onset etc...
           fields should be used for this purpose.
         range: string
+        annotations:
+          prompt: >-
+            Free-text description of the feature. Describe only the
+            observed feature, not the phenotype. Do not include type or onset.
       procedure:
         description: >-
           Clinical procedure performed on the subject in order to produce the
           measurement.
-        # range: Procedure
-        range: string
+        range: Procedure
         annotations:
           prompt: >-
             The clinical procedure performed on the subject in order to
@@ -1222,11 +1242,19 @@ classes:
       timeObserved:
         description: The time at which the measurement was made
         inlined: true
-        range: TimeElement
+        # range: TimeElement
+        range: string
+        annotations:
+          prompt: >-
+            The time at which the measurement was made.
+            This should be an ISO 8601 timestamp.
       value:
         description: The result of the measurement.
-        # range: Value
-        range: string
+        range: Value
+        annotations:
+          prompt: >-
+            The result of the measurement. This should be a single value.
+            If the measurement is complex, use the complexValue field.
     rules:
       - postconditions:
           exactly_one_of:
@@ -1238,22 +1266,39 @@ classes:
                   required: true
 
   Quantity:
-    description: ""
+    description: >-
+      A single quantifiable value, along with its units and reference range,
+      if known.
     attributes:
       referenceRange:
         description: >-
           Reference range for the quantity e.g. The normal range of platelets
           is 150,000 to 450,000 platelets/uL.
-        range: ReferenceRange
+        # range: ReferenceRange
+        range: string
+        annotations:
+          prompt: >-
+            The reference range for the quantity. If the reference range is not
+            known, this value should be UNKNOWN.
       unit:
         description: >-
           For instance, NCIT subhierarchy, Unit of Measure (Code C25709),
           https://www.ebi.ac.uk/ols/ontologies/uo
-        inlined: true
-        range: OntologyClass
+        # range: OntologyClass
+        range: string
+        annotations:
+          prompt: >-
+            The unit of measure for the quantity. This should be a
+            human-readable string, e.g. 'mg/dL'. If the unit is not known,
+            this value should be UNKNOWN.
       value:
         description: the value of the quantity in the units e.g. 2.0 mg
-        range: double
+        # range: double
+        range: string
+        annotations:
+          prompt: >-
+            The value of the quantity in the units. This should be a
+            single value. Do not include units or any non-numeric value.
 
   ReferenceRange:
     description: ""
@@ -1277,23 +1322,41 @@ classes:
       quantity:
         description: e.g. mm Hg
         range: Quantity
+        annotations:
+          prompt: >-
+            A single quantifiable value of the measurement, along
+            with its units and reference range, if known.
       type:
         description: e.g. diastolic, systolic
         inlined: true
-        range: OntologyClass
+        # range: OntologyClass
+        range: string
+        annotations:
+          prompt: >-
+            A categorical or descriptive value of the measurement,
+            e.g., 'diastolic' or 'systolic'.
 
   Value:
-    description: ""
+    description: A single specific value.
     attributes:
       ontologyClass:
         description: >-
           for use with things such as categories 'red', 'yellow' or
           'absent'/'present'
         inlined: true
-        range: OntologyClass
+        # range: OntologyClass
+        range: string
+        annotations:
+          prompt: >-
+            A categorical or descriptive value of the measurement,
+            e.g., 'red', 'yellow', 'absent', or 'present'.
       quantity:
-        description: ""
+        description: A single quantifiable value.
         range: Quantity
+        annotations:
+          prompt: >-
+            A single quantifiable value of the measurement, along
+            with its units and reference range, if known.
     rules:
       - postconditions:
           exactly_one_of:

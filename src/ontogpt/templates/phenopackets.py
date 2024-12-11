@@ -505,7 +505,7 @@ class Phenopacket(ConfiguredBaseModel):
                                              'to resolve the phenotype (if '
                                              'applicable), and its severity.'}},
          'domain_of': ['Phenopacket']} })
-    measurements: Optional[List[str]] = Field(None, description="""Quantifiable measurements related to the individual""", json_schema_extra = { "linkml_meta": {'alias': 'measurements',
+    measurements: Optional[List[Measurement]] = Field(None, description="""Quantifiable measurements related to the individual""", json_schema_extra = { "linkml_meta": {'alias': 'measurements',
          'annotations': {'prompt': {'tag': 'prompt',
                                     'value': 'A semicolon-separated list of '
                                              'measurements taken from the individual '
@@ -805,9 +805,12 @@ class Procedure(ConfiguredBaseModel):
     body_site: Optional[str] = Field(None, description="""FHIR mapping: Procedure.bodySite""", json_schema_extra = { "linkml_meta": {'alias': 'body_site',
          'annotations': {'prompt': {'tag': 'prompt',
                                     'value': 'The code for the body site of the '
-                                             'procedure.'}},
+                                             'procedure. This may require inference '
+                                             'from the procedure, e.g., a colonoscopy '
+                                             'is done on the colon, bronchoscopy is '
+                                             'done on the lungs, and so on.'}},
          'domain_of': ['Procedure']} })
-    performed: Optional[TimeElement] = Field(None, description="""When the procedure was performed.""", json_schema_extra = { "linkml_meta": {'alias': 'performed',
+    performed: Optional[str] = Field(None, description="""When the procedure was performed.""", json_schema_extra = { "linkml_meta": {'alias': 'performed',
          'annotations': {'prompt': {'tag': 'prompt',
                                     'value': 'The date and time the procedure was '
                                              'performed.'}},
@@ -1284,7 +1287,14 @@ class ComplexValue(ConfiguredBaseModel):
     """
     linkml_meta: ClassVar[LinkMLMeta] = LinkMLMeta({'from_schema': 'http://w3id.org/ontogpt/phenopackets'})
 
-    typedQuantities: Optional[List[TypedQuantity]] = Field(None, description="""The quantities required to fully describe the complex value. For example the systolic and diastolic blood pressure quantities""", json_schema_extra = { "linkml_meta": {'alias': 'typedQuantities', 'domain_of': ['ComplexValue']} })
+    typedQuantities: Optional[List[TypedQuantity]] = Field(None, description="""The quantities required to fully describe the complex value. For example the systolic and diastolic blood pressure quantities""", json_schema_extra = { "linkml_meta": {'alias': 'typedQuantities',
+         'annotations': {'prompt': {'tag': 'prompt',
+                                    'value': 'A semicolon-delimited list of the '
+                                             'quantities required to fully describe '
+                                             'the complex value. For example, the '
+                                             'systolic and diastolic blood pressure '
+                                             'quantities.'}},
+         'domain_of': ['ComplexValue']} })
 
 
 class Measurement(ConfiguredBaseModel):
@@ -1297,9 +1307,28 @@ class Measurement(ConfiguredBaseModel):
                                                           {'slot_conditions': {'complexValue': {'name': 'complexValue',
                                                                                                 'required': True}}}]}}]})
 
-    assay: Optional[str] = Field(None, description="""An ontology class which describes the assay used to produce the measurement. For example \"body temperature\" (CMO:0000015) or \"Platelets [#/volume] in Blood\" (LOINC:26515-7) FHIR mapping: Observation.code'""", json_schema_extra = { "linkml_meta": {'alias': 'assay', 'domain_of': ['Measurement']} })
-    complexValue: Optional[ComplexValue] = Field(None, description="""The measurement result, expressed as multiple values.""", json_schema_extra = { "linkml_meta": {'alias': 'complexValue', 'domain_of': ['Measurement']} })
+    assay: Optional[str] = Field(None, description="""An ontology class which describes the assay used to produce the measurement. For example \"body temperature\" (CMO:0000015) or \"Platelets [#/volume] in Blood\" (LOINC:26515-7) FHIR mapping: Observation.code'""", json_schema_extra = { "linkml_meta": {'alias': 'assay',
+         'annotations': {'prompt': {'tag': 'prompt',
+                                    'value': 'The assay used to produce the '
+                                             'measurement. Do not include acronyms or '
+                                             'abbreviations; if the assay is referred '
+                                             'to with an acronym then expand to its '
+                                             'full name.'},
+                         'prompt.examples': {'tag': 'prompt.examples',
+                                             'value': 'body temperature; platelets in '
+                                                      'blood'}},
+         'domain_of': ['Measurement']} })
+    complexValue: Optional[ComplexValue] = Field(None, description="""The measurement result, expressed as multiple values.""", json_schema_extra = { "linkml_meta": {'alias': 'complexValue',
+         'annotations': {'prompt': {'tag': 'prompt',
+                                    'value': 'The measurement result, expressed as '
+                                             'multiple values.'}},
+         'domain_of': ['Measurement']} })
     description: Optional[str] = Field(None, description="""Free-text description of the feature. Note this is not a acceptable place to document/describe the phenotype - the type and onset etc... fields should be used for this purpose.""", json_schema_extra = { "linkml_meta": {'alias': 'description',
+         'annotations': {'prompt': {'tag': 'prompt',
+                                    'value': 'Free-text description of the feature. '
+                                             'Describe only the observed feature, not '
+                                             'the phenotype. Do not include type or '
+                                             'onset.'}},
          'domain_of': ['Cohort',
                        'ExternalReference',
                        'Biosample',
@@ -1307,7 +1336,7 @@ class Measurement(ConfiguredBaseModel):
                        'PhenotypicFeature',
                        'GeneDescriptor',
                        'VariationDescriptor']} })
-    procedure: Optional[str] = Field(None, description="""Clinical procedure performed on the subject in order to produce the measurement.""", json_schema_extra = { "linkml_meta": {'alias': 'procedure',
+    procedure: Optional[Procedure] = Field(None, description="""Clinical procedure performed on the subject in order to produce the measurement.""", json_schema_extra = { "linkml_meta": {'alias': 'procedure',
          'annotations': {'prompt': {'tag': 'prompt',
                                     'value': 'The clinical procedure performed on the '
                                              'subject in order to produce the '
@@ -1316,8 +1345,18 @@ class Measurement(ConfiguredBaseModel):
                                              'body site, and the time the procedure '
                                              'was performed, if known.'}},
          'domain_of': ['Biosample', 'Measurement', 'MedicalAction']} })
-    timeObserved: Optional[TimeElement] = Field(None, description="""The time at which the measurement was made""", json_schema_extra = { "linkml_meta": {'alias': 'timeObserved', 'domain_of': ['Measurement']} })
-    value: Optional[str] = Field(None, description="""The result of the measurement.""", json_schema_extra = { "linkml_meta": {'alias': 'value',
+    timeObserved: Optional[str] = Field(None, description="""The time at which the measurement was made""", json_schema_extra = { "linkml_meta": {'alias': 'timeObserved',
+         'annotations': {'prompt': {'tag': 'prompt',
+                                    'value': 'The time at which the measurement was '
+                                             'made. This should be an ISO 8601 '
+                                             'timestamp.'}},
+         'domain_of': ['Measurement']} })
+    value: Optional[Value] = Field(None, description="""The result of the measurement.""", json_schema_extra = { "linkml_meta": {'alias': 'value',
+         'annotations': {'prompt': {'tag': 'prompt',
+                                    'value': 'The result of the measurement. This '
+                                             'should be a single value. If the '
+                                             'measurement is complex, use the '
+                                             'complexValue field.'}},
          'domain_of': ['Measurement',
                        'Quantity',
                        'Expression',
@@ -1327,11 +1366,30 @@ class Measurement(ConfiguredBaseModel):
 
 
 class Quantity(ConfiguredBaseModel):
+    """
+    A single quantifiable value, along with its units and reference range, if known.
+    """
     linkml_meta: ClassVar[LinkMLMeta] = LinkMLMeta({'from_schema': 'http://w3id.org/ontogpt/phenopackets'})
 
-    referenceRange: Optional[ReferenceRange] = Field(None, description="""Reference range for the quantity e.g. The normal range of platelets is 150,000 to 450,000 platelets/uL.""", json_schema_extra = { "linkml_meta": {'alias': 'referenceRange', 'domain_of': ['Quantity']} })
-    unit: Optional[OntologyClass] = Field(None, description="""For instance, NCIT subhierarchy, Unit of Measure (Code C25709), https://www.ebi.ac.uk/ols/ontologies/uo""", json_schema_extra = { "linkml_meta": {'alias': 'unit', 'domain_of': ['Quantity', 'ReferenceRange']} })
-    value: Optional[float] = Field(None, description="""the value of the quantity in the units e.g. 2.0 mg""", json_schema_extra = { "linkml_meta": {'alias': 'value',
+    referenceRange: Optional[str] = Field(None, description="""Reference range for the quantity e.g. The normal range of platelets is 150,000 to 450,000 platelets/uL.""", json_schema_extra = { "linkml_meta": {'alias': 'referenceRange',
+         'annotations': {'prompt': {'tag': 'prompt',
+                                    'value': 'The reference range for the quantity. If '
+                                             'the reference range is not known, this '
+                                             'value should be UNKNOWN.'}},
+         'domain_of': ['Quantity']} })
+    unit: Optional[str] = Field(None, description="""For instance, NCIT subhierarchy, Unit of Measure (Code C25709), https://www.ebi.ac.uk/ols/ontologies/uo""", json_schema_extra = { "linkml_meta": {'alias': 'unit',
+         'annotations': {'prompt': {'tag': 'prompt',
+                                    'value': 'The unit of measure for the quantity. '
+                                             'This should be a human-readable string, '
+                                             "e.g. 'mg/dL'. If the unit is not known, "
+                                             'this value should be UNKNOWN.'}},
+         'domain_of': ['Quantity', 'ReferenceRange']} })
+    value: Optional[str] = Field(None, description="""the value of the quantity in the units e.g. 2.0 mg""", json_schema_extra = { "linkml_meta": {'alias': 'value',
+         'annotations': {'prompt': {'tag': 'prompt',
+                                    'value': 'The value of the quantity in the units. '
+                                             'This should be a single value. Do not '
+                                             'include units or any non-numeric '
+                                             'value.'}},
          'domain_of': ['Measurement',
                        'Quantity',
                        'Expression',
@@ -1354,19 +1412,42 @@ class TypedQuantity(ConfiguredBaseModel):
     """
     linkml_meta: ClassVar[LinkMLMeta] = LinkMLMeta({'from_schema': 'http://w3id.org/ontogpt/phenopackets'})
 
-    quantity: Optional[Quantity] = Field(None, description="""e.g. mm Hg""", json_schema_extra = { "linkml_meta": {'alias': 'quantity', 'domain_of': ['TypedQuantity', 'Value', 'DoseInterval']} })
-    type: Optional[OntologyClass] = Field(None, description="""e.g. diastolic, systolic""", json_schema_extra = { "linkml_meta": {'alias': 'type', 'domain_of': ['TypedQuantity', 'PhenotypicFeature']} })
+    quantity: Optional[Quantity] = Field(None, description="""e.g. mm Hg""", json_schema_extra = { "linkml_meta": {'alias': 'quantity',
+         'annotations': {'prompt': {'tag': 'prompt',
+                                    'value': 'A single quantifiable value of the '
+                                             'measurement, along with its units and '
+                                             'reference range, if known.'}},
+         'domain_of': ['TypedQuantity', 'Value', 'DoseInterval']} })
+    type: Optional[str] = Field(None, description="""e.g. diastolic, systolic""", json_schema_extra = { "linkml_meta": {'alias': 'type',
+         'annotations': {'prompt': {'tag': 'prompt',
+                                    'value': 'A categorical or descriptive value of '
+                                             "the measurement, e.g., 'diastolic' or "
+                                             "'systolic'."}},
+         'domain_of': ['TypedQuantity', 'PhenotypicFeature']} })
 
 
 class Value(ConfiguredBaseModel):
+    """
+    A single specific value.
+    """
     linkml_meta: ClassVar[LinkMLMeta] = LinkMLMeta({'from_schema': 'http://w3id.org/ontogpt/phenopackets',
          'rules': [{'postconditions': {'exactly_one_of': [{'slot_conditions': {'quantity': {'name': 'quantity',
                                                                                             'required': True}}},
                                                           {'slot_conditions': {'ontologyClass': {'name': 'ontologyClass',
                                                                                                  'required': True}}}]}}]})
 
-    ontologyClass: Optional[OntologyClass] = Field(None, description="""for use with things such as categories 'red', 'yellow' or 'absent'/'present'""", json_schema_extra = { "linkml_meta": {'alias': 'ontologyClass', 'domain_of': ['Value', 'TherapeuticRegimen']} })
-    quantity: Optional[Quantity] = Field(None, json_schema_extra = { "linkml_meta": {'alias': 'quantity', 'domain_of': ['TypedQuantity', 'Value', 'DoseInterval']} })
+    ontologyClass: Optional[str] = Field(None, description="""for use with things such as categories 'red', 'yellow' or 'absent'/'present'""", json_schema_extra = { "linkml_meta": {'alias': 'ontologyClass',
+         'annotations': {'prompt': {'tag': 'prompt',
+                                    'value': 'A categorical or descriptive value of '
+                                             "the measurement, e.g., 'red', 'yellow', "
+                                             "'absent', or 'present'."}},
+         'domain_of': ['Value', 'TherapeuticRegimen']} })
+    quantity: Optional[Quantity] = Field(None, description="""A single quantifiable value.""", json_schema_extra = { "linkml_meta": {'alias': 'quantity',
+         'annotations': {'prompt': {'tag': 'prompt',
+                                    'value': 'A single quantifiable value of the '
+                                             'measurement, along with its units and '
+                                             'reference range, if known.'}},
+         'domain_of': ['TypedQuantity', 'Value', 'DoseInterval']} })
 
 
 class DoseInterval(ConfiguredBaseModel):
