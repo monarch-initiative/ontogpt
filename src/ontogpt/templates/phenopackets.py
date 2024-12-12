@@ -114,6 +114,9 @@ class NullDataOptions(str, Enum):
 
 
 class AcmgPathogenicityClassification(str, Enum):
+    """
+    ACMG Pathogenicity Classification of a genetic interpretation. See doi:10.1038/gim.2015.30
+    """
     BENIGN = "BENIGN"
     LIKELY_BENIGN = "LIKELY_BENIGN"
     LIKELY_PATHOGENIC = "LIKELY_PATHOGENIC"
@@ -123,6 +126,9 @@ class AcmgPathogenicityClassification(str, Enum):
 
 
 class InterpretationStatus(str, Enum):
+    """
+    Status of a genetic interpretation.
+    """
     CANDIDATE = "CANDIDATE"
     CAUSATIVE = "CAUSATIVE"
     CONTRIBUTORY = "CONTRIBUTORY"
@@ -139,6 +145,9 @@ class ProgressStatus(str, Enum):
 
 
 class TherapeuticActionability(str, Enum):
+    """
+    Therapeutic actionability of an interpretation.
+    """
     ACTIONABLE = "ACTIONABLE"
     NOT_ACTIONABLE = "NOT_ACTIONABLE"
     UNKNOWN_ACTIONABILITY = "UNKNOWN_ACTIONABILITY"
@@ -535,13 +544,15 @@ class Phenopacket(ConfiguredBaseModel):
                                              'procedures performed to extract or '
                                              'process the sample'}},
          'domain_of': ['Phenopacket']} })
-    interpretations: Optional[List[str]] = Field(None, description="""Interpretations of the phenopacket""", json_schema_extra = { "linkml_meta": {'alias': 'interpretations',
+    interpretations: Optional[List[Interpretation]] = Field(None, description="""Interpretations of the phenopacket""", json_schema_extra = { "linkml_meta": {'alias': 'interpretations',
          'annotations': {'prompt': {'tag': 'prompt',
                                     'value': 'A semicolon-separated list of '
                                              'interpretations of the input text, '
                                              'primarily any diagnoses and summaries of '
-                                             'patient status. If this is not provided, '
-                                             'write only "NA".'}},
+                                             "patient status. Include the individual's "
+                                             'identifier. If no interpretations are '
+                                             'provided in the input text, do not '
+                                             'provide a value for this field.'}},
          'domain_of': ['Phenopacket']} })
     diseases: Optional[List[str]] = Field(None, description="""Field for disease identifiers - could be used for listing either diagnosed or suspected conditions. The resources using these fields should define what this represents in their context.""", json_schema_extra = { "linkml_meta": {'alias': 'diseases',
          'annotations': {'prompt': {'tag': 'prompt',
@@ -1202,10 +1213,30 @@ class Disease(ConfiguredBaseModel):
 
 
 class Diagnosis(ConfiguredBaseModel):
+    """
+    Diagnosis of clinical findings.
+    """
     linkml_meta: ClassVar[LinkMLMeta] = LinkMLMeta({'from_schema': 'http://w3id.org/ontogpt/phenopackets'})
 
-    disease: Optional[OntologyClass] = Field(None, description="""The disease/condition assigned to the diagnosis. Details about this disease may be contained in the `diseases` field in the Phenopacket.""", json_schema_extra = { "linkml_meta": {'alias': 'disease', 'domain_of': ['Diagnosis']} })
-    genomicInterpretations: Optional[List[GenomicInterpretation]] = Field(None, description="""genomic features containing the status of their contribution towards the diagnosis""", json_schema_extra = { "linkml_meta": {'alias': 'genomicInterpretations', 'domain_of': ['Diagnosis']} })
+    disease: Optional[str] = Field(None, description="""The disease/condition assigned to the diagnosis. Details about this disease may be contained in the `diseases` field in the Phenopacket.""", json_schema_extra = { "linkml_meta": {'alias': 'disease',
+         'annotations': {'prompt': {'tag': 'prompt',
+                                    'value': 'The disease or condition assigned to the '
+                                             'diagnosis, identified by name.'}},
+         'domain_of': ['Diagnosis']} })
+    genomicInterpretations: Optional[List[GenomicInterpretation]] = Field(None, description="""genomic features containing the status of their contribution towards the diagnosis""", json_schema_extra = { "linkml_meta": {'alias': 'genomicInterpretations',
+         'annotations': {'prompt': {'tag': 'prompt',
+                                    'value': 'A semicolon-separated list of genomic '
+                                             'features containing the status of their '
+                                             'contribution towards the diagnosis. '
+                                             'Include the following information as '
+                                             'available: the identifier of the '
+                                             'individual or biosample, the gene '
+                                             'implicated in the diagnosis, the status '
+                                             'of the interpretation, and any details '
+                                             'describing interpretation of the '
+                                             'variant. If no genomic features are '
+                                             'specified, do not include a value.'}},
+         'domain_of': ['Diagnosis']} })
 
 
 class GenomicInterpretation(ConfiguredBaseModel):
@@ -1218,11 +1249,36 @@ class GenomicInterpretation(ConfiguredBaseModel):
                                                           {'slot_conditions': {'variantInterpretation': {'name': 'variantInterpretation',
                                                                                                          'required': True}}}]}}]})
 
-    gene: Optional[GeneDescriptor] = Field(None, json_schema_extra = { "linkml_meta": {'alias': 'gene',
+    gene: Optional[str] = Field(None, description="""A specific gene implicated in a phenotype.""", json_schema_extra = { "linkml_meta": {'alias': 'gene',
+         'annotations': {'prompt': {'tag': 'prompt',
+                                    'value': 'A specific gene implicated in a '
+                                             'phenotype. This should be a '
+                                             'human-readable name.'}},
          'domain_of': ['GenomicInterpretation', 'CopyNumber', 'Feature']} })
-    interpretationStatus: Optional[InterpretationStatus] = Field(None, json_schema_extra = { "linkml_meta": {'alias': 'interpretationStatus', 'domain_of': ['GenomicInterpretation']} })
-    subjectOrBiosampleId: Optional[str] = Field(None, description="""identifier for the subject of the interpretation. This MUST be the individual id or a biosample id of the enclosing phenopacket.""", json_schema_extra = { "linkml_meta": {'alias': 'subjectOrBiosampleId', 'domain_of': ['GenomicInterpretation']} })
-    variantInterpretation: Optional[VariantInterpretation] = Field(None, json_schema_extra = { "linkml_meta": {'alias': 'variantInterpretation', 'domain_of': ['GenomicInterpretation']} })
+    interpretationStatus: Optional[InterpretationStatus] = Field(None, description="""Status of the interpretation.""", json_schema_extra = { "linkml_meta": {'alias': 'interpretationStatus',
+         'annotations': {'prompt': {'tag': 'prompt',
+                                    'value': 'The status of the interpretation. Must '
+                                             'be one of the following: CANDIDATE, '
+                                             'CAUSATIVE, CONTRIBUTORY, REJECTED, or '
+                                             'UNKNOWN_STATUS.'}},
+         'domain_of': ['GenomicInterpretation']} })
+    subjectOrBiosampleId: Optional[str] = Field(None, description="""identifier for the subject of the interpretation. This MUST be the individual id or a biosample id of the enclosing phenopacket.""", json_schema_extra = { "linkml_meta": {'alias': 'subjectOrBiosampleId',
+         'annotations': {'prompt': {'tag': 'prompt',
+                                    'value': 'An identifier for the subject of the '
+                                             'interpretation. This MUST be identical '
+                                             'to the provided individual id or a '
+                                             'biosample id.'}},
+         'domain_of': ['GenomicInterpretation']} })
+    variantInterpretation: Optional[VariantInterpretation] = Field(None, description="""Interpretation of the genetic variant.""", json_schema_extra = { "linkml_meta": {'alias': 'variantInterpretation',
+         'annotations': {'prompt': {'tag': 'prompt',
+                                    'value': 'Interpretation of the genetic variant. '
+                                             'Include the following, as available: the '
+                                             'ACMG pathogenicity classification, the '
+                                             'therapeutic actionability, and the '
+                                             'variation descriptor. If none of this is '
+                                             'specified, do not include a value for '
+                                             'this field.'}},
+         'domain_of': ['GenomicInterpretation']} })
 
 
 class Interpretation(ConfiguredBaseModel):
@@ -1231,20 +1287,30 @@ class Interpretation(ConfiguredBaseModel):
     """
     linkml_meta: ClassVar[LinkMLMeta] = LinkMLMeta({'from_schema': 'http://w3id.org/ontogpt/phenopackets'})
 
-    diagnosis: Optional[str] = Field(None, description="""The diagnosis made in this interpretation.""", json_schema_extra = { "linkml_meta": {'alias': 'diagnosis',
+    diagnosis: Optional[Diagnosis] = Field(None, description="""The diagnosis made in this interpretation.""", json_schema_extra = { "linkml_meta": {'alias': 'diagnosis',
          'annotations': {'prompt': {'tag': 'prompt',
                                     'value': 'The diagnosis made in this '
-                                             'interpretation. This should be a '
-                                             'human-readable label.'}},
+                                             'interpretation. Include the following, '
+                                             'as available: the name of the disease or '
+                                             'condition with all acronyms spelled out, '
+                                             'the identifier of the individual or '
+                                             'biosample, and any details regarding '
+                                             'genetic or genomic interpretation '
+                                             '(including the gene, the status of the '
+                                             'genetic interpretation, and/or any '
+                                             'details regarding the specific variant). '
+                                             'Include this information even if it is '
+                                             'also present in the summary field.'}},
          'domain_of': ['Interpretation']} })
-    id: str = Field(..., description="""id of the interpretation""", json_schema_extra = { "linkml_meta": {'alias': 'id',
-         'annotations': {'percent_encoded': {'tag': 'percent_encoded', 'value': True},
-                         'prompt': {'tag': 'prompt',
-                                    'value': 'An identifier for the interpretation. '
-                                             'This must be unique within the '
-                                             'phenopacket but may be a single '
-                                             'integer.'}},
-         'comments': ['Must be generated'],
+    id: Optional[str] = Field(None, description="""id of the interpretation""", json_schema_extra = { "linkml_meta": {'alias': 'id',
+         'annotations': {'prompt': {'tag': 'prompt',
+                                    'value': 'A unique identifier for the '
+                                             'interpretation. This must be unique '
+                                             'within the phenopacket but may be based '
+                                             "on the individual's identifier. For "
+                                             "example, if the individual's identifier "
+                                             'is "Patient1", the interpretation id may '
+                                             'be "Patient1_Interpretation1".'}},
          'domain_of': ['NamedEntity',
                        'Publication',
                        'Phenopacket',
@@ -1264,23 +1330,51 @@ class Interpretation(ConfiguredBaseModel):
                        'Member',
                        'SequenceLocation',
                        'Text']} })
-    progressStatus: Optional[str] = Field(None, description="""The status of the interpretation.""", json_schema_extra = { "linkml_meta": {'alias': 'progressStatus',
+    progressStatus: Optional[ProgressStatus] = Field(None, description="""The status of the interpretation.""", json_schema_extra = { "linkml_meta": {'alias': 'progressStatus',
          'annotations': {'prompt': {'tag': 'prompt',
                                     'value': 'The status of the interpretation. Must '
                                              'be one of the following: COMPLETED, '
                                              'IN_PROGRESS, SOLVED, UNKNOWN_PROGRESS, '
                                              'or UNSOLVED.'}},
          'domain_of': ['Interpretation']} })
-    summary: Optional[str] = Field(None, description="""A brief summary of the interpretation.""", json_schema_extra = { "linkml_meta": {'alias': 'summary', 'domain_of': ['Interpretation']} })
+    summary: Optional[str] = Field(None, description="""A brief summary of the interpretation.""", json_schema_extra = { "linkml_meta": {'alias': 'summary',
+         'annotations': {'prompt': {'tag': 'prompt',
+                                    'value': 'A brief summary of the interpretation.'}},
+         'domain_of': ['Interpretation']} })
 
 
 class VariantInterpretation(ConfiguredBaseModel):
+    """
+    Interpretation of a genetic variant.
+    """
     linkml_meta: ClassVar[LinkMLMeta] = LinkMLMeta({'from_schema': 'http://w3id.org/ontogpt/phenopackets'})
 
-    acmgPathogenicityClassification: Optional[AcmgPathogenicityClassification] = Field(None, json_schema_extra = { "linkml_meta": {'alias': 'acmgPathogenicityClassification',
+    acmgPathogenicityClassification: Optional[AcmgPathogenicityClassification] = Field(None, description="""ACMG pathogenicity classification.""", json_schema_extra = { "linkml_meta": {'alias': 'acmgPathogenicityClassification',
+         'annotations': {'prompt': {'tag': 'prompt',
+                                    'value': 'The ACMG pathogenicity classification of '
+                                             'the variant. Must be one of the '
+                                             'following: BENIGN, LIKELY_BENIGN, '
+                                             'LIKELY_PATHOGENIC, PATHOGENIC, '
+                                             'UNCERTAIN_SIGNIFICANCE, or '
+                                             'NOT_PROVIDED.'}},
          'domain_of': ['VariantInterpretation']} })
-    therapeuticActionability: Optional[TherapeuticActionability] = Field(None, json_schema_extra = { "linkml_meta": {'alias': 'therapeuticActionability', 'domain_of': ['VariantInterpretation']} })
-    variationDescriptor: Optional[VariationDescriptor] = Field(None, json_schema_extra = { "linkml_meta": {'alias': 'variationDescriptor', 'domain_of': ['VariantInterpretation']} })
+    therapeuticActionability: Optional[TherapeuticActionability] = Field(None, description="""Therapeutic actionability of the variant.""", json_schema_extra = { "linkml_meta": {'alias': 'therapeuticActionability',
+         'annotations': {'prompt': {'tag': 'prompt',
+                                    'value': 'The therapeutic actionability of the '
+                                             'variant. Must be one of the following: '
+                                             'ACTIONABLE, NOT_ACTIONABLE, or '
+                                             'UNKNOWN_ACTIONABILITY.'}},
+         'domain_of': ['VariantInterpretation']} })
+    variationDescriptor: Optional[VariationDescriptor] = Field(None, description="""A descriptor of the variant.""", json_schema_extra = { "linkml_meta": {'alias': 'variationDescriptor',
+         'annotations': {'prompt': {'tag': 'prompt',
+                                    'value': 'A description of the variant. This '
+                                             'should include the following, as '
+                                             'available: the allelic state, any '
+                                             'alternate labels of the variant, a brief '
+                                             'description of the variant, and any '
+                                             'additional information about the '
+                                             'variant.'}},
+         'domain_of': ['VariantInterpretation']} })
 
 
 class Individual(ConfiguredBaseModel):
@@ -1491,7 +1585,9 @@ class Measurement(ConfiguredBaseModel):
                                              'measurement. This should include the '
                                              'name of the procedure, the name of the '
                                              'body site, and the time the procedure '
-                                             'was performed, if known.'}},
+                                             'was performed, if known. If the '
+                                             'procedure is not specified, use the same '
+                                             'value as the assay field.'}},
          'domain_of': ['Biosample', 'Measurement', 'MedicalAction']} })
     timeObserved: Optional[str] = Field(None, description="""The time at which the measurement was made""", json_schema_extra = { "linkml_meta": {'alias': 'timeObserved',
          'annotations': {'prompt': {'tag': 'prompt',
@@ -1892,11 +1988,34 @@ class GeneDescriptor(ConfiguredBaseModel):
 
 
 class VariationDescriptor(ConfiguredBaseModel):
+    """
+    Variation descriptions.
+    """
     linkml_meta: ClassVar[LinkMLMeta] = LinkMLMeta({'from_schema': 'http://w3id.org/ontogpt/phenopackets'})
 
-    allelicState: Optional[OntologyClass] = Field(None, description="""We RECOMMEND that the allelic_state of variant be described by terms from the Genotype Ontology (GENO). These SHOULD descend from concept GENO:0000875.""", json_schema_extra = { "linkml_meta": {'alias': 'allelicState', 'domain_of': ['VariationDescriptor']} })
-    alternateLabels: Optional[List[str]] = Field(None, description="""Common aliases for a variant, e.g. EGFR vIII, are alternate labels""", json_schema_extra = { "linkml_meta": {'alias': 'alternateLabels', 'domain_of': ['VariationDescriptor']} })
-    description: Optional[str] = Field(None, json_schema_extra = { "linkml_meta": {'alias': 'description',
+    allelicState: Optional[str] = Field(None, description="""We RECOMMEND that the allelic_state of variant be described by terms from the Genotype Ontology (GENO). These SHOULD descend from concept GENO:0000875.""", json_schema_extra = { "linkml_meta": {'alias': 'allelicState',
+         'annotations': {'prompt': {'tag': 'prompt',
+                                    'value': 'The allelic state of the variant, i.e., '
+                                             'the allelic variability at a specific '
+                                             'locus. This may specify zygosity (such '
+                                             'as whether the allele is homozygous or '
+                                             'heterozygous) or other allelic states '
+                                             'such as heteroplasmy.'},
+                         'prompt.examples': {'tag': 'prompt.examples',
+                                             'value': 'homozygous; heterozygous'}},
+         'domain_of': ['VariationDescriptor']} })
+    alternateLabels: Optional[List[str]] = Field(None, description="""Common aliases for a variant, e.g. EGFR vIII, are alternate labels""", json_schema_extra = { "linkml_meta": {'alias': 'alternateLabels',
+         'annotations': {'prompt': {'tag': 'prompt',
+                                    'value': 'A semicolon-delimited list of common '
+                                             'aliases for a variation.'},
+                         'prompt.examples': {'tag': 'prompt.examples',
+                                             'value': 'EGFR vIII'}},
+         'domain_of': ['VariationDescriptor']} })
+    description: Optional[str] = Field(None, description="""A description of the variant.""", json_schema_extra = { "linkml_meta": {'alias': 'description',
+         'annotations': {'prompt': {'tag': 'prompt',
+                                    'value': 'A free-text description of the variant. '
+                                             'This should be a description of the '
+                                             'variant, not the variation itself.'}},
          'domain_of': ['Cohort',
                        'ExternalReference',
                        'Biosample',
@@ -1904,11 +2023,29 @@ class VariationDescriptor(ConfiguredBaseModel):
                        'PhenotypicFeature',
                        'GeneDescriptor',
                        'VariationDescriptor']} })
-    expressions: Optional[List[Expression]] = Field(None, description="""HGVS, SPDI, and gnomAD-style strings should be represented as Expressions""", json_schema_extra = { "linkml_meta": {'alias': 'expressions', 'domain_of': ['VariationDescriptor']} })
-    extensions: Optional[List[Extension]] = Field(None, json_schema_extra = { "linkml_meta": {'alias': 'extensions', 'domain_of': ['VariationDescriptor']} })
-    geneContext: Optional[GeneDescriptor] = Field(None, description="""A specific gene context that applies to this variant.""", json_schema_extra = { "linkml_meta": {'alias': 'geneContext', 'domain_of': ['VariationDescriptor']} })
-    id: Optional[str] = Field(None, json_schema_extra = { "linkml_meta": {'alias': 'id',
-         'annotations': {'percent_encoded': {'tag': 'percent_encoded', 'value': True}},
+    expressions: Optional[List[str]] = Field(None, description="""HGVS, SPDI, and gnomAD-style strings should be represented as Expressions""", json_schema_extra = { "linkml_meta": {'alias': 'expressions',
+         'annotations': {'prompt': {'tag': 'prompt',
+                                    'value': 'A semicolon-delimited list of '
+                                             'expressions for the variant, in a string '
+                                             'representation such as the Human Genome '
+                                             'Variation Society (HGVS) nomenclature.'},
+                         'prompt.examples': {'tag': 'prompt.examples',
+                                             'value': 'NM_000256.3:c.1504C>T'}},
+         'domain_of': ['VariationDescriptor']} })
+    extensions: Optional[List[str]] = Field(None, description="""Extension field for the variant.""", json_schema_extra = { "linkml_meta": {'alias': 'extensions',
+         'annotations': {'prompt': {'tag': 'prompt',
+                                    'value': 'A semicolon-delimited list of extensions '
+                                             'for the variant.'}},
+         'domain_of': ['VariationDescriptor']} })
+    geneContext: Optional[str] = Field(None, description="""A specific gene context that applies to this variant.""", json_schema_extra = { "linkml_meta": {'alias': 'geneContext',
+         'annotations': {'prompt': {'tag': 'prompt',
+                                    'value': 'A specific gene context that applies to '
+                                             'this variant.'}},
+         'domain_of': ['VariationDescriptor']} })
+    id: Optional[str] = Field(None, description="""identifier for the variant, specific to this phenopacket.""", json_schema_extra = { "linkml_meta": {'alias': 'id',
+         'annotations': {'prompt': {'tag': 'prompt',
+                                    'value': 'An identifier for the variant, specific '
+                                             'to this phenopacket.'}},
          'domain_of': ['NamedEntity',
                        'Publication',
                        'Phenopacket',
@@ -1928,14 +2065,53 @@ class VariationDescriptor(ConfiguredBaseModel):
                        'Member',
                        'SequenceLocation',
                        'Text']} })
-    label: Optional[str] = Field(None, json_schema_extra = { "linkml_meta": {'alias': 'label',
+    label: Optional[str] = Field(None, description="""A label for this variant.""", json_schema_extra = { "linkml_meta": {'alias': 'label',
+         'annotations': {'prompt': {'tag': 'prompt',
+                                    'value': 'A label for this variant. This should be '
+                                             'a human-readable string that describes '
+                                             'the variant.'}},
          'domain_of': ['NamedEntity', 'OntologyClass', 'VariationDescriptor']} })
-    moleculeContext: Optional[MoleculeContext] = Field(None, description="""The molecular context of the vrs variation. Must be one of “genomic”, “transcript”, or “protein”. Defaults to \"unspecified_molecule_context\"""", json_schema_extra = { "linkml_meta": {'alias': 'moleculeContext', 'domain_of': ['VariationDescriptor']} })
-    structuralType: Optional[OntologyClass] = Field(None, description="""The structural variant type associated with this variant, such as a substitution, deletion, or fusion. We RECOMMEND using a descendent term of SO:0001537.""", json_schema_extra = { "linkml_meta": {'alias': 'structuralType', 'domain_of': ['VariationDescriptor']} })
-    variation: Optional[Variation] = Field(None, json_schema_extra = { "linkml_meta": {'alias': 'variation', 'domain_of': ['VariationDescriptor']} })
-    vcfRecord: Optional[VcfRecord] = Field(None, description="""A VCF Record of the variant. This SHOULD be a single allele, the VCF genotype (GT) field should be represented in the allelic_state""", json_schema_extra = { "linkml_meta": {'alias': 'vcfRecord', 'domain_of': ['VariationDescriptor']} })
-    vrsRefAlleleSeq: Optional[str] = Field(None, description="""A Sequence corresponding to a “ref allele”, describing the sequence expected at a SequenceLocation reference.""", json_schema_extra = { "linkml_meta": {'alias': 'vrsRefAlleleSeq', 'domain_of': ['VariationDescriptor']} })
-    xrefs: Optional[List[str]] = Field(None, description="""Allele registry, ClinVar, or other related IDs should be included as xrefs""", json_schema_extra = { "linkml_meta": {'alias': 'xrefs', 'domain_of': ['GeneDescriptor', 'VariationDescriptor']} })
+    moleculeContext: Optional[str] = Field(None, description="""The molecular context of the vrs variation. Must be one of “genomic”, “transcript”, or “protein”. Defaults to \"unspecified_molecule_context\"""", json_schema_extra = { "linkml_meta": {'alias': 'moleculeContext',
+         'annotations': {'prompt': {'tag': 'prompt',
+                                    'value': 'The molecular context of the variant. '
+                                             'Must be one of "genomic", "transcript", '
+                                             '"protein", or '
+                                             '"unspecified_molecule_context".'}},
+         'domain_of': ['VariationDescriptor']} })
+    structuralType: Optional[str] = Field(None, description="""The structural variant type associated with this variant, such as a substitution, deletion, or fusion. We RECOMMEND using a descendent term of SO:0001537.""", json_schema_extra = { "linkml_meta": {'alias': 'structuralType',
+         'annotations': {'prompt': {'tag': 'prompt',
+                                    'value': 'The structural variant type associated '
+                                             'with this variant.'},
+                         'prompt.examples': {'tag': 'prompt.examples',
+                                             'value': 'substitution; deletion; '
+                                                      'fusion'}},
+         'domain_of': ['VariationDescriptor']} })
+    variation: Optional[str] = Field(None, description="""Details on the variation, including its membership in a set of alleles.""", json_schema_extra = { "linkml_meta": {'alias': 'variation',
+         'annotations': {'prompt': {'tag': 'prompt',
+                                    'value': 'Details on the variation, including its '
+                                             'membership in a set of alleles.'}},
+         'domain_of': ['VariationDescriptor']} })
+    vcfRecord: Optional[str] = Field(None, description="""A VCF Record of the variant. This SHOULD be a single allele, the VCF genotype (GT) field should be represented in the allelic_state""", json_schema_extra = { "linkml_meta": {'alias': 'vcfRecord',
+         'annotations': {'prompt': {'tag': 'prompt',
+                                    'value': 'A VCF Record of the variant. This should '
+                                             'be a single allele. The VCF genotype '
+                                             '(GT) field should be represented in the '
+                                             'allelic_state.'}},
+         'domain_of': ['VariationDescriptor']} })
+    vrsRefAlleleSeq: Optional[str] = Field(None, description="""A Sequence corresponding to a “ref allele”, describing the sequence expected at a SequenceLocation reference.""", json_schema_extra = { "linkml_meta": {'alias': 'vrsRefAlleleSeq',
+         'annotations': {'prompt': {'tag': 'prompt',
+                                    'value': 'A Sequence corresponding to a “ref '
+                                             'allele”, describing the sequence '
+                                             'expected at a SequenceLocation '
+                                             'reference.'}},
+         'domain_of': ['VariationDescriptor']} })
+    xrefs: Optional[List[str]] = Field(None, description="""Allele registry, ClinVar, or other related IDs should be included as xrefs""", json_schema_extra = { "linkml_meta": {'alias': 'xrefs',
+         'annotations': {'prompt': {'tag': 'prompt',
+                                    'value': 'A semicolon-delimited list of related '
+                                             'IDs for the variant.'},
+                         'prompt.examples': {'tag': 'prompt.examples',
+                                             'value': 'ClinVar:12345; dbSNP:rs12345'}},
+         'domain_of': ['GeneDescriptor', 'VariationDescriptor']} })
 
 
 class VcfRecord(ConfiguredBaseModel):

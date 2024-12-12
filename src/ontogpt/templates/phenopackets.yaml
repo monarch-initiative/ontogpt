@@ -172,15 +172,16 @@ classes:
       interpretations:
         description: >-
           Interpretations of the phenopacket
-        # range: Interpretation
-        range: string
+        range: Interpretation
         multivalued: true
-        # inlined: true
+        inlined: true
         annotations:
           prompt: >-
             A semicolon-separated list of interpretations of the input text,
             primarily any diagnoses and summaries of patient status.
-            If this is not provided, write only "NA".
+            Include the individual's identifier.
+            If no interpretations are provided in the input text,
+            do not provide a value for this field.
       diseases:
         description: >-
           Field for disease identifiers - could be used for listing either
@@ -1030,15 +1031,20 @@ classes:
   # core/interpretation
 
   Diagnosis:
-    description: ""
+    description: Diagnosis of clinical findings.
     attributes:
       disease:
         description: >-
           The disease/condition assigned to the diagnosis.
           Details about this disease may be contained in the `diseases` field
           in the Phenopacket.
-        inlined: true
-        range: OntologyClass
+        # inlined: true
+        # range: OntologyClass
+        range: string
+        annotations:
+          prompt: >-
+            The disease or condition assigned to the diagnosis,
+            identified by name.
       genomicInterpretations:
         description: >-
           genomic features containing the status of their contribution towards
@@ -1046,6 +1052,15 @@ classes:
         inlined_as_list: true
         multivalued: true
         range: GenomicInterpretation
+        annotations:
+          prompt: >-
+            A semicolon-separated list of genomic features containing the
+            status of their contribution towards the diagnosis.
+            Include the following information as available: the identifier
+            of the individual or biosample, the gene implicated in the
+            diagnosis, the status of the interpretation, and any details
+            describing interpretation of the variant.
+            If no genomic features are specified, do not include a value.
 
   GenomicInterpretation:
     description: >-
@@ -1054,20 +1069,43 @@ classes:
       knowledge or results of specific computations.
     attributes:
       gene:
-        description: ""
-        inlined: true
-        range: GeneDescriptor
+        description: A specific gene implicated in a phenotype.
+        # inlined: true
+        # range: GeneDescriptor
+        range: string
+        annotations:
+          prompt: >-
+            A specific gene implicated in a phenotype.
+            This should be a human-readable name.
       interpretationStatus:
-        description: ""
+        description: Status of the interpretation.
         range: InterpretationStatus
+        annotations:
+          prompt: >-
+            The status of the interpretation.
+            Must be one of the following: CANDIDATE, CAUSATIVE,
+            CONTRIBUTORY, REJECTED, or UNKNOWN_STATUS.
       subjectOrBiosampleId:
         description: >-
           identifier for the subject of the interpretation. This MUST be the
           individual id or a biosample id of the enclosing phenopacket.
         range: string
+        annotations:
+          prompt: >-
+            An identifier for the subject of the interpretation.
+            This MUST be identical to the provided individual id or
+            a biosample id.
       variantInterpretation:
-        description: ""
+        description: Interpretation of the genetic variant.
         range: VariantInterpretation
+        annotations:
+          prompt: >-
+            Interpretation of the genetic variant.
+            Include the following, as available:
+            the ACMG pathogenicity classification, the therapeutic
+            actionability, and the variation descriptor.
+            If none of this is specified, do not include a
+            value for this field.
     rules:
       - postconditions:
           exactly_one_of:
@@ -1083,27 +1121,30 @@ classes:
     attributes:
       diagnosis:
         description: The diagnosis made in this interpretation.
-        # range: Diagnosis
-        range: string
+        range: Diagnosis
         annotations:
           prompt: >-
             The diagnosis made in this interpretation.
-            This should be a human-readable label.
-      id: # TODO: fix this, it isn't making unique IDs
+            Include the following, as available:
+            the name of the disease or condition with all
+            acronyms spelled out, the identifier of the individual
+            or biosample, and any details regarding genetic or
+            genomic interpretation (including the gene, the status
+            of the genetic interpretation, and/or any details regarding
+            the specific variant). Include this information even
+            if it is also present in the summary field.
+      id:
         description: id of the interpretation
         range: string
-        identifier: true
         annotations:
           prompt: >-
-            An identifier for the interpretation. This must be unique
-            within the phenopacket but may be a single integer.
-          percent_encoded: true
-        comments:
-          - Must be generated
+            A unique identifier for the interpretation. This must be unique
+            within the phenopacket but may be based on the individual's
+            identifier. For example, if the individual's identifier is
+            "Patient1", the interpretation id may be "Patient1_Interpretation1".
       progressStatus:
         description: The status of the interpretation.
-        # range: ProgressStatus
-        range: string
+        range: ProgressStatus
         annotations:
           prompt: >-
             The status of the interpretation.
@@ -1112,19 +1153,39 @@ classes:
       summary:
         description: A brief summary of the interpretation.
         range: string
+        annotations:
+          prompt: >-
+            A brief summary of the interpretation.
 
   VariantInterpretation:
-    description: ""
+    description: Interpretation of a genetic variant.
     attributes:
       acmgPathogenicityClassification:
-        description: ""
+        description: ACMG pathogenicity classification.
         range: AcmgPathogenicityClassification
+        annotations:
+          prompt: >-
+            The ACMG pathogenicity classification of the variant.
+            Must be one of the following: BENIGN, LIKELY_BENIGN,
+            LIKELY_PATHOGENIC, PATHOGENIC, UNCERTAIN_SIGNIFICANCE,
+            or NOT_PROVIDED.
       therapeuticActionability:
-        description: ""
+        description: Therapeutic actionability of the variant.
         range: TherapeuticActionability
+        annotations:
+          prompt: >-
+            The therapeutic actionability of the variant.
+            Must be one of the following: ACTIONABLE, NOT_ACTIONABLE,
+            or UNKNOWN_ACTIONABILITY.
       variationDescriptor:
-        description: ""
+        description: A descriptor of the variant.
         range: VariationDescriptor
+        annotations:
+          prompt: >-
+            A description of the variant. This should include the
+            following, as available: the allelic state, any alternate
+            labels of the variant, a brief description of the variant,
+            and any additional information about the variant.
 
   # core/individual
 
@@ -1363,7 +1424,8 @@ classes:
             The clinical procedure performed on the subject in order to
             produce the measurement. This should include the name of the
             procedure, the name of the body site, and the time the procedure
-            was performed, if known.
+            was performed, if known. If the procedure is not specified,
+            use the same value as the assay field.
       timeObserved:
         description: The time at which the measurement was made
         inlined: true
@@ -1992,71 +2054,139 @@ classes:
           from the Genotype Ontology (GENO). These SHOULD descend from concept
           GENO:0000875.
         inlined: true
-        range: OntologyClass
+        # range: OntologyClass
+        range: string
+        annotations:
+          prompt: >-
+            The allelic state of the variant, i.e., the allelic variability
+            at a specific locus. This may specify zygosity (such as whether
+            the allele is homozygous or heterozygous) or other allelic
+            states such as heteroplasmy.
+          prompt.examples: homozygous; heterozygous
       alternateLabels:
         description: >-
           Common aliases for a variant, e.g. EGFR vIII, are alternate labels
         multivalued: true
         range: string
+        annotations:
+          prompt: >-
+            A semicolon-delimited list of common aliases for a variation.
+          prompt.examples: EGFR vIII
       description:
-        description: ""
+        description: A description of the variant.
         range: string
+        annotations:
+          prompt: >-
+            A free-text description of the variant. This should be a
+            description of the variant, not the variation itself.
       expressions:
         description: >-
           HGVS, SPDI, and gnomAD-style strings should be represented as
           Expressions
-        inlined_as_list: true
+        # inlined_as_list: true
         multivalued: true
-        range: Expression
+        # range: Expression
+        range: string
+        annotations:
+          prompt: >-
+            A semicolon-delimited list of expressions for the variant,
+            in a string representation such as the Human Genome Variation
+            Society (HGVS) nomenclature.
+          prompt.examples: NM_000256.3:c.1504C>T
       extensions:
-        description: ""
+        description: Extension field for the variant.
         inlined_as_list: true
         multivalued: true
-        range: Extension
+        # range: Extension
+        range: string
+        annotations:
+          prompt: >-
+            A semicolon-delimited list of extensions for the variant.
       geneContext:
         description: A specific gene context that applies to this variant.
         inlined: true
-        range: GeneDescriptor
+        # range: GeneDescriptor
+        range: string
+        annotations:
+          prompt: >-
+            A specific gene context that applies to this variant.
       id:
         annotations:
-          percent_encoded: true
-        description: ""
+          prompt: >-
+            An identifier for the variant, specific to this phenopacket.
+        description: >-
+          identifier for the variant, specific to this phenopacket.
         range: string
       label:
-        description: ""
+        description: A label for this variant.
         range: string
+        annotations:
+          prompt: >-
+            A label for this variant. This should be a human-readable
+            string that describes the variant.
       moleculeContext:
         description: >-
           The molecular context of the vrs variation. Must be one of “genomic”,
           “transcript”, or “protein”. Defaults to "unspecified_molecule_context"
-        range: MoleculeContext
+        # range: MoleculeContext
+        range: string
+        annotations:
+          prompt: >-
+            The molecular context of the variant. Must be one of "genomic",
+            "transcript", "protein", or "unspecified_molecule_context".
       structuralType:
         description: >-
           The structural variant type associated with this variant, such as a
           substitution, deletion, or fusion. We RECOMMEND using a descendent
           term of SO:0001537.
         inlined: true
-        range: OntologyClass
+        # range: OntologyClass
+        range: string
+        annotations:
+          prompt: >-
+            The structural variant type associated with this variant.
+          prompt.examples: substitution; deletion; fusion
       variation:
-        description: ""
-        range: Variation
+        description: >-
+          Details on the variation, including its membership in a set
+          of alleles.
+        # range: Variation
+        range: string
+        annotations:
+          prompt: >-
+            Details on the variation, including its membership in a set
+            of alleles.
       vcfRecord:
         description: >-
           A VCF Record of the variant. This SHOULD be a single allele, the VCF
           genotype (GT) field should be represented in the allelic_state
-        range: VcfRecord
+        # range: VcfRecord
+        range: string
+        annotations:
+          prompt: >-
+            A VCF Record of the variant. This should be a single allele.
+            The VCF genotype (GT) field should be represented in the
+            allelic_state.
       vrsRefAlleleSeq:
         description: >-
           A Sequence corresponding to a “ref allele”, describing the sequence
           expected at a SequenceLocation reference.
         range: string
+        annotations:
+          prompt: >-
+            A Sequence corresponding to a “ref allele”, describing the sequence
+            expected at a SequenceLocation reference.
       xrefs:
         description: >-
           Allele registry, ClinVar, or other related IDs should be included as
           xrefs
         multivalued: true
         range: string
-    description: ""
+        annotations:
+          prompt: >-
+            A semicolon-delimited list of related IDs for the variant.
+          prompt.examples: ClinVar:12345; dbSNP:rs12345
+    description: Variation descriptions.
 
   VcfRecord:
     attributes:
@@ -2748,7 +2878,9 @@ enums:
   # core/interpretation
 
   AcmgPathogenicityClassification:
-    description: ""
+    description: >-
+      ACMG Pathogenicity Classification of a genetic interpretation.
+      See doi:10.1038/gim.2015.30
     permissible_values:
       BENIGN:
         description: ""
@@ -2763,7 +2895,7 @@ enums:
       UNCERTAIN_SIGNIFICANCE:
         description: ""
   InterpretationStatus:
-    description: ""
+    description: Status of a genetic interpretation.
     permissible_values:
       CANDIDATE:
         description: ""
@@ -2789,7 +2921,7 @@ enums:
       UNSOLVED:
         description: ""
   TherapeuticActionability:
-    description: ""
+    description: Therapeutic actionability of an interpretation.
     permissible_values:
       ACTIONABLE:
         description: ""
