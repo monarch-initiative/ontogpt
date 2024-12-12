@@ -708,8 +708,9 @@ classes:
           prompt: >-
             The pathologist’s diagnosis of the biosample. This should use the
             same terminology as the diagnosis, but represent the pathologist’s
-            findings. If this is not provided, write only "NA". Normal samples
-            should be described here with the term "Negative Finding".
+            findings. If this is not provided, do not provide a value.
+            Normal samples should be described here with the term
+            "Negative Finding".
       id:
         annotations:
           percent_encoded: true
@@ -755,7 +756,7 @@ classes:
             The status of the sample. For instance, a status may be used as a
             normal control, often in combination with another sample that is
             thought to contain a pathological finding. If this is not provided,
-            write only "NA".
+            do not include a value.
           prompt.examples: reference sample; abnormal sample
       measurements:
         description: Measurements obtained for the sample.
@@ -782,7 +783,7 @@ classes:
         annotations:
           prompt: >-
             The pathological stage of the biosample. If this is not provided,
-            write only "NA".
+            do not include a value.
       pathologicalTnmFinding:
         description: >-
           ARGO mapping specimen::pathological_t_category ARGO mapping
@@ -798,7 +799,7 @@ classes:
           prompt: >-
             A semicolon-separated list of cancer findings in the TNM system
             that are relevant to the diagnosis of cancer. If this is not
-            provided, write only "NA".
+            provided, do not include a value.
       phenotypicFeatures:
         description: >-
           Phenotypic characteristics of the BioSample, for example histological
@@ -829,7 +830,8 @@ classes:
         annotations:
           prompt: >-
             The clinical procedure performed on the subject in order to extract
-            the biosample. If this is not provided, write only "NA".
+            the biosample. If this is not provided, do not include
+            a value.
       sampleProcessing:
         description: >-
           Field to represent how the sample was processed. ARGO mapping
@@ -842,7 +844,7 @@ classes:
         annotations:
           prompt: >-
             Field to represent how the sample was processed. If this is not
-            provided, write only "NA".
+            provided, do not include a value.
       sampleStorage:
         description: >-
           Field to represent how the sample was stored ARGO mapping
@@ -855,7 +857,7 @@ classes:
         annotations:
           prompt: >-
             Field to represent how the sample was stored. If this is not
-            provided, write only "NA".
+            provided, do not include a value.
       sampleType:
         description: >-
           Recommended use of EFO term to describe the sample. e.g.
@@ -868,7 +870,8 @@ classes:
         range: string
         annotations:
           prompt: >-
-            The type of the sample. If this is not provided, write only "NA".
+            The type of the sample. If this is not provided,
+            do not include a value.
           prompt.examples: >-
             Amplified DNA; ctDNA; Total RNA; Lung tissue; Cultured cells
       sampledTissue:
@@ -885,7 +888,7 @@ classes:
         annotations:
           prompt: >-
             The tissue from which the specimen was collected. If this is not
-            provided, write only "NA".
+            provided, do not include a value.
       taxonomy:
         description: >-
           NCBI taxonomic identifier (NCBITaxon) of the sample e.g.
@@ -910,7 +913,7 @@ classes:
         annotations:
           prompt: >-
             The time of collection of the biosample. If this is not provided,
-            write only "NA".
+            do not include a value.
       tumorGrade:
         description: >-
           Potentially a child term of NCIT:C28076 (Disease Grade Qualifier) or
@@ -921,7 +924,8 @@ classes:
         range: string
         annotations:
           prompt: >-
-            The grade of the tumor. If this is not provided, write only "NA".
+            The grade of the tumor. If this is not provided, do not include
+            a value.
       tumorProgression:
         description: >-
           Is the specimen tissue from the primary tumor, a metastasis or a
@@ -936,7 +940,7 @@ classes:
         annotations:
           prompt: >-
             Is the specimen tissue from the primary tumor, a metastasis or a
-            recurrence? If this is not provided, write only "NA".
+            recurrence? If this is not provided, do not include a value.
           prompt.examples: >-
             Benign Neoplasm; Primary Malignant Neoplasm; Second Primary
             Malignant Neoplasm; Metastatic Neoplasm; Recurrent Malignant
