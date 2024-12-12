@@ -147,11 +147,11 @@ classes:
         annotations:
           prompt: >-
             A semicolon-separated list of measurements taken from the individual
-            or biosample. If this is not provided, write only "NA".
-            Include the following information as available: the name
-            of the assay or test performed, the value of the result, a
-            free-text description of the result, and the time when the
-            measurement was made.
+            or biosample. If no measurements are described, do not provide any
+            values for this field. Include the following information as
+            available: the name of the assay or test performed, the value of
+            the result, a free-text description of the result, and the time
+            when the measurement was made.
       biosample:
         description: >-
           Biosample(s) derived from the patient or a collection of biosamples
@@ -162,13 +162,13 @@ classes:
         annotations:
           prompt: >-
             A semicolon-separated list of biosamples from which the phenopacket
-            was derived. If this is not provided, write only "NA". Include the
-            following information as available: the identifier of the individual
-            or source of this sample, a description of the biosample,
-            the overall type of the sample, the tissue of the sample,
-            presence of any biomarkers, a histological diagnosis (including
-            any negative or inconclusive findings), procedures performed to
-            extract or process the sample
+            was derived. If no biosamples are described, do not provide values
+            for this field. Include the following information as available:
+            the identifier of the individual or source of this sample, a
+            description of the biosample, the overall type of the sample, the
+            tissue of the sample, presence of any biomarkers, a histological
+            diagnosis (including any negative or inconclusive findings),
+            procedures performed to extract or process the sample
       interpretations:
         description: >-
           Interpretations of the phenopacket
@@ -212,7 +212,7 @@ classes:
         annotations:
           prompt: >-
             A semicolon-separated list of medical actions taken or planned.
-            If this is not provided, write only "NA".
+            If this is not provided, do not include a value for this field.
       files:
         description: >-
           Pointer to the relevant file(s) for the individual
@@ -223,7 +223,8 @@ classes:
         annotations:
           prompt: >-
             A semicolon-separated list of file identifiers specified in the
-            input text. If this is not provided, write only "NA".
+            input text. If this is not provided, do not include a value for
+            this field.
       meta_data:
         description: >-
           Structured definitions of the resources and ontologies used within
@@ -646,7 +647,8 @@ classes:
         annotations:
           prompt: >-
             A unique identifier for the parent biosample of this biosample,
-            if applicable. If this is not provided, write only "NA".
+            if applicable. If this is not provided, do not include a value
+            for this field.
       description:
         description: >-
           The biosample's description. This attribute contains human readable
@@ -670,7 +672,7 @@ classes:
             markers observed in the sample, along with their status (e.g.,
             Positive, present, etc.) including observations of laboratory
             procedures performed on the sample. If this is not provided,
-            write only "NA".
+            do not include a value for this field.
           prompt.examples: HER2/Neu Positive; Human Papillomavirus-18 Positive
         inlined_as_list: true
         multivalued: true
@@ -683,11 +685,12 @@ classes:
         # range: File
         inlined_as_list: true
         multivalued: true
+        range: string
         annotations:
           prompt: >-
             A semicolon-separated list of file identifiers specified in the
             input text, relating to the biosample. If this is not provided,
-            write only "NA".
+            do not include a value for this field.
       histologicalDiagnosis:
         description: >-
           This is the pathologist’s diagnosis and may often represent a
@@ -712,8 +715,9 @@ classes:
           percent_encoded: true
           prompt: >-
             A unique identifier for the biosample. If one is not available,
-            create an identifier. Do not use a name or other
-            personally identifying information.
+            create an identifier incorporating the individual's identifier,
+            e.g. if the individual's identifier is "Patient1", the biosample
+            id may be "Patient1_Biosample1".
         description: >-
           biosamples SAMN08666232 Human Cell Atlas The Biosample id
           This is unique in the context of the server instance.
@@ -761,7 +765,7 @@ classes:
         annotations:
           prompt: >-
             A semicolon-separated list of measurements taken from the biosample.
-            If this is not provided, write only "NA".
+            If this is not provided, do not provide any values for this field.
             Include the following information as available: the name
             of the assay or test performed, the value of the result, a
             free-text description of the result, and the time when the
@@ -892,7 +896,7 @@ classes:
         annotations:
           prompt: >-
             The NCBI taxonomic identifier of the sample. If this is not
-            provided, write only "NA". Human samples should always be
+            provided, do not include a value. Human samples should always be
             annotated with NCBITaxon:9606, though organisms isolated
             from human samples may have different taxonomic identifiers.
       timeOfCollection:

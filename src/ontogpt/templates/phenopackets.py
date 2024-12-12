@@ -509,8 +509,9 @@ class Phenopacket(ConfiguredBaseModel):
          'annotations': {'prompt': {'tag': 'prompt',
                                     'value': 'A semicolon-separated list of '
                                              'measurements taken from the individual '
-                                             'or biosample. If this is not provided, '
-                                             'write only "NA". Include the following '
+                                             'or biosample. If no measurements are '
+                                             'described, do not provide any values for '
+                                             'this field. Include the following '
                                              'information as available: the name of '
                                              'the assay or test performed, the value '
                                              'of the result, a free-text description '
@@ -521,17 +522,18 @@ class Phenopacket(ConfiguredBaseModel):
          'annotations': {'prompt': {'tag': 'prompt',
                                     'value': 'A semicolon-separated list of biosamples '
                                              'from which the phenopacket was derived. '
-                                             'If this is not provided, write only '
-                                             '"NA". Include the following information '
-                                             'as available: the identifier of the '
-                                             'individual or source of this sample, a '
-                                             'description of the biosample, the '
-                                             'overall type of the sample, the tissue '
-                                             'of the sample, presence of any '
-                                             'biomarkers, a histological diagnosis '
-                                             '(including any negative or inconclusive '
-                                             'findings), procedures performed to '
-                                             'extract or process the sample'}},
+                                             'If no biosamples are described, do not '
+                                             'provide values for this field. Include '
+                                             'the following information as available: '
+                                             'the identifier of the individual or '
+                                             'source of this sample, a description of '
+                                             'the biosample, the overall type of the '
+                                             'sample, the tissue of the sample, '
+                                             'presence of any biomarkers, a '
+                                             'histological diagnosis (including any '
+                                             'negative or inconclusive findings), '
+                                             'procedures performed to extract or '
+                                             'process the sample'}},
          'domain_of': ['Phenopacket']} })
     interpretations: Optional[List[str]] = Field(None, description="""Interpretations of the phenopacket""", json_schema_extra = { "linkml_meta": {'alias': 'interpretations',
          'annotations': {'prompt': {'tag': 'prompt',
@@ -560,14 +562,15 @@ class Phenopacket(ConfiguredBaseModel):
          'annotations': {'prompt': {'tag': 'prompt',
                                     'value': 'A semicolon-separated list of medical '
                                              'actions taken or planned. If this is not '
-                                             'provided, write only "NA".'}},
+                                             'provided, do not include a value for '
+                                             'this field.'}},
          'domain_of': ['Phenopacket']} })
     files: Optional[List[str]] = Field(None, description="""Pointer to the relevant file(s) for the individual""", json_schema_extra = { "linkml_meta": {'alias': 'files',
          'annotations': {'prompt': {'tag': 'prompt',
                                     'value': 'A semicolon-separated list of file '
                                              'identifiers specified in the input text. '
-                                             'If this is not provided, write only '
-                                             '"NA".'}},
+                                             'If this is not provided, do not include '
+                                             'a value for this field.'}},
          'domain_of': ['Phenopacket', 'Family', 'Cohort', 'Biosample']} })
     meta_data: str = Field(..., description="""Structured definitions of the resources and ontologies used within the phenopacket. REQUIRED""", json_schema_extra = { "linkml_meta": {'alias': 'meta_data',
          'annotations': {'prompt': {'tag': 'prompt',
@@ -951,8 +954,8 @@ class Biosample(ConfiguredBaseModel):
          'annotations': {'prompt': {'tag': 'prompt',
                                     'value': 'A unique identifier for the parent '
                                              'biosample of this biosample, if '
-                                             'applicable. If this is not provided, '
-                                             'write only "NA".'}},
+                                             'applicable. If this is not provided, do '
+                                             'not include a value for this field.'}},
          'domain_of': ['Biosample']} })
     description: Optional[str] = Field(None, description="""The biosample's description. This attribute contains human readable text. The \"description\" attributes should not contain any structured data.""", json_schema_extra = { "linkml_meta": {'alias': 'description',
          'annotations': {'prompt': {'tag': 'prompt',
@@ -973,7 +976,8 @@ class Biosample(ConfiguredBaseModel):
                                              '(e.g., Positive, present, etc.) '
                                              'including observations of laboratory '
                                              'procedures performed on the sample. If '
-                                             'this is not provided, write only "NA".'},
+                                             'this is not provided, do not include a '
+                                             'value for this field.'},
                          'prompt.examples': {'tag': 'prompt.examples',
                                              'value': 'HER2/Neu Positive; Human '
                                                       'Papillomavirus-18 Positive'}},
@@ -983,7 +987,8 @@ class Biosample(ConfiguredBaseModel):
                                     'value': 'A semicolon-separated list of file '
                                              'identifiers specified in the input text, '
                                              'relating to the biosample. If this is '
-                                             'not provided, write only "NA".'}},
+                                             'not provided, do not include a value for '
+                                             'this field.'}},
          'domain_of': ['Phenopacket', 'Family', 'Cohort', 'Biosample']} })
     histologicalDiagnosis: Optional[str] = Field(None, description="""This is the pathologist’s diagnosis and may often represent a refinement of the clinical diagnosis given in the Patient/Clinical module. Should use the same terminology as diagnosis, but represent the pathologist’s findings. Normal samples would be tagged with the term \"NCIT:C38757\", \"Negative Finding\" ARGO mapping specimen::tumour_histological_type""", json_schema_extra = { "linkml_meta": {'alias': 'histologicalDiagnosis',
          'annotations': {'prompt': {'tag': 'prompt',
@@ -1001,8 +1006,11 @@ class Biosample(ConfiguredBaseModel):
                          'prompt': {'tag': 'prompt',
                                     'value': 'A unique identifier for the biosample. '
                                              'If one is not available, create an '
-                                             'identifier. Do not use a name or other '
-                                             'personally identifying information.'}},
+                                             'identifier incorporating the '
+                                             "individual's identifier, e.g. if the "
+                                             'individual\'s identifier is "Patient1", '
+                                             'the biosample id may be '
+                                             '"Patient1_Biosample1".'}},
          'domain_of': ['NamedEntity',
                        'Publication',
                        'Phenopacket',
@@ -1050,13 +1058,13 @@ class Biosample(ConfiguredBaseModel):
          'annotations': {'prompt': {'tag': 'prompt',
                                     'value': 'A semicolon-separated list of '
                                              'measurements taken from the biosample. '
-                                             'If this is not provided, write only '
-                                             '"NA". Include the following information '
-                                             'as available: the name of the assay or '
-                                             'test performed, the value of the result, '
-                                             'a free-text description of the result, '
-                                             'and the time when the measurement was '
-                                             'made.'}},
+                                             'If this is not provided, do not provide '
+                                             'any values for this field. Include the '
+                                             'following information as available: the '
+                                             'name of the assay or test performed, the '
+                                             'value of the result, a free-text '
+                                             'description of the result, and the time '
+                                             'when the measurement was made.'}},
          'domain_of': ['Phenopacket', 'Biosample']} })
     pathologicalStage: Optional[str] = Field(None, description="""ARGO mapping specimen::pathological_tumour_staging_system ARGO mapping specimen::pathological_stage_group""", json_schema_extra = { "linkml_meta": {'alias': 'pathologicalStage',
          'annotations': {'prompt': {'tag': 'prompt',
@@ -1132,11 +1140,11 @@ class Biosample(ConfiguredBaseModel):
     taxonomy: Optional[str] = Field(None, description="""NCBI taxonomic identifier (NCBITaxon) of the sample e.g. NCBITaxon:9606""", json_schema_extra = { "linkml_meta": {'alias': 'taxonomy',
          'annotations': {'prompt': {'tag': 'prompt',
                                     'value': 'The NCBI taxonomic identifier of the '
-                                             'sample. If this is not provided, write '
-                                             'only "NA". Human samples should always '
-                                             'be annotated with NCBITaxon:9606, though '
-                                             'organisms isolated from human samples '
-                                             'may have different taxonomic '
+                                             'sample. If this is not provided, do not '
+                                             'include a value. Human samples should '
+                                             'always be annotated with NCBITaxon:9606, '
+                                             'though organisms isolated from human '
+                                             'samples may have different taxonomic '
                                              'identifiers.'}},
          'domain_of': ['Biosample', 'Individual']} })
     timeOfCollection: Optional[str] = Field(None, description="""An TimeElement describing either the age of the individual this biosample was derived from at the time of collection, or the time itself. See http://build.fhir.org/datatypes""", json_schema_extra = { "linkml_meta": {'alias': 'timeOfCollection',
