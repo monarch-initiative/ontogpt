@@ -42,13 +42,17 @@ class LLMClient:
 
     def __post_init__(self):
         # Get appropriate API key for the model source
-        # and other details if needed
+        # and other details if needed.
+        # This will look at any env vars FIRST,
+        # then configs handled by oaklib.
         if self.model.startswith("ollama"):
             self.api_key = ""  # Don't need an API key
-        if not self.api_key and not self.custom_llm_provider:
+        elif not self.api_key and not self.custom_llm_provider:
             self.api_key = get_apikey_value("openai")
         elif self.custom_llm_provider == "anthropic":
             self.api_key = get_apikey_value("anthropic-key")
+        elif self.custom_llm_provider == "groq":
+            self.api_key = get_apikey_value("groq-key")
         else:
             for service in SERVICES:
                 if self.model.startswith(service):

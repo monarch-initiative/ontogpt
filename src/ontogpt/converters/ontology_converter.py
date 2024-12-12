@@ -1,4 +1,24 @@
-"""Ontology converter."""
+"""Ontology converter.
+
+This module provides functionality for working with ontologies.
+It includes methods to extract seed ontologies,
+convert from an OAK adapter,
+and convert from an OBO Graph.
+
+Classes:
+    OntologyConverter: A class to handle the conversion of an
+    OAK ontology to an OntoGPT schema.
+
+Methods:
+    __post_init__: Initializes the SchemaView with the path to
+    the template.
+    extract_seed_ontology: Extracts an ontology from a given
+    list of seed terms and predicates.
+    from_adapter: Converts an OAK adapter to an Ontology.
+    from_obograph: Converts an OBO Graph to an Ontology.
+    node_to_name: Converts a node to a name using its CURIE
+    and optional label.
+"""
 
 import logging
 from dataclasses import dataclass, field
