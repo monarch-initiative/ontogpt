@@ -517,20 +517,21 @@ class Phenopacket(ConfiguredBaseModel):
                                              'of the result, and the time when the '
                                              'measurement was made.'}},
          'domain_of': ['Phenopacket', 'Biosample']} })
-    biosample: Optional[List[str]] = Field(None, description="""Biosample(s) derived from the patient or a collection of biosamples in isolation""", json_schema_extra = { "linkml_meta": {'alias': 'biosample',
+    biosample: Optional[List[Biosample]] = Field(None, description="""Biosample(s) derived from the patient or a collection of biosamples in isolation""", json_schema_extra = { "linkml_meta": {'alias': 'biosample',
          'annotations': {'prompt': {'tag': 'prompt',
                                     'value': 'A semicolon-separated list of biosamples '
                                              'from which the phenopacket was derived. '
                                              'If this is not provided, write only '
                                              '"NA". Include the following information '
-                                             'as available: a description of the '
-                                             'biosample, the overall type of the '
-                                             'sample, the tissue of the sample, '
-                                             'presence of any biomarkers, a '
-                                             'histological diagnosis (including any '
-                                             'negative or inconclusive findings), '
-                                             'procedures performed to extract or '
-                                             'process the sample'}},
+                                             'as available: the identifier of the '
+                                             'individual or source of this sample, a '
+                                             'description of the biosample, the '
+                                             'overall type of the sample, the tissue '
+                                             'of the sample, presence of any '
+                                             'biomarkers, a histological diagnosis '
+                                             '(including any negative or inconclusive '
+                                             'findings), procedures performed to '
+                                             'extract or process the sample'}},
          'domain_of': ['Phenopacket']} })
     interpretations: Optional[List[str]] = Field(None, description="""Interpretations of the phenopacket""", json_schema_extra = { "linkml_meta": {'alias': 'interpretations',
          'annotations': {'prompt': {'tag': 'prompt',
@@ -949,11 +950,14 @@ class Biosample(ConfiguredBaseModel):
     derivedFromId: Optional[str] = Field(None, description="""The id of the parent biosample this biosample was derived from.""", json_schema_extra = { "linkml_meta": {'alias': 'derivedFromId',
          'annotations': {'prompt': {'tag': 'prompt',
                                     'value': 'A unique identifier for the parent '
-                                             'biosample of this biosample.'}},
+                                             'biosample of this biosample, if '
+                                             'applicable. If this is not provided, '
+                                             'write only "NA".'}},
          'domain_of': ['Biosample']} })
     description: Optional[str] = Field(None, description="""The biosample's description. This attribute contains human readable text. The \"description\" attributes should not contain any structured data.""", json_schema_extra = { "linkml_meta": {'alias': 'description',
          'annotations': {'prompt': {'tag': 'prompt',
-                                    'value': 'Description of the biosample.'}},
+                                    'value': 'Description of the biosample. This '
+                                             'should contain no identifiers.'}},
          'domain_of': ['Cohort',
                        'ExternalReference',
                        'Biosample',
@@ -961,21 +965,44 @@ class Biosample(ConfiguredBaseModel):
                        'PhenotypicFeature',
                        'GeneDescriptor',
                        'VariationDescriptor']} })
-    diagnosticMarkers: Optional[List[OntologyClass]] = Field(None, description="""Clinically relevant bio markers. Most of the assays such as IHC are covered by the NCIT under the sub-hierarchy NCIT:C25294 (Laboratory Procedure). e.g. NCIT:C68748 (HER2/Neu Positive), NCIT:C131711 (Human Papillomavirus-18 Positive)""", json_schema_extra = { "linkml_meta": {'alias': 'diagnosticMarkers',
+    diagnosticMarkers: Optional[List[str]] = Field(None, description="""Clinically relevant bio markers. Most of the assays such as IHC are covered by the NCIT under the sub-hierarchy NCIT:C25294 (Laboratory Procedure). e.g. NCIT:C68748 (HER2/Neu Positive), NCIT:C131711 (Human Papillomavirus-18 Positive)""", json_schema_extra = { "linkml_meta": {'alias': 'diagnosticMarkers',
          'annotations': {'prompt': {'tag': 'prompt',
-                                    'value': 'Description of clinically relevant bio '
-                                             'markers.'},
-                         'prompt.example': {'tag': 'prompt.example',
-                                            'value': 'NCIT:C68748 (HER2/Neu '
-                                                     'Positive)'}},
+                                    'value': 'A semicolon-delimited list of names of '
+                                             'clinically relevant bio markers observed '
+                                             'in the sample, along with their status '
+                                             '(e.g., Positive, present, etc.) '
+                                             'including observations of laboratory '
+                                             'procedures performed on the sample. If '
+                                             'this is not provided, write only "NA".'},
+                         'prompt.examples': {'tag': 'prompt.examples',
+                                             'value': 'HER2/Neu Positive; Human '
+                                                      'Papillomavirus-18 Positive'}},
          'domain_of': ['Biosample']} })
-    files: Optional[List[File]] = Field(None, description="""Pointer to the relevant file(s) for the biosample. Files relating to the entire individual e.g. a germline exome/genome should be associated with the Phenopacket rather than the Biosample it was derived from.""", json_schema_extra = { "linkml_meta": {'alias': 'files',
+    files: Optional[List[str]] = Field(None, description="""Pointer to the relevant file(s) for the biosample. Files relating to the entire individual e.g. a germline exome/genome should be associated with the Phenopacket rather than the Biosample it was derived from.""", json_schema_extra = { "linkml_meta": {'alias': 'files',
+         'annotations': {'prompt': {'tag': 'prompt',
+                                    'value': 'A semicolon-separated list of file '
+                                             'identifiers specified in the input text, '
+                                             'relating to the biosample. If this is '
+                                             'not provided, write only "NA".'}},
          'domain_of': ['Phenopacket', 'Family', 'Cohort', 'Biosample']} })
-    histologicalDiagnosis: Optional[OntologyClass] = Field(None, description="""This is the pathologist’s diagnosis and may often represent a refinement of the clinical diagnosis given in the Patient/Clinical module. Should use the same terminology as diagnosis, but represent the pathologist’s findings. Normal samples would be tagged with the term \"NCIT:C38757\", \"Negative Finding\" ARGO mapping specimen::tumour_histological_type""", json_schema_extra = { "linkml_meta": {'alias': 'histologicalDiagnosis',
+    histologicalDiagnosis: Optional[str] = Field(None, description="""This is the pathologist’s diagnosis and may often represent a refinement of the clinical diagnosis given in the Patient/Clinical module. Should use the same terminology as diagnosis, but represent the pathologist’s findings. Normal samples would be tagged with the term \"NCIT:C38757\", \"Negative Finding\" ARGO mapping specimen::tumour_histological_type""", json_schema_extra = { "linkml_meta": {'alias': 'histologicalDiagnosis',
+         'annotations': {'prompt': {'tag': 'prompt',
+                                    'value': 'The pathologist’s diagnosis of the '
+                                             'biosample. This should use the same '
+                                             'terminology as the diagnosis, but '
+                                             'represent the pathologist’s findings. If '
+                                             'this is not provided, write only "NA". '
+                                             'Normal samples should be described here '
+                                             'with the term "Negative Finding".'}},
          'domain_of': ['Biosample'],
          'exact_mappings': ['ARGO:specimen.tumour_histological_type']} })
     id: Optional[str] = Field(None, description="""biosamples SAMN08666232 Human Cell Atlas The Biosample id This is unique in the context of the server instance. ARGO mapping specimen::submitter_specimen_id""", json_schema_extra = { "linkml_meta": {'alias': 'id',
-         'annotations': {'percent_encoded': {'tag': 'percent_encoded', 'value': True}},
+         'annotations': {'percent_encoded': {'tag': 'percent_encoded', 'value': True},
+                         'prompt': {'tag': 'prompt',
+                                    'value': 'A unique identifier for the biosample. '
+                                             'If one is not available, create an '
+                                             'identifier. Do not use a name or other '
+                                             'personally identifying information.'}},
          'domain_of': ['NamedEntity',
                        'Publication',
                        'Phenopacket',
@@ -997,38 +1024,144 @@ class Biosample(ConfiguredBaseModel):
                        'Text'],
          'exact_mappings': ['ARGO:specimen.submitter_specimen_id']} })
     individualId: Optional[str] = Field(None, description="""The id of the individual this biosample was derived from. ARGO mapping specimen::submitter_donor_id""", json_schema_extra = { "linkml_meta": {'alias': 'individualId',
+         'annotations': {'prompt': {'tag': 'prompt',
+                                    'value': 'A unique identifier for the individual '
+                                             'this biosample was derived from. If '
+                                             'provided directly from an individual or '
+                                             'animal, this field will be the '
+                                             'identifier of that individual or '
+                                             'animal.'}},
          'domain_of': ['Biosample', 'Person'],
          'exact_mappings': ['ARGO:specimen.submitter_donor_id']} })
-    materialSample: Optional[OntologyClass] = Field(None, description="""This element can be used to specify the status of the sample. For instance, a status may be used as a normal control, often in combination with another sample that is thought to contain a pathological finding. We recommend use of ontology terms such as: EFO:0009654 (reference sample) or EFO:0009655 (abnormal sample) ARGO mapping sample_registration::tumour_normal_designation""", json_schema_extra = { "linkml_meta": {'alias': 'materialSample',
+    materialSample: Optional[str] = Field(None, description="""This element can be used to specify the status of the sample. For instance, a status may be used as a normal control, often in combination with another sample that is thought to contain a pathological finding. We recommend use of ontology terms such as: EFO:0009654 (reference sample) or EFO:0009655 (abnormal sample) ARGO mapping sample_registration::tumour_normal_designation""", json_schema_extra = { "linkml_meta": {'alias': 'materialSample',
+         'annotations': {'prompt': {'tag': 'prompt',
+                                    'value': 'The status of the sample. For instance, '
+                                             'a status may be used as a normal '
+                                             'control, often in combination with '
+                                             'another sample that is thought to '
+                                             'contain a pathological finding. If this '
+                                             'is not provided, write only "NA".'},
+                         'prompt.examples': {'tag': 'prompt.examples',
+                                             'value': 'reference sample; abnormal '
+                                                      'sample'}},
          'domain_of': ['Biosample'],
          'exact_mappings': ['ARGO:sample_registration.tumour_normal_designation']} })
-    measurements: Optional[List[Measurement]] = Field(None, description="""Measurements obtained for the sample.""", json_schema_extra = { "linkml_meta": {'alias': 'measurements', 'domain_of': ['Phenopacket', 'Biosample']} })
-    pathologicalStage: Optional[OntologyClass] = Field(None, description="""ARGO mapping specimen::pathological_tumour_staging_system ARGO mapping specimen::pathological_stage_group""", json_schema_extra = { "linkml_meta": {'alias': 'pathologicalStage',
+    measurements: Optional[List[Measurement]] = Field(None, description="""Measurements obtained for the sample.""", json_schema_extra = { "linkml_meta": {'alias': 'measurements',
+         'annotations': {'prompt': {'tag': 'prompt',
+                                    'value': 'A semicolon-separated list of '
+                                             'measurements taken from the biosample. '
+                                             'If this is not provided, write only '
+                                             '"NA". Include the following information '
+                                             'as available: the name of the assay or '
+                                             'test performed, the value of the result, '
+                                             'a free-text description of the result, '
+                                             'and the time when the measurement was '
+                                             'made.'}},
+         'domain_of': ['Phenopacket', 'Biosample']} })
+    pathologicalStage: Optional[str] = Field(None, description="""ARGO mapping specimen::pathological_tumour_staging_system ARGO mapping specimen::pathological_stage_group""", json_schema_extra = { "linkml_meta": {'alias': 'pathologicalStage',
+         'annotations': {'prompt': {'tag': 'prompt',
+                                    'value': 'The pathological stage of the biosample. '
+                                             'If this is not provided, write only '
+                                             '"NA".'}},
          'domain_of': ['Biosample'],
          'exact_mappings': ['ARGO:specimen.pathological_tumour_staging_system']} })
-    pathologicalTnmFinding: Optional[List[OntologyClass]] = Field(None, description="""ARGO mapping specimen::pathological_t_category ARGO mapping specimen::pathological_n_category ARGO mapping specimen::pathological_m_category""", json_schema_extra = { "linkml_meta": {'alias': 'pathologicalTnmFinding',
+    pathologicalTnmFinding: Optional[List[str]] = Field(None, description="""ARGO mapping specimen::pathological_t_category ARGO mapping specimen::pathological_n_category ARGO mapping specimen::pathological_m_category""", json_schema_extra = { "linkml_meta": {'alias': 'pathologicalTnmFinding',
+         'annotations': {'prompt': {'tag': 'prompt',
+                                    'value': 'A semicolon-separated list of cancer '
+                                             'findings in the TNM system that are '
+                                             'relevant to the diagnosis of cancer. If '
+                                             'this is not provided, write only "NA".'}},
          'domain_of': ['Biosample'],
          'exact_mappings': ['ARGO:specimen.pathological_t_category']} })
-    phenotypicFeatures: Optional[List[PhenotypicFeature]] = Field(None, description="""Phenotypic characteristics of the BioSample, for example histological findings of a biopsy.""", json_schema_extra = { "linkml_meta": {'alias': 'phenotypicFeatures', 'domain_of': ['Biosample']} })
+    phenotypicFeatures: Optional[List[PhenotypicFeature]] = Field(None, description="""Phenotypic characteristics of the BioSample, for example histological findings of a biopsy.""", json_schema_extra = { "linkml_meta": {'alias': 'phenotypicFeatures',
+         'annotations': {'prompt': {'tag': 'prompt',
+                                    'value': 'A semicolon-separated list of phenotypic '
+                                             'features observed in the biosample, '
+                                             'including any explicitly excluded. This '
+                                             'may include histological findings of the '
+                                             'sample, e.g., observations of a biopsy. '
+                                             'If phenotypic features are not provided, '
+                                             'write only "NA". Include the following '
+                                             'information as available: a description '
+                                             'of the observed phenotype, evidence '
+                                             'supporting the phenotype, whether it was '
+                                             'excluded, any modifiers of the '
+                                             'phenotype, age of onset, time required '
+                                             'to resolve the phenotype (if '
+                                             'applicable), and its severity.'}},
+         'domain_of': ['Biosample']} })
     procedure: Optional[Procedure] = Field(None, description="""Clinical procedure performed on the subject in order to extract the biosample. ARGO mapping specimen::specimen_anatomic_location - Procedure::body_site ARGO mapping specimen::specimen_acquisition_interval - Procedure::time_performed""", json_schema_extra = { "linkml_meta": {'alias': 'procedure',
+         'annotations': {'prompt': {'tag': 'prompt',
+                                    'value': 'The clinical procedure performed on the '
+                                             'subject in order to extract the '
+                                             'biosample. If this is not provided, '
+                                             'write only "NA".'}},
          'domain_of': ['Biosample', 'Measurement', 'MedicalAction'],
          'exact_mappings': ['ARGO:specimen.specimen_anatomic_location']} })
-    sampleProcessing: Optional[OntologyClass] = Field(None, description="""Field to represent how the sample was processed. ARGO mapping specimen::specimen_processing""", json_schema_extra = { "linkml_meta": {'alias': 'sampleProcessing',
+    sampleProcessing: Optional[str] = Field(None, description="""Field to represent how the sample was processed. ARGO mapping specimen::specimen_processing""", json_schema_extra = { "linkml_meta": {'alias': 'sampleProcessing',
+         'annotations': {'prompt': {'tag': 'prompt',
+                                    'value': 'Field to represent how the sample was '
+                                             'processed. If this is not provided, '
+                                             'write only "NA".'}},
          'domain_of': ['Biosample'],
          'exact_mappings': ['ARGO:specimen.specimen_processing']} })
-    sampleStorage: Optional[OntologyClass] = Field(None, description="""Field to represent how the sample was stored ARGO mapping specimen::specimen_storage""", json_schema_extra = { "linkml_meta": {'alias': 'sampleStorage',
+    sampleStorage: Optional[str] = Field(None, description="""Field to represent how the sample was stored ARGO mapping specimen::specimen_storage""", json_schema_extra = { "linkml_meta": {'alias': 'sampleStorage',
+         'annotations': {'prompt': {'tag': 'prompt',
+                                    'value': 'Field to represent how the sample was '
+                                             'stored. If this is not provided, write '
+                                             'only "NA".'}},
          'domain_of': ['Biosample'],
          'exact_mappings': ['ARGO:specimen.specimen_storage']} })
-    sampleType: Optional[OntologyClass] = Field(None, description="""Recommended use of EFO term to describe the sample. e.g. Amplified DNA, ctDNA, Total RNA, Lung tissue, Cultured cells... ARGO mapping sample_registration::sample_type""", json_schema_extra = { "linkml_meta": {'alias': 'sampleType',
+    sampleType: Optional[str] = Field(None, description="""Recommended use of EFO term to describe the sample. e.g. Amplified DNA, ctDNA, Total RNA, Lung tissue, Cultured cells... ARGO mapping sample_registration::sample_type""", json_schema_extra = { "linkml_meta": {'alias': 'sampleType',
+         'annotations': {'prompt': {'tag': 'prompt',
+                                    'value': 'The type of the sample. If this is not '
+                                             'provided, write only "NA".'},
+                         'prompt.examples': {'tag': 'prompt.examples',
+                                             'value': 'Amplified DNA; ctDNA; Total '
+                                                      'RNA; Lung tissue; Cultured '
+                                                      'cells'}},
          'domain_of': ['Biosample'],
          'exact_mappings': ['ARGO:sample_registration.sample_type']} })
-    sampledTissue: Optional[OntologyClass] = Field(None, description="""UBERON class describing the tissue from which the specimen was collected. PDX-MI mapping: 'Specimen tumor tissue' FHIR mapping: Specimen.type ARGO mapping sample_registration::specimen_tissue_source\"""", json_schema_extra = { "linkml_meta": {'alias': 'sampledTissue',
+    sampledTissue: Optional[str] = Field(None, description="""UBERON class describing the tissue from which the specimen was collected. PDX-MI mapping: 'Specimen tumor tissue' FHIR mapping: Specimen.type ARGO mapping sample_registration::specimen_tissue_source\"""", json_schema_extra = { "linkml_meta": {'alias': 'sampledTissue',
+         'annotations': {'prompt': {'tag': 'prompt',
+                                    'value': 'The tissue from which the specimen was '
+                                             'collected. If this is not provided, '
+                                             'write only "NA".'}},
          'domain_of': ['Biosample'],
          'exact_mappings': ['ARGO:sample_registration.specimen_tissue_source']} })
-    taxonomy: Optional[OntologyClass] = Field(None, description="""NCBI taxonomic identifier (NCBITaxon) of the sample e.g. NCBITaxon:9606""", json_schema_extra = { "linkml_meta": {'alias': 'taxonomy', 'domain_of': ['Biosample', 'Individual']} })
-    timeOfCollection: Optional[TimeElement] = Field(None, description="""An TimeElement describing either the age of the individual this biosample was derived from at the time of collection, or the time itself. See http://build.fhir.org/datatypes""", json_schema_extra = { "linkml_meta": {'alias': 'timeOfCollection', 'domain_of': ['Biosample']} })
-    tumorGrade: Optional[OntologyClass] = Field(None, description="""Potentially a child term of NCIT:C28076 (Disease Grade Qualifier) or equivalent See https://www.cancer.gov/about-cancer/diagnosis-staging/prognosis/tumor-grade-fact-sheet""", json_schema_extra = { "linkml_meta": {'alias': 'tumorGrade', 'domain_of': ['Biosample']} })
-    tumorProgression: Optional[OntologyClass] = Field(None, description="""Is the specimen tissue from the primary tumor, a metastasis or a recurrence? Most likely a child term of NCIT:C7062 (Neoplasm by Special Category) NCIT:C3677 (Benign Neoplasm) NCIT:C84509 (Primary Malignant Neoplasm) NCIT:C95606 (Second Primary Malignant Neoplasm) NCIT:C3261 (Metastatic Neoplasm) NCIT:C4813 (Recurrent Malignant Neoplasm)""", json_schema_extra = { "linkml_meta": {'alias': 'tumorProgression', 'domain_of': ['Biosample']} })
+    taxonomy: Optional[str] = Field(None, description="""NCBI taxonomic identifier (NCBITaxon) of the sample e.g. NCBITaxon:9606""", json_schema_extra = { "linkml_meta": {'alias': 'taxonomy',
+         'annotations': {'prompt': {'tag': 'prompt',
+                                    'value': 'The NCBI taxonomic identifier of the '
+                                             'sample. If this is not provided, write '
+                                             'only "NA". Human samples should always '
+                                             'be annotated with NCBITaxon:9606, though '
+                                             'organisms isolated from human samples '
+                                             'may have different taxonomic '
+                                             'identifiers.'}},
+         'domain_of': ['Biosample', 'Individual']} })
+    timeOfCollection: Optional[str] = Field(None, description="""An TimeElement describing either the age of the individual this biosample was derived from at the time of collection, or the time itself. See http://build.fhir.org/datatypes""", json_schema_extra = { "linkml_meta": {'alias': 'timeOfCollection',
+         'annotations': {'prompt': {'tag': 'prompt',
+                                    'value': 'The time of collection of the biosample. '
+                                             'If this is not provided, write only '
+                                             '"NA".'}},
+         'domain_of': ['Biosample']} })
+    tumorGrade: Optional[str] = Field(None, description="""Potentially a child term of NCIT:C28076 (Disease Grade Qualifier) or equivalent See https://www.cancer.gov/about-cancer/diagnosis-staging/prognosis/tumor-grade-fact-sheet""", json_schema_extra = { "linkml_meta": {'alias': 'tumorGrade',
+         'annotations': {'prompt': {'tag': 'prompt',
+                                    'value': 'The grade of the tumor. If this is not '
+                                             'provided, write only "NA".'}},
+         'domain_of': ['Biosample']} })
+    tumorProgression: Optional[str] = Field(None, description="""Is the specimen tissue from the primary tumor, a metastasis or a recurrence? Most likely a child term of NCIT:C7062 (Neoplasm by Special Category) NCIT:C3677 (Benign Neoplasm) NCIT:C84509 (Primary Malignant Neoplasm) NCIT:C95606 (Second Primary Malignant Neoplasm) NCIT:C3261 (Metastatic Neoplasm) NCIT:C4813 (Recurrent Malignant Neoplasm)""", json_schema_extra = { "linkml_meta": {'alias': 'tumorProgression',
+         'annotations': {'prompt': {'tag': 'prompt',
+                                    'value': 'Is the specimen tissue from the primary '
+                                             'tumor, a metastasis or a recurrence? If '
+                                             'this is not provided, write only "NA".'},
+                         'prompt.examples': {'tag': 'prompt.examples',
+                                             'value': 'Benign Neoplasm; Primary '
+                                                      'Malignant Neoplasm; Second '
+                                                      'Primary Malignant Neoplasm; '
+                                                      'Metastatic Neoplasm; Recurrent '
+                                                      'Malignant Neoplasm'}},
+         'domain_of': ['Biosample']} })
 
 
 class Disease(ConfiguredBaseModel):
@@ -1179,7 +1312,10 @@ class Individual(ConfiguredBaseModel):
                                              'alternativeIds field. If an individual '
                                              'is referred to with a phrase like '
                                              '"identified as", this is the identifier. '
-                                             'Must not be blank.'}},
+                                             'Must not be blank. May be identical to '
+                                             "the individual's alternate identifier. "
+                                             'If no identifier is provided, create '
+                                             'one.'}},
          'domain_of': ['NamedEntity',
                        'Publication',
                        'Phenopacket',

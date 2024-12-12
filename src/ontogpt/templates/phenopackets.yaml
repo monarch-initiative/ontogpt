@@ -156,15 +156,15 @@ classes:
         description: >-
           Biosample(s) derived from the patient or a collection of biosamples
           in isolation
-        # range: Biosample
+        range: Biosample
         multivalued: true
-        # inlined: true
-        range: string
+        inlined: true
         annotations:
-          prompt: >- # TODO: expand this prompt; this is a very complex class
+          prompt: >-
             A semicolon-separated list of biosamples from which the phenopacket
             was derived. If this is not provided, write only "NA". Include the
-            following information as available: a description of the biosample,
+            following information as available: the identifier of the individual
+            or source of this sample, a description of the biosample,
             the overall type of the sample, the tissue of the sample,
             presence of any biomarkers, a histological diagnosis (including
             any negative or inconclusive findings), procedures performed to
@@ -645,7 +645,8 @@ classes:
         range: string
         annotations:
           prompt: >-
-            A unique identifier for the parent biosample of this biosample.
+            A unique identifier for the parent biosample of this biosample,
+            if applicable. If this is not provided, write only "NA".
       description:
         description: >-
           The biosample's description. This attribute contains human readable
@@ -654,18 +655,23 @@ classes:
         range: string
         annotations:
           prompt: >-
-            Description of the biosample.
+            Description of the biosample. This should contain no identifiers.
       diagnosticMarkers:
         description: >-
           Clinically relevant bio markers. Most of the assays such as IHC are
           covered by the NCIT under the sub-hierarchy NCIT:C25294 (Laboratory
           Procedure). e.g. NCIT:C68748 (HER2/Neu Positive), NCIT:C131711
           (Human Papillomavirus-18 Positive)
-        range: OntologyClass
+        # range: OntologyClass
+        range: string
         annotations:
           prompt: >-
-            Description of clinically relevant bio markers.
-          prompt.example: NCIT:C68748 (HER2/Neu Positive)
+            A semicolon-delimited list of names of clinically relevant bio
+            markers observed in the sample, along with their status (e.g.,
+            Positive, present, etc.) including observations of laboratory
+            procedures performed on the sample. If this is not provided,
+            write only "NA".
+          prompt.examples: HER2/Neu Positive; Human Papillomavirus-18 Positive
         inlined_as_list: true
         multivalued: true
       files:
@@ -674,9 +680,14 @@ classes:
           the entire individual e.g. a germline exome/genome should be
           associated with the Phenopacket rather than the Biosample it was
           derived from.
-        range: File
+        # range: File
         inlined_as_list: true
         multivalued: true
+        annotations:
+          prompt: >-
+            A semicolon-separated list of file identifiers specified in the
+            input text, relating to the biosample. If this is not provided,
+            write only "NA".
       histologicalDiagnosis:
         description: >-
           This is the pathologist’s diagnosis and may often represent a
@@ -688,10 +699,21 @@ classes:
         exact_mappings:
           - ARGO:specimen.tumour_histological_type
         inlined: true
-        range: OntologyClass
+        # range: OntologyClass
+        range: string
+        annotations:
+          prompt: >-
+            The pathologist’s diagnosis of the biosample. This should use the
+            same terminology as the diagnosis, but represent the pathologist’s
+            findings. If this is not provided, write only "NA". Normal samples
+            should be described here with the term "Negative Finding".
       id:
         annotations:
           percent_encoded: true
+          prompt: >-
+            A unique identifier for the biosample. If one is not available,
+            create an identifier. Do not use a name or other
+            personally identifying information.
         description: >-
           biosamples SAMN08666232 Human Cell Atlas The Biosample id
           This is unique in the context of the server instance.
@@ -706,6 +728,11 @@ classes:
         exact_mappings:
           - ARGO:specimen.submitter_donor_id
         range: string
+        annotations:
+          prompt: >-
+            A unique identifier for the individual this biosample was derived
+            from. If provided directly from an individual or animal, this field
+            will be the identifier of that individual or animal.
       materialSample:
         description: >-
           This element can be used to specify the status of the sample. For
@@ -717,12 +744,28 @@ classes:
         exact_mappings:
           - ARGO:sample_registration.tumour_normal_designation
         inlined: true
-        range: OntologyClass
+        # range: OntologyClass
+        range: string
+        annotations:
+          prompt: >-
+            The status of the sample. For instance, a status may be used as a
+            normal control, often in combination with another sample that is
+            thought to contain a pathological finding. If this is not provided,
+            write only "NA".
+          prompt.examples: reference sample; abnormal sample
       measurements:
         description: Measurements obtained for the sample.
         inlined_as_list: true
         multivalued: true
         range: Measurement
+        annotations:
+          prompt: >-
+            A semicolon-separated list of measurements taken from the biosample.
+            If this is not provided, write only "NA".
+            Include the following information as available: the name
+            of the assay or test performed, the value of the result, a
+            free-text description of the result, and the time when the
+            measurement was made.
       pathologicalStage:
         description: >-
           ARGO mapping specimen::pathological_tumour_staging_system ARGO
@@ -730,7 +773,12 @@ classes:
         exact_mappings:
           - ARGO:specimen.pathological_tumour_staging_system
         inlined: true
-        range: OntologyClass
+        # range: OntologyClass
+        range: string
+        annotations:
+          prompt: >-
+            The pathological stage of the biosample. If this is not provided,
+            write only "NA".
       pathologicalTnmFinding:
         description: >-
           ARGO mapping specimen::pathological_t_category ARGO mapping
@@ -740,7 +788,13 @@ classes:
           - ARGO:specimen.pathological_t_category
         inlined_as_list: true
         multivalued: true
-        range: OntologyClass
+        # range: OntologyClass
+        range: string
+        annotations:
+          prompt: >-
+            A semicolon-separated list of cancer findings in the TNM system
+            that are relevant to the diagnosis of cancer. If this is not
+            provided, write only "NA".
       phenotypicFeatures:
         description: >-
           Phenotypic characteristics of the BioSample, for example histological
@@ -748,6 +802,17 @@ classes:
         inlined_as_list: true
         multivalued: true
         range: PhenotypicFeature
+        annotations:
+          prompt: >-
+            A semicolon-separated list of phenotypic features observed in the
+            biosample, including any explicitly excluded. This may include
+            histological findings of the sample, e.g., observations of a biopsy.
+            If phenotypic features are not provided, write only "NA".
+            Include the following information as available: a description of
+            the observed phenotype, evidence supporting the phenotype, whether
+            it was excluded, any modifiers of the phenotype, age of onset,
+            time required to resolve the phenotype (if applicable), and its
+            severity.
       procedure:
         description: >-
           Clinical procedure performed on the subject in order to extract the
@@ -757,6 +822,10 @@ classes:
         exact_mappings:
           - ARGO:specimen.specimen_anatomic_location
         range: Procedure
+        annotations:
+          prompt: >-
+            The clinical procedure performed on the subject in order to extract
+            the biosample. If this is not provided, write only "NA".
       sampleProcessing:
         description: >-
           Field to represent how the sample was processed. ARGO mapping
@@ -764,7 +833,12 @@ classes:
         exact_mappings:
           - ARGO:specimen.specimen_processing
         inlined: true
-        range: OntologyClass
+        # range: OntologyClass
+        range: string
+        annotations:
+          prompt: >-
+            Field to represent how the sample was processed. If this is not
+            provided, write only "NA".
       sampleStorage:
         description: >-
           Field to represent how the sample was stored ARGO mapping
@@ -772,7 +846,12 @@ classes:
         exact_mappings:
           - ARGO:specimen.specimen_storage
         inlined: true
-        range: OntologyClass
+        # range: OntologyClass
+        range: string
+        annotations:
+          prompt: >-
+            Field to represent how the sample was stored. If this is not
+            provided, write only "NA".
       sampleType:
         description: >-
           Recommended use of EFO term to describe the sample. e.g.
@@ -781,7 +860,13 @@ classes:
         exact_mappings:
           - ARGO:sample_registration.sample_type
         inlined: true
-        range: OntologyClass
+        # range: OntologyClass
+        range: string
+        annotations:
+          prompt: >-
+            The type of the sample. If this is not provided, write only "NA".
+          prompt.examples: >-
+            Amplified DNA; ctDNA; Total RNA; Lung tissue; Cultured cells
       sampledTissue:
         description: >-
           UBERON class describing the tissue from which the specimen was
@@ -791,27 +876,48 @@ classes:
         exact_mappings:
           - ARGO:sample_registration.specimen_tissue_source
         inlined: true
-        range: OntologyClass
+        # range: OntologyClass
+        range: string
+        annotations:
+          prompt: >-
+            The tissue from which the specimen was collected. If this is not
+            provided, write only "NA".
       taxonomy:
         description: >-
           NCBI taxonomic identifier (NCBITaxon) of the sample e.g.
           NCBITaxon:9606
         inlined: true
-        range: OntologyClass
+        # range: OntologyClass
+        range: string
+        annotations:
+          prompt: >-
+            The NCBI taxonomic identifier of the sample. If this is not
+            provided, write only "NA". Human samples should always be
+            annotated with NCBITaxon:9606, though organisms isolated
+            from human samples may have different taxonomic identifiers.
       timeOfCollection:
         description: >-
           An TimeElement describing either the age of the individual this
           biosample was derived from at the time of collection, or the time
           itself. See http://build.fhir.org/datatypes
         inlined: true
-        range: TimeElement
+        # range: TimeElement
+        range: string
+        annotations:
+          prompt: >-
+            The time of collection of the biosample. If this is not provided,
+            write only "NA".
       tumorGrade:
         description: >-
           Potentially a child term of NCIT:C28076 (Disease Grade Qualifier) or
           equivalent See
           https://www.cancer.gov/about-cancer/diagnosis-staging/prognosis/tumor-grade-fact-sheet
         inlined: true
-        range: OntologyClass
+        # range: OntologyClass
+        range: string
+        annotations:
+          prompt: >-
+            The grade of the tumor. If this is not provided, write only "NA".
       tumorProgression:
         description: >-
           Is the specimen tissue from the primary tumor, a metastasis or a
@@ -821,7 +927,16 @@ classes:
           NCIT:C3261 (Metastatic Neoplasm) NCIT:C4813 (Recurrent Malignant
           Neoplasm)
         inlined: true
-        range: OntologyClass
+        # range: OntologyClass
+        range: string
+        annotations:
+          prompt: >-
+            Is the specimen tissue from the primary tumor, a metastasis or a
+            recurrence? If this is not provided, write only "NA".
+          prompt.examples: >-
+            Benign Neoplasm; Primary Malignant Neoplasm; Second Primary
+            Malignant Neoplasm; Metastatic Neoplasm; Recurrent Malignant
+            Neoplasm
 
   # core/disease
 
@@ -1062,7 +1177,9 @@ classes:
             The identifier for the individual. These may also be present
             in the alternativeIds field. If an individual is referred to
             with a phrase like "identified as", this is the identifier.
-            Must not be blank.
+            Must not be blank. May be identical to the individual's
+            alternate identifier. If no identifier is provided,
+            create one.
       karyotypicSex:
         description: The karyotypic sex of the individual
         range: KaryotypicSex
