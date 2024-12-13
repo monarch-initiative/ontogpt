@@ -1519,13 +1519,12 @@ classes:
         annotations:
           prompt: >-
             The reference range for the quantity. If the reference range is not
-            known, this value should be UNKNOWN.
+            known, do not include a value for this field.
       unit:
         description: >-
           For instance, NCIT subhierarchy, Unit of Measure (Code C25709),
           https://www.ebi.ac.uk/ols/ontologies/uo
-        # range: OntologyClass
-        range: string
+        range: UnitClass
         annotations:
           prompt: >-
             The unit of measure for the quantity. This should be a
@@ -1539,6 +1538,7 @@ classes:
           prompt: >-
             The value of the quantity in the units. This should be a
             single value. Do not include units or any non-numeric value.
+            If the value is not known, this value should be UNKNOWN.
 
   ReferenceRange:
     description: ""
@@ -3033,6 +3033,13 @@ classes:
       - MAXO
     annotations:
       annotators: sqlite:obo:maxo
+
+  UnitClass:
+    is_a: OntologyClass
+    id_prefixes:
+      - UO
+    annotations:
+      annotators: sqlite:obo:uo
 
 # TODO: enums need to be described in prompts
 enums:
