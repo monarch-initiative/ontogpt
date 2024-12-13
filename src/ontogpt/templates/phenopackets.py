@@ -231,6 +231,10 @@ class NCITIntentType(str):
     pass
 
 
+class NCITROAType(str):
+    pass
+
+
 
 class ExtractionResult(ConfiguredBaseModel):
     """
@@ -1981,13 +1985,42 @@ class Treatment(ConfiguredBaseModel):
     """
     linkml_meta: ClassVar[LinkMLMeta] = LinkMLMeta({'from_schema': 'http://w3id.org/ontogpt/phenopackets'})
 
-    agent: Optional[OntologyClass] = Field(None, json_schema_extra = { "linkml_meta": {'alias': 'agent', 'domain_of': ['Treatment']} })
+    agent: Optional[str] = Field(None, description="""Treatment agent""", json_schema_extra = { "linkml_meta": {'alias': 'agent',
+         'annotations': {'prompt': {'tag': 'prompt',
+                                    'value': 'The treatment agent, such as a drug or '
+                                             'other therapeutic material. If the agent '
+                                             'is not specified, do not include a value '
+                                             'for this field.'}},
+         'domain_of': ['Treatment']} })
     cumulativeDose: Optional[Quantity] = Field(None, description="""ARGO mapping chemotherapy::cumulative_drug_dosage""", json_schema_extra = { "linkml_meta": {'alias': 'cumulativeDose',
+         'annotations': {'prompt': {'tag': 'prompt',
+                                    'value': 'The cumulative dose of the treatment '
+                                             'agent, with value and units. If the '
+                                             'cumulative dose is not specified, do not '
+                                             'include a value for this field.'}},
          'domain_of': ['Treatment'],
          'exact_mappings': ['ARGO:chemotherapy.cumulative_drug_dosage']} })
-    doseIntervals: Optional[List[DoseInterval]] = Field(None, json_schema_extra = { "linkml_meta": {'alias': 'doseIntervals', 'domain_of': ['Treatment']} })
-    drugType: Optional[DrugType] = Field(None, json_schema_extra = { "linkml_meta": {'alias': 'drugType', 'domain_of': ['Treatment']} })
-    routeOfAdministration: Optional[OntologyClass] = Field(None, json_schema_extra = { "linkml_meta": {'alias': 'routeOfAdministration', 'domain_of': ['Treatment']} })
+    doseIntervals: Optional[List[str]] = Field(None, description="""Intervals at which the treatment agent is administered.""", json_schema_extra = { "linkml_meta": {'alias': 'doseIntervals', 'domain_of': ['Treatment']} })
+    drugType: Optional[DrugType] = Field(None, description="""Type of drug used in the treatment.""", json_schema_extra = { "linkml_meta": {'alias': 'drugType',
+         'annotations': {'prompt': {'tag': 'prompt',
+                                    'value': 'The type of drug used in the treatment. '
+                                             'Must be one of: '
+                                             'ADMINISTRATION_RELATED_TO_PROCEDURE, '
+                                             'EHR_MEDICATION_LIST, PRESCRIPTION, or '
+                                             'UNKNOWN_DRUG_TYPE. If the drug type is '
+                                             'not specified, do not include a value '
+                                             'for this field.'}},
+         'domain_of': ['Treatment']} })
+    routeOfAdministration: Optional[str] = Field(None, description="""Route of administration of the treatment agent.""", json_schema_extra = { "linkml_meta": {'alias': 'routeOfAdministration',
+         'annotations': {'prompt': {'tag': 'prompt',
+                                    'value': 'The route of administration of the '
+                                             'treatment agent. If the route of '
+                                             'administration is not specified, do not '
+                                             'include a value for this field.'},
+                         'prompt.examples': {'tag': 'prompt.examples',
+                                             'value': 'Intravenous; Oral; '
+                                                      'Subcutaneous; Intramuscular'}},
+         'domain_of': ['Treatment']} })
 
 
 class MetaData(ConfiguredBaseModel):
@@ -3094,6 +3127,58 @@ class AssayClass(OntologyClass):
         return v
 
 
+class ChemicalClass(OntologyClass):
+    linkml_meta: ClassVar[LinkMLMeta] = LinkMLMeta({'annotations': {'annotators': {'tag': 'annotators',
+                                        'value': 'sqlite:obo:chebi'}},
+         'from_schema': 'http://w3id.org/ontogpt/phenopackets',
+         'id_prefixes': ['CHEBI']})
+
+    id: str = Field(..., description="""A unique identifier for the named entity""", json_schema_extra = { "linkml_meta": {'alias': 'id',
+         'annotations': {'prompt.skip': {'tag': 'prompt.skip', 'value': 'true'}},
+         'comments': ['this is populated during the grounding and normalization step'],
+         'domain_of': ['NamedEntity',
+                       'Publication',
+                       'Phenopacket',
+                       'Family',
+                       'Cohort',
+                       'ExternalReference',
+                       'Biosample',
+                       'Interpretation',
+                       'Individual',
+                       'Resource',
+                       'VariationDescriptor',
+                       'VcfRecord',
+                       'Allele',
+                       'ChromosomeLocation',
+                       'CopyNumber',
+                       'Member',
+                       'SequenceLocation',
+                       'Text']} })
+    label: Optional[str] = Field(None, description="""The label (name) of the named thing""", json_schema_extra = { "linkml_meta": {'alias': 'label',
+         'aliases': ['name'],
+         'annotations': {'owl': {'tag': 'owl',
+                                 'value': 'AnnotationProperty, AnnotationAssertion'}},
+         'domain_of': ['NamedEntity', 'VariationDescriptor'],
+         'slot_uri': 'rdfs:label'} })
+    original_spans: Optional[List[str]] = Field(None, description="""The coordinates of the original text span from which the named entity was extracted, inclusive. For example, \"10:25\" means the span starting from the 10th character and ending with the 25th character. The first character in the text has index 0. Newlines are treated as single characters. Multivalued as there may be multiple spans for a single text.""", json_schema_extra = { "linkml_meta": {'alias': 'original_spans',
+         'annotations': {'prompt.skip': {'tag': 'prompt.skip', 'value': 'true'}},
+         'comments': ['This is determined during grounding and normalization',
+                      'But is based on the full input text'],
+         'domain_of': ['NamedEntity']} })
+
+    @field_validator('original_spans')
+    def pattern_original_spans(cls, v):
+        pattern=re.compile(r"^\d+:\d+$")
+        if isinstance(v,list):
+            for element in v:
+                if isinstance(v, str) and not pattern.match(element):
+                    raise ValueError(f"Invalid original_spans format: {element}")
+        elif isinstance(v,str):
+            if not pattern.match(v):
+                raise ValueError(f"Invalid original_spans format: {v}")
+        return v
+
+
 class DescriptiveClass(OntologyClass):
     linkml_meta: ClassVar[LinkMLMeta] = LinkMLMeta({'annotations': {'annotators': {'tag': 'annotators',
                                         'value': 'sqlite:obo:pato'}},
@@ -3410,6 +3495,60 @@ class ProcedureClass(OntologyClass):
         return v
 
 
+class RouteOfAdministrationClass(OntologyClass):
+    linkml_meta: ClassVar[LinkMLMeta] = LinkMLMeta({'annotations': {'annotators': {'tag': 'annotators',
+                                        'value': 'sqlite:obo:ncit'}},
+         'from_schema': 'http://w3id.org/ontogpt/phenopackets',
+         'id_prefixes': ['NCIT'],
+         'slot_usage': {'id': {'name': 'id', 'values_from': ['NCITROAType']}}})
+
+    id: str = Field(..., description="""A unique identifier for the named entity""", json_schema_extra = { "linkml_meta": {'alias': 'id',
+         'annotations': {'prompt.skip': {'tag': 'prompt.skip', 'value': 'true'}},
+         'comments': ['this is populated during the grounding and normalization step'],
+         'domain_of': ['NamedEntity',
+                       'Publication',
+                       'Phenopacket',
+                       'Family',
+                       'Cohort',
+                       'ExternalReference',
+                       'Biosample',
+                       'Interpretation',
+                       'Individual',
+                       'Resource',
+                       'VariationDescriptor',
+                       'VcfRecord',
+                       'Allele',
+                       'ChromosomeLocation',
+                       'CopyNumber',
+                       'Member',
+                       'SequenceLocation',
+                       'Text'],
+         'values_from': ['NCITROAType']} })
+    label: Optional[str] = Field(None, description="""The label (name) of the named thing""", json_schema_extra = { "linkml_meta": {'alias': 'label',
+         'aliases': ['name'],
+         'annotations': {'owl': {'tag': 'owl',
+                                 'value': 'AnnotationProperty, AnnotationAssertion'}},
+         'domain_of': ['NamedEntity', 'VariationDescriptor'],
+         'slot_uri': 'rdfs:label'} })
+    original_spans: Optional[List[str]] = Field(None, description="""The coordinates of the original text span from which the named entity was extracted, inclusive. For example, \"10:25\" means the span starting from the 10th character and ending with the 25th character. The first character in the text has index 0. Newlines are treated as single characters. Multivalued as there may be multiple spans for a single text.""", json_schema_extra = { "linkml_meta": {'alias': 'original_spans',
+         'annotations': {'prompt.skip': {'tag': 'prompt.skip', 'value': 'true'}},
+         'comments': ['This is determined during grounding and normalization',
+                      'But is based on the full input text'],
+         'domain_of': ['NamedEntity']} })
+
+    @field_validator('original_spans')
+    def pattern_original_spans(cls, v):
+        pattern=re.compile(r"^\d+:\d+$")
+        if isinstance(v,list):
+            for element in v:
+                if isinstance(v, str) and not pattern.match(element):
+                    raise ValueError(f"Invalid original_spans format: {element}")
+        elif isinstance(v,str):
+            if not pattern.match(v):
+                raise ValueError(f"Invalid original_spans format: {v}")
+        return v
+
+
 class UnitClass(OntologyClass):
     linkml_meta: ClassVar[LinkMLMeta] = LinkMLMeta({'annotations': {'annotators': {'tag': 'annotators', 'value': 'sqlite:obo:uo'}},
          'from_schema': 'http://w3id.org/ontogpt/phenopackets',
@@ -3546,11 +3685,13 @@ VariationSet.model_rebuild()
 AdverseEventClass.model_rebuild()
 AnatomyClass.model_rebuild()
 AssayClass.model_rebuild()
+ChemicalClass.model_rebuild()
 DescriptiveClass.model_rebuild()
 DiagnosticMarkerClass.model_rebuild()
 EvidenceClass.model_rebuild()
 IntentClass.model_rebuild()
 PhenotypeClass.model_rebuild()
 ProcedureClass.model_rebuild()
+RouteOfAdministrationClass.model_rebuild()
 UnitClass.model_rebuild()
 

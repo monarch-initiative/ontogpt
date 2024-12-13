@@ -1836,26 +1836,49 @@ classes:
       agent, such as a drug
     attributes:
       agent:
-        description: ""
-        inlined: true
-        range: OntologyClass
+        description: Treatment agent
+        range: ChemicalClass
+        annotations:
+          prompt: >-
+            The treatment agent, such as a drug or other therapeutic material.
+            If the agent is not specified, do not include a value for this
+            field.
       cumulativeDose:
         description: ARGO mapping chemotherapy::cumulative_drug_dosage
         exact_mappings:
           - ARGO:chemotherapy.cumulative_drug_dosage
         range: Quantity
+        annotations:
+          prompt: >-
+            The cumulative dose of the treatment agent, with value and units.
+            If the cumulative dose is not specified, do not include a value for
+            this field.
       doseIntervals:
-        description: ""
-        inlined_as_list: true
+        description: Intervals at which the treatment agent is administered.
+        # inlined_as_list: true
         multivalued: true
-        range: DoseInterval
+        # range: DoseInterval
+        range: string
       drugType:
-        description: ""
+        description: Type of drug used in the treatment.
         range: DrugType
+        annotations:
+          prompt: >-
+            The type of drug used in the treatment. Must be one of:
+            ADMINISTRATION_RELATED_TO_PROCEDURE, EHR_MEDICATION_LIST,
+            PRESCRIPTION, or UNKNOWN_DRUG_TYPE.
+            If the drug type is not specified, do not include a value for this
+            field.
       routeOfAdministration:
-        description: ""
-        inlined: true
-        range: OntologyClass
+        description: Route of administration of the treatment agent.
+        range: RouteOfAdministrationClass
+        annotations:
+          prompt: >-
+            The route of administration of the treatment agent.
+            If the route of administration is not specified, do not include
+            a value for this field.
+          prompt.examples: >-
+            Intravenous; Oral; Subcutaneous; Intramuscular
 
   # core/meta_data
 
@@ -3019,6 +3042,13 @@ classes:
     annotations:
       annotators: sqlite:obo:cmo
 
+  ChemicalClass:
+    is_a: OntologyClass
+    id_prefixes:
+      - CHEBI
+    annotations:
+      annotators: sqlite:obo:chebi
+
   DescriptiveClass:
     is_a: OntologyClass
     id_prefixes:
@@ -3068,6 +3098,17 @@ classes:
       - MAXO
     annotations:
       annotators: sqlite:obo:maxo
+
+  RouteOfAdministrationClass:
+    is_a: OntologyClass
+    id_prefixes:
+      - NCIT
+    annotations:
+      annotators: sqlite:obo:ncit
+    slot_usage:
+      id:
+        values_from:
+          - NCITROAType
 
   UnitClass:
     is_a: OntologyClass
@@ -3254,3 +3295,9 @@ enums:
         - NCIT:C192601
         - NCIT:C18020
         - NCIT:C15843
+
+  NCITROAType:
+    reachable_from:
+      source_ontology: obo:ncit
+      source_nodes:
+        - NCIT:C38114
