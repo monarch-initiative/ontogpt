@@ -1336,17 +1336,19 @@ class Interpretation(ConfiguredBaseModel):
     diagnosis: Optional[Diagnosis] = Field(None, description="""The diagnosis made in this interpretation.""", json_schema_extra = { "linkml_meta": {'alias': 'diagnosis',
          'annotations': {'prompt': {'tag': 'prompt',
                                     'value': 'The diagnosis made in this '
-                                             'interpretation. Include the following, '
-                                             'as available: the name of the disease or '
-                                             'condition with all acronyms spelled out, '
-                                             'the identifier of the individual or '
-                                             'biosample, and any details regarding '
-                                             'genetic or genomic interpretation '
-                                             '(including the gene, the status of the '
-                                             'genetic interpretation, and/or any '
-                                             'details regarding the specific variant). '
-                                             'Include this information even if it is '
-                                             'also present in the summary field.'}},
+                                             'interpretation. If this is not provided, '
+                                             'do not include a value for this field. '
+                                             'Include the following, as available: the '
+                                             'name of the disease or condition with '
+                                             'all acronyms spelled out, the identifier '
+                                             'of the individual or biosample, and any '
+                                             'details regarding genetic or genomic '
+                                             'interpretation (including the gene, the '
+                                             'status of the genetic interpretation, '
+                                             'and/or any details regarding the '
+                                             'specific variant). Include this '
+                                             'information even if it is also present '
+                                             'in the summary field.'}},
          'domain_of': ['Interpretation']} })
     id: Optional[str] = Field(None, description="""id of the interpretation""", json_schema_extra = { "linkml_meta": {'alias': 'id',
          'annotations': {'prompt': {'tag': 'prompt',
