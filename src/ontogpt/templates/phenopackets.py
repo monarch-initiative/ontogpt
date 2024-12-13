@@ -499,20 +499,21 @@ class Phenopacket(ConfiguredBaseModel):
                                              'time of last encounter, and whether the '
                                              'individual is alive or deceased.'}},
          'domain_of': ['Triple', 'Phenopacket']} })
-    phenotypic_features: Optional[List[str]] = Field(None, description="""Phenotypic features relating to the subject of the phenopacket""", json_schema_extra = { "linkml_meta": {'alias': 'phenotypic_features',
+    phenotypic_features: Optional[List[PhenotypicFeature]] = Field(None, description="""Phenotypic features relating to the subject of the phenopacket""", json_schema_extra = { "linkml_meta": {'alias': 'phenotypic_features',
          'annotations': {'prompt': {'tag': 'prompt',
                                     'value': 'A semicolon-separated list of phenotypic '
                                              'features observed in the individual or '
                                              'biosample, including any explicitly '
-                                             'excluded. If this is not provided, write '
-                                             'only "NA". Include the following '
-                                             'information as available: a description '
-                                             'of the observed phenotype, evidence '
-                                             'supporting the phenotype, whether it was '
-                                             'excluded, any modifiers of the '
-                                             'phenotype, age of onset, time required '
-                                             'to resolve the phenotype (if '
-                                             'applicable), and its severity.'}},
+                                             'excluded. If this is not provided, do '
+                                             'not provide a value for this field. '
+                                             'Include the following information as '
+                                             'available: a description of the observed '
+                                             'phenotype, evidence supporting the '
+                                             'phenotype, whether it was excluded, any '
+                                             'modifiers of the phenotype, age of '
+                                             'onset, time required to resolve the '
+                                             'phenotype (if applicable), and its '
+                                             'severity.'}},
          'domain_of': ['Phenopacket']} })
     measurements: Optional[List[Measurement]] = Field(None, description="""Quantifiable measurements related to the individual""", json_schema_extra = { "linkml_meta": {'alias': 'measurements',
          'annotations': {'prompt': {'tag': 'prompt',
@@ -2045,7 +2046,9 @@ class PhenotypicFeature(ConfiguredBaseModel):
          'domain_of': ['Disease', 'PhenotypicFeature']} })
     severity: Optional[str] = Field(None, description="""Severity of the condition e.g. subclasses of HP:0012824-Severity or SNOMED:272141005-Severities FHIR mapping: Condition.severity""", json_schema_extra = { "linkml_meta": {'alias': 'severity',
          'annotations': {'prompt': {'tag': 'prompt',
-                                    'value': 'The severity of the phenotype.'}},
+                                    'value': 'The severity of the phenotype. If this '
+                                             'is not specified, do not include a value '
+                                             'for this field.'}},
          'domain_of': ['PhenotypicFeature']} })
     type: Optional[str] = Field(None, description="""The primary ontology class which describes the phenotype. For example \"HP:0001363\"  \"Craniosynostosis\" FHIR mapping: Condition.identifier'""", json_schema_extra = { "linkml_meta": {'alias': 'type',
          'annotations': {'prompt': {'tag': 'prompt',

@@ -125,19 +125,18 @@ classes:
       phenotypic_features:
         description: >-
           Phenotypic features relating to the subject of the phenopacket
-        # range: PhenotypicFeature
+        range: PhenotypicFeature
         multivalued: true
-        # inlined: true
-        range: string
+        inlined: true
         annotations:
           prompt: >-
             A semicolon-separated list of phenotypic features observed in the
             individual or biosample, including any explicitly excluded.
-            If this is not provided, write only "NA". Include the following
-            information as available: a description of the observed phenotype,
-            evidence supporting the phenotype, whether it was excluded,
-            any modifiers of the phenotype, age of onset, time required
-            to resolve the phenotype (if applicable), and its severity.
+            If this is not provided, do not provide a value for this field.
+            Include the following information as available: a description of
+            the observed phenotype, evidence supporting the phenotype, whether
+            it was excluded, any modifiers of the phenotype, age of onset, time
+            required to resolve the phenotype (if applicable), and its severity.
       measurements:
         description: >-
           Quantifiable measurements related to the individual
@@ -2083,9 +2082,11 @@ classes:
           SNOMED:272141005-Severities FHIR mapping: Condition.severity
         # inlined: true
         # range: OntologyClass
+        range: string
         annotations:
           prompt: >-
-            The severity of the phenotype.
+            The severity of the phenotype. If this is not specified,
+            do not include a value for this field.
       type: # TODO: ground
         description: >-
           The primary ontology class which describes the phenotype. For example
