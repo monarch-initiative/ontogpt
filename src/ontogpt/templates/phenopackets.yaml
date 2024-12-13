@@ -1440,14 +1440,15 @@ classes:
           measurement. For example "body temperature" (CMO:0000015) or
           "Platelets [#/volume] in Blood" (LOINC:26515-7) FHIR mapping:
           Observation.code'
-        # inlined: true
-        # range: OntologyClass
-        range: string
+        range: AssayClass
         annotations:
           prompt: >-
-            The assay used to produce the measurement. Do not include
-            acronyms or abbreviations; if the assay is referred to with
-            an acronym then expand to its full name.
+            The name of the assay used to produce the measurement.
+            This will generally be the name of a property rather
+            than a procedure, e.g., "plasma immunoglobulin G level"
+            is an assay but "biopsy" is not - that is a procedure.
+            Do not include acronyms or abbreviations; if the assay is referred
+            to with an acronym then expand to its full name.
           prompt.examples: body temperature; platelets in blood
       complexValue:
         description: The measurement result, expressed as multiple values.
@@ -1470,13 +1471,14 @@ classes:
           Clinical procedure performed on the subject in order to produce the
           measurement.
         range: Procedure
+        inlined: true
         annotations:
           prompt: >-
             The clinical procedure performed on the subject in order to
             produce the measurement. This should include the name of the
             procedure, the name of the body site, and the time the procedure
             was performed, if known. If the procedure is not specified,
-            use the same value as the assay field.
+            do not include a value for this field.
       timeObserved:
         description: The time at which the measurement was made
         inlined: true
@@ -2992,6 +2994,13 @@ classes:
       - UBERON
     annotations:
       annotators: sqlite:obo:uberon
+
+  AssayClass:
+    is_a: OntologyClass
+    id_prefixes:
+      - CMO
+    annotations:
+      annotators: sqlite:obo:cmo
 
   DiagnosticMarkerClass:
     is_a: OntologyClass
