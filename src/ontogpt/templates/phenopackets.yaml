@@ -1514,8 +1514,7 @@ classes:
         description: >-
           Reference range for the quantity e.g. The normal range of platelets
           is 150,000 to 450,000 platelets/uL.
-        # range: ReferenceRange
-        range: string
+        range: ReferenceRange
         annotations:
           prompt: >-
             The reference range for the quantity. If the reference range is not
@@ -1541,18 +1540,34 @@ classes:
             If the value is not known, this value should be UNKNOWN.
 
   ReferenceRange:
-    description: ""
+    description: >-
+      Reference range of a quantity, or the acceptable "normal"
+      range for values of a quantity.
     attributes:
       high:
-        description: ""
-        range: double
+        description: Highest value in the reference range.
+        # range: double
+        range: string
+        annotations:
+          prompt: >-
+            Highest value in the reference range. If the high value is not
+            known, do not include a value for this field.
       low:
-        description: ""
-        range: double
+        description: Lowest value in the reference range.
+        # range: double
+        range: string
+        annotations:
+          prompt: >-
+            Lowest value in the reference range. If the low value is not
+            known, do not include a value for this field.
       unit:
-        description: ""
-        inlined: true
-        range: OntologyClass
+        description: Unit of the reference range.
+        range: UnitClass
+        annotations:
+          prompt: >-
+            The unit of the reference range. This should be a human-readable
+            string, e.g. 'mg/dL'. If the unit is not known, this value should
+            be UNKNOWN.
 
   TypedQuantity:
     description: >-

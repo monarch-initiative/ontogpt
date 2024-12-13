@@ -1712,7 +1712,7 @@ class Quantity(ConfiguredBaseModel):
     """
     linkml_meta: ClassVar[LinkMLMeta] = LinkMLMeta({'from_schema': 'http://w3id.org/ontogpt/phenopackets'})
 
-    referenceRange: Optional[str] = Field(None, description="""Reference range for the quantity e.g. The normal range of platelets is 150,000 to 450,000 platelets/uL.""", json_schema_extra = { "linkml_meta": {'alias': 'referenceRange',
+    referenceRange: Optional[ReferenceRange] = Field(None, description="""Reference range for the quantity e.g. The normal range of platelets is 150,000 to 450,000 platelets/uL.""", json_schema_extra = { "linkml_meta": {'alias': 'referenceRange',
          'annotations': {'prompt': {'tag': 'prompt',
                                     'value': 'The reference range for the quantity. If '
                                              'the reference range is not known, do not '
@@ -1741,11 +1741,30 @@ class Quantity(ConfiguredBaseModel):
 
 
 class ReferenceRange(ConfiguredBaseModel):
+    """
+    Reference range of a quantity, or the acceptable \"normal\" range for values of a quantity.
+    """
     linkml_meta: ClassVar[LinkMLMeta] = LinkMLMeta({'from_schema': 'http://w3id.org/ontogpt/phenopackets'})
 
-    high: Optional[float] = Field(None, json_schema_extra = { "linkml_meta": {'alias': 'high', 'domain_of': ['ReferenceRange']} })
-    low: Optional[float] = Field(None, json_schema_extra = { "linkml_meta": {'alias': 'low', 'domain_of': ['ReferenceRange']} })
-    unit: Optional[OntologyClass] = Field(None, json_schema_extra = { "linkml_meta": {'alias': 'unit', 'domain_of': ['Quantity', 'ReferenceRange']} })
+    high: Optional[str] = Field(None, description="""Highest value in the reference range.""", json_schema_extra = { "linkml_meta": {'alias': 'high',
+         'annotations': {'prompt': {'tag': 'prompt',
+                                    'value': 'Highest value in the reference range. If '
+                                             'the high value is not known, do not '
+                                             'include a value for this field.'}},
+         'domain_of': ['ReferenceRange']} })
+    low: Optional[str] = Field(None, description="""Lowest value in the reference range.""", json_schema_extra = { "linkml_meta": {'alias': 'low',
+         'annotations': {'prompt': {'tag': 'prompt',
+                                    'value': 'Lowest value in the reference range. If '
+                                             'the low value is not known, do not '
+                                             'include a value for this field.'}},
+         'domain_of': ['ReferenceRange']} })
+    unit: Optional[str] = Field(None, description="""Unit of the reference range.""", json_schema_extra = { "linkml_meta": {'alias': 'unit',
+         'annotations': {'prompt': {'tag': 'prompt',
+                                    'value': 'The unit of the reference range. This '
+                                             'should be a human-readable string, e.g. '
+                                             "'mg/dL'. If the unit is not known, this "
+                                             'value should be UNKNOWN.'}},
+         'domain_of': ['Quantity', 'ReferenceRange']} })
 
 
 class TypedQuantity(ConfiguredBaseModel):
