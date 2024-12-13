@@ -3032,6 +3032,58 @@ class AssayClass(OntologyClass):
         return v
 
 
+class DescriptiveClass(OntologyClass):
+    linkml_meta: ClassVar[LinkMLMeta] = LinkMLMeta({'annotations': {'annotators': {'tag': 'annotators',
+                                        'value': 'sqlite:obo:pato'}},
+         'from_schema': 'http://w3id.org/ontogpt/phenopackets',
+         'id_prefixes': ['PATO']})
+
+    id: str = Field(..., description="""A unique identifier for the named entity""", json_schema_extra = { "linkml_meta": {'alias': 'id',
+         'annotations': {'prompt.skip': {'tag': 'prompt.skip', 'value': 'true'}},
+         'comments': ['this is populated during the grounding and normalization step'],
+         'domain_of': ['NamedEntity',
+                       'Publication',
+                       'Phenopacket',
+                       'Family',
+                       'Cohort',
+                       'ExternalReference',
+                       'Biosample',
+                       'Interpretation',
+                       'Individual',
+                       'Resource',
+                       'VariationDescriptor',
+                       'VcfRecord',
+                       'Allele',
+                       'ChromosomeLocation',
+                       'CopyNumber',
+                       'Member',
+                       'SequenceLocation',
+                       'Text']} })
+    label: Optional[str] = Field(None, description="""The label (name) of the named thing""", json_schema_extra = { "linkml_meta": {'alias': 'label',
+         'aliases': ['name'],
+         'annotations': {'owl': {'tag': 'owl',
+                                 'value': 'AnnotationProperty, AnnotationAssertion'}},
+         'domain_of': ['NamedEntity', 'VariationDescriptor'],
+         'slot_uri': 'rdfs:label'} })
+    original_spans: Optional[List[str]] = Field(None, description="""The coordinates of the original text span from which the named entity was extracted, inclusive. For example, \"10:25\" means the span starting from the 10th character and ending with the 25th character. The first character in the text has index 0. Newlines are treated as single characters. Multivalued as there may be multiple spans for a single text.""", json_schema_extra = { "linkml_meta": {'alias': 'original_spans',
+         'annotations': {'prompt.skip': {'tag': 'prompt.skip', 'value': 'true'}},
+         'comments': ['This is determined during grounding and normalization',
+                      'But is based on the full input text'],
+         'domain_of': ['NamedEntity']} })
+
+    @field_validator('original_spans')
+    def pattern_original_spans(cls, v):
+        pattern=re.compile(r"^\d+:\d+$")
+        if isinstance(v,list):
+            for element in v:
+                if isinstance(v, str) and not pattern.match(element):
+                    raise ValueError(f"Invalid original_spans format: {element}")
+        elif isinstance(v,str):
+            if not pattern.match(v):
+                raise ValueError(f"Invalid original_spans format: {v}")
+        return v
+
+
 class DiagnosticMarkerClass(OntologyClass):
     linkml_meta: ClassVar[LinkMLMeta] = LinkMLMeta({'annotations': {'annotators': {'tag': 'annotators',
                                         'value': 'sqlite:obo:ncit'}},
@@ -3377,6 +3429,7 @@ Variation.model_rebuild()
 VariationSet.model_rebuild()
 AnatomyClass.model_rebuild()
 AssayClass.model_rebuild()
+DescriptiveClass.model_rebuild()
 DiagnosticMarkerClass.model_rebuild()
 EvidenceClass.model_rebuild()
 PhenotypeClass.model_rebuild()

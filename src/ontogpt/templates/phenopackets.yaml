@@ -1599,9 +1599,7 @@ classes:
         description: >-
           for use with things such as categories 'red', 'yellow' or
           'absent'/'present'
-        inlined: true
-        # range: OntologyClass
-        range: string
+        range: DescriptiveClass
         annotations:
           prompt: >-
             A categorical or descriptive value of the measurement,
@@ -3017,6 +3015,13 @@ classes:
       - CMO
     annotations:
       annotators: sqlite:obo:cmo
+
+  DescriptiveClass:
+    is_a: OntologyClass
+    id_prefixes:
+      - PATO
+    annotations:
+      annotators: sqlite:obo:pato
 
   DiagnosticMarkerClass:
     is_a: OntologyClass
