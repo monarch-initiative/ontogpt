@@ -545,15 +545,17 @@ class Phenopacket(ConfiguredBaseModel):
                                              'features observed in the individual or '
                                              'biosample, including any explicitly '
                                              'excluded. If this is not provided, do '
-                                             'not provide a value for this field. '
-                                             'Include the following information as '
-                                             'available: a description of the observed '
-                                             'phenotype, evidence supporting the '
-                                             'phenotype, whether it was excluded, any '
-                                             'modifiers of the phenotype, age of '
-                                             'onset, time required to resolve the '
-                                             'phenotype (if applicable), and its '
-                                             'severity.'}},
+                                             'not provide a value for this field. This '
+                                             'should include ALL details provided in '
+                                             'the input text regarding each feature '
+                                             'and may be very verbose. Include the '
+                                             'following information as available: a '
+                                             'description of the observed phenotype, '
+                                             'evidence supporting the phenotype, '
+                                             'whether it was excluded, any modifiers '
+                                             'of the phenotype, age of onset, time '
+                                             'required to resolve the phenotype (if '
+                                             'applicable), and its severity.'}},
          'domain_of': ['Phenopacket']} })
     measurements: Optional[List[Measurement]] = Field(None, description="""Quantifiable measurements related to the individual""", json_schema_extra = { "linkml_meta": {'alias': 'measurements',
          'annotations': {'prompt': {'tag': 'prompt',

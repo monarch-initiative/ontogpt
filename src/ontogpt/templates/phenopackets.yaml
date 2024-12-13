@@ -116,6 +116,8 @@ classes:
             A semicolon-separated list of phenotypic features observed in the
             individual or biosample, including any explicitly excluded.
             If this is not provided, do not provide a value for this field.
+            This should include ALL details provided in the input text regarding
+            each feature and may be very verbose.
             Include the following information as available: a description of
             the observed phenotype, evidence supporting the phenotype, whether
             it was excluded, any modifiers of the phenotype, age of onset, time
