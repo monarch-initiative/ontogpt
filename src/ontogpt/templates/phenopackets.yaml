@@ -1011,13 +1011,13 @@ classes:
         description: >-
           The term used to indicate laterality of diagnosis, if applicable.
           (Codelist reference: NCI CDE: 4122391)
-        # inlined: true
-        # range: OntologyClass
-        range: string
+        range: DescriptiveClass
         annotations:
           prompt: >-
             The term used to indicate laterality of diagnosis, if applicable.
             If this is not provided, do not include a value.
+          prompt.examples: >-
+            unilateral; bilateral
       onset:
         description: >-
           The onset of the disease. The values of this will come from the HPO
@@ -1763,6 +1763,10 @@ classes:
         # range: integer
         range: string
         # required: true
+        annotations:
+          prompt: >-
+            The total dose given in units of Gray (Gy).
+            If the dose is not specified, do not include a value for this field.
       fractions:
         description: >-
           The total number of fractions delivered as part of treatment.
@@ -1772,6 +1776,11 @@ classes:
         # range: integer
         range: string
         # required: true
+        annotations:
+          prompt: >-
+            The total number of fractions delivered as part of treatment.
+            If the number of fractions is not specified, do not include a value
+            for this field.
       modality:
         description: >-
           The modality of radiation therapy (e.g., electron, photon,…).
@@ -1782,6 +1791,13 @@ classes:
         # range: OntologyClass
         range: string
         # required: true
+        annotations:
+          prompt: >-
+            The modality of radiation therapy.
+            If the modality is not specified, do not include a value for this
+            field.
+          prompt.examples: >-
+            electron; photon
 
   TherapeuticRegimen:
     description: ARGO mapping radiation::radiation_therapy_type (missing)

@@ -1325,7 +1325,9 @@ class Disease(ConfiguredBaseModel):
          'annotations': {'prompt': {'tag': 'prompt',
                                     'value': 'The term used to indicate laterality of '
                                              'diagnosis, if applicable. If this is not '
-                                             'provided, do not include a value.'}},
+                                             'provided, do not include a value.'},
+                         'prompt.examples': {'tag': 'prompt.examples',
+                                             'value': 'unilateral; bilateral'}},
          'domain_of': ['Disease']} })
     onset: Optional[str] = Field(None, description="""The onset of the disease. The values of this will come from the HPO onset hierarchy i.e. subclasses of HP:0003674 FHIR mapping:
   Condition.onset ARGO mapping primary_diagnosis::age_at_diagnosis""", json_schema_extra = { "linkml_meta": {'alias': 'onset',
@@ -1999,12 +2001,27 @@ class RadiationTherapy(ConfiguredBaseModel):
          'domain_of': ['RadiationTherapy'],
          'exact_mappings': ['ARGO:radiation.anatomical_site_irradiated']} })
     dosage: Optional[str] = Field(None, description="""The total dose given in units of Gray (Gy). REQUIRED. ARGO mapping radiation::radiation_therapy_dosage""", json_schema_extra = { "linkml_meta": {'alias': 'dosage',
+         'annotations': {'prompt': {'tag': 'prompt',
+                                    'value': 'The total dose given in units of Gray '
+                                             '(Gy). If the dose is not specified, do '
+                                             'not include a value for this field.'}},
          'domain_of': ['RadiationTherapy'],
          'exact_mappings': ['ARGO:radiation.radiation_therapy_dosage']} })
     fractions: Optional[str] = Field(None, description="""The total number of fractions delivered as part of treatment. REQUIRED. ARGO mapping radiation::radiation_therapy_fractions""", json_schema_extra = { "linkml_meta": {'alias': 'fractions',
+         'annotations': {'prompt': {'tag': 'prompt',
+                                    'value': 'The total number of fractions delivered '
+                                             'as part of treatment. If the number of '
+                                             'fractions is not specified, do not '
+                                             'include a value for this field.'}},
          'domain_of': ['RadiationTherapy'],
          'exact_mappings': ['ARGO:radiation.radiation_therapy_fractions']} })
     modality: Optional[str] = Field(None, description="""The modality of radiation therapy (e.g., electron, photon,…). REQUIRED. ARGO mapping radiation::radiation_therapy_modality""", json_schema_extra = { "linkml_meta": {'alias': 'modality',
+         'annotations': {'prompt': {'tag': 'prompt',
+                                    'value': 'The modality of radiation therapy. If '
+                                             'the modality is not specified, do not '
+                                             'include a value for this field.'},
+                         'prompt.examples': {'tag': 'prompt.examples',
+                                             'value': 'electron; photon'}},
          'domain_of': ['RadiationTherapy'],
          'exact_mappings': ['ARGO:radiation.radiation_therapy_modality']} })
 
