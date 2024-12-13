@@ -1083,9 +1083,7 @@ classes:
           The disease/condition assigned to the diagnosis.
           Details about this disease may be contained in the `diseases` field
           in the Phenopacket.
-        # inlined: true
-        # range: OntologyClass
-        range: string
+        range: DiseaseClass
         annotations:
           prompt: >-
             The disease or condition assigned to the diagnosis,
@@ -1268,18 +1266,16 @@ classes:
             If the day is unknown, use the first day of the month.
             If the month is unknown, use the first month of the year.
             If the year is unknown, do not provide a value.
-      gender: # TODO: ground the corresponding ID
+      gender:
         description: Self-identified gender
-        # inlined: true
-        # range: OntologyClass
-        range: string
+        range: GenderClass
         annotations:
           prompt: >-
             The self-identified gender of the individual. This
             may or may not be the same as the individual's sex.
-            Must be one of Female, Male, Other (if it is not possible to
-            accurately assess the applicability of Male/Female or neither
-            is applicable) or Unknown if the information is unknown.
+          prompt.examples: >-
+            female gender identity; male gender identity;
+            nobinary gender identity; agendered
       id:
         description: >-
           An identifier for the individual. This must be unique within the
@@ -3077,6 +3073,13 @@ classes:
     annotations:
       annotators: sqlite:obo:eco
 
+  GenderClass:
+    is_a: OntologyClass
+    id_prefixes:
+      - GSSO
+    annotations:
+      annotators: sqlite:obo:gsso
+
   IntentClass:
     is_a: OntologyClass
     id_prefixes:
@@ -3315,7 +3318,7 @@ enums:
       source_ontology: obo:ncit
       source_nodes:
         - NCIT:C38114
-  
+
   NCITStagingType:
     reachable_from:
       source_ontology: obo:ncit
