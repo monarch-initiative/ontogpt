@@ -570,12 +570,21 @@ class Phenopacket(ConfiguredBaseModel):
                                              'onset, and primary disease site in the '
                                              'body.'}},
          'domain_of': ['Phenopacket']} })
-    medical_actions: Optional[List[str]] = Field(None, description="""Field for medical action identifiers - could be used for listing either performed or planned actions. The resources using these fields should define what this represents in their context.""", json_schema_extra = { "linkml_meta": {'alias': 'medical_actions',
+    medical_actions: Optional[List[MedicalAction]] = Field(None, description="""Field for medical action identifiers - could be used for listing either performed or planned actions. The resources using these fields should define what this represents in their context.""", json_schema_extra = { "linkml_meta": {'alias': 'medical_actions',
          'annotations': {'prompt': {'tag': 'prompt',
                                     'value': 'A semicolon-separated list of medical '
                                              'actions taken or planned. If this is not '
                                              'provided, do not include a value for '
-                                             'this field.'}},
+                                             'this field. Include the following '
+                                             'information as available: the name of '
+                                             'the action, a free-text description of '
+                                             'the action, any adverse events '
+                                             'encountered in the process, the intent '
+                                             'of the action, any response to the '
+                                             'action, the condition or disease '
+                                             'intended as a target of the action, and '
+                                             'any reason the treatment was '
+                                             'discontinued.'}},
          'domain_of': ['Phenopacket']} })
     files: Optional[List[str]] = Field(None, description="""Pointer to the relevant file(s) for the individual""", json_schema_extra = { "linkml_meta": {'alias': 'files',
          'annotations': {'prompt': {'tag': 'prompt',
@@ -1768,22 +1777,87 @@ class MedicalAction(ConfiguredBaseModel):
                                                           {'slot_conditions': {'therapeuticRegimen': {'name': 'therapeuticRegimen',
                                                                                                       'required': True}}}]}}]})
 
-    adverseEvents: Optional[List[OntologyClass]] = Field(None, description="""ARGO mapping treatment::adverse_events""", json_schema_extra = { "linkml_meta": {'alias': 'adverseEvents',
+    adverseEvents: Optional[List[str]] = Field(None, description="""ARGO mapping treatment::adverse_events""", json_schema_extra = { "linkml_meta": {'alias': 'adverseEvents',
+         'annotations': {'prompt': {'tag': 'prompt',
+                                    'value': 'A semicolon-separated list of adverse '
+                                             'events associated with the medical '
+                                             'action. If no adverse events are '
+                                             'specified, do not include a value for '
+                                             'this field.'}},
          'domain_of': ['MedicalAction'],
          'exact_mappings': ['ARGO:treatment.adverse_events']} })
-    procedure: Optional[Procedure] = Field(None, json_schema_extra = { "linkml_meta": {'alias': 'procedure',
+    procedure: Optional[Procedure] = Field(None, description="""The procedure performed as part of the medical action.""", json_schema_extra = { "linkml_meta": {'alias': 'procedure',
+         'annotations': {'prompt': {'tag': 'prompt',
+                                    'value': 'The procedure performed as part of the '
+                                             'medical action. This should include the '
+                                             'name of the procedure, the name of the '
+                                             'body site, and the time the procedure '
+                                             'was performed, if known. If the '
+                                             'procedure is not specified, use the same '
+                                             'value as the assay field.'}},
          'domain_of': ['Biosample', 'Measurement', 'MedicalAction']} })
-    radiationTherapy: Optional[RadiationTherapy] = Field(None, json_schema_extra = { "linkml_meta": {'alias': 'radiationTherapy', 'domain_of': ['MedicalAction']} })
-    responseToTreatment: Optional[OntologyClass] = Field(None, description="""ARGO mapping treatment::response_to_treatment""", json_schema_extra = { "linkml_meta": {'alias': 'responseToTreatment',
+    radiationTherapy: Optional[RadiationTherapy] = Field(None, description="""Radiation therapy performed as part of the medical action.""", json_schema_extra = { "linkml_meta": {'alias': 'radiationTherapy',
+         'annotations': {'prompt': {'tag': 'prompt',
+                                    'value': 'The radiation therapy performed as part '
+                                             'of the medical action. This should '
+                                             'include the anatomical site where '
+                                             'radiation therapy was administered, the '
+                                             'total dose given in units of Gray (Gy), '
+                                             'the total number of fractions delivered '
+                                             'as part of treatment, and the modality '
+                                             'of radiation therapy. If radiation '
+                                             'therapy is not specified, do not include '
+                                             'a value for this field.'}},
+         'domain_of': ['MedicalAction']} })
+    responseToTreatment: Optional[str] = Field(None, description="""ARGO mapping treatment::response_to_treatment""", json_schema_extra = { "linkml_meta": {'alias': 'responseToTreatment',
+         'annotations': {'prompt': {'tag': 'prompt',
+                                    'value': 'The response to the treatment. If the '
+                                             'response is not specified, do not '
+                                             'include a value for this field.'}},
          'domain_of': ['MedicalAction'],
          'exact_mappings': ['ARGO:treatment.response_to_treatment']} })
-    therapeuticRegimen: Optional[TherapeuticRegimen] = Field(None, json_schema_extra = { "linkml_meta": {'alias': 'therapeuticRegimen', 'domain_of': ['MedicalAction']} })
-    treatment: Optional[Treatment] = Field(None, json_schema_extra = { "linkml_meta": {'alias': 'treatment', 'domain_of': ['MedicalAction']} })
-    treatmentIntent: Optional[OntologyClass] = Field(None, description="""Whether the intention of the treatment was curative, palliative, ARGO mapping treatment::treatment_intent""", json_schema_extra = { "linkml_meta": {'alias': 'treatmentIntent',
+    therapeuticRegimen: Optional[str] = Field(None, description="""The therapeutic regimen established as part of the medical action.""", json_schema_extra = { "linkml_meta": {'alias': 'therapeuticRegimen',
+         'annotations': {'prompt': {'tag': 'prompt',
+                                    'value': 'The therapeutic regimen established as '
+                                             'part of the medical action. This should '
+                                             'include the start and end times of the '
+                                             'regimen, the status of the regimen, and '
+                                             'any external references to the regimen. '
+                                             'If the therapeutic regimen is not '
+                                             'specified, do not include a value for '
+                                             'this field.'}},
+         'domain_of': ['MedicalAction']} })
+    treatment: Optional[Treatment] = Field(None, description="""The treatment administered as part of the medical action.""", json_schema_extra = { "linkml_meta": {'alias': 'treatment',
+         'annotations': {'prompt': {'tag': 'prompt',
+                                    'value': 'The treatment administered as part of '
+                                             'the medical action. If the treatment is '
+                                             'not specified, do not include a value '
+                                             'for this field.'}},
+         'domain_of': ['MedicalAction']} })
+    treatmentIntent: Optional[str] = Field(None, description="""Whether the intention of the treatment was curative, palliative, ARGO mapping treatment::treatment_intent""", json_schema_extra = { "linkml_meta": {'alias': 'treatmentIntent',
+         'annotations': {'prompt': {'tag': 'prompt',
+                                    'value': 'The intention of the treatment. If the '
+                                             'intention is not specified, do not '
+                                             'include a value for this field.'},
+                         'prompt.examples': {'tag': 'prompt.examples',
+                                             'value': 'Curative; Palliative'}},
          'domain_of': ['MedicalAction'],
          'exact_mappings': ['ARGO:treatment.treatment_intent']} })
-    treatmentTarget: Optional[OntologyClass] = Field(None, description="""The condition or disease that this treatment was intended to address. FHIR mapping Procedure::reasonCode""", json_schema_extra = { "linkml_meta": {'alias': 'treatmentTarget', 'domain_of': ['MedicalAction']} })
-    treatmentTerminationReason: Optional[OntologyClass] = Field(None, description="""ARGO mapping treatment::treatment_outcome""", json_schema_extra = { "linkml_meta": {'alias': 'treatmentTerminationReason',
+    treatmentTarget: Optional[str] = Field(None, description="""The condition or disease that this treatment was intended to address. FHIR mapping Procedure::reasonCode""", json_schema_extra = { "linkml_meta": {'alias': 'treatmentTarget',
+         'annotations': {'prompt': {'tag': 'prompt',
+                                    'value': 'The condition or disease that this '
+                                             'treatment was intended to address, '
+                                             'identified by name. If the treatment '
+                                             'target is not specified, do not include '
+                                             'a value for this field.'}},
+         'domain_of': ['MedicalAction']} })
+    treatmentTerminationReason: Optional[str] = Field(None, description="""ARGO mapping treatment::treatment_outcome""", json_schema_extra = { "linkml_meta": {'alias': 'treatmentTerminationReason',
+         'annotations': {'prompt': {'tag': 'prompt',
+                                    'value': 'The reason for termination of the '
+                                             'treatment. If the reason is not '
+                                             'specified, or the treatment was not '
+                                             'stopped, do not include a value for this '
+                                             'field.'}},
          'domain_of': ['MedicalAction'],
          'exact_mappings': ['ARGO:treatment.treatment_outcome']} })
 
