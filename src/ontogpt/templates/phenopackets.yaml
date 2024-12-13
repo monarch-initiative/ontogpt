@@ -1,0 +1,3461 @@
+id: http://w3id.org/ontogpt/phenopackets
+name: phenopackets
+title: Phenopackets Schema v2
+description: >-
+  A template for extracting a phenopacket, an anonymous
+  phenotypic description of an individual or biosample
+  with potential genes of interest and/or diagnoses.
+  This template is based on the Phenopackets schema v2,
+  originally defined in Protobuf. All classes are
+  defined in a single schema here, with their corresponding
+  module provided in a comment (e.g., core/individual).
+  Much of this modeling is adapted from Chris Mungall's
+  linkml-phenopackets
+  (see https://github.com/cmungall/linkml-phenopackets).
+prefixes:
+  ARGO: https://docs.icgc-argo.org/dictionary/
+  EFO: http://www.ebi.ac.uk/efo/EFO_
+  GENO: http://purl.obolibrary.org/obo/GENO_
+  HP: http://purl.obolibrary.org/obo/HP_
+  LOINC: https://loinc.org/
+  MONDO: http://purl.obolibrary.org/obo/MONDO_
+  NCIT: http://purl.obolibrary.org/obo/NCIT_
+  UBERON: http://purl.obolibrary.org/obo/UBERON_
+  UCUM: http://unitsofmeasure.org/
+  UO: http://purl.obolibrary.org/obo/UO_
+  linkml: https://w3id.org/linkml/
+  phenopackets_schema: http://w3id.org/ontogpt/phenopackets
+see_also:
+  - https://github.com/phenopackets/phenopacket-schema
+  - https://github.com/cmungall/linkml-phenopackets
+keywords:
+  - phenotype
+
+default_prefix: phenopackets_schema
+default_range: string
+
+imports:
+  - linkml:types
+  - core
+
+classes:
+  PhenopacketCollection:
+    tree_root: true
+    description: >-
+      A collection of phenopackets. Each phenopacket is a phenotypic
+      description of an individual or biosample with potential genes of
+      interest and/or diagnoses. Each phenopacket describes a single
+      individual, experimental animal, or biosample.
+    comments:
+      - This is not part of the Phenopackets Schema.
+      - It is specific to the OntoGPT implementation.
+    attributes:
+      phenopackets:
+        range: Phenopacket
+        multivalued: true
+        annotations:
+          prompt: >-
+            A semicolon-separated list in which each object of the list
+            includes all details of a single individual, experimental animal,
+            or biosample. Each object should include the full input text,
+            edited to be specific to the individual, animal, or biosample.
+            Each individual should be assigned an identifier following that
+            used in the text, or a unique identifier if one is not provided.
+            Do not use a name or other personally identifying information.
+        inlined_as_list: true
+
+  Phenopacket:
+    description: >-
+      An anonymous phenotypic description of an individual or biosample with
+      potential genes of interest and/or diagnoses. This is a bundle of
+      high-level concepts with no specifically defined relational concepts.
+      It is expected that the resources sharing the phenopackets will define
+      and enforce their own semantics and level of requirements for included
+      fields.
+    attributes:
+      id:
+        description: >-
+          An identifier specific for this phenopacket.
+        range: string
+        identifier: true
+        annotations:
+          prompt: >-
+            An identifier for the individual person, animal, or sample
+            described in the input text. This must be a unique identifier.
+            Use the same identifier as that used in the text if possible.
+            Otherwise, create a unique identifier such as "Patient 1".
+            Do not use a name or other personally identifying information.
+      subject:
+        description: >-
+          The individual representing the focus of this packet - e.g. the
+          proband in rare disease cases or cancer patient
+        range: Individual
+        inlined: true
+        annotations:
+          prompt: >-
+            A description of the individual representing the focus of this
+            packet. It must include the unique identifier used for
+            the individual. Use the same identifier as that used in the text if
+            possible. Otherwise, create a unique identifier such as "Patient 1".
+            Do not use a name or other personally identifying information.
+            This description must also include any of the following,
+            if provided: the date of birth, gender, sex, karyotypic sex,
+            the time of last encounter, and whether the individual is
+            alive or deceased. Even if no details about the individual are
+            provided, this MUST include the phenopacket identifier (e.g.,
+            the value for the id field). Do not provide an empty value for this
+            field.
+      phenotypic_features:
+        description: >-
+          Phenotypic features relating to the subject of the phenopacket
+        range: PhenotypicFeature
+        multivalued: true
+        inlined: true
+        annotations:
+          prompt: >-
+            A semicolon-separated list of phenotypic features observed in the
+            individual or biosample, including any explicitly excluded.
+            If this is not provided, do not provide a value for this field.
+            This should include ALL details provided in the input text regarding
+            each feature and may be very verbose.
+            Include the following information as available: a description of
+            the observed phenotype, evidence supporting the phenotype, whether
+            it was excluded, any modifiers of the phenotype, age of onset, time
+            required to resolve the phenotype (if applicable), and its severity.
+      measurements:
+        description: >-
+          Quantifiable measurements related to the individual
+        range: Measurement
+        multivalued: true
+        inlined: true
+        annotations:
+          prompt: >-
+            A semicolon-separated list of measurements taken from the individual
+            or biosample. If no measurements are described, do not provide any
+            values for this field. Include the following information as
+            available: the name of the assay or test performed, the value of
+            the result, a free-text description of the result, and the time
+            when the measurement was made.
+      biosample:
+        description: >-
+          Biosample(s) derived from the patient or a collection of biosamples
+          in isolation
+        range: Biosample
+        multivalued: true
+        inlined: true
+        annotations:
+          prompt: >-
+            A semicolon-separated list of biosamples from which the phenopacket
+            was derived. If no biosamples are described, do not provide values
+            for this field. Include the following information as available:
+            the identifier of the individual or source of this sample, a
+            description of the biosample, the overall type of the sample, the
+            tissue of the sample, presence of any biomarkers, a histological
+            diagnosis (including any negative or inconclusive findings),
+            procedures performed to extract or process the sample
+      interpretations:
+        description: >-
+          Interpretations of the phenopacket
+        range: Interpretation
+        multivalued: true
+        inlined: true
+        annotations:
+          prompt: >-
+            A semicolon-separated list of interpretations of the input text,
+            primarily any diagnoses and summaries of patient status.
+            Include the individual's identifier.
+            If no interpretations are provided in the input text,
+            do not provide a value for this field.
+      diseases:
+        description: >-
+          Field for disease identifiers - could be used for listing either
+          diagnosed or suspected conditions. The resources using these fields
+          should define what this represents in their context.
+        range: Disease
+        multivalued: true
+        inlined: true
+        annotations:
+          prompt: >-
+            A semicolon-separated list of diagnosed or suspected disease
+            conditions. If this is not provided, do not provide
+            a value for this field.
+            Also include explicitly excluded diseases, clearly denoting
+            they are excluded with the word EXCLUDED.
+            Include the following information as available:
+            name of the disease, a free-text description of the disease,
+            any cancer diagnosis or related findings, disease stage,
+            laterality, onset, and primary disease site in the body.
+      medical_actions:
+        description: >-
+          Field for medical action identifiers - could be used for listing
+          either performed or planned actions. The resources using these fields
+          should define what this represents in their context.
+        range: MedicalAction
+        multivalued: true
+        inlined: true
+        annotations:
+          prompt: >-
+            A semicolon-separated list of medical actions taken or planned.
+            If this is not provided, do not include a value for this field.
+            Include the following information as available: the name of the
+            action, a free-text description of the action, any adverse events
+            encountered in the process, the intent of the action, any response
+            to the action, the condition or disease intended as a target of the
+            action, and any reason the treatment was discontinued.
+      files:
+        # TODO: this may be addressed by passing filenames along
+        # with the input text.
+        description: >-
+          Pointer to the relevant file(s) for the individual
+        # range: File
+        range: string
+        multivalued: true
+        # inlined: true
+        annotations:
+          prompt: >-
+            A semicolon-separated list of file identifiers specified in the
+            input text. If this is not provided, do not include a value for
+            this field.
+      meta_data:
+        # TODO: metadata should be populated after the phenopacket is created,
+        # as it depends upon the external references and namespaces
+        # used in the phenopacket
+        description: >-
+          Structured definitions of the resources and ontologies used within
+          the phenopacket. REQUIRED
+        # range: MetaData
+        range: string
+        # required: true
+        annotations:
+          prompt: >-
+            Additional metadata for the phenopacket.
+            If this is not provided, do not provide a value for this field.
+
+
+  Family:
+    description: >-
+      Phenotype, sample and pedigree data required for a genomic diagnosis.
+      Equivalent to the Genomics England InterpretationRequestRD
+      https://github.com/genomicsengland/GelReportModels/blob/master/schemas/IDLs/org.gel.models.report.avro/5.0.0/InterpretationRequestRD.avdl
+    attributes:
+      id:
+        description: An identifier specific for this family.
+        range: string
+        identifier: true
+        annotations:
+          prompt.skip: "true"
+        comments:
+          - Must be assigned at write time
+      proband:
+        description: >-
+          The individual representing the focus of this packet - e.g. the
+          proband in rare disease cases or cancer patient
+        range: Phenopacket
+        annotations:
+          prompt: >-
+            The individual representing the focus of this input text,
+            as a Phenopacket object.
+      relatives:
+        description: >-
+          Individuals related in some way to the patient. For instance, the
+          individuals may be genetically related or may be members of a cohort.
+          If this field is used, then  it is expected that a pedigree will be
+          included for genetically related individuals for use cases such as
+          genomic diagnostics. If a phenopacket is being used to describe one
+          member of a cohort, then in general one phenopacket will be created
+          for each of the individuals in the cohort.
+        range: Phenopacket
+        multivalued: true
+        annotations:
+          prompt: >-
+            A semicolon-separated list of relatives of the proband,
+            as Phenopacket objects.
+      consanguinous_parents:
+        description: >-
+          flag to indicate that the parents of the proband are consanguinous
+        range: boolean
+        annotations:
+          prompt: >-
+            Flag to indicate that the parents of the proband are consanguinous.
+            This must be a boolean value - true or false.
+            If unknown, do not include this field or a value for this field.
+      pedigree:
+        description: >-
+          The pedigree defining the relations between the proband and their
+          relatives. Pedigree.individual_id should map to the
+          PhenoPacket.Individual.id
+        range: Pedigree
+        annotations:
+          prompt: >-
+            The pedigree defining the relations between the proband and their
+            relatives.
+      files:
+        description: >-
+          Pointer to the relevant file(s) for the family. These should be files
+          relating to one or more of the family members e.g a multi-sample VCF.
+          Files relating exclusively to individual phenopackets should be
+          contained in the Phenopacket.
+        range: File
+        multivalued: true
+        inlined: true
+        annotations:
+          prompt: >-
+            A semicolon-separated list of file identifiers specified in the
+            input text, relating to the family.
+      meta_data:
+        description: >-
+          Structured definitions of the resources and ontologies used within
+          the phenopacket. REQUIRED
+        range: MetaData
+        required: true
+        annotations:
+          prompt: >-
+            Additional metadata for the phenopacket.
+
+  Cohort:
+    description: >-
+      A group of individuals related in some phenotypic or genotypic aspect.
+    attributes:
+      id:
+        description: An identifier specific for this cohort.
+        range: string
+        identifier: true
+        annotations:
+          prompt.skip: "true"
+        comments:
+          - Must be assigned at write time
+      description:
+        description: >-
+          A description of the cohort, including the phenotypic or genotypic
+          aspect that relates the individuals.
+        range: string
+        annotations:
+          prompt: >-
+            A description of the cohort, including the phenotypic or genotypic
+            aspect that relates the individuals.
+      members:
+        description: >-
+          Individuals in the cohort. Each individual should be described in a
+          separate Phenopacket.
+        range: Phenopacket
+        multivalued: true
+        annotations:
+          prompt: >-
+            A semicolon-separated list of individuals in the cohort,
+            as Phenopacket objects.
+      files:
+        description: >-
+          Pointer to relevant file(s) for the cohort. Files relating
+          exclusively to individual phenopackets should be
+          contained in the Phenopacket.
+        range: File
+        multivalued: true
+        inlined: true
+        annotations:
+          prompt: >-
+            A semicolon-separated list of file identifiers specified in the
+            input text, relating to the cohort.
+      meta_data:
+        description: >-
+          Structured definitions of the resources and ontologies used within
+          the phenopacket. REQUIRED
+        range: MetaData
+        required: true
+        annotations:
+          prompt: >-
+            Additional metadata for the phenopacket.
+
+  # core/base
+
+  OntologyClass:
+    is_a: NamedEntity
+    description: >-
+      A class (aka term, concept) in an ontology.
+      FHIR mapping: CodeableConcept (http://www.hl7.org/fhir/datatypes.html#CodeableConcept)
+      see also Coding (http://www.hl7.org/fhir/datatypes.html#Coding)
+    # attributes:
+    #   id:
+    #     description: >-
+    #       a CURIE-style identifier e.g. HP:0100024, MP:0001284, UBERON:0001690.
+    #       This is the primary key for the ontology class
+    #       REQUIRED!
+    #     range: uriorcurie
+    #     required: true
+    #     identifier: true
+    #     annotations:
+    #       prompt.skip: "true"
+    #   label:
+    #     description: >-
+    #       class label, aka name. E.g. "Abnormality of cardiovascular system"
+    #     range: string
+    #     annotations:
+    #       prompt: >-
+    #         The human-readable label of the class.
+    comments:
+      - For OntoGPT, considered a NamedEntity
+      - NamedEntity already defines id and label
+
+  ExternalReference:
+    description: >-
+      FHIR mapping: Reference (https://www.hl7.org/fhir/references.html)
+    attributes:
+      id:
+        description: >-
+          e.g. ISBN, PMID:123456, DOI:...,
+          FHIR mapping: Reference.identifier
+        range: uriorcurie
+        identifier: true
+        annotations:
+          prompt.skip: "true"
+        comments:
+          - Must be assigned at write time
+      reference:
+        description: >-
+          A full or partial URL pointing to the external reference if no
+          commonly resolvable identifier can be used in the `id` field
+          FHIR mapping Reference.reference
+        range: string
+        annotations:
+          prompt: >-
+            A full or partial URL pointing to the external reference.
+      description:
+        description: >-
+          Human readable title or display string for the reference
+          FHIR mapping: Reference.display
+        range: string
+        annotations:
+          prompt: >-
+            Human readable title or display string for the reference.
+
+  Evidence:
+    description: >-
+      FHIR mapping: Condition.evidence
+      https://www.hl7.org/fhir/condition-definitions.html#Condition.evidence
+    attributes:
+      evidence_code:
+        description: >-
+          The encoded evidence type using, for example the Evidence & Conclusion
+          Ontology (ECO - http://purl.obolibrary.org/obo/eco.owl)
+        range: EvidenceClass
+        annotations:
+          prompt: >-
+            The type of evidence, identified by NamedEntity.
+          prompt.examples: >-
+            nucleotide sequencing assay evidence; cognitive assay phenotypic
+            evidence
+      reference:
+        description: >-
+          FHIR mapping: Condition.evidence.detail
+        # range: ExternalReference
+        range: string
+        annotations:
+          prompt: >-
+            A reference to the evidence, if provided. Do not include a value
+            for this field if no reference is provided.
+
+  Procedure:
+    description: >-
+      A clinical procedure performed on a subject. By preference a single
+      concept to indicate both the procedure and thebody site should be used.
+      In cases where this is not possible, the body site should be indicated
+      using a separate ontology class.
+      e.g.
+      {"code":{"NCIT:C51585": "Biopsy of Soft Palate"}}
+      {"code":{"NCIT:C28743": "Punch Biopsy"}, "body_site":{"UBERON:0003403":
+      "skin of forearm"}} - a punch biopsy of the skin from the forearm
+      FHIR mapping: Procedure (https://www.hl7.org/fhir/procedure.html)
+    attributes:
+      code:
+        description: >-
+          FHIR mapping: Procedure.code
+        range: ProcedureClass
+        annotations:
+          prompt: >-
+            The name of the procedure.
+      body_site:
+        description: >-
+          FHIR mapping: Procedure.bodySite
+        range: AnatomyClass
+        annotations:
+          prompt: >-
+            The name of the body site of the procedure. This may
+            require inference from the procedure, e.g., a colonoscopy
+            is done on the colon, bronchoscopy is done on the lungs,
+            and so on.
+          prompt.examples: >-
+            colon; lungs; retina
+      performed:
+        description: >-
+          When the procedure was performed.
+        # range: TimeElement
+        range: string
+        annotations:
+          prompt: >-
+            The date and time the procedure was performed.
+
+  GestationalAge:
+    description: >-
+      The gestational age of the individual at the time of the procedure.
+    attributes:
+      weeks:
+        description: >-
+          The gestational age in weeks.
+        range: integer
+        annotations:
+          prompt: >-
+            The gestational age in weeks. This must be an integer.
+            Do not provide units or any non-integer value.
+      days:
+        description: >-
+          The gestational age in days.
+        range: integer
+        annotations:
+          prompt: >-
+            The gestational age in days. This must be an integer.
+            Do not provide units or any non-integer value.
+
+  # TODO: use an extant LinkML type for this
+  Age:
+    description: >-
+      See http://build.fhir.org/datatypes and
+      http://build.fhir.org/condition-definitions.html#Condition.onset_x_
+      In FHIR this is represented as a UCUM measurement -
+      http://unitsofmeasure.org/trac/
+    attributes:
+      iso8601duration:
+        description: >-
+          The :ref:`ISO 8601<metadata_date_time>` age of this object as ISO8601
+          duration or time intervals. e.g. P40Y10M05D)
+        range: string
+        annotations:
+          prompt: >-
+            The age as an ISO 8601 duration.
+            Do not provide units.
+          prompt.example: P40Y10M05D
+
+  AgeRange:
+    description: >-
+      A range of ages.
+    attributes:
+      start:
+        description: >-
+          The minimum age in the range.
+        range: Age
+        annotations:
+          prompt: >-
+            The minimum age in the range.
+            This should be an integer.
+      end:
+        description: >-
+          The maximum age in the range.
+        range: Age
+        annotations:
+          prompt: >-
+            The maximum age in the range.
+            This should be an integer.
+
+  # TODO: in the protobuf schema the slots are
+  # typed as google.protobuf.Timestamp.
+  # Find an equivalent - for now this is strings
+  TimeInterval:
+    description: >-
+      A time interval.
+    attributes:
+      start:
+        description: >-
+          The start of the time interval.
+        range: string
+        annotations:
+          prompt: >-
+            The start of the time interval.
+      end:
+        description: >-
+          The end of the time interval.
+        range: string
+        annotations:
+          prompt: >-
+            The end of the time interval.
+
+  # TODO: this contains a oneof in the protobuf schema
+  # so that cardinality may be represented here:
+  # only one of the following fields may be present
+  TimeElement:
+    description: >-
+      A time element.
+    attributes:
+      gestational_age:
+        range: GestationalAge
+      age:
+        range: Age
+      age_range:
+        range: AgeRange
+      ontology_class:
+        range: OntologyClass
+      timestamp:
+        # originally google.protobuf.Timestamp
+        range: string
+      interval:
+        range: TimeInterval
+
+  # TODO: represent mappings here
+  # for now they are strings
+  File:
+    description: >-
+      A file or set of files.
+    attributes:
+      uri:
+        description: >-
+          URI for the file e.g. file://data/genomes/file1.vcf.gz or
+          https://opensnp.org/data/60.23andme-exome-vcf.231?1341012444
+        range: string
+        annotations:
+          prompt: >-
+            A unique resource identifier for the file.
+            This may be a file path (beginning with file://) or URL.
+          prompt.example: file://data/genomes/file1.vcf.gz
+      individual_to_file_identifiers:
+        description: >-
+          A map of identifiers mapping an individual to a sample in the file. The key values must correspond to the
+          Individual::id for the individuals in the message, the values must map to the samples in the file.
+        range: string
+        annotations:
+          prompt: >-
+            A map of identifiers mapping an individual to a sample in the file.
+            The key values must correspond to the Individual::id for the individuals.
+      file_attributes:
+        description: >-
+          Map of attributes describing the file. For example the File format or genome assembly would be defied here. For
+          genomic data files there MUST be a 'genomeAssembly' key.
+        range: string
+        annotations:
+          prompt: >-
+            Map of attributes describing the file.
+
+  # core/biosample
+
+  Biosample:
+    description: >-
+      A Biosample refers to a unit of biological material from which the
+      substrate molecules (e.g. genomic DNA, RNA, proteins) for molecular
+      analyses (e.g. sequencing, array hybridisation, mass-spectrometry) are
+      extracted. Examples would be a tissue biopsy, a single cell from a
+      culture for single cell genome sequencing or a protein fraction from a
+      gradient centrifugation. Several instances (e.g. technical replicates) or
+      types of experiments (e.g. genomic array as well as RNA-seq experiments)
+      may refer to the same Biosample. FHIR mapping: Specimen
+      (http://www.hl7.org/fhir/specimen.html)."
+    attributes:
+      derivedFromId:
+        description: >-
+          The id of the parent biosample this biosample was derived from.
+        range: string
+        annotations:
+          prompt: >-
+            A unique identifier for the parent biosample of this biosample,
+            if applicable. If this is not provided, do not include a value
+            for this field.
+      description:
+        description: >-
+          The biosample's description. This attribute contains human readable
+          text. The "description" attributes should not contain any structured
+          data.
+        range: string
+        annotations:
+          prompt: >-
+            Description of the biosample. This should contain no identifiers.
+      diagnosticMarkers:
+        description: >-
+          Clinically relevant bio markers. Most of the assays such as IHC are
+          covered by the NCIT under the sub-hierarchy NCIT:C25294 (Laboratory
+          Procedure). e.g. NCIT:C68748 (HER2/Neu Positive), NCIT:C131711
+          (Human Papillomavirus-18 Positive)
+        range: DiagnosticMarkerClass
+        annotations:
+          prompt: >-
+            A semicolon-delimited list of names of clinically relevant bio
+            markers observed in the sample, along with their status (e.g.,
+            Positive, present, etc.) including observations of laboratory
+            procedures performed on the sample. If this is not provided,
+            do not include a value for this field.
+          prompt.examples: HER2/Neu Positive; Human Papillomavirus-18 Positive
+        inlined_as_list: true
+        multivalued: true
+      files:
+        description: >-
+          Pointer to the relevant file(s) for the biosample. Files relating to
+          the entire individual e.g. a germline exome/genome should be
+          associated with the Phenopacket rather than the Biosample it was
+          derived from.
+        # range: File
+        inlined_as_list: true
+        multivalued: true
+        range: string
+        annotations:
+          prompt: >-
+            A semicolon-separated list of file identifiers specified in the
+            input text, relating to the biosample. If this is not provided,
+            do not include a value for this field.
+      histologicalDiagnosis:
+        # This is a string because histological ontologies are lacking
+        description: >-
+          This is the pathologist’s diagnosis and may often represent a
+          refinement of the clinical diagnosis given in the Patient/Clinical
+          module. Should use the same terminology as diagnosis, but represent
+          the pathologist’s findings. Normal samples would be tagged with the
+          term "NCIT:C38757", "Negative Finding" ARGO mapping
+          specimen::tumour_histological_type
+        exact_mappings:
+          - ARGO:specimen.tumour_histological_type
+        inlined: true
+        # range: OntologyClass
+        range: string
+        annotations:
+          prompt: >-
+            The pathologist’s diagnosis of the biosample. This should use the
+            same terminology as the diagnosis, but represent the pathologist’s
+            findings. If this is not provided, do not provide a value.
+            Normal samples should be described here with the term
+            "Negative Finding".
+      id:
+        annotations:
+          percent_encoded: true
+          prompt: >-
+            A unique identifier for the biosample. If one is not available,
+            create an identifier incorporating the individual's identifier,
+            e.g. if the individual's identifier is "Patient1", the biosample
+            id may be "Patient1_Biosample1".
+        description: >-
+          biosamples SAMN08666232 Human Cell Atlas The Biosample id
+          This is unique in the context of the server instance.
+          ARGO mapping specimen::submitter_specimen_id
+        exact_mappings:
+          - ARGO:specimen.submitter_specimen_id
+        range: string
+      individualId:
+        description: >-
+          The id of the individual this biosample was derived from. ARGO
+          mapping specimen::submitter_donor_id
+        exact_mappings:
+          - ARGO:specimen.submitter_donor_id
+        range: string
+        annotations:
+          prompt: >-
+            A unique identifier for the individual this biosample was derived
+            from. If provided directly from an individual or animal, this field
+            will be the identifier of that individual or animal.
+      materialSample:
+        description: >-
+          This element can be used to specify the status of the sample. For
+          instance, a status may be used as a normal control, often in
+          combination with another sample that is thought to contain a
+          pathological finding. We recommend use of ontology terms such as:
+          EFO:0009654 (reference sample) or EFO:0009655 (abnormal sample)
+          ARGO mapping sample_registration::tumour_normal_designation
+        exact_mappings:
+          - ARGO:sample_registration.tumour_normal_designation
+        range: SampleStatusClass
+        annotations:
+          prompt: >-
+            The status of the sample. For instance, a status may be used as a
+            normal control, often in combination with another sample that is
+            thought to contain a pathological finding. If this is not provided,
+            do not include a value.
+          prompt.examples: reference sample; abnormal sample
+      measurements:
+        description: Measurements obtained for the sample.
+        inlined_as_list: true
+        multivalued: true
+        range: Measurement
+        annotations:
+          prompt: >-
+            A semicolon-separated list of measurements taken from the biosample.
+            If this is not provided, do not provide any values for this field.
+            Include the following information as available: the name
+            of the assay or test performed, the value of the result, a
+            free-text description of the result, and the time when the
+            measurement was made.
+      pathologicalStage:
+        description: >-
+          ARGO mapping specimen::pathological_tumour_staging_system ARGO
+          mapping specimen::pathological_stage_group
+        exact_mappings:
+          - ARGO:specimen.pathological_tumour_staging_system
+        range: StagingClass
+        annotations:
+          prompt: >-
+            The pathological stage of the biosample. If this is not provided,
+            do not include a value.
+          prompt.examples: >-
+            Stage I; Stage II; Stage III; Stage IV
+      pathologicalTnmFinding:
+        description: >-
+          ARGO mapping specimen::pathological_t_category ARGO mapping
+          specimen::pathological_n_category ARGO mapping
+          specimen::pathological_m_category
+        exact_mappings:
+          - ARGO:specimen.pathological_t_category
+        multivalued: true
+        range: StagingClass
+        annotations:
+          prompt: >-
+            A semicolon-separated list of cancer findings in the TNM system
+            that are relevant to the diagnosis of cancer. If this is not
+            provided, do not include a value.
+      phenotypicFeatures:
+        description: >-
+          Phenotypic characteristics of the BioSample, for example histological
+          findings of a biopsy.
+        inlined_as_list: true
+        multivalued: true
+        range: PhenotypicFeature
+        annotations:
+          prompt: >-
+            A semicolon-separated list of phenotypic features observed in the
+            biosample, including any explicitly excluded. This may include
+            histological findings of the sample, e.g., observations of a biopsy.
+            If phenotypic features are not provided, write only "NA".
+            Include the following information as available: a description of
+            the observed phenotype, evidence supporting the phenotype, whether
+            it was excluded, any modifiers of the phenotype, age of onset,
+            time required to resolve the phenotype (if applicable), and its
+            severity.
+      procedure:
+        description: >-
+          Clinical procedure performed on the subject in order to extract the
+          biosample. ARGO mapping specimen::specimen_anatomic_location -
+          Procedure::body_site ARGO mapping
+          specimen::specimen_acquisition_interval - Procedure::time_performed
+        exact_mappings:
+          - ARGO:specimen.specimen_anatomic_location
+        range: Procedure
+        annotations:
+          prompt: >-
+            The clinical procedure performed on the subject in order to extract
+            the biosample. If this is not provided, do not include
+            a value.
+      sampleProcessing:
+        description: >-
+          Field to represent how the sample was processed. ARGO mapping
+          specimen::specimen_processing
+        exact_mappings:
+          - ARGO:specimen.specimen_processing
+        range: ProcedureClass
+        annotations:
+          prompt: >-
+            Field to represent how the sample was processed. If this is not
+            provided, do not include a value.
+          prompt.examples: >-
+            Formalin fixation; Paraffin embedding; DNA extraction
+      sampleStorage:
+        description: >-
+          Field to represent how the sample was stored ARGO mapping
+          specimen::specimen_storage
+        exact_mappings:
+          - ARGO:specimen.specimen_storage
+        range: ProcedureClass
+        annotations:
+          prompt: >-
+            Field to represent how the sample was stored. If this is not
+            provided, do not include a value.
+          prompt.examples: >-
+            Liquid nitrogen; storage at room temperature
+      sampleType:
+        description: >-
+          Recommended use of EFO term to describe the sample. e.g.
+          Amplified DNA, ctDNA, Total RNA, Lung tissue, Cultured cells...
+          ARGO mapping sample_registration::sample_type
+        exact_mappings:
+          - ARGO:sample_registration.sample_type
+        range: SampleClass
+        annotations:
+          prompt: >-
+            The type of the sample. If this is not provided,
+            do not include a value.
+          prompt.examples: >-
+            Amplified DNA; ctDNA; Total RNA; Lung tissue; Cultured cells
+      sampledTissue:
+        description: >-
+          UBERON class describing the tissue from which the specimen was
+          collected. PDX-MI mapping: 'Specimen tumor tissue' FHIR mapping:
+          Specimen.type ARGO mapping
+          sample_registration::specimen_tissue_source"
+        exact_mappings:
+          - ARGO:sample_registration.specimen_tissue_source
+        range: AnatomyClass
+        annotations:
+          prompt: >-
+            The tissue from which the specimen was collected. If this is not
+            provided, do not include a value.
+          prompt.examples: >-
+            lung; liver; pericardium
+      taxonomy:
+        description: >-
+          NCBI taxonomic identifier (NCBITaxon) of the sample e.g.
+          NCBITaxon:9606
+        inlined: true
+        # range: OntologyClass
+        range: string
+        annotations:
+          prompt: >-
+            The NCBI taxonomic identifier of the sample. If this is not
+            provided, do not include a value. Human samples should always be
+            annotated with NCBITaxon:9606, though organisms isolated
+            from human samples may have different taxonomic identifiers.
+      timeOfCollection:
+        description: >-
+          An TimeElement describing either the age of the individual this
+          biosample was derived from at the time of collection, or the time
+          itself. See http://build.fhir.org/datatypes
+        inlined: true
+        # range: TimeElement
+        range: string
+        annotations:
+          prompt: >-
+            The time of collection of the biosample. If this is not provided,
+            do not include a value.
+      tumorGrade:
+        description: >-
+          Potentially a child term of NCIT:C28076 (Disease Grade Qualifier) or
+          equivalent See
+          https://www.cancer.gov/about-cancer/diagnosis-staging/prognosis/tumor-grade-fact-sheet
+        range: TumorGradeClass
+        annotations:
+          prompt: >-
+            The grade of the tumor. If this is not provided, do not include
+            a value.
+          prompt.examples: >-
+            Grade I; Grade II; Grade III; Grade IV
+      tumorProgression:
+        description: >-
+          Is the specimen tissue from the primary tumor, a metastasis or a
+          recurrence? Most likely a child term of NCIT:C7062 (Neoplasm by
+          Special Category) NCIT:C3677 (Benign Neoplasm) NCIT:C84509 (Primary
+          Malignant Neoplasm) NCIT:C95606 (Second Primary Malignant Neoplasm)
+          NCIT:C3261 (Metastatic Neoplasm) NCIT:C4813 (Recurrent Malignant
+          Neoplasm)
+        range: TumorProgressionClass
+        annotations:
+          prompt: >-
+            Is the specimen tissue from the primary tumor, a metastasis or a
+            recurrence? If this is not provided, do not include a value.
+          prompt.examples: >-
+            Benign Neoplasm; Primary Malignant Neoplasm; Second Primary
+            Malignant Neoplasm; Metastatic Neoplasm; Recurrent Malignant
+            Neoplasm
+
+  # core/disease
+
+  Disease:
+    description: >-
+      Message to indicate a disease (diagnosis) and its recorded onset.
+    attributes:
+      # TODO: see if there's another way to ground this field -
+      # the NCIT terms are all like "Lung Cancer pT1 TNM Finding v6"
+      clinicalTnmFinding:
+        description: >-
+          Cancer findings in the TNM system that is relevant to the diagnosis
+          of cancer. See
+          https://www.cancer.gov/about-cancer/diagnosis-staging/staging
+          Valid values include child terms of NCIT:C48232 (Cancer TNM Finding)
+          ARGO mapping primary_diagnosis::clinical_t_category ARGO mapping
+          primary_diagnosis::clinical_n_category ARGO mapping
+          primary_diagnosis::clinical_m_category
+        exact_mappings:
+          - ARGO:primary_diagnosis.clinical_t_category
+        # inlined_as_list: true
+        multivalued: true
+        # range: OntologyClass
+        range: string
+        annotations:
+          prompt: >-
+            A semicolon-separated list of cancer findings in the Tumor, Node,
+            Metastasis (TNM) system that are relevant to the diagnosis of
+            cancer. If this is not provided, do not include a value for this
+            field.
+      diseaseStage:
+        description: >-
+          Disease staging, the extent to which a disease has developed. For
+          cancers, see
+          https://www.cancer.gov/about-cancer/diagnosis-staging/staging
+          Valid values include child terms of NCIT:C28108 (Disease Stage
+          Qualifier) ARGO mapping
+          primary_diagnosis::clinical_tumour_staging_system ARGO mapping
+          primary_diagnosis::clinical_stage_group
+        exact_mappings:
+          - ARGO:primary_diagnosis.clinical_tumour_staging_system
+        multivalued: true
+        range: StagingClass
+        annotations:
+          prompt: >-
+            A semicolon-separated list of disease staging terms. These
+            describe the extent to which a disease has developed.
+            If this is not provided, do not include a value for this field.
+          prompt.examples: >-
+            Stage IA; Stage M2; Stage R; Postoperative Stage
+      excluded:
+        description: >-
+          Flag to indicate whether the disease was observed or not. Default is
+          'false', in other words the disease was observed. Therefore it is
+          only required in cases to indicate that the disease was looked for,
+          but found to be absent. More formally, this modifier indicates the
+          logical negation of the OntologyClass used in the 'term' field.
+          *CAUTION* It is imperative to check this field for correct
+          interpretation of the disease!
+        # range: boolean
+        range: string
+        annotations:
+          prompt: >-
+            Flag to indicate whether the disease was observed or not.
+            If the disease is explicitly EXCLUDED, this value should be 'true'.
+            Otherwise, do not provide a value for this field, or provide
+            'false'.
+      laterality:
+        description: >-
+          The term used to indicate laterality of diagnosis, if applicable.
+          (Codelist reference: NCI CDE: 4122391)
+        range: DescriptiveClass
+        annotations:
+          prompt: >-
+            The term used to indicate laterality of diagnosis, if applicable.
+            If this is not provided, do not include a value.
+          prompt.examples: >-
+            unilateral; bilateral
+      onset:
+        description: >-
+          The onset of the disease. The values of this will come from the HPO
+          onset hierarchy i.e. subclasses of HP:0003674 FHIR mapping:
+            Condition.onset ARGO mapping primary_diagnosis::age_at_diagnosis
+        exact_mappings:
+          - ARGO:primary_diagnosis.age_at_diagnosis
+        # inlined: true
+        # range: TimeElement
+        annotations:
+          prompt: >-
+            The onset of the disease in terms of the individual's age.
+            If this is not provided, do not include a value.
+      primarySite:
+        description: >-
+          The text term used to describe the primary site of disease, as
+          categorized by the World Health Organization's (WHO) International
+          Classification of Diseases for Oncology (ICD-O). This categorization
+          groups cases into general
+        range: AnatomyClass
+        annotations:
+          prompt: >-
+            The text term used to describe the primary site of disease.
+            If this is not provided, do not include a value.
+      resolution:
+        description: >-
+          The time of resolution of the disease, if applicable.
+        # inlined: true
+        # range: TimeElement
+        range: string
+        annotations:
+          prompt: >-
+            The time of resolution of the disease, if applicable.
+            If this is not provided, do not include a value.
+      term:
+        description: >-
+          The identifier of this disease e.g. MONDO:0007043, OMIM:101600,
+          Orphanet:710, DOID:14705 (note these are all equivalent) ARGO mapping
+          primary_diagnosis::submitter_primary_diagnosis_id
+        exact_mappings:
+          - ARGO:primary_diagnosis.submitter_primary_diagnosis_id
+        range: DiseaseClass
+        annotations:
+          prompt: >-
+            The name of the disease.
+          prompt.examples: >-
+            cardio-renal syndrome; acute myeloid leukemia; breast cancer
+
+  # core/interpretation
+
+  Diagnosis:
+    description: Diagnosis of clinical findings.
+    attributes:
+      disease:
+        description: >-
+          The disease/condition assigned to the diagnosis.
+          Details about this disease may be contained in the `diseases` field
+          in the Phenopacket.
+        range: DiseaseClass
+        annotations:
+          prompt: >-
+            The disease or condition assigned to the diagnosis,
+            identified by name.
+      genomicInterpretations:
+        description: >-
+          genomic features containing the status of their contribution towards
+          the diagnosis
+        inlined_as_list: true
+        multivalued: true
+        range: GenomicInterpretation
+        annotations:
+          prompt: >-
+            A semicolon-separated list of genomic features containing the
+            status of their contribution towards the diagnosis.
+            Include the following information as available: the identifier
+            of the individual or biosample, the gene implicated in the
+            diagnosis, the status of the interpretation, and any details
+            describing interpretation of the variant.
+            If no genomic features are specified, do not include a value.
+
+  GenomicInterpretation:
+    description: >-
+      A statement about the contribution of a genomic element towards the
+      observed phenotype. Note that this does not intend to encode any
+      knowledge or results of specific computations.
+    attributes:
+      gene:
+        description: A specific gene implicated in a phenotype.
+        # inlined: true
+        # range: GeneDescriptor
+        range: string
+        annotations:
+          prompt: >-
+            A specific gene implicated in a phenotype.
+            This should be a human-readable name.
+      interpretationStatus:
+        description: Status of the interpretation.
+        range: InterpretationStatus
+        annotations:
+          prompt: >-
+            The status of the interpretation.
+            Must be one of the following: CANDIDATE, CAUSATIVE,
+            CONTRIBUTORY, REJECTED, or UNKNOWN_STATUS.
+      subjectOrBiosampleId:
+        description: >-
+          identifier for the subject of the interpretation. This MUST be the
+          individual id or a biosample id of the enclosing phenopacket.
+        range: string
+        annotations:
+          prompt: >-
+            An identifier for the subject of the interpretation.
+            This MUST be identical to the provided individual id or
+            a biosample id.
+      variantInterpretation:
+        description: Interpretation of the genetic variant.
+        range: VariantInterpretation
+        annotations:
+          prompt: >-
+            Interpretation of the genetic variant.
+            Include the following, as available:
+            the ACMG pathogenicity classification, the therapeutic
+            actionability, and the variation descriptor.
+            If none of this is specified, do not include a
+            value for this field.
+    rules:
+      - postconditions:
+          exactly_one_of:
+            - slot_conditions:
+                gene:
+                  required: true
+            - slot_conditions:
+                variantInterpretation:
+                  required: true
+
+  Interpretation:
+    description: Interpretation of clinical findings.
+    attributes:
+      diagnosis:
+        description: The diagnosis made in this interpretation.
+        range: Diagnosis
+        inlined: true
+        annotations:
+          prompt: >-
+            The diagnosis made in this interpretation.
+            If this is not provided, do not include a value for this
+            field. Include the following, as available:
+            the name of the disease or condition with all
+            acronyms spelled out, the identifier of the individual
+            or biosample, and any details regarding genetic or
+            genomic interpretation (including the gene, the status
+            of the genetic interpretation, and/or any details regarding
+            the specific variant). Include this information even
+            if it is also present in the summary field.
+      id:
+        description: id of the interpretation
+        range: string
+        annotations:
+          prompt: >-
+            A unique identifier for the interpretation. This must be unique
+            within the phenopacket but may be based on the individual's
+            identifier. For example, if the individual's identifier is
+            "Patient1", the interpretation id may be "Patient1_Interpretation1".
+      progressStatus:
+        description: The status of the interpretation.
+        range: ProgressStatus
+        annotations:
+          prompt: >-
+            The status of the interpretation.
+            Must be one of the following: COMPLETED, IN_PROGRESS,
+            SOLVED, UNKNOWN_PROGRESS, or UNSOLVED.
+      summary:
+        description: A brief summary of the interpretation.
+        range: string
+        annotations:
+          prompt: >-
+            A brief summary of the interpretation.
+
+  VariantInterpretation:
+    description: Interpretation of a genetic variant.
+    attributes:
+      acmgPathogenicityClassification:
+        description: ACMG pathogenicity classification.
+        range: AcmgPathogenicityClassification
+        annotations:
+          prompt: >-
+            The ACMG pathogenicity classification of the variant.
+            Must be one of the following: BENIGN, LIKELY_BENIGN,
+            LIKELY_PATHOGENIC, PATHOGENIC, UNCERTAIN_SIGNIFICANCE,
+            or NOT_PROVIDED.
+      therapeuticActionability:
+        description: Therapeutic actionability of the variant.
+        range: TherapeuticActionability
+        annotations:
+          prompt: >-
+            The therapeutic actionability of the variant.
+            Must be one of the following: ACTIONABLE, NOT_ACTIONABLE,
+            or UNKNOWN_ACTIONABILITY.
+      variationDescriptor:
+        description: A descriptor of the variant.
+        range: VariationDescriptor
+        annotations:
+          prompt: >-
+            A description of the variant. This should include the
+            following, as available: the allelic state, any alternate
+            labels of the variant, a brief description of the variant,
+            and any additional information about the variant.
+
+  # core/individual
+
+  Individual:
+    description: >-
+      An individual (or subject) typically corresponds to an individual human
+      or another organism. FHIR mapping: Patient
+      (https://www.hl7.org/fhir/patient.html)."
+    attributes:
+      alternateIds:
+        description: >-
+          An optional list of alternative identifiers for this individual. This
+          field is provided for the convenience of users who may have multiple
+          mappings to an individual which they need to track.
+        multivalued: true
+        range: string
+        annotations:
+          prompt: >-
+            A semicolon-separated list of alternative identifiers for this
+            individual, if any.
+      dateOfBirth:
+        description: >-
+          The date of birth of the individual as an ISO8601 UTC timestamp -
+          rounded down to the closest known year/month/day/hour/minute e.g.
+          "2018-03-01T00:00:00Z" for someone born on an unknown day in March
+          2018 or "2018-01-01T00:00:00Z" for someone born on an unknown day in
+          2018 or empty if unknown/ not stated.
+        range: string
+        annotations:
+          prompt: >-
+            The date of birth of the individual as an ISO8601 UTC timestamp.
+            This should be rounded down to the closest known year/month/day.
+            If the day is unknown, use the first day of the month.
+            If the month is unknown, use the first month of the year.
+            If the year is unknown, do not provide a value.
+      gender:
+        description: Self-identified gender
+        range: GenderClass
+        annotations:
+          prompt: >-
+            The self-identified gender of the individual. This
+            may or may not be the same as the individual's sex.
+          prompt.examples: >-
+            female gender identity; male gender identity;
+            nobinary gender identity; agendered
+      id:
+        # This does not always get assigned, so it isn't
+        # considered a true identifier.
+        # TODO: assign after phenopacket creation, along
+        # with other metadata, as necessary.
+        description: >-
+          An identifier for the individual. This must be unique within the
+          record. ARGO mapping donor::submitter_donor_id
+        exact_mappings:
+          - ARGO:donor.submitter_donor_id
+        range: string
+        # identifier: true
+        annotations:
+          prompt: >-
+            The identifier for the individual. These may also be present
+            in the alternativeIds field. If an individual is referred to
+            with a phrase like "identified as", this is the identifier.
+            Must not be blank. May be identical to the individual's
+            alternate identifier. If no identifier is provided,
+            create one.
+      karyotypicSex:
+        description: The karyotypic sex of the individual
+        range: KaryotypicSex
+        annotations:
+          prompt: >-
+            The karyotypic sex of the individual (their karyotype,
+            or the sex chromosomes they have). Must be one
+            of XO, XX, XY, XXY, XYY, XXX, XXXX, XXYY, XXXY,
+            OTHER_KARYOTYPE (if not among the previous values)
+            or UNKNOWN (if not specified)
+      sex:
+        description: >-
+          The phenotypic sex of the individual ARGO mapping
+          sample_registration::gender (this is complicated as ARGO only have
+          male/female/other which maps to the phenopacket Sex field)
+        exact_mappings:
+          - ARGO:sample_registration.gender
+        range: Sex
+        annotations:
+          prompt: >-
+            The phenotypic sex of the individual. Must be one of
+            FEMALE, MALE, OTHER_SEX (if it is not possible to accurately
+            assess the applicability of MALE/FEMALE) or UNKNOWN_SEX
+            if the information is unknown. IF the individual's gender
+            is known and sex is not specified, use the corresponding
+            value for sex (e.g., if the individual has female gender,
+            specify female sex unless there is information to the contrary).
+      taxonomy:
+        # TODO: Use NCBITAXON to ground. It's a big vocab,
+        # and most phenopackets are for humans, so this is a string for now.
+        description: >-
+          NCBI taxonomic identifier NCBITaxon e.g. NCBITaxon:9606 or
+          NCBITaxon:1337 For resources where there may be more than one
+          organism being studied it is advisable to indicate the taxonomic
+          identifier of that organism, to its most specific level
+        # inlined: true
+        # range: OntologyClass
+        range: string
+        annotations:
+          prompt: >-
+            The NCBI taxonomic identifier of the individual.
+            If this is a human, this value is always NCBITaxon:9606.
+      timeAtLastEncounter: # TODO: cast as properly formatted TimeElement
+        description: >-
+          An TimeElement object describing the age of the individual at the
+          last time of collection. The Age object allows the encoding of the
+          age either as ISO8601 duration or time interval (preferred), or as
+          ontology term object. See http://build.fhir.org/datatypes
+        # inlined: true
+        # range: TimeElement
+        range: string
+        annotations:
+          prompt: >-
+            The age of the individual at the last time of encounter.
+            This should be an ISO8601 duration or time interval.
+            Do not provide units.
+      vitalStatus:
+        description: >-
+          Vital status of the individual. If not present it is assumed that the
+          individual is alive. If present it will default to 'false' i.e. the
+          individual was alive when the data was collected.
+          ARGO mapping donor::vital_status
+        exact_mappings:
+          - ARGO:donor.vital_status
+        range: VitalStatus
+        annotations:
+          prompt: >-
+            The vital status of the individual. Must include any of the
+            following information, as available: the cause of death,
+            the status (alive or dead at time of data collection),
+            the survival time in days (integer only), and/or the time of death.
+            This must be included.
+
+  VitalStatus:
+    description: The vital status of an individual.
+    attributes:
+      causeOfDeath:
+        description: ARGO mapping donor::cause_of_death
+        exact_mappings:
+          - ARGO:donor.cause_of_death
+        range: DiseaseClass
+        annotations:
+          prompt: >-
+            The cause of death of the individual. Do not provide a value
+            if the individual is alive or the cause of death is unknown.
+      status:
+        description: Status of an individual.
+        range: Status
+        annotations:
+          prompt: >-
+            The status of the individual. Must be one of ALIVE, DECEASED,
+            or UNKNOWN_STATUS.
+      survivalTimeInDays:
+        description: ARGO mapping donor::survival_time
+        exact_mappings:
+          - ARGO:donor.survival_time
+        # range: integer
+        range: string
+        annotations:
+          prompt: >-
+            The survival time of the individual in days.
+            This should be an integer.
+      timeOfDeath:
+        description: The time of death, if applicable.
+        inlined: true
+        # range: TimeElement
+        range: string
+        annotations:
+          prompt: >-
+            The time of death of the individual.
+            This should be an ISO 8601 timestamp.
+
+  # core/measurement
+
+  ComplexValue:
+    description: A value expressed as multiple quantities.
+    attributes:
+      typedQuantities:
+        description: >-
+          The quantities required to fully describe the complex value. For
+          example the systolic and diastolic blood pressure quantities
+        inlined_as_list: true
+        multivalued: true
+        range: TypedQuantity
+        annotations:
+          prompt: >-
+            A semicolon-delimited list of the quantities required to fully
+            describe the complex value. For example, the systolic and diastolic
+            blood pressure quantities.
+
+  Measurement:
+    description: >-
+      FHIR mapping: Observation (https://www.hl7.org/fhir/observation.html)
+    attributes:
+      assay:
+        description: >-
+          An ontology class which describes the assay used to produce the
+          measurement. For example "body temperature" (CMO:0000015) or
+          "Platelets [#/volume] in Blood" (LOINC:26515-7) FHIR mapping:
+          Observation.code'
+        range: AssayClass
+        annotations:
+          prompt: >-
+            The name of the assay used to produce the measurement.
+            This will generally be the name of a property rather
+            than a procedure, e.g., "plasma immunoglobulin G level"
+            is an assay but "biopsy" is not - that is a procedure.
+            Do not include acronyms or abbreviations; if the assay is referred
+            to with an acronym then expand to its full name.
+          prompt.examples: body temperature; platelets in blood
+      complexValue:
+        description: The measurement result, expressed as multiple values.
+        range: ComplexValue
+        annotations:
+          prompt: >-
+            The measurement result, expressed as multiple values.
+      description:
+        description: >-
+          Free-text description of the feature. Note this is not a acceptable
+          place to document/describe the phenotype - the type and onset etc...
+          fields should be used for this purpose.
+        range: string
+        annotations:
+          prompt: >-
+            Free-text description of the feature. Describe only the
+            observed feature, not the phenotype. Do not include type or onset.
+      procedure:
+        description: >-
+          Clinical procedure performed on the subject in order to produce the
+          measurement.
+        range: Procedure
+        inlined: true
+        annotations:
+          prompt: >-
+            The clinical procedure performed on the subject in order to
+            produce the measurement. This should include the name of the
+            procedure, the name of the body site, and the time the procedure
+            was performed, if known. If the procedure is not specified,
+            do not include a value for this field.
+      timeObserved:
+        description: The time at which the measurement was made
+        inlined: true
+        # range: TimeElement
+        range: string
+        annotations:
+          prompt: >-
+            The time at which the measurement was made.
+            This should be an ISO 8601 timestamp.
+      value:
+        description: The result of the measurement.
+        range: Value
+        annotations:
+          prompt: >-
+            The result of the measurement. This should be a single value.
+            If the measurement is complex, use the complexValue field.
+    rules:
+      - postconditions:
+          exactly_one_of:
+            - slot_conditions:
+                value:
+                  required: true
+            - slot_conditions:
+                complexValue:
+                  required: true
+
+  Quantity:
+    description: >-
+      A single quantifiable value, along with its units and reference range,
+      if known.
+    attributes:
+      referenceRange:
+        description: >-
+          Reference range for the quantity e.g. The normal range of platelets
+          is 150,000 to 450,000 platelets/uL.
+        range: ReferenceRange
+        annotations:
+          prompt: >-
+            The reference range for the quantity. If the reference range is not
+            known, do not include a value for this field.
+      unit:
+        description: >-
+          For instance, NCIT subhierarchy, Unit of Measure (Code C25709),
+          https://www.ebi.ac.uk/ols/ontologies/uo
+        range: UnitClass
+        annotations:
+          prompt: >-
+            The unit of measure for the quantity. This should be a
+            human-readable string, e.g. 'mg/dL'. If the unit is not known,
+            this value should be UNKNOWN.
+      value:
+        description: the value of the quantity in the units e.g. 2.0 mg
+        # range: double
+        range: string
+        annotations:
+          prompt: >-
+            The value of the quantity in the units. This should be a
+            single value. Do not include units or any non-numeric value.
+            If the value is not known, this value should be UNKNOWN.
+
+  ReferenceRange:
+    description: >-
+      Reference range of a quantity, or the acceptable "normal"
+      range for values of a quantity.
+    attributes:
+      high:
+        description: Highest value in the reference range.
+        # range: double
+        range: string
+        annotations:
+          prompt: >-
+            Highest value in the reference range. If the high value is not
+            known, do not include a value for this field.
+      low:
+        description: Lowest value in the reference range.
+        # range: double
+        range: string
+        annotations:
+          prompt: >-
+            Lowest value in the reference range. If the low value is not
+            known, do not include a value for this field.
+      unit:
+        description: Unit of the reference range.
+        range: UnitClass
+        annotations:
+          prompt: >-
+            The unit of the reference range. This should be a human-readable
+            string, e.g. 'mg/dL'. If the unit is not known, this value should
+            be UNKNOWN.
+
+  TypedQuantity:
+    description: >-
+      For complex measurements, such as blood pressure where more than one
+      component quantity is required to describe the measurement
+    attributes:
+      quantity:
+        description: e.g. mm Hg
+        range: Quantity
+        annotations:
+          prompt: >-
+            A single quantifiable value of the measurement, along
+            with its units and reference range, if known.
+          prompt.examples: >-
+            120 kg; 55.5 cm; 120 mg/dL (normal range 70-100 mg/dL)
+      type:
+        description: e.g. diastolic, systolic
+        range: AssayClass
+        annotations:
+          prompt: >-
+            A categorical or descriptive value of the measurement.
+          prompt.examples: >-
+            diastolic blood pressure; systolic blood pressure
+
+  Value:
+    description: A single specific value.
+    attributes:
+      ontologyClass:
+        description: >-
+          for use with things such as categories 'red', 'yellow' or
+          'absent'/'present'
+        range: DescriptiveClass
+        annotations:
+          prompt: >-
+            A categorical or descriptive value of the measurement,
+            e.g., 'red', 'yellow', 'absent', or 'present'.
+      quantity:
+        description: A single quantifiable value.
+        range: Quantity
+        annotations:
+          prompt: >-
+            A single quantifiable value of the measurement, along
+            with its units and reference range, if known.
+    rules:
+      - postconditions:
+          exactly_one_of:
+            - slot_conditions:
+                quantity:
+                  required: true
+            - slot_conditions:
+                ontologyClass:
+                  required: true
+
+  # core/medical_action
+
+  DoseInterval:
+    description: e.g. 50mg/ml 3 times daily for two weeks
+    attributes:
+      interval:
+        description: ""
+        inlined: true
+        range: TimeInterval
+      quantity:
+        description: ""
+        range: Quantity
+      scheduleFrequency:
+        description: ""
+        inlined: true
+        range: OntologyClass
+
+  MedicalAction:
+    description: >-
+      medication, procedure, other actions taken for clinical management
+    attributes:
+      adverseEvents:
+        description: ARGO mapping treatment::adverse_events
+        exact_mappings:
+          - ARGO:treatment.adverse_events
+        multivalued: true
+        range: AdverseEventClass
+        annotations:
+          prompt: >-
+            A semicolon-separated list of adverse events associated with
+            the medical action. If no adverse events are specified, do not
+            include a value for this field.
+      procedure:
+        description: The procedure performed as part of the medical action.
+        range: Procedure
+        annotations:
+          prompt: >-
+            The procedure performed as part of the medical action.
+            This should include the name of the procedure, the name of the
+            body site, and the time the procedure was performed, if known.
+            If the procedure is not specified, use the same value as the assay
+            field.
+      radiationTherapy:
+        description: Radiation therapy performed as part of the medical action.
+        range: RadiationTherapy
+        annotations:
+          prompt: >-
+            The radiation therapy performed as part of the medical action.
+            This should include the anatomical site where radiation therapy
+            was administered, the total dose given in units of Gray (Gy),
+            the total number of fractions delivered as part of treatment,
+            and the modality of radiation therapy.
+            If radiation therapy is not specified, do not include a value
+            for this field.
+      responseToTreatment:
+        description: ARGO mapping treatment::response_to_treatment
+        exact_mappings:
+          - ARGO:treatment.response_to_treatment
+        range: PhenotypeClass
+        annotations:
+          prompt: >-
+            The response to the treatment, described as the phenotype observed
+            as a result of the treatment. If the response is not specified,
+            do not include a value for this field.
+      therapeuticRegimen:
+        description: >-
+          The therapeutic regimen established as part of the medical action.
+        inlined: true
+        range: TherapeuticRegimen
+        annotations:
+          prompt: >-
+            The therapeutic regimen established as part of the medical action.
+            This should include the start and end times of the regimen, the
+            status of the regimen, and any external references to the regimen.
+            If the therapeutic regimen is not specified, do not include a value
+            for this field.
+      treatment:
+        description: The treatment administered as part of the medical action.
+        range: Treatment
+        annotations:
+          prompt: >-
+            The treatment administered as part of the medical action.
+            If the treatment is not specified, do not include a value for
+            this field.
+      treatmentIntent:
+        description: >-
+          Whether the intention of the treatment was curative, palliative,
+          ARGO mapping treatment::treatment_intent
+        exact_mappings:
+          - ARGO:treatment.treatment_intent
+        range: IntentClass
+        annotations:
+          prompt: >-
+            The intention of the treatment. If the intention is not specified,
+            do not include a value for this field.
+          prompt.examples: >-
+            Curative Therapy; Palliative Therapy; Functional Improvement;
+            Chronic Management; Diagnostic Procedure; Preventative Intervention
+      treatmentTarget:
+        description: >-
+          The condition or disease that this treatment was intended to address.
+          FHIR mapping Procedure::reasonCode
+        range: PhenotypeClass
+        annotations:
+          prompt: >-
+            The condition or disease that this treatment was intended to
+            address, identified by name.
+            If the treatment target is not specified, do not include a value
+            for this field.
+      treatmentTerminationReason:
+        description: ARGO mapping treatment::treatment_outcome
+        exact_mappings:
+          - ARGO:treatment.treatment_outcome
+        # inlined: true
+        # range: OntologyClass
+        range: string
+        annotations:
+          prompt: >-
+            The reason for termination of the treatment. If the reason is not
+            specified, or the treatment was not stopped, do not include a value
+            for this field.
+    rules:
+      - postconditions:
+          exactly_one_of:
+            - slot_conditions:
+                procedure:
+                  required: true
+            - slot_conditions:
+                treatment:
+                  required: true
+            - slot_conditions:
+                radiationTherapy:
+                  required: true
+            - slot_conditions:
+                therapeuticRegimen:
+                  required: true
+
+  RadiationTherapy:
+    description: RadiationTherapy
+    attributes:
+      bodySite:
+        description: >-
+          The anatomical site where radiation therapy was administered.
+          REQUIRED. ARGO mapping radiation::anatomical_site_irradiated
+        exact_mappings:
+          - ARGO:radiation.anatomical_site_irradiated
+        range: AnatomyClass
+        required: true
+      dosage:
+        description: >-
+          The total dose given in units of Gray (Gy).
+          REQUIRED. ARGO mapping radiation::radiation_therapy_dosage
+        exact_mappings:
+          - ARGO:radiation.radiation_therapy_dosage
+        # range: integer
+        range: string
+        # required: true
+        annotations:
+          prompt: >-
+            The total dose given in units of Gray (Gy).
+            If the dose is not specified, do not include a value for this field.
+      fractions:
+        description: >-
+          The total number of fractions delivered as part of treatment.
+          REQUIRED. ARGO mapping radiation::radiation_therapy_fractions
+        exact_mappings:
+          - ARGO:radiation.radiation_therapy_fractions
+        # range: integer
+        range: string
+        # required: true
+        annotations:
+          prompt: >-
+            The total number of fractions delivered as part of treatment.
+            If the number of fractions is not specified, do not include a value
+            for this field.
+      modality:
+        description: >-
+          The modality of radiation therapy (e.g., electron, photon,…).
+          REQUIRED. ARGO mapping radiation::radiation_therapy_modality
+        exact_mappings:
+          - ARGO:radiation.radiation_therapy_modality
+        inlined: true
+        # range: OntologyClass
+        range: string
+        # required: true
+        annotations:
+          prompt: >-
+            The modality of radiation therapy.
+            If the modality is not specified, do not include a value for this
+            field.
+          prompt.examples: >-
+            electron; photon
+
+  TherapeuticRegimen:
+    description: ARGO mapping radiation::radiation_therapy_type (missing)
+    attributes:
+      endTime:
+        description: end time can be empty which would indicate ongoing
+        inlined: true
+        # range: TimeElement
+        range: string
+        annotations:
+          prompt: >-
+            The end time for the regimen. If the regimen is ongoing,
+            do not provide a value for this field.
+      externalReference:
+        description: An external reference for the regimen.
+        inlined: true
+        # range: ExternalReference
+        range: string
+        annotations:
+          prompt: >-
+            An external reference for the regimen.
+            If the regimen is not specified or does not have a reference,
+            do not include a value for this field.
+      ontologyClass:
+        description: >-
+          The ontology class for the therapeutic regimen.
+        inlined: true
+        range: ProcedureClass
+        annotations:
+          prompt: >-
+            The name of the therapeutic regimen.
+            If the regimen is not specified, do not include a value for this
+            field.
+      regimenStatus:
+        description: Status of the regimen.
+        range: RegimenStatus
+        annotations:
+          prompt: >-
+            The status of the regimen. Must be one of the following:
+            COMPLETED, DISCONTINUED, STARTED, or UNKNOWN_STATUS.
+      startTime:
+        description: Start time for the regimen.
+        inlined: true
+        # range: TimeElement
+        range: string
+    rules:
+      - postconditions:
+          exactly_one_of:
+            - slot_conditions:
+                externalReference:
+                  required: true
+            - slot_conditions:
+                ontologyClass:
+                  required: true
+
+  Treatment:
+    description: >-
+      ARGO mapping treatment::is_primary_treatment (missing) treatment with an
+      agent, such as a drug
+    attributes:
+      agent:
+        description: Treatment agent
+        range: ChemicalClass
+        annotations:
+          prompt: >-
+            The treatment agent, such as a drug or other therapeutic material.
+            If the agent is not specified, do not include a value for this
+            field.
+      cumulativeDose:
+        description: ARGO mapping chemotherapy::cumulative_drug_dosage
+        exact_mappings:
+          - ARGO:chemotherapy.cumulative_drug_dosage
+        range: Quantity
+        annotations:
+          prompt: >-
+            The cumulative dose of the treatment agent, with value and units.
+            If the cumulative dose is not specified, do not include a value for
+            this field.
+      doseIntervals:
+        description: Intervals at which the treatment agent is administered.
+        # inlined_as_list: true
+        multivalued: true
+        # range: DoseInterval
+        range: string
+      drugType:
+        description: Type of drug used in the treatment.
+        range: DrugType
+        annotations:
+          prompt: >-
+            The type of drug used in the treatment. Must be one of:
+            ADMINISTRATION_RELATED_TO_PROCEDURE, EHR_MEDICATION_LIST,
+            PRESCRIPTION, or UNKNOWN_DRUG_TYPE.
+            If the drug type is not specified, do not include a value for this
+            field.
+      routeOfAdministration:
+        description: Route of administration of the treatment agent.
+        range: RouteOfAdministrationClass
+        annotations:
+          prompt: >-
+            The route of administration of the treatment agent.
+            If the route of administration is not specified, do not include
+            a value for this field.
+          prompt.examples: >-
+            Intravenous; Oral; Subcutaneous; Intramuscular
+
+  # core/meta_data
+
+  MetaData:
+    description: ""
+    attributes:
+      created:
+        description: >-
+          ISO8601 UTC timestamp for when this phenopacket was created in ISO
+          "2018-03-01T00:00:00Z"
+        range: string
+      createdBy:
+        description: >-
+          some kind of identifier for the contributor/ program ARGO
+          sample_registration::program_id
+        range: string
+      externalReferences:
+        description: >-
+          External identifiers for this message. These are considered different
+          representation of the same record, not records which are in some
+          other relation with the record at hand. For example this might be a
+          PubMed reference to a study in which the individuals are reported.
+        inlined_as_list: true
+        multivalued: true
+        range: ExternalReference
+      phenopacketSchemaVersion:
+        description: phenopacket-schema-version used to create this phenopacket
+        range: string
+      resources:
+        description: >-
+          a listing of the ontologies and resources referenced in the
+          phenopacket
+        inlined_as_list: true
+        multivalued: true
+        range: Resource
+      submittedBy:
+        description: >-
+          information about the person/organisation/network that has submitted
+          this phenopacket
+        range: string
+      updates:
+        description: An OPTIONAL list of Updates to the phenopacket.
+        inlined_as_list: true
+        multivalued: true
+        range: Update
+
+  Resource:
+    description: >-
+      Description of an external resource used for referencing an object.
+      For example the resource may be an ontology such as the HPO or SNOMED.
+      FHIR mapping: CodeSystem (http://www.hl7.org/fhir/codesystem.html)
+    attributes:
+      id:
+        annotations:
+          percent_encoded: true
+        description: >-
+          for OBO Ontologies, the value of this string MUST always be the
+          official OBO ID, which is always equivalent to the ID prefix in lower
+          case. Examples: hp, go, mp, mondo Consult http://obofoundry.org for a
+          complete list For other ontologies (e.g. SNOMED), use the prefix in
+          identifiers.org"
+        range: string
+      iriPrefix:
+        description: >-
+          Full IRI prefix which can be used with the namespace_prefix and the
+          OntologyClass::id to resolve to an IRI for a term. Tools such as the
+          curie-util (https://github.com/prefixcommons/curie-util) can utilise
+          this to produce fully-resolvable IRIs for an OntologyClass. e.g.
+          Using the HPO term encoding the concept of 'Severe' OntologyClass:
+          id: 'HP:0012828' label: 'Severe' Resource: namespace_prefix: 'HP'
+          iri_prefix: 'http://purl.obolibrary.org/obo/HP_' the term can be
+          resolved to http://purl.obolibrary.org/obo/HP_0012828"
+        range: string
+      name:
+        description: >-
+          e.g. The Human Phenotype Ontology for OBO Ontologies, the value of
+          this string SHOULD be the same as the title field on
+          http://obofoundry.org however, this field is purely for information
+          purposes and software should not encode any assumptions
+        range: string
+      namespacePrefix:
+        description: >-
+          The prefix used in the CURIE of an OntologyClass e.g. HP, MP, ECO
+          For example an HPO term will have a CURIE like this - HP:0012828
+          which should be used in combination with the iri_prefix to form a
+          fully-resolvable IRI
+        range: string
+      url:
+        description: >-
+          For OBO ontologies, this should always be the PURL, e.g.
+          http://purl.obolibrary.org/obo/hp.owl,
+          http://purl.obolibrary.org/obo/hp.obo
+        range: string
+      version:
+        description: for OBO ontologies, this should be the versionIRI
+        range: string
+
+  Update:
+    description: >-
+      Information about when an update to a record occurred, who or what made
+      the update and any pertinent information regarding the content and/or
+      reason for the update
+    attributes:
+      comment:
+        description: >-
+          Textual comment about the changes made to the content and/or reason
+          for the update. OPTIONAL
+        range: string
+      timestamp:
+        description: >-
+          ISO8601 UTC timestamps at which this record was updated, in the
+          format YYYY-MM-DDTHH:MM:SS.SSSZ e.g. 2007-12-03T10:15:30.00Z REQUIRED
+        range: string
+        required: true
+      updatedBy:
+        description: >-
+          Information about the person/organisation/network that has updated
+          the phenopacket. OPTIONAL
+        range: string
+
+  # core/pedigree
+
+  Pedigree:
+    description: https://software.broadinstitute.org/gatk/documentation/article?id=11016
+    attributes:
+      persons:
+        description: ""
+        inlined_as_list: true
+        multivalued: true
+        range: Person
+
+  Person:
+    description: ""
+    attributes:
+      affectedStatus:
+        description: ""
+        range: AffectedStatus
+      familyId:
+        description: ""
+        range: string
+      individualId:
+        description: ""
+        range: string
+      maternalId:
+        description: ""
+        range: string
+      paternalId:
+        description: ""
+        range: string
+      sex:
+        description: ""
+        range: Sex
+
+  # core/phenotypic_feature
+
+  PhenotypicFeature:
+    description: >-
+      An individual phenotypic feature, observed as either present or absent
+      (negated), with possible onset, modifiers and frequency FHIR mapping:
+      Condition (https://www.hl7.org/fhir/condition.html) or Observation
+      (https://www.hl7.org/fhir/observation.html)
+    attributes:
+      description:
+        description: >-
+          Free-text description of the phenotype. Note this is not a acceptable
+          place to document/describe the phenotype - the type and onset etc...
+          fields should be used for this purpose.
+        range: string
+        annotations:
+          prompt: >-
+            A free-text description of the observed phenotype. This should be a
+            description of the observation, not the phenotype itself.
+            Do not include type, onset, or other classifications.
+      evidence:
+        description: Evidences for how the phenotype was determined.
+        multivalued: true
+        range: Evidence
+        annotations:
+          prompt: >-
+            Semicolon-delimited list of evidences for how the phenotype was
+            determined. If evidence is not specified, do not include a value
+            for this field.
+      excluded:
+        description: >-
+          Flag to indicate whether the phenotype was observed or not. Default
+          is 'false', in other words the phenotype was observed. Therefore it
+          is only required in cases to indicate that the phenotype was looked
+          for, but found to be absent. More formally, this modifier indicates
+          the logical negation of the OntologyClass used in the 'type' field.
+          *CAUTION* It is imperative to check this field for correct
+          interpretation of the phenotype!
+        # range: boolean
+        range: string
+        annotations:
+          prompt: >-
+            A boolean flag to indicate whether the phenotype was observed or
+            not. If the phenotype was observed, this field should be left
+            empty. If the phenotype was not observed, set this field to 'true'.
+      modifiers:
+        description: >-
+          subclasses of HP:0012823 ! Clinical modifier apart from Severity
+          HP:0012824 - Severity
+        multivalued: true
+        range: DescriptiveClass
+        annotations:
+          prompt: >-
+            Semicolon-delimited list of modifiers for the phenotype.
+            This should not include severity modifiers. Do not include
+            a value for this field if no modifiers apply.
+          prompt.examples: >-
+            tender; compression fracture; triggered by stress
+      onset:
+        description: >-
+          the values of this will come from the HPO onset hierarchy i.e.
+          subclasses of HP:0003674 FHIR mapping: Condition.onset
+        # inlined: true
+        # range: TimeElement
+        range: string
+        annotations:
+          prompt: >-
+            The onset of the phenotype, or the period of life in which
+            this phenotype was first observed in the individual.
+            For example, "Late onset", "Congenital onset", or
+            "Early young adult onset".
+      resolution:
+        description: Time required to resolve the phenotype, if applicable.
+        # inlined: true
+        # range: TimeElement
+        range: string
+        annotations:
+          prompt: >-
+            The time required to resolve the phenotype, if applicable.
+      severity:
+        description: >-
+          Severity of the condition e.g. subclasses of HP:0012824-Severity or
+          SNOMED:272141005-Severities FHIR mapping: Condition.severity
+        range: DescriptiveClass
+        annotations:
+          prompt: >-
+            The severity of the phenotype. If this is not specified,
+            do not include a value for this field.
+          prompt.examples: >-
+            borderline; mild; moderate; profound; severe
+      type:
+        description: >-
+          The primary ontology class which describes the phenotype. For example
+          "HP:0001363"  "Craniosynostosis" FHIR mapping: Condition.identifier'
+        range: PhenotypeClass
+        annotations:
+          prompt: >-
+            A short name for the phenotype.
+
+  # vrsatile
+
+  Expression:
+    attributes:
+      syntax:
+        description: ""
+        range: string
+      value:
+        description: ""
+        range: string
+      version:
+        description: ""
+        range: string
+    description: >-
+      https://vrsatile.readthedocs.io/en/latest/value_object_descriptor/vod_index.html#expression
+  Extension:
+    attributes:
+      name:
+        description: ""
+        range: string
+      value:
+        description: ""
+        multivalued: true
+        range: string
+    description: >-
+      https://vrsatile.readthedocs.io/en/latest/value_object_descriptor/vod_index.html#extension
+  GeneDescriptor:
+    attributes:
+      alternateIds:
+        description: >-
+          Alternate IDs (should be CURIE) for the same concept may be placed in
+          alternate_ids
+        multivalued: true
+        range: string
+      alternateSymbols:
+        description: >-
+          Takes the place of alternate_labels field in a generic descriptor
+        multivalued: true
+        range: string
+      description:
+        description: A free-text description of the value object
+        range: string
+      symbol:
+        description: >-
+          The primary gene symbol. Takes the place of the label field in a
+          generic descriptor
+        range: string
+      valueId:
+        description: >-
+          The official gene identifier as designated by the organism gene
+          nomenclature committee e.g. HGNC:3477 or MGI:2385071
+          This should be a CURIE linking the reference to a namespace where it
+          can be retrieved. Mirrors the value_id field of a generic value
+          object descriptor
+        range: string
+      xrefs:
+        description: >-
+          Related concept IDs (e.g. gene ortholog IDs) may be placed in xrefs
+        multivalued: true
+        range: string
+    description: >-
+      https://vrsatile.readthedocs.io/en/latest/value_object_descriptor/vod_index.html#gene-descriptor
+
+  VariationDescriptor:
+    attributes:
+      allelicState:
+        description: >-
+          We RECOMMEND that the allelic_state of variant be described by terms
+          from the Genotype Ontology (GENO). These SHOULD descend from concept
+          GENO:0000875.
+        range: AllelicStateClass
+        annotations:
+          prompt: >-
+            The allelic state of the variant, i.e., the allelic variability
+            at a specific locus. This may specify zygosity (such as whether
+            the allele is homozygous or heterozygous) or other allelic
+            states such as heteroplasmy. If the allelic state is not known,
+            this value should not be included.
+          prompt.examples: homozygous; heterozygous
+      alternateLabels:
+        description: >-
+          Common aliases for a variant, e.g. EGFR vIII, are alternate labels
+        multivalued: true
+        range: string
+        annotations:
+          prompt: >-
+            A semicolon-delimited list of common aliases for a variation.
+          prompt.examples: EGFR vIII
+      description:
+        description: A description of the variant.
+        range: string
+        annotations:
+          prompt: >-
+            A free-text description of the variant. This should be a
+            description of the variant, not the variation itself.
+      expressions:
+        description: >-
+          HGVS, SPDI, and gnomAD-style strings should be represented as
+          Expressions
+        # inlined_as_list: true
+        multivalued: true
+        # range: Expression
+        range: string
+        annotations:
+          prompt: >-
+            A semicolon-delimited list of expressions for the variant,
+            in a string representation such as the Human Genome Variation
+            Society (HGVS) nomenclature.
+          prompt.examples: NM_000256.3:c.1504C>T
+      extensions:
+        description: Extension field for the variant.
+        inlined_as_list: true
+        multivalued: true
+        # range: Extension
+        range: string
+        annotations:
+          prompt: >-
+            A semicolon-delimited list of extensions for the variant.
+      geneContext:
+        description: A specific gene context that applies to this variant.
+        inlined: true
+        # range: GeneDescriptor
+        range: string
+        annotations:
+          prompt: >-
+            A specific gene context that applies to this variant.
+      id:
+        annotations:
+          prompt: >-
+            An identifier for the variant, specific to this phenopacket.
+        description: >-
+          identifier for the variant, specific to this phenopacket.
+        range: string
+      label:
+        description: A label for this variant.
+        range: string
+        annotations:
+          prompt: >-
+            A label for this variant. This should be a human-readable
+            string that describes the variant.
+      moleculeContext:
+        description: >-
+          The molecular context of the vrs variation. Must be one of “genomic”,
+          “transcript”, or “protein”. Defaults to "unspecified_molecule_context"
+        # range: MoleculeContext
+        range: string
+        annotations:
+          prompt: >-
+            The molecular context of the variant. Must be one of "genomic",
+            "transcript", "protein", or "unspecified_molecule_context".
+      structuralType:
+        description: >-
+          The structural variant type associated with this variant, such as a
+          substitution, deletion, or fusion. We RECOMMEND using a descendent
+          term of SO:0001537.
+        range: VariantTypeClass
+        annotations:
+          prompt: >-
+            The structural variant type associated with this variant.
+          prompt.examples: substitution; deletion; fusion
+      variation:
+        description: >-
+          Details on the variation, including its membership in a set
+          of alleles.
+        # range: Variation
+        range: string
+        annotations:
+          prompt: >-
+            Details on the variation, including its membership in a set
+            of alleles.
+      vcfRecord:
+        description: >-
+          A VCF Record of the variant. This SHOULD be a single allele, the VCF
+          genotype (GT) field should be represented in the allelic_state
+        # range: VcfRecord
+        range: string
+        annotations:
+          prompt: >-
+            A VCF Record of the variant. This should be a single allele.
+            The VCF genotype (GT) field should be represented in the
+            allelic_state.
+      vrsRefAlleleSeq:
+        description: >-
+          A Sequence corresponding to a “ref allele”, describing the sequence
+          expected at a SequenceLocation reference.
+        range: string
+        annotations:
+          prompt: >-
+            A Sequence corresponding to a “ref allele”, describing the sequence
+            expected at a SequenceLocation reference.
+      xrefs:
+        description: >-
+          Allele registry, ClinVar, or other related IDs should be included as
+          xrefs
+        multivalued: true
+        range: string
+        annotations:
+          prompt: >-
+            A semicolon-delimited list of related IDs for the variant.
+          prompt.examples: ClinVar:12345; dbSNP:rs12345
+    description: Variation descriptions.
+
+  VcfRecord:
+    attributes:
+      alt:
+        description: ""
+        range: string
+      chrom:
+        description: ""
+        range: string
+      filter:
+        description: ""
+        range: string
+      genomeAssembly:
+        description: ""
+        range: string
+      id:
+        annotations:
+          percent_encoded: true
+        description: ""
+        range: string
+      info:
+        description: ""
+        range: string
+      pos:
+        description: ""
+        range: integer
+      qual:
+        description: ""
+        range: string
+      ref:
+        description: ""
+        range: string
+    description: ""
+
+  # vrs
+
+  Abundance:
+    attributes:
+      copyNumber:
+        annotations:
+          rank: 1
+        description: ""
+        range: CopyNumber
+    description: ""
+    rules:
+      - postconditions:
+          exactly_one_of:
+            - slot_conditions:
+                copyNumber:
+                  required: true
+
+  Allele:
+    attributes:
+      chromosomeLocation:
+        annotations:
+          rank: 3
+        description: ""
+        range: ChromosomeLocation
+      curie:
+        annotations:
+          rank: 2
+        description: ""
+        range: string
+      derivedSequenceExpression:
+        annotations:
+          rank: 6
+        description: ""
+        range: DerivedSequenceExpression
+      id:
+        annotations:
+          percent_encoded: true
+          rank: 1
+        description: ""
+        range: string
+      literalSequenceExpression:
+        annotations:
+          rank: 5
+        description: ""
+        range: LiteralSequenceExpression
+      repeatedSequenceExpression:
+        annotations:
+          rank: 7
+        description: ""
+        range: RepeatedSequenceExpression
+      sequenceLocation:
+        annotations:
+          rank: 4
+        description: ""
+        range: SequenceLocation
+    description: ""
+    rules:
+      - postconditions:
+          exactly_one_of:
+            - slot_conditions:
+                literalSequenceExpression:
+                  required: true
+            - slot_conditions:
+                derivedSequenceExpression:
+                  required: true
+            - slot_conditions:
+                repeatedSequenceExpression:
+                  required: true
+
+  ChromosomeLocation:
+    attributes:
+      chr:
+        annotations:
+          rank: 3
+        description: ""
+        range: string
+      id:
+        annotations:
+          percent_encoded: true
+          rank: 1
+        description: ""
+        range: string
+      interval:
+        annotations:
+          rank: 4
+        description: ""
+        inlined: true
+        range: CytobandInterval
+      speciesId:
+        annotations:
+          rank: 2
+        description: ""
+        range: string
+    description: ""
+
+  CopyNumber:
+    attributes:
+      allele:
+        annotations:
+          rank: 2
+        description: ""
+        range: Allele
+      curie:
+        annotations:
+          rank: 8
+        description: ""
+        range: string
+      definiteRange:
+        annotations:
+          rank: 11
+        description: ""
+        range: DefiniteRange
+      derivedSequenceExpression:
+        annotations:
+          rank: 6
+        description: ""
+        range: DerivedSequenceExpression
+      gene:
+        annotations:
+          rank: 4
+        description: ""
+        range: Gene
+      haplotype:
+        annotations:
+          rank: 3
+        description: ""
+        range: Haplotype
+      id:
+        annotations:
+          percent_encoded: true
+          rank: 1
+        description: ""
+        range: string
+      indefiniteRange:
+        annotations:
+          rank: 10
+        description: ""
+        range: IndefiniteRange
+      literalSequenceExpression:
+        annotations:
+          rank: 5
+        description: ""
+        range: LiteralSequenceExpression
+      number:
+        annotations:
+          rank: 9
+        description: ""
+        range: Number
+      repeatedSequenceExpression:
+        annotations:
+          rank: 7
+        description: ""
+        range: RepeatedSequenceExpression
+    description: ""
+    rules:
+      - postconditions:
+          exactly_one_of:
+            - slot_conditions:
+                number:
+                  required: true
+            - slot_conditions:
+                indefiniteRange:
+                  required: true
+            - slot_conditions:
+                definiteRange:
+                  required: true
+
+  CytobandInterval:
+    attributes:
+      end:
+        annotations:
+          rank: 2
+        description: ""
+        range: string
+      start:
+        annotations:
+          rank: 1
+        description: ""
+        range: string
+    description: ""
+
+  DefiniteRange:
+    attributes:
+      max:
+        annotations:
+          rank: 2
+        description: ""
+        range: integer
+      min:
+        annotations:
+          rank: 1
+        description: ""
+        range: integer
+    description: ""
+
+  DerivedSequenceExpression:
+    attributes:
+      location:
+        annotations:
+          rank: 1
+        description: ""
+        range: SequenceLocation
+      reverseComplement:
+        annotations:
+          rank: 2
+        description: ""
+        range: boolean
+    description: ""
+
+  Feature:
+    attributes:
+      gene:
+        annotations:
+          rank: 1
+        description: ""
+        range: Gene
+    description: ""
+    rules:
+      - postconditions:
+          exactly_one_of:
+            - slot_conditions:
+                gene:
+                  required: true
+
+  Gene:
+    attributes:
+      geneId:
+        annotations:
+          rank: 1
+        description: ""
+        range: string
+    description: ""
+
+  Haplotype:
+    description: ""
+
+  IndefiniteRange:
+    attributes:
+      comparator:
+        annotations:
+          rank: 2
+        description: ""
+        range: string
+      value:
+        annotations:
+          rank: 1
+        description: ""
+        range: integer
+    description: ""
+
+  LiteralSequenceExpression:
+    attributes:
+      sequence:
+        annotations:
+          rank: 1
+        description: ""
+        range: string
+    description: ""
+
+  Location:
+    attributes:
+      chromosomeLocation:
+        annotations:
+          rank: 1
+        description: ""
+        range: ChromosomeLocation
+      sequenceLocation:
+        annotations:
+          rank: 2
+        description: ""
+        range: SequenceLocation
+    description: ""
+    rules:
+      - postconditions:
+          exactly_one_of:
+            - slot_conditions:
+                chromosomeLocation:
+                  required: true
+            - slot_conditions:
+                sequenceLocation:
+                  required: true
+
+  Member:
+    attributes:
+      allele:
+        annotations:
+          rank: 2
+        description: ""
+        range: Allele
+      copyNumber:
+        annotations:
+          rank: 4
+        description: ""
+        range: CopyNumber
+      curie:
+        annotations:
+          rank: 1
+        description: ""
+        range: string
+      haplotype:
+        annotations:
+          rank: 3
+        description: ""
+        range: Haplotype
+      id:
+        annotations:
+          percent_encoded: true
+          rank: 1
+        description: ""
+        range: string
+      members:
+        annotations:
+          rank: 2
+        description: ""
+        inlined_as_list: true
+        multivalued: true
+        range: Member
+      text:
+        annotations:
+          rank: 5
+        description: ""
+        range: Text
+      variationSet:
+        annotations:
+          rank: 6
+        description: ""
+        range: VariationSet
+    description: ""
+    rules:
+      - postconditions:
+          exactly_one_of:
+            - slot_conditions:
+                curie:
+                  required: true
+            - slot_conditions:
+                allele:
+                  required: true
+            - slot_conditions:
+                haplotype:
+                  required: true
+            - slot_conditions:
+                copyNumber:
+                  required: true
+            - slot_conditions:
+                text:
+                  required: true
+            - slot_conditions:
+                variationSet:
+                  required: true
+
+  MolecularVariation:
+    attributes:
+      allele:
+        annotations:
+          rank: 1
+        description: ""
+        range: Allele
+      haplotype:
+        annotations:
+          rank: 2
+        description: ""
+        range: Haplotype
+    description: ""
+    rules:
+      - postconditions:
+          exactly_one_of:
+            - slot_conditions:
+                allele:
+                  required: true
+            - slot_conditions:
+                haplotype:
+                  required: true
+
+  Number:
+    attributes:
+      value:
+        annotations:
+          rank: 1
+        description: ""
+        range: integer
+    description: ""
+
+  RepeatedSequenceExpression:
+    attributes:
+      definiteRange:
+        annotations:
+          rank: 5
+        description: ""
+        range: DefiniteRange
+      derivedSequenceExpression:
+        annotations:
+          rank: 2
+        description: ""
+        range: DerivedSequenceExpression
+      indefiniteRange:
+        annotations:
+          rank: 4
+        description: ""
+        range: IndefiniteRange
+      literalSequenceExpression:
+        annotations:
+          rank: 1
+        description: ""
+        range: LiteralSequenceExpression
+      number:
+        annotations:
+          rank: 3
+        description: ""
+        range: Number
+    description: ""
+    rules:
+      - postconditions:
+          exactly_one_of:
+            - slot_conditions:
+                number:
+                  required: true
+            - slot_conditions:
+                indefiniteRange:
+                  required: true
+            - slot_conditions:
+                definiteRange:
+                  required: true
+
+  SequenceExpression:
+    attributes:
+      derivedSequenceExpression:
+        annotations:
+          rank: 2
+        description: ""
+        range: DerivedSequenceExpression
+      literalSequenceExpression:
+        annotations:
+          rank: 1
+        description: ""
+        range: LiteralSequenceExpression
+      repeatedSequenceExpression:
+        annotations:
+          rank: 3
+        description: ""
+        range: RepeatedSequenceExpression
+    description: ""
+    rules:
+      - postconditions:
+          exactly_one_of:
+            - slot_conditions:
+                literalSequenceExpression:
+                  required: true
+            - slot_conditions:
+                derivedSequenceExpression:
+                  required: true
+            - slot_conditions:
+                repeatedSequenceExpression:
+                  required: true
+
+  SequenceInterval:
+    attributes:
+      endDefiniteRange:
+        annotations:
+          rank: 6
+        description: ""
+        range: DefiniteRange
+      endIndefiniteRange:
+        annotations:
+          rank: 5
+        description: ""
+        range: IndefiniteRange
+      endNumber:
+        annotations:
+          rank: 4
+        description: ""
+        range: Number
+      startDefiniteRange:
+        annotations:
+          rank: 3
+        description: ""
+        range: DefiniteRange
+      startIndefiniteRange:
+        annotations:
+          rank: 2
+        description: ""
+        range: IndefiniteRange
+      startNumber:
+        annotations:
+          rank: 1
+        description: ""
+        range: Number
+    description: ""
+    rules:
+      - postconditions:
+          exactly_one_of:
+            - slot_conditions:
+                endNumber:
+                  required: true
+            - slot_conditions:
+                endIndefiniteRange:
+                  required: true
+            - slot_conditions:
+                endDefiniteRange:
+                  required: true
+
+  SequenceLocation:
+    attributes:
+      id:
+        annotations:
+          percent_encoded: true
+          rank: 1
+        description: ""
+        range: string
+      sequenceId:
+        annotations:
+          rank: 2
+        description: ""
+        range: string
+      sequenceInterval:
+        annotations:
+          rank: 3
+        description: ""
+        range: SequenceInterval
+    description: ""
+    rules:
+      - postconditions:
+          exactly_one_of:
+            - slot_conditions:
+                sequenceInterval:
+                  required: true
+
+  SequenceState:
+    attributes:
+      sequence:
+        annotations:
+          rank: 1
+        description: ""
+        range: string
+    description: ""
+
+  SimpleInterval:
+    attributes:
+      end:
+        annotations:
+          rank: 2
+        description: ""
+        range: integer
+      start:
+        annotations:
+          rank: 1
+        description: ""
+        range: integer
+    description: ""
+
+  SystemicVariation:
+    attributes:
+      copyNumber:
+        annotations:
+          rank: 1
+        description: ""
+        range: CopyNumber
+    description: ""
+    rules:
+      - postconditions:
+          exactly_one_of:
+            - slot_conditions:
+                copyNumber:
+                  required: true
+
+  Text:
+    attributes:
+      definition:
+        annotations:
+          rank: 2
+        description: ""
+        range: string
+      id:
+        annotations:
+          percent_encoded: true
+          rank: 1
+        description: ""
+        range: string
+    description: ""
+
+  UtilityVariation:
+    attributes:
+      text:
+        annotations:
+          rank: 1
+        description: ""
+        range: Text
+      variationSet:
+        annotations:
+          rank: 2
+        description: ""
+        range: VariationSet
+    description: ""
+    rules:
+      - postconditions:
+          exactly_one_of:
+            - slot_conditions:
+                text:
+                  required: true
+            - slot_conditions:
+                variationSet:
+                  required: true
+
+  Variation:
+    attributes:
+      allele:
+        annotations:
+          rank: 1
+        description: ""
+        range: Allele
+      copyNumber:
+        annotations:
+          rank: 3
+        description: ""
+        range: CopyNumber
+      haplotype:
+        annotations:
+          rank: 2
+        description: ""
+        range: Haplotype
+      text:
+        annotations:
+          rank: 4
+        description: ""
+        range: Text
+      variationSet:
+        annotations:
+          rank: 5
+        description: ""
+        range: VariationSet
+    description: ""
+    rules:
+      - postconditions:
+          exactly_one_of:
+            - slot_conditions:
+                allele:
+                  required: true
+            - slot_conditions:
+                haplotype:
+                  required: true
+            - slot_conditions:
+                copyNumber:
+                  required: true
+            - slot_conditions:
+                text:
+                  required: true
+            - slot_conditions:
+                variationSet:
+                  required: true
+
+  VariationSet:
+    description: ""
+
+  # OntoGPT-specific class extensions for grounding
+
+  AllelicStateClass:
+    is_a: OntologyClass
+    id_prefixes:
+      - GENO
+    annotations:
+      annotators: sqlite:obo:geno
+    slot_usage:
+      id:
+        values_from:
+          - AllelicStateType
+
+  AdverseEventClass:
+    is_a: OntologyClass
+    id_prefixes:
+      - OAE
+    annotations:
+      annotators: bioportal:OAE
+
+  AnatomyClass:
+    is_a: OntologyClass
+    id_prefixes:
+      - UBERON
+      - CL
+    annotations:
+      annotators: sqlite:obo:uberon, sqlite:obo:cl
+
+  AssayClass:
+    is_a: OntologyClass
+    id_prefixes:
+      - CMO
+    annotations:
+      annotators: sqlite:obo:cmo
+
+  ChemicalClass:
+    is_a: OntologyClass
+    id_prefixes:
+      - CHEBI
+      - DRUGBANK
+    annotations:
+      annotators: sqlite:obo:chebi, sqlite:obo:drugbank
+
+  DescriptiveClass:
+    is_a: OntologyClass
+    id_prefixes:
+      - PATO
+      - HP
+    annotations:
+      annotators: sqlite:obo:pato, sqlite:obo:hp
+    comments:
+      - HP annotation is specifically for severity subclasses (HP:0012823)
+
+  DiagnosticMarkerClass:
+    is_a: OntologyClass
+    id_prefixes:
+      - NCIT
+    annotations:
+      annotators: sqlite:obo:ncit
+    slot_usage:
+      id:
+        values_from:
+          - NCITDiagnosticMarkerType
+
+  DiseaseClass:
+    is_a: OntologyClass
+    id_prefixes:
+      - MONDO
+    annotations:
+      annotators: sqlite:obo:mondo
+
+  EvidenceClass:
+    is_a: OntologyClass
+    id_prefixes:
+      - ECO
+    annotations:
+      annotators: sqlite:obo:eco
+
+  GenderClass:
+    is_a: OntologyClass
+    id_prefixes:
+      - GSSO
+    annotations:
+      annotators: sqlite:obo:gsso
+
+  IntentClass:
+    is_a: OntologyClass
+    id_prefixes:
+      - NCIT
+    annotations:
+      annotators: sqlite:obo:ncit
+    slot_usage:
+      id:
+        values_from:
+          - NCITIntentType
+
+  PhenotypeClass:
+    is_a: OntologyClass
+    id_prefixes:
+      - HP
+    annotations:
+      annotators: sqlite:obo:hp
+
+  ProcedureClass:
+    is_a: OntologyClass
+    id_prefixes:
+      - MAXO
+    annotations:
+      annotators: sqlite:obo:maxo
+
+  RouteOfAdministrationClass:
+    is_a: OntologyClass
+    id_prefixes:
+      - NCIT
+    annotations:
+      annotators: sqlite:obo:ncit
+    slot_usage:
+      id:
+        values_from:
+          - NCITROAType
+
+  SampleClass:
+    is_a: OntologyClass
+    id_prefixes:
+      - EFO
+    annotations:
+      annotators: sqlite:obo:efo
+
+  SampleStatusClass:
+    is_a: OntologyClass
+    id_prefixes:
+      - EFO
+    annotations:
+      annotators: sqlite:obo:efo
+    slot_usage:
+      id:
+        values_from:
+          - SampleStatusType
+
+  StagingClass:
+    is_a: OntologyClass
+    id_prefixes:
+      - NCIT
+    annotations:
+      annotators: sqlite:obo:ncit
+    slot_usage:
+      id:
+        values_from:
+          - NCITStagingType
+
+  TumorGradeClass:
+    is_a: OntologyClass
+    id_prefixes:
+      - NCIT
+    annotations:
+      annotators: sqlite:obo:ncit
+    slot_usage:
+      id:
+        values_from:
+          - NCITTumorGradeType
+
+  TumorProgressionClass:
+    is_a: OntologyClass
+    id_prefixes:
+      - NCIT
+    annotations:
+      annotators: sqlite:obo:ncit
+    slot_usage:
+      id:
+        values_from:
+          - NCITTumorProgressionType
+
+  UnitClass:
+    is_a: OntologyClass
+    id_prefixes:
+      - UO
+    annotations:
+      annotators: sqlite:obo:uo
+
+  VariantTypeClass:
+    is_a: OntologyClass
+    id_prefixes:
+      - SO
+    annotations:
+      annotators: sqlite:obo:so
+    slot_usage:
+      id:
+        values_from:
+          - VariantType
+
+# TODO: enums need to be described in prompts
+enums:
+  # core/interpretation
+
+  AcmgPathogenicityClassification:
+    description: >-
+      ACMG Pathogenicity Classification of a genetic interpretation.
+      See doi:10.1038/gim.2015.30
+    permissible_values:
+      BENIGN:
+        description: ""
+      LIKELY_BENIGN:
+        description: ""
+      LIKELY_PATHOGENIC:
+        description: ""
+      NOT_PROVIDED:
+        description: ""
+      PATHOGENIC:
+        description: ""
+      UNCERTAIN_SIGNIFICANCE:
+        description: ""
+  InterpretationStatus:
+    description: Status of a genetic interpretation.
+    permissible_values:
+      CANDIDATE:
+        description: ""
+      CAUSATIVE:
+        description: ""
+      CONTRIBUTORY:
+        description: ""
+      REJECTED:
+        description: ""
+      UNKNOWN_STATUS:
+        description: ""
+  ProgressStatus:
+    description: ""
+    permissible_values:
+      COMPLETED:
+        description: ""
+      IN_PROGRESS:
+        description: ""
+      SOLVED:
+        description: ""
+      UNKNOWN_PROGRESS:
+        description: ""
+      UNSOLVED:
+        description: ""
+  TherapeuticActionability:
+    description: Therapeutic actionability of an interpretation.
+    permissible_values:
+      ACTIONABLE:
+        description: ""
+      NOT_ACTIONABLE:
+        description: ""
+      UNKNOWN_ACTIONABILITY:
+        description: ""
+
+  # core/individual
+
+  KaryotypicSex:
+    description: Karyotypic sex of the individual
+    permissible_values:
+      OTHER_KARYOTYPE:
+        description: ""
+      UNKNOWN_KARYOTYPE:
+        description: ""
+      XO:
+        description: ""
+      XX:
+        description: ""
+      XXX:
+        description: ""
+      XXXX:
+        description: ""
+      XXXY:
+        description: ""
+      XXY:
+        description: ""
+      XXYY:
+        description: ""
+      XY:
+        description: ""
+      XYY:
+        description: ""
+  Sex:
+    description: >-
+      Sex of an individual FHIR mapping: AdministrativeGender
+      (https://www.hl7.org/fhir/codesystem-administrative-gender.html)
+    permissible_values:
+      FEMALE:
+        description: Female
+      MALE:
+        description: Male
+      OTHER_SEX:
+        description: >-
+          It is not possible, to accurately assess the applicability of
+          MALE/FEMALE.
+      UNKNOWN_SEX:
+        description: Not assessed / available.
+  Status:
+    description: >-
+      Default = false i.e. the individual is alive. MUST be true if
+    permissible_values:
+      ALIVE:
+        description: Alive
+      DECEASED:
+        description: Deceased
+      UNKNOWN_STATUS:
+        description: Status unknown
+
+  # core/medical_action
+
+  DrugType:
+    description: A simplified version of ODHSI-DRUG_EXPOSURE
+    permissible_values:
+      ADMINISTRATION_RELATED_TO_PROCEDURE:
+        description: ""
+      EHR_MEDICATION_LIST:
+        description: ""
+      PRESCRIPTION:
+        description: ""
+      UNKNOWN_DRUG_TYPE:
+        description: ""
+  RegimenStatus:
+    description: ""
+    permissible_values:
+      COMPLETED:
+        description: ""
+      DISCONTINUED:
+        description: ""
+      STARTED:
+        description: ""
+      UNKNOWN_STATUS:
+        description: ""
+
+  # core/pedigree
+
+  AffectedStatus:
+    description: ""
+    permissible_values:
+      AFFECTED:
+        description: ""
+      MISSING:
+        description: ""
+      UNAFFECTED:
+        description: ""
+
+  # vrsatile
+
+  MoleculeContext:
+    description: ""
+    permissible_values:
+      genomic:
+        description: ""
+      protein:
+        description: ""
+      transcript:
+        description: ""
+      unspecified_molecule_context:
+        description: ""
+
+  # OntoGPT-specific enums for grounding
+
+  AllelicStateType:
+    reachable_from:
+      source_ontology: obo:geno
+      source_nodes:
+        - GENO:0000875
+
+  NCITDiagnosticMarkerType:
+    reachable_from:
+      source_ontology: obo:ncit
+      source_nodes:
+        - NCIT:C25294
+
+  NCITIntentType:
+    reachable_from:
+      source_ontology: obo:ncit
+      source_nodes:
+        - NCIT:C185614
+        - NCIT:C15292
+        - NCIT:C192315
+        - NCIT:C192601
+        - NCIT:C18020
+        - NCIT:C15843
+
+  NCITROAType:
+    reachable_from:
+      source_ontology: obo:ncit
+      source_nodes:
+        - NCIT:C38114
+
+  NCITStagingType:
+    reachable_from:
+      source_ontology: obo:ncit
+      source_nodes:
+        - NCIT:C28108
+
+  NCITTumorGradeType:
+    reachable_from:
+      source_ontology: obo:ncit
+      source_nodes:
+        - NCIT:C28076
+
+  NCITTumorProgressionType:
+    reachable_from:
+      source_ontology: obo:ncit
+      source_nodes:
+        - NCIT:C7062
+
+  SampleStatusType:
+    reachable_from:
+      source_ontology: obo:efo
+      source_nodes:
+        - EFO:0009654
+        - EFO:0009655
+
+  VariantType:
+    reachable_from:
+      source_ontology: obo:so
+      source_nodes:
+        - SO:0001537
