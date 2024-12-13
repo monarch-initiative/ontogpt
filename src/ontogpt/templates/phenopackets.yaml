@@ -694,6 +694,7 @@ classes:
             input text, relating to the biosample. If this is not provided,
             do not include a value for this field.
       histologicalDiagnosis:
+        # This is a string because histological ontologies are lacking
         description: >-
           This is the pathologist’s diagnosis and may often represent a
           refinement of the clinical diagnosis given in the Patient/Clinical
@@ -750,9 +751,7 @@ classes:
           ARGO mapping sample_registration::tumour_normal_designation
         exact_mappings:
           - ARGO:sample_registration.tumour_normal_designation
-        inlined: true
-        # range: OntologyClass
-        range: string
+        range: SampleStatusClass
         annotations:
           prompt: >-
             The status of the sample. For instance, a status may be used as a
@@ -779,13 +778,13 @@ classes:
           mapping specimen::pathological_stage_group
         exact_mappings:
           - ARGO:specimen.pathological_tumour_staging_system
-        inlined: true
-        # range: OntologyClass
-        range: string
+        range: StagingClass
         annotations:
           prompt: >-
             The pathological stage of the biosample. If this is not provided,
             do not include a value.
+          prompt.examples: >-
+            Stage I; Stage II; Stage III; Stage IV
       pathologicalTnmFinding:
         description: >-
           ARGO mapping specimen::pathological_t_category ARGO mapping
@@ -793,10 +792,8 @@ classes:
           specimen::pathological_m_category
         exact_mappings:
           - ARGO:specimen.pathological_t_category
-        inlined_as_list: true
         multivalued: true
-        # range: OntologyClass
-        range: string
+        range: StagingClass
         annotations:
           prompt: >-
             A semicolon-separated list of cancer findings in the TNM system
@@ -840,26 +837,26 @@ classes:
           specimen::specimen_processing
         exact_mappings:
           - ARGO:specimen.specimen_processing
-        inlined: true
-        # range: OntologyClass
-        range: string
+        range: ProcedureClass
         annotations:
           prompt: >-
             Field to represent how the sample was processed. If this is not
             provided, do not include a value.
+          prompt.examples: >-
+            Formalin fixation; Paraffin embedding; DNA extraction
       sampleStorage:
         description: >-
           Field to represent how the sample was stored ARGO mapping
           specimen::specimen_storage
         exact_mappings:
           - ARGO:specimen.specimen_storage
-        inlined: true
-        # range: OntologyClass
-        range: string
+        range: ProcedureClass
         annotations:
           prompt: >-
             Field to represent how the sample was stored. If this is not
             provided, do not include a value.
+          prompt.examples: >-
+            Liquid nitrogen; storage at room temperature
       sampleType:
         description: >-
           Recommended use of EFO term to describe the sample. e.g.
@@ -867,9 +864,7 @@ classes:
           ARGO mapping sample_registration::sample_type
         exact_mappings:
           - ARGO:sample_registration.sample_type
-        inlined: true
-        # range: OntologyClass
-        range: string
+        range: SampleClass
         annotations:
           prompt: >-
             The type of the sample. If this is not provided,
@@ -884,13 +879,13 @@ classes:
           sample_registration::specimen_tissue_source"
         exact_mappings:
           - ARGO:sample_registration.specimen_tissue_source
-        inlined: true
-        # range: OntologyClass
-        range: string
+        range: AnatomyClass
         annotations:
           prompt: >-
             The tissue from which the specimen was collected. If this is not
             provided, do not include a value.
+          prompt.examples: >-
+            lung; liver; pericardium
       taxonomy:
         description: >-
           NCBI taxonomic identifier (NCBITaxon) of the sample e.g.
@@ -921,13 +916,13 @@ classes:
           Potentially a child term of NCIT:C28076 (Disease Grade Qualifier) or
           equivalent See
           https://www.cancer.gov/about-cancer/diagnosis-staging/prognosis/tumor-grade-fact-sheet
-        inlined: true
-        # range: OntologyClass
-        range: string
+        range: TumorGradeClass
         annotations:
           prompt: >-
             The grade of the tumor. If this is not provided, do not include
             a value.
+          prompt.examples: >-
+            Grade I; Grade II; Grade III; Grade IV
       tumorProgression:
         description: >-
           Is the specimen tissue from the primary tumor, a metastasis or a
@@ -3151,6 +3146,24 @@ classes:
         values_from:
           - NCITROAType
 
+  SampleClass:
+    is_a: OntologyClass
+    id_prefixes:
+      - EFO
+    annotations:
+      annotators: sqlite:obo:efo
+
+  SampleStatusClass:
+    is_a: OntologyClass
+    id_prefixes:
+      - EFO
+    annotations:
+      annotators: sqlite:obo:efo
+    slot_usage:
+      id:
+        values_from:
+          - SampleStatusType
+
   StagingClass:
     is_a: OntologyClass
     id_prefixes:
@@ -3161,6 +3174,17 @@ classes:
       id:
         values_from:
           - NCITStagingType
+
+  TumorGradeClass:
+    is_a: OntologyClass
+    id_prefixes:
+      - NCIT
+    annotations:
+      annotators: sqlite:obo:ncit
+    slot_usage:
+      id:
+        values_from:
+          - NCITTumorGradeType
 
   UnitClass:
     is_a: OntologyClass
@@ -3377,6 +3401,19 @@ enums:
       source_ontology: obo:ncit
       source_nodes:
         - NCIT:C28108
+
+  NCITTumorGradeType:
+    reachable_from:
+      source_ontology: obo:ncit
+      source_nodes:
+        - NCIT:C28076
+
+  SampleStatusType:
+    reachable_from:
+      source_ontology: obo:efo
+      source_nodes:
+        - EFO:0009654
+        - EFO:0009655
 
   VariantType:
     reachable_from:
