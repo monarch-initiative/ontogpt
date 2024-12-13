@@ -1646,10 +1646,8 @@ classes:
         description: ARGO mapping treatment::adverse_events
         exact_mappings:
           - ARGO:treatment.adverse_events
-        # inlined_as_list: true
         multivalued: true
-        # range: OntologyClass
-        range: string
+        range: AdverseEventClass
         annotations:
           prompt: >-
             A semicolon-separated list of adverse events associated with
@@ -1681,12 +1679,11 @@ classes:
         description: ARGO mapping treatment::response_to_treatment
         exact_mappings:
           - ARGO:treatment.response_to_treatment
-        # inlined: true
-        # range: OntologyClass
-        range: string
+        range: PhenotypeClass
         annotations:
           prompt: >-
-            The response to the treatment. If the response is not specified,
+            The response to the treatment, described as the phenotype observed
+            as a result of the treatment. If the response is not specified,
             do not include a value for this field.
       therapeuticRegimen:
         description: >-
@@ -1714,22 +1711,19 @@ classes:
           ARGO mapping treatment::treatment_intent
         exact_mappings:
           - ARGO:treatment.treatment_intent
-        # inlined: true
-        # range: OntologyClass
-        range: string
+        range: IntentClass
         annotations:
           prompt: >-
             The intention of the treatment. If the intention is not specified,
             do not include a value for this field.
           prompt.examples: >-
-            Curative; Palliative
+            Curative Therapy; Palliative Therapy; Functional Improvement;
+            Chronic Management; Diagnostic Procedure; Preventative Intervention
       treatmentTarget:
         description: >-
           The condition or disease that this treatment was intended to address.
           FHIR mapping Procedure::reasonCode
-        # inlined: true
-        # range: OntologyClass
-        range: string
+        range: PhenotypeClass
         annotations:
           prompt: >-
             The condition or disease that this treatment was intended to
@@ -3002,6 +2996,13 @@ classes:
 
   # OntoGPT-specific class extensions for grounding
 
+  AdverseEventClass:
+    is_a: OntologyClass
+    id_prefixes:
+      - OAE
+    annotations:
+      annotators: bioportal:OAE
+
   AnatomyClass:
     is_a: OntologyClass
     id_prefixes:
@@ -3040,6 +3041,17 @@ classes:
       - ECO
     annotations:
       annotators: sqlite:obo:eco
+
+  IntentClass:
+    is_a: OntologyClass
+    id_prefixes:
+      - NCIT
+    annotations:
+      annotators: sqlite:obo:ncit
+    slot_usage:
+      id:
+        values_from:
+          - NCITIntentType
 
   PhenotypeClass:
     is_a: OntologyClass
@@ -3229,3 +3241,14 @@ enums:
       source_ontology: obo:ncit
       source_nodes:
         - NCIT:C25294
+
+  NCITIntentType:
+    reachable_from:
+      source_ontology: obo:ncit
+      source_nodes:
+        - NCIT:C185614
+        - NCIT:C15292
+        - NCIT:C192315
+        - NCIT:C192601
+        - NCIT:C18020
+        - NCIT:C15843
