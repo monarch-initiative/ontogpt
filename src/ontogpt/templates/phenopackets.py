@@ -1944,16 +1944,16 @@ class RadiationTherapy(ConfiguredBaseModel):
     """
     linkml_meta: ClassVar[LinkMLMeta] = LinkMLMeta({'from_schema': 'http://w3id.org/ontogpt/phenopackets'})
 
-    bodySite: OntologyClass = Field(..., description="""The anatomical site where radiation therapy was administered. REQUIRED. ARGO mapping radiation::anatomical_site_irradiated""", json_schema_extra = { "linkml_meta": {'alias': 'bodySite',
+    bodySite: str = Field(..., description="""The anatomical site where radiation therapy was administered. REQUIRED. ARGO mapping radiation::anatomical_site_irradiated""", json_schema_extra = { "linkml_meta": {'alias': 'bodySite',
          'domain_of': ['RadiationTherapy'],
          'exact_mappings': ['ARGO:radiation.anatomical_site_irradiated']} })
-    dosage: int = Field(..., description="""The total dose given in units of Gray (Gy). REQUIRED. ARGO mapping radiation::radiation_therapy_dosage""", json_schema_extra = { "linkml_meta": {'alias': 'dosage',
+    dosage: Optional[str] = Field(None, description="""The total dose given in units of Gray (Gy). REQUIRED. ARGO mapping radiation::radiation_therapy_dosage""", json_schema_extra = { "linkml_meta": {'alias': 'dosage',
          'domain_of': ['RadiationTherapy'],
          'exact_mappings': ['ARGO:radiation.radiation_therapy_dosage']} })
-    fractions: int = Field(..., description="""The total number of fractions delivered as part of treatment. REQUIRED. ARGO mapping radiation::radiation_therapy_fractions""", json_schema_extra = { "linkml_meta": {'alias': 'fractions',
+    fractions: Optional[str] = Field(None, description="""The total number of fractions delivered as part of treatment. REQUIRED. ARGO mapping radiation::radiation_therapy_fractions""", json_schema_extra = { "linkml_meta": {'alias': 'fractions',
          'domain_of': ['RadiationTherapy'],
          'exact_mappings': ['ARGO:radiation.radiation_therapy_fractions']} })
-    modality: OntologyClass = Field(..., description="""The modality of radiation therapy (e.g., electron, photon,…). REQUIRED. ARGO mapping radiation::radiation_therapy_modality""", json_schema_extra = { "linkml_meta": {'alias': 'modality',
+    modality: Optional[str] = Field(None, description="""The modality of radiation therapy (e.g., electron, photon,…). REQUIRED. ARGO mapping radiation::radiation_therapy_modality""", json_schema_extra = { "linkml_meta": {'alias': 'modality',
          'domain_of': ['RadiationTherapy'],
          'exact_mappings': ['ARGO:radiation.radiation_therapy_modality']} })
 

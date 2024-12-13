@@ -1767,8 +1767,7 @@ classes:
           REQUIRED. ARGO mapping radiation::anatomical_site_irradiated
         exact_mappings:
           - ARGO:radiation.anatomical_site_irradiated
-        inlined: true
-        range: OntologyClass
+        range: AnatomyClass
         required: true
       dosage:
         description: >-
@@ -1776,16 +1775,18 @@ classes:
           REQUIRED. ARGO mapping radiation::radiation_therapy_dosage
         exact_mappings:
           - ARGO:radiation.radiation_therapy_dosage
-        range: integer
-        required: true
+        # range: integer
+        range: string
+        # required: true
       fractions:
         description: >-
           The total number of fractions delivered as part of treatment.
           REQUIRED. ARGO mapping radiation::radiation_therapy_fractions
         exact_mappings:
           - ARGO:radiation.radiation_therapy_fractions
-        range: integer
-        required: true
+        # range: integer
+        range: string
+        # required: true
       modality:
         description: >-
           The modality of radiation therapy (e.g., electron, photon,…).
@@ -1793,8 +1794,9 @@ classes:
         exact_mappings:
           - ARGO:radiation.radiation_therapy_modality
         inlined: true
-        range: OntologyClass
-        required: true
+        # range: OntologyClass
+        range: string
+        # required: true
 
   TherapeuticRegimen:
     description: ARGO mapping radiation::radiation_therapy_type (missing)
