@@ -1272,13 +1272,17 @@ classes:
             female gender identity; male gender identity;
             nobinary gender identity; agendered
       id:
+        # This does not always get assigned, so it isn't
+        # considered a true identifier.
+        # TODO: assign after phenopacket creation, along
+        # with other metadata, as necessary.
         description: >-
           An identifier for the individual. This must be unique within the
           record. ARGO mapping donor::submitter_donor_id
         exact_mappings:
           - ARGO:donor.submitter_donor_id
         range: string
-        identifier: true
+        # identifier: true
         annotations:
           prompt: >-
             The identifier for the individual. These may also be present

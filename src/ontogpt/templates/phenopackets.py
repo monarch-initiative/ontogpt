@@ -1561,7 +1561,7 @@ class Individual(ConfiguredBaseModel):
                                                       'gender identity; nobinary '
                                                       'gender identity; agendered'}},
          'domain_of': ['Individual']} })
-    id: str = Field(..., description="""An identifier for the individual. This must be unique within the record. ARGO mapping donor::submitter_donor_id""", json_schema_extra = { "linkml_meta": {'alias': 'id',
+    id: Optional[str] = Field(None, description="""An identifier for the individual. This must be unique within the record. ARGO mapping donor::submitter_donor_id""", json_schema_extra = { "linkml_meta": {'alias': 'id',
          'annotations': {'prompt': {'tag': 'prompt',
                                     'value': 'The identifier for the individual. These '
                                              'may also be present in the '
