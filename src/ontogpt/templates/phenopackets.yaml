@@ -931,9 +931,7 @@ classes:
           Malignant Neoplasm) NCIT:C95606 (Second Primary Malignant Neoplasm)
           NCIT:C3261 (Metastatic Neoplasm) NCIT:C4813 (Recurrent Malignant
           Neoplasm)
-        inlined: true
-        # range: OntologyClass
-        range: string
+        range: TumorProgressionClass
         annotations:
           prompt: >-
             Is the specimen tissue from the primary tumor, a metastasis or a
@@ -3186,6 +3184,17 @@ classes:
         values_from:
           - NCITTumorGradeType
 
+  TumorProgressionClass:
+    is_a: OntologyClass
+    id_prefixes:
+      - NCIT
+    annotations:
+      annotators: sqlite:obo:ncit
+    slot_usage:
+      id:
+        values_from:
+          - NCITTumorProgressionType
+
   UnitClass:
     is_a: OntologyClass
     id_prefixes:
@@ -3407,6 +3416,12 @@ enums:
       source_ontology: obo:ncit
       source_nodes:
         - NCIT:C28076
+
+  NCITTumorProgressionType:
+    reachable_from:
+      source_ontology: obo:ncit
+      source_nodes:
+        - NCIT:C7062
 
   SampleStatusType:
     reachable_from:
