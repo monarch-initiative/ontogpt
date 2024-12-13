@@ -601,8 +601,8 @@ class Phenopacket(ConfiguredBaseModel):
     meta_data: str = Field(..., description="""Structured definitions of the resources and ontologies used within the phenopacket. REQUIRED""", json_schema_extra = { "linkml_meta": {'alias': 'meta_data',
          'annotations': {'prompt': {'tag': 'prompt',
                                     'value': 'Additional metadata for the phenopacket. '
-                                             'If this is not provided, write only '
-                                             '"NA".'}},
+                                             'If this is not provided, do not provide '
+                                             'a value for this field.'}},
          'domain_of': ['Phenopacket', 'Family', 'Cohort']} })
 
 
@@ -830,6 +830,8 @@ class Evidence(ConfiguredBaseModel):
     reference: Optional[str] = Field(None, description="""FHIR mapping: Condition.evidence.detail""", json_schema_extra = { "linkml_meta": {'alias': 'reference',
          'annotations': {'prompt': {'tag': 'prompt',
                                     'value': 'A reference to the evidence, if '
+                                             'provided. Do not include a value for '
+                                             'this field if no reference is '
                                              'provided.'}},
          'domain_of': ['ExternalReference', 'Evidence']} })
 

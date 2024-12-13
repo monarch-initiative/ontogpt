@@ -220,6 +220,8 @@ classes:
             to the action, the condition or disease intended as a target of the
             action, and any reason the treatment was discontinued.
       files:
+        # TODO: this may be addressed by passing filenames along
+        # with the input text.
         description: >-
           Pointer to the relevant file(s) for the individual
         # range: File
@@ -232,6 +234,9 @@ classes:
             input text. If this is not provided, do not include a value for
             this field.
       meta_data:
+        # TODO: metadata should be populated after the phenopacket is created,
+        # as it depends upon the external references and namespaces
+        # used in the phenopacket
         description: >-
           Structured definitions of the resources and ontologies used within
           the phenopacket. REQUIRED
@@ -241,10 +246,8 @@ classes:
         annotations:
           prompt: >-
             Additional metadata for the phenopacket.
-            If this is not provided, write only "NA".
-      # TODO: metadata should be populated after the phenopacket is created,
-      # as it depends upon the external references and namespaces
-      # used in the phenopacket
+            If this is not provided, do not provide a value for this field.
+
 
   Family:
     description: >-
