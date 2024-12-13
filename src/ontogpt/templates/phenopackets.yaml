@@ -988,15 +988,15 @@ classes:
           primary_diagnosis::clinical_stage_group
         exact_mappings:
           - ARGO:primary_diagnosis.clinical_tumour_staging_system
-        # inlined_as_list: true
         multivalued: true
-        # range: OntologyClass
-        range: string
+        range: StagingClass
         annotations:
           prompt: >-
             A semicolon-separated list of disease staging terms. These
             describe the extent to which a disease has developed.
             If this is not provided, do not include a value for this field.
+          prompt.examples: >-
+            Stage IA; Stage M2; Stage R; Postoperative Stage
       excluded:
         description: >-
           Flag to indicate whether the disease was observed or not. Default is
@@ -1044,14 +1044,10 @@ classes:
           categorized by the World Health Organization's (WHO) International
           Classification of Diseases for Oncology (ICD-O). This categorization
           groups cases into general
-        # inlined: true
-        # range: OntologyClass
-        range: string
+        range: AnatomyClass
         annotations:
           prompt: >-
-            The text term used to describe the primary site of disease, as
-            categorized by the World Health Organization's (WHO) International
-            Classification of Diseases for Oncology (ICD-O).
+            The text term used to describe the primary site of disease.
             If this is not provided, do not include a value.
       resolution:
         description: >-
@@ -1070,12 +1066,12 @@ classes:
           primary_diagnosis::submitter_primary_diagnosis_id
         exact_mappings:
           - ARGO:primary_diagnosis.submitter_primary_diagnosis_id
-        # inlined: true
-        # range: OntologyClass
-        range: string
+        range: DiseaseClass
         annotations:
           prompt: >-
             The name of the disease.
+          prompt.examples: >-
+            cardio-renal syndrome; acute myeloid leukemia; breast cancer
 
   # core/interpretation
 
@@ -3067,6 +3063,13 @@ classes:
         values_from:
           - NCITDiagnosticMarkerType
 
+  DiseaseClass:
+    is_a: OntologyClass
+    id_prefixes:
+      - MONDO
+    annotations:
+      annotators: sqlite:obo:mondo
+
   EvidenceClass:
     is_a: OntologyClass
     id_prefixes:
@@ -3109,6 +3112,17 @@ classes:
       id:
         values_from:
           - NCITROAType
+
+  StagingClass:
+    is_a: OntologyClass
+    id_prefixes:
+      - NCIT
+    annotations:
+      annotators: sqlite:obo:ncit
+    slot_usage:
+      id:
+        values_from:
+          - NCITStagingType
 
   UnitClass:
     is_a: OntologyClass
@@ -3301,3 +3315,9 @@ enums:
       source_ontology: obo:ncit
       source_nodes:
         - NCIT:C38114
+  
+  NCITStagingType:
+    reachable_from:
+      source_ontology: obo:ncit
+      source_nodes:
+        - NCIT:C28108
