@@ -554,17 +554,18 @@ class Phenopacket(ConfiguredBaseModel):
                                              'provided in the input text, do not '
                                              'provide a value for this field.'}},
          'domain_of': ['Phenopacket']} })
-    diseases: Optional[List[str]] = Field(None, description="""Field for disease identifiers - could be used for listing either diagnosed or suspected conditions. The resources using these fields should define what this represents in their context.""", json_schema_extra = { "linkml_meta": {'alias': 'diseases',
+    diseases: Optional[List[Disease]] = Field(None, description="""Field for disease identifiers - could be used for listing either diagnosed or suspected conditions. The resources using these fields should define what this represents in their context.""", json_schema_extra = { "linkml_meta": {'alias': 'diseases',
          'annotations': {'prompt': {'tag': 'prompt',
                                     'value': 'A semicolon-separated list of diagnosed '
                                              'or suspected disease conditions. If this '
-                                             'is not provided, write only "NA". Also '
-                                             'include explicitly excluded diseases, '
-                                             'clearly denoting they are excluded with '
-                                             'the word EXCLUDED. Include the following '
-                                             'information as available: name of the '
-                                             'disease, a free-text description of the '
-                                             'disease, any cancer diagnosis or related '
+                                             'is not provided, do not provide a value '
+                                             'for this field. Also include explicitly '
+                                             'excluded diseases, clearly denoting they '
+                                             'are excluded with the word EXCLUDED. '
+                                             'Include the following information as '
+                                             'available: name of the disease, a '
+                                             'free-text description of the disease, '
+                                             'any cancer diagnosis or related '
                                              'findings, disease stage, laterality, '
                                              'onset, and primary disease site in the '
                                              'body.'}},
@@ -1193,21 +1194,66 @@ class Disease(ConfiguredBaseModel):
     """
     linkml_meta: ClassVar[LinkMLMeta] = LinkMLMeta({'from_schema': 'http://w3id.org/ontogpt/phenopackets'})
 
-    clinicalTnmFinding: Optional[List[OntologyClass]] = Field(None, description="""Cancer findings in the TNM system that is relevant to the diagnosis of cancer. See https://www.cancer.gov/about-cancer/diagnosis-staging/staging Valid values include child terms of NCIT:C48232 (Cancer TNM Finding) ARGO mapping primary_diagnosis::clinical_t_category ARGO mapping primary_diagnosis::clinical_n_category ARGO mapping primary_diagnosis::clinical_m_category""", json_schema_extra = { "linkml_meta": {'alias': 'clinicalTnmFinding',
+    clinicalTnmFinding: Optional[List[str]] = Field(None, description="""Cancer findings in the TNM system that is relevant to the diagnosis of cancer. See https://www.cancer.gov/about-cancer/diagnosis-staging/staging Valid values include child terms of NCIT:C48232 (Cancer TNM Finding) ARGO mapping primary_diagnosis::clinical_t_category ARGO mapping primary_diagnosis::clinical_n_category ARGO mapping primary_diagnosis::clinical_m_category""", json_schema_extra = { "linkml_meta": {'alias': 'clinicalTnmFinding',
+         'annotations': {'prompt': {'tag': 'prompt',
+                                    'value': 'A semicolon-separated list of cancer '
+                                             'findings in the Tumor, Node, Metastasis '
+                                             '(TNM) system that are relevant to the '
+                                             'diagnosis of cancer. If this is not '
+                                             'provided, do not include a value for '
+                                             'this field.'}},
          'domain_of': ['Disease'],
          'exact_mappings': ['ARGO:primary_diagnosis.clinical_t_category']} })
-    diseaseStage: Optional[List[OntologyClass]] = Field(None, description="""Disease staging, the extent to which a disease has developed. For cancers, see https://www.cancer.gov/about-cancer/diagnosis-staging/staging Valid values include child terms of NCIT:C28108 (Disease Stage Qualifier) ARGO mapping primary_diagnosis::clinical_tumour_staging_system ARGO mapping primary_diagnosis::clinical_stage_group""", json_schema_extra = { "linkml_meta": {'alias': 'diseaseStage',
+    diseaseStage: Optional[List[str]] = Field(None, description="""Disease staging, the extent to which a disease has developed. For cancers, see https://www.cancer.gov/about-cancer/diagnosis-staging/staging Valid values include child terms of NCIT:C28108 (Disease Stage Qualifier) ARGO mapping primary_diagnosis::clinical_tumour_staging_system ARGO mapping primary_diagnosis::clinical_stage_group""", json_schema_extra = { "linkml_meta": {'alias': 'diseaseStage',
+         'annotations': {'prompt': {'tag': 'prompt',
+                                    'value': 'A semicolon-separated list of disease '
+                                             'staging terms. These describe the extent '
+                                             'to which a disease has developed. If '
+                                             'this is not provided, do not include a '
+                                             'value for this field.'}},
          'domain_of': ['Disease'],
          'exact_mappings': ['ARGO:primary_diagnosis.clinical_tumour_staging_system']} })
-    excluded: Optional[bool] = Field(None, description="""Flag to indicate whether the disease was observed or not. Default is 'false', in other words the disease was observed. Therefore it is only required in cases to indicate that the disease was looked for, but found to be absent. More formally, this modifier indicates the logical negation of the OntologyClass used in the 'term' field. *CAUTION* It is imperative to check this field for correct interpretation of the disease!""", json_schema_extra = { "linkml_meta": {'alias': 'excluded', 'domain_of': ['Disease', 'PhenotypicFeature']} })
-    laterality: Optional[OntologyClass] = Field(None, description="""The term used to indicate laterality of diagnosis, if applicable. (Codelist reference: NCI CDE: 4122391)""", json_schema_extra = { "linkml_meta": {'alias': 'laterality', 'domain_of': ['Disease']} })
-    onset: Optional[TimeElement] = Field(None, description="""The onset of the disease. The values of this will come from the HPO onset hierarchy i.e. subclasses of HP:0003674 FHIR mapping:
+    excluded: Optional[str] = Field(None, description="""Flag to indicate whether the disease was observed or not. Default is 'false', in other words the disease was observed. Therefore it is only required in cases to indicate that the disease was looked for, but found to be absent. More formally, this modifier indicates the logical negation of the OntologyClass used in the 'term' field. *CAUTION* It is imperative to check this field for correct interpretation of the disease!""", json_schema_extra = { "linkml_meta": {'alias': 'excluded',
+         'annotations': {'prompt': {'tag': 'prompt',
+                                    'value': 'Flag to indicate whether the disease was '
+                                             'observed or not. If the disease is '
+                                             'explicitly EXCLUDED, this value should '
+                                             "be 'true'. Otherwise, do not provide a "
+                                             'value for this field, or provide '
+                                             "'false'."}},
+         'domain_of': ['Disease', 'PhenotypicFeature']} })
+    laterality: Optional[str] = Field(None, description="""The term used to indicate laterality of diagnosis, if applicable. (Codelist reference: NCI CDE: 4122391)""", json_schema_extra = { "linkml_meta": {'alias': 'laterality',
+         'annotations': {'prompt': {'tag': 'prompt',
+                                    'value': 'The term used to indicate laterality of '
+                                             'diagnosis, if applicable. If this is not '
+                                             'provided, do not include a value.'}},
+         'domain_of': ['Disease']} })
+    onset: Optional[str] = Field(None, description="""The onset of the disease. The values of this will come from the HPO onset hierarchy i.e. subclasses of HP:0003674 FHIR mapping:
   Condition.onset ARGO mapping primary_diagnosis::age_at_diagnosis""", json_schema_extra = { "linkml_meta": {'alias': 'onset',
+         'annotations': {'prompt': {'tag': 'prompt',
+                                    'value': 'The onset of the disease in terms of the '
+                                             "individual's age. If this is not "
+                                             'provided, do not include a value.'}},
          'domain_of': ['Disease', 'PhenotypicFeature'],
          'exact_mappings': ['ARGO:primary_diagnosis.age_at_diagnosis']} })
-    primarySite: Optional[OntologyClass] = Field(None, description="""The text term used to describe the primary site of disease, as categorized by the World Health Organization's (WHO) International Classification of Diseases for Oncology (ICD-O). This categorization groups cases into general""", json_schema_extra = { "linkml_meta": {'alias': 'primarySite', 'domain_of': ['Disease']} })
-    resolution: Optional[TimeElement] = Field(None, json_schema_extra = { "linkml_meta": {'alias': 'resolution', 'domain_of': ['Disease', 'PhenotypicFeature']} })
-    term: Optional[OntologyClass] = Field(None, description="""The identifier of this disease e.g. MONDO:0007043, OMIM:101600, Orphanet:710, DOID:14705 (note these are all equivalent) ARGO mapping primary_diagnosis::submitter_primary_diagnosis_id""", json_schema_extra = { "linkml_meta": {'alias': 'term',
+    primarySite: Optional[str] = Field(None, description="""The text term used to describe the primary site of disease, as categorized by the World Health Organization's (WHO) International Classification of Diseases for Oncology (ICD-O). This categorization groups cases into general""", json_schema_extra = { "linkml_meta": {'alias': 'primarySite',
+         'annotations': {'prompt': {'tag': 'prompt',
+                                    'value': 'The text term used to describe the '
+                                             'primary site of disease, as categorized '
+                                             "by the World Health Organization's (WHO) "
+                                             'International Classification of Diseases '
+                                             'for Oncology (ICD-O). If this is not '
+                                             'provided, do not include a value.'}},
+         'domain_of': ['Disease']} })
+    resolution: Optional[str] = Field(None, description="""The time of resolution of the disease, if applicable.""", json_schema_extra = { "linkml_meta": {'alias': 'resolution',
+         'annotations': {'prompt': {'tag': 'prompt',
+                                    'value': 'The time of resolution of the disease, '
+                                             'if applicable. If this is not provided, '
+                                             'do not include a value.'}},
+         'domain_of': ['Disease', 'PhenotypicFeature']} })
+    term: Optional[str] = Field(None, description="""The identifier of this disease e.g. MONDO:0007043, OMIM:101600, Orphanet:710, DOID:14705 (note these are all equivalent) ARGO mapping primary_diagnosis::submitter_primary_diagnosis_id""", json_schema_extra = { "linkml_meta": {'alias': 'term',
+         'annotations': {'prompt': {'tag': 'prompt',
+                                    'value': 'The name of the disease.'}},
          'domain_of': ['Disease'],
          'exact_mappings': ['ARGO:primary_diagnosis.submitter_primary_diagnosis_id']} })
 
