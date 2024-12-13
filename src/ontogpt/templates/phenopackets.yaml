@@ -1581,15 +1581,16 @@ classes:
           prompt: >-
             A single quantifiable value of the measurement, along
             with its units and reference range, if known.
+          prompt.examples: >-
+            120 kg; 55.5 cm; 120 mg/dL (normal range 70-100 mg/dL)
       type:
         description: e.g. diastolic, systolic
-        inlined: true
-        # range: OntologyClass
-        range: string
+        range: AssayClass
         annotations:
           prompt: >-
-            A categorical or descriptive value of the measurement,
-            e.g., 'diastolic' or 'systolic'.
+            A categorical or descriptive value of the measurement.
+          prompt.examples: >-
+            diastolic blood pressure; systolic blood pressure
 
   Value:
     description: A single specific value.

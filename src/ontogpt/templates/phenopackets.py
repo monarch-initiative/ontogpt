@@ -1777,13 +1777,18 @@ class TypedQuantity(ConfiguredBaseModel):
          'annotations': {'prompt': {'tag': 'prompt',
                                     'value': 'A single quantifiable value of the '
                                              'measurement, along with its units and '
-                                             'reference range, if known.'}},
+                                             'reference range, if known.'},
+                         'prompt.examples': {'tag': 'prompt.examples',
+                                             'value': '120 kg; 55.5 cm; 120 mg/dL '
+                                                      '(normal range 70-100 mg/dL)'}},
          'domain_of': ['TypedQuantity', 'Value', 'DoseInterval']} })
     type: Optional[str] = Field(None, description="""e.g. diastolic, systolic""", json_schema_extra = { "linkml_meta": {'alias': 'type',
          'annotations': {'prompt': {'tag': 'prompt',
                                     'value': 'A categorical or descriptive value of '
-                                             "the measurement, e.g., 'diastolic' or "
-                                             "'systolic'."}},
+                                             'the measurement.'},
+                         'prompt.examples': {'tag': 'prompt.examples',
+                                             'value': 'diastolic blood pressure; '
+                                                      'systolic blood pressure'}},
          'domain_of': ['TypedQuantity', 'PhenotypicFeature']} })
 
 
