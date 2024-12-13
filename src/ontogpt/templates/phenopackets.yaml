@@ -3067,8 +3067,9 @@ classes:
     is_a: OntologyClass
     id_prefixes:
       - UBERON
+      - CL
     annotations:
-      annotators: sqlite:obo:uberon
+      annotators: sqlite:obo:uberon, sqlite:obo:cl
 
   AssayClass:
     is_a: OntologyClass
@@ -3081,8 +3082,9 @@ classes:
     is_a: OntologyClass
     id_prefixes:
       - CHEBI
+      - DRUGBANK
     annotations:
-      annotators: sqlite:obo:chebi
+      annotators: sqlite:obo:chebi, sqlite:obo:drugbank
 
   DescriptiveClass:
     is_a: OntologyClass

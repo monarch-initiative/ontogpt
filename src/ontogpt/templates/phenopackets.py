@@ -3178,9 +3178,9 @@ class AdverseEventClass(OntologyClass):
 
 class AnatomyClass(OntologyClass):
     linkml_meta: ClassVar[LinkMLMeta] = LinkMLMeta({'annotations': {'annotators': {'tag': 'annotators',
-                                        'value': 'sqlite:obo:uberon'}},
+                                        'value': 'sqlite:obo:uberon, sqlite:obo:cl'}},
          'from_schema': 'http://w3id.org/ontogpt/phenopackets',
-         'id_prefixes': ['UBERON']})
+         'id_prefixes': ['UBERON', 'CL']})
 
     id: str = Field(..., description="""A unique identifier for the named entity""", json_schema_extra = { "linkml_meta": {'alias': 'id',
          'annotations': {'prompt.skip': {'tag': 'prompt.skip', 'value': 'true'}},
@@ -3282,9 +3282,10 @@ class AssayClass(OntologyClass):
 
 class ChemicalClass(OntologyClass):
     linkml_meta: ClassVar[LinkMLMeta] = LinkMLMeta({'annotations': {'annotators': {'tag': 'annotators',
-                                        'value': 'sqlite:obo:chebi'}},
+                                        'value': 'sqlite:obo:chebi, '
+                                                 'sqlite:obo:drugbank'}},
          'from_schema': 'http://w3id.org/ontogpt/phenopackets',
-         'id_prefixes': ['CHEBI']})
+         'id_prefixes': ['CHEBI', 'DRUGBANK']})
 
     id: str = Field(..., description="""A unique identifier for the named entity""", json_schema_extra = { "linkml_meta": {'alias': 'id',
          'annotations': {'prompt.skip': {'tag': 'prompt.skip', 'value': 'true'}},
