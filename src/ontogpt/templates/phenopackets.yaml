@@ -2090,12 +2090,10 @@ classes:
         description: >-
           The primary ontology class which describes the phenotype. For example
           "HP:0001363"  "Craniosynostosis" FHIR mapping: Condition.identifier'
-        inlined: true
-        range: OntologyClass
+        range: PhenotypeClass
         annotations:
           prompt: >-
             A short name for the phenotype.
-          annotators: sqlite:obo:hp
 
   # vrsatile
 
@@ -2986,6 +2984,15 @@ classes:
 
   VariationSet:
     description: ""
+
+  # OntoGPT-specific class extensions for grounding
+
+  PhenotypeClass:
+    is_a: OntologyClass
+    id_prefixes:
+      - HP
+    annotations:
+      annotators: sqlite:obo:hp
 
 # TODO: enums need to be described in prompts
 enums:

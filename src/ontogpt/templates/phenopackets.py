@@ -2079,9 +2079,8 @@ class PhenotypicFeature(ConfiguredBaseModel):
                                              'is not specified, do not include a value '
                                              'for this field.'}},
          'domain_of': ['PhenotypicFeature']} })
-    type: Optional[OntologyClass] = Field(None, description="""The primary ontology class which describes the phenotype. For example \"HP:0001363\"  \"Craniosynostosis\" FHIR mapping: Condition.identifier'""", json_schema_extra = { "linkml_meta": {'alias': 'type',
-         'annotations': {'annotators': {'tag': 'annotators', 'value': 'sqlite:obo:hp'},
-                         'prompt': {'tag': 'prompt',
+    type: Optional[str] = Field(None, description="""The primary ontology class which describes the phenotype. For example \"HP:0001363\"  \"Craniosynostosis\" FHIR mapping: Condition.identifier'""", json_schema_extra = { "linkml_meta": {'alias': 'type',
+         'annotations': {'prompt': {'tag': 'prompt',
                                     'value': 'A short name for the phenotype.'}},
          'domain_of': ['TypedQuantity', 'PhenotypicFeature']} })
 
@@ -2893,6 +2892,57 @@ class VariationSet(ConfiguredBaseModel):
     pass
 
 
+class PhenotypeClass(OntologyClass):
+    linkml_meta: ClassVar[LinkMLMeta] = LinkMLMeta({'annotations': {'annotators': {'tag': 'annotators', 'value': 'sqlite:obo:hp'}},
+         'from_schema': 'http://w3id.org/ontogpt/phenopackets',
+         'id_prefixes': ['HP']})
+
+    id: str = Field(..., description="""A unique identifier for the named entity""", json_schema_extra = { "linkml_meta": {'alias': 'id',
+         'annotations': {'prompt.skip': {'tag': 'prompt.skip', 'value': 'true'}},
+         'comments': ['this is populated during the grounding and normalization step'],
+         'domain_of': ['NamedEntity',
+                       'Publication',
+                       'Phenopacket',
+                       'Family',
+                       'Cohort',
+                       'ExternalReference',
+                       'Biosample',
+                       'Interpretation',
+                       'Individual',
+                       'Resource',
+                       'VariationDescriptor',
+                       'VcfRecord',
+                       'Allele',
+                       'ChromosomeLocation',
+                       'CopyNumber',
+                       'Member',
+                       'SequenceLocation',
+                       'Text']} })
+    label: Optional[str] = Field(None, description="""The label (name) of the named thing""", json_schema_extra = { "linkml_meta": {'alias': 'label',
+         'aliases': ['name'],
+         'annotations': {'owl': {'tag': 'owl',
+                                 'value': 'AnnotationProperty, AnnotationAssertion'}},
+         'domain_of': ['NamedEntity', 'VariationDescriptor'],
+         'slot_uri': 'rdfs:label'} })
+    original_spans: Optional[List[str]] = Field(None, description="""The coordinates of the original text span from which the named entity was extracted, inclusive. For example, \"10:25\" means the span starting from the 10th character and ending with the 25th character. The first character in the text has index 0. Newlines are treated as single characters. Multivalued as there may be multiple spans for a single text.""", json_schema_extra = { "linkml_meta": {'alias': 'original_spans',
+         'annotations': {'prompt.skip': {'tag': 'prompt.skip', 'value': 'true'}},
+         'comments': ['This is determined during grounding and normalization',
+                      'But is based on the full input text'],
+         'domain_of': ['NamedEntity']} })
+
+    @field_validator('original_spans')
+    def pattern_original_spans(cls, v):
+        pattern=re.compile(r"^\d+:\d+$")
+        if isinstance(v,list):
+            for element in v:
+                if isinstance(v, str) and not pattern.match(element):
+                    raise ValueError(f"Invalid original_spans format: {element}")
+        elif isinstance(v,str):
+            if not pattern.match(v):
+                raise ValueError(f"Invalid original_spans format: {v}")
+        return v
+
+
 # Model rebuild
 # see https://pydantic-docs.helpmanual.io/usage/models/#rebuilding-a-model
 ExtractionResult.model_rebuild()
@@ -2975,4 +3025,5 @@ Text.model_rebuild()
 UtilityVariation.model_rebuild()
 Variation.model_rebuild()
 VariationSet.model_rebuild()
+PhenotypeClass.model_rebuild()
 
