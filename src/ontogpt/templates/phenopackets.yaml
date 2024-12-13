@@ -2091,18 +2091,20 @@ classes:
             A boolean flag to indicate whether the phenotype was observed or
             not. If the phenotype was observed, this field should be left
             empty. If the phenotype was not observed, set this field to 'true'.
-      modifiers: # TODO: ground
+      modifiers:
         description: >-
           subclasses of HP:0012823 ! Clinical modifier apart from Severity
           HP:0012824 - Severity
-        # inlined_as_list: true
         multivalued: true
-        # range: OntologyClass
-        range: string
+        range: DescriptiveClass
         annotations:
           prompt: >-
             Semicolon-delimited list of modifiers for the phenotype.
-      onset: # TODO: ground
+            This should not include severity modifiers. Do not include
+            a value for this field if no modifiers apply.
+          prompt.examples: >-
+            tender; compression fracture; triggered by stress
+      onset:
         description: >-
           the values of this will come from the HPO onset hierarchy i.e.
           subclasses of HP:0003674 FHIR mapping: Condition.onset
@@ -2115,7 +2117,7 @@ classes:
             this phenotype was first observed in the individual.
             For example, "Late onset", "Congenital onset", or
             "Early young adult onset".
-      resolution: # TODO: ground
+      resolution:
         description: Time required to resolve the phenotype, if applicable.
         # inlined: true
         # range: TimeElement
@@ -2123,17 +2125,17 @@ classes:
         annotations:
           prompt: >-
             The time required to resolve the phenotype, if applicable.
-      severity: # TODO: ground
+      severity:
         description: >-
           Severity of the condition e.g. subclasses of HP:0012824-Severity or
           SNOMED:272141005-Severities FHIR mapping: Condition.severity
-        # inlined: true
-        # range: OntologyClass
-        range: string
+        range: DescriptiveClass
         annotations:
           prompt: >-
             The severity of the phenotype. If this is not specified,
             do not include a value for this field.
+          prompt.examples: >-
+            borderline; mild; moderate; profound; severe
       type:
         description: >-
           The primary ontology class which describes the phenotype. For example
@@ -3067,8 +3069,11 @@ classes:
     is_a: OntologyClass
     id_prefixes:
       - PATO
+      - HP
     annotations:
-      annotators: sqlite:obo:pato
+      annotators: sqlite:obo:pato, sqlite:obo:hp
+    comments:
+      - HP annotation is specifically for severity subclasses (HP:0012823)
 
   DiagnosticMarkerClass:
     is_a: OntologyClass

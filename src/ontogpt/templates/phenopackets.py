@@ -2173,7 +2173,13 @@ class PhenotypicFeature(ConfiguredBaseModel):
     modifiers: Optional[List[str]] = Field(None, description="""subclasses of HP:0012823 ! Clinical modifier apart from Severity HP:0012824 - Severity""", json_schema_extra = { "linkml_meta": {'alias': 'modifiers',
          'annotations': {'prompt': {'tag': 'prompt',
                                     'value': 'Semicolon-delimited list of modifiers '
-                                             'for the phenotype.'}},
+                                             'for the phenotype. This should not '
+                                             'include severity modifiers. Do not '
+                                             'include a value for this field if no '
+                                             'modifiers apply.'},
+                         'prompt.examples': {'tag': 'prompt.examples',
+                                             'value': 'tender; compression fracture; '
+                                                      'triggered by stress'}},
          'domain_of': ['PhenotypicFeature']} })
     onset: Optional[str] = Field(None, description="""the values of this will come from the HPO onset hierarchy i.e. subclasses of HP:0003674 FHIR mapping: Condition.onset""", json_schema_extra = { "linkml_meta": {'alias': 'onset',
          'annotations': {'prompt': {'tag': 'prompt',
@@ -2192,7 +2198,10 @@ class PhenotypicFeature(ConfiguredBaseModel):
          'annotations': {'prompt': {'tag': 'prompt',
                                     'value': 'The severity of the phenotype. If this '
                                              'is not specified, do not include a value '
-                                             'for this field.'}},
+                                             'for this field.'},
+                         'prompt.examples': {'tag': 'prompt.examples',
+                                             'value': 'borderline; mild; moderate; '
+                                                      'profound; severe'}},
          'domain_of': ['PhenotypicFeature']} })
     type: Optional[str] = Field(None, description="""The primary ontology class which describes the phenotype. For example \"HP:0001363\"  \"Craniosynostosis\" FHIR mapping: Condition.identifier'""", json_schema_extra = { "linkml_meta": {'alias': 'type',
          'annotations': {'prompt': {'tag': 'prompt',
@@ -3216,9 +3225,11 @@ class ChemicalClass(OntologyClass):
 
 class DescriptiveClass(OntologyClass):
     linkml_meta: ClassVar[LinkMLMeta] = LinkMLMeta({'annotations': {'annotators': {'tag': 'annotators',
-                                        'value': 'sqlite:obo:pato'}},
+                                        'value': 'sqlite:obo:pato, sqlite:obo:hp'}},
+         'comments': ['HP annotation is specifically for severity subclasses '
+                      '(HP:0012823)'],
          'from_schema': 'http://w3id.org/ontogpt/phenopackets',
-         'id_prefixes': ['PATO']})
+         'id_prefixes': ['PATO', 'HP']})
 
     id: str = Field(..., description="""A unique identifier for the named entity""", json_schema_extra = { "linkml_meta": {'alias': 'id',
          'annotations': {'prompt.skip': {'tag': 'prompt.skip', 'value': 'true'}},
