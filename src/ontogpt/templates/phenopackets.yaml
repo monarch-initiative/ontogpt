@@ -101,9 +101,10 @@ classes:
             This description must also include any of the following,
             if provided: the date of birth, gender, sex, karyotypic sex,
             the time of last encounter, and whether the individual is
-            alive or deceased. If no details about the individual are provided,
-            this MUST include only the phenopacket identifier.
-            Do not provide an empty value for this field.
+            alive or deceased. Even if no details about the individual are
+            provided, this MUST include the phenopacket identifier (e.g.,
+            the value for the id field). Do not provide an empty value for this
+            field.
       phenotypic_features:
         description: >-
           Phenotypic features relating to the subject of the phenopacket
@@ -433,8 +434,7 @@ classes:
         description: >-
           The encoded evidence type using, for example the Evidence & Conclusion
           Ontology (ECO - http://purl.obolibrary.org/obo/eco.owl)
-        # range: OntologyClass
-        range: string
+        range: EvidenceClass
         annotations:
           prompt: >-
             The type of evidence, identified by NamedEntity.
@@ -466,22 +466,22 @@ classes:
       code:
         description: >-
           FHIR mapping: Procedure.code
-        # range: OntologyClass
-        range: string
+        range: ProcedureClass
         annotations:
           prompt: >-
-            The code for the procedure.
+            The name of the procedure.
       body_site:
         description: >-
           FHIR mapping: Procedure.bodySite
-        # range: OntologyClass
-        range: string
+        range: AnatomyClass
         annotations:
           prompt: >-
-            The code for the body site of the procedure. This may
+            The name of the body site of the procedure. This may
             require inference from the procedure, e.g., a colonoscopy
             is done on the colon, bronchoscopy is done on the lungs,
             and so on.
+          prompt.examples: >-
+            colon; lungs; retina
       performed:
         description: >-
           When the procedure was performed.
@@ -667,8 +667,7 @@ classes:
           covered by the NCIT under the sub-hierarchy NCIT:C25294 (Laboratory
           Procedure). e.g. NCIT:C68748 (HER2/Neu Positive), NCIT:C131711
           (Human Papillomavirus-18 Positive)
-        # range: OntologyClass
-        range: string
+        range: DiagnosticMarkerClass
         annotations:
           prompt: >-
             A semicolon-delimited list of names of clinically relevant bio
@@ -2987,12 +2986,44 @@ classes:
 
   # OntoGPT-specific class extensions for grounding
 
+  AnatomyClass:
+    is_a: OntologyClass
+    id_prefixes:
+      - UBERON
+    annotations:
+      annotators: sqlite:obo:uberon
+
+  DiagnosticMarkerClass:
+    is_a: OntologyClass
+    id_prefixes:
+      - NCIT
+    annotations:
+      annotators: sqlite:obo:ncit
+    slot_usage:
+      id:
+        values_from:
+          - NCITDiagnosticMarkerType
+
+  EvidenceClass:
+    is_a: OntologyClass
+    id_prefixes:
+      - ECO
+    annotations:
+      annotators: sqlite:obo:eco
+
   PhenotypeClass:
     is_a: OntologyClass
     id_prefixes:
       - HP
     annotations:
       annotators: sqlite:obo:hp
+
+  ProcedureClass:
+    is_a: OntologyClass
+    id_prefixes:
+      - MAXO
+    annotations:
+      annotators: sqlite:obo:maxo
 
 # TODO: enums need to be described in prompts
 enums:
@@ -3153,3 +3184,11 @@ enums:
         description: ""
       unspecified_molecule_context:
         description: ""
+
+  # OntoGPT-specific enums for grounding
+
+  NCITDiagnosticMarkerType:
+    reachable_from:
+      source_ontology: obo:ncit
+      source_nodes:
+        - NCIT:C25294
