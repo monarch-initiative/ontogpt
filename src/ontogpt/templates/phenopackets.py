@@ -497,7 +497,11 @@ class Phenopacket(ConfiguredBaseModel):
                                              'following, if provided: the date of '
                                              'birth, gender, sex, karyotypic sex, the '
                                              'time of last encounter, and whether the '
-                                             'individual is alive or deceased.'}},
+                                             'individual is alive or deceased. If no '
+                                             'details about the individual are '
+                                             'provided, this MUST include only the '
+                                             'phenopacket identifier. Do not provide '
+                                             'an empty value for this field.'}},
          'domain_of': ['Triple', 'Phenopacket']} })
     phenotypic_features: Optional[List[PhenotypicFeature]] = Field(None, description="""Phenotypic features relating to the subject of the phenopacket""", json_schema_extra = { "linkml_meta": {'alias': 'phenotypic_features',
          'annotations': {'prompt': {'tag': 'prompt',
@@ -814,8 +818,20 @@ class Evidence(ConfiguredBaseModel):
     """
     linkml_meta: ClassVar[LinkMLMeta] = LinkMLMeta({'from_schema': 'http://w3id.org/ontogpt/phenopackets'})
 
-    evidence_code: Optional[str] = Field(None, description="""The encoded evidence type using, for example the Evidence & Conclusion Ontology (ECO - http://purl.obolibrary.org/obo/eco.owl)""", json_schema_extra = { "linkml_meta": {'alias': 'evidence_code', 'domain_of': ['Evidence']} })
-    reference: Optional[str] = Field(None, description="""FHIR mapping: Condition.evidence.detail""", json_schema_extra = { "linkml_meta": {'alias': 'reference', 'domain_of': ['ExternalReference', 'Evidence']} })
+    evidence_code: Optional[str] = Field(None, description="""The encoded evidence type using, for example the Evidence & Conclusion Ontology (ECO - http://purl.obolibrary.org/obo/eco.owl)""", json_schema_extra = { "linkml_meta": {'alias': 'evidence_code',
+         'annotations': {'prompt': {'tag': 'prompt',
+                                    'value': 'The type of evidence, identified by '
+                                             'NamedEntity.'},
+                         'prompt.examples': {'tag': 'prompt.examples',
+                                             'value': 'nucleotide sequencing assay '
+                                                      'evidence; cognitive assay '
+                                                      'phenotypic evidence'}},
+         'domain_of': ['Evidence']} })
+    reference: Optional[str] = Field(None, description="""FHIR mapping: Condition.evidence.detail""", json_schema_extra = { "linkml_meta": {'alias': 'reference',
+         'annotations': {'prompt': {'tag': 'prompt',
+                                    'value': 'A reference to the evidence, if '
+                                             'provided.'}},
+         'domain_of': ['ExternalReference', 'Evidence']} })
 
 
 class Procedure(ConfiguredBaseModel):
@@ -2012,10 +2028,12 @@ class PhenotypicFeature(ConfiguredBaseModel):
                        'PhenotypicFeature',
                        'GeneDescriptor',
                        'VariationDescriptor']} })
-    evidence: Optional[List[str]] = Field(None, description="""Evidences for how the phenotype was determined.""", json_schema_extra = { "linkml_meta": {'alias': 'evidence',
+    evidence: Optional[List[Evidence]] = Field(None, description="""Evidences for how the phenotype was determined.""", json_schema_extra = { "linkml_meta": {'alias': 'evidence',
          'annotations': {'prompt': {'tag': 'prompt',
                                     'value': 'Semicolon-delimited list of evidences '
-                                             'for how the phenotype was determined.'}},
+                                             'for how the phenotype was determined. If '
+                                             'evidence is not specified, do not '
+                                             'include a value for this field.'}},
          'domain_of': ['PhenotypicFeature']} })
     excluded: Optional[str] = Field(None, description="""Flag to indicate whether the phenotype was observed or not. Default is 'false', in other words the phenotype was observed. Therefore it is only required in cases to indicate that the phenotype was looked for, but found to be absent. More formally, this modifier indicates the logical negation of the OntologyClass used in the 'type' field. *CAUTION* It is imperative to check this field for correct interpretation of the phenotype!""", json_schema_extra = { "linkml_meta": {'alias': 'excluded',
          'annotations': {'prompt': {'tag': 'prompt',

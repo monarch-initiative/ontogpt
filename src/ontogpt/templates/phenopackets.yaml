@@ -121,7 +121,9 @@ classes:
             This description must also include any of the following,
             if provided: the date of birth, gender, sex, karyotypic sex,
             the time of last encounter, and whether the individual is
-            alive or deceased.
+            alive or deceased. If no details about the individual are provided,
+            this MUST include only the phenopacket identifier.
+            Do not provide an empty value for this field.
       phenotypic_features:
         description: >-
           Phenotypic features relating to the subject of the phenopacket
@@ -446,11 +448,23 @@ classes:
         description: >-
           The encoded evidence type using, for example the Evidence & Conclusion
           Ontology (ECO - http://purl.obolibrary.org/obo/eco.owl)
-        range: OntologyClass
+        # range: OntologyClass
+        range: string
+        annotations:
+          prompt: >-
+            The type of evidence, identified by NamedEntity.
+          prompt.examples: >-
+            nucleotide sequencing assay evidence; cognitive assay phenotypic
+            evidence
       reference:
         description: >-
           FHIR mapping: Condition.evidence.detail
-        range: ExternalReference
+        # range: ExternalReference
+        range: string
+        annotations:
+          prompt: >-
+            A reference to the evidence, if provided. Do not include a value
+            for this field if no reference is provided.
 
   Procedure:
     description: >-
@@ -2019,15 +2033,15 @@ classes:
             A free-text description of the observed phenotype. This should be a
             description of the observation, not the phenotype itself.
             Do not include type, onset, or other classifications.
-      evidence: # TODO: ground
+      evidence:
         description: Evidences for how the phenotype was determined.
         multivalued: true
-        # range: Evidence
-        range: string
+        range: Evidence
         annotations:
           prompt: >-
             Semicolon-delimited list of evidences for how the phenotype was
-            determined.
+            determined. If evidence is not specified, do not include a value
+            for this field.
       excluded:
         description: >-
           Flag to indicate whether the phenotype was observed or not. Default
