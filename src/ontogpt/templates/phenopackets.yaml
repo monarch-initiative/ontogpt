@@ -222,7 +222,7 @@ classes:
           the phenopacket. REQUIRED
         # range: MetaData
         range: string
-        required: true
+        # required: true
         annotations:
           prompt: >-
             Additional metadata for the phenopacket.
@@ -365,30 +365,32 @@ classes:
   # core/base
 
   OntologyClass:
+    is_a: NamedEntity
     description: >-
       A class (aka term, concept) in an ontology.
       FHIR mapping: CodeableConcept (http://www.hl7.org/fhir/datatypes.html#CodeableConcept)
       see also Coding (http://www.hl7.org/fhir/datatypes.html#Coding)
-    attributes:
-      id:
-        description: >-
-          a CURIE-style identifier e.g. HP:0100024, MP:0001284, UBERON:0001690.
-          This is the primary key for the ontology class
-          REQUIRED!
-        range: uriorcurie
-        required: true
-        identifier: true
-        annotations:
-          prompt.skip: "true"
-        comments:
-          - Assigned through grounding and normalization
-      label:
-        description: >-
-          class label, aka name. E.g. "Abnormality of cardiovascular system"
-        range: string
-        annotations:
-          prompt: >-
-            The human-readable label of the class.
+    # attributes:
+    #   id:
+    #     description: >-
+    #       a CURIE-style identifier e.g. HP:0100024, MP:0001284, UBERON:0001690.
+    #       This is the primary key for the ontology class
+    #       REQUIRED!
+    #     range: uriorcurie
+    #     required: true
+    #     identifier: true
+    #     annotations:
+    #       prompt.skip: "true"
+    #   label:
+    #     description: >-
+    #       class label, aka name. E.g. "Abnormality of cardiovascular system"
+    #     range: string
+    #     annotations:
+    #       prompt: >-
+    #         The human-readable label of the class.
+    comments:
+      - For OntoGPT, considered a NamedEntity
+      - NamedEntity already defines id and label
 
   ExternalReference:
     description: >-
@@ -2084,17 +2086,16 @@ classes:
           prompt: >-
             The severity of the phenotype. If this is not specified,
             do not include a value for this field.
-      type: # TODO: ground
+      type:
         description: >-
           The primary ontology class which describes the phenotype. For example
           "HP:0001363"  "Craniosynostosis" FHIR mapping: Condition.identifier'
-        # inlined: true
-        # range: OntologyClass
-        range: string
+        inlined: true
+        range: OntologyClass
         annotations:
           prompt: >-
-            The primary ontology class which describes the phenotype.
-            For example, "Craniosynostosis".
+            A short name for the phenotype.
+          annotators: sqlite:obo:hp
 
   # vrsatile
 

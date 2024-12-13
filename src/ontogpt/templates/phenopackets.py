@@ -250,7 +250,6 @@ class NamedEntity(ConfiguredBaseModel):
                        'Phenopacket',
                        'Family',
                        'Cohort',
-                       'OntologyClass',
                        'ExternalReference',
                        'Biosample',
                        'Interpretation',
@@ -268,7 +267,7 @@ class NamedEntity(ConfiguredBaseModel):
          'aliases': ['name'],
          'annotations': {'owl': {'tag': 'owl',
                                  'value': 'AnnotationProperty, AnnotationAssertion'}},
-         'domain_of': ['NamedEntity', 'OntologyClass', 'VariationDescriptor'],
+         'domain_of': ['NamedEntity', 'VariationDescriptor'],
          'slot_uri': 'rdfs:label'} })
     original_spans: Optional[List[str]] = Field(None, description="""The coordinates of the original text span from which the named entity was extracted, inclusive. For example, \"10:25\" means the span starting from the 10th character and ending with the 25th character. The first character in the text has index 0. Newlines are treated as single characters. Multivalued as there may be multiple spans for a single text.""", json_schema_extra = { "linkml_meta": {'alias': 'original_spans',
          'annotations': {'prompt.skip': {'tag': 'prompt.skip', 'value': 'true'}},
@@ -345,7 +344,6 @@ class RelationshipType(NamedEntity):
                        'Phenopacket',
                        'Family',
                        'Cohort',
-                       'OntologyClass',
                        'ExternalReference',
                        'Biosample',
                        'Interpretation',
@@ -363,7 +361,7 @@ class RelationshipType(NamedEntity):
          'aliases': ['name'],
          'annotations': {'owl': {'tag': 'owl',
                                  'value': 'AnnotationProperty, AnnotationAssertion'}},
-         'domain_of': ['NamedEntity', 'OntologyClass', 'VariationDescriptor'],
+         'domain_of': ['NamedEntity', 'VariationDescriptor'],
          'slot_uri': 'rdfs:label'} })
     original_spans: Optional[List[str]] = Field(None, description="""The coordinates of the original text span from which the named entity was extracted, inclusive. For example, \"10:25\" means the span starting from the 10th character and ending with the 25th character. The first character in the text has index 0. Newlines are treated as single characters. Multivalued as there may be multiple spans for a single text.""", json_schema_extra = { "linkml_meta": {'alias': 'original_spans',
          'annotations': {'prompt.skip': {'tag': 'prompt.skip', 'value': 'true'}},
@@ -393,7 +391,6 @@ class Publication(ConfiguredBaseModel):
                        'Phenopacket',
                        'Family',
                        'Cohort',
-                       'OntologyClass',
                        'ExternalReference',
                        'Biosample',
                        'Interpretation',
@@ -468,7 +465,6 @@ class Phenopacket(ConfiguredBaseModel):
                        'Phenopacket',
                        'Family',
                        'Cohort',
-                       'OntologyClass',
                        'ExternalReference',
                        'Biosample',
                        'Interpretation',
@@ -598,7 +594,7 @@ class Phenopacket(ConfiguredBaseModel):
                                              'If this is not provided, do not include '
                                              'a value for this field.'}},
          'domain_of': ['Phenopacket', 'Family', 'Cohort', 'Biosample']} })
-    meta_data: str = Field(..., description="""Structured definitions of the resources and ontologies used within the phenopacket. REQUIRED""", json_schema_extra = { "linkml_meta": {'alias': 'meta_data',
+    meta_data: Optional[str] = Field(None, description="""Structured definitions of the resources and ontologies used within the phenopacket. REQUIRED""", json_schema_extra = { "linkml_meta": {'alias': 'meta_data',
          'annotations': {'prompt': {'tag': 'prompt',
                                     'value': 'Additional metadata for the phenopacket. '
                                              'If this is not provided, do not provide '
@@ -620,7 +616,6 @@ class Family(ConfiguredBaseModel):
                        'Phenopacket',
                        'Family',
                        'Cohort',
-                       'OntologyClass',
                        'ExternalReference',
                        'Biosample',
                        'Interpretation',
@@ -687,7 +682,6 @@ class Cohort(ConfiguredBaseModel):
                        'Phenopacket',
                        'Family',
                        'Cohort',
-                       'OntologyClass',
                        'ExternalReference',
                        'Biosample',
                        'Interpretation',
@@ -732,21 +726,22 @@ class Cohort(ConfiguredBaseModel):
          'domain_of': ['Phenopacket', 'Family', 'Cohort']} })
 
 
-class OntologyClass(ConfiguredBaseModel):
+class OntologyClass(NamedEntity):
     """
     A class (aka term, concept) in an ontology. FHIR mapping: CodeableConcept (http://www.hl7.org/fhir/datatypes.html#CodeableConcept) see also Coding (http://www.hl7.org/fhir/datatypes.html#Coding)
     """
-    linkml_meta: ClassVar[LinkMLMeta] = LinkMLMeta({'from_schema': 'http://w3id.org/ontogpt/phenopackets'})
+    linkml_meta: ClassVar[LinkMLMeta] = LinkMLMeta({'comments': ['For OntoGPT, considered a NamedEntity',
+                      'NamedEntity already defines id and label'],
+         'from_schema': 'http://w3id.org/ontogpt/phenopackets'})
 
-    id: str = Field(..., description="""a CURIE-style identifier e.g. HP:0100024, MP:0001284, UBERON:0001690. This is the primary key for the ontology class REQUIRED!""", json_schema_extra = { "linkml_meta": {'alias': 'id',
+    id: str = Field(..., description="""A unique identifier for the named entity""", json_schema_extra = { "linkml_meta": {'alias': 'id',
          'annotations': {'prompt.skip': {'tag': 'prompt.skip', 'value': 'true'}},
-         'comments': ['Assigned through grounding and normalization'],
+         'comments': ['this is populated during the grounding and normalization step'],
          'domain_of': ['NamedEntity',
                        'Publication',
                        'Phenopacket',
                        'Family',
                        'Cohort',
-                       'OntologyClass',
                        'ExternalReference',
                        'Biosample',
                        'Interpretation',
@@ -760,10 +755,29 @@ class OntologyClass(ConfiguredBaseModel):
                        'Member',
                        'SequenceLocation',
                        'Text']} })
-    label: Optional[str] = Field(None, description="""class label, aka name. E.g. \"Abnormality of cardiovascular system\"""", json_schema_extra = { "linkml_meta": {'alias': 'label',
-         'annotations': {'prompt': {'tag': 'prompt',
-                                    'value': 'The human-readable label of the class.'}},
-         'domain_of': ['NamedEntity', 'OntologyClass', 'VariationDescriptor']} })
+    label: Optional[str] = Field(None, description="""The label (name) of the named thing""", json_schema_extra = { "linkml_meta": {'alias': 'label',
+         'aliases': ['name'],
+         'annotations': {'owl': {'tag': 'owl',
+                                 'value': 'AnnotationProperty, AnnotationAssertion'}},
+         'domain_of': ['NamedEntity', 'VariationDescriptor'],
+         'slot_uri': 'rdfs:label'} })
+    original_spans: Optional[List[str]] = Field(None, description="""The coordinates of the original text span from which the named entity was extracted, inclusive. For example, \"10:25\" means the span starting from the 10th character and ending with the 25th character. The first character in the text has index 0. Newlines are treated as single characters. Multivalued as there may be multiple spans for a single text.""", json_schema_extra = { "linkml_meta": {'alias': 'original_spans',
+         'annotations': {'prompt.skip': {'tag': 'prompt.skip', 'value': 'true'}},
+         'comments': ['This is determined during grounding and normalization',
+                      'But is based on the full input text'],
+         'domain_of': ['NamedEntity']} })
+
+    @field_validator('original_spans')
+    def pattern_original_spans(cls, v):
+        pattern=re.compile(r"^\d+:\d+$")
+        if isinstance(v,list):
+            for element in v:
+                if isinstance(v, str) and not pattern.match(element):
+                    raise ValueError(f"Invalid original_spans format: {element}")
+        elif isinstance(v,str):
+            if not pattern.match(v):
+                raise ValueError(f"Invalid original_spans format: {v}")
+        return v
 
 
 class ExternalReference(ConfiguredBaseModel):
@@ -780,7 +794,6 @@ class ExternalReference(ConfiguredBaseModel):
                        'Phenopacket',
                        'Family',
                        'Cohort',
-                       'OntologyClass',
                        'ExternalReference',
                        'Biosample',
                        'Interpretation',
@@ -1057,7 +1070,6 @@ class Biosample(ConfiguredBaseModel):
                        'Phenopacket',
                        'Family',
                        'Cohort',
-                       'OntologyClass',
                        'ExternalReference',
                        'Biosample',
                        'Interpretation',
@@ -1392,7 +1404,6 @@ class Interpretation(ConfiguredBaseModel):
                        'Phenopacket',
                        'Family',
                        'Cohort',
-                       'OntologyClass',
                        'ExternalReference',
                        'Biosample',
                        'Interpretation',
@@ -1503,7 +1514,6 @@ class Individual(ConfiguredBaseModel):
                        'Phenopacket',
                        'Family',
                        'Cohort',
-                       'OntologyClass',
                        'ExternalReference',
                        'Biosample',
                        'Interpretation',
@@ -1958,7 +1968,6 @@ class Resource(ConfiguredBaseModel):
                        'Phenopacket',
                        'Family',
                        'Cohort',
-                       'OntologyClass',
                        'ExternalReference',
                        'Biosample',
                        'Interpretation',
@@ -2070,11 +2079,10 @@ class PhenotypicFeature(ConfiguredBaseModel):
                                              'is not specified, do not include a value '
                                              'for this field.'}},
          'domain_of': ['PhenotypicFeature']} })
-    type: Optional[str] = Field(None, description="""The primary ontology class which describes the phenotype. For example \"HP:0001363\"  \"Craniosynostosis\" FHIR mapping: Condition.identifier'""", json_schema_extra = { "linkml_meta": {'alias': 'type',
-         'annotations': {'prompt': {'tag': 'prompt',
-                                    'value': 'The primary ontology class which '
-                                             'describes the phenotype. For example, '
-                                             '"Craniosynostosis".'}},
+    type: Optional[OntologyClass] = Field(None, description="""The primary ontology class which describes the phenotype. For example \"HP:0001363\"  \"Craniosynostosis\" FHIR mapping: Condition.identifier'""", json_schema_extra = { "linkml_meta": {'alias': 'type',
+         'annotations': {'annotators': {'tag': 'annotators', 'value': 'sqlite:obo:hp'},
+                         'prompt': {'tag': 'prompt',
+                                    'value': 'A short name for the phenotype.'}},
          'domain_of': ['TypedQuantity', 'PhenotypicFeature']} })
 
 
@@ -2196,7 +2204,6 @@ class VariationDescriptor(ConfiguredBaseModel):
                        'Phenopacket',
                        'Family',
                        'Cohort',
-                       'OntologyClass',
                        'ExternalReference',
                        'Biosample',
                        'Interpretation',
@@ -2215,7 +2222,7 @@ class VariationDescriptor(ConfiguredBaseModel):
                                     'value': 'A label for this variant. This should be '
                                              'a human-readable string that describes '
                                              'the variant.'}},
-         'domain_of': ['NamedEntity', 'OntologyClass', 'VariationDescriptor']} })
+         'domain_of': ['NamedEntity', 'VariationDescriptor']} })
     moleculeContext: Optional[str] = Field(None, description="""The molecular context of the vrs variation. Must be one of “genomic”, “transcript”, or “protein”. Defaults to \"unspecified_molecule_context\"""", json_schema_extra = { "linkml_meta": {'alias': 'moleculeContext',
          'annotations': {'prompt': {'tag': 'prompt',
                                     'value': 'The molecular context of the variant. '
@@ -2273,7 +2280,6 @@ class VcfRecord(ConfiguredBaseModel):
                        'Phenopacket',
                        'Family',
                        'Cohort',
-                       'OntologyClass',
                        'ExternalReference',
                        'Biosample',
                        'Interpretation',
@@ -2332,7 +2338,6 @@ class Allele(ConfiguredBaseModel):
                        'Phenopacket',
                        'Family',
                        'Cohort',
-                       'OntologyClass',
                        'ExternalReference',
                        'Biosample',
                        'Interpretation',
@@ -2374,7 +2379,6 @@ class ChromosomeLocation(ConfiguredBaseModel):
                        'Phenopacket',
                        'Family',
                        'Cohort',
-                       'OntologyClass',
                        'ExternalReference',
                        'Biosample',
                        'Interpretation',
@@ -2434,7 +2438,6 @@ class CopyNumber(ConfiguredBaseModel):
                        'Phenopacket',
                        'Family',
                        'Cohort',
-                       'OntologyClass',
                        'ExternalReference',
                        'Biosample',
                        'Interpretation',
@@ -2602,7 +2605,6 @@ class Member(ConfiguredBaseModel):
                        'Phenopacket',
                        'Family',
                        'Cohort',
-                       'OntologyClass',
                        'ExternalReference',
                        'Biosample',
                        'Interpretation',
@@ -2755,7 +2757,6 @@ class SequenceLocation(ConfiguredBaseModel):
                        'Phenopacket',
                        'Family',
                        'Cohort',
-                       'OntologyClass',
                        'ExternalReference',
                        'Biosample',
                        'Interpretation',
@@ -2826,7 +2827,6 @@ class Text(ConfiguredBaseModel):
                        'Phenopacket',
                        'Family',
                        'Cohort',
-                       'OntologyClass',
                        'ExternalReference',
                        'Biosample',
                        'Interpretation',
