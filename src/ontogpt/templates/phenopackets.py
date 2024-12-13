@@ -188,8 +188,11 @@ class Status(str, Enum):
     """
     Default = false i.e. the individual is alive. MUST be true if
     """
+    # Alive
     ALIVE = "ALIVE"
+    # Deceased
     DECEASED = "DECEASED"
+    # Status unknown
     UNKNOWN_STATUS = "UNKNOWN_STATUS"
 
 
@@ -1609,10 +1612,13 @@ class VitalStatus(ConfiguredBaseModel):
 
     causeOfDeath: Optional[str] = Field(None, description="""ARGO mapping donor::cause_of_death""", json_schema_extra = { "linkml_meta": {'alias': 'causeOfDeath',
          'annotations': {'prompt': {'tag': 'prompt',
-                                    'value': 'The cause of death of the individual.'}},
+                                    'value': 'The cause of death of the individual. Do '
+                                             'not provide a value if the individual is '
+                                             'alive or the cause of death is '
+                                             'unknown.'}},
          'domain_of': ['VitalStatus'],
          'exact_mappings': ['ARGO:donor.cause_of_death']} })
-    status: Optional[str] = Field(None, description="""Status of an individual.""", json_schema_extra = { "linkml_meta": {'alias': 'status',
+    status: Optional[Status] = Field(None, description="""Status of an individual.""", json_schema_extra = { "linkml_meta": {'alias': 'status',
          'annotations': {'prompt': {'tag': 'prompt',
                                     'value': 'The status of the individual. Must be '
                                              'one of ALIVE, DECEASED, or '

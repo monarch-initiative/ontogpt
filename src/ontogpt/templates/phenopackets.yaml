@@ -1319,7 +1319,9 @@ classes:
             is known and sex is not specified, use the corresponding
             value for sex (e.g., if the individual has female gender,
             specify female sex unless there is information to the contrary).
-      taxonomy: # TODO: ground the corresponding ID
+      taxonomy:
+        # TODO: Use NCBITAXON to ground. It's a big vocab,
+        # and most phenopackets are for humans, so this is a string for now.
         description: >-
           NCBI taxonomic identifier NCBITaxon e.g. NCBITaxon:9606 or
           NCBITaxon:1337 For resources where there may be more than one
@@ -1370,16 +1372,14 @@ classes:
         description: ARGO mapping donor::cause_of_death
         exact_mappings:
           - ARGO:donor.cause_of_death
-        inlined: true
-        # range: OntologyClass
-        range: string
+        range: DiseaseClass
         annotations:
           prompt: >-
-            The cause of death of the individual.
+            The cause of death of the individual. Do not provide a value
+            if the individual is alive or the cause of death is unknown.
       status:
         description: Status of an individual.
-        # range: Status
-        range: string
+        range: Status
         annotations:
           prompt: >-
             The status of the individual. Must be one of ALIVE, DECEASED,
@@ -3234,14 +3234,15 @@ enums:
       UNKNOWN_SEX:
         description: Not assessed / available.
   Status:
-    description: Default = false i.e. the individual is alive. MUST be true if
+    description: >-
+      Default = false i.e. the individual is alive. MUST be true if
     permissible_values:
       ALIVE:
-        description: ""
+        description: Alive
       DECEASED:
-        description: ""
+        description: Deceased
       UNKNOWN_STATUS:
-        description: ""
+        description: Status unknown
 
   # core/medical_action
 
