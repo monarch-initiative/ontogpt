@@ -1904,7 +1904,7 @@ class MedicalAction(ConfiguredBaseModel):
                                              'this field.'}},
          'domain_of': ['MedicalAction'],
          'exact_mappings': ['ARGO:treatment.response_to_treatment']} })
-    therapeuticRegimen: Optional[str] = Field(None, description="""The therapeutic regimen established as part of the medical action.""", json_schema_extra = { "linkml_meta": {'alias': 'therapeuticRegimen',
+    therapeuticRegimen: Optional[TherapeuticRegimen] = Field(None, description="""The therapeutic regimen established as part of the medical action.""", json_schema_extra = { "linkml_meta": {'alias': 'therapeuticRegimen',
          'annotations': {'prompt': {'tag': 'prompt',
                                     'value': 'The therapeutic regimen established as '
                                              'part of the medical action. This should '
@@ -1985,11 +1985,33 @@ class TherapeuticRegimen(ConfiguredBaseModel):
                                                           {'slot_conditions': {'ontologyClass': {'name': 'ontologyClass',
                                                                                                  'required': True}}}]}}]})
 
-    endTime: Optional[TimeElement] = Field(None, description="""end time can be empty which would indicate ongoing""", json_schema_extra = { "linkml_meta": {'alias': 'endTime', 'domain_of': ['TherapeuticRegimen']} })
-    externalReference: Optional[ExternalReference] = Field(None, json_schema_extra = { "linkml_meta": {'alias': 'externalReference', 'domain_of': ['TherapeuticRegimen']} })
-    ontologyClass: Optional[OntologyClass] = Field(None, json_schema_extra = { "linkml_meta": {'alias': 'ontologyClass', 'domain_of': ['Value', 'TherapeuticRegimen']} })
-    regimenStatus: Optional[RegimenStatus] = Field(None, json_schema_extra = { "linkml_meta": {'alias': 'regimenStatus', 'domain_of': ['TherapeuticRegimen']} })
-    startTime: Optional[TimeElement] = Field(None, description="""possibly undefined;""", json_schema_extra = { "linkml_meta": {'alias': 'startTime', 'domain_of': ['TherapeuticRegimen']} })
+    endTime: Optional[str] = Field(None, description="""end time can be empty which would indicate ongoing""", json_schema_extra = { "linkml_meta": {'alias': 'endTime',
+         'annotations': {'prompt': {'tag': 'prompt',
+                                    'value': 'The end time for the regimen. If the '
+                                             'regimen is ongoing, do not provide a '
+                                             'value for this field.'}},
+         'domain_of': ['TherapeuticRegimen']} })
+    externalReference: Optional[str] = Field(None, description="""An external reference for the regimen.""", json_schema_extra = { "linkml_meta": {'alias': 'externalReference',
+         'annotations': {'prompt': {'tag': 'prompt',
+                                    'value': 'An external reference for the regimen. '
+                                             'If the regimen is not specified or does '
+                                             'not have a reference, do not include a '
+                                             'value for this field.'}},
+         'domain_of': ['TherapeuticRegimen']} })
+    ontologyClass: Optional[ProcedureClass] = Field(None, description="""The ontology class for the therapeutic regimen.""", json_schema_extra = { "linkml_meta": {'alias': 'ontologyClass',
+         'annotations': {'prompt': {'tag': 'prompt',
+                                    'value': 'The name of the therapeutic regimen. If '
+                                             'the regimen is not specified, do not '
+                                             'include a value for this field.'}},
+         'domain_of': ['Value', 'TherapeuticRegimen']} })
+    regimenStatus: Optional[RegimenStatus] = Field(None, description="""Status of the regimen.""", json_schema_extra = { "linkml_meta": {'alias': 'regimenStatus',
+         'annotations': {'prompt': {'tag': 'prompt',
+                                    'value': 'The status of the regimen. Must be one '
+                                             'of the following: COMPLETED, '
+                                             'DISCONTINUED, STARTED, or '
+                                             'UNKNOWN_STATUS.'}},
+         'domain_of': ['TherapeuticRegimen']} })
+    startTime: Optional[str] = Field(None, description="""Start time for the regimen.""", json_schema_extra = { "linkml_meta": {'alias': 'startTime', 'domain_of': ['TherapeuticRegimen']} })
 
 
 class Treatment(ConfiguredBaseModel):

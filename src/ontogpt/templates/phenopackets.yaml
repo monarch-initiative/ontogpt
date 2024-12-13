@@ -1680,8 +1680,8 @@ classes:
       therapeuticRegimen:
         description: >-
           The therapeutic regimen established as part of the medical action.
-        # range: TherapeuticRegimen
-        range: string
+        inlined: true
+        range: TherapeuticRegimen
         annotations:
           prompt: >-
             The therapeutic regimen established as part of the medical action.
@@ -1796,22 +1796,44 @@ classes:
       endTime:
         description: end time can be empty which would indicate ongoing
         inlined: true
-        range: TimeElement
+        # range: TimeElement
+        range: string
+        annotations:
+          prompt: >-
+            The end time for the regimen. If the regimen is ongoing,
+            do not provide a value for this field.
       externalReference:
-        description: ""
+        description: An external reference for the regimen.
         inlined: true
-        range: ExternalReference
+        # range: ExternalReference
+        range: string
+        annotations:
+          prompt: >-
+            An external reference for the regimen.
+            If the regimen is not specified or does not have a reference,
+            do not include a value for this field.
       ontologyClass:
-        description: ""
+        description: >-
+          The ontology class for the therapeutic regimen.
         inlined: true
-        range: OntologyClass
+        range: ProcedureClass
+        annotations:
+          prompt: >-
+            The name of the therapeutic regimen.
+            If the regimen is not specified, do not include a value for this
+            field.
       regimenStatus:
-        description: ""
+        description: Status of the regimen.
         range: RegimenStatus
+        annotations:
+          prompt: >-
+            The status of the regimen. Must be one of the following:
+            COMPLETED, DISCONTINUED, STARTED, or UNKNOWN_STATUS.
       startTime:
-        description: possibly undefined;
+        description: Start time for the regimen.
         inlined: true
-        range: TimeElement
+        # range: TimeElement
+        range: string
     rules:
       - postconditions:
           exactly_one_of:
