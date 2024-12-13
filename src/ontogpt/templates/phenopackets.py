@@ -226,6 +226,10 @@ class MoleculeContext(str, Enum):
     unspecified_molecule_context = "unspecified_molecule_context"
 
 
+class AllelicStateType(str):
+    pass
+
+
 class NCITDiagnosticMarkerType(str):
     pass
 
@@ -239,6 +243,10 @@ class NCITROAType(str):
 
 
 class NCITStagingType(str):
+    pass
+
+
+class VariantType(str):
     pass
 
 
@@ -2276,7 +2284,9 @@ class VariationDescriptor(ConfiguredBaseModel):
                                              'locus. This may specify zygosity (such '
                                              'as whether the allele is homozygous or '
                                              'heterozygous) or other allelic states '
-                                             'such as heteroplasmy.'},
+                                             'such as heteroplasmy. If the allelic '
+                                             'state is not known, this value should '
+                                             'not be included.'},
                          'prompt.examples': {'tag': 'prompt.examples',
                                              'value': 'homozygous; heterozygous'}},
          'domain_of': ['VariationDescriptor']} })
@@ -3014,6 +3024,60 @@ class VariationSet(ConfiguredBaseModel):
     linkml_meta: ClassVar[LinkMLMeta] = LinkMLMeta({'from_schema': 'http://w3id.org/ontogpt/phenopackets'})
 
     pass
+
+
+class AllelicStateClass(OntologyClass):
+    linkml_meta: ClassVar[LinkMLMeta] = LinkMLMeta({'annotations': {'annotators': {'tag': 'annotators',
+                                        'value': 'sqlite:obo:geno'}},
+         'from_schema': 'http://w3id.org/ontogpt/phenopackets',
+         'id_prefixes': ['GENO'],
+         'slot_usage': {'id': {'name': 'id', 'values_from': ['AllelicStateType']}}})
+
+    id: str = Field(..., description="""A unique identifier for the named entity""", json_schema_extra = { "linkml_meta": {'alias': 'id',
+         'annotations': {'prompt.skip': {'tag': 'prompt.skip', 'value': 'true'}},
+         'comments': ['this is populated during the grounding and normalization step'],
+         'domain_of': ['NamedEntity',
+                       'Publication',
+                       'Phenopacket',
+                       'Family',
+                       'Cohort',
+                       'ExternalReference',
+                       'Biosample',
+                       'Interpretation',
+                       'Individual',
+                       'Resource',
+                       'VariationDescriptor',
+                       'VcfRecord',
+                       'Allele',
+                       'ChromosomeLocation',
+                       'CopyNumber',
+                       'Member',
+                       'SequenceLocation',
+                       'Text'],
+         'values_from': ['AllelicStateType']} })
+    label: Optional[str] = Field(None, description="""The label (name) of the named thing""", json_schema_extra = { "linkml_meta": {'alias': 'label',
+         'aliases': ['name'],
+         'annotations': {'owl': {'tag': 'owl',
+                                 'value': 'AnnotationProperty, AnnotationAssertion'}},
+         'domain_of': ['NamedEntity', 'VariationDescriptor'],
+         'slot_uri': 'rdfs:label'} })
+    original_spans: Optional[List[str]] = Field(None, description="""The coordinates of the original text span from which the named entity was extracted, inclusive. For example, \"10:25\" means the span starting from the 10th character and ending with the 25th character. The first character in the text has index 0. Newlines are treated as single characters. Multivalued as there may be multiple spans for a single text.""", json_schema_extra = { "linkml_meta": {'alias': 'original_spans',
+         'annotations': {'prompt.skip': {'tag': 'prompt.skip', 'value': 'true'}},
+         'comments': ['This is determined during grounding and normalization',
+                      'But is based on the full input text'],
+         'domain_of': ['NamedEntity']} })
+
+    @field_validator('original_spans')
+    def pattern_original_spans(cls, v):
+        pattern=re.compile(r"^\d+:\d+$")
+        if isinstance(v,list):
+            for element in v:
+                if isinstance(v, str) and not pattern.match(element):
+                    raise ValueError(f"Invalid original_spans format: {element}")
+        elif isinstance(v,str):
+            if not pattern.match(v):
+                raise ValueError(f"Invalid original_spans format: {v}")
+        return v
 
 
 class AdverseEventClass(OntologyClass):
@@ -3804,6 +3868,59 @@ class UnitClass(OntologyClass):
         return v
 
 
+class VariantTypeClass(OntologyClass):
+    linkml_meta: ClassVar[LinkMLMeta] = LinkMLMeta({'annotations': {'annotators': {'tag': 'annotators', 'value': 'sqlite:obo:so'}},
+         'from_schema': 'http://w3id.org/ontogpt/phenopackets',
+         'id_prefixes': ['SO'],
+         'slot_usage': {'id': {'name': 'id', 'values_from': ['VariantType']}}})
+
+    id: str = Field(..., description="""A unique identifier for the named entity""", json_schema_extra = { "linkml_meta": {'alias': 'id',
+         'annotations': {'prompt.skip': {'tag': 'prompt.skip', 'value': 'true'}},
+         'comments': ['this is populated during the grounding and normalization step'],
+         'domain_of': ['NamedEntity',
+                       'Publication',
+                       'Phenopacket',
+                       'Family',
+                       'Cohort',
+                       'ExternalReference',
+                       'Biosample',
+                       'Interpretation',
+                       'Individual',
+                       'Resource',
+                       'VariationDescriptor',
+                       'VcfRecord',
+                       'Allele',
+                       'ChromosomeLocation',
+                       'CopyNumber',
+                       'Member',
+                       'SequenceLocation',
+                       'Text'],
+         'values_from': ['VariantType']} })
+    label: Optional[str] = Field(None, description="""The label (name) of the named thing""", json_schema_extra = { "linkml_meta": {'alias': 'label',
+         'aliases': ['name'],
+         'annotations': {'owl': {'tag': 'owl',
+                                 'value': 'AnnotationProperty, AnnotationAssertion'}},
+         'domain_of': ['NamedEntity', 'VariationDescriptor'],
+         'slot_uri': 'rdfs:label'} })
+    original_spans: Optional[List[str]] = Field(None, description="""The coordinates of the original text span from which the named entity was extracted, inclusive. For example, \"10:25\" means the span starting from the 10th character and ending with the 25th character. The first character in the text has index 0. Newlines are treated as single characters. Multivalued as there may be multiple spans for a single text.""", json_schema_extra = { "linkml_meta": {'alias': 'original_spans',
+         'annotations': {'prompt.skip': {'tag': 'prompt.skip', 'value': 'true'}},
+         'comments': ['This is determined during grounding and normalization',
+                      'But is based on the full input text'],
+         'domain_of': ['NamedEntity']} })
+
+    @field_validator('original_spans')
+    def pattern_original_spans(cls, v):
+        pattern=re.compile(r"^\d+:\d+$")
+        if isinstance(v,list):
+            for element in v:
+                if isinstance(v, str) and not pattern.match(element):
+                    raise ValueError(f"Invalid original_spans format: {element}")
+        elif isinstance(v,str):
+            if not pattern.match(v):
+                raise ValueError(f"Invalid original_spans format: {v}")
+        return v
+
+
 # Model rebuild
 # see https://pydantic-docs.helpmanual.io/usage/models/#rebuilding-a-model
 ExtractionResult.model_rebuild()
@@ -3886,6 +4003,7 @@ Text.model_rebuild()
 UtilityVariation.model_rebuild()
 Variation.model_rebuild()
 VariationSet.model_rebuild()
+AllelicStateClass.model_rebuild()
 AdverseEventClass.model_rebuild()
 AnatomyClass.model_rebuild()
 AssayClass.model_rebuild()
@@ -3901,4 +4019,5 @@ ProcedureClass.model_rebuild()
 RouteOfAdministrationClass.model_rebuild()
 StagingClass.model_rebuild()
 UnitClass.model_rebuild()
+VariantTypeClass.model_rebuild()
 

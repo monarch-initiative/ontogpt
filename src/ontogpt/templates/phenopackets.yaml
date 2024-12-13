@@ -2215,15 +2215,14 @@ classes:
           We RECOMMEND that the allelic_state of variant be described by terms
           from the Genotype Ontology (GENO). These SHOULD descend from concept
           GENO:0000875.
-        inlined: true
-        # range: OntologyClass
-        range: string
+        range: AllelicStateClass
         annotations:
           prompt: >-
             The allelic state of the variant, i.e., the allelic variability
             at a specific locus. This may specify zygosity (such as whether
             the allele is homozygous or heterozygous) or other allelic
-            states such as heteroplasmy.
+            states such as heteroplasmy. If the allelic state is not known,
+            this value should not be included.
           prompt.examples: homozygous; heterozygous
       alternateLabels:
         description: >-
@@ -2301,9 +2300,7 @@ classes:
           The structural variant type associated with this variant, such as a
           substitution, deletion, or fusion. We RECOMMEND using a descendent
           term of SO:0001537.
-        inlined: true
-        # range: OntologyClass
-        range: string
+        range: VariantTypeClass
         annotations:
           prompt: >-
             The structural variant type associated with this variant.
@@ -3037,6 +3034,17 @@ classes:
 
   # OntoGPT-specific class extensions for grounding
 
+  AllelicStateClass:
+    is_a: OntologyClass
+    id_prefixes:
+      - GENO
+    annotations:
+      annotators: sqlite:obo:geno
+    slot_usage:
+      id:
+        values_from:
+          - AllelicStateType
+
   AdverseEventClass:
     is_a: OntologyClass
     id_prefixes:
@@ -3160,6 +3168,17 @@ classes:
       - UO
     annotations:
       annotators: sqlite:obo:uo
+
+  VariantTypeClass:
+    is_a: OntologyClass
+    id_prefixes:
+      - SO
+    annotations:
+      annotators: sqlite:obo:so
+    slot_usage:
+      id:
+        values_from:
+          - VariantType
 
 # TODO: enums need to be described in prompts
 enums:
@@ -3324,6 +3343,12 @@ enums:
 
   # OntoGPT-specific enums for grounding
 
+  AllelicStateType:
+    reachable_from:
+      source_ontology: obo:geno
+      source_nodes:
+        - GENO:0000875
+
   NCITDiagnosticMarkerType:
     reachable_from:
       source_ontology: obo:ncit
@@ -3352,3 +3377,9 @@ enums:
       source_ontology: obo:ncit
       source_nodes:
         - NCIT:C28108
+
+  VariantType:
+    reachable_from:
+      source_ontology: obo:so
+      source_nodes:
+        - SO:0001537
