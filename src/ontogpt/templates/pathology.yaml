@@ -43,7 +43,7 @@ classes:
           pathology, including any diagnoses, one or more specific qualities
           being measured and the anatomical location or tissue the pathology is
           measured in. If any of the pathology statements are negative, the
-          negation should be included in each statment, e.g., "no granulomas or
+          negation should be included in each statement, e.g., "no granulomas or
           viropathic changes" should become "no granulomas" and "no viropathic
           changes".
         range: PathologyStatement

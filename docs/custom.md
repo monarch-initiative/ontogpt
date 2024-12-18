@@ -469,4 +469,4 @@ For example, if your schema is named `albatross.yaml`, then an extract command i
 ontogpt extract -t albatross.yaml -i input.txt
 ```
 
-Running this (or any other command including your custom schema) will install it for future use with OntoGPT, so in subsquent commands it can be referred to by its name (e.g., `albatross`, without the file extension or a full filepath).
+Running this (or any other command including your custom schema) will install it for future use with OntoGPT, so in subsequent commands it can be referred to by its name (e.g., `albatross`, without the file extension or a full filepath).

@@ -41,7 +41,7 @@ def _fix_source_mechanism(mechanism_dict: dict) -> dict:
     g["id"] = g["_id"]
     del g["_id"]
     # normalize alt_ids
-    bad_fields = ["all_id", "alt_name", "alt-name", "comemt", "comemnt"]
+    bad_fields = ["all_id", "alt_name", "alt-name", "comemt", "comment"]
     for n in mechanism_dict["nodes"]:
         if "alt_ids" in n and isinstance(n["alt_ids"], str):
             n["alt_ids"] = [n["alt_ids"]]

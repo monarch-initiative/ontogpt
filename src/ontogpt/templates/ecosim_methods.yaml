@@ -42,7 +42,7 @@ classes:
           A semicolon-separated list of variables measured in
           environmental and earth science research. Examples
           include: root shape, biomass, water turbidity
-      equipments:
+      equipment:
         range: Equipment
         description: >-
           A semicolon-separated list of equipment used in

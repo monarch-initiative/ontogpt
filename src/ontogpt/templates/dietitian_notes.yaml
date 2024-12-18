@@ -294,7 +294,7 @@ classes:
         range: string
 
   # TODO: distinguish whether this is currently active therapy
-  #       or a reccomendation for future therapy (but not yet started)
+  #       or a recommendation for future therapy (but not yet started)
   TherapeuticMaterial:
     description: >-
       A specific material added to a patient's diet or
