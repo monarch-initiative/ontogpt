@@ -84,7 +84,7 @@ linkml_meta = LinkMLMeta({'default_prefix': 'micronutrient',
                                     'prefix_reference': 'http://w3id.org/ontogpt/micronutrient'},
                   'rdf': {'prefix_prefix': 'rdf',
                           'prefix_reference': 'http://www.w3.org/1999/02/22-rdf-syntax-ns#'}},
-     'source_file': 'src/ontogpt/templates/micronutrient.yaml',
+     'source_file': 'src/ontogpt/templates/mic.yaml',
      'title': 'Food Extraction Template'} )
 
 class NullDataOptions(str, Enum):
