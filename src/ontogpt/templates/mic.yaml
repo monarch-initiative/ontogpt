@@ -1,20 +1,23 @@
-id: http://w3id.org/ontogpt/micronutrient
-name: micronutrient
-title: Food Extraction Template
+id: http://w3id.org/ontogpt/mic
+name: mic
+title: Micronutrient Information Extraction Template
 description: >-
   A template for micronutrient information from text,
   including its participation in biochemical pathways
   and relationships to genes and diseases.
+  Intended for use with the Micronutrient Information
+  Center, a resource curated and managed by the Linus
+  Pauling Institute at Oregon State University.
 license: https://creativecommons.org/publicdomain/zero/1.0/
 prefixes:
   rdf: http://www.w3.org/1999/02/22-rdf-syntax-ns#
   foodon: http://purl.obolibrary.org/obo/foodon_
   chebi: http://purl.obolibrary.org/obo/CHEBI_
   GO: http://purl.obolibrary.org/obo/GO_
-  micronutrient: http://w3id.org/ontogpt/micronutrient
+  mic: http://w3id.org/ontogpt/mic
   linkml: https://w3id.org/linkml/
 
-default_prefix: micronutrient
+default_prefix: mic
 default_range: string
 
 imports:
@@ -30,48 +33,65 @@ classes:
         range: NutrientTerm
         multivalued: true
         description: >-
-          A semicolon-separated list of any names of nutrients
-          or micronutrients, e.g., riboflavin, chromium, fiber
-      nutrientToPathwayRelationships:
-        range: NutrientToPathwayRelationship
+          A list of any names of nutrients or micronutrients.
+        annotations:
+          prompt: >-
+            A semicolon-separated list of names of chemicals,
+            nutrients, or micronutrients mentioned in the
+            input document.
+          prompt.examples: >-
+            biotin; cobalamin; iodine; zinc; coenzyme Q10
+      nutrientToDiseaseRelationships:
+        range: NutrientToDiseaseRelationship
         multivalued: true
         description: >-
-          A semicolon-separated list of relationships between
-          nutrients and biochemical pathways, e.g., riboflavin
-          IS INVOLVED IN citric acid cycle
+          A list of relationships between nutrients and
+          biochemical diseases.
+        annotations:
+          prompt: >-
+            A semicolon-separated list of relationships
+            between a single nutrient (including vitamins,
+            minerals, and micronutrients) and a single
+            disease, with a type of relationship connecting
+            them both. Represent the relationship as
+            triples, e.g., "Nutrient HAS RELATIONSHIP WITH
+            Disease". Relationships may include TREATS,
+            PREVENTS, INCREASES RISK OF, DECREASES RISK OF,
+            or others.
 
   NutrientTerm:
     is_a: NamedEntity
     id_prefixes:
-      - FOODON
       - CHEBI
     annotations:
-      annotators: sqlite:obo:foodon, sqlite:obo:chebi
+      annotators: sqlite:obo:chebi
       prompt: >-
-        The name of a nutrient.
+        The name of a nutrient, including vitamins and
+        minerals.
 
-  Pathway:
+  Disease:
     is_a: NamedEntity
     id_prefixes:
-      - GO
+      - MONDO
     annotations:
-      annotators: sqlite:obo:go
+      annotators: sqlite:obo:mondo
       prompt: >-
-        The name of a biochemical pathway.
+        The name of a disease.
 
-  NutrientToPathwayRelationship:
-    is_a: NamedEntity
+  NutrientToDiseaseRelationship:
+    is_a: CompoundExpression
     attributes:
       nutrient:
         range: NutrientTerm
         description: >-
-          The name of a nutrient.
-      pathway:
-        range: Pathway
-        description: >-
-          The name of a biochemical pathway.
+          The name of the nutrient defined in the triple,
+          including vitamins and minerals.
       relationship:
-        range: string
+        range: RelationshipType
         description: >-
-          The relationship between the nutrient and the pathway,
-          for example "IS INVOLVED IN"
+          The name of a type of relationship between the
+          nutrient and the disease.
+      disease:
+        range: Disease
+        description: >-
+          The name of the disease defined in the triple.

@@ -63,15 +63,18 @@ class LinkMLMeta(RootModel):
         return key in self.root
 
 
-linkml_meta = LinkMLMeta({'default_prefix': 'micronutrient',
+linkml_meta = LinkMLMeta({'default_prefix': 'mic',
      'default_range': 'string',
      'description': 'A template for micronutrient information from text, including '
                     'its participation in biochemical pathways and relationships '
-                    'to genes and diseases.',
-     'id': 'http://w3id.org/ontogpt/micronutrient',
+                    'to genes and diseases. Intended for use with the '
+                    'Micronutrient Information Center, a resource curated and '
+                    'managed by the Linus Pauling Institute at Oregon State '
+                    'University.',
+     'id': 'http://w3id.org/ontogpt/mic',
      'imports': ['linkml:types', 'core'],
      'license': 'https://creativecommons.org/publicdomain/zero/1.0/',
-     'name': 'micronutrient',
+     'name': 'mic',
      'prefixes': {'GO': {'prefix_prefix': 'GO',
                          'prefix_reference': 'http://purl.obolibrary.org/obo/GO_'},
                   'chebi': {'prefix_prefix': 'chebi',
@@ -80,12 +83,12 @@ linkml_meta = LinkMLMeta({'default_prefix': 'micronutrient',
                              'prefix_reference': 'http://purl.obolibrary.org/obo/foodon_'},
                   'linkml': {'prefix_prefix': 'linkml',
                              'prefix_reference': 'https://w3id.org/linkml/'},
-                  'micronutrient': {'prefix_prefix': 'micronutrient',
-                                    'prefix_reference': 'http://w3id.org/ontogpt/micronutrient'},
+                  'mic': {'prefix_prefix': 'mic',
+                          'prefix_reference': 'http://w3id.org/ontogpt/mic'},
                   'rdf': {'prefix_prefix': 'rdf',
                           'prefix_reference': 'http://www.w3.org/1999/02/22-rdf-syntax-ns#'}},
      'source_file': 'src/ontogpt/templates/mic.yaml',
-     'title': 'Food Extraction Template'} )
+     'title': 'Micronutrient Information Extraction Template'} )
 
 class NullDataOptions(str, Enum):
     UNSPECIFIED_METHOD_OF_ADMINISTRATION = "UNSPECIFIED_METHOD_OF_ADMINISTRATION"
@@ -237,10 +240,31 @@ class AnnotatorResult(ConfiguredBaseModel):
 
 
 class Document(NamedEntity):
-    linkml_meta: ClassVar[LinkMLMeta] = LinkMLMeta({'from_schema': 'http://w3id.org/ontogpt/micronutrient', 'tree_root': True})
+    linkml_meta: ClassVar[LinkMLMeta] = LinkMLMeta({'from_schema': 'http://w3id.org/ontogpt/mic', 'tree_root': True})
 
-    nutrientTerms: Optional[List[str]] = Field(None, description="""A semicolon-separated list of any names of nutrients or micronutrients, e.g., riboflavin, chromium, fiber""", json_schema_extra = { "linkml_meta": {'alias': 'nutrientTerms', 'domain_of': ['Document']} })
-    nutrientToPathwayRelationships: Optional[List[str]] = Field(None, description="""A semicolon-separated list of relationships between nutrients and biochemical pathways, e.g., riboflavin IS INVOLVED IN citric acid cycle""", json_schema_extra = { "linkml_meta": {'alias': 'nutrientToPathwayRelationships', 'domain_of': ['Document']} })
+    nutrientTerms: Optional[List[str]] = Field(None, description="""A list of any names of nutrients or micronutrients.""", json_schema_extra = { "linkml_meta": {'alias': 'nutrientTerms',
+         'annotations': {'prompt': {'tag': 'prompt',
+                                    'value': 'A semicolon-separated list of names of '
+                                             'chemicals, nutrients, or micronutrients '
+                                             'mentioned in the input document.'},
+                         'prompt.examples': {'tag': 'prompt.examples',
+                                             'value': 'biotin; cobalamin; iodine; '
+                                                      'zinc; coenzyme Q10'}},
+         'domain_of': ['Document']} })
+    nutrientToDiseaseRelationships: Optional[List[NutrientToDiseaseRelationship]] = Field(None, description="""A list of relationships between nutrients and biochemical diseases.""", json_schema_extra = { "linkml_meta": {'alias': 'nutrientToDiseaseRelationships',
+         'annotations': {'prompt': {'tag': 'prompt',
+                                    'value': 'A semicolon-separated list of '
+                                             'relationships between a single nutrient '
+                                             '(including vitamins, minerals, and '
+                                             'micronutrients) and a single disease, '
+                                             'with a type of relationship connecting '
+                                             'them both. Represent the relationship as '
+                                             'triples, e.g., "Nutrient HAS '
+                                             'RELATIONSHIP WITH Disease". '
+                                             'Relationships may include TREATS, '
+                                             'PREVENTS, INCREASES RISK OF, DECREASES '
+                                             'RISK OF, or others.'}},
+         'domain_of': ['Document']} })
     id: str = Field(..., description="""A unique identifier for the named entity""", json_schema_extra = { "linkml_meta": {'alias': 'id',
          'annotations': {'prompt.skip': {'tag': 'prompt.skip', 'value': 'true'}},
          'comments': ['this is populated during the grounding and normalization step'],
@@ -272,11 +296,12 @@ class Document(NamedEntity):
 
 class NutrientTerm(NamedEntity):
     linkml_meta: ClassVar[LinkMLMeta] = LinkMLMeta({'annotations': {'annotators': {'tag': 'annotators',
-                                        'value': 'sqlite:obo:foodon, sqlite:obo:chebi'},
+                                        'value': 'sqlite:obo:chebi'},
                          'prompt': {'tag': 'prompt',
-                                    'value': 'The name of a nutrient.'}},
-         'from_schema': 'http://w3id.org/ontogpt/micronutrient',
-         'id_prefixes': ['FOODON', 'CHEBI']})
+                                    'value': 'The name of a nutrient, including '
+                                             'vitamins and minerals.'}},
+         'from_schema': 'http://w3id.org/ontogpt/mic',
+         'id_prefixes': ['CHEBI']})
 
     id: str = Field(..., description="""A unique identifier for the named entity""", json_schema_extra = { "linkml_meta": {'alias': 'id',
          'annotations': {'prompt.skip': {'tag': 'prompt.skip', 'value': 'true'}},
@@ -307,12 +332,13 @@ class NutrientTerm(NamedEntity):
         return v
 
 
-class Pathway(NamedEntity):
-    linkml_meta: ClassVar[LinkMLMeta] = LinkMLMeta({'annotations': {'annotators': {'tag': 'annotators', 'value': 'sqlite:obo:go'},
+class Disease(NamedEntity):
+    linkml_meta: ClassVar[LinkMLMeta] = LinkMLMeta({'annotations': {'annotators': {'tag': 'annotators',
+                                        'value': 'sqlite:obo:mondo'},
                          'prompt': {'tag': 'prompt',
-                                    'value': 'The name of a biochemical pathway.'}},
-         'from_schema': 'http://w3id.org/ontogpt/micronutrient',
-         'id_prefixes': ['GO']})
+                                    'value': 'The name of a disease.'}},
+         'from_schema': 'http://w3id.org/ontogpt/mic',
+         'id_prefixes': ['MONDO']})
 
     id: str = Field(..., description="""A unique identifier for the named entity""", json_schema_extra = { "linkml_meta": {'alias': 'id',
          'annotations': {'prompt.skip': {'tag': 'prompt.skip', 'value': 'true'}},
@@ -343,39 +369,12 @@ class Pathway(NamedEntity):
         return v
 
 
-class NutrientToPathwayRelationship(NamedEntity):
-    linkml_meta: ClassVar[LinkMLMeta] = LinkMLMeta({'from_schema': 'http://w3id.org/ontogpt/micronutrient'})
+class NutrientToDiseaseRelationship(CompoundExpression):
+    linkml_meta: ClassVar[LinkMLMeta] = LinkMLMeta({'from_schema': 'http://w3id.org/ontogpt/mic'})
 
-    nutrient: Optional[str] = Field(None, description="""The name of a nutrient.""", json_schema_extra = { "linkml_meta": {'alias': 'nutrient', 'domain_of': ['NutrientToPathwayRelationship']} })
-    pathway: Optional[str] = Field(None, description="""The name of a biochemical pathway.""", json_schema_extra = { "linkml_meta": {'alias': 'pathway', 'domain_of': ['NutrientToPathwayRelationship']} })
-    relationship: Optional[str] = Field(None, description="""The relationship between the nutrient and the pathway, for example \"IS INVOLVED IN\"""", json_schema_extra = { "linkml_meta": {'alias': 'relationship', 'domain_of': ['NutrientToPathwayRelationship']} })
-    id: str = Field(..., description="""A unique identifier for the named entity""", json_schema_extra = { "linkml_meta": {'alias': 'id',
-         'annotations': {'prompt.skip': {'tag': 'prompt.skip', 'value': 'true'}},
-         'comments': ['this is populated during the grounding and normalization step'],
-         'domain_of': ['NamedEntity', 'Publication']} })
-    label: Optional[str] = Field(None, description="""The label (name) of the named thing""", json_schema_extra = { "linkml_meta": {'alias': 'label',
-         'aliases': ['name'],
-         'annotations': {'owl': {'tag': 'owl',
-                                 'value': 'AnnotationProperty, AnnotationAssertion'}},
-         'domain_of': ['NamedEntity'],
-         'slot_uri': 'rdfs:label'} })
-    original_spans: Optional[List[str]] = Field(None, description="""The coordinates of the original text span from which the named entity was extracted, inclusive. For example, \"10:25\" means the span starting from the 10th character and ending with the 25th character. The first character in the text has index 0. Newlines are treated as single characters. Multivalued as there may be multiple spans for a single text.""", json_schema_extra = { "linkml_meta": {'alias': 'original_spans',
-         'annotations': {'prompt.skip': {'tag': 'prompt.skip', 'value': 'true'}},
-         'comments': ['This is determined during grounding and normalization',
-                      'But is based on the full input text'],
-         'domain_of': ['NamedEntity']} })
-
-    @field_validator('original_spans')
-    def pattern_original_spans(cls, v):
-        pattern=re.compile(r"^\d+:\d+$")
-        if isinstance(v,list):
-            for element in v:
-                if isinstance(v, str) and not pattern.match(element):
-                    raise ValueError(f"Invalid original_spans format: {element}")
-        elif isinstance(v,str):
-            if not pattern.match(v):
-                raise ValueError(f"Invalid original_spans format: {v}")
-        return v
+    nutrient: Optional[str] = Field(None, description="""The name of the nutrient defined in the triple, including vitamins and minerals.""", json_schema_extra = { "linkml_meta": {'alias': 'nutrient', 'domain_of': ['NutrientToDiseaseRelationship']} })
+    relationship: Optional[str] = Field(None, description="""The name of a type of relationship between the nutrient and the disease.""", json_schema_extra = { "linkml_meta": {'alias': 'relationship', 'domain_of': ['NutrientToDiseaseRelationship']} })
+    disease: Optional[str] = Field(None, description="""The name of the disease defined in the triple.""", json_schema_extra = { "linkml_meta": {'alias': 'disease', 'domain_of': ['NutrientToDiseaseRelationship']} })
 
 
 # Model rebuild
@@ -391,6 +390,6 @@ Publication.model_rebuild()
 AnnotatorResult.model_rebuild()
 Document.model_rebuild()
 NutrientTerm.model_rebuild()
-Pathway.model_rebuild()
-NutrientToPathwayRelationship.model_rebuild()
+Disease.model_rebuild()
+NutrientToDiseaseRelationship.model_rebuild()
 
