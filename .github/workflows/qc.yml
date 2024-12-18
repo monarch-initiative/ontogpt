@@ -36,5 +36,8 @@ jobs:
       - name: Check static typing with MyPy
         run: poetry run tox -e mypy
 
+      - name: Codespell
+        run: codespell-project/actions-codespell@v2
+
       - name: Unit tests only
         run: poetry run python -m unittest discover tests.unit
