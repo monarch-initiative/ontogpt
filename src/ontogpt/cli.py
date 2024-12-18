@@ -1208,7 +1208,7 @@ def synonyms(
 
     ontogpt synonyms -m ollama/llama3 --context "political" "abdicate"
 
-    ontogpt synonyms -m ollama/llama3 --context "biological" "dessicate"
+    ontogpt synonyms -m ollama/llama3 --context "biological" "desiccate"
 
     """
     logging.info(f"Creating for {term}")
@@ -2207,7 +2207,7 @@ def list_models():
 
     Max Tokens: Token limit for the model. Note that models may
     tokenize text differently and calculate input and/or output tokens
-    in particular ways, so consult a model's original documentaion for
+    in particular ways, so consult a model's original documentation for
     further details.
     """
     models = get_model_cost_map("")

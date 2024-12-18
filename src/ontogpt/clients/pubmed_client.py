@@ -183,7 +183,7 @@ class PubmedClient:
         :param ids: List of PubMed IDs, or string with single PMID
         :param raw: if True, do not parse the xml, just return the raw output with tags
         :param autoformat: if True include title and abstract concatenated
-        :param pubmedcentral: if True, retreive text from PubMed Central where possible
+        :param pubmedcentral: if True, retrieve text from PubMed Central where possible
         :return: the text of a single entry, or a list of strings for text of multiple entries
         """
         batch_size = 200

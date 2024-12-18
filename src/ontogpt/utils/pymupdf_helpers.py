@@ -106,7 +106,7 @@ def fonts(doc, granularity=False):
 def font_tags(font_counts, styles):
     """Return dictionary with font sizes as keys and tags as value.
 
-    :param font_counts: (font_size, count) for all fonts occuring in document
+    :param font_counts: (font_size, count) for all fonts occurring in document
     :type font_counts: list
     :param styles: all styles found in the document
     :type styles: dict

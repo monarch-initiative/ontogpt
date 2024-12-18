@@ -20,7 +20,7 @@ OntoGPT uses `oaklib` to handle the ontologies it uses as annotators, and `oakli
 
 To change the download location, set the `PYSTOW_HOME` variable in your environment to your preferred path.
 
-For example, to save downloads to `/tmp/oaklib`, set the varible like this:
+For example, to save downloads to `/tmp/oaklib`, set the variable like this:
 
 ```bash
 export PYSTOW_HOME='/tmp/'

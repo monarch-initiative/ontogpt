@@ -194,7 +194,7 @@ Including an instruction like the following anecdotally helps to avoid parsing f
 
 ### selectcols
 
-Use the option `selectcols` to specify exact colums to use when parsing tabular files as input.
+Use the option `selectcols` to specify exact columns to use when parsing tabular files as input.
 
 Example:
 

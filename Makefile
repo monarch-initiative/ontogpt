@@ -57,7 +57,7 @@ gh-deploy:
 all_recipes: tests/output/owl/merged/recipe-all-merged.owl
 
 # prefix with 'web' for a URL in recipe-urls.csv
-# prefix wiyth 'case' for a previously downloaded recipe in cases/ directory
+# prefix with 'case' for a previously downloaded recipe in cases/ directory
 RECIPES = case-spaghetti case-egg-noodles case-tortilla-soup \
  web-spinach-and-feta-turkey-burgers \
  web-shrimp-and-cheesy-grits-with-bacon \
