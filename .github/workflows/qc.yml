@@ -37,7 +37,7 @@ jobs:
         run: poetry run tox -e mypy
 
       - name: Codespell
-        run: codespell-project/actions-codespell@v2
+        run: poetry run tox -e codespell
 
       - name: Unit tests only
         run: poetry run python -m unittest discover tests.unit
