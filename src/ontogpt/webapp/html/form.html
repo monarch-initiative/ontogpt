@@ -1,95 +1,105 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
+  <head>
+    <meta charset="UTF-8" />
     <title>OntoGPT SPIRES: Enter text</title>
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-        }
+      body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+      }
 
-        form {
-            margin: 20px;
-        }
+      form {
+        margin: 20px;
+      }
 
-        select, textarea {
-            width: 100%;
-            padding: 5px;
-            margin-bottom: 10px;
-        }
+      select,
+      textarea {
+        width: 100%;
+        padding: 5px;
+        margin-bottom: 10px;
+      }
 
-        input[type="submit"] {
-            padding: 10px 20px;
-            background-color: #4CAF50;
-            color: white;
-            border: none;
-            cursor: pointer;
-        }
+      input[type="submit"] {
+        padding: 10px 20px;
+        background-color: #4caf50;
+        color: white;
+        border: none;
+        cursor: pointer;
+      }
 
-        .loading {
-            display: none;
-            text-align: center;
-            margin-top: 20px;
-        }
+      .loading {
+        display: none;
+        text-align: center;
+        margin-top: 20px;
+      }
 
-        .loading img {
-            width: 50px;
-            height: 50px;
-        }
+      .loading img {
+        width: 50px;
+        height: 50px;
+      }
 
-        .footer {
-            background-color: #f1f1f1;
-            padding: 20px;
-            text-align: center;
-        }
+      .footer {
+        background-color: #f1f1f1;
+        padding: 20px;
+        text-align: center;
+      }
     </style>
     <script>
-        function showLoading() {
-            document.getElementById("loading").style.display = "block";
-            document.getElementById("submitBtn").disabled = true;
-        }
+      function showLoading() {
+        document.getElementById("loading").style.display = "block";
+        document.getElementById("submitBtn").disabled = true;
+      }
     </script>
-</head>
-<body>
-<div>
-    <form method="post">
+  </head>
+  <body>
+    <div>
+      <form method="post">
         <h1>Information Extraction with SPIRES</h1>
         <div>
-            Select Schema:
-            <select name="datamodel" id="datamodel">
+          Select Schema:
+          <select name="datamodel" id="datamodel">
             {% for key, value in datamodels.items() %}
-              <option value="{{ key }}">{{ key }} - {{ value }}</option>
+            <option value="{{ key }}">{{ key }} - {{ value }}</option>
             {% endfor %}
-            </select>
+          </select>
         </div>
         <div>
-            Select LLM (non-GPT models will require ollama to be running):
-            <select name="llm_model" id="llm_model">
-                {% for llm_model in llm_models %}
-                  <option value="{{ llm_model }}">{{ llm_model }}</option>
-                {% endfor %}
-            </select>
+          Select LLM (non-GPT models will require ollama to be running):
+          <select name="llm_model" id="llm_model">
+            {% for llm_model in llm_models %}
+            <option value="{{ llm_model }}">{{ llm_model }}</option>
+            {% endfor %}
+          </select>
         </div>
         <div>
-            <textarea name="text" rows="20" cols="80">Enter text here (e.g. PubMed abstract)
-            </textarea>
+          <textarea name="text" rows="20" cols="80">
+Enter text here (e.g. PubMed abstract)
+            </textarea
+          >
         </div>
-        <input type="submit" onclick="showLoading(); this.style.backgroundColor='#FFA500'; this.value='Processing...'; return true;">
+        <input
+          type="submit"
+          onclick="showLoading(); this.style.backgroundColor='#FFA500'; this.value='Processing...'; return true;"
+        />
         <div class="loading" id="loading">
-            <img src="static/loading.gif" alt="Loading...">
+          <img src="static/loading.gif" alt="Loading..." />
         </div>
+        <div>GPT models use the OpenAI API and may incur costs.</div>
         <div>
-            GPT models use the OpenAI API and may incur costs.
+          <i
+            >Please be patient, can take up to 10s, or longer if ontology
+            resources need to be retrieved and/or using large local models.</i
+          >
         </div>
-        <div>
-            <i>Please be patient, can take up to 10s, or longer if ontology resources need to be retrieved and/or using large local models.</i>
-        </div>
-    </form>
-</div>
-<div class="footer">
-    <p>Powered by <a href="https://github.com/monarch-initiative/ontogpt">OntoGPT</a></p>
-</div>
-</body>
+      </form>
+    </div>
+    <div class="footer">
+      <p>
+        Powered by
+        <a href="https://github.com/monarch-initiative/ontogpt">OntoGPT</a>
+      </p>
+    </div>
+  </body>
 </html>

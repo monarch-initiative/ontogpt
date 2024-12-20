@@ -10,6 +10,7 @@ the following citation:
     PMCID: PMC10273128
 """
 
+
 def get_kanjee_prompt() -> str:
     """Prompt from Kanjee et al. 2023."""
     prompt = (
