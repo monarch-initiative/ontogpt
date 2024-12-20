@@ -102,7 +102,8 @@ classes:
             "intracellular transport", "ribosomal subunit export from nucleus",
             "insulin signaling", or "DNA repair".
             Biological processes do NOT include health states such as
-            "healthy teeth". Represent the relationship as triples, e.g.,
+            "healthy teeth" or proteins such as "retinoic acid receptor".
+            Represent the relationship as triples, e.g.,
             "Nutrient HAS RELATIONSHIP WITH Process". Relationships may include
             REGULATES, PARTICIPATES IN, or others.
       nutrient_to_health_status_relationships:

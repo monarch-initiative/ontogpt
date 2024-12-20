@@ -311,11 +311,13 @@ class Document(NamedEntity):
                                              '"ribosomal subunit export from nucleus", '
                                              '"insulin signaling", or "DNA repair". '
                                              'Biological processes do NOT include '
-                                             'health states such as "healthy teeth". '
-                                             'Represent the relationship as triples, '
-                                             'e.g., "Nutrient HAS RELATIONSHIP WITH '
-                                             'Process". Relationships may include '
-                                             'REGULATES, PARTICIPATES IN, or others.'}},
+                                             'health states such as "healthy teeth" or '
+                                             'proteins such as "retinoic acid '
+                                             'receptor". Represent the relationship as '
+                                             'triples, e.g., "Nutrient HAS '
+                                             'RELATIONSHIP WITH Process". '
+                                             'Relationships may include REGULATES, '
+                                             'PARTICIPATES IN, or others.'}},
          'domain_of': ['Document']} })
     nutrient_to_health_status_relationships: Optional[List[NutrientToHealthStatusRelationship]] = Field(None, description="""A list of relationships between nutrients and health of a specific part or system of the human body.""", json_schema_extra = { "linkml_meta": {'alias': 'nutrient_to_health_status_relationships',
          'annotations': {'prompt': {'tag': 'prompt',
