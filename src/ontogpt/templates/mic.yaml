@@ -256,7 +256,7 @@ classes:
         description: >-
           The name of a type of relationship between the
           nutrient and the biological process.
-      phenotype:
+      process:
         range: BiologicalProcess
         description: >-
           The name of the biological process defined in the triple.

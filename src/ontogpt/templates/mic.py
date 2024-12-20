@@ -614,9 +614,7 @@ class NutrientToPhenotypeRelationship(CompoundExpression):
                        'NutrientToBiologicalProcessRelationship',
                        'NutrientToNutrientRelationship',
                        'NutrientToHealthStatusRelationship']} })
-    phenotype: Optional[str] = Field(None, description="""The name of the phenotype defined in the triple.""", json_schema_extra = { "linkml_meta": {'alias': 'phenotype',
-         'domain_of': ['NutrientToPhenotypeRelationship',
-                       'NutrientToBiologicalProcessRelationship']} })
+    phenotype: Optional[str] = Field(None, description="""The name of the phenotype defined in the triple.""", json_schema_extra = { "linkml_meta": {'alias': 'phenotype', 'domain_of': ['NutrientToPhenotypeRelationship']} })
 
 
 class NutrientToBiologicalProcessRelationship(CompoundExpression):
@@ -633,9 +631,7 @@ class NutrientToBiologicalProcessRelationship(CompoundExpression):
                        'NutrientToBiologicalProcessRelationship',
                        'NutrientToNutrientRelationship',
                        'NutrientToHealthStatusRelationship']} })
-    phenotype: Optional[str] = Field(None, description="""The name of the biological process defined in the triple.""", json_schema_extra = { "linkml_meta": {'alias': 'phenotype',
-         'domain_of': ['NutrientToPhenotypeRelationship',
-                       'NutrientToBiologicalProcessRelationship']} })
+    process: Optional[str] = Field(None, description="""The name of the biological process defined in the triple.""", json_schema_extra = { "linkml_meta": {'alias': 'process', 'domain_of': ['NutrientToBiologicalProcessRelationship']} })
 
 
 class NutrientToNutrientRelationship(CompoundExpression):
