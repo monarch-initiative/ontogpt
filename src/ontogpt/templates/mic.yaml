@@ -20,6 +20,11 @@ prefixes:
 default_prefix: mic
 default_range: string
 
+# TODO: reduce redundancy in reference extraction.
+#       Providing instructions through the root class
+#       doesn't seem to work, whether in the description
+#       or the prompt field.
+
 imports:
   - linkml:types
   - core
@@ -28,6 +33,9 @@ classes:
   Document:
     tree_root: true
     is_a: NamedEntity
+    description: >-
+      A document that contains information about
+      micronutrients, including vitamins and minerals.
     attributes:
       # nutrient_terms:
       #   range: Nutrient
@@ -61,6 +69,14 @@ classes:
             Disease". Relationships may include TREATS,
             PREVENTS, INCREASES RISK OF, DECREASES RISK OF,
             or others.
+            For each relationship, include the full text
+            of the corresponding reference in parentheses after the
+            relationship; e.g., if the text indicates a reference
+            of (3), include the full text of reference 3 as per the
+            reference list, e.g., "Subject HAS RELATIONSHIP WITH Object
+            Author A et al. Title of work. J Something.
+            1984;26(3):511-523)". If the reference includes a URL,
+            include that as well.
       nutrient_to_phenotype_relationships:
         range: NutrientToPhenotypeRelationship
         multivalued: true
@@ -84,6 +100,14 @@ classes:
             relationship as triples, e.g., "Nutrient HAS RELATIONSHIP
             WITH Phenotype". Relationships may include TREATS,
             PREVENTS, or others.
+            For each relationship, include the full text
+            of the corresponding reference in parentheses after the
+            relationship; e.g., if the text indicates a reference
+            of (3), include the full text of reference 3 as per the
+            reference list, e.g., "Subject HAS RELATIONSHIP WITH Object
+            Author A et al. Title of work. J Something.
+            1984;26(3):511-523)". If the reference includes a URL,
+            include that as well.
       nutrient_to_biological_process_relationships:
         range: NutrientToBiologicalProcessRelationship
         multivalued: true
@@ -106,6 +130,14 @@ classes:
             Represent the relationship as triples, e.g.,
             "Nutrient HAS RELATIONSHIP WITH Process". Relationships may include
             REGULATES, PARTICIPATES IN, or others.
+            For each relationship, include the full text
+            of the corresponding reference in parentheses after the
+            relationship; e.g., if the text indicates a reference
+            of (3), include the full text of reference 3 as per the
+            reference list, e.g., "Subject HAS RELATIONSHIP WITH Object
+            Author A et al. Title of work. J Something.
+            1984;26(3):511-523)". If the reference includes a URL,
+            include that as well.
       nutrient_to_health_status_relationships:
         range: NutrientToHealthStatusRelationship
         multivalued: true
@@ -127,6 +159,14 @@ classes:
             should be changed to "digestive system". Represent the
             relationship as triples, e.g., "Nutrient HAS RELATIONSHIP WITH
             Part". Relationships should be SUPPORTS HEALTH OF.
+            For each relationship, include the full text
+            of the corresponding reference in parentheses after the
+            relationship; e.g., if the text indicates a reference
+            of (3), include the full text of reference 3 as per the
+            reference list, e.g., "Subject HAS RELATIONSHIP WITH Object
+            Author A et al. Title of work. J Something.
+            1984;26(3):511-523)". If the reference includes a URL,
+            include that as well.
       nutrient_to_source_relationships:
         range: NutrientToSourceRelationship
         multivalued: true
@@ -144,6 +184,14 @@ classes:
             Represent the relationship as triples, e.g., "Nutrient HAS
             RELATIONSHIP WITH Source". Relationships should be PROVIDED
             BY.
+            For each relationship, include the full text
+            of the corresponding reference in parentheses after the
+            relationship; e.g., if the text indicates a reference
+            of (3), include the full text of reference 3 as per the
+            reference list, e.g., "Subject HAS RELATIONSHIP WITH Object
+            Author A et al. Title of work. J Something.
+            1984;26(3):511-523)". If the reference includes a URL,
+            include that as well.
       nutrient_to_nutrient_relationships:
         range: NutrientToNutrientRelationship
         multivalued: true
@@ -161,6 +209,14 @@ classes:
             and its receptor protein). Represent the relationship as
             triples, e.g., "Nutrient INTERACTS WITH
             Nutrient".
+            For each relationship, include the full text
+            of the corresponding reference in parentheses after the
+            relationship; e.g., if the text indicates a reference
+            of (3), include the full text of reference 3 as per the
+            reference list, e.g., "Subject HAS RELATIONSHIP WITH Object
+            Author A et al. Title of work. J Something.
+            1984;26(3):511-523)". If the reference includes a URL,
+            include that as well.
 
   Nutrient:
     is_a: NamedEntity
@@ -234,8 +290,21 @@ classes:
       prompt: >-
         The name of a food or supplement.
 
-  NutrientToDiseaseRelationship:
+  ScientificClaim:
     is_a: CompoundExpression
+    description: >-
+      A scientific claim made in the input text,
+      structured as a relationship between entities.
+    attributes:
+      references:
+        range: string
+        multivalued: true
+        description: >-
+          A semi-colon separated list of references
+          supporting the claim.
+
+  NutrientToDiseaseRelationship:
+    is_a: ScientificClaim
     attributes:
       nutrient:
         range: Nutrient
@@ -255,7 +324,7 @@ classes:
       - a Chemical to Disease relationship
 
   NutrientToPhenotypeRelationship:
-    is_a: CompoundExpression
+    is_a: ScientificClaim
     attributes:
       nutrient:
         range: Nutrient
@@ -275,7 +344,7 @@ classes:
       - a Chemical to Phenotype relationship
 
   NutrientToBiologicalProcessRelationship:
-    is_a: CompoundExpression
+    is_a: ScientificClaim
     attributes:
       nutrient:
         range: Nutrient
@@ -293,7 +362,7 @@ classes:
           The name of the biological process defined in the triple.
 
   NutrientToNutrientRelationship:
-    is_a: CompoundExpression
+    is_a: ScientificClaim
     attributes:
       nutrient_subject:
         range: Nutrient
@@ -314,7 +383,7 @@ classes:
       - a Chemical to Chemical relationship
 
   NutrientToHealthStatusRelationship:
-    is_a: CompoundExpression
+    is_a: ScientificClaim
     attributes:
       nutrient:
         range: Nutrient
@@ -333,7 +402,7 @@ classes:
           defined in the triple.
 
   NutrientToSourceRelationship:
-    is_a: CompoundExpression
+    is_a: ScientificClaim
     attributes:
       nutrient:
         range: Nutrient
