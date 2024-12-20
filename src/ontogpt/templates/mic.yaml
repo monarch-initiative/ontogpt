@@ -138,7 +138,9 @@ classes:
             between a single nutrient (including vitamins,
             minerals, and micronutrients) and another single
             nutrient, with a type of relationship connecting
-            them both. Represent the relationship as
+            them both. This does not include relationships
+            between nutrients and proteins (e.g., a nutrient
+            and its receptor protein). Represent the relationship as
             triples, e.g., "Nutrient INTERACTS WITH
             Nutrient".
 
