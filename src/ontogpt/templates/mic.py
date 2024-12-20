@@ -281,12 +281,14 @@ class Document(NamedEntity):
                                              'or symptom (e.g., fever, headache, short '
                                              'attention span, petechiae, '
                                              'telangiectasia). It may or may not be '
-                                             'associated with a disease. Represent the '
-                                             'relationship as triples, e.g., "Nutrient '
-                                             'HAS RELATIONSHIP WITH Phenotype". '
-                                             'Relationships may include TREATS, '
-                                             'PREVENTS, INCREASES RISK OF, DECREASES '
-                                             'RISK OF, or others.'}},
+                                             'associated with a disease. Phenotypes do '
+                                             'NOT include high-level biological '
+                                             'processes such as "Insulin signaling" or '
+                                             'health states such as "healthy teeth". '
+                                             'Represent the relationship as triples, '
+                                             'e.g., "Nutrient HAS RELATIONSHIP WITH '
+                                             'Phenotype". Relationships may include '
+                                             'TREATS, PREVENTS, or others.'}},
          'domain_of': ['Document']} })
     nutrient_to_nutrient_relationships: Optional[List[NutrientToNutrientRelationship]] = Field(None, description="""A list of relationships between nutrients and other nutrients.""", json_schema_extra = { "linkml_meta": {'alias': 'nutrient_to_nutrient_relationships',
          'annotations': {'prompt': {'tag': 'prompt',
@@ -459,9 +461,7 @@ class NutrientToDiseaseRelationship(CompoundExpression):
          'domain_of': ['NutrientToDiseaseRelationship',
                        'NutrientToPhenotypeRelationship',
                        'NutrientToNutrientRelationship']} })
-    disease: Optional[str] = Field(None, description="""The name of the disease defined in the triple.""", json_schema_extra = { "linkml_meta": {'alias': 'disease',
-         'domain_of': ['NutrientToDiseaseRelationship',
-                       'NutrientToPhenotypeRelationship']} })
+    disease: Optional[str] = Field(None, description="""The name of the disease defined in the triple.""", json_schema_extra = { "linkml_meta": {'alias': 'disease', 'domain_of': ['NutrientToDiseaseRelationship']} })
 
 
 class NutrientToPhenotypeRelationship(CompoundExpression):
@@ -471,13 +471,11 @@ class NutrientToPhenotypeRelationship(CompoundExpression):
     nutrient: Optional[str] = Field(None, description="""The name of the nutrient defined in the triple, including vitamins and minerals.""", json_schema_extra = { "linkml_meta": {'alias': 'nutrient',
          'domain_of': ['NutrientToDiseaseRelationship',
                        'NutrientToPhenotypeRelationship']} })
-    relationship: Optional[str] = Field(None, description="""The name of a type of relationship between the nutrient and the disease.""", json_schema_extra = { "linkml_meta": {'alias': 'relationship',
+    relationship: Optional[str] = Field(None, description="""The name of a type of relationship between the nutrient and the phenotype.""", json_schema_extra = { "linkml_meta": {'alias': 'relationship',
          'domain_of': ['NutrientToDiseaseRelationship',
                        'NutrientToPhenotypeRelationship',
                        'NutrientToNutrientRelationship']} })
-    disease: Optional[str] = Field(None, description="""The name of the phenotype defined in the triple.""", json_schema_extra = { "linkml_meta": {'alias': 'disease',
-         'domain_of': ['NutrientToDiseaseRelationship',
-                       'NutrientToPhenotypeRelationship']} })
+    phenotype: Optional[str] = Field(None, description="""The name of the phenotype defined in the triple.""", json_schema_extra = { "linkml_meta": {'alias': 'phenotype', 'domain_of': ['NutrientToPhenotypeRelationship']} })
 
 
 class NutrientToNutrientRelationship(CompoundExpression):

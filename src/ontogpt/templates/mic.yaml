@@ -77,11 +77,12 @@ classes:
             physical or behavioral trait or symptom (e.g., fever,
             headache, short attention span, petechiae,
             telangiectasia). It may or may not be associated
-            with a disease. Represent the relationship as
-            triples, e.g., "Nutrient HAS RELATIONSHIP WITH
-            Phenotype". Relationships may include TREATS,
-            PREVENTS, INCREASES RISK OF, DECREASES RISK OF,
-            or others.
+            with a disease. Phenotypes do NOT include high-level
+            biological processes such as "Insulin signaling" or
+            health states such as "healthy teeth". Represent the
+            relationship as triples, e.g., "Nutrient HAS RELATIONSHIP
+            WITH Phenotype". Relationships may include TREATS,
+            PREVENTS, or others.
       nutrient_to_nutrient_relationships:
         range: NutrientToNutrientRelationship
         multivalued: true
@@ -165,8 +166,8 @@ classes:
         range: RelationshipType
         description: >-
           The name of a type of relationship between the
-          nutrient and the disease.
-      disease:
+          nutrient and the phenotype.
+      phenotype:
         range: Phenotype
         description: >-
           The name of the phenotype defined in the triple.
