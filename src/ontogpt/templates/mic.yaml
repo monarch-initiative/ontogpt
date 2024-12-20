@@ -105,6 +105,27 @@ classes:
             "healthy teeth". Represent the relationship as triples, e.g.,
             "Nutrient HAS RELATIONSHIP WITH Process". Relationships may include
             REGULATES, PARTICIPATES IN, or others.
+      nutrient_to_health_status_relationships:
+        range: NutrientToHealthStatusRelationship
+        multivalued: true
+        description: >-
+          A list of relationships between nutrients and
+          health of a specific part or system of the human
+          body.
+        annotations:
+          prompt: >-
+            A semicolon-separated list of relationships
+            between a single nutrient (including vitamins,
+            minerals, and micronutrients) and a single
+            part or system of the body, with a type of relationship
+            connecting them both. Example parts or systems include
+            "teeth", "skin", "cardiovascular system", "digestive system",
+            or "liver". Transform names of processes
+            to their respective anatomy, e.g., "thyroid function" or
+            "thyroid health" should be changed to "thyroid"; "digestion"
+            should be changed to "digestive system". Represent the
+            relationship as triples, e.g., "Nutrient HAS RELATIONSHIP WITH
+            Part". Relationships should be SUPPORTS HEALTH OF.
       nutrient_to_nutrient_relationships:
         range: NutrientToNutrientRelationship
         multivalued: true
@@ -170,6 +191,17 @@ classes:
       id:
         values_from:
           - GOBiologicalProcessType
+
+  Anatomy:
+    is_a: NamedEntity
+    description: >-
+      The name of an anatomical part or system.
+    id_prefixes:
+      - UBERON
+    annotations:
+      annotators: sqlite:obo:uberon
+      prompt: >-
+        The name of an anatomical part or system.
 
   NutrientToDiseaseRelationship:
     is_a: CompoundExpression
@@ -249,6 +281,25 @@ classes:
           including vitamins and minerals.
     comments:
       - a Chemical to Chemical relationship
+
+  NutrientToHealthStatusRelationship:
+    is_a: CompoundExpression
+    attributes:
+      nutrient:
+        range: Nutrient
+        description: >-
+          The name of the nutrient defined in the triple,
+          including vitamins and minerals.
+      relationship:
+        range: RelationshipType
+        description: >-
+          The name of a type of relationship between the
+          nutrient and the anatomical part or system.
+      anatomy:
+        range: Anatomy
+        description: >-
+          The name of the anatomical part or system
+          defined in the triple.
 
 enums:
 
