@@ -127,6 +127,23 @@ classes:
             should be changed to "digestive system". Represent the
             relationship as triples, e.g., "Nutrient HAS RELATIONSHIP WITH
             Part". Relationships should be SUPPORTS HEALTH OF.
+      nutrient_to_source_relationships:
+        range: NutrientToSourceRelationship
+        multivalued: true
+        description: >-
+          A list of relationships between nutrients and
+          their sources in food or supplements.
+        annotations:
+          prompt: >-
+            A semicolon-separated list of relationships
+            between a single nutrient (including vitamins,
+            minerals, and micronutrients) and a single
+            food or supplement, with a type of relationship
+            connecting them both. Example foods include "butter",
+            "apple", "watermelon", "beef", or "breakfast cereal".
+            Represent the relationship as triples, e.g., "Nutrient HAS
+            RELATIONSHIP WITH Source". Relationships should be PROVIDED
+            BY.
       nutrient_to_nutrient_relationships:
         range: NutrientToNutrientRelationship
         multivalued: true
@@ -205,6 +222,17 @@ classes:
       annotators: sqlite:obo:uberon
       prompt: >-
         The name of an anatomical part or system.
+
+  FoodOrSupplement:
+    is_a: NamedEntity
+    description: >-
+      The name of a food or supplement.
+    id_prefixes:
+      - FOODON
+    annotations:
+      annotators: sqlite:obo:foodon
+      prompt: >-
+        The name of a food or supplement.
 
   NutrientToDiseaseRelationship:
     is_a: CompoundExpression
@@ -303,6 +331,25 @@ classes:
         description: >-
           The name of the anatomical part or system
           defined in the triple.
+
+  NutrientToSourceRelationship:
+    is_a: CompoundExpression
+    attributes:
+      nutrient:
+        range: Nutrient
+        description: >-
+          The name of the nutrient defined in the triple,
+          including vitamins and minerals.
+      relationship:
+        range: RelationshipType
+        description: >-
+          The name of a type of relationship between the
+          nutrient and the food or supplement.
+      source:
+        range: FoodOrSupplement
+        description: >-
+          The name of the food or supplement defined in the
+          triple.
 
 enums:
 

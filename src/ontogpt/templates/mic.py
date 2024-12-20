@@ -340,6 +340,20 @@ class Document(NamedEntity):
                                              'Part". Relationships should be SUPPORTS '
                                              'HEALTH OF.'}},
          'domain_of': ['Document']} })
+    nutrient_to_source_relationships: Optional[List[NutrientToSourceRelationship]] = Field(None, description="""A list of relationships between nutrients and their sources in food or supplements.""", json_schema_extra = { "linkml_meta": {'alias': 'nutrient_to_source_relationships',
+         'annotations': {'prompt': {'tag': 'prompt',
+                                    'value': 'A semicolon-separated list of '
+                                             'relationships between a single nutrient '
+                                             '(including vitamins, minerals, and '
+                                             'micronutrients) and a single food or '
+                                             'supplement, with a type of relationship '
+                                             'connecting them both. Example foods '
+                                             'include "butter", "apple", "watermelon", '
+                                             '"beef", or "breakfast cereal". Represent '
+                                             'the relationship as triples, e.g., '
+                                             '"Nutrient HAS RELATIONSHIP WITH Source". '
+                                             'Relationships should be PROVIDED BY.'}},
+         'domain_of': ['Document']} })
     nutrient_to_nutrient_relationships: Optional[List[NutrientToNutrientRelationship]] = Field(None, description="""A list of relationships between nutrients and other nutrients.""", json_schema_extra = { "linkml_meta": {'alias': 'nutrient_to_nutrient_relationships',
          'annotations': {'prompt': {'tag': 'prompt',
                                     'value': 'A semicolon-separated list of '
@@ -586,6 +600,46 @@ class Anatomy(NamedEntity):
         return v
 
 
+class FoodOrSupplement(NamedEntity):
+    """
+    The name of a food or supplement.
+    """
+    linkml_meta: ClassVar[LinkMLMeta] = LinkMLMeta({'annotations': {'annotators': {'tag': 'annotators',
+                                        'value': 'sqlite:obo:foodon'},
+                         'prompt': {'tag': 'prompt',
+                                    'value': 'The name of a food or supplement.'}},
+         'from_schema': 'http://w3id.org/ontogpt/mic',
+         'id_prefixes': ['FOODON']})
+
+    id: str = Field(..., description="""A unique identifier for the named entity""", json_schema_extra = { "linkml_meta": {'alias': 'id',
+         'annotations': {'prompt.skip': {'tag': 'prompt.skip', 'value': 'true'}},
+         'comments': ['this is populated during the grounding and normalization step'],
+         'domain_of': ['NamedEntity', 'Publication']} })
+    label: Optional[str] = Field(None, description="""The label (name) of the named thing""", json_schema_extra = { "linkml_meta": {'alias': 'label',
+         'aliases': ['name'],
+         'annotations': {'owl': {'tag': 'owl',
+                                 'value': 'AnnotationProperty, AnnotationAssertion'}},
+         'domain_of': ['NamedEntity'],
+         'slot_uri': 'rdfs:label'} })
+    original_spans: Optional[List[str]] = Field(None, description="""The coordinates of the original text span from which the named entity was extracted, inclusive. For example, \"10:25\" means the span starting from the 10th character and ending with the 25th character. The first character in the text has index 0. Newlines are treated as single characters. Multivalued as there may be multiple spans for a single text.""", json_schema_extra = { "linkml_meta": {'alias': 'original_spans',
+         'annotations': {'prompt.skip': {'tag': 'prompt.skip', 'value': 'true'}},
+         'comments': ['This is determined during grounding and normalization',
+                      'But is based on the full input text'],
+         'domain_of': ['NamedEntity']} })
+
+    @field_validator('original_spans')
+    def pattern_original_spans(cls, v):
+        pattern=re.compile(r"^\d+:\d+$")
+        if isinstance(v,list):
+            for element in v:
+                if isinstance(v, str) and not pattern.match(element):
+                    raise ValueError(f"Invalid original_spans format: {element}")
+        elif isinstance(v,str):
+            if not pattern.match(v):
+                raise ValueError(f"Invalid original_spans format: {v}")
+        return v
+
+
 class NutrientToDiseaseRelationship(CompoundExpression):
     linkml_meta: ClassVar[LinkMLMeta] = LinkMLMeta({'comments': ['a Chemical to Disease relationship'],
          'from_schema': 'http://w3id.org/ontogpt/mic'})
@@ -594,13 +648,15 @@ class NutrientToDiseaseRelationship(CompoundExpression):
          'domain_of': ['NutrientToDiseaseRelationship',
                        'NutrientToPhenotypeRelationship',
                        'NutrientToBiologicalProcessRelationship',
-                       'NutrientToHealthStatusRelationship']} })
+                       'NutrientToHealthStatusRelationship',
+                       'NutrientToSourceRelationship']} })
     relationship: Optional[str] = Field(None, description="""The name of a type of relationship between the nutrient and the disease.""", json_schema_extra = { "linkml_meta": {'alias': 'relationship',
          'domain_of': ['NutrientToDiseaseRelationship',
                        'NutrientToPhenotypeRelationship',
                        'NutrientToBiologicalProcessRelationship',
                        'NutrientToNutrientRelationship',
-                       'NutrientToHealthStatusRelationship']} })
+                       'NutrientToHealthStatusRelationship',
+                       'NutrientToSourceRelationship']} })
     disease: Optional[str] = Field(None, description="""The name of the disease defined in the triple.""", json_schema_extra = { "linkml_meta": {'alias': 'disease', 'domain_of': ['NutrientToDiseaseRelationship']} })
 
 
@@ -612,13 +668,15 @@ class NutrientToPhenotypeRelationship(CompoundExpression):
          'domain_of': ['NutrientToDiseaseRelationship',
                        'NutrientToPhenotypeRelationship',
                        'NutrientToBiologicalProcessRelationship',
-                       'NutrientToHealthStatusRelationship']} })
+                       'NutrientToHealthStatusRelationship',
+                       'NutrientToSourceRelationship']} })
     relationship: Optional[str] = Field(None, description="""The name of a type of relationship between the nutrient and the phenotype.""", json_schema_extra = { "linkml_meta": {'alias': 'relationship',
          'domain_of': ['NutrientToDiseaseRelationship',
                        'NutrientToPhenotypeRelationship',
                        'NutrientToBiologicalProcessRelationship',
                        'NutrientToNutrientRelationship',
-                       'NutrientToHealthStatusRelationship']} })
+                       'NutrientToHealthStatusRelationship',
+                       'NutrientToSourceRelationship']} })
     phenotype: Optional[str] = Field(None, description="""The name of the phenotype defined in the triple.""", json_schema_extra = { "linkml_meta": {'alias': 'phenotype', 'domain_of': ['NutrientToPhenotypeRelationship']} })
 
 
@@ -629,13 +687,15 @@ class NutrientToBiologicalProcessRelationship(CompoundExpression):
          'domain_of': ['NutrientToDiseaseRelationship',
                        'NutrientToPhenotypeRelationship',
                        'NutrientToBiologicalProcessRelationship',
-                       'NutrientToHealthStatusRelationship']} })
+                       'NutrientToHealthStatusRelationship',
+                       'NutrientToSourceRelationship']} })
     relationship: Optional[str] = Field(None, description="""The name of a type of relationship between the nutrient and the biological process.""", json_schema_extra = { "linkml_meta": {'alias': 'relationship',
          'domain_of': ['NutrientToDiseaseRelationship',
                        'NutrientToPhenotypeRelationship',
                        'NutrientToBiologicalProcessRelationship',
                        'NutrientToNutrientRelationship',
-                       'NutrientToHealthStatusRelationship']} })
+                       'NutrientToHealthStatusRelationship',
+                       'NutrientToSourceRelationship']} })
     process: Optional[str] = Field(None, description="""The name of the biological process defined in the triple.""", json_schema_extra = { "linkml_meta": {'alias': 'process', 'domain_of': ['NutrientToBiologicalProcessRelationship']} })
 
 
@@ -649,7 +709,8 @@ class NutrientToNutrientRelationship(CompoundExpression):
                        'NutrientToPhenotypeRelationship',
                        'NutrientToBiologicalProcessRelationship',
                        'NutrientToNutrientRelationship',
-                       'NutrientToHealthStatusRelationship']} })
+                       'NutrientToHealthStatusRelationship',
+                       'NutrientToSourceRelationship']} })
     nutrient_object: Optional[str] = Field(None, description="""The name of a nutrient defined in the triple, including vitamins and minerals.""", json_schema_extra = { "linkml_meta": {'alias': 'nutrient_object', 'domain_of': ['NutrientToNutrientRelationship']} })
 
 
@@ -660,14 +721,35 @@ class NutrientToHealthStatusRelationship(CompoundExpression):
          'domain_of': ['NutrientToDiseaseRelationship',
                        'NutrientToPhenotypeRelationship',
                        'NutrientToBiologicalProcessRelationship',
-                       'NutrientToHealthStatusRelationship']} })
+                       'NutrientToHealthStatusRelationship',
+                       'NutrientToSourceRelationship']} })
     relationship: Optional[str] = Field(None, description="""The name of a type of relationship between the nutrient and the anatomical part or system.""", json_schema_extra = { "linkml_meta": {'alias': 'relationship',
          'domain_of': ['NutrientToDiseaseRelationship',
                        'NutrientToPhenotypeRelationship',
                        'NutrientToBiologicalProcessRelationship',
                        'NutrientToNutrientRelationship',
-                       'NutrientToHealthStatusRelationship']} })
+                       'NutrientToHealthStatusRelationship',
+                       'NutrientToSourceRelationship']} })
     anatomy: Optional[str] = Field(None, description="""The name of the anatomical part or system defined in the triple.""", json_schema_extra = { "linkml_meta": {'alias': 'anatomy', 'domain_of': ['NutrientToHealthStatusRelationship']} })
+
+
+class NutrientToSourceRelationship(CompoundExpression):
+    linkml_meta: ClassVar[LinkMLMeta] = LinkMLMeta({'from_schema': 'http://w3id.org/ontogpt/mic'})
+
+    nutrient: Optional[str] = Field(None, description="""The name of the nutrient defined in the triple, including vitamins and minerals.""", json_schema_extra = { "linkml_meta": {'alias': 'nutrient',
+         'domain_of': ['NutrientToDiseaseRelationship',
+                       'NutrientToPhenotypeRelationship',
+                       'NutrientToBiologicalProcessRelationship',
+                       'NutrientToHealthStatusRelationship',
+                       'NutrientToSourceRelationship']} })
+    relationship: Optional[str] = Field(None, description="""The name of a type of relationship between the nutrient and the food or supplement.""", json_schema_extra = { "linkml_meta": {'alias': 'relationship',
+         'domain_of': ['NutrientToDiseaseRelationship',
+                       'NutrientToPhenotypeRelationship',
+                       'NutrientToBiologicalProcessRelationship',
+                       'NutrientToNutrientRelationship',
+                       'NutrientToHealthStatusRelationship',
+                       'NutrientToSourceRelationship']} })
+    source: Optional[str] = Field(None, description="""The name of the food or supplement defined in the triple.""", json_schema_extra = { "linkml_meta": {'alias': 'source', 'domain_of': ['NutrientToSourceRelationship']} })
 
 
 # Model rebuild
@@ -687,9 +769,11 @@ Disease.model_rebuild()
 Phenotype.model_rebuild()
 BiologicalProcess.model_rebuild()
 Anatomy.model_rebuild()
+FoodOrSupplement.model_rebuild()
 NutrientToDiseaseRelationship.model_rebuild()
 NutrientToPhenotypeRelationship.model_rebuild()
 NutrientToBiologicalProcessRelationship.model_rebuild()
 NutrientToNutrientRelationship.model_rebuild()
 NutrientToHealthStatusRelationship.model_rebuild()
+NutrientToSourceRelationship.model_rebuild()
 
