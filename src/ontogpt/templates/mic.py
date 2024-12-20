@@ -272,7 +272,8 @@ class Document(NamedEntity):
                                              'e.g., if the text indicates a reference '
                                              'of (3), include it after the object in '
                                              'the relationship, e.g., "Subject HAS '
-                                             'RELATIONSHIP WITH Object (3)".'}},
+                                             'RELATIONSHIP WITH Object (3)". Do not '
+                                             'include newlines.'}},
          'domain_of': ['Document']} })
     nutrient_to_phenotype_relationships: Optional[List[NutrientToPhenotypeRelationship]] = Field(None, description="""A list of relationships between nutrients and biological phenotypes.""", json_schema_extra = { "linkml_meta": {'alias': 'nutrient_to_phenotype_relationships',
          'annotations': {'prompt': {'tag': 'prompt',
@@ -302,7 +303,8 @@ class Document(NamedEntity):
                                              'e.g., if the text indicates a reference '
                                              'of (3), include it after the object in '
                                              'the relationship, e.g., "Subject HAS '
-                                             'RELATIONSHIP WITH Object (3)".'}},
+                                             'RELATIONSHIP WITH Object (3)". Do not '
+                                             'include newlines.'}},
          'domain_of': ['Document']} })
     nutrient_to_biological_process_relationships: Optional[List[NutrientToBiologicalProcessRelationship]] = Field(None, description="""A list of relationships between nutrients and biological processes.""", json_schema_extra = { "linkml_meta": {'alias': 'nutrient_to_biological_process_relationships',
          'annotations': {'prompt': {'tag': 'prompt',
@@ -332,7 +334,8 @@ class Document(NamedEntity):
                                              'e.g., if the text indicates a reference '
                                              'of (3), include it after the object in '
                                              'the relationship, e.g., "Subject HAS '
-                                             'RELATIONSHIP WITH Object (3)".'}},
+                                             'RELATIONSHIP WITH Object (3)". Do not '
+                                             'include newlines.'}},
          'domain_of': ['Document']} })
     nutrient_to_health_status_relationships: Optional[List[NutrientToHealthStatusRelationship]] = Field(None, description="""A list of relationships between nutrients and health of a specific part or system of the human body.""", json_schema_extra = { "linkml_meta": {'alias': 'nutrient_to_health_status_relationships',
          'annotations': {'prompt': {'tag': 'prompt',
@@ -360,7 +363,7 @@ class Document(NamedEntity):
                                              'indicates a reference of (3), include it '
                                              'after the object in the relationship, '
                                              'e.g., "Subject HAS RELATIONSHIP WITH '
-                                             'Object (3)".'}},
+                                             'Object (3)". Do not include newlines.'}},
          'domain_of': ['Document']} })
     nutrient_to_source_relationships: Optional[List[NutrientToSourceRelationship]] = Field(None, description="""A list of relationships between nutrients and their sources in food or supplements.""", json_schema_extra = { "linkml_meta": {'alias': 'nutrient_to_source_relationships',
          'annotations': {'prompt': {'tag': 'prompt',
@@ -381,7 +384,8 @@ class Document(NamedEntity):
                                              'e.g., if the text indicates a reference '
                                              'of (3), include it after the object in '
                                              'the relationship, e.g., "Subject HAS '
-                                             'RELATIONSHIP WITH Object (3)".'}},
+                                             'RELATIONSHIP WITH Object (3)". Do not '
+                                             'include newlines.'}},
          'domain_of': ['Document']} })
     nutrient_to_nutrient_relationships: Optional[List[NutrientToNutrientRelationship]] = Field(None, description="""A list of relationships between nutrients and other nutrients.""", json_schema_extra = { "linkml_meta": {'alias': 'nutrient_to_nutrient_relationships',
          'annotations': {'prompt': {'tag': 'prompt',
@@ -402,9 +406,9 @@ class Document(NamedEntity):
                                              'e.g., if the text indicates a reference '
                                              'of (3), include it after the object in '
                                              'the relationship, e.g., "Subject HAS '
-                                             'RELATIONSHIP WITH Object (3)".'}},
+                                             'RELATIONSHIP WITH Object (3)". Do not '
+                                             'include newlines.'}},
          'domain_of': ['Document']} })
-    references: Optional[List[str]] = Field(None, description="""A semi-colon separated list of all references supporting the document, found in the References section. Include the number of each reference, its full text as provided in the input, and any accompanying URLs.""", json_schema_extra = { "linkml_meta": {'alias': 'references', 'domain_of': ['Document', 'ScientificClaim']} })
     id: str = Field(..., description="""A unique identifier for the named entity""", json_schema_extra = { "linkml_meta": {'alias': 'id',
          'annotations': {'prompt.skip': {'tag': 'prompt.skip', 'value': 'true'}},
          'comments': ['this is populated during the grounding and normalization step'],
@@ -683,7 +687,7 @@ class ScientificClaim(CompoundExpression):
     """
     linkml_meta: ClassVar[LinkMLMeta] = LinkMLMeta({'from_schema': 'http://w3id.org/ontogpt/mic'})
 
-    references: Optional[List[str]] = Field(None, description="""A semi-colon separated list of references supporting the claim, identified by number only.""", json_schema_extra = { "linkml_meta": {'alias': 'references', 'domain_of': ['Document', 'ScientificClaim']} })
+    references: Optional[List[str]] = Field(None, description="""A semi-colon separated list of references supporting the claim, identified by number only.""", json_schema_extra = { "linkml_meta": {'alias': 'references', 'domain_of': ['ScientificClaim']} })
 
 
 class NutrientToDiseaseRelationship(ScientificClaim):
@@ -704,7 +708,7 @@ class NutrientToDiseaseRelationship(ScientificClaim):
                        'NutrientToHealthStatusRelationship',
                        'NutrientToSourceRelationship']} })
     disease: Optional[str] = Field(None, description="""The name of the disease defined in the triple.""", json_schema_extra = { "linkml_meta": {'alias': 'disease', 'domain_of': ['NutrientToDiseaseRelationship']} })
-    references: Optional[List[str]] = Field(None, description="""A semi-colon separated list of references supporting the claim, identified by number only.""", json_schema_extra = { "linkml_meta": {'alias': 'references', 'domain_of': ['Document', 'ScientificClaim']} })
+    references: Optional[List[str]] = Field(None, description="""A semi-colon separated list of references supporting the claim, identified by number only.""", json_schema_extra = { "linkml_meta": {'alias': 'references', 'domain_of': ['ScientificClaim']} })
 
 
 class NutrientToPhenotypeRelationship(ScientificClaim):
@@ -725,7 +729,7 @@ class NutrientToPhenotypeRelationship(ScientificClaim):
                        'NutrientToHealthStatusRelationship',
                        'NutrientToSourceRelationship']} })
     phenotype: Optional[str] = Field(None, description="""The name of the phenotype defined in the triple.""", json_schema_extra = { "linkml_meta": {'alias': 'phenotype', 'domain_of': ['NutrientToPhenotypeRelationship']} })
-    references: Optional[List[str]] = Field(None, description="""A semi-colon separated list of references supporting the claim, identified by number only.""", json_schema_extra = { "linkml_meta": {'alias': 'references', 'domain_of': ['Document', 'ScientificClaim']} })
+    references: Optional[List[str]] = Field(None, description="""A semi-colon separated list of references supporting the claim, identified by number only.""", json_schema_extra = { "linkml_meta": {'alias': 'references', 'domain_of': ['ScientificClaim']} })
 
 
 class NutrientToBiologicalProcessRelationship(ScientificClaim):
@@ -745,7 +749,7 @@ class NutrientToBiologicalProcessRelationship(ScientificClaim):
                        'NutrientToHealthStatusRelationship',
                        'NutrientToSourceRelationship']} })
     process: Optional[str] = Field(None, description="""The name of the biological process defined in the triple.""", json_schema_extra = { "linkml_meta": {'alias': 'process', 'domain_of': ['NutrientToBiologicalProcessRelationship']} })
-    references: Optional[List[str]] = Field(None, description="""A semi-colon separated list of references supporting the claim, identified by number only.""", json_schema_extra = { "linkml_meta": {'alias': 'references', 'domain_of': ['Document', 'ScientificClaim']} })
+    references: Optional[List[str]] = Field(None, description="""A semi-colon separated list of references supporting the claim, identified by number only.""", json_schema_extra = { "linkml_meta": {'alias': 'references', 'domain_of': ['ScientificClaim']} })
 
 
 class NutrientToNutrientRelationship(ScientificClaim):
@@ -761,7 +765,7 @@ class NutrientToNutrientRelationship(ScientificClaim):
                        'NutrientToHealthStatusRelationship',
                        'NutrientToSourceRelationship']} })
     nutrient_object: Optional[str] = Field(None, description="""The name of a nutrient defined in the triple, including vitamins and minerals.""", json_schema_extra = { "linkml_meta": {'alias': 'nutrient_object', 'domain_of': ['NutrientToNutrientRelationship']} })
-    references: Optional[List[str]] = Field(None, description="""A semi-colon separated list of references supporting the claim, identified by number only.""", json_schema_extra = { "linkml_meta": {'alias': 'references', 'domain_of': ['Document', 'ScientificClaim']} })
+    references: Optional[List[str]] = Field(None, description="""A semi-colon separated list of references supporting the claim, identified by number only.""", json_schema_extra = { "linkml_meta": {'alias': 'references', 'domain_of': ['ScientificClaim']} })
 
 
 class NutrientToHealthStatusRelationship(ScientificClaim):
@@ -781,7 +785,7 @@ class NutrientToHealthStatusRelationship(ScientificClaim):
                        'NutrientToHealthStatusRelationship',
                        'NutrientToSourceRelationship']} })
     anatomy: Optional[str] = Field(None, description="""The name of the anatomical part or system defined in the triple.""", json_schema_extra = { "linkml_meta": {'alias': 'anatomy', 'domain_of': ['NutrientToHealthStatusRelationship']} })
-    references: Optional[List[str]] = Field(None, description="""A semi-colon separated list of references supporting the claim, identified by number only.""", json_schema_extra = { "linkml_meta": {'alias': 'references', 'domain_of': ['Document', 'ScientificClaim']} })
+    references: Optional[List[str]] = Field(None, description="""A semi-colon separated list of references supporting the claim, identified by number only.""", json_schema_extra = { "linkml_meta": {'alias': 'references', 'domain_of': ['ScientificClaim']} })
 
 
 class NutrientToSourceRelationship(ScientificClaim):
@@ -801,7 +805,7 @@ class NutrientToSourceRelationship(ScientificClaim):
                        'NutrientToHealthStatusRelationship',
                        'NutrientToSourceRelationship']} })
     source: Optional[str] = Field(None, description="""The name of the food or supplement defined in the triple.""", json_schema_extra = { "linkml_meta": {'alias': 'source', 'domain_of': ['NutrientToSourceRelationship']} })
-    references: Optional[List[str]] = Field(None, description="""A semi-colon separated list of references supporting the claim, identified by number only.""", json_schema_extra = { "linkml_meta": {'alias': 'references', 'domain_of': ['Document', 'ScientificClaim']} })
+    references: Optional[List[str]] = Field(None, description="""A semi-colon separated list of references supporting the claim, identified by number only.""", json_schema_extra = { "linkml_meta": {'alias': 'references', 'domain_of': ['ScientificClaim']} })
 
 
 # Model rebuild

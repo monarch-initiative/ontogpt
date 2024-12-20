@@ -74,6 +74,7 @@ classes:
             relationship; e.g., if the text indicates a reference
             of (3), include it after the object in the relationship,
             e.g., "Subject HAS RELATIONSHIP WITH Object (3)".
+            Do not include newlines.
       nutrient_to_phenotype_relationships:
         range: NutrientToPhenotypeRelationship
         multivalued: true
@@ -102,6 +103,7 @@ classes:
             relationship; e.g., if the text indicates a reference
             of (3), include it after the object in the relationship,
             e.g., "Subject HAS RELATIONSHIP WITH Object (3)".
+            Do not include newlines.
       nutrient_to_biological_process_relationships:
         range: NutrientToBiologicalProcessRelationship
         multivalued: true
@@ -129,6 +131,7 @@ classes:
             relationship; e.g., if the text indicates a reference
             of (3), include it after the object in the relationship,
             e.g., "Subject HAS RELATIONSHIP WITH Object (3)".
+            Do not include newlines.
       nutrient_to_health_status_relationships:
         range: NutrientToHealthStatusRelationship
         multivalued: true
@@ -155,6 +158,7 @@ classes:
             relationship; e.g., if the text indicates a reference
             of (3), include it after the object in the relationship,
             e.g., "Subject HAS RELATIONSHIP WITH Object (3)".
+            Do not include newlines.
       nutrient_to_source_relationships:
         range: NutrientToSourceRelationship
         multivalued: true
@@ -177,6 +181,7 @@ classes:
             relationship; e.g., if the text indicates a reference
             of (3), include it after the object in the relationship,
             e.g., "Subject HAS RELATIONSHIP WITH Object (3)".
+            Do not include newlines.
       nutrient_to_nutrient_relationships:
         range: NutrientToNutrientRelationship
         multivalued: true
@@ -199,14 +204,16 @@ classes:
             relationship; e.g., if the text indicates a reference
             of (3), include it after the object in the relationship,
             e.g., "Subject HAS RELATIONSHIP WITH Object (3)".
-      references:
-        range: string
-        multivalued: true
-        description: >-
-          A semi-colon separated list of all references
-          supporting the document, found in the References section.
-          Include the number of each reference, its full text as provided in
-          the input, and any accompanying URLs.
+            Do not include newlines.
+      # references:
+      #   range: string
+      #   multivalued: true
+      #   description: >-
+      #     A semi-colon separated list of all references
+      #     provided in the input text, found in the References section.
+      #     Include the number of each reference, its full text as provided in
+      #     the input, and any accompanying URLs. Do not truncate this list
+      #     and do not include newlines.
 
   Nutrient:
     is_a: NamedEntity
