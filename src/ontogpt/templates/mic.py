@@ -283,12 +283,14 @@ class Document(NamedEntity):
                                              'telangiectasia). It may or may not be '
                                              'associated with a disease. Phenotypes do '
                                              'NOT include high-level biological '
-                                             'processes such as "Insulin signaling" or '
-                                             'health states such as "healthy teeth". '
-                                             'Represent the relationship as triples, '
-                                             'e.g., "Nutrient HAS RELATIONSHIP WITH '
-                                             'Phenotype". Relationships may include '
-                                             'TREATS, PREVENTS, or others.'}},
+                                             'processes such as "Insulin signaling", '
+                                             'developmental processes such as "limb '
+                                             'development", or health states such as '
+                                             '"healthy teeth". Represent the '
+                                             'relationship as triples, e.g., "Nutrient '
+                                             'HAS RELATIONSHIP WITH Phenotype". '
+                                             'Relationships may include TREATS, '
+                                             'PREVENTS, or others.'}},
          'domain_of': ['Document']} })
     nutrient_to_nutrient_relationships: Optional[List[NutrientToNutrientRelationship]] = Field(None, description="""A list of relationships between nutrients and other nutrients.""", json_schema_extra = { "linkml_meta": {'alias': 'nutrient_to_nutrient_relationships',
          'annotations': {'prompt': {'tag': 'prompt',

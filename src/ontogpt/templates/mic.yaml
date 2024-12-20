@@ -78,7 +78,8 @@ classes:
             headache, short attention span, petechiae,
             telangiectasia). It may or may not be associated
             with a disease. Phenotypes do NOT include high-level
-            biological processes such as "Insulin signaling" or
+            biological processes such as "Insulin signaling",
+            developmental processes such as "limb development", or
             health states such as "healthy teeth". Represent the
             relationship as triples, e.g., "Nutrient HAS RELATIONSHIP
             WITH Phenotype". Relationships may include TREATS,
