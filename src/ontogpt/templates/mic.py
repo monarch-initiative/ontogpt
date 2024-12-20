@@ -265,6 +265,17 @@ class Document(NamedEntity):
                                              'PREVENTS, INCREASES RISK OF, DECREASES '
                                              'RISK OF, or others.'}},
          'domain_of': ['Document']} })
+    nutrient_to_nutrient_relationships: Optional[List[NutrientToNutrientRelationship]] = Field(None, description="""A list of relationships between nutrients and other nutrients.""", json_schema_extra = { "linkml_meta": {'alias': 'nutrient_to_nutrient_relationships',
+         'annotations': {'prompt': {'tag': 'prompt',
+                                    'value': 'A semicolon-separated list of '
+                                             'relationships between a single nutrient '
+                                             '(including vitamins, minerals, and '
+                                             'micronutrients) and another single '
+                                             'nutrient, with a type of relationship '
+                                             'connecting them both. Represent the '
+                                             'relationship as triples, e.g., "Nutrient '
+                                             'INTERACTS WITH Nutrient".'}},
+         'domain_of': ['Document']} })
     id: str = Field(..., description="""A unique identifier for the named entity""", json_schema_extra = { "linkml_meta": {'alias': 'id',
          'annotations': {'prompt.skip': {'tag': 'prompt.skip', 'value': 'true'}},
          'comments': ['this is populated during the grounding and normalization step'],
@@ -376,11 +387,25 @@ class Disease(NamedEntity):
 
 
 class NutrientToDiseaseRelationship(CompoundExpression):
-    linkml_meta: ClassVar[LinkMLMeta] = LinkMLMeta({'from_schema': 'http://w3id.org/ontogpt/mic'})
+    linkml_meta: ClassVar[LinkMLMeta] = LinkMLMeta({'comments': ['a Chemical to Disease relationship'],
+         'from_schema': 'http://w3id.org/ontogpt/mic'})
 
     nutrient: Optional[str] = Field(None, description="""The name of the nutrient defined in the triple, including vitamins and minerals.""", json_schema_extra = { "linkml_meta": {'alias': 'nutrient', 'domain_of': ['NutrientToDiseaseRelationship']} })
-    relationship: Optional[str] = Field(None, description="""The name of a type of relationship between the nutrient and the disease.""", json_schema_extra = { "linkml_meta": {'alias': 'relationship', 'domain_of': ['NutrientToDiseaseRelationship']} })
+    relationship: Optional[str] = Field(None, description="""The name of a type of relationship between the nutrient and the disease.""", json_schema_extra = { "linkml_meta": {'alias': 'relationship',
+         'domain_of': ['NutrientToDiseaseRelationship',
+                       'NutrientToNutrientRelationship']} })
     disease: Optional[str] = Field(None, description="""The name of the disease defined in the triple.""", json_schema_extra = { "linkml_meta": {'alias': 'disease', 'domain_of': ['NutrientToDiseaseRelationship']} })
+
+
+class NutrientToNutrientRelationship(CompoundExpression):
+    linkml_meta: ClassVar[LinkMLMeta] = LinkMLMeta({'comments': ['a Chemical to Chemical relationship'],
+         'from_schema': 'http://w3id.org/ontogpt/mic'})
+
+    nutrient_subject: Optional[str] = Field(None, description="""The name of a nutrient defined in the triple, including vitamins and minerals.""", json_schema_extra = { "linkml_meta": {'alias': 'nutrient_subject', 'domain_of': ['NutrientToNutrientRelationship']} })
+    relationship: Optional[str] = Field(None, description="""The name of a type of relationship between the nutrient_subject and nutrient_object.""", json_schema_extra = { "linkml_meta": {'alias': 'relationship',
+         'domain_of': ['NutrientToDiseaseRelationship',
+                       'NutrientToNutrientRelationship']} })
+    nutrient_object: Optional[str] = Field(None, description="""The name of a nutrient defined in the triple, including vitamins and minerals.""", json_schema_extra = { "linkml_meta": {'alias': 'nutrient_object', 'domain_of': ['NutrientToNutrientRelationship']} })
 
 
 # Model rebuild
@@ -398,4 +423,5 @@ Document.model_rebuild()
 Nutrient.model_rebuild()
 Disease.model_rebuild()
 NutrientToDiseaseRelationship.model_rebuild()
+NutrientToNutrientRelationship.model_rebuild()
 

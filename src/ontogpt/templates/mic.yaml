@@ -58,6 +58,21 @@ classes:
             Disease". Relationships may include TREATS,
             PREVENTS, INCREASES RISK OF, DECREASES RISK OF,
             or others.
+      nutrient_to_nutrient_relationships:
+        range: NutrientToNutrientRelationship
+        multivalued: true
+        description: >-
+          A list of relationships between nutrients and
+          other nutrients.
+        annotations:
+          prompt: >-
+            A semicolon-separated list of relationships
+            between a single nutrient (including vitamins,
+            minerals, and micronutrients) and another single
+            nutrient, with a type of relationship connecting
+            them both. Represent the relationship as
+            triples, e.g., "Nutrient INTERACTS WITH
+            Nutrient".
 
   Nutrient:
     is_a: NamedEntity
@@ -100,3 +115,26 @@ classes:
         range: Disease
         description: >-
           The name of the disease defined in the triple.
+    comments:
+      - a Chemical to Disease relationship
+
+  NutrientToNutrientRelationship:
+    is_a: CompoundExpression
+    attributes:
+      nutrient_subject:
+        range: Nutrient
+        description: >-
+          The name of a nutrient defined in the triple,
+          including vitamins and minerals.
+      relationship:
+        range: RelationshipType
+        description: >-
+          The name of a type of relationship between the
+          nutrient_subject and nutrient_object.
+      nutrient_object:
+        range: Nutrient
+        description: >-
+          The name of a nutrient defined in the triple,
+          including vitamins and minerals.
+    comments:
+      - a Chemical to Chemical relationship
