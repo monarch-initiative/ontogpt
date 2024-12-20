@@ -1,4 +1,4 @@
-"""Utilities for retrieving and applying prebuild models."""
+"""Utilities for retrieving and applying prebuilt models."""
 
 import logging
 from pathlib import PosixPath
