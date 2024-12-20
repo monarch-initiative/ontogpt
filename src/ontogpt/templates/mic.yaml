@@ -73,7 +73,8 @@ classes:
             corresponding reference(s) in parentheses after the
             relationship; e.g., if the text indicates a reference
             of (3), include it after the object in the relationship,
-            e.g., "Subject HAS RELATIONSHIP WITH Object (3)".
+            e.g., "Subject HAS RELATIONSHIP WITH Object (3)". Delimit
+            multiple references with commas, e.g., "(3, 4)".
             Do not include newlines.
       nutrient_to_phenotype_relationships:
         range: NutrientToPhenotypeRelationship
@@ -102,7 +103,8 @@ classes:
             corresponding reference(s) in parentheses after the
             relationship; e.g., if the text indicates a reference
             of (3), include it after the object in the relationship,
-            e.g., "Subject HAS RELATIONSHIP WITH Object (3)".
+            e.g., "Subject HAS RELATIONSHIP WITH Object (3)". Delimit
+            multiple references with commas, e.g., "(3, 4)".
             Do not include newlines.
       nutrient_to_biological_process_relationships:
         range: NutrientToBiologicalProcessRelationship
@@ -130,7 +132,8 @@ classes:
             corresponding reference(s) in parentheses after the
             relationship; e.g., if the text indicates a reference
             of (3), include it after the object in the relationship,
-            e.g., "Subject HAS RELATIONSHIP WITH Object (3)".
+            e.g., "Subject HAS RELATIONSHIP WITH Object (3)". Delimit
+            multiple references with commas, e.g., "(3, 4)".
             Do not include newlines.
       nutrient_to_health_status_relationships:
         range: NutrientToHealthStatusRelationship
@@ -157,7 +160,8 @@ classes:
             corresponding reference(s) in parentheses after the
             relationship; e.g., if the text indicates a reference
             of (3), include it after the object in the relationship,
-            e.g., "Subject HAS RELATIONSHIP WITH Object (3)".
+            e.g., "Subject HAS RELATIONSHIP WITH Object (3)". Delimit
+            multiple references with commas, e.g., "(3, 4)".
             Do not include newlines.
       nutrient_to_source_relationships:
         range: NutrientToSourceRelationship
@@ -180,7 +184,8 @@ classes:
             corresponding reference(s) in parentheses after the
             relationship; e.g., if the text indicates a reference
             of (3), include it after the object in the relationship,
-            e.g., "Subject HAS RELATIONSHIP WITH Object (3)".
+            e.g., "Subject HAS RELATIONSHIP WITH Object (3)". Delimit
+            multiple references with commas, e.g., "(3, 4)".
             Do not include newlines.
       nutrient_to_nutrient_relationships:
         range: NutrientToNutrientRelationship
@@ -203,7 +208,8 @@ classes:
             corresponding reference(s) in parentheses after the
             relationship; e.g., if the text indicates a reference
             of (3), include it after the object in the relationship,
-            e.g., "Subject HAS RELATIONSHIP WITH Object (3)".
+            e.g., "Subject HAS RELATIONSHIP WITH Object (3)". Delimit
+            multiple references with commas, e.g., "(3, 4)".
             Do not include newlines.
       # references:
       #   range: string

@@ -272,8 +272,9 @@ class Document(NamedEntity):
                                              'e.g., if the text indicates a reference '
                                              'of (3), include it after the object in '
                                              'the relationship, e.g., "Subject HAS '
-                                             'RELATIONSHIP WITH Object (3)". Do not '
-                                             'include newlines.'}},
+                                             'RELATIONSHIP WITH Object (3)". Delimit '
+                                             'multiple references with commas, e.g., '
+                                             '"(3, 4)". Do not include newlines.'}},
          'domain_of': ['Document']} })
     nutrient_to_phenotype_relationships: Optional[List[NutrientToPhenotypeRelationship]] = Field(None, description="""A list of relationships between nutrients and biological phenotypes.""", json_schema_extra = { "linkml_meta": {'alias': 'nutrient_to_phenotype_relationships',
          'annotations': {'prompt': {'tag': 'prompt',
@@ -303,8 +304,9 @@ class Document(NamedEntity):
                                              'e.g., if the text indicates a reference '
                                              'of (3), include it after the object in '
                                              'the relationship, e.g., "Subject HAS '
-                                             'RELATIONSHIP WITH Object (3)". Do not '
-                                             'include newlines.'}},
+                                             'RELATIONSHIP WITH Object (3)". Delimit '
+                                             'multiple references with commas, e.g., '
+                                             '"(3, 4)". Do not include newlines.'}},
          'domain_of': ['Document']} })
     nutrient_to_biological_process_relationships: Optional[List[NutrientToBiologicalProcessRelationship]] = Field(None, description="""A list of relationships between nutrients and biological processes.""", json_schema_extra = { "linkml_meta": {'alias': 'nutrient_to_biological_process_relationships',
          'annotations': {'prompt': {'tag': 'prompt',
@@ -334,8 +336,9 @@ class Document(NamedEntity):
                                              'e.g., if the text indicates a reference '
                                              'of (3), include it after the object in '
                                              'the relationship, e.g., "Subject HAS '
-                                             'RELATIONSHIP WITH Object (3)". Do not '
-                                             'include newlines.'}},
+                                             'RELATIONSHIP WITH Object (3)". Delimit '
+                                             'multiple references with commas, e.g., '
+                                             '"(3, 4)". Do not include newlines.'}},
          'domain_of': ['Document']} })
     nutrient_to_health_status_relationships: Optional[List[NutrientToHealthStatusRelationship]] = Field(None, description="""A list of relationships between nutrients and health of a specific part or system of the human body.""", json_schema_extra = { "linkml_meta": {'alias': 'nutrient_to_health_status_relationships',
          'annotations': {'prompt': {'tag': 'prompt',
@@ -363,7 +366,9 @@ class Document(NamedEntity):
                                              'indicates a reference of (3), include it '
                                              'after the object in the relationship, '
                                              'e.g., "Subject HAS RELATIONSHIP WITH '
-                                             'Object (3)". Do not include newlines.'}},
+                                             'Object (3)". Delimit multiple references '
+                                             'with commas, e.g., "(3, 4)". Do not '
+                                             'include newlines.'}},
          'domain_of': ['Document']} })
     nutrient_to_source_relationships: Optional[List[NutrientToSourceRelationship]] = Field(None, description="""A list of relationships between nutrients and their sources in food or supplements.""", json_schema_extra = { "linkml_meta": {'alias': 'nutrient_to_source_relationships',
          'annotations': {'prompt': {'tag': 'prompt',
@@ -384,8 +389,9 @@ class Document(NamedEntity):
                                              'e.g., if the text indicates a reference '
                                              'of (3), include it after the object in '
                                              'the relationship, e.g., "Subject HAS '
-                                             'RELATIONSHIP WITH Object (3)". Do not '
-                                             'include newlines.'}},
+                                             'RELATIONSHIP WITH Object (3)". Delimit '
+                                             'multiple references with commas, e.g., '
+                                             '"(3, 4)". Do not include newlines.'}},
          'domain_of': ['Document']} })
     nutrient_to_nutrient_relationships: Optional[List[NutrientToNutrientRelationship]] = Field(None, description="""A list of relationships between nutrients and other nutrients.""", json_schema_extra = { "linkml_meta": {'alias': 'nutrient_to_nutrient_relationships',
          'annotations': {'prompt': {'tag': 'prompt',
@@ -406,8 +412,9 @@ class Document(NamedEntity):
                                              'e.g., if the text indicates a reference '
                                              'of (3), include it after the object in '
                                              'the relationship, e.g., "Subject HAS '
-                                             'RELATIONSHIP WITH Object (3)". Do not '
-                                             'include newlines.'}},
+                                             'RELATIONSHIP WITH Object (3)". Delimit '
+                                             'multiple references with commas, e.g., '
+                                             '"(3, 4)". Do not include newlines.'}},
          'domain_of': ['Document']} })
     id: str = Field(..., description="""A unique identifier for the named entity""", json_schema_extra = { "linkml_meta": {'alias': 'id',
          'annotations': {'prompt.skip': {'tag': 'prompt.skip', 'value': 'true'}},
