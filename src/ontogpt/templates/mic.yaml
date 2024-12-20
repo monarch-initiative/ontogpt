@@ -30,7 +30,7 @@ classes:
     is_a: NamedEntity
     attributes:
       nutrientTerms:
-        range: NutrientTerm
+        range: Nutrient
         multivalued: true
         description: >-
           A list of any names of nutrients or micronutrients.
@@ -59,8 +59,11 @@ classes:
             PREVENTS, INCREASES RISK OF, DECREASES RISK OF,
             or others.
 
-  NutrientTerm:
+  Nutrient:
     is_a: NamedEntity
+    description: >-
+      The name of a nutrient, including vitamins and
+      minerals.
     id_prefixes:
       - CHEBI
     annotations:
@@ -71,6 +74,8 @@ classes:
 
   Disease:
     is_a: NamedEntity
+    description: >-
+      The name of a disease.
     id_prefixes:
       - MONDO
     annotations:
@@ -82,7 +87,7 @@ classes:
     is_a: CompoundExpression
     attributes:
       nutrient:
-        range: NutrientTerm
+        range: Nutrient
         description: >-
           The name of the nutrient defined in the triple,
           including vitamins and minerals.

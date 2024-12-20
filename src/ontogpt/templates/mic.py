@@ -294,7 +294,10 @@ class Document(NamedEntity):
         return v
 
 
-class NutrientTerm(NamedEntity):
+class Nutrient(NamedEntity):
+    """
+    The name of a nutrient, including vitamins and minerals.
+    """
     linkml_meta: ClassVar[LinkMLMeta] = LinkMLMeta({'annotations': {'annotators': {'tag': 'annotators',
                                         'value': 'sqlite:obo:chebi'},
                          'prompt': {'tag': 'prompt',
@@ -333,6 +336,9 @@ class NutrientTerm(NamedEntity):
 
 
 class Disease(NamedEntity):
+    """
+    The name of a disease.
+    """
     linkml_meta: ClassVar[LinkMLMeta] = LinkMLMeta({'annotations': {'annotators': {'tag': 'annotators',
                                         'value': 'sqlite:obo:mondo'},
                          'prompt': {'tag': 'prompt',
@@ -389,7 +395,7 @@ RelationshipType.model_rebuild()
 Publication.model_rebuild()
 AnnotatorResult.model_rebuild()
 Document.model_rebuild()
-NutrientTerm.model_rebuild()
+Nutrient.model_rebuild()
 Disease.model_rebuild()
 NutrientToDiseaseRelationship.model_rebuild()
 
