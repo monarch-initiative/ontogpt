@@ -242,7 +242,7 @@ class AnnotatorResult(ConfiguredBaseModel):
 class Document(NamedEntity):
     linkml_meta: ClassVar[LinkMLMeta] = LinkMLMeta({'from_schema': 'http://w3id.org/ontogpt/mic', 'tree_root': True})
 
-    nutrientTerms: Optional[List[str]] = Field(None, description="""A list of any names of nutrients or micronutrients.""", json_schema_extra = { "linkml_meta": {'alias': 'nutrientTerms',
+    nutrient_terms: Optional[List[str]] = Field(None, description="""A list of any names of nutrients or micronutrients.""", json_schema_extra = { "linkml_meta": {'alias': 'nutrient_terms',
          'annotations': {'prompt': {'tag': 'prompt',
                                     'value': 'A semicolon-separated list of names of '
                                              'chemicals, nutrients, or micronutrients '
@@ -251,7 +251,7 @@ class Document(NamedEntity):
                                              'value': 'biotin; cobalamin; iodine; '
                                                       'zinc; coenzyme Q10'}},
          'domain_of': ['Document']} })
-    nutrientToDiseaseRelationships: Optional[List[NutrientToDiseaseRelationship]] = Field(None, description="""A list of relationships between nutrients and biochemical diseases.""", json_schema_extra = { "linkml_meta": {'alias': 'nutrientToDiseaseRelationships',
+    nutrient_to_disease_relationships: Optional[List[NutrientToDiseaseRelationship]] = Field(None, description="""A list of relationships between nutrients and biochemical diseases.""", json_schema_extra = { "linkml_meta": {'alias': 'nutrient_to_disease_relationships',
          'annotations': {'prompt': {'tag': 'prompt',
                                     'value': 'A semicolon-separated list of '
                                              'relationships between a single nutrient '

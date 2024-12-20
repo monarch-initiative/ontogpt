@@ -29,7 +29,7 @@ classes:
     tree_root: true
     is_a: NamedEntity
     attributes:
-      nutrientTerms:
+      nutrient_terms:
         range: Nutrient
         multivalued: true
         description: >-
@@ -41,7 +41,7 @@ classes:
             input document.
           prompt.examples: >-
             biotin; cobalamin; iodine; zinc; coenzyme Q10
-      nutrientToDiseaseRelationships:
+      nutrient_to_disease_relationships:
         range: NutrientToDiseaseRelationship
         multivalued: true
         description: >-
