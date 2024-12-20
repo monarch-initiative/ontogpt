@@ -53,9 +53,33 @@ classes:
             between a single nutrient (including vitamins,
             minerals, and micronutrients) and a single
             disease, with a type of relationship connecting
-            them both. Represent the relationship as
+            them both. A disease is any abnormal health condition
+            (e.g., Alzheimer's disease, systemic lupus erythematosus,
+            rheumatoid arthritis, sickle cell anemia, Barth syndrome).
+            Represent the relationship as
             triples, e.g., "Nutrient HAS RELATIONSHIP WITH
             Disease". Relationships may include TREATS,
+            PREVENTS, INCREASES RISK OF, DECREASES RISK OF,
+            or others.
+      nutrient_to_phenotype_relationships:
+        range: NutrientToPhenotypeRelationship
+        multivalued: true
+        description: >-
+          A list of relationships between nutrients and
+          biological phenotypes.
+        annotations:
+          prompt: >-
+            A semicolon-separated list of relationships
+            between a single nutrient (including vitamins,
+            minerals, and micronutrients) and a single
+            biological phenotype, with a type of relationship
+            connecting them both. A phenotype is an observable
+            physical or behavioral trait or symptom (e.g., fever,
+            headache, short attention span, petechiae,
+            telangiectasia). It may or may not be associated
+            with a disease. Represent the relationship as
+            triples, e.g., "Nutrient HAS RELATIONSHIP WITH
+            Phenotype". Relationships may include TREATS,
             PREVENTS, INCREASES RISK OF, DECREASES RISK OF,
             or others.
       nutrient_to_nutrient_relationships:
@@ -98,6 +122,17 @@ classes:
       prompt: >-
         The name of a disease.
 
+  Phenotype:
+    is_a: NamedEntity
+    description: >-
+      The name of a phenotype.
+    id_prefixes:
+      - HP
+    annotations:
+      annotators: sqlite:obo:hp
+      prompt: >-
+        The name of a phenotype.
+
   NutrientToDiseaseRelationship:
     is_a: CompoundExpression
     attributes:
@@ -117,6 +152,26 @@ classes:
           The name of the disease defined in the triple.
     comments:
       - a Chemical to Disease relationship
+
+  NutrientToPhenotypeRelationship:
+    is_a: CompoundExpression
+    attributes:
+      nutrient:
+        range: Nutrient
+        description: >-
+          The name of the nutrient defined in the triple,
+          including vitamins and minerals.
+      relationship:
+        range: RelationshipType
+        description: >-
+          The name of a type of relationship between the
+          nutrient and the disease.
+      disease:
+        range: Phenotype
+        description: >-
+          The name of the phenotype defined in the triple.
+    comments:
+      - a Chemical to Phenotype relationship
 
   NutrientToNutrientRelationship:
     is_a: CompoundExpression
