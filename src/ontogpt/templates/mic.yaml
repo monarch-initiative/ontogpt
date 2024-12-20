@@ -29,18 +29,18 @@ classes:
     tree_root: true
     is_a: NamedEntity
     attributes:
-      nutrient_terms:
-        range: Nutrient
-        multivalued: true
-        description: >-
-          A list of any names of nutrients or micronutrients.
-        annotations:
-          prompt: >-
-            A semicolon-separated list of names of chemicals,
-            nutrients, or micronutrients mentioned in the
-            input document.
-          prompt.examples: >-
-            biotin; cobalamin; iodine; zinc; coenzyme Q10
+      # nutrient_terms:
+      #   range: Nutrient
+      #   multivalued: true
+      #   description: >-
+      #     A list of any names of nutrients or micronutrients.
+      #   annotations:
+      #     prompt: >-
+      #       A semicolon-separated list of names of chemicals,
+      #       nutrients, or micronutrients mentioned in the
+      #       input document.
+      #     prompt.examples: >-
+      #       biotin; cobalamin; iodine; zinc; coenzyme Q10
       nutrient_to_disease_relationships:
         range: NutrientToDiseaseRelationship
         multivalued: true
