@@ -1,0 +1,83 @@
+id: https://w3id.org/ontogpt/table_values
+name: SimpleTableExtraction
+description: An OntoGPT schema for extracting simple numerical tables with row/column labels from PDF publications
+default_prefix: STE
+# Optional: Provide a namespace or prefix if you want to align with a specific ontology
+# prefixes:
+#   STE: https://w3id.org/your-namespace/
+#   RO: http://purl.obolibrary.org/obo/RO_
+imports:
+  - core
+classes:
+  Table:
+    description: “A table extracted from a publication, containing rows and columns of numerical data.”
+    slots:
+      - table_id
+      - source_document
+      - caption
+      - rows
+      - columns
+      - cells
+  TableRow:
+    description: “A single row in the table, with a label identifying the row.”
+    slots:
+      - row_label
+      - row_index
+  TableColumn:
+    description: “A single column in the table, with a label identifying the column.”
+    slots:
+      - column_label
+      - column_index
+  TableCell:
+    description: “An individual cell in the table, containing a numerical value and optional qualifiers.”
+    slots:
+      - row_index
+      - column_index
+      - value
+      - unit
+      - note
+slots:
+  table_id:
+    description: “Identifier for the table, e.g. ‘Table 1’, ‘Table 2’, etc.”
+    range: string
+  source_document:
+    description: “Identifier or reference to the PDF or publication source.”
+    range: string
+  caption:
+    description: “Text of the table caption or title.”
+    range: string
+  rows:
+    description: “List of row objects in the table.”
+    multivalued: true
+    range: TableRow
+  columns:
+    description: “List of column objects in the table.”
+    multivalued: true
+    range: TableColumn
+  cells:
+    description: “List of cell objects representing the intersection of each row and column.”
+    multivalued: true
+    range: TableCell
+  row_label:
+    description: “Label describing the row (e.g., a variable, category, subject).”
+    range: string
+  row_index:
+    description: “Numeric index of this row (starting from 0 or 1).”
+    range: integer
+  column_label:
+    description: “Label describing the column (e.g., timepoint, parameter).”
+    range: string
+  column_index:
+    description: “Numeric index of this column (starting from 0 or 1).”
+    range: integer
+  value:
+    description: “Numeric value in this cell.”
+    range: float
+    # Alternatively, if you want to capture textual values as well, use range: string
+  unit:
+    description: “Optional unit (e.g., mg, kg, mL).”
+    range: string
+  note:
+    description: “Optional note or comment about this particular cell.”
+    range: string
+# templates: {}

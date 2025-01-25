@@ -1,0 +1,69 @@
+id: https://w3id.org/ontogpt/table_arrays
+name: SimpleTableExtraction
+description: An OntoGPT schema for extracting simple numerical tables with a separate header row, label row, and data arrays
+default_prefix: STE
+imports:
+  - core
+classes:
+  Table:
+    description: “A table extracted from a publication, containing rows and columns in array form.”
+    slots:
+      - table_id
+      - source_document
+      - caption
+      - header_row
+      - label_row
+      - data_rows
+  TableHeaderRow:
+    description: “A single row containing all column headers.”
+    slots:
+      - header_values
+  TableLabelRow:
+    description: “A single row containing the labels for each of the data rows.”
+    slots:
+      - label_values
+  TableDataRow:
+    description: “A row of data in the table body, indexed and containing an array of numeric values.”
+    slots:
+      - row_index
+      - values
+      - note
+slots:
+  table_id:
+    description: “Identifier for the table, e.g. ‘Table 1’, ‘Table 2’, etc.”
+    range: string
+  source_document:
+    description: “Identifier or reference to the PDF or publication source.”
+    range: string
+  caption:
+    description: “Text of the table caption or title.”
+    range: string
+  header_row:
+    description: “The row containing the column headers.”
+    range: TableHeaderRow
+  label_row:
+    description: “The row containing row labels.”
+    range: TableLabelRow
+  data_rows:
+    description: “A list of data rows, each representing a row in the table body.”
+    range: TableDataRow
+    multivalued: true
+  header_values:
+    description: “An array of strings corresponding to each column header.”
+    range: string
+    multivalued: true
+  label_values:
+    description: “An array of strings corresponding to each row label, aligning with data_rows.”
+    range: string
+    multivalued: true
+  row_index:
+    description: “Numeric index of this row (starting from 0 or 1).”
+    range: integer
+  values:
+    description: “An array of numeric values in this data row.”
+    range: float
+    multivalued: true
+  note:
+    description: “Optional note or comment about this particular row.”
+    range: string
+# templates: {}

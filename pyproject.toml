@@ -109,4 +109,4 @@ build-backend = "poetry_dynamic_versioning.backend"
 skip = '.git,*.pdf,*.svg,poetry.lock,output,*.tsv,./tests/input,old'
 # some specific phrases, variables and mixed case (CamelCase etc)
 ignore-regex = '\b(Torsades de pointes|[A-Z][a-zA-Z]*|[a-z]+[A-Z][a-zA-Z]*|de pointes)\b|\bcommments:'
-ignore-words-list = 'langual,sting,infarction,holliday,cyclin,convertor,ser,collapsin,infarctions,euclidian,dependant,vrsatile'
+ignore-words-list = 'langual,sting,infarction,holliday,cyclin,convertor,ser,collapsin,infarctions,euclidian,dependant,vrsatile,anc,disjointness'
