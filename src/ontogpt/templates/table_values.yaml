@@ -80,4 +80,4 @@ slots:
   note:
     description: “Optional note or comment about this particular cell.”
     range: string
-templates: {}
+# templates: {}

@@ -66,4 +66,4 @@ slots:
   note:
     description: “Optional note or comment about this particular row.”
     range: string
-templates: {}
+# templates: {}
