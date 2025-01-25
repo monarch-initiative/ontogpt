@@ -1,3 +1,4 @@
+id: https://w3id.org/ontogpt/table_arrays
 name: SimpleTableExtraction
 description: An OntoGPT schema for extracting simple numerical tables with a separate header row, label row, and data arrays
 default_prefix: STE

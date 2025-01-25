@@ -1,3 +1,4 @@
+id: https://w3id.org/ontogpt/table_values
 name: SimpleTableExtraction
 description: An OntoGPT schema for extracting simple numerical tables with row/column labels from PDF publications
 default_prefix: STE
