@@ -7,7 +7,7 @@ default_prefix: STE
 #   STE: https://w3id.org/your-namespace/
 #   RO: http://purl.obolibrary.org/obo/RO_
 imports:
-  - ontogpt:core
+  - core
 classes:
   Table:
     description: “A table extracted from a publication, containing rows and columns of numerical data.”
