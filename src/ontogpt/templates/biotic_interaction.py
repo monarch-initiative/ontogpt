@@ -258,7 +258,10 @@ class Container(ConfiguredBaseModel):
                                              'e.g., "Odocoileus virginianus sleeps on '
                                              'Panicum virgatum". Do not include '
                                              'interactions between a taxon and its '
-                                             'environment or abiotic factors.'}},
+                                             'environment or abiotic factors. If a '
+                                             'location is specified, include it in the '
+                                             'relationship, e.g., "deer eats grass in '
+                                             'the forest".'}},
          'from_schema': 'https://w3id.org/ontogpt/biotic_interaction',
          'tree_root': True})
 
@@ -271,6 +274,7 @@ class BioticInteraction(ConfiguredBaseModel):
     source_taxon: Optional[str] = Field(default=None, description="""The taxon that is the subject of the interaction. This must be a name and cannot be a description of a taxon.""", json_schema_extra = { "linkml_meta": {'alias': 'source_taxon', 'domain_of': ['BioticInteraction']} })
     target_taxon: Optional[str] = Field(default=None, description="""The taxon that is the object of the interaction. This must be a name and cannot be a description of a taxon.""", json_schema_extra = { "linkml_meta": {'alias': 'target_taxon', 'domain_of': ['BioticInteraction']} })
     interaction_type: Optional[str] = Field(default=None, description="""The type of interaction between the source and target taxon. The relationship between each should be expressed in the present tense, e.g., if the input is \"deer ate grass\", the relationship should be \"eats\". For inputs like \"mold is a colonizer of tree\", the relationship should be \"colonizes\".""", json_schema_extra = { "linkml_meta": {'alias': 'interaction_type', 'domain_of': ['BioticInteraction']} })
+    environment: Optional[str] = Field(default=None, description="""The environment in which the interaction occurs. This should be a short description of the environment, e.g., \"forest\", \"desert\", \"ocean\", etc. If the environment is not specified, leave this field blank. The value here should be no more than a few words.""", json_schema_extra = { "linkml_meta": {'alias': 'environment', 'domain_of': ['BioticInteraction']} })
 
 
 class Taxon(NamedEntity):
