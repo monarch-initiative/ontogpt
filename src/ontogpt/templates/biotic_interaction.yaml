@@ -25,6 +25,19 @@ imports:
 classes:
   Container:
     tree_root: true
+    description: A container for biotic interactions.
+    annotations:
+      prompt: >-
+        A semi-colon separated list of taxon to taxon relationships, where
+        each taxon is any plant or animal species or group, named by in the way
+        it is defined in the input text. For example, "bear", "grass",
+        "Ursoidea", "Halichoerus grypus", or "Panicum virgatum" are all
+        valid taxon names. If a more specific name for
+        either or both taxon is clear from the input text, it should be used,
+        e.g., "Odocoileus virginianus sleeps on Panicum virgatum".
+        Do not include interactions between a taxon and its environment
+        or abiotic factors. If a location is specified, include it in the
+        relationship, e.g., "deer eats grass in the forest".
     attributes:
       interactions:
         range: BioticInteraction
@@ -34,34 +47,45 @@ classes:
   BioticInteraction:
     attributes:
       source_taxon:
-        description: the taxon that is the subject of the interaction
+        description: >-
+          The taxon that is the subject of the interaction.
+          This must be a name and cannot be a description of a taxon.
         range: Taxon
       target_taxon:
-        description: the taxon that is the object of the interaction
+        description: >-
+          The taxon that is the object of the interaction.
+          This must be a name and cannot be a description of a taxon.
         range: Taxon
       interaction_type:
-        description: the type of interaction
+        description: >-
+          The type of interaction between the source and target taxon.
+          The relationship between each should be expressed
+          in the present tense, e.g., if the input is "deer ate grass", the
+          relationship should be "eats". For inputs like
+          "mold is a colonizer of tree", the relationship should be
+          "colonizes".
         range: InteractionType
-    annotations:
-      prompt: A semi-colon separated list of taxon to taxon relationships
-      prompt.example: Carcharodon carcharias eats elephant seal; Pandarus sinuatus parasitizes Carcharodon carcharias; orca eats Carcharodon carcharias
+      environment:
+        description: >-
+          The environment in which the interaction occurs.
+          This should be a short description of the environment, e.g., "forest",
+          "desert", "ocean", etc. If the environment is not specified, leave
+          this field blank. The value here should be no more than a few words.
+        range: string
 
   Taxon:
     is_a: NamedEntity
-    id_prefixes:
-      - NCBITaxon
-      - SNOMEDCT
-    annotations:
-      annotators: pronto:taxslim.obo, bioportal:SNOMEDCT
-      #prompt.example: shark, Carcharodon carcharias, elephant seal, Pandarus sinuatus, orca, Panthera leo, lion, ungulates
+    description: A name of a single plant or animal taxon.
+    # id_prefixes:
+    #   - NCBITaxon
+    #   - SNOMEDCT
+    # annotations:
+    #   annotators: bioportal:SNOMEDCT
 
   InteractionType:
     is_a: NamedEntity
+    description: A type of interaction between two taxa.
     id_prefixes:
       - RO
-      - MESH
-      - ECOCORE
-      - NCIT
     annotations:
-      annotators: sqlite:obo:go, sqlite:obo:ro, sqlite:obo:bero
-      #prompt.example: eat, competes with, parasitizes, subsist on a diet, kill, compete, prey consists, hunting, killed by, compete for, dominate, competitors
+      annotators: sqlite:obo:ro
