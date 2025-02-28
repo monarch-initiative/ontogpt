@@ -107,29 +107,29 @@ class ExtractionResult(ConfiguredBaseModel):
     """
     linkml_meta: ClassVar[LinkMLMeta] = LinkMLMeta({'from_schema': 'http://w3id.org/ontogpt/core'})
 
-    input_id: Optional[str] = Field(None, json_schema_extra = { "linkml_meta": {'alias': 'input_id', 'domain_of': ['ExtractionResult']} })
-    input_title: Optional[str] = Field(None, json_schema_extra = { "linkml_meta": {'alias': 'input_title', 'domain_of': ['ExtractionResult']} })
-    input_text: Optional[str] = Field(None, json_schema_extra = { "linkml_meta": {'alias': 'input_text', 'domain_of': ['ExtractionResult']} })
-    raw_completion_output: Optional[str] = Field(None, json_schema_extra = { "linkml_meta": {'alias': 'raw_completion_output', 'domain_of': ['ExtractionResult']} })
-    prompt: Optional[str] = Field(None, json_schema_extra = { "linkml_meta": {'alias': 'prompt', 'domain_of': ['ExtractionResult']} })
-    extracted_object: Optional[Any] = Field(None, description="""The complex objects extracted from the text""", json_schema_extra = { "linkml_meta": {'alias': 'extracted_object', 'domain_of': ['ExtractionResult']} })
-    named_entities: Optional[List[Any]] = Field(None, description="""Named entities extracted from the text""", json_schema_extra = { "linkml_meta": {'alias': 'named_entities', 'domain_of': ['ExtractionResult']} })
+    input_id: Optional[str] = Field(default=None, json_schema_extra = { "linkml_meta": {'alias': 'input_id', 'domain_of': ['ExtractionResult']} })
+    input_title: Optional[str] = Field(default=None, json_schema_extra = { "linkml_meta": {'alias': 'input_title', 'domain_of': ['ExtractionResult']} })
+    input_text: Optional[str] = Field(default=None, json_schema_extra = { "linkml_meta": {'alias': 'input_text', 'domain_of': ['ExtractionResult']} })
+    raw_completion_output: Optional[str] = Field(default=None, json_schema_extra = { "linkml_meta": {'alias': 'raw_completion_output', 'domain_of': ['ExtractionResult']} })
+    prompt: Optional[str] = Field(default=None, json_schema_extra = { "linkml_meta": {'alias': 'prompt', 'domain_of': ['ExtractionResult']} })
+    extracted_object: Optional[Any] = Field(default=None, description="""The complex objects extracted from the text""", json_schema_extra = { "linkml_meta": {'alias': 'extracted_object', 'domain_of': ['ExtractionResult']} })
+    named_entities: Optional[List[Any]] = Field(default=None, description="""Named entities extracted from the text""", json_schema_extra = { "linkml_meta": {'alias': 'named_entities', 'domain_of': ['ExtractionResult']} })
 
 
 class NamedEntity(ConfiguredBaseModel):
     linkml_meta: ClassVar[LinkMLMeta] = LinkMLMeta({'abstract': True, 'from_schema': 'http://w3id.org/ontogpt/core'})
 
-    id: str = Field(..., description="""A unique identifier for the named entity""", json_schema_extra = { "linkml_meta": {'alias': 'id',
+    id: str = Field(default=..., description="""A unique identifier for the named entity""", json_schema_extra = { "linkml_meta": {'alias': 'id',
          'annotations': {'prompt.skip': {'tag': 'prompt.skip', 'value': 'true'}},
          'comments': ['this is populated during the grounding and normalization step'],
          'domain_of': ['NamedEntity', 'Publication']} })
-    label: Optional[str] = Field(None, description="""The label (name) of the named thing""", json_schema_extra = { "linkml_meta": {'alias': 'label',
+    label: Optional[str] = Field(default=None, description="""The label (name) of the named thing""", json_schema_extra = { "linkml_meta": {'alias': 'label',
          'aliases': ['name'],
          'annotations': {'owl': {'tag': 'owl',
                                  'value': 'AnnotationProperty, AnnotationAssertion'}},
          'domain_of': ['NamedEntity'],
          'slot_uri': 'rdfs:label'} })
-    original_spans: Optional[List[str]] = Field(None, description="""The coordinates of the original text span from which the named entity was extracted, inclusive. For example, \"10:25\" means the span starting from the 10th character and ending with the 25th character. The first character in the text has index 0. Newlines are treated as single characters. Multivalued as there may be multiple spans for a single text.""", json_schema_extra = { "linkml_meta": {'alias': 'original_spans',
+    original_spans: Optional[List[str]] = Field(default=None, description="""The coordinates of the original text span from which the named entity was extracted, inclusive. For example, \"10:25\" means the span starting from the 10th character and ending with the 25th character. The first character in the text has index 0. Newlines are treated as single characters. Multivalued as there may be multiple spans for a single text.""", json_schema_extra = { "linkml_meta": {'alias': 'original_spans',
          'annotations': {'prompt.skip': {'tag': 'prompt.skip', 'value': 'true'}},
          'comments': ['This is determined during grounding and normalization',
                       'But is based on the full input text'],
@@ -160,12 +160,12 @@ class Triple(CompoundExpression):
     """
     linkml_meta: ClassVar[LinkMLMeta] = LinkMLMeta({'abstract': True, 'from_schema': 'http://w3id.org/ontogpt/core'})
 
-    subject: Optional[str] = Field(None, json_schema_extra = { "linkml_meta": {'alias': 'subject', 'domain_of': ['Triple']} })
-    predicate: Optional[str] = Field(None, json_schema_extra = { "linkml_meta": {'alias': 'predicate', 'domain_of': ['Triple']} })
-    object: Optional[str] = Field(None, json_schema_extra = { "linkml_meta": {'alias': 'object', 'domain_of': ['Triple']} })
-    qualifier: Optional[str] = Field(None, description="""A qualifier for the statements, e.g. \"NOT\" for negation""", json_schema_extra = { "linkml_meta": {'alias': 'qualifier', 'domain_of': ['Triple']} })
-    subject_qualifier: Optional[str] = Field(None, description="""An optional qualifier or modifier for the subject of the statement, e.g. \"high dose\" or \"intravenously administered\"""", json_schema_extra = { "linkml_meta": {'alias': 'subject_qualifier', 'domain_of': ['Triple']} })
-    object_qualifier: Optional[str] = Field(None, description="""An optional qualifier or modifier for the object of the statement, e.g. \"severe\" or \"with additional complications\"""", json_schema_extra = { "linkml_meta": {'alias': 'object_qualifier', 'domain_of': ['Triple']} })
+    subject: Optional[str] = Field(default=None, json_schema_extra = { "linkml_meta": {'alias': 'subject', 'domain_of': ['Triple']} })
+    predicate: Optional[str] = Field(default=None, json_schema_extra = { "linkml_meta": {'alias': 'predicate', 'domain_of': ['Triple']} })
+    object: Optional[str] = Field(default=None, json_schema_extra = { "linkml_meta": {'alias': 'object', 'domain_of': ['Triple']} })
+    qualifier: Optional[str] = Field(default=None, description="""A qualifier for the statements, e.g. \"NOT\" for negation""", json_schema_extra = { "linkml_meta": {'alias': 'qualifier', 'domain_of': ['Triple']} })
+    subject_qualifier: Optional[str] = Field(default=None, description="""An optional qualifier or modifier for the subject of the statement, e.g. \"high dose\" or \"intravenously administered\"""", json_schema_extra = { "linkml_meta": {'alias': 'subject_qualifier', 'domain_of': ['Triple']} })
+    object_qualifier: Optional[str] = Field(default=None, description="""An optional qualifier or modifier for the object of the statement, e.g. \"severe\" or \"with additional complications\"""", json_schema_extra = { "linkml_meta": {'alias': 'object_qualifier', 'domain_of': ['Triple']} })
 
 
 class TextWithTriples(ConfiguredBaseModel):
@@ -174,10 +174,10 @@ class TextWithTriples(ConfiguredBaseModel):
     """
     linkml_meta: ClassVar[LinkMLMeta] = LinkMLMeta({'from_schema': 'http://w3id.org/ontogpt/core'})
 
-    publication: Optional[Publication] = Field(None, json_schema_extra = { "linkml_meta": {'alias': 'publication',
+    publication: Optional[Publication] = Field(default=None, json_schema_extra = { "linkml_meta": {'alias': 'publication',
          'annotations': {'prompt.skip': {'tag': 'prompt.skip', 'value': 'true'}},
          'domain_of': ['TextWithTriples', 'TextWithEntity']} })
-    triples: Optional[List[Triple]] = Field(None, json_schema_extra = { "linkml_meta": {'alias': 'triples', 'domain_of': ['TextWithTriples']} })
+    triples: Optional[List[Triple]] = Field(default=None, json_schema_extra = { "linkml_meta": {'alias': 'triples', 'domain_of': ['TextWithTriples']} })
 
 
 class TextWithEntity(ConfiguredBaseModel):
@@ -186,27 +186,27 @@ class TextWithEntity(ConfiguredBaseModel):
     """
     linkml_meta: ClassVar[LinkMLMeta] = LinkMLMeta({'from_schema': 'http://w3id.org/ontogpt/core'})
 
-    publication: Optional[Publication] = Field(None, json_schema_extra = { "linkml_meta": {'alias': 'publication',
+    publication: Optional[Publication] = Field(default=None, json_schema_extra = { "linkml_meta": {'alias': 'publication',
          'annotations': {'prompt.skip': {'tag': 'prompt.skip', 'value': 'true'}},
          'domain_of': ['TextWithTriples', 'TextWithEntity']} })
-    entities: Optional[List[str]] = Field(None, json_schema_extra = { "linkml_meta": {'alias': 'entities', 'domain_of': ['TextWithEntity']} })
+    entities: Optional[List[str]] = Field(default=None, json_schema_extra = { "linkml_meta": {'alias': 'entities', 'domain_of': ['TextWithEntity']} })
 
 
 class RelationshipType(NamedEntity):
     linkml_meta: ClassVar[LinkMLMeta] = LinkMLMeta({'from_schema': 'http://w3id.org/ontogpt/core',
          'id_prefixes': ['RO', 'biolink']})
 
-    id: str = Field(..., description="""A unique identifier for the named entity""", json_schema_extra = { "linkml_meta": {'alias': 'id',
+    id: str = Field(default=..., description="""A unique identifier for the named entity""", json_schema_extra = { "linkml_meta": {'alias': 'id',
          'annotations': {'prompt.skip': {'tag': 'prompt.skip', 'value': 'true'}},
          'comments': ['this is populated during the grounding and normalization step'],
          'domain_of': ['NamedEntity', 'Publication']} })
-    label: Optional[str] = Field(None, description="""The label (name) of the named thing""", json_schema_extra = { "linkml_meta": {'alias': 'label',
+    label: Optional[str] = Field(default=None, description="""The label (name) of the named thing""", json_schema_extra = { "linkml_meta": {'alias': 'label',
          'aliases': ['name'],
          'annotations': {'owl': {'tag': 'owl',
                                  'value': 'AnnotationProperty, AnnotationAssertion'}},
          'domain_of': ['NamedEntity'],
          'slot_uri': 'rdfs:label'} })
-    original_spans: Optional[List[str]] = Field(None, description="""The coordinates of the original text span from which the named entity was extracted, inclusive. For example, \"10:25\" means the span starting from the 10th character and ending with the 25th character. The first character in the text has index 0. Newlines are treated as single characters. Multivalued as there may be multiple spans for a single text.""", json_schema_extra = { "linkml_meta": {'alias': 'original_spans',
+    original_spans: Optional[List[str]] = Field(default=None, description="""The coordinates of the original text span from which the named entity was extracted, inclusive. For example, \"10:25\" means the span starting from the 10th character and ending with the 25th character. The first character in the text has index 0. Newlines are treated as single characters. Multivalued as there may be multiple spans for a single text.""", json_schema_extra = { "linkml_meta": {'alias': 'original_spans',
          'annotations': {'prompt.skip': {'tag': 'prompt.skip', 'value': 'true'}},
          'comments': ['This is determined during grounding and normalization',
                       'But is based on the full input text'],
@@ -228,19 +228,19 @@ class RelationshipType(NamedEntity):
 class Publication(ConfiguredBaseModel):
     linkml_meta: ClassVar[LinkMLMeta] = LinkMLMeta({'from_schema': 'http://w3id.org/ontogpt/core'})
 
-    id: Optional[str] = Field(None, description="""The publication identifier""", json_schema_extra = { "linkml_meta": {'alias': 'id', 'domain_of': ['NamedEntity', 'Publication']} })
-    title: Optional[str] = Field(None, description="""The title of the publication""", json_schema_extra = { "linkml_meta": {'alias': 'title', 'domain_of': ['Publication']} })
-    abstract: Optional[str] = Field(None, description="""The abstract of the publication""", json_schema_extra = { "linkml_meta": {'alias': 'abstract', 'domain_of': ['Publication']} })
-    combined_text: Optional[str] = Field(None, json_schema_extra = { "linkml_meta": {'alias': 'combined_text', 'domain_of': ['Publication']} })
-    full_text: Optional[str] = Field(None, description="""The full text of the publication""", json_schema_extra = { "linkml_meta": {'alias': 'full_text', 'domain_of': ['Publication']} })
+    id: Optional[str] = Field(default=None, description="""The publication identifier""", json_schema_extra = { "linkml_meta": {'alias': 'id', 'domain_of': ['NamedEntity', 'Publication']} })
+    title: Optional[str] = Field(default=None, description="""The title of the publication""", json_schema_extra = { "linkml_meta": {'alias': 'title', 'domain_of': ['Publication']} })
+    abstract: Optional[str] = Field(default=None, description="""The abstract of the publication""", json_schema_extra = { "linkml_meta": {'alias': 'abstract', 'domain_of': ['Publication']} })
+    combined_text: Optional[str] = Field(default=None, json_schema_extra = { "linkml_meta": {'alias': 'combined_text', 'domain_of': ['Publication']} })
+    full_text: Optional[str] = Field(default=None, description="""The full text of the publication""", json_schema_extra = { "linkml_meta": {'alias': 'full_text', 'domain_of': ['Publication']} })
 
 
 class AnnotatorResult(ConfiguredBaseModel):
     linkml_meta: ClassVar[LinkMLMeta] = LinkMLMeta({'from_schema': 'http://w3id.org/ontogpt/core'})
 
-    subject_text: Optional[str] = Field(None, json_schema_extra = { "linkml_meta": {'alias': 'subject_text', 'domain_of': ['AnnotatorResult']} })
-    object_id: Optional[str] = Field(None, json_schema_extra = { "linkml_meta": {'alias': 'object_id', 'domain_of': ['AnnotatorResult']} })
-    object_text: Optional[str] = Field(None, json_schema_extra = { "linkml_meta": {'alias': 'object_text', 'domain_of': ['AnnotatorResult']} })
+    subject_text: Optional[str] = Field(default=None, json_schema_extra = { "linkml_meta": {'alias': 'subject_text', 'domain_of': ['AnnotatorResult']} })
+    object_id: Optional[str] = Field(default=None, json_schema_extra = { "linkml_meta": {'alias': 'object_id', 'domain_of': ['AnnotatorResult']} })
+    object_text: Optional[str] = Field(default=None, json_schema_extra = { "linkml_meta": {'alias': 'object_text', 'domain_of': ['AnnotatorResult']} })
 
 
 class Document(NamedEntity):
@@ -249,7 +249,7 @@ class Document(NamedEntity):
     """
     linkml_meta: ClassVar[LinkMLMeta] = LinkMLMeta({'from_schema': 'http://w3id.org/ontogpt/mic', 'tree_root': True})
 
-    nutrient_to_disease_relationships: Optional[List[NutrientToDiseaseRelationship]] = Field(None, description="""A list of relationships between nutrients and biochemical diseases.""", json_schema_extra = { "linkml_meta": {'alias': 'nutrient_to_disease_relationships',
+    nutrient_to_disease_relationships: Optional[List[NutrientToDiseaseRelationship]] = Field(default=None, description="""A list of relationships between nutrients and biochemical diseases.""", json_schema_extra = { "linkml_meta": {'alias': 'nutrient_to_disease_relationships',
          'annotations': {'prompt': {'tag': 'prompt',
                                     'value': 'A semicolon-separated list of '
                                              'relationships between a single nutrient '
@@ -265,18 +265,34 @@ class Document(NamedEntity):
                                              'HAS RELATIONSHIP WITH Disease". '
                                              'Relationships may include TREATS, '
                                              'PREVENTS, INCREASES RISK OF, DECREASES '
-                                             'RISK OF, or others. For each '
-                                             'relationship, include the number of the '
-                                             'corresponding reference(s) in '
-                                             'parentheses after the relationship; '
+                                             'RISK OF, or others. If the relationship '
+                                             'is explicitly negated, precede the '
+                                             'relationship with "NOT", e.g., "NOT '
+                                             'Nutrient HAS RELATIONSHIP WITH Disease". '
+                                             'For each relationship, include the '
+                                             'number of the corresponding reference(s) '
+                                             'in parentheses after the relationship; '
                                              'e.g., if the text indicates a reference '
                                              'of (3), include it after the object in '
                                              'the relationship, e.g., "Subject HAS '
                                              'RELATIONSHIP WITH Object (3)". Delimit '
                                              'multiple references with commas, e.g., '
-                                             '"(3, 4)". Do not include newlines.'}},
+                                             '"(3, 4)". If a range of references is '
+                                             'provided, include all, e.g., "(3-5)" '
+                                             'should become "(3, 4, 5)". Do not '
+                                             'include newlines. For each relationship, '
+                                             'include the exact full sentence '
+                                             'describing the relationship from the '
+                                             'source text in pipe symbols after the '
+                                             'references, e.g., "(3) [Vitamin D '
+                                             'deficiency increases risk of multiple '
+                                             'sclerosis]." Do not change or summarize '
+                                             'the sentence. If the relationship is '
+                                             'described in multiple sentences, create '
+                                             'a separate, pipe delimited entry for '
+                                             'each sentence.'}},
          'domain_of': ['Document']} })
-    nutrient_to_phenotype_relationships: Optional[List[NutrientToPhenotypeRelationship]] = Field(None, description="""A list of relationships between nutrients and biological phenotypes.""", json_schema_extra = { "linkml_meta": {'alias': 'nutrient_to_phenotype_relationships',
+    nutrient_to_phenotype_relationships: Optional[List[NutrientToPhenotypeRelationship]] = Field(default=None, description="""A list of relationships between nutrients and biological phenotypes.""", json_schema_extra = { "linkml_meta": {'alias': 'nutrient_to_phenotype_relationships',
          'annotations': {'prompt': {'tag': 'prompt',
                                     'value': 'A semicolon-separated list of '
                                              'relationships between a single nutrient '
@@ -297,18 +313,33 @@ class Document(NamedEntity):
                                              'Represent the relationship as triples, '
                                              'e.g., "Nutrient HAS RELATIONSHIP WITH '
                                              'Phenotype". Relationships may include '
-                                             'TREATS, PREVENTS, or others. For each '
-                                             'relationship, include the number of the '
-                                             'corresponding reference(s) in '
-                                             'parentheses after the relationship; '
-                                             'e.g., if the text indicates a reference '
-                                             'of (3), include it after the object in '
-                                             'the relationship, e.g., "Subject HAS '
-                                             'RELATIONSHIP WITH Object (3)". Delimit '
-                                             'multiple references with commas, e.g., '
-                                             '"(3, 4)". Do not include newlines.'}},
+                                             'TREATS, PREVENTS, or others. If the '
+                                             'relationship is explicitly negated, '
+                                             'precede the relationship with "NOT", '
+                                             'e.g., "NOT Nutrient HAS RELATIONSHIP '
+                                             'WITH Phenotype". For each relationship, '
+                                             'include the number of the corresponding '
+                                             'reference(s) in parentheses after the '
+                                             'relationship; e.g., if the text '
+                                             'indicates a reference of (3), include it '
+                                             'after the object in the relationship, '
+                                             'e.g., "Subject HAS RELATIONSHIP WITH '
+                                             'Object (3)". Delimit multiple references '
+                                             'with commas, e.g., "(3, 4)". If a range '
+                                             'of references is provided, include all, '
+                                             'e.g., "(3-5)" should become "(3, 4, 5)". '
+                                             'Do not include newlines. For each '
+                                             'relationship, include the exact full '
+                                             'sentence describing the relationship '
+                                             'from the source text in pipe symbols '
+                                             'after the references, e.g. "(3) |Vitamin '
+                                             'D deficiency causes rickets|." Do not '
+                                             'change or summarize the sentence. If the '
+                                             'relationship is described in multiple '
+                                             'sentences, create a separate, pipe '
+                                             'delimited entry for each sentence.'}},
          'domain_of': ['Document']} })
-    nutrient_to_biological_process_relationships: Optional[List[NutrientToBiologicalProcessRelationship]] = Field(None, description="""A list of relationships between nutrients and biological processes.""", json_schema_extra = { "linkml_meta": {'alias': 'nutrient_to_biological_process_relationships',
+    nutrient_to_biological_process_relationships: Optional[List[NutrientToBiologicalProcessRelationship]] = Field(default=None, description="""A list of relationships between nutrients and biological processes.""", json_schema_extra = { "linkml_meta": {'alias': 'nutrient_to_biological_process_relationships',
          'annotations': {'prompt': {'tag': 'prompt',
                                     'value': 'A semicolon-separated list of '
                                              'relationships between a single nutrient '
@@ -329,18 +360,34 @@ class Document(NamedEntity):
                                              'triples, e.g., "Nutrient HAS '
                                              'RELATIONSHIP WITH Process". '
                                              'Relationships may include REGULATES, '
-                                             'PARTICIPATES IN, or others. For each '
-                                             'relationship, include the number of the '
-                                             'corresponding reference(s) in '
-                                             'parentheses after the relationship; '
-                                             'e.g., if the text indicates a reference '
-                                             'of (3), include it after the object in '
-                                             'the relationship, e.g., "Subject HAS '
-                                             'RELATIONSHIP WITH Object (3)". Delimit '
-                                             'multiple references with commas, e.g., '
-                                             '"(3, 4)". Do not include newlines.'}},
+                                             'PARTICIPATES IN, or others. If the '
+                                             'relationship is explicitly negated, '
+                                             'precede the relationship with "NOT", '
+                                             'e.g., "NOT Nutrient HAS RELATIONSHIP '
+                                             'WITH Process". For each relationship, '
+                                             'include the number of the corresponding '
+                                             'reference(s) in parentheses after the '
+                                             'relationship; e.g., if the text '
+                                             'indicates a reference of (3), include it '
+                                             'after the object in the relationship, '
+                                             'e.g., "Subject HAS RELATIONSHIP WITH '
+                                             'Object (3)". Delimit multiple references '
+                                             'with commas, e.g., "(3, 4)". If a range '
+                                             'of references is provided, include all, '
+                                             'e.g., "(3-5)" should become "(3, 4, 5)". '
+                                             'Do not include newlines. For each '
+                                             'relationship, include the exact full '
+                                             'sentence describing the relationship '
+                                             'from the source text in pipe symbols '
+                                             'after the references, e.g. "(3) |Vitamin '
+                                             'D participates in the insulin signaling '
+                                             'pathway|." Do not change or summarize '
+                                             'the sentence. If the relationship is '
+                                             'described in multiple sentences, create '
+                                             'a separate, pipe delimited entry for '
+                                             'each sentence.'}},
          'domain_of': ['Document']} })
-    nutrient_to_health_status_relationships: Optional[List[NutrientToHealthStatusRelationship]] = Field(None, description="""A list of relationships between nutrients and health of a specific part or system of the human body.""", json_schema_extra = { "linkml_meta": {'alias': 'nutrient_to_health_status_relationships',
+    nutrient_to_health_status_relationships: Optional[List[NutrientToHealthStatusRelationship]] = Field(default=None, description="""A list of relationships between nutrients and health of a specific part or system of the human body.""", json_schema_extra = { "linkml_meta": {'alias': 'nutrient_to_health_status_relationships',
          'annotations': {'prompt': {'tag': 'prompt',
                                     'value': 'A semicolon-separated list of '
                                              'relationships between a single nutrient '
@@ -359,18 +406,34 @@ class Document(NamedEntity):
                                              'Represent the relationship as triples, '
                                              'e.g., "Nutrient HAS RELATIONSHIP WITH '
                                              'Part". Relationships should be SUPPORTS '
-                                             'HEALTH OF. For each relationship, '
-                                             'include the number of the corresponding '
-                                             'reference(s) in parentheses after the '
-                                             'relationship; e.g., if the text '
-                                             'indicates a reference of (3), include it '
-                                             'after the object in the relationship, '
-                                             'e.g., "Subject HAS RELATIONSHIP WITH '
-                                             'Object (3)". Delimit multiple references '
-                                             'with commas, e.g., "(3, 4)". Do not '
-                                             'include newlines.'}},
+                                             'HEALTH OF. If the relationship is '
+                                             'explicitly negated, precede the '
+                                             'relationship with "NOT", e.g., "NOT '
+                                             'Nutrient HAS RELATIONSHIP WITH Part". '
+                                             'For each relationship, include the '
+                                             'number of the corresponding reference(s) '
+                                             'in parentheses after the relationship; '
+                                             'e.g., if the text indicates a reference '
+                                             'of (3), include it after the object in '
+                                             'the relationship, e.g., "Subject HAS '
+                                             'RELATIONSHIP WITH Object (3)". Delimit '
+                                             'multiple references with commas, e.g., '
+                                             '"(3, 4)". If a range of references is '
+                                             'provided, include all, e.g., "(3-5)" '
+                                             'should become "(3, 4, 5)". Do not '
+                                             'include newlines. For each relationship, '
+                                             'include the exact full sentence '
+                                             'describing the relationship from the '
+                                             'source text in pipe symbols after the '
+                                             'references, e.g. "(3) |Vitamin D '
+                                             'supports the health of the '
+                                             'cardiovascular system.|" Do not change '
+                                             'or summarize the sentence. If the '
+                                             'relationship is described in multiple '
+                                             'sentences, create a separate, pipe '
+                                             'delimited entry for each sentence.'}},
          'domain_of': ['Document']} })
-    nutrient_to_source_relationships: Optional[List[NutrientToSourceRelationship]] = Field(None, description="""A list of relationships between nutrients and their sources in food or supplements.""", json_schema_extra = { "linkml_meta": {'alias': 'nutrient_to_source_relationships',
+    nutrient_to_source_relationships: Optional[List[NutrientToSourceRelationship]] = Field(default=None, description="""A list of relationships between nutrients and their sources in food or supplements.""", json_schema_extra = { "linkml_meta": {'alias': 'nutrient_to_source_relationships',
          'annotations': {'prompt': {'tag': 'prompt',
                                     'value': 'A semicolon-separated list of '
                                              'relationships between a single nutrient '
@@ -382,18 +445,33 @@ class Document(NamedEntity):
                                              '"beef", or "breakfast cereal". Represent '
                                              'the relationship as triples, e.g., '
                                              '"Nutrient HAS RELATIONSHIP WITH Source". '
-                                             'Relationships should be PROVIDED BY. For '
-                                             'each relationship, include the number of '
-                                             'the corresponding reference(s) in '
-                                             'parentheses after the relationship; '
-                                             'e.g., if the text indicates a reference '
-                                             'of (3), include it after the object in '
-                                             'the relationship, e.g., "Subject HAS '
-                                             'RELATIONSHIP WITH Object (3)". Delimit '
-                                             'multiple references with commas, e.g., '
-                                             '"(3, 4)". Do not include newlines.'}},
+                                             'Relationships should be PROVIDED BY. If '
+                                             'the relationship is explicitly negated, '
+                                             'precede the relationship with "NOT", '
+                                             'e.g., "NOT Nutrient HAS RELATIONSHIP '
+                                             'WITH Source". For each relationship, '
+                                             'include the number of the corresponding '
+                                             'reference(s) in parentheses after the '
+                                             'relationship; e.g., if the text '
+                                             'indicates a reference of (3), include it '
+                                             'after the object in the relationship, '
+                                             'e.g., "Subject HAS RELATIONSHIP WITH '
+                                             'Object (3)". Delimit multiple references '
+                                             'with commas, e.g., "(3, 4)". If a range '
+                                             'of references is provided, include all, '
+                                             'e.g., "(3-5)" should become "(3, 4, 5)". '
+                                             'Do not include newlines. For each '
+                                             'relationship, include the exact full '
+                                             'sentence describing the relationship '
+                                             'from the source text in pipe symbols '
+                                             'after the references, e.g. "(3) |Vitamin '
+                                             'D is provided by fish|" Do not change or '
+                                             'summarize the sentence. If the '
+                                             'relationship is described in multiple '
+                                             'sentences, create a separate, pipe '
+                                             'delimited entry for each sentence.'}},
          'domain_of': ['Document']} })
-    nutrient_to_nutrient_relationships: Optional[List[NutrientToNutrientRelationship]] = Field(None, description="""A list of relationships between nutrients and other nutrients.""", json_schema_extra = { "linkml_meta": {'alias': 'nutrient_to_nutrient_relationships',
+    nutrient_to_nutrient_relationships: Optional[List[NutrientToNutrientRelationship]] = Field(default=None, description="""A list of relationships between nutrients and other nutrients.""", json_schema_extra = { "linkml_meta": {'alias': 'nutrient_to_nutrient_relationships',
          'annotations': {'prompt': {'tag': 'prompt',
                                     'value': 'A semicolon-separated list of '
                                              'relationships between a single nutrient '
@@ -405,28 +483,43 @@ class Document(NamedEntity):
                                              'and proteins (e.g., a nutrient and its '
                                              'receptor protein). Represent the '
                                              'relationship as triples, e.g., "Nutrient '
-                                             'INTERACTS WITH Nutrient". For each '
-                                             'relationship, include the number of the '
-                                             'corresponding reference(s) in '
-                                             'parentheses after the relationship; '
-                                             'e.g., if the text indicates a reference '
-                                             'of (3), include it after the object in '
-                                             'the relationship, e.g., "Subject HAS '
-                                             'RELATIONSHIP WITH Object (3)". Delimit '
-                                             'multiple references with commas, e.g., '
-                                             '"(3, 4)". Do not include newlines.'}},
+                                             'INTERACTS WITH Nutrient". If the '
+                                             'relationship is explicitly negated, '
+                                             'precede the relationship with "NOT", '
+                                             'e.g., "NOT Nutrient INTERACTS WITH '
+                                             'Nutrient". For each relationship, '
+                                             'include the number of the corresponding '
+                                             'reference(s) in parentheses after the '
+                                             'relationship; e.g., if the text '
+                                             'indicates a reference of (3), include it '
+                                             'after the object in the relationship, '
+                                             'e.g., "Subject HAS RELATIONSHIP WITH '
+                                             'Object (3)". Delimit multiple references '
+                                             'with commas, e.g., "(3, 4)". If a range '
+                                             'of references is provided, include all, '
+                                             'e.g., "(3-5)" should become "(3, 4, 5)". '
+                                             'Do not include newlines. For each '
+                                             'relationship, include the exact full '
+                                             'sentence describing the relationship '
+                                             'from the source text in pipe symbols '
+                                             'after the references, e.g. "(3) |Vitamin '
+                                             'D interacts with calcium|" Do not change '
+                                             'or summarize the sentence. If the '
+                                             'relationship is described in multiple '
+                                             'sentences, create a separate, pipe '
+                                             'delimited entry for each sentence.'}},
          'domain_of': ['Document']} })
-    id: str = Field(..., description="""A unique identifier for the named entity""", json_schema_extra = { "linkml_meta": {'alias': 'id',
+    id: str = Field(default=..., description="""A unique identifier for the named entity""", json_schema_extra = { "linkml_meta": {'alias': 'id',
          'annotations': {'prompt.skip': {'tag': 'prompt.skip', 'value': 'true'}},
          'comments': ['this is populated during the grounding and normalization step'],
          'domain_of': ['NamedEntity', 'Publication']} })
-    label: Optional[str] = Field(None, description="""The label (name) of the named thing""", json_schema_extra = { "linkml_meta": {'alias': 'label',
+    label: Optional[str] = Field(default=None, description="""The label (name) of the named thing""", json_schema_extra = { "linkml_meta": {'alias': 'label',
          'aliases': ['name'],
          'annotations': {'owl': {'tag': 'owl',
                                  'value': 'AnnotationProperty, AnnotationAssertion'}},
          'domain_of': ['NamedEntity'],
          'slot_uri': 'rdfs:label'} })
-    original_spans: Optional[List[str]] = Field(None, description="""The coordinates of the original text span from which the named entity was extracted, inclusive. For example, \"10:25\" means the span starting from the 10th character and ending with the 25th character. The first character in the text has index 0. Newlines are treated as single characters. Multivalued as there may be multiple spans for a single text.""", json_schema_extra = { "linkml_meta": {'alias': 'original_spans',
+    original_spans: Optional[List[str]] = Field(default=None, description="""The coordinates of the original text span from which the named entity was extracted, inclusive. For example, \"10:25\" means the span starting from the 10th character and ending with the 25th character. The first character in the text has index 0. Newlines are treated as single characters. Multivalued as there may be multiple spans for a single text.""", json_schema_extra = { "linkml_meta": {'alias': 'original_spans',
          'annotations': {'prompt.skip': {'tag': 'prompt.skip', 'value': 'true'}},
          'comments': ['This is determined during grounding and normalization',
                       'But is based on the full input text'],
@@ -457,17 +550,17 @@ class Nutrient(NamedEntity):
          'from_schema': 'http://w3id.org/ontogpt/mic',
          'id_prefixes': ['CHEBI']})
 
-    id: str = Field(..., description="""A unique identifier for the named entity""", json_schema_extra = { "linkml_meta": {'alias': 'id',
+    id: str = Field(default=..., description="""A unique identifier for the named entity""", json_schema_extra = { "linkml_meta": {'alias': 'id',
          'annotations': {'prompt.skip': {'tag': 'prompt.skip', 'value': 'true'}},
          'comments': ['this is populated during the grounding and normalization step'],
          'domain_of': ['NamedEntity', 'Publication']} })
-    label: Optional[str] = Field(None, description="""The label (name) of the named thing""", json_schema_extra = { "linkml_meta": {'alias': 'label',
+    label: Optional[str] = Field(default=None, description="""The label (name) of the named thing""", json_schema_extra = { "linkml_meta": {'alias': 'label',
          'aliases': ['name'],
          'annotations': {'owl': {'tag': 'owl',
                                  'value': 'AnnotationProperty, AnnotationAssertion'}},
          'domain_of': ['NamedEntity'],
          'slot_uri': 'rdfs:label'} })
-    original_spans: Optional[List[str]] = Field(None, description="""The coordinates of the original text span from which the named entity was extracted, inclusive. For example, \"10:25\" means the span starting from the 10th character and ending with the 25th character. The first character in the text has index 0. Newlines are treated as single characters. Multivalued as there may be multiple spans for a single text.""", json_schema_extra = { "linkml_meta": {'alias': 'original_spans',
+    original_spans: Optional[List[str]] = Field(default=None, description="""The coordinates of the original text span from which the named entity was extracted, inclusive. For example, \"10:25\" means the span starting from the 10th character and ending with the 25th character. The first character in the text has index 0. Newlines are treated as single characters. Multivalued as there may be multiple spans for a single text.""", json_schema_extra = { "linkml_meta": {'alias': 'original_spans',
          'annotations': {'prompt.skip': {'tag': 'prompt.skip', 'value': 'true'}},
          'comments': ['This is determined during grounding and normalization',
                       'But is based on the full input text'],
@@ -497,17 +590,17 @@ class Disease(NamedEntity):
          'from_schema': 'http://w3id.org/ontogpt/mic',
          'id_prefixes': ['MONDO']})
 
-    id: str = Field(..., description="""A unique identifier for the named entity""", json_schema_extra = { "linkml_meta": {'alias': 'id',
+    id: str = Field(default=..., description="""A unique identifier for the named entity""", json_schema_extra = { "linkml_meta": {'alias': 'id',
          'annotations': {'prompt.skip': {'tag': 'prompt.skip', 'value': 'true'}},
          'comments': ['this is populated during the grounding and normalization step'],
          'domain_of': ['NamedEntity', 'Publication']} })
-    label: Optional[str] = Field(None, description="""The label (name) of the named thing""", json_schema_extra = { "linkml_meta": {'alias': 'label',
+    label: Optional[str] = Field(default=None, description="""The label (name) of the named thing""", json_schema_extra = { "linkml_meta": {'alias': 'label',
          'aliases': ['name'],
          'annotations': {'owl': {'tag': 'owl',
                                  'value': 'AnnotationProperty, AnnotationAssertion'}},
          'domain_of': ['NamedEntity'],
          'slot_uri': 'rdfs:label'} })
-    original_spans: Optional[List[str]] = Field(None, description="""The coordinates of the original text span from which the named entity was extracted, inclusive. For example, \"10:25\" means the span starting from the 10th character and ending with the 25th character. The first character in the text has index 0. Newlines are treated as single characters. Multivalued as there may be multiple spans for a single text.""", json_schema_extra = { "linkml_meta": {'alias': 'original_spans',
+    original_spans: Optional[List[str]] = Field(default=None, description="""The coordinates of the original text span from which the named entity was extracted, inclusive. For example, \"10:25\" means the span starting from the 10th character and ending with the 25th character. The first character in the text has index 0. Newlines are treated as single characters. Multivalued as there may be multiple spans for a single text.""", json_schema_extra = { "linkml_meta": {'alias': 'original_spans',
          'annotations': {'prompt.skip': {'tag': 'prompt.skip', 'value': 'true'}},
          'comments': ['This is determined during grounding and normalization',
                       'But is based on the full input text'],
@@ -536,17 +629,17 @@ class Phenotype(NamedEntity):
          'from_schema': 'http://w3id.org/ontogpt/mic',
          'id_prefixes': ['HP']})
 
-    id: str = Field(..., description="""A unique identifier for the named entity""", json_schema_extra = { "linkml_meta": {'alias': 'id',
+    id: str = Field(default=..., description="""A unique identifier for the named entity""", json_schema_extra = { "linkml_meta": {'alias': 'id',
          'annotations': {'prompt.skip': {'tag': 'prompt.skip', 'value': 'true'}},
          'comments': ['this is populated during the grounding and normalization step'],
          'domain_of': ['NamedEntity', 'Publication']} })
-    label: Optional[str] = Field(None, description="""The label (name) of the named thing""", json_schema_extra = { "linkml_meta": {'alias': 'label',
+    label: Optional[str] = Field(default=None, description="""The label (name) of the named thing""", json_schema_extra = { "linkml_meta": {'alias': 'label',
          'aliases': ['name'],
          'annotations': {'owl': {'tag': 'owl',
                                  'value': 'AnnotationProperty, AnnotationAssertion'}},
          'domain_of': ['NamedEntity'],
          'slot_uri': 'rdfs:label'} })
-    original_spans: Optional[List[str]] = Field(None, description="""The coordinates of the original text span from which the named entity was extracted, inclusive. For example, \"10:25\" means the span starting from the 10th character and ending with the 25th character. The first character in the text has index 0. Newlines are treated as single characters. Multivalued as there may be multiple spans for a single text.""", json_schema_extra = { "linkml_meta": {'alias': 'original_spans',
+    original_spans: Optional[List[str]] = Field(default=None, description="""The coordinates of the original text span from which the named entity was extracted, inclusive. For example, \"10:25\" means the span starting from the 10th character and ending with the 25th character. The first character in the text has index 0. Newlines are treated as single characters. Multivalued as there may be multiple spans for a single text.""", json_schema_extra = { "linkml_meta": {'alias': 'original_spans',
          'annotations': {'prompt.skip': {'tag': 'prompt.skip', 'value': 'true'}},
          'comments': ['This is determined during grounding and normalization',
                       'But is based on the full input text'],
@@ -577,18 +670,18 @@ class BiologicalProcess(NamedEntity):
          'slot_usage': {'id': {'name': 'id',
                                'values_from': ['GOBiologicalProcessType']}}})
 
-    id: str = Field(..., description="""A unique identifier for the named entity""", json_schema_extra = { "linkml_meta": {'alias': 'id',
+    id: str = Field(default=..., description="""A unique identifier for the named entity""", json_schema_extra = { "linkml_meta": {'alias': 'id',
          'annotations': {'prompt.skip': {'tag': 'prompt.skip', 'value': 'true'}},
          'comments': ['this is populated during the grounding and normalization step'],
          'domain_of': ['NamedEntity', 'Publication'],
          'values_from': ['GOBiologicalProcessType']} })
-    label: Optional[str] = Field(None, description="""The label (name) of the named thing""", json_schema_extra = { "linkml_meta": {'alias': 'label',
+    label: Optional[str] = Field(default=None, description="""The label (name) of the named thing""", json_schema_extra = { "linkml_meta": {'alias': 'label',
          'aliases': ['name'],
          'annotations': {'owl': {'tag': 'owl',
                                  'value': 'AnnotationProperty, AnnotationAssertion'}},
          'domain_of': ['NamedEntity'],
          'slot_uri': 'rdfs:label'} })
-    original_spans: Optional[List[str]] = Field(None, description="""The coordinates of the original text span from which the named entity was extracted, inclusive. For example, \"10:25\" means the span starting from the 10th character and ending with the 25th character. The first character in the text has index 0. Newlines are treated as single characters. Multivalued as there may be multiple spans for a single text.""", json_schema_extra = { "linkml_meta": {'alias': 'original_spans',
+    original_spans: Optional[List[str]] = Field(default=None, description="""The coordinates of the original text span from which the named entity was extracted, inclusive. For example, \"10:25\" means the span starting from the 10th character and ending with the 25th character. The first character in the text has index 0. Newlines are treated as single characters. Multivalued as there may be multiple spans for a single text.""", json_schema_extra = { "linkml_meta": {'alias': 'original_spans',
          'annotations': {'prompt.skip': {'tag': 'prompt.skip', 'value': 'true'}},
          'comments': ['This is determined during grounding and normalization',
                       'But is based on the full input text'],
@@ -619,17 +712,17 @@ class Anatomy(NamedEntity):
          'from_schema': 'http://w3id.org/ontogpt/mic',
          'id_prefixes': ['UBERON']})
 
-    id: str = Field(..., description="""A unique identifier for the named entity""", json_schema_extra = { "linkml_meta": {'alias': 'id',
+    id: str = Field(default=..., description="""A unique identifier for the named entity""", json_schema_extra = { "linkml_meta": {'alias': 'id',
          'annotations': {'prompt.skip': {'tag': 'prompt.skip', 'value': 'true'}},
          'comments': ['this is populated during the grounding and normalization step'],
          'domain_of': ['NamedEntity', 'Publication']} })
-    label: Optional[str] = Field(None, description="""The label (name) of the named thing""", json_schema_extra = { "linkml_meta": {'alias': 'label',
+    label: Optional[str] = Field(default=None, description="""The label (name) of the named thing""", json_schema_extra = { "linkml_meta": {'alias': 'label',
          'aliases': ['name'],
          'annotations': {'owl': {'tag': 'owl',
                                  'value': 'AnnotationProperty, AnnotationAssertion'}},
          'domain_of': ['NamedEntity'],
          'slot_uri': 'rdfs:label'} })
-    original_spans: Optional[List[str]] = Field(None, description="""The coordinates of the original text span from which the named entity was extracted, inclusive. For example, \"10:25\" means the span starting from the 10th character and ending with the 25th character. The first character in the text has index 0. Newlines are treated as single characters. Multivalued as there may be multiple spans for a single text.""", json_schema_extra = { "linkml_meta": {'alias': 'original_spans',
+    original_spans: Optional[List[str]] = Field(default=None, description="""The coordinates of the original text span from which the named entity was extracted, inclusive. For example, \"10:25\" means the span starting from the 10th character and ending with the 25th character. The first character in the text has index 0. Newlines are treated as single characters. Multivalued as there may be multiple spans for a single text.""", json_schema_extra = { "linkml_meta": {'alias': 'original_spans',
          'annotations': {'prompt.skip': {'tag': 'prompt.skip', 'value': 'true'}},
          'comments': ['This is determined during grounding and normalization',
                       'But is based on the full input text'],
@@ -659,17 +752,17 @@ class FoodOrSupplement(NamedEntity):
          'from_schema': 'http://w3id.org/ontogpt/mic',
          'id_prefixes': ['FOODON']})
 
-    id: str = Field(..., description="""A unique identifier for the named entity""", json_schema_extra = { "linkml_meta": {'alias': 'id',
+    id: str = Field(default=..., description="""A unique identifier for the named entity""", json_schema_extra = { "linkml_meta": {'alias': 'id',
          'annotations': {'prompt.skip': {'tag': 'prompt.skip', 'value': 'true'}},
          'comments': ['this is populated during the grounding and normalization step'],
          'domain_of': ['NamedEntity', 'Publication']} })
-    label: Optional[str] = Field(None, description="""The label (name) of the named thing""", json_schema_extra = { "linkml_meta": {'alias': 'label',
+    label: Optional[str] = Field(default=None, description="""The label (name) of the named thing""", json_schema_extra = { "linkml_meta": {'alias': 'label',
          'aliases': ['name'],
          'annotations': {'owl': {'tag': 'owl',
                                  'value': 'AnnotationProperty, AnnotationAssertion'}},
          'domain_of': ['NamedEntity'],
          'slot_uri': 'rdfs:label'} })
-    original_spans: Optional[List[str]] = Field(None, description="""The coordinates of the original text span from which the named entity was extracted, inclusive. For example, \"10:25\" means the span starting from the 10th character and ending with the 25th character. The first character in the text has index 0. Newlines are treated as single characters. Multivalued as there may be multiple spans for a single text.""", json_schema_extra = { "linkml_meta": {'alias': 'original_spans',
+    original_spans: Optional[List[str]] = Field(default=None, description="""The coordinates of the original text span from which the named entity was extracted, inclusive. For example, \"10:25\" means the span starting from the 10th character and ending with the 25th character. The first character in the text has index 0. Newlines are treated as single characters. Multivalued as there may be multiple spans for a single text.""", json_schema_extra = { "linkml_meta": {'alias': 'original_spans',
          'annotations': {'prompt.skip': {'tag': 'prompt.skip', 'value': 'true'}},
          'comments': ['This is determined during grounding and normalization',
                       'But is based on the full input text'],
@@ -694,125 +787,180 @@ class ScientificClaim(CompoundExpression):
     """
     linkml_meta: ClassVar[LinkMLMeta] = LinkMLMeta({'from_schema': 'http://w3id.org/ontogpt/mic'})
 
-    references: Optional[List[str]] = Field(None, description="""A semi-colon separated list of references supporting the claim, identified by number only.""", json_schema_extra = { "linkml_meta": {'alias': 'references', 'domain_of': ['ScientificClaim']} })
+    negated: Optional[str] = Field(default=None, description="""Whether the claim is negated in the text, evidenced by being preceded by NOT. This value must be either \"True\" if the claim is negated or \"False\" if it is not.""", json_schema_extra = { "linkml_meta": {'alias': 'negated', 'domain_of': ['ScientificClaim']} })
+    references: Optional[List[str]] = Field(default=None, description="""A semi-colon separated list of references supporting the claim, identified by number only.""", json_schema_extra = { "linkml_meta": {'alias': 'references', 'domain_of': ['ScientificClaim']} })
+    context: Optional[List[str]] = Field(default=None, description="""The exact full sentence(s) from the source text that contains the claim. These will be pipe delimited - change all pipe symbols to semicolons. Do not include the text of the input triple or the references in this field.""", json_schema_extra = { "linkml_meta": {'alias': 'context', 'domain_of': ['ScientificClaim']} })
+
+
+class Relationship(NamedEntity):
+    """
+    The name of a type of relationship between two entities.
+    """
+    linkml_meta: ClassVar[LinkMLMeta] = LinkMLMeta({'annotations': {'annotators': {'tag': 'annotators',
+                                        'value': 'sqlite:obo:ro, sqlite:obo:biolink'},
+                         'prompt': {'tag': 'prompt',
+                                    'value': 'The name of a type of relationship '
+                                             'between two entities.'}},
+         'from_schema': 'http://w3id.org/ontogpt/mic',
+         'id_prefixes': ['RO', 'biolink']})
+
+    id: str = Field(default=..., description="""A unique identifier for the named entity""", json_schema_extra = { "linkml_meta": {'alias': 'id',
+         'annotations': {'prompt.skip': {'tag': 'prompt.skip', 'value': 'true'}},
+         'comments': ['this is populated during the grounding and normalization step'],
+         'domain_of': ['NamedEntity', 'Publication']} })
+    label: Optional[str] = Field(default=None, description="""The label (name) of the named thing""", json_schema_extra = { "linkml_meta": {'alias': 'label',
+         'aliases': ['name'],
+         'annotations': {'owl': {'tag': 'owl',
+                                 'value': 'AnnotationProperty, AnnotationAssertion'}},
+         'domain_of': ['NamedEntity'],
+         'slot_uri': 'rdfs:label'} })
+    original_spans: Optional[List[str]] = Field(default=None, description="""The coordinates of the original text span from which the named entity was extracted, inclusive. For example, \"10:25\" means the span starting from the 10th character and ending with the 25th character. The first character in the text has index 0. Newlines are treated as single characters. Multivalued as there may be multiple spans for a single text.""", json_schema_extra = { "linkml_meta": {'alias': 'original_spans',
+         'annotations': {'prompt.skip': {'tag': 'prompt.skip', 'value': 'true'}},
+         'comments': ['This is determined during grounding and normalization',
+                      'But is based on the full input text'],
+         'domain_of': ['NamedEntity']} })
+
+    @field_validator('original_spans')
+    def pattern_original_spans(cls, v):
+        pattern=re.compile(r"^\d+:\d+$")
+        if isinstance(v,list):
+            for element in v:
+                if isinstance(v, str) and not pattern.match(element):
+                    raise ValueError(f"Invalid original_spans format: {element}")
+        elif isinstance(v,str):
+            if not pattern.match(v):
+                raise ValueError(f"Invalid original_spans format: {v}")
+        return v
 
 
 class NutrientToDiseaseRelationship(ScientificClaim):
     linkml_meta: ClassVar[LinkMLMeta] = LinkMLMeta({'comments': ['a Chemical to Disease relationship'],
          'from_schema': 'http://w3id.org/ontogpt/mic'})
 
-    nutrient: Optional[str] = Field(None, description="""The name of the nutrient defined in the triple, including vitamins and minerals.""", json_schema_extra = { "linkml_meta": {'alias': 'nutrient',
+    nutrient: Optional[str] = Field(default=None, description="""The name of the nutrient defined in the triple, including vitamins and minerals.""", json_schema_extra = { "linkml_meta": {'alias': 'nutrient',
          'domain_of': ['NutrientToDiseaseRelationship',
                        'NutrientToPhenotypeRelationship',
                        'NutrientToBiologicalProcessRelationship',
                        'NutrientToHealthStatusRelationship',
                        'NutrientToSourceRelationship']} })
-    relationship: Optional[str] = Field(None, description="""The name of a type of relationship between the nutrient and the disease.""", json_schema_extra = { "linkml_meta": {'alias': 'relationship',
+    relationship: Optional[str] = Field(default=None, description="""The name of a type of relationship between the nutrient and the disease.""", json_schema_extra = { "linkml_meta": {'alias': 'relationship',
          'domain_of': ['NutrientToDiseaseRelationship',
                        'NutrientToPhenotypeRelationship',
                        'NutrientToBiologicalProcessRelationship',
                        'NutrientToNutrientRelationship',
                        'NutrientToHealthStatusRelationship',
                        'NutrientToSourceRelationship']} })
-    disease: Optional[str] = Field(None, description="""The name of the disease defined in the triple.""", json_schema_extra = { "linkml_meta": {'alias': 'disease', 'domain_of': ['NutrientToDiseaseRelationship']} })
-    references: Optional[List[str]] = Field(None, description="""A semi-colon separated list of references supporting the claim, identified by number only.""", json_schema_extra = { "linkml_meta": {'alias': 'references', 'domain_of': ['ScientificClaim']} })
+    disease: Optional[str] = Field(default=None, description="""The name of the disease defined in the triple.""", json_schema_extra = { "linkml_meta": {'alias': 'disease', 'domain_of': ['NutrientToDiseaseRelationship']} })
+    negated: Optional[str] = Field(default=None, description="""Whether the claim is negated in the text, evidenced by being preceded by NOT. This value must be either \"True\" if the claim is negated or \"False\" if it is not.""", json_schema_extra = { "linkml_meta": {'alias': 'negated', 'domain_of': ['ScientificClaim']} })
+    references: Optional[List[str]] = Field(default=None, description="""A semi-colon separated list of references supporting the claim, identified by number only.""", json_schema_extra = { "linkml_meta": {'alias': 'references', 'domain_of': ['ScientificClaim']} })
+    context: Optional[List[str]] = Field(default=None, description="""The exact full sentence(s) from the source text that contains the claim. These will be pipe delimited - change all pipe symbols to semicolons. Do not include the text of the input triple or the references in this field.""", json_schema_extra = { "linkml_meta": {'alias': 'context', 'domain_of': ['ScientificClaim']} })
 
 
 class NutrientToPhenotypeRelationship(ScientificClaim):
     linkml_meta: ClassVar[LinkMLMeta] = LinkMLMeta({'comments': ['a Chemical to Phenotype relationship'],
          'from_schema': 'http://w3id.org/ontogpt/mic'})
 
-    nutrient: Optional[str] = Field(None, description="""The name of the nutrient defined in the triple, including vitamins and minerals.""", json_schema_extra = { "linkml_meta": {'alias': 'nutrient',
+    nutrient: Optional[str] = Field(default=None, description="""The name of the nutrient defined in the triple, including vitamins and minerals.""", json_schema_extra = { "linkml_meta": {'alias': 'nutrient',
          'domain_of': ['NutrientToDiseaseRelationship',
                        'NutrientToPhenotypeRelationship',
                        'NutrientToBiologicalProcessRelationship',
                        'NutrientToHealthStatusRelationship',
                        'NutrientToSourceRelationship']} })
-    relationship: Optional[str] = Field(None, description="""The name of a type of relationship between the nutrient and the phenotype.""", json_schema_extra = { "linkml_meta": {'alias': 'relationship',
+    relationship: Optional[str] = Field(default=None, description="""The name of a type of relationship between the nutrient and the phenotype.""", json_schema_extra = { "linkml_meta": {'alias': 'relationship',
          'domain_of': ['NutrientToDiseaseRelationship',
                        'NutrientToPhenotypeRelationship',
                        'NutrientToBiologicalProcessRelationship',
                        'NutrientToNutrientRelationship',
                        'NutrientToHealthStatusRelationship',
                        'NutrientToSourceRelationship']} })
-    phenotype: Optional[str] = Field(None, description="""The name of the phenotype defined in the triple.""", json_schema_extra = { "linkml_meta": {'alias': 'phenotype', 'domain_of': ['NutrientToPhenotypeRelationship']} })
-    references: Optional[List[str]] = Field(None, description="""A semi-colon separated list of references supporting the claim, identified by number only.""", json_schema_extra = { "linkml_meta": {'alias': 'references', 'domain_of': ['ScientificClaim']} })
+    phenotype: Optional[str] = Field(default=None, description="""The name of the phenotype defined in the triple.""", json_schema_extra = { "linkml_meta": {'alias': 'phenotype', 'domain_of': ['NutrientToPhenotypeRelationship']} })
+    negated: Optional[str] = Field(default=None, description="""Whether the claim is negated in the text, evidenced by being preceded by NOT. This value must be either \"True\" if the claim is negated or \"False\" if it is not.""", json_schema_extra = { "linkml_meta": {'alias': 'negated', 'domain_of': ['ScientificClaim']} })
+    references: Optional[List[str]] = Field(default=None, description="""A semi-colon separated list of references supporting the claim, identified by number only.""", json_schema_extra = { "linkml_meta": {'alias': 'references', 'domain_of': ['ScientificClaim']} })
+    context: Optional[List[str]] = Field(default=None, description="""The exact full sentence(s) from the source text that contains the claim. These will be pipe delimited - change all pipe symbols to semicolons. Do not include the text of the input triple or the references in this field.""", json_schema_extra = { "linkml_meta": {'alias': 'context', 'domain_of': ['ScientificClaim']} })
 
 
 class NutrientToBiologicalProcessRelationship(ScientificClaim):
     linkml_meta: ClassVar[LinkMLMeta] = LinkMLMeta({'from_schema': 'http://w3id.org/ontogpt/mic'})
 
-    nutrient: Optional[str] = Field(None, description="""The name of the nutrient defined in the triple, including vitamins and minerals.""", json_schema_extra = { "linkml_meta": {'alias': 'nutrient',
+    nutrient: Optional[str] = Field(default=None, description="""The name of the nutrient defined in the triple, including vitamins and minerals.""", json_schema_extra = { "linkml_meta": {'alias': 'nutrient',
          'domain_of': ['NutrientToDiseaseRelationship',
                        'NutrientToPhenotypeRelationship',
                        'NutrientToBiologicalProcessRelationship',
                        'NutrientToHealthStatusRelationship',
                        'NutrientToSourceRelationship']} })
-    relationship: Optional[str] = Field(None, description="""The name of a type of relationship between the nutrient and the biological process.""", json_schema_extra = { "linkml_meta": {'alias': 'relationship',
+    relationship: Optional[str] = Field(default=None, description="""The name of a type of relationship between the nutrient and the biological process.""", json_schema_extra = { "linkml_meta": {'alias': 'relationship',
          'domain_of': ['NutrientToDiseaseRelationship',
                        'NutrientToPhenotypeRelationship',
                        'NutrientToBiologicalProcessRelationship',
                        'NutrientToNutrientRelationship',
                        'NutrientToHealthStatusRelationship',
                        'NutrientToSourceRelationship']} })
-    process: Optional[str] = Field(None, description="""The name of the biological process defined in the triple.""", json_schema_extra = { "linkml_meta": {'alias': 'process', 'domain_of': ['NutrientToBiologicalProcessRelationship']} })
-    references: Optional[List[str]] = Field(None, description="""A semi-colon separated list of references supporting the claim, identified by number only.""", json_schema_extra = { "linkml_meta": {'alias': 'references', 'domain_of': ['ScientificClaim']} })
+    process: Optional[str] = Field(default=None, description="""The name of the biological process defined in the triple.""", json_schema_extra = { "linkml_meta": {'alias': 'process', 'domain_of': ['NutrientToBiologicalProcessRelationship']} })
+    negated: Optional[str] = Field(default=None, description="""Whether the claim is negated in the text, evidenced by being preceded by NOT. This value must be either \"True\" if the claim is negated or \"False\" if it is not.""", json_schema_extra = { "linkml_meta": {'alias': 'negated', 'domain_of': ['ScientificClaim']} })
+    references: Optional[List[str]] = Field(default=None, description="""A semi-colon separated list of references supporting the claim, identified by number only.""", json_schema_extra = { "linkml_meta": {'alias': 'references', 'domain_of': ['ScientificClaim']} })
+    context: Optional[List[str]] = Field(default=None, description="""The exact full sentence(s) from the source text that contains the claim. These will be pipe delimited - change all pipe symbols to semicolons. Do not include the text of the input triple or the references in this field.""", json_schema_extra = { "linkml_meta": {'alias': 'context', 'domain_of': ['ScientificClaim']} })
 
 
 class NutrientToNutrientRelationship(ScientificClaim):
     linkml_meta: ClassVar[LinkMLMeta] = LinkMLMeta({'comments': ['a Chemical to Chemical relationship'],
          'from_schema': 'http://w3id.org/ontogpt/mic'})
 
-    nutrient_subject: Optional[str] = Field(None, description="""The name of a nutrient defined in the triple, including vitamins and minerals.""", json_schema_extra = { "linkml_meta": {'alias': 'nutrient_subject', 'domain_of': ['NutrientToNutrientRelationship']} })
-    relationship: Optional[str] = Field(None, description="""The name of a type of relationship between the nutrient_subject and nutrient_object.""", json_schema_extra = { "linkml_meta": {'alias': 'relationship',
+    nutrient_subject: Optional[str] = Field(default=None, description="""The name of a nutrient defined in the triple, including vitamins and minerals.""", json_schema_extra = { "linkml_meta": {'alias': 'nutrient_subject', 'domain_of': ['NutrientToNutrientRelationship']} })
+    relationship: Optional[str] = Field(default=None, description="""The name of a type of relationship between the nutrient_subject and nutrient_object.""", json_schema_extra = { "linkml_meta": {'alias': 'relationship',
          'domain_of': ['NutrientToDiseaseRelationship',
                        'NutrientToPhenotypeRelationship',
                        'NutrientToBiologicalProcessRelationship',
                        'NutrientToNutrientRelationship',
                        'NutrientToHealthStatusRelationship',
                        'NutrientToSourceRelationship']} })
-    nutrient_object: Optional[str] = Field(None, description="""The name of a nutrient defined in the triple, including vitamins and minerals.""", json_schema_extra = { "linkml_meta": {'alias': 'nutrient_object', 'domain_of': ['NutrientToNutrientRelationship']} })
-    references: Optional[List[str]] = Field(None, description="""A semi-colon separated list of references supporting the claim, identified by number only.""", json_schema_extra = { "linkml_meta": {'alias': 'references', 'domain_of': ['ScientificClaim']} })
+    nutrient_object: Optional[str] = Field(default=None, description="""The name of a nutrient defined in the triple, including vitamins and minerals.""", json_schema_extra = { "linkml_meta": {'alias': 'nutrient_object', 'domain_of': ['NutrientToNutrientRelationship']} })
+    negated: Optional[str] = Field(default=None, description="""Whether the claim is negated in the text, evidenced by being preceded by NOT. This value must be either \"True\" if the claim is negated or \"False\" if it is not.""", json_schema_extra = { "linkml_meta": {'alias': 'negated', 'domain_of': ['ScientificClaim']} })
+    references: Optional[List[str]] = Field(default=None, description="""A semi-colon separated list of references supporting the claim, identified by number only.""", json_schema_extra = { "linkml_meta": {'alias': 'references', 'domain_of': ['ScientificClaim']} })
+    context: Optional[List[str]] = Field(default=None, description="""The exact full sentence(s) from the source text that contains the claim. These will be pipe delimited - change all pipe symbols to semicolons. Do not include the text of the input triple or the references in this field.""", json_schema_extra = { "linkml_meta": {'alias': 'context', 'domain_of': ['ScientificClaim']} })
 
 
 class NutrientToHealthStatusRelationship(ScientificClaim):
     linkml_meta: ClassVar[LinkMLMeta] = LinkMLMeta({'from_schema': 'http://w3id.org/ontogpt/mic'})
 
-    nutrient: Optional[str] = Field(None, description="""The name of the nutrient defined in the triple, including vitamins and minerals.""", json_schema_extra = { "linkml_meta": {'alias': 'nutrient',
+    nutrient: Optional[str] = Field(default=None, description="""The name of the nutrient defined in the triple, including vitamins and minerals.""", json_schema_extra = { "linkml_meta": {'alias': 'nutrient',
          'domain_of': ['NutrientToDiseaseRelationship',
                        'NutrientToPhenotypeRelationship',
                        'NutrientToBiologicalProcessRelationship',
                        'NutrientToHealthStatusRelationship',
                        'NutrientToSourceRelationship']} })
-    relationship: Optional[str] = Field(None, description="""The name of a type of relationship between the nutrient and the anatomical part or system.""", json_schema_extra = { "linkml_meta": {'alias': 'relationship',
+    relationship: Optional[str] = Field(default=None, description="""The name of a type of relationship between the nutrient and the anatomical part or system.""", json_schema_extra = { "linkml_meta": {'alias': 'relationship',
          'domain_of': ['NutrientToDiseaseRelationship',
                        'NutrientToPhenotypeRelationship',
                        'NutrientToBiologicalProcessRelationship',
                        'NutrientToNutrientRelationship',
                        'NutrientToHealthStatusRelationship',
                        'NutrientToSourceRelationship']} })
-    anatomy: Optional[str] = Field(None, description="""The name of the anatomical part or system defined in the triple.""", json_schema_extra = { "linkml_meta": {'alias': 'anatomy', 'domain_of': ['NutrientToHealthStatusRelationship']} })
-    references: Optional[List[str]] = Field(None, description="""A semi-colon separated list of references supporting the claim, identified by number only.""", json_schema_extra = { "linkml_meta": {'alias': 'references', 'domain_of': ['ScientificClaim']} })
+    anatomy: Optional[str] = Field(default=None, description="""The name of the anatomical part or system defined in the triple.""", json_schema_extra = { "linkml_meta": {'alias': 'anatomy', 'domain_of': ['NutrientToHealthStatusRelationship']} })
+    negated: Optional[str] = Field(default=None, description="""Whether the claim is negated in the text, evidenced by being preceded by NOT. This value must be either \"True\" if the claim is negated or \"False\" if it is not.""", json_schema_extra = { "linkml_meta": {'alias': 'negated', 'domain_of': ['ScientificClaim']} })
+    references: Optional[List[str]] = Field(default=None, description="""A semi-colon separated list of references supporting the claim, identified by number only.""", json_schema_extra = { "linkml_meta": {'alias': 'references', 'domain_of': ['ScientificClaim']} })
+    context: Optional[List[str]] = Field(default=None, description="""The exact full sentence(s) from the source text that contains the claim. These will be pipe delimited - change all pipe symbols to semicolons. Do not include the text of the input triple or the references in this field.""", json_schema_extra = { "linkml_meta": {'alias': 'context', 'domain_of': ['ScientificClaim']} })
 
 
 class NutrientToSourceRelationship(ScientificClaim):
     linkml_meta: ClassVar[LinkMLMeta] = LinkMLMeta({'from_schema': 'http://w3id.org/ontogpt/mic'})
 
-    nutrient: Optional[str] = Field(None, description="""The name of the nutrient defined in the triple, including vitamins and minerals.""", json_schema_extra = { "linkml_meta": {'alias': 'nutrient',
+    nutrient: Optional[str] = Field(default=None, description="""The name of the nutrient defined in the triple, including vitamins and minerals.""", json_schema_extra = { "linkml_meta": {'alias': 'nutrient',
          'domain_of': ['NutrientToDiseaseRelationship',
                        'NutrientToPhenotypeRelationship',
                        'NutrientToBiologicalProcessRelationship',
                        'NutrientToHealthStatusRelationship',
                        'NutrientToSourceRelationship']} })
-    relationship: Optional[str] = Field(None, description="""The name of a type of relationship between the nutrient and the food or supplement.""", json_schema_extra = { "linkml_meta": {'alias': 'relationship',
+    relationship: Optional[str] = Field(default=None, description="""The name of a type of relationship between the nutrient and the food or supplement.""", json_schema_extra = { "linkml_meta": {'alias': 'relationship',
          'domain_of': ['NutrientToDiseaseRelationship',
                        'NutrientToPhenotypeRelationship',
                        'NutrientToBiologicalProcessRelationship',
                        'NutrientToNutrientRelationship',
                        'NutrientToHealthStatusRelationship',
                        'NutrientToSourceRelationship']} })
-    source: Optional[str] = Field(None, description="""The name of the food or supplement defined in the triple.""", json_schema_extra = { "linkml_meta": {'alias': 'source', 'domain_of': ['NutrientToSourceRelationship']} })
-    references: Optional[List[str]] = Field(None, description="""A semi-colon separated list of references supporting the claim, identified by number only.""", json_schema_extra = { "linkml_meta": {'alias': 'references', 'domain_of': ['ScientificClaim']} })
+    source: Optional[str] = Field(default=None, description="""The name of the food or supplement defined in the triple.""", json_schema_extra = { "linkml_meta": {'alias': 'source', 'domain_of': ['NutrientToSourceRelationship']} })
+    negated: Optional[str] = Field(default=None, description="""Whether the claim is negated in the text, evidenced by being preceded by NOT. This value must be either \"True\" if the claim is negated or \"False\" if it is not.""", json_schema_extra = { "linkml_meta": {'alias': 'negated', 'domain_of': ['ScientificClaim']} })
+    references: Optional[List[str]] = Field(default=None, description="""A semi-colon separated list of references supporting the claim, identified by number only.""", json_schema_extra = { "linkml_meta": {'alias': 'references', 'domain_of': ['ScientificClaim']} })
+    context: Optional[List[str]] = Field(default=None, description="""The exact full sentence(s) from the source text that contains the claim. These will be pipe delimited - change all pipe symbols to semicolons. Do not include the text of the input triple or the references in this field.""", json_schema_extra = { "linkml_meta": {'alias': 'context', 'domain_of': ['ScientificClaim']} })
 
 
 # Model rebuild
@@ -834,6 +982,7 @@ BiologicalProcess.model_rebuild()
 Anatomy.model_rebuild()
 FoodOrSupplement.model_rebuild()
 ScientificClaim.model_rebuild()
+Relationship.model_rebuild()
 NutrientToDiseaseRelationship.model_rebuild()
 NutrientToPhenotypeRelationship.model_rebuild()
 NutrientToBiologicalProcessRelationship.model_rebuild()

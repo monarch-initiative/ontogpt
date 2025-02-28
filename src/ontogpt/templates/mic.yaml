@@ -24,6 +24,8 @@ imports:
   - linkml:types
   - core
 
+# TODO: attempt to remove or reduce the excessive redundancy
+
 classes:
   Document:
     tree_root: true
@@ -61,6 +63,8 @@ classes:
             of (3), include it after the object in the relationship,
             e.g., "Subject HAS RELATIONSHIP WITH Object (3)". Delimit
             multiple references with commas, e.g., "(3, 4)".
+            If a range of references is provided, include all, e.g.,
+            "(3-5)" should become "(3, 4, 5)".
             Do not include newlines.
             For each relationship, include the exact full sentence describing the
             relationship from the source text in pipe symbols after the
@@ -100,6 +104,8 @@ classes:
             of (3), include it after the object in the relationship,
             e.g., "Subject HAS RELATIONSHIP WITH Object (3)". Delimit
             multiple references with commas, e.g., "(3, 4)".
+            If a range of references is provided, include all, e.g.,
+            "(3-5)" should become "(3, 4, 5)".
             Do not include newlines.
             For each relationship, include the exact full sentence describing the
             relationship from the source text in pipe symbols after the
@@ -138,6 +144,8 @@ classes:
             of (3), include it after the object in the relationship,
             e.g., "Subject HAS RELATIONSHIP WITH Object (3)". Delimit
             multiple references with commas, e.g., "(3, 4)".
+            If a range of references is provided, include all, e.g.,
+            "(3-5)" should become "(3, 4, 5)".
             Do not include newlines.
             For each relationship, include the exact full sentence describing the
             relationship from the source text in pipe symbols after the
@@ -175,6 +183,8 @@ classes:
             of (3), include it after the object in the relationship,
             e.g., "Subject HAS RELATIONSHIP WITH Object (3)". Delimit
             multiple references with commas, e.g., "(3, 4)".
+            If a range of references is provided, include all, e.g.,
+            "(3-5)" should become "(3, 4, 5)".
             Do not include newlines.
             For each relationship, include the exact full sentence describing the
             relationship from the source text in pipe symbols after the
@@ -208,6 +218,8 @@ classes:
             of (3), include it after the object in the relationship,
             e.g., "Subject HAS RELATIONSHIP WITH Object (3)". Delimit
             multiple references with commas, e.g., "(3, 4)".
+            If a range of references is provided, include all, e.g.,
+            "(3-5)" should become "(3, 4, 5)".
             Do not include newlines.
             For each relationship, include the exact full sentence describing the
             relationship from the source text in pipe symbols after the
@@ -241,6 +253,8 @@ classes:
             of (3), include it after the object in the relationship,
             e.g., "Subject HAS RELATIONSHIP WITH Object (3)". Delimit
             multiple references with commas, e.g., "(3, 4)".
+            If a range of references is provided, include all, e.g.,
+            "(3-5)" should become "(3, 4, 5)".
             Do not include newlines.
             For each relationship, include the exact full sentence describing the
             relationship from the source text in pipe symbols after the
