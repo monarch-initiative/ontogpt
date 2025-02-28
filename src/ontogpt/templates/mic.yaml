@@ -57,21 +57,20 @@ classes:
             If the relationship is explicitly negated, precede the
             relationship with "NOT", e.g., "NOT Nutrient HAS RELATIONSHIP
             WITH Disease".
-            For each relationship, include the number of the
-            corresponding reference(s) in parentheses after the
-            relationship; e.g., if the text indicates a reference
-            of (3), include it after the object in the relationship,
-            e.g., "Subject HAS RELATIONSHIP WITH Object (3)". Delimit
-            multiple references with commas, e.g., "(3, 4)".
-            If a range of references is provided, include all, e.g.,
-            "(3-5)" should become "(3, 4, 5)".
+            For each relationship, include the exact full text of one or more
+            sentences describing the relationship from the source text.
+            Include this context until it includes an inline reference number
+            or numbers, e.g., "(5)" or "(5,6)" or "(5-9)".
+            Surround this text with pipe symbols after the triple, e.g.,
+            "Subject RELATION Object |There is a relationship between subject and object (5).|"
+            Do not change or summarize the context sentences.
+            Include all numbered inline references contained in the sentences without changes.
             Do not include newlines.
-            For each relationship, include the exact full sentence describing the
-            relationship from the source text in pipe symbols after the
-            references, e.g., "(3) [Vitamin D deficiency increases risk of
-            multiple sclerosis]." Do not change or summarize the sentence.
-            If the relationship is described in multiple sentences,
-            create a separate, pipe delimited entry for each sentence.
+          prompt.examples: >-
+            Vitamin A DECREASES RISK OF Alzheimer's Disease | In a study, it was found that
+            increased intake of Vitamin A decreases the risk of Alzheimer's Disease (5).|;
+            Vitamin A PREVENTS Systemic Lupus Erythematosus | Evidence suggests that
+            high-dose Vitamin A treatment may prevent Systemic Lupus Erythematosus (5,6).|
       nutrient_to_phenotype_relationships:
         range: NutrientToPhenotypeRelationship
         multivalued: true
@@ -98,21 +97,19 @@ classes:
             If the relationship is explicitly negated, precede the
             relationship with "NOT", e.g., "NOT Nutrient HAS RELATIONSHIP
             WITH Phenotype".
-            For each relationship, include the number of the
-            corresponding reference(s) in parentheses after the
-            relationship; e.g., if the text indicates a reference
-            of (3), include it after the object in the relationship,
-            e.g., "Subject HAS RELATIONSHIP WITH Object (3)". Delimit
-            multiple references with commas, e.g., "(3, 4)".
-            If a range of references is provided, include all, e.g.,
-            "(3-5)" should become "(3, 4, 5)".
+            For each relationship, include the exact full text of one or more
+            sentences describing the relationship from the source text.
+            Include this context until it includes an inline reference number
+            or numbers, e.g., "(5)" or "(5,6)" or "(5-9)".
+            Surround this text with pipe symbols after the triple, e.g.,
+            "Subject RELATION Object |There is a relationship between subject and object (5).|"
+            Do not change or summarize the context sentences.
+            Include all numbered inline references contained in the sentences without changes.
             Do not include newlines.
-            For each relationship, include the exact full sentence describing the
-            relationship from the source text in pipe symbols after the
-            references, e.g. "(3) |Vitamin D deficiency causes rickets|."
-            Do not change or summarize the sentence.
-            If the relationship is described in multiple sentences,
-            create a separate, pipe delimited entry for each sentence.
+          prompt.examples: >-
+            Vitamin A HAS RELATIONSHIP WITH Fever |There is a relationship between
+            Vitamin A and Fever (5).|;Vitamin A HAS RELATIONSHIP WITH Headache |There
+            is a relationship between Vitamin A and Headache (5,9).|
       nutrient_to_biological_process_relationships:
         range: NutrientToBiologicalProcessRelationship
         multivalued: true
@@ -138,21 +135,19 @@ classes:
             If the relationship is explicitly negated, precede the
             relationship with "NOT", e.g., "NOT Nutrient HAS RELATIONSHIP
             WITH Process".
-            For each relationship, include the number of the
-            corresponding reference(s) in parentheses after the
-            relationship; e.g., if the text indicates a reference
-            of (3), include it after the object in the relationship,
-            e.g., "Subject HAS RELATIONSHIP WITH Object (3)". Delimit
-            multiple references with commas, e.g., "(3, 4)".
-            If a range of references is provided, include all, e.g.,
-            "(3-5)" should become "(3, 4, 5)".
+            For each relationship, include the exact full text of one or more
+            sentences describing the relationship from the source text.
+            Include this context until it includes an inline reference number
+            or numbers, e.g., "(5)" or "(5,6)" or "(5-9)".
+            Surround this text with pipe symbols after the triple, e.g.,
+            "Subject RELATION Object |There is a relationship between subject and object (5).|"
+            Do not change or summarize the context sentences.
+            Include all numbered inline references contained in the sentences without changes.
             Do not include newlines.
-            For each relationship, include the exact full sentence describing the
-            relationship from the source text in pipe symbols after the
-            references, e.g. "(3) |Vitamin D participates in the insulin
-            signaling pathway|." Do not change or summarize the sentence.
-            If the relationship is described in multiple sentences,
-            create a separate, pipe delimited entry for each sentence.
+          prompt.examples: >-
+            Vitamin A HAS RELATIONSHIP WITH Insulin Signaling |There is a relationship between
+            Vitamin A and Insulin Signaling (5).|;Vitamin A HAS RELATIONSHIP WITH DNA Repair |There
+            is a relationship between Vitamin A and DNA Repair (5,12).|
       nutrient_to_health_status_relationships:
         range: NutrientToHealthStatusRelationship
         multivalued: true
@@ -177,21 +172,19 @@ classes:
             If the relationship is explicitly negated, precede the
             relationship with "NOT", e.g., "NOT Nutrient HAS RELATIONSHIP
             WITH Part".
-            For each relationship, include the number of the
-            corresponding reference(s) in parentheses after the
-            relationship; e.g., if the text indicates a reference
-            of (3), include it after the object in the relationship,
-            e.g., "Subject HAS RELATIONSHIP WITH Object (3)". Delimit
-            multiple references with commas, e.g., "(3, 4)".
-            If a range of references is provided, include all, e.g.,
-            "(3-5)" should become "(3, 4, 5)".
+            For each relationship, include the exact full text of one or more
+            sentences describing the relationship from the source text.
+            Include this context until it includes an inline reference number
+            or numbers, e.g., "(5)" or "(5,6)" or "(5-9)".
+            Surround this text with pipe symbols after the triple, e.g.,
+            "Subject RELATION Object |There is a relationship between subject and object (5).|"
+            Do not change or summarize the context sentences.
+            Include all numbered inline references contained in the sentences without changes.
             Do not include newlines.
-            For each relationship, include the exact full sentence describing the
-            relationship from the source text in pipe symbols after the
-            references, e.g. "(3) |Vitamin D supports the health of the
-            cardiovascular system.|" Do not change or summarize the sentence.
-            If the relationship is described in multiple sentences,
-            create a separate, pipe delimited entry for each sentence.
+          prompt.examples: >-
+            Vitamin A HAS RELATIONSHIP WITH Teeth |There is a relationship between
+            Vitamin A and Teeth (5).|;Vitamin A HAS RELATIONSHIP WITH Skin |There
+            is a relationship between Vitamin A and Skin (5,6).|
       nutrient_to_source_relationships:
         range: NutrientToSourceRelationship
         multivalued: true
@@ -212,21 +205,19 @@ classes:
             If the relationship is explicitly negated, precede the
             relationship with "NOT", e.g., "NOT Nutrient HAS RELATIONSHIP
             WITH Source".
-            For each relationship, include the number of the
-            corresponding reference(s) in parentheses after the
-            relationship; e.g., if the text indicates a reference
-            of (3), include it after the object in the relationship,
-            e.g., "Subject HAS RELATIONSHIP WITH Object (3)". Delimit
-            multiple references with commas, e.g., "(3, 4)".
-            If a range of references is provided, include all, e.g.,
-            "(3-5)" should become "(3, 4, 5)".
+            For each relationship, include the exact full text of one or more
+            sentences describing the relationship from the source text.
+            Include this context until it includes an inline reference number
+            or numbers, e.g., "(5)" or "(5,6)" or "(5-9)".
+            Surround this text with pipe symbols after the triple, e.g.,
+            "Subject RELATION Object |There is a relationship between subject and object (5).|"
+            Do not change or summarize the context sentences.
+            Include all numbered inline references contained in the sentences without changes.
             Do not include newlines.
-            For each relationship, include the exact full sentence describing the
-            relationship from the source text in pipe symbols after the
-            references, e.g. "(3) |Vitamin D is provided by fish|"
-            Do not change or summarize the sentence.
-            If the relationship is described in multiple sentences,
-            create a separate, pipe delimited entry for each sentence.
+          prompt.examples: >-
+            Vitamin A HAS RELATIONSHIP WITH Butter |There is a relationship between
+            Vitamin A and Butter (12).|;Vitamin A HAS RELATIONSHIP WITH Apple |There
+            is a relationship between Vitamin A and Apple (12,41).|
       nutrient_to_nutrient_relationships:
         range: NutrientToNutrientRelationship
         multivalued: true
@@ -247,21 +238,19 @@ classes:
             If the relationship is explicitly negated, precede the
             relationship with "NOT", e.g., "NOT Nutrient INTERACTS
             WITH Nutrient".
-            For each relationship, include the number of the
-            corresponding reference(s) in parentheses after the
-            relationship; e.g., if the text indicates a reference
-            of (3), include it after the object in the relationship,
-            e.g., "Subject HAS RELATIONSHIP WITH Object (3)". Delimit
-            multiple references with commas, e.g., "(3, 4)".
-            If a range of references is provided, include all, e.g.,
-            "(3-5)" should become "(3, 4, 5)".
+            For each relationship, include the exact full text of one or more
+            sentences describing the relationship from the source text.
+            Include this context until it includes an inline reference number
+            or numbers, e.g., "(5)" or "(5,6)" or "(5-9)".
+            Surround this text with pipe symbols after the triple, e.g.,
+            "Subject RELATION Object |There is a relationship between subject and object (5).|"
+            Do not change or summarize the context sentences.
+            Include all numbered inline references contained in the sentences without changes.
             Do not include newlines.
-            For each relationship, include the exact full sentence describing the
-            relationship from the source text in pipe symbols after the
-            references, e.g. "(3) |Vitamin D interacts with calcium|"
-            Do not change or summarize the sentence.
-            If the relationship is described in multiple sentences,
-            create a separate, pipe delimited entry for each sentence.
+          prompt.examples: >-
+            Vitamin A INTERACTS WITH Vitamin D |There is a relationship between
+            Vitamin A and Vitamin D (5).|;Vitamin A INTERACTS WITH Vitamin E |There
+            is a relationship between Vitamin A and Vitamin E (9,10).|
 
   Nutrient:
     is_a: NamedEntity
@@ -354,8 +343,12 @@ classes:
         multivalued: true
         description: >-
           A semi-colon separated list of references
-          supporting the claim, identified by number
-          only.
+          included inline in the input, identified by number
+          only. Multiple references may contain commas,
+          e.g., "(3, 4)" and should be treated as two
+          different values. If a range of references is
+          provided, include all, e.g.,
+          "(3-5)" should become 3;4;5.
       context:
         multivalued: true
         range: string
@@ -363,8 +356,7 @@ classes:
           The exact full sentence(s) from the source text
           that contains the claim. These will be pipe
           delimited - change all pipe symbols to
-          semicolons. Do not include the text of the
-          input triple or the references in this field.
+          semicolons.
 
   Relationship:
     is_a: NamedEntity
