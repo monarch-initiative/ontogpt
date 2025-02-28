@@ -20,11 +20,6 @@ prefixes:
 default_prefix: mic
 default_range: string
 
-# TODO: reduce redundancy in reference extraction.
-#       Providing instructions through the root class
-#       doesn't seem to work, whether in the description
-#       or the prompt field.
-
 imports:
   - linkml:types
   - core
@@ -37,18 +32,6 @@ classes:
       A document that contains information about
       micronutrients, including vitamins and minerals.
     attributes:
-      # nutrient_terms:
-      #   range: Nutrient
-      #   multivalued: true
-      #   description: >-
-      #     A list of any names of nutrients or micronutrients.
-      #   annotations:
-      #     prompt: >-
-      #       A semicolon-separated list of names of chemicals,
-      #       nutrients, or micronutrients mentioned in the
-      #       input document.
-      #     prompt.examples: >-
-      #       biotin; cobalamin; iodine; zinc; coenzyme Q10
       nutrient_to_disease_relationships:
         range: NutrientToDiseaseRelationship
         multivalued: true
@@ -69,6 +52,9 @@ classes:
             Disease". Relationships may include TREATS,
             PREVENTS, INCREASES RISK OF, DECREASES RISK OF,
             or others.
+            If the relationship is explicitly negated, precede the
+            relationship with "NOT", e.g., "NOT Nutrient HAS RELATIONSHIP
+            WITH Disease".
             For each relationship, include the number of the
             corresponding reference(s) in parentheses after the
             relationship; e.g., if the text indicates a reference
@@ -99,6 +85,9 @@ classes:
             relationship as triples, e.g., "Nutrient HAS RELATIONSHIP
             WITH Phenotype". Relationships may include TREATS,
             PREVENTS, or others.
+            If the relationship is explicitly negated, precede the
+            relationship with "NOT", e.g., "NOT Nutrient HAS RELATIONSHIP
+            WITH Phenotype".
             For each relationship, include the number of the
             corresponding reference(s) in parentheses after the
             relationship; e.g., if the text indicates a reference
@@ -128,6 +117,9 @@ classes:
             Represent the relationship as triples, e.g.,
             "Nutrient HAS RELATIONSHIP WITH Process". Relationships may include
             REGULATES, PARTICIPATES IN, or others.
+            If the relationship is explicitly negated, precede the
+            relationship with "NOT", e.g., "NOT Nutrient HAS RELATIONSHIP
+            WITH Process".
             For each relationship, include the number of the
             corresponding reference(s) in parentheses after the
             relationship; e.g., if the text indicates a reference
@@ -156,6 +148,9 @@ classes:
             should be changed to "digestive system". Represent the
             relationship as triples, e.g., "Nutrient HAS RELATIONSHIP WITH
             Part". Relationships should be SUPPORTS HEALTH OF.
+            If the relationship is explicitly negated, precede the
+            relationship with "NOT", e.g., "NOT Nutrient HAS RELATIONSHIP
+            WITH Part".
             For each relationship, include the number of the
             corresponding reference(s) in parentheses after the
             relationship; e.g., if the text indicates a reference
@@ -180,6 +175,9 @@ classes:
             Represent the relationship as triples, e.g., "Nutrient HAS
             RELATIONSHIP WITH Source". Relationships should be PROVIDED
             BY.
+            If the relationship is explicitly negated, precede the
+            relationship with "NOT", e.g., "NOT Nutrient HAS RELATIONSHIP
+            WITH Source".
             For each relationship, include the number of the
             corresponding reference(s) in parentheses after the
             relationship; e.g., if the text indicates a reference
@@ -204,6 +202,9 @@ classes:
             and its receptor protein). Represent the relationship as
             triples, e.g., "Nutrient INTERACTS WITH
             Nutrient".
+            If the relationship is explicitly negated, precede the
+            relationship with "NOT", e.g., "NOT Nutrient INTERACTS
+            WITH Nutrient".
             For each relationship, include the number of the
             corresponding reference(s) in parentheses after the
             relationship; e.g., if the text indicates a reference
@@ -211,15 +212,6 @@ classes:
             e.g., "Subject HAS RELATIONSHIP WITH Object (3)". Delimit
             multiple references with commas, e.g., "(3, 4)".
             Do not include newlines.
-      # references:
-      #   range: string
-      #   multivalued: true
-      #   description: >-
-      #     A semi-colon separated list of all references
-      #     provided in the input text, found in the References section.
-      #     Include the number of each reference, its full text as provided in
-      #     the input, and any accompanying URLs. Do not truncate this list
-      #     and do not include newlines.
 
   Nutrient:
     is_a: NamedEntity
@@ -299,6 +291,14 @@ classes:
       A scientific claim made in the input text,
       structured as a relationship between entities.
     attributes:
+      negated:
+        range: string
+        description: >-
+          Whether the claim is negated in the text,
+          evidenced by being preceded by NOT.
+          This value must be either "True" if
+          the claim is negated or "False" if it
+          is not.
       references:
         range: string
         multivalued: true
