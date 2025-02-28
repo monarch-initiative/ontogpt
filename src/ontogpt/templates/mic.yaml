@@ -62,6 +62,12 @@ classes:
             e.g., "Subject HAS RELATIONSHIP WITH Object (3)". Delimit
             multiple references with commas, e.g., "(3, 4)".
             Do not include newlines.
+            For each relationship, include the exact full sentence describing the
+            relationship from the source text in pipe symbols after the
+            references, e.g., "(3) [Vitamin D deficiency increases risk of
+            multiple sclerosis]." Do not change or summarize the sentence.
+            If the relationship is described in multiple sentences,
+            create a separate, pipe delimited entry for each sentence.
       nutrient_to_phenotype_relationships:
         range: NutrientToPhenotypeRelationship
         multivalued: true
@@ -95,6 +101,12 @@ classes:
             e.g., "Subject HAS RELATIONSHIP WITH Object (3)". Delimit
             multiple references with commas, e.g., "(3, 4)".
             Do not include newlines.
+            For each relationship, include the exact full sentence describing the
+            relationship from the source text in pipe symbols after the
+            references, e.g. "(3) |Vitamin D deficiency causes rickets|."
+            Do not change or summarize the sentence.
+            If the relationship is described in multiple sentences,
+            create a separate, pipe delimited entry for each sentence.
       nutrient_to_biological_process_relationships:
         range: NutrientToBiologicalProcessRelationship
         multivalued: true
@@ -127,6 +139,12 @@ classes:
             e.g., "Subject HAS RELATIONSHIP WITH Object (3)". Delimit
             multiple references with commas, e.g., "(3, 4)".
             Do not include newlines.
+            For each relationship, include the exact full sentence describing the
+            relationship from the source text in pipe symbols after the
+            references, e.g. "(3) |Vitamin D participates in the insulin
+            signaling pathway|." Do not change or summarize the sentence.
+            If the relationship is described in multiple sentences,
+            create a separate, pipe delimited entry for each sentence.
       nutrient_to_health_status_relationships:
         range: NutrientToHealthStatusRelationship
         multivalued: true
@@ -158,6 +176,12 @@ classes:
             e.g., "Subject HAS RELATIONSHIP WITH Object (3)". Delimit
             multiple references with commas, e.g., "(3, 4)".
             Do not include newlines.
+            For each relationship, include the exact full sentence describing the
+            relationship from the source text in pipe symbols after the
+            references, e.g. "(3) |Vitamin D supports the health of the
+            cardiovascular system.|" Do not change or summarize the sentence.
+            If the relationship is described in multiple sentences,
+            create a separate, pipe delimited entry for each sentence.
       nutrient_to_source_relationships:
         range: NutrientToSourceRelationship
         multivalued: true
@@ -185,6 +209,12 @@ classes:
             e.g., "Subject HAS RELATIONSHIP WITH Object (3)". Delimit
             multiple references with commas, e.g., "(3, 4)".
             Do not include newlines.
+            For each relationship, include the exact full sentence describing the
+            relationship from the source text in pipe symbols after the
+            references, e.g. "(3) |Vitamin D is provided by fish|"
+            Do not change or summarize the sentence.
+            If the relationship is described in multiple sentences,
+            create a separate, pipe delimited entry for each sentence.
       nutrient_to_nutrient_relationships:
         range: NutrientToNutrientRelationship
         multivalued: true
@@ -212,6 +242,12 @@ classes:
             e.g., "Subject HAS RELATIONSHIP WITH Object (3)". Delimit
             multiple references with commas, e.g., "(3, 4)".
             Do not include newlines.
+            For each relationship, include the exact full sentence describing the
+            relationship from the source text in pipe symbols after the
+            references, e.g. "(3) |Vitamin D interacts with calcium|"
+            Do not change or summarize the sentence.
+            If the relationship is described in multiple sentences,
+            create a separate, pipe delimited entry for each sentence.
 
   Nutrient:
     is_a: NamedEntity
@@ -306,6 +342,15 @@ classes:
           A semi-colon separated list of references
           supporting the claim, identified by number
           only.
+      context:
+        multivalued: true
+        range: string
+        description: >-
+          The exact full sentence(s) from the source text
+          that contains the claim. These will be pipe
+          delimited - change all pipe symbols to
+          semicolons. Do not include the text of the
+          input triple or the references in this field.
 
   Relationship:
     is_a: NamedEntity
