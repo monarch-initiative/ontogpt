@@ -307,6 +307,20 @@ classes:
           supporting the claim, identified by number
           only.
 
+  Relationship:
+    is_a: NamedEntity
+    description: >-
+      The name of a type of relationship between two
+      entities.
+    id_prefixes:
+      - RO
+      - biolink
+    annotations:
+      annotators: sqlite:obo:ro, sqlite:obo:biolink
+      prompt: >-
+        The name of a type of relationship between two
+        entities.
+
   NutrientToDiseaseRelationship:
     is_a: ScientificClaim
     attributes:
@@ -316,7 +330,7 @@ classes:
           The name of the nutrient defined in the triple,
           including vitamins and minerals.
       relationship:
-        range: RelationshipType
+        range: Relationship
         description: >-
           The name of a type of relationship between the
           nutrient and the disease.
@@ -336,7 +350,7 @@ classes:
           The name of the nutrient defined in the triple,
           including vitamins and minerals.
       relationship:
-        range: RelationshipType
+        range: Relationship
         description: >-
           The name of a type of relationship between the
           nutrient and the phenotype.
@@ -356,7 +370,7 @@ classes:
           The name of the nutrient defined in the triple,
           including vitamins and minerals.
       relationship:
-        range: RelationshipType
+        range: Relationship
         description: >-
           The name of a type of relationship between the
           nutrient and the biological process.
@@ -374,7 +388,7 @@ classes:
           The name of a nutrient defined in the triple,
           including vitamins and minerals.
       relationship:
-        range: RelationshipType
+        range: Relationship
         description: >-
           The name of a type of relationship between the
           nutrient_subject and nutrient_object.
@@ -395,7 +409,7 @@ classes:
           The name of the nutrient defined in the triple,
           including vitamins and minerals.
       relationship:
-        range: RelationshipType
+        range: Relationship
         description: >-
           The name of a type of relationship between the
           nutrient and the anatomical part or system.
@@ -414,7 +428,7 @@ classes:
           The name of the nutrient defined in the triple,
           including vitamins and minerals.
       relationship:
-        range: RelationshipType
+        range: Relationship
         description: >-
           The name of a type of relationship between the
           nutrient and the food or supplement.
