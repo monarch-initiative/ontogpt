@@ -1,0 +1,98 @@
+id: https://example.org/PaperExtractionSchema
+name: PaperExtractionSchema
+title: Paper Extraction Schema
+description: >
+  A simplified schema describing the fields to extract from a paper that includes
+  study metadata and a minimal notion of experiments.
+version: 0.1.0
+
+prefixes:
+  linkml: "https://w3id.org/linkml/"
+  xsd: "http://www.w3.org/2001/XMLSchema#"
+
+imports:
+  - linkml:types
+
+types:
+  string:
+    base: str
+  boolean:
+    base: bool
+
+########################
+# CLASSES
+########################
+
+classes:
+  # The top-level class (root) for the paper
+  Paper:
+    description: "Top-level class representing a single paper/study."
+    tree_root: true
+    slots:
+      - study_title
+      - authors
+      - doi
+      - date
+      - experiments
+
+  Author:
+    description: "Represents an author of the paper."
+    slots:
+      - name
+
+  Experiment:
+    description: "A minimal experiment class (could be Biolog or otherwise)."
+    slots:
+      - experiment_title
+      - is_biolog_experiment
+
+########################
+# SLOTS
+########################
+
+slots:
+  # Paper-level slots
+  study_title:
+    description: "Title of the study."
+    range: string
+    required: true
+
+  authors:
+    description: "List of authors of the paper."
+    range: Author
+    multivalued: true
+    required: true
+
+  doi:
+    description: "DOI of the publication."
+    range: string
+    required: false
+
+  date:
+    description: "Date of the publication or the study."
+    range: string
+    required: false
+
+  experiments:
+    description: "List of experiments mentioned in the paper."
+    range: Experiment
+    multivalued: true
+    required: false
+
+  # Author-level slot
+  name:
+    description: "Name of the author."
+    range: string
+    required: true
+
+  # Experiment-level slots
+  experiment_title:
+    description: "Title or short description of the experiment."
+    range: string
+    required: false
+
+  is_biolog_experiment:
+    description: "Flag indicating if this experiment is a Biolog experiment."
+    range: boolean
+    required: false
+
