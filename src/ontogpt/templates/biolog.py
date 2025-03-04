@@ -284,7 +284,7 @@ class Paper(ConfiguredBaseModel):
                                              "found, use 'Not provided'."}},
          'domain_of': ['Paper'],
          'examples': [{'value': '14 April 2021'}]} })
-    experiments: List[str] = Field(default=..., description="""Experiments (e.g., Biolog) included in the paper.""", json_schema_extra = { "linkml_meta": {'alias': 'experiments',
+    experiments: List[Experiment] = Field(default=..., description="""Experiments (e.g., Biolog) included in the paper.""", json_schema_extra = { "linkml_meta": {'alias': 'experiments',
          'annotations': {'prompt': {'tag': 'prompt',
                                     'value': 'Extract a list of brief descriptions of '
                                              'experiments\n'
@@ -373,23 +373,25 @@ class Experiment(NamedEntity):
     host: Optional[List[str]] = Field(default=None, description="""One or more hosts in the experiment.""", json_schema_extra = { "linkml_meta": {'alias': 'host',
          'annotations': {'prompt': {'tag': 'prompt',
                                     'value': 'Identify the host organisms or systems '
-                                             'used.\n'
-                                             "If not mentioned, use 'Not "
-                                             "provided'.\n"}},
+                                             'used\n'
+                                             'in a semicolon-delimited list.\n'},
+                         'prompt.examples': {'tag': 'prompt.examples',
+                                             'value': 'Brachypodium distachyon; '
+                                                      'Arabidopsis thaliana'}},
          'domain_of': ['Experiment'],
          'examples': [{'value': 'Brachypodium distachyon'}]} })
     host_type: Optional[str] = Field(default=None, description="""Type of host (e.g., plant, animal).""", json_schema_extra = { "linkml_meta": {'alias': 'host_type',
          'annotations': {'prompt': {'tag': 'prompt',
                                     'value': 'Describe the host type if applicable '
                                              "(e.g. 'plant'). If nothing specified, "
-                                             "'Not provided'.\n"}},
+                                             "'Not provided'."}},
          'domain_of': ['Experiment'],
          'examples': [{'value': 'Plant'}]} })
     target_microbes: Optional[List[str]] = Field(default=None, description="""Microbes targeted in the experiment.""", json_schema_extra = { "linkml_meta": {'alias': 'target_microbes',
          'annotations': {'prompt': {'tag': 'prompt',
                                     'value': 'Extract a list of target microbes '
-                                             "studied. If none are mentioned, 'Not "
-                                             "provided'.\n"}},
+                                             'studied in\n'
+                                             'a semicolon-delimited list.\n'}},
          'domain_of': ['Experiment'],
          'examples': [{'value': 'Pseudomonas fluorescens'}]} })
     biological_system: Optional[str] = Field(default=None, description="""Biological system under study.""", json_schema_extra = { "linkml_meta": {'alias': 'biological_system',
@@ -399,17 +401,19 @@ class Experiment(NamedEntity):
                                              "provided'."}},
          'domain_of': ['Experiment'],
          'examples': [{'value': 'Root exudates system'}]} })
-    conditions: Optional[str] = Field(default=None, description="""Experimental conditions (temperature, pH, etc.).""", json_schema_extra = { "linkml_meta": {'alias': 'conditions',
+    conditions: Optional[List[str]] = Field(default=None, description="""Experimental conditions (temperature, pH, etc.).""", json_schema_extra = { "linkml_meta": {'alias': 'conditions',
          'annotations': {'prompt': {'tag': 'prompt',
                                     'value': 'Identify relevant experimental '
-                                             'conditions (e.g., 25°C, pH 7).\n'
+                                             'conditions in a\n'
+                                             'semicolon-delimited list (e.g., 25°C; pH '
+                                             '7).\n'
                                              "If not stated, 'Not provided'.\n"}},
          'domain_of': ['Experiment'],
          'examples': [{'value': 'pH 7, 25°C'}]} })
     experimental_factors: Optional[List[str]] = Field(default=None, description="""Factors tested or measured.""", json_schema_extra = { "linkml_meta": {'alias': 'experimental_factors',
          'annotations': {'prompt': {'tag': 'prompt',
-                                    'value': 'List experimental factors or '
-                                             'treatments.\n'
+                                    'value': 'List experimental factors or treatments\n'
+                                             'in a semicolon-delimited list.\n'
                                              "If no info, 'Not provided'.\n"}},
          'domain_of': ['Experiment'],
          'examples': [{'value': 'Root exudates presence vs. absence'}]} })
@@ -430,25 +434,37 @@ class Experiment(NamedEntity):
          'examples': [{'value': 'Phenotype MicroArray'}]} })
     plates: Optional[List[str]] = Field(default=None, description="""Biolog plates used (e.g., EcoPlate, GEN III, PM01, PM02A).""", json_schema_extra = { "linkml_meta": {'alias': 'plates',
          'annotations': {'prompt': {'tag': 'prompt',
-                                    'value': 'Extract the name(s) of any Biolog plates '
-                                             '(e.g., PM01, PM02A).\n'
-                                             "If not mentioned, 'Not provided'.\n"}},
+                                    'value': 'Extract the name(s) of any Biolog '
+                                             'plates\n'
+                                             '(e.g., PM01, PM02A) in a '
+                                             'semicolon-delimited list.\n'
+                                             "If not mentioned, 'Not provided'.\n"},
+                         'prompt.examples': {'tag': 'prompt.examples',
+                                             'value': 'PM01; PM02A'}},
          'domain_of': ['Experiment'],
          'examples': [{'value': 'PM01'}, {'value': 'PM02A'}]} })
     replicates: Optional[str] = Field(default=None, description="""Number of replicates.""", json_schema_extra = { "linkml_meta": {'alias': 'replicates',
          'annotations': {'prompt': {'tag': 'prompt',
-                                    'value': 'Extract the number of replicates.\n'
+                                    'value': 'Extract the number of replicates as a '
+                                             'single number.\n'
                                              "If not mentioned, 'Not provided'.\n"}},
          'domain_of': ['Experiment'],
          'examples': [{'value': '3'}]} })
     protocol_steps: Optional[List[str]] = Field(default=None, description="""Key steps in the experimental protocol.""", json_schema_extra = { "linkml_meta": {'alias': 'protocol_steps',
          'annotations': {'prompt': {'tag': 'prompt',
                                     'value': 'List the full protocol steps or key '
-                                             'experimental procedures, including\n'
-                                             'inoculation details, incubation '
-                                             'times/temperatures, data recording '
-                                             'intervals, etc.\n'
-                                             "If not provided, 'Not provided'.\n"}},
+                                             'experimental procedures,\n'
+                                             'including inoculation details, '
+                                             'incubation times/temperatures,\n'
+                                             'data recording intervals, and data '
+                                             'analysis steps.\n'
+                                             'This should be a semicolon-delimited '
+                                             'list.\n'
+                                             'Do not include newlines.\n'},
+                         'prompt.examples': {'tag': 'prompt.examples',
+                                             'value': '1) Grow cells overnight on LB '
+                                                      'agar; 2) Harvest and suspend in '
+                                                      'IF-0'}},
          'domain_of': ['Experiment'],
          'examples': [{'value': '1) Grow cells overnight on LB agar   2) Harvest and '
                                 'suspend in IF-0   3) Adjust transmittance to 42% '
@@ -461,7 +477,9 @@ class Experiment(NamedEntity):
     plate_reader_types_of_data_collected: Optional[List[str]] = Field(default=None, description="""Data types collected (OD, respiration, formazan formation, etc.).""", json_schema_extra = { "linkml_meta": {'alias': 'plate_reader_types_of_data_collected',
          'annotations': {'prompt': {'tag': 'prompt',
                                     'value': 'Identify data types measured by the '
-                                             'plate reader (e.g. formazan, OD).\n'
+                                             'plate reader\n'
+                                             '(e.g. formazan, OD) in a semi-colon '
+                                             'delimited list.\n'
                                              "If none, 'Not provided'.\n"}},
          'domain_of': ['Experiment'],
          'examples': [{'value': 'Formazan production, recorded by OmniLog system'}]} })
@@ -484,16 +502,21 @@ class Experiment(NamedEntity):
     instrument_used: Optional[List[str]] = Field(default=None, description="""Instrument or equipment used for the experiment.""", json_schema_extra = { "linkml_meta": {'alias': 'instrument_used',
          'annotations': {'prompt': {'tag': 'prompt',
                                     'value': 'Extract the name(s) of the '
-                                             'instrument/equipment used (e.g., OmniLog '
-                                             'system).\n'
+                                             'instrument/equipment used\n'
+                                             '(e.g., OmniLog system) in a '
+                                             'semicolon-delimited list.\n'
                                              "If none, 'Not provided'.\n"}},
          'domain_of': ['Experiment'],
          'examples': [{'value': 'OmniLog Phenotype MicroArray System (Biolog)'}]} })
     analysis_software: Optional[List[str]] = Field(default=None, description="""Software used to analyze or interpret data.""", json_schema_extra = { "linkml_meta": {'alias': 'analysis_software',
          'annotations': {'prompt': {'tag': 'prompt',
-                                    'value': 'Extract any software or platform used '
-                                             'for data analysis.\n'
-                                             "If not mentioned, 'Not provided'.\n"}},
+                                    'value': 'Extract any software or platforms used '
+                                             'for data analysis\n'
+                                             'in a semicolon-delimited list.\n'
+                                             "If not mentioned, 'Not provided'.\n"},
+                         'prompt.examples': {'tag': 'prompt.examples',
+                                             'value': 'OmniLog Parametric Analysis '
+                                                      'software v1.20.02'}},
          'domain_of': ['Experiment'],
          'examples': [{'value': 'OmniLog Parametric Analysis software v1.20.02 '
                                 '(Biolog)'}]} })

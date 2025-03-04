@@ -121,6 +121,8 @@ classes:
             Do not provide any details here not related to experiments.
             Do not include newlines.
         range: Experiment
+        inlined: true
+        inlined_as_list: true
         multivalued: true
         required: true
 
@@ -179,8 +181,10 @@ classes:
           - value: "Brachypodium distachyon"
         annotations:
           prompt: |
-            Identify the host organisms or systems used.
-            If not mentioned, use 'Not provided'.
+            Identify the host organisms or systems used
+            in a semicolon-delimited list.
+          prompt.examples:
+            Brachypodium distachyon; Arabidopsis thaliana
         range: Host
         multivalued: true
         required: false
@@ -190,8 +194,9 @@ classes:
         examples:
           - value: "Plant"
         annotations:
-          prompt: |
-            Describe the host type if applicable (e.g. 'plant'). If nothing specified, 'Not provided'.
+          prompt: >-
+            Describe the host type if applicable (e.g. 'plant').
+            If nothing specified, 'Not provided'.
         range: string
         required: false
 
@@ -201,7 +206,8 @@ classes:
           - value: "Pseudomonas fluorescens"
         annotations:
           prompt: |
-            Extract a list of target microbes studied. If none are mentioned, 'Not provided'.
+            Extract a list of target microbes studied in
+            a semicolon-delimited list.
         range: Microbe
         multivalued: true
         required: false
@@ -211,7 +217,9 @@ classes:
         examples:
           - value: "Root exudates system"
         annotations:
-          prompt: "Extract the focal biological system (e.g., rhizosphere). If none, 'Not provided'."
+          prompt: >-
+            Extract the focal biological system (e.g., rhizosphere).
+            If none, 'Not provided'.
         range: string
         required: false
 
@@ -221,8 +229,10 @@ classes:
           - value: "pH 7, 25°C"
         annotations:
           prompt: |
-            Identify relevant experimental conditions (e.g., 25°C, pH 7).
+            Identify relevant experimental conditions in a
+            semicolon-delimited list (e.g., 25°C; pH 7).
             If not stated, 'Not provided'.
+        multivalued: true
         range: string
         required: false
 
@@ -232,7 +242,8 @@ classes:
           - value: "Root exudates presence vs. absence"
         annotations:
           prompt: |
-            List experimental factors or treatments.
+            List experimental factors or treatments
+            in a semicolon-delimited list.
             If no info, 'Not provided'.
         range: ExperimentalFactor
         multivalued: true
@@ -268,8 +279,10 @@ classes:
           - value: "PM02A"
         annotations:
           prompt: |
-            Extract the name(s) of any Biolog plates (e.g., PM01, PM02A).
+            Extract the name(s) of any Biolog plates
+            (e.g., PM01, PM02A) in a semicolon-delimited list.
             If not mentioned, 'Not provided'.
+          prompt.examples: PM01; PM02A
         range: string
         multivalued: true
         required: false
@@ -280,7 +293,7 @@ classes:
           - value: "3"
         annotations:
           prompt: |
-            Extract the number of replicates.
+            Extract the number of replicates as a single number.
             If not mentioned, 'Not provided'.
         range: string
         required: false
@@ -299,9 +312,13 @@ classes:
               8) Data analysis with OmniLog Parametric Analysis software
         annotations:
           prompt: |
-            List the full protocol steps or key experimental procedures, including
-            inoculation details, incubation times/temperatures, data recording intervals, etc.
-            If not provided, 'Not provided'.
+            List the full protocol steps or key experimental procedures,
+            including inoculation details, incubation times/temperatures,
+            data recording intervals, and data analysis steps.
+            This should be a semicolon-delimited list.
+            Do not include newlines.
+          prompt.examples:
+            1) Grow cells overnight on LB agar; 2) Harvest and suspend in IF-0
         range: string
         multivalued: true
         required: false
@@ -312,7 +329,8 @@ classes:
           - value: "Formazan production, recorded by OmniLog system"
         annotations:
           prompt: |
-            Identify data types measured by the plate reader (e.g. formazan, OD).
+            Identify data types measured by the plate reader
+            (e.g. formazan, OD) in a semi-colon delimited list.
             If none, 'Not provided'.
         range: string
         multivalued: true
@@ -346,7 +364,8 @@ classes:
           - value: "OmniLog Phenotype MicroArray System (Biolog)"
         annotations:
           prompt: |
-            Extract the name(s) of the instrument/equipment used (e.g., OmniLog system).
+            Extract the name(s) of the instrument/equipment used
+            (e.g., OmniLog system) in a semicolon-delimited list.
             If none, 'Not provided'.
         range: string
         multivalued: true
@@ -358,8 +377,10 @@ classes:
           - value: "OmniLog Parametric Analysis software v1.20.02 (Biolog)"
         annotations:
           prompt: |
-            Extract any software or platform used for data analysis.
+            Extract any software or platforms used for data analysis
+            in a semicolon-delimited list.
             If not mentioned, 'Not provided'.
+          prompt.examples: OmniLog Parametric Analysis software v1.20.02
         range: string
         multivalued: true
         required: false
