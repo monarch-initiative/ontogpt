@@ -94,8 +94,32 @@ classes:
           - value: "Biolog Phenotype MicroArray; RNA-seq for gene expression"
         annotations:
           prompt: |
-            Extract a list of experiments described in the paper.
-            If nothing is mentioned, use 'Not provided'.
+            Extract a list of brief descriptions of experiments
+            described in the paper. This list must be semicolon-delimited.
+            For each description, include all of the following details if
+            provided: experiment motivation (why it was performed),
+            experiment design (how it was performed, including methods,
+            tools, organisms, and chemicals used), environment (the location
+            and conditions in which the experiment occurred, including
+            metrics like temperature), all organisms used and their
+            high-level type (e.g., plant, animal), the biological system
+            under study (e.g., rhizosphere), experimental conditions
+            (temperature, pH, etc.), and experimental factors tested or measured.
+            Also note whether the experiment is a Biolog experiment and if so,
+            the type or subtype of experiment (e.g., Phenotype MicroArray),
+            the Biolog plates used (e.g., PM01), the number of replicates, all
+            key steps in the experimental protocol, the types of data collected
+            by the plate reader (e.g., OD, respiration), the protocol for
+            measuring optical density (e.g., OD600 measured every 2 hours), 
+            the protocol for measuring respiration (e.g., Colorimetric change
+            at 590 nm for formazan detection), the instrument or equipment used
+            (e.g., OmniLog Phenotype MicroArray System), the software used for
+            data analysis (e.g., OmniLog Parametric Analysis software), the
+            incubation temperature (e.g., 25°C), the total duration of incubation
+            (e.g., 48 h), and any other relevant details.
+            If nothing is mentioned regarding experiments, use 'Not provided'.
+            Do not provide any details here not related to experiments.
+            Do not include newlines.
         range: Experiment
         multivalued: true
         required: true
