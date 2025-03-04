@@ -15,6 +15,7 @@ default_range: string
 
 imports:
   - linkml:types
+  - core
 
 ########################
 # ENUMS
@@ -37,8 +38,6 @@ enums:
 ########################
 
 classes:
-  NamedEntity:
-    description: "A generic named entity for all non-root classes."
 
   Paper:
     tree_root: true
@@ -50,8 +49,10 @@ classes:
           - value: "Root Exudates Alter the Expression of Diverse Metabolic, Transport, Regulatory, and Stress Response Genes in Rhizosphere Pseudomonas."
             description: "From Mavrodi et al. 2021"
         annotations:
-          prompt: "Extract the paper's title. If not found, return 'Not provided'."
-        range: string
+          prompt: >-
+            Extract the paper's title. If not found, return 'Not provided'.
+          prompt.examples:
+            - value: "Root Exudates Alter the Expression of Diverse Metabolic, Transport, Regulatory, and Stress Response Genes in Rhizosphere Pseudomonas."
         required: true
 
       authors:
