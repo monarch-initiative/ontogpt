@@ -250,7 +250,14 @@ class Paper(ConfiguredBaseModel):
     study_title: str = Field(default=..., description="""The paper's title.""", json_schema_extra = { "linkml_meta": {'alias': 'study_title',
          'annotations': {'prompt': {'tag': 'prompt',
                                     'value': "Extract the paper's title. If not found, "
-                                             "return 'Not provided'."}},
+                                             "return only 'Not provided'."},
+                         'prompt.examples': {'tag': 'prompt.examples',
+                                             'value': 'Root Exudates Alter the '
+                                                      'Expression of Diverse '
+                                                      'Metabolic, Transport, '
+                                                      'Regulatory, and Stress Response '
+                                                      'Genes in Rhizosphere '
+                                                      'Pseudomonas.'}},
          'domain_of': ['Paper'],
          'examples': [{'description': 'From Mavrodi et al. 2021',
                        'value': 'Root Exudates Alter the Expression of Diverse '

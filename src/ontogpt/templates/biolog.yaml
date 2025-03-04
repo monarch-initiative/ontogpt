@@ -50,9 +50,9 @@ classes:
             description: "From Mavrodi et al. 2021"
         annotations:
           prompt: >-
-            Extract the paper's title. If not found, return 'Not provided'.
+            Extract the paper's title. If not found, return only 'Not provided'.
           prompt.examples:
-            - value: "Root Exudates Alter the Expression of Diverse Metabolic, Transport, Regulatory, and Stress Response Genes in Rhizosphere Pseudomonas."
+            Root Exudates Alter the Expression of Diverse Metabolic, Transport, Regulatory, and Stress Response Genes in Rhizosphere Pseudomonas.
         required: true
 
       authors:
