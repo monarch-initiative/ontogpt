@@ -62,10 +62,11 @@ classes:
           - value: "Janiece R. McWilliams"
         annotations:
           prompt: |
-            Extract a list of authors (each as a separate entry).
+            Extract a list of authors, semicolon delimited.
             If multiple authors appear in one string, please split them carefully.
             If not found, use 'Not provided'.
-        range: Author
+        # range: Author
+        range: string
         multivalued: true
         required: true
 
@@ -99,18 +100,21 @@ classes:
         multivalued: true
         required: true
 
-  Author:
-    is_a: NamedEntity
-    description: "An author of the paper."
-    attributes:
-      name:
-        description: "Name of the author."
-        examples:
-          - value: "Olga V. Mavrodi"
-        annotations:
-          prompt: "Extract the full name of this author. If none, return 'Not provided'."
-        range: string
-        required: true
+  # Author class is redundant if name only,
+  # but can be useful if more author details are needed.
+
+  # Author:
+  #   is_a: NamedEntity
+  #   description: "An author of the paper."
+  #   attributes:
+  #     name:
+  #       description: "Name of the author."
+  #       examples:
+  #         - value: "Olga V. Mavrodi"
+  #       annotations:
+  #         prompt: "Extract the full name of this author. If none, return 'Not provided'."
+  #       range: string
+  #       required: true
 
   Experiment:
     is_a: NamedEntity

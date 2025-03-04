@@ -265,8 +265,8 @@ class Paper(ConfiguredBaseModel):
                                 'Genes in Rhizosphere Pseudomonas.'}]} })
     authors: List[str] = Field(default=..., description="""Authors of the paper.""", json_schema_extra = { "linkml_meta": {'alias': 'authors',
          'annotations': {'prompt': {'tag': 'prompt',
-                                    'value': 'Extract a list of authors (each as a '
-                                             'separate entry).\n'
+                                    'value': 'Extract a list of authors, semicolon '
+                                             'delimited.\n'
                                              'If multiple authors appear in one '
                                              'string, please split them carefully.\n'
                                              "If not found, use 'Not provided'.\n"}},
@@ -293,47 +293,6 @@ class Paper(ConfiguredBaseModel):
          'domain_of': ['Paper'],
          'examples': [{'value': 'Biolog Phenotype MicroArray; RNA-seq for gene '
                                 'expression'}]} })
-
-
-class Author(NamedEntity):
-    """
-    An author of the paper.
-    """
-    linkml_meta: ClassVar[LinkMLMeta] = LinkMLMeta({'from_schema': 'https://example.org/PaperExtractionSchema'})
-
-    name: str = Field(default=..., description="""Name of the author.""", json_schema_extra = { "linkml_meta": {'alias': 'name',
-         'annotations': {'prompt': {'tag': 'prompt',
-                                    'value': 'Extract the full name of this author. If '
-                                             "none, return 'Not provided'."}},
-         'domain_of': ['Author'],
-         'examples': [{'value': 'Olga V. Mavrodi'}]} })
-    id: str = Field(default=..., description="""A unique identifier for the named entity""", json_schema_extra = { "linkml_meta": {'alias': 'id',
-         'annotations': {'prompt.skip': {'tag': 'prompt.skip', 'value': 'true'}},
-         'comments': ['this is populated during the grounding and normalization step'],
-         'domain_of': ['NamedEntity', 'Publication']} })
-    label: Optional[str] = Field(default=None, description="""The label (name) of the named thing""", json_schema_extra = { "linkml_meta": {'alias': 'label',
-         'aliases': ['name'],
-         'annotations': {'owl': {'tag': 'owl',
-                                 'value': 'AnnotationProperty, AnnotationAssertion'}},
-         'domain_of': ['NamedEntity'],
-         'slot_uri': 'rdfs:label'} })
-    original_spans: Optional[List[str]] = Field(default=None, description="""The coordinates of the original text span from which the named entity was extracted, inclusive. For example, \"10:25\" means the span starting from the 10th character and ending with the 25th character. The first character in the text has index 0. Newlines are treated as single characters. Multivalued as there may be multiple spans for a single text.""", json_schema_extra = { "linkml_meta": {'alias': 'original_spans',
-         'annotations': {'prompt.skip': {'tag': 'prompt.skip', 'value': 'true'}},
-         'comments': ['This is determined during grounding and normalization',
-                      'But is based on the full input text'],
-         'domain_of': ['NamedEntity']} })
-
-    @field_validator('original_spans')
-    def pattern_original_spans(cls, v):
-        pattern=re.compile(r"^\d+:\d+$")
-        if isinstance(v,list):
-            for element in v:
-                if isinstance(v, str) and not pattern.match(element):
-                    raise ValueError(f"Invalid original_spans format: {element}")
-        elif isinstance(v,str):
-            if not pattern.match(v):
-                raise ValueError(f"Invalid original_spans format: {v}")
-        return v
 
 
 class Experiment(NamedEntity):
@@ -670,7 +629,6 @@ RelationshipType.model_rebuild()
 Publication.model_rebuild()
 AnnotatorResult.model_rebuild()
 Paper.model_rebuild()
-Author.model_rebuild()
 Experiment.model_rebuild()
 Host.model_rebuild()
 Microbe.model_rebuild()
