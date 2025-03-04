@@ -121,8 +121,6 @@ classes:
             Do not provide any details here not related to experiments.
             Do not include newlines.
         range: Experiment
-        inlined: true
-        inlined_as_list: true
         multivalued: true
         required: true
 
@@ -143,9 +141,16 @@ classes:
   #       required: true
 
   Experiment:
-    is_a: NamedEntity
     description: "A single experiment from the paper."
     attributes:
+
+      label:
+        description: >-
+          A single sentence description of this experiment.
+        annotations:
+          prompt: |
+            A single sentence description of this experiment.
+
       experiment_motivation:
         description: "Rationale for the experiment."
         examples:

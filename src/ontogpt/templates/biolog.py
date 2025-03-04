@@ -125,7 +125,7 @@ class NamedEntity(ConfiguredBaseModel):
          'aliases': ['name'],
          'annotations': {'owl': {'tag': 'owl',
                                  'value': 'AnnotationProperty, AnnotationAssertion'}},
-         'domain_of': ['NamedEntity'],
+         'domain_of': ['NamedEntity', 'Experiment'],
          'slot_uri': 'rdfs:label'} })
     original_spans: Optional[List[str]] = Field(default=None, description="""The coordinates of the original text span from which the named entity was extracted, inclusive. For example, \"10:25\" means the span starting from the 10th character and ending with the 25th character. The first character in the text has index 0. Newlines are treated as single characters. Multivalued as there may be multiple spans for a single text.""", json_schema_extra = { "linkml_meta": {'alias': 'original_spans',
          'annotations': {'prompt.skip': {'tag': 'prompt.skip', 'value': 'true'}},
@@ -202,7 +202,7 @@ class RelationshipType(NamedEntity):
          'aliases': ['name'],
          'annotations': {'owl': {'tag': 'owl',
                                  'value': 'AnnotationProperty, AnnotationAssertion'}},
-         'domain_of': ['NamedEntity'],
+         'domain_of': ['NamedEntity', 'Experiment'],
          'slot_uri': 'rdfs:label'} })
     original_spans: Optional[List[str]] = Field(default=None, description="""The coordinates of the original text span from which the named entity was extracted, inclusive. For example, \"10:25\" means the span starting from the 10th character and ending with the 25th character. The first character in the text has index 0. Newlines are treated as single characters. Multivalued as there may be multiple spans for a single text.""", json_schema_extra = { "linkml_meta": {'alias': 'original_spans',
          'annotations': {'prompt.skip': {'tag': 'prompt.skip', 'value': 'true'}},
@@ -343,12 +343,17 @@ class Paper(ConfiguredBaseModel):
                                 'expression'}]} })
 
 
-class Experiment(NamedEntity):
+class Experiment(ConfiguredBaseModel):
     """
     A single experiment from the paper.
     """
     linkml_meta: ClassVar[LinkMLMeta] = LinkMLMeta({'from_schema': 'https://example.org/PaperExtractionSchema'})
 
+    label: Optional[str] = Field(default=None, description="""A single sentence description of this experiment.""", json_schema_extra = { "linkml_meta": {'alias': 'label',
+         'annotations': {'prompt': {'tag': 'prompt',
+                                    'value': 'A single sentence description of this '
+                                             'experiment.\n'}},
+         'domain_of': ['NamedEntity', 'Experiment']} })
     experiment_motivation: Optional[str] = Field(default=None, description="""Rationale for the experiment.""", json_schema_extra = { "linkml_meta": {'alias': 'experiment_motivation',
          'annotations': {'prompt': {'tag': 'prompt',
                                     'value': 'Explain the motivation or purpose of the '
@@ -526,33 +531,6 @@ class Experiment(NamedEntity):
                                              '(e.g. 48 hours).\n'}},
          'domain_of': ['Experiment'],
          'examples': [{'value': '48 h'}]} })
-    id: str = Field(default=..., description="""A unique identifier for the named entity""", json_schema_extra = { "linkml_meta": {'alias': 'id',
-         'annotations': {'prompt.skip': {'tag': 'prompt.skip', 'value': 'true'}},
-         'comments': ['this is populated during the grounding and normalization step'],
-         'domain_of': ['NamedEntity', 'Publication']} })
-    label: Optional[str] = Field(default=None, description="""The label (name) of the named thing""", json_schema_extra = { "linkml_meta": {'alias': 'label',
-         'aliases': ['name'],
-         'annotations': {'owl': {'tag': 'owl',
-                                 'value': 'AnnotationProperty, AnnotationAssertion'}},
-         'domain_of': ['NamedEntity'],
-         'slot_uri': 'rdfs:label'} })
-    original_spans: Optional[List[str]] = Field(default=None, description="""The coordinates of the original text span from which the named entity was extracted, inclusive. For example, \"10:25\" means the span starting from the 10th character and ending with the 25th character. The first character in the text has index 0. Newlines are treated as single characters. Multivalued as there may be multiple spans for a single text.""", json_schema_extra = { "linkml_meta": {'alias': 'original_spans',
-         'annotations': {'prompt.skip': {'tag': 'prompt.skip', 'value': 'true'}},
-         'comments': ['This is determined during grounding and normalization',
-                      'But is based on the full input text'],
-         'domain_of': ['NamedEntity']} })
-
-    @field_validator('original_spans')
-    def pattern_original_spans(cls, v):
-        pattern=re.compile(r"^\d+:\d+$")
-        if isinstance(v,list):
-            for element in v:
-                if isinstance(v, str) and not pattern.match(element):
-                    raise ValueError(f"Invalid original_spans format: {element}")
-        elif isinstance(v,str):
-            if not pattern.match(v):
-                raise ValueError(f"Invalid original_spans format: {v}")
-        return v
 
 
 class Host(NamedEntity):
@@ -575,7 +553,7 @@ class Host(NamedEntity):
          'aliases': ['name'],
          'annotations': {'owl': {'tag': 'owl',
                                  'value': 'AnnotationProperty, AnnotationAssertion'}},
-         'domain_of': ['NamedEntity'],
+         'domain_of': ['NamedEntity', 'Experiment'],
          'slot_uri': 'rdfs:label'} })
     original_spans: Optional[List[str]] = Field(default=None, description="""The coordinates of the original text span from which the named entity was extracted, inclusive. For example, \"10:25\" means the span starting from the 10th character and ending with the 25th character. The first character in the text has index 0. Newlines are treated as single characters. Multivalued as there may be multiple spans for a single text.""", json_schema_extra = { "linkml_meta": {'alias': 'original_spans',
          'annotations': {'prompt.skip': {'tag': 'prompt.skip', 'value': 'true'}},
@@ -616,7 +594,7 @@ class Microbe(NamedEntity):
          'aliases': ['name'],
          'annotations': {'owl': {'tag': 'owl',
                                  'value': 'AnnotationProperty, AnnotationAssertion'}},
-         'domain_of': ['NamedEntity'],
+         'domain_of': ['NamedEntity', 'Experiment'],
          'slot_uri': 'rdfs:label'} })
     original_spans: Optional[List[str]] = Field(default=None, description="""The coordinates of the original text span from which the named entity was extracted, inclusive. For example, \"10:25\" means the span starting from the 10th character and ending with the 25th character. The first character in the text has index 0. Newlines are treated as single characters. Multivalued as there may be multiple spans for a single text.""", json_schema_extra = { "linkml_meta": {'alias': 'original_spans',
          'annotations': {'prompt.skip': {'tag': 'prompt.skip', 'value': 'true'}},
@@ -658,7 +636,7 @@ class ExperimentalFactor(NamedEntity):
          'aliases': ['name'],
          'annotations': {'owl': {'tag': 'owl',
                                  'value': 'AnnotationProperty, AnnotationAssertion'}},
-         'domain_of': ['NamedEntity'],
+         'domain_of': ['NamedEntity', 'Experiment'],
          'slot_uri': 'rdfs:label'} })
     original_spans: Optional[List[str]] = Field(default=None, description="""The coordinates of the original text span from which the named entity was extracted, inclusive. For example, \"10:25\" means the span starting from the 10th character and ending with the 25th character. The first character in the text has index 0. Newlines are treated as single characters. Multivalued as there may be multiple spans for a single text.""", json_schema_extra = { "linkml_meta": {'alias': 'original_spans',
          'annotations': {'prompt.skip': {'tag': 'prompt.skip', 'value': 'true'}},
