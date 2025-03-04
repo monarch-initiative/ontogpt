@@ -171,7 +171,7 @@ classes:
         examples:
           - value: "Lab-based assay under 25°C"
         annotations:
-          prompt: "Extract the environment or setting. If none, 'Not provided'."
+          prompt: Extract the environment or setting.
         range: string
         required: false
 
@@ -196,7 +196,6 @@ classes:
         annotations:
           prompt: >-
             Describe the host type if applicable (e.g. 'plant').
-            If nothing specified, 'Not provided'.
         range: string
         required: false
 
@@ -219,7 +218,6 @@ classes:
         annotations:
           prompt: >-
             Extract the focal biological system (e.g., rhizosphere).
-            If none, 'Not provided'.
         range: string
         required: false
 
@@ -231,7 +229,6 @@ classes:
           prompt: |
             Identify relevant experimental conditions in a
             semicolon-delimited list (e.g., 25°C; pH 7).
-            If not stated, 'Not provided'.
         multivalued: true
         range: string
         required: false
@@ -244,7 +241,6 @@ classes:
           prompt: |
             List experimental factors or treatments
             in a semicolon-delimited list.
-            If no info, 'Not provided'.
         range: ExperimentalFactor
         multivalued: true
         required: false
@@ -379,7 +375,6 @@ classes:
           prompt: |
             Extract any software or platforms used for data analysis
             in a semicolon-delimited list.
-            If not mentioned, 'Not provided'.
           prompt.examples: OmniLog Parametric Analysis software v1.20.02
         range: string
         multivalued: true
@@ -392,7 +387,6 @@ classes:
         annotations:
           prompt: |
             Extract the incubation temperature if provided (e.g. 25°C).
-            If not mentioned, 'Not provided'.
         range: string
         required: false
 
@@ -403,37 +397,36 @@ classes:
         annotations:
           prompt: |
             Extract how long the incubation lasted (e.g. 48 hours).
-            If not stated, 'Not provided'.
         range: string
         required: false
 
+  # Placeholder, to be expanded
   Host:
     is_a: NamedEntity
-    description: "A host organism or system."
+    description: "Detail of a host organism or system."
     attributes:
-      placeholder_attribute:
-        description: "Placeholder attribute for Host."
+      name:
+        description: "Name of the host organism or system."
         examples:
-          - value: "Host name: B. distachyon"
+          - value: "B. distachyon"
         annotations:
           prompt: |
-            Extract details about this host (placeholder).
-            If not found, 'Not provided'.
+            The name of the host organism or system.
         range: string
         required: false
 
+  # Placeholder, to be expanded
   Microbe:
     is_a: NamedEntity
     description: "Information about a microbial species or strain."
     attributes:
-      placeholder_attribute:
-        description: "Placeholder attribute for Microbe."
+      name:
+        description: "Name of a microbial taxon."
         examples:
           - value: "Pseudomonas fluorescens"
         annotations:
           prompt: |
-            Extract details about this microbe.
-            If none, 'Not provided'.
+            The name of the microbial species or strain.
         range: string
         required: false
 

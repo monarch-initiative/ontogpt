@@ -366,8 +366,7 @@ class Experiment(NamedEntity):
                                 'with/without root exudates.'}]} })
     environment: Optional[str] = Field(default=None, description="""Location or conditions in which the experiment occurred.""", json_schema_extra = { "linkml_meta": {'alias': 'environment',
          'annotations': {'prompt': {'tag': 'prompt',
-                                    'value': 'Extract the environment or setting. If '
-                                             "none, 'Not provided'."}},
+                                    'value': 'Extract the environment or setting.'}},
          'domain_of': ['Experiment'],
          'examples': [{'value': 'Lab-based assay under 25°C'}]} })
     host: Optional[List[str]] = Field(default=None, description="""One or more hosts in the experiment.""", json_schema_extra = { "linkml_meta": {'alias': 'host',
@@ -383,8 +382,7 @@ class Experiment(NamedEntity):
     host_type: Optional[str] = Field(default=None, description="""Type of host (e.g., plant, animal).""", json_schema_extra = { "linkml_meta": {'alias': 'host_type',
          'annotations': {'prompt': {'tag': 'prompt',
                                     'value': 'Describe the host type if applicable '
-                                             "(e.g. 'plant'). If nothing specified, "
-                                             "'Not provided'."}},
+                                             "(e.g. 'plant')."}},
          'domain_of': ['Experiment'],
          'examples': [{'value': 'Plant'}]} })
     target_microbes: Optional[List[str]] = Field(default=None, description="""Microbes targeted in the experiment.""", json_schema_extra = { "linkml_meta": {'alias': 'target_microbes',
@@ -397,8 +395,7 @@ class Experiment(NamedEntity):
     biological_system: Optional[str] = Field(default=None, description="""Biological system under study.""", json_schema_extra = { "linkml_meta": {'alias': 'biological_system',
          'annotations': {'prompt': {'tag': 'prompt',
                                     'value': 'Extract the focal biological system '
-                                             "(e.g., rhizosphere). If none, 'Not "
-                                             "provided'."}},
+                                             '(e.g., rhizosphere).'}},
          'domain_of': ['Experiment'],
          'examples': [{'value': 'Root exudates system'}]} })
     conditions: Optional[List[str]] = Field(default=None, description="""Experimental conditions (temperature, pH, etc.).""", json_schema_extra = { "linkml_meta": {'alias': 'conditions',
@@ -406,15 +403,13 @@ class Experiment(NamedEntity):
                                     'value': 'Identify relevant experimental '
                                              'conditions in a\n'
                                              'semicolon-delimited list (e.g., 25°C; pH '
-                                             '7).\n'
-                                             "If not stated, 'Not provided'.\n"}},
+                                             '7).\n'}},
          'domain_of': ['Experiment'],
          'examples': [{'value': 'pH 7, 25°C'}]} })
     experimental_factors: Optional[List[str]] = Field(default=None, description="""Factors tested or measured.""", json_schema_extra = { "linkml_meta": {'alias': 'experimental_factors',
          'annotations': {'prompt': {'tag': 'prompt',
                                     'value': 'List experimental factors or treatments\n'
-                                             'in a semicolon-delimited list.\n'
-                                             "If no info, 'Not provided'.\n"}},
+                                             'in a semicolon-delimited list.\n'}},
          'domain_of': ['Experiment'],
          'examples': [{'value': 'Root exudates presence vs. absence'}]} })
     is_biolog_experiment: Optional[FlexibleBooleanEnum] = Field(default=None, description="""Whether the experiment is a Biolog experiment.""", json_schema_extra = { "linkml_meta": {'alias': 'is_biolog_experiment',
@@ -512,8 +507,7 @@ class Experiment(NamedEntity):
          'annotations': {'prompt': {'tag': 'prompt',
                                     'value': 'Extract any software or platforms used '
                                              'for data analysis\n'
-                                             'in a semicolon-delimited list.\n'
-                                             "If not mentioned, 'Not provided'.\n"},
+                                             'in a semicolon-delimited list.\n'},
                          'prompt.examples': {'tag': 'prompt.examples',
                                              'value': 'OmniLog Parametric Analysis '
                                                       'software v1.20.02'}},
@@ -523,15 +517,13 @@ class Experiment(NamedEntity):
     incubation_temperature: Optional[str] = Field(default=None, description="""Temperature used for incubating the plates or cultures.""", json_schema_extra = { "linkml_meta": {'alias': 'incubation_temperature',
          'annotations': {'prompt': {'tag': 'prompt',
                                     'value': 'Extract the incubation temperature if '
-                                             'provided (e.g. 25°C).\n'
-                                             "If not mentioned, 'Not provided'.\n"}},
+                                             'provided (e.g. 25°C).\n'}},
          'domain_of': ['Experiment'],
          'examples': [{'value': '25°C'}]} })
     incubation_duration: Optional[str] = Field(default=None, description="""Total duration of incubation (e.g., 48 h).""", json_schema_extra = { "linkml_meta": {'alias': 'incubation_duration',
          'annotations': {'prompt': {'tag': 'prompt',
                                     'value': 'Extract how long the incubation lasted '
-                                             '(e.g. 48 hours).\n'
-                                             "If not stated, 'Not provided'.\n"}},
+                                             '(e.g. 48 hours).\n'}},
          'domain_of': ['Experiment'],
          'examples': [{'value': '48 h'}]} })
     id: str = Field(default=..., description="""A unique identifier for the named entity""", json_schema_extra = { "linkml_meta": {'alias': 'id',
@@ -565,17 +557,16 @@ class Experiment(NamedEntity):
 
 class Host(NamedEntity):
     """
-    A host organism or system.
+    Detail of a host organism or system.
     """
     linkml_meta: ClassVar[LinkMLMeta] = LinkMLMeta({'from_schema': 'https://example.org/PaperExtractionSchema'})
 
-    placeholder_attribute: Optional[str] = Field(default=None, description="""Placeholder attribute for Host.""", json_schema_extra = { "linkml_meta": {'alias': 'placeholder_attribute',
+    name: Optional[str] = Field(default=None, description="""Name of the host organism or system.""", json_schema_extra = { "linkml_meta": {'alias': 'name',
          'annotations': {'prompt': {'tag': 'prompt',
-                                    'value': 'Extract details about this host '
-                                             '(placeholder).\n'
-                                             "If not found, 'Not provided'.\n"}},
-         'domain_of': ['Host', 'Microbe', 'ExperimentalFactor'],
-         'examples': [{'value': 'Host name: B. distachyon'}]} })
+                                    'value': 'The name of the host organism or '
+                                             'system.\n'}},
+         'domain_of': ['Host', 'Microbe'],
+         'examples': [{'value': 'B. distachyon'}]} })
     id: str = Field(default=..., description="""A unique identifier for the named entity""", json_schema_extra = { "linkml_meta": {'alias': 'id',
          'annotations': {'prompt.skip': {'tag': 'prompt.skip', 'value': 'true'}},
          'comments': ['this is populated during the grounding and normalization step'],
@@ -611,11 +602,11 @@ class Microbe(NamedEntity):
     """
     linkml_meta: ClassVar[LinkMLMeta] = LinkMLMeta({'from_schema': 'https://example.org/PaperExtractionSchema'})
 
-    placeholder_attribute: Optional[str] = Field(default=None, description="""Placeholder attribute for Microbe.""", json_schema_extra = { "linkml_meta": {'alias': 'placeholder_attribute',
+    name: Optional[str] = Field(default=None, description="""Name of a microbial taxon.""", json_schema_extra = { "linkml_meta": {'alias': 'name',
          'annotations': {'prompt': {'tag': 'prompt',
-                                    'value': 'Extract details about this microbe.\n'
-                                             "If none, 'Not provided'.\n"}},
-         'domain_of': ['Host', 'Microbe', 'ExperimentalFactor'],
+                                    'value': 'The name of the microbial species or '
+                                             'strain.\n'}},
+         'domain_of': ['Host', 'Microbe'],
          'examples': [{'value': 'Pseudomonas fluorescens'}]} })
     id: str = Field(default=..., description="""A unique identifier for the named entity""", json_schema_extra = { "linkml_meta": {'alias': 'id',
          'annotations': {'prompt.skip': {'tag': 'prompt.skip', 'value': 'true'}},
@@ -657,7 +648,7 @@ class ExperimentalFactor(NamedEntity):
                                     'value': 'Extract details about this experimental '
                                              'factor (e.g. concentration).\n'
                                              "If absent, 'Not provided'.\n"}},
-         'domain_of': ['Host', 'Microbe', 'ExperimentalFactor'],
+         'domain_of': ['ExperimentalFactor'],
          'examples': [{'value': 'Root exudates concentration'}]} })
     id: str = Field(default=..., description="""A unique identifier for the named entity""", json_schema_extra = { "linkml_meta": {'alias': 'id',
          'annotations': {'prompt.skip': {'tag': 'prompt.skip', 'value': 'true'}},
