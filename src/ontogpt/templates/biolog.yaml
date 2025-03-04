@@ -1,0 +1,451 @@
+id: https://example.org/PaperExtractionSchema
+name: PaperExtractionSchema
+title: Paper Extraction Schema
+description: "Schema for extracting structured data from papers, including Biolog Phenotype MicroArray experiments."
+license: https://creativecommons.org/publicdomain/zero/1.0/
+version: 0.1.0
+
+prefixes:
+  rdf: "http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+  linkml: "https://w3id.org/linkml/"
+  paperex: "https://example.org/PaperExtractionSchema/"
+
+default_prefix: paperex
+default_range: string
+
+imports:
+  - linkml:types
+  - core
+
+########################
+# ENUMS
+########################
+
+enums:
+  FlexibleBooleanEnum:
+    description: >
+      A minimal enumeration for capturing yes/no/true/false in lowercase,
+      plus 'not provided' if data are missing or ambiguous.
+    permissible_values:
+      'yes': {}
+      'no': {}
+      'true': {}
+      'false': {}
+      'not provided': {}
+
+########################
+# CLASSES
+########################
+
+classes:
+
+  Paper:
+    tree_root: true
+    description: "A single paper or study."
+    attributes:
+      study_title:
+        description: "The paper's title."
+        examples:
+          - value: "Root Exudates Alter the Expression of Diverse Metabolic, Transport, Regulatory, and Stress Response Genes in Rhizosphere Pseudomonas."
+            description: "From Mavrodi et al. 2021"
+        annotations:
+          prompt: >-
+            Extract the paper's title. If not found, return only 'Not provided'.
+          prompt.examples:
+            Root Exudates Alter the Expression of Diverse Metabolic, Transport, Regulatory, and Stress Response Genes in Rhizosphere Pseudomonas.
+        required: true
+
+      authors:
+        description: "Authors of the paper."
+        examples:
+          - value: "Olga V. Mavrodi"
+          - value: "Janiece R. McWilliams"
+        annotations:
+          prompt: |
+            Extract a list of authors, semicolon delimited.
+            If multiple authors appear in one string, please split them carefully.
+            If not found, use 'Not provided'.
+        # range: Author
+        range: string
+        multivalued: true
+        required: true
+
+      doi:
+        description: "DOI of the publication."
+        examples:
+          - value: "10.3389/fmicb.2021.651282"
+        annotations:
+          prompt: "Extract the DOI. If not found, use 'Not provided'."
+        range: string
+        required: false
+
+      date:
+        description: "Publication date."
+        examples:
+          - value: "14 April 2021"
+        annotations:
+          prompt: "Extract the publication date. If not found, use 'Not provided'."
+        range: string
+        required: false
+
+      experiments:
+        description: "Experiments (e.g., Biolog) included in the paper."
+        examples:
+          - value: "Biolog Phenotype MicroArray; RNA-seq for gene expression"
+        annotations:
+          prompt: |
+            Extract a list of brief descriptions of experiments
+            described in the paper. This list must be semicolon-delimited.
+            For each description, include all of the following details if
+            provided: experiment motivation (why it was performed),
+            experiment design (how it was performed, including methods,
+            tools, organisms, and chemicals used), environment (the location
+            and conditions in which the experiment occurred, including
+            metrics like temperature), all organisms used and their
+            high-level type (e.g., plant, animal), the biological system
+            under study (e.g., rhizosphere), experimental conditions
+            (temperature, pH, etc.), and experimental factors tested or measured.
+            Also note whether the experiment is a Biolog experiment and if so,
+            the type or subtype of experiment (e.g., Phenotype MicroArray),
+            the Biolog plates used (e.g., PM01), the number of replicates, all
+            key steps in the experimental protocol, the types of data collected
+            by the plate reader (e.g., OD, respiration), the protocol for
+            measuring optical density (e.g., OD600 measured every 2 hours), 
+            the protocol for measuring respiration (e.g., Colorimetric change
+            at 590 nm for formazan detection), the instrument or equipment used
+            (e.g., OmniLog Phenotype MicroArray System), the software used for
+            data analysis (e.g., OmniLog Parametric Analysis software), the
+            incubation temperature (e.g., 25°C), the total duration of incubation
+            (e.g., 48 h), and any other relevant details.
+            If nothing is mentioned regarding experiments, use 'Not provided'.
+            Do not provide any details here not related to experiments.
+            Do not include newlines.
+        range: Experiment
+        multivalued: true
+        required: true
+
+  # Author class is redundant if name only,
+  # but can be useful if more author details are needed.
+
+  # Author:
+  #   is_a: NamedEntity
+  #   description: "An author of the paper."
+  #   attributes:
+  #     name:
+  #       description: "Name of the author."
+  #       examples:
+  #         - value: "Olga V. Mavrodi"
+  #       annotations:
+  #         prompt: "Extract the full name of this author. If none, return 'Not provided'."
+  #       range: string
+  #       required: true
+
+  Experiment:
+    description: "A single experiment from the paper."
+    attributes:
+
+      label:
+        description: >-
+          A single sentence description of this experiment.
+        annotations:
+          prompt: |
+            A single sentence description of this experiment.
+
+      experiment_motivation:
+        description: "Rationale for the experiment."
+        examples:
+          - value: "Assess the metabolic impact of root exudates on Pseudomonas strains."
+        annotations:
+          prompt: |
+            Explain the motivation or purpose of the experiment.
+            If missing, use 'Not provided'.
+        range: string
+        required: false
+
+      experiment_design:
+        description: "Summary of how the experiment was designed."
+        examples:
+          - value: "Comparative analysis of Pseudomonas gene expression with/without root exudates."
+        annotations:
+          prompt: "Summarize the overall design. If missing, use 'Not provided'."
+        range: string
+        required: false
+
+      environment:
+        description: "Location or conditions in which the experiment occurred."
+        examples:
+          - value: "Lab-based assay under 25°C"
+        annotations:
+          prompt: Extract the environment or setting.
+        range: string
+        required: false
+
+      host:
+        description: "One or more hosts in the experiment."
+        examples:
+          - value: "Brachypodium distachyon"
+        annotations:
+          prompt: |
+            Identify the host organisms or systems used
+            in a semicolon-delimited list.
+          prompt.examples:
+            Brachypodium distachyon; Arabidopsis thaliana
+        range: Host
+        multivalued: true
+        required: false
+
+      host_type:
+        description: "Type of host (e.g., plant, animal)."
+        examples:
+          - value: "Plant"
+        annotations:
+          prompt: >-
+            Describe the host type if applicable (e.g. 'plant').
+        range: string
+        required: false
+
+      target_microbes:
+        description: "Microbes targeted in the experiment."
+        examples:
+          - value: "Pseudomonas fluorescens"
+        annotations:
+          prompt: |
+            Extract a list of target microbes studied in
+            a semicolon-delimited list.
+        range: Microbe
+        multivalued: true
+        required: false
+
+      biological_system:
+        description: "Biological system under study."
+        examples:
+          - value: "Root exudates system"
+        annotations:
+          prompt: >-
+            Extract the focal biological system (e.g., rhizosphere).
+        range: string
+        required: false
+
+      conditions:
+        description: "Experimental conditions (temperature, pH, etc.)."
+        examples:
+          - value: "pH 7, 25°C"
+        annotations:
+          prompt: |
+            Identify relevant experimental conditions in a
+            semicolon-delimited list (e.g., 25°C; pH 7).
+        multivalued: true
+        range: string
+        required: false
+
+      experimental_factors:
+        description: "Factors tested or measured."
+        examples:
+          - value: "Root exudates presence vs. absence"
+        annotations:
+          prompt: |
+            List experimental factors or treatments
+            in a semicolon-delimited list.
+        range: ExperimentalFactor
+        multivalued: true
+        required: false
+
+      is_biolog_experiment:
+        description: "Whether the experiment is a Biolog experiment."
+        examples:
+          - value: "yes"
+          - value: "no"
+        annotations:
+          prompt: |
+            Indicate if it's a Biolog experiment ('yes' or 'no').
+            If not stated, 'not provided'.
+        range: FlexibleBooleanEnum
+        required: false
+
+      type_of_biolog_experiment:
+        description: "Type or subtype of the Biolog experiment."
+        examples:
+          - value: "Phenotype MicroArray"
+        annotations:
+          prompt: |
+            If it is a Biolog experiment, specify the subtype (e.g., Phenotype MicroArray).
+            Otherwise, 'Not provided'.
+        range: string
+        required: false
+
+      plates:
+        description: "Biolog plates used (e.g., EcoPlate, GEN III, PM01, PM02A)."
+        examples:
+          - value: "PM01"
+          - value: "PM02A"
+        annotations:
+          prompt: |
+            Extract the name(s) of any Biolog plates
+            (e.g., PM01, PM02A) in a semicolon-delimited list.
+            If not mentioned, 'Not provided'.
+          prompt.examples: PM01; PM02A
+        range: string
+        multivalued: true
+        required: false
+
+      replicates:
+        description: "Number of replicates."
+        examples:
+          - value: "3"
+        annotations:
+          prompt: |
+            Extract the number of replicates as a single number.
+            If not mentioned, 'Not provided'.
+        range: string
+        required: false
+
+      protocol_steps:
+        description: "Key steps in the experimental protocol."
+        examples:
+          - value: >
+              1) Grow cells overnight on LB agar  
+              2) Harvest and suspend in IF-0  
+              3) Adjust transmittance to 42% using a turbidimeter  
+              4) Mix suspension to final transmittance of 85%  
+              5) Inoculate PM01 and PM02A plates  
+              6) Incubate in OmniLog at 25°C for 48 h  
+              7) Record formazan formation every 15 min  
+              8) Data analysis with OmniLog Parametric Analysis software
+        annotations:
+          prompt: |
+            List the full protocol steps or key experimental procedures,
+            including inoculation details, incubation times/temperatures,
+            data recording intervals, and data analysis steps.
+            This should be a semicolon-delimited list.
+            Do not include newlines.
+          prompt.examples:
+            1) Grow cells overnight on LB agar; 2) Harvest and suspend in IF-0
+        range: string
+        multivalued: true
+        required: false
+
+      plate_reader_types_of_data_collected:
+        description: "Data types collected (OD, respiration, formazan formation, etc.)."
+        examples:
+          - value: "Formazan production, recorded by OmniLog system"
+        annotations:
+          prompt: |
+            Identify data types measured by the plate reader
+            (e.g. formazan, OD) in a semi-colon delimited list.
+            If none, 'Not provided'.
+        range: string
+        multivalued: true
+        required: false
+
+      od_protocol:
+        description: "Protocol for measuring optical density."
+        examples:
+          - value: "OD600 measured every 2 hours"
+        annotations:
+          prompt: |
+            Describe OD measurement protocol (if relevant).
+            If not described, 'Not provided'.
+        range: string
+        required: false
+
+      respiration_protocol:
+        description: "Protocol for measuring respiration or related metabolic activity."
+        examples:
+          - value: "Colorimetric change at 590 nm for formazan detection"
+        annotations:
+          prompt: |
+            Describe the respiration or metabolic activity measurement protocol (e.g. formazan production).
+            If none, 'Not provided'.
+        range: string
+        required: false
+
+      instrument_used:
+        description: "Instrument or equipment used for the experiment."
+        examples:
+          - value: "OmniLog Phenotype MicroArray System (Biolog)"
+        annotations:
+          prompt: |
+            Extract the name(s) of the instrument/equipment used
+            (e.g., OmniLog system) in a semicolon-delimited list.
+            If none, 'Not provided'.
+        range: string
+        multivalued: true
+        required: false
+
+      analysis_software:
+        description: "Software used to analyze or interpret data."
+        examples:
+          - value: "OmniLog Parametric Analysis software v1.20.02 (Biolog)"
+        annotations:
+          prompt: |
+            Extract any software or platforms used for data analysis
+            in a semicolon-delimited list.
+          prompt.examples: OmniLog Parametric Analysis software v1.20.02
+        range: string
+        multivalued: true
+        required: false
+
+      incubation_temperature:
+        description: "Temperature used for incubating the plates or cultures."
+        examples:
+          - value: "25°C"
+        annotations:
+          prompt: |
+            Extract the incubation temperature if provided (e.g. 25°C).
+        range: string
+        required: false
+
+      incubation_duration:
+        description: "Total duration of incubation (e.g., 48 h)."
+        examples:
+          - value: "48 h"
+        annotations:
+          prompt: |
+            Extract how long the incubation lasted (e.g. 48 hours).
+        range: string
+        required: false
+
+  # Placeholder, to be expanded
+  Host:
+    is_a: NamedEntity
+    description: "Detail of a host organism or system."
+    attributes:
+      name:
+        description: "Name of the host organism or system."
+        examples:
+          - value: "B. distachyon"
+        annotations:
+          prompt: |
+            The name of the host organism or system.
+        range: string
+        required: false
+
+  # Placeholder, to be expanded
+  Microbe:
+    is_a: NamedEntity
+    description: "Information about a microbial species or strain."
+    attributes:
+      name:
+        description: "Name of a microbial taxon."
+        examples:
+          - value: "Pseudomonas fluorescens"
+        annotations:
+          prompt: |
+            The name of the microbial species or strain.
+        range: string
+        required: false
+
+  ExperimentalFactor:
+    is_a: NamedEntity
+    description: "A factor manipulated or measured in an experiment."
+    attributes:
+      placeholder_attribute:
+        description: "Placeholder attribute for ExperimentalFactor."
+        examples:
+          - value: "Root exudates concentration"
+        annotations:
+          prompt: |
+            Extract details about this experimental factor (e.g. concentration).
+            If absent, 'Not provided'.
+        range: string
+        required: false
