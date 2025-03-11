@@ -39,22 +39,23 @@ from ontogpt.engines.spires_engine import SPIRESEngine
 from ontogpt.engines.synonym_engine import SynonymEngine
 from ontogpt.engines.topic_classifier_engine import TopicClassifierEngine
 from ontogpt.evaluation.resolver import create_evaluator
+from ontogpt.io.csv_exporter import CSVExporter
 from ontogpt.io.csv_wrapper import parse_yaml_predictions, write_graph, write_obj_as_csv
 from ontogpt.io.html_exporter import HTMLExporter
+from ontogpt.io.json_wrapper import dump_minimal_json
 from ontogpt.io.markdown_exporter import MarkdownExporter
+from ontogpt.io.owl_exporter import OWLExporter
+from ontogpt.io.rdf_exporter import RDFExporter
 from ontogpt.io.template_loader import get_template_details, get_template_path
+from ontogpt.io.yaml_wrapper import dump_minimal_yaml
+from ontogpt.templates.core import ExtractionResult
 from ontogpt.utils.multilingual import multilingual_analysis
 
 __all__ = [
     "main",
 ]
 
-from ontogpt.io.csv_exporter import CSVExporter
-from ontogpt.io.json_wrapper import dump_minimal_json
-from ontogpt.io.owl_exporter import OWLExporter
-from ontogpt.io.rdf_exporter import RDFExporter
-from ontogpt.io.yaml_wrapper import dump_minimal_yaml
-from ontogpt.templates.core import ExtractionResult
+
 
 VALID_INPUT_FORMATS = [".csv", ".tsv", ".txt", ".od", ".odf", ".ods", ".pdf", ".xls", ".xlsx"]
 VALID_TABULAR_FORMATS = [".csv", ".tsv"]
@@ -1344,7 +1345,7 @@ def text_similarity(text, model, api_base, api_version, model_provider, **kwargs
         raise ValueError("Texts must be separated with @")
     ix = text.index("@")
     text1 = " ".join(text[:ix])
-    text2 = " ".join(text[ix + 1 :])
+    text2 = " ".join(text[ix + 1:])
     logging.info(text1)
     logging.info(text2)
 
@@ -1379,7 +1380,7 @@ def text_distance(text, model, api_base, api_version, model_provider, **kwargs):
         raise ValueError("Text must be separated with @")
     ix = text.index("@")
     text1 = " ".join(text[:ix])
-    text2 = " ".join(text[ix + 1 :])
+    text2 = " ".join(text[ix + 1:])
     logging.info(text1)
     logging.info(text2)
 
@@ -1453,7 +1454,7 @@ def entity_similarity(
     else:
         ix = terms.index("@")
         terms1 = terms[:ix]
-        terms2 = terms[ix + 1 :]
+        terms2 = terms[ix + 1:]
     adapter = get_adapter(ontology)
     entities1 = list(query_terms_iterator(terms1, adapter))
     entities2 = list(query_terms_iterator(terms2, adapter))
