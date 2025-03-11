@@ -23,7 +23,14 @@ from sssom.parsers import parse_sssom_table, to_mapping_set_document
 from sssom.util import to_mapping_set_dataframe
 
 import ontogpt.ontex.extractor as extractor
-from ontogpt import DEFAULT_MODEL, __version__
+from ontogpt import (
+    DEFAULT_MODEL,
+    DEFAULT_TEMPERATURE,
+    VALID_INPUT_FORMATS,
+    VALID_SPREADSHEET_FORMATS,
+    VALID_TABULAR_FORMATS,
+    __version__,
+)
 from ontogpt.clients.llm_client import LLMClient
 from ontogpt.clients.pubmed_client import PubmedClient
 from ontogpt.clients.soup_client import SoupClient
@@ -54,12 +61,6 @@ from ontogpt.utils.multilingual import multilingual_analysis
 __all__ = [
     "main",
 ]
-
-
-
-VALID_INPUT_FORMATS = [".csv", ".tsv", ".txt", ".od", ".odf", ".ods", ".pdf", ".xls", ".xlsx"]
-VALID_TABULAR_FORMATS = [".csv", ".tsv"]
-VALID_SPREADSHEET_FORMATS = [".od", ".odf", ".ods", ".xls", ".xlsb", ".xlsm", ".xlsx"]
 
 
 @dataclass
@@ -345,7 +346,7 @@ temperature_option = click.option(
     "-p",
     "--temperature",
     type=click.FLOAT,
-    default=1.0,
+    default=DEFAULT_TEMPERATURE,
     help="Temperature for model completion.",
 )
 cut_input_text_option = click.option(
