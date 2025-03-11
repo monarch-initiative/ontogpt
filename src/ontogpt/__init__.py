@@ -14,6 +14,9 @@ DEFAULT_MODEL = "gpt-4o"
 # This assumes the OpenAI default, which is between 0 and 2
 DEFAULT_TEMPERATURE = 1.0
 
+# Define the default embedding model
+DEFAULT_EMBEDDING_MODEL = "text-embedding-ada-002"
+
 # These input formats are used in the CLI
 VALID_INPUT_FORMATS = [".csv", ".tsv", ".txt", ".od", ".odf", ".ods", ".pdf", ".xls", ".xlsx"]
 VALID_TABULAR_FORMATS = [".csv", ".tsv"]

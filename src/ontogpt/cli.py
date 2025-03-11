@@ -24,6 +24,7 @@ from sssom.util import to_mapping_set_dataframe
 
 import ontogpt.ontex.extractor as extractor
 from ontogpt import (
+    DEFAULT_EMBEDDING_MODEL,
     DEFAULT_MODEL,
     DEFAULT_TEMPERATURE,
     VALID_INPUT_FORMATS,
@@ -1307,7 +1308,7 @@ def classify_by_topic(
 def embed(text, model, api_base, api_version, model_provider, **kwargs):
     """Embed text."""
     if model is None:
-        model = "text-embedding-ada-002"
+        model = DEFAULT_EMBEDDING_MODEL
     logging.info(f"Using model {model} for embeddings.")
 
     logging.info(f"Embedding with model {model}")
@@ -1334,7 +1335,7 @@ def text_similarity(text, model, api_base, api_version, model_provider, **kwargs
     Text should be separated by @, e.g., "text1 @ text2".
     """
     if model is None:
-        model = "text-embedding-ada-002"
+        model = DEFAULT_EMBEDDING_MODEL
     logging.info(f"Using model {model} for embeddings.")
 
     logging.info(f"Embedding with model {model}")
@@ -1369,7 +1370,7 @@ def text_distance(text, model, api_base, api_version, model_provider, **kwargs):
     Text should be separated by @, e.g., "text1 @ text2".
     """
     if model is None:
-        model = "text-embedding-ada-002"
+        model = DEFAULT_EMBEDDING_MODEL
     logging.info(f"Using model {model} for embeddings.")
 
     logging.info(f"Embedding with model {model}")
