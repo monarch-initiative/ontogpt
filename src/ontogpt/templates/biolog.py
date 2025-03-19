@@ -77,7 +77,7 @@ linkml_meta = LinkMLMeta({'default_prefix': 'paperex',
                               'prefix_reference': 'https://example.org/PaperExtractionSchema/'},
                   'rdf': {'prefix_prefix': 'rdf',
                           'prefix_reference': 'http://www.w3.org/1999/02/22-rdf-syntax-ns#'}},
-     'source_file': 'src/ontogpt/templates/biolog.yaml',
+     'source_file': '/Users/marcin/Documents/VIMSS/ontology/LLMs/ontogpt/src/ontogpt/templates/biolog.yaml',
      'title': 'Paper Extraction Schema'} )
 
 class NullDataOptions(str, Enum):
@@ -673,4 +673,3 @@ Experiment.model_rebuild()
 Host.model_rebuild()
 Microbe.model_rebuild()
 ExperimentalFactor.model_rebuild()
-
