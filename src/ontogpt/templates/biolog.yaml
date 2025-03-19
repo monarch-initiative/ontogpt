@@ -511,14 +511,15 @@ classes:
     is_a: NamedEntity
     description: "An organism's physical trait measured or observed in an experiment."
     id_prefixes:
-      - ECOCORE
-      - PATO
-      - GO
-      #- ENVTHES
-      - OBA
-      - BIODIVTHES
-      - METPO
+      # - ECOCORE
+      # - PATO
+      # - GO
+      # - ENVTHES
+      # - OBA
+      # - BIODIVTHES
+      - https
     annotations:
       prompt: |
         A physical trait of an organism measured or observed in the study.
-      annotators: sqlite:obo:ecocore, sqlite:obo:pato, sqlite:obo:go, sqlite:obo:oba, bioportal:biodivthes, bioportal:metpo
+      # annotators: sqlite:obo:ecocore, sqlite:obo:pato, sqlite:obo:go, sqlite:obo:oba, bioportal:biodivthes, bioportal:metpo
+      annotators: bioportal:metpo

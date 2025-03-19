@@ -740,15 +740,12 @@ class Trait(NamedEntity):
     An organism's physical trait measured or observed in an experiment.
     """
     linkml_meta: ClassVar[LinkMLMeta] = LinkMLMeta({'annotations': {'annotators': {'tag': 'annotators',
-                                        'value': 'sqlite:obo:ecocore, sqlite:obo:pato, '
-                                                 'sqlite:obo:go, sqlite:obo:oba, '
-                                                 'bioportal:biodivthes, '
-                                                 'bioportal:metpo'},
+                                        'value': 'bioportal:metpo'},
                          'prompt': {'tag': 'prompt',
                                     'value': 'A physical trait of an organism measured '
                                              'or observed in the study.\n'}},
          'from_schema': 'https://example.org/PaperExtractionSchema',
-         'id_prefixes': ['ECOCORE', 'PATO', 'GO', 'OBA', 'BIODIVTHES', 'METPO']})
+         'id_prefixes': ['https']})
 
     id: str = Field(default=..., description="""A unique identifier for the named entity""", json_schema_extra = { "linkml_meta": {'alias': 'id',
          'annotations': {'prompt.skip': {'tag': 'prompt.skip', 'value': 'true'}},
