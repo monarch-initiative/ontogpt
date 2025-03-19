@@ -364,7 +364,7 @@ classes:
             Do not include newlines.
           prompt.examples:
             1) Grow cells overnight on LB agar; 2) Harvest and suspend in IF-0
-        range: string
+        range: ProtocolStep
         multivalued: true
         required: false
 
@@ -428,26 +428,6 @@ classes:
           prompt.examples: OmniLog Parametric Analysis software v1.20.02
         range: string
         multivalued: true
-        required: false
-
-      incubation_temperature:
-        description: "Temperature used for incubating the plates or cultures."
-        examples:
-          - value: "25°C"
-        annotations:
-          prompt: |
-            Extract the incubation temperature if provided (e.g. 25°C).
-        range: string
-        required: false
-
-      incubation_duration:
-        description: "Total duration of incubation (e.g., 48 h)."
-        examples:
-          - value: "48 h"
-        annotations:
-          prompt: |
-            Extract how long the incubation lasted (e.g. 48 hours).
-        range: string
         required: false
 
   # Placeholder, to be expanded
@@ -526,3 +506,55 @@ classes:
         A physical trait of an organism measured or observed in the study.
       # annotators: sqlite:obo:ecocore, sqlite:obo:pato, sqlite:obo:go, sqlite:obo:oba, bioportal:biodivthes, bioportal:metpo
       annotators: bioportal:metpo
+
+  ProtocolStep:
+    description: "A step in an experimental protocol."
+    attributes:
+      step_description:
+        description: "A step in the experimental protocol."
+        examples:
+          - value: "Grow cells overnight on LB agar"
+        annotations:
+          prompt: |
+            Description of a step in the experimental protocol.
+          prompt.examples: 1) Grow cells overnight on LB agar
+        range: string
+        required: false
+      culture_media:
+        description: "Culture media used in the step."
+        examples:
+          - value: "LB agar"
+        annotations:
+          prompt: |
+            The culture media used in the step,
+            if applicable. Do not include a value
+            for this field if not relevant.
+          prompt.examples: LB agar
+        range: string
+        required: false
+      culture_temperature:
+        description: "Culture incubation temperature used in the step."
+        examples:
+          - value: "25°C"
+        annotations: 
+          prompt: |
+            The culture conditions used in the step,
+            if applicable, including temperature.
+            Do not include a value for this field if
+            not relevant.
+          prompt.examples: 25°C
+        range: string
+        required: false
+      culture_duration:
+        description: "Culture incubation duration used in the step."
+        examples:
+          - value: "48 h"
+        annotations: 
+          prompt: |
+            The culture incubation duration used in the step,
+            if applicable, expressed as value and unit.
+            Do not include a value for this field if
+            not relevant.
+          prompt.examples: 48 h
+        range: string
+        required: false

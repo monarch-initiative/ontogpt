@@ -491,7 +491,7 @@ class Experiment(ConfiguredBaseModel):
                                              "If not mentioned, 'Not provided'.\n"}},
          'domain_of': ['Experiment'],
          'examples': [{'value': '3'}]} })
-    protocol_steps: Optional[List[str]] = Field(default=None, description="""Key steps in the experimental protocol.""", json_schema_extra = { "linkml_meta": {'alias': 'protocol_steps',
+    protocol_steps: Optional[List[ProtocolStep]] = Field(default=None, description="""Key steps in the experimental protocol.""", json_schema_extra = { "linkml_meta": {'alias': 'protocol_steps',
          'annotations': {'prompt': {'tag': 'prompt',
                                     'value': 'List the full protocol steps or key '
                                              'experimental procedures,\n'
@@ -563,18 +563,6 @@ class Experiment(ConfiguredBaseModel):
          'domain_of': ['Experiment'],
          'examples': [{'value': 'OmniLog Parametric Analysis software v1.20.02 '
                                 '(Biolog)'}]} })
-    incubation_temperature: Optional[str] = Field(default=None, description="""Temperature used for incubating the plates or cultures.""", json_schema_extra = { "linkml_meta": {'alias': 'incubation_temperature',
-         'annotations': {'prompt': {'tag': 'prompt',
-                                    'value': 'Extract the incubation temperature if '
-                                             'provided (e.g. 25°C).\n'}},
-         'domain_of': ['Experiment'],
-         'examples': [{'value': '25°C'}]} })
-    incubation_duration: Optional[str] = Field(default=None, description="""Total duration of incubation (e.g., 48 h).""", json_schema_extra = { "linkml_meta": {'alias': 'incubation_duration',
-         'annotations': {'prompt': {'tag': 'prompt',
-                                    'value': 'Extract how long the incubation lasted '
-                                             '(e.g. 48 hours).\n'}},
-         'domain_of': ['Experiment'],
-         'examples': [{'value': '48 h'}]} })
 
 
 class Host(NamedEntity):
@@ -784,6 +772,57 @@ class Trait(NamedEntity):
         return v
 
 
+class ProtocolStep(ConfiguredBaseModel):
+    """
+    A step in an experimental protocol.
+    """
+    linkml_meta: ClassVar[LinkMLMeta] = LinkMLMeta({'from_schema': 'https://example.org/PaperExtractionSchema'})
+
+    step_description: Optional[str] = Field(default=None, description="""A step in the experimental protocol.""", json_schema_extra = { "linkml_meta": {'alias': 'step_description',
+         'annotations': {'prompt': {'tag': 'prompt',
+                                    'value': 'Description of a step in the '
+                                             'experimental protocol.\n'},
+                         'prompt.examples': {'tag': 'prompt.examples',
+                                             'value': '1) Grow cells overnight on LB '
+                                                      'agar'}},
+         'domain_of': ['ProtocolStep'],
+         'examples': [{'value': 'Grow cells overnight on LB agar'}]} })
+    culture_media: Optional[str] = Field(default=None, description="""Culture media used in the step.""", json_schema_extra = { "linkml_meta": {'alias': 'culture_media',
+         'annotations': {'prompt': {'tag': 'prompt',
+                                    'value': 'The culture media used in the step,\n'
+                                             'if applicable. Do not include a value\n'
+                                             'for this field if not relevant.\n'},
+                         'prompt.examples': {'tag': 'prompt.examples',
+                                             'value': 'LB agar'}},
+         'domain_of': ['ProtocolStep'],
+         'examples': [{'value': 'LB agar'}]} })
+    culture_temperature: Optional[str] = Field(default=None, description="""Culture incubation temperature used in the step.""", json_schema_extra = { "linkml_meta": {'alias': 'culture_temperature',
+         'annotations': {'prompt': {'tag': 'prompt',
+                                    'value': 'The culture conditions used in the '
+                                             'step,\n'
+                                             'if applicable, including temperature.\n'
+                                             'Do not include a value for this field '
+                                             'if\n'
+                                             'not relevant.\n'},
+                         'prompt.examples': {'tag': 'prompt.examples',
+                                             'value': '25°C'}},
+         'domain_of': ['ProtocolStep'],
+         'examples': [{'value': '25°C'}]} })
+    culture_duration: Optional[str] = Field(default=None, description="""Culture incubation duration used in the step.""", json_schema_extra = { "linkml_meta": {'alias': 'culture_duration',
+         'annotations': {'prompt': {'tag': 'prompt',
+                                    'value': 'The culture incubation duration used in '
+                                             'the step,\n'
+                                             'if applicable, expressed as value and '
+                                             'unit.\n'
+                                             'Do not include a value for this field '
+                                             'if\n'
+                                             'not relevant.\n'},
+                         'prompt.examples': {'tag': 'prompt.examples',
+                                             'value': '48 h'}},
+         'domain_of': ['ProtocolStep'],
+         'examples': [{'value': '48 h'}]} })
+
+
 # Model rebuild
 # see https://pydantic-docs.helpmanual.io/usage/models/#rebuilding-a-model
 ExtractionResult.model_rebuild()
@@ -802,4 +841,5 @@ Microbe.model_rebuild()
 MicrobeGroup.model_rebuild()
 ExperimentalFactor.model_rebuild()
 Trait.model_rebuild()
+ProtocolStep.model_rebuild()
 
