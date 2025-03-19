@@ -88,6 +88,18 @@ classes:
         range: string
         required: false
 
+      traits:
+        description: "Organismal traits measured or observed."
+        annotations:
+          prompt: |
+            Extract a semicolon-delimited list of traits
+            focused on in the study.
+          prompt.examples:
+            Growth rate; Lactose production; motility
+        multivalued: true
+        range: Trait
+        required: false
+
       experiments:
         description: "Experiments (e.g., Biolog) included in the paper."
         examples:
@@ -261,7 +273,7 @@ classes:
         annotations:
           prompt: |
             Extract a semicolon-delimited list of traits
-            measured or observed in the study.
+            measured or observed in the experiment.
           prompt.examples:
             Growth rate; Lactose production; motility
         multivalued: true

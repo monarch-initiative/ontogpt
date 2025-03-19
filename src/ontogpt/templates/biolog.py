@@ -284,6 +284,15 @@ class Paper(ConfiguredBaseModel):
                                              "found, use 'Not provided'."}},
          'domain_of': ['Paper'],
          'examples': [{'value': '14 April 2021'}]} })
+    traits: Optional[List[str]] = Field(default=None, description="""Organismal traits measured or observed.""", json_schema_extra = { "linkml_meta": {'alias': 'traits',
+         'annotations': {'prompt': {'tag': 'prompt',
+                                    'value': 'Extract a semicolon-delimited list of '
+                                             'traits\n'
+                                             'focused on in the study.\n'},
+                         'prompt.examples': {'tag': 'prompt.examples',
+                                             'value': 'Growth rate; Lactose '
+                                                      'production; motility'}},
+         'domain_of': ['Paper', 'Experiment']} })
     experiments: List[Experiment] = Field(default=..., description="""Experiments (e.g., Biolog) included in the paper.""", json_schema_extra = { "linkml_meta": {'alias': 'experiments',
          'annotations': {'prompt': {'tag': 'prompt',
                                     'value': 'Extract a list of brief descriptions of '
@@ -432,11 +441,12 @@ class Experiment(ConfiguredBaseModel):
          'annotations': {'prompt': {'tag': 'prompt',
                                     'value': 'Extract a semicolon-delimited list of '
                                              'traits\n'
-                                             'measured or observed in the study.\n'},
+                                             'measured or observed in the '
+                                             'experiment.\n'},
                          'prompt.examples': {'tag': 'prompt.examples',
                                              'value': 'Growth rate; Lactose '
                                                       'production; motility'}},
-         'domain_of': ['Experiment']} })
+         'domain_of': ['Paper', 'Experiment']} })
     experimental_factors: Optional[List[str]] = Field(default=None, description="""Factors tested or measured.""", json_schema_extra = { "linkml_meta": {'alias': 'experimental_factors',
          'annotations': {'prompt': {'tag': 'prompt',
                                     'value': 'List experimental factors or treatments\n'
