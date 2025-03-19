@@ -180,7 +180,7 @@ classes:
         range: string
         required: false
 
-      host:
+      host_organism:
         description: "One or more hosts in the experiment."
         examples:
           - value: "Brachypodium distachyon"
@@ -204,15 +204,33 @@ classes:
         range: string
         required: false
 
-      target_microbes:
-        description: "Microbes targeted in the experiment."
+      target_organisms:
+        description: "Organisms, including microbes, targeted in the experiment."
         examples:
           - value: "Pseudomonas fluorescens"
         annotations:
           prompt: |
-            Extract a list of target microbes studied in
-            a semicolon-delimited list.
+            Extract a semicolon-delimited list of target organisms,
+            including microbes, targeted in the study. 
+          prompt.examples:
+            Pseudomonas fluorescens; Bacillus subtilis; Pseudomonas simiae WCS 417
         range: Microbe
+        multivalued: true
+        required: false
+
+      target_organism_group:
+        description: >-
+          "A high-level description of organisms, including microbes,
+          targeted in the experiment."
+        examples:
+          - value: "Pseudomonas strains"
+        annotations:
+          prompt: |
+            Extract a semicolon-delimited list of groups of target organisms,
+            including microbes, targeted in the study.
+          prompt.examples:
+            Pseudomonas strains; Pseudomonas group; Roseobacter clade
+        range: MicrobeGroup
         multivalued: true
         required: false
 
@@ -432,6 +450,21 @@ classes:
         annotations:
           prompt: |
             The name of the microbial species or strain.
+        range: string
+        required: false
+
+  MicrobeGroup:
+    is_a: NamedEntity
+    description: "Information about a microbial group or taxon."
+    attributes:
+      name:
+        description: "Name of a microbial group or taxon."
+        examples:
+          - value: "Pseudomonas strains"
+        annotations:
+          prompt: |
+            The name of the microbial group.
+          prompt.examples: Pseudomonas strains
         range: string
         required: false
 
