@@ -322,10 +322,12 @@ classes:
           - value: "PM02A"
         annotations:
           prompt: |
-            Extract the name(s) of any Biolog plates
-            (e.g., PM01, PM02A) in a semicolon-delimited list.
+            Extract the name(s) of any phenotype microarray plates
+            (also known as Biolog plates, 96 well plates, microarrays,
+            microarray plates, or microplates) in a semicolon-delimited list.
+            Names may be in the format PM01, PM02A, etc.
             If not mentioned, 'Not provided'.
-          prompt.examples: PM01; PM02A
+          prompt.examples: PM01; PM02A; EcoPlate, GEN III
         range: string
         multivalued: true
         required: false
@@ -402,7 +404,7 @@ classes:
         required: false
 
       instrument_used:
-        description: "Instrument or equipment used for the experiment."
+        description: "Instruments or equipment used for the experiment."
         examples:
           - value: "OmniLog Phenotype MicroArray System (Biolog)"
         annotations:
@@ -410,6 +412,7 @@ classes:
             Extract the name(s) of the instrument/equipment used
             (e.g., OmniLog system) in a semicolon-delimited list.
             If none, 'Not provided'.
+          prompt.examples: OmniLog Phenotype MicroArray System; OmniLog Turbidimeter
         range: string
         multivalued: true
         required: false

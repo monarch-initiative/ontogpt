@@ -470,13 +470,18 @@ class Experiment(ConfiguredBaseModel):
          'examples': [{'value': 'Phenotype MicroArray'}]} })
     plates: Optional[List[str]] = Field(default=None, description="""Biolog plates used (e.g., EcoPlate, GEN III, PM01, PM02A).""", json_schema_extra = { "linkml_meta": {'alias': 'plates',
          'annotations': {'prompt': {'tag': 'prompt',
-                                    'value': 'Extract the name(s) of any Biolog '
-                                             'plates\n'
-                                             '(e.g., PM01, PM02A) in a '
+                                    'value': 'Extract the name(s) of any phenotype '
+                                             'microarray plates\n'
+                                             '(also known as Biolog plates, 96 well '
+                                             'plates, microarrays,\n'
+                                             'microarray plates, or microplates) in a '
                                              'semicolon-delimited list.\n'
+                                             'Names may be in the format PM01, PM02A, '
+                                             'etc.\n'
                                              "If not mentioned, 'Not provided'.\n"},
                          'prompt.examples': {'tag': 'prompt.examples',
-                                             'value': 'PM01; PM02A'}},
+                                             'value': 'PM01; PM02A; EcoPlate, GEN '
+                                                      'III'}},
          'domain_of': ['Experiment'],
          'examples': [{'value': 'PM01'}, {'value': 'PM02A'}]} })
     replicates: Optional[str] = Field(default=None, description="""Number of replicates.""", json_schema_extra = { "linkml_meta": {'alias': 'replicates',
@@ -535,13 +540,16 @@ class Experiment(ConfiguredBaseModel):
          'domain_of': ['Experiment'],
          'examples': [{'value': 'Colorimetric change at 590 nm for formazan '
                                 'detection'}]} })
-    instrument_used: Optional[List[str]] = Field(default=None, description="""Instrument or equipment used for the experiment.""", json_schema_extra = { "linkml_meta": {'alias': 'instrument_used',
+    instrument_used: Optional[List[str]] = Field(default=None, description="""Instruments or equipment used for the experiment.""", json_schema_extra = { "linkml_meta": {'alias': 'instrument_used',
          'annotations': {'prompt': {'tag': 'prompt',
                                     'value': 'Extract the name(s) of the '
                                              'instrument/equipment used\n'
                                              '(e.g., OmniLog system) in a '
                                              'semicolon-delimited list.\n'
-                                             "If none, 'Not provided'.\n"}},
+                                             "If none, 'Not provided'.\n"},
+                         'prompt.examples': {'tag': 'prompt.examples',
+                                             'value': 'OmniLog Phenotype MicroArray '
+                                                      'System; OmniLog Turbidimeter'}},
          'domain_of': ['Experiment'],
          'examples': [{'value': 'OmniLog Phenotype MicroArray System (Biolog)'}]} })
     analysis_software: Optional[List[str]] = Field(default=None, description="""Software used to analyze or interpret data.""", json_schema_extra = { "linkml_meta": {'alias': 'analysis_software',
