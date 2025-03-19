@@ -1,3 +1,4 @@
+id: https://w3id.org/ontogpt/table_values
 name: SimpleTableExtraction
 description: An OntoGPT schema for extracting simple numerical tables with row/column labels from PDF publications
 default_prefix: STE
@@ -6,7 +7,7 @@ default_prefix: STE
 #   STE: https://w3id.org/your-namespace/
 #   RO: http://purl.obolibrary.org/obo/RO_
 imports:
-  - ontogpt:core
+  - core
 classes:
   Table:
     description: “A table extracted from a publication, containing rows and columns of numerical data.”
@@ -79,4 +80,3 @@ slots:
   note:
     description: “Optional note or comment about this particular cell.”
     range: string
-templates: {}
