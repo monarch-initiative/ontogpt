@@ -256,6 +256,18 @@ classes:
         range: string
         required: false
 
+      traits:
+        description: "Organismal traits measured or observed."
+        annotations:
+          prompt: |
+            Extract a semicolon-delimited list of traits
+            measured or observed in the study.
+          prompt.examples:
+            Growth rate; Lactose production; motility
+        multivalued: true
+        range: Trait
+        required: false
+
       experimental_factors:
         description: "Factors tested or measured."
         examples:
@@ -482,3 +494,19 @@ classes:
             If absent, 'Not provided'.
         range: string
         required: false
+
+  Trait:
+    is_a: NamedEntity
+    description: "An organism's physical trait measured or observed in an experiment."
+    id_prefixes:
+      - ECOCORE
+      - PATO
+      - GO
+      #- ENVTHES
+      - OBA
+      - BIODIVTHES
+      - METPO
+    annotations:
+      prompt: |
+        A physical trait of an organism measured or observed in the study.
+      annotators: sqlite:obo:ecocore, sqlite:obo:pato, sqlite:obo:go, sqlite:obo:oba, bioportal:biodivthes, bioportal:metpo
