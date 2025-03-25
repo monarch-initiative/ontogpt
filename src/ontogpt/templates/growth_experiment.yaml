@@ -1,0 +1,244 @@
+id: https://example.org/MicrobialCulturingExtraction
+name: MicrobialCulturingExtraction
+title: "Microbial Culturing Extraction Schema"
+description: >
+  A more sophisticated schema for extracting structured data about microbial
+  liquid culturing media and growth conditions from research articles.
+license: https://creativecommons.org/publicdomain/zero/1.0/
+version: 0.1.0
+
+prefixes:
+  rdf: "http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+  linkml: "https://w3id.org/linkml/"
+  microex: "https://example.org/MicrobialCulturingExtraction/"
+
+default_prefix: microex
+default_range: string
+
+imports:
+  - linkml:types
+  - core
+
+########################
+# ENUMS
+########################
+
+enums:
+  # If needed, reuse this flexible boolean enumeration
+  FlexibleBooleanEnum:
+    description: >
+      A minimal enumeration for capturing yes/no/true/false in lowercase,
+      plus 'not provided' if data are missing or ambiguous.
+    permissible_values:
+      'yes': {}
+      'no': {}
+      'true': {}
+      'false': {}
+      'not provided': {}
+
+########################
+# CLASSES
+########################
+
+classes:
+
+  MicrobialCulturing:
+    tree_root: true
+    description: "Container for microbial culturing information extracted from text."
+    attributes:
+      media:
+        description: "One or more culture media used in the study."
+        range: Medium
+        multivalued: true
+        required: false
+        annotations:
+          prompt: >-
+            List each distinct culture medium described in the text, extracting
+            details into the Medium class. Separate multiple media with semicolons
+            if they are clearly distinct.
+          prompt.examples: "LB medium; M9 minimal medium"
+
+      growth_experiments:
+        description: "One or more growth experiments or conditions described in the study."
+        range: GrowthExperiment
+        multivalued: true
+        required: false
+        annotations:
+          prompt: >-
+            Summarize each distinct growth experiment or set of conditions
+            into the GrowthExperiment class. If multiple growth experiments
+            are described, separate them accordingly.
+          prompt.examples: "Aerobic growth at 30°C; Anaerobic growth in sealed flasks at 37°C"
+
+
+  Medium:
+    description: "Details about a liquid culturing medium."
+    attributes:
+      identifier:
+        description: "A name or code used to identify the medium (e.g., LB, M9, etc.)."
+        examples:
+          - value: "LB"
+        annotations:
+          prompt: "Extract the main name or code for this medium."
+          prompt.examples: "LB; M9"
+        range: string
+        required: false
+
+      label:
+        description: "A human-readable label or short name for the medium."
+        examples:
+          - value: "Lysogeny Broth"
+        annotations:
+          prompt: "Provide the full or commonly used label for the medium."
+          prompt.examples: "Lysogeny Broth"
+        range: string
+        required: false
+
+      ingredients:
+        description: "Ingredients of the medium, including chemical compounds and concentrations."
+        examples:
+          - value: "Tryptone 10 g/L, Yeast Extract 5 g/L, NaCl 10 g/L"
+        annotations:
+          prompt: >-
+            Provide all ingredients used in the medium, including concentrations
+            where specified. If multiple ingredients, separate them with semicolons.
+          prompt.examples: "Tryptone 10 g/L; Yeast Extract 5 g/L; NaCl 10 g/L"
+        range: string
+        required: false
+
+      modifications:
+        description: "Any modifications or special additives to the standard medium recipe."
+        examples:
+          - value: "Adjusted NaCl to 5 g/L; Added 2 g/L glucose"
+        annotations:
+          prompt: "Describe any deviations from the standard recipe."
+          prompt.examples: "Extra glucose; Reduced NaCl"
+        range: string
+        required: false
+
+      preparation_steps:
+        description: "Description of how the medium is prepared."
+        examples:
+          - value: "Sterilized by autoclaving at 121°C for 15 minutes; pH adjusted to 7.0"
+        annotations:
+          prompt: >-
+            Outline the preparation steps for the medium, including sterilization,
+            pH adjustment, or other relevant details.
+          prompt.examples: "Autoclave at 121°C for 15 minutes; Adjust pH to 7.0"
+        range: string
+        required: false
+
+
+  GrowthExperiment:
+    description: "Growth conditions and experimental methods for culturing."
+    attributes:
+      temperature:
+        description: "Temperature(s) at which the culture is grown (e.g., in Celsius)."
+        examples:
+          - value: "30°C"
+        annotations:
+          prompt: "Specify the growth temperature(s). If multiple, separate with semicolons."
+          prompt.examples: "30°C; 37°C"
+        range: string
+        required: false
+
+      salinity:
+        description: "Salinity or salt concentration conditions (e.g., % NaCl)."
+        examples:
+          - value: "3% NaCl"
+        annotations:
+          prompt: >-
+            Provide salinity or salt concentration if given. If multiple or a range,
+            separate with semicolons.
+          prompt.examples: "3% NaCl; 2 M NaCl"
+        range: string
+        required: false
+
+      pH:
+        description: "pH level at which the culture is maintained."
+        examples:
+          - value: "pH 7.0"
+        annotations:
+          prompt: "Provide the pH level for the culture (e.g., pH 7.0)."
+          prompt.examples: "pH 7.2"
+        range: string
+        required: false
+
+      oxygen_status:
+        description: "Oxygen conditions (e.g., aerobic, anaerobic, microaerophilic)."
+        examples:
+          - value: "Aerobic"
+          - value: "Anaerobic"
+        annotations:
+          prompt: >-
+            Indicate whether the culture is aerobic, anaerobic, microaerophilic,
+            or specify an oxygen concentration or partial pressure.
+          prompt.examples: "Aerobic; Microaerophilic; ~5% O2"
+        range: string
+        required: false
+
+      sparging_equipment:
+        description: "Equipment or method used for sparging or aeration (if any)."
+        examples:
+          - value: "Air sparger with 0.2 μm filter at 1 L/min"
+        annotations:
+          prompt: "Provide details on aeration equipment or methods."
+          prompt.examples: "Air sparger at 1 L/min"
+        range: string
+        required: false
+
+      inoculation_method:
+        description: "Method used to inoculate the culture (e.g., inoculum source or process)."
+        examples:
+          - value: "Inoculated with a single colony from a streak plate"
+        annotations:
+          prompt: "Describe how the culture was inoculated, including inoculum origin and technique."
+          prompt.examples: "Single colony from LB agar plate; 1% v/v seed culture"
+        range: string
+        required: false
+
+      mixing_method:
+        description: "Method of agitation or mixing (e.g., stirring speed, shaker, etc.)."
+        examples:
+          - value: "Shaken at 200 rpm on an orbital shaker"
+        annotations:
+          prompt: "Provide details on how the culture was mixed, if at all."
+          prompt.examples: "200 rpm on orbital shaker"
+        range: string
+        required: false
+
+      culturing_duration:
+        description: "Duration of the culture growth or experiment."
+        examples:
+          - value: "24 hours"
+          - value: "48 h"
+        annotations:
+          prompt: >-
+            State how long the culture was grown or observed. Include time units
+            (e.g., 24 h, 48 h).
+          prompt.examples: "24 h; 48 h"
+        range: string
+        required: false
+
+      light_method:
+        description: "Type or intensity of light provided (if relevant) for phototrophic organisms."
+        examples:
+          - value: "Continuous light at 50 μmol photons m⁻² s⁻¹"
+        annotations:
+          prompt: >-
+            Provide the type of lighting (e.g., wavelength, intensity) or indicate
+            dark conditions if relevant.
+          prompt.examples: "Continuous white light at 50 μmol photons m⁻² s⁻¹"
+        range: string
+        required: false
+
+      other_methods:
+        description: "Any other relevant growth or handling methods not captured above."
+        examples:
+          - value: "Maintained under 1 atm CO2; Pressure of 10 MPa"
+        annotations:
+          prompt: "Describe any additional methods or conditions (e.g., special additives, pressure)."
+          prompt.examples: "10% CO2 atmosphere; High pressure environment"
+        range: string
+        required: false
+
