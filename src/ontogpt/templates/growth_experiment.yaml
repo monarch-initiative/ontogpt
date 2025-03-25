@@ -74,7 +74,6 @@ classes:
             light method (if relevant), and any other methods or conditions.
           # prompt.examples: "Aerobic growth at 30°C; Anaerobic growth in sealed flasks at 37°C"
 
-
   Medium:
     description: "Details about a liquid culturing medium."
     attributes:
@@ -141,6 +140,15 @@ classes:
   GrowthExperiment:
     description: "Growth conditions and experimental methods for culturing."
     attributes:
+      identifier:
+        description: "A unique identifier for the growth experiment."
+        annotations:
+          prompt: >-
+            Provide a unique identifier for this growth experiment.
+            This may be a summary of the experiment in a few words.
+          prompt.examples: "Aerobic growth of Staphylococcus aureus"
+        range: string
+        required: false
       temperature:
         description: "Temperature(s) at which the culture is grown (e.g., in Celsius)."
         examples:

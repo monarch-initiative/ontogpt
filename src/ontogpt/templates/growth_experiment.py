@@ -285,7 +285,7 @@ class Medium(ConfiguredBaseModel):
          'annotations': {'prompt': {'tag': 'prompt',
                                     'value': 'Extract the main name or code for this '
                                              'medium.'}},
-         'domain_of': ['Medium'],
+         'domain_of': ['Medium', 'GrowthExperiment'],
          'examples': [{'value': 'LB'}]} })
     label: Optional[str] = Field(default=None, description="""A human-readable label or short name for the medium.""", json_schema_extra = { "linkml_meta": {'alias': 'label',
          'annotations': {'prompt': {'tag': 'prompt',
@@ -337,6 +337,15 @@ class GrowthExperiment(ConfiguredBaseModel):
     """
     linkml_meta: ClassVar[LinkMLMeta] = LinkMLMeta({'from_schema': 'https://example.org/MicrobialCulturingExtraction'})
 
+    identifier: Optional[str] = Field(default=None, description="""A unique identifier for the growth experiment.""", json_schema_extra = { "linkml_meta": {'alias': 'identifier',
+         'annotations': {'prompt': {'tag': 'prompt',
+                                    'value': 'Provide a unique identifier for this '
+                                             'growth experiment. This may be a summary '
+                                             'of the experiment in a few words.'},
+                         'prompt.examples': {'tag': 'prompt.examples',
+                                             'value': 'Aerobic growth of '
+                                                      'Staphylococcus aureus'}},
+         'domain_of': ['Medium', 'GrowthExperiment']} })
     temperature: Optional[List[str]] = Field(default=None, description="""Temperature(s) at which the culture is grown (e.g., in Celsius).""", json_schema_extra = { "linkml_meta": {'alias': 'temperature',
          'annotations': {'prompt': {'tag': 'prompt',
                                     'value': 'Specify the growth temperature(s). If '
