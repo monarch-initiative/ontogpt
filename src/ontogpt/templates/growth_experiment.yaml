@@ -53,10 +53,11 @@ classes:
         required: false
         annotations:
           prompt: >-
-            List each distinct culture medium described in the text, extracting
-            details into the Medium class. Separate multiple media with semicolons
-            if they are clearly distinct.
-          prompt.examples: "LB medium; M9 minimal medium"
+            List each distinct culture medium described in the text.
+            Separate multiple media with semicolons if they are clearly
+            distinct. For each, include the main name or code,
+            ingredients, any modifications, and preparation steps.
+          # prompt.examples: "LB medium; M9 minimal medium"
 
       growth_experiments:
         description: "One or more growth experiments or conditions described in the study."
@@ -65,10 +66,13 @@ classes:
         required: false
         annotations:
           prompt: >-
-            Summarize each distinct growth experiment or set of conditions
-            into the GrowthExperiment class. If multiple growth experiments
-            are described, separate them accordingly.
-          prompt.examples: "Aerobic growth at 30°C; Anaerobic growth in sealed flasks at 37°C"
+            Summarize each distinct growth experiment or set of conditions.
+            If multiple growth experiments are described, separate them accordingly
+            in a semicolon-delimited list with no numbering and no newlines.
+            For each, include temperature, salinity, pH, oxygen status, sparging
+            equipment, inoculation method, mixing method, culturing duration,
+            light method (if relevant), and any other methods or conditions.
+          # prompt.examples: "Aerobic growth at 30°C; Anaerobic growth in sealed flasks at 37°C"
 
 
   Medium:
@@ -80,7 +84,7 @@ classes:
           - value: "LB"
         annotations:
           prompt: "Extract the main name or code for this medium."
-          prompt.examples: "LB; M9"
+          # prompt.examples: "LB; M9"
         range: string
         required: false
 
@@ -105,16 +109,20 @@ classes:
           prompt.examples: "Tryptone 10 g/L; Yeast Extract 5 g/L; NaCl 10 g/L"
         range: string
         required: false
+        multivalued: true
 
       modifications:
         description: "Any modifications or special additives to the standard medium recipe."
         examples:
           - value: "Adjusted NaCl to 5 g/L; Added 2 g/L glucose"
         annotations:
-          prompt: "Describe any deviations from the standard recipe."
+          prompt: >-
+            Describe any deviations from the standard recipe.
+            If multiple modifications, separate them with semicolons.
           prompt.examples: "Extra glucose; Reduced NaCl"
         range: string
         required: false
+        multivalued: true
 
       preparation_steps:
         description: "Description of how the medium is prepared."
@@ -123,11 +131,12 @@ classes:
         annotations:
           prompt: >-
             Outline the preparation steps for the medium, including sterilization,
-            pH adjustment, or other relevant details.
+            pH adjustment, or other relevant details. If multiple steps, separate
+            them with semicolons.
           prompt.examples: "Autoclave at 121°C for 15 minutes; Adjust pH to 7.0"
         range: string
         required: false
-
+        multivalued: true
 
   GrowthExperiment:
     description: "Growth conditions and experimental methods for culturing."
@@ -137,10 +146,13 @@ classes:
         examples:
           - value: "30°C"
         annotations:
-          prompt: "Specify the growth temperature(s). If multiple, separate with semicolons."
+          prompt: >-
+            Specify the growth temperature(s).
+            If multiple, separate with semicolons.
           prompt.examples: "30°C; 37°C"
         range: string
         required: false
+        multivalued: true
 
       salinity:
         description: "Salinity or salt concentration conditions (e.g., % NaCl)."
@@ -153,16 +165,20 @@ classes:
           prompt.examples: "3% NaCl; 2 M NaCl"
         range: string
         required: false
+        multivalued: true
 
       pH:
         description: "pH level at which the culture is maintained."
         examples:
           - value: "pH 7.0"
         annotations:
-          prompt: "Provide the pH level for the culture (e.g., pH 7.0)."
+          prompt: >-
+            Provide the pH level for the culture (e.g., pH 7.0).
+            If multiple or a range, separate with semicolons.
           prompt.examples: "pH 7.2"
         range: string
         required: false
+        multivalued: true
 
       oxygen_status:
         description: "Oxygen conditions (e.g., aerobic, anaerobic, microaerophilic)."
@@ -172,40 +188,52 @@ classes:
         annotations:
           prompt: >-
             Indicate whether the culture is aerobic, anaerobic, microaerophilic,
-            or specify an oxygen concentration or partial pressure.
+            or specify an oxygen concentration or partial pressure. If multiple,
+            separate with semicolons.
           prompt.examples: "Aerobic; Microaerophilic; ~5% O2"
         range: string
         required: false
+        multivalued: true
 
       sparging_equipment:
         description: "Equipment or method used for sparging or aeration (if any)."
         examples:
           - value: "Air sparger with 0.2 μm filter at 1 L/min"
         annotations:
-          prompt: "Provide details on aeration equipment or methods."
+          prompt: >-
+            Provide details on aeration equipment or methods.
+            Include flow rate, filter size, or other relevant information.
+            If multiple, separate with semicolons.
           prompt.examples: "Air sparger at 1 L/min"
         range: string
         required: false
+        multivalued: true
 
       inoculation_method:
-        description: "Method used to inoculate the culture (e.g., inoculum source or process)."
+        description: "Method(s) used to inoculate the culture (e.g., inoculum source or process)."
         examples:
           - value: "Inoculated with a single colony from a streak plate"
         annotations:
-          prompt: "Describe how the culture was inoculated, including inoculum origin and technique."
+          prompt: >-
+            Describe how the culture was inoculated, including inoculum origin and technique.
+            If multiple methods, separate with semicolons.
           prompt.examples: "Single colony from LB agar plate; 1% v/v seed culture"
         range: string
         required: false
+        multivalued: true
 
       mixing_method:
         description: "Method of agitation or mixing (e.g., stirring speed, shaker, etc.)."
         examples:
           - value: "Shaken at 200 rpm on an orbital shaker"
         annotations:
-          prompt: "Provide details on how the culture was mixed, if at all."
+          prompt: >-
+            Provide details on how the culture was mixed, if at all.
+            If multiple methods, separate with semicolons.
           prompt.examples: "200 rpm on orbital shaker"
         range: string
         required: false
+        multivalued: true
 
       culturing_duration:
         description: "Duration of the culture growth or experiment."
@@ -215,10 +243,11 @@ classes:
         annotations:
           prompt: >-
             State how long the culture was grown or observed. Include time units
-            (e.g., 24 h, 48 h).
+            (e.g., 24 h, 48 h). If multiple durations, separate with semicolons.
           prompt.examples: "24 h; 48 h"
         range: string
         required: false
+        multivalued: true
 
       light_method:
         description: "Type or intensity of light provided (if relevant) for phototrophic organisms."
@@ -227,18 +256,21 @@ classes:
         annotations:
           prompt: >-
             Provide the type of lighting (e.g., wavelength, intensity) or indicate
-            dark conditions if relevant.
+            dark conditions if relevant. If multiple light conditions, separate with semicolons.
           prompt.examples: "Continuous white light at 50 μmol photons m⁻² s⁻¹"
         range: string
         required: false
+        multivalued: true
 
       other_methods:
         description: "Any other relevant growth or handling methods not captured above."
         examples:
           - value: "Maintained under 1 atm CO2; Pressure of 10 MPa"
         annotations:
-          prompt: "Describe any additional methods or conditions (e.g., special additives, pressure)."
+          prompt: >-
+            Describe any additional methods or conditions (e.g., special additives, pressure).
+            If multiple methods, separate with semicolons.
           prompt.examples: "10% CO2 atmosphere; High pressure environment"
         range: string
         required: false
-
+        multivalued: true
