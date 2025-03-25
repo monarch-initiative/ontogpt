@@ -251,27 +251,37 @@ class MicrobialCulturing(ConfiguredBaseModel):
 
     media: Optional[List[Medium]] = Field(default=None, description="""One or more culture media used in the study.""", json_schema_extra = { "linkml_meta": {'alias': 'media',
          'annotations': {'prompt': {'tag': 'prompt',
-                                    'value': 'List each distinct culture medium '
+                                    'value': 'Summarize each distinct culture medium '
                                              'described in the text. Separate multiple '
-                                             'media with semicolons if they are '
-                                             'clearly distinct. For each, include the '
-                                             'main name or code, ingredients, any '
-                                             'modifications, and preparation steps.'}},
+                                             'summaries with semicolons. For each, '
+                                             'include the main name or code, '
+                                             'ingredients, any modifications, and '
+                                             'preparation steps. Do not include '
+                                             'newlines or numbering.'},
+                         'prompt.examples': {'tag': 'prompt.examples',
+                                             'value': 'Blood agar (BA), made from 0.5% '
+                                                      'Peptone, 0.3% beef '
+                                                      'extract/yeast extract, 1.5% '
+                                                      'agar, 0.5% NaCl, and distilled '
+                                                      'water; M9 minimal medium'}},
          'domain_of': ['MicrobialCulturing']} })
     growth_experiments: Optional[List[GrowthExperiment]] = Field(default=None, description="""One or more growth experiments or conditions described in the study.""", json_schema_extra = { "linkml_meta": {'alias': 'growth_experiments',
          'annotations': {'prompt': {'tag': 'prompt',
                                     'value': 'Summarize each distinct growth '
-                                             'experiment or set of conditions. If '
-                                             'multiple growth experiments are '
-                                             'described, separate them accordingly in '
-                                             'a semicolon-delimited list with no '
+                                             'experiment or set of conditions. '
+                                             'Separate all summaries in a '
+                                             'semicolon-delimited list with no '
                                              'numbering and no newlines. For each, '
                                              'include temperature, salinity, pH, '
                                              'oxygen status, sparging equipment, '
                                              'inoculation method, mixing method, '
                                              'culturing duration, light method (if '
                                              'relevant), and any other methods or '
-                                             'conditions.'}},
+                                             'conditions.'},
+                         'prompt.examples': {'tag': 'prompt.examples',
+                                             'value': 'Aerobic growth at 30°C; '
+                                                      'Anaerobic growth in sealed '
+                                                      'flasks at 37°C'}},
          'domain_of': ['MicrobialCulturing']} })
 
 
