@@ -106,8 +106,6 @@ classes:
             "insulin signaling", or "DNA repair".
             Biological processes do NOT include health states such as
             "healthy teeth" or proteins such as "retinoic acid receptor".
-            Represent the relationship as triples, e.g.,
-            "Nutrient HAS RELATIONSHIP WITH Process".
             Provide the full text from the input text describing the relationship
             without changes or summarization. Replace all semicolons
             in the text with commas. Include all numbered inline
