@@ -1345,7 +1345,7 @@ def text_similarity(text, model, api_base, api_version, model_provider, **kwargs
         raise ValueError("Texts must be separated with @")
     ix = text.index("@")
     text1 = " ".join(text[:ix])
-    text2 = " ".join(text[ix + 1:])
+    text2 = " ".join(text[ix + 1 :])
     logging.info(text1)
     logging.info(text2)
 
@@ -1380,7 +1380,7 @@ def text_distance(text, model, api_base, api_version, model_provider, **kwargs):
         raise ValueError("Text must be separated with @")
     ix = text.index("@")
     text1 = " ".join(text[:ix])
-    text2 = " ".join(text[ix + 1:])
+    text2 = " ".join(text[ix + 1 :])
     logging.info(text1)
     logging.info(text2)
 
@@ -1454,7 +1454,7 @@ def entity_similarity(
     else:
         ix = terms.index("@")
         terms1 = terms[:ix]
-        terms2 = terms[ix + 1:]
+        terms2 = terms[ix + 1 :]
     adapter = get_adapter(ontology)
     entities1 = list(query_terms_iterator(terms1, adapter))
     entities2 = list(query_terms_iterator(terms2, adapter))
