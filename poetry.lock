@@ -4803,22 +4803,6 @@ llm = ["aiohttp", "html2text", "llm (>=0.14,<0.15)"]
 semsimian = ["semsimian (>=0.2.18)"]
 
 [[package]]
-name = "ollama"
-version = "0.4.7"
-description = "The official Python client for Ollama."
-optional = false
-python-versions = "<4.0,>=3.8"
-groups = ["main"]
-files = [
-    {file = "ollama-0.4.7-py3-none-any.whl", hash = "sha256:85505663cca67a83707be5fb3aeff0ea72e67846cea5985529d8eca4366564a1"},
-    {file = "ollama-0.4.7.tar.gz", hash = "sha256:891dcbe54f55397d82d289c459de0ea897e103b86a3f1fad0fdb1895922a75ff"},
-]
-
-[package.dependencies]
-httpx = ">=0.27,<0.29"
-pydantic = ">=2.9.0,<3.0.0"
-
-[[package]]
 name = "ols-client"
 version = "0.1.4"
 description = "A client to the EBI Ontology Lookup Service"
@@ -8591,4 +8575,4 @@ web = ["Jinja2", "fastapi", "python-multipart", "uvicorn"]
 [metadata]
 lock-version = "2.1"
 python-versions = ">=3.9,<3.9.7 || >3.9.7,<3.13"
-content-hash = "1ec66d026318a1e521e5ed33fe20f03550c061bdb0f8b4f0b0a61ae1a2b9fd9a"
+content-hash = "7b558c53c261d729e87ce77a93e9ee9314bdbf69688bd510197f7a76fe9d2306"
