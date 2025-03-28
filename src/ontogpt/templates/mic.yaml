@@ -49,28 +49,15 @@ classes:
             them both. A disease is any abnormal health condition
             (e.g., Alzheimer's disease, systemic lupus erythematosus,
             rheumatoid arthritis, sickle cell anemia, Barth syndrome).
-            Represent the relationship as
-            triples, e.g., "Nutrient HAS RELATIONSHIP WITH
-            Disease". Relationships may include TREATS,
-            PREVENTS, INCREASES RISK OF, DECREASES RISK OF,
-            or others.
-            If the relationship is explicitly negated, precede the
-            relationship with "NOT", e.g., "NOT Nutrient HAS RELATIONSHIP
-            WITH Disease".
-            For each relationship, include the exact full text of one or more
-            sentences describing the relationship from the source text.
-            Include this context until it includes an inline reference number
-            or numbers, e.g., "(5)" or "(5,6)" or "(5-9)".
-            Surround this text with pipe symbols after the triple, e.g.,
-            "Subject RELATION Object |There is a relationship between subject and object (5).|"
-            Do not change or summarize the context sentences.
-            Include all numbered inline references contained in the sentences without changes.
-            Do not include newlines.
+            Provide the full text from the input text describing the relationship
+            without changes or summarization. Replace all semicolons
+            in the text with commas. Include all numbered inline
+            references contained in the sentences without changes.
+            Do not include newlines. If multiple sentences describe the
+            same relationship, include all of them, delimited by
+            pipe symbols.
           prompt.examples: >-
-            Vitamin A DECREASES RISK OF Alzheimer's Disease | In a study, it was found that
-            increased intake of Vitamin A decreases the risk of Alzheimer's Disease (5).|;
-            Vitamin A PREVENTS Systemic Lupus Erythematosus | Evidence suggests that
-            high-dose Vitamin A treatment may prevent Systemic Lupus Erythematosus (5,6).|
+            Evidence suggests that high-dose Vitamin A treatment may prevent Systemic Lupus Erythematosus (5,6).|Further studies confirmed this finding (7).
       nutrient_to_phenotype_relationships:
         range: NutrientToPhenotypeRelationship
         multivalued: true
@@ -90,26 +77,16 @@ classes:
             with a disease. Phenotypes do NOT include high-level
             biological processes such as "Insulin signaling" or "lipid
             metabolism", developmental processes such as "limb development",
-            or health states such as "healthy teeth". Represent the
-            relationship as triples, e.g., "Nutrient HAS RELATIONSHIP
-            WITH Phenotype". Relationships may include TREATS,
-            PREVENTS, or others.
-            If the relationship is explicitly negated, precede the
-            relationship with "NOT", e.g., "NOT Nutrient HAS RELATIONSHIP
-            WITH Phenotype".
-            For each relationship, include the exact full text of one or more
-            sentences describing the relationship from the source text.
-            Include this context until it includes an inline reference number
-            or numbers, e.g., "(5)" or "(5,6)" or "(5-9)".
-            Surround this text with pipe symbols after the triple, e.g.,
-            "Subject RELATION Object |There is a relationship between subject and object (5).|"
-            Do not change or summarize the context sentences.
-            Include all numbered inline references contained in the sentences without changes.
-            Do not include newlines.
+            or health states such as "healthy teeth".
+            Provide the full text from the input text describing the relationship
+            without changes or summarization. Replace all semicolons
+            in the text with commas. Include all numbered inline
+            references contained in the sentences without changes.
+            Do not include newlines. If multiple sentences describe the
+            same relationship, include all of them, delimited by
+            pipe symbols.
           prompt.examples: >-
-            Vitamin A HAS RELATIONSHIP WITH Fever |There is a relationship between
-            Vitamin A and Fever (5).|;Vitamin A HAS RELATIONSHIP WITH Headache |There
-            is a relationship between Vitamin A and Headache (5,9).|
+            There is a relationship between Vitamin A and Fever (5).|This relationship was confirmed in additional studies (6).
       nutrient_to_biological_process_relationships:
         range: NutrientToBiologicalProcessRelationship
         multivalued: true
@@ -130,24 +107,16 @@ classes:
             Biological processes do NOT include health states such as
             "healthy teeth" or proteins such as "retinoic acid receptor".
             Represent the relationship as triples, e.g.,
-            "Nutrient HAS RELATIONSHIP WITH Process". Relationships may include
-            REGULATES, PARTICIPATES IN, or others.
-            If the relationship is explicitly negated, precede the
-            relationship with "NOT", e.g., "NOT Nutrient HAS RELATIONSHIP
-            WITH Process".
-            For each relationship, include the exact full text of one or more
-            sentences describing the relationship from the source text.
-            Include this context until it includes an inline reference number
-            or numbers, e.g., "(5)" or "(5,6)" or "(5-9)".
-            Surround this text with pipe symbols after the triple, e.g.,
-            "Subject RELATION Object |There is a relationship between subject and object (5).|"
-            Do not change or summarize the context sentences.
-            Include all numbered inline references contained in the sentences without changes.
-            Do not include newlines.
+            "Nutrient HAS RELATIONSHIP WITH Process".
+            Provide the full text from the input text describing the relationship
+            without changes or summarization. Replace all semicolons
+            in the text with commas. Include all numbered inline
+            references contained in the sentences without changes.
+            Do not include newlines. If multiple sentences describe the
+            same relationship, include all of them, delimited by
+            pipe symbols.
           prompt.examples: >-
-            Vitamin A HAS RELATIONSHIP WITH Insulin Signaling |There is a relationship between
-            Vitamin A and Insulin Signaling (5).|;Vitamin A HAS RELATIONSHIP WITH DNA Repair |There
-            is a relationship between Vitamin A and DNA Repair (5,12).|
+            There is a relationship between Vitamin A and Insulin Signaling (5).|This relationship was confirmed in additional studies (6).
       nutrient_to_health_status_relationships:
         range: NutrientToHealthStatusRelationship
         multivalued: true
@@ -166,25 +135,16 @@ classes:
             or "liver". Transform names of processes
             to their respective anatomy, e.g., "thyroid function" or
             "thyroid health" should be changed to "thyroid"; "digestion"
-            should be changed to "digestive system". Represent the
-            relationship as triples, e.g., "Nutrient HAS RELATIONSHIP WITH
-            Part". Relationships should be SUPPORTS HEALTH OF.
-            If the relationship is explicitly negated, precede the
-            relationship with "NOT", e.g., "NOT Nutrient HAS RELATIONSHIP
-            WITH Part".
-            For each relationship, include the exact full text of one or more
-            sentences describing the relationship from the source text.
-            Include this context until it includes an inline reference number
-            or numbers, e.g., "(5)" or "(5,6)" or "(5-9)".
-            Surround this text with pipe symbols after the triple, e.g.,
-            "Subject RELATION Object |There is a relationship between subject and object (5).|"
-            Do not change or summarize the context sentences.
-            Include all numbered inline references contained in the sentences without changes.
-            Do not include newlines.
+            should be changed to "digestive system".
+            Provide the full text from the input text describing the relationship
+            without changes or summarization. Replace all semicolons
+            in the text with commas. Include all numbered inline
+            references contained in the sentences without changes.
+            Do not include newlines. If multiple sentences describe the
+            same relationship, include all of them, delimited by
+            pipe symbols.
           prompt.examples: >-
-            Vitamin A HAS RELATIONSHIP WITH Teeth |There is a relationship between
-            Vitamin A and Teeth (5).|;Vitamin A HAS RELATIONSHIP WITH Skin |There
-            is a relationship between Vitamin A and Skin (5,6).|
+            There is a relationship between Vitamin A and Teeth (5).|This relationship was confirmed in additional studies (6).
       nutrient_to_source_relationships:
         range: NutrientToSourceRelationship
         multivalued: true
@@ -199,25 +159,15 @@ classes:
             food or supplement, with a type of relationship
             connecting them both. Example foods include "butter",
             "apple", "watermelon", "beef", or "breakfast cereal".
-            Represent the relationship as triples, e.g., "Nutrient HAS
-            RELATIONSHIP WITH Source". Relationships should be PROVIDED
-            BY.
-            If the relationship is explicitly negated, precede the
-            relationship with "NOT", e.g., "NOT Nutrient HAS RELATIONSHIP
-            WITH Source".
-            For each relationship, include the exact full text of one or more
-            sentences describing the relationship from the source text.
-            Include this context until it includes an inline reference number
-            or numbers, e.g., "(5)" or "(5,6)" or "(5-9)".
-            Surround this text with pipe symbols after the triple, e.g.,
-            "Subject RELATION Object |There is a relationship between subject and object (5).|"
-            Do not change or summarize the context sentences.
-            Include all numbered inline references contained in the sentences without changes.
-            Do not include newlines.
+            Provide the full text from the input text describing the relationship
+            without changes or summarization. Replace all semicolons
+            in the text with commas. Include all numbered inline
+            references contained in the sentences without changes.
+            Do not include newlines. If multiple sentences describe the
+            same relationship, include all of them, delimited by
+            pipe symbols.
           prompt.examples: >-
-            Vitamin A HAS RELATIONSHIP WITH Butter |There is a relationship between
-            Vitamin A and Butter (12).|;Vitamin A HAS RELATIONSHIP WITH Apple |There
-            is a relationship between Vitamin A and Apple (12,41).|
+            Butter is a source of Vitamin A (12).|This relationship was confirmed in additional studies (13).
       nutrient_to_nutrient_relationships:
         range: NutrientToNutrientRelationship
         multivalued: true
@@ -232,25 +182,16 @@ classes:
             nutrient, with a type of relationship connecting
             them both. This does not include relationships
             between nutrients and proteins (e.g., a nutrient
-            and its receptor protein). Represent the relationship as
-            triples, e.g., "Nutrient INTERACTS WITH
-            Nutrient".
-            If the relationship is explicitly negated, precede the
-            relationship with "NOT", e.g., "NOT Nutrient INTERACTS
-            WITH Nutrient".
-            For each relationship, include the exact full text of one or more
-            sentences describing the relationship from the source text.
-            Include this context until it includes an inline reference number
-            or numbers, e.g., "(5)" or "(5,6)" or "(5-9)".
-            Surround this text with pipe symbols after the triple, e.g.,
-            "Subject RELATION Object |There is a relationship between subject and object (5).|"
-            Do not change or summarize the context sentences.
-            Include all numbered inline references contained in the sentences without changes.
-            Do not include newlines.
+            and its receptor protein).
+            Provide the full text from the input text describing the relationship
+            without changes or summarization. Replace all semicolons
+            in the text with commas. Include all numbered inline
+            references contained in the sentences without changes.
+            Do not include newlines. If multiple sentences describe the
+            same relationship, include all of them, delimited by
+            pipe symbols
           prompt.examples: >-
-            Vitamin A INTERACTS WITH Vitamin D |There is a relationship between
-            Vitamin A and Vitamin D (5).|;Vitamin A INTERACTS WITH Vitamin E |There
-            is a relationship between Vitamin A and Vitamin E (9,10).|
+            There is a relationship between Vitamin A and Vitamin D (5).| This relationship was confirmed in additional studies (6).
 
   Nutrient:
     is_a: NamedEntity
@@ -327,17 +268,18 @@ classes:
   ScientificClaim:
     is_a: CompoundExpression
     description: >-
-      A scientific claim made in the input text,
-      structured as a relationship between entities.
+      A scientific claim made in the input text.
     attributes:
       negated:
         range: string
         description: >-
-          Whether the claim is negated in the text,
-          evidenced by being preceded by NOT.
+          Whether the claim is negated in the text.
           This value must be either "True" if
           the claim is negated or "False" if it
-          is not.
+          is not. For example, "Vitamin A is not
+          associated with cancer" would be
+          "True" and "Vitamin A is associated
+          with cancer" would be "False".
       references:
         range: string
         multivalued: true
@@ -378,7 +320,7 @@ classes:
       nutrient:
         range: Nutrient
         description: >-
-          The name of the nutrient defined in the triple,
+          The name of the nutrient defined in the claim,
           including vitamins and minerals.
       relationship:
         range: Relationship
@@ -388,7 +330,7 @@ classes:
       disease:
         range: Disease
         description: >-
-          The name of the disease defined in the triple.
+          The name of the disease defined in the claim.
     comments:
       - a Chemical to Disease relationship
 
@@ -398,7 +340,7 @@ classes:
       nutrient:
         range: Nutrient
         description: >-
-          The name of the nutrient defined in the triple,
+          The name of the nutrient defined in the claim,
           including vitamins and minerals.
       relationship:
         range: Relationship
@@ -408,7 +350,7 @@ classes:
       phenotype:
         range: Phenotype
         description: >-
-          The name of the phenotype defined in the triple.
+          The name of the phenotype defined in the claim.
     comments:
       - a Chemical to Phenotype relationship
 
@@ -418,7 +360,7 @@ classes:
       nutrient:
         range: Nutrient
         description: >-
-          The name of the nutrient defined in the triple,
+          The name of the nutrient defined in the claim,
           including vitamins and minerals.
       relationship:
         range: Relationship
@@ -428,7 +370,7 @@ classes:
       process:
         range: BiologicalProcess
         description: >-
-          The name of the biological process defined in the triple.
+          The name of the biological process defined in the claim.
 
   NutrientToNutrientRelationship:
     is_a: ScientificClaim
@@ -436,7 +378,7 @@ classes:
       nutrient_subject:
         range: Nutrient
         description: >-
-          The name of a nutrient defined in the triple,
+          The name of a nutrient defined in the claim,
           including vitamins and minerals.
       relationship:
         range: Relationship
@@ -446,7 +388,7 @@ classes:
       nutrient_object:
         range: Nutrient
         description: >-
-          The name of a nutrient defined in the triple,
+          The name of a nutrient defined in the claim,
           including vitamins and minerals.
     comments:
       - a Chemical to Chemical relationship
@@ -457,7 +399,7 @@ classes:
       nutrient:
         range: Nutrient
         description: >-
-          The name of the nutrient defined in the triple,
+          The name of the nutrient defined in the claim,
           including vitamins and minerals.
       relationship:
         range: Relationship
@@ -468,7 +410,7 @@ classes:
         range: Anatomy
         description: >-
           The name of the anatomical part or system
-          defined in the triple.
+          defined in the claim.
 
   NutrientToSourceRelationship:
     is_a: ScientificClaim
@@ -476,7 +418,7 @@ classes:
       nutrient:
         range: Nutrient
         description: >-
-          The name of the nutrient defined in the triple,
+          The name of the nutrient defined in the claim,
           including vitamins and minerals.
       relationship:
         range: Relationship
@@ -487,7 +429,7 @@ classes:
         range: FoodOrSupplement
         description: >-
           The name of the food or supplement defined in the
-          triple.
+          claim.
 
 enums:
 

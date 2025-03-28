@@ -260,43 +260,23 @@ class Document(NamedEntity):
                                              "health condition (e.g., Alzheimer's "
                                              'disease, systemic lupus erythematosus, '
                                              'rheumatoid arthritis, sickle cell '
-                                             'anemia, Barth syndrome). Represent the '
-                                             'relationship as triples, e.g., "Nutrient '
-                                             'HAS RELATIONSHIP WITH Disease". '
-                                             'Relationships may include TREATS, '
-                                             'PREVENTS, INCREASES RISK OF, DECREASES '
-                                             'RISK OF, or others. If the relationship '
-                                             'is explicitly negated, precede the '
-                                             'relationship with "NOT", e.g., "NOT '
-                                             'Nutrient HAS RELATIONSHIP WITH Disease". '
-                                             'For each relationship, include the exact '
-                                             'full text of one or more sentences '
-                                             'describing the relationship from the '
-                                             'source text. Include this context until '
-                                             'it includes an inline reference number '
-                                             'or numbers, e.g., "(5)" or "(5,6)" or '
-                                             '"(5-9)". Surround this text with pipe '
-                                             'symbols after the triple, e.g., "Subject '
-                                             'RELATION Object |There is a relationship '
-                                             'between subject and object (5).|" Do not '
-                                             'change or summarize the context '
-                                             'sentences. Include all numbered inline '
-                                             'references contained in the sentences '
-                                             'without changes. Do not include '
-                                             'newlines.'},
+                                             'anemia, Barth syndrome). Provide the '
+                                             'full text from the input text describing '
+                                             'the relationship without changes or '
+                                             'summarization. Replace all semicolons in '
+                                             'the text with commas. Include all '
+                                             'numbered inline references contained in '
+                                             'the sentences without changes. Do not '
+                                             'include newlines. If multiple sentences '
+                                             'describe the same relationship, include '
+                                             'all of them, delimited by pipe symbols.'},
                          'prompt.examples': {'tag': 'prompt.examples',
-                                             'value': 'Vitamin A DECREASES RISK OF '
-                                                      "Alzheimer's Disease | In a "
-                                                      'study, it was found that '
-                                                      'increased intake of Vitamin A '
-                                                      'decreases the risk of '
-                                                      "Alzheimer's Disease (5).|; "
-                                                      'Vitamin A PREVENTS Systemic '
-                                                      'Lupus Erythematosus | Evidence '
-                                                      'suggests that high-dose Vitamin '
-                                                      'A treatment may prevent '
-                                                      'Systemic Lupus Erythematosus '
-                                                      '(5,6).|'}},
+                                             'value': 'Evidence suggests that '
+                                                      'high-dose Vitamin A treatment '
+                                                      'may prevent Systemic Lupus '
+                                                      'Erythematosus (5,6).|Further '
+                                                      'studies confirmed this finding '
+                                                      '(7).'}},
          'domain_of': ['Document']} })
     nutrient_to_phenotype_relationships: Optional[List[NutrientToPhenotypeRelationship]] = Field(default=None, description="""A list of relationships between nutrients and biological phenotypes.""", json_schema_extra = { "linkml_meta": {'alias': 'nutrient_to_phenotype_relationships',
          'annotations': {'prompt': {'tag': 'prompt',
@@ -316,38 +296,21 @@ class Document(NamedEntity):
                                              '"lipid metabolism", developmental '
                                              'processes such as "limb development", or '
                                              'health states such as "healthy teeth". '
-                                             'Represent the relationship as triples, '
-                                             'e.g., "Nutrient HAS RELATIONSHIP WITH '
-                                             'Phenotype". Relationships may include '
-                                             'TREATS, PREVENTS, or others. If the '
-                                             'relationship is explicitly negated, '
-                                             'precede the relationship with "NOT", '
-                                             'e.g., "NOT Nutrient HAS RELATIONSHIP '
-                                             'WITH Phenotype". For each relationship, '
-                                             'include the exact full text of one or '
-                                             'more sentences describing the '
-                                             'relationship from the source text. '
-                                             'Include this context until it includes '
-                                             'an inline reference number or numbers, '
-                                             'e.g., "(5)" or "(5,6)" or "(5-9)". '
-                                             'Surround this text with pipe symbols '
-                                             'after the triple, e.g., "Subject '
-                                             'RELATION Object |There is a relationship '
-                                             'between subject and object (5).|" Do not '
-                                             'change or summarize the context '
-                                             'sentences. Include all numbered inline '
-                                             'references contained in the sentences '
-                                             'without changes. Do not include '
-                                             'newlines.'},
+                                             'Provide the full text from the input '
+                                             'text describing the relationship without '
+                                             'changes or summarization. Replace all '
+                                             'semicolons in the text with commas. '
+                                             'Include all numbered inline references '
+                                             'contained in the sentences without '
+                                             'changes. Do not include newlines. If '
+                                             'multiple sentences describe the same '
+                                             'relationship, include all of them, '
+                                             'delimited by pipe symbols.'},
                          'prompt.examples': {'tag': 'prompt.examples',
-                                             'value': 'Vitamin A HAS RELATIONSHIP WITH '
-                                                      'Fever |There is a relationship '
-                                                      'between Vitamin A and Fever '
-                                                      '(5).|;Vitamin A HAS '
-                                                      'RELATIONSHIP WITH Headache '
-                                                      '|There is a relationship '
-                                                      'between Vitamin A and Headache '
-                                                      '(5,9).|'}},
+                                             'value': 'There is a relationship between '
+                                                      'Vitamin A and Fever (5).|This '
+                                                      'relationship was confirmed in '
+                                                      'additional studies (6).'}},
          'domain_of': ['Document']} })
     nutrient_to_biological_process_relationships: Optional[List[NutrientToBiologicalProcessRelationship]] = Field(default=None, description="""A list of relationships between nutrients and biological processes.""", json_schema_extra = { "linkml_meta": {'alias': 'nutrient_to_biological_process_relationships',
          'annotations': {'prompt': {'tag': 'prompt',
@@ -368,38 +331,22 @@ class Document(NamedEntity):
                                              'proteins such as "retinoic acid '
                                              'receptor". Represent the relationship as '
                                              'triples, e.g., "Nutrient HAS '
-                                             'RELATIONSHIP WITH Process". '
-                                             'Relationships may include REGULATES, '
-                                             'PARTICIPATES IN, or others. If the '
-                                             'relationship is explicitly negated, '
-                                             'precede the relationship with "NOT", '
-                                             'e.g., "NOT Nutrient HAS RELATIONSHIP '
-                                             'WITH Process". For each relationship, '
-                                             'include the exact full text of one or '
-                                             'more sentences describing the '
-                                             'relationship from the source text. '
-                                             'Include this context until it includes '
-                                             'an inline reference number or numbers, '
-                                             'e.g., "(5)" or "(5,6)" or "(5-9)". '
-                                             'Surround this text with pipe symbols '
-                                             'after the triple, e.g., "Subject '
-                                             'RELATION Object |There is a relationship '
-                                             'between subject and object (5).|" Do not '
-                                             'change or summarize the context '
-                                             'sentences. Include all numbered inline '
-                                             'references contained in the sentences '
-                                             'without changes. Do not include '
-                                             'newlines.'},
+                                             'RELATIONSHIP WITH Process". Provide the '
+                                             'full text from the input text describing '
+                                             'the relationship without changes or '
+                                             'summarization. Replace all semicolons in '
+                                             'the text with commas. Include all '
+                                             'numbered inline references contained in '
+                                             'the sentences without changes. Do not '
+                                             'include newlines. If multiple sentences '
+                                             'describe the same relationship, include '
+                                             'all of them, delimited by pipe symbols.'},
                          'prompt.examples': {'tag': 'prompt.examples',
-                                             'value': 'Vitamin A HAS RELATIONSHIP WITH '
-                                                      'Insulin Signaling |There is a '
-                                                      'relationship between Vitamin A '
-                                                      'and Insulin Signaling '
-                                                      '(5).|;Vitamin A HAS '
-                                                      'RELATIONSHIP WITH DNA Repair '
-                                                      '|There is a relationship '
-                                                      'between Vitamin A and DNA '
-                                                      'Repair (5,12).|'}},
+                                             'value': 'There is a relationship between '
+                                                      'Vitamin A and Insulin Signaling '
+                                                      '(5).|This relationship was '
+                                                      'confirmed in additional studies '
+                                                      '(6).'}},
          'domain_of': ['Document']} })
     nutrient_to_health_status_relationships: Optional[List[NutrientToHealthStatusRelationship]] = Field(default=None, description="""A list of relationships between nutrients and health of a specific part or system of the human body.""", json_schema_extra = { "linkml_meta": {'alias': 'nutrient_to_health_status_relationships',
          'annotations': {'prompt': {'tag': 'prompt',
@@ -417,36 +364,21 @@ class Document(NamedEntity):
                                              'function" or "thyroid health" should be '
                                              'changed to "thyroid"; "digestion" should '
                                              'be changed to "digestive system". '
-                                             'Represent the relationship as triples, '
-                                             'e.g., "Nutrient HAS RELATIONSHIP WITH '
-                                             'Part". Relationships should be SUPPORTS '
-                                             'HEALTH OF. If the relationship is '
-                                             'explicitly negated, precede the '
-                                             'relationship with "NOT", e.g., "NOT '
-                                             'Nutrient HAS RELATIONSHIP WITH Part". '
-                                             'For each relationship, include the exact '
-                                             'full text of one or more sentences '
-                                             'describing the relationship from the '
-                                             'source text. Include this context until '
-                                             'it includes an inline reference number '
-                                             'or numbers, e.g., "(5)" or "(5,6)" or '
-                                             '"(5-9)". Surround this text with pipe '
-                                             'symbols after the triple, e.g., "Subject '
-                                             'RELATION Object |There is a relationship '
-                                             'between subject and object (5).|" Do not '
-                                             'change or summarize the context '
-                                             'sentences. Include all numbered inline '
-                                             'references contained in the sentences '
-                                             'without changes. Do not include '
-                                             'newlines.'},
+                                             'Provide the full text from the input '
+                                             'text describing the relationship without '
+                                             'changes or summarization. Replace all '
+                                             'semicolons in the text with commas. '
+                                             'Include all numbered inline references '
+                                             'contained in the sentences without '
+                                             'changes. Do not include newlines. If '
+                                             'multiple sentences describe the same '
+                                             'relationship, include all of them, '
+                                             'delimited by pipe symbols.'},
                          'prompt.examples': {'tag': 'prompt.examples',
-                                             'value': 'Vitamin A HAS RELATIONSHIP WITH '
-                                                      'Teeth |There is a relationship '
-                                                      'between Vitamin A and Teeth '
-                                                      '(5).|;Vitamin A HAS '
-                                                      'RELATIONSHIP WITH Skin |There '
-                                                      'is a relationship between '
-                                                      'Vitamin A and Skin (5,6).|'}},
+                                             'value': 'There is a relationship between '
+                                                      'Vitamin A and Teeth (5).|This '
+                                                      'relationship was confirmed in '
+                                                      'additional studies (6).'}},
          'domain_of': ['Document']} })
     nutrient_to_source_relationships: Optional[List[NutrientToSourceRelationship]] = Field(default=None, description="""A list of relationships between nutrients and their sources in food or supplements.""", json_schema_extra = { "linkml_meta": {'alias': 'nutrient_to_source_relationships',
          'annotations': {'prompt': {'tag': 'prompt',
@@ -457,37 +389,22 @@ class Document(NamedEntity):
                                              'supplement, with a type of relationship '
                                              'connecting them both. Example foods '
                                              'include "butter", "apple", "watermelon", '
-                                             '"beef", or "breakfast cereal". Represent '
-                                             'the relationship as triples, e.g., '
-                                             '"Nutrient HAS RELATIONSHIP WITH Source". '
-                                             'Relationships should be PROVIDED BY. If '
-                                             'the relationship is explicitly negated, '
-                                             'precede the relationship with "NOT", '
-                                             'e.g., "NOT Nutrient HAS RELATIONSHIP '
-                                             'WITH Source". For each relationship, '
-                                             'include the exact full text of one or '
-                                             'more sentences describing the '
-                                             'relationship from the source text. '
-                                             'Include this context until it includes '
-                                             'an inline reference number or numbers, '
-                                             'e.g., "(5)" or "(5,6)" or "(5-9)". '
-                                             'Surround this text with pipe symbols '
-                                             'after the triple, e.g., "Subject '
-                                             'RELATION Object |There is a relationship '
-                                             'between subject and object (5).|" Do not '
-                                             'change or summarize the context '
-                                             'sentences. Include all numbered inline '
-                                             'references contained in the sentences '
-                                             'without changes. Do not include '
-                                             'newlines.'},
+                                             '"beef", or "breakfast cereal". Provide '
+                                             'the full text from the input text '
+                                             'describing the relationship without '
+                                             'changes or summarization. Replace all '
+                                             'semicolons in the text with commas. '
+                                             'Include all numbered inline references '
+                                             'contained in the sentences without '
+                                             'changes. Do not include newlines. If '
+                                             'multiple sentences describe the same '
+                                             'relationship, include all of them, '
+                                             'delimited by pipe symbols.'},
                          'prompt.examples': {'tag': 'prompt.examples',
-                                             'value': 'Vitamin A HAS RELATIONSHIP WITH '
-                                                      'Butter |There is a relationship '
-                                                      'between Vitamin A and Butter '
-                                                      '(12).|;Vitamin A HAS '
-                                                      'RELATIONSHIP WITH Apple |There '
-                                                      'is a relationship between '
-                                                      'Vitamin A and Apple (12,41).|'}},
+                                             'value': 'Butter is a source of Vitamin A '
+                                                      '(12).|This relationship was '
+                                                      'confirmed in additional studies '
+                                                      '(13).'}},
          'domain_of': ['Document']} })
     nutrient_to_nutrient_relationships: Optional[List[NutrientToNutrientRelationship]] = Field(default=None, description="""A list of relationships between nutrients and other nutrients.""", json_schema_extra = { "linkml_meta": {'alias': 'nutrient_to_nutrient_relationships',
          'annotations': {'prompt': {'tag': 'prompt',
@@ -499,37 +416,21 @@ class Document(NamedEntity):
                                              'connecting them both. This does not '
                                              'include relationships between nutrients '
                                              'and proteins (e.g., a nutrient and its '
-                                             'receptor protein). Represent the '
-                                             'relationship as triples, e.g., "Nutrient '
-                                             'INTERACTS WITH Nutrient". If the '
-                                             'relationship is explicitly negated, '
-                                             'precede the relationship with "NOT", '
-                                             'e.g., "NOT Nutrient INTERACTS WITH '
-                                             'Nutrient". For each relationship, '
-                                             'include the exact full text of one or '
-                                             'more sentences describing the '
-                                             'relationship from the source text. '
-                                             'Include this context until it includes '
-                                             'an inline reference number or numbers, '
-                                             'e.g., "(5)" or "(5,6)" or "(5-9)". '
-                                             'Surround this text with pipe symbols '
-                                             'after the triple, e.g., "Subject '
-                                             'RELATION Object |There is a relationship '
-                                             'between subject and object (5).|" Do not '
-                                             'change or summarize the context '
-                                             'sentences. Include all numbered inline '
-                                             'references contained in the sentences '
-                                             'without changes. Do not include '
-                                             'newlines.'},
+                                             'receptor protein). Provide the full text '
+                                             'from the input text describing the '
+                                             'relationship without changes or '
+                                             'summarization. Replace all semicolons in '
+                                             'the text with commas. Include all '
+                                             'numbered inline references contained in '
+                                             'the sentences without changes. Do not '
+                                             'include newlines. If multiple sentences '
+                                             'describe the same relationship, include '
+                                             'all of them, delimited by pipe symbols'},
                          'prompt.examples': {'tag': 'prompt.examples',
-                                             'value': 'Vitamin A INTERACTS WITH '
-                                                      'Vitamin D |There is a '
-                                                      'relationship between Vitamin A '
-                                                      'and Vitamin D (5).|;Vitamin A '
-                                                      'INTERACTS WITH Vitamin E |There '
-                                                      'is a relationship between '
-                                                      'Vitamin A and Vitamin E '
-                                                      '(9,10).|'}},
+                                             'value': 'There is a relationship between '
+                                                      'Vitamin A and Vitamin D (5).| '
+                                                      'This relationship was confirmed '
+                                                      'in additional studies (6).'}},
          'domain_of': ['Document']} })
     id: str = Field(default=..., description="""A unique identifier for the named entity""", json_schema_extra = { "linkml_meta": {'alias': 'id',
          'annotations': {'prompt.skip': {'tag': 'prompt.skip', 'value': 'true'}},
@@ -805,11 +706,11 @@ class FoodOrSupplement(NamedEntity):
 
 class ScientificClaim(CompoundExpression):
     """
-    A scientific claim made in the input text, structured as a relationship between entities.
+    A scientific claim made in the input text.
     """
     linkml_meta: ClassVar[LinkMLMeta] = LinkMLMeta({'from_schema': 'http://w3id.org/ontogpt/mic'})
 
-    negated: Optional[str] = Field(default=None, description="""Whether the claim is negated in the text, evidenced by being preceded by NOT. This value must be either \"True\" if the claim is negated or \"False\" if it is not.""", json_schema_extra = { "linkml_meta": {'alias': 'negated', 'domain_of': ['ScientificClaim']} })
+    negated: Optional[str] = Field(default=None, description="""Whether the claim is negated in the text. This value must be either \"True\" if the claim is negated or \"False\" if it is not. For example, \"Vitamin A is not associated with cancer\" would be \"True\" and \"Vitamin A is associated with cancer\" would be \"False\".""", json_schema_extra = { "linkml_meta": {'alias': 'negated', 'domain_of': ['ScientificClaim']} })
     references: Optional[List[str]] = Field(default=None, description="""A semi-colon separated list of references included inline in the input, identified by number only. Multiple references may contain commas, e.g., \"(3, 4)\" and should be treated as two different values. If a range of references is provided, include all, e.g., \"(3-5)\" should become 3;4;5.""", json_schema_extra = { "linkml_meta": {'alias': 'references', 'domain_of': ['ScientificClaim']} })
     context: Optional[List[str]] = Field(default=None, description="""The exact full sentence(s) from the source text that contains the claim. These will be pipe delimited - change all pipe symbols to semicolons.""", json_schema_extra = { "linkml_meta": {'alias': 'context', 'domain_of': ['ScientificClaim']} })
 
@@ -859,7 +760,7 @@ class NutrientToDiseaseRelationship(ScientificClaim):
     linkml_meta: ClassVar[LinkMLMeta] = LinkMLMeta({'comments': ['a Chemical to Disease relationship'],
          'from_schema': 'http://w3id.org/ontogpt/mic'})
 
-    nutrient: Optional[str] = Field(default=None, description="""The name of the nutrient defined in the triple, including vitamins and minerals.""", json_schema_extra = { "linkml_meta": {'alias': 'nutrient',
+    nutrient: Optional[str] = Field(default=None, description="""The name of the nutrient defined in the claim, including vitamins and minerals.""", json_schema_extra = { "linkml_meta": {'alias': 'nutrient',
          'domain_of': ['NutrientToDiseaseRelationship',
                        'NutrientToPhenotypeRelationship',
                        'NutrientToBiologicalProcessRelationship',
@@ -872,8 +773,8 @@ class NutrientToDiseaseRelationship(ScientificClaim):
                        'NutrientToNutrientRelationship',
                        'NutrientToHealthStatusRelationship',
                        'NutrientToSourceRelationship']} })
-    disease: Optional[str] = Field(default=None, description="""The name of the disease defined in the triple.""", json_schema_extra = { "linkml_meta": {'alias': 'disease', 'domain_of': ['NutrientToDiseaseRelationship']} })
-    negated: Optional[str] = Field(default=None, description="""Whether the claim is negated in the text, evidenced by being preceded by NOT. This value must be either \"True\" if the claim is negated or \"False\" if it is not.""", json_schema_extra = { "linkml_meta": {'alias': 'negated', 'domain_of': ['ScientificClaim']} })
+    disease: Optional[str] = Field(default=None, description="""The name of the disease defined in the claim.""", json_schema_extra = { "linkml_meta": {'alias': 'disease', 'domain_of': ['NutrientToDiseaseRelationship']} })
+    negated: Optional[str] = Field(default=None, description="""Whether the claim is negated in the text. This value must be either \"True\" if the claim is negated or \"False\" if it is not. For example, \"Vitamin A is not associated with cancer\" would be \"True\" and \"Vitamin A is associated with cancer\" would be \"False\".""", json_schema_extra = { "linkml_meta": {'alias': 'negated', 'domain_of': ['ScientificClaim']} })
     references: Optional[List[str]] = Field(default=None, description="""A semi-colon separated list of references included inline in the input, identified by number only. Multiple references may contain commas, e.g., \"(3, 4)\" and should be treated as two different values. If a range of references is provided, include all, e.g., \"(3-5)\" should become 3;4;5.""", json_schema_extra = { "linkml_meta": {'alias': 'references', 'domain_of': ['ScientificClaim']} })
     context: Optional[List[str]] = Field(default=None, description="""The exact full sentence(s) from the source text that contains the claim. These will be pipe delimited - change all pipe symbols to semicolons.""", json_schema_extra = { "linkml_meta": {'alias': 'context', 'domain_of': ['ScientificClaim']} })
 
@@ -882,7 +783,7 @@ class NutrientToPhenotypeRelationship(ScientificClaim):
     linkml_meta: ClassVar[LinkMLMeta] = LinkMLMeta({'comments': ['a Chemical to Phenotype relationship'],
          'from_schema': 'http://w3id.org/ontogpt/mic'})
 
-    nutrient: Optional[str] = Field(default=None, description="""The name of the nutrient defined in the triple, including vitamins and minerals.""", json_schema_extra = { "linkml_meta": {'alias': 'nutrient',
+    nutrient: Optional[str] = Field(default=None, description="""The name of the nutrient defined in the claim, including vitamins and minerals.""", json_schema_extra = { "linkml_meta": {'alias': 'nutrient',
          'domain_of': ['NutrientToDiseaseRelationship',
                        'NutrientToPhenotypeRelationship',
                        'NutrientToBiologicalProcessRelationship',
@@ -895,8 +796,8 @@ class NutrientToPhenotypeRelationship(ScientificClaim):
                        'NutrientToNutrientRelationship',
                        'NutrientToHealthStatusRelationship',
                        'NutrientToSourceRelationship']} })
-    phenotype: Optional[str] = Field(default=None, description="""The name of the phenotype defined in the triple.""", json_schema_extra = { "linkml_meta": {'alias': 'phenotype', 'domain_of': ['NutrientToPhenotypeRelationship']} })
-    negated: Optional[str] = Field(default=None, description="""Whether the claim is negated in the text, evidenced by being preceded by NOT. This value must be either \"True\" if the claim is negated or \"False\" if it is not.""", json_schema_extra = { "linkml_meta": {'alias': 'negated', 'domain_of': ['ScientificClaim']} })
+    phenotype: Optional[str] = Field(default=None, description="""The name of the phenotype defined in the claim.""", json_schema_extra = { "linkml_meta": {'alias': 'phenotype', 'domain_of': ['NutrientToPhenotypeRelationship']} })
+    negated: Optional[str] = Field(default=None, description="""Whether the claim is negated in the text. This value must be either \"True\" if the claim is negated or \"False\" if it is not. For example, \"Vitamin A is not associated with cancer\" would be \"True\" and \"Vitamin A is associated with cancer\" would be \"False\".""", json_schema_extra = { "linkml_meta": {'alias': 'negated', 'domain_of': ['ScientificClaim']} })
     references: Optional[List[str]] = Field(default=None, description="""A semi-colon separated list of references included inline in the input, identified by number only. Multiple references may contain commas, e.g., \"(3, 4)\" and should be treated as two different values. If a range of references is provided, include all, e.g., \"(3-5)\" should become 3;4;5.""", json_schema_extra = { "linkml_meta": {'alias': 'references', 'domain_of': ['ScientificClaim']} })
     context: Optional[List[str]] = Field(default=None, description="""The exact full sentence(s) from the source text that contains the claim. These will be pipe delimited - change all pipe symbols to semicolons.""", json_schema_extra = { "linkml_meta": {'alias': 'context', 'domain_of': ['ScientificClaim']} })
 
@@ -904,7 +805,7 @@ class NutrientToPhenotypeRelationship(ScientificClaim):
 class NutrientToBiologicalProcessRelationship(ScientificClaim):
     linkml_meta: ClassVar[LinkMLMeta] = LinkMLMeta({'from_schema': 'http://w3id.org/ontogpt/mic'})
 
-    nutrient: Optional[str] = Field(default=None, description="""The name of the nutrient defined in the triple, including vitamins and minerals.""", json_schema_extra = { "linkml_meta": {'alias': 'nutrient',
+    nutrient: Optional[str] = Field(default=None, description="""The name of the nutrient defined in the claim, including vitamins and minerals.""", json_schema_extra = { "linkml_meta": {'alias': 'nutrient',
          'domain_of': ['NutrientToDiseaseRelationship',
                        'NutrientToPhenotypeRelationship',
                        'NutrientToBiologicalProcessRelationship',
@@ -917,8 +818,8 @@ class NutrientToBiologicalProcessRelationship(ScientificClaim):
                        'NutrientToNutrientRelationship',
                        'NutrientToHealthStatusRelationship',
                        'NutrientToSourceRelationship']} })
-    process: Optional[str] = Field(default=None, description="""The name of the biological process defined in the triple.""", json_schema_extra = { "linkml_meta": {'alias': 'process', 'domain_of': ['NutrientToBiologicalProcessRelationship']} })
-    negated: Optional[str] = Field(default=None, description="""Whether the claim is negated in the text, evidenced by being preceded by NOT. This value must be either \"True\" if the claim is negated or \"False\" if it is not.""", json_schema_extra = { "linkml_meta": {'alias': 'negated', 'domain_of': ['ScientificClaim']} })
+    process: Optional[str] = Field(default=None, description="""The name of the biological process defined in the claim.""", json_schema_extra = { "linkml_meta": {'alias': 'process', 'domain_of': ['NutrientToBiologicalProcessRelationship']} })
+    negated: Optional[str] = Field(default=None, description="""Whether the claim is negated in the text. This value must be either \"True\" if the claim is negated or \"False\" if it is not. For example, \"Vitamin A is not associated with cancer\" would be \"True\" and \"Vitamin A is associated with cancer\" would be \"False\".""", json_schema_extra = { "linkml_meta": {'alias': 'negated', 'domain_of': ['ScientificClaim']} })
     references: Optional[List[str]] = Field(default=None, description="""A semi-colon separated list of references included inline in the input, identified by number only. Multiple references may contain commas, e.g., \"(3, 4)\" and should be treated as two different values. If a range of references is provided, include all, e.g., \"(3-5)\" should become 3;4;5.""", json_schema_extra = { "linkml_meta": {'alias': 'references', 'domain_of': ['ScientificClaim']} })
     context: Optional[List[str]] = Field(default=None, description="""The exact full sentence(s) from the source text that contains the claim. These will be pipe delimited - change all pipe symbols to semicolons.""", json_schema_extra = { "linkml_meta": {'alias': 'context', 'domain_of': ['ScientificClaim']} })
 
@@ -927,7 +828,7 @@ class NutrientToNutrientRelationship(ScientificClaim):
     linkml_meta: ClassVar[LinkMLMeta] = LinkMLMeta({'comments': ['a Chemical to Chemical relationship'],
          'from_schema': 'http://w3id.org/ontogpt/mic'})
 
-    nutrient_subject: Optional[str] = Field(default=None, description="""The name of a nutrient defined in the triple, including vitamins and minerals.""", json_schema_extra = { "linkml_meta": {'alias': 'nutrient_subject', 'domain_of': ['NutrientToNutrientRelationship']} })
+    nutrient_subject: Optional[str] = Field(default=None, description="""The name of a nutrient defined in the claim, including vitamins and minerals.""", json_schema_extra = { "linkml_meta": {'alias': 'nutrient_subject', 'domain_of': ['NutrientToNutrientRelationship']} })
     relationship: Optional[str] = Field(default=None, description="""The name of a type of relationship between the nutrient_subject and nutrient_object.""", json_schema_extra = { "linkml_meta": {'alias': 'relationship',
          'domain_of': ['NutrientToDiseaseRelationship',
                        'NutrientToPhenotypeRelationship',
@@ -935,8 +836,8 @@ class NutrientToNutrientRelationship(ScientificClaim):
                        'NutrientToNutrientRelationship',
                        'NutrientToHealthStatusRelationship',
                        'NutrientToSourceRelationship']} })
-    nutrient_object: Optional[str] = Field(default=None, description="""The name of a nutrient defined in the triple, including vitamins and minerals.""", json_schema_extra = { "linkml_meta": {'alias': 'nutrient_object', 'domain_of': ['NutrientToNutrientRelationship']} })
-    negated: Optional[str] = Field(default=None, description="""Whether the claim is negated in the text, evidenced by being preceded by NOT. This value must be either \"True\" if the claim is negated or \"False\" if it is not.""", json_schema_extra = { "linkml_meta": {'alias': 'negated', 'domain_of': ['ScientificClaim']} })
+    nutrient_object: Optional[str] = Field(default=None, description="""The name of a nutrient defined in the claim, including vitamins and minerals.""", json_schema_extra = { "linkml_meta": {'alias': 'nutrient_object', 'domain_of': ['NutrientToNutrientRelationship']} })
+    negated: Optional[str] = Field(default=None, description="""Whether the claim is negated in the text. This value must be either \"True\" if the claim is negated or \"False\" if it is not. For example, \"Vitamin A is not associated with cancer\" would be \"True\" and \"Vitamin A is associated with cancer\" would be \"False\".""", json_schema_extra = { "linkml_meta": {'alias': 'negated', 'domain_of': ['ScientificClaim']} })
     references: Optional[List[str]] = Field(default=None, description="""A semi-colon separated list of references included inline in the input, identified by number only. Multiple references may contain commas, e.g., \"(3, 4)\" and should be treated as two different values. If a range of references is provided, include all, e.g., \"(3-5)\" should become 3;4;5.""", json_schema_extra = { "linkml_meta": {'alias': 'references', 'domain_of': ['ScientificClaim']} })
     context: Optional[List[str]] = Field(default=None, description="""The exact full sentence(s) from the source text that contains the claim. These will be pipe delimited - change all pipe symbols to semicolons.""", json_schema_extra = { "linkml_meta": {'alias': 'context', 'domain_of': ['ScientificClaim']} })
 
@@ -944,7 +845,7 @@ class NutrientToNutrientRelationship(ScientificClaim):
 class NutrientToHealthStatusRelationship(ScientificClaim):
     linkml_meta: ClassVar[LinkMLMeta] = LinkMLMeta({'from_schema': 'http://w3id.org/ontogpt/mic'})
 
-    nutrient: Optional[str] = Field(default=None, description="""The name of the nutrient defined in the triple, including vitamins and minerals.""", json_schema_extra = { "linkml_meta": {'alias': 'nutrient',
+    nutrient: Optional[str] = Field(default=None, description="""The name of the nutrient defined in the claim, including vitamins and minerals.""", json_schema_extra = { "linkml_meta": {'alias': 'nutrient',
          'domain_of': ['NutrientToDiseaseRelationship',
                        'NutrientToPhenotypeRelationship',
                        'NutrientToBiologicalProcessRelationship',
@@ -957,8 +858,8 @@ class NutrientToHealthStatusRelationship(ScientificClaim):
                        'NutrientToNutrientRelationship',
                        'NutrientToHealthStatusRelationship',
                        'NutrientToSourceRelationship']} })
-    anatomy: Optional[str] = Field(default=None, description="""The name of the anatomical part or system defined in the triple.""", json_schema_extra = { "linkml_meta": {'alias': 'anatomy', 'domain_of': ['NutrientToHealthStatusRelationship']} })
-    negated: Optional[str] = Field(default=None, description="""Whether the claim is negated in the text, evidenced by being preceded by NOT. This value must be either \"True\" if the claim is negated or \"False\" if it is not.""", json_schema_extra = { "linkml_meta": {'alias': 'negated', 'domain_of': ['ScientificClaim']} })
+    anatomy: Optional[str] = Field(default=None, description="""The name of the anatomical part or system defined in the claim.""", json_schema_extra = { "linkml_meta": {'alias': 'anatomy', 'domain_of': ['NutrientToHealthStatusRelationship']} })
+    negated: Optional[str] = Field(default=None, description="""Whether the claim is negated in the text. This value must be either \"True\" if the claim is negated or \"False\" if it is not. For example, \"Vitamin A is not associated with cancer\" would be \"True\" and \"Vitamin A is associated with cancer\" would be \"False\".""", json_schema_extra = { "linkml_meta": {'alias': 'negated', 'domain_of': ['ScientificClaim']} })
     references: Optional[List[str]] = Field(default=None, description="""A semi-colon separated list of references included inline in the input, identified by number only. Multiple references may contain commas, e.g., \"(3, 4)\" and should be treated as two different values. If a range of references is provided, include all, e.g., \"(3-5)\" should become 3;4;5.""", json_schema_extra = { "linkml_meta": {'alias': 'references', 'domain_of': ['ScientificClaim']} })
     context: Optional[List[str]] = Field(default=None, description="""The exact full sentence(s) from the source text that contains the claim. These will be pipe delimited - change all pipe symbols to semicolons.""", json_schema_extra = { "linkml_meta": {'alias': 'context', 'domain_of': ['ScientificClaim']} })
 
@@ -966,7 +867,7 @@ class NutrientToHealthStatusRelationship(ScientificClaim):
 class NutrientToSourceRelationship(ScientificClaim):
     linkml_meta: ClassVar[LinkMLMeta] = LinkMLMeta({'from_schema': 'http://w3id.org/ontogpt/mic'})
 
-    nutrient: Optional[str] = Field(default=None, description="""The name of the nutrient defined in the triple, including vitamins and minerals.""", json_schema_extra = { "linkml_meta": {'alias': 'nutrient',
+    nutrient: Optional[str] = Field(default=None, description="""The name of the nutrient defined in the claim, including vitamins and minerals.""", json_schema_extra = { "linkml_meta": {'alias': 'nutrient',
          'domain_of': ['NutrientToDiseaseRelationship',
                        'NutrientToPhenotypeRelationship',
                        'NutrientToBiologicalProcessRelationship',
@@ -979,8 +880,8 @@ class NutrientToSourceRelationship(ScientificClaim):
                        'NutrientToNutrientRelationship',
                        'NutrientToHealthStatusRelationship',
                        'NutrientToSourceRelationship']} })
-    source: Optional[str] = Field(default=None, description="""The name of the food or supplement defined in the triple.""", json_schema_extra = { "linkml_meta": {'alias': 'source', 'domain_of': ['NutrientToSourceRelationship']} })
-    negated: Optional[str] = Field(default=None, description="""Whether the claim is negated in the text, evidenced by being preceded by NOT. This value must be either \"True\" if the claim is negated or \"False\" if it is not.""", json_schema_extra = { "linkml_meta": {'alias': 'negated', 'domain_of': ['ScientificClaim']} })
+    source: Optional[str] = Field(default=None, description="""The name of the food or supplement defined in the claim.""", json_schema_extra = { "linkml_meta": {'alias': 'source', 'domain_of': ['NutrientToSourceRelationship']} })
+    negated: Optional[str] = Field(default=None, description="""Whether the claim is negated in the text. This value must be either \"True\" if the claim is negated or \"False\" if it is not. For example, \"Vitamin A is not associated with cancer\" would be \"True\" and \"Vitamin A is associated with cancer\" would be \"False\".""", json_schema_extra = { "linkml_meta": {'alias': 'negated', 'domain_of': ['ScientificClaim']} })
     references: Optional[List[str]] = Field(default=None, description="""A semi-colon separated list of references included inline in the input, identified by number only. Multiple references may contain commas, e.g., \"(3, 4)\" and should be treated as two different values. If a range of references is provided, include all, e.g., \"(3-5)\" should become 3;4;5.""", json_schema_extra = { "linkml_meta": {'alias': 'references', 'domain_of': ['ScientificClaim']} })
     context: Optional[List[str]] = Field(default=None, description="""The exact full sentence(s) from the source text that contains the claim. These will be pipe delimited - change all pipe symbols to semicolons.""", json_schema_extra = { "linkml_meta": {'alias': 'context', 'domain_of': ['ScientificClaim']} })
 
