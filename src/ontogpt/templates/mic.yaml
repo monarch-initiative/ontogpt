@@ -20,14 +20,11 @@ prefixes:
 default_prefix: mic
 default_range: string
 
-# TODO: reduce redundancy in reference extraction.
-#       Providing instructions through the root class
-#       doesn't seem to work, whether in the description
-#       or the prompt field.
-
 imports:
   - linkml:types
   - core
+
+# TODO: attempt to remove or reduce the excessive redundancy
 
 classes:
   Document:
@@ -37,18 +34,6 @@ classes:
       A document that contains information about
       micronutrients, including vitamins and minerals.
     attributes:
-      # nutrient_terms:
-      #   range: Nutrient
-      #   multivalued: true
-      #   description: >-
-      #     A list of any names of nutrients or micronutrients.
-      #   annotations:
-      #     prompt: >-
-      #       A semicolon-separated list of names of chemicals,
-      #       nutrients, or micronutrients mentioned in the
-      #       input document.
-      #     prompt.examples: >-
-      #       biotin; cobalamin; iodine; zinc; coenzyme Q10
       nutrient_to_disease_relationships:
         range: NutrientToDiseaseRelationship
         multivalued: true
@@ -60,22 +45,26 @@ classes:
             A semicolon-separated list of relationships
             between a single nutrient (including vitamins,
             minerals, and micronutrients) and a single
-            disease, with a type of relationship connecting
-            them both. A disease is any abnormal health condition
+            disease. A disease is any abnormal health condition
             (e.g., Alzheimer's disease, systemic lupus erythematosus,
             rheumatoid arthritis, sickle cell anemia, Barth syndrome).
-            Represent the relationship as
-            triples, e.g., "Nutrient HAS RELATIONSHIP WITH
-            Disease". Relationships may include TREATS,
-            PREVENTS, INCREASES RISK OF, DECREASES RISK OF,
-            or others.
-            For each relationship, include the number of the
-            corresponding reference(s) in parentheses after the
-            relationship; e.g., if the text indicates a reference
-            of (3), include it after the object in the relationship,
-            e.g., "Subject HAS RELATIONSHIP WITH Object (3)". Delimit
-            multiple references with commas, e.g., "(3, 4)".
-            Do not include newlines.
+            Provide the full text from the input text describing the relationship
+            without changes or summarization. Include all numbered inline
+            references contained in the sentences without changes.
+            Do not include newlines. If multiple sentences describe the
+            same relationship, include all of them.
+            If the text describes a one-to-many relationship, include
+            all of them separately. For example, "Vitamin A is associated with
+            Systemic Lupus Erythematosus and Rheumatoid Arthritis (5,6)"
+            should be "Vitamin A is associated with Systemic Lupus Erythematosus (5,6);
+            Vitamin A is associated with Rheumatoid Arthritis (5,6)".
+            Use the same description of the relationship as in the input text.
+            For example, if the input text states "Iron supplementation
+            was shown to successfully treat anemia (5,6)", the output should be
+            "Iron supplementation treats anemia (5,6)". Other potential
+            relationships include "ameliorates" or "prevents".
+          prompt.examples: >-
+            Evidence suggests that high-dose Vitamin A treatment may prevent Systemic Lupus Erythematosus (5,6). Further studies confirmed this finding (7); Studies have shown that Vitamin A is associated with bone cancer (8).
       nutrient_to_phenotype_relationships:
         range: NutrientToPhenotypeRelationship
         multivalued: true
@@ -95,17 +84,23 @@ classes:
             with a disease. Phenotypes do NOT include high-level
             biological processes such as "Insulin signaling" or "lipid
             metabolism", developmental processes such as "limb development",
-            or health states such as "healthy teeth". Represent the
-            relationship as triples, e.g., "Nutrient HAS RELATIONSHIP
-            WITH Phenotype". Relationships may include TREATS,
-            PREVENTS, or others.
-            For each relationship, include the number of the
-            corresponding reference(s) in parentheses after the
-            relationship; e.g., if the text indicates a reference
-            of (3), include it after the object in the relationship,
-            e.g., "Subject HAS RELATIONSHIP WITH Object (3)". Delimit
-            multiple references with commas, e.g., "(3, 4)".
-            Do not include newlines.
+            or health states such as "healthy teeth".
+            Provide the full text from the input text describing the relationship
+            without changes or summarization. Include all numbered inline
+            references contained in the sentences without changes.
+            Do not include newlines. If multiple sentences describe the
+            same relationship, include all of them.
+            If the text describes a one-to-many relationship, include
+            all of them separately. For example, "Vitamin A is associated with
+            fever and headache (5,6)" should be "Vitamin A is associated with fever (5,6);
+            Vitamin A is associated with headache (5,6)".
+            Use the same description of the relationship as in the input text.
+            For example, if the input text states "Vitamin A supplementation
+            was shown to successfully treat fever (5,6)", the output should be
+            "Vitamin A supplementation treats fever (5,6)". Other potential
+            relationships include "ameliorates" or "prevents".
+          prompt.examples: >-
+            There is a relationship between Vitamin A and Fever (5). This relationship was confirmed in additional studies (6).
       nutrient_to_biological_process_relationships:
         range: NutrientToBiologicalProcessRelationship
         multivalued: true
@@ -125,16 +120,23 @@ classes:
             "insulin signaling", or "DNA repair".
             Biological processes do NOT include health states such as
             "healthy teeth" or proteins such as "retinoic acid receptor".
-            Represent the relationship as triples, e.g.,
-            "Nutrient HAS RELATIONSHIP WITH Process". Relationships may include
-            REGULATES, PARTICIPATES IN, or others.
-            For each relationship, include the number of the
-            corresponding reference(s) in parentheses after the
-            relationship; e.g., if the text indicates a reference
-            of (3), include it after the object in the relationship,
-            e.g., "Subject HAS RELATIONSHIP WITH Object (3)". Delimit
-            multiple references with commas, e.g., "(3, 4)".
-            Do not include newlines.
+            Provide the full text from the input text describing the relationship
+            without changes or summarization. Include all numbered inline
+            references contained in the sentences without changes.
+            Do not include newlines. If multiple sentences describe the
+            same relationship, include all of them.
+            If the text describes a one-to-many relationship, include
+            all of them separately. For example, "Vitamin A is associated with
+            Insulin Signaling and DNA repair (5,6)" should be "Vitamin A is associated with
+            Insulin Signaling (5,6); Vitamin A is associated with DNA repair (5,6)".
+            Use the same description of the relationship as in the input text.
+            For example, if the input text states "Vitamin A is a participant in
+            Insulin Signaling (5,6)", the output should be
+            "Vitamin A participates in Insulin Signaling (5,6)". Other potential
+            relationships include "is input of", "is output of", "catalyzes",
+            "is substrate of", "involved in", and "enables". 
+          prompt.examples: >-
+            There is a relationship between Vitamin A and Insulin Signaling (5). This relationship was confirmed in additional studies (6).
       nutrient_to_health_status_relationships:
         range: NutrientToHealthStatusRelationship
         multivalued: true
@@ -153,16 +155,23 @@ classes:
             or "liver". Transform names of processes
             to their respective anatomy, e.g., "thyroid function" or
             "thyroid health" should be changed to "thyroid"; "digestion"
-            should be changed to "digestive system". Represent the
-            relationship as triples, e.g., "Nutrient HAS RELATIONSHIP WITH
-            Part". Relationships should be SUPPORTS HEALTH OF.
-            For each relationship, include the number of the
-            corresponding reference(s) in parentheses after the
-            relationship; e.g., if the text indicates a reference
-            of (3), include it after the object in the relationship,
-            e.g., "Subject HAS RELATIONSHIP WITH Object (3)". Delimit
-            multiple references with commas, e.g., "(3, 4)".
-            Do not include newlines.
+            should be changed to "digestive system".
+            Provide the full text from the input text describing the relationship
+            without changes or summarization. Include all numbered inline
+            references contained in the sentences without changes.
+            Do not include newlines. If multiple sentences describe the
+            same relationship, include all of them.
+            If the text describes a one-to-many relationship, include
+            all of them separately. For example, "Vitamin A is associated with
+            healthy teeth and healthy skin (5,6)" should be "Vitamin A is associated with
+            healthy teeth (5,6); Vitamin A is associated with healthy skin (5,6)".
+            Use the same description of the relationship as in the input text.
+            For example, if the input text states "Vitamin A levels are
+            necessary for healthy teeth (5,6)", the output should be
+            "Vitamin A participates in the health of teeth (5,6)". Other potential
+            relationships include "ameliorates" or "prevents".
+          prompt.examples: >-
+            There is a relationship between Vitamin A and Teeth (5). This relationship was confirmed in additional studies (6).
       nutrient_to_source_relationships:
         range: NutrientToSourceRelationship
         multivalued: true
@@ -177,16 +186,20 @@ classes:
             food or supplement, with a type of relationship
             connecting them both. Example foods include "butter",
             "apple", "watermelon", "beef", or "breakfast cereal".
-            Represent the relationship as triples, e.g., "Nutrient HAS
-            RELATIONSHIP WITH Source". Relationships should be PROVIDED
-            BY.
-            For each relationship, include the number of the
-            corresponding reference(s) in parentheses after the
-            relationship; e.g., if the text indicates a reference
-            of (3), include it after the object in the relationship,
-            e.g., "Subject HAS RELATIONSHIP WITH Object (3)". Delimit
-            multiple references with commas, e.g., "(3, 4)".
-            Do not include newlines.
+            Provide the full text from the input text describing the relationship
+            without changes or summarization. Include all numbered inline
+            references contained in the sentences without changes.
+            Do not include newlines. If multiple sentences describe the
+            same relationship, include all of them.
+            If the text describes a one-to-many relationship, include
+            all of them separately. For example, "Vitamin A is associated with
+            butter and apple (5,6)" should be "Vitamin A is associated with
+            butter (5,6); Vitamin A is associated with apple (5,6)".
+            These relationships may require some processing, e.g.,
+            "Vitamin A is found in butter (5,6)" should be
+            "Vitamin A is a nutrient of butter (5,6)".
+          prompt.examples: >-
+            Butter is a source of Vitamin A (12). This relationship was confirmed in additional studies (13).
       nutrient_to_nutrient_relationships:
         range: NutrientToNutrientRelationship
         multivalued: true
@@ -201,25 +214,22 @@ classes:
             nutrient, with a type of relationship connecting
             them both. This does not include relationships
             between nutrients and proteins (e.g., a nutrient
-            and its receptor protein). Represent the relationship as
-            triples, e.g., "Nutrient INTERACTS WITH
-            Nutrient".
-            For each relationship, include the number of the
-            corresponding reference(s) in parentheses after the
-            relationship; e.g., if the text indicates a reference
-            of (3), include it after the object in the relationship,
-            e.g., "Subject HAS RELATIONSHIP WITH Object (3)". Delimit
-            multiple references with commas, e.g., "(3, 4)".
-            Do not include newlines.
-      # references:
-      #   range: string
-      #   multivalued: true
-      #   description: >-
-      #     A semi-colon separated list of all references
-      #     provided in the input text, found in the References section.
-      #     Include the number of each reference, its full text as provided in
-      #     the input, and any accompanying URLs. Do not truncate this list
-      #     and do not include newlines.
+            and its receptor protein).
+            Provide the full text from the input text describing the relationship
+            without changes or summarization. Include all numbered inline
+            references contained in the sentences without changes.
+            Do not include newlines. If multiple sentences describe the
+            same relationship, include all of them.
+            If the text describes a one-to-many relationship, include
+            all of them separately. For example, "Vitamin A is associated with
+            Vitamin D and Vitamin E (5,6)" should be "Vitamin A is associated with
+            Vitamin D (5,6); Vitamin A is associated with Vitamin E (5,6)".
+            Use the same description of the relationship as in the input text.
+            For example, if the input text states "Vitamin A participates in
+            physiological processes with Vitamin D (5,6)", the output should be
+            "Vitamin A physically interacts with Vitamin D (5,6)".
+          prompt.examples: >-
+            There is a relationship between Vitamin A and Vitamin D (5). This relationship was confirmed in additional studies (6).
 
   Nutrient:
     is_a: NamedEntity
@@ -296,16 +306,47 @@ classes:
   ScientificClaim:
     is_a: CompoundExpression
     description: >-
-      A scientific claim made in the input text,
-      structured as a relationship between entities.
+      A scientific claim made in the input text.
     attributes:
+      negated:
+        range: string
+        description: >-
+          Whether the claim is negated in the text.
+          This value must be either "True" if
+          the claim is negated or "False" if it
+          is not. For example, "Vitamin A is not
+          associated with cancer" would be
+          "True" and "Vitamin A is associated
+          with cancer" would be "False".
+      context:
+        range: string
+        description: >-
+          The full text of this relationship.
       references:
         range: string
         multivalued: true
         description: >-
           A semi-colon separated list of references
-          supporting the claim, identified by number
-          only.
+          included inline in the input, identified by number
+          only. Multiple references may contain commas,
+          e.g., "(3, 4)" and should be treated as two
+          different values. If a range of references is
+          provided, include all, e.g.,
+          "(3-5)" should become 3;4;5.
+
+  Relationship:
+    is_a: NamedEntity
+    description: >-
+      The name of a type of relationship between two
+      entities.
+    id_prefixes:
+      - RO
+      - biolink
+    annotations:
+      annotators: sqlite:obo:ro, sqlite:obo:biolink
+      prompt: >-
+        The name of a type of relationship between two
+        entities.
 
   NutrientToDiseaseRelationship:
     is_a: ScientificClaim
@@ -313,17 +354,17 @@ classes:
       nutrient:
         range: Nutrient
         description: >-
-          The name of the nutrient defined in the triple,
+          The name of the nutrient defined in the claim,
           including vitamins and minerals.
       relationship:
-        range: RelationshipType
+        range: Relationship
         description: >-
           The name of a type of relationship between the
           nutrient and the disease.
       disease:
         range: Disease
         description: >-
-          The name of the disease defined in the triple.
+          The name of the disease defined in the claim.
     comments:
       - a Chemical to Disease relationship
 
@@ -333,17 +374,17 @@ classes:
       nutrient:
         range: Nutrient
         description: >-
-          The name of the nutrient defined in the triple,
+          The name of the nutrient defined in the claim,
           including vitamins and minerals.
       relationship:
-        range: RelationshipType
+        range: Relationship
         description: >-
           The name of a type of relationship between the
           nutrient and the phenotype.
       phenotype:
         range: Phenotype
         description: >-
-          The name of the phenotype defined in the triple.
+          The name of the phenotype defined in the claim.
     comments:
       - a Chemical to Phenotype relationship
 
@@ -353,17 +394,17 @@ classes:
       nutrient:
         range: Nutrient
         description: >-
-          The name of the nutrient defined in the triple,
+          The name of the nutrient defined in the claim,
           including vitamins and minerals.
       relationship:
-        range: RelationshipType
+        range: Relationship
         description: >-
           The name of a type of relationship between the
           nutrient and the biological process.
       process:
         range: BiologicalProcess
         description: >-
-          The name of the biological process defined in the triple.
+          The name of the biological process defined in the claim.
 
   NutrientToNutrientRelationship:
     is_a: ScientificClaim
@@ -371,17 +412,17 @@ classes:
       nutrient_subject:
         range: Nutrient
         description: >-
-          The name of a nutrient defined in the triple,
+          The name of a nutrient defined in the claim,
           including vitamins and minerals.
       relationship:
-        range: RelationshipType
+        range: Relationship
         description: >-
           The name of a type of relationship between the
           nutrient_subject and nutrient_object.
       nutrient_object:
         range: Nutrient
         description: >-
-          The name of a nutrient defined in the triple,
+          The name of a nutrient defined in the claim,
           including vitamins and minerals.
     comments:
       - a Chemical to Chemical relationship
@@ -392,10 +433,10 @@ classes:
       nutrient:
         range: Nutrient
         description: >-
-          The name of the nutrient defined in the triple,
+          The name of the nutrient defined in the claim,
           including vitamins and minerals.
       relationship:
-        range: RelationshipType
+        range: Relationship
         description: >-
           The name of a type of relationship between the
           nutrient and the anatomical part or system.
@@ -403,7 +444,7 @@ classes:
         range: Anatomy
         description: >-
           The name of the anatomical part or system
-          defined in the triple.
+          defined in the claim.
 
   NutrientToSourceRelationship:
     is_a: ScientificClaim
@@ -411,18 +452,19 @@ classes:
       nutrient:
         range: Nutrient
         description: >-
-          The name of the nutrient defined in the triple,
+          The name of the nutrient defined in the claim,
           including vitamins and minerals.
       relationship:
-        range: RelationshipType
+        range: Relationship
         description: >-
           The name of a type of relationship between the
-          nutrient and the food or supplement.
+          nutrient and the food or supplement. This is
+          usually "nutrient of".
       source:
         range: FoodOrSupplement
         description: >-
           The name of the food or supplement defined in the
-          triple.
+          claim.
 
 enums:
 
