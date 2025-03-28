@@ -276,7 +276,8 @@ class Document(NamedEntity):
                                              'associated with Systemic Lupus '
                                              'Erythematosus (5,6); Vitamin A is '
                                              'associated with Rheumatoid Arthritis '
-                                             '(5,6)".'},
+                                             '(5,6)". Use the same description of the '
+                                             'relationship as in the input text.'},
                          'prompt.examples': {'tag': 'prompt.examples',
                                              'value': 'Evidence suggests that '
                                                       'high-dose Vitamin A treatment '
@@ -318,7 +319,9 @@ class Document(NamedEntity):
                                              'is associated with fever and headache '
                                              '(5,6)" should be "Vitamin A is '
                                              'associated with fever (5,6); Vitamin A '
-                                             'is associated with headache (5,6)".'},
+                                             'is associated with headache (5,6)". Use '
+                                             'the same description of the relationship '
+                                             'as in the input text.'},
                          'prompt.examples': {'tag': 'prompt.examples',
                                              'value': 'There is a relationship between '
                                                       'Vitamin A and Fever (5). This '
@@ -357,7 +360,9 @@ class Document(NamedEntity):
                                              'DNA repair (5,6)" should be "Vitamin A '
                                              'is associated with Insulin Signaling '
                                              '(5,6); Vitamin A is associated with DNA '
-                                             'repair (5,6)".'},
+                                             'repair (5,6)". Use the same description '
+                                             'of the relationship as in the input '
+                                             'text.'},
                          'prompt.examples': {'tag': 'prompt.examples',
                                              'value': 'There is a relationship between '
                                                       'Vitamin A and Insulin Signaling '
@@ -395,7 +400,8 @@ class Document(NamedEntity):
                                              'healthy skin (5,6)" should be "Vitamin A '
                                              'is associated with healthy teeth (5,6); '
                                              'Vitamin A is associated with healthy '
-                                             'skin (5,6)".'},
+                                             'skin (5,6)". Use the same description of '
+                                             'the relationship as in the input text.'},
                          'prompt.examples': {'tag': 'prompt.examples',
                                              'value': 'There is a relationship between '
                                                       'Vitamin A and Teeth (5). This '
@@ -425,7 +431,9 @@ class Document(NamedEntity):
                                              'is associated with butter and apple '
                                              '(5,6)" should be "Vitamin A is '
                                              'associated with butter (5,6); Vitamin A '
-                                             'is associated with apple (5,6)".'},
+                                             'is associated with apple (5,6)". Use the '
+                                             'same description of the relationship as '
+                                             'in the input text.'},
                          'prompt.examples': {'tag': 'prompt.examples',
                                              'value': 'Butter is a source of Vitamin A '
                                                       '(12). This relationship was '
@@ -456,7 +464,9 @@ class Document(NamedEntity):
                                              'is associated with Vitamin D and Vitamin '
                                              'E (5,6)" should be "Vitamin A is '
                                              'associated with Vitamin D (5,6); Vitamin '
-                                             'A is associated with Vitamin E (5,6)".'},
+                                             'A is associated with Vitamin E (5,6)". '
+                                             'Use the same description of the '
+                                             'relationship as in the input text.'},
                          'prompt.examples': {'tag': 'prompt.examples',
                                              'value': 'There is a relationship between '
                                                       'Vitamin A and Vitamin D (5). '
