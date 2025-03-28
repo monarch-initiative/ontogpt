@@ -40,7 +40,7 @@ dpath = "^2.1.6"
 toml = "^0.10.2"
 urllib3 = "<2"
 frontend = "^0.0.3"
-litellm = "^1.44.28"
+litellm = ">=1.44.28"
 diskcache = "^5.6.3"
 pymupdf = "^1.24.9"
 scipy = [
@@ -52,11 +52,14 @@ numpy = [
     {version = ">=2.0.0", python = ">=3.13"}
 ]
 
-[tool.poetry.dev-dependencies]
+[tool.poetry.group.dev.dependencies]
 pytest = ">=7.1.2"
 setuptools = ">=65.5.0"
 tox = ">=3.25.1"
 mkdocs-mermaid2-plugin = ">=0.6.0"
+jupyter = "^1.0.0"
+seaborn = "^0.12.2"
+papermill = "^2.4.0"
 
 [tool.poetry.scripts]
 ontogpt = "ontogpt.cli:main"
@@ -79,11 +82,6 @@ web = [
 recipes = [
     "recipe-scrapers"
 ]
-
-[tool.poetry.group.dev.dependencies]
-jupyter = "^1.0.0"
-seaborn = "^0.12.2"
-papermill = "^2.4.0"
 
 [tool.poetry-dynamic-versioning]
 enable = false
