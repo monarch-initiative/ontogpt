@@ -277,7 +277,14 @@ class Document(NamedEntity):
                                              'Erythematosus (5,6); Vitamin A is '
                                              'associated with Rheumatoid Arthritis '
                                              '(5,6)". Use the same description of the '
-                                             'relationship as in the input text.'},
+                                             'relationship as in the input text. For '
+                                             'example, if the input text states "Iron '
+                                             'supplementation was shown to '
+                                             'successfully treat anemia (5,6)", the '
+                                             'output should be "Iron supplementation '
+                                             'treats anemia (5,6)". Other potential '
+                                             'relationships include "ameliorates" or '
+                                             '"prevents".'},
                          'prompt.examples': {'tag': 'prompt.examples',
                                              'value': 'Evidence suggests that '
                                                       'high-dose Vitamin A treatment '
@@ -321,7 +328,14 @@ class Document(NamedEntity):
                                              'associated with fever (5,6); Vitamin A '
                                              'is associated with headache (5,6)". Use '
                                              'the same description of the relationship '
-                                             'as in the input text.'},
+                                             'as in the input text. For example, if '
+                                             'the input text states "Vitamin A '
+                                             'supplementation was shown to '
+                                             'successfully treat fever (5,6)", the '
+                                             'output should be "Vitamin A '
+                                             'supplementation treats fever (5,6)". '
+                                             'Other potential relationships include '
+                                             '"ameliorates" or "prevents".'},
                          'prompt.examples': {'tag': 'prompt.examples',
                                              'value': 'There is a relationship between '
                                                       'Vitamin A and Fever (5). This '
@@ -362,7 +376,15 @@ class Document(NamedEntity):
                                              '(5,6); Vitamin A is associated with DNA '
                                              'repair (5,6)". Use the same description '
                                              'of the relationship as in the input '
-                                             'text.'},
+                                             'text. For example, if the input text '
+                                             'states "Vitamin A is a participant in '
+                                             'Insulin Signaling (5,6)", the output '
+                                             'should be "Vitamin A participates in '
+                                             'Insulin Signaling (5,6)". Other '
+                                             'potential relationships include "is '
+                                             'input of", "is output of", "catalyzes", '
+                                             '"is substrate of", "involved in", and '
+                                             '"enables". '},
                          'prompt.examples': {'tag': 'prompt.examples',
                                              'value': 'There is a relationship between '
                                                       'Vitamin A and Insulin Signaling '
@@ -401,7 +423,14 @@ class Document(NamedEntity):
                                              'is associated with healthy teeth (5,6); '
                                              'Vitamin A is associated with healthy '
                                              'skin (5,6)". Use the same description of '
-                                             'the relationship as in the input text.'},
+                                             'the relationship as in the input text. '
+                                             'For example, if the input text states '
+                                             '"Vitamin A levels are necessary for '
+                                             'healthy teeth (5,6)", the output should '
+                                             'be "Vitamin A participates in the health '
+                                             'of teeth (5,6)". Other potential '
+                                             'relationships include "ameliorates" or '
+                                             '"prevents".'},
                          'prompt.examples': {'tag': 'prompt.examples',
                                              'value': 'There is a relationship between '
                                                       'Vitamin A and Teeth (5). This '
@@ -431,9 +460,11 @@ class Document(NamedEntity):
                                              'is associated with butter and apple '
                                              '(5,6)" should be "Vitamin A is '
                                              'associated with butter (5,6); Vitamin A '
-                                             'is associated with apple (5,6)". Use the '
-                                             'same description of the relationship as '
-                                             'in the input text.'},
+                                             'is associated with apple (5,6)". These '
+                                             'relationships may require some '
+                                             'processing, e.g., "Vitamin A is found in '
+                                             'butter (5,6)" should be "Vitamin A is a '
+                                             'nutrient of butter (5,6)".'},
                          'prompt.examples': {'tag': 'prompt.examples',
                                              'value': 'Butter is a source of Vitamin A '
                                                       '(12). This relationship was '
@@ -466,7 +497,12 @@ class Document(NamedEntity):
                                              'associated with Vitamin D (5,6); Vitamin '
                                              'A is associated with Vitamin E (5,6)". '
                                              'Use the same description of the '
-                                             'relationship as in the input text.'},
+                                             'relationship as in the input text. For '
+                                             'example, if the input text states '
+                                             '"Vitamin A participates in physiological '
+                                             'processes with Vitamin D (5,6)", the '
+                                             'output should be "Vitamin A physically '
+                                             'interacts with Vitamin D (5,6)".'},
                          'prompt.examples': {'tag': 'prompt.examples',
                                              'value': 'There is a relationship between '
                                                       'Vitamin A and Vitamin D (5). '
@@ -914,7 +950,7 @@ class NutrientToSourceRelationship(ScientificClaim):
                        'NutrientToBiologicalProcessRelationship',
                        'NutrientToHealthStatusRelationship',
                        'NutrientToSourceRelationship']} })
-    relationship: Optional[str] = Field(default=None, description="""The name of a type of relationship between the nutrient and the food or supplement.""", json_schema_extra = { "linkml_meta": {'alias': 'relationship',
+    relationship: Optional[str] = Field(default=None, description="""The name of a type of relationship between the nutrient and the food or supplement. This is usually \"nutrient of\".""", json_schema_extra = { "linkml_meta": {'alias': 'relationship',
          'domain_of': ['NutrientToDiseaseRelationship',
                        'NutrientToPhenotypeRelationship',
                        'NutrientToBiologicalProcessRelationship',
