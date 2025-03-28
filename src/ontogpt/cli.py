@@ -416,7 +416,6 @@ def main(verbose: int, quiet: bool, cache_db: str):
     multiple=True,
     help="Set slot value, e.g. --set-slot-value has_participant=protein",
 )
-@click.argument("input", required=False)
 @api_base_option
 @api_version_option
 @model_provider_option
@@ -1972,8 +1971,11 @@ def complete(
 def _send_complete_request(
     model,
     input,
+    output,
+    output_format,
     show_prompt,
     temperature,
+    cut_input_text,
     api_base,
     api_version,
     model_provider,
@@ -2097,6 +2099,8 @@ def clinical_notes(
     output,
     model,
     show_prompt,
+    output_format,
+    cut_input_text,
     temperature,
     api_base,
     api_version,
