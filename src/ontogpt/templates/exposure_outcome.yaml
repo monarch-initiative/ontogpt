@@ -1,4 +1,3 @@
----
 id: http://w3id.org/ontogpt/exposure_outcome
 name: exposure_outcome
 title: exposure_outcome
@@ -7,47 +6,48 @@ description: |-
 license: MIT
 see_also:
   - https://sierra-moxon.github.io/exposure-outcome
-
 prefixes:
   exposure_outcome: http://w3id.org/ontogpt/exposure_outcome
   linkml: https://w3id.org/linkml/
-  biolink: https://w3id.org/biolink/
   schema: http://schema.org/
   PATO: http://purl.obolibrary.org/obo/PATO_
   example: https://example.org/
 default_prefix: exposure_outcome
 default_range: string
-
 imports:
   - linkml:types
+  - core
 
 classes:
-  ExposureOutcome:
+
+  ExposureEventOutcomeCollection:
+    is_a: TextWithTriples
+    description: A collection of exposure events and their associated outcomes.
+    slots:
+      - exposure_event
+      - outcome
+    annotations:
+      prompt: >-
+        A semi-colon separated list of chemical to disease relationships, where the relationship is either CAUSES
+        or CONTRIBUTES_TO.
+        for example: PM2.5 exposure CAUSES cardiac heart disease; 
+        Methyldopa CAUSES Hypotension;
+        Monosodium Glutamate CONTRIBUTES_TO Headache;
+        Imatinib CAUSES cancer
     tree_root: true
-    attributes:
-      main_exposure_outcome_event:
-        description: the name of the disease that is treated.
-        range: ResultExposureOutcome
+
 
   NamedThing:
     abstract: true
-    description: A named entity.
+    description: A generic class for named entities. Often used to anchor identifiers and human-readable labels for ontology classes.
     slots:
       - id
       - name
-    slot_usage:
-      id:
-        description: Unique identifier for the entity.
-        range: string
-      name:
-        description: Name or label of the entity.
-        range: string
-
   ExposureEvent:
     is_a: NamedThing
-    description: >- 
-      An instance of a toxicological exposure event in the study.  According to ECTO, 
-      an exposure
+    description: >-
+      A record of a toxicological exposure, usually representing a chemical or environmental factor 
+      impacting an organism. Can be mapped to ontology concepts from ECTO.
     slots:
       - exposure_substance
       - exposure_type
@@ -56,121 +56,83 @@ classes:
       - frequency
     exact_mappings:
       - biolink:ExposureEvent
-    slot_usage:
-      exposure_substance:
-        description: The chemical substance used in the exposure.
-        comments: >-
-          # TODO: as Sabrina these questions:
-          Will all exposures be chemicals represented by ChEBI (e.g., what about complex mixtures/drugs)?
-          Will all exposures be toxic?
-          # TODO: need a "fish age" here as well as an "exposure" timepoint.
-        range: ChemicalEntity
-      concentration:
-        description: The concentration of the chemical used.
-        range: Concentration
-
   ChemicalEntity:
     is_a: NamedThing
-    description: A chemical compound used as a toxicant in the study.
+    description: A chemical compound or drug used as a toxicant in an exposure study. Should ideally map to a CHEBI class.
     slots:
       - name
     exact_mappings:
       - biolink:ChemicalEntity
-    slot_usage:
-      id:
-        description: CHEBI identifier for the chemical.
-        pattern: "^CHEBI:\\d+$"
-      name:
-        description: Name of the chemical.
-
   Phenotype:
     is_a: NamedThing
-    description: A phenotype observed in the fish as a result of exposure.
-    slot_usage:
-      id:
-        description: ZP identifier for the phenotype.
-        pattern: "^ZP:\\d+$"
-      name:
-        description: Name of the phenotype.
-
-  Annotation:
     description: >-
-      Root class for entity annotations.
+      A phenotypic abnormality or observable feature resulting from a toxicant exposure. 
+      Should be mapped to Human Phenotype Ontology (HPO) where possible.
+  Annotation:
     abstract: true
-
+    description: Abstract class used to group annotation-like records, including quantitative values.
   QuantityValue:
     is_a: Annotation
-    description: >-
-      A value of an attribute that is quantitative and measurable,
-      expressed as a combination of a unit and a numeric value
-    slots:
-      - has_unit
-      - has_numeric_value
-
+    description: A measurement represented as a numeric value and an associated unit (e.g. 5 mg/L). Useful for concentration, frequency, and duration.
   Concentration:
     is_a: QuantityValue
-    description: The concentration of a chemical.
-    slots:
-      - has_unit
-      - has_numeric_value
-    slot_usage:
-      has_unit:
-        description: The unit of the concentration value.
-        range: string
-      has_numeric_value:
-        description: The numeric value of the concentration.
-
-  ResultExposureOutcome:
-    # TODO: determine if we want the Biolink Association model here, or
-    # if we want to use a simpler model, that is less generic (e.g. instead of 'subject' and 'object',
-    # we could use 'fish' and 'outcome' because we know that we won't have lots of types of associations
-    # that generically represent an edge between two nodes)
-    description: A representation of the phenotype observed in the fish as a result of exposure.
+    description: A numeric concentration (e.g. 3.5 µg/mL) of a toxicant used in an exposure.
+  ExposureOutcomeEvent:
+    description: >-
+      A specific linkage between an exposure and the resulting phenotypes. 
+      A document that contains exposure to outcome relations
     slots:
       - exposure_event
       - outcome
+    annotations:
+      prompt: >-
+        A semi-colon separated list of chemical to disease relationships, where the relationship is either CAUSES
+        or CONTRIBUTES_TO.
+        for example: PM2.5 exposure CAUSES cardiac heart disease; 
+        Methyldopa CAUSES Hypotension;
+        Monosodium Glutamate CONTRIBUTES_TO Headache;
+        Imatinib CAUSES cancer
 
 slots:
   id:
     identifier: true
     range: uriorcurie
+    description: A unique identifier for a concept or entity, typically a CURIE-formatted ontology ID.
   name:
-    description: Name or label of an entity.
+    description: A human-readable label or preferred name for the entity. Often used in free text and should align with ontology term labels.
   exposure_type:
-    description: The exposure type.
+    description: The category of the exposure event, such as 'inhalation exposure to ozone'. Values should ideally map to ECTO ontology terms.
     range: ExposureTypeEnum
   has_unit:
-    description: The unit of the quantity value.
+    description: The unit associated with a quantity (e.g. mg/m^3, ppm). Use units that correspond to ontology-based unit systems when possible.
   has_numeric_value:
-    description: The numeric value of the quantity value.
+    description: The numeric value part of a measured quantity, such as 5.0 or 0.25.
   treated_with:
-    description: The chemical used in the exposure.
+    description: The chemical used in the exposure, specified as an ontology URI or identifier (e.g. CHEBI or DrugBank).
     range: uriorcurie
   exposure_substance:
-    description: The substance used in the exposure.
+    description: The substance used in the exposure. Should map to a CHEBI identifier or drug ontology term.
     range: uriorcurie
   concentration:
-    description: The concentration of the toxicant.
+    description: The concentration of the toxicant. Usually specified as a `Concentration` class instance.
   duration:
-    description: The duration of the exposure.
+    description: The duration over which the exposure occurred. Expected as a `QuantityValue` with appropriate unit.
     range: QuantityValue
   exposure_event:
-    description: The exposure event.
+    description: The exposure event associated with the outcome. Use the `ExposureEvent` class to describe this.
     range: ExposureEvent
   outcome:
-    description: >- 
-      An outcome is a list of the observed phenotypes in the fish exposed to the toxicant.
+    description: A list of observed human phenotypes resulting from exposure. Values should align with HPO terms or free text convertible to such terms.
     range: Phenotype
     multivalued: true
   frequency:
-    description: The frequency of the exposure.
+    description: Frequency of the exposure, e.g., daily, weekly. Should be given as a `QuantityValue` where appropriate.
     range: QuantityValue
-
 enums:
   ExposureTypeEnum:
-    description: An enumeration of exposure types derived from the ECTO ontology.
+    description: Enumeration of exposure types derived from the ECTO ontology. Free-text values should be mapped to ECTO subclasses of 'exposure event' where possible.
     reachable_from:
-      source_ontology: "ECTO"
+      source_ontology: ECTO
       relationship_types:
-        - "rdfs:subClassOf"
+        - rdfs:subClassOf
       include_self: true
