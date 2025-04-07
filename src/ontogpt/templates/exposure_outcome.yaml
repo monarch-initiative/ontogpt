@@ -16,12 +16,10 @@ default_prefix: exposure_outcome
 default_range: string
 imports:
   - linkml:types
-  - core
 
 classes:
 
   ExposureEventOutcomeCollection:
-    is_a: TextWithTriples
     description: A collection of exposure events and their associated outcomes.
     slots:
       - exposure_event
