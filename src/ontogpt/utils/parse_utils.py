@@ -30,7 +30,7 @@ def get_section_of_interest(data, tag_of_interest):
         next_index = next(
             (
                 i
-                for i, item in enumerate(data[start_index + 1 :], start=start_index + 1)
+                for i, item in enumerate(data[start_index + 1:], start=start_index + 1)
                 if item.startswith("<p>")
             ),
             None,

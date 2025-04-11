@@ -86,14 +86,14 @@ header = "extracted_object"
 i = 0
 while i < len(cleaned_lines):
     if cleaned_lines[i].startswith(header):
-        for index, elem in enumerate(cleaned_lines[i + 1 : i + 4]):
+        for index, elem in enumerate(cleaned_lines[i + 1: i + 4]):
             if elem.startswith(header):
                 next_index = i + 1 + index
                 del cleaned_lines[i:next_index]
                 i -= 1
     i += 1
 
-grouped_lines = [cleaned_lines[n : n + 4] for n in range(0, len(cleaned_lines), 4)]
+grouped_lines = [cleaned_lines[n: n + 4] for n in range(0, len(cleaned_lines), 4)]
 
 trimmed_dict: dict = {"diseases": [], "relationships": [], "cellular processes": []}
 for group in grouped_lines:
