@@ -1,0 +1,114 @@
+id: https://w3id.org/ontogpt/predator_prey
+name: predator-prey-template
+title: Predator Prey Relationship Template
+description: >-
+  A template for extracting information about predator-prey relationships in ecological contexts
+license: https://creativecommons.org/publicdomain/zero/1.0/
+prefixes:
+  rdf: http://www.w3.org/1999/02/22-rdf-syntax-ns#
+  NCBITaxon: http://purl.obolibrary.org/obo/NCBITAXON_
+  RO: http://purl.obolibrary.org/obo/RO_
+  linkml: https://w3id.org/linkml/
+  pp: http://w3id.org/ontogpt/predator-prey-template
+
+default_prefix: pp
+default_range: string
+
+imports:
+  - linkml:types
+  - core
+
+classes:
+  PredatorPreyRelationship:
+    tree_root: true
+    is_a: Triple
+    attributes:
+      predator:
+        description: the animal that hunts and consumes other animals
+        range: Animal
+      prey:
+        description: the animal that is hunted and consumed by other animals
+        range: Animal  
+      relationship_type:
+        description: the type of predatory relationship (e.g., obligate predation, opportunistic predation, scavenging)
+        range: PredationRelationshipType
+      habitat_context:
+        description: the environment or habitat where this predator-prey interaction typically occurs
+        range: string
+        multivalued: true
+        annotations:
+          prompt: >-
+            List the environments or habitats where this predator-prey interaction typically occurs.
+            If there are multiple habitats, provide them as a semicolon-delimited list.
+      seasonal_pattern:
+        description: any seasonal patterns in the predator-prey relationship
+        range: string
+
+  Animal:
+    is_a: NamedEntity
+    attributes:
+      label:
+        description: common name of the animal
+      scientific_name:
+        description: the scientific (Latin) name of the animal
+      taxonomic_rank:
+        description: the taxonomic classification of the animal (e.g., species, genus, family)
+        range: TaxonomicRank
+      diet_type:
+        description: the type of diet of the animal (e.g., carnivore, herbivore, omnivore)
+        range: DietType
+        multivalued: true
+        annotations:
+          prompt: >-
+            The type of diet of the animal. This value must be one of: CARNIVORE, 
+            HERBIVORE, OMNIVORE, INSECTIVORE, or PISCIVORE. If the animal has multiple 
+            feeding strategies, provide them as a semicolon-delimited list (e.g., "CARNIVORE;PISCIVORE").
+
+  PredationRelationshipType:
+    is_a: NamedEntity
+    attributes:
+      label:
+        description: the name of the predation relationship type
+      description:
+        description: a textual description of the predation relationship type
+
+  EcologicalDocument:
+    attributes:
+      predator_prey_relationships:
+        range: PredatorPreyRelationship
+        description: semicolon separated list of predator-prey relationships
+        multivalued: true
+        inlined: true
+        annotations:
+          prompt: >-
+            List all predator-prey relationships described in the document. If there are multiple 
+            relationships, provide them as a semicolon-delimited list.
+      animals:
+        range: Animal
+        description: semicolon separated list of animals mentioned
+        multivalued: true
+        annotations:
+          prompt: >-
+            List all animals mentioned in the document. If there are multiple animals,
+            provide them as a semicolon-delimited list.
+
+  TaxonomicRank:
+    is_a: NamedEntity
+    id_prefixes:
+      - NCBITaxon
+    annotations:
+      annotators: sqlite:obo:ncbitaxon
+
+enums:
+  DietType:
+    permissible_values:
+      CARNIVORE:
+        description: An animal that primarily eats meat
+      HERBIVORE:
+        description: An animal that primarily eats plant material
+      OMNIVORE:
+        description: An animal that eats both meat and plant material
+      INSECTIVORE:
+        description: An animal that primarily eats insects
+      PISCIVORE:
+        description: An animal that primarily eats fish

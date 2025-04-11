@@ -25,6 +25,10 @@ def get_template_details(template: TEMPLATE_NAME) -> ClassDefinition:
     :return: tuple of (LinkML class definition, module, specific
     Python class, schemaview)
     """
+    # Get the view of core classes first
+    core_sv = SchemaView(get_template_path("core"))
+    core_classes = [c.name for c in core_sv.all_classes().values()]
+
     # Check if template is a path to a YAML file
     # If so, this is a custom schema and needs python classes
     if template.endswith(".yaml"):
@@ -64,8 +68,12 @@ def get_template_details(template: TEMPLATE_NAME) -> ClassDefinition:
 
     if class_name is None:
         roots = [c.name for c in sv.all_classes().values() if c.tree_root]
-        if len(roots) != 1:
-            raise ValueError(f"Template {template} does not have singular root: {roots}")
+        if len(roots) == 0:
+            logger.warning(
+                f"Template {template} has no root class. Consider defining one in the schema.")
+            roots = [c.name for c in sv.all_classes().values() if c.name not in core_classes]
+        elif len(roots) > 1:
+            raise ValueError(f"Template {template} has multiple root classes: {roots}")
         class_name = roots[0]
 
     pyclass = mod.__dict__[class_name]
