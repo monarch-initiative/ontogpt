@@ -111,7 +111,7 @@ header = "    - subject:"
 i = 0
 while i < len(cleaned_lines):
     if cleaned_lines[i].startswith(header):
-        for index, elem in enumerate(cleaned_lines[i + 1 : i + 3]):
+        for index, elem in enumerate(cleaned_lines[i + 1: i + 3]):
             if elem.startswith(header):
                 next_index = i + 1 + index
                 del cleaned_lines[i:next_index]
@@ -124,7 +124,7 @@ for i, line in enumerate(cleaned_lines.copy()):
     if line.startswith("- "):
         cleaned_lines[i] = line[2:]
 
-grouped_lines = [cleaned_lines[n : n + 3] for n in range(0, len(cleaned_lines), 3)]
+grouped_lines = [cleaned_lines[n: n + 3] for n in range(0, len(cleaned_lines), 3)]
 trimmed_dict: dict = {"diseases": [], "relationships": [], "cellular processes": []}
 for group in grouped_lines:
     subject = group[0].split(":", 1)[1].strip()
