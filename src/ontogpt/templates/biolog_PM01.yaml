@@ -27,21 +27,18 @@ enums:
       A minimal enumeration for capturing yes/no/true/false in lowercase,
       plus 'not provided' if data are missing or ambiguous.
     permissible_values:
-      'yes': {}
-      'no': {}
-      'true': {}
-      'false': {}
-      'not provided': {}
+      yes: {}
+      no: {}
+      true: {}
+      false: {}
+      "not provided": {}
 
   PlateEnum:
     description: >
-      Enumeration of Biolog phenotype microarray plates with canonical names
-      and synonyms.
+      Enumeration of Biolog phenotype microarray plates with canonical names.
     permissible_values:
-      PM01:
-        synonyms: ["PM1"]
-      PM02:
-        synonyms: ["PM2"]
+      PM01: {}
+      PM02: {}
 
   PM01ResultEnum:
     description: >
@@ -49,7 +46,7 @@ enums:
     permissible_values:
       positive: {}
       negative: {}
-      not provided: {}
+      "not provided": {}
 
   PM01ChemicalEnum:
     description: >
@@ -57,9 +54,101 @@ enums:
       NOTE: if a chemical is not in this list,
       still record it in pm01_well_results.chemical_name as free text.
     permissible_values:
-      L-Arabinose: {}
-      N-Acetyl-D-Glucosamine: {}
-      # ... [remaining chemicals as before] ...
+      "L-Arabinose": {}
+      "N-Acetyl-D-Glucosamine": {}
+      "D-Saccharic acid": {}
+      "Succinic acid": {}
+      "D-Galactose": {}
+      "L-Aspartic acid": {}
+      "L-Proline": {}
+      "D-Alanine": {}
+      "D-Trehalose": {}
+      "D-Mannose": {}
+      Dulcitol: {}
+      "D-Serine": {}
+      "D-Sorbitol": {}
+      Glycerol: {}
+      "L-Fucose": {}
+      "D-Glucuronic acid": {}
+      "D-Gluconic acid": {}
+      "DL-a-Glycerol Phosphate": {}
+      "D-Xylose": {}
+      "L-Lactic acid": {}
+      "Formic acid": {}
+      "D-Mannitol": {}
+      "L-Glutamic acid": {}
+      "D-Glucose-6-Phosphate": {}
+      "D-Galactonic acid-g-Lactone": {}
+      "DL-Malic acid": {}
+      "D-Ribose": {}
+      "Tween 20": {}
+      "L-Rhamnose": {}
+      "D-Fructose": {}
+      "Acetic acid": {}
+      "a-D-Glucose": {}
+      Maltose: {}
+      "D-Melibiose": {}
+      Thymidine: {}
+      "L-Asparagine": {}
+      "D-Aspartic acid": {}
+      "D-Glucosaminic acid": {}
+      "1,2-Propanediol": {}
+      "Tween 40": {}
+      "a-Ketoglutaric acid": {}
+      "a-Ketobutyric acid": {}
+      "a-Methyl-D-Galactoside": {}
+      "a-D-Lactose": {}
+      Lactulose: {}
+      Sucrose: {}
+      Uridine: {}
+      "L-Glutamine": {}
+      "m-Tartaric acid": {}
+      "D-Glucose-1-Phosphate": {}
+      "D-Fructose-6-Phosphate": {}
+      "Tween 80": {}
+      "a-Hydroxyglutaric acid-g-Lactone": {}
+      "a-Hydroxybutyric acid": {}
+      "b-Methyl-D-Glucoside": {}
+      Adonitol: {}
+      Maltotriose: {}
+      "2`-Deoxyadenosine": {}
+      Adenosine: {}
+      "Gly-Asp": {}
+      "Citric acid": {}
+      "m-Inositol": {}
+      "D-Threonine": {}
+      "Fumaric acid": {}
+      "Bromosuccinic acid": {}
+      "Propionic acid": {}
+      "Mucic acid": {}
+      "Glycolic acid": {}
+      "Glyoxylic acid": {}
+      "D-Cellobiose": {}
+      Inosine: {}
+      "Gly-Glu": {}
+      "Tricarballylic acid": {}
+      "L-Serine": {}
+      "L-Threonine": {}
+      "L-Alanine": {}
+      "Ala-Gly": {}
+      "Acetoacetic acid": {}
+      "N-Acetyl-D-Mannosamine": {}
+      Mono-Methylsuccinate: {}
+      Methylpyruvate: {}
+      "D-Malic acid": {}
+      "L-Malic acid": {}
+      "Gly-Pro": {}
+      "p-Hydroxyphenyl Acetic acid": {}
+      "m-Hydroxyphenyl Acetic acid": {}
+      Tyramine: {}
+      "D-Psicose": {}
+      "L-Lyxose": {}
+      Glucuronamide: {}
+      "Pyruvic acid": {}
+      "L-Galactonic acid-g-Lactone": {}
+      "D-Galacturonic acid": {}
+      Phenylethylamine: {}
+      "2-Aminoethanol": {}
 
 ########################
 # CLASSES
@@ -174,7 +263,7 @@ classes:
             - "Brachypodium distachyon"
             - "Arabidopsis thaliana"
         range: Host
-        multivalued: true
+        multivaled: true
         required: false
 
       host_type:
@@ -269,7 +358,7 @@ classes:
             - "PM1"
             - "PM02"
         range: PlateEnum
-        multivalued: true
+        multivaled: true
         required: false
 
       replicates:
@@ -289,7 +378,7 @@ classes:
           prompt.examples:
             - "Grow cells overnight on LB agar; Harvest and suspend in IF-0"
         range: ProtocolStep
-        multivalued: true
+        multivaled: true
         required: false
 
       plate_reader_types_of_data_collected:
