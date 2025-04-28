@@ -215,12 +215,31 @@ classes:
       pm01_strain_results:
         description: "PM01 results grouped by strain."
         annotations:
-          prompt: >-
-            For each strain: tested_strain; group (I, II, or III); pm01_well_results list of {chemical_name, result}. Omit if none.
+          prompt: |
+            If PM01 results are described, output a list of objects under `pm01_strain_results`.  
+            For each strain:
+              - `tested_strain`: the strain name  
+              - `group`: which utilization cluster (I, II, or III) it belongs to  
+              - `pm01_well_results`: a **complete** list of all wells mentioned.  
+                For **each** well, emit an object with:
+                  • `chemical_name`: the name of the compound (must match the PM01ChemicalEnum or free text)  
+                  • `result`: “positive”, “negative” or “not provided”  
+            **Do not** leave out any wells that the text says were catabolized (positive) or not (negative).  
+            Example:
+            ```yaml
+            pm01_strain_results:
+              - tested_strain: Pseudomonas fluorescens Pf-5
+                group: I
+                pm01_well_results:
+                  - chemical_name: Glucose
+                    result: positive
+                  - chemical_name: Xylose
+                    result: negative
+                  # …and so on for every well mentioned
+            ```
         range: BiologPM01StrainResult
         multivalued: true
 
-      # other Experiment attributes omitted for brevity...
 
   BiologPM01StrainResult:
     description: "PM01 well-level results for a specific strain."

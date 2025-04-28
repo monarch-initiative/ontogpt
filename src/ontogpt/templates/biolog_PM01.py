@@ -418,10 +418,39 @@ class Experiment(ConfiguredBaseModel):
          'domain_of': ['NamedEntity', 'Experiment']} })
     pm01_strain_results: Optional[list[BiologPM01StrainResult]] = Field(default=None, description="""PM01 results grouped by strain.""", json_schema_extra = { "linkml_meta": {'alias': 'pm01_strain_results',
          'annotations': {'prompt': {'tag': 'prompt',
-                                    'value': 'For each strain: tested_strain; group '
-                                             '(I, II, or III); pm01_well_results list '
-                                             'of {chemical_name, result}. Omit if '
-                                             'none.'}},
+                                    'value': 'If PM01 results are described, output a '
+                                             'list of objects under '
+                                             '`pm01_strain_results`.  \n'
+                                             'For each strain:\n'
+                                             '  - `tested_strain`: the strain name  \n'
+                                             '  - `group`: which utilization cluster '
+                                             '(I, II, or III) it belongs to  \n'
+                                             '  - `pm01_well_results`: a **complete** '
+                                             'list of all wells mentioned.  \n'
+                                             '    For **each** well, emit an object '
+                                             'with:\n'
+                                             '      • `chemical_name`: the name of the '
+                                             'compound (must match the '
+                                             'PM01ChemicalEnum or free text)  \n'
+                                             '      • `result`: “positive”, “negative” '
+                                             'or “not provided”  \n'
+                                             '**Do not** leave out any wells that the '
+                                             'text says were catabolized (positive) or '
+                                             'not (negative).  \n'
+                                             'Example:\n'
+                                             '```yaml\n'
+                                             'pm01_strain_results:\n'
+                                             '  - tested_strain: Pseudomonas '
+                                             'fluorescens Pf-5\n'
+                                             '    group: I\n'
+                                             '    pm01_well_results:\n'
+                                             '      - chemical_name: Glucose\n'
+                                             '        result: positive\n'
+                                             '      - chemical_name: Xylose\n'
+                                             '        result: negative\n'
+                                             '      # …and so on for every well '
+                                             'mentioned\n'
+                                             '```\n'}},
          'domain_of': ['Experiment']} })
 
 
