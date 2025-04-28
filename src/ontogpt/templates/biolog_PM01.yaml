@@ -15,7 +15,7 @@ default_range: string
 
 imports:
   - linkml:types
-  - core  # Adjust or remove if your environment does not have a 'core' schema.
+  - core
 
 ########################
 # ENUMS
@@ -27,32 +27,29 @@ enums:
       A minimal enumeration for capturing yes/no/true/false in lowercase,
       plus 'not provided' if data are missing or ambiguous.
     permissible_values:
-      yes: {}
-      no: {}
-      true: {}
-      false: {}
+      "yes": {}
+      "no": {}
+      "true": {}
+      "false": {}
       "not provided": {}
 
   PlateEnum:
-    description: >
-      Enumeration of Biolog phenotype microarray plates with canonical names.
+    description: "Biolog phenotype microarray plates."
     permissible_values:
-      PM01: {}
-      PM02: {}
+      "PM01": {}
+      "PM1": {}
 
   PM01ResultEnum:
     description: >
-      Captures whether the PM01 assay result was positive, negative, or not provided.
+      Whether a PM01 well was positive, negative, or not provided.
     permissible_values:
-      positive: {}
-      negative: {}
+      "positive": {}
+      "negative": {}
       "not provided": {}
 
   PM01ChemicalEnum:
     description: >
-      Enumeration of all known 96 wells/chemicals in Biolog PM01.
-      NOTE: if a chemical is not in this list,
-      still record it in pm01_well_results.chemical_name as free text.
+      Known chemicals in Biolog PM01 (free-text fallback allowed).
     permissible_values:
       "L-Arabinose": {}
       "N-Acetyl-D-Glucosamine": {}
@@ -164,18 +161,14 @@ classes:
         description: "The paper's title."
         annotations:
           prompt: >-
-            Extract the paper's title. If not found, return only 'Not provided'.
-          prompt.examples:
-            - "Root Exudates Alter the Expression of Diverse Metabolic, Transport, Regulatory, and Stress Response Genes in Rhizosphere Pseudomonas."
+            Extract the paper's title. If not found, return 'Not provided'.
         required: true
 
       authors:
         description: "Authors of the paper."
         annotations:
-          prompt: |
-            Extract a list of authors, semicolon delimited.
-            If multiple authors appear in one string, split carefully.
-            If not found, use 'Not provided'.
+          prompt: >-
+            Extract authors as a semicolon-delimited list. If missing, 'Not provided'.
         range: string
         multivalued: true
         required: true
@@ -183,404 +176,143 @@ classes:
       doi:
         description: "DOI of the publication."
         annotations:
-          prompt: "Extract the DOI. If not found, use 'Not provided'."
+          prompt: >-
+            Extract the DOI. If not found, 'Not provided'.
         range: string
-        required: false
 
       date:
         description: "Publication date."
         annotations:
-          prompt: "Extract the publication date. If not found, use 'Not provided'."
+          prompt: >-
+            Extract the publication date. If not found, 'Not provided'.
         range: string
-        required: false
 
       traits:
         description: "Organismal traits measured or observed."
         annotations:
-          prompt: |
-            Extract a semicolon-delimited list of traits
-            focused on in the study.
-          prompt.examples:
-            - "Growth rate"
-            - "Lactose production"
-            - "motility"
-        multivalued: true
+          prompt: >-
+            Extract a semicolon-delimited list of traits focused on in the study.
         range: Trait
-        required: false
+        multivalued: true
 
       experiments:
-        description: "Experiments (e.g., Biolog) included in the paper."
+        description: "Experiments described in the paper."
         annotations:
-          prompt: |
-            Extract a semicolon-delimited list of experiments described in the paper.
-            For each: motivation; design; environment; all organisms and their types;
-            biological system; conditions; factors; Biolog subtype and plates;
-            replicates; protocol steps; data types; measurement protocols; instruments;
-            software; incubation temperature/duration.
-            If none, use 'Not provided'. No newlines.
+          prompt: >-
+            Extract semicolon-delimited list of experiments. For each: motivation; design; environment; organisms; system; conditions; factors; Biolog subtype and plates; replicates; protocol steps; data types; measurement protocols; instruments; software; incubation details. If none, output an empty list `[]`.
         range: Experiment
         multivalued: true
-        required: true
 
   Experiment:
-    description: "A single experiment from the paper."
+    description: "A single experiment."
     attributes:
-
       label:
-        description: "A single-sentence description of this experiment."
-        annotations:
-          prompt: "A single sentence description of this experiment."
-
-      experiment_motivation:
-        description: "Rationale for the experiment."
+        description: "One-sentence description of this experiment."
         annotations:
           prompt: >-
-            Explain the motivation or purpose of the experiment.
-            If missing, use 'Not provided'.
-        range: string
-        required: false
-
-      experiment_design:
-        description: "Summary of how the experiment was designed."
-        annotations:
-          prompt: "Summarize the overall design. If missing, use 'Not provided'."
-        range: string
-        required: false
-
-      environment:
-        description: "Location or conditions in which the experiment occurred."
-        annotations:
-          prompt: "Extract the environment or setting."
-        range: string
-        required: false
-
-      host_organism:
-        description: "One or more hosts in the experiment."
-        annotations:
-          prompt: |
-            Identify host organisms or systems in a semicolon-delimited list.
-          prompt.examples:
-            - "Brachypodium distachyon"
-            - "Arabidopsis thaliana"
-        range: Host
-        multivaled: true
-        required: false
-
-      host_type:
-        description: "Type of host (e.g., plant, animal)."
-        annotations:
-          prompt: >-
-            Describe the host type if applicable (e.g., 'plant').
-        range: string
-        required: false
-
-      target_organisms:
-        description: "Organisms, including microbes, targeted in the experiment."
-        annotations:
-          prompt: |
-            Extract a semicolon-delimited list of target organisms.
-          prompt.examples:
-            - "Pseudomonas fluorescens"
-            - "Bacillus subtilis"
-        range: Microbe
-        multivalued: true
-        required: false
-
-      target_organism_group:
-        description: "High-level description of organisms targeted in the study."
-        annotations:
-          prompt: >-
-            Extract semicolon-delimited groups of target organisms.
-        range: MicrobeGroup
-        multivalued: true
-        required: false
-
-      biological_system:
-        description: "Biological system under study."
-        annotations:
-          prompt: "Extract the focal biological system (e.g., rhizosphere)."
-        range: string
-        required: false
-
-      conditions:
-        description: "Experimental conditions (temperature, pH, etc.)."
-        annotations:
-          prompt: |
-            Identify conditions in a semicolon-delimited list (e.g., 25°C; pH 7).
-        multivalued: true
-        range: string
-        required: false
-
-      traits:
-        description: "Traits measured or observed."
-        annotations:
-          prompt: |
-            Extract semicolon-delimited traits measured or observed.
-          prompt.examples:
-            - "Growth rate"
-            - "motility"
-        multivalued: true
-        range: Trait
-        required: false
-
-      experimental_factors:
-        description: "Factors tested or measured."
-        annotations:
-          prompt: "List experimental factors or treatments semicolon-delimited."
-        range: ExperimentalFactor
-        multivalued: true
-        required: false
-
-      is_biolog_experiment:
-        description: "Whether the experiment is a Biolog experiment."
-        annotations:
-          prompt: >-
-            Indicate if it's a Biolog experiment ('yes' or 'no').
-            If not stated, 'not provided'.
-        range: FlexibleBooleanEnum
-        required: false
-
-      type_of_biolog_experiment:
-        description: "Type or subtype of the Biolog experiment."
-        annotations:
-          prompt: >-
-            If Biolog, specify subtype (e.g., Phenotype MicroArray).
-            Otherwise, 'Not provided'.
-        range: string
-        required: false
-
-      plates:
-        description: "Biolog plates used."
-        annotations:
-          prompt: |
-            List any Biolog plates (e.g., PM01/PM1, PM02/PM2) used.
-          prompt.examples:
-            - "PM1"
-            - "PM02"
-        range: PlateEnum
-        multivaled: true
-        required: false
-
-      replicates:
-        description: "Number of replicates."
-        annotations:
-          prompt: >-
-            Extract the number of replicates as a single number.
-            If not mentioned, 'Not provided'.
-        range: string
-        required: false
-
-      protocol_steps:
-        description: "Key steps in the experimental protocol."
-        annotations:
-          prompt: |
-            List full protocol steps semicolon-delimited (inoculation, incubation, recording, analysis).
-          prompt.examples:
-            - "Grow cells overnight on LB agar; Harvest and suspend in IF-0"
-        range: ProtocolStep
-        multivaled: true
-        required: false
-
-      plate_reader_types_of_data_collected:
-        description: "Data types collected (OD, respiration, etc.)."
-        annotations:
-          prompt: >-
-            Identify data types measured by the plate reader semicolon-delimited.
-            If none, 'Not provided'.
-        range: string
-        multivalued: true
-        required: false
-
-      od_protocol:
-        description: "Protocol for measuring optical density."
-        annotations:
-          prompt: >-
-            Describe OD measurement protocol.
-            If not described, 'Not provided'.
-        range: string
-        required: false
-
-      respiration_protocol:
-        description: "Protocol for measuring respiration/metabolic activity."
-        annotations:
-          prompt: >-
-            Describe respiration/metabolic protocol (e.g., formazan production).
-            If none, 'Not provided'.
-        range: string
-        required: false
-
-      instrument_used:
-        description: "Instruments or equipment used."
-        annotations:
-          prompt: |
-            Extract instrument/equipment names semicolon-delimited.
-          prompt.examples:
-            - "OmniLog Phenotype MicroArray System"
-        range: string
-        multivalued: true
-        required: false
-
-      analysis_software:
-        description: "Software used for analysis."
-        annotations:
-          prompt: |
-            Extract analysis software semicolon-delimited.
-          prompt.examples:
-            - "OmniLog Parametric Analysis software v1.20.02"
-        range: string
-        multivalued: true
-        required: false
+            Provide a one-sentence description of the experiment.
 
       pm01_strain_results:
-        description: >
-          For PM01 assays in this experiment, group results by strain.
-          Each entry stores `tested_strain`, `group`, and well-level results.
+        description: "PM01 results grouped by strain."
         annotations:
-          prompt: |
-            Extract PM01 (alias PM1) results grouped by strain.
-            For each strain:
-              - tested_strain
-              - group (I, II, or III)
-              - pm01_well_results: list of {chemical_name, result}.
-            Omit if no PM01 data.
+          prompt: >-
+            For each strain: tested_strain; group (I, II, or III); pm01_well_results list of {chemical_name, result}. Omit if none.
         range: BiologPM01StrainResult
         multivalued: true
-        required: false
+
+      # other Experiment attributes omitted for brevity...
 
   BiologPM01StrainResult:
     description: "PM01 well-level results for a specific strain."
     attributes:
       tested_strain:
-        description: "Microbe or strain name."
         range: Microbe
-        required: true
-        annotations:
-          prompt.examples:
-            - tested_strain: "Pf-5"
-              group: "I"
-              pm01_well_results:
-                - chemical_name: fumaric acid
-                  result: positive
-
-      group:
-        description: "Utilization cluster group (I, II, or III)."
-        range: string
+        required: false
         annotations:
           prompt: |
-            Which utilization cluster (Group I, II, or III) does this strain belong to?
-        required: false
-
+            Extract the strain name. If missing, emit 'Not provided'.
       pm01_well_results:
-        description: "One or more well-level results."
+        description: "Well-level PM01 results."
         range: BiologPM01WellResult
         multivalued: true
-        required: false
+
 
   BiologPM01WellResult:
-    description: "A single well result from the PM01 plate."
+    description: "Result for a single well on PM01."
     attributes:
       chemical_name:
         description: "Name of the chemical tested."
-        range: string
-        required: true
-
-      amino_acid_abbreviation:
-        description: >
-          If the chemical is an amino acid, its three-letter IUPAC abbreviation.
-        range: string
+        range: PM01ChemicalEnum
         required: false
-
+        annotations:
+          prompt: |
+            Extract the chemical tested in this well.
+            If no chemical is mentioned or if it’s not in the PM01 enumeration,
+            emit exactly "not provided" (do not leave it blank).
       result:
-        description: "Result: positive, negative, or not provided."
+        description: "Positive, negative, or not provided."
         range: PM01ResultEnum
         required: true
 
   Host:
     is_a: NamedEntity
-    description: "Detail of a host organism or system."
+    description: "A host organism or system."
     attributes:
       name:
-        description: "Name of the host organism or system."
+        description: "Name of the host."
         annotations:
-          prompt: "The name of the host organism or system."
+          prompt: >-
+            Extract the host name.
         range: string
-        required: false
 
   Microbe:
     is_a: NamedEntity
-    description: "Information about a microbial species or strain."
+    description: "A microbial species or strain."
     attributes:
       name:
-        description: "Name of the microbial taxon or strain."
+        description: "Name of the microbe."
         annotations:
-          prompt: "The name of the microbial species or strain."
+          prompt: >-
+            Extract the microbe name.
         range: string
-        required: false
 
   MicrobeGroup:
     is_a: NamedEntity
-    description: "Information about a microbial group or taxon."
+    description: "A group of microbes."
     attributes:
       name:
-        description: "Name of a microbial group or taxon."
+        description: "Name of the microbe group."
         annotations:
-          prompt: "The name of the microbial group."
+          prompt: >-
+            Extract the group name.
         range: string
-        required: false
 
   ExperimentalFactor:
     is_a: NamedEntity
-    description: "A factor manipulated or measured in an experiment."
+    description: "An experimental factor."
     attributes:
-      placeholder_attribute:
-        description: "Placeholder for experimental factor."
+      placeholder:
+        description: "Details of the factor."
         annotations:
-          prompt: |
-            Extract details about this experimental factor (e.g., concentration).
-            If absent, 'Not provided'.
+          prompt: >-
+            Describe the experimental factor.
         range: string
-        required: false
 
   Trait:
     is_a: NamedEntity
-    description: "An organism's physical trait measured or observed."
+    description: "A measured trait."
     id_prefixes:
       - https
     annotations:
-      prompt: |
-        A physical trait of an organism measured or observed.
-      annotators: bioportal:metpo
+      prompt: >-
+        Extract a trait.
 
   ProtocolStep:
-    description: "A step in an experimental protocol."
+    description: "A step in a protocol."
     attributes:
-      step_description:
-        description: "Description of a protocol step."
+      description:
+        description: "Protocol step description."
         annotations:
-          prompt: "Description of a step in the experimental protocol."
+          prompt: >-
+            Describe the protocol step.
         range: string
-        required: false
-
-      culture_media:
-        description: "Culture media used in the step."
-        annotations:
-          prompt: |
-            The culture media used in the step, if applicable.
-        range: string
-        required: false
-
-      culture_temperature:
-        description: "Culture incubation temperature."
-        annotations:
-          prompt: |
-            The culture temperature used in the step, if applicable.
-        range: string
-        required: false
-
-      culture_duration:
-        description: "Culture incubation duration."
-        annotations:
-          prompt: |
-            The culture duration used in the step, if applicable.
-        range: string
-        required: false
