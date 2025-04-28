@@ -199,7 +199,32 @@ classes:
         description: "Experiments described in the paper."
         annotations:
           prompt: >-
-            Extract semicolon-delimited list of experiments. For each: motivation; design; environment; organisms; system; conditions; factors; Biolog subtype and plates; replicates; protocol steps; data types; measurement protocols; instruments; software; incubation details. If none, output an empty list `[]`.
+            Extract a list of brief descriptions of experiments
+            described in the paper. This list must be semicolon-delimited.
+            For each description, include all of the following details if
+            provided: experiment motivation (why it was performed),
+            experiment design (how it was performed, including methods,
+            tools, organisms, and chemicals used), environment (the location
+            and conditions in which the experiment occurred, including
+            metrics like temperature), all organisms used and their
+            high-level type (e.g., plant, animal), the biological system
+            under study (e.g., rhizosphere), experimental conditions
+            (temperature, pH, etc.), and experimental factors tested or measured.
+            Also note whether the experiment is a Biolog experiment and if so,
+            the type or subtype of experiment (e.g., Phenotype MicroArray),
+            the Biolog plates used (e.g., PM01), the number of replicates, all
+            key steps in the experimental protocol, the types of data collected
+            by the plate reader (e.g., OD, respiration), the protocol for
+            measuring optical density (e.g., OD600 measured every 2 hours), 
+            the protocol for measuring respiration (e.g., Colorimetric change
+            at 590 nm for formazan detection), the instrument or equipment used
+            (e.g., OmniLog Phenotype MicroArray System), the software used for
+            data analysis (e.g., OmniLog Parametric Analysis software), the
+            incubation temperature (e.g., 25°C), the total duration of incubation
+            (e.g., 48 h), and any other relevant details.
+            If nothing is mentioned regarding experiments, use 'Not provided'.
+            Do not provide any details here not related to experiments.
+            Do not include newlines.
         range: Experiment
         multivalued: true
 
@@ -216,27 +241,13 @@ classes:
         description: "PM01 results grouped by strain."
         annotations:
           prompt: |
-            If PM01 results are described, output a list of objects under `pm01_strain_results`.  
-            For each strain:
-              - `tested_strain`: the strain name  
-              - `group`: which utilization cluster (I, II, or III) it belongs to  
-              - `pm01_well_results`: a **complete** list of all wells mentioned.  
-                For **each** well, emit an object with:
-                  • `chemical_name`: the name of the compound (must match the PM01ChemicalEnum or free text)  
-                  • `result`: “positive”, “negative” or “not provided”  
-            **Do not** leave out any wells that the text says were catabolized (positive) or not (negative).  
-            Example:
-            ```yaml
-            pm01_strain_results:
-              - tested_strain: Pseudomonas fluorescens Pf-5
-                group: I
-                pm01_well_results:
-                  - chemical_name: Glucose
-                    result: positive
-                  - chemical_name: Xylose
-                    result: negative
-                  # …and so on for every well mentioned
-            ```
+            If Biolog PM01 results are described, provide a semicolon-delimited list of
+            all strains tested. For each strain, include the following details:
+            the strain name, the utilization cluster it belongs to (I, II, or III), and a complete list of all wells
+            mentioned in the text. For each well, include the chemical name and the result (positive,
+            negative, or not provided). Do not leave out any wells that the text says were catabolized
+            (positive) or not (negative). If no PM01 results are mentioned, do not provide
+            a value for this field.
         range: BiologPM01StrainResult
         multivalued: true
 
@@ -250,6 +261,8 @@ classes:
         annotations:
           prompt: |
             Extract the strain name. If missing, emit 'Not provided'.
+          prompt.examples:
+            Pseudomonas sp. R1-43-08
       pm01_well_results:
         description: "Well-level PM01 results."
         range: BiologPM01WellResult
