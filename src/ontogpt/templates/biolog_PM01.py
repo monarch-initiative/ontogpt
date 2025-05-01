@@ -27,7 +27,7 @@ from pydantic import (
 
 
 metamodel_version = "None"
-version = "0.2.0"
+version = "0.4.2"
 
 
 class ConfiguredBaseModel(BaseModel):
@@ -63,9 +63,8 @@ class LinkMLMeta(RootModel):
 
 linkml_meta = LinkMLMeta({'default_prefix': 'paperex',
      'default_range': 'string',
-     'description': 'Schema for extracting structured data from papers, including '
-                    'Biolog Phenotype MicroArray experiments. Extended to capture '
-                    'PM01 well-level results.',
+     'description': 'Structured extraction for Biolog Phenotype MicroArray '
+                    'experiments.',
      'id': 'https://example.org/PaperExtractionSchema',
      'imports': ['linkml:types', 'core'],
      'license': 'https://creativecommons.org/publicdomain/zero/1.0/',
@@ -87,8 +86,7 @@ class NullDataOptions(str, Enum):
 
 class FlexibleBooleanEnum(str, Enum):
     """
-    A minimal enumeration for capturing yes/no/true/false in lowercase, plus 'not provided' if data are missing or ambiguous.
-
+    yes/no in lowercase; 'not provided' if ambiguous.
     """
     yes = "yes"
     no = "no"
@@ -99,122 +97,31 @@ class FlexibleBooleanEnum(str, Enum):
 
 class PlateEnum(str, Enum):
     """
-    Biolog phenotype microarray plates.
+    Biolog Phenotype MicroArray plates.
     """
     PM01 = "PM01"
+    PM02 = "PM02"
     PM1 = "PM1"
 
 
-class PM01ResultEnum(str, Enum):
+class PMResultEnum(str, Enum):
     """
-    Whether a PM01 well was positive, negative, or not provided.
-
+    Result for a single well.
     """
     positive = "positive"
     negative = "negative"
+    undetermined = "undetermined"
     not_provided = "not provided"
 
 
-class PM01ChemicalEnum(str, Enum):
+class GroupResultEnum(str, Enum):
     """
-    Known chemicals in Biolog PM01 (free-text fallback allowed).
-
+    Utilisation level for a compound cluster.
     """
-    L_Arabinose = "L-Arabinose"
-    N_Acetyl_D_Glucosamine = "N-Acetyl-D-Glucosamine"
-    D_Saccharic_acid = "D-Saccharic acid"
-    Succinic_acid = "Succinic acid"
-    D_Galactose = "D-Galactose"
-    L_Aspartic_acid = "L-Aspartic acid"
-    L_Proline = "L-Proline"
-    D_Alanine = "D-Alanine"
-    D_Trehalose = "D-Trehalose"
-    D_Mannose = "D-Mannose"
-    Dulcitol = "Dulcitol"
-    D_Serine = "D-Serine"
-    D_Sorbitol = "D-Sorbitol"
-    Glycerol = "Glycerol"
-    L_Fucose = "L-Fucose"
-    D_Glucuronic_acid = "D-Glucuronic acid"
-    D_Gluconic_acid = "D-Gluconic acid"
-    DL_a_Glycerol_Phosphate = "DL-a-Glycerol Phosphate"
-    D_Xylose = "D-Xylose"
-    L_Lactic_acid = "L-Lactic acid"
-    Formic_acid = "Formic acid"
-    D_Mannitol = "D-Mannitol"
-    L_Glutamic_acid = "L-Glutamic acid"
-    D_Glucose_6_Phosphate = "D-Glucose-6-Phosphate"
-    D_Galactonic_acid_g_Lactone = "D-Galactonic acid-g-Lactone"
-    DL_Malic_acid = "DL-Malic acid"
-    D_Ribose = "D-Ribose"
-    Tween_20 = "Tween 20"
-    L_Rhamnose = "L-Rhamnose"
-    D_Fructose = "D-Fructose"
-    Acetic_acid = "Acetic acid"
-    a_D_Glucose = "a-D-Glucose"
-    Maltose = "Maltose"
-    D_Melibiose = "D-Melibiose"
-    Thymidine = "Thymidine"
-    L_Asparagine = "L-Asparagine"
-    D_Aspartic_acid = "D-Aspartic acid"
-    D_Glucosaminic_acid = "D-Glucosaminic acid"
-    number_12_Propanediol = "1,2-Propanediol"
-    Tween_40 = "Tween 40"
-    a_Ketoglutaric_acid = "a-Ketoglutaric acid"
-    a_Ketobutyric_acid = "a-Ketobutyric acid"
-    a_Methyl_D_Galactoside = "a-Methyl-D-Galactoside"
-    a_D_Lactose = "a-D-Lactose"
-    Lactulose = "Lactulose"
-    Sucrose = "Sucrose"
-    Uridine = "Uridine"
-    L_Glutamine = "L-Glutamine"
-    m_Tartaric_acid = "m-Tartaric acid"
-    D_Glucose_1_Phosphate = "D-Glucose-1-Phosphate"
-    D_Fructose_6_Phosphate = "D-Fructose-6-Phosphate"
-    Tween_80 = "Tween 80"
-    a_Hydroxyglutaric_acid_g_Lactone = "a-Hydroxyglutaric acid-g-Lactone"
-    a_Hydroxybutyric_acid = "a-Hydroxybutyric acid"
-    b_Methyl_D_Glucoside = "b-Methyl-D-Glucoside"
-    Adonitol = "Adonitol"
-    Maltotriose = "Maltotriose"
-    number_2GRAVE_ACCENT_Deoxyadenosine = "2`-Deoxyadenosine"
-    Adenosine = "Adenosine"
-    Gly_Asp = "Gly-Asp"
-    Citric_acid = "Citric acid"
-    m_Inositol = "m-Inositol"
-    D_Threonine = "D-Threonine"
-    Fumaric_acid = "Fumaric acid"
-    Bromosuccinic_acid = "Bromosuccinic acid"
-    Propionic_acid = "Propionic acid"
-    Mucic_acid = "Mucic acid"
-    Glycolic_acid = "Glycolic acid"
-    Glyoxylic_acid = "Glyoxylic acid"
-    D_Cellobiose = "D-Cellobiose"
-    Inosine = "Inosine"
-    Gly_Glu = "Gly-Glu"
-    Tricarballylic_acid = "Tricarballylic acid"
-    L_Serine = "L-Serine"
-    L_Threonine = "L-Threonine"
-    L_Alanine = "L-Alanine"
-    Ala_Gly = "Ala-Gly"
-    Acetoacetic_acid = "Acetoacetic acid"
-    N_Acetyl_D_Mannosamine = "N-Acetyl-D-Mannosamine"
-    Mono_Methylsuccinate = "Mono-Methylsuccinate"
-    Methylpyruvate = "Methylpyruvate"
-    D_Malic_acid = "D-Malic acid"
-    L_Malic_acid = "L-Malic acid"
-    Gly_Pro = "Gly-Pro"
-    p_Hydroxyphenyl_Acetic_acid = "p-Hydroxyphenyl Acetic acid"
-    m_Hydroxyphenyl_Acetic_acid = "m-Hydroxyphenyl Acetic acid"
-    Tyramine = "Tyramine"
-    D_Psicose = "D-Psicose"
-    L_Lyxose = "L-Lyxose"
-    Glucuronamide = "Glucuronamide"
-    Pyruvic_acid = "Pyruvic acid"
-    L_Galactonic_acid_g_Lactone = "L-Galactonic acid-g-Lactone"
-    D_Galacturonic_acid = "D-Galacturonic acid"
-    Phenylethylamine = "Phenylethylamine"
-    number_2_Aminoethanol = "2-Aminoethanol"
+    high = "high"
+    variable = "variable"
+    none = "none"
+    not_provided = "not provided"
 
 
 
@@ -234,35 +141,9 @@ class ExtractionResult(ConfiguredBaseModel):
 
 
 class NamedEntity(ConfiguredBaseModel):
-    linkml_meta: ClassVar[LinkMLMeta] = LinkMLMeta({'abstract': True, 'from_schema': 'http://w3id.org/ontogpt/core'})
+    linkml_meta: ClassVar[LinkMLMeta] = LinkMLMeta({'from_schema': 'https://example.org/PaperExtractionSchema'})
 
-    id: str = Field(default=..., description="""A unique identifier for the named entity""", json_schema_extra = { "linkml_meta": {'alias': 'id',
-         'annotations': {'prompt.skip': {'tag': 'prompt.skip', 'value': 'true'}},
-         'comments': ['this is populated during the grounding and normalization step'],
-         'domain_of': ['NamedEntity', 'Publication']} })
-    label: Optional[str] = Field(default=None, description="""The label (name) of the named thing""", json_schema_extra = { "linkml_meta": {'alias': 'label',
-         'aliases': ['name'],
-         'annotations': {'owl': {'tag': 'owl',
-                                 'value': 'AnnotationProperty, AnnotationAssertion'}},
-         'domain_of': ['NamedEntity', 'Experiment'],
-         'slot_uri': 'rdfs:label'} })
-    original_spans: Optional[list[str]] = Field(default=None, description="""The coordinates of the original text span from which the named entity was extracted, inclusive. For example, \"10:25\" means the span starting from the 10th character and ending with the 25th character. The first character in the text has index 0. Newlines are treated as single characters. Multivalued as there may be multiple spans for a single text.""", json_schema_extra = { "linkml_meta": {'alias': 'original_spans',
-         'annotations': {'prompt.skip': {'tag': 'prompt.skip', 'value': 'true'}},
-         'comments': ['This is determined during grounding and normalization',
-                      'But is based on the full input text'],
-         'domain_of': ['NamedEntity']} })
-
-    @field_validator('original_spans')
-    def pattern_original_spans(cls, v):
-        pattern=re.compile(r"^\d+:\d+$")
-        if isinstance(v,list):
-            for element in v:
-                if isinstance(v, str) and not pattern.match(element):
-                    raise ValueError(f"Invalid original_spans format: {element}")
-        elif isinstance(v,str):
-            if not pattern.match(v):
-                raise ValueError(f"Invalid original_spans format: {v}")
-        return v
+    id: Optional[str] = Field(default=None, json_schema_extra = { "linkml_meta": {'alias': 'id', 'domain_of': ['NamedEntity', 'Publication']} })
 
 
 class CompoundExpression(ConfiguredBaseModel):
@@ -277,12 +158,12 @@ class Triple(CompoundExpression):
     """
     linkml_meta: ClassVar[LinkMLMeta] = LinkMLMeta({'abstract': True, 'from_schema': 'http://w3id.org/ontogpt/core'})
 
-    subject: Optional[str] = Field(default=None, json_schema_extra = { "linkml_meta": {'alias': 'subject', 'domain_of': ['Triple']} })
-    predicate: Optional[str] = Field(default=None, json_schema_extra = { "linkml_meta": {'alias': 'predicate', 'domain_of': ['Triple']} })
-    object: Optional[str] = Field(default=None, json_schema_extra = { "linkml_meta": {'alias': 'object', 'domain_of': ['Triple']} })
+    subject: Optional[NamedEntity] = Field(default=None, json_schema_extra = { "linkml_meta": {'alias': 'subject', 'domain_of': ['Triple']} })
+    predicate: Optional[RelationshipType] = Field(default=None, json_schema_extra = { "linkml_meta": {'alias': 'predicate', 'domain_of': ['Triple']} })
+    object: Optional[NamedEntity] = Field(default=None, json_schema_extra = { "linkml_meta": {'alias': 'object', 'domain_of': ['Triple']} })
     qualifier: Optional[str] = Field(default=None, description="""A qualifier for the statements, e.g. \"NOT\" for negation""", json_schema_extra = { "linkml_meta": {'alias': 'qualifier', 'domain_of': ['Triple']} })
-    subject_qualifier: Optional[str] = Field(default=None, description="""An optional qualifier or modifier for the subject of the statement, e.g. \"high dose\" or \"intravenously administered\"""", json_schema_extra = { "linkml_meta": {'alias': 'subject_qualifier', 'domain_of': ['Triple']} })
-    object_qualifier: Optional[str] = Field(default=None, description="""An optional qualifier or modifier for the object of the statement, e.g. \"severe\" or \"with additional complications\"""", json_schema_extra = { "linkml_meta": {'alias': 'object_qualifier', 'domain_of': ['Triple']} })
+    subject_qualifier: Optional[NamedEntity] = Field(default=None, description="""An optional qualifier or modifier for the subject of the statement, e.g. \"high dose\" or \"intravenously administered\"""", json_schema_extra = { "linkml_meta": {'alias': 'subject_qualifier', 'domain_of': ['Triple']} })
+    object_qualifier: Optional[NamedEntity] = Field(default=None, description="""An optional qualifier or modifier for the object of the statement, e.g. \"severe\" or \"with additional complications\"""", json_schema_extra = { "linkml_meta": {'alias': 'object_qualifier', 'domain_of': ['Triple']} })
 
 
 class TextWithTriples(ConfiguredBaseModel):
@@ -306,40 +187,14 @@ class TextWithEntity(ConfiguredBaseModel):
     publication: Optional[Publication] = Field(default=None, json_schema_extra = { "linkml_meta": {'alias': 'publication',
          'annotations': {'prompt.skip': {'tag': 'prompt.skip', 'value': 'true'}},
          'domain_of': ['TextWithTriples', 'TextWithEntity']} })
-    entities: Optional[list[str]] = Field(default=None, json_schema_extra = { "linkml_meta": {'alias': 'entities', 'domain_of': ['TextWithEntity']} })
+    entities: Optional[list[NamedEntity]] = Field(default=None, json_schema_extra = { "linkml_meta": {'alias': 'entities', 'domain_of': ['TextWithEntity']} })
 
 
 class RelationshipType(NamedEntity):
     linkml_meta: ClassVar[LinkMLMeta] = LinkMLMeta({'from_schema': 'http://w3id.org/ontogpt/core',
          'id_prefixes': ['RO', 'biolink']})
 
-    id: str = Field(default=..., description="""A unique identifier for the named entity""", json_schema_extra = { "linkml_meta": {'alias': 'id',
-         'annotations': {'prompt.skip': {'tag': 'prompt.skip', 'value': 'true'}},
-         'comments': ['this is populated during the grounding and normalization step'],
-         'domain_of': ['NamedEntity', 'Publication']} })
-    label: Optional[str] = Field(default=None, description="""The label (name) of the named thing""", json_schema_extra = { "linkml_meta": {'alias': 'label',
-         'aliases': ['name'],
-         'annotations': {'owl': {'tag': 'owl',
-                                 'value': 'AnnotationProperty, AnnotationAssertion'}},
-         'domain_of': ['NamedEntity', 'Experiment'],
-         'slot_uri': 'rdfs:label'} })
-    original_spans: Optional[list[str]] = Field(default=None, description="""The coordinates of the original text span from which the named entity was extracted, inclusive. For example, \"10:25\" means the span starting from the 10th character and ending with the 25th character. The first character in the text has index 0. Newlines are treated as single characters. Multivalued as there may be multiple spans for a single text.""", json_schema_extra = { "linkml_meta": {'alias': 'original_spans',
-         'annotations': {'prompt.skip': {'tag': 'prompt.skip', 'value': 'true'}},
-         'comments': ['This is determined during grounding and normalization',
-                      'But is based on the full input text'],
-         'domain_of': ['NamedEntity']} })
-
-    @field_validator('original_spans')
-    def pattern_original_spans(cls, v):
-        pattern=re.compile(r"^\d+:\d+$")
-        if isinstance(v,list):
-            for element in v:
-                if isinstance(v, str) and not pattern.match(element):
-                    raise ValueError(f"Invalid original_spans format: {element}")
-        elif isinstance(v,str):
-            if not pattern.match(v):
-                raise ValueError(f"Invalid original_spans format: {v}")
-        return v
+    id: Optional[str] = Field(default=None, json_schema_extra = { "linkml_meta": {'alias': 'id', 'domain_of': ['NamedEntity', 'Publication']} })
 
 
 class Publication(ConfiguredBaseModel):
@@ -362,333 +217,152 @@ class AnnotatorResult(ConfiguredBaseModel):
 
 class Paper(ConfiguredBaseModel):
     """
-    A single paper or study.
+    One publication that includes ≥ 1 Biolog assay.
     """
     linkml_meta: ClassVar[LinkMLMeta] = LinkMLMeta({'from_schema': 'https://example.org/PaperExtractionSchema', 'tree_root': True})
 
-    study_title: str = Field(default=..., description="""The paper's title.""", json_schema_extra = { "linkml_meta": {'alias': 'study_title',
+    study_title: str = Field(default=..., json_schema_extra = { "linkml_meta": {'alias': 'study_title',
          'annotations': {'prompt': {'tag': 'prompt',
-                                    'value': "Extract the paper's title. If not found, "
-                                             "return 'Not provided'."}},
+                                    'value': 'extract the paper title; if absent, use '
+                                             "'not provided'."}},
          'domain_of': ['Paper']} })
-    authors: list[str] = Field(default=..., description="""Authors of the paper.""", json_schema_extra = { "linkml_meta": {'alias': 'authors',
+    authors: list[str] = Field(default=..., json_schema_extra = { "linkml_meta": {'alias': 'authors',
          'annotations': {'prompt': {'tag': 'prompt',
-                                    'value': 'Extract authors as a semicolon-delimited '
-                                             "list. If missing, 'Not provided'."}},
+                                    'value': 'extract authors as a semicolon-separated '
+                                             "list; if none, 'not provided'."}},
          'domain_of': ['Paper']} })
-    doi: Optional[str] = Field(default=None, description="""DOI of the publication.""", json_schema_extra = { "linkml_meta": {'alias': 'doi',
+    doi: Optional[str] = Field(default=None, json_schema_extra = { "linkml_meta": {'alias': 'doi',
          'annotations': {'prompt': {'tag': 'prompt',
-                                    'value': "Extract the DOI. If not found, 'Not "
-                                             "provided'."}},
+                                    'value': "extract the DOI or 'not provided'."}},
          'domain_of': ['Paper']} })
-    date: Optional[str] = Field(default=None, description="""Publication date.""", json_schema_extra = { "linkml_meta": {'alias': 'date',
+    date: Optional[str] = Field(default=None, json_schema_extra = { "linkml_meta": {'alias': 'date',
          'annotations': {'prompt': {'tag': 'prompt',
-                                    'value': 'Extract the publication date. If not '
-                                             "found, 'Not provided'."}},
+                                    'value': "extract the publication date (e.g., '14 "
+                                             "April 2021') or 'not provided'."}},
          'domain_of': ['Paper']} })
-    traits: Optional[list[str]] = Field(default=None, description="""Organismal traits measured or observed.""", json_schema_extra = { "linkml_meta": {'alias': 'traits',
+    biolog_experiments: Optional[list[BiologExperiment]] = Field(default=None, json_schema_extra = { "linkml_meta": {'alias': 'biolog_experiments',
          'annotations': {'prompt': {'tag': 'prompt',
-                                    'value': 'Extract a semicolon-delimited list of '
-                                             'traits focused on in the study.'}},
-         'domain_of': ['Paper']} })
-    experiments: Optional[list[Experiment]] = Field(default=None, description="""Experiments described in the paper.""", json_schema_extra = { "linkml_meta": {'alias': 'experiments',
-         'annotations': {'prompt': {'tag': 'prompt',
-                                    'value': 'Extract semicolon-delimited list of '
-                                             'experiments. For each: motivation; '
-                                             'design; environment; organisms; system; '
-                                             'conditions; factors; Biolog subtype and '
-                                             'plates; replicates; protocol steps; data '
-                                             'types; measurement protocols; '
-                                             'instruments; software; incubation '
-                                             'details. If none, output an empty list '
-                                             '`[]`.'}},
+                                    'value': 'if the paper describes any Biolog '
+                                             'Phenotype MicroArray assays,\n'
+                                             'create one BiologExperiment object per '
+                                             'plate (PM01, PM02 …);\n'
+                                             'otherwise omit this slot.\n'}},
          'domain_of': ['Paper']} })
 
 
-class Experiment(ConfiguredBaseModel):
+class BiologExperiment(ConfiguredBaseModel):
     """
-    A single experiment.
-    """
-    linkml_meta: ClassVar[LinkMLMeta] = LinkMLMeta({'from_schema': 'https://example.org/PaperExtractionSchema'})
-
-    label: Optional[str] = Field(default=None, description="""One-sentence description of this experiment.""", json_schema_extra = { "linkml_meta": {'alias': 'label',
-         'annotations': {'prompt': {'tag': 'prompt',
-                                    'value': 'Provide a one-sentence description of '
-                                             'the experiment.'}},
-         'domain_of': ['NamedEntity', 'Experiment']} })
-    pm01_strain_results: Optional[list[BiologPM01StrainResult]] = Field(default=None, description="""PM01 results grouped by strain.""", json_schema_extra = { "linkml_meta": {'alias': 'pm01_strain_results',
-         'annotations': {'prompt': {'tag': 'prompt',
-                                    'value': 'If PM01 results are described, output a '
-                                             'list of objects under '
-                                             '`pm01_strain_results`.  \n'
-                                             'For each strain:\n'
-                                             '  - `tested_strain`: the strain name  \n'
-                                             '  - `group`: which utilization cluster '
-                                             '(I, II, or III) it belongs to  \n'
-                                             '  - `pm01_well_results`: a **complete** '
-                                             'list of all wells mentioned.  \n'
-                                             '    For **each** well, emit an object '
-                                             'with:\n'
-                                             '      • `chemical_name`: the name of the '
-                                             'compound (must match the '
-                                             'PM01ChemicalEnum or free text)  \n'
-                                             '      • `result`: “positive”, “negative” '
-                                             'or “not provided”  \n'
-                                             '**Do not** leave out any wells that the '
-                                             'text says were catabolized (positive) or '
-                                             'not (negative).  \n'
-                                             'Example:\n'
-                                             '```yaml\n'
-                                             'pm01_strain_results:\n'
-                                             '  - tested_strain: Pseudomonas '
-                                             'fluorescens Pf-5\n'
-                                             '    group: I\n'
-                                             '    pm01_well_results:\n'
-                                             '      - chemical_name: Glucose\n'
-                                             '        result: positive\n'
-                                             '      - chemical_name: Xylose\n'
-                                             '        result: negative\n'
-                                             '      # …and so on for every well '
-                                             'mentioned\n'
-                                             '```\n'}},
-         'domain_of': ['Experiment']} })
-
-
-class BiologPM01StrainResult(ConfiguredBaseModel):
-    """
-    PM01 well-level results for a specific strain.
+    Details for one Phenotype MicroArray plate.
     """
     linkml_meta: ClassVar[LinkMLMeta] = LinkMLMeta({'from_schema': 'https://example.org/PaperExtractionSchema'})
 
-    tested_strain: Optional[str] = Field(default=None, json_schema_extra = { "linkml_meta": {'alias': 'tested_strain',
+    plate_name: Optional[PlateEnum] = Field(default=None, json_schema_extra = { "linkml_meta": {'alias': 'plate_name',
+         'annotations': {'examples': {'tag': 'examples', 'value': 'PM01'},
+                         'prompt': {'tag': 'prompt',
+                                    'value': 'plate identifier (e.g., PM01, PM02); '
+                                             'default to PM01 if unclear.'}},
+         'domain_of': ['BiologExperiment']} })
+    summary_by_group: Optional[list[PMUtilisationGroup]] = Field(default=None, json_schema_extra = { "linkml_meta": {'alias': 'summary_by_group',
          'annotations': {'prompt': {'tag': 'prompt',
-                                    'value': 'Extract the strain name. If missing, '
-                                             "emit 'Not provided'.\n"}},
-         'domain_of': ['BiologPM01StrainResult']} })
-    pm01_well_results: Optional[list[BiologPM01WellResult]] = Field(default=None, description="""Well-level PM01 results.""", json_schema_extra = { "linkml_meta": {'alias': 'pm01_well_results', 'domain_of': ['BiologPM01StrainResult']} })
+                                    'value': 'optional coarse summary: for each '
+                                             'utilisation group (I, II, III …)\n'
+                                             'give its level (high/variable/none) and '
+                                             'any compounds explicitly\n'
+                                             'named in that paragraph. omit if not '
+                                             'described.\n'}},
+         'domain_of': ['BiologExperiment']} })
+    strain_results: Optional[list[StrainResult]] = Field(default=None, json_schema_extra = { "linkml_meta": {'alias': 'strain_results',
+         'annotations': {'prompt': {'tag': 'prompt',
+                                    'value': 'for each microbial strain tested on this '
+                                             'plate, create one\n'
+                                             'StrainResult capturing organism, host, '
+                                             'strain name, strain cluster\n'
+                                             '(if stated), and every well-level result '
+                                             'mentioned.\n'}},
+         'domain_of': ['BiologExperiment']} })
 
 
-class BiologPM01WellResult(ConfiguredBaseModel):
+class StrainResult(ConfiguredBaseModel):
     """
-    Result for a single well on PM01.
+    Results for one microbial strain on a plate.
     """
     linkml_meta: ClassVar[LinkMLMeta] = LinkMLMeta({'from_schema': 'https://example.org/PaperExtractionSchema'})
 
-    chemical_name: Optional[PM01ChemicalEnum] = Field(default=None, description="""Name of the chemical tested.""", json_schema_extra = { "linkml_meta": {'alias': 'chemical_name',
+    organism: Optional[str] = Field(default=None, json_schema_extra = { "linkml_meta": {'alias': 'organism',
          'annotations': {'prompt': {'tag': 'prompt',
-                                    'value': 'Extract the chemical tested in this '
-                                             'well.\n'
-                                             'If no chemical is mentioned or if it’s '
-                                             'not in the PM01 enumeration,\n'
-                                             'emit exactly "not provided" (do not '
-                                             'leave it blank).\n'}},
-         'domain_of': ['BiologPM01WellResult']} })
-    result: PM01ResultEnum = Field(default=..., description="""Positive, negative, or not provided.""", json_schema_extra = { "linkml_meta": {'alias': 'result', 'domain_of': ['BiologPM01WellResult']} })
+                                    'value': "species name (e.g., 'Pseudomonas "
+                                             "fluorescens') or 'not provided'."}},
+         'domain_of': ['StrainResult']} })
+    host: Optional[str] = Field(default=None, json_schema_extra = { "linkml_meta": {'alias': 'host',
+         'annotations': {'prompt': {'tag': 'prompt',
+                                    'value': "host organism or environment (e.g., 'B. "
+                                             "distachyon Bd21 root');\n"
+                                             "if none, 'not provided'.\n"}},
+         'domain_of': ['StrainResult']} })
+    strain_name: Optional[str] = Field(default=None, json_schema_extra = { "linkml_meta": {'alias': 'strain_name',
+         'annotations': {'prompt': {'tag': 'prompt',
+                                    'value': "exact strain identifier (e.g., 'Pf-5', "
+                                             "'Q8r1-96')."}},
+         'domain_of': ['StrainResult']} })
+    strain_group: Optional[str] = Field(default=None, json_schema_extra = { "linkml_meta": {'alias': 'strain_group',
+         'annotations': {'prompt': {'tag': 'prompt',
+                                    'value': 'phylogenetic or utilisation cluster the '
+                                             'strain belongs to\n'
+                                             "(e.g., 'cluster I', 'P. fluorescens "
+                                             "subgroup 3');\n"
+                                             "if none, 'not provided'.\n"}},
+         'domain_of': ['StrainResult']} })
+    well_results: Optional[list[WellResult]] = Field(default=None, json_schema_extra = { "linkml_meta": {'alias': 'well_results',
+         'annotations': {'prompt': {'tag': 'prompt',
+                                    'value': 'list every chemical explicitly stated as '
+                                             'catabolised (positive),\n'
+                                             'not catabolised (negative), or ambiguous '
+                                             '(undetermined) for\n'
+                                             'this strain.\n'}},
+         'domain_of': ['StrainResult']} })
 
 
-class Host(NamedEntity):
+class WellResult(ConfiguredBaseModel):
     """
-    A host organism or system.
+    Outcome for one chemical well.
     """
     linkml_meta: ClassVar[LinkMLMeta] = LinkMLMeta({'from_schema': 'https://example.org/PaperExtractionSchema'})
 
-    name: Optional[str] = Field(default=None, description="""Name of the host.""", json_schema_extra = { "linkml_meta": {'alias': 'name',
+    chemical_name: Optional[str] = Field(default=None, json_schema_extra = { "linkml_meta": {'alias': 'chemical_name',
          'annotations': {'prompt': {'tag': 'prompt',
-                                    'value': 'Extract the host name.'}},
-         'domain_of': ['Host', 'Microbe', 'MicrobeGroup']} })
-    id: str = Field(default=..., description="""A unique identifier for the named entity""", json_schema_extra = { "linkml_meta": {'alias': 'id',
-         'annotations': {'prompt.skip': {'tag': 'prompt.skip', 'value': 'true'}},
-         'comments': ['this is populated during the grounding and normalization step'],
-         'domain_of': ['NamedEntity', 'Publication']} })
-    label: Optional[str] = Field(default=None, description="""The label (name) of the named thing""", json_schema_extra = { "linkml_meta": {'alias': 'label',
-         'aliases': ['name'],
-         'annotations': {'owl': {'tag': 'owl',
-                                 'value': 'AnnotationProperty, AnnotationAssertion'}},
-         'domain_of': ['NamedEntity', 'Experiment'],
-         'slot_uri': 'rdfs:label'} })
-    original_spans: Optional[list[str]] = Field(default=None, description="""The coordinates of the original text span from which the named entity was extracted, inclusive. For example, \"10:25\" means the span starting from the 10th character and ending with the 25th character. The first character in the text has index 0. Newlines are treated as single characters. Multivalued as there may be multiple spans for a single text.""", json_schema_extra = { "linkml_meta": {'alias': 'original_spans',
-         'annotations': {'prompt.skip': {'tag': 'prompt.skip', 'value': 'true'}},
-         'comments': ['This is determined during grounding and normalization',
-                      'But is based on the full input text'],
-         'domain_of': ['NamedEntity']} })
-
-    @field_validator('original_spans')
-    def pattern_original_spans(cls, v):
-        pattern=re.compile(r"^\d+:\d+$")
-        if isinstance(v,list):
-            for element in v:
-                if isinstance(v, str) and not pattern.match(element):
-                    raise ValueError(f"Invalid original_spans format: {element}")
-        elif isinstance(v,str):
-            if not pattern.match(v):
-                raise ValueError(f"Invalid original_spans format: {v}")
-        return v
+                                    'value': 'chemical exactly as written (e.g., '
+                                             "'citric acid')."}},
+         'domain_of': ['WellResult']} })
+    result: PMResultEnum = Field(default=..., json_schema_extra = { "linkml_meta": {'alias': 'result',
+         'annotations': {'prompt': {'tag': 'prompt',
+                                    'value': 'choose one: positive / negative / '
+                                             'undetermined / not provided.\n'
+                                             "map phrases like 'supported growth' → "
+                                             'positive;\n'
+                                             "'not catabolized' → negative.\n"}},
+         'domain_of': ['WellResult']} })
 
 
-class Microbe(NamedEntity):
+class PMUtilisationGroup(ConfiguredBaseModel):
     """
-    A microbial species or strain.
+    High-level cluster summary (optional).
     """
     linkml_meta: ClassVar[LinkMLMeta] = LinkMLMeta({'from_schema': 'https://example.org/PaperExtractionSchema'})
 
-    name: Optional[str] = Field(default=None, description="""Name of the microbe.""", json_schema_extra = { "linkml_meta": {'alias': 'name',
+    group_label: Optional[str] = Field(default=None, json_schema_extra = { "linkml_meta": {'alias': 'group_label',
          'annotations': {'prompt': {'tag': 'prompt',
-                                    'value': 'Extract the microbe name.'}},
-         'domain_of': ['Host', 'Microbe', 'MicrobeGroup']} })
-    id: str = Field(default=..., description="""A unique identifier for the named entity""", json_schema_extra = { "linkml_meta": {'alias': 'id',
-         'annotations': {'prompt.skip': {'tag': 'prompt.skip', 'value': 'true'}},
-         'comments': ['this is populated during the grounding and normalization step'],
-         'domain_of': ['NamedEntity', 'Publication']} })
-    label: Optional[str] = Field(default=None, description="""The label (name) of the named thing""", json_schema_extra = { "linkml_meta": {'alias': 'label',
-         'aliases': ['name'],
-         'annotations': {'owl': {'tag': 'owl',
-                                 'value': 'AnnotationProperty, AnnotationAssertion'}},
-         'domain_of': ['NamedEntity', 'Experiment'],
-         'slot_uri': 'rdfs:label'} })
-    original_spans: Optional[list[str]] = Field(default=None, description="""The coordinates of the original text span from which the named entity was extracted, inclusive. For example, \"10:25\" means the span starting from the 10th character and ending with the 25th character. The first character in the text has index 0. Newlines are treated as single characters. Multivalued as there may be multiple spans for a single text.""", json_schema_extra = { "linkml_meta": {'alias': 'original_spans',
-         'annotations': {'prompt.skip': {'tag': 'prompt.skip', 'value': 'true'}},
-         'comments': ['This is determined during grounding and normalization',
-                      'But is based on the full input text'],
-         'domain_of': ['NamedEntity']} })
-
-    @field_validator('original_spans')
-    def pattern_original_spans(cls, v):
-        pattern=re.compile(r"^\d+:\d+$")
-        if isinstance(v,list):
-            for element in v:
-                if isinstance(v, str) and not pattern.match(element):
-                    raise ValueError(f"Invalid original_spans format: {element}")
-        elif isinstance(v,str):
-            if not pattern.match(v):
-                raise ValueError(f"Invalid original_spans format: {v}")
-        return v
-
-
-class MicrobeGroup(NamedEntity):
-    """
-    A group of microbes.
-    """
-    linkml_meta: ClassVar[LinkMLMeta] = LinkMLMeta({'from_schema': 'https://example.org/PaperExtractionSchema'})
-
-    name: Optional[str] = Field(default=None, description="""Name of the microbe group.""", json_schema_extra = { "linkml_meta": {'alias': 'name',
+                                    'value': 'group label as in text (I, II, III …).'}},
+         'domain_of': ['PMUtilisationGroup']} })
+    utilisation_level: Optional[GroupResultEnum] = Field(default=None, json_schema_extra = { "linkml_meta": {'alias': 'utilisation_level',
          'annotations': {'prompt': {'tag': 'prompt',
-                                    'value': 'Extract the group name.'}},
-         'domain_of': ['Host', 'Microbe', 'MicrobeGroup']} })
-    id: str = Field(default=..., description="""A unique identifier for the named entity""", json_schema_extra = { "linkml_meta": {'alias': 'id',
-         'annotations': {'prompt.skip': {'tag': 'prompt.skip', 'value': 'true'}},
-         'comments': ['this is populated during the grounding and normalization step'],
-         'domain_of': ['NamedEntity', 'Publication']} })
-    label: Optional[str] = Field(default=None, description="""The label (name) of the named thing""", json_schema_extra = { "linkml_meta": {'alias': 'label',
-         'aliases': ['name'],
-         'annotations': {'owl': {'tag': 'owl',
-                                 'value': 'AnnotationProperty, AnnotationAssertion'}},
-         'domain_of': ['NamedEntity', 'Experiment'],
-         'slot_uri': 'rdfs:label'} })
-    original_spans: Optional[list[str]] = Field(default=None, description="""The coordinates of the original text span from which the named entity was extracted, inclusive. For example, \"10:25\" means the span starting from the 10th character and ending with the 25th character. The first character in the text has index 0. Newlines are treated as single characters. Multivalued as there may be multiple spans for a single text.""", json_schema_extra = { "linkml_meta": {'alias': 'original_spans',
-         'annotations': {'prompt.skip': {'tag': 'prompt.skip', 'value': 'true'}},
-         'comments': ['This is determined during grounding and normalization',
-                      'But is based on the full input text'],
-         'domain_of': ['NamedEntity']} })
-
-    @field_validator('original_spans')
-    def pattern_original_spans(cls, v):
-        pattern=re.compile(r"^\d+:\d+$")
-        if isinstance(v,list):
-            for element in v:
-                if isinstance(v, str) and not pattern.match(element):
-                    raise ValueError(f"Invalid original_spans format: {element}")
-        elif isinstance(v,str):
-            if not pattern.match(v):
-                raise ValueError(f"Invalid original_spans format: {v}")
-        return v
-
-
-class ExperimentalFactor(NamedEntity):
-    """
-    An experimental factor.
-    """
-    linkml_meta: ClassVar[LinkMLMeta] = LinkMLMeta({'from_schema': 'https://example.org/PaperExtractionSchema'})
-
-    placeholder: Optional[str] = Field(default=None, description="""Details of the factor.""", json_schema_extra = { "linkml_meta": {'alias': 'placeholder',
+                                    'value': 'high / variable / none / not provided.'}},
+         'domain_of': ['PMUtilisationGroup']} })
+    compounds: Optional[list[str]] = Field(default=None, json_schema_extra = { "linkml_meta": {'alias': 'compounds',
          'annotations': {'prompt': {'tag': 'prompt',
-                                    'value': 'Describe the experimental factor.'}},
-         'domain_of': ['ExperimentalFactor']} })
-    id: str = Field(default=..., description="""A unique identifier for the named entity""", json_schema_extra = { "linkml_meta": {'alias': 'id',
-         'annotations': {'prompt.skip': {'tag': 'prompt.skip', 'value': 'true'}},
-         'comments': ['this is populated during the grounding and normalization step'],
-         'domain_of': ['NamedEntity', 'Publication']} })
-    label: Optional[str] = Field(default=None, description="""The label (name) of the named thing""", json_schema_extra = { "linkml_meta": {'alias': 'label',
-         'aliases': ['name'],
-         'annotations': {'owl': {'tag': 'owl',
-                                 'value': 'AnnotationProperty, AnnotationAssertion'}},
-         'domain_of': ['NamedEntity', 'Experiment'],
-         'slot_uri': 'rdfs:label'} })
-    original_spans: Optional[list[str]] = Field(default=None, description="""The coordinates of the original text span from which the named entity was extracted, inclusive. For example, \"10:25\" means the span starting from the 10th character and ending with the 25th character. The first character in the text has index 0. Newlines are treated as single characters. Multivalued as there may be multiple spans for a single text.""", json_schema_extra = { "linkml_meta": {'alias': 'original_spans',
-         'annotations': {'prompt.skip': {'tag': 'prompt.skip', 'value': 'true'}},
-         'comments': ['This is determined during grounding and normalization',
-                      'But is based on the full input text'],
-         'domain_of': ['NamedEntity']} })
-
-    @field_validator('original_spans')
-    def pattern_original_spans(cls, v):
-        pattern=re.compile(r"^\d+:\d+$")
-        if isinstance(v,list):
-            for element in v:
-                if isinstance(v, str) and not pattern.match(element):
-                    raise ValueError(f"Invalid original_spans format: {element}")
-        elif isinstance(v,str):
-            if not pattern.match(v):
-                raise ValueError(f"Invalid original_spans format: {v}")
-        return v
-
-
-class Trait(NamedEntity):
-    """
-    A measured trait.
-    """
-    linkml_meta: ClassVar[LinkMLMeta] = LinkMLMeta({'annotations': {'prompt': {'tag': 'prompt', 'value': 'Extract a trait.'}},
-         'from_schema': 'https://example.org/PaperExtractionSchema',
-         'id_prefixes': ['https']})
-
-    id: str = Field(default=..., description="""A unique identifier for the named entity""", json_schema_extra = { "linkml_meta": {'alias': 'id',
-         'annotations': {'prompt.skip': {'tag': 'prompt.skip', 'value': 'true'}},
-         'comments': ['this is populated during the grounding and normalization step'],
-         'domain_of': ['NamedEntity', 'Publication']} })
-    label: Optional[str] = Field(default=None, description="""The label (name) of the named thing""", json_schema_extra = { "linkml_meta": {'alias': 'label',
-         'aliases': ['name'],
-         'annotations': {'owl': {'tag': 'owl',
-                                 'value': 'AnnotationProperty, AnnotationAssertion'}},
-         'domain_of': ['NamedEntity', 'Experiment'],
-         'slot_uri': 'rdfs:label'} })
-    original_spans: Optional[list[str]] = Field(default=None, description="""The coordinates of the original text span from which the named entity was extracted, inclusive. For example, \"10:25\" means the span starting from the 10th character and ending with the 25th character. The first character in the text has index 0. Newlines are treated as single characters. Multivalued as there may be multiple spans for a single text.""", json_schema_extra = { "linkml_meta": {'alias': 'original_spans',
-         'annotations': {'prompt.skip': {'tag': 'prompt.skip', 'value': 'true'}},
-         'comments': ['This is determined during grounding and normalization',
-                      'But is based on the full input text'],
-         'domain_of': ['NamedEntity']} })
-
-    @field_validator('original_spans')
-    def pattern_original_spans(cls, v):
-        pattern=re.compile(r"^\d+:\d+$")
-        if isinstance(v,list):
-            for element in v:
-                if isinstance(v, str) and not pattern.match(element):
-                    raise ValueError(f"Invalid original_spans format: {element}")
-        elif isinstance(v,str):
-            if not pattern.match(v):
-                raise ValueError(f"Invalid original_spans format: {v}")
-        return v
-
-
-class ProtocolStep(ConfiguredBaseModel):
-    """
-    A step in a protocol.
-    """
-    linkml_meta: ClassVar[LinkMLMeta] = LinkMLMeta({'from_schema': 'https://example.org/PaperExtractionSchema'})
-
-    description: Optional[str] = Field(default=None, description="""Protocol step description.""", json_schema_extra = { "linkml_meta": {'alias': 'description',
-         'annotations': {'prompt': {'tag': 'prompt',
-                                    'value': 'Describe the protocol step.'}},
-         'domain_of': ['ProtocolStep']} })
+                                    'value': 'list every compound explicitly mentioned '
+                                             'for this utilisation group;\n'
+                                             'if none, leave the list empty.\n'}},
+         'domain_of': ['PMUtilisationGroup']} })
 
 
 # Model rebuild
@@ -703,12 +377,7 @@ RelationshipType.model_rebuild()
 Publication.model_rebuild()
 AnnotatorResult.model_rebuild()
 Paper.model_rebuild()
-Experiment.model_rebuild()
-BiologPM01StrainResult.model_rebuild()
-BiologPM01WellResult.model_rebuild()
-Host.model_rebuild()
-Microbe.model_rebuild()
-MicrobeGroup.model_rebuild()
-ExperimentalFactor.model_rebuild()
-Trait.model_rebuild()
-ProtocolStep.model_rebuild()
+BiologExperiment.model_rebuild()
+StrainResult.model_rebuild()
+WellResult.model_rebuild()
+PMUtilisationGroup.model_rebuild()

@@ -1,9 +1,9 @@
 id: https://example.org/PaperExtractionSchema
 name: PaperExtractionSchema
 title: Paper Extraction Schema
-description: "Schema for extracting structured data from papers, including Biolog Phenotype MicroArray experiments. Extended to capture PM01 well-level results."
+description: "Structured extraction for Biolog Phenotype MicroArray experiments."
 license: https://creativecommons.org/publicdomain/zero/1.0/
-version: 0.2.0
+version: 0.4.2   # prompt scalar fix
 
 prefixes:
   rdf: "http://www.w3.org/1999/02/22-rdf-syntax-ns#"
@@ -23,9 +23,7 @@ imports:
 
 enums:
   FlexibleBooleanEnum:
-    description: >
-      A minimal enumeration for capturing yes/no/true/false in lowercase,
-      plus 'not provided' if data are missing or ambiguous.
+    description: "yes/no in lowercase; 'not provided' if ambiguous."
     permissible_values:
       "yes": {}
       "no": {}
@@ -34,118 +32,27 @@ enums:
       "not provided": {}
 
   PlateEnum:
-    description: "Biolog phenotype microarray plates."
+    description: "Biolog Phenotype MicroArray plates."
     permissible_values:
       "PM01": {}
-      "PM1": {}
+      "PM02": {}
+      "PM1":  {}
 
-  PM01ResultEnum:
-    description: >
-      Whether a PM01 well was positive, negative, or not provided.
+  PMResultEnum:
+    description: "Result for a single well."
     permissible_values:
       "positive": {}
       "negative": {}
+      "undetermined": {}
       "not provided": {}
 
-  PM01ChemicalEnum:
-    description: >
-      Known chemicals in Biolog PM01 (free-text fallback allowed).
+  GroupResultEnum:
+    description: "Utilisation level for a compound cluster."
     permissible_values:
-      "L-Arabinose": {}
-      "N-Acetyl-D-Glucosamine": {}
-      "D-Saccharic acid": {}
-      "Succinic acid": {}
-      "D-Galactose": {}
-      "L-Aspartic acid": {}
-      "L-Proline": {}
-      "D-Alanine": {}
-      "D-Trehalose": {}
-      "D-Mannose": {}
-      Dulcitol: {}
-      "D-Serine": {}
-      "D-Sorbitol": {}
-      Glycerol: {}
-      "L-Fucose": {}
-      "D-Glucuronic acid": {}
-      "D-Gluconic acid": {}
-      "DL-a-Glycerol Phosphate": {}
-      "D-Xylose": {}
-      "L-Lactic acid": {}
-      "Formic acid": {}
-      "D-Mannitol": {}
-      "L-Glutamic acid": {}
-      "D-Glucose-6-Phosphate": {}
-      "D-Galactonic acid-g-Lactone": {}
-      "DL-Malic acid": {}
-      "D-Ribose": {}
-      "Tween 20": {}
-      "L-Rhamnose": {}
-      "D-Fructose": {}
-      "Acetic acid": {}
-      "a-D-Glucose": {}
-      Maltose: {}
-      "D-Melibiose": {}
-      Thymidine: {}
-      "L-Asparagine": {}
-      "D-Aspartic acid": {}
-      "D-Glucosaminic acid": {}
-      "1,2-Propanediol": {}
-      "Tween 40": {}
-      "a-Ketoglutaric acid": {}
-      "a-Ketobutyric acid": {}
-      "a-Methyl-D-Galactoside": {}
-      "a-D-Lactose": {}
-      Lactulose: {}
-      Sucrose: {}
-      Uridine: {}
-      "L-Glutamine": {}
-      "m-Tartaric acid": {}
-      "D-Glucose-1-Phosphate": {}
-      "D-Fructose-6-Phosphate": {}
-      "Tween 80": {}
-      "a-Hydroxyglutaric acid-g-Lactone": {}
-      "a-Hydroxybutyric acid": {}
-      "b-Methyl-D-Glucoside": {}
-      Adonitol: {}
-      Maltotriose: {}
-      "2`-Deoxyadenosine": {}
-      Adenosine: {}
-      "Gly-Asp": {}
-      "Citric acid": {}
-      "m-Inositol": {}
-      "D-Threonine": {}
-      "Fumaric acid": {}
-      "Bromosuccinic acid": {}
-      "Propionic acid": {}
-      "Mucic acid": {}
-      "Glycolic acid": {}
-      "Glyoxylic acid": {}
-      "D-Cellobiose": {}
-      Inosine: {}
-      "Gly-Glu": {}
-      "Tricarballylic acid": {}
-      "L-Serine": {}
-      "L-Threonine": {}
-      "L-Alanine": {}
-      "Ala-Gly": {}
-      "Acetoacetic acid": {}
-      "N-Acetyl-D-Mannosamine": {}
-      Mono-Methylsuccinate: {}
-      Methylpyruvate: {}
-      "D-Malic acid": {}
-      "L-Malic acid": {}
-      "Gly-Pro": {}
-      "p-Hydroxyphenyl Acetic acid": {}
-      "m-Hydroxyphenyl Acetic acid": {}
-      Tyramine: {}
-      "D-Psicose": {}
-      "L-Lyxose": {}
-      Glucuronamide: {}
-      "Pyruvic acid": {}
-      "L-Galactonic acid-g-Lactone": {}
-      "D-Galacturonic acid": {}
-      Phenylethylamine: {}
-      "2-Aminoethanol": {}
+      "high": {}
+      "variable": {}
+      "none": {}
+      "not provided": {}
 
 ########################
 # CLASSES
@@ -155,183 +62,133 @@ classes:
 
   Paper:
     tree_root: true
-    description: "A single paper or study."
+    description: "One publication that includes ≥ 1 Biolog assay."
     attributes:
       study_title:
-        description: "The paper's title."
         annotations:
-          prompt: >-
-            Extract the paper's title. If not found, return 'Not provided'.
+          prompt: "extract the paper title; if absent, use 'not provided'."
         required: true
 
       authors:
-        description: "Authors of the paper."
-        annotations:
-          prompt: >-
-            Extract authors as a semicolon-delimited list. If missing, 'Not provided'.
-        range: string
         multivalued: true
+        annotations:
+          prompt: "extract authors as a semicolon-separated list; if none, 'not provided'."
         required: true
 
       doi:
-        description: "DOI of the publication."
         annotations:
-          prompt: >-
-            Extract the DOI. If not found, 'Not provided'.
-        range: string
+          prompt: "extract the DOI or 'not provided'."
 
       date:
-        description: "Publication date."
         annotations:
-          prompt: >-
-            Extract the publication date. If not found, 'Not provided'.
-        range: string
+          prompt: "extract the publication date (e.g., '14 April 2021') or 'not provided'."
 
-      traits:
-        description: "Organismal traits measured or observed."
-        annotations:
-          prompt: >-
-            Extract a semicolon-delimited list of traits focused on in the study.
-        range: Trait
+      biolog_experiments:
         multivalued: true
-
-      experiments:
-        description: "Experiments described in the paper."
-        annotations:
-          prompt: >-
-            Extract semicolon-delimited list of experiments. For each: motivation; design; environment; organisms; system; conditions; factors; Biolog subtype and plates; replicates; protocol steps; data types; measurement protocols; instruments; software; incubation details. If none, output an empty list `[]`.
-        range: Experiment
-        multivalued: true
-
-  Experiment:
-    description: "A single experiment."
-    attributes:
-      label:
-        description: "One-sentence description of this experiment."
-        annotations:
-          prompt: >-
-            Provide a one-sentence description of the experiment.
-
-      pm01_strain_results:
-        description: "PM01 results grouped by strain."
+        range: BiologExperiment
         annotations:
           prompt: |
-            If PM01 results are described, output a list of objects under `pm01_strain_results`.  
-            For each strain:
-              - `tested_strain`: the strain name  
-              - `group`: which utilization cluster (I, II, or III) it belongs to  
-              - `pm01_well_results`: a **complete** list of all wells mentioned.  
-                For **each** well, emit an object with:
-                  • `chemical_name`: the name of the compound (must match the PM01ChemicalEnum or free text)  
-                  • `result`: “positive”, “negative” or “not provided”  
-            **Do not** leave out any wells that the text says were catabolized (positive) or not (negative).  
-            Example:
-            ```yaml
-            pm01_strain_results:
-              - tested_strain: Pseudomonas fluorescens Pf-5
-                group: I
-                pm01_well_results:
-                  - chemical_name: Glucose
-                    result: positive
-                  - chemical_name: Xylose
-                    result: negative
-                  # …and so on for every well mentioned
-            ```
-        range: BiologPM01StrainResult
-        multivalued: true
-
-
-  BiologPM01StrainResult:
-    description: "PM01 well-level results for a specific strain."
-    attributes:
-      tested_strain:
-        range: Microbe
+            if the paper describes any Biolog Phenotype MicroArray assays,
+            create one BiologExperiment object per plate (PM01, PM02 …);
+            otherwise omit this slot.
         required: false
+
+  BiologExperiment:
+    description: "Details for one Phenotype MicroArray plate."
+    attributes:
+      plate_name:
+        range: PlateEnum
+        annotations:
+          prompt: "plate identifier (e.g., PM01, PM02); default to PM01 if unclear."
+          examples: "PM01"
+
+      summary_by_group:
+        multivalued: true
+        range: PMUtilisationGroup
         annotations:
           prompt: |
-            Extract the strain name. If missing, emit 'Not provided'.
-      pm01_well_results:
-        description: "Well-level PM01 results."
-        range: BiologPM01WellResult
+            optional coarse summary: for each utilisation group (I, II, III …)
+            give its level (high/variable/none) and any compounds explicitly
+            named in that paragraph. omit if not described.
+
+      strain_results:
         multivalued: true
+        range: StrainResult
+        annotations:
+          prompt: |
+            for each microbial strain tested on this plate, create one
+            StrainResult capturing organism, host, strain name, strain cluster
+            (if stated), and every well-level result mentioned.
 
+  StrainResult:
+    description: "Results for one microbial strain on a plate."
+    attributes:
+      organism:
+        annotations:
+          prompt: "species name (e.g., 'Pseudomonas fluorescens') or 'not provided'."
 
-  BiologPM01WellResult:
-    description: "Result for a single well on PM01."
+      host:
+        annotations:
+          prompt: |
+            host organism or environment (e.g., 'B. distachyon Bd21 root');
+            if none, 'not provided'.
+
+      strain_name:
+        annotations:
+          prompt: "exact strain identifier (e.g., 'Pf-5', 'Q8r1-96')."
+
+      strain_group:
+        annotations:
+          prompt: |
+            phylogenetic or utilisation cluster the strain belongs to
+            (e.g., 'cluster I', 'P. fluorescens subgroup 3');
+            if none, 'not provided'.
+
+      well_results:
+        multivalued: true
+        range: WellResult
+        annotations:
+          prompt: |
+            list every chemical explicitly stated as catabolised (positive),
+            not catabolised (negative), or ambiguous (undetermined) for
+            this strain.
+
+  WellResult:
+    description: "Outcome for one chemical well."
     attributes:
       chemical_name:
-        description: "Name of the chemical tested."
-        range: PM01ChemicalEnum
-        required: false
+        annotations:
+          prompt: "chemical exactly as written (e.g., 'citric acid')."
+
+      result:
+        range: PMResultEnum
+        required: true
         annotations:
           prompt: |
-            Extract the chemical tested in this well.
-            If no chemical is mentioned or if it’s not in the PM01 enumeration,
-            emit exactly "not provided" (do not leave it blank).
-      result:
-        description: "Positive, negative, or not provided."
-        range: PM01ResultEnum
-        required: true
+            choose one: positive / negative / undetermined / not provided.
+            map phrases like 'supported growth' → positive;
+            'not catabolized' → negative.
 
-  Host:
-    is_a: NamedEntity
-    description: "A host organism or system."
+  PMUtilisationGroup:
+    description: "High-level cluster summary (optional)."
     attributes:
-      name:
-        description: "Name of the host."
+      group_label:
         annotations:
-          prompt: >-
-            Extract the host name.
-        range: string
+          prompt: "group label as in text (I, II, III …)."
 
-  Microbe:
-    is_a: NamedEntity
-    description: "A microbial species or strain."
+      utilisation_level:
+        range: GroupResultEnum
+        annotations:
+          prompt: "high / variable / none / not provided."
+
+      compounds:
+        multivalued: true
+        annotations:
+          prompt: |
+            list every compound explicitly mentioned for this utilisation group;
+            if none, leave the list empty.
+
+  NamedEntity:
     attributes:
-      name:
-        description: "Name of the microbe."
-        annotations:
-          prompt: >-
-            Extract the microbe name.
-        range: string
-
-  MicrobeGroup:
-    is_a: NamedEntity
-    description: "A group of microbes."
-    attributes:
-      name:
-        description: "Name of the microbe group."
-        annotations:
-          prompt: >-
-            Extract the group name.
-        range: string
-
-  ExperimentalFactor:
-    is_a: NamedEntity
-    description: "An experimental factor."
-    attributes:
-      placeholder:
-        description: "Details of the factor."
-        annotations:
-          prompt: >-
-            Describe the experimental factor.
-        range: string
-
-  Trait:
-    is_a: NamedEntity
-    description: "A measured trait."
-    id_prefixes:
-      - https
-    annotations:
-      prompt: >-
-        Extract a trait.
-
-  ProtocolStep:
-    description: "A step in a protocol."
-    attributes:
-      description:
-        description: "Protocol step description."
-        annotations:
-          prompt: >-
-            Describe the protocol step.
+      id:
         range: string
