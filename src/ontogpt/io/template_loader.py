@@ -72,6 +72,11 @@ def get_template_details(template: TEMPLATE_NAME) -> ClassDefinition:
             logger.warning(
                 f"Template {template} has no root class. Consider defining one in the schema.")
             roots = [c.name for c in sv.all_classes().values() if c.name not in core_classes]
+            # There's an edge case here if the core schema is passed.
+            # So we check to see if we still have any roots
+            if len(roots) == 0:
+                raise ValueError(
+                    f"Template {template} has no root class and all classes are in the core schema.")
         elif len(roots) > 1:
             raise ValueError(f"Template {template} has multiple root classes: {roots}")
         class_name = roots[0]
