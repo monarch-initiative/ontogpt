@@ -267,7 +267,7 @@ class PubmedClient:
             query_keys = []
 
             # Need to batch the IDs manually for this endpoint
-            id_batches = [ids[pmid : pmid + batch_size] for pmid in range(0, len(ids), batch_size)]
+            id_batches = [ids[pmid: pmid + batch_size] for pmid in range(0, len(ids), batch_size)]
 
             for batch in id_batches:
                 params["id"] = ",".join(batch)
@@ -347,7 +347,7 @@ class PubmedClient:
                 if len(doc) > self.max_text_length and not raw:
                     charnum = str(self.max_text_length)
                     logging.warning(f'Truncating entry beginning "{doc[:50]}" to {charnum} chars')
-                    shortdoc = doc[0 : self.max_text_length]
+                    shortdoc = doc[0: self.max_text_length]
                     txt.append(shortdoc)
                 else:
                     txt.append(doc)
@@ -517,7 +517,7 @@ class PubmedClient:
 
                 id_txt = f"Title: {ti}\nKeywords: {'; '.join(kw)}\nPMID: {pmid}\nPMCID: {pmc_id}\n"
                 full_max_len = self.max_text_length - len(id_txt)
-                chunktxt = [body[i : i + full_max_len] for i in range(0, len(body), full_max_len)]
+                chunktxt = [body[i: i + full_max_len] for i in range(0, len(body), full_max_len)]
                 for txt in chunktxt:
                     docs.append(id_txt + txt)
                     logging.warning(
