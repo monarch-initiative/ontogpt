@@ -45,6 +45,18 @@ class LLMClient:
         # and other details if needed.
         # This will look at any env vars FIRST,
         # then configs handled by oaklib.
+
+        # Need to check on the validity of the model name first.
+        # Check if the model name is a string first.
+        # if not, try to make it one
+        if not isinstance(self.model, str):
+            if isinstance(self.model, (tuple, list)) and len(self.model) > 0:
+                self.model = str(self.model[0])
+                logger.warning(f"Model name was a {type(self.model).__name__}.")
+                logger.warning(f"Converted to string: {self.model}")
+            else:
+                raise ValueError(f"Model name must be a string, got {type(self.model)}")
+
         if self.model.startswith("ollama"):
             self.api_key = ""  # Don't need an API key
         elif not self.api_key and not self.custom_llm_provider:
