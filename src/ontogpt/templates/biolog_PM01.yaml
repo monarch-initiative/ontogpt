@@ -3,7 +3,7 @@ name: PaperExtractionSchema
 title: Paper Extraction Schema
 description: "Structured extraction for Biolog Phenotype MicroArray experiments."
 license: https://creativecommons.org/publicdomain/zero/1.0/
-version: 0.4.2   # prompt scalar fix
+version: 0.4.3
 
 prefixes:
   rdf: "http://www.w3.org/1999/02/22-rdf-syntax-ns#"
@@ -91,7 +91,72 @@ classes:
             if the paper describes any Biolog Phenotype MicroArray assays,
             create one BiologExperiment object per plate (PM01, PM02 …);
             otherwise omit this slot.
+
+      experiments:
+        description: "Experiments described in the paper."
+        annotations:
+          prompt: >-
+            Extract a list of brief descriptions of experiments
+            described in the paper. This list must be semicolon-delimited.
+            For each description, include all of the following details if
+            provided: experiment motivation (why it was performed),
+            experiment design (how it was performed, including methods,
+            tools, organisms, and chemicals used), environment (the location
+            and conditions in which the experiment occurred, including
+            metrics like temperature), all organisms used and their
+            high-level type (e.g., plant, animal), the biological system
+            under study (e.g., rhizosphere), experimental conditions
+            (temperature, pH, etc.), and experimental factors tested or measured.
+            Also note whether the experiment is a Biolog experiment and if so,
+            the type or subtype of experiment (e.g., Phenotype MicroArray),
+            the Biolog plates used (e.g., PM01), the number of replicates, all
+            key steps in the experimental protocol, the types of data collected
+            by the plate reader (e.g., OD, respiration), the protocol for
+            measuring optical density (e.g., OD600 measured every 2 hours), 
+            the protocol for measuring respiration (e.g., Colorimetric change
+            at 590 nm for formazan detection), the instrument or equipment used
+            (e.g., OmniLog Phenotype MicroArray System), the software used for
+            data analysis (e.g., OmniLog Parametric Analysis software), the
+            incubation temperature (e.g., 25°C), the total duration of incubation
+            (e.g., 48 h), and any other relevant details.
+            If nothing is mentioned regarding experiments, use 'Not provided'.
+            Do not provide any details here not related to experiments.
+            Do not include newlines.
+        range: Experiment
+        multivalued: true
+
+
+  Experiment:
+    description: "A single experiment."
+    attributes:
+      label:
+        description: "One-sentence description of this experiment."
+        annotations:
+          prompt: >-
+            Provide a one-sentence description of the experiment.
+
+      pm01_strain_results:
+        description: "PM01 results grouped by strain."
+        annotations:
+          prompt: |
+            If Biolog PM01 results are described, provide a semicolon-delimited list of
+            all strains tested. For each strain, include the following details:
+            the strain name, the utilization cluster it belongs to (I, II, or III), and a complete list of all wells
+            mentioned in the text. For each well, include the chemical name and the result (positive,
+            negative, or not provided). Do not leave out any wells that the text says were catabolized
+            (positive) or not (negative). If no PM01 results are mentioned, do not provide
+            a value for this field.
+        range: BiologPM01StrainResult
+        multivalued: true
+
+
+  BiologPM01StrainResult:
+    description: "PM01 well-level results for a specific strain."
+    attributes:
+      tested_strain:
+        range: Microbe
         required: false
+
 
   BiologExperiment:
     description: "Details for one Phenotype MicroArray plate."
@@ -119,6 +184,7 @@ classes:
             for each microbial strain tested on this plate, create one
             StrainResult capturing organism, host, strain name, strain cluster
             (if stated), and every well-level result mentioned.
+
 
   StrainResult:
     description: "Results for one microbial strain on a plate."
@@ -153,6 +219,7 @@ classes:
             not catabolised (negative), or ambiguous (undetermined) for
             this strain.
 
+
   WellResult:
     description: "Outcome for one chemical well."
     attributes:
@@ -168,6 +235,7 @@ classes:
             choose one: positive / negative / undetermined / not provided.
             map phrases like 'supported growth' → positive;
             'not catabolized' → negative.
+
 
   PMUtilisationGroup:
     description: "High-level cluster summary (optional)."
@@ -188,7 +256,31 @@ classes:
             list every compound explicitly mentioned for this utilisation group;
             if none, leave the list empty.
 
+  # A root minimal NamedEntity class
   NamedEntity:
+    description: "Minimal base for all named entities in this schema."
     attributes:
       id:
         range: string
+
+  # Microbe class to fix 'range: Microbe' references
+  Microbe:
+    is_a: NamedEntity
+    description: "A microbial species or strain."
+    attributes:
+      name:
+        description: "The name of the microbe."
+        annotations:
+          prompt: "Extract the microbe name (e.g., Pseudomonas fluorescens)."
+        required: false
+
+  # If your schema references a 'Host', define it too:
+  Host:
+    is_a: NamedEntity
+    description: "A host organism or system."
+    attributes:
+      name:
+        description: "Name of the host organism."
+        annotations:
+          prompt: "Extract the host name, e.g., Brachypodium distachyon."
+        required: false

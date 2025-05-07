@@ -12,8 +12,6 @@ from enum import Enum
 from typing import (
     Any,
     ClassVar,
-    Dict,
-    List,
     Literal,
     Optional,
     Union
@@ -47,7 +45,7 @@ class ConfiguredBaseModel(BaseModel):
 
 
 class LinkMLMeta(RootModel):
-    root: Dict[str, Any] = {}
+    root: dict[str, Any] = {}
     model_config = ConfigDict(frozen=True)
 
     def __getattr__(self, key:str):
@@ -111,7 +109,7 @@ class ExtractionResult(ConfiguredBaseModel):
     raw_completion_output: Optional[str] = Field(default=None, json_schema_extra = { "linkml_meta": {'alias': 'raw_completion_output', 'domain_of': ['ExtractionResult']} })
     prompt: Optional[str] = Field(default=None, json_schema_extra = { "linkml_meta": {'alias': 'prompt', 'domain_of': ['ExtractionResult']} })
     extracted_object: Optional[Any] = Field(default=None, description="""The complex objects extracted from the text""", json_schema_extra = { "linkml_meta": {'alias': 'extracted_object', 'domain_of': ['ExtractionResult']} })
-    named_entities: Optional[List[Any]] = Field(default=None, description="""Named entities extracted from the text""", json_schema_extra = { "linkml_meta": {'alias': 'named_entities', 'domain_of': ['ExtractionResult']} })
+    named_entities: Optional[list[Any]] = Field(default=None, description="""Named entities extracted from the text""", json_schema_extra = { "linkml_meta": {'alias': 'named_entities', 'domain_of': ['ExtractionResult']} })
 
 
 class NamedEntity(ConfiguredBaseModel):
@@ -127,7 +125,7 @@ class NamedEntity(ConfiguredBaseModel):
                                  'value': 'AnnotationProperty, AnnotationAssertion'}},
          'domain_of': ['NamedEntity', 'Experiment'],
          'slot_uri': 'rdfs:label'} })
-    original_spans: Optional[List[str]] = Field(default=None, description="""The coordinates of the original text span from which the named entity was extracted, inclusive. For example, \"10:25\" means the span starting from the 10th character and ending with the 25th character. The first character in the text has index 0. Newlines are treated as single characters. Multivalued as there may be multiple spans for a single text.""", json_schema_extra = { "linkml_meta": {'alias': 'original_spans',
+    original_spans: Optional[list[str]] = Field(default=None, description="""The coordinates of the original text span from which the named entity was extracted, inclusive. For example, \"10:25\" means the span starting from the 10th character and ending with the 25th character. The first character in the text has index 0. Newlines are treated as single characters. Multivalued as there may be multiple spans for a single text.""", json_schema_extra = { "linkml_meta": {'alias': 'original_spans',
          'annotations': {'prompt.skip': {'tag': 'prompt.skip', 'value': 'true'}},
          'comments': ['This is determined during grounding and normalization',
                       'But is based on the full input text'],
@@ -175,7 +173,7 @@ class TextWithTriples(ConfiguredBaseModel):
     publication: Optional[Publication] = Field(default=None, json_schema_extra = { "linkml_meta": {'alias': 'publication',
          'annotations': {'prompt.skip': {'tag': 'prompt.skip', 'value': 'true'}},
          'domain_of': ['TextWithTriples', 'TextWithEntity']} })
-    triples: Optional[List[Triple]] = Field(default=None, json_schema_extra = { "linkml_meta": {'alias': 'triples', 'domain_of': ['TextWithTriples']} })
+    triples: Optional[list[Triple]] = Field(default=None, json_schema_extra = { "linkml_meta": {'alias': 'triples', 'domain_of': ['TextWithTriples']} })
 
 
 class TextWithEntity(ConfiguredBaseModel):
@@ -187,7 +185,7 @@ class TextWithEntity(ConfiguredBaseModel):
     publication: Optional[Publication] = Field(default=None, json_schema_extra = { "linkml_meta": {'alias': 'publication',
          'annotations': {'prompt.skip': {'tag': 'prompt.skip', 'value': 'true'}},
          'domain_of': ['TextWithTriples', 'TextWithEntity']} })
-    entities: Optional[List[str]] = Field(default=None, json_schema_extra = { "linkml_meta": {'alias': 'entities', 'domain_of': ['TextWithEntity']} })
+    entities: Optional[list[str]] = Field(default=None, json_schema_extra = { "linkml_meta": {'alias': 'entities', 'domain_of': ['TextWithEntity']} })
 
 
 class RelationshipType(NamedEntity):
@@ -204,7 +202,7 @@ class RelationshipType(NamedEntity):
                                  'value': 'AnnotationProperty, AnnotationAssertion'}},
          'domain_of': ['NamedEntity', 'Experiment'],
          'slot_uri': 'rdfs:label'} })
-    original_spans: Optional[List[str]] = Field(default=None, description="""The coordinates of the original text span from which the named entity was extracted, inclusive. For example, \"10:25\" means the span starting from the 10th character and ending with the 25th character. The first character in the text has index 0. Newlines are treated as single characters. Multivalued as there may be multiple spans for a single text.""", json_schema_extra = { "linkml_meta": {'alias': 'original_spans',
+    original_spans: Optional[list[str]] = Field(default=None, description="""The coordinates of the original text span from which the named entity was extracted, inclusive. For example, \"10:25\" means the span starting from the 10th character and ending with the 25th character. The first character in the text has index 0. Newlines are treated as single characters. Multivalued as there may be multiple spans for a single text.""", json_schema_extra = { "linkml_meta": {'alias': 'original_spans',
          'annotations': {'prompt.skip': {'tag': 'prompt.skip', 'value': 'true'}},
          'comments': ['This is determined during grounding and normalization',
                       'But is based on the full input text'],
@@ -263,7 +261,7 @@ class Paper(ConfiguredBaseModel):
                        'value': 'Root Exudates Alter the Expression of Diverse '
                                 'Metabolic, Transport, Regulatory, and Stress Response '
                                 'Genes in Rhizosphere Pseudomonas.'}]} })
-    authors: List[str] = Field(default=..., description="""Authors of the paper.""", json_schema_extra = { "linkml_meta": {'alias': 'authors',
+    authors: list[str] = Field(default=..., description="""Authors of the paper.""", json_schema_extra = { "linkml_meta": {'alias': 'authors',
          'annotations': {'prompt': {'tag': 'prompt',
                                     'value': 'Extract a list of authors, semicolon '
                                              'delimited.\n'
@@ -284,7 +282,7 @@ class Paper(ConfiguredBaseModel):
                                              "found, use 'Not provided'."}},
          'domain_of': ['Paper'],
          'examples': [{'value': '14 April 2021'}]} })
-    traits: Optional[List[str]] = Field(default=None, description="""Organismal traits measured or observed.""", json_schema_extra = { "linkml_meta": {'alias': 'traits',
+    traits: Optional[list[str]] = Field(default=None, description="""Organismal traits measured or observed.""", json_schema_extra = { "linkml_meta": {'alias': 'traits',
          'annotations': {'prompt': {'tag': 'prompt',
                                     'value': 'Extract a semicolon-delimited list of '
                                              'traits\n'
@@ -293,7 +291,7 @@ class Paper(ConfiguredBaseModel):
                                              'value': 'Growth rate; Lactose '
                                                       'production; motility'}},
          'domain_of': ['Paper', 'Experiment']} })
-    experiments: List[Experiment] = Field(default=..., description="""Experiments (e.g., Biolog) included in the paper.""", json_schema_extra = { "linkml_meta": {'alias': 'experiments',
+    experiments: list[Experiment] = Field(default=..., description="""Experiments (e.g., Biolog) included in the paper.""", json_schema_extra = { "linkml_meta": {'alias': 'experiments',
          'annotations': {'prompt': {'tag': 'prompt',
                                     'value': 'Extract a list of brief descriptions of '
                                              'experiments\n'
@@ -383,7 +381,7 @@ class Experiment(ConfiguredBaseModel):
                                     'value': 'Extract the environment or setting.'}},
          'domain_of': ['Experiment'],
          'examples': [{'value': 'Lab-based assay under 25°C'}]} })
-    host_organism: Optional[List[str]] = Field(default=None, description="""One or more hosts in the experiment.""", json_schema_extra = { "linkml_meta": {'alias': 'host_organism',
+    host_organism: Optional[list[str]] = Field(default=None, description="""One or more hosts in the experiment.""", json_schema_extra = { "linkml_meta": {'alias': 'host_organism',
          'annotations': {'prompt': {'tag': 'prompt',
                                     'value': 'Identify the host organisms or systems '
                                              'used\n'
@@ -399,7 +397,7 @@ class Experiment(ConfiguredBaseModel):
                                              "(e.g. 'plant')."}},
          'domain_of': ['Experiment'],
          'examples': [{'value': 'Plant'}]} })
-    target_organisms: Optional[List[str]] = Field(default=None, description="""Organisms, including microbes, targeted in the experiment.""", json_schema_extra = { "linkml_meta": {'alias': 'target_organisms',
+    target_organisms: Optional[list[str]] = Field(default=None, description="""Organisms, including microbes, targeted in the experiment.""", json_schema_extra = { "linkml_meta": {'alias': 'target_organisms',
          'annotations': {'prompt': {'tag': 'prompt',
                                     'value': 'Extract a semicolon-delimited list of '
                                              'target organisms,\n'
@@ -411,7 +409,7 @@ class Experiment(ConfiguredBaseModel):
                                                       'simiae WCS 417'}},
          'domain_of': ['Experiment'],
          'examples': [{'value': 'Pseudomonas fluorescens'}]} })
-    target_organism_group: Optional[List[str]] = Field(default=None, description="""\"A high-level description of organisms, including microbes, targeted in the experiment.\"""", json_schema_extra = { "linkml_meta": {'alias': 'target_organism_group',
+    target_organism_group: Optional[list[str]] = Field(default=None, description="""\"A high-level description of organisms, including microbes, targeted in the experiment.\"""", json_schema_extra = { "linkml_meta": {'alias': 'target_organism_group',
          'annotations': {'prompt': {'tag': 'prompt',
                                     'value': 'Extract a semicolon-delimited list of '
                                              'groups of target organisms,\n'
@@ -429,7 +427,7 @@ class Experiment(ConfiguredBaseModel):
                                              '(e.g., rhizosphere).'}},
          'domain_of': ['Experiment'],
          'examples': [{'value': 'Root exudates system'}]} })
-    conditions: Optional[List[str]] = Field(default=None, description="""Experimental conditions (temperature, pH, etc.).""", json_schema_extra = { "linkml_meta": {'alias': 'conditions',
+    conditions: Optional[list[str]] = Field(default=None, description="""Experimental conditions (temperature, pH, etc.).""", json_schema_extra = { "linkml_meta": {'alias': 'conditions',
          'annotations': {'prompt': {'tag': 'prompt',
                                     'value': 'Identify relevant experimental '
                                              'conditions in a\n'
@@ -437,7 +435,7 @@ class Experiment(ConfiguredBaseModel):
                                              '7).\n'}},
          'domain_of': ['Experiment'],
          'examples': [{'value': 'pH 7, 25°C'}]} })
-    traits: Optional[List[str]] = Field(default=None, description="""Organismal traits measured or observed.""", json_schema_extra = { "linkml_meta": {'alias': 'traits',
+    traits: Optional[list[str]] = Field(default=None, description="""Organismal traits measured or observed.""", json_schema_extra = { "linkml_meta": {'alias': 'traits',
          'annotations': {'prompt': {'tag': 'prompt',
                                     'value': 'Extract a semicolon-delimited list of '
                                              'traits\n'
@@ -447,7 +445,7 @@ class Experiment(ConfiguredBaseModel):
                                              'value': 'Growth rate; Lactose '
                                                       'production; motility'}},
          'domain_of': ['Paper', 'Experiment']} })
-    experimental_factors: Optional[List[str]] = Field(default=None, description="""Factors tested or measured.""", json_schema_extra = { "linkml_meta": {'alias': 'experimental_factors',
+    experimental_factors: Optional[list[str]] = Field(default=None, description="""Factors tested or measured.""", json_schema_extra = { "linkml_meta": {'alias': 'experimental_factors',
          'annotations': {'prompt': {'tag': 'prompt',
                                     'value': 'List experimental factors or treatments\n'
                                              'in a semicolon-delimited list.\n'}},
@@ -468,7 +466,7 @@ class Experiment(ConfiguredBaseModel):
                                              "Otherwise, 'Not provided'.\n"}},
          'domain_of': ['Experiment'],
          'examples': [{'value': 'Phenotype MicroArray'}]} })
-    plates: Optional[List[str]] = Field(default=None, description="""Biolog plates used (e.g., EcoPlate, GEN III, PM01, PM02A).""", json_schema_extra = { "linkml_meta": {'alias': 'plates',
+    plates: Optional[list[str]] = Field(default=None, description="""Biolog plates used (e.g., EcoPlate, GEN III, PM01, PM02A).""", json_schema_extra = { "linkml_meta": {'alias': 'plates',
          'annotations': {'prompt': {'tag': 'prompt',
                                     'value': 'Extract the name(s) of any phenotype '
                                              'microarray plates\n'
@@ -491,7 +489,7 @@ class Experiment(ConfiguredBaseModel):
                                              "If not mentioned, 'Not provided'.\n"}},
          'domain_of': ['Experiment'],
          'examples': [{'value': '3'}]} })
-    protocol_steps: Optional[List[ProtocolStep]] = Field(default=None, description="""Key steps in the experimental protocol.""", json_schema_extra = { "linkml_meta": {'alias': 'protocol_steps',
+    protocol_steps: Optional[list[ProtocolStep]] = Field(default=None, description="""Key steps in the experimental protocol.""", json_schema_extra = { "linkml_meta": {'alias': 'protocol_steps',
          'annotations': {'prompt': {'tag': 'prompt',
                                     'value': 'List the full protocol steps or key '
                                              'experimental procedures,\n'
@@ -515,7 +513,7 @@ class Experiment(ConfiguredBaseModel):
                                 'Record formazan formation every 15 min   8) Data '
                                 'analysis with OmniLog Parametric Analysis '
                                 'software\n'}]} })
-    plate_reader_types_of_data_collected: Optional[List[str]] = Field(default=None, description="""Data types collected (OD, respiration, formazan formation, etc.).""", json_schema_extra = { "linkml_meta": {'alias': 'plate_reader_types_of_data_collected',
+    plate_reader_types_of_data_collected: Optional[list[str]] = Field(default=None, description="""Data types collected (OD, respiration, formazan formation, etc.).""", json_schema_extra = { "linkml_meta": {'alias': 'plate_reader_types_of_data_collected',
          'annotations': {'prompt': {'tag': 'prompt',
                                     'value': 'Identify data types measured by the '
                                              'plate reader\n'
@@ -540,7 +538,7 @@ class Experiment(ConfiguredBaseModel):
          'domain_of': ['Experiment'],
          'examples': [{'value': 'Colorimetric change at 590 nm for formazan '
                                 'detection'}]} })
-    instrument_used: Optional[List[str]] = Field(default=None, description="""Instruments or equipment used for the experiment.""", json_schema_extra = { "linkml_meta": {'alias': 'instrument_used',
+    instrument_used: Optional[list[str]] = Field(default=None, description="""Instruments or equipment used for the experiment.""", json_schema_extra = { "linkml_meta": {'alias': 'instrument_used',
          'annotations': {'prompt': {'tag': 'prompt',
                                     'value': 'Extract the name(s) of the '
                                              'instrument/equipment used\n'
@@ -552,7 +550,7 @@ class Experiment(ConfiguredBaseModel):
                                                       'System; OmniLog Turbidimeter'}},
          'domain_of': ['Experiment'],
          'examples': [{'value': 'OmniLog Phenotype MicroArray System (Biolog)'}]} })
-    analysis_software: Optional[List[str]] = Field(default=None, description="""Software used to analyze or interpret data.""", json_schema_extra = { "linkml_meta": {'alias': 'analysis_software',
+    analysis_software: Optional[list[str]] = Field(default=None, description="""Software used to analyze or interpret data.""", json_schema_extra = { "linkml_meta": {'alias': 'analysis_software',
          'annotations': {'prompt': {'tag': 'prompt',
                                     'value': 'Extract any software or platforms used '
                                              'for data analysis\n'
@@ -587,7 +585,7 @@ class Host(NamedEntity):
                                  'value': 'AnnotationProperty, AnnotationAssertion'}},
          'domain_of': ['NamedEntity', 'Experiment'],
          'slot_uri': 'rdfs:label'} })
-    original_spans: Optional[List[str]] = Field(default=None, description="""The coordinates of the original text span from which the named entity was extracted, inclusive. For example, \"10:25\" means the span starting from the 10th character and ending with the 25th character. The first character in the text has index 0. Newlines are treated as single characters. Multivalued as there may be multiple spans for a single text.""", json_schema_extra = { "linkml_meta": {'alias': 'original_spans',
+    original_spans: Optional[list[str]] = Field(default=None, description="""The coordinates of the original text span from which the named entity was extracted, inclusive. For example, \"10:25\" means the span starting from the 10th character and ending with the 25th character. The first character in the text has index 0. Newlines are treated as single characters. Multivalued as there may be multiple spans for a single text.""", json_schema_extra = { "linkml_meta": {'alias': 'original_spans',
          'annotations': {'prompt.skip': {'tag': 'prompt.skip', 'value': 'true'}},
          'comments': ['This is determined during grounding and normalization',
                       'But is based on the full input text'],
@@ -628,7 +626,7 @@ class Microbe(NamedEntity):
                                  'value': 'AnnotationProperty, AnnotationAssertion'}},
          'domain_of': ['NamedEntity', 'Experiment'],
          'slot_uri': 'rdfs:label'} })
-    original_spans: Optional[List[str]] = Field(default=None, description="""The coordinates of the original text span from which the named entity was extracted, inclusive. For example, \"10:25\" means the span starting from the 10th character and ending with the 25th character. The first character in the text has index 0. Newlines are treated as single characters. Multivalued as there may be multiple spans for a single text.""", json_schema_extra = { "linkml_meta": {'alias': 'original_spans',
+    original_spans: Optional[list[str]] = Field(default=None, description="""The coordinates of the original text span from which the named entity was extracted, inclusive. For example, \"10:25\" means the span starting from the 10th character and ending with the 25th character. The first character in the text has index 0. Newlines are treated as single characters. Multivalued as there may be multiple spans for a single text.""", json_schema_extra = { "linkml_meta": {'alias': 'original_spans',
          'annotations': {'prompt.skip': {'tag': 'prompt.skip', 'value': 'true'}},
          'comments': ['This is determined during grounding and normalization',
                       'But is based on the full input text'],
@@ -670,7 +668,7 @@ class MicrobeGroup(NamedEntity):
                                  'value': 'AnnotationProperty, AnnotationAssertion'}},
          'domain_of': ['NamedEntity', 'Experiment'],
          'slot_uri': 'rdfs:label'} })
-    original_spans: Optional[List[str]] = Field(default=None, description="""The coordinates of the original text span from which the named entity was extracted, inclusive. For example, \"10:25\" means the span starting from the 10th character and ending with the 25th character. The first character in the text has index 0. Newlines are treated as single characters. Multivalued as there may be multiple spans for a single text.""", json_schema_extra = { "linkml_meta": {'alias': 'original_spans',
+    original_spans: Optional[list[str]] = Field(default=None, description="""The coordinates of the original text span from which the named entity was extracted, inclusive. For example, \"10:25\" means the span starting from the 10th character and ending with the 25th character. The first character in the text has index 0. Newlines are treated as single characters. Multivalued as there may be multiple spans for a single text.""", json_schema_extra = { "linkml_meta": {'alias': 'original_spans',
          'annotations': {'prompt.skip': {'tag': 'prompt.skip', 'value': 'true'}},
          'comments': ['This is determined during grounding and normalization',
                       'But is based on the full input text'],
@@ -712,7 +710,7 @@ class ExperimentalFactor(NamedEntity):
                                  'value': 'AnnotationProperty, AnnotationAssertion'}},
          'domain_of': ['NamedEntity', 'Experiment'],
          'slot_uri': 'rdfs:label'} })
-    original_spans: Optional[List[str]] = Field(default=None, description="""The coordinates of the original text span from which the named entity was extracted, inclusive. For example, \"10:25\" means the span starting from the 10th character and ending with the 25th character. The first character in the text has index 0. Newlines are treated as single characters. Multivalued as there may be multiple spans for a single text.""", json_schema_extra = { "linkml_meta": {'alias': 'original_spans',
+    original_spans: Optional[list[str]] = Field(default=None, description="""The coordinates of the original text span from which the named entity was extracted, inclusive. For example, \"10:25\" means the span starting from the 10th character and ending with the 25th character. The first character in the text has index 0. Newlines are treated as single characters. Multivalued as there may be multiple spans for a single text.""", json_schema_extra = { "linkml_meta": {'alias': 'original_spans',
          'annotations': {'prompt.skip': {'tag': 'prompt.skip', 'value': 'true'}},
          'comments': ['This is determined during grounding and normalization',
                       'But is based on the full input text'],
@@ -753,7 +751,7 @@ class Trait(NamedEntity):
                                  'value': 'AnnotationProperty, AnnotationAssertion'}},
          'domain_of': ['NamedEntity', 'Experiment'],
          'slot_uri': 'rdfs:label'} })
-    original_spans: Optional[List[str]] = Field(default=None, description="""The coordinates of the original text span from which the named entity was extracted, inclusive. For example, \"10:25\" means the span starting from the 10th character and ending with the 25th character. The first character in the text has index 0. Newlines are treated as single characters. Multivalued as there may be multiple spans for a single text.""", json_schema_extra = { "linkml_meta": {'alias': 'original_spans',
+    original_spans: Optional[list[str]] = Field(default=None, description="""The coordinates of the original text span from which the named entity was extracted, inclusive. For example, \"10:25\" means the span starting from the 10th character and ending with the 25th character. The first character in the text has index 0. Newlines are treated as single characters. Multivalued as there may be multiple spans for a single text.""", json_schema_extra = { "linkml_meta": {'alias': 'original_spans',
          'annotations': {'prompt.skip': {'tag': 'prompt.skip', 'value': 'true'}},
          'comments': ['This is determined during grounding and normalization',
                       'But is based on the full input text'],

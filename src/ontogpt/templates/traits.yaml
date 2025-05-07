@@ -94,9 +94,8 @@ classes:
       - ECOCORE
       - PATO
       - GO
-      #- ENVTHES
+      - METPO
       - OBA
       - BIODIVTHES
     annotations:
-      annotators: sqlite:obo:ecocore, sqlite:obo:pato, sqlite:obo:go, sqlite:obo:oba, bioportal:biodivthes
-      #bioportal:envthes, 
+      annotators: sqlite:obo:ecocore, sqlite:obo:pato, sqlite:obo:go, sqlite:obo:oba, bioportal:biodivthes, bioportal:metpo

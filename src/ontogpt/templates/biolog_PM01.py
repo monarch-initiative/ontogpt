@@ -27,7 +27,7 @@ from pydantic import (
 
 
 metamodel_version = "None"
-version = "0.4.2"
+version = "0.4.3"
 
 
 class ConfiguredBaseModel(BaseModel):
@@ -141,6 +141,9 @@ class ExtractionResult(ConfiguredBaseModel):
 
 
 class NamedEntity(ConfiguredBaseModel):
+    """
+    Minimal base for all named entities in this schema.
+    """
     linkml_meta: ClassVar[LinkMLMeta] = LinkMLMeta({'from_schema': 'https://example.org/PaperExtractionSchema'})
 
     id: Optional[str] = Field(default=None, json_schema_extra = { "linkml_meta": {'alias': 'id', 'domain_of': ['NamedEntity', 'Publication']} })
@@ -248,6 +251,92 @@ class Paper(ConfiguredBaseModel):
                                              'plate (PM01, PM02 …);\n'
                                              'otherwise omit this slot.\n'}},
          'domain_of': ['Paper']} })
+    experiments: Optional[list[Experiment]] = Field(default=None, description="""Experiments described in the paper.""", json_schema_extra = { "linkml_meta": {'alias': 'experiments',
+         'annotations': {'prompt': {'tag': 'prompt',
+                                    'value': 'Extract a list of brief descriptions of '
+                                             'experiments described in the paper. This '
+                                             'list must be semicolon-delimited. For '
+                                             'each description, include all of the '
+                                             'following details if provided: '
+                                             'experiment motivation (why it was '
+                                             'performed), experiment design (how it '
+                                             'was performed, including methods, tools, '
+                                             'organisms, and chemicals used), '
+                                             'environment (the location and conditions '
+                                             'in which the experiment occurred, '
+                                             'including metrics like temperature), all '
+                                             'organisms used and their high-level type '
+                                             '(e.g., plant, animal), the biological '
+                                             'system under study (e.g., rhizosphere), '
+                                             'experimental conditions (temperature, '
+                                             'pH, etc.), and experimental factors '
+                                             'tested or measured. Also note whether '
+                                             'the experiment is a Biolog experiment '
+                                             'and if so, the type or subtype of '
+                                             'experiment (e.g., Phenotype MicroArray), '
+                                             'the Biolog plates used (e.g., PM01), the '
+                                             'number of replicates, all key steps in '
+                                             'the experimental protocol, the types of '
+                                             'data collected by the plate reader '
+                                             '(e.g., OD, respiration), the protocol '
+                                             'for measuring optical density (e.g., '
+                                             'OD600 measured every 2 hours),  the '
+                                             'protocol for measuring respiration '
+                                             '(e.g., Colorimetric change at 590 nm for '
+                                             'formazan detection), the instrument or '
+                                             'equipment used (e.g., OmniLog Phenotype '
+                                             'MicroArray System), the software used '
+                                             'for data analysis (e.g., OmniLog '
+                                             'Parametric Analysis software), the '
+                                             'incubation temperature (e.g., 25°C), the '
+                                             'total duration of incubation (e.g., 48 '
+                                             'h), and any other relevant details. If '
+                                             'nothing is mentioned regarding '
+                                             "experiments, use 'Not provided'. Do not "
+                                             'provide any details here not related to '
+                                             'experiments. Do not include newlines.'}},
+         'domain_of': ['Paper']} })
+
+
+class Experiment(ConfiguredBaseModel):
+    """
+    A single experiment.
+    """
+    linkml_meta: ClassVar[LinkMLMeta] = LinkMLMeta({'from_schema': 'https://example.org/PaperExtractionSchema'})
+
+    label: Optional[str] = Field(default=None, description="""One-sentence description of this experiment.""", json_schema_extra = { "linkml_meta": {'alias': 'label',
+         'annotations': {'prompt': {'tag': 'prompt',
+                                    'value': 'Provide a one-sentence description of '
+                                             'the experiment.'}},
+         'domain_of': ['Experiment']} })
+    pm01_strain_results: Optional[list[BiologPM01StrainResult]] = Field(default=None, description="""PM01 results grouped by strain.""", json_schema_extra = { "linkml_meta": {'alias': 'pm01_strain_results',
+         'annotations': {'prompt': {'tag': 'prompt',
+                                    'value': 'If Biolog PM01 results are described, '
+                                             'provide a semicolon-delimited list of\n'
+                                             'all strains tested. For each strain, '
+                                             'include the following details:\n'
+                                             'the strain name, the utilization cluster '
+                                             'it belongs to (I, II, or III), and a '
+                                             'complete list of all wells\n'
+                                             'mentioned in the text. For each well, '
+                                             'include the chemical name and the result '
+                                             '(positive,\n'
+                                             'negative, or not provided). Do not leave '
+                                             'out any wells that the text says were '
+                                             'catabolized\n'
+                                             '(positive) or not (negative). If no PM01 '
+                                             'results are mentioned, do not provide\n'
+                                             'a value for this field.\n'}},
+         'domain_of': ['Experiment']} })
+
+
+class BiologPM01StrainResult(ConfiguredBaseModel):
+    """
+    PM01 well-level results for a specific strain.
+    """
+    linkml_meta: ClassVar[LinkMLMeta] = LinkMLMeta({'from_schema': 'https://example.org/PaperExtractionSchema'})
+
+    tested_strain: Optional[Microbe] = Field(default=None, json_schema_extra = { "linkml_meta": {'alias': 'tested_strain', 'domain_of': ['BiologPM01StrainResult']} })
 
 
 class BiologExperiment(ConfiguredBaseModel):
@@ -365,6 +454,34 @@ class PMUtilisationGroup(ConfiguredBaseModel):
          'domain_of': ['PMUtilisationGroup']} })
 
 
+class Microbe(NamedEntity):
+    """
+    A microbial species or strain.
+    """
+    linkml_meta: ClassVar[LinkMLMeta] = LinkMLMeta({'from_schema': 'https://example.org/PaperExtractionSchema'})
+
+    name: Optional[str] = Field(default=None, description="""The name of the microbe.""", json_schema_extra = { "linkml_meta": {'alias': 'name',
+         'annotations': {'prompt': {'tag': 'prompt',
+                                    'value': 'Extract the microbe name (e.g., '
+                                             'Pseudomonas fluorescens).'}},
+         'domain_of': ['Microbe', 'Host']} })
+    id: Optional[str] = Field(default=None, json_schema_extra = { "linkml_meta": {'alias': 'id', 'domain_of': ['NamedEntity', 'Publication']} })
+
+
+class Host(NamedEntity):
+    """
+    A host organism or system.
+    """
+    linkml_meta: ClassVar[LinkMLMeta] = LinkMLMeta({'from_schema': 'https://example.org/PaperExtractionSchema'})
+
+    name: Optional[str] = Field(default=None, description="""Name of the host organism.""", json_schema_extra = { "linkml_meta": {'alias': 'name',
+         'annotations': {'prompt': {'tag': 'prompt',
+                                    'value': 'Extract the host name, e.g., '
+                                             'Brachypodium distachyon.'}},
+         'domain_of': ['Microbe', 'Host']} })
+    id: Optional[str] = Field(default=None, json_schema_extra = { "linkml_meta": {'alias': 'id', 'domain_of': ['NamedEntity', 'Publication']} })
+
+
 # Model rebuild
 # see https://pydantic-docs.helpmanual.io/usage/models/#rebuilding-a-model
 ExtractionResult.model_rebuild()
@@ -377,7 +494,11 @@ RelationshipType.model_rebuild()
 Publication.model_rebuild()
 AnnotatorResult.model_rebuild()
 Paper.model_rebuild()
+Experiment.model_rebuild()
+BiologPM01StrainResult.model_rebuild()
 BiologExperiment.model_rebuild()
 StrainResult.model_rebuild()
 WellResult.model_rebuild()
 PMUtilisationGroup.model_rebuild()
+Microbe.model_rebuild()
+Host.model_rebuild()
