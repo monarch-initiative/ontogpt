@@ -202,7 +202,7 @@ slots:
     description: >-
       The level of biological organization at which the event
       occurs. Must be one of the following: molecular, cellular, tissue, organ,
-      organism, or population.
+      organism, individual, or population.
 
 # Enums
 enums:
@@ -221,6 +221,8 @@ enums:
         description: Effects at the level of organs
       organism:
         description: Effects at the level of the whole organism
+      individual:
+        description: Effects at the individual level, which may include physiological or behavioral changes
       population:
         description: Effects at the population level
 
