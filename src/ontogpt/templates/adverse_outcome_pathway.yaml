@@ -195,8 +195,10 @@ slots:
       The type of event. Must be one of the following:
       activation, inhibition, increase, decrease, impairment, agonism, antagonism,
       formation, alkylation, phosphorylation, failure, or occurrence.
+      For diseases or phenotypes, the event type is often "increase",
+      representing an increase in the severity or prevalence of the condition.
       Occurrence is a general event type that should be used when other
-      types do not apply or when the event is a disease or phenotype.
+      types do not apply.
   biological_level:
     range: LevelOfBiologicalOrganizationEnum
     description: >-
