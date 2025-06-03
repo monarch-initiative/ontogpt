@@ -19,7 +19,7 @@ fastapi = {version = ">=0.115.0", extras = ["web"], optional = true}
 gilda = ">=1.0.0"
 inflect = ">=6.0.2"
 inflection = ">=0.5.1"
-linkml = "^1.8.3"
+linkml = "1.9.3-rc1"
 linkml-owl = "^0.3.0"
 myst-parser = {version = ">=0.18.1", extras = ["docs"], optional = true}
 oaklib = ">=0.5.28"
