@@ -42,13 +42,16 @@ classes:
           A semicolon-delimited list of adverse outcome pathways extracted from the text.
           Each should take the form of a paragraph describing the molecular initiating event
           (including the stressor), a sequence of key events, and the adverse outcome.
-          For all events, include the biological target, event type, and biological level.
+          For all events, include the biological target, event type, and biological context
+          (for context, include the level of biological organization as well as any applicable
+          cell types or organ types).
           Examples of event type include activation, inhibition, increase, decrease, impairment,
           agonism, antagonism, formation, alkylation, phosphorylation, failure, or occurrence.
-          Examples of biological levels include molecular, cellular, tissue, organ,
+          Examples of level of biological organization include molecular, cellular, tissue, organ,
           organism, individual, or population.
-          Do not split onto new lines. Do not delimit lists with semicolons unless separating
-          multiple complete AOPs.
+          Do not split onto new lines. Do not use semicolons unless separating
+          multiple complete AOPs. Do not include a summary of the AOPs or any
+          additional information not directly related to the AOPs.
 
   AOPPathway:
     # is_a: NamedEntity
@@ -192,6 +195,28 @@ classes:
     annotations:
       annotators: sqlite:obo:mondo, sqlite:obo:ncit
 
+  CellTerm:
+    is_a: NamedEntity
+    id_prefixes:
+      - CL
+    description: >-
+      The cell type or tissue in which the event occurs, if applicable.
+      This may be a specific cell type (e.g., hepatocyte, neuron) or a
+      general tissue type (e.g., liver, brain).
+    annotations:
+      annotators: sqlite:obo:cl
+
+  OrganTerm:
+    is_a: NamedEntity
+    id_prefixes:
+      - UBERON
+    description: >-
+      The organ in which the event occurs, if applicable.
+      This may be a specific organ (e.g., liver, heart) or a general
+      organ system (e.g., cardiovascular, respiratory).
+    annotations:
+      annotators: sqlite:obo:uberon
+
 # Slots
 slots:
   target:
@@ -222,6 +247,20 @@ slots:
       A short name or identifier for the event. This is generally
       a combination of the target and event type, such as "Formation, Pro-mutagenic
       DNA Adducts" or "Increase, reactive oxygen species".
+  cell_term:
+    range: CellTerm
+    description: >-
+      The cell type or tissue in which the event occurs, if applicable.
+      This may be a specific cell type (e.g., hepatocyte, neuron) or a
+      general tissue type (e.g., liver, brain).
+      If not applicable, this can be left blank.
+  organ_term:
+    range: OrganTerm
+    description: >-
+      The organ in which the event occurs, if applicable.
+      This may be a specific organ (e.g., liver, heart) or a general
+      organ system (e.g., cardiovascular, respiratory).
+      If not applicable, this can be left blank.
 
 # Enums
 enums:
