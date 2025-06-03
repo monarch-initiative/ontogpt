@@ -40,8 +40,15 @@ classes:
         multivalued: true
         description: >-
           A semicolon-delimited list of adverse outcome pathways extracted from the text.
-          Each will take the form of a paragraph describing the molecular initiating event,
-          key events, and adverse outcome.
+          Each should take the form of a paragraph describing the molecular initiating event
+          (including the stressor), a sequence of key events, and the adverse outcome.
+          For all events, include the biological target, event type, and biological level.
+          Examples of event type include activation, inhibition, increase, decrease, impairment,
+          agonism, antagonism, formation, alkylation, phosphorylation, failure, or occurrence.
+          Examples of biological levels include molecular, cellular, tissue, organ,
+          organism, individual, or population.
+          Do not split onto new lines. Do not delimit lists with semicolons unless separating
+          multiple complete AOPs.
 
   AOPPathway:
     # is_a: NamedEntity
