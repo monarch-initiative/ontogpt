@@ -28,6 +28,13 @@ imports:
 
 # TODO: process key event relationships
 
+# TODO: Add Sex Applicability and Life Stage Applicability as attributes to AOPPathway
+# this can include Evidence values too
+
+# TODO: Add Taxonomic Applicability as an attribute to AOPPathway
+# This includes a term (e.g., "human", "mouse", "rat") and/or a taxonomic group (e.g., "mammals", "birds")
+# Plus evidence and a corresponding ncbitaxon ID if applicable
+
 # Classes
 classes:
   AOPExtraction:
