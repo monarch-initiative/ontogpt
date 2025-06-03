@@ -89,10 +89,12 @@ classes:
           In the case of a chemical stressor, this may be referred to as a Chemical
           Initiator (CI). If the stressor is not known, it may be referred to as an
           Unknown Initiator (UI), so the value for this attribute should be "UI".
+          Examples: aflatoxin B1, lead, radiation.
     slots:
       - target
       - event_type
       - biological_level
+      - short_name
 
   KeyEvent:
     # is_a: NamedEntity
@@ -103,6 +105,7 @@ classes:
       - target
       - event_type
       - biological_level
+      - short_name
       
   AdverseOutcome:
     # is_a: NamedEntity
@@ -111,6 +114,7 @@ classes:
     slots:
       - event_type
       - biological_level
+      - short_name
     attributes:
       outcome:
         range: Outcome
@@ -205,6 +209,12 @@ slots:
       The level of biological organization at which the event
       occurs. Must be one of the following: molecular, cellular, tissue, organ,
       organism, individual, or population.
+  short_name:
+    range: string
+    description: >-
+      A short name or identifier for the event. This is generally
+      a combination of the target and event type, such as "Formation, Pro-mutagenic
+      DNA Adducts" or "Increase, reactive oxygen species".
 
 # Enums
 enums:
