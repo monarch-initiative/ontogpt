@@ -446,10 +446,16 @@ class SPIRESEngine(KnowledgeEngine):
                 cls = self.template_class
             if isinstance(object, pydantic.BaseModel):
                 object = object.model_dump()
-            for k, v in object.items():
-                if v:
-                    slot = self.schemaview.induced_slot(k, cls.name)
-                    prompt += f"{k}: {self._serialize_value(v, slot)}\n"
+            if isinstance(object, dict):
+                for k, v in object.items():
+                    if v:
+                        slot = self.schemaview.induced_slot(k, cls.name)
+                        prompt += f"{k}: {self._serialize_value(v, slot)}\n"
+            else:
+                logging.error(
+                    f"Error in getting prompt. Cannot serialize object of type {type(object)}")
+                raise ValueError(
+                    f"Error in getting prompt. Cannot serialize object of type {type(object)}")
         return prompt
 
     def _parse_response_to_dict(
