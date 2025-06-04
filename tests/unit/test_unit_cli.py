@@ -14,7 +14,7 @@ class TestCommandLineInterface(unittest.TestCase):
     """Tests all command-line subcommands."""
 
     def setUp(self) -> None:
-        runner = CliRunner(mix_stderr=False)
+        runner = CliRunner()
         self.runner = runner
 
     def test_main_help(self):

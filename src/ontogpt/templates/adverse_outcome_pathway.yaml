@@ -1,0 +1,345 @@
+id: http://w3id.org/ontogpt/adverse_outcome_pathway
+name: adverse_outcome_pathway
+title: Template for extracting Adverse Outcome Pathways
+description: >-
+  Template for extracting Adverse Outcome Pathways (AOPs) from literature. AOPs are conceptual frameworks 
+  that link a molecular initiating event to an adverse outcome through a series of key events.
+license: https://creativecommons.org/publicdomain/zero/1.0/
+prefixes:
+  rdf: http://www.w3.org/1999/02/22-rdf-syntax-ns#
+  CHEBI: http://purl.obolibrary.org/obo/CHEBI_
+  GO: http://purl.obolibrary.org/obo/GO_
+  NCIT: http://purl.obolibrary.org/obo/NCIT_
+  MONDO: http://purl.obolibrary.org/obo/MONDO_
+  linkml: https://w3id.org/linkml/
+  aop: http://w3id.org/ontogpt/adverse_outcome_pathway/
+
+default_prefix: aop
+default_range: string
+
+imports:
+  - linkml:types
+  - core
+
+# TODO: Revisit treatment of AOP parts as NamedEntities - they may not always have unique identifiers
+
+# TODO: Add functionality for extracting multiple, related AOPs from a single text,
+#      e.g., multiple pathways for the same stressor or related pathways with shared key events
+
+# TODO: process key event relationships
+
+# TODO: Add Sex Applicability and Life Stage Applicability as attributes to AOPPathway
+# this can include Evidence values too
+
+# TODO: Add Taxonomic Applicability as an attribute to AOPPathway
+# This includes a term (e.g., "human", "mouse", "rat") and/or a taxonomic group (e.g., "mammals", "birds")
+# Plus evidence and a corresponding ncbitaxon ID if applicable
+
+# Classes
+classes:
+  AOPExtraction:
+    tree_root: true
+    description: >-
+      A container for Adverse Outcome Pathway (AOP) information extracted from text
+    attributes:
+      aop_pathways:
+        range: AOPPathway
+        multivalued: true
+        description: >-
+          A semicolon-delimited list of adverse outcome pathways extracted from the text.
+          Each should take the form of free text describing the molecular initiating event
+          (including the stressor), a sequence of key events, and the adverse outcome.
+          For all events, include the biological target, event type, and biological context
+          (for context, include the level of biological organization as well as any applicable
+          cell types or organ types).
+          Examples of event type include activation, inhibition, increase, decrease, impairment,
+          agonism, antagonism, formation, alkylation, phosphorylation, failure, or occurrence.
+          Examples of level of biological organization include molecular, cellular, tissue, organ,
+          organism, individual, or population.
+          If the molecular initiating event is not known, use "Unknown Initiator (UI)".
+          Do not split onto new lines. Do not use semicolons unless separating
+          multiple complete AOPs. Do not include a summary of the AOPs or any
+          additional information not directly related to the AOPs.
+          An example of a complete AOP pathway is: The molecular initiating event is formation of pro-mutagenic DNA Adducts. Key events are an increase in induced mutations in critical genes, metabolism of AFB1 and production of reactive electrophiles, clonal expansion and cell proliferation to form Altered Hepatic Foci (AHF), and an increase in insufficient repair or mis-repair of pro-mutagenic DNA adducts. The adverse outcome is tumorigenesis of hepatocellular carcinoma.
+
+  AOPPathway:
+    # is_a: NamedEntity
+    description: >-
+      A representation of an Adverse Outcome Pathway, linking molecular initiating events 
+      to adverse outcomes through key events.
+    attributes:
+      molecular_initiating_event:
+        range: MolecularInitiatingEvent
+        description: >-
+          A free-text description of the molecular initiating event (MIE) that starts the
+          adverse outcome pathway. Include all details necessary to understand the MIE,
+          such as the stressor involved, the biological target, and the biological level
+          at which the MIE occurs.
+      key_events:
+        range: KeyEvent
+        multivalued: true
+        description: >-
+          A semicolon-delimited list of the sequence of key events (KEs) that link the
+          molecular initiating event to the adverse outcome. For each key event,
+          include a free-text description that captures the biological target, event type,
+          and biological level at which the key event occurs.
+      adverse_outcome:
+        range: AdverseOutcome
+        description: >-
+          A semicolon-delimited list of the final adverse outcome (AO) or outcomes.
+          This may be a disease, phenotype, or impact on an organism or population.
+        multivalued: true
+      # key_event_relationships:
+      #   range: KeyEventRelationship
+      #   multivalued: true
+      #   description: >-
+      #     A semicolon-delimited list of relationships between key events in the pathway.
+
+  MolecularInitiatingEvent:
+    # is_a: NamedEntity
+    description: >-
+      The initial interaction between a stressor and a biomolecule that starts the
+      adverse outcome pathway. The stressor can be a chemical, physical, or biological agent,
+      or may not be known.
+    attributes:
+      stressor:
+        range: Stressor
+        description: >-
+          The chemical or physical agent that initiates the molecular initiating event.
+          In the case of a chemical stressor, this may be referred to as a Chemical
+          Initiator (CI). If the stressor is not known, it may be referred to as an
+          Unknown Initiator (UI), so the value for this attribute should be "UI".
+          Examples: aflatoxin B1, lead, radiation.
+    slots:
+      - target
+      - event_type
+      - biological_level
+      - short_name
+
+  KeyEvent:
+    # is_a: NamedEntity
+    description: >-
+      A measurable biological change that is essential to the progression of the
+      adverse outcome pathway.
+    slots:
+      - target
+      - event_type
+      - biological_level
+      - short_name
+      
+  AdverseOutcome:
+    # is_a: NamedEntity
+    description: >-
+      An adverse effect of regulatory significance.
+    slots:
+      - event_type
+      - biological_level
+      - short_name
+    attributes:
+      outcome:
+        range: Outcome
+        description: >-
+          The adverse outcome or effect that results from the key events in the pathway.
+      
+  # KeyEventRelationship:
+  #   is_a: CompoundExpression
+  #   description: >-
+  #     A scientifically-based relationship between two key events in an AOP
+  #   attributes:
+  #     upstream_event:
+  #       range: NamedEntity
+  #       description: >-
+  #         The event that occurs earlier in the AOP sequence (can be a molecular initiating event or a key event)
+  #     downstream_event:
+  #       range: NamedEntity
+  #       description: >-
+  #         The event that occurs later in the AOP sequence (can be a key event or an adverse outcome)
+  #     relationship_type:
+  #       range: RelationshipType
+  #       description: >-
+  #         The type of relationship between the two events
+  #     evidence:
+  #       range: EvidenceType
+  #       description: >-
+  #         The type of evidence supporting the relationship
+      
+  Stressor:
+    is_a: NamedEntity
+    id_prefixes:
+      - CHEBI
+      - ENVO
+      - OPMI
+    description: >-
+      A chemical, physical, or biological agent that initiates the molecular initiating event.
+    annotations:
+      annotators: sqlite:obo:chebi, sqlite:obo:envo, sqlite:obo:opmi
+      prompt: >-
+        The name of the stressor, which may be a chemical, physical, or biological agent.
+        Examples include: acetaminophen, lead, radiation, or a specific biological pathogen.
+
+  BiologicalTarget:
+    is_a: NamedEntity
+    id_prefixes:
+      - GO
+      - NCIT
+    description: >-
+      The biological molecule or structure that is affected by the stressor or key event.
+      This may be a gene, protein, or other biomolecule (e.g., PARP1) or a chemical species
+      (e.g., reactive oxygen species).
+    annotations:
+      annotators: sqlite:obo:go, sqlite:obo:ncit
+
+  Outcome:
+    is_a: NamedEntity
+    id_prefixes:
+      - MONDO
+      - NCIT
+    description: >-
+      The outcome or effect that results from the key events in the pathway.
+      This may not include the adverse outcome itself, but rather the
+      phenomenon describing the outcome. It may be a disease (e.g., 
+      neurodegeneration, cancer, heart failure), a phenotype (e.g.,
+      developmental delay, immune response), or a process (e.g.,
+      learning and memory, cognitive function, population growth
+      rate, mortality).
+    annotations:
+      annotators: sqlite:obo:mondo, sqlite:obo:ncit
+
+  CellTerm:
+    is_a: NamedEntity
+    id_prefixes:
+      - CL
+    description: >-
+      The cell type or tissue in which the event occurs, if applicable.
+      This may be a specific cell type (e.g., hepatocyte, neuron) or a
+      general tissue type (e.g., liver, brain).
+    annotations:
+      annotators: sqlite:obo:cl
+
+  OrganTerm:
+    is_a: NamedEntity
+    id_prefixes:
+      - UBERON
+    description: >-
+      The organ in which the event occurs, if applicable.
+      This may be a specific organ (e.g., liver, heart) or a general
+      organ system (e.g., cardiovascular, respiratory).
+    annotations:
+      annotators: sqlite:obo:uberon
+
+# Slots
+slots:
+  target:
+    range: BiologicalTarget
+    description: >-
+      The biological molecule or structure that participates in the event.
+      This may be a gene, protein, or other biomolecule (e.g., PARP1) or a chemical
+      species (e.g., reactive oxygen species).
+  event_type:
+    range: EventTypeEnum
+    description: >-
+      The type of event. Must be one of the following:
+      activation, inhibition, increase, decrease, impairment, agonism, antagonism,
+      formation, alkylation, phosphorylation, failure, or occurrence.
+      For diseases or phenotypes, the event type is often "increase",
+      representing an increase in the severity or prevalence of the condition.
+      Occurrence is a general event type that should be used when other
+      types do not apply.
+  biological_level:
+    range: LevelOfBiologicalOrganizationEnum
+    description: >-
+      The level of biological organization at which the event
+      occurs. Must be one of the following: molecular, cellular, tissue, organ,
+      organism, individual, or population.
+  short_name:
+    range: string
+    description: >-
+      A short name or identifier for the event. This is generally
+      a combination of the target and event type, such as "Formation, Pro-mutagenic
+      DNA Adducts" or "Increase, reactive oxygen species".
+  cell_term:
+    range: CellTerm
+    description: >-
+      The cell type or tissue in which the event occurs, if applicable.
+      This may be a specific cell type (e.g., hepatocyte, neuron) or a
+      general tissue type (e.g., liver, brain).
+      If not applicable, this can be left blank.
+  organ_term:
+    range: OrganTerm
+    description: >-
+      The organ in which the event occurs, if applicable.
+      This may be a specific organ (e.g., liver, heart) or a general
+      organ system (e.g., cardiovascular, respiratory).
+      If not applicable, this can be left blank.
+
+# Enums
+enums:
+  LevelOfBiologicalOrganizationEnum:
+    description: >-
+      The level of biological organization at which an event occurs
+    permissible_values:
+      molecular:
+        description: Molecular level events involving interactions with DNA, proteins, etc.
+      cellular:
+        description: Effects at the level of the cell
+        meaning: GO:0009987
+      tissue:
+        description: Effects at the level of tissues
+      organ:
+        description: Effects at the level of organs
+      organism:
+        description: Effects at the level of the whole organism
+      individual:
+        description: Effects at the individual level, which may include physiological or behavioral changes
+      population:
+        description: Effects at the population level
+
+  EventTypeEnum:
+    description: >-
+      The type of event happening at some biological level.
+    permissible_values:
+      activation:
+        description: Activation of a biomolecule by a stressor
+      inhibition:
+        description: Inhibition of a biomolecule's activity by a stressor
+      increase:
+        description: Increase in a biomolecule's activity or concentration
+      decrease:
+        description: Decrease in a biomolecule's activity or concentration
+      impairment:
+        description: Impairment of a biological function or process
+      agonism:
+        description: Mechanistic interaction between two biomolecules or processes
+      antagonism:
+        description: Antagonistic interaction between two biomolecules or processes
+      formation:
+        description: Formation of a new biomolecule or complex
+      alkylation:
+        description: Addition of an alkyl group to a biomolecule, often affecting its function
+      phosphorylation:
+        description: Addition of a phosphate group to a biomolecule, often regulating its activity
+      failure:
+        description: Failure of a biological process or function
+      occurrence:
+        description: General occurrence of a biological event without specific details
+      
+  # RelationshipType:
+  #   description: >-
+  #     The type of relationship between two key events in an AOP
+  #   permissible_values:
+  #     direct:
+  #       description: Direct relationship where one event leads to another
+  #     indirect:
+  #       description: Indirect relationship where one event influences another through intermediates
+  
+  # EvidenceType:
+  #   is_a: NamedEntity
+  #   description: >-
+  #     The type of evidence supporting a key event relationship
+  #   permissible_values:
+  #     high:
+  #       description: Strong scientific evidence from multiple studies
+  #     moderate:
+  #       description: Good scientific evidence from a smaller number of studies
+  #     low:
+  #       description: Limited scientific evidence, often from indirect studies
