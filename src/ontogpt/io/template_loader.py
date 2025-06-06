@@ -52,7 +52,14 @@ def get_template_details(template: TEMPLATE_NAME) -> ClassDefinition:
         gen = PydanticGenerator(str(new_path_to_template))
         path_to_module.write_text(gen.serialize())
 
-        mod = importlib.import_module(f"ontogpt.templates.{module_name}")
+        try:
+            importlib.invalidate_caches()
+            mod = importlib.import_module(f"ontogpt.templates.{module_name}")
+        except ImportError as e:
+            logger.error(f"Failed to import module {module_name}: {e}")
+            raise ImportError(f"Failed to import module {module_name}. "
+                              f"Please check the generated version at {path_to_module}")
+
         class_name = None
 
     else:
