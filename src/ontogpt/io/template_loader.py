@@ -58,7 +58,7 @@ def get_template_details(template: TEMPLATE_NAME) -> ClassDefinition:
         except ImportError as e:
             logger.error(f"Failed to import module {module_name}: {e}")
             raise ImportError(f"Failed to import module {module_name}. "
-                              f"Please check the generated verson at {path_to_module}")
+                              f"Please check the generated version at {path_to_module}")
 
         class_name = None
 
