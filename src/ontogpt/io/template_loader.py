@@ -14,7 +14,7 @@ this_path = Path(__file__).parent
 logger = logging.getLogger(__name__)
 
 
-def get_template_details(template: TEMPLATE_NAME) -> ClassDefinition:
+def get_template_details(template: TEMPLATE_NAME) -> tuple[ClassDefinition, object, object, SchemaView]:
     """
     Get the LinkML class, module, and schemaview for a template.
 
