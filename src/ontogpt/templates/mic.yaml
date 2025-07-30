@@ -52,9 +52,9 @@ classes:
             It may also include phenotypes such as an observable
             physical or behavioral trait or symptom (e.g., fever,
             headache, short attention span, petechiae,
-            telangiectasia). Phenotypes do NOT include high-level
-            biological processes such as "Insulin signaling" or "lipid
-            metabolism", developmental processes such as "limb development",
+            telangiectasia). Do NOT include relationships concerning only 
+            biological processes (e.g., "Insulin signaling" or "lipid
+            metabolism"), developmental processes such as "limb development",
             or health states such as "healthy teeth".
             Provide the full text from the input text describing the relationship
             without changes or summarization. Include all numbered inline
@@ -212,8 +212,9 @@ classes:
       minerals.
     id_prefixes:
       - CHEBI
+      - FOODON
     annotations:
-      annotators: sqlite:obo:chebi
+      annotators: sqlite:obo:chebi, sqlite:obo:foodon
       prompt: >-
         The name of a nutrient, including vitamins and
         minerals.
@@ -226,12 +227,14 @@ classes:
     id_prefixes:
       - MONDO
       - HP
+      - EFO # For traits
     annotations:
-      annotators: sqlite:obo:mondo, sqlite:obo:hp
+      annotators: sqlite:obo:mondo, sqlite:obo:hp, sqlite:obo:efo
       prompt: >-
         The name of a biological feature. This may
         include diseases, symptoms, abnormalities, or
-        other health statuses.
+        other health statuses, as well as observable
+        properties of an organism, such as body weight.
 
   BiologicalProcess:
     is_a: NamedEntity
@@ -285,6 +288,9 @@ classes:
           associated with cancer" would be
           "True" and "Vitamin A is associated
           with cancer" would be "False".
+          Statements characterized as "clinically insignificant",
+          "not clinically significant", or "not statistically significant"
+          should also be considered negated.
       context:
         range: string
         description: >-
@@ -332,6 +338,9 @@ classes:
         range: Feature
         description: >-
           The name of the biological feature defined in the claim.
+          This may need to be processed to a single term, e.g., 
+          the phrase "proteolysis (degradation) of insulin and some downstream 
+          effectors" is too long, but "insulin degradation" is acceptable.
     comments:
       - a Chemical to Feature relationship
 

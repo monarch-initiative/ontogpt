@@ -264,17 +264,18 @@ class Document(NamedEntity):
                                              'such as an observable physical or '
                                              'behavioral trait or symptom (e.g., '
                                              'fever, headache, short attention span, '
-                                             'petechiae, telangiectasia). Phenotypes '
-                                             'do NOT include high-level biological '
-                                             'processes such as "Insulin signaling" or '
-                                             '"lipid metabolism", developmental '
-                                             'processes such as "limb development", or '
-                                             'health states such as "healthy teeth". '
-                                             'Provide the full text from the input '
-                                             'text describing the relationship without '
-                                             'changes or summarization. Include all '
-                                             'numbered inline references contained in '
-                                             'the sentences without changes. Do not '
+                                             'petechiae, telangiectasia). Do NOT '
+                                             'include relationships concerning only  '
+                                             'biological processes (e.g., "Insulin '
+                                             'signaling" or "lipid metabolism"), '
+                                             'developmental processes such as "limb '
+                                             'development", or health states such as '
+                                             '"healthy teeth". Provide the full text '
+                                             'from the input text describing the '
+                                             'relationship without changes or '
+                                             'summarization. Include all numbered '
+                                             'inline references contained in the '
+                                             'sentences without changes. Do not '
                                              'include newlines. If multiple sentences '
                                              'describe the same relationship, include '
                                              'all of them. If the text describes a '
@@ -505,12 +506,12 @@ class Nutrient(NamedEntity):
     The name of a nutrient, including vitamins and minerals.
     """
     linkml_meta: ClassVar[LinkMLMeta] = LinkMLMeta({'annotations': {'annotators': {'tag': 'annotators',
-                                        'value': 'sqlite:obo:chebi'},
+                                        'value': 'sqlite:obo:chebi, sqlite:obo:foodon'},
                          'prompt': {'tag': 'prompt',
                                     'value': 'The name of a nutrient, including '
                                              'vitamins and minerals.'}},
          'from_schema': 'http://w3id.org/ontogpt/mic',
-         'id_prefixes': ['CHEBI']})
+         'id_prefixes': ['CHEBI', 'FOODON']})
 
     id: str = Field(default=..., description="""A unique identifier for the named entity""", json_schema_extra = { "linkml_meta": {'alias': 'id',
          'annotations': {'prompt.skip': {'tag': 'prompt.skip', 'value': 'true'}},
@@ -544,17 +545,19 @@ class Nutrient(NamedEntity):
 
 class Feature(NamedEntity):
     """
-    The name of a biological feature.
+    The name of a biological feature or health status, such as a disease, symptom, or abnormality.
     """
     linkml_meta: ClassVar[LinkMLMeta] = LinkMLMeta({'annotations': {'annotators': {'tag': 'annotators',
-                                        'value': 'sqlite:obo:mondo, sqlite:obo:hp'},
+                                        'value': 'sqlite:obo:mondo, sqlite:obo:hp, '
+                                                 'sqlite:obo:efo'},
                          'prompt': {'tag': 'prompt',
                                     'value': 'The name of a biological feature. This '
                                              'may include diseases, symptoms, '
-                                             'abnormalities, or other health '
-                                             'statuses.'}},
+                                             'abnormalities, or other health statuses, '
+                                             'as well as observable properties of an '
+                                             'organism, such as body weight.'}},
          'from_schema': 'http://w3id.org/ontogpt/mic',
-         'id_prefixes': ['MONDO', 'HP']})
+         'id_prefixes': ['MONDO', 'HP', 'EFO']})
 
     id: str = Field(default=..., description="""A unique identifier for the named entity""", json_schema_extra = { "linkml_meta": {'alias': 'id',
          'annotations': {'prompt.skip': {'tag': 'prompt.skip', 'value': 'true'}},
@@ -718,7 +721,7 @@ class ScientificClaim(CompoundExpression):
     """
     linkml_meta: ClassVar[LinkMLMeta] = LinkMLMeta({'from_schema': 'http://w3id.org/ontogpt/mic'})
 
-    negated: Optional[str] = Field(default=None, description="""Whether the claim is negated in the text. This value must be either \"True\" if the claim is negated or \"False\" if it is not. For example, \"Vitamin A is not associated with cancer\" would be \"True\" and \"Vitamin A is associated with cancer\" would be \"False\".""", json_schema_extra = { "linkml_meta": {'alias': 'negated', 'domain_of': ['ScientificClaim']} })
+    negated: Optional[str] = Field(default=None, description="""Whether the claim is negated in the text. This value must be either \"True\" if the claim is negated or \"False\" if it is not. For example, \"Vitamin A is not associated with cancer\" would be \"True\" and \"Vitamin A is associated with cancer\" would be \"False\". Statements characterized as \"clinically insignificant\", \"not clinically significant\", or \"not statistically significant\" should also be considered negated.""", json_schema_extra = { "linkml_meta": {'alias': 'negated', 'domain_of': ['ScientificClaim']} })
     context: Optional[str] = Field(default=None, description="""The full text of this relationship.""", json_schema_extra = { "linkml_meta": {'alias': 'context', 'domain_of': ['ScientificClaim']} })
     references: Optional[list[str]] = Field(default=None, description="""A semi-colon separated list of references included inline in the input, identified by number only. Multiple references may contain commas, e.g., \"(3, 4)\" and should be treated as two different values. If a range of references is provided, include all, e.g., \"(3-5)\" should become 3;4;5.""", json_schema_extra = { "linkml_meta": {'alias': 'references', 'domain_of': ['ScientificClaim']} })
 
@@ -780,8 +783,8 @@ class NutrientToFeatureRelationship(ScientificClaim):
                        'NutrientToNutrientRelationship',
                        'NutrientToHealthStatusRelationship',
                        'NutrientToSourceRelationship']} })
-    feature: Optional[str] = Field(default=None, description="""The name of the biological feature defined in the claim.""", json_schema_extra = { "linkml_meta": {'alias': 'feature', 'domain_of': ['NutrientToFeatureRelationship']} })
-    negated: Optional[str] = Field(default=None, description="""Whether the claim is negated in the text. This value must be either \"True\" if the claim is negated or \"False\" if it is not. For example, \"Vitamin A is not associated with cancer\" would be \"True\" and \"Vitamin A is associated with cancer\" would be \"False\".""", json_schema_extra = { "linkml_meta": {'alias': 'negated', 'domain_of': ['ScientificClaim']} })
+    feature: Optional[str] = Field(default=None, description="""The name of the biological feature defined in the claim. This may need to be processed to a single term, e.g.,  the phrase \"proteolysis (degradation) of insulin and some downstream  effectors\" is too long, but \"insulin degradation\" is acceptable.""", json_schema_extra = { "linkml_meta": {'alias': 'feature', 'domain_of': ['NutrientToFeatureRelationship']} })
+    negated: Optional[str] = Field(default=None, description="""Whether the claim is negated in the text. This value must be either \"True\" if the claim is negated or \"False\" if it is not. For example, \"Vitamin A is not associated with cancer\" would be \"True\" and \"Vitamin A is associated with cancer\" would be \"False\". Statements characterized as \"clinically insignificant\", \"not clinically significant\", or \"not statistically significant\" should also be considered negated.""", json_schema_extra = { "linkml_meta": {'alias': 'negated', 'domain_of': ['ScientificClaim']} })
     context: Optional[str] = Field(default=None, description="""The full text of this relationship.""", json_schema_extra = { "linkml_meta": {'alias': 'context', 'domain_of': ['ScientificClaim']} })
     references: Optional[list[str]] = Field(default=None, description="""A semi-colon separated list of references included inline in the input, identified by number only. Multiple references may contain commas, e.g., \"(3, 4)\" and should be treated as two different values. If a range of references is provided, include all, e.g., \"(3-5)\" should become 3;4;5.""", json_schema_extra = { "linkml_meta": {'alias': 'references', 'domain_of': ['ScientificClaim']} })
 
@@ -801,7 +804,7 @@ class NutrientToBiologicalProcessRelationship(ScientificClaim):
                        'NutrientToHealthStatusRelationship',
                        'NutrientToSourceRelationship']} })
     process: Optional[str] = Field(default=None, description="""The name of the biological process defined in the claim.""", json_schema_extra = { "linkml_meta": {'alias': 'process', 'domain_of': ['NutrientToBiologicalProcessRelationship']} })
-    negated: Optional[str] = Field(default=None, description="""Whether the claim is negated in the text. This value must be either \"True\" if the claim is negated or \"False\" if it is not. For example, \"Vitamin A is not associated with cancer\" would be \"True\" and \"Vitamin A is associated with cancer\" would be \"False\".""", json_schema_extra = { "linkml_meta": {'alias': 'negated', 'domain_of': ['ScientificClaim']} })
+    negated: Optional[str] = Field(default=None, description="""Whether the claim is negated in the text. This value must be either \"True\" if the claim is negated or \"False\" if it is not. For example, \"Vitamin A is not associated with cancer\" would be \"True\" and \"Vitamin A is associated with cancer\" would be \"False\". Statements characterized as \"clinically insignificant\", \"not clinically significant\", or \"not statistically significant\" should also be considered negated.""", json_schema_extra = { "linkml_meta": {'alias': 'negated', 'domain_of': ['ScientificClaim']} })
     context: Optional[str] = Field(default=None, description="""The full text of this relationship.""", json_schema_extra = { "linkml_meta": {'alias': 'context', 'domain_of': ['ScientificClaim']} })
     references: Optional[list[str]] = Field(default=None, description="""A semi-colon separated list of references included inline in the input, identified by number only. Multiple references may contain commas, e.g., \"(3, 4)\" and should be treated as two different values. If a range of references is provided, include all, e.g., \"(3-5)\" should become 3;4;5.""", json_schema_extra = { "linkml_meta": {'alias': 'references', 'domain_of': ['ScientificClaim']} })
 
@@ -818,7 +821,7 @@ class NutrientToNutrientRelationship(ScientificClaim):
                        'NutrientToHealthStatusRelationship',
                        'NutrientToSourceRelationship']} })
     nutrient_object: Optional[str] = Field(default=None, description="""The name of a nutrient defined in the claim, including vitamins and minerals.""", json_schema_extra = { "linkml_meta": {'alias': 'nutrient_object', 'domain_of': ['NutrientToNutrientRelationship']} })
-    negated: Optional[str] = Field(default=None, description="""Whether the claim is negated in the text. This value must be either \"True\" if the claim is negated or \"False\" if it is not. For example, \"Vitamin A is not associated with cancer\" would be \"True\" and \"Vitamin A is associated with cancer\" would be \"False\".""", json_schema_extra = { "linkml_meta": {'alias': 'negated', 'domain_of': ['ScientificClaim']} })
+    negated: Optional[str] = Field(default=None, description="""Whether the claim is negated in the text. This value must be either \"True\" if the claim is negated or \"False\" if it is not. For example, \"Vitamin A is not associated with cancer\" would be \"True\" and \"Vitamin A is associated with cancer\" would be \"False\". Statements characterized as \"clinically insignificant\", \"not clinically significant\", or \"not statistically significant\" should also be considered negated.""", json_schema_extra = { "linkml_meta": {'alias': 'negated', 'domain_of': ['ScientificClaim']} })
     context: Optional[str] = Field(default=None, description="""The full text of this relationship.""", json_schema_extra = { "linkml_meta": {'alias': 'context', 'domain_of': ['ScientificClaim']} })
     references: Optional[list[str]] = Field(default=None, description="""A semi-colon separated list of references included inline in the input, identified by number only. Multiple references may contain commas, e.g., \"(3, 4)\" and should be treated as two different values. If a range of references is provided, include all, e.g., \"(3-5)\" should become 3;4;5.""", json_schema_extra = { "linkml_meta": {'alias': 'references', 'domain_of': ['ScientificClaim']} })
 
@@ -838,7 +841,7 @@ class NutrientToHealthStatusRelationship(ScientificClaim):
                        'NutrientToHealthStatusRelationship',
                        'NutrientToSourceRelationship']} })
     anatomy: Optional[str] = Field(default=None, description="""The name of the anatomical part or system defined in the claim.""", json_schema_extra = { "linkml_meta": {'alias': 'anatomy', 'domain_of': ['NutrientToHealthStatusRelationship']} })
-    negated: Optional[str] = Field(default=None, description="""Whether the claim is negated in the text. This value must be either \"True\" if the claim is negated or \"False\" if it is not. For example, \"Vitamin A is not associated with cancer\" would be \"True\" and \"Vitamin A is associated with cancer\" would be \"False\".""", json_schema_extra = { "linkml_meta": {'alias': 'negated', 'domain_of': ['ScientificClaim']} })
+    negated: Optional[str] = Field(default=None, description="""Whether the claim is negated in the text. This value must be either \"True\" if the claim is negated or \"False\" if it is not. For example, \"Vitamin A is not associated with cancer\" would be \"True\" and \"Vitamin A is associated with cancer\" would be \"False\". Statements characterized as \"clinically insignificant\", \"not clinically significant\", or \"not statistically significant\" should also be considered negated.""", json_schema_extra = { "linkml_meta": {'alias': 'negated', 'domain_of': ['ScientificClaim']} })
     context: Optional[str] = Field(default=None, description="""The full text of this relationship.""", json_schema_extra = { "linkml_meta": {'alias': 'context', 'domain_of': ['ScientificClaim']} })
     references: Optional[list[str]] = Field(default=None, description="""A semi-colon separated list of references included inline in the input, identified by number only. Multiple references may contain commas, e.g., \"(3, 4)\" and should be treated as two different values. If a range of references is provided, include all, e.g., \"(3-5)\" should become 3;4;5.""", json_schema_extra = { "linkml_meta": {'alias': 'references', 'domain_of': ['ScientificClaim']} })
 
@@ -858,7 +861,7 @@ class NutrientToSourceRelationship(ScientificClaim):
                        'NutrientToHealthStatusRelationship',
                        'NutrientToSourceRelationship']} })
     source: Optional[str] = Field(default=None, description="""The name of the food or supplement defined in the claim.""", json_schema_extra = { "linkml_meta": {'alias': 'source', 'domain_of': ['NutrientToSourceRelationship']} })
-    negated: Optional[str] = Field(default=None, description="""Whether the claim is negated in the text. This value must be either \"True\" if the claim is negated or \"False\" if it is not. For example, \"Vitamin A is not associated with cancer\" would be \"True\" and \"Vitamin A is associated with cancer\" would be \"False\".""", json_schema_extra = { "linkml_meta": {'alias': 'negated', 'domain_of': ['ScientificClaim']} })
+    negated: Optional[str] = Field(default=None, description="""Whether the claim is negated in the text. This value must be either \"True\" if the claim is negated or \"False\" if it is not. For example, \"Vitamin A is not associated with cancer\" would be \"True\" and \"Vitamin A is associated with cancer\" would be \"False\". Statements characterized as \"clinically insignificant\", \"not clinically significant\", or \"not statistically significant\" should also be considered negated.""", json_schema_extra = { "linkml_meta": {'alias': 'negated', 'domain_of': ['ScientificClaim']} })
     context: Optional[str] = Field(default=None, description="""The full text of this relationship.""", json_schema_extra = { "linkml_meta": {'alias': 'context', 'domain_of': ['ScientificClaim']} })
     references: Optional[list[str]] = Field(default=None, description="""A semi-colon separated list of references included inline in the input, identified by number only. Multiple references may contain commas, e.g., \"(3, 4)\" and should be treated as two different values. If a range of references is provided, include all, e.g., \"(3-5)\" should become 3;4;5.""", json_schema_extra = { "linkml_meta": {'alias': 'references', 'domain_of': ['ScientificClaim']} })
 
