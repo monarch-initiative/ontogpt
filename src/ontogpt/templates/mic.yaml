@@ -69,8 +69,9 @@ classes:
             Use the same description of the relationship as in the input text.
             For example, if the input text states "Iron supplementation
             was shown to successfully treat anemia (5,6)", the output should be
-            "Iron supplementation treats anemia (5,6)". Other potential
-            relationships include "ameliorates" or "prevents".
+            "Iron supplementation treats anemia (5,6)".
+            Do not assign a relationship type. Retain the language used in the
+            source text.
           prompt.examples: >-
             Evidence suggests that high-dose Vitamin A treatment may prevent Systemic Lupus Erythematosus (5,6). Further studies confirmed this finding (7); Studies have shown that Vitamin A is associated with bone cancer (8).
       nutrient_to_biological_process_relationships:
@@ -104,9 +105,9 @@ classes:
             Use the same description of the relationship as in the input text.
             For example, if the input text states "Vitamin A is a participant in
             Insulin Signaling (5,6)", the output should be
-            "Vitamin A participates in Insulin Signaling (5,6)". Other potential
-            relationships include "is input of", "is output of", "catalyzes",
-            "is substrate of", "involved in", and "enables". 
+            "Vitamin A participates in Insulin Signaling (5,6)".
+            Do not assign a relationship type. Retain the language used in the
+            source text.
           prompt.examples: >-
             There is a relationship between Vitamin A and Insulin Signaling (5). This relationship was confirmed in additional studies (6).
       nutrient_to_health_status_relationships:
@@ -140,8 +141,9 @@ classes:
             Use the same description of the relationship as in the input text.
             For example, if the input text states "Vitamin A levels are
             necessary for healthy teeth (5,6)", the output should be
-            "Vitamin A participates in the health of teeth (5,6)". Other potential
-            relationships include "ameliorates" or "prevents".
+            "Vitamin A participates in the health of teeth (5,6)".
+            Do not assign a relationship type. Retain the language used in the
+            source text.
           prompt.examples: >-
             There is a relationship between Vitamin A and Teeth (5). This relationship was confirmed in additional studies (6).
       nutrient_to_source_relationships:
@@ -219,7 +221,8 @@ classes:
   Feature:
     is_a: NamedEntity
     description: >-
-      The name of a biological feature.
+      The name of a biological feature or health status,
+      such as a disease, symptom, or abnormality.
     id_prefixes:
       - MONDO
       - HP

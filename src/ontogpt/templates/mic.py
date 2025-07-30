@@ -292,9 +292,9 @@ class Document(NamedEntity):
                                              'supplementation was shown to '
                                              'successfully treat anemia (5,6)", the '
                                              'output should be "Iron supplementation '
-                                             'treats anemia (5,6)". Other potential '
-                                             'relationships include "ameliorates" or '
-                                             '"prevents".'},
+                                             'treats anemia (5,6)". Do not assign a '
+                                             'relationship type. Retain the language '
+                                             'used in the source text.'},
                          'prompt.examples': {'tag': 'prompt.examples',
                                              'value': 'Evidence suggests that '
                                                       'high-dose Vitamin A treatment '
@@ -343,11 +343,9 @@ class Document(NamedEntity):
                                              'states "Vitamin A is a participant in '
                                              'Insulin Signaling (5,6)", the output '
                                              'should be "Vitamin A participates in '
-                                             'Insulin Signaling (5,6)". Other '
-                                             'potential relationships include "is '
-                                             'input of", "is output of", "catalyzes", '
-                                             '"is substrate of", "involved in", and '
-                                             '"enables". '},
+                                             'Insulin Signaling (5,6)". Do not assign '
+                                             'a relationship type. Retain the language '
+                                             'used in the source text.'},
                          'prompt.examples': {'tag': 'prompt.examples',
                                              'value': 'There is a relationship between '
                                                       'Vitamin A and Insulin Signaling '
@@ -391,9 +389,9 @@ class Document(NamedEntity):
                                              '"Vitamin A levels are necessary for '
                                              'healthy teeth (5,6)", the output should '
                                              'be "Vitamin A participates in the health '
-                                             'of teeth (5,6)". Other potential '
-                                             'relationships include "ameliorates" or '
-                                             '"prevents".'},
+                                             'of teeth (5,6)". Do not assign a '
+                                             'relationship type. Retain the language '
+                                             'used in the source text.'},
                          'prompt.examples': {'tag': 'prompt.examples',
                                              'value': 'There is a relationship between '
                                                       'Vitamin A and Teeth (5). This '
