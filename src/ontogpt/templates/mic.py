@@ -777,7 +777,7 @@ class NutrientToFeatureRelationship(ScientificClaim):
                        'NutrientToBiologicalProcessRelationship',
                        'NutrientToHealthStatusRelationship',
                        'NutrientToSourceRelationship']} })
-    relationship: Optional[str] = Field(default=None, description="""The name of a type of relationship between the nutrient and the feature.""", json_schema_extra = { "linkml_meta": {'alias': 'relationship',
+    relationship: Optional[str] = Field(default=None, description="""The name of a type of relationship between the nutrient and the feature. Choose from one of the following: \"positively correlated with\", \"negatively correlated with\", \"treats\", \"studied to treat\", \"in clinical trials for\", \"in preclinical trials for\", \"beneficial in models for\", \"applied to treat\". If none of these apply, use \"associated with\".""", json_schema_extra = { "linkml_meta": {'alias': 'relationship',
          'domain_of': ['NutrientToFeatureRelationship',
                        'NutrientToBiologicalProcessRelationship',
                        'NutrientToNutrientRelationship',
@@ -797,7 +797,7 @@ class NutrientToBiologicalProcessRelationship(ScientificClaim):
                        'NutrientToBiologicalProcessRelationship',
                        'NutrientToHealthStatusRelationship',
                        'NutrientToSourceRelationship']} })
-    relationship: Optional[str] = Field(default=None, description="""The name of a type of relationship between the nutrient and the biological process.""", json_schema_extra = { "linkml_meta": {'alias': 'relationship',
+    relationship: Optional[str] = Field(default=None, description="""The name of a type of relationship between the nutrient and the biological process. Choose from one of the following: \"interacts with\", \"physically interacts with\", \"increases amount or activity of\", \"decreases amount or activity of\", \"amount or activity increased by\", \"amount or activity decreased by\", \"response affected by\", \"increases response to\", \"decreases response to\", \"response increased by\". If none of these apply, use \"associated with\".""", json_schema_extra = { "linkml_meta": {'alias': 'relationship',
          'domain_of': ['NutrientToFeatureRelationship',
                        'NutrientToBiologicalProcessRelationship',
                        'NutrientToNutrientRelationship',
@@ -814,7 +814,7 @@ class NutrientToNutrientRelationship(ScientificClaim):
          'from_schema': 'http://w3id.org/ontogpt/mic'})
 
     nutrient_subject: Optional[str] = Field(default=None, description="""The name of a nutrient defined in the claim, including vitamins and minerals.""", json_schema_extra = { "linkml_meta": {'alias': 'nutrient_subject', 'domain_of': ['NutrientToNutrientRelationship']} })
-    relationship: Optional[str] = Field(default=None, description="""The name of a type of relationship between the nutrient_subject and nutrient_object.""", json_schema_extra = { "linkml_meta": {'alias': 'relationship',
+    relationship: Optional[str] = Field(default=None, description="""The name of a type of relationship between the nutrient_subject and nutrient_object. Choose from one of the following: \"interacts with\", \"physically interacts with\", \"increases amount or activity of\", \"decreases amount or activity of\", \"amount or activity increased by\", \"amount or activity decreased by\", \"response affected by\", \"increases response to\", \"decreases response to\", \"response increased by\". If none of these apply, use \"associated with\".""", json_schema_extra = { "linkml_meta": {'alias': 'relationship',
          'domain_of': ['NutrientToFeatureRelationship',
                        'NutrientToBiologicalProcessRelationship',
                        'NutrientToNutrientRelationship',
@@ -834,7 +834,7 @@ class NutrientToHealthStatusRelationship(ScientificClaim):
                        'NutrientToBiologicalProcessRelationship',
                        'NutrientToHealthStatusRelationship',
                        'NutrientToSourceRelationship']} })
-    relationship: Optional[str] = Field(default=None, description="""The name of a type of relationship between the nutrient and the anatomical part or system.""", json_schema_extra = { "linkml_meta": {'alias': 'relationship',
+    relationship: Optional[str] = Field(default=None, description="""The name of a type of relationship between the nutrient and the anatomical part or system. Choose from one of the following: \"affects\", \"participates in\". If none of these apply, use \"associated with\".""", json_schema_extra = { "linkml_meta": {'alias': 'relationship',
          'domain_of': ['NutrientToFeatureRelationship',
                        'NutrientToBiologicalProcessRelationship',
                        'NutrientToNutrientRelationship',
@@ -854,7 +854,7 @@ class NutrientToSourceRelationship(ScientificClaim):
                        'NutrientToBiologicalProcessRelationship',
                        'NutrientToHealthStatusRelationship',
                        'NutrientToSourceRelationship']} })
-    relationship: Optional[str] = Field(default=None, description="""The name of a type of relationship between the nutrient and the food or supplement. This is usually \"nutrient of\".""", json_schema_extra = { "linkml_meta": {'alias': 'relationship',
+    relationship: Optional[str] = Field(default=None, description="""The name of a type of relationship between the nutrient and the food or supplement. Choose from one of the following: \"nutrient of\", \"is active ingredient of\", \"food component of\". If none of these apply, use \"associated with\".""", json_schema_extra = { "linkml_meta": {'alias': 'relationship',
          'domain_of': ['NutrientToFeatureRelationship',
                        'NutrientToBiologicalProcessRelationship',
                        'NutrientToNutrientRelationship',

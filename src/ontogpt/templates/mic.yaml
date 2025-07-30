@@ -334,6 +334,12 @@ classes:
         description: >-
           The name of a type of relationship between the
           nutrient and the feature.
+          Choose from one of the following:
+          "positively correlated with", "negatively correlated with",
+          "treats", "studied to treat", "in clinical trials for",
+          "in preclinical trials for", "beneficial in models for",
+          "applied to treat".
+          If none of these apply, use "associated with".
       feature:
         range: Feature
         description: >-
@@ -357,6 +363,13 @@ classes:
         description: >-
           The name of a type of relationship between the
           nutrient and the biological process.
+          Choose from one of the following:
+          "interacts with", "physically interacts with",
+          "increases amount or activity of", "decreases amount or activity of",
+          "amount or activity increased by", "amount or activity decreased by",
+          "response affected by", "increases response to",
+          "decreases response to", "response increased by".
+          If none of these apply, use "associated with".
       process:
         range: BiologicalProcess
         description: >-
@@ -375,6 +388,13 @@ classes:
         description: >-
           The name of a type of relationship between the
           nutrient_subject and nutrient_object.
+          Choose from one of the following:
+          "interacts with", "physically interacts with",
+          "increases amount or activity of", "decreases amount or activity of",
+          "amount or activity increased by", "amount or activity decreased by",
+          "response affected by", "increases response to",
+          "decreases response to", "response increased by".
+          If none of these apply, use "associated with".
       nutrient_object:
         range: Nutrient
         description: >-
@@ -396,6 +416,9 @@ classes:
         description: >-
           The name of a type of relationship between the
           nutrient and the anatomical part or system.
+          Choose from one of the following:
+          "affects", "participates in".
+          If none of these apply, use "associated with".
       anatomy:
         range: Anatomy
         description: >-
@@ -414,8 +437,11 @@ classes:
         range: Relationship
         description: >-
           The name of a type of relationship between the
-          nutrient and the food or supplement. This is
-          usually "nutrient of".
+          nutrient and the food or supplement.
+          Choose from one of the following:
+          "nutrient of", "is active ingredient of",
+          "food component of".
+          If none of these apply, use "associated with".
       source:
         range: FoodOrSupplement
         description: >-
