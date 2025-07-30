@@ -34,20 +34,28 @@ classes:
       A document that contains information about
       micronutrients, including vitamins and minerals.
     attributes:
-      nutrient_to_disease_relationships:
-        range: NutrientToDiseaseRelationship
+      nutrient_to_feature_relationships:
+        range: NutrientToFeatureRelationship
         multivalued: true
         description: >-
           A list of relationships between nutrients and
-          biochemical diseases.
+          biological features.
         annotations:
           prompt: >-
             A semicolon-separated list of relationships
             between a single nutrient (including vitamins,
             minerals, and micronutrients) and a single
-            disease. A disease is any abnormal health condition
-            (e.g., Alzheimer's disease, systemic lupus erythematosus,
-            rheumatoid arthritis, sickle cell anemia, Barth syndrome).
+            feature, such as a disease, symptom, abnormality,
+            or other health status. This may include diseases like
+            Alzheimer's disease, systemic lupus erythematosus,
+            rheumatoid arthritis, sickle cell anemia, or Barth syndrome.
+            It may also include phenotypes such as an observable
+            physical or behavioral trait or symptom (e.g., fever,
+            headache, short attention span, petechiae,
+            telangiectasia). Phenotypes do NOT include high-level
+            biological processes such as "Insulin signaling" or "lipid
+            metabolism", developmental processes such as "limb development",
+            or health states such as "healthy teeth".
             Provide the full text from the input text describing the relationship
             without changes or summarization. Include all numbered inline
             references contained in the sentences without changes.
@@ -65,42 +73,6 @@ classes:
             relationships include "ameliorates" or "prevents".
           prompt.examples: >-
             Evidence suggests that high-dose Vitamin A treatment may prevent Systemic Lupus Erythematosus (5,6). Further studies confirmed this finding (7); Studies have shown that Vitamin A is associated with bone cancer (8).
-      nutrient_to_phenotype_relationships:
-        range: NutrientToPhenotypeRelationship
-        multivalued: true
-        description: >-
-          A list of relationships between nutrients and
-          biological phenotypes.
-        annotations:
-          prompt: >-
-            A semicolon-separated list of relationships
-            between a single nutrient (including vitamins,
-            minerals, and micronutrients) and a single
-            biological phenotype, with a type of relationship
-            connecting them both. A phenotype is an observable
-            physical or behavioral trait or symptom (e.g., fever,
-            headache, short attention span, petechiae,
-            telangiectasia). It may or may not be associated
-            with a disease. Phenotypes do NOT include high-level
-            biological processes such as "Insulin signaling" or "lipid
-            metabolism", developmental processes such as "limb development",
-            or health states such as "healthy teeth".
-            Provide the full text from the input text describing the relationship
-            without changes or summarization. Include all numbered inline
-            references contained in the sentences without changes.
-            Do not include newlines. If multiple sentences describe the
-            same relationship, include all of them.
-            If the text describes a one-to-many relationship, include
-            all of them separately. For example, "Vitamin A is associated with
-            fever and headache (5,6)" should be "Vitamin A is associated with fever (5,6);
-            Vitamin A is associated with headache (5,6)".
-            Use the same description of the relationship as in the input text.
-            For example, if the input text states "Vitamin A supplementation
-            was shown to successfully treat fever (5,6)", the output should be
-            "Vitamin A supplementation treats fever (5,6)". Other potential
-            relationships include "ameliorates" or "prevents".
-          prompt.examples: >-
-            There is a relationship between Vitamin A and Fever (5). This relationship was confirmed in additional studies (6).
       nutrient_to_biological_process_relationships:
         range: NutrientToBiologicalProcessRelationship
         multivalued: true
@@ -244,27 +216,19 @@ classes:
         The name of a nutrient, including vitamins and
         minerals.
 
-  Disease:
+  Feature:
     is_a: NamedEntity
     description: >-
-      The name of a disease.
+      The name of a biological feature.
     id_prefixes:
       - MONDO
-    annotations:
-      annotators: sqlite:obo:mondo
-      prompt: >-
-        The name of a disease.
-
-  Phenotype:
-    is_a: NamedEntity
-    description: >-
-      The name of a phenotype.
-    id_prefixes:
       - HP
     annotations:
-      annotators: sqlite:obo:hp
+      annotators: sqlite:obo:mondo, sqlite:obo:hp
       prompt: >-
-        The name of a phenotype.
+        The name of a biological feature. This may
+        include diseases, symptoms, abnormalities, or
+        other health statuses.
 
   BiologicalProcess:
     is_a: NamedEntity
@@ -348,7 +312,7 @@ classes:
         The name of a type of relationship between two
         entities.
 
-  NutrientToDiseaseRelationship:
+  NutrientToFeatureRelationship:
     is_a: ScientificClaim
     attributes:
       nutrient:
@@ -360,33 +324,13 @@ classes:
         range: Relationship
         description: >-
           The name of a type of relationship between the
-          nutrient and the disease.
-      disease:
-        range: Disease
+          nutrient and the feature.
+      feature:
+        range: Feature
         description: >-
-          The name of the disease defined in the claim.
+          The name of the biological feature defined in the claim.
     comments:
-      - a Chemical to Disease relationship
-
-  NutrientToPhenotypeRelationship:
-    is_a: ScientificClaim
-    attributes:
-      nutrient:
-        range: Nutrient
-        description: >-
-          The name of the nutrient defined in the claim,
-          including vitamins and minerals.
-      relationship:
-        range: Relationship
-        description: >-
-          The name of a type of relationship between the
-          nutrient and the phenotype.
-      phenotype:
-        range: Phenotype
-        description: >-
-          The name of the phenotype defined in the claim.
-    comments:
-      - a Chemical to Phenotype relationship
+      - a Chemical to Feature relationship
 
   NutrientToBiologicalProcessRelationship:
     is_a: ScientificClaim
