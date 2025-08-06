@@ -124,7 +124,7 @@ def chunk_text_by_sentence(text: str, window_size=3) -> Iterator[str]:
 def chunk_text_by_char(text: str, window_size=1000) -> Iterator[str]:
     """Chunk text into windows of characters."""
     for i in range(0, len(text), window_size):
-        yield text[i : i + window_size]
+        yield text[i: i + window_size]
 
 
 @dataclass
@@ -496,6 +496,9 @@ class KnowledgeEngine(ABC):
                 input_id = input_id.replace("http://id.nlm.nih.gov/mesh/", "").replace("/", ":")
             if input_id.startswith("drugbank:"):
                 input_id = input_id.replace("drugbank:", "DRUGBANK:")
+            # input_id may have changed, so check in the map_cache again
+            if input_id not in self.map_cache:
+                self.map_cache[input_id] = []
             yield input_id
             if not cls.id_prefixes:
                 return
