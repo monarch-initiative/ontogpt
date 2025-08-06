@@ -14,7 +14,7 @@ from typing import Dict, List, Optional, Tuple, Union
 import click
 import jsonlines
 import yaml
-from litellm import get_model_cost_map
+from litellm.litellm_core_utils.get_model_cost_map import get_model_cost_map
 from oaklib import get_adapter
 from oaklib.cli import query_terms_iterator
 from oaklib.interfaces import OboGraphInterface
