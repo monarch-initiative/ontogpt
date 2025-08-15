@@ -1,4 +1,4 @@
-RUN = poetry run
+RUN = uv run
 TMPRUN = 
 PACKAGE = ontogpt
 TEMPLATE_DIR = src/$(PACKAGE)/templates

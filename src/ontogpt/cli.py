@@ -1080,7 +1080,7 @@ def recipe_extract(
         from recipe_scrapers import scrape_me
     except ModuleNotFoundError as e:
         logging.error(
-            f"Did not find recipe_scrapers. Try: poetry install extras=recipes. Error: {e}"
+            f"Did not find recipe_scrapers. Try: uv pip install recipe-scrapers. Error: {e}"
         )
 
     if not model:
