@@ -25,7 +25,7 @@ jobs:
         run: pip install uv
 
       - name: Install dev dependencies
-        run: uv pip install -e .[dev]
+        run: uv pip install -e .[dev] --system
 
       - name: Run linter
         run: uv run tox -e lint
