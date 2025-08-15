@@ -3777,7 +3777,7 @@ wheels = [
 
 [[package]]
 name = "ontogpt"
-version = "1.0.16"
+version = "1.0.17"
 source = { editable = "." }
 dependencies = [
     { name = "aiohttp" },

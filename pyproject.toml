@@ -1,6 +1,6 @@
 [project]
 name = "ontogpt"
-version = "1.0.16"
+version = "1.0.17"
 description = "OntoGPT is a Python package for extracting structured information from text with large language models (LLMs), instruction prompts, and ontology-based grounding."
 readme = "README.md"
 authors = [
@@ -87,7 +87,7 @@ include_trailing_comma = true
 reverse_relative = true
 
 [tool.codespell]
-skip = '.git,*.pdf,*.svg,poetry.lock,output,*.tsv,./tests/input,old'
+skip = '.git,*.pdf,*.svg,output,*.tsv,./tests/input,old'
 # some specific phrases, variables and mixed case (CamelCase etc)
 ignore-regex = '\b(Torsades de pointes|[A-Z][a-zA-Z]*|[a-z]+[A-Z][a-zA-Z]*|de pointes)\b|\bcommments:'
 ignore-words-list = 'langual,sting,infarction,holliday,cyclin,convertor,ser,collapsin,infarctions,euclidian,dependant,vrsatile,anc,disjointness'
