@@ -59,6 +59,10 @@ class LLMClient:
 
         if self.model.startswith("ollama"):
             self.api_key = ""  # Don't need an API key
+        elif self.model.startswith("fake"):
+            # Just used for testing
+            self.api_key = ""  # Don't need an API key
+            logger.info(f"Using mock model: {self.model}")
         elif not self.api_key and not self.custom_llm_provider:
             self.api_key = get_apikey_value("openai")
         elif self.custom_llm_provider == "anthropic":
