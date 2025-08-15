@@ -21,22 +21,20 @@ jobs:
         with:
           python-version: ${{ matrix.python-version }}
 
-      - name: Install Poetry
-        uses: snok/install-poetry@v1.3.1
-      - name: Install dependencies
-        run: poetry install --no-interaction
+      - name: Install uv
+        run: pip install uv
 
       - name: Run linter
-        run: poetry run tox -e lint
+        run: uv run tox -e lint
 
       - name: Check code quality with flake8
-        run: poetry run tox -e flake8
+        run: uv run tox -e flake8
 
       - name: Check static typing with MyPy
-        run: poetry run tox -e mypy
+        run: uv run tox -e mypy
 
       - name: Codespell
-        run: poetry run tox -e codespell
+        run: uv run tox -e codespell
 
       - name: Unit tests only
-        run: poetry run python -m unittest discover tests.unit
+        run: uv run python -m unittest discover tests.unit

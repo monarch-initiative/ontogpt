@@ -24,15 +24,8 @@ jobs:
       with:
         python-version: 3.9
 
-    - name: Install Poetry
-      uses: snok/install-poetry@v1.3
-
-    #----------------------------------------------
-    # install dependencies if cache does not exist
-    #----------------------------------------------
-    - name: Install dependencies
-      # if: steps.cached-poetry-dependencies.outputs.cache-hit != 'true'
-      run: poetry install --no-interaction
+    - name: Install uv
+      run: pip install uv
 
     #----------------------------------------------
     #  Create documentation and deploy.
@@ -40,5 +33,5 @@ jobs:
     - name: Create local docs
       run: |
         touch docs/.nojekyll
-        poetry run make all_docs
-        poetry run make gh-deploy
+        uv run make all_docs
+        uv run make gh-deploy

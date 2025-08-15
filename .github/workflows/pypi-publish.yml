@@ -18,21 +18,17 @@ jobs:
         with:
           python-version: 3.9
 
-      - name: Install Poetry
+      - name: Install uv
         run: |
-          pip install poetry
-          poetry self add "poetry-dynamic-versioning[plugin]"
-    
+          pip install uv
+
       - name: Install dependencies
-        run: poetry install --no-interaction
+        run: |
+          uv pip install -r pyproject.toml --system -e .
+          uv pip install --system build hatchling
 
       - name: Build source and wheel archives
-        run: poetry build
+        run: python -m build
 
       - name: Publish distribution 📦 to PyPI
-        uses: pypa/gh-action-pypi-publish@v1.5.0
-        with:
-          user: __token__
-          password: ${{ secrets.PYPI_TOKEN }}
-
-    
+        uses: pypa/gh-action-pypi-publish@release/v1
