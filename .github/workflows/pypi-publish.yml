@@ -4,31 +4,36 @@ on:
   workflow_dispatch:
   release:
     types: [created]
-    
+
 jobs:
   build-n-publish:
     name: Build and publish Python 🐍 distributions 📦 to PyPI
     runs-on: ubuntu-latest
 
+    environment: release
+    permissions:
+      id-token: write
     steps:
-      - uses: actions/checkout@v3.0.2
+      - uses: actions/checkout@v4
 
       - name: Set up Python
-        uses: actions/setup-python@v4
+        uses: actions/setup-python@v5
         with:
           python-version: 3.9
+          cache: pip
+          cache-dependency-path: '**/pyproject.toml'
 
       - name: Install uv
-        run: |
-          pip install uv
+        run: pip install uv
 
       - name: Install dependencies
-        run: |
-          uv pip install -r pyproject.toml --system -e .
-          uv pip install --system build hatchling
+        run: uv pip install -r pyproject.toml --system -e .
+
+      - name: Install build dependencies
+        run: uv pip install --system build hatchling
 
       - name: Build source and wheel archives
         run: python -m build
 
-      - name: Publish distribution 📦 to PyPI
+      - name: Publish
         uses: pypa/gh-action-pypi-publish@release/v1
