@@ -8,7 +8,7 @@ authors = [
     {name = "J. Harry Caufield", email = "jhc@lbl.gov"},
 ]
 license = {text = "BSD-3"}
-requires-python = "!=3.9.7,<3.13,>=3.9"
+requires-python = ">=3.9,!=3.9.7,<3.14"
 dependencies = [
     "ruamel-yaml>=0.17.31",
     "aiohttp>=3.8.4",
