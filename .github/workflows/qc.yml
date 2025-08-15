@@ -25,16 +25,16 @@ jobs:
         run: pip install uv
 
       - name: Run linter
-        run: uv run --system --group dev tox -e lint
+        run: uv run --group dev tox -e lint
 
       - name: Check code quality with flake8
-        run: uv run --system --group dev tox -e flake8
+        run: uv run --group dev tox -e flake8
 
       - name: Check static typing with MyPy
-        run: uv run --system --group dev tox -e mypy
+        run: uv run --group dev tox -e mypy
 
       - name: Codespell
-        run: uv run --system --group dev tox -e codespell
+        run: uv run --group dev tox -e codespell
 
       - name: Unit tests only
-        run: uv run --system --group dev python -m unittest discover tests.unit
+        run: uv run --group dev python -m unittest discover tests.unit
