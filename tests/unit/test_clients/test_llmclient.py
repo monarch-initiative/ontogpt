@@ -1,13 +1,11 @@
 """Tests for the LLMClient."""
 
-import unittest
-import numpy as np
-import unittest.mock as mock
 import tempfile
-import pytest
+import unittest
+import unittest.mock as mock
 
 import litellm
-from ontogpt.clients import LLMClient
+import pytest
 
 
 class TestCompletion(unittest.TestCase):
@@ -33,14 +31,14 @@ class TestCompletion(unittest.TestCase):
             # Configure the mock
             mock_client = mock_client_class.return_value
             mock_client.complete.return_value = "test"
-            
+
             # Instantiate and use the client
             client = mock_client_class(model="fake/model")
             text = client.complete(
                 prompt="This is a test. Please respond with a single word: test.",
                 show_prompt=True,
             )
-            
+
             # Verify the mocked response
             self.assertEqual(text, "test")
 
@@ -48,17 +46,17 @@ class TestCompletion(unittest.TestCase):
         """Test embedding retrieval."""
         # Create a mock embedding result
         mock_embedding_result = [0.1] * 1536
-        
+
         # Create a mock for the LLMClient class
         with mock.patch('ontogpt.clients.LLMClient') as mock_client_class:
             # Configure the mock
             mock_client = mock_client_class.return_value
             mock_client.embeddings.return_value = mock_embedding_result
-            
+
             # Instantiate and use the client
             client = mock_client_class(model="fake/embeddings")
             results = client.embeddings("Egg salad")
-            
+
             # Verify the mocked response
             self.assertTrue(isinstance(results, list))
             self.assertEqual(len(results), 1536)
@@ -67,20 +65,20 @@ class TestCompletion(unittest.TestCase):
         """Test similarity."""
         text1 = "I like to eat apples."
         text2 = "I like to eat egg salad."
-        
+
         # Create a mock similarity value
         expected_similarity = 0.85
-        
+
         # Create a mock for the LLMClient class
         with mock.patch('ontogpt.clients.LLMClient') as mock_client_class:
             # Configure the mock
             mock_client = mock_client_class.return_value
             mock_client.similarity.return_value = expected_similarity
-            
+
             # Instantiate and use the client
             client = mock_client_class(model="fake/embeddings")
             similarity = client.similarity(text1, text2)
-            
+
             # Verify the mocked response
             self.assertEqual(similarity, expected_similarity)
             self.assertGreaterEqual(float(similarity), 0)
@@ -94,20 +92,20 @@ class TestCompletion(unittest.TestCase):
         """
         text1 = "I like to eat apples."
         text2 = "I like to eat egg salad."
-        
+
         # Create a mock distance value
         expected_distance = 0.25
-        
+
         # Create a mock for the LLMClient class
         with mock.patch('ontogpt.clients.LLMClient') as mock_client_class:
             # Configure the mock
             mock_client = mock_client_class.return_value
             mock_client.euclidian_distance.return_value = expected_distance
-            
+
             # Instantiate and use the client
             client = mock_client_class(model="fake/embeddings")
             distance = client.euclidian_distance(text1, text2)
-            
+
             # Verify the mocked response
             self.assertEqual(distance, expected_distance)
             self.assertGreaterEqual(float(distance), 0)
@@ -167,16 +165,16 @@ def original_litellm_cache():
     "",  # Default path
     "custom/path/to/cache"  # Custom path
 ])
-def test_llmclient_cache_paths_pytest_style(monkeypatch, tmp_path, fake_cache, 
-                                           original_litellm_cache, cache_path):
+def test_llmclient_cache_paths_pytest_style(monkeypatch, tmp_path, fake_cache,
+                                            original_litellm_cache, cache_path):
     """Test that LLMClient sets cache paths correctly using pytest fixtures."""
     import ontogpt.clients.llm_client as llm_mod
-    
+
     monkeypatch.setattr(llm_mod, "Cache", fake_cache, raising=True)
-    
+
     # Also mock litellm.completion to avoid API calls
     monkeypatch.setattr('litellm.completion', mock.MagicMock())
-    
+
     if cache_path:
         # If a specific path is provided
         custom_dir = tmp_path / cache_path
@@ -187,10 +185,10 @@ def test_llmclient_cache_paths_pytest_style(monkeypatch, tmp_path, fake_cache,
         # Default path case
         cache_path_arg = ""
         expected_path = "./.litellm_cache"
-    
+
     # Instantiate with the specified cache path using a fake model
     llm_mod.LLMClient(model="fake/model", cache_db_path=cache_path_arg)
-    
+
     assert isinstance(litellm.cache, fake_cache)
     # Use getattr to access the attribute safely
     assert getattr(litellm.cache, "disk_cache_dir", None) == expected_path
