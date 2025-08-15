@@ -48,7 +48,7 @@ uv pip install .
 Extras listed above may be installed as:
 
 ```bash
-uv pip install -r pyproject.toml --extra extra_name
+uv pip install -e .[extra_name]
 ```
 
 All commands should then be preceded by `uv run`.
