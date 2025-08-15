@@ -8,7 +8,7 @@ import litellm
 import numpy as np
 import openai  # For error handling
 from litellm import completion, embedding
-from litellm.caching import Cache
+from litellm.caching.caching import Cache
 from oaklib.utilities.apikey_manager import get_apikey_value
 
 from ontogpt import DEFAULT_MODEL, MODELS
@@ -76,9 +76,9 @@ class LLMClient:
 
         # Set up the cache, and set the cache path if provided
         if len(self.cache_db_path) == 0:
-            litellm.cache = Cache(type="disk")
+            litellm.cache = Cache(disk_cache_dir="./.litellm_cache")
         else:
-            litellm.cache = Cache(type="disk", disk_cache_dir=self.cache_db_path)
+            litellm.cache = Cache(disk_cache_dir=self.cache_db_path)
 
     def complete(self, prompt, show_prompt: bool = False, **kwargs) -> str:
 
