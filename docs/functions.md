@@ -28,6 +28,8 @@ LiteLLM saves prompts and responses to this cache. It is always enabled.
 
 If this value is not provided, the cache (named `cache.db`) will be written to a directory named `.litellm_cache` in your current working directory.
 
+Specifying an absolute path will work best here.
+
 ### skip-annotator
 
 Use the option `--skip-annotator` to skip one or more annotators (e.g. `--skip-annotator gilda`).
