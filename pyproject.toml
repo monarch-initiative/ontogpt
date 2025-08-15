@@ -52,19 +52,19 @@ dev = [
 ]
 web = [
     "Jinja2>=3.1.2",
-    "fastapi[web]>=0.115.0",
-    "python-multipart[web]>=0.0.7",
+    "fastapi>=0.115.0",
+    "python-multipart>=0.0.7",
     "uvicorn>=0.20.0",
 ]
 docs = [
-    "myst-parser[docs]>=0.18.1",
-    "sphinx[docs]>=5.3.0",
-    "sphinx-autodoc-typehints[docs]>=1.19.4",
-    "sphinx-click[docs]>=4.3.0",
-    "sphinx-rtd-theme[docs]>=1.0.0",
+    "myst-parser>=0.18.1",
+    "sphinx>=5.3.0",
+    "sphinx-autodoc-typehints>=1.19.4",
+    "sphinx-click>=4.3.0",
+    "sphinx-rtd-theme>=1.0.0",
 ]
 recipes = [
-    "recipe-scrapers[recipes]>=14.35.0",
+    "recipe-scrapers>=14.35.0",
 ]
 
 [project.scripts]
@@ -73,6 +73,7 @@ web-ontogpt = "ontogpt.webapp.main:start"
 
 [tool.uv]
 default-groups = []
+package = true
 
 [tool.black]
 line-length = 100
