@@ -114,5 +114,5 @@ def form_post(
 
 
 def start():
-    """Launch with `poetry run start` at root level."""
+    """Launch with `uv run start` at root level."""
     uvicorn.run("ontogpt.webapp.main:app", host="127.0.0.1", port=8000, reload=True)
