@@ -2,7 +2,7 @@
 
 ## Prerequisites
 
-OntoGPT may be installed through `pip` or used directly from the GitHub repository. In the latter case, you will need to install the `poetry` dependency manager and precede commands with `poetry run`. [See the poetry installation documentation for more details.](https://python-poetry.org/docs/#installation)
+OntoGPT may be installed through `pip` or used directly from the GitHub repository. In the latter case, you will need to install the `uv` dependency manager and precede commands with `uv run`. [See the uv installation documentation for more details.](https://docs.astral.sh/uv/getting-started/installation/)
 
 OntoGPT uses `litellm` to interface with LLM endpoints. Familiarity with this framework is not necessary to use OntoGPT but may be helpful for troubleshooting. See the `litellm` [docs here](https://litellm.vercel.app/docs/).
 
@@ -42,16 +42,16 @@ For installation from the GitHub repository, particularly if you plan to contrib
 ```bash
 git clone https://github.com/monarch-initiative/ontogpt.git
 cd ontogpt/
-poetry install
+uv pip install .
 ```
 
 Extras listed above may be installed as:
 
 ```bash
-poetry install --extras extra_name
+uv pip install -r pyproject.toml --extra extra_name
 ```
 
-All commands should then be preceded by `poetry run`, or simply run `poetry shell` to create and enter a virtual environment for the project.
+All commands should then be preceded by `uv run`.
 
 ### Setting API keys
 
