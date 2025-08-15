@@ -151,3 +151,17 @@ Here is an example with the `extract` command (this is not a public proxy and wi
 ```bash
 ontogpt -vvv extract -t go_terms -i temp/genetest.txt -m anthropic/claude-opus --model-provider openai --api-base "https://api.cborg.lbl.gov"
 ```
+
+## Caching
+
+OntoGPT uses LiteLLM to work with multiple LLM APIs and providers.
+
+LiteLLM caches prompts and responses by default.
+
+OntoGPT uses LiteLLM's local disk cache.
+
+Find more information about what is cached here:
+* <https://docs.litellm.ai/docs/proxy/caching>
+* <https://docs.litellm.ai/docs/completion/prompt_caching>
+
+You may use the option `--cache-db` to specify the directory where the cache should be stored.

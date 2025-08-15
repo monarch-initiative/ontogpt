@@ -2809,6 +2809,11 @@ wheels = [
     { url = "https://files.pythonhosted.org/packages/eb/0c/623f7e3b6dd658fa261161e8a54a0d545fa11310a63a405e84c8b76e4192/litellm-1.75.7-py3-none-any.whl", hash = "sha256:ac42ac0986d43923ce712005e307079d99eebb3901c15399644eba7c79978727", size = 8917642, upload-time = "2025-08-15T05:15:16.122Z" },
 ]
 
+[package.optional-dependencies]
+caching = [
+    { name = "diskcache" },
+]
+
 [[package]]
 name = "lxml"
 version = "6.0.0"
@@ -3793,7 +3798,7 @@ dependencies = [
     { name = "inflection" },
     { name = "linkml" },
     { name = "linkml-owl" },
-    { name = "litellm" },
+    { name = "litellm", extra = ["caching"] },
     { name = "numpy" },
     { name = "oaklib" },
     { name = "pydantic" },
@@ -3859,7 +3864,7 @@ requires-dist = [
     { name = "inflection", specifier = ">=0.5.1" },
     { name = "linkml", specifier = ">=1.9.3rc1" },
     { name = "linkml-owl", specifier = ">=0.3.0,<1.0.0" },
-    { name = "litellm", specifier = ">=1.44.28" },
+    { name = "litellm", extras = ["caching"], specifier = ">=1.44.28" },
     { name = "numpy", marker = "python_full_version < '3.13'", specifier = ">=1.23,<2.1" },
     { name = "numpy", marker = "python_full_version >= '3.13'", specifier = ">=2.0.0" },
     { name = "oaklib", specifier = ">=0.5.28" },

@@ -22,7 +22,13 @@ The options `-vv` and `-vvv` will enable progressively more verbose output.
 
 ### cache-db
 
-Use the option `--cache-db` to specify a path to a sqlite database to cache the prompt-completion results.
+Use the option `--cache-db` to specify the directory where the cache should be stored.
+
+LiteLLM saves prompts and responses to this cache. It is always enabled.
+
+If this value is not provided, the cache (named `cache.db`) will be written to a directory named `.litellm_cache` in your current working directory.
+
+Specifying an absolute path will work best here.
 
 ### skip-annotator
 

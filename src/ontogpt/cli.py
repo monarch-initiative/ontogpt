@@ -376,7 +376,7 @@ max_text_length_option = click.option(
 @click.group()
 @click.option("-v", "--verbose", count=True)
 @click.option("-q", "--quiet")
-@click.option("--cache-db", help="Path to sqlite database to cache prompt-completion results")
+@click.option("--cache-db", help="Path to directory of database to cache prompt-completion results")
 @click.version_option(__version__)
 def main(verbose: int, quiet: bool, cache_db: str):
     """CLI for ontogpt.
