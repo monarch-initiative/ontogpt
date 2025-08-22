@@ -34,7 +34,7 @@ from ontogpt.engines.knowledge_engine import (
 )
 from ontogpt.io.yaml_wrapper import dump_minimal_yaml
 from ontogpt.templates.core import ExtractionResult, NamedEntity
-from ontogpt.utils.parse_utils import get_span_values
+from ontogpt.utils.parse_utils import get_span_values, sanitize_text
 
 this_path = Path(__file__).parent
 
@@ -82,6 +82,34 @@ class SPIRESEngine(KnowledgeEngine):
 
         # This indicates that the text will be chunked in some way
         have_chunks = False
+
+        logging.info(f"Cleaning text...")
+        new_text = sanitize_text(text)
+
+        # compare new_text to original text at byte-level
+        try:
+            b_orig = text.encode("utf-8")
+            b_new = new_text.encode("utf-8")
+        except Exception:
+            # fallback to string-level compare if encoding fails
+            if text != new_text:
+                logging.info(
+                    f"Text changed (string-level). original_len={len(text)} new_len={len(new_text)}"
+                )
+        else:
+            if b_orig != b_new:
+                minlen = min(len(b_orig), len(b_new))
+                # find first differing byte index
+                idx = next((i for i in range(minlen) if b_orig[i] != b_new[i]), None)
+                if idx is None:
+                    logging.info(
+                        f"Text byte-wise differs: original_len={len(b_orig)} new_len={len(b_new)} (identical up to {minlen} bytes)"
+                    )
+                else:
+                    logging.info(
+                        f"Text byte-wise differs at byte {idx}: original_len={len(b_orig)} new_len={len(b_new)}"
+                    )
+        text = new_text
 
         if self.sentences_per_window:
             chunks = chunk_text_by_sentence(text, self.sentences_per_window)
