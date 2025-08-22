@@ -1,8 +1,8 @@
 """Utilities for parsing text."""
 
 import re
-
-from typing import List
+import unicodedata
+from typing import List, Optional
 
 
 def split_on_one_of(text: str, separators: List[str]) -> List[str]:
@@ -72,3 +72,25 @@ def get_span_values(text: str, find_text: str) -> List[str]:
         span_values.append(f"{start}:{end}")
 
     return span_values
+
+
+def sanitize_text(text: Optional[str]) -> str:
+    """Remove non-printing Unicode control characters from text.
+
+    Keeps standard whitespace (tab, newline, carriage return). All characters
+    with Unicode category 'Cc' or 'Cf' (except common whitespace) are stripped.
+    If input is None, returns empty string.
+    """
+    if not text:
+        return ""
+    # Fast-path regex for common ASCII control chars excluding \n, \t, \r
+    # 0x00-0x08, 0x0B, 0x0C, 0x0E-0x1F, 0x7F-0x9F
+    text = re.sub(r"[\u0000-\u0008\u000B\u000C\u000E-\u001F\u007F-\u009F]", "", text)
+    # Remove any remaining characters in categories Cc or Cf (defensive)
+    cleaned = []
+    for ch in text:
+        cat = unicodedata.category(ch)
+        if cat in ("Cc", "Cf") and ch not in ("\n", "\r", "\t"):
+            continue
+        cleaned.append(ch)
+    return "".join(cleaned)
