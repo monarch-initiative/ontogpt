@@ -83,7 +83,7 @@ class SPIRESEngine(KnowledgeEngine):
         # This indicates that the text will be chunked in some way
         have_chunks = False
 
-        logging.info(f"Cleaning text...")
+        logging.info("Cleaning text...")
         new_text = sanitize_text(text)
 
         # compare new_text to original text at byte-level
@@ -103,11 +103,14 @@ class SPIRESEngine(KnowledgeEngine):
                 idx = next((i for i in range(minlen) if b_orig[i] != b_new[i]), None)
                 if idx is None:
                     logging.info(
-                        f"Text byte-wise differs: original_len={len(b_orig)} new_len={len(b_new)} (identical up to {minlen} bytes)"
+                        "Text byte-wise differs:"
+                        f"original_len={len(b_orig)} new_len={len(b_new)}"
+                        f"(identical up to {minlen} bytes)"
                     )
                 else:
                     logging.info(
-                        f"Text byte-wise differs at byte {idx}: original_len={len(b_orig)} new_len={len(b_new)}"
+                        f"Text byte-wise differs at byte {idx}:"
+                        f"original_len={len(b_orig)} new_len={len(b_new)}"
                     )
         text = new_text
 

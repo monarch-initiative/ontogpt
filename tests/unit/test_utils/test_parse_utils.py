@@ -29,7 +29,8 @@ class TestSanitizeText(unittest.TestCase):
     def test_remove_format_chars(self):
         # ZERO WIDTH SPACE (U+200B) is Cf and should be removed
         s = "A\u200B B"
-        # After removal we expect the characters on either side concatenated with existing space preserved
+        # After removal we expect the characters on either side
+        # to be concatenated with existing space preserved
         self.assertEqual(sanitize_text(s), "A B")
 
 
