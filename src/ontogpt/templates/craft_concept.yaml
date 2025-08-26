@@ -1,0 +1,294 @@
+id: http://w3id.org/ontogpt/craft_concept
+name: craft_concept
+title: Concept Recognition in the CRAFT Corpus
+description: >-
+  A template for Concept Recognition in the CRAFT Corpus.
+
+  CRAFT includes annotation for these entity types.
+  CHEBI
+  Cell Type Ontology (CL)
+  Gene Ontology (GO) Biological Process
+  Gene Ontology (GO) Cellular Component
+  Gene Ontology (GO) Molecular Function
+  MONDO Disease Ontology
+  Molecular Process Ontology (MOP)
+  NCBI Taxonomy (NCBITaxon)
+  Protein Ontology (PR)
+  Sequence Ontology (SO)
+  UBERON Ontology
+
+  Accordingly, the corresponding entity types are
+  represented within this schema.
+see_also:
+  - https://bmcbioinformatics.biomedcentral.com/articles/10.1186/1471-2105-15-59
+  - https://bmcbioinformatics.biomedcentral.com/articles/10.1186/1471-2105-13-161
+source: >-
+  https://github.com/UCDenver-ccp/CRAFT
+license: https://creativecommons.org/publicdomain/zero/1.0/
+prefixes:
+  linkml: https://w3id.org/linkml/
+  craft_concept: http://w3id.org/ontogpt/craft_concept
+
+default_prefix: craft_concept
+default_range: string
+
+imports:
+  - linkml:types
+  - core
+
+classes:
+  Document:
+    description: A document that contains biological and biomedical concepts.
+    is_a: TextWithEntity
+    attributes:
+      anatomicalelements:
+        range: AnatomicalElement
+        multivalued: true
+        description: One or more parts of the body or anatomy.
+        annotations:
+          prompt: >-
+            A semi-colon separated list of anatomy names or regions, for
+            example: conjunctival space; anterior surface of kidney;
+            medial surface of mandible; exoskeleton; choroidal gland
+      biologicalprocesses:
+        range: BiologicalProcess
+        multivalued: true
+        description: >-
+          One or more biological processes, as defined by the Gene Ontology.
+        annotations:
+          prompt: >-
+            A semi-colon separated list of biological processes, for
+            example: nuclear axial expansion; intracellular transport;
+            medial surface of mandible; ribosomal subunit export from nucleus;
+            pole cell development
+            biologicalprocesses:
+      celltypes:
+        range: Cell
+        multivalued: true
+        description: One or more cell types or cell lines.
+        annotations:
+          prompt: >-
+            A semi-colon separated list of cell types or cell lines, for
+            example: type I AECs; mesenchymal cell; neuron;
+            smooth muscle cells; photoreceptors
+      cellularcomponents:
+        range: CellularComponent
+        multivalued: true
+        description: >-
+          One or more cellular components, as defined by the Gene Ontology.
+        annotations:
+          prompt: >-
+            A semi-colon separated list of cellular components and structures,
+            for example: tubulin complex; proteasome complex;
+            cytoplasm; keratohyalin granule; nucleus
+      chemicals:
+        range: Chemical
+        multivalued: true
+        description: One or more chemical substances, drugs, or small molecules.
+        annotations:
+          prompt: >-
+            A semi-colon separated list of chemical names, for example:
+            Lidocaine; Hydroxychloroquine; Methyldopa; Monosodium Glutamate;
+            Imatinib
+      diseases:
+        range: Disease
+        multivalued: true
+        description: One or more diseases or conditions.
+        annotations:
+          prompt: >-
+            A semi-colon separated list of disease names, for example: cardiac
+            asystole; COVID-19; Hypotension; Headache; cancer
+      molecularfunctions:
+        range: MolecularFunction
+        multivalued: true
+        description: >-
+          One or more molecular functions, as defined by the Gene Ontology.
+        annotations:
+          prompt: >-
+            A semi-colon separated list of molecular functions,
+            for example: catalytic activity; amine binding;
+            peptide receptor activity; oxygen carrier activity;
+            structural constituent of cytoskeleton
+      molecularprocesses:
+        range: MolecularProcess
+        multivalued: true
+        description: >-
+          One or more molecular processes, or named processes in
+          chemical reactions.
+        annotations:
+          prompt: >-
+            A semi-colon separated list of molecular processes,
+            for example: cyclization; exothermic reaction;
+            acid catalysis; dehydrogenation; N-thioacylation
+      proteins:
+        range: Protein
+        multivalued: true
+        description: >-
+          One or more protein names.
+        annotations:
+          prompt: >-
+            A semi-colon separated list of protein names,
+            for example: annexin A; flotillin;
+            lymphocyte antigen 6L; oncomodulin-1; serine protease 46
+      sequencefeatures:
+        range: SequenceFeature
+        multivalued: true
+        description: >-
+          One or more terms describing features and attributes of a
+          biological sequence.
+        annotations:
+          prompt: >-
+            A semi-colon separated list of biological feature terms,
+            for example: junction; three prime UTR;
+            CpG island; pseudogene; syntenic region
+      taxa:
+        range: Taxon
+        multivalued: true
+        description: >-
+          One or more names of species or biological taxonomic groups.
+        annotations:
+          prompt: >-
+            A semi-colon separated list of species names or taxonomic
+            terms, for example: shark; Carcharodon carcharias;
+            elephant seal; lion; ungulates
+
+  AnatomicalElement:
+    is_a: NamedEntity
+    annotations:
+      annotators: "sqlite:obo:mesh, sqlite:obo:uberon, sqlite:obo:ncit, gilda:"
+      prompt.examples: >-
+        conjunctival space, anterior surface of kidney,
+        medial surface of mandible, exoskeleton, choroidal gland
+    id_prefixes:
+      - UBERON
+
+  BiologicalProcess:
+    is_a: NamedEntity
+    annotations:
+      annotators: "sqlite:obo:go"
+      prompt.examples: >-
+        nuclear axial expansion, intracellular transport,
+        medial surface of mandible, ribosomal subunit export from nucleus,
+        pole cell development
+    id_prefixes:
+      - GO
+    slot_usage:
+      id:
+        values_from:
+          - GOBiologicalProcessType
+
+  Cell:
+    is_a: NamedEntity
+    annotations:
+      annotators: "sqlite:obo:cl"
+      prompt.examples: >-
+        type I AECs, mesenchymal cell, neuron, smooth muscle cells,
+        photoreceptors
+    id_prefixes:
+      - CL
+
+  CellularComponent:
+    is_a: NamedEntity
+    annotations:
+      annotators: "sqlite:obo:go"
+      prompt.examples: >-
+        tubulin complex, proteasome complex, cytoplasm, keratohyalin granule,
+        nucleus
+    id_prefixes:
+      - GO
+    slot_usage:
+      id:
+        values_from:
+          - GOCellComponentType
+
+  Chemical:
+    is_a: NamedEntity
+    annotations:
+      annotators: "sqlite:obo:mesh, sqlite:obo:chebi, sqlite:obo:ncit, bioportal:mdm, sqlite:obo:drugbank, gilda:"
+      prompt.examples: Lidocaine, Hydroxychloroquine, Methyldopa, Imatinib
+    id_prefixes:
+      - CHEBI
+
+  Disease:
+    is_a: NamedEntity
+    annotations:
+      annotators: "sqlite:obo:mesh, sqlite:obo:mondo, sqlite:obo:hp, sqlite:obo:ncit, sqlite:obo:doid, sqlite:obo:nbo, sqlite:obo:efo"
+      prompt.examples: cardiac asystole, COVID-19, Headache, cancer
+    id_prefixes:
+      - MONDO
+
+  MolecularFunction:
+    is_a: NamedEntity
+    annotations:
+      annotators: "sqlite:obo:go"
+      prompt.examples: >-
+        catalytic activity, amine binding,
+        peptide receptor activity, oxygen carrier activity,
+        structural constituent of cytoskeleton
+    id_prefixes:
+      - GO
+    slot_usage:
+      id:
+        values_from:
+          - GOMolecularFunctionType
+
+  MolecularProcess:
+    is_a: NamedEntity
+    annotations:
+      annotators: "sqlite:obo:mop, sqlite:obo:ncit"
+      prompt.examples: >-
+        cyclization, exothermic reaction,
+        acid catalysis, dehydrogenation, N-thioacylation
+    id_prefixes:
+      - MOP
+
+  Protein:
+    is_a: NamedEntity
+    annotations:
+      annotators: "sqlite:obo:pr"
+      prompt.examples: >-
+        annexin A, flotillin, lymphocyte antigen 6L, oncomodulin-1,
+        serine protease 46
+    id_prefixes:
+      - PR
+
+  SequenceFeature:
+    is_a: NamedEntity
+    annotations:
+      annotators: "sqlite:obo:so, sqlite:obo:ncit"
+      prompt.examples: >-
+        junction, three prime UTR, CpG island, pseudogene, syntenic region
+    id_prefixes:
+      - SO
+
+  Taxon:
+    is_a: NamedEntity
+    id_prefixes:
+      - NCBITaxon
+    annotations:
+      annotators: "sqlite:obo:ncbitaxon, bioportal:SNOMEDCT"
+      prompt.examples: >-
+        shark, Carcharodon carcharias, elephant seal, lion,
+        ungulates
+
+
+
+enums:
+
+  GOBiologicalProcessType:
+    reachable_from:
+      source_ontology: obo:go
+      source_nodes:
+        - GO:0008150  # biological_process
+
+  GOCellComponentType:
+    reachable_from:
+      source_ontology: obo:go
+      source_nodes:
+        - GO:0005575  # cellular_component
+
+  GOMolecularFunctionType:
+    reachable_from:
+      source_ontology: obo:go
+      source_nodes:
+        - GO:0003674  # molecular_function
