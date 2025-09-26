@@ -62,6 +62,8 @@ classes:
         description: >-
           The name of the disease or condition that is treated by the drug.
           This should be a specific disease entity rather than a general symptom.
+          Omit any qualifiers such as "chronic" or "acute" unless they are part of
+          the disease name itself.
         range: Disease
         examples:
           - value: Alzheimer disease

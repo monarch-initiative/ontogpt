@@ -279,7 +279,7 @@ class DrugMechanismSet(ConfiguredBaseModel):
 class DrugMechanism(ConfiguredBaseModel):
     linkml_meta: ClassVar[LinkMLMeta] = LinkMLMeta({'from_schema': 'http://w3id.org/ontogpt/drug'})
 
-    disease: Optional[str] = Field(default=None, description="""The name of the disease or condition that is treated by the drug. This should be a specific disease entity rather than a general symptom.""", json_schema_extra = { "linkml_meta": {'alias': 'disease',
+    disease: Optional[str] = Field(default=None, description="""The name of the disease or condition that is treated by the drug. This should be a specific disease entity rather than a general symptom. Omit any qualifiers such as \"chronic\" or \"acute\" unless they are part of the disease name itself.""", json_schema_extra = { "linkml_meta": {'alias': 'disease',
          'domain_of': ['DrugMechanism'],
          'examples': [{'value': 'Alzheimer disease'},
                       {'value': 'hypertension'},
