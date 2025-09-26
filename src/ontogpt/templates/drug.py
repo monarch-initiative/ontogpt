@@ -86,6 +86,8 @@ linkml_meta = LinkMLMeta({'default_prefix': 'drug',
                            'prefix_reference': 'http://identifiers.org/hgnc/'},
                   'MESH': {'prefix_prefix': 'MESH',
                            'prefix_reference': 'http://identifiers.org/mesh/'},
+                  'MI': {'prefix_prefix': 'MI',
+                         'prefix_reference': 'http://purl.obolibrary.org/obo/MI_'},
                   'MONDO': {'prefix_prefix': 'MONDO',
                             'prefix_reference': 'http://purl.obolibrary.org/obo/MONDO_'},
                   'PR': {'prefix_prefix': 'PR',
@@ -426,9 +428,10 @@ class Predicate(NamedEntity):
     A relationship type that describes how two biological entities interact in the context of a drug mechanism. Examples include 'inhibits', 'activates', 'binds_to', 'regulates', or 'involved_in'.
     """
     linkml_meta: ClassVar[LinkMLMeta] = LinkMLMeta({'annotations': {'annotators': {'tag': 'annotators',
-                                        'value': 'sqlite:obo:biolink, sqlite:obo:ro'}},
+                                        'value': 'sqlite:obo:biolink, sqlite:obo:mi, '
+                                                 'sqlite:obo:ro'}},
          'from_schema': 'http://w3id.org/ontogpt/drug',
-         'id_prefixes': ['RO', 'BIOLINK']})
+         'id_prefixes': ['RO', 'MI', 'BIOLINK']})
 
     id: str = Field(default=..., description="""A unique identifier for the named entity""", json_schema_extra = { "linkml_meta": {'alias': 'id',
          'annotations': {'prompt.skip': {'tag': 'prompt.skip', 'value': 'true'}},

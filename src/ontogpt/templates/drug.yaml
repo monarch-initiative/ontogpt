@@ -20,6 +20,7 @@ prefixes:
   CHEBI: http://purl.obolibrary.org/obo/CHEBI_
   RO: http://purl.obolibrary.org/obo/RO_
   BIOLINK: https://w3id.org/biolink/vocab/
+  MI: http://purl.obolibrary.org/obo/MI_
   drug: http://w3id.org/ontogpt/drug/
   linkml: https://w3id.org/linkml/
 
@@ -143,9 +144,10 @@ classes:
     is_a: NamedEntity
     id_prefixes:
       - RO
+      - MI
       - BIOLINK
     annotations:
-      annotators: sqlite:obo:biolink, sqlite:obo:ro
+      annotators: sqlite:obo:biolink, sqlite:obo:mi, sqlite:obo:ro
 
   MechanismLink:
     description: >-
