@@ -1,8 +1,12 @@
 id: http://w3id.org/ontogpt/drug
 name: drug
-title: Drug Template
+title: Drug Mechanism Template
 description: >-
-  A template for Drugs and drug mechanism
+  A template for extracting information about drug mechanisms of action,
+  including the diseases they treat, the drugs themselves, and the detailed
+  mechanistic pathways by which drugs produce their therapeutic effects.
+  This template captures subject-predicate-object relationships that describe
+  how drugs interact with biological entities to achieve therapeutic outcomes.
 license: https://creativecommons.org/publicdomain/zero/1.0/
 prefixes:
   rdf: http://www.w3.org/1999/02/22-rdf-syntax-ns#
@@ -23,15 +27,33 @@ classes:
     tree_root: true
     attributes:
       disease:
-        description: the name of the disease that is treated
+        description: >-
+          The name of the disease condition that is treated by the drug.
+          This should be a specific disease entity rather than a general symptom.
         range: Disease
+        examples:
+          - value: Alzheimer disease
+          - value: hypertension
+          - value: major depressive disorder
       drug:
-        description: the name of the drug that treats the disease
+        description: >-
+          the name of the pharmaceutical drug, medication, or therapeutic compound
+          that is used to treat the specified disease. This can include brand names,
+          generic names, or chemical compound names.
         range: Drug
+        examples:
+          - value: ibuprofen
+          - value: Lipitor
+          - value: sertraline
       mechanism_links:
-        description: semicolon-separated list of links, where each link is a triple connecting two entities via a relationship type
+        description: >-
+          semicolon-separated list of mechanistic links that explain how the drug works.
+          Each link should be a triple connecting two biological entities via a relationship type,
+          such as 'drug inhibits enzyme' or 'protein activates pathway'.
         multivalued: true
         range: MechanismLink
+        annotations:
+          prompt.examples: ibuprofen inhibits COX-2; COX-2 involved_in inflammatory response
       references:
         multivalued: true
         range: string
@@ -43,6 +65,10 @@ classes:
           prompt.skip: "true"
 
   MechanismElement:
+    description: >-
+      A biological entity that participates in a drug mechanism of action.
+      This can include genes, proteins, enzymes, receptors, pathways, 
+      cellular components, or other molecular entities.
     is_a: NamedEntity
     id_prefixes:
       - HGNC
@@ -51,27 +77,51 @@ classes:
       annotators: sqlite:obo:go, sqlite:obo:mesh, sqlite:obo:uberon, sqlite:obo:pr, sqlite:obo:ncbitaxon, sqlite:obo:cl
 
   Disease:
+    description: >-
+      A disease, disorder, condition, or pathological state that can be treated
+      with pharmaceutical interventions. This includes both acute and chronic conditions,
+      mental health disorders, and other medical conditions.
     is_a: NamedEntity
-    # TODO: make mondo primary; we use mesh for now for evaluating drugmechdb
     annotations:
       annotators: sqlite:obo:mesh, sqlite:obo:mondo
 
   Drug:
+    description: >-
+      A pharmaceutical drug, medication, therapeutic compound, or other chemical substance
+      used for medical treatment. This includes prescription drugs, over-the-counter medications,
+      biologics, and experimental therapeutics.
     is_a: NamedEntity
     annotations:
       annotators: sqlite:obo:drugbank, sqlite:obo:chebi, sqlite:obo:mesh
 
   Predicate:
+    description: >-
+      A relationship type that describes how two biological entities interact
+      in the context of a drug mechanism. Examples include 'inhibits', 'activates',
+      'binds_to', 'regulates', or 'involved_in'.
     is_a: NamedEntity
     annotations:
       annotators: sqlite:obo:biolink, sqlite:obo:ro
 
   MechanismLink:
+    description: >-
+      A mechanistic relationship that connects two biological entities through a specific
+      relationship type, forming a subject-predicate-object triple. This represents
+      one step or component in the overall mechanism of how a drug produces its therapeutic effect.
     is_a: CompoundExpression
     attributes:
       subject:
+        description: >-
+          the source biological entity in the mechanistic relationship.
+          This is typically the entity that performs or initiates the action.
         range: MechanismElement
       predicate:
+        description: >-
+          the type of relationship or interaction between the subject and object.
+          This describes how the subject entity affects or relates to the object entity.
         range: Predicate
       object:
+        description: >-
+          the target biological entity in the mechanistic relationship.
+          This is typically the entity that is affected by or receives the action.
         range: MechanismElement
