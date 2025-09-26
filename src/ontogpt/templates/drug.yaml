@@ -12,6 +12,14 @@ prefixes:
   rdf: http://www.w3.org/1999/02/22-rdf-syntax-ns#
   HGNC: http://identifiers.org/hgnc/
   MESH: http://identifiers.org/mesh/
+  UBERON: http://purl.obolibrary.org/obo/UBERON_
+  PR: http://purl.obolibrary.org/obo/PR_
+  CL: http://purl.obolibrary.org/obo/CL_
+  MONDO: http://purl.obolibrary.org/obo/MONDO_
+  DRUGBANK: https://go.drugbank.com/drugs/
+  CHEBI: http://purl.obolibrary.org/obo/CHEBI_
+  RO: http://purl.obolibrary.org/obo/RO_
+  BIOLINK: https://w3id.org/biolink/vocab/
   drug: http://w3id.org/ontogpt/drug/
   linkml: https://w3id.org/linkml/
 
@@ -51,7 +59,7 @@ classes:
     attributes:
       disease:
         description: >-
-          The name of the disease condition that is treated by the drug.
+          The name of the disease or condition that is treated by the drug.
           This should be a specific disease entity rather than a general symptom.
         range: Disease
         examples:
@@ -60,9 +68,8 @@ classes:
           - value: major depressive disorder
       drug:
         description: >-
-          the name of the pharmaceutical drug, medication, or therapeutic compound
-          that is used to treat the specified disease. This can include brand names,
-          generic names, or chemical compound names.
+          The name of the pharmaceutical drug, medication, or therapeutic compound
+          This can include brand names, generic names, or chemical compound names.
         range: Drug
         examples:
           - value: ibuprofen
@@ -70,13 +77,13 @@ classes:
           - value: sertraline
       mechanism_links:
         description: >-
-          semicolon-separated list of mechanistic links that explain how the drug works.
+          A semicolon-separated list of mechanistic links that explain how the drug works.
           Each link should be a triple connecting two biological entities via a relationship type,
           such as 'drug inhibits enzyme' or 'protein activates pathway'.
         multivalued: true
         range: MechanismLink
         annotations:
-          prompt.examples: ibuprofen inhibits COX-2; COX-2 involved_in inflammatory response
+          prompt.examples: ibuprofen inhibits COX-2; COX-2 involved in inflammatory response
       references:
         multivalued: true
         range: string
@@ -96,8 +103,11 @@ classes:
     id_prefixes:
       - HGNC
       - MESH
+      - UBERON
+      - PR
+      - CL
     annotations:
-      annotators: sqlite:obo:go, sqlite:obo:mesh, sqlite:obo:uberon, sqlite:obo:pr, sqlite:obo:ncbitaxon, sqlite:obo:cl
+      annotators: sqlite:obo:go, sqlite:obo:mesh, sqlite:obo:uberon, sqlite:obo:pr, sqlite:obo:cl
 
   Disease:
     description: >-
@@ -105,6 +115,9 @@ classes:
       with pharmaceutical interventions. This includes both acute and chronic conditions,
       mental health disorders, and other medical conditions.
     is_a: NamedEntity
+    id_prefixes:
+      - MESH
+      - MONDO
     annotations:
       annotators: sqlite:obo:mesh, sqlite:obo:mondo
 
@@ -114,6 +127,10 @@ classes:
       used for medical treatment. This includes prescription drugs, over-the-counter medications,
       biologics, and experimental therapeutics.
     is_a: NamedEntity
+    id_prefixes:
+      - DRUGBANK
+      - CHEBI
+      - MESH
     annotations:
       annotators: sqlite:obo:drugbank, sqlite:obo:chebi, sqlite:obo:mesh
 
@@ -123,6 +140,9 @@ classes:
       in the context of a drug mechanism. Examples include 'inhibits', 'activates',
       'binds_to', 'regulates', or 'involved_in'.
     is_a: NamedEntity
+    id_prefixes:
+      - RO
+      - BIOLINK
     annotations:
       annotators: sqlite:obo:biolink, sqlite:obo:ro
 
