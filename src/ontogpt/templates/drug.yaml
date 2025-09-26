@@ -23,8 +23,31 @@ imports:
   - core
 
 classes:
-  DrugMechanism:
+
+  DrugMechanismSet:
+    description: >-
+      A collection of one or more drug mechanisms of action,
+      each describing how a specific drug treats a particular
+      disease through a series of mechanistic links.
     tree_root: true
+    attributes:
+      drug_mechanisms:
+        description: >-
+          A semicolon-delimited list of individual drug mechanisms
+          of action included in this set. Include all details regarding
+          the drug, disease, and specific proteins or pathways involved,
+          but only those explicitly mentioned in the text.
+          If a drug is involved in multiple mechanisms for the same or
+          different diseases, each mechanism should be represented as a
+          separate entry. If a drug is mentioned without a disease or a
+          disease without a drug, this should still be captured as a mechanism
+          without the missing element.
+        multivalued: true
+        range: DrugMechanism
+        annotations:
+          prompt.examples: ibuprofen inhibits COX-2, an enzyme involved in inflammation; Lipitor inhibits HMGCR; sertraline is used to treat major depressive disorder and sertraline inhibits SLC6A4; Omeprazole inhibits ATP4A, reducing stomach acid production; Metformin
+
+  DrugMechanism:
     attributes:
       disease:
         description: >-
