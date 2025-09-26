@@ -287,7 +287,7 @@ class DrugMechanism(ConfiguredBaseModel):
          'examples': [{'value': 'ibuprofen'},
                       {'value': 'Lipitor'},
                       {'value': 'sertraline'}]} })
-    mechanism_links: Optional[list[MechanismLink]] = Field(default=None, description="""A semicolon-separated list of mechanistic links that explain how the drug works. Each link should be a triple connecting two biological entities via a relationship type, such as 'drug inhibits enzyme' or 'protein activates pathway'.""", json_schema_extra = { "linkml_meta": {'alias': 'mechanism_links',
+    mechanism_links: Optional[list[MechanismLink]] = Field(default=None, description="""A semicolon-separated list of mechanistic links that explain how the drug works. This should only be based on the information explicitly mentioned in the text. Each link should be a triple connecting two biological entities via a relationship type, such as 'drug inhibits enzyme' or 'protein activates pathway'.""", json_schema_extra = { "linkml_meta": {'alias': 'mechanism_links',
          'annotations': {'prompt.examples': {'tag': 'prompt.examples',
                                              'value': 'ibuprofen inhibits COX-2; COX-2 '
                                                       'involved in inflammatory '
