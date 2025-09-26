@@ -80,8 +80,9 @@ classes:
         description: >-
           A semicolon-separated list of mechanistic links that explain how the drug works.
           This should only be based on the information explicitly mentioned in the text.
-          Each link should be a triple connecting two biological entities via a relationship type,
-          such as 'drug inhibits enzyme' or 'protein activates pathway'.
+          Each link should be a triple connecting two biological entities via a relationship type.
+          For example, this may be between a drug and a protein, a protein and a pathway,
+          or a protein and another protein. Refer to each by the name used in the text.
         multivalued: true
         range: MechanismLink
         annotations:
