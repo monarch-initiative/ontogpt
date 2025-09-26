@@ -1,13 +1,26 @@
 id: http://w3id.org/ontogpt/drug
 name: drug
-title: Drug Template
+title: Drug Mechanism Template
 description: >-
-  A template for Drugs and drug mechanism
+  A template for extracting information about drug mechanisms of action,
+  including the diseases they treat, the drugs themselves, and the detailed
+  mechanistic pathways by which drugs produce their therapeutic effects.
+  This template captures subject-predicate-object relationships that describe
+  how drugs interact with biological entities to achieve therapeutic outcomes.
 license: https://creativecommons.org/publicdomain/zero/1.0/
 prefixes:
   rdf: http://www.w3.org/1999/02/22-rdf-syntax-ns#
   HGNC: http://identifiers.org/hgnc/
   MESH: http://identifiers.org/mesh/
+  UBERON: http://purl.obolibrary.org/obo/UBERON_
+  PR: http://purl.obolibrary.org/obo/PR_
+  CL: http://purl.obolibrary.org/obo/CL_
+  MONDO: http://purl.obolibrary.org/obo/MONDO_
+  DRUGBANK: https://go.drugbank.com/drugs/
+  CHEBI: http://purl.obolibrary.org/obo/CHEBI_
+  RO: http://purl.obolibrary.org/obo/RO_
+  BIOLINK: https://w3id.org/biolink/vocab/
+  MI: http://purl.obolibrary.org/obo/MI_
   drug: http://w3id.org/ontogpt/drug/
   linkml: https://w3id.org/linkml/
 
@@ -19,19 +32,63 @@ imports:
   - core
 
 classes:
-  DrugMechanism:
+
+  DrugMechanismSet:
+    description: >-
+      A collection of one or more drug mechanisms of action,
+      each describing how a specific drug treats a particular
+      disease through a series of mechanistic links.
     tree_root: true
     attributes:
+      drug_mechanisms:
+        description: >-
+          A semicolon-delimited list of individual drug mechanisms
+          of action included in this set. Include all details regarding
+          the drug, disease, and specific proteins or pathways involved,
+          but only those explicitly mentioned in the text.
+          If a drug is involved in multiple mechanisms for the same or
+          different diseases, each mechanism should be represented as a
+          separate entry. If a drug is mentioned without a disease or a
+          disease without a drug, this should still be captured as a mechanism
+          without the missing element.
+        multivalued: true
+        range: DrugMechanism
+        annotations:
+          prompt.examples: ibuprofen inhibits COX-2, an enzyme involved in inflammation; Lipitor inhibits HMGCR; sertraline is used to treat major depressive disorder and sertraline inhibits SLC6A4; Omeprazole inhibits ATP4A, reducing stomach acid production; Metformin
+
+  DrugMechanism:
+    attributes:
       disease:
-        description: the name of the disease that is treated
+        description: >-
+          The name of the disease or condition that is treated by the drug.
+          This should be a specific disease entity rather than a general symptom.
+          Omit any qualifiers such as "chronic" or "acute" unless they are part of
+          the disease name itself.
         range: Disease
+        examples:
+          - value: Alzheimer disease
+          - value: hypertension
+          - value: major depressive disorder
       drug:
-        description: the name of the drug that treats the disease
+        description: >-
+          The name of the pharmaceutical drug, medication, or therapeutic compound
+          This can include brand names, generic names, or chemical compound names.
         range: Drug
+        examples:
+          - value: ibuprofen
+          - value: Lipitor
+          - value: sertraline
       mechanism_links:
-        description: semicolon-separated list of links, where each link is a triple connecting two entities via a relationship type
+        description: >-
+          A semicolon-separated list of mechanistic links that explain how the drug works.
+          This should only be based on the information explicitly mentioned in the text.
+          Each link should be a triple connecting two biological entities via a relationship type.
+          For example, this may be between a drug and a protein, a protein and a pathway,
+          or a protein and another protein. Refer to each by the name used in the text.
         multivalued: true
         range: MechanismLink
+        annotations:
+          prompt.examples: ibuprofen inhibits COX-2; COX-2 involved in inflammatory response
       references:
         multivalued: true
         range: string
@@ -43,35 +100,77 @@ classes:
           prompt.skip: "true"
 
   MechanismElement:
+    description: >-
+      A biological entity that participates in a drug mechanism of action.
+      This can include genes, proteins, enzymes, receptors, pathways, 
+      cellular components, or other molecular entities.
     is_a: NamedEntity
     id_prefixes:
       - HGNC
       - MESH
+      - UBERON
+      - PR
+      - CL
     annotations:
-      annotators: sqlite:obo:go, sqlite:obo:mesh, sqlite:obo:uberon, sqlite:obo:pr, sqlite:obo:ncbitaxon, sqlite:obo:cl
+      annotators: sqlite:obo:go, sqlite:obo:mesh, sqlite:obo:uberon, sqlite:obo:pr, sqlite:obo:cl
 
   Disease:
+    description: >-
+      A disease, disorder, condition, or pathological state that can be treated
+      with pharmaceutical interventions. This includes both acute and chronic conditions,
+      mental health disorders, and other medical conditions.
     is_a: NamedEntity
-    # TODO: make mondo primary; we use mesh for now for evaluating drugmechdb
+    id_prefixes:
+      - MESH
+      - MONDO
     annotations:
       annotators: sqlite:obo:mesh, sqlite:obo:mondo
 
   Drug:
+    description: >-
+      A pharmaceutical drug, medication, therapeutic compound, or other chemical substance
+      used for medical treatment. This includes prescription drugs, over-the-counter medications,
+      biologics, and experimental therapeutics.
     is_a: NamedEntity
+    id_prefixes:
+      - DRUGBANK
+      - CHEBI
+      - MESH
     annotations:
       annotators: sqlite:obo:drugbank, sqlite:obo:chebi, sqlite:obo:mesh
 
   Predicate:
+    description: >-
+      A relationship type that describes how two biological entities interact
+      in the context of a drug mechanism. Examples include 'inhibits', 'activates',
+      'binds_to', 'regulates', or 'involved_in'.
     is_a: NamedEntity
+    id_prefixes:
+      - RO
+      - MI
+      - BIOLINK
     annotations:
-      annotators: sqlite:obo:biolink, sqlite:obo:ro
+      annotators: sqlite:obo:biolink, sqlite:obo:mi, sqlite:obo:ro
 
   MechanismLink:
+    description: >-
+      A mechanistic relationship that connects two biological entities through a specific
+      relationship type, forming a subject-predicate-object triple. This represents
+      one step or component in the overall mechanism of how a drug produces its therapeutic effect.
     is_a: CompoundExpression
     attributes:
       subject:
+        description: >-
+          the source biological entity in the mechanistic relationship.
+          This is typically the entity that performs or initiates the action.
         range: MechanismElement
       predicate:
+        description: >-
+          the type of relationship or interaction between the subject and object.
+          This describes how the subject entity affects or relates to the object entity.
         range: Predicate
       object:
+        description: >-
+          the target biological entity in the mechanistic relationship.
+          This is typically the entity that is affected by or receives the action.
         range: MechanismElement
