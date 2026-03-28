@@ -103,6 +103,36 @@ The model may then be used in OntoGPT by prefixing its name with `ollama/`, e.g.
 
 Some ollama models may not be listed in `ontogpt list-models` but the full list of downloaded LLMs can be seen with `ollama list` command.
 
+## MiniMax
+
+[MiniMax](https://www.minimaxi.com/) models may be used through their OpenAI-compatible API.
+
+1. Set your MiniMax API key:
+
+    ```bash
+    export MINIMAX_API_KEY="your-minimax-api-key"
+    ```
+
+    Or use the `runoak` key manager:
+
+    ```bash
+    runoak set-apikey -e minimax-key <your minimax api key>
+    ```
+
+2. Use a MiniMax model with the `minimax/` prefix or the `--model-provider` option:
+
+    ```bash
+    ontogpt extract -t drug -i example.txt -m minimax/MiniMax-M2.7
+    ```
+
+    Or equivalently:
+
+    ```bash
+    ontogpt extract -t drug -i example.txt -m MiniMax-M2.7 --model-provider minimax
+    ```
+
+Available MiniMax models include `MiniMax-M2.7` (latest, 204K context) and `MiniMax-M2.7-highspeed` (204K context, optimized for speed).
+
 ## Evaluations
 
 OntoGPT's functions have been evaluated on test data. Please see the full documentation for details on these evaluations and how to reproduce them.

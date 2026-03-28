@@ -1,6 +1,7 @@
 """Client for running LLM completion requests through LiteLLM."""
 
 import logging
+import os
 import sys
 from dataclasses import dataclass, field
 
@@ -17,6 +18,9 @@ logger = logging.getLogger(__name__)
 
 # Just get the part before the slash in each model name
 SERVICES = {model.split("/")[0] for model in MODELS.keys() if len(model.split("/")) > 1}
+
+# MiniMax API base URL (OpenAI-compatible endpoint)
+MINIMAX_API_BASE = "https://api.minimax.io/v1"
 
 # Necessary to avoid repeated debug messages
 litellm.suppress_debug_info = True
@@ -57,12 +61,36 @@ class LLMClient:
             else:
                 raise ValueError(f"Model name must be a string, got {type(self.model)}")
 
+        # Detect MiniMax provider from model name prefix or explicit provider
+        is_minimax = (
+            self.custom_llm_provider == "minimax"
+            or self.model.startswith("minimax/")
+        )
+
         if self.model.startswith("ollama"):
             self.api_key = ""  # Don't need an API key
         elif self.model.startswith("fake"):
             # Just used for testing
             self.api_key = ""  # Don't need an API key
             logger.info(f"Using mock model: {self.model}")
+        elif is_minimax:
+            # MiniMax uses an OpenAI-compatible API
+            if not self.api_key:
+                self.api_key = os.environ.get("MINIMAX_API_KEY", "") or get_apikey_value(
+                    "minimax-key"
+                )
+            if self.api_base is None:
+                self.api_base = MINIMAX_API_BASE
+            # Strip the minimax/ prefix so litellm sends just the model name
+            if self.model.startswith("minimax/"):
+                self.model = self.model[len("minimax/"):]
+            # Route through litellm's OpenAI-compatible path
+            self.custom_llm_provider = "openai"
+            # Clamp temperature: MiniMax requires (0.0, 1.0]
+            if self.temperature <= 0.0:
+                self.temperature = 0.01
+            elif self.temperature > 1.0:
+                self.temperature = 1.0
         elif not self.api_key and not self.custom_llm_provider:
             self.api_key = get_apikey_value("openai")
         elif self.custom_llm_provider == "anthropic":

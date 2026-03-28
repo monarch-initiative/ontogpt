@@ -342,7 +342,8 @@ api_version_option = click.option(
 model_provider_option = click.option(
     "--model-provider",
     help="Specify a provider if model is not specified in the model name."
-    " If using a proxy using the OpenAI API format, this should be set to 'openai'.",
+    " If using a proxy using the OpenAI API format, this should be set to 'openai'."
+    " For MiniMax models, set this to 'minimax'.",
 )
 temperature_option = click.option(
     "-p",
