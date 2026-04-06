@@ -93,8 +93,9 @@ from requests.exceptions import ConnectionError, HTTPError, ProxyError
 
 from ontogpt import DEFAULT_MODEL
 from ontogpt.clients.llm_client import LLMClient
-from ontogpt.templates.core import ExtractionResult, NamedEntity
+from ontogpt.io.template_loader import get_template_details
 from ontogpt.io.utils import read_text_with_fallbacks
+from ontogpt.templates.core import ExtractionResult, NamedEntity
 
 this_path = Path(__file__).parent
 logger = logging.getLogger(__name__)
@@ -137,10 +138,13 @@ class KnowledgeEngine(ABC):
     knowledge sources plus LLMs.
     """
 
-    template_details: tuple = None
+    template_details: Optional[Union[tuple, str]] = None
     """Tuple containing loaded template details, including:
     (LinkML class, module, python class, SchemaView object).
     May be None because some child classes do not require a template."""
+
+    template: Optional[str] = None
+    """Template name of the form module.ClassName or module."""
 
     template_class: ClassDefinition = None
     """LinkML Class for the template.
@@ -169,6 +173,9 @@ class KnowledgeEngine(ABC):
 
     model: str = None
     """Language model or deployment name. This may be overridden in subclasses."""
+
+    engine: Optional[str] = None
+    """Backward-compatible alias for model."""
 
     model_provider: str = None
     """Provider of the model if access requires specifying client type, e.g. openai, etc."""
@@ -224,6 +231,16 @@ class KnowledgeEngine(ABC):
     """System message to be provided to the LLM."""
 
     def __post_init__(self):
+        if self.engine and not self.model:
+            self.model = self.engine
+
+        if self.template is None and isinstance(self.template_details, str):
+            self.template = self.template_details
+            self.template_details = None
+
+        if self.template and self.template_details is None:
+            self.template_details = get_template_details(self.template)
+
         if self.template_details:
             (
                 self.template_class,
@@ -253,6 +270,9 @@ class KnowledgeEngine(ABC):
         # but tiktoken won't work for non-openai models
         # TODO: let litellm handle this; see
         # https://litellm.vercel.app/docs/completion/token_usage
+
+    def _get_template_class(self, template: str) -> ClassDefinition:
+        return get_template_details(template)[0]
 
     def set_api_key(self, key: str):
         self.api_key = key
@@ -301,7 +321,7 @@ class KnowledgeEngine(ABC):
 
     def generalize(
         self, object: Union[pydantic.BaseModel, dict], examples: List[EXAMPLE], show_prompt: bool
-    ) -> ExtractionResult:
+    ) -> pydantic.BaseModel:
         raise NotImplementedError
 
     def map_terms(self, terms: List[str], ontology: str, show_prompt: bool) -> Dict[str, str]:
@@ -461,13 +481,29 @@ class KnowledgeEngine(ABC):
         return True
 
     def normalize_identifier(self, input_id: str, cls: ClassDefinition) -> Iterator[str]:
+        input_id = self._canonicalize_identifier_prefix(input_id, cls)
         if self.is_valid_identifier(input_id, cls):
             yield input_id
+            return
+        seen = set()
         for obj_id in self.map_identifier(input_id, cls):
             if obj_id == input_id:
                 continue
+            if obj_id in seen:
+                continue
+            seen.add(obj_id)
             if self.is_valid_identifier(obj_id, cls):
                 yield obj_id
+                return
+
+    def _canonicalize_identifier_prefix(self, input_id: str, cls: ClassDefinition) -> str:
+        if ":" not in input_id or not cls.id_prefixes:
+            return input_id
+        prefix, local_id = input_id.split(":", 1)
+        for candidate in cls.id_prefixes:
+            if candidate.upper() == prefix.upper():
+                return f"{candidate}:{local_id}"
+        return input_id
 
     def map_identifier(self, input_id: str, cls: ClassDefinition) -> Iterator[str]:
         """
@@ -477,6 +513,7 @@ class KnowledgeEngine(ABC):
         :param cls:
         :return:
         """
+        input_id = self._canonicalize_identifier_prefix(input_id, cls)
         if input_id not in self.map_cache:
             self.map_cache[input_id] = []
         else:
@@ -618,7 +655,7 @@ class KnowledgeEngine(ABC):
                     logger.error(f"Error with {annotator} for {text}: {e}")
 
     def merge_resultsets(
-        self, resultset: List[ExtractionResult], unique_fields: List[str]
+        self, resultset: List[ExtractionResult], unique_fields: Optional[List[str]] = None
     ) -> ExtractionResult:
         """
         Merge all resultsets into a single resultset.
@@ -629,6 +666,8 @@ class KnowledgeEngine(ABC):
         :return:
         """
         result = resultset[0].extracted_object
+        if unique_fields is None:
+            unique_fields = []
         for next_extraction in resultset[1:]:
             next_result = next_extraction.extracted_object
             if unique_fields:
@@ -642,10 +681,17 @@ class KnowledgeEngine(ABC):
             for k, v in vars(next_result).items():
                 curr_v = getattr(result, k, None)
                 if isinstance(v, list):
-                    if all(isinstance(x, str) for x in v):
-                        setattr(result, k, list(set(curr_v).union(set(v))))
+                    curr_list = list(curr_v or [])
+                    if all(isinstance(x, str) for x in curr_list) and all(
+                        isinstance(x, str) for x in v
+                    ):
+                        setattr(result, k, list(dict.fromkeys(curr_list + v)))
                     else:
-                        setattr(result, k, curr_v + v)
+                        merged_list = list(curr_list)
+                        for item in v:
+                            if item not in merged_list:
+                                merged_list.append(item)
+                        setattr(result, k, merged_list)
                 else:
                     if curr_v and v and curr_v != v:
                         logger.error(f"Cannot merge {curr_v} and {v}")

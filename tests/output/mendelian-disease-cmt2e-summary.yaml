@@ -1,63 +1,339 @@
-input_id: /Users/cjm/repos/ontogpt/tests/input/cases/mendelian-disease-cmt2e-summary.txt
-input_text: "CHARCOT-MARIE-TOOTH DISEASE, AXONAL, TYPE 2E; CMT2E\n\nINHERITANCE\n\
-  - Autosomal dominant\nHEAD & NECK\nFace\n- Facial muscle weakness (in some patients)\n\
-  Eyes\n- Ptosis (in some patients) \nMouth\n- High-arched palate (in some patients)\n\
-  SKELETAL\n- Joint contractures\nSpine\n- Scoliosis (in some patients)\nHands\n-\
-  \ Claw hand deformities (in severe cases)\nFeet\n- Pes cavus \n- Hammer toes\n-\
-  \ Foot deformities\nMUSCLE, SOFT TISSUES\n- Shoulder muscle weakness (in some patients)\n\
-  - Hypotrophy of the small hand muscles\n- Fiber-type predominance seen on muscle\
-  \ biopsy (in some patients)\n- Fiber size variation (in some patients)\n- Internal\
-  \ nuclei (in some patients)\n- Increased connective tissue (in some patients)\n\
-  - Nemaline rods (in some patients)\n- Group fiber atrophy (in some patients)\n-\
-  \ Angular fibers (in some patients)\n- EMG consistent with chronic neurogenic disorder\n\
-  NEUROLOGIC\nCentral Nervous System\n- Delayed motor development (in some patients)\n\
-  Peripheral Nervous System\n- Distal limb muscle weakness due to peripheral neuropathy\n\
-  - Distal limb muscle atrophy due to peripheral neuropathy\n- 'Steppage' gait\n-\
-  \ Foot drop\n- Distal sensory impairment\n- Hyporeflexia\n- Areflexia\n- Normal\
-  \ or mildly decreased motor nerve conduction velocity (NCV) (greater than 38 m/s)\n\
-  - Axonopathy seen on nerve biopsy\n- Giant axons with accumulation of disorganized\
-  \ neurofilaments\nMISCELLANEOUS\n- Variable age of onset (range first to third decade)\n\
-  - Usually begins in feet and legs (peroneal distribution)\n- Upper limb involvement\
-  \ occurs later\n- Variable severity\n- Some patients may become wheelchair-bound\n\
-  MOLECULAR BASIS\n- Caused by mutation in the light polypeptide neurofilament protein\
-  \ gene (NEFL, 162280.0001)\n"
-raw_completion_output: "name: Charcot-Marie-Tooth Disease, Axonal, Type 2E \ndescription:\
-  \ A peripheral neuropathy characterized by distal limb muscle weakness and atrophy,\
-  \ 'steppage' gait, foot drop, distal sensory impairment, hyporeflexia, areflexia,\
-  \ and normal or mildly decreased motor nerve conduction velocity \nsynonyms: CMT2E\n\
-  subclass_of; Charcot-Marie-Tooth Disease\nsymptoms: Facial muscle weakness; Ptosis;\
-  \ High-arched palate; Joint contractures; Scoliosis; Claw hand deformities; Pes\
-  \ cavus; Hammer toes; Foot deformities; Shoulder muscle weakness; Hypotrophy of\
-  \ the small hand muscles; Delayed motor development\ninheritance: Autosomal dominant\n\
-  genes: NEFL\ndisease_onsets: Adult; Juvenile; First decade\nlabel: Charcot-Marie-Tooth\
-  \ Disease, Axonal, Type 2E"
-prompt: "From the text below, extract the following entities in the following format:\n\
-  \nname: <the name of the disease>\ndescription: <a description of the disease>\n\
-  synonyms: <semicolon-separated list of synonymss>\nsubclass_of: <semicolon-separated\
-  \ list of subclass_ofs>\nsymptoms: <semicolon-separated list of symptomss>\ninheritance:\
-  \ <the value for inheritance>\ngenes: <semicolon separated list of gene symbols;\
-  \ for example: PEX1; PEX2; PEX3>\ndisease_onsets: <semi-colon separated list of\
-  \ onsets at which the disease occurs, for example: adult; juvenile; first decade>\n\
-  label: <The label (name) of the named thing>\n\n\nText:\nCHARCOT-MARIE-TOOTH DISEASE,\
-  \ AXONAL, TYPE 2E; CMT2E\n\nINHERITANCE\n- Autosomal dominant\nHEAD & NECK\nFace\n\
-  - Facial muscle weakness (in some patients)\nEyes\n- Ptosis (in some patients) \n\
-  Mouth\n- High-arched palate (in some patients)\nSKELETAL\n- Joint contractures\n\
-  Spine\n- Scoliosis (in some patients)\nHands\n- Claw hand deformities (in severe\
-  \ cases)\nFeet\n- Pes cavus \n- Hammer toes\n- Foot deformities\nMUSCLE, SOFT TISSUES\n\
-  - Shoulder muscle weakness (in some patients)\n- Hypotrophy of the small hand muscles\n\
-  - Fiber-type predominance seen on muscle biopsy (in some patients)\n- Fiber size\
-  \ variation (in some patients)\n- Internal nuclei (in some patients)\n- Increased\
-  \ connective tissue (in some patients)\n- Nemaline rods (in some patients)\n- Group\
-  \ fiber atrophy (in some patients)\n- Angular fibers (in some patients)\n- EMG consistent\
-  \ with chronic neurogenic disorder\nNEUROLOGIC\nCentral Nervous System\n- Delayed\
-  \ motor development (in some patients)\nPeripheral Nervous System\n- Distal limb\
-  \ muscle weakness due to peripheral neuropathy\n- Distal limb muscle atrophy due\
-  \ to peripheral neuropathy\n- 'Steppage' gait\n- Foot drop\n- Distal sensory impairment\n\
-  - Hyporeflexia\n- Areflexia\n- Normal or mildly decreased motor nerve conduction\
-  \ velocity (NCV) (greater than 38 m/s)\n- Axonopathy seen on nerve biopsy\n- Giant\
-  \ axons with accumulation of disorganized neurofilaments\nMISCELLANEOUS\n- Variable\
-  \ age of onset (range first to third decade)\n- Usually begins in feet and legs\
-  \ (peroneal distribution)\n- Upper limb involvement occurs later\n- Variable severity\n\
-  - Some patients may become wheelchair-bound\nMOLECULAR BASIS\n- Caused by mutation\
-  \ in the light polypeptide neurofilament protein gene (NEFL, 162280.0001)\n\n\n\
-  ===\n\n"
+input_id: 
+  /home/harry/ontogpt/tests/input/cases/mendelian-disease-cmt2e-summary.txt
+input_text: |
+  CHARCOT-MARIE-TOOTH DISEASE, AXONAL, TYPE 2E; CMT2E
+
+  INHERITANCE
+  - Autosomal dominant
+  HEAD & NECK
+  Face
+  - Facial muscle weakness (in some patients)
+  Eyes
+  - Ptosis (in some patients) 
+  Mouth
+  - High-arched palate (in some patients)
+  SKELETAL
+  - Joint contractures
+  Spine
+  - Scoliosis (in some patients)
+  Hands
+  - Claw hand deformities (in severe cases)
+  Feet
+  - Pes cavus 
+  - Hammer toes
+  - Foot deformities
+  MUSCLE, SOFT TISSUES
+  - Shoulder muscle weakness (in some patients)
+  - Hypotrophy of the small hand muscles
+  - Fiber-type predominance seen on muscle biopsy (in some patients)
+  - Fiber size variation (in some patients)
+  - Internal nuclei (in some patients)
+  - Increased connective tissue (in some patients)
+  - Nemaline rods (in some patients)
+  - Group fiber atrophy (in some patients)
+  - Angular fibers (in some patients)
+  - EMG consistent with chronic neurogenic disorder
+  NEUROLOGIC
+  Central Nervous System
+  - Delayed motor development (in some patients)
+  Peripheral Nervous System
+  - Distal limb muscle weakness due to peripheral neuropathy
+  - Distal limb muscle atrophy due to peripheral neuropathy
+  - 'Steppage' gait
+  - Foot drop
+  - Distal sensory impairment
+  - Hyporeflexia
+  - Areflexia
+  - Normal or mildly decreased motor nerve conduction velocity (NCV) (greater than 38 m/s)
+  - Axonopathy seen on nerve biopsy
+  - Giant axons with accumulation of disorganized neurofilaments
+  MISCELLANEOUS
+  - Variable age of onset (range first to third decade)
+  - Usually begins in feet and legs (peroneal distribution)
+  - Upper limb involvement occurs later
+  - Variable severity
+  - Some patients may become wheelchair-bound
+  MOLECULAR BASIS
+  - Caused by mutation in the light polypeptide neurofilament protein gene (NEFL, 162280.0001)
+raw_completion_output: |-
+  name: Charcot-Marie-Tooth disease, axonal, type 2E  
+  description: Charcot-Marie-Tooth disease, axonal, type 2E is a hereditary neurological disorder characterized by peripheral neuropathy, leading to muscle weakness and atrophy, particularly in the distal limbs. The condition involves symptoms such as distal sensory impairment, foot deformities, and delayed motor development, with onset usually occurring between the first and third decades of life.  
+  synonyms: CMT2E  
+  subclass_of: Charcot-Marie-Tooth disease; Axonal neuropathy  
+  symptoms: Facial muscle weakness; Ptosis; High-arched palate; Joint contractures; Scoliosis; Claw hand deformities; Pes cavus; Hammer toes; Foot deformities; Shoulder muscle weakness; Hypotrophy of the small hand muscles; Fiber-type predominance; Fiber size variation; Internal nuclei; Increased connective tissue; Nemaline rods; Group fiber atrophy; Angular fibers; EMG consistent with chronic neurogenic disorder; Delayed motor development; Distal limb muscle weakness due to peripheral neuropathy; Distal limb muscle atrophy due to peripheral neuropathy; 'Steppage' gait; Foot drop; Distal sensory impairment; Hyporeflexia; Areflexia; Normal or mildly decreased motor nerve conduction velocity (NCV); Axonopathy; Giant axons with accumulation of disorganized neurofilaments  
+  inheritance: Autosomal dominant  
+  genes: NEFL  
+  disease_onsets: first decade; second decade; third decade  
+  label: Charcot-Marie-Tooth disease, axonal, type 2E
+prompt: |+
+  From the text below, extract the following entities in the following format:
+
+  name: <the name of the disease>
+  description: <a description of the disease>
+  synonyms: <semicolon-separated list of synonymss>
+  subclass_of: <semicolon-separated list of subclass_ofs>
+  symptoms: <semicolon-separated list of symptomss>
+  inheritance: <the value for inheritance>
+  genes: <semicolon separated list of gene symbols; for example: PEX1; PEX2; PEX3>
+  disease_onsets: <semi-colon separated list of onsets at which the disease occurs, for example: adult; juvenile; first decade>
+  label: <The label (name) of the named thing>
+
+
+  Text:
+  CHARCOT-MARIE-TOOTH DISEASE, AXONAL, TYPE 2E; CMT2E
+
+  INHERITANCE
+  - Autosomal dominant
+  HEAD & NECK
+  Face
+  - Facial muscle weakness (in some patients)
+  Eyes
+  - Ptosis (in some patients) 
+  Mouth
+  - High-arched palate (in some patients)
+  SKELETAL
+  - Joint contractures
+  Spine
+  - Scoliosis (in some patients)
+  Hands
+  - Claw hand deformities (in severe cases)
+  Feet
+  - Pes cavus 
+  - Hammer toes
+  - Foot deformities
+  MUSCLE, SOFT TISSUES
+  - Shoulder muscle weakness (in some patients)
+  - Hypotrophy of the small hand muscles
+  - Fiber-type predominance seen on muscle biopsy (in some patients)
+  - Fiber size variation (in some patients)
+  - Internal nuclei (in some patients)
+  - Increased connective tissue (in some patients)
+  - Nemaline rods (in some patients)
+  - Group fiber atrophy (in some patients)
+  - Angular fibers (in some patients)
+  - EMG consistent with chronic neurogenic disorder
+  NEUROLOGIC
+  Central Nervous System
+  - Delayed motor development (in some patients)
+  Peripheral Nervous System
+  - Distal limb muscle weakness due to peripheral neuropathy
+  - Distal limb muscle atrophy due to peripheral neuropathy
+  - 'Steppage' gait
+  - Foot drop
+  - Distal sensory impairment
+  - Hyporeflexia
+  - Areflexia
+  - Normal or mildly decreased motor nerve conduction velocity (NCV) (greater than 38 m/s)
+  - Axonopathy seen on nerve biopsy
+  - Giant axons with accumulation of disorganized neurofilaments
+  MISCELLANEOUS
+  - Variable age of onset (range first to third decade)
+  - Usually begins in feet and legs (peroneal distribution)
+  - Upper limb involvement occurs later
+  - Variable severity
+  - Some patients may become wheelchair-bound
+  MOLECULAR BASIS
+  - Caused by mutation in the light polypeptide neurofilament protein gene (NEFL, 162280.0001)
+
+
+  ===
+
+extracted_object:
+  id: f79fc551-6334-44b5-a2d4-54076875320d
+  label: Charcot-Marie-Tooth disease, axonal, type 2E
+  name: Charcot-Marie-Tooth disease, axonal, type 2E
+  description: Charcot-Marie-Tooth disease, axonal, type 2E is a hereditary 
+    neurological disorder characterized by peripheral neuropathy, leading to 
+    muscle weakness and atrophy, particularly in the distal limbs. The condition
+    involves symptoms such as distal sensory impairment, foot deformities, and 
+    delayed motor development, with onset usually occurring between the first 
+    and third decades of life.
+  synonyms:
+    - CMT2E
+  subclass_of:
+    - MONDO:0015626
+    - MONDO:0004183
+  symptoms:
+    - HP:0030319
+    - HP:0000508
+    - HP:0000218
+    - HP:0034392
+    - HP:0002650
+    - HP:0034337
+    - HP:0001761
+    - AUTO:Hammer%20toes
+    - HP:0001760
+    - AUTO:Shoulder%20muscle%20weakness
+    - HP:0006006
+    - AUTO:Fiber-type%20predominance
+    - AUTO:Fiber%20size%20variation
+    - AUTO:Internal%20nuclei
+    - HP:0009025
+    - HP:0003798
+    - AUTO:Group%20fiber%20atrophy
+    - AUTO:Angular%20fibers
+    - AUTO:EMG%20consistent%20with%20chronic%20neurogenic%20disorder
+    - HP:0001270
+    - HP:0002460
+    - AUTO:Distal%20limb%20muscle%20atrophy%20due%20to%20peripheral%20neuropathy
+    - AUTO:%27Steppage%27%20gait
+    - HP:0009027
+    - HP:0002936
+    - HP:0001265
+    - HP:0001284
+    - AUTO:Normal%20or%20mildly%20decreased%20motor%20nerve%20conduction%20velocity%20%28NCV%29
+    - AUTO:Axonopathy
+    - AUTO:Giant%20axons%20with%20accumulation%20of%20disorganized%20neurofilaments
+  inheritance: HP:0000006
+  genes:
+    - HGNC:7739
+  disease_onsets:
+    - AUTO:first%20decade
+    - AUTO:second%20decade
+    - AUTO:third%20decade
+named_entities:
+  - id: MONDO:0015626
+    label: Charcot-Marie-Tooth disease
+    original_spans:
+      - 0:26
+  - id: MONDO:0004183
+    label: Axonal neuropathy
+  - id: HP:0030319
+    label: Facial muscle weakness
+    original_spans:
+      - 105:126
+  - id: HP:0000508
+    label: Ptosis
+    original_spans:
+      - 154:159
+  - id: HP:0000218
+    label: High-arched palate
+    original_spans:
+      - 189:206
+  - id: HP:0034392
+    label: Joint contractures
+    original_spans:
+      - 238:255
+  - id: HP:0002650
+    label: Scoliosis
+    original_spans:
+      - 265:273
+  - id: HP:0034337
+    label: Claw hand deformities
+    original_spans:
+      - 302:322
+  - id: HP:0001761
+    label: Pes cavus
+    original_spans:
+      - 349:357
+  - id: AUTO:Hammer%20toes
+    label: Hammer toes
+    original_spans:
+      - 362:372
+  - id: HP:0001760
+    label: Foot deformities
+    original_spans:
+      - 376:391
+  - id: AUTO:Shoulder%20muscle%20weakness
+    label: Shoulder muscle weakness
+    original_spans:
+      - 416:439
+  - id: HP:0006006
+    label: Hypotrophy of the small hand muscles
+    original_spans:
+      - 462:497
+  - id: AUTO:Fiber-type%20predominance
+    label: Fiber-type predominance
+    original_spans:
+      - 501:523
+  - id: AUTO:Fiber%20size%20variation
+    label: Fiber size variation
+    original_spans:
+      - 568:587
+  - id: AUTO:Internal%20nuclei
+    label: Internal nuclei
+    original_spans:
+      - 610:624
+  - id: HP:0009025
+    label: Increased connective tissue
+    original_spans:
+      - 647:673
+  - id: HP:0003798
+    label: Nemaline rods
+    original_spans:
+      - 696:708
+  - id: AUTO:Group%20fiber%20atrophy
+    label: Group fiber atrophy
+    original_spans:
+      - 731:749
+  - id: AUTO:Angular%20fibers
+    label: Angular fibers
+    original_spans:
+      - 772:785
+  - id: AUTO:EMG%20consistent%20with%20chronic%20neurogenic%20disorder
+    label: EMG consistent with chronic neurogenic disorder
+    original_spans:
+      - 808:854
+  - id: HP:0001270
+    label: Delayed motor development
+    original_spans:
+      - 892:916
+  - id: HP:0002460
+    label: Distal limb muscle weakness due to peripheral neuropathy
+    original_spans:
+      - 965:1020
+  - id: 
+      AUTO:Distal%20limb%20muscle%20atrophy%20due%20to%20peripheral%20neuropathy
+    label: Distal limb muscle atrophy due to peripheral neuropathy
+    original_spans:
+      - 1024:1078
+  - id: AUTO:%27Steppage%27%20gait
+    label: "'Steppage' gait"
+    original_spans:
+      - 1082:1096
+  - id: HP:0009027
+    label: Foot drop
+    original_spans:
+      - 1100:1108
+  - id: HP:0002936
+    label: Distal sensory impairment
+    original_spans:
+      - 1112:1136
+  - id: HP:0001265
+    label: Hyporeflexia
+    original_spans:
+      - 1140:1151
+  - id: HP:0001284
+    label: Areflexia
+    original_spans:
+      - 1155:1163
+  - id: 
+      AUTO:Normal%20or%20mildly%20decreased%20motor%20nerve%20conduction%20velocity%20%28NCV%29
+    label: Normal or mildly decreased motor nerve conduction velocity (NCV)
+    original_spans:
+      - 1167:1230
+  - id: AUTO:Axonopathy
+    label: Axonopathy
+    original_spans:
+      - 1256:1265
+  - id: 
+      AUTO:Giant%20axons%20with%20accumulation%20of%20disorganized%20neurofilaments
+    label: Giant axons with accumulation of disorganized neurofilaments
+    original_spans:
+      - 1290:1349
+  - id: HP:0000006
+    label: Autosomal dominant
+    original_spans:
+      - 67:84
+  - id: HGNC:7739
+    label: NEFL
+    original_spans:
+      - 1669:1672
+  - id: AUTO:first%20decade
+    label: first decade
+  - id: AUTO:second%20decade
+    label: second decade
+  - id: AUTO:third%20decade
+    label: third decade
+    original_spans:
+      - 1405:1416

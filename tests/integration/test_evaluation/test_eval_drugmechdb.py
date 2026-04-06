@@ -1,11 +1,18 @@
 """Core tests."""
 import unittest
+from pathlib import Path
 
 import yaml
 
 from ontogpt.engines.spires_engine import SPIRESEngine
 from ontogpt.evaluation.drugmechdb.datamodel.drugmechdb import Graph, Mechanism
-from ontogpt.evaluation.drugmechdb.eval_drugmechdb import EvalDrugMechDB, _fix_source_mechanism
+from ontogpt.evaluation.drugmechdb.eval_drugmechdb import (
+    DATABASE_DIR,
+    EXEMPLAR_CASES,
+    MOA_TEXTS,
+    EvalDrugMechDB,
+    _fix_source_mechanism,
+)
 from tests import OUTPUT_DIR
 
 NORMALIZED_OUT = OUTPUT_DIR / "drugmechdb-normalized.yaml"
@@ -96,6 +103,8 @@ class TestDrugMechDB(unittest.TestCase):
         )
 
     def test_load_exemplars(self):
+        if not EXEMPLAR_CASES.exists():
+            self.skipTest("DrugMechDB exemplar data is not available in this checkout")
         mechanisms = self.engine.load_exemplars()
         objs = [m.dict() for m in mechanisms]
         print(yaml.dump(objs[0:5]))
@@ -119,6 +128,8 @@ class TestDrugMechDB(unittest.TestCase):
 
         :return:
         """
+        if not (DATABASE_DIR / "indication_paths.yaml.gz").exists():
+            self.skipTest("DrugMechDB source database is not available in this checkout")
         mechanisms = self.engine.load_and_transform_source_database()
         print(f"Loaded {len(mechanisms)} mechanisms")
         objs = [m.dict() for m in mechanisms]
@@ -128,6 +139,8 @@ class TestDrugMechDB(unittest.TestCase):
         self.assertGreater(len(mechanisms), 0)
 
     def test_load_target_database(self):
+        if not (DATABASE_DIR / "drugmechdb-normalized.yaml.gz").exists():
+            self.skipTest("DrugMechDB normalized database is not available in this checkout")
         mechanisms = self.engine.load_target_database()
         print(f"Loaded {len(mechanisms)} mechanisms")
         objs = [m.dict() for m in mechanisms[0:5]]
@@ -135,6 +148,8 @@ class TestDrugMechDB(unittest.TestCase):
         self.assertGreater(len(mechanisms), 0)
 
     def test_drug_to_mechanism_text(self):
+        if not MOA_TEXTS.exists():
+            self.skipTest("DrugMechDB mechanism text data is not available in this checkout")
         self.assertTrue(
             self.engine.drug_to_mechanism_text["drugbank:DB00005"].startswith(
                 "There are two distinct receptors"
@@ -142,6 +157,8 @@ class TestDrugMechDB(unittest.TestCase):
         )
 
     def test_training_set(self):
+        if not ((DATABASE_DIR / "drugmechdb-normalized.yaml.gz").exists() and MOA_TEXTS.exists()):
+            self.skipTest("DrugMechDB training assets are not available in this checkout")
         evaluator = self.engine
         ke = evaluator.extractor
         training_set = list(evaluator.create_training_set(100))
@@ -151,6 +168,8 @@ class TestDrugMechDB(unittest.TestCase):
         # print(yaml.dump(training_set))
 
     def test_eval_extraction(self):
+        if not ((DATABASE_DIR / "drugmechdb-normalized.yaml.gz").exists() and MOA_TEXTS.exists()):
+            self.skipTest("DrugMechDB evaluation assets are not available in this checkout")
         evaluator = self.engine
         evaluator.num_tests = 100
         eos = evaluator.eval()
@@ -168,6 +187,8 @@ class TestDrugMechDB(unittest.TestCase):
             yaml.dump(eos.dict(), f)
 
     def test_eval_generalize(self):
+        if not EXEMPLAR_CASES.exists():
+            self.skipTest("DrugMechDB exemplar data is not available in this checkout")
         evaluator = self.engine
         evaluator.num_tests = 3
         evaluator.num_training = 3

@@ -300,12 +300,17 @@ class ReasonerEngine(KnowledgeEngine):
             result.precision = 0.0
         else:
             result.precision = result.num_true_positives / tp_plus_tn
-        result.recall = result.num_true_positives / len(positives)
+        if positives:
+            result.recall = result.num_true_positives / len(positives)
+        else:
+            result.recall = None
         if len(all_texts) == 0:
             result.jaccard_score = 0.0
         else:
             result.jaccard_score = len(ixn) / len(all_texts)
-        if result.num_true_positives == 0:
+        if result.recall is None:
+            result.f1_score = None
+        elif result.num_true_positives == 0:
             result.f1_score = 0.0
         else:
             result.f1_score = (

@@ -1,354 +1,330 @@
-input_id: /Users/cjm/repos/ontogpt/tests/input/cases/recipe-egg-noodles.txt
-input_text: "Homemade Egg Noodles\n\nGather the ingredients.\n\nCombine the flour\
-  \ and salt in a large shallow bowl or on a clean work surface. Make a well in the\
-  \ center, almost like a \"bowl\" of flour, to hold the eggs. Crack the eggs into\
-  \ it.\n\nFlour with eggs cracked into the well in the center\nUse a fork to beat\
-  \ the eggs and then gradually start incorporating the flour into the eggs. As you\
-  \ beat them, they will slowly but surely take up some flour from the edges.\n\n\
-  Eggs beat with a fork in a well in the center of flour\nKeep stirring and pulling\
-  \ in more flour until a solid dough forms. The dough will be sticky. Don't worry;\
-  \ you'll be working in more flour in a moment. Add too much flour now, and the extra\
-  \ flour needed to roll out the noodles will lead to a dry rather than tender noodle.\n\
-  \nMixed egg and flour kneaded together to form a shaggy dough\nTurn the dough out\
-  \ onto a well-floured work surface. With well-floured hands, knead the dough, incorporating\
-  \ more flour as necessary to keep it from sticking to either the work surface or\
-  \ your hands, until the dough is smooth and firm and no longer sticky. This takes\
-  \ roughly 5 to 10 minutes.\n\nFormed dough ball for egg pasta\nWrap the dough with\
-  \ plastic wrap and chill it for at least 30 minutes and up to overnight.\n\nBall\
-  \ of egg pasta dough in glass bowl covered with plastic wrap\nDivide the chilled\
-  \ dough into 2 pieces and work with one half of the dough at a time.\n\nBall of\
-  \ egg pasta dough cut in half with a knife\nOn a well-floured surface, roll out\
-  \ the dough to the desired thickness (anywhere from 1/4 inch to paper-thin, depending\
-  \ on your preference). Be sure to rotate or otherwise move the dough between each\
-  \ pass of the rolling pin to keep the dough from sticking to the work surface underneath.\
-  \ Sprinkle everything with flour\u2014including the work surface when you lift the\
-  \ dough\u2014as necessary to keep the dough from sticking.\n\nEgg pasta dough rolled\
-  \ out with wooden rolling pin\nUse a sharp knife or pizza cutting wheel to cut the\
-  \ noodles. You can make them as narrow or wide as you like. Be sure to cut them\
-  \ as evenly as possible to ensure a uniform cooking time. If you fold the dough\
-  \ to cut, make sure it is floured so it does not stick together.\n\nFresh pasta\
-  \ cut into noodles with a knife\nLay the noodles on a cooling or drying rack and\
-  \ let them sit until ready to cook. Repeat rolling and cutting with the remaining\
-  \ half of the dough.\n\nFresh homemade egg pasta noodles on a marble counter \n\
-  Boil the noodles in well-salted water until tender to the bite (2 to 10 minutes\
-  \ for fresh noodles depending on the thickness). Drain and use in your favorite\
-  \ recipe. Enjoy!\n\nEgg pasta noodles with pesto and Parmesan cheese on a plate\n\
-  \n"
-raw_completion_output: "\nLabel: Homemade Egg Noodles \nDescription: Homemade egg\
-  \ noodles that are boiled until tender for use in your favorite recipe.\nCategories:\
-  \ Pasta; Noodles \nIngredients: Flour; Salt; Eggs \nSteps: Gather the ingredients;\
-  \ Combine the flour and salt in a bowl/on a work surface and make a well in the\
-  \ center; Beat eggs with a fork and gradually incorporate flour; Knead dough with\
-  \ well-floured hands until smooth and firm; Wrap dough in plastic wrap and chill;\
-  \ Divide chilled dough into two and roll out; Cut noodles; Boil in salted water\
-  \ and drain; Enjoy."
-prompt: 'Split the following piece of text into fields in the following format:
+input_id: /home/harry/ontogpt/tests/input/cases/recipe-egg-noodles.txt
+input_text: |+
+  Homemade Egg Noodles
 
+  Gather the ingredients.
 
-  food: <the food item>
+  Combine the flour and salt in a large shallow bowl or on a clean work surface. Make a well in the center, almost like a "bowl" of flour, to hold the eggs. Crack the eggs into it.
 
-  state: <the state of the food item (e.g. chopped, diced)>
+  Flour with eggs cracked into the well in the center
+  Use a fork to beat the eggs and then gradually start incorporating the flour into the eggs. As you beat them, they will slowly but surely take up some flour from the edges.
 
+  Eggs beat with a fork in a well in the center of flour
+  Keep stirring and pulling in more flour until a solid dough forms. The dough will be sticky. Don't worry; you'll be working in more flour in a moment. Add too much flour now, and the extra flour needed to roll out the noodles will lead to a dry rather than tender noodle.
+
+  Mixed egg and flour kneaded together to form a shaggy dough
+  Turn the dough out onto a well-floured work surface. With well-floured hands, knead the dough, incorporating more flour as necessary to keep it from sticking to either the work surface or your hands, until the dough is smooth and firm and no longer sticky. This takes roughly 5 to 10 minutes.
+
+  Formed dough ball for egg pasta
+  Wrap the dough with plastic wrap and chill it for at least 30 minutes and up to overnight.
+
+  Ball of egg pasta dough in glass bowl covered with plastic wrap
+  Divide the chilled dough into 2 pieces and work with one half of the dough at a time.
+
+  Ball of egg pasta dough cut in half with a knife
+  On a well-floured surface, roll out the dough to the desired thickness (anywhere from 1/4 inch to paper-thin, depending on your preference). Be sure to rotate or otherwise move the dough between each pass of the rolling pin to keep the dough from sticking to the work surface underneath. Sprinkle everything with flour—including the work surface when you lift the dough—as necessary to keep the dough from sticking.
+
+  Egg pasta dough rolled out with wooden rolling pin
+  Use a sharp knife or pizza cutting wheel to cut the noodles. You can make them as narrow or wide as you like. Be sure to cut them as evenly as possible to ensure a uniform cooking time. If you fold the dough to cut, make sure it is floured so it does not stick together.
+
+  Fresh pasta cut into noodles with a knife
+  Lay the noodles on a cooling or drying rack and let them sit until ready to cook. Repeat rolling and cutting with the remaining half of the dough.
+
+  Fresh homemade egg pasta noodles on a marble counter 
+  Boil the noodles in well-salted water until tender to the bite (2 to 10 minutes for fresh noodles depending on the thickness). Drain and use in your favorite recipe. Enjoy!
+
+  Egg pasta noodles with pesto and Parmesan cheese on a plate
+
+raw_completion_output: |-
+  label: Homemade Egg Noodles  
+  description: A simple recipe for creating homemade egg noodles using flour, eggs, and salt. The dough is rolled out, cut into desired noodle shapes, and boiled until tender.  
+  categories: Pasta; Homemade; Comfort Food  
+  ingredients: 2 cups of flour; 1 teaspoon of salt; 3 large eggs  
+  steps: Combine the flour and salt in a large shallow bowl or on a clean work surface and make a well; Crack the eggs into the well and beat with a fork, incorporating flour gradually; Mix until a solid dough forms and knead until smooth, adding more flour as necessary; Wrap dough in plastic wrap and chill for at least 30 minutes; Divide dough into 2 pieces, roll out each to desired thickness on a floured surface; Cut into noodles with a knife or pizza cutter; Lay noodles on a rack to dry; Boil noodles in salted water until tender; Drain and use as desired.
+prompt: |+
+  Split the following piece of text into fields in the following format:
+
+  action: <the action taken in this step (e.g. mix, add)>
+  inputs: <a semicolon separated list of the inputs of this step>
+  outputs: <a semicolon separated list of the outputs of this step>
+  utensils: <the kitchen utensil used in this step (e.g. pan, bowl)>
 
 
   Text:
-
-  none
-
+  Drain and use as desired.
 
   ===
 
-
-  '
 extracted_object:
+  url: AUTO:cd80a861-9ccd-41bf-b4a2-86b4ef2d1766
   label: Homemade Egg Noodles
-  description: Homemade egg noodles that are boiled until tender for use in your favorite
-    recipe.
+  description: A simple recipe for creating homemade egg noodles using flour, 
+    eggs, and salt. The dough is rolled out, cut into desired noodle shapes, and
+    boiled until tender.
   categories:
-  - FOODON:03306347
-  - FOODON:03306944
+    - FOODON:03306347
+    - AUTO:Homemade
+    - AUTO:Comfort%20Food
   ingredients:
-  - food_item:
-      food: FOODON:03301116
-  - food_item:
-      food: AUTO:Salt
-      state: Chopped
-  - food_item:
-      food: FOODON:03316061
+    - food_item:
+        food: FOODON:00004510
+        state: n/a (Not applicable for flour as it does not have a specific 
+          state like chopped or diced)
+      amount:
+        value: '2'
+        unit: AUTO:cups
+    - food_item:
+        food: AUTO:salt
+        state: none
+      amount:
+        value: '1'
+        unit: UO:0010040
+    - food_item:
+        food: FOODON:03316061
+        state: none
+      amount:
+        value: '3'
+        unit: AUTO:large%20eggs
   steps:
-  - action: AUTO:Gather%3B
-    inputs:
-    - food: FOODON:00004272
-      state: N/A
-    utensils:
-    - AUTO:N/A.
-  - action: AUTO:Combine
-    inputs:
-    - food: FOODON:03301116
-    - food: AUTO:Salt
-      state: Chopped
-    outputs:
-    - food: AUTO:Well
-    utensils:
-    - AUTO:Bowl
-    - AUTO:Work%20surface
-  - action: AUTO:Beat%3B%20incorporate
-    inputs:
-    - food: FOODON:03316061
-    - food: FOODON:03301116
-    outputs:
-    - food: FOODON:03316061
-      state: beaten
-    - food: FOODON:03301116
-      state: incorporated
-    utensils:
-    - AUTO:fork
-  - action: AUTO:knead%3B
-    inputs:
-    - food: FOODON:03311552
-    outputs:
-    - food: FOODON:03311552
-      state: smooth and firm
-    utensils:
-    - AUTO:hands.
-  - action: AUTO:Wrap%3B%20Chill
-    inputs:
-    - food: FOODON:03311552
-    outputs:
-    - food: FOODON:03311552
-    utensils:
-    - AUTO:None
-  - action: AUTO:divide%3B%20roll%20out
-    inputs:
-    - food: FOODON:03311552
-      state: chilled
-    outputs:
-    - food: AUTO:two%20pieces%20of%20dough
-    utensils:
-    - AUTO:none
-  - action: FOODON:00002777
-    inputs:
-    - food: FOODON:03306944
-    outputs:
-    - food: FOODON:03306944
-      state: cut
-    utensils:
-    - AUTO:none
-  - action: AUTO:Boil%3B%20Drain
-    inputs:
-    - food: FOODON:00002340
-    - food: AUTO:Salt
-      state: Chopped
-    outputs:
-    - food: AUTO:Boiled%20Water
-      state: Boiled
-    utensils:
-    - AUTO:Pot
-  - action: AUTO:none
-    inputs:
-    - food: AUTO:none
-    outputs:
-    - food: AUTO:none
-    utensils:
-    - AUTO:none
+    - action: AUTO:Combine
+      inputs:
+        - food: FOODON:00004510
+          state: n/a (Not applicable for flour as it does not have a specific 
+            state like chopped or diced)
+        - food: AUTO:salt
+          state: none
+      outputs:
+        - food: AUTO:salt
+          state: combined
+      utensils:
+        - AUTO:large%20shallow%20bowl
+        - AUTO:clean%20work%20surface
+    - action: AUTO:beat
+      inputs:
+        - food: FOODON:03316061
+          state: none
+        - food: FOODON:00004510
+          state: n/a (Not applicable for flour as it does not have a specific 
+            state like chopped or diced)
+      utensils:
+        - AUTO:fork
+    - action: AUTO:mix%3B%20knead%3B%20add
+      inputs:
+        - food: FOODON:03311552
+          state: None
+        - food: FOODON:00004510
+          state: n/a (Not applicable for flour as it does not have a specific 
+            state like chopped or diced)
+      outputs:
+        - food: FOODON:03311552
+          state: solid
+        - food: FOODON:03311552
+          state: smooth
+      utensils:
+        - AUTO:None
+    - action: AUTO:chill
+      inputs:
+        - food: FOODON:03311552
+          state: None
+        - food: AUTO:plastic%20wrap
+          state: N/A
+      outputs:
+        - food: FOODON:03311552
+          state: chilled
+      utensils:
+        - AUTO:none%20%28the%20plastic%20wrap%20isn%27t%20typically%20considered%20a%20utensil%29
+    - action: AUTO:roll%20out
+      inputs:
+        - food: FOODON:03311552
+          state: each piece
+        - food: FOODON:03500010
+          state: floured
+      outputs:
+        - food: FOODON:03311552
+          state: desired thickness, pieces
+    - action: FOODON:00002777
+      outputs:
+        - food: FOODON:03306944
+          state: N/A
+      utensils:
+        - AUTO:knife
+        - AUTO:pizza%20cutter
+    - action: AUTO:lay
+      inputs:
+        - food: FOODON:03306944
+          state: N/A
+      outputs:
+        - food: FOODON:03306944
+          state: dried
+      utensils:
+        - AUTO:rack
+    - action: AUTO:boil
+      inputs:
+        - food: FOODON:03306944
+          state: N/A
+        - food: FOODON:00002340
+          state: salted
+      outputs:
+        - food: FOODON:03306944
+          state: tender
+      utensils:
+        - AUTO:pot
+    - action: AUTO:use
 named_entities:
-- id: AUTO:Main
-  label: Main
-- id: FOODON:03306347
-  label: Pasta
-- id: FOODON:03301704
-  label: onion
-- id: AUTO:small%20%28chopped%29
-  label: small (chopped)
-- id: FOODON:00003485
-  label: bell pepper
-- id: AUTO:cups
-  label: cups
-- id: FOODON:00003582
-  label: garlic
-- id: UO:0010042
-  label: tablespoons
-- id: FOODON:03310351
-  label: butter
-- id: AUTO:salt
-  label: salt
-- id: UO:0010040
-  label: teaspoon
-- id: FOODON:00001649
-  label: pepper
-- id: FOODON:03000227
-  label: tomato
-- id: AUTO:%2815%20ounce%29%20cans
-  label: (15 ounce) cans
-- id: AUTO:1%20%2816%20ounce%29%20box%20spaghetti%20noodles
-  label: 1 (16 ounce) box spaghetti noodles
-- id: FOODON:00001282
-  label: hamburger meat
-- id: AUTO:lbs
-  label: lbs
-- id: AUTO:Melt%3B%20Saut%C3%A9
-  label: "Melt; Saut\xE9"
-- id: AUTO:Pan
-  label: Pan
-- id: AUTO:add%3B%20cook
-  label: add; cook
-- id: AUTO:well%20done
-  label: well done
-- id: AUTO:pan
-  label: pan
-- id: AUTO:Add
-  label: Add
-- id: AUTO:adjust%3B
-  label: adjust;
-- id: FOODON:03460173
-  label: salted
-- id: AUTO:none
-  label: none
-- id: AUTO:Cook
-  label: Cook
-- id: FOODON:03306944
-  label: noodles
-- id: AUTO:Mix%3B
-  label: Mix;
-- id: FOODON:03311146
-  label: sauce
-- id: HANCESTRO:0415
-  label: Mexican
-- id: AUTO:Soup
-  label: Soup
-- id: AUTO:poached%20chicken
-  label: poached chicken
-- id: AUTO:1%20%2815%20oz%29%20can%20fire%20roasted%20tomatoes
-  label: 1 (15 oz) can fire roasted tomatoes
-- id: AUTO:N/A
-  label: N/A
-- id: AUTO:red%20enchilada%20sauce
-  label: red enchilada sauce
-- id: AUTO:oz
-  label: oz
-- id: FOODON:03310943
-  label: zucchini
-- id: AUTO:medium%2C%20sliced%20into%201/4-inch%20half%20circles
-  label: medium, sliced into 1/4-inch half circles
-- id: AUTO:1%20%284%20oz%29%20can%20green%20chilies
-  label: 1 (4 oz) can green chilies
-- id: FOODON:03411457
-  label: chicken
-- id: AUTO:creamed%20corn
-  label: creamed corn
-- id: AUTO:ground%20cumin
-  label: ground cumin
-- id: AUTO:tsp
-  label: tsp
-- id: FOODON:03302030
-  label: chili powder
-- id: AUTO:sea%20salt
-  label: sea salt
-- id: AUTO:freshly%20ground%20black%20pepper
-  label: freshly ground black pepper
-- id: AUTO:bay%20leaves
-  label: bay leaves
-- id: AUTO:cilantro
-  label: cilantro
-- id: AUTO:Tbsp
-  label: Tbsp
-- id: FOODON:00003661
-  label: lime
-- id: FOODON:03302515
-  label: sour cream
-- id: FOODON:00001013
-  label: cheese
-- id: FOODON:00003600
-  label: avocado
-- id: AUTO:large%2C%20sliced
-  label: large, sliced
-- id: FOODON:03310710
-  label: Tortilla chips
-- id: AUTO:Pick%3B
-  label: Pick;
-- id: AUTO:pre-cooked%20chicken
-  label: pre-cooked chicken
-- id: AUTO:meat
-  label: meat
-- id: dbpediaont:Square
-  label: Place
-- id: AUTO:large%20stock%20pot
-  label: large stock pot
-- id: AUTO:Pot
-  label: Pot
-- id: AUTO:add%3B
-  label: add;
-- id: FOODON:03304007
-  label: enchilada sauce
-- id: FOODON:03317304
-  label: chilis
-- id: AUTO:corn
-  label: corn
-- id: FOODON:00003024
-  label: cumin
-- id: AUTO:pot
-  label: pot
-- id: AUTO:Stir%3B
-  label: Stir;
-- id: AUTO:combine
-  label: combine
-- id: AUTO:-
-  label: '-'
-- id: AUTO:cook%3B
-  label: cook;
-- id: AUTO:soup
-  label: soup
-- id: AUTO:none.
-  label: none.
-- id: AUTO:topping%3B
-  label: topping;
-- id: AUTO:fresh%20lime%20juice
-  label: fresh lime juice
-- id: FOODON:03302052
-  label: corn chips
-- id: FOODON:03301116
-  label: Flour
-- id: AUTO:Salt
-  label: Salt
-- id: FOODON:03316061
-  label: Eggs
-- id: AUTO:Gather%3B
-  label: Gather;
-- id: FOODON:00004272
-  label: ingredients
-- id: AUTO:N/A.
-  label: N/A.
-- id: AUTO:Combine
-  label: Combine
-- id: AUTO:Well
-  label: Well
-- id: AUTO:Bowl
-  label: Bowl
-- id: AUTO:Work%20surface
-  label: Work surface
-- id: AUTO:Beat%3B%20incorporate
-  label: Beat; incorporate
-- id: AUTO:fork
-  label: fork
-- id: AUTO:knead%3B
-  label: knead;
-- id: FOODON:03311552
-  label: dough
-- id: AUTO:hands.
-  label: hands.
-- id: AUTO:Wrap%3B%20Chill
-  label: Wrap; Chill
-- id: AUTO:None
-  label: None
-- id: AUTO:divide%3B%20roll%20out
-  label: divide; roll out
-- id: AUTO:two%20pieces%20of%20dough
-  label: two pieces of dough
-- id: FOODON:00002777
-  label: Cut
-- id: AUTO:Boil%3B%20Drain
-  label: Boil; Drain
-- id: FOODON:00002340
-  label: Water
-- id: AUTO:Boiled%20Water
-  label: Boiled Water
+  - id: AUTO:Homemade
+    label: Homemade
+    original_spans:
+      - 0:7
+      - 2395:2402
+  - id: AUTO:Comfort%20Food
+    label: Comfort Food
+  - id: FOODON:00004510
+    label: flour
+    original_spans:
+      - 59:63
+      - 177:181
+      - 227:231
+      - 350:354
+      - 430:434
+      - 502:506
+      - 542:546
+      - 640:644
+      - 672:676
+      - 697:701
+      - 795:799
+      - 872:876
+      - 904:908
+      - 955:959
+      - 1469:1473
+      - 1772:1776
+      - 2159:2163
+  - id: FOODON:03316061
+    label: eggs
+    original_spans:
+      - 196:199
+      - 212:215
+      - 238:241
+      - 302:305
+      - 365:368
+      - 453:456
+  - id: AUTO:large%20eggs
+    label: large eggs
+  - id: AUTO:Combine
+    label: Combine
+    original_spans:
+      - 47:53
+  - id: AUTO:large%20shallow%20bowl
+    label: large shallow bowl
+    original_spans:
+      - 79:96
+  - id: AUTO:clean%20work%20surface
+    label: clean work surface
+    original_spans:
+      - 106:123
+  - id: AUTO:beat
+    label: beat
+    original_spans:
+      - 293:296
+      - 378:381
+      - 458:461
+  - id: AUTO:fork
+    label: fork
+    original_spans:
+      - 285:288
+      - 470:473
+  - id: AUTO:mix%3B%20knead%3B%20add
+    label: mix; knead; add
+  - id: FOODON:03311552
+    label: dough
+    original_spans:
+      - 562:566
+      - 579:583
+      - 835:839
+      - 850:854
+      - 929:933
+      - 1051:1055
+      - 1142:1146
+      - 1176:1180
+      - 1277:1281
+      - 1342:1346
+      - 1392:1396
+      - 1428:1432
+      - 1499:1503
+      - 1640:1644
+      - 1695:1699
+      - 1823:1827
+      - 1854:1858
+      - 1886:1890
+      - 2129:2133
+      - 2381:2385
+  - id: AUTO:None
+    label: None
+  - id: AUTO:chill
+    label: chill
+    original_spans:
+      - 1204:1208
+      - 1334:1338
+  - id: AUTO:plastic%20wrap
+    label: plastic wrap
+    original_spans:
+      - 1187:1198
+      - 1310:1321
+  - id: 
+      AUTO:none%20%28the%20plastic%20wrap%20isn%27t%20typically%20considered%20a%20utensil%29
+    label: none (the plastic wrap isn't typically considered a utensil)
+  - id: AUTO:roll%20out
+    label: roll out
+    original_spans:
+      - 713:720
+      - 1486:1493
+  - id: FOODON:03500010
+    label: surface
+    original_spans:
+      - 117:123
+      - 885:891
+      - 1018:1024
+      - 1477:1483
+      - 1727:1733
+      - 1797:1803
+  - id: FOODON:00002777
+    label: cut
+    original_spans:
+      - 1434:1436
+      - 1954:1956
+      - 1971:1973
+      - 2048:2050
+      - 2138:2140
+      - 2211:2213
+      - 2342:2344
+  - id: AUTO:knife
+    label: knife
+    original_spans:
+      - 1453:1457
+      - 1939:1943
+      - 2235:2239
+  - id: AUTO:pizza%20cutter
+    label: pizza cutter
+  - id: AUTO:lay
+    label: lay
+    original_spans:
+      - 2241:2243
+  - id: AUTO:rack
+    label: rack
+    original_spans:
+      - 203:206
+      - 244:247
+      - 2280:2283
+  - id: AUTO:boil
+    label: boil
+    original_spans:
+      - 2443:2446
+  - id: FOODON:00002340
+    label: water
+    original_spans:
+      - 2475:2479
+  - id: AUTO:use
+    label: use
+    original_spans:
+      - 279:281
+      - 1927:1929
+      - 2580:2582

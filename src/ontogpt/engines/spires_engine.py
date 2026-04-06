@@ -287,7 +287,7 @@ class SPIRESEngine(KnowledgeEngine):
         object: Union[pydantic.BaseModel, dict],
         examples: List[EXAMPLE],
         show_prompt: bool = False,
-    ) -> ExtractionResult:
+    ) -> pydantic.BaseModel:
         """
         Generalize the given examples.
 
@@ -310,13 +310,7 @@ class SPIRESEngine(KnowledgeEngine):
         logging.debug(f"PROMPT: {prompt}")
         payload = self.client.complete(prompt, show_prompt)
         prediction = self.parse_completion_payload(payload, object=object)
-        return ExtractionResult(
-            input_text=prompt,
-            raw_completion_output=payload,
-            # prompt=self.last_prompt,
-            results=[prediction],
-            named_entities=self.named_entities,
-        )
+        return prediction
 
     def map_terms(
         self, terms: List[str], ontology: str, show_prompt: bool = False

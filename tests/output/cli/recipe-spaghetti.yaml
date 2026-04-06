@@ -1,4 +1,4 @@
-input_id: /home/harry/ontogpt/tests/input/cases/recipe-spaghetti.txt
+---
 input_text: |
   SIMPLE SPAGHETTI
 
@@ -32,10 +32,10 @@ input_text: |
   lb hamburger meat.
 raw_completion_output: |-
   label: SIMPLE SPAGHETTI  
-  description: A classic spaghetti recipe featuring sautéed onions and bell peppers with hamburger meat in a tomato sauce, served over spaghetti noodles.  
-  categories: Italian; Pasta; Main Course  
-  ingredients: 1 small onion (chopped); 1 bell pepper (chopped); 2 tablespoons garlic powder; 3 tablespoons butter; 1 teaspoon salt; 1 teaspoon pepper; 2 (15 ounce) cans tomato sauce; 1 (16 ounce) box spaghetti noodles; 1-1 1⁄2 lb hamburger meat  
-  steps: On medium heat melt the butter and sautee the onion and bell peppers; Add the hamburger meat and cook until meat is well done; Add the tomato sauce, salt, pepper and garlic powder; Salt, pepper and garlic powder can be adjusted to your own tastes; Cook noodles as directed; Mix the sauce and noodles if you like, I keep them separated.  
+  description: A simple spaghetti recipe with a flavorful sauce made from sautéed onions, bell peppers, and hamburger meat, served with spaghetti noodles.  
+  categories: Pasta; Main Course; Italian  
+  ingredients: 1 small onion (chopped); 1 bell pepper (chopped); 2 tablespoons garlic powder; 3 tablespoons butter; 1 teaspoon salt; 1 teaspoon pepper; 2 (15 ounce) cans tomato sauce; 1 (16 ounce) box spaghetti noodles; 1 - 1 1⁄2 lb hamburger meat  
+  steps: On medium heat melt the butter and sautee the onion and bell peppers; Add the hamburger meat and cook until meat is well done; Add the tomato sauce, salt, pepper, and garlic powder; Adjust salt, pepper, and garlic powder to taste; Cook noodles as directed; Mix the sauce and noodles if desired, or keep them separated.
 prompt: |+
   Split the following piece of text into fields in the following format:
 
@@ -44,30 +44,30 @@ prompt: |+
 
 
   Text:
-  mixed sauce and noodles
+  sauce and noodles mixed
 
   ===
 
 extracted_object:
-  url: AUTO:1e1f7c7e-c853-4275-8b78-7e48b490cd1b
+  url: AUTO:291673d2-7028-4c8e-9d38-bc21fab23b77
   label: SIMPLE SPAGHETTI
-  description: A classic spaghetti recipe featuring sautéed onions and bell 
-    peppers with hamburger meat in a tomato sauce, served over spaghetti 
+  description: A simple spaghetti recipe with a flavorful sauce made from 
+    sautéed onions, bell peppers, and hamburger meat, served with spaghetti 
     noodles.
   categories:
-    - HANCESTRO:0307
     - FOODON:03306347
     - AUTO:Main%20Course
+    - HANCESTRO:0307
   ingredients:
     - food_item:
-        food: AUTO:small%20onion
-        state: chopped
+        food: FOODON:03316347
+        state: (unspecified)
       amount:
         value: '1'
-        unit: AUTO:%28none%20provided%29
+        unit: AUTO:small%20%28chopped%29
     - food_item:
         food: FOODON:00003546
-        state: (not specified)
+        state: None
       amount:
         value: '1'
         unit: AUTO:%28chopped%29
@@ -79,99 +79,90 @@ extracted_object:
         unit: UO:0010042
     - food_item:
         food: FOODON:03310351
-        state: n/a
+        state: unaltered
       amount:
         value: '3'
         unit: UO:0010042
     - food_item:
         food: AUTO:salt
-        state: none
+        state: N/A
       amount:
         value: '1'
         unit: UO:0010040
     - food_item:
         food: FOODON:00003520
-        state: none
+        state: \<not specified\>
       amount:
         value: '1'
         unit: UO:0010040
     - food_item:
         food: FOODON:03301217
-        state: N/A
+        state: None
       amount:
         value: '15'
         unit: UO:0010033
     - food_item:
         food: AUTO:spaghetti%20noodles
-        state: (not specified)
+        state: none
       amount:
-        value: '1'
-        unit: AUTO:%2816%20ounce%29%20box
+        value: '16'
+        unit: UO:0010033
     - food_item:
         food: FOODON:00001282
         state: none
       amount:
-        value: 1-1 1⁄2
+        value: 1 - 1 1⁄2
         unit: UO:0010034
   steps:
     - action: AUTO:melt%3B%20sautee
       inputs:
         - food: FOODON:03310351
-          state: n/a
+          state: unaltered
         - food: FOODON:03316347
-          state: None
+          state: (unspecified)
         - food: FOODON:00003546
-          state: None
+          state: none
       outputs:
         - food: FOODON:00003546
           state: sauteed
       utensils:
         - AUTO:pan
-    - action: AUTO:add
+    - action: AUTO:cook
       inputs:
         - food: FOODON:00001282
           state: none
       outputs:
-        - food: FOODON:00001282
-          state: cooked
+        - food: AUTO:meat
+          state: well-done
       utensils:
         - AUTO:pan
     - action: AUTO:add
       inputs:
         - food: FOODON:03301217
-          state: N/A
+          state: None
         - food: AUTO:salt
-          state: none
+          state: N/A
         - food: FOODON:00003520
-          state: none
+          state: \<not specified\>
         - food: FOODON:00003582
           state: powder
-      outputs:
-        - food: FOODON:03301217
-          state: seasoned with salt, pepper, and garlic powder
-      utensils:
-        - AUTO:none%20specified
     - action: AUTO:adjust
       inputs:
         - food: AUTO:salt
-          state: none
+          state: N/A
         - food: FOODON:00003520
-          state: none
+          state: \<not specified\>
         - food: FOODON:00003582
           state: powder
       outputs:
-        - food: AUTO:salt
+        - food: AUTO:none
           state: none
-        - food: FOODON:00003520
-          state: none
-        - food: FOODON:00003582
-          state: powder
       utensils:
         - AUTO:none
     - action: AUTO:cook
       inputs:
         - food: FOODON:03306944
-          state: N/A
+          state: none
       outputs:
         - food: FOODON:03306944
           state: cooked
@@ -180,27 +171,28 @@ extracted_object:
     - action: AUTO:mix
       inputs:
         - food: FOODON:03311146
-          state: none
+          state: None
         - food: FOODON:03306944
-          state: N/A
+          state: none
       outputs:
         - food: FOODON:03306944
-          state: N/A
+          state: mixed
       utensils:
-        - AUTO:none
+        - AUTO:None%20specified
 named_entities:
-  - id: HANCESTRO:0307
-    label: Italian
   - id: FOODON:03306347
     label: Pasta
   - id: AUTO:Main%20Course
     label: Main Course
-  - id: AUTO:small%20onion
-    label: small onion
+  - id: HANCESTRO:0307
+    label: Italian
+  - id: FOODON:03316347
+    label: onion
     original_spans:
-      - 390:400
-  - id: AUTO:%28none%20provided%29
-    label: (none provided)
+      - 75:79
+      - 396:400
+  - id: AUTO:small%20%28chopped%29
+    label: small (chopped)
   - id: FOODON:00003546
     label: bell pepper
     original_spans:
@@ -260,10 +252,6 @@ named_entities:
     label: spaghetti noodles
     original_spans:
       - 567:583
-  - id: AUTO:%2816%20ounce%29%20box
-    label: (16 ounce) box
-    original_spans:
-      - 552:565
   - id: FOODON:00001282
     label: hamburger meat
     original_spans:
@@ -275,37 +263,38 @@ named_entities:
       - 595:596
   - id: AUTO:melt%3B%20sautee
     label: melt; sautee
-  - id: FOODON:03316347
-    label: onion
-    original_spans:
-      - 75:79
-      - 396:400
   - id: AUTO:pan
     label: pan
+  - id: AUTO:cook
+    label: cook
+    original_spans:
+      - 126:129
+      - 277:280
+  - id: AUTO:meat
+    label: meat
+    original_spans:
+      - 117:120
+      - 137:140
+      - 608:611
   - id: AUTO:add
     label: add
     original_spans:
       - 99:101
       - 156:158
-  - id: AUTO:none%20specified
-    label: none specified
   - id: AUTO:adjust
     label: adjust
     original_spans:
       - 248:253
   - id: AUTO:none
     label: none
-  - id: AUTO:cook
-    label: cook
-    original_spans:
-      - 126:129
-      - 277:280
   - id: FOODON:03306944
     label: noodles
     original_spans:
       - 282:288
       - 321:327
       - 577:583
+  - id: AUTO:none%20specified
+    label: none specified
   - id: AUTO:mix
     label: mix
     original_spans:
@@ -316,3 +305,5 @@ named_entities:
       - 171:175
       - 311:315
       - 544:548
+  - id: AUTO:None%20specified
+    label: None specified

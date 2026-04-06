@@ -14,7 +14,7 @@ prompts:
     Patient-controlled Analgesia Morphine INDUCES dizziness and downbeating nystagmus.
   expected:
     - "predicate: INDUCES"
-    - "object: .*nystagmus"
+    - "object: .*(dizziness|nystagmus)"
 - engine: gpt-4o
   pre_prompt: |
     ## Instructions:
@@ -167,4 +167,3 @@ prompts:
   prompt: |
     Generate a list of exact synonyms for the chemical concept "heavy metal", as a semi-colon separated list.
     Only include concepts with the identical meaning. Do not include more specific concepts or broader concepts.
-

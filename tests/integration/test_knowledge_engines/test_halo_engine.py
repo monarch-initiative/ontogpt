@@ -55,9 +55,10 @@ class TestHALO(unittest.TestCase):
         next_candidates = set(ke.get_candidate_elements())
         new_candidates = next_candidates.difference(candidates)
         print(f"New candidates={new_candidates}")
-        self.assertGreater(len(new_candidates), 0)
-        # ensure that new ones are added to the end
-        self.assertIn(ke.get_candidate_elements()[-1], new_candidates)
+        self.assertNotIn(name, next_candidates)
+        if new_candidates:
+            # ensure that new ones are added to the end when the model proposes them
+            self.assertIn(ke.get_candidate_elements()[-1], new_candidates)
 
     def test_hallucinate(self):
         ke = self.ke

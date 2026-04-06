@@ -129,7 +129,7 @@ class Relationship(BaseModel):
 class Concept(BaseModel):
     id: CURIE
     label: str
-    definition: str = None
+    definition: Optional[str] = None
     synonyms: List[str] = []
     parents: List[str] = []
     relationships: List[Relationship] = []
@@ -287,7 +287,7 @@ class MappingEngine(KnowledgeEngine):
 
             mapping.subject_source = _get_source(mapping.subject_id)
             mapping.object_source = _get_source(mapping.object_id)
-            mp = MappingPredicate()
+            mp = MappingPredicate.EXACT_MATCH
             task = MappingTask(
                 subject=mapping.subject_id,
                 object=mapping.object_id,
@@ -321,7 +321,7 @@ class MappingEngine(KnowledgeEngine):
         self.subject_adapter = _get_adapter(mapping.subject_source)
         self.object_adapter = _get_adapter(mapping.object_source)
         cm = self.categorize_mapping(mapping.subject_id, mapping.object_id)
-        mp = MappingPredicate()
+        mp = MappingPredicate.EXACT_MATCH
         revmap = {v.upper(): k for k, v in mp.mappings().items()}
         if cm.predicate.upper() not in revmap:
             logger.warning(f"Unknown predicate {cm.predicate}")
@@ -357,7 +357,7 @@ class MappingEngine(KnowledgeEngine):
         return Concept(
             id=str(curie),
             label=label,
-            synonyms=sorted(list(adapter.aliases_by_curie(curie))),
+            synonyms=sorted(list(adapter.entity_aliases(curie))),
             definition=adapter.definition(curie),
             parents=parents,
             relationships=rels,

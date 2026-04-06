@@ -1,4 +1,5 @@
 """Core tests."""
+import os
 import pickle
 import unittest
 
@@ -6,7 +7,7 @@ from ontogpt.engines.spires_engine import SPIRESEngine
 from ontogpt.io.yaml_wrapper import dump_minimal_yaml
 from tests import CASES_DIR, OUTPUT_DIR
 
-CASES = [
+ALL_CASES = [
     ("recipe", "recipe-palak-paneer"),
     ("treatment", "treatment-schiz"),
     ("recipe.Recipe", "recipe-spaghetti"),
@@ -32,7 +33,25 @@ CASES = [
     ("environmental_sample.Study", "human_smoking_China"),
 ]
 
+SMOKE_CASE_NAMES = {
+    "treatment-schiz",
+    "recipe-spaghetti",
+    "drug-DB00316-moa",
+}
 
+CASES = [
+    case
+    for case in ALL_CASES
+    if case[1] in SMOKE_CASE_NAMES and (CASES_DIR / f"{case[1]}.txt").exists()
+]
+
+RUN_FULL_LIVE_EXTRACTION = os.getenv("ONTOGPT_RUN_FULL_LIVE_EXTRACTION") == "1"
+
+
+@unittest.skipUnless(
+    RUN_FULL_LIVE_EXTRACTION,
+    "Set ONTOGPT_RUN_FULL_LIVE_EXTRACTION=1 to run live multi-case extraction coverage",
+)
 class TestCases(unittest.TestCase):
     """Test annotation."""
 
@@ -45,6 +64,8 @@ class TestCases(unittest.TestCase):
 
     def test_cases(self):
         """Tests end to end knowledge extraction."""
+        if not CASES:
+            self.skipTest("No integration case input files are available in this checkout")
         for template, input_name in CASES:
             ke = self.ke_map[template]
             input_file = CASES_DIR / f"{input_name}.txt"

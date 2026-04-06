@@ -1601,7 +1601,7 @@ class OntologyExtractor:
             parents_list = list(parents)
             random.shuffle(parents_list)
             disjoints = [(parents_list[0], parents_list[1])]
-        if not incoherents or not siblings or not disjoints:
+        if incoherents is None or siblings is None or not disjoints:
             raise ValueError("Must specify incoherents, siblings, and disjoints")
         if not spiked_relationships:
             spiked_relationships = []
@@ -1609,7 +1609,20 @@ class OntologyExtractor:
         for s, _p, o in spiked_relationships:
             terms += [s, o]
         terms = list(set(terms))
-        ontology = self.extract_ontology(terms, roots)
+        if not terms and roots is not None:
+            terms = list(set(roots))
+        try:
+            ontology = self.extract_ontology(terms, roots)
+        except ValueError:
+            if not incoherents and not siblings and roots is not None:
+                ontology = Ontology(
+                    name="-".join(list(adapter.ontologies())),
+                    axioms=[],
+                    terms=list(set(roots)),
+                    predicates=[IS_A],
+                )
+            else:
+                raise
         for s, p, o in spiked_relationships:
             ontology.axioms.append(self._axiom((s, p, o)))
         for s, o in disjoints:

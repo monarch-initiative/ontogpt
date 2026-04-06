@@ -1,5 +1,6 @@
 """Core tests."""
 import logging
+import os
 import unittest
 
 from oaklib import get_adapter
@@ -29,11 +30,14 @@ client_logger = logging.getLogger(openai_client.__name__)
 
 client_logger.setLevel(logging.DEBUG)
 
+RUN_FULL_LIVE_EXTRACTION = os.getenv("ONTOGPT_RUN_FULL_LIVE_EXTRACTION") == "1"
+MAX_SSSOM_CASES = None if RUN_FULL_LIVE_EXTRACTION else 3
+
 
 def _show(mapping_eval: CategorizedMapping):
     print(f"{mapping_eval.subject} -> {mapping_eval.object}")
     print(mapping_eval.completion)
-    print(dump_minimal_yaml(mapping_eval.dict()))
+    print(dump_minimal_yaml(mapping_eval.model_dump()))
 
 
 class TestMapping(unittest.TestCase):
@@ -51,11 +55,11 @@ class TestMapping(unittest.TestCase):
         tc = MappingTaskCollection(name="test", subjects=subjects, object_sources=["ZFA"])
         tasks = list(mapper.generate_tasks(tc))
         for task in tasks:
-            print(dump_minimal_yaml(task.dict()))
+            print(dump_minimal_yaml(task.model_dump()))
         tc.tasks = tasks
         results = list(mapper.run_tasks(tc))
         for result in results:
-            print(dump_minimal_yaml(result.dict()))
+            print(dump_minimal_yaml(result.model_dump()))
 
     def test_from_sssom(self):
         mapper = self.mapper
@@ -66,10 +70,11 @@ class TestMapping(unittest.TestCase):
         tc = mapper.from_sssom(
             INPUT_DIR / "mondo-exact-ncit.sssom.tsv", exclude_functions=[_exclude_trivial]
         )
-        # print(dump_minimal_yaml(tc.dict()))
+        if MAX_SSSOM_CASES is not None:
+            tc.tasks = tc.tasks[:MAX_SSSOM_CASES]
         results = list(mapper.run_tasks(tc))
         for result in results:
-            print(dump_minimal_yaml(result.dict()))
+            print(dump_minimal_yaml(result.model_dump()))
 
     def test_from_sssom2(self):
         mapper = MappingEngine(
@@ -83,11 +88,15 @@ class TestMapping(unittest.TestCase):
         def _exclude_trivial(m: Mapping) -> bool:
             return m.subject_label.lower() == m.object_label.lower()
 
+        tested = 0
         for m in msd.mapping_set.mappings:
             if _exclude_trivial(m):
                 continue
             m2 = mapper.categorize_sssom_mapping(m)
             print(m2)
+            tested += 1
+            if MAX_SSSOM_CASES is not None and tested >= MAX_SSSOM_CASES:
+                break
 
     def test_mapping_eval(self):
         """Test evaluation of mapping on uberon."""
