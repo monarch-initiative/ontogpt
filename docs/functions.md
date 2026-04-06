@@ -149,21 +149,23 @@ Enable it by using `--show-prompt` and setting the verbosity level to high (`-vv
 
 ### api-base
 
-Use the option `api-base` to specify a base URL to use for your LLM API, e.g. for the Azure OpenAI API.
+Use the option `api-base` to specify a base URL to use for your LLM API, e.g. for Azure OpenAI or an OpenAI-compatible proxy endpoint.
 
-Note this may also be set through the runoak set-apikey command (e.g., `runoak set-apikey -e azure-base`)
+Note this may also be set through the runoak set-apikey command (e.g., `runoak set-apikey -e azure-base`) or via provider-specific LiteLLM environment variables when supported.
 
 ### api-version
 
 Use the option `api-version` to specify an API version to use for your LLM API, e.g. for the Azure OpenAI API.
 
-Note this may also be set through the runoak set-apikey command (e.g., `runoak set-apikey -e azure-version`)
+Note this may also be set through the runoak set-apikey command (e.g., `runoak set-apikey -e azure-version`) or via provider-specific LiteLLM environment variables when supported.
 
 ### model-provider
 
-Use the option `model-provider` to specify a provider if not specified in the model name.
+Use the option `model-provider` to specify a provider if it is not already encoded in the model name.
 
-For example, if using a proxy using the OpenAI API format, this should be set to 'openai'
+For example, if using a proxy using the OpenAI API format, this should be set to `openai`.
+
+In general, provider-qualified model names such as `anthropic/claude-3-5-sonnet` or `groq/llama-3.1-8b-instant` are preferred because they align directly with LiteLLM's provider resolution.
 
 ### temperature
 

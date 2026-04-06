@@ -1,6 +1,6 @@
 # Introduction
 
-_OntoGPT_ is a Python package for extracting structured information from text with large language models (LLMs), _instruction prompts_, and ontology-based grounding. It works well with OpenAI's GPT models as well as a selection of other LLMs. OntoGPT's output can be used for general-purpose natural language tasks (e.g., named entity recognition and relation extraction), summarization, knowledge base and knowledge graph construction, and more.
+_OntoGPT_ is a Python package for extracting structured information from text with large language models (LLMs), _instruction prompts_, and ontology-based grounding. It works well with OpenAI's GPT models as well as a broad range of other providers through LiteLLM. OntoGPT's output can be used for general-purpose natural language tasks (e.g., named entity recognition and relation extraction), summarization, knowledge base and knowledge graph construction, and more.
 
 ## Methods
 
@@ -9,7 +9,7 @@ The primary extraction method currently implemented in OntoGPT is SPIRES:
 * SPIRES: _Structured Prompt Interrogation and Recursive Extraction of Semantics_
   * A Zero-shot learning (ZSL) approach to extracting nested semantic structures from text
   * This approach takes two inputs - 1) LinkML schema 2) free text, and outputs knowledge in a structure conformant with the supplied schema in JSON, YAML, RDF or OWL formats
-  * Uses OpenAI GPT models through their API, or one of a variety of LLMs on your local machine
+  * Uses OpenAI GPT models, many LiteLLM-supported hosted providers, or local models through Ollama
 
 ## Quick Start
 
