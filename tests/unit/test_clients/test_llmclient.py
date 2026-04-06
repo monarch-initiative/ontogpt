@@ -1,5 +1,6 @@
 """Tests for the LLMClient."""
 
+import os
 import tempfile
 import unittest
 import unittest.mock as mock
@@ -236,3 +237,151 @@ def test_llmclient_complete_includes_api_key_when_set(monkeypatch):
     client.complete("hello")
 
     assert mock_completion.call_args.kwargs.get("api_key") == "test-key"
+
+
+def test_llmclient_explicit_api_key_preserves_key_and_allows_other_provider_settings(monkeypatch):
+    """Ensure explicit keys are preserved while Oaklib can fill other missing provider settings."""
+    import ontogpt.clients.llm_client as llm_mod
+
+    resolver = mock.MagicMock(return_value=("gpt-4o", "azure", None, None))
+    monkeypatch.setattr(llm_mod.litellm, "get_llm_provider", resolver)
+    monkeypatch.setattr(
+        llm_mod.litellm,
+        "validate_environment",
+        mock.MagicMock(
+            return_value={
+                "keys_in_environment": False,
+                "missing_keys": ["AZURE_API_BASE", "AZURE_API_VERSION"],
+            }
+        ),
+    )
+
+    def fake_get_apikey_value(name):
+        values = {
+            "azure-base": "https://example.openai.azure.com/",
+            "azure-version": "2024-10-21",
+        }
+        return values[name]
+
+    monkeypatch.setattr(llm_mod, "get_apikey_value", mock.MagicMock(side_effect=fake_get_apikey_value))
+
+    client = llm_mod.LLMClient(model="azure/gpt-4o", api_key="provided-key")
+
+    assert client.api_key == "provided-key"
+    assert client.api_base == "https://example.openai.azure.com/"
+    assert client.api_version == "2024-10-21"
+    resolver.assert_called_once()
+
+
+def test_llmclient_uses_litellm_provider_resolution_when_api_key_missing(monkeypatch):
+    """Ensure provider normalization is delegated to LiteLLM when no key is supplied."""
+    import ontogpt.clients.llm_client as llm_mod
+
+    resolver = mock.MagicMock(
+        return_value=("command-r-plus", "cohere_chat", None, "https://api.cohere.com/compat/v1")
+    )
+    monkeypatch.setattr(llm_mod.litellm, "get_llm_provider", resolver)
+    monkeypatch.setattr(
+        llm_mod.litellm,
+        "validate_environment",
+        mock.MagicMock(return_value={"keys_in_environment": True, "missing_keys": []}),
+    )
+
+    client = llm_mod.LLMClient(model="cohere/command-r-plus")
+
+    assert client.model == "command-r-plus"
+    assert client.custom_llm_provider == "cohere_chat"
+    assert client.api_base == "https://api.cohere.com/compat/v1"
+    assert client.api_key == ""
+    resolver.assert_called_once()
+
+
+def test_llmclient_uses_dynamic_api_key_from_litellm_resolution(monkeypatch):
+    """Ensure LiteLLM-provided dynamic keys are retained when present."""
+    import ontogpt.clients.llm_client as llm_mod
+
+    resolver = mock.MagicMock(
+        return_value=(
+            "some-model",
+            "openai",
+            "dynamic-key",
+            "https://custom-openai.example/v1",
+        )
+    )
+    monkeypatch.setattr(llm_mod.litellm, "get_llm_provider", resolver)
+    monkeypatch.setattr(
+        llm_mod.litellm,
+        "validate_environment",
+        mock.MagicMock(return_value={"keys_in_environment": True, "missing_keys": []}),
+    )
+
+    client = llm_mod.LLMClient(model="openai/some-model")
+
+    assert client.model == "some-model"
+    assert client.custom_llm_provider == "openai"
+    assert client.api_key == "dynamic-key"
+    assert client.api_base == "https://custom-openai.example/v1"
+
+
+def test_llmclient_uses_oaklib_api_key_fallback_for_provider(monkeypatch):
+    """Ensure Oaklib-stored provider keys are passed through when LiteLLM needs them."""
+    import ontogpt.clients.llm_client as llm_mod
+
+    monkeypatch.setattr(
+        llm_mod.litellm,
+        "get_llm_provider",
+        mock.MagicMock(return_value=("claude-3-5-sonnet", "anthropic", None, None)),
+    )
+    monkeypatch.setattr(
+        llm_mod.litellm,
+        "validate_environment",
+        mock.MagicMock(
+            return_value={"keys_in_environment": False, "missing_keys": ["ANTHROPIC_API_KEY"]}
+        ),
+    )
+    get_apikey = mock.MagicMock(return_value="oaklib-anthropic-key")
+    monkeypatch.setattr(llm_mod, "get_apikey_value", get_apikey)
+
+    client = llm_mod.LLMClient(model="anthropic/claude-3-5-sonnet")
+
+    assert client.api_key == "oaklib-anthropic-key"
+    assert os.environ["ANTHROPIC_API_KEY"] == "oaklib-anthropic-key"
+    get_apikey.assert_called_once_with("anthropic-key")
+
+
+def test_llmclient_uses_oaklib_env_fallback_for_vertex_settings(monkeypatch):
+    """Ensure Oaklib-stored non-key provider settings are exported for LiteLLM."""
+    import ontogpt.clients.llm_client as llm_mod
+
+    monkeypatch.delenv("VERTEXAI_PROJECT", raising=False)
+    monkeypatch.delenv("VERTEXAI_LOCATION", raising=False)
+    monkeypatch.setattr(
+        llm_mod.litellm,
+        "get_llm_provider",
+        mock.MagicMock(return_value=("gemini-1.5-flash", "vertex_ai", None, None)),
+    )
+    monkeypatch.setattr(
+        llm_mod.litellm,
+        "validate_environment",
+        mock.MagicMock(
+            return_value={
+                "keys_in_environment": False,
+                "missing_keys": ["VERTEXAI_PROJECT", "VERTEXAI_LOCATION"],
+            }
+        ),
+    )
+
+    def fake_get_apikey_value(name):
+        values = {
+            "vertexai-project": "oaklib-project",
+            "vertexai-location": "us-central1",
+        }
+        return values[name]
+
+    monkeypatch.setattr(llm_mod, "get_apikey_value", mock.MagicMock(side_effect=fake_get_apikey_value))
+
+    client = llm_mod.LLMClient(model="vertex_ai/gemini-1.5-flash")
+
+    assert client.api_key == ""
+    assert os.environ["VERTEXAI_PROJECT"] == "oaklib-project"
+    assert os.environ["VERTEXAI_LOCATION"] == "us-central1"

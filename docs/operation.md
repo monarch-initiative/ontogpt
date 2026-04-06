@@ -146,6 +146,8 @@ export OPENAI_API_KEY="key goes here"
 
 * The provider name. Because this is an OpenAI-style proxy, this value should be `openai` and will go with the `--model-provider` parameter.
 
+OntoGPT uses LiteLLM's provider resolution for these integrations, so using provider-qualified model names is preferred when possible. When the provider is ambiguous or hidden behind a proxy, `--model-provider` is the fallback.
+
 Here is an example with the `extract` command (this is not a public proxy and will not work without an API key):
 
 ```bash
@@ -155,6 +157,11 @@ ontogpt -vvv extract -t go_terms -i temp/genetest.txt -m anthropic/claude-opus -
 ## Caching
 
 OntoGPT uses LiteLLM to work with multiple LLM APIs and providers.
+
+This also means the supported provider set tracks LiteLLM fairly closely. For current provider coverage and credential configuration guidance, see:
+
+* <https://docs.litellm.ai/docs/providers>
+* <https://docs.litellm.ai/docs/set_keys>
 
 LiteLLM caches prompts and responses by default.
 

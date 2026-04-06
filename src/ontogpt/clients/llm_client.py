@@ -1,8 +1,10 @@
 """Client for running LLM completion requests through LiteLLM."""
 
 import logging
+import os
 import sys
 from dataclasses import dataclass, field
+from typing import Optional
 
 import litellm
 import numpy as np
@@ -11,15 +13,21 @@ from litellm import completion, embedding
 from litellm.caching.caching import Cache
 from oaklib.utilities.apikey_manager import get_apikey_value
 
-from ontogpt import DEFAULT_MODEL, MODELS
+from ontogpt import DEFAULT_MODEL
 
 logger = logging.getLogger(__name__)
 
-# Just get the part before the slash in each model name
-SERVICES = {model.split("/")[0] for model in MODELS.keys() if len(model.split("/")) > 1}
-
 # Necessary to avoid repeated debug messages
 litellm.suppress_debug_info = True
+
+OAKLIB_ENV_VAR_OVERRIDES = {
+    "OPENAI_API_KEY": ["openai", "openai-key"],
+    "AZURE_API_KEY": ["azure-key", "azure"],
+    "AZURE_API_BASE": ["azure-base"],
+    "AZURE_API_VERSION": ["azure-version"],
+    "GOOGLE_API_KEY": ["google", "google-key"],
+    "GEMINI_API_KEY": ["gemini", "gemini-key"],
+}
 
 
 @dataclass
@@ -28,23 +36,115 @@ class LLMClient:
     model: str = field(default_factory=lambda: DEFAULT_MODEL)
     cache_db_path: str = ""
     api_key: str = ""
-    api_base: str = None
-    api_version: str = None
+    api_base: Optional[str] = None
+    api_version: Optional[str] = None
 
     # litellm uses this param to specify client when it isn't clear from
     # the model name
-    custom_llm_provider: str = None
+    custom_llm_provider: Optional[str] = None
 
     temperature: float = 1.0
 
     system_message: str = ""
     """System message to be provided to the LLM."""
 
-    def __post_init__(self):
+    def _oaklib_key_names_for_env_var(self, env_var: str) -> list[str]:
+        if env_var in OAKLIB_ENV_VAR_OVERRIDES:
+            return OAKLIB_ENV_VAR_OVERRIDES[env_var]
+
+        lowered = env_var.lower()
+        if lowered.endswith("_api_key"):
+            base = lowered[:-8].replace("_", "-")
+            return [f"{base}-key", base]
+        if lowered.endswith("_api_base"):
+            base = lowered[:-9].replace("_", "-")
+            return [f"{base}-base"]
+        if lowered.endswith("_api_version"):
+            base = lowered[:-12].replace("_", "-")
+            return [f"{base}-version"]
+        if lowered.endswith("_api_token"):
+            base = lowered[:-10].replace("_", "-")
+            return [f"{base}-token", base]
+        return [lowered.replace("_", "-")]
+
+    def _get_oaklib_credential(self, env_var: str) -> Optional[str]:
+        for candidate in self._oaklib_key_names_for_env_var(env_var):
+            try:
+                return get_apikey_value(candidate)
+            except ValueError:
+                continue
+        return None
+
+    def _resolve_provider_settings(self) -> None:
+        try:
+            resolved_model, provider, dynamic_api_key, api_base = litellm.get_llm_provider(
+                model=self.model,
+                custom_llm_provider=self.custom_llm_provider,
+                api_base=self.api_base,
+                api_key=self.api_key or None,
+            )
+        except litellm.exceptions.BadRequestError:
+            return
+
+        self.model = resolved_model
+        self.custom_llm_provider = provider
+        if self.api_base is None and api_base is not None:
+            self.api_base = api_base
+        if not self.api_key and dynamic_api_key:
+            self.api_key = dynamic_api_key
+
+    def _apply_oaklib_credentials(self) -> None:
+        validation = litellm.validate_environment(
+            model=self.model,
+            api_key=self.api_key or None,
+            api_base=self.api_base,
+            api_version=self.api_version,
+        )
+        for missing_key in validation["missing_keys"]:
+            oaklib_value = self._get_oaklib_credential(missing_key)
+            if oaklib_value is None:
+                continue
+
+            logger.info(f"Using Oaklib credential fallback for {missing_key}")
+            if missing_key.endswith("_API_KEY") or missing_key.endswith("_API_TOKEN"):
+                if not self.api_key:
+                    self.api_key = oaklib_value
+            elif missing_key.endswith("_API_BASE"):
+                if self.api_base is None:
+                    self.api_base = oaklib_value
+            elif missing_key.endswith("_API_VERSION"):
+                if self.api_version is None:
+                    self.api_version = oaklib_value
+
+            if missing_key not in os.environ:
+                os.environ[missing_key] = oaklib_value
+
+    def _extract_response_text(self, response: object) -> str:
+        choices = getattr(response, "choices", None)
+        if not choices:
+            logger.error("No response choices were returned.")
+            return ""
+
+        first_choice = choices[0]
+        message = getattr(first_choice, "message", None)
+        content = getattr(message, "content", None)
+        if content is None:
+            content = getattr(first_choice, "text", None)
+
+        if content is None:
+            logger.error("Response choice did not include message content.")
+            return ""
+        if isinstance(content, str):
+            return content
+
+        return str(content)
+
+    def __post_init__(self) -> None:
         # Get appropriate API key for the model source
-        # and other details if needed.
-        # This will look at any env vars FIRST,
-        # then configs handled by oaklib.
+        # and other provider details if needed.
+        # Explicit api_key values take precedence; otherwise we let LiteLLM
+        # resolve provider-specific defaults from the model/provider settings,
+        # then backfill missing credentials from Oaklib for compatibility.
 
         # Need to check on the validity of the model name first.
         # Check if the model name is a string first.
@@ -57,26 +157,16 @@ class LLMClient:
             else:
                 raise ValueError(f"Model name must be a string, got {type(self.model)}")
 
-        if self.model.startswith("ollama"):
-            self.api_key = ""  # Don't need an API key
-        elif self.model.startswith("fake"):
-            # Just used for testing
-            self.api_key = ""  # Don't need an API key
+        if self.model.startswith("fake"):
             logger.info(f"Using mock model: {self.model}")
-        elif not self.api_key and not self.custom_llm_provider:
-            self.api_key = get_apikey_value("openai")
-        elif self.custom_llm_provider == "anthropic":
-            self.api_key = get_apikey_value("anthropic-key")
-        elif self.custom_llm_provider == "groq":
-            self.api_key = get_apikey_value("groq-key")
+            self.api_key = ""
+        elif self.model.startswith("ollama"):
+            self.api_key = ""
         else:
-            for service in SERVICES:
-                if self.model.startswith(service):
-                    self.api_key = get_apikey_value(service + "-key")
-                    if service == "azure" and self.api_base is None:
-                        self.api_base = get_apikey_value(service + "-base")
-                    if service == "azure" and self.api_version is None:
-                        self.api_version = get_apikey_value(service + "-version")
+            # Let LiteLLM canonicalize provider/model details and resolve any
+            # provider-specific defaults such as dynamic API bases.
+            self._resolve_provider_settings()
+            self._apply_oaklib_credentials()
 
         # Set up the cache, and set the cache path if provided
         if len(self.cache_db_path) == 0:
@@ -90,7 +180,7 @@ class LLMClient:
         if show_prompt:
             logger.info(f" SENDING PROMPT:\n{prompt}")
 
-        response = None
+        response: object | None = None
 
         these_messages = [{"content": prompt, "role": "user"}]
 
@@ -124,6 +214,8 @@ class LLMClient:
         except litellm.exceptions.NotFoundError as e:
             logger.error(f"Encountered error due to unrecognized model or endpoint: {e}")
             force_stop = True
+        except litellm.exceptions.ContextWindowExceededError as e:
+            logger.error(f"Exceeded context window: {e}")
         except litellm.exceptions.BadRequestError as e:
             logger.error(f"Encountered error due to bad request: {e}")
             force_stop = True
@@ -134,8 +226,6 @@ class LLMClient:
             force_stop = True
         except litellm.exceptions.RateLimitError as e:
             logger.error(f"Encountered rate limiting: {e}")
-        except litellm.exceptions.ContextWindowExceededError as e:
-            logger.error(f"Exceeded context window: {e}")
         except litellm.exceptions.ServiceUnavailableError as e:
             logger.error(f"Service unavailable: {e}")
             force_stop = True
@@ -153,7 +243,7 @@ class LLMClient:
             sys.exit("Exiting...")
 
         if response is not None:
-            payload = response.choices[0].message.content
+            payload = self._extract_response_text(response)
         else:
             logger.error("No response or response is empty.")
             payload = ""
@@ -165,10 +255,7 @@ class LLMClient:
 
         # TODO: set embedding model based on model source
         # Or at least set the default for OpenAI models
-        if self.model is None:
-            model = "text-embedding-ada-002"
-        else:
-            model = self.model
+        model = self.model or "text-embedding-ada-002"
 
         logger.info(f"Retrieving embeddings from {model} for text: {text[0:80]}...")
 

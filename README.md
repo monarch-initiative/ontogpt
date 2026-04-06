@@ -63,19 +63,24 @@ NOTE: We do not recommend hosting this webapp publicly without authentication.
 
 ## Model APIs
 
-OntoGPT uses the `litellm` package (<https://litellm.vercel.app/>) to interface with LLMs.
+OntoGPT uses [LiteLLM](https://docs.litellm.ai/docs/) to interface with LLMs.
 
-This means most APIs are supported, including OpenAI, Azure, Anthropic, Mistral, Replicate, and beyond.
+This means OntoGPT can work with a much broader range of providers than just OpenAI. If a provider and model are supported by the installed LiteLLM version, they will generally work in OntoGPT as well. This includes OpenAI, Azure OpenAI, Anthropic, Mistral, Groq, Cohere, Vertex AI, Replicate, and many others.
 
-The model name to use may be found from the command `ontogpt list-models` - use the name in the first column with the `--model` option.
+The model name to use may be found from the command `ontogpt list-models` - use the name in the first column with the `--model` option. In most cases, the most reliable form is a provider-qualified LiteLLM model name such as `openai/gpt-4o`, `anthropic/claude-3-5-sonnet`, `groq/llama-3.1-8b-instant`, or `mistral/mistral-large-latest`.
 
-In most cases, this will require setting the API key for a particular service as above:
+Credential handling now follows LiteLLM first. Standard LiteLLM environment variables such as `OPENAI_API_KEY`, `ANTHROPIC_API_KEY`, `GROQ_API_KEY`, `MISTRAL_API_KEY`, `AZURE_API_KEY`, `AZURE_API_BASE`, and `AZURE_API_VERSION` are supported directly. For backward compatibility, OntoGPT also checks Oaklib credentials created with `runoak set-apikey` and passes them through to LiteLLM when the corresponding provider settings are missing.
+
+Examples:
 
 ```bash
+runoak set-apikey -e openai <your openai api key>
 runoak set-apikey -e anthropic-key <your anthropic api key>
+runoak set-apikey -e mistral-key <your mistral api key>
+runoak set-apikey -e groq-key <your groq api key>
 ```
 
-Some endpoints, such as OpenAI models through Azure, require setting additional details. These may be set similarly:
+Some endpoints, such as Azure OpenAI, require additional details. These may be set similarly:
 
 ```bash
 runoak set-apikey -e azure-key <your azure api key>
@@ -90,6 +95,13 @@ export AZURE_API_KEY="my-azure-api-key"
 export AZURE_API_BASE="https://example-endpoint.openai.azure.com"
 export AZURE_API_VERSION="2023-05-15"
 ```
+
+If the provider is not encoded in the model name, use `--model-provider` to specify it explicitly. This is most common for OpenAI-compatible proxy endpoints.
+
+For the current list of supported providers, model naming rules, and credential environment variables, see the LiteLLM docs:
+
+* <https://docs.litellm.ai/docs/providers>
+* <https://docs.litellm.ai/docs/set_keys>
 
 ## Open Models
 

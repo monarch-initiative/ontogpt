@@ -4,7 +4,7 @@
 
 OntoGPT may be installed through `pip` or used directly from the GitHub repository. In the latter case, you will need to install the `uv` dependency manager and precede commands with `uv run`. [See the uv installation documentation for more details.](https://docs.astral.sh/uv/getting-started/installation/)
 
-OntoGPT uses `litellm` to interface with LLM endpoints. Familiarity with this framework is not necessary to use OntoGPT but may be helpful for troubleshooting. See the `litellm` [docs here](https://litellm.vercel.app/docs/).
+OntoGPT uses [LiteLLM](https://docs.litellm.ai/docs/) to interface with LLM endpoints. Familiarity with LiteLLM is not required to use OntoGPT, but its documentation is useful when troubleshooting provider-specific model names, credentials, and endpoint settings.
 
 ### Additional requirements and options
 
@@ -70,13 +70,18 @@ runoak set-apikey -e ncbi-email <your email address>
 runoak set-apikey -e ncbi-key <your NCBI api key>
 ```
 
-Other API keys may also be set this way, generally by using the name of the service hosting the API:
+OntoGPT now relies on LiteLLM for most provider detection and credential handling, which means a broader range of providers is supported as LiteLLM adds them. The preferred configuration style is to use the standard LiteLLM environment variables for your provider. OntoGPT also preserves backward compatibility with Oaklib-managed credentials created through `runoak set-apikey`.
+
+Other provider credentials may also be set this way, generally by using the name of the service hosting the API:
 
 ```bash
 runoak set-apikey -e mistral-key <your Mistral api key>
 runoak set-apikey -e anthropic-key <your Anthropic api key>
+runoak set-apikey -e groq-key <your Groq api key>
 runoak set-apikey -e huggingface-key <your HuggingFace api key>
 ```
+
+Equivalent environment variables also work directly with LiteLLM, for example `OPENAI_API_KEY`, `ANTHROPIC_API_KEY`, `MISTRAL_API_KEY`, `GROQ_API_KEY`, `AZURE_API_KEY`, `AZURE_API_BASE`, and `AZURE_API_VERSION`.
 
 This is also a convenient way to set details for custom endpoints, e.g., for Azure OpenAI (set API key, API base URL, and API version):
 
@@ -85,6 +90,13 @@ runoak set-apikey -e azure-key <your Azure api key>
 runoak set-apikey -e azure-base <your Azure base URL, like 'https://example-endpoint.openai.azure.com'>
 runoak set-apikey -e azure-version <your Azure API version, like '2023-05-15'>
 ```
+
+When the provider is not encoded in the model name, use OntoGPT's `--model-provider` option to pass the provider explicitly.
+
+For the current provider list, model naming conventions, and key-setting guidance, see:
+
+* <https://docs.litellm.ai/docs/providers>
+* <https://docs.litellm.ai/docs/set_keys>
 
 ### Setup for local models
 
