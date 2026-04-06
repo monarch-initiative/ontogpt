@@ -116,12 +116,12 @@ class PubmedClient:
                 "db": PUBMED,
                 "term": term,
                 "retmode": "json",
-                "retmax": 0,
+                "retmax": "0",
                 "email": self.email,
                 "api_key": self.ncbi_key,
             }
         else:
-            params = {"db": PUBMED, "term": term, "retmode": "json", "retmax": 0}
+            params = {"db": PUBMED, "term": term, "retmode": "json", "retmax": "0"}
 
         # We are explicit with the delimiters in this query,
         # no percent encoding allowed. This mostly just makes it more human readable
@@ -145,8 +145,8 @@ class PubmedClient:
         # Now we get the list of PMIDs, iterating as needed
         logging.info(f"Retrieving PMIDs matching search term {term}...")
         for retstart in range(0, resultcount, batch_size):
-            params["retstart"] = retstart
-            params["retmax"] = batch_size
+            params["retstart"] = str(retstart)
+            params["retmax"] = str(batch_size)
 
             response = requests.get(search_url, params=parse.urlencode(params, safe=","))
 
@@ -226,8 +226,8 @@ class PubmedClient:
                 params = {"db": PUBMED, "id": ",".join(ids), "rettype": "xml", "retmode": "xml"}
 
             for retstart in range(0, len(ids), batch_size):
-                params["retstart"] = retstart
-                params["retmax"] = batch_size
+                params["retstart"] = str(retstart)
+                params["retmax"] = str(batch_size)
 
                 response = requests.get(fetch_url, params=parse.urlencode(params, safe=","))
 
