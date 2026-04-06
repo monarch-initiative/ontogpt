@@ -7,38 +7,45 @@ results:
     method: basic
     model: gpt-4o
     answers:
-      - text: Organelle
-        explanations:
-          - axioms:
-              - text: Organelle is an entailed superclass of Nucleus because 
-                  Nucleus SubClassOf IntracellularMembraneBoundedOrganelle
-              - text: IntracellularMembraneBoundedOrganelle SubClassOf 
-                  MembraneBoundedOrganelle
-              - text: MembraneBoundedOrganelle SubClassOf Organelle
-              - text: and because SubClassOf is transitive.
-      - text: IntracellularMembraneBoundedOrganelle
-        explanations:
-          - axioms:
-              - text: IntracellularMembraneBoundedOrganelle is a direct 
-                  superclass of Nucleus because it is directly asserted.
       - text: MembraneBoundedOrganelle
         explanations:
           - axioms:
               - text: MembraneBoundedOrganelle is an entailed superclass of 
-                  Nucleus because Nucleus SubClassOf 
-                  IntracellularMembraneBoundedOrganelle
-              - text: and IntracellularMembraneBoundedOrganelle SubClassOf 
+                  Nucleus because                                      Nucleus 
+                  SubClassOf IntracellularMembraneBoundedOrganelle
+              - text: and                                      
+                  IntracellularMembraneBoundedOrganelle SubClassOf 
                   MembraneBoundedOrganelle
-              - text: and because SubClassOf is transitive.
+              - text: and                                      because 
+                  SubClassOf is transitive.
       - text: IntracellularOrganelle
         explanations:
           - axioms:
               - text: IntracellularOrganelle is an entailed superclass of 
-                  Nucleus because Nucleus SubClassOf 
-                  IntracellularMembraneBoundedOrganelle
-              - text: IntracellularMembraneBoundedOrganelle SubClassOf 
+                  Nucleus because                                      Nucleus 
+                  SubClassOf IntracellularMembraneBoundedOrganelle
+              - text: and                                      
+                  IntracellularMembraneBoundedOrganelle SubClassOf 
                   IntracellularOrganelle
-              - text: and because SubClassOf is transitive.
+              - text: and                                      because 
+                  SubClassOf is transitive.
+      - text: Organelle
+        explanations:
+          - axioms:
+              - text: Organelle is an entailed superclass of Nucleus because                                      
+                  Nucleus SubClassOf IntracellularMembraneBoundedOrganelle
+              - text: IntracellularMembraneBoundedOrganelle SubClassOf 
+                  MembraneBoundedOrganelle
+              - text: and                                      
+                  MembraneBoundedOrganelle SubClassOf Organelle
+              - text: and                                      because 
+                  SubClassOf is transitive.
+      - text: IntracellularMembraneBoundedOrganelle
+        explanations:
+          - axioms:
+              - text: IntracellularMembraneBoundedOrganelle is an entailed 
+                  superclass of Nucleus because                                      
+                  it is directly asserted.
     prompt: |2-
 
 
@@ -98,11 +105,11 @@ results:
 
 
       - Vacuole SubClassOf IntracellularMembraneBoundedOrganelle
+      - Nucleus SubClassOf IntracellularMembraneBoundedOrganelle
+      - MembraneBoundedOrganelle SubClassOf Organelle
+      - IntracellularOrganelle SubClassOf Organelle
       - IntracellularMembraneBoundedOrganelle SubClassOf MembraneBoundedOrganelle
       - IntracellularMembraneBoundedOrganelle SubClassOf IntracellularOrganelle
-      - Nucleus SubClassOf IntracellularMembraneBoundedOrganelle
-      - IntracellularOrganelle SubClassOf Organelle
-      - MembraneBoundedOrganelle SubClassOf Organelle
 
       QUERY: 
           What are the transitive superclasses of Nucleus?
@@ -112,10 +119,21 @@ results:
 
       ANSWERS:
     completion: |-
-      - REASONING: [ Organelle is an entailed superclass of Nucleus because Nucleus SubClassOf IntracellularMembraneBoundedOrganelle, IntracellularMembraneBoundedOrganelle SubClassOf MembraneBoundedOrganelle, MembraneBoundedOrganelle SubClassOf Organelle, and because SubClassOf is transitive. ] CONCLUSION: Organelle
-      - REASONING: [ IntracellularMembraneBoundedOrganelle is a direct superclass of Nucleus because it is directly asserted. ] CONCLUSION: IntracellularMembraneBoundedOrganelle
-      - REASONING: [ MembraneBoundedOrganelle is an entailed superclass of Nucleus because Nucleus SubClassOf IntracellularMembraneBoundedOrganelle, and IntracellularMembraneBoundedOrganelle SubClassOf MembraneBoundedOrganelle, and because SubClassOf is transitive. ] CONCLUSION: MembraneBoundedOrganelle
-      - REASONING: [ IntracellularOrganelle is an entailed superclass of Nucleus because Nucleus SubClassOf IntracellularMembraneBoundedOrganelle, IntracellularMembraneBoundedOrganelle SubClassOf IntracellularOrganelle, and because SubClassOf is transitive. ] CONCLUSION: IntracellularOrganelle
+      - REASONING: [ MembraneBoundedOrganelle is an entailed superclass of Nucleus because 
+                                          Nucleus SubClassOf IntracellularMembraneBoundedOrganelle, and 
+                                          IntracellularMembraneBoundedOrganelle SubClassOf MembraneBoundedOrganelle, and 
+                                          because SubClassOf is transitive. ] CONCLUSION: MembraneBoundedOrganelle
+      - REASONING: [ IntracellularOrganelle is an entailed superclass of Nucleus because 
+                                          Nucleus SubClassOf IntracellularMembraneBoundedOrganelle, and 
+                                          IntracellularMembraneBoundedOrganelle SubClassOf IntracellularOrganelle, and 
+                                          because SubClassOf is transitive. ] CONCLUSION: IntracellularOrganelle
+      - REASONING: [ Organelle is an entailed superclass of Nucleus because 
+                                          Nucleus SubClassOf IntracellularMembraneBoundedOrganelle, 
+                                          IntracellularMembraneBoundedOrganelle SubClassOf MembraneBoundedOrganelle, and 
+                                          MembraneBoundedOrganelle SubClassOf Organelle, and 
+                                          because SubClassOf is transitive. ] CONCLUSION: Organelle
+      - REASONING: [ IntracellularMembraneBoundedOrganelle is an entailed superclass of Nucleus because 
+                                          it is directly asserted. ] CONCLUSION: IntracellularMembraneBoundedOrganelle
     jaccard_score: 1.0
     num_true_positives: 4
     precision: 1.0
@@ -136,26 +154,7 @@ results:
                   IntracellularMembraneBoundedOrganelle
               - text: IntracellularMembraneBoundedOrganelle SubClassOf 
                   MembraneBoundedOrganelle
-              - text: MembraneBoundedOrganelle SubClassOf Organelle
-              - text: and because SubClassOf is transitive.
-      - text: Organelle
-        explanations:
-          - axioms:
-              - text: Organelle is an indirect entailed superclass of Nucleus 
-                  because Nucleus SubClassOf 
-                  IntracellularMembraneBoundedOrganelle
-              - text: IntracellularMembraneBoundedOrganelle SubClassOf 
-                  IntracellularOrganelle
-              - text: IntracellularOrganelle SubClassOf Organelle
-              - text: and because SubClassOf is transitive.
-      - text: IntracellularOrganelle
-        explanations:
-          - axioms:
-              - text: IntracellularOrganelle is an indirect entailed superclass 
-                  of Nucleus because Nucleus SubClassOf 
-                  IntracellularMembraneBoundedOrganelle
-              - text: IntracellularMembraneBoundedOrganelle SubClassOf 
-                  IntracellularOrganelle
+              - text: and MembraneBoundedOrganelle SubClassOf Organelle
               - text: and because SubClassOf is transitive.
       - text: MembraneBoundedOrganelle
         explanations:
@@ -165,6 +164,15 @@ results:
                   IntracellularMembraneBoundedOrganelle
               - text: and IntracellularMembraneBoundedOrganelle SubClassOf 
                   MembraneBoundedOrganelle
+              - text: and because SubClassOf is transitive.
+      - text: IntracellularOrganelle
+        explanations:
+          - axioms:
+              - text: IntracellularOrganelle is an indirect entailed superclass 
+                  of Nucleus because Nucleus SubClassOf 
+                  IntracellularMembraneBoundedOrganelle
+              - text: and IntracellularMembraneBoundedOrganelle SubClassOf 
+                  IntracellularOrganelle
               - text: and because SubClassOf is transitive.
     prompt: |2-
 
@@ -221,11 +229,11 @@ results:
 
 
       - Vacuole SubClassOf IntracellularMembraneBoundedOrganelle
+      - Nucleus SubClassOf IntracellularMembraneBoundedOrganelle
+      - MembraneBoundedOrganelle SubClassOf Organelle
+      - IntracellularOrganelle SubClassOf Organelle
       - IntracellularMembraneBoundedOrganelle SubClassOf MembraneBoundedOrganelle
       - IntracellularMembraneBoundedOrganelle SubClassOf IntracellularOrganelle
-      - Nucleus SubClassOf IntracellularMembraneBoundedOrganelle
-      - IntracellularOrganelle SubClassOf Organelle
-      - MembraneBoundedOrganelle SubClassOf Organelle
 
       QUERY: 
           What are the indirect entailed superclasses of Nucleus?
@@ -235,10 +243,9 @@ results:
 
       ANSWERS:
     completion: |-
-      - REASONING: [ Organelle is an indirect entailed superclass of Nucleus because Nucleus SubClassOf IntracellularMembraneBoundedOrganelle, IntracellularMembraneBoundedOrganelle SubClassOf MembraneBoundedOrganelle, MembraneBoundedOrganelle SubClassOf Organelle, and because SubClassOf is transitive. ] CONCLUSION: Organelle
-      - REASONING: [ Organelle is an indirect entailed superclass of Nucleus because Nucleus SubClassOf IntracellularMembraneBoundedOrganelle, IntracellularMembraneBoundedOrganelle SubClassOf IntracellularOrganelle, IntracellularOrganelle SubClassOf Organelle, and because SubClassOf is transitive. ] CONCLUSION: Organelle
-      - REASONING: [ IntracellularOrganelle is an indirect entailed superclass of Nucleus because Nucleus SubClassOf IntracellularMembraneBoundedOrganelle, IntracellularMembraneBoundedOrganelle SubClassOf IntracellularOrganelle, and because SubClassOf is transitive. ] CONCLUSION: IntracellularOrganelle
+      - REASONING: [ Organelle is an indirect entailed superclass of Nucleus because Nucleus SubClassOf IntracellularMembraneBoundedOrganelle, IntracellularMembraneBoundedOrganelle SubClassOf MembraneBoundedOrganelle, and MembraneBoundedOrganelle SubClassOf Organelle, and because SubClassOf is transitive. ] CONCLUSION: Organelle
       - REASONING: [ MembraneBoundedOrganelle is an indirect entailed superclass of Nucleus because Nucleus SubClassOf IntracellularMembraneBoundedOrganelle, and IntracellularMembraneBoundedOrganelle SubClassOf MembraneBoundedOrganelle, and because SubClassOf is transitive. ] CONCLUSION: MembraneBoundedOrganelle
+      - REASONING: [ IntracellularOrganelle is an indirect entailed superclass of Nucleus because Nucleus SubClassOf IntracellularMembraneBoundedOrganelle, and IntracellularMembraneBoundedOrganelle SubClassOf IntracellularOrganelle, and because SubClassOf is transitive. ] CONCLUSION: IntracellularOrganelle
     jaccard_score: 1.0
     num_true_positives: 3
     precision: 1.0
@@ -251,36 +258,27 @@ results:
     method: basic
     model: gpt-4o
     answers:
-      - text: Organelle
-        explanations:
-          - axioms:
-              - text: Organelle is an entailed superclass of 
-                  IntracellularMembraneBoundedOrganelle because 
-                  IntracellularMembraneBoundedOrganelle SubClassOf 
-                  IntracellularOrganelle
-              - text: IntracellularOrganelle SubClassOf Organelle
-              - text: and because SubClassOf is transitive.
-      - text: Organelle
-        explanations:
-          - axioms:
-              - text: Organelle is an entailed superclass of 
-                  IntracellularMembraneBoundedOrganelle because 
-                  IntracellularMembraneBoundedOrganelle SubClassOf 
-                  MembraneBoundedOrganelle
-              - text: MembraneBoundedOrganelle SubClassOf Organelle
-              - text: and because SubClassOf is transitive.
-      - text: IntracellularOrganelle
-        explanations:
-          - axioms:
-              - text: IntracellularOrganelle is an entailed superclass of 
-                  IntracellularMembraneBoundedOrganelle because it is directly 
-                  asserted.
       - text: MembraneBoundedOrganelle
         explanations:
           - axioms:
               - text: MembraneBoundedOrganelle is an entailed superclass of 
                   IntracellularMembraneBoundedOrganelle because it is directly 
                   asserted.
+      - text: IntracellularOrganelle
+        explanations:
+          - axioms:
+              - text: IntracellularOrganelle is an entailed superclass of 
+                  IntracellularMembraneBoundedOrganelle because it is directly 
+                  asserted.
+      - text: Organelle
+        explanations:
+          - axioms:
+              - text: Organelle is an indirect entailed superclass of 
+                  IntracellularMembraneBoundedOrganelle because 
+                  IntracellularMembraneBoundedOrganelle SubClassOf 
+                  MembraneBoundedOrganelle
+              - text: and MembraneBoundedOrganelle SubClassOf Organelle
+              - text: and because SubClassOf is transitive.
     prompt: |2-
 
 
@@ -339,11 +337,11 @@ results:
       Here is the actual ontology:
 
 
+      - Nucleus SubClassOf IntracellularMembraneBoundedOrganelle
+      - MembraneBoundedOrganelle SubClassOf Organelle
+      - IntracellularOrganelle SubClassOf Organelle
       - IntracellularMembraneBoundedOrganelle SubClassOf MembraneBoundedOrganelle
       - IntracellularMembraneBoundedOrganelle SubClassOf IntracellularOrganelle
-      - Nucleus SubClassOf IntracellularMembraneBoundedOrganelle
-      - IntracellularOrganelle SubClassOf Organelle
-      - MembraneBoundedOrganelle SubClassOf Organelle
 
       QUERY: 
           What are the transitive superclasses of IntracellularMembraneBoundedOrganelle?
@@ -353,10 +351,9 @@ results:
 
       ANSWERS:
     completion: |-
-      - REASONING: [ Organelle is an entailed superclass of IntracellularMembraneBoundedOrganelle because IntracellularMembraneBoundedOrganelle SubClassOf IntracellularOrganelle, IntracellularOrganelle SubClassOf Organelle, and because SubClassOf is transitive. ] CONCLUSION: Organelle
-      - REASONING: [ Organelle is an entailed superclass of IntracellularMembraneBoundedOrganelle because IntracellularMembraneBoundedOrganelle SubClassOf MembraneBoundedOrganelle, MembraneBoundedOrganelle SubClassOf Organelle, and because SubClassOf is transitive. ] CONCLUSION: Organelle
-      - REASONING: [ IntracellularOrganelle is an entailed superclass of IntracellularMembraneBoundedOrganelle because it is directly asserted. ] CONCLUSION: IntracellularOrganelle
       - REASONING: [ MembraneBoundedOrganelle is an entailed superclass of IntracellularMembraneBoundedOrganelle because it is directly asserted. ] CONCLUSION: MembraneBoundedOrganelle
+      - REASONING: [ IntracellularOrganelle is an entailed superclass of IntracellularMembraneBoundedOrganelle because it is directly asserted. ] CONCLUSION: IntracellularOrganelle
+      - REASONING: [ Organelle is an indirect entailed superclass of IntracellularMembraneBoundedOrganelle because IntracellularMembraneBoundedOrganelle SubClassOf MembraneBoundedOrganelle, and MembraneBoundedOrganelle SubClassOf Organelle, and because SubClassOf is transitive. ] CONCLUSION: Organelle
     jaccard_score: 1.0
     num_true_positives: 3
     precision: 1.0
@@ -373,19 +370,19 @@ results:
         explanations:
           - axioms:
               - text: Organelle is an indirect entailed superclass of 
-                  IntracellularMembraneBoundedOrganelle because 
+                  IntracellularMembraneBoundedOrganelle because     
                   IntracellularMembraneBoundedOrganelle SubClassOf 
                   MembraneBoundedOrganelle
-              - text: MembraneBoundedOrganelle SubClassOf Organelle
+              - text: and MembraneBoundedOrganelle SubClassOf Organelle
               - text: and because SubClassOf is transitive.
       - text: Organelle
         explanations:
           - axioms:
               - text: Organelle is also an indirect entailed superclass of 
-                  IntracellularMembraneBoundedOrganelle because 
+                  IntracellularMembraneBoundedOrganelle because     
                   IntracellularMembraneBoundedOrganelle SubClassOf 
                   IntracellularOrganelle
-              - text: IntracellularOrganelle SubClassOf Organelle
+              - text: and IntracellularOrganelle SubClassOf Organelle
               - text: and because SubClassOf is transitive.
     prompt: |2-
 
@@ -441,11 +438,11 @@ results:
       Here is the actual ontology:
 
 
+      - Nucleus SubClassOf IntracellularMembraneBoundedOrganelle
+      - MembraneBoundedOrganelle SubClassOf Organelle
+      - IntracellularOrganelle SubClassOf Organelle
       - IntracellularMembraneBoundedOrganelle SubClassOf MembraneBoundedOrganelle
       - IntracellularMembraneBoundedOrganelle SubClassOf IntracellularOrganelle
-      - Nucleus SubClassOf IntracellularMembraneBoundedOrganelle
-      - IntracellularOrganelle SubClassOf Organelle
-      - MembraneBoundedOrganelle SubClassOf Organelle
 
       QUERY: 
           What are the indirect entailed superclasses of IntracellularMembraneBoundedOrganelle?
@@ -455,8 +452,12 @@ results:
 
       ANSWERS:
     completion: |-
-      - REASONING: [ Organelle is an indirect entailed superclass of IntracellularMembraneBoundedOrganelle because IntracellularMembraneBoundedOrganelle SubClassOf MembraneBoundedOrganelle, MembraneBoundedOrganelle SubClassOf Organelle, and because SubClassOf is transitive. ] CONCLUSION: Organelle
-      - REASONING: [ Organelle is also an indirect entailed superclass of IntracellularMembraneBoundedOrganelle because IntracellularMembraneBoundedOrganelle SubClassOf IntracellularOrganelle, IntracellularOrganelle SubClassOf Organelle, and because SubClassOf is transitive. ] CONCLUSION: Organelle
+      - REASONING: [ Organelle is an indirect entailed superclass of IntracellularMembraneBoundedOrganelle because
+          IntracellularMembraneBoundedOrganelle SubClassOf MembraneBoundedOrganelle, and MembraneBoundedOrganelle SubClassOf Organelle,
+          and because SubClassOf is transitive. ] CONCLUSION: Organelle
+      - REASONING: [ Organelle is also an indirect entailed superclass of IntracellularMembraneBoundedOrganelle because
+          IntracellularMembraneBoundedOrganelle SubClassOf IntracellularOrganelle, and IntracellularOrganelle SubClassOf Organelle,
+          and because SubClassOf is transitive. ] CONCLUSION: Organelle
     jaccard_score: 1.0
     num_true_positives: 1
     precision: 1.0
@@ -478,6 +479,16 @@ results:
               - text: OrganelleMembrane SubClassOf Membrane
               - text: Membrane SubClassOf CellularAnatomicalEntity
               - text: and because SubClassOf is transitive.
+      - text: Envelope
+        explanations:
+          - axioms:
+              - text: Envelope is an indirect entailed superclass of 
+                  NuclearMembrane because NuclearMembrane SubClassOf 
+                  OrganelleMembrane
+              - text: OrganelleMembrane SubClassOf Membrane
+              - text: Membrane SubClassOf CellularAnatomicalEntity
+              - text: Envelope SubClassOf CellularAnatomicalEntity
+              - text: and because SubClassOf is transitive.
     prompt: |2-
 
 
@@ -532,12 +543,12 @@ results:
       Here is the actual ontology:
 
 
-      - Envelope SubClassOf CellularAnatomicalEntity
-      - OrganelleMembrane SubClassOf Membrane
-      - NuclearMembrane SubClassOf OrganelleMembrane
+      - Membrane SubClassOf CellularAnatomicalEntity
       - NuclearEnvelope SubClassOf OrganelleEnvelope
       - OrganelleEnvelope SubClassOf Envelope
-      - Membrane SubClassOf CellularAnatomicalEntity
+      - OrganelleMembrane SubClassOf Membrane
+      - Envelope SubClassOf CellularAnatomicalEntity
+      - NuclearMembrane SubClassOf OrganelleMembrane
 
       QUERY: 
           What are the indirect entailed superclasses of NuclearMembrane?
@@ -546,18 +557,20 @@ results:
           
 
       ANSWERS:
-    completion: '- REASONING: [ CellularAnatomicalEntity is an indirect entailed superclass
-      of NuclearMembrane because NuclearMembrane SubClassOf OrganelleMembrane, OrganelleMembrane
-      SubClassOf Membrane, Membrane SubClassOf CellularAnatomicalEntity, and because
-      SubClassOf is transitive. ] CONCLUSION: CellularAnatomicalEntity'
-    jaccard_score: 0.5
+    completion: |-
+      - REASONING: [ CellularAnatomicalEntity is an indirect entailed superclass of NuclearMembrane because NuclearMembrane SubClassOf OrganelleMembrane, OrganelleMembrane SubClassOf Membrane, Membrane SubClassOf CellularAnatomicalEntity, and because SubClassOf is transitive. ] CONCLUSION: CellularAnatomicalEntity
+      - REASONING: [ Envelope is an indirect entailed superclass of NuclearMembrane because NuclearMembrane SubClassOf OrganelleMembrane, OrganelleMembrane SubClassOf Membrane, Membrane SubClassOf CellularAnatomicalEntity, Envelope SubClassOf CellularAnatomicalEntity, and because SubClassOf is transitive. ] CONCLUSION: Envelope
+    jaccard_score: 0.3333333333333333
+    false_positives:
+      - Envelope
     false_negatives:
       - Membrane
+    num_false_positives: 1
     num_false_negatives: 1
     num_true_positives: 1
-    precision: 1.0
+    precision: 0.5
     recall: 0.5
-    f1_score: 0.6666666666666666
+    f1_score: 0.5
   - name: ancestor-human-basic-gpt-4o
     completed: true
     task_name: ancestor-human
@@ -569,19 +582,19 @@ results:
         explanations:
           - axioms:
               - text: Organelle is an indirect entailed superclass of 
-                  IntracellularMembraneBoundedOrganelle because 
+                  IntracellularMembraneBoundedOrganelle because     
                   IntracellularMembraneBoundedOrganelle SubClassOf 
                   MembraneBoundedOrganelle
-              - text: MembraneBoundedOrganelle SubClassOf Organelle
+              - text: and MembraneBoundedOrganelle SubClassOf Organelle
               - text: and because SubClassOf is transitive.
       - text: Organelle
         explanations:
           - axioms:
               - text: Organelle is also an indirect entailed superclass of 
-                  IntracellularMembraneBoundedOrganelle because 
+                  IntracellularMembraneBoundedOrganelle because     
                   IntracellularMembraneBoundedOrganelle SubClassOf 
                   IntracellularOrganelle
-              - text: IntracellularOrganelle SubClassOf Organelle
+              - text: and IntracellularOrganelle SubClassOf Organelle
               - text: and because SubClassOf is transitive.
     prompt: |2-
 
@@ -637,11 +650,11 @@ results:
       Here is the actual ontology:
 
 
+      - Nucleus SubClassOf IntracellularMembraneBoundedOrganelle
+      - MembraneBoundedOrganelle SubClassOf Organelle
+      - IntracellularOrganelle SubClassOf Organelle
       - IntracellularMembraneBoundedOrganelle SubClassOf MembraneBoundedOrganelle
       - IntracellularMembraneBoundedOrganelle SubClassOf IntracellularOrganelle
-      - Nucleus SubClassOf IntracellularMembraneBoundedOrganelle
-      - IntracellularOrganelle SubClassOf Organelle
-      - MembraneBoundedOrganelle SubClassOf Organelle
 
       QUERY: 
           What are the indirect entailed superclasses of IntracellularMembraneBoundedOrganelle?
@@ -651,8 +664,12 @@ results:
 
       ANSWERS:
     completion: |-
-      - REASONING: [ Organelle is an indirect entailed superclass of IntracellularMembraneBoundedOrganelle because IntracellularMembraneBoundedOrganelle SubClassOf MembraneBoundedOrganelle, MembraneBoundedOrganelle SubClassOf Organelle, and because SubClassOf is transitive. ] CONCLUSION: Organelle
-      - REASONING: [ Organelle is also an indirect entailed superclass of IntracellularMembraneBoundedOrganelle because IntracellularMembraneBoundedOrganelle SubClassOf IntracellularOrganelle, IntracellularOrganelle SubClassOf Organelle, and because SubClassOf is transitive. ] CONCLUSION: Organelle
+      - REASONING: [ Organelle is an indirect entailed superclass of IntracellularMembraneBoundedOrganelle because
+          IntracellularMembraneBoundedOrganelle SubClassOf MembraneBoundedOrganelle, and MembraneBoundedOrganelle SubClassOf Organelle,
+          and because SubClassOf is transitive. ] CONCLUSION: Organelle
+      - REASONING: [ Organelle is also an indirect entailed superclass of IntracellularMembraneBoundedOrganelle because
+          IntracellularMembraneBoundedOrganelle SubClassOf IntracellularOrganelle, and IntracellularOrganelle SubClassOf Organelle,
+          and because SubClassOf is transitive. ] CONCLUSION: Organelle
     jaccard_score: 1.0
     num_true_positives: 1
     precision: 1.0
@@ -670,7 +687,7 @@ results:
           - axioms:
               - text: IntracellularMembraneBoundedOrganelle is the most specific
                   common entailed superclass of Nucleus and Vacuole because both
-                  Nucleus and Vacuole are direct SubClasses of 
+                  Nucleus and Vacuole are direct subclasses of 
                   IntracellularMembraneBoundedOrganelle
               - text: and there are no more specific common ancestors.
     prompt: |2-
@@ -731,23 +748,23 @@ results:
       Here is the actual ontology:
 
 
-      - OrganelleMembrane SubClassOf Membrane
-      - BiologicalEntity SubClassOf IndependentContinuant
       - Vacuole SubClassOf IntracellularMembraneBoundedOrganelle
-      - CellularAnatomicalEntity SubClassOf AnatomicalEntity
-      - CellularAnatomicalEntity SubClassOf CellularComponent
-      - IntracellularMembraneBoundedOrganelle SubClassOf MembraneBoundedOrganelle
-      - IntracellularMembraneBoundedOrganelle SubClassOf IntracellularOrganelle
-      - MaterialEntity SubClassOf IndependentContinuant
+      - BiologicalEntity SubClassOf IndependentContinuant
       - Organelle SubClassOf CellularAnatomicalEntity
-      - Nucleus SubClassOf IntracellularMembraneBoundedOrganelle
-      - AnatomicalEntity SubClassOf BiologicalEntity
-      - IntracellularOrganelle SubClassOf Organelle
-      - NuclearMembrane SubClassOf OrganelleMembrane
       - CellularComponent SubClassOf MaterialEntity
-      - MembraneBoundedOrganelle SubClassOf Organelle
       - Membrane SubClassOf CellularAnatomicalEntity
       - IndependentContinuant SubClassOf Continuant
+      - Nucleus SubClassOf IntracellularMembraneBoundedOrganelle
+      - AnatomicalEntity SubClassOf BiologicalEntity
+      - OrganelleMembrane SubClassOf Membrane
+      - CellularAnatomicalEntity SubClassOf AnatomicalEntity
+      - CellularAnatomicalEntity SubClassOf CellularComponent
+      - NuclearMembrane SubClassOf OrganelleMembrane
+      - MaterialEntity SubClassOf IndependentContinuant
+      - MembraneBoundedOrganelle SubClassOf Organelle
+      - IntracellularOrganelle SubClassOf Organelle
+      - IntracellularMembraneBoundedOrganelle SubClassOf MembraneBoundedOrganelle
+      - IntracellularMembraneBoundedOrganelle SubClassOf IntracellularOrganelle
 
       QUERY: 
           What are the most specific common entailed superclasses of Nucleus and Vacuole?.
@@ -756,7 +773,7 @@ results:
       ANSWERS:
     completion: '- REASONING: [ IntracellularMembraneBoundedOrganelle is the most
       specific common entailed superclass of Nucleus and Vacuole because both Nucleus
-      and Vacuole are direct SubClasses of IntracellularMembraneBoundedOrganelle,
+      and Vacuole are direct subclasses of IntracellularMembraneBoundedOrganelle,
       and there are no more specific common ancestors. ] CONCLUSION: IntracellularMembraneBoundedOrganelle'
     jaccard_score: 1.0
     num_true_positives: 1
@@ -775,15 +792,13 @@ results:
           - axioms:
               - text: NuclearMembrane is an entailed subclass of PartOf some 
                   Nucleus because                                     it is 
-                  directly asserted in the ontology as a subclass of PartOf some
-                  Nucleus.
+                  directly asserted in the ontology.
       - text: NuclearEnvelope
         explanations:
           - axioms:
               - text: NuclearEnvelope is an entailed subclass of PartOf some 
                   Nucleus because                                     it is 
-                  directly asserted in the ontology as a subclass of PartOf some
-                  Nucleus.
+                  directly asserted in the ontology.
     prompt: |2-
 
 
@@ -851,9 +866,9 @@ results:
       ANSWERS:
     completion: |-
       - REASONING: [ NuclearMembrane is an entailed subclass of PartOf some Nucleus because
-                                          it is directly asserted in the ontology as a subclass of PartOf some Nucleus. ] CONCLUSION: NuclearMembrane
+                                          it is directly asserted in the ontology. ] CONCLUSION: NuclearMembrane
       - REASONING: [ NuclearEnvelope is an entailed subclass of PartOf some Nucleus because
-                                          it is directly asserted in the ontology as a subclass of PartOf some Nucleus. ] CONCLUSION: NuclearEnvelope
+                                          it is directly asserted in the ontology. ] CONCLUSION: NuclearEnvelope
     jaccard_score: 1.0
     num_true_positives: 2
     precision: 1.0
@@ -869,10 +884,16 @@ results:
       - text: '- REASONING:'
         explanations:
           - axioms:
-              - text: Organelle is disjoint with Envelope. In the given ontology
-              - text: no class is a subclass of both Organelle and Envelope
-              - text: either directly or indirectly. Therefore
-              - text: there are no unsatisfiable classes due to disjointness.
+              - text: There is a disjointness axiom (Organelle DisjointWith 
+                  Envelope)
+              - text: and to find unsatisfiable classes
+              - text: we need to check if any class is both a subclass of 
+                  Organelle and Envelope. However
+              - text: there is no explicit or inferred subclass relationship in 
+                  the given ontology between any class and Envelope while also 
+                  being a subclass of Organelle. Therefore
+              - text: no class fulfills the condition of being both a subclass 
+                  of Organelle and Envelope.
             comments:
               - 'CONCLUSION: NONE'
     prompt: |2-
@@ -941,16 +962,16 @@ results:
       Here is the actual ontology:
 
 
-      - OrganelleMembrane SubClassOf Membrane
       - Vacuole SubClassOf IntracellularMembraneBoundedOrganelle
-      - IntracellularMembraneBoundedOrganelle SubClassOf MembraneBoundedOrganelle
-      - IntracellularMembraneBoundedOrganelle SubClassOf IntracellularOrganelle
       - Organelle SubClassOf CellularAnatomicalEntity
+      - Membrane SubClassOf CellularAnatomicalEntity
       - Nucleus SubClassOf IntracellularMembraneBoundedOrganelle
-      - IntracellularOrganelle SubClassOf Organelle
+      - OrganelleMembrane SubClassOf Membrane
       - NuclearMembrane SubClassOf OrganelleMembrane
       - MembraneBoundedOrganelle SubClassOf Organelle
-      - Membrane SubClassOf CellularAnatomicalEntity
+      - IntracellularOrganelle SubClassOf Organelle
+      - IntracellularMembraneBoundedOrganelle SubClassOf MembraneBoundedOrganelle
+      - IntracellularMembraneBoundedOrganelle SubClassOf IntracellularOrganelle
       - Nucleus SubClassOf NuclearMembrane
       - Organelle DisjointWith Envelope
 
@@ -964,10 +985,13 @@ results:
           If there are no unsatisfiable classes, just write NONE.
 
       ANSWERS:
-    completion: '- REASONING: [ Organelle is disjoint with Envelope. In the given
-      ontology, no class is a subclass of both Organelle and Envelope, either directly
-      or indirectly. Therefore, there are no unsatisfiable classes due to disjointness.
-      ] CONCLUSION: NONE'
+    completion: '- REASONING: [ There is a disjointness axiom (Organelle DisjointWith
+      Envelope), and to find unsatisfiable classes, we need to check if any class
+      is both a subclass of Organelle and Envelope. However, there is no explicit
+      or inferred subclass relationship in the given ontology between any class and
+      Envelope while also being a subclass of Organelle. Therefore, no class fulfills
+      the condition of being both a subclass of Organelle and Envelope. ] CONCLUSION:
+      NONE'
     false_positives:
       - '- REASONING:'
     false_negatives:
@@ -984,7 +1008,7 @@ results:
       - text: '- REASONING:'
         explanations:
           - axioms:
-              - text: PlasmaMembrane is unsatisfiable because it is a subclass               
+              - text: PlasmaMembrane is unsatisfiable because it is a subclass 
                   of two disjoint classes (Organelle and Membrane).
             comments:
               - 'CONCLUSION: PlasmaMembrane'
@@ -1055,13 +1079,13 @@ results:
 
 
       - PlasmaMembrane SubClassOf Membrane
+      - Organelle SubClassOf CellularAnatomicalEntity
+      - Membrane SubClassOf CellularAnatomicalEntity
+      - Nucleus SubClassOf IntracellularMembraneBoundedOrganelle
+      - MembraneBoundedOrganelle SubClassOf Organelle
+      - IntracellularOrganelle SubClassOf Organelle
       - IntracellularMembraneBoundedOrganelle SubClassOf MembraneBoundedOrganelle
       - IntracellularMembraneBoundedOrganelle SubClassOf IntracellularOrganelle
-      - Organelle SubClassOf CellularAnatomicalEntity
-      - Nucleus SubClassOf IntracellularMembraneBoundedOrganelle
-      - IntracellularOrganelle SubClassOf Organelle
-      - MembraneBoundedOrganelle SubClassOf Organelle
-      - Membrane SubClassOf CellularAnatomicalEntity
       - PlasmaMembrane SubClassOf Organelle
       - Organelle DisjointWith Membrane
 
@@ -1075,9 +1099,8 @@ results:
           If there are no unsatisfiable classes, just write NONE.
 
       ANSWERS:
-    completion: |-
-      - REASONING: [ PlasmaMembrane is unsatisfiable because it is a subclass
-                    of two disjoint classes (Organelle and Membrane). ] CONCLUSION: PlasmaMembrane
+    completion: '- REASONING: [ PlasmaMembrane is unsatisfiable because it is a subclass
+      of two disjoint classes (Organelle and Membrane). ] CONCLUSION: PlasmaMembrane'
     false_positives:
       - '- REASONING:'
     false_negatives:
@@ -1096,8 +1119,8 @@ results:
           - axioms:
               - text: There is only one Disjointness Axiom (Mammalia 
                   DisjointWith Fungi)
-              - text: and Mammalia and Fungi do not share either direct                                     
-                  or indirect subclasses.
+              - text: and Mammalia and Fungi do not share either direct or 
+                  indirect subclasses.
             comments:
               - 'CONCLUSION: NONE'
     prompt: |2-
@@ -1178,10 +1201,9 @@ results:
           If there are no unsatisfiable classes, just write NONE.
 
       ANSWERS:
-    completion: |-
-      - REASONING: [ There is only one Disjointness Axiom (Mammalia DisjointWith Fungi),
-                                          and Mammalia and Fungi do not share either direct
-                                          or indirect subclasses. ] CONCLUSION: NONE
+    completion: '- REASONING: [ There is only one Disjointness Axiom (Mammalia DisjointWith
+      Fungi), and Mammalia and Fungi do not share either direct or indirect subclasses.
+      ] CONCLUSION: NONE'
     false_positives:
       - '- REASONING:'
     num_false_positives: 1

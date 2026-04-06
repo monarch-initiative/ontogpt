@@ -15,11 +15,11 @@ import re
 import uuid
 from dataclasses import dataclass
 from pathlib import Path
-from typing import Any, Dict, Iterator, List, Optional, Tuple, Union
+from typing import Any, Dict, Iterator, List, Optional, Tuple, Union, cast
 
 import pydantic
 import yaml
-from linkml_runtime.linkml_model import ClassDefinition, SlotDefinition
+from linkml_runtime.linkml_model import ClassDefinition, ElementName, SlotDefinition
 from oaklib import BasicOntologyInterface
 
 from ontogpt.engines.knowledge_engine import (
@@ -64,10 +64,34 @@ class SPIRESEngine(KnowledgeEngine):
     max_text_length: Optional[int] = None
     """If set, this will split the text into chunks based on this number of characters."""
 
+    @staticmethod
+    def _as_object_dict(value: Union[pydantic.BaseModel, Dict[str, Any]]) -> Dict[str, Any]:
+        if isinstance(value, dict):
+            return value
+        model_dump = getattr(value, "model_dump", None)
+        if callable(model_dump):
+            dumped = model_dump()
+            if isinstance(dumped, dict):
+                return dumped
+        raise TypeError(f"Cannot serialize object of type {type(value)}")
+
+    @staticmethod
+    def _merge_model_objects(current_object: pydantic.BaseModel, next_object: pydantic.BaseModel) -> None:
+        for field_name, value in next_object.model_dump().items():
+            current_value = getattr(current_object, field_name, None)
+            if isinstance(value, list):
+                merged_list = list(current_value or [])
+                for item in value:
+                    if item not in merged_list:
+                        merged_list.append(item)
+                setattr(current_object, field_name, merged_list)
+            elif value:
+                setattr(current_object, field_name, value)
+
     def extract_from_text(
         self,
         text: str,
-        cls: ClassDefinition = None,
+        cls: Optional[ClassDefinition] = None,
         object: OBJECT = None,
         show_prompt: bool = False,
     ) -> ExtractionResult:
@@ -83,6 +107,8 @@ class SPIRESEngine(KnowledgeEngine):
 
         # This indicates that the text will be chunked in some way
         have_chunks = False
+        chunks: List[str] = []
+        raw_text = ""
 
         logging.info("Cleaning text...")
         new_text = sanitize_text(text)
@@ -116,11 +142,11 @@ class SPIRESEngine(KnowledgeEngine):
         text = new_text
 
         if self.sentences_per_window:
-            chunks = chunk_text_by_sentence(text, self.sentences_per_window)
+            chunks = list(chunk_text_by_sentence(text, self.sentences_per_window))
             have_chunks = True
 
         if self.max_text_length:
-            chunks = chunk_text_by_char(text, self.max_text_length)
+            chunks = list(chunk_text_by_char(text, self.max_text_length))
             have_chunks = True
 
         if have_chunks:
@@ -138,14 +164,7 @@ class SPIRESEngine(KnowledgeEngine):
                     # there may be a new extracted object but it's empty,
                     # raising an AttributeError on items.
                     try:
-                        for k, v in next_object.items():
-                            if isinstance(v, list):
-                                extracted_object[k] += v
-                            else:
-                                if k not in extracted_object:
-                                    extracted_object[k] = v
-                                else:
-                                    extracted_object[k] = v
+                        self._merge_model_objects(extracted_object, next_object)
                     except AttributeError:
                         logging.error(f"Empty object: {next_object}")
         else:
@@ -161,6 +180,8 @@ class SPIRESEngine(KnowledgeEngine):
         )
 
         return ExtractionResult(
+            input_id=None,
+            input_title=None,
             input_text=text,
             raw_completion_output=raw_text,
             prompt=self.last_prompt,
@@ -170,7 +191,9 @@ class SPIRESEngine(KnowledgeEngine):
             # not the full list of all named entities across all extractions
         )
 
-    def _extract_from_text_to_dict(self, text: str, cls: ClassDefinition = None) -> RESPONSE_DICT:
+    def _extract_from_text_to_dict(
+        self, text: str, cls: Optional[ClassDefinition] = None
+    ) -> RESPONSE_DICT:
         raw_text = self._raw_extract(text=text, cls=cls)
         return self._parse_response_to_dict(raw_text, cls)
 
@@ -198,7 +221,7 @@ class SPIRESEngine(KnowledgeEngine):
         entity: str,
         cache_path: Union[str, Path],
         iteration_slots: List[str],
-        adapter: BasicOntologyInterface = None,
+        adapter: Optional[BasicOntologyInterface] = None,
         clear=False,
         max_iterations=10,
         prompt_template=None,
@@ -211,13 +234,14 @@ class SPIRESEngine(KnowledgeEngine):
         iteration = 0
         if isinstance(cache_path, str):
             cache_path = Path(cache_path)
+        db: Dict[str, Any] = {"processed_entities": [], "entities_in_queue": [], "results": []}
         if cache_path:
             if cache_path.exists() and not clear:
-                db = yaml.safe_load(read_text_with_fallbacks(cache_path))
+                loaded_db = yaml.safe_load(read_text_with_fallbacks(cache_path))
+                if isinstance(loaded_db, dict):
+                    db = loaded_db
                 if "entities_in_queue" not in db:
                     db["entities_in_queue"] = []
-            else:
-                db = {"processed_entities": [], "entities_in_queue": [], "results": []}
         if entity not in db["processed_entities"]:
             db["entities_in_queue"].append(entity)
         if prompt_template is None:
@@ -234,7 +258,8 @@ class SPIRESEngine(KnowledgeEngine):
             # check if entity matches a curie pattern using re
             if re.match(r"^[A-Z]+:[A-Z0-9]+$", next_entity):
                 curie = next_entity
-                next_entity = adapter.label(next_entity)
+                if adapter is not None:
+                    next_entity = adapter.label(next_entity) or next_entity
             else:
                 curie = None
             result = self.generate_and_extract(
@@ -295,20 +320,21 @@ class SPIRESEngine(KnowledgeEngine):
         :param examples:
         :return:
         """
-        cls = self.template_class
-        sv = self.schemaview
+        cls = self._require_template_class()
+        sv = self._require_schemaview()
         prompt = "example:\n"
         for example in examples:
             prompt += f"{self.serialize_object(example)}\n\n"
         prompt += "\n\n===\n\n"
-        if isinstance(object, pydantic.BaseModel):
-            object = object.model_dump()
+        object = self._as_object_dict(object)
         for k, v in object.items():
             if v:
                 slot = sv.induced_slot(k, cls.name)
+                if slot is None:
+                    continue
                 prompt += f"{k}: {self._serialize_value(v, slot)}\n"
         logging.debug(f"PROMPT: {prompt}")
-        payload = self.client.complete(prompt, show_prompt)
+        payload = self._require_client().complete(prompt, show_prompt=show_prompt)
         prediction = self.parse_completion_payload(payload, object=object)
         return prediction
 
@@ -350,7 +376,7 @@ class SPIRESEngine(KnowledgeEngine):
         prompt += "===\n\nTerms:"
         prompt += "; ".join(terms)
         prompt += "===\n\n"
-        payload = self.client.complete(prompt, show_prompt)
+        payload = self._require_client().complete(prompt, show_prompt=show_prompt)
         # outer parse
         best_results: List[str] = []
         for sep in ["\n", "; "]:
@@ -380,19 +406,20 @@ class SPIRESEngine(KnowledgeEngine):
                 logging.warning(f"Could not map term: {t}")
         return mappings
 
-    def serialize_object(self, example: EXAMPLE, cls: ClassDefinition = None) -> str:
-        if cls is None:
-            cls = self.template_class
+    def serialize_object(self, example: EXAMPLE, cls: Optional[ClassDefinition] = None) -> str:
+        template_cls = self._require_template_class(cls)
+        class_name = template_cls.name
         if isinstance(example, str):
             return example
-        if isinstance(example, pydantic.BaseModel):
-            example = example.model_dump()
+        example = self._as_object_dict(example)
         lines = []
-        sv = self.schemaview
+        sv = self._require_schemaview()
         for k, v in example.items():
             if not v:
                 continue
-            slot = sv.induced_slot(k, cls.name)
+            slot = sv.induced_slot(k, class_name)
+            if slot is None:
+                continue
             v_serialized = self._serialize_value(v, slot)
             lines.append(f"{k}: {v_serialized}")
         return "\n".join(lines)
@@ -404,13 +431,15 @@ class SPIRESEngine(KnowledgeEngine):
             return "; ".join([self._serialize_value(v, slot) for v in val if v])
         if isinstance(val, dict):
             return " - ".join([self._serialize_value(v, slot) for v in val.values() if v])
-        sv = self.schemaview
+        sv = self._require_schemaview()
         if slot.range in sv.all_classes():
+            range_cls = sv.get_class(slot.range)
             if self.labelers:
                 labelers = list(self.labelers)
             else:
                 labelers = []
-            labelers += self.get_annotators(sv.get_class(slot.range))
+            if range_cls is not None:
+                labelers += self.get_annotators(range_cls)
             if labelers:
                 for labeler in labelers:
                     label = labeler.label(val)
@@ -420,8 +449,8 @@ class SPIRESEngine(KnowledgeEngine):
 
     def _raw_extract(
         self,
-        text,
-        cls: ClassDefinition = None,
+        text: str,
+        cls: Optional[ClassDefinition] = None,
         object: OBJECT = None,
         show_prompt: bool = False,
     ) -> str:
@@ -433,26 +462,28 @@ class SPIRESEngine(KnowledgeEngine):
         """
         prompt = self.get_completion_prompt(cls=cls, text=text, object=object)
         self.last_prompt = prompt
-        payload = self.client.complete(prompt=prompt, show_prompt=show_prompt)
+        payload = self._require_client().complete(prompt=prompt, show_prompt=show_prompt)
         return payload
 
     def get_completion_prompt(
-        self, cls: ClassDefinition = None, text: str = "", object: OBJECT = None
+        self, cls: Optional[ClassDefinition] = None, text: str = "", object: OBJECT = None
     ) -> str:
         """Get the prompt for the given template."""
-        if cls is None:
-            cls = self.template_class
+        template_cls = self._require_template_class(cls)
+        class_name = template_cls.name
+        sv = self._require_schemaview()
         if not text or ("\n" in text or len(text) > 60):
             prompt = (
                 "From the text below, extract the following entities in the following format:\n\n"
             )
         else:
             prompt = "Split the following piece of text into fields in the following format:\n\n"
-        for slot in self.schemaview.class_induced_slots(cls.name):
-            if ANNOTATION_KEY_PROMPT_SKIP in slot.annotations:
+        for slot in sv.class_induced_slots(class_name):
+            if self.slot_is_skipped(slot):
                 continue
-            if ANNOTATION_KEY_PROMPT in slot.annotations:
-                slot_prompt = slot.annotations[ANNOTATION_KEY_PROMPT].value
+            annotation_prompt = self._annotation_value(slot.annotations, ANNOTATION_KEY_PROMPT)
+            if annotation_prompt is not None:
+                slot_prompt = annotation_prompt
             elif slot.description:
                 slot_prompt = slot.description
             else:
@@ -460,33 +491,32 @@ class SPIRESEngine(KnowledgeEngine):
                     slot_prompt = f"semicolon-separated list of {slot.name}s"
                 else:
                     slot_prompt = f"the value for {slot.name}"
-            if slot.range in self.schemaview.all_enums():
-                enum_def = self.schemaview.get_enum(slot.range)
-                pvs = [str(k) for k in enum_def.permissible_values.keys()]
-                slot_prompt += f"Must be one of: {', '.join(pvs)}"
+            if slot.range in sv.all_enums():
+                enum_def = sv.get_enum(slot.range)
+                if enum_def is not None:
+                    pvs = [str(k) for k in enum_def.permissible_values.keys()]
+                    slot_prompt += f"Must be one of: {', '.join(pvs)}"
             prompt += f"{slot.name}: <{slot_prompt}>\n"
         # prompt += "Do not answer if you don't know\n\n"
         prompt = f"{prompt}\n\nText:\n{text}\n\n===\n\n"
         if object:
-            if cls is None:
-                cls = self.template_class
-            if isinstance(object, pydantic.BaseModel):
-                object = object.model_dump()
-            if isinstance(object, dict):
-                for k, v in object.items():
-                    if v:
-                        slot = self.schemaview.induced_slot(k, cls.name)
-                        prompt += f"{k}: {self._serialize_value(v, slot)}\n"
-            else:
+            if isinstance(object, str):
                 logging.error(
                     f"Error in getting prompt. Cannot serialize object of type {type(object)}")
                 raise ValueError(
                     f"Error in getting prompt. Cannot serialize object of type {type(object)}")
+            object_dict = self._as_object_dict(object)
+            for k, v in object_dict.items():
+                if v:
+                    slot = sv.induced_slot(k, class_name)
+                    if slot is None:
+                        continue
+                    prompt += f"{k}: {self._serialize_value(v, slot)}\n"
         return prompt
 
     def _parse_response_to_dict(
-        self, results: str, cls: ClassDefinition = None
-    ) -> Optional[RESPONSE_DICT]:
+        self, results: str, cls: Optional[ClassDefinition] = None
+    ) -> RESPONSE_DICT:
         """
         Parse the pseudo-YAML response from OpenAI into a dictionary object.
 
@@ -518,21 +548,25 @@ class SPIRESEngine(KnowledgeEngine):
         # The JSON may still be malformed.
         # If so, it's not JSON and we need to parse it as YAML-like
         # So just to be sure we remove the JSON delimiters in that case
+        ann: RESPONSE_DICT = {}
+        raw_ann: object = None
         try:
-            ann = json.loads(results)
+            raw_ann = json.loads(results)
             is_json = True
         except json.decoder.JSONDecodeError:
             for ch in ["{", "}", '"']:
                 results = results.replace(ch, "")
 
         if is_json:
-            for entry in ann:
-                if isinstance(ann[entry], list):
-                    values = "; ".join(ann[entry])
-                elif isinstance(ann[entry], dict):
-                    values = "; ".join([f"{k} - {v}" for k, v in ann[entry].items()])
+            if not isinstance(raw_ann, dict):
+                return ann
+            for entry, raw_value in raw_ann.items():
+                if isinstance(raw_value, list):
+                    values = "; ".join(str(v) for v in raw_value)
+                elif isinstance(raw_value, dict):
+                    values = "; ".join([f"{k} - {v}" for k, v in raw_value.items()])
                 else:
-                    values = ann[entry]
+                    values = str(raw_value)
                 line = f"{entry}: {values}"
                 r = self._parse_line_to_dict(line, cls)
                 if r is not None:
@@ -543,7 +577,6 @@ class SPIRESEngine(KnowledgeEngine):
             # Each section may still have multiple fields, but we don't know how
             # they will be formatted
             sections = results.replace("*", "").split("\n\n")
-            ann = {}
             for section in sections:
                 lines = section.splitlines()
                 continued_line = ""
@@ -616,11 +649,11 @@ class SPIRESEngine(KnowledgeEngine):
         return ann
 
     def _parse_line_to_dict(
-        self, line: str, cls: ClassDefinition = None
+        self, line: str, cls: Optional[ClassDefinition] = None
     ) -> Optional[Tuple[FIELD, RESPONSE_ATOM]]:
-        if cls is None:
-            cls = self.template_class
-        sv = self.schemaview
+        template_cls = self._require_template_class(cls)
+        class_name = template_cls.name
+        sv = self._require_schemaview()
         # each line is a key-value pair, with key as field
         # and value as val. An error gets raised if the value is empty
         logging.info(f"PARSING LINE: {line}")
@@ -634,10 +667,10 @@ class SPIRESEngine(KnowledgeEngine):
         # randomly pluralizing or replacing spaces with underscores
         field = field.lower().replace(" ", "_")
         logging.debug(f"  FIELD: {field}")
-        cls_slots = sv.class_slots(cls.name)
+        cls_slots = sv.class_slots(class_name)
         slot = None
         if field in cls_slots:
-            slot = sv.induced_slot(field, cls.name)
+            slot = sv.induced_slot(field, class_name)
         else:
 
             # Try removing pluralization
@@ -645,7 +678,7 @@ class SPIRESEngine(KnowledgeEngine):
                 field = field[:-1]
 
             if field in cls_slots:
-                slot = sv.induced_slot(field, cls.name)
+                slot = sv.induced_slot(field, class_name)
         if not slot:
             logging.error(f"Cannot find slot for {field} in {line}")
             return None
@@ -659,7 +692,7 @@ class SPIRESEngine(KnowledgeEngine):
         inlined = slot.inlined
         slot_range = sv.get_class(slot.range)
         if not inlined:
-            if slot.range in sv.all_classes():
+            if slot.range in sv.all_classes() and slot_range is not None:
                 inlined = sv.get_identifier_slot(slot_range.name) is None
         val = val.strip()
         if slot.multivalued:
@@ -669,6 +702,9 @@ class SPIRESEngine(KnowledgeEngine):
         vals = [val for val in vals if val]
         logging.debug(f"SLOT: {slot.name} INL: {inlined} VALS: {vals}")
         if inlined:
+            if slot_range is None:
+                logging.warning(f"Cannot determine inlined range for {slot.name}")
+                return None
             transformed = False
             slots_of_range = sv.class_slots(slot_range.name)
             if self.recurse or len(slots_of_range) > 2:
@@ -700,7 +736,10 @@ class SPIRESEngine(KnowledgeEngine):
         return field, final_val
 
     def parse_completion_payload(
-        self, results: str, cls: ClassDefinition = None, object: dict = None
+        self,
+        results: str,
+        cls: Optional[ClassDefinition] = None,
+        object: Optional[Dict[str, Any]] = None,
     ) -> pydantic.BaseModel:
         """
         Parse the completion payload into a pydantic class.
@@ -715,14 +754,16 @@ class SPIRESEngine(KnowledgeEngine):
         if object:
             raw = {**object, **raw}
         self._auto_add_ids(raw, cls)
-        return self.ground_annotation_object(raw, cls)
+        grounded = self.ground_annotation_object(raw, cls)
+        if grounded is None:
+            raise ValueError("Could not ground completion payload")
+        return grounded
 
-    def _auto_add_ids(self, ann: RESPONSE_DICT, cls: ClassDefinition = None) -> None:
-        if ann is None:
-            return
-        if cls is None:
-            cls = self.template_class
-        for slot in self.schemaview.class_induced_slots(cls.name):
+    def _auto_add_ids(self, ann: RESPONSE_DICT, cls: Optional[ClassDefinition] = None) -> None:
+        template_cls = self._require_template_class(cls)
+        class_name = template_cls.name
+        sv = self._require_schemaview()
+        for slot in sv.class_induced_slots(class_name):
             if slot.identifier:
                 if slot.name not in ann:
                     auto_id = str(uuid.uuid4())
@@ -733,7 +774,7 @@ class SPIRESEngine(KnowledgeEngine):
                         ann[slot.name] = auto_id
 
     def ground_annotation_object(
-        self, ann: RESPONSE_DICT, cls: ClassDefinition = None
+        self, ann: Optional[RESPONSE_DICT], cls: Optional[ClassDefinition] = None
     ) -> Optional[pydantic.BaseModel]:
         """Ground the direct parse of the OpenAI payload.
 
@@ -747,12 +788,12 @@ class SPIRESEngine(KnowledgeEngine):
         :return: Grounded annotation object
         """
         logging.debug(f"Grounding annotation object {ann}")
-        if cls is None:
-            cls = self.template_class
-        sv = self.schemaview
+        template_cls = self._require_template_class(cls)
+        class_name = template_cls.name
+        sv = self._require_schemaview()
         new_ann: Dict[str, Any] = {}
         if ann is None:
-            logging.error(f"Cannot ground None annotation, cls={cls.name}")
+            logging.error(f"Cannot ground None annotation, cls={class_name}")
             return None
         for field, vals in ann.items():
             if isinstance(vals, list):
@@ -760,12 +801,15 @@ class SPIRESEngine(KnowledgeEngine):
             else:
                 multivalued = False
                 vals = [vals]
-            slot = sv.induced_slot(field, cls.name)
+            slot = sv.induced_slot(field, class_name)
+            if slot is None:
+                logging.error(f"Cannot find slot {field} in {class_name}")
+                continue
             rng_cls = sv.get_class(slot.range)
             enum_def = None
             if slot.range:
-                if slot.range in self.schemaview.all_enums():
-                    enum_def = self.schemaview.get_enum(slot.range)
+                if slot.range in sv.all_enums():
+                    enum_def = sv.get_enum(slot.range)
             new_ann[field] = []
             logging.debug(f"FIELD: {field} SLOT: {slot.name}")
             for val in vals:
@@ -774,6 +818,9 @@ class SPIRESEngine(KnowledgeEngine):
                 logging.debug(f"   VAL: {val}")
                 if isinstance(val, tuple):
                     # special case for pairs
+                    if rng_cls is None:
+                        logging.error(f"Cannot find class for inlined tuple range {slot.range}")
+                        continue
                     sub_slots = sv.class_induced_slots(rng_cls.name)
                     obj = {}
                     for i in range(0, len(val)):
@@ -781,20 +828,43 @@ class SPIRESEngine(KnowledgeEngine):
                         sub_rng = sv.get_class(sub_slot.range)
                         if not sub_rng:
                             logging.error(f"Cannot find range for {sub_slot.name}")
-                        result = self.normalize_named_entity(val[i], sub_slot.range)
+                        if sub_slot.range is None:
+                            logging.error(
+                                f"Cannot normalize value for slot without range: {sub_slot.name}")
+                            continue
+                        result = self.normalize_named_entity(
+                            val[i], cast(ElementName, sub_slot.range)
+                        )
                         obj[sub_slot.name] = result
                 elif isinstance(val, dict):
                     # recurse
-                    obj = self.ground_annotation_object(val, rng_cls)
+                    obj = self.ground_annotation_object(val, rng_cls) if rng_cls else val
                 else:
                     obj = self.normalize_named_entity(val, slot.range)  # type: ignore
                 if enum_def:
                     found = False
                     logging.info(f"Looking for {obj} in {enum_def.name}")
-                    for k, _pv in enum_def.permissible_values.items():
-                        if type(obj) is str and type(k) is str:
-                            if obj.lower() == k.lower():  # type: ignore
-                                obj = k  # type: ignore
+                    permissible_values: List[str] = []
+                    raw_permissible_values = enum_def.permissible_values
+                    if isinstance(raw_permissible_values, dict):
+                        permissible_values = [
+                            str(permissible_value)
+                            for permissible_value in raw_permissible_values.keys()
+                        ]
+                    elif isinstance(raw_permissible_values, list):
+                        permissible_values = [
+                            (
+                                pv.get("text")
+                                if isinstance(pv, dict) and isinstance(pv.get("text"), str)
+                                else getattr(pv, "text", None)
+                            )
+                            or str(pv)
+                            for pv in raw_permissible_values
+                        ]
+                    for permissible_value in permissible_values:
+                        if isinstance(obj, str) and isinstance(permissible_value, str):
+                            if obj.lower() == permissible_value.lower():
+                                obj = permissible_value
                                 found = True
                                 break
                     if not found:
@@ -806,7 +876,7 @@ class SPIRESEngine(KnowledgeEngine):
                     new_ann[field] = obj
         logging.debug(f"Creating object from dict {new_ann}")
         logging.info(new_ann)
-        py_cls = self.template_module.__dict__[cls.name]
+        py_cls = getattr(self._require_template_module(), class_name)
         return py_cls(**new_ann)
 
     def get_spans(self, input_text: str, named_entities: list[NamedEntity]) -> list[NamedEntity]:
@@ -821,7 +891,7 @@ class SPIRESEngine(KnowledgeEngine):
         named_entities_with_spans = []
 
         for ne in named_entities:
-            ne.original_spans = get_span_values(input_text, ne.label)
+            ne.original_spans = get_span_values(input_text, ne.label or "")
             named_entities_with_spans.append(ne)
 
         return named_entities_with_spans

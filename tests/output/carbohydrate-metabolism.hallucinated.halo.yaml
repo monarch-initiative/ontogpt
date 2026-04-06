@@ -1,4 +1,70 @@
 elements:
+  - name: RegulationOfHormoneLevels
+    description: Any process that modulates the levels of hormone within an 
+      organism or a tissue. A hormone is any substance formed in very small 
+      amounts in one specialized organ or group of cells and carried (sometimes 
+      in the bloodstream) to another organ or group of cells in the same 
+      organism, upon which it has a specific regulatory action.
+    subclass_of:
+      - RegulationOfBiologicalQuality
+    subtypes:
+      - HormoneMetabolicProcess
+    equivalent_to: BiologicalRegulation and regulates characteristic some 
+      HormoneLevels
+  - name: BiosyntheticProcess
+    description: A cellular process consisting of the biochemical pathways by 
+      which a living organism synthesizes chemical substances. This typically 
+      represents the energy-requiring part of metabolism in which simpler 
+      substances are transformed into more complex ones.
+    synonyms:
+      - formation
+      - anabolism
+      - biosynthesis
+      - synthesis
+      - multicellular organismal biosynthetic process
+      - single-organism biosynthetic process
+    subclass_of:
+      - MetabolicProcess
+    subtypes:
+      - LipidBiosyntheticProcess
+      - SmallMoleculeBiosyntheticProcess
+      - OlefinicCompoundBiosyntheticProcess
+  - name: PrimaryMetabolicProcess
+    description: The chemical reactions and pathways involving those compounds 
+      which are formed as a part of the normal anabolic and catabolic processes.
+      These processes take place in most, if not all, cells of the organism.
+    synonyms:
+      - primary metabolism
+    subclass_of:
+      - MetabolicProcess
+    subtypes:
+      - LipidMetabolicProcess
+  - name: SmallMoleculeMetabolicProcess
+    description: The chemical reactions and pathways involving small molecules, 
+      any low molecular weight, monomeric, non-encoded molecule.
+    synonyms:
+      - small molecule metabolism
+    subclass_of:
+      - MetabolicProcess
+    subtypes:
+      - AlcoholMetabolicProcess
+      - OrganicAcidMetabolicProcess
+      - VitaminMetabolicProcess
+      - SmallMoleculeCatabolicProcess
+      - SmallMoleculeBiosyntheticProcess
+  - name: TerpenoidMetabolicProcess
+    description: The chemical reactions and pathways involving terpenoids, any 
+      member of a class of compounds characterized by an isoprenoid chemical 
+      structure and including derivatives with various functional groups.
+    synonyms:
+      - terpenoid metabolism
+    subclass_of:
+      - IsoprenoidMetabolicProcess
+    subtypes:
+      - DiterpenoidMetabolicProcess
+      - TerpenoidCatabolicProcess
+    equivalent_to: MetabolicProcess and has primary input or output some 
+      Terpenoid
   - name: RetinoicAcidMetabolicProcess
     description: The chemical reactions and pathways involving retinoic acid, 
       one of the three components that makes up vitamin A.
@@ -14,23 +80,97 @@ elements:
       - RetinoicAcidCatabolicProcess
     equivalent_to: MetabolicProcess and has primary input or output some 
       Retinoate
-  - name: SteroidBiosyntheticProcess
-    description: The chemical reactions and pathways resulting in the formation 
-      of steroids, compounds with a 1,2,cyclopentanoperhydrophenanthrene 
-      nucleus; includes de novo formation and steroid interconversion by 
-      modification.
+  - name: BiologicalRegulation
+    description: Any process that modulates a measurable attribute of any 
+      biological process, quality or function.
     synonyms:
-      - steroid anabolism
-      - steroid biosynthesis
-      - steroid formation
-      - steroid synthesis
-      - steroidogenesis
+      - regulation
     subclass_of:
-      - SteroidMetabolicProcess
-      - LipidBiosyntheticProcess
+      - BiologicalProcess
     subtypes:
-      - SteroidHormoneBiosyntheticProcess
-    equivalent_to: BiosyntheticProcess and has primary output some Steroid
+      - RegulationOfBiologicalQuality
+  - name: Occurrent
+    description: An entity that has temporal parts and that happens, unfolds or 
+      develops through time.
+    subtypes:
+      - Process
+  - name: SteroidMetabolicProcess
+    description: The chemical reactions and pathways involving steroids, 
+      compounds with a 1,2,cyclopentanoperhydrophenanthrene nucleus.
+    synonyms:
+      - steroid metabolism
+    subclass_of:
+      - LipidMetabolicProcess
+    subtypes:
+      - SteroidBiosyntheticProcess
+      - GlucocorticoidMetabolicProcess
+    equivalent_to: MetabolicProcess and has primary input or output some Steroid
+  - name: CortisolMetabolicProcess
+    description: The chemical reactions and pathways involving cortisol, the 
+      steroid hormone 11-beta-17,21-trihydroxypregn-4-ene-3,20-dione. Cortisol 
+      is synthesized from cholesterol in the adrenal gland and controls 
+      carbohydrate, fat and protein metabolism and has anti-inflammatory 
+      properties.
+    synonyms:
+      - cortisol metabolism
+    subclass_of:
+      - GlucocorticoidMetabolicProcess
+      - PrimaryAlcoholMetabolicProcess
+      - KetoneMetabolicProcess
+      - OlefinicCompoundMetabolicProcess
+      - TertiaryAlcoholMetabolicProcess
+    subtypes:
+      - CortisolBiosyntheticProcess
+    equivalent_to: MetabolicProcess and has primary input or output some 
+      Cortisol
+  - name: SmallMoleculeCatabolicProcess
+    description: The chemical reactions and pathways resulting in the breakdown 
+      of small molecules, any low molecular weight, monomeric, non-encoded 
+      molecule.
+    synonyms:
+      - small molecule catabolism
+    subclass_of:
+      - CatabolicProcess
+      - SmallMoleculeMetabolicProcess
+    subtypes:
+      - VitaminCatabolicProcess
+      - OrganicAcidCatabolicProcess
+  - name: OxoacidMetabolicProcess
+    description: The chemical reactions and pathways involving any oxoacid; an 
+      oxoacid is a compound which contains oxygen, at least one other element, 
+      and at least one hydrogen bound to oxygen, and which produces a conjugate 
+      base by loss of positive hydrogen ion(s) (hydrons).
+    synonyms:
+      - keto acid metabolic process
+      - keto acid metabolism
+      - ketoacid metabolic process
+      - ketoacid metabolism
+      - oxo acid metabolic process
+      - oxo acid metabolism
+      - oxoacid metabolism
+    subclass_of:
+      - OrganicAcidMetabolicProcess
+    subtypes:
+      - CarboxylicAcidMetabolicProcess
+    equivalent_to: MetabolicProcess and has primary input or output some 
+      Oxoanion
+  - name: VitaminCatabolicProcess
+    description: The chemical reactions and pathways resulting in the breakdown 
+      of a vitamin, one of a number of unrelated organic substances that occur 
+      in many foods in small amounts and that are necessary in trace amounts for
+      the normal metabolic functioning of the body, carried out by individual 
+      cells.
+    synonyms:
+      - vitamin breakdown
+      - vitamin catabolism
+      - vitamin degradation
+    subclass_of:
+      - VitaminMetabolicProcess
+      - SmallMoleculeCatabolicProcess
+    subtypes:
+      - Fat-solubleVitaminCatabolicProcess
+    equivalent_to: CatabolicProcess and has primary input some 
+      SubstanceWithVitamin(role)Role
   - name: PrimaryAlcoholBiosyntheticProcess
     description: The chemical reactions and pathways resulting in the formation 
       of primary alcohols. A primary alcohol is any alcohol in which a hydroxy 
@@ -50,165 +190,6 @@ elements:
       - CortisolBiosyntheticProcess
     equivalent_to: BiosyntheticProcess and has primary output some 
       PrimaryAlcohol
-  - name: RetinoidMetabolicProcess
-    description: The chemical reactions and pathways involving retinoids, any 
-      member of a class of isoprenoids that contain or are derived from four 
-      prenyl groups linked head-to-tail. Retinoids include retinol and retinal 
-      and structurally similar natural derivatives or synthetic compounds, but 
-      need not have vitamin A activity.
-    synonyms:
-      - retinoid metabolism
-    subclass_of:
-      - DiterpenoidMetabolicProcess
-    subtypes:
-      - RetinoicAcidMetabolicProcess
-    equivalent_to: MetabolicProcess and has primary input or output some 
-      Retinoid
-  - name: BiosyntheticProcess
-    description: A cellular process consisting of the biochemical pathways by 
-      which a living organism synthesizes chemical substances. This typically 
-      represents the energy-requiring part of metabolism in which simpler 
-      substances are transformed into more complex ones.
-    synonyms:
-      - formation
-      - anabolism
-      - biosynthesis
-      - synthesis
-      - multicellular organismal biosynthetic process
-      - single-organism biosynthetic process
-    subclass_of:
-      - MetabolicProcess
-    subtypes:
-      - LipidBiosyntheticProcess
-      - SmallMoleculeBiosyntheticProcess
-      - OlefinicCompoundBiosyntheticProcess
-  - name: TerpenoidMetabolicProcess
-    description: The chemical reactions and pathways involving terpenoids, any 
-      member of a class of compounds characterized by an isoprenoid chemical 
-      structure and including derivatives with various functional groups.
-    synonyms:
-      - terpenoid metabolism
-    subclass_of:
-      - IsoprenoidMetabolicProcess
-    subtypes:
-      - DiterpenoidMetabolicProcess
-      - TerpenoidCatabolicProcess
-    equivalent_to: MetabolicProcess and has primary input or output some 
-      Terpenoid
-  - name: DiterpenoidCatabolicProcess
-    description: The chemical reactions and pathways resulting in the breakdown 
-      of diterpenoid compounds, terpenoids with four isoprene units.
-    synonyms:
-      - diterpenoid breakdown
-      - diterpenoid catabolism
-      - diterpenoid degradation
-      - diterpene catabolic process
-      - diterpene catabolism
-    subclass_of:
-      - DiterpenoidMetabolicProcess
-      - TerpenoidCatabolicProcess
-    subtypes:
-      - RetinoicAcidCatabolicProcess
-    equivalent_to: CatabolicProcess and has primary input some Diterpenoid
-  - name: TerpenoidCatabolicProcess
-    description: The chemical reactions and pathways resulting in the breakdown 
-      of terpenoids, any member of a class of compounds characterized by an 
-      isoprenoid chemical structure.
-    synonyms:
-      - terpenoid breakdown
-      - terpenoid catabolism
-      - terpenoid degradation
-    subclass_of:
-      - TerpenoidMetabolicProcess
-      - IsoprenoidCatabolicProcess
-    subtypes:
-      - DiterpenoidCatabolicProcess
-    equivalent_to: CatabolicProcess and has primary input some Terpenoid
-  - name: CarboxylicAcidCatabolicProcess
-    description: The chemical reactions and pathways resulting in the breakdown 
-      of carboxylic acids, any organic acid containing one or more carboxyl 
-      (-COOH) groups.
-    synonyms:
-      - carboxylic acid breakdown
-      - carboxylic acid catabolism
-      - carboxylic acid degradation
-    subclass_of:
-      - OrganicAcidCatabolicProcess
-      - CarboxylicAcidMetabolicProcess
-    subtypes:
-      - MonocarboxylicAcidCatabolicProcess
-    equivalent_to: CatabolicProcess and has primary input some 
-      CarboxylicAcidAnion
-  - name: KetoneMetabolicProcess
-    description: The chemical reactions and pathways involving any of a class of
-      organic compounds that contain the carbonyl group, CO, and in which the 
-      carbonyl group is bonded only to carbon atoms, as carried out by 
-      individual cells. The general formula for a ketone is RCOR, where R and R 
-      are alkyl or aryl groups.
-    synonyms:
-      - ketone metabolism
-    subclass_of:
-      - MetabolicProcess
-    subtypes:
-      - CortisolMetabolicProcess
-      - KetoneBiosyntheticProcess
-    equivalent_to: MetabolicProcess and has primary input or output some Ketone
-  - name: IsoprenoidMetabolicProcess
-    description: The chemical reactions and pathways involving isoprenoid 
-      compounds, isoprene (2-methylbuta-1,3-diene) or compounds containing or 
-      derived from linked isoprene (3-methyl-2-butenylene) residues.
-    synonyms:
-      - isoprenoid metabolism
-      - polyisoprenoid metabolic process
-      - polyisoprenoid metabolism
-      - polyterpene metabolic process
-      - polyterpene metabolism
-    subclass_of:
-      - LipidMetabolicProcess
-    subtypes:
-      - TerpenoidMetabolicProcess
-      - IsoprenoidCatabolicProcess
-    equivalent_to: MetabolicProcess and has primary input or output some 
-      Isoprenoid
-  - name: SmallMoleculeBiosyntheticProcess
-    description: The chemical reactions and pathways resulting in the formation 
-      of small molecules, any low molecular weight, monomeric, non-encoded 
-      molecule.
-    synonyms:
-      - small molecule biosynthesis
-    subclass_of:
-      - BiosyntheticProcess
-      - SmallMoleculeMetabolicProcess
-    subtypes:
-      - KetoneBiosyntheticProcess
-      - AlcoholBiosyntheticProcess
-  - name: CarboxylicAcidMetabolicProcess
-    description: The chemical reactions and pathways involving carboxylic acids,
-      any organic acid containing one or more carboxyl (COOH) groups or anions 
-      (COO-).
-    synonyms:
-      - carboxylic acid metabolism
-    subclass_of:
-      - OxoacidMetabolicProcess
-    subtypes:
-      - MonocarboxylicAcidMetabolicProcess
-      - CarboxylicAcidCatabolicProcess
-    equivalent_to: MetabolicProcess and has primary input or output some 
-      CarboxylicAcidAnion
-  - name: OlefinicCompoundMetabolicProcess
-    description: The chemical reactions and pathways involving an olefinic 
-      compound, any compound which contains a carbon-carbon double bond (aka 
-      C=C).
-    synonyms:
-      - alkene substituted compound metabolic process
-      - alkene substituted compound metabolism
-    subclass_of:
-      - MetabolicProcess
-    subtypes:
-      - CortisolMetabolicProcess
-      - OlefinicCompoundBiosyntheticProcess
-    equivalent_to: MetabolicProcess and has primary input or output some 
-      OlefinicCompound
   - name: OrganicAcidCatabolicProcess
     description: The chemical reactions and pathways resulting in the breakdown 
       of organic acids, any acidic compound containing carbon in covalent 
@@ -223,23 +204,58 @@ elements:
     subtypes:
       - CarboxylicAcidCatabolicProcess
     equivalent_to: CatabolicProcess and has primary input some OrganicAcid
-  - name: VitaminCatabolicProcess
-    description: The chemical reactions and pathways resulting in the breakdown 
-      of a vitamin, one of a number of unrelated organic substances that occur 
-      in many foods in small amounts and that are necessary in trace amounts for
-      the normal metabolic functioning of the body, carried out by individual 
-      cells.
+  - name: GlucocorticoidMetabolicProcess
+    description: The chemical reactions and pathways involving glucocorticoids, 
+      hormonal C21 corticosteroids synthesized from cholesterol. Glucocorticoids
+      act primarily on carbohydrate and protein metabolism, and have 
+      anti-inflammatory effects.
     synonyms:
-      - vitamin breakdown
-      - vitamin catabolism
-      - vitamin degradation
+      - glucocorticoid metabolism
+      - glucocorticosteroid metabolic process
+      - glucocorticosteroid metabolism
     subclass_of:
-      - VitaminMetabolicProcess
-      - SmallMoleculeCatabolicProcess
+      - SteroidMetabolicProcess
     subtypes:
-      - Fat-solubleVitaminCatabolicProcess
-    equivalent_to: CatabolicProcess and has primary input some 
-      SubstanceWithVitamin(role)Role
+      - GlucocorticoidBiosyntheticProcess
+      - CortisolMetabolicProcess
+    equivalent_to: MetabolicProcess and has primary input or output some 
+      Glucocorticoid
+  - name: CortisolBiosyntheticProcess
+    description: The chemical reactions and pathways resulting in the formation 
+      of cortisol, the steroid hormone 
+      11-beta-17,21-trihydroxypregn-4-ene-3,20-dione. Cortisol is synthesized 
+      from cholesterol in the adrenal gland and controls carbohydrate, fat and 
+      protein metabolism and has anti-inflammatory properties.
+    synonyms:
+      - cortisol biosynthesis
+      - cortisol formation
+      - cortisol synthesis
+      - cortisol anabolism
+    subclass_of:
+      - GlucocorticoidBiosyntheticProcess
+      - PrimaryAlcoholBiosyntheticProcess
+      - CortisolMetabolicProcess
+      - KetoneBiosyntheticProcess
+      - OlefinicCompoundBiosyntheticProcess
+      - TertiaryAlcoholBiosyntheticProcess
+    equivalent_to: BiosyntheticProcess and has primary output some Cortisol
+  - name: SteroidBiosyntheticProcess
+    description: The chemical reactions and pathways resulting in the formation 
+      of steroids, compounds with a 1,2,cyclopentanoperhydrophenanthrene 
+      nucleus; includes de novo formation and steroid interconversion by 
+      modification.
+    synonyms:
+      - steroid anabolism
+      - steroid biosynthesis
+      - steroid formation
+      - steroid synthesis
+      - steroidogenesis
+    subclass_of:
+      - SteroidMetabolicProcess
+      - LipidBiosyntheticProcess
+    subtypes:
+      - SteroidHormoneBiosyntheticProcess
+    equivalent_to: BiosyntheticProcess and has primary output some Steroid
   - name: AlcoholBiosyntheticProcess
     description: The chemical reactions and pathways resulting in the formation 
       of alcohols, any of a class of compounds containing one or more hydroxyl 
@@ -256,269 +272,6 @@ elements:
       - PrimaryAlcoholBiosyntheticProcess
       - TertiaryAlcoholBiosyntheticProcess
     equivalent_to: BiosyntheticProcess and has primary output some Alcohol
-  - name: LipidMetabolicProcess
-    description: The chemical reactions and pathways involving lipids, compounds
-      soluble in an organic solvent but not, or sparingly, in an aqueous 
-      solvent. Includes fatty acids; neutral fats, other fatty-acid esters, and 
-      soaps; long-chain (fatty) alcohols and waxes; sphingoids and other 
-      long-chain bases; glycolipids, phospholipids and sphingolipids; and 
-      carotenes, polyprenols, sterols, terpenes and other isoprenoids.
-    synonyms:
-      - lipid metabolism
-    subclass_of:
-      - PrimaryMetabolicProcess
-    subtypes:
-      - IsoprenoidMetabolicProcess
-      - SteroidMetabolicProcess
-      - LipidBiosyntheticProcess
-      - LipidCatabolicProcess
-    equivalent_to: MetabolicProcess and has primary input or output some Lipid
-  - name: AlcoholMetabolicProcess
-    description: The chemical reactions and pathways involving alcohols, any of 
-      a class of compounds containing one or more hydroxyl groups attached to a 
-      saturated carbon atom.
-    synonyms:
-      - alcohol metabolism
-    subclass_of:
-      - SmallMoleculeMetabolicProcess
-    subtypes:
-      - PrimaryAlcoholMetabolicProcess
-      - AlcoholBiosyntheticProcess
-      - TertiaryAlcoholMetabolicProcess
-    equivalent_to: MetabolicProcess and has primary input or output some Alcohol
-  - name: LipidCatabolicProcess
-    description: The chemical reactions and pathways resulting in the breakdown 
-      of lipids, compounds soluble in an organic solvent but not, or sparingly, 
-      in an aqueous solvent.
-    synonyms:
-      - lipid breakdown
-      - lipid catabolism
-      - lipid degradation
-      - lipolysis
-      - multicellular organism lipid catabolic process
-      - multicellular organismal lipid catabolic process
-    subclass_of:
-      - LipidMetabolicProcess
-      - CatabolicProcess
-    subtypes:
-      - IsoprenoidCatabolicProcess
-    equivalent_to: CatabolicProcess and has primary input some Lipid
-  - name: OlefinicCompoundBiosyntheticProcess
-    description: The chemical reactions and pathways resulting in the formation 
-      of an olefinic compound, any compound which contains a carbon-carbon 
-      double bond (aka C=C).
-    synonyms:
-      - alkene substituted compound anabolic process
-      - alkene substituted compound anabolism
-      - alkene substituted compound biosynthesis
-      - alkene substituted compound biosynthetic process
-      - alkene substituted compound synthesis
-    subclass_of:
-      - BiosyntheticProcess
-      - OlefinicCompoundMetabolicProcess
-    subtypes:
-      - CortisolBiosyntheticProcess
-    equivalent_to: BiosyntheticProcess and has primary output some 
-      OlefinicCompound
-  - name: SmallMoleculeCatabolicProcess
-    description: The chemical reactions and pathways resulting in the breakdown 
-      of small molecules, any low molecular weight, monomeric, non-encoded 
-      molecule.
-    synonyms:
-      - small molecule catabolism
-    subclass_of:
-      - CatabolicProcess
-      - SmallMoleculeMetabolicProcess
-    subtypes:
-      - VitaminCatabolicProcess
-      - OrganicAcidCatabolicProcess
-  - name: BiologicalProcess
-    description: A biological process is the execution of a genetically-encoded 
-      biological module or program. It consists of all the steps required to 
-      achieve the specific biological objective of the module. A biological 
-      process is accomplished by a particular set of molecular functions carried
-      out by specific gene products (or macromolecular complexes), often in a 
-      highly regulated manner and in a particular temporal sequence.
-    synonyms:
-      - biological process
-      - physiological process
-      - single organism process
-      - single-organism process
-    subclass_of:
-      - Process
-    subtypes:
-      - CellularProcess
-      - BiologicalRegulation
-  - name: HormoneMetabolicProcess
-    description: The chemical reactions and pathways involving any hormone, 
-      naturally occurring substances secreted by specialized cells that affects 
-      the metabolism or behavior of other cells possessing functional receptors 
-      for the hormone.
-    synonyms:
-      - hormone metabolism
-      - cellular hormone metabolic process
-    subclass_of:
-      - MetabolicProcess
-      - RegulationOfHormoneLevels
-    subtypes:
-      - RetinoicAcidMetabolicProcess
-    equivalent_to: MetabolicProcess and has primary input or output some 
-      SubstanceWithHormoneRole
-  - name: SmallMoleculeMetabolicProcess
-    description: The chemical reactions and pathways involving small molecules, 
-      any low molecular weight, monomeric, non-encoded molecule.
-    synonyms:
-      - small molecule metabolism
-    subclass_of:
-      - MetabolicProcess
-    subtypes:
-      - AlcoholMetabolicProcess
-      - OrganicAcidMetabolicProcess
-      - VitaminMetabolicProcess
-      - SmallMoleculeCatabolicProcess
-      - SmallMoleculeBiosyntheticProcess
-  - name: SteroidHormoneBiosyntheticProcess
-    description: The chemical reactions and pathways resulting in the formation 
-      of any steroid hormone, naturally occurring substances secreted by 
-      specialized cells that affects the metabolism or behavior of other cells 
-      possessing functional receptors for the hormone.
-    subclass_of:
-      - SteroidBiosyntheticProcess
-    subtypes:
-      - GlucocorticoidBiosyntheticProcess
-    equivalent_to: SteroidBiosyntheticProcess and has primary output some 
-      SteroidHormone
-  - name: MonocarboxylicAcidCatabolicProcess
-    description: The chemical reactions and pathways resulting in the breakdown 
-      of monocarboxylic acids, any organic acid containing one carboxyl (-COOH) 
-      group.
-    subclass_of:
-      - MonocarboxylicAcidMetabolicProcess
-      - CarboxylicAcidCatabolicProcess
-    subtypes:
-      - RetinoicAcidCatabolicProcess
-    equivalent_to: CatabolicProcess and has primary input some 
-      MonocarboxylicAcidAnion
-  - name: CellularProcess
-    description: Any process that is carried out at the cellular level, but not 
-      necessarily restricted to a single cell. For example, cell communication 
-      occurs among more than one cell, but occurs at the cellular level.
-    synonyms:
-      - cell physiology
-      - cellular physiological process
-      - cell growth and/or maintenance
-      - single-organism cellular process
-    subclass_of:
-      - BiologicalProcess
-    subtypes:
-      - MetabolicProcess
-  - name: KetoneBiosyntheticProcess
-    description: The chemical reactions and pathways resulting in the formation 
-      of ketones, a class of organic compounds that contain the carbonyl group, 
-      CO, and in which the carbonyl group is bonded only to carbon atoms. The 
-      general formula for a ketone is RCOR, where R and R are alkyl or aryl 
-      groups.
-    synonyms:
-      - ketone anabolism
-      - ketone biosynthesis
-      - ketone formation
-      - ketone synthesis
-    subclass_of:
-      - KetoneMetabolicProcess
-      - SmallMoleculeBiosyntheticProcess
-    subtypes:
-      - CortisolBiosyntheticProcess
-    equivalent_to: BiosyntheticProcess and has primary output some Ketone
-  - name: OrganicAcidMetabolicProcess
-    description: The chemical reactions and pathways involving organic acids, 
-      any acidic compound containing carbon in covalent linkage.
-    synonyms:
-      - organic acid metabolism
-    subclass_of:
-      - SmallMoleculeMetabolicProcess
-    subtypes:
-      - OrganicAcidCatabolicProcess
-      - OxoacidMetabolicProcess
-    equivalent_to: MetabolicProcess and has primary input or output some 
-      OrganicAcid
-  - name: Fat-solubleVitaminCatabolicProcess
-    description: The chemical reactions and pathways resulting in the breakdown 
-      of any of a diverse group of vitamins that are soluble in organic solvents
-      and relatively insoluble in water.
-    synonyms:
-      - fat-soluble vitamin breakdown
-      - fat-soluble vitamin catabolism
-      - fat-soluble vitamin degradation
-    subclass_of:
-      - VitaminCatabolicProcess
-    subtypes:
-      - RetinoicAcidCatabolicProcess
-    equivalent_to: CatabolicProcess and has primary input some 
-      SubstanceWithFat-solubleVitamin(role)Role
-  - name: RetinoicAcidCatabolicProcess
-    description: The chemical reactions and pathways resulting in the breakdown 
-      of retinoic acid, one of the three components that makes up vitamin A.
-    synonyms:
-      - retinoic acid breakdown
-      - retinoic acid catabolism
-      - retinoic acid degradation
-      - vitamin A1 acid catabolic process
-    subclass_of:
-      - DiterpenoidCatabolicProcess
-      - Fat-solubleVitaminCatabolicProcess
-      - RetinoicAcidMetabolicProcess
-      - MonocarboxylicAcidCatabolicProcess
-    equivalent_to: CatabolicProcess and has primary input some Retinoate
-  - name: RegulationOfBiologicalQuality
-    description: Any process that modulates a qualitative or quantitative trait 
-      of a biological quality. A biological quality is a measurable attribute of
-      an organism or part of an organism, such as size, mass, shape, color, etc.
-    synonyms:
-      - regulation of biological attribute
-      - regulation of biological characteristic
-    subclass_of:
-      - BiologicalRegulation
-    subtypes:
-      - RegulationOfHormoneLevels
-    equivalent_to: BiologicalRegulation and regulates characteristic some 
-      BiologicalAttribute
-  - name: PrimaryAlcoholMetabolicProcess
-    description: The chemical reactions and pathways involving primary alcohols.
-      A primary alcohol is any alcohol in which a hydroxy group, -OH, is 
-      attached to a saturated carbon atom which has either three hydrogen atoms 
-      attached to it or only one other carbon atom and two hydrogen atoms 
-      attached to it.
-    synonyms:
-      - monohydric alcohol metabolic process
-      - primary alcohol metabolism
-    subclass_of:
-      - AlcoholMetabolicProcess
-    subtypes:
-      - PrimaryAlcoholBiosyntheticProcess
-      - CortisolMetabolicProcess
-    equivalent_to: MetabolicProcess and has primary input or output some 
-      PrimaryAlcohol
-  - name: IsoprenoidCatabolicProcess
-    description: The chemical reactions and pathways resulting in the breakdown 
-      of an isoprenoid compound, isoprene (2-methylbuta-1,3-diene) or compounds 
-      containing or derived from linked isoprene (3-methyl-2-butenylene) 
-      residues.
-    synonyms:
-      - isoprenoid breakdown
-      - isoprenoid catabolism
-      - isoprenoid degradation
-      - polyisoprenoid breakdown
-      - polyisoprenoid catabolic process
-      - polyisoprenoid catabolism
-      - polyisoprenoid degradation
-      - polyterpene catabolic process
-      - polyterpene catabolism
-    subclass_of:
-      - IsoprenoidMetabolicProcess
-      - LipidCatabolicProcess
-    subtypes:
-      - TerpenoidCatabolicProcess
-    equivalent_to: CatabolicProcess and has primary input some Isoprenoid
   - name: CatabolicProcess
     description: A cellular process consisting of the biochemical pathways by 
       which a living organism breaks down substances. This includes the 
@@ -538,62 +291,62 @@ elements:
     subtypes:
       - LipidCatabolicProcess
       - SmallMoleculeCatabolicProcess
-  - name: GlucocorticoidMetabolicProcess
-    description: The chemical reactions and pathways involving glucocorticoids, 
-      hormonal C21 corticosteroids synthesized from cholesterol. Glucocorticoids
-      act primarily on carbohydrate and protein metabolism, and have 
-      anti-inflammatory effects.
+  - name: AlcoholMetabolicProcess
+    description: The chemical reactions and pathways involving alcohols, any of 
+      a class of compounds containing one or more hydroxyl groups attached to a 
+      saturated carbon atom.
     synonyms:
-      - glucocorticoid metabolism
-      - glucocorticosteroid metabolic process
-      - glucocorticosteroid metabolism
+      - alcohol metabolism
     subclass_of:
-      - SteroidMetabolicProcess
+      - SmallMoleculeMetabolicProcess
     subtypes:
-      - GlucocorticoidBiosyntheticProcess
-      - CortisolMetabolicProcess
-    equivalent_to: MetabolicProcess and has primary input or output some 
-      Glucocorticoid
-  - name: MonocarboxylicAcidMetabolicProcess
-    description: The chemical reactions and pathways involving monocarboxylic 
-      acids, any organic acid containing one carboxyl (COOH) group or anion 
-      (COO-).
+      - PrimaryAlcoholMetabolicProcess
+      - AlcoholBiosyntheticProcess
+      - TertiaryAlcoholMetabolicProcess
+    equivalent_to: MetabolicProcess and has primary input or output some Alcohol
+  - name: TertiaryAlcoholBiosyntheticProcess
+    description: The chemical reactions and pathways resulting in the formation 
+      of tertiary alcohol.
     synonyms:
-      - monocarboxylate metabolic process
-      - monocarboxylic acid metabolism
+      - tertiary alcohol anabolism
+      - tertiary alcohol biosynthesis
+      - tertiary alcohol formation
+      - tertiary alcohol synthesis
     subclass_of:
-      - CarboxylicAcidMetabolicProcess
+      - AlcoholBiosyntheticProcess
+      - TertiaryAlcoholMetabolicProcess
     subtypes:
-      - RetinoicAcidMetabolicProcess
-      - MonocarboxylicAcidCatabolicProcess
-    equivalent_to: MetabolicProcess and has primary input or output some 
-      MonocarboxylicAcidAnion
-  - name: RegulationOfHormoneLevels
-    description: Any process that modulates the levels of hormone within an 
-      organism or a tissue. A hormone is any substance formed in very small 
-      amounts in one specialized organ or group of cells and carried (sometimes 
-      in the bloodstream) to another organ or group of cells in the same 
-      organism, upon which it has a specific regulatory action.
-    subclass_of:
-      - RegulationOfBiologicalQuality
-    subtypes:
-      - HormoneMetabolicProcess
-    equivalent_to: BiologicalRegulation and regulates characteristic some 
-      HormoneLevels
-  - name: DiterpenoidMetabolicProcess
-    description: The chemical reactions and pathways involving diterpenoid 
-      compounds, terpenoids with four isoprene units.
+      - CortisolBiosyntheticProcess
+    equivalent_to: BiosyntheticProcess and has primary output some 
+      TertiaryAlcohol
+  - name: IsoprenoidMetabolicProcess
+    description: The chemical reactions and pathways involving isoprenoid 
+      compounds, isoprene (2-methylbuta-1,3-diene) or compounds containing or 
+      derived from linked isoprene (3-methyl-2-butenylene) residues.
     synonyms:
-      - diterpenoid metabolism
-      - diterpene metabolic process
-      - diterpene metabolism
+      - isoprenoid metabolism
+      - polyisoprenoid metabolic process
+      - polyisoprenoid metabolism
+      - polyterpene metabolic process
+      - polyterpene metabolism
     subclass_of:
+      - LipidMetabolicProcess
+    subtypes:
       - TerpenoidMetabolicProcess
-    subtypes:
-      - RetinoidMetabolicProcess
-      - DiterpenoidCatabolicProcess
+      - IsoprenoidCatabolicProcess
     equivalent_to: MetabolicProcess and has primary input or output some 
-      Diterpenoid
+      Isoprenoid
+  - name: MonocarboxylicAcidCatabolicProcess
+    description: The chemical reactions and pathways resulting in the breakdown 
+      of monocarboxylic acids, any organic acid containing one carboxyl (-COOH) 
+      group.
+    subclass_of:
+      - MonocarboxylicAcidMetabolicProcess
+      - CarboxylicAcidCatabolicProcess
+    subtypes:
+      - RetinoicAcidCatabolicProcess
+    equivalent_to: CatabolicProcess and has primary input some 
+      MonocarboxylicAcidAnion
   - name: Process
     description: 'p is a process = Def. p is an occurrent that has temporal proper
       parts and for some time t, p s-depends_on some material entity at t. (axiom
@@ -621,41 +374,6 @@ elements:
       - PrimaryMetabolicProcess
       - SmallMoleculeMetabolicProcess
       - OlefinicCompoundMetabolicProcess
-  - name: PrimaryMetabolicProcess
-    description: The chemical reactions and pathways involving those compounds 
-      which are formed as a part of the normal anabolic and catabolic processes.
-      These processes take place in most, if not all, cells of the organism.
-    synonyms:
-      - primary metabolism
-    subclass_of:
-      - MetabolicProcess
-    subtypes:
-      - LipidMetabolicProcess
-  - name: GlucocorticoidBiosyntheticProcess
-    description: The chemical reactions and pathways resulting in the formation 
-      of glucocorticoids, hormonal C21 corticosteroids synthesized from 
-      cholesterol.
-    synonyms:
-      - glucocorticoid anabolism
-      - glucocorticoid biosynthesis
-      - glucocorticoid formation
-      - glucocorticoid synthesis
-    subclass_of:
-      - GlucocorticoidMetabolicProcess
-      - SteroidHormoneBiosyntheticProcess
-    subtypes:
-      - CortisolBiosyntheticProcess
-    equivalent_to: BiosyntheticProcess and has primary output some 
-      Glucocorticoid
-  - name: BiologicalRegulation
-    description: Any process that modulates a measurable attribute of any 
-      biological process, quality or function.
-    synonyms:
-      - regulation
-    subclass_of:
-      - BiologicalProcess
-    subtypes:
-      - RegulationOfBiologicalQuality
   - name: LipidBiosyntheticProcess
     description: The chemical reactions and pathways resulting in the formation 
       of lipids, compounds soluble in an organic solvent but not, or sparingly, 
@@ -672,6 +390,277 @@ elements:
     subtypes:
       - SteroidBiosyntheticProcess
     equivalent_to: BiosyntheticProcess and has primary output some Lipid
+  - name: IsoprenoidCatabolicProcess
+    description: The chemical reactions and pathways resulting in the breakdown 
+      of an isoprenoid compound, isoprene (2-methylbuta-1,3-diene) or compounds 
+      containing or derived from linked isoprene (3-methyl-2-butenylene) 
+      residues.
+    synonyms:
+      - isoprenoid breakdown
+      - isoprenoid catabolism
+      - isoprenoid degradation
+      - polyisoprenoid breakdown
+      - polyisoprenoid catabolic process
+      - polyisoprenoid catabolism
+      - polyisoprenoid degradation
+      - polyterpene catabolic process
+      - polyterpene catabolism
+    subclass_of:
+      - IsoprenoidMetabolicProcess
+      - LipidCatabolicProcess
+    subtypes:
+      - TerpenoidCatabolicProcess
+    equivalent_to: CatabolicProcess and has primary input some Isoprenoid
+  - name: PrimaryAlcoholMetabolicProcess
+    description: The chemical reactions and pathways involving primary alcohols.
+      A primary alcohol is any alcohol in which a hydroxy group, -OH, is 
+      attached to a saturated carbon atom which has either three hydrogen atoms 
+      attached to it or only one other carbon atom and two hydrogen atoms 
+      attached to it.
+    synonyms:
+      - monohydric alcohol metabolic process
+      - primary alcohol metabolism
+    subclass_of:
+      - AlcoholMetabolicProcess
+    subtypes:
+      - PrimaryAlcoholBiosyntheticProcess
+      - CortisolMetabolicProcess
+    equivalent_to: MetabolicProcess and has primary input or output some 
+      PrimaryAlcohol
+  - name: OrganicAcidMetabolicProcess
+    description: The chemical reactions and pathways involving organic acids, 
+      any acidic compound containing carbon in covalent linkage.
+    synonyms:
+      - organic acid metabolism
+    subclass_of:
+      - SmallMoleculeMetabolicProcess
+    subtypes:
+      - OrganicAcidCatabolicProcess
+      - OxoacidMetabolicProcess
+    equivalent_to: MetabolicProcess and has primary input or output some 
+      OrganicAcid
+  - name: TerpenoidCatabolicProcess
+    description: The chemical reactions and pathways resulting in the breakdown 
+      of terpenoids, any member of a class of compounds characterized by an 
+      isoprenoid chemical structure.
+    synonyms:
+      - terpenoid breakdown
+      - terpenoid catabolism
+      - terpenoid degradation
+    subclass_of:
+      - TerpenoidMetabolicProcess
+      - IsoprenoidCatabolicProcess
+    subtypes:
+      - DiterpenoidCatabolicProcess
+    equivalent_to: CatabolicProcess and has primary input some Terpenoid
+  - name: HormoneMetabolicProcess
+    description: The chemical reactions and pathways involving any hormone, 
+      naturally occurring substances secreted by specialized cells that affects 
+      the metabolism or behavior of other cells possessing functional receptors 
+      for the hormone.
+    synonyms:
+      - hormone metabolism
+      - cellular hormone metabolic process
+    subclass_of:
+      - MetabolicProcess
+      - RegulationOfHormoneLevels
+    subtypes:
+      - RetinoicAcidMetabolicProcess
+    equivalent_to: MetabolicProcess and has primary input or output some 
+      SubstanceWithHormoneRole
+  - name: LipidMetabolicProcess
+    description: The chemical reactions and pathways involving lipids, compounds
+      soluble in an organic solvent but not, or sparingly, in an aqueous 
+      solvent. Includes fatty acids; neutral fats, other fatty-acid esters, and 
+      soaps; long-chain (fatty) alcohols and waxes; sphingoids and other 
+      long-chain bases; glycolipids, phospholipids and sphingolipids; and 
+      carotenes, polyprenols, sterols, terpenes and other isoprenoids.
+    synonyms:
+      - lipid metabolism
+    subclass_of:
+      - PrimaryMetabolicProcess
+    subtypes:
+      - IsoprenoidMetabolicProcess
+      - SteroidMetabolicProcess
+      - LipidBiosyntheticProcess
+      - LipidCatabolicProcess
+    equivalent_to: MetabolicProcess and has primary input or output some Lipid
+  - name: KetoneMetabolicProcess
+    description: The chemical reactions and pathways involving any of a class of
+      organic compounds that contain the carbonyl group, CO, and in which the 
+      carbonyl group is bonded only to carbon atoms, as carried out by 
+      individual cells. The general formula for a ketone is RCOR, where R and R 
+      are alkyl or aryl groups.
+    synonyms:
+      - ketone metabolism
+    subclass_of:
+      - MetabolicProcess
+    subtypes:
+      - CortisolMetabolicProcess
+      - KetoneBiosyntheticProcess
+    equivalent_to: MetabolicProcess and has primary input or output some Ketone
+  - name: OlefinicCompoundMetabolicProcess
+    description: The chemical reactions and pathways involving an olefinic 
+      compound, any compound which contains a carbon-carbon double bond (aka 
+      C=C).
+    synonyms:
+      - alkene substituted compound metabolic process
+      - alkene substituted compound metabolism
+    subclass_of:
+      - MetabolicProcess
+    subtypes:
+      - CortisolMetabolicProcess
+      - OlefinicCompoundBiosyntheticProcess
+    equivalent_to: MetabolicProcess and has primary input or output some 
+      OlefinicCompound
+  - name: RetinoicAcidCatabolicProcess
+    description: The chemical reactions and pathways resulting in the breakdown 
+      of retinoic acid, one of the three components that makes up vitamin A.
+    synonyms:
+      - retinoic acid breakdown
+      - retinoic acid catabolism
+      - retinoic acid degradation
+      - vitamin A1 acid catabolic process
+    subclass_of:
+      - DiterpenoidCatabolicProcess
+      - Fat-solubleVitaminCatabolicProcess
+      - RetinoicAcidMetabolicProcess
+      - MonocarboxylicAcidCatabolicProcess
+    equivalent_to: CatabolicProcess and has primary input some Retinoate
+  - name: CarboxylicAcidMetabolicProcess
+    description: The chemical reactions and pathways involving carboxylic acids,
+      any organic acid containing one or more carboxyl (COOH) groups or anions 
+      (COO-).
+    synonyms:
+      - carboxylic acid metabolism
+    subclass_of:
+      - OxoacidMetabolicProcess
+    subtypes:
+      - MonocarboxylicAcidMetabolicProcess
+      - CarboxylicAcidCatabolicProcess
+    equivalent_to: MetabolicProcess and has primary input or output some 
+      CarboxylicAcidAnion
+  - name: GlucocorticoidBiosyntheticProcess
+    description: The chemical reactions and pathways resulting in the formation 
+      of glucocorticoids, hormonal C21 corticosteroids synthesized from 
+      cholesterol.
+    synonyms:
+      - glucocorticoid anabolism
+      - glucocorticoid biosynthesis
+      - glucocorticoid formation
+      - glucocorticoid synthesis
+    subclass_of:
+      - GlucocorticoidMetabolicProcess
+      - SteroidHormoneBiosyntheticProcess
+    subtypes:
+      - CortisolBiosyntheticProcess
+    equivalent_to: BiosyntheticProcess and has primary output some 
+      Glucocorticoid
+  - name: LipidCatabolicProcess
+    description: The chemical reactions and pathways resulting in the breakdown 
+      of lipids, compounds soluble in an organic solvent but not, or sparingly, 
+      in an aqueous solvent.
+    synonyms:
+      - lipid breakdown
+      - lipid catabolism
+      - lipid degradation
+      - lipolysis
+      - multicellular organism lipid catabolic process
+      - multicellular organismal lipid catabolic process
+    subclass_of:
+      - LipidMetabolicProcess
+      - CatabolicProcess
+    subtypes:
+      - IsoprenoidCatabolicProcess
+    equivalent_to: CatabolicProcess and has primary input some Lipid
+  - name: RegulationOfBiologicalQuality
+    description: Any process that modulates a qualitative or quantitative trait 
+      of a biological quality. A biological quality is a measurable attribute of
+      an organism or part of an organism, such as size, mass, shape, color, etc.
+    synonyms:
+      - regulation of biological attribute
+      - regulation of biological characteristic
+    subclass_of:
+      - BiologicalRegulation
+    subtypes:
+      - RegulationOfHormoneLevels
+    equivalent_to: BiologicalRegulation and regulates characteristic some 
+      BiologicalAttribute
+  - name: BiologicalProcess
+    description: A biological process is the execution of a genetically-encoded 
+      biological module or program. It consists of all the steps required to 
+      achieve the specific biological objective of the module. A biological 
+      process is accomplished by a particular set of molecular functions carried
+      out by specific gene products (or macromolecular complexes), often in a 
+      highly regulated manner and in a particular temporal sequence.
+    synonyms:
+      - biological process
+      - physiological process
+      - single organism process
+      - single-organism process
+    subclass_of:
+      - Process
+    subtypes:
+      - CellularProcess
+      - BiologicalRegulation
+  - name: OlefinicCompoundBiosyntheticProcess
+    description: The chemical reactions and pathways resulting in the formation 
+      of an olefinic compound, any compound which contains a carbon-carbon 
+      double bond (aka C=C).
+    synonyms:
+      - alkene substituted compound anabolic process
+      - alkene substituted compound anabolism
+      - alkene substituted compound biosynthesis
+      - alkene substituted compound biosynthetic process
+      - alkene substituted compound synthesis
+    subclass_of:
+      - BiosyntheticProcess
+      - OlefinicCompoundMetabolicProcess
+    subtypes:
+      - CortisolBiosyntheticProcess
+    equivalent_to: BiosyntheticProcess and has primary output some 
+      OlefinicCompound
+  - name: SmallMoleculeBiosyntheticProcess
+    description: The chemical reactions and pathways resulting in the formation 
+      of small molecules, any low molecular weight, monomeric, non-encoded 
+      molecule.
+    synonyms:
+      - small molecule biosynthesis
+    subclass_of:
+      - BiosyntheticProcess
+      - SmallMoleculeMetabolicProcess
+    subtypes:
+      - KetoneBiosyntheticProcess
+      - AlcoholBiosyntheticProcess
+  - name: MonocarboxylicAcidMetabolicProcess
+    description: The chemical reactions and pathways involving monocarboxylic 
+      acids, any organic acid containing one carboxyl (COOH) group or anion 
+      (COO-).
+    synonyms:
+      - monocarboxylate metabolic process
+      - monocarboxylic acid metabolism
+    subclass_of:
+      - CarboxylicAcidMetabolicProcess
+    subtypes:
+      - RetinoicAcidMetabolicProcess
+      - MonocarboxylicAcidCatabolicProcess
+    equivalent_to: MetabolicProcess and has primary input or output some 
+      MonocarboxylicAcidAnion
+  - name: CarboxylicAcidCatabolicProcess
+    description: The chemical reactions and pathways resulting in the breakdown 
+      of carboxylic acids, any organic acid containing one or more carboxyl 
+      (-COOH) groups.
+    synonyms:
+      - carboxylic acid breakdown
+      - carboxylic acid catabolism
+      - carboxylic acid degradation
+    subclass_of:
+      - OrganicAcidCatabolicProcess
+      - CarboxylicAcidMetabolicProcess
+    subtypes:
+      - MonocarboxylicAcidCatabolicProcess
+    equivalent_to: CatabolicProcess and has primary input some 
+      CarboxylicAcidAnion
   - name: TertiaryAlcoholMetabolicProcess
     description: The chemical reactions and pathways involving tertiary alcohol.
     synonyms:
@@ -683,6 +672,104 @@ elements:
       - TertiaryAlcoholBiosyntheticProcess
     equivalent_to: MetabolicProcess and has primary input or output some 
       TertiaryAlcohol
+  - name: DiterpenoidCatabolicProcess
+    description: The chemical reactions and pathways resulting in the breakdown 
+      of diterpenoid compounds, terpenoids with four isoprene units.
+    synonyms:
+      - diterpenoid breakdown
+      - diterpenoid catabolism
+      - diterpenoid degradation
+      - diterpene catabolic process
+      - diterpene catabolism
+    subclass_of:
+      - DiterpenoidMetabolicProcess
+      - TerpenoidCatabolicProcess
+    subtypes:
+      - RetinoicAcidCatabolicProcess
+    equivalent_to: CatabolicProcess and has primary input some Diterpenoid
+  - name: Fat-solubleVitaminCatabolicProcess
+    description: The chemical reactions and pathways resulting in the breakdown 
+      of any of a diverse group of vitamins that are soluble in organic solvents
+      and relatively insoluble in water.
+    synonyms:
+      - fat-soluble vitamin breakdown
+      - fat-soluble vitamin catabolism
+      - fat-soluble vitamin degradation
+    subclass_of:
+      - VitaminCatabolicProcess
+    subtypes:
+      - RetinoicAcidCatabolicProcess
+    equivalent_to: CatabolicProcess and has primary input some 
+      SubstanceWithFat-solubleVitamin(role)Role
+  - name: KetoneBiosyntheticProcess
+    description: The chemical reactions and pathways resulting in the formation 
+      of ketones, a class of organic compounds that contain the carbonyl group, 
+      CO, and in which the carbonyl group is bonded only to carbon atoms. The 
+      general formula for a ketone is RCOR, where R and R are alkyl or aryl 
+      groups.
+    synonyms:
+      - ketone anabolism
+      - ketone biosynthesis
+      - ketone formation
+      - ketone synthesis
+    subclass_of:
+      - KetoneMetabolicProcess
+      - SmallMoleculeBiosyntheticProcess
+    subtypes:
+      - CortisolBiosyntheticProcess
+    equivalent_to: BiosyntheticProcess and has primary output some Ketone
+  - name: DiterpenoidMetabolicProcess
+    description: The chemical reactions and pathways involving diterpenoid 
+      compounds, terpenoids with four isoprene units.
+    synonyms:
+      - diterpenoid metabolism
+      - diterpene metabolic process
+      - diterpene metabolism
+    subclass_of:
+      - TerpenoidMetabolicProcess
+    subtypes:
+      - RetinoidMetabolicProcess
+      - DiterpenoidCatabolicProcess
+    equivalent_to: MetabolicProcess and has primary input or output some 
+      Diterpenoid
+  - name: RetinoidMetabolicProcess
+    description: The chemical reactions and pathways involving retinoids, any 
+      member of a class of isoprenoids that contain or are derived from four 
+      prenyl groups linked head-to-tail. Retinoids include retinol and retinal 
+      and structurally similar natural derivatives or synthetic compounds, but 
+      need not have vitamin A activity.
+    synonyms:
+      - retinoid metabolism
+    subclass_of:
+      - DiterpenoidMetabolicProcess
+    subtypes:
+      - RetinoicAcidMetabolicProcess
+    equivalent_to: MetabolicProcess and has primary input or output some 
+      Retinoid
+  - name: CellularProcess
+    description: Any process that is carried out at the cellular level, but not 
+      necessarily restricted to a single cell. For example, cell communication 
+      occurs among more than one cell, but occurs at the cellular level.
+    synonyms:
+      - cell physiology
+      - cellular physiological process
+      - cell growth and/or maintenance
+      - single-organism cellular process
+    subclass_of:
+      - BiologicalProcess
+    subtypes:
+      - MetabolicProcess
+  - name: SteroidHormoneBiosyntheticProcess
+    description: The chemical reactions and pathways resulting in the formation 
+      of any steroid hormone, naturally occurring substances secreted by 
+      specialized cells that affects the metabolism or behavior of other cells 
+      possessing functional receptors for the hormone.
+    subclass_of:
+      - SteroidBiosyntheticProcess
+    subtypes:
+      - GlucocorticoidBiosyntheticProcess
+    equivalent_to: SteroidBiosyntheticProcess and has primary output some 
+      SteroidHormone
   - name: VitaminMetabolicProcess
     description: The chemical reactions and pathways involving vitamins. Vitamin
       is a general term for a number of unrelated organic substances that occur 
@@ -698,93 +785,6 @@ elements:
       - VitaminCatabolicProcess
     equivalent_to: MetabolicProcess and has primary input or output some 
       SubstanceWithVitamin(role)Role
-  - name: Occurrent
-    description: An entity that has temporal parts and that happens, unfolds or 
-      develops through time.
-    subtypes:
-      - Process
-  - name: CortisolMetabolicProcess
-    description: The chemical reactions and pathways involving cortisol, the 
-      steroid hormone 11-beta-17,21-trihydroxypregn-4-ene-3,20-dione. Cortisol 
-      is synthesized from cholesterol in the adrenal gland and controls 
-      carbohydrate, fat and protein metabolism and has anti-inflammatory 
-      properties.
-    synonyms:
-      - cortisol metabolism
-    subclass_of:
-      - GlucocorticoidMetabolicProcess
-      - PrimaryAlcoholMetabolicProcess
-      - KetoneMetabolicProcess
-      - OlefinicCompoundMetabolicProcess
-      - TertiaryAlcoholMetabolicProcess
-    subtypes:
-      - CortisolBiosyntheticProcess
-    equivalent_to: MetabolicProcess and has primary input or output some 
-      Cortisol
-  - name: TertiaryAlcoholBiosyntheticProcess
-    description: The chemical reactions and pathways resulting in the formation 
-      of tertiary alcohol.
-    synonyms:
-      - tertiary alcohol anabolism
-      - tertiary alcohol biosynthesis
-      - tertiary alcohol formation
-      - tertiary alcohol synthesis
-    subclass_of:
-      - AlcoholBiosyntheticProcess
-      - TertiaryAlcoholMetabolicProcess
-    subtypes:
-      - CortisolBiosyntheticProcess
-    equivalent_to: BiosyntheticProcess and has primary output some 
-      TertiaryAlcohol
-  - name: CortisolBiosyntheticProcess
-    description: The chemical reactions and pathways resulting in the formation 
-      of cortisol, the steroid hormone 
-      11-beta-17,21-trihydroxypregn-4-ene-3,20-dione. Cortisol is synthesized 
-      from cholesterol in the adrenal gland and controls carbohydrate, fat and 
-      protein metabolism and has anti-inflammatory properties.
-    synonyms:
-      - cortisol biosynthesis
-      - cortisol formation
-      - cortisol synthesis
-      - cortisol anabolism
-    subclass_of:
-      - GlucocorticoidBiosyntheticProcess
-      - PrimaryAlcoholBiosyntheticProcess
-      - CortisolMetabolicProcess
-      - KetoneBiosyntheticProcess
-      - OlefinicCompoundBiosyntheticProcess
-      - TertiaryAlcoholBiosyntheticProcess
-    equivalent_to: BiosyntheticProcess and has primary output some Cortisol
-  - name: OxoacidMetabolicProcess
-    description: The chemical reactions and pathways involving any oxoacid; an 
-      oxoacid is a compound which contains oxygen, at least one other element, 
-      and at least one hydrogen bound to oxygen, and which produces a conjugate 
-      base by loss of positive hydrogen ion(s) (hydrons).
-    synonyms:
-      - keto acid metabolic process
-      - keto acid metabolism
-      - ketoacid metabolic process
-      - ketoacid metabolism
-      - oxo acid metabolic process
-      - oxo acid metabolism
-      - oxoacid metabolism
-    subclass_of:
-      - OrganicAcidMetabolicProcess
-    subtypes:
-      - CarboxylicAcidMetabolicProcess
-    equivalent_to: MetabolicProcess and has primary input or output some 
-      Oxoanion
-  - name: SteroidMetabolicProcess
-    description: The chemical reactions and pathways involving steroids, 
-      compounds with a 1,2,cyclopentanoperhydrophenanthrene nucleus.
-    synonyms:
-      - steroid metabolism
-    subclass_of:
-      - LipidMetabolicProcess
-    subtypes:
-      - SteroidBiosyntheticProcess
-      - GlucocorticoidMetabolicProcess
-    equivalent_to: MetabolicProcess and has primary input or output some Steroid
   - name: KetoaldopentoseBiosyntheticProcess
     context: metabolism
   - name: IsomaltotrioseMetabolicProcess

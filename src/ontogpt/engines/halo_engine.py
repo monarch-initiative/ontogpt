@@ -58,14 +58,14 @@ class StructuredPrompt(pydantic.BaseModel):
 class HALOEngine(KnowledgeEngine):
     """Engine for Hallucinating Latent Ontologies."""
 
-    ontology: Ontology = None
+    ontology: Optional[Ontology] = None
     traverse_slots: List[FIELD] = field(
         default_factory=lambda: ["subtypes", "parts", "subclass_of", "part_of"]
     )
     fixed_slot_values: Optional[Dict[str, str]] = None
-    adapter: OboGraphInterface = None
+    adapter: Optional[OboGraphInterface] = None
     visited: Set[ELEMENT_NAME] = field(default_factory=lambda: set())
-    candidates: List[ELEMENT_NAME] = None
+    candidates: Optional[List[ELEMENT_NAME]] = None
     always_extend: bool = False
     expand_horizon: bool = False
 
@@ -104,7 +104,7 @@ class HALOEngine(KnowledgeEngine):
         return ontology
 
     def hallucinate(
-        self, seed_elements: List[ELEMENT_NAME] = None, num_iterations=10
+        self, seed_elements: Optional[List[ELEMENT_NAME]] = None, num_iterations=10
     ) -> List[OntologyElement]:
         """Run the HALO engine for a given number of iterations.
 

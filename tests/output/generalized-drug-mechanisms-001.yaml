@@ -9,18 +9,15 @@
   mechanism_links:
   - object: MESH:D002442
     predicate: inhibits synthesis of
-    subject: peptidoglycan layer
-  - object: peptidoglycan layer
-    predicate: is essential for
-    subject: bacterial cell wall synthesis
-  - object: bacterial cell wall synthesis
-    predicate: interferes with
-    subject: MESH:D002442
-  - object: MESH:D014552
-    predicate: can cause
+    subject: bacterial cell wall
+  - object: MESH:D002442
+    predicate: decreases resistance to
+    subject: beta-lactamase enzyme
+  - object: bacterial cell wall
+    predicate: RO:0002213
     subject: bacterial proliferation
-  - object: cell wall integrity
-    predicate: relies on
-    subject: bacterial proliferation
+  - object: bacterial proliferation
+    predicate: BIOLINK:associated_with
+    subject: MESH:D014552
   references: null
   source_text: null

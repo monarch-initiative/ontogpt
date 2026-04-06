@@ -57,11 +57,11 @@ results:
 
 
       - Vacuole SubClassOf IntracellularMembraneBoundedOrganelle
+      - Nucleus SubClassOf IntracellularMembraneBoundedOrganelle
+      - MembraneBoundedOrganelle SubClassOf Organelle
+      - IntracellularOrganelle SubClassOf Organelle
       - IntracellularMembraneBoundedOrganelle SubClassOf MembraneBoundedOrganelle
       - IntracellularMembraneBoundedOrganelle SubClassOf IntracellularOrganelle
-      - Nucleus SubClassOf IntracellularMembraneBoundedOrganelle
-      - IntracellularOrganelle SubClassOf Organelle
-      - MembraneBoundedOrganelle SubClassOf Organelle
 
       QUERY: 
           What are the transitive superclasses of Nucleus?
@@ -88,6 +88,8 @@ results:
     model: gpt-4o
     answers:
       - text: Organelle
+      - text: IntracellularOrganelle
+      - text: MembraneBoundedOrganelle
     prompt: |2-
 
 
@@ -134,11 +136,11 @@ results:
 
 
       - Vacuole SubClassOf IntracellularMembraneBoundedOrganelle
+      - Nucleus SubClassOf IntracellularMembraneBoundedOrganelle
+      - MembraneBoundedOrganelle SubClassOf Organelle
+      - IntracellularOrganelle SubClassOf Organelle
       - IntracellularMembraneBoundedOrganelle SubClassOf MembraneBoundedOrganelle
       - IntracellularMembraneBoundedOrganelle SubClassOf IntracellularOrganelle
-      - Nucleus SubClassOf IntracellularMembraneBoundedOrganelle
-      - IntracellularOrganelle SubClassOf Organelle
-      - MembraneBoundedOrganelle SubClassOf Organelle
 
       QUERY: 
           What are the indirect entailed superclasses of Nucleus?
@@ -147,16 +149,15 @@ results:
           
 
       ANSWERS:
-    completion: '- Organelle'
-    jaccard_score: 0.3333333333333333
-    false_negatives:
-      - MembraneBoundedOrganelle
+    completion: |-
+      - Organelle
       - IntracellularOrganelle
-    num_false_negatives: 2
-    num_true_positives: 1
+      - MembraneBoundedOrganelle
+    jaccard_score: 1.0
+    num_true_positives: 3
     precision: 1.0
-    recall: 0.3333333333333333
-    f1_score: 0.5
+    recall: 1.0
+    f1_score: 1.0
   - name: transitive-ancestor-nuclear-membrane-basic-gpt-4o
     completed: true
     task_name: transitive-ancestor-nuclear-membrane
@@ -212,11 +213,11 @@ results:
       Here is the actual ontology:
 
 
+      - Nucleus SubClassOf IntracellularMembraneBoundedOrganelle
+      - MembraneBoundedOrganelle SubClassOf Organelle
+      - IntracellularOrganelle SubClassOf Organelle
       - IntracellularMembraneBoundedOrganelle SubClassOf MembraneBoundedOrganelle
       - IntracellularMembraneBoundedOrganelle SubClassOf IntracellularOrganelle
-      - Nucleus SubClassOf IntracellularMembraneBoundedOrganelle
-      - IntracellularOrganelle SubClassOf Organelle
-      - MembraneBoundedOrganelle SubClassOf Organelle
 
       QUERY: 
           What are the transitive superclasses of IntracellularMembraneBoundedOrganelle?
@@ -287,11 +288,11 @@ results:
       Here is the actual ontology:
 
 
+      - Nucleus SubClassOf IntracellularMembraneBoundedOrganelle
+      - MembraneBoundedOrganelle SubClassOf Organelle
+      - IntracellularOrganelle SubClassOf Organelle
       - IntracellularMembraneBoundedOrganelle SubClassOf MembraneBoundedOrganelle
       - IntracellularMembraneBoundedOrganelle SubClassOf IntracellularOrganelle
-      - Nucleus SubClassOf IntracellularMembraneBoundedOrganelle
-      - IntracellularOrganelle SubClassOf Organelle
-      - MembraneBoundedOrganelle SubClassOf Organelle
 
       QUERY: 
           What are the indirect entailed superclasses of IntracellularMembraneBoundedOrganelle?
@@ -313,7 +314,9 @@ results:
     method: basic
     model: gpt-4o
     answers:
+      - text: Membrane
       - text: CellularAnatomicalEntity
+      - text: Envelope
     prompt: |2-
 
 
@@ -359,12 +362,12 @@ results:
       Here is the actual ontology:
 
 
-      - Envelope SubClassOf CellularAnatomicalEntity
-      - OrganelleMembrane SubClassOf Membrane
-      - NuclearMembrane SubClassOf OrganelleMembrane
+      - Membrane SubClassOf CellularAnatomicalEntity
       - NuclearEnvelope SubClassOf OrganelleEnvelope
       - OrganelleEnvelope SubClassOf Envelope
-      - Membrane SubClassOf CellularAnatomicalEntity
+      - OrganelleMembrane SubClassOf Membrane
+      - Envelope SubClassOf CellularAnatomicalEntity
+      - NuclearMembrane SubClassOf OrganelleMembrane
 
       QUERY: 
           What are the indirect entailed superclasses of NuclearMembrane?
@@ -373,15 +376,18 @@ results:
           
 
       ANSWERS:
-    completion: '- CellularAnatomicalEntity'
-    jaccard_score: 0.5
-    false_negatives:
+    completion: |-
       - Membrane
-    num_false_negatives: 1
-    num_true_positives: 1
-    precision: 1.0
-    recall: 0.5
-    f1_score: 0.6666666666666666
+      - CellularAnatomicalEntity
+      - Envelope
+    jaccard_score: 0.6666666666666666
+    false_positives:
+      - Envelope
+    num_false_positives: 1
+    num_true_positives: 2
+    precision: 0.6666666666666666
+    recall: 1.0
+    f1_score: 0.8
   - name: ancestor-human-basic-gpt-4o
     completed: true
     task_name: ancestor-human
@@ -435,11 +441,11 @@ results:
       Here is the actual ontology:
 
 
+      - Nucleus SubClassOf IntracellularMembraneBoundedOrganelle
+      - MembraneBoundedOrganelle SubClassOf Organelle
+      - IntracellularOrganelle SubClassOf Organelle
       - IntracellularMembraneBoundedOrganelle SubClassOf MembraneBoundedOrganelle
       - IntracellularMembraneBoundedOrganelle SubClassOf IntracellularOrganelle
-      - Nucleus SubClassOf IntracellularMembraneBoundedOrganelle
-      - IntracellularOrganelle SubClassOf Organelle
-      - MembraneBoundedOrganelle SubClassOf Organelle
 
       QUERY: 
           What are the indirect entailed superclasses of IntracellularMembraneBoundedOrganelle?
@@ -509,23 +515,23 @@ results:
       Here is the actual ontology:
 
 
-      - OrganelleMembrane SubClassOf Membrane
-      - BiologicalEntity SubClassOf IndependentContinuant
       - Vacuole SubClassOf IntracellularMembraneBoundedOrganelle
-      - CellularAnatomicalEntity SubClassOf AnatomicalEntity
-      - CellularAnatomicalEntity SubClassOf CellularComponent
-      - IntracellularMembraneBoundedOrganelle SubClassOf MembraneBoundedOrganelle
-      - IntracellularMembraneBoundedOrganelle SubClassOf IntracellularOrganelle
-      - MaterialEntity SubClassOf IndependentContinuant
+      - BiologicalEntity SubClassOf IndependentContinuant
       - Organelle SubClassOf CellularAnatomicalEntity
-      - Nucleus SubClassOf IntracellularMembraneBoundedOrganelle
-      - AnatomicalEntity SubClassOf BiologicalEntity
-      - IntracellularOrganelle SubClassOf Organelle
-      - NuclearMembrane SubClassOf OrganelleMembrane
       - CellularComponent SubClassOf MaterialEntity
-      - MembraneBoundedOrganelle SubClassOf Organelle
       - Membrane SubClassOf CellularAnatomicalEntity
       - IndependentContinuant SubClassOf Continuant
+      - Nucleus SubClassOf IntracellularMembraneBoundedOrganelle
+      - AnatomicalEntity SubClassOf BiologicalEntity
+      - OrganelleMembrane SubClassOf Membrane
+      - CellularAnatomicalEntity SubClassOf AnatomicalEntity
+      - CellularAnatomicalEntity SubClassOf CellularComponent
+      - NuclearMembrane SubClassOf OrganelleMembrane
+      - MaterialEntity SubClassOf IndependentContinuant
+      - MembraneBoundedOrganelle SubClassOf Organelle
+      - IntracellularOrganelle SubClassOf Organelle
+      - IntracellularMembraneBoundedOrganelle SubClassOf MembraneBoundedOrganelle
+      - IntracellularMembraneBoundedOrganelle SubClassOf IntracellularOrganelle
 
       QUERY: 
           What are the most specific common entailed superclasses of Nucleus and Vacuole?.
@@ -678,16 +684,16 @@ results:
       Here is the actual ontology:
 
 
-      - OrganelleMembrane SubClassOf Membrane
       - Vacuole SubClassOf IntracellularMembraneBoundedOrganelle
-      - IntracellularMembraneBoundedOrganelle SubClassOf MembraneBoundedOrganelle
-      - IntracellularMembraneBoundedOrganelle SubClassOf IntracellularOrganelle
       - Organelle SubClassOf CellularAnatomicalEntity
+      - Membrane SubClassOf CellularAnatomicalEntity
       - Nucleus SubClassOf IntracellularMembraneBoundedOrganelle
-      - IntracellularOrganelle SubClassOf Organelle
+      - OrganelleMembrane SubClassOf Membrane
       - NuclearMembrane SubClassOf OrganelleMembrane
       - MembraneBoundedOrganelle SubClassOf Organelle
-      - Membrane SubClassOf CellularAnatomicalEntity
+      - IntracellularOrganelle SubClassOf Organelle
+      - IntracellularMembraneBoundedOrganelle SubClassOf MembraneBoundedOrganelle
+      - IntracellularMembraneBoundedOrganelle SubClassOf IntracellularOrganelle
       - Nucleus SubClassOf NuclearMembrane
       - Organelle DisjointWith Envelope
 
@@ -778,13 +784,13 @@ results:
 
 
       - PlasmaMembrane SubClassOf Membrane
+      - Organelle SubClassOf CellularAnatomicalEntity
+      - Membrane SubClassOf CellularAnatomicalEntity
+      - Nucleus SubClassOf IntracellularMembraneBoundedOrganelle
+      - MembraneBoundedOrganelle SubClassOf Organelle
+      - IntracellularOrganelle SubClassOf Organelle
       - IntracellularMembraneBoundedOrganelle SubClassOf MembraneBoundedOrganelle
       - IntracellularMembraneBoundedOrganelle SubClassOf IntracellularOrganelle
-      - Organelle SubClassOf CellularAnatomicalEntity
-      - Nucleus SubClassOf IntracellularMembraneBoundedOrganelle
-      - IntracellularOrganelle SubClassOf Organelle
-      - MembraneBoundedOrganelle SubClassOf Organelle
-      - Membrane SubClassOf CellularAnatomicalEntity
       - PlasmaMembrane SubClassOf Organelle
       - Organelle DisjointWith Membrane
 

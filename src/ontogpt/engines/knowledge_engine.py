@@ -75,7 +75,7 @@ from abc import ABC
 from dataclasses import dataclass, field
 from pathlib import Path
 from types import ModuleType
-from typing import Dict, Iterator, List, Optional, TextIO, Union
+from typing import Any, Dict, Iterator, List, Optional, TextIO, Union, cast
 from urllib.parse import quote
 
 import inflection
@@ -106,6 +106,7 @@ EXAMPLE = OBJECT
 FIELD = str
 TEMPLATE_NAME = str
 MODEL_NAME = str
+TemplateDetails = tuple[ClassDefinition, Any, Any, SchemaView]
 
 # annotation metamodel
 ANNOTATION_KEY_PROMPT = "prompt"
@@ -138,7 +139,7 @@ class KnowledgeEngine(ABC):
     knowledge sources plus LLMs.
     """
 
-    template_details: Optional[Union[tuple, str]] = None
+    template_details: Optional[Union[TemplateDetails, str]] = None
     """Tuple containing loaded template details, including:
     (LinkML class, module, python class, SchemaView object).
     May be None because some child classes do not require a template."""
@@ -146,11 +147,11 @@ class KnowledgeEngine(ABC):
     template: Optional[str] = None
     """Template name of the form module.ClassName or module."""
 
-    template_class: ClassDefinition = None
+    template_class: Optional[ClassDefinition] = None
     """LinkML Class for the template.
     This is derived from the template and does not need to be set manually."""
 
-    template_pyclass = None
+    template_pyclass: Optional[Any] = None
     """Python class for the template.
     This is derived from the template and does not need to be set manually."""
 
@@ -158,29 +159,29 @@ class KnowledgeEngine(ABC):
     """Python module for the template.
     This is derived from the template and does not need to be set manually."""
 
-    schemaview: SchemaView = None
+    schemaview: Optional[SchemaView] = None
     """LinkML SchemaView over the template.
     This is derived from the template and does not need to be set manually."""
 
     api_key: str = ""
     """API key for accessing external language model."""
 
-    api_base: str = None
+    api_base: Optional[str] = None
     """Base URL for the API."""
 
-    api_version: str = None
+    api_version: Optional[str] = None
     """API version."""
 
-    model: str = None
+    model: Optional[str] = None
     """Language model or deployment name. This may be overridden in subclasses."""
 
     engine: Optional[str] = None
     """Backward-compatible alias for model."""
 
-    model_provider: str = None
+    model_provider: Optional[str] = None
     """Provider of the model if access requires specifying client type, e.g. openai, etc."""
 
-    annotators: Optional[Dict[str, List[TextAnnotatorInterface]]] = None
+    annotators: Optional[Dict[str, Any]] = None
     """Annotators for each class.
     An annotator will ground/map labels to CURIEs.
     These override the annotators annotated in the template
@@ -195,7 +196,7 @@ class KnowledgeEngine(ABC):
     labelers: Optional[List[BasicOntologyInterface]] = None
     """Labelers that map CURIEs to labels"""
 
-    client: LLMClient = None
+    client: Optional[LLMClient] = None
     """All calls to LLMs are delegated through this client"""
 
     dictionary: Dict[str, str] = field(default_factory=dict)
@@ -222,7 +223,7 @@ class KnowledgeEngine(ABC):
     last_prompt: str = ""
     """Cache of last prompt used."""
 
-    encoding = None
+    encoding: Optional[Any] = None
 
     temperature: float = 1.0
     """Temperature for LLM completions - this is passed to the LLMClient."""
@@ -239,9 +240,9 @@ class KnowledgeEngine(ABC):
             self.template_details = None
 
         if self.template and self.template_details is None:
-            self.template_details = get_template_details(self.template)
+            self.template_details = cast(TemplateDetails, get_template_details(self.template))
 
-        if self.template_details:
+        if isinstance(self.template_details, tuple):
             (
                 self.template_class,
                 self.template_module,
@@ -274,11 +275,48 @@ class KnowledgeEngine(ABC):
     def _get_template_class(self, template: str) -> ClassDefinition:
         return get_template_details(template)[0]
 
+    def _require_client(self) -> LLMClient:
+        if self.client is None:
+            raise ValueError("LLM client has not been initialized")
+        return self.client
+
+    def _require_schemaview(self) -> SchemaView:
+        if self.schemaview is None:
+            raise ValueError("SchemaView has not been initialized")
+        return self.schemaview
+
+    def _require_template_class(
+        self, cls: Optional[ClassDefinition] = None
+    ) -> ClassDefinition:
+        template_class = cls or self.template_class
+        if template_class is None:
+            raise ValueError("Template class has not been initialized")
+        return template_class
+
+    def _require_template_module(self) -> ModuleType:
+        if self.template_module is None:
+            raise ValueError("Template module has not been initialized")
+        return self.template_module
+
+    @staticmethod
+    def _annotation_entries(annotations: object) -> Dict[object, object]:
+        if isinstance(annotations, dict):
+            return annotations
+        return {}
+
+    def _annotation_value(self, annotations: object, key: str) -> Optional[str]:
+        annotation = self._annotation_entries(annotations).get(key)
+        if isinstance(annotation, dict):
+            value = annotation.get("value")
+        else:
+            value = getattr(annotation, "value", None)
+        return value if isinstance(value, str) else None
+
     def set_api_key(self, key: str):
         self.api_key = key
 
     def extract_from_text(
-        self, text: str, cls: ClassDefinition = None, object: OBJECT = None
+        self, text: str, cls: Optional[ClassDefinition] = None, object: OBJECT = None
     ) -> ExtractionResult:
         raise NotImplementedError
 
@@ -316,7 +354,9 @@ class KnowledgeEngine(ABC):
         logger.info(f"Loaded {len(self.dictionary)}")
 
     # @abstractmethod
-    def synthesize(self, cls: ClassDefinition = None, object: OBJECT = None) -> ExtractionResult:
+    def synthesize(
+        self, cls: Optional[ClassDefinition] = None, object: OBJECT = None
+    ) -> ExtractionResult:
         raise NotImplementedError
 
     def generalize(
@@ -332,7 +372,7 @@ class KnowledgeEngine(ABC):
         # return os.environ.get("OPENAI_API_KEY")
         return get_apikey_value("openai")
 
-    def get_annotators(self, cls: ClassDefinition = None) -> List[BasicOntologyInterface]:
+    def get_annotators(self, cls: Optional[ClassDefinition] = None) -> List[BasicOntologyInterface]:
         """
         Get the annotators/labelers for a class.
 
@@ -347,25 +387,32 @@ class KnowledgeEngine(ABC):
         :param cls: schema class
         :return: list of annotations
         """
+        if cls is None:
+            cls = self.template_class
+        if cls is None:
+            return []
         if self.annotators and cls.name in self.annotators:
             annotators = self.annotators[cls.name]
         else:
-            if ANNOTATION_KEY_ANNOTATORS not in cls.annotations:
+            annotation_value = self._annotation_value(cls.annotations, ANNOTATION_KEY_ANNOTATORS)
+            if annotation_value is None:
                 logger.error(f"No annotators for {cls.name}")
                 return []
-            annotators = cls.annotations[ANNOTATION_KEY_ANNOTATORS].value.split(", ")
-        annotators = []
+            annotators = annotation_value.split(", ")
+        loaded_annotators: List[BasicOntologyInterface] = []
         for annotator in annotators:
             if isinstance(annotator, str):
                 logger.info(f"Loading annotator {annotator}")
+                if self.annotators is None:
+                    self.annotators = {}
                 if annotator not in self.annotators:
                     self.annotators[annotator] = get_adapter(annotator)
-                annotators.append(self.annotators[annotator])
+                loaded_annotators.append(self.annotators[annotator])
             elif isinstance(annotator, BasicOntologyInterface):
-                annotators.append(annotator)
+                loaded_annotators.append(annotator)
             else:
                 raise ValueError(f"Unknown annotator type {annotator}")
-        return annotators
+        return loaded_annotators
 
     def promptable_slots(self, cls: Optional[ClassDefinition] = None) -> List[SlotDefinition]:
         """
@@ -382,14 +429,13 @@ class KnowledgeEngine(ABC):
         """
         if cls is None:
             cls = self.template_class
+        if cls is None or self.schemaview is None:
+            return []
         sv = self.schemaview
         return [s for s in sv.class_induced_slots(cls.name) if not self.slot_is_skipped(s)]
 
     def slot_is_skipped(self, slot: SlotDefinition) -> bool:
-        if ANNOTATION_KEY_PROMPT_SKIP in slot.annotations:
-            return True
-        else:
-            return False
+        return self._annotation_value(slot.annotations, ANNOTATION_KEY_PROMPT_SKIP) is not None
 
     def normalize_named_entity(self, text: str, range: ElementName) -> str:
         """
@@ -401,12 +447,15 @@ class KnowledgeEngine(ABC):
         :param cls:
         :return:
         """
+        if self.schemaview is None:
+            return text
         sv = self.schemaview
         cls = sv.get_class(range)
         if cls is None:
             return text
-        if ANNOTATION_KEY_EXAMPLES in cls.annotations:
-            examples = cls.annotations[ANNOTATION_KEY_EXAMPLES].value.split(", ")
+        example_values = self._annotation_value(cls.annotations, ANNOTATION_KEY_EXAMPLES)
+        if example_values is not None:
+            examples = example_values.split(", ")
             examples = [x.lower() for x in examples]
             logger.debug(f"Will exclude if in list of examples: {examples}")
             if text.lower() in examples:
@@ -416,7 +465,7 @@ class KnowledgeEngine(ABC):
             logger.info(f"Grounding {text} to {obj_id}; next step is to normalize")
             for normalized_id in self.normalize_identifier(obj_id, cls):
                 if not any(e for e in self.named_entities if e.id == normalized_id):
-                    ne = NamedEntity(id=normalized_id, label=text)
+                    ne = NamedEntity(id=normalized_id, label=text, original_spans=None)
                     self.named_entities.append(ne)
                     self.extracted_named_entities.append(ne)
                 logger.info(f"Normalized {text} with {obj_id} to {normalized_id}")
@@ -425,17 +474,15 @@ class KnowledgeEngine(ABC):
         if self.auto_prefix:
             obj_id = f"{self.auto_prefix}:{quote(text)}"
             if not any(e for e in self.named_entities if e.id == obj_id):
-                ne = NamedEntity(id=obj_id, label=text)
+                ne = NamedEntity(id=obj_id, label=text, original_spans=None)
                 self.named_entities.append(ne)
                 self.extracted_named_entities.append(ne)
         else:
             obj_id = text
-        if ANNOTATION_KEY_RECURSE in cls.annotations:
+        if self._annotation_value(cls.annotations, ANNOTATION_KEY_RECURSE) is not None:
             logger.info(f"Using recursive strategy to parse: {text} to {cls.name}")
             obj = self.extract_from_text(text, cls).extracted_object
             if obj:
-                if self.named_entities is None:
-                    self.named_entities = []
                 try:
                     obj.id = obj_id
                 except ValueError as e:
@@ -445,6 +492,8 @@ class KnowledgeEngine(ABC):
         return obj_id
 
     def is_valid_identifier(self, input_id: str, cls: ClassDefinition) -> bool:
+        if self.schemaview is None:
+            return False
         sv = self.schemaview
         if cls.id_prefixes:
             if ":" not in input_id:
@@ -463,20 +512,22 @@ class KnowledgeEngine(ABC):
         if id_slot and id_slot.values_from:
             vse = ValueSetExpander()
             is_found = False
-            for e in id_slot.values_from:
-                if e not in self.value_set_expansions:
+            missing_valueset: Optional[str] = None
+            for valueset_name in id_slot.values_from:
+                missing_valueset = valueset_name
+                if valueset_name not in self.value_set_expansions:
                     # expanding value set for first time
-                    range_enum = sv.get_enum(e)
+                    range_enum = sv.get_enum(valueset_name)
                     pvs = vse.expand_value_set(range_enum, sv.schema)
                     valid_ids = [pv.text for pv in pvs]
-                    self.value_set_expansions[e] = valid_ids
-                    logger.info(f"Expanded {e} to {len(valid_ids)} IDs")
-                if input_id in self.value_set_expansions[e]:
+                    self.value_set_expansions[valueset_name] = valid_ids
+                    logger.info(f"Expanded {valueset_name} to {len(valid_ids)} IDs")
+                if input_id in self.value_set_expansions[valueset_name]:
                     is_found = True
-                    logger.info(f"ID {input_id} found in value set {e}")
+                    logger.info(f"ID {input_id} found in value set {valueset_name}")
                     break
             if not is_found:
-                logger.info(f"ID {input_id} not in value set {e}")
+                logger.info(f"ID {input_id} not in value set {missing_valueset}")
                 return False
         return True
 
@@ -568,6 +619,8 @@ class KnowledgeEngine(ABC):
         :param cls: schema class the ground object should instantiate
         :return:
         """
+        if self.schemaview is None:
+            return
         logger.info(f"GROUNDING {text} using {cls.name}")
         id_matches = re.match(r"^(\S+):(\d+)$", text)
         if id_matches:
@@ -623,10 +676,11 @@ class KnowledgeEngine(ABC):
         if self.annotators and cls.name in self.annotators:
             annotators = self.annotators[cls.name]
         else:
-            if ANNOTATION_KEY_ANNOTATORS not in cls.annotations:
+            annotation_value = self._annotation_value(cls.annotations, ANNOTATION_KEY_ANNOTATORS)
+            if annotation_value is None:
                 annotators = []
             else:
-                annotators = cls.annotations[ANNOTATION_KEY_ANNOTATORS].value.split(", ")
+                annotators = annotation_value.split(", ")
 
         # prioritize whole matches by running these first
         for matches_whole_text in [True, False]:
@@ -665,11 +719,17 @@ class KnowledgeEngine(ABC):
         :param resultset:
         :return:
         """
+        if not resultset:
+            raise ValueError("Cannot merge an empty resultset")
         result = resultset[0].extracted_object
+        if result is None:
+            raise ValueError("Cannot merge resultsets without extracted objects")
         if unique_fields is None:
             unique_fields = []
         for next_extraction in resultset[1:]:
             next_result = next_extraction.extracted_object
+            if next_result is None:
+                continue
             if unique_fields:
                 for k in unique_fields:
                     if k in result and k in next_result:

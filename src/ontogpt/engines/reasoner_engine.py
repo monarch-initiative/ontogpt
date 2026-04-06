@@ -169,17 +169,21 @@ class ReasonerEngine(KnowledgeEngine):
     completion_length = 250
 
     def reason(
-        self, task: Task, template_path=None, strict=False, evaluate: bool = None
+        self,
+        task: Task,
+        template_path: Optional[Union[str, Path]] = None,
+        strict: bool = False,
+        evaluate: Optional[bool] = None,
     ) -> ReasonerResult:
         """Reason over axioms and query entailments."""
         if template_path is None:
             template_path = DEFAULT_REASONING_PROMPT
         if isinstance(template_path, Path):
             template_path = str(template_path)
-        if isinstance(template_path, str):
-            # create a Jinja2 template object
-            template_txt = read_text_with_fallbacks(Path(template_path))
-            template = Template(template_txt)
+        if not isinstance(template_path, str):
+            raise TypeError(f"Unsupported template path type: {type(template_path)}")
+        template_txt = read_text_with_fallbacks(Path(template_path))
+        template = Template(template_txt)
         prompt = template.render(
             task=task,
             ontology=task.ontology,
@@ -199,13 +203,15 @@ class ReasonerEngine(KnowledgeEngine):
         completed = True
         logger.info(f"PROMPT LENGTH: {prompt_length}")
 
-        payload = self.client.complete(prompt, max_tokens=completion_length)
+        payload = self._require_client().complete(prompt, max_tokens=completion_length)
         if task.has_multiple_answers:
             elements = payload.split("- ")
-            answers = [self._parse_single_answer(e, task) for e in elements]
+            raw_answers: List[Optional[Union[Answer, List[Answer]]]] = [
+                self._parse_single_answer(e, task) for e in elements
+            ]
         else:
-            answers = [self._parse_single_answer(payload, task)]
-        answers = [a for a in flatten_list(answers) if a is not None]
+            raw_answers = [self._parse_single_answer(payload, task)]
+        answers = [a for a in flatten_list(raw_answers) if isinstance(a, Answer)]
         result = ReasonerResult(
             completed=completed,
             task_name=task.name,
@@ -218,9 +224,10 @@ class ReasonerEngine(KnowledgeEngine):
             completion=payload,
         )
         # TODO: determine which it doesn't work to initialize with this
-        result.answers = answers  # type: ignore
+        result.answers = answers
         logger.debug(f"Answers: {task.answers} // {answers}")
-        result.name = f"{task.name}-{task.method.value}-{self.model}"
+        method_name = task.method.value if task.method is not None else "unknown"
+        result.name = f"{task.name}-{method_name}-{self.model}"
         if not task.answers and evaluate:
             raise ValueError(f"Cannot evaluate without expected answers: {task}")
         if task.answers is not None:
@@ -286,8 +293,8 @@ class ReasonerEngine(KnowledgeEngine):
     def evaluate(self, result: ReasonerResult, task: Task):
         """Evaluate result against task."""
         logger.debug(f"Evaluating result: {result}")
-        positives = {t.text for t in task.answers}
-        result_answer_texts = {a.text for a in result.answers}
+        positives = {t.text for t in task.answers or []}
+        result_answer_texts = {a.text for a in result.answers or []}
         ixn = positives.intersection(result_answer_texts)
         all_texts = positives.union(result_answer_texts)
         result.false_positives = list(result_answer_texts - positives)
