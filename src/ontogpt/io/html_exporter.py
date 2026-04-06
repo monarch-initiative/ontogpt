@@ -34,6 +34,8 @@ class HTMLExporter(Exporter):
             output = open(str(output), "w", encoding="utf-8")
         if isinstance(output, str):
             output = StringIO(output)
+        if isinstance(output, BytesIO):
+            output = TextIOWrapper(output, encoding="utf-8")
         self.output = output
         self.export_metadata(extraction_output)
         self.export_results(extraction_output.extracted_object, extraction_output)
@@ -91,13 +93,9 @@ class HTMLExporter(Exporter):
         self.close_div()
 
     def export_atom(self, value, extraction_output: ExtractionResult, indent: int):
-        output = self.output
+        output = self._require_output()
         named_entities = extraction_output.named_entities or []
-        matches = [
-            ne for ne in named_entities if ne.id == value and is_curie(ne.id)
-        ]
-        if isinstance(output, BytesIO):
-            output = TextIOWrapper(output, encoding="utf-8")
+        matches = [ne for ne in named_entities if ne.id == value and is_curie(ne.id)]
         if matches:
             match = matches[0]
             output.write(f"{match.label} {self.link(match.id)}")
@@ -110,7 +108,7 @@ class HTMLExporter(Exporter):
             output = TextIOWrapper(output, encoding="utf-8")
         output.write("<details>\n")
         output.write("<pre>\n")
-        self.w(text)
+        output.write(html.escape(text))
         output.write("\n</pre>\n")
         output.write("\n</details>\n")
 
@@ -118,16 +116,16 @@ class HTMLExporter(Exporter):
         return f'<a href="https://bioregistry.io/{curie}">{curie}</a>'
 
     def open_ul(self):
-        self.output.write("<ul>\n")
+        self._require_output().write("<ul>\n")
 
     def close_ul(self):
-        self.output.write("</ul>\n")
+        self._require_output().write("</ul>\n")
 
     def open_div(self):
-        self.output.write("<div>\n")
+        self._require_output().write("<div>\n")
 
     def close_div(self):
-        self.output.write("</div>\n")
+        self._require_output().write("</div>\n")
 
     def li(self, text: str = ""):
         self.tag("li", text)
@@ -145,11 +143,14 @@ class HTMLExporter(Exporter):
         self.tag("i", html.escape(text))
 
     def tag(self, tag: str, text: str):
-        if isinstance(self.output, BytesIO):
-            self.output = TextIOWrapper(self.output, encoding="utf-8")
-        self.output.write(f"<{tag}>{text}</{tag}>\n")
+        self._require_output().write(f"<{tag}>{text}</{tag}>\n")
 
     def w(self, text: str):
+        self._require_output().write(html.escape(text))
+
+    def _require_output(self) -> TextIO:
+        if self.output is None:
+            raise RuntimeError("HTMLExporter output is not initialized")
         if isinstance(self.output, BytesIO):
             self.output = TextIOWrapper(self.output, encoding="utf-8")
-        self.output.write(html.escape(text))
+        return self.output
