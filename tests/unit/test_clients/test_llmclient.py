@@ -236,3 +236,58 @@ def test_llmclient_complete_includes_api_key_when_set(monkeypatch):
     client.complete("hello")
 
     assert mock_completion.call_args.kwargs.get("api_key") == "test-key"
+
+
+def test_llmclient_explicit_api_key_skips_provider_lookup(monkeypatch):
+    """Ensure an explicitly provided key wins over provider-specific lookup."""
+    import ontogpt.clients.llm_client as llm_mod
+
+    lookup = mock.MagicMock(side_effect=AssertionError("provider lookup should not run"))
+    monkeypatch.setattr(llm_mod, "get_apikey_value", lookup)
+
+    client = llm_mod.LLMClient(
+        model="anthropic/claude-3-5-sonnet",
+        custom_llm_provider="anthropic",
+        api_key="provided-key",
+    )
+
+    assert client.api_key == "provided-key"
+    lookup.assert_not_called()
+
+
+def test_llmclient_uses_provider_specific_key_lookup_when_api_key_missing(monkeypatch):
+    """Ensure provider-specific fallback still happens when no key is supplied."""
+    import ontogpt.clients.llm_client as llm_mod
+
+    lookup = mock.MagicMock(return_value="anthropic-from-config")
+    monkeypatch.setattr(llm_mod, "get_apikey_value", lookup)
+
+    client = llm_mod.LLMClient(
+        model="anthropic/claude-3-5-sonnet",
+        custom_llm_provider="anthropic",
+    )
+
+    assert client.api_key == "anthropic-from-config"
+    lookup.assert_called_once_with("anthropic-key")
+
+
+def test_llmclient_explicit_api_key_preserves_azure_base_and_version_lookup(monkeypatch):
+    """Ensure explicit keys do not disable non-key Azure config fallback."""
+    import ontogpt.clients.llm_client as llm_mod
+
+    def fake_get_apikey_value(name):
+        values = {
+            "azure-base": "https://example.openai.azure.com/",
+            "azure-version": "2024-10-21",
+        }
+        return values[name]
+
+    lookup = mock.MagicMock(side_effect=fake_get_apikey_value)
+    monkeypatch.setattr(llm_mod, "get_apikey_value", lookup)
+
+    client = llm_mod.LLMClient(model="azure/gpt-4o", api_key="provided-key")
+
+    assert client.api_key == "provided-key"
+    assert client.api_base == "https://example.openai.azure.com/"
+    assert client.api_version == "2024-10-21"
+    assert lookup.call_args_list == [mock.call("azure-base"), mock.call("azure-version")]

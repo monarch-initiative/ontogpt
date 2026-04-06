@@ -17,6 +17,11 @@ logger = logging.getLogger(__name__)
 
 # Just get the part before the slash in each model name
 SERVICES = {model.split("/")[0] for model in MODELS.keys() if len(model.split("/")) > 1}
+PROVIDER_API_KEY_NAMES = {
+    "openai": "openai",
+    "anthropic": "anthropic-key",
+    "groq": "groq-key",
+}
 
 # Necessary to avoid repeated debug messages
 litellm.suppress_debug_info = True
@@ -40,6 +45,28 @@ class LLMClient:
     system_message: str = ""
     """System message to be provided to the LLM."""
 
+    def _get_provider_name(self):
+        if self.custom_llm_provider:
+            return self.custom_llm_provider
+        if "/" in self.model:
+            return self.model.split("/", 1)[0]
+        return None
+
+    def _get_provider_api_key(self, provider):
+        if provider in PROVIDER_API_KEY_NAMES:
+            return get_apikey_value(PROVIDER_API_KEY_NAMES[provider])
+        if provider in SERVICES:
+            return get_apikey_value(f"{provider}-key")
+        return get_apikey_value("openai")
+
+    def _set_provider_config(self, provider):
+        if provider != "azure":
+            return
+        if self.api_base is None:
+            self.api_base = get_apikey_value("azure-base")
+        if self.api_version is None:
+            self.api_version = get_apikey_value("azure-version")
+
     def __post_init__(self):
         # Get appropriate API key for the model source
         # and other details if needed.
@@ -56,38 +83,19 @@ class LLMClient:
                 logger.warning(f"Converted to string: {self.model}")
             else:
                 raise ValueError(f"Model name must be a string, got {type(self.model)}")
+        provider = self._get_provider_name()
+        self._set_provider_config(provider)
 
-#        if self.model.startswith("ollama"):
-#            self.api_key = ""  # Don't need an API key
-#        elif self.model.startswith("fake"):
-#            # Just used for testing
-#            self.api_key = ""  # Don't need an API key
-#            logger.info(f"Using mock model: {self.model}")
-#        elif not self.api_key and not self.custom_llm_provider:
-#            self.api_key = get_apikey_value("openai")
-#        elif self.custom_llm_provider == "anthropic":
-#            self.api_key = get_apikey_value("anthropic-key")
-#        elif self.custom_llm_provider == "groq":
-#            self.api_key = get_apikey_value("groq-key")
-        if self.model.startswith("ollama"):
-            self.api_key = ""
-        elif self.model.startswith("fake"):
-            self.api_key = ""
+        if self.model.startswith("fake"):
             logger.info(f"Using mock model: {self.model}")
-        elif self.custom_llm_provider == "anthropic" or self.model.startswith("anthropic/"):
-            self.api_key = get_apikey_value("anthropic-key")
-        elif self.custom_llm_provider == "groq" or self.model.startswith("groq/"):
-            self.api_key = get_apikey_value("groq-key")
-        elif not self.api_key:
-            self.api_key = get_apikey_value("openai")  # true fallback
+
+        # Respect an explicitly provided key and let LiteLLM use it directly.
+        if self.api_key:
+            pass
+        elif self.model.startswith("ollama") or self.model.startswith("fake"):
+            self.api_key = ""
         else:
-            for service in SERVICES:
-                if self.model.startswith(service):
-                    self.api_key = get_apikey_value(service + "-key")
-                    if service == "azure" and self.api_base is None:
-                        self.api_base = get_apikey_value(service + "-base")
-                    if service == "azure" and self.api_version is None:
-                        self.api_version = get_apikey_value(service + "-version")
+            self.api_key = self._get_provider_api_key(provider)
 
         # Set up the cache, and set the cache path if provided
         if len(self.cache_db_path) == 0:
