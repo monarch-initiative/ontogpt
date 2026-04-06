@@ -29,31 +29,37 @@ class MarkdownExporter(Exporter):
             output = TextIOWrapper(output, encoding="utf-8")
         output.write(f"# {extraction_output.input_id}\n\n")
         output.write("## Input\n\n")
-        for block in extraction_output.input_text.split("\n"):
+        input_text = extraction_output.input_text or ""
+        for block in input_text.split("\n"):
             output.write(f"_{block.replace('_', '')}_\n\n")
         output.write("## Results\n\n")
         obj = extraction_output.extracted_object
         self.export_object(obj, extraction_output, output, -1)
         output.write("\n\nYAML:\n\n")
-        self.details(yaml.dump(extraction_output.dict()), output, code="yaml")
+        self.details(yaml.dump(extraction_output.model_dump()), output, code="yaml")
         output.write("\n\nPrompt:\n\n")
-        self.details(extraction_output.prompt, output)
+        self.details(extraction_output.prompt or "", output)
         output.write("\n\nCompletion:\n\n")
-        self.details(extraction_output.raw_completion_output, output)
+        self.details(extraction_output.raw_completion_output or "", output)
 
     def export_object(
         self,
-        obj: pydantic.BaseModel,
+        obj: Optional[pydantic.BaseModel],
         extraction_output: ExtractionResult,
         output: TextIO,
         indent: int,
     ):
-        for field in obj.model_fields.values():
+        if obj is None:
+            output.write("\n\n### extracted_object\n\n")
+            output.write("\n  - None\n")
+            return
+
+        for field_name in type(obj).model_fields:
             if indent < 0:
-                output.write(f"\n\n### {field.name}\n\n")
+                output.write(f"\n\n### {field_name}\n\n")
             else:
-                output.write(f"\n{'  ' * indent}- {field.name}:")
-            value = getattr(obj, field.name)
+                output.write(f"\n{'  ' * indent}- {field_name}:")
+            value = getattr(obj, field_name)
             if isinstance(value, pydantic.BaseModel):
                 self.export_object(value, extraction_output, output, indent + 1)
             elif isinstance(value, list):
@@ -72,8 +78,9 @@ class MarkdownExporter(Exporter):
         output.write("\n")
 
     def export_atom(self, value, extraction_output: ExtractionResult, output: TextIO, indent: int):
+        named_entities = extraction_output.named_entities or []
         matches = [
-            ne for ne in extraction_output.named_entities if ne.id == value and is_curie(ne.id)
+            ne for ne in named_entities if ne.id == value and is_curie(ne.id)
         ]
         output.write(f"\n{'  ' * indent}- ")
         if matches:
