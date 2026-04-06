@@ -22,7 +22,7 @@ class HTMLExporter(Exporter):
     TODO: rewrite to use bootstrap
     """
 
-    output: Optional[Union[BytesIO, TextIO]]
+    output: Optional[Union[BytesIO, TextIO]] = None
 
     def export(
         self,
@@ -40,23 +40,22 @@ class HTMLExporter(Exporter):
         self.h2("YAML Object")
         self.details(yaml.dump(extraction_output.model_dump()), output, code="yaml")
         self.h2("Prompt")
-        self.details(extraction_output.prompt, output)
+        self.details(extraction_output.prompt or "", output)
         self.h2("Completion")
-        self.details(extraction_output.raw_completion_output, output)
+        self.details(extraction_output.raw_completion_output or "", output)
 
     def export_metadata(self, extraction_output: ExtractionResult):
-        output = self.output
         self.h1("Extraction Results:\n\n")
         self.h2("Input")
-        self.i(extraction_output.input_text)
+        self.i(extraction_output.input_text or "")
 
     def export_results(self, obj: Any, extraction_output: ExtractionResult):
         self.h2("Results")
         self.export_object(obj, extraction_output, -1)
 
     def export_object(
-        self, obj: pydantic.BaseModel, extraction_output: ExtractionResult, indent: int
-    ):
+        self, obj: Optional[pydantic.BaseModel], extraction_output: ExtractionResult, indent: int
+    ) -> None:
         self.open_div()
         if indent >= 0:
             self.open_ul()
@@ -64,7 +63,7 @@ class HTMLExporter(Exporter):
         if obj is None:
             self.h3("<i>Encountered an error. See raw completion output for details.</i>")
         else:
-            for field_name, _field in obj.model_fields.items():
+            for field_name in type(obj).model_fields:
                 if indent < 0:
                     self.h3(field_name)
                 else:
@@ -93,8 +92,9 @@ class HTMLExporter(Exporter):
 
     def export_atom(self, value, extraction_output: ExtractionResult, indent: int):
         output = self.output
+        named_entities = extraction_output.named_entities or []
         matches = [
-            ne for ne in extraction_output.named_entities if ne.id == value and is_curie(ne.id)
+            ne for ne in named_entities if ne.id == value and is_curie(ne.id)
         ]
         if isinstance(output, BytesIO):
             output = TextIOWrapper(output, encoding="utf-8")
@@ -105,7 +105,7 @@ class HTMLExporter(Exporter):
             output.write(str(value))
         output.write("\n")
 
-    def details(self, text: Optional[str], output: Union[BytesIO, TextIO], code: str = ""):
+    def details(self, text: str, output: Union[BytesIO, TextIO], code: str = ""):
         if isinstance(output, BytesIO):
             output = TextIOWrapper(output, encoding="utf-8")
         output.write("<details>\n")
@@ -141,7 +141,7 @@ class HTMLExporter(Exporter):
     def h3(self, text: str):
         self.tag("h3", text)
 
-    def i(self, text: Optional[str]):
+    def i(self, text: str):
         self.tag("i", html.escape(text))
 
     def tag(self, tag: str, text: str):
