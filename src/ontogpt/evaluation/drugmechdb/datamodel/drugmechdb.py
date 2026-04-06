@@ -5,6 +5,7 @@ from __future__ import annotations
 from typing import List, Optional
 
 from pydantic import BaseModel as BaseModel
+from pydantic import ConfigDict
 from pydantic import Field
 
 metamodel_version = "None"
@@ -16,12 +17,14 @@ class WeakRefShimBaseModel(BaseModel):
 
 
 class ConfiguredBaseModel(
-    WeakRefShimBaseModel,
-    validate_assignment=True,
-    validate_all=True,
-    extra="forbid",
-    arbitrary_types_allowed=True,
+    WeakRefShimBaseModel
 ):
+    model_config = ConfigDict(
+        validate_assignment=True,
+        validate_default=True,
+        extra="forbid",
+        arbitrary_types_allowed=True,
+    )
     pass
 
 
@@ -68,7 +71,7 @@ class Node(ConfiguredBaseModel):
 
 # Update forward refs
 # see https://pydantic-docs.helpmanual.io/usage/postponed_annotations/
-Mechanism.update_forward_refs()
-Graph.update_forward_refs()
-Link.update_forward_refs()
-Node.update_forward_refs()
+Mechanism.model_rebuild()
+Graph.model_rebuild()
+Link.model_rebuild()
+Node.model_rebuild()
