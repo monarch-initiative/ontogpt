@@ -57,18 +57,29 @@ class LLMClient:
             else:
                 raise ValueError(f"Model name must be a string, got {type(self.model)}")
 
+#        if self.model.startswith("ollama"):
+#            self.api_key = ""  # Don't need an API key
+#        elif self.model.startswith("fake"):
+#            # Just used for testing
+#            self.api_key = ""  # Don't need an API key
+#            logger.info(f"Using mock model: {self.model}")
+#        elif not self.api_key and not self.custom_llm_provider:
+#            self.api_key = get_apikey_value("openai")
+#        elif self.custom_llm_provider == "anthropic":
+#            self.api_key = get_apikey_value("anthropic-key")
+#        elif self.custom_llm_provider == "groq":
+#            self.api_key = get_apikey_value("groq-key")
         if self.model.startswith("ollama"):
-            self.api_key = ""  # Don't need an API key
+            self.api_key = ""
         elif self.model.startswith("fake"):
-            # Just used for testing
-            self.api_key = ""  # Don't need an API key
+            self.api_key = ""
             logger.info(f"Using mock model: {self.model}")
-        elif not self.api_key and not self.custom_llm_provider:
-            self.api_key = get_apikey_value("openai")
-        elif self.custom_llm_provider == "anthropic":
+        elif self.custom_llm_provider == "anthropic" or self.model.startswith("anthropic/"):
             self.api_key = get_apikey_value("anthropic-key")
-        elif self.custom_llm_provider == "groq":
+        elif self.custom_llm_provider == "groq" or self.model.startswith("groq/"):
             self.api_key = get_apikey_value("groq-key")
+        elif not self.api_key:
+            self.api_key = get_apikey_value("openai")  # true fallback
         else:
             for service in SERVICES:
                 if self.model.startswith(service):
