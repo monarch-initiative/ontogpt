@@ -1,6 +1,5 @@
 """Core tests."""
 import unittest
-from pathlib import Path
 
 import yaml
 
@@ -94,13 +93,15 @@ class TestDrugMechDB(unittest.TestCase):
         self.engine = EvalDrugMechDB()
 
     def test_data_model(self):
-        g = Graph(id="x")
-        m = Mechanism(
+        graph = Graph(id="x")
+        mechanism = Mechanism(
             directed=True,
             graph={
                 "id": "DB11888_MESH_D007251_1",
             },
         )
+        self.assertEqual("x", graph.id)
+        self.assertTrue(mechanism.directed)
 
     def test_load_exemplars(self):
         if not EXEMPLAR_CASES.exists():

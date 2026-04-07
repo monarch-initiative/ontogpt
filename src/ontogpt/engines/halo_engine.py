@@ -21,7 +21,6 @@ from oaklib.datamodels.vocabulary import IS_A
 from oaklib.interfaces.obograph_interface import OboGraphInterface
 from tiktoken import Encoding
 
-from ontogpt.clients import LLMClient
 from ontogpt.engines.knowledge_engine import FIELD, KnowledgeEngine
 from ontogpt.io.utils import read_text_with_fallbacks
 from ontogpt.io.yaml_wrapper import dump_minimal_yaml
@@ -311,7 +310,7 @@ class HALOEngine(KnowledgeEngine):
         # logger.info(f"## EFFECTIVE: {effective_payload}")
         try:
             objs = yaml.safe_load(effective_payload)
-        except:
+        except Exception:
             # codex does not give reliable YAML
             objs = self.parse_what_you_can(effective_payload)
         logger.info(f"## PARSED: {len(objs)}")
@@ -360,7 +359,7 @@ class HALOEngine(KnowledgeEngine):
         # logger.info(f"## EFFECTIVE: {effective_payload}")
         try:
             objs = yaml.safe_load(effective_payload)
-        except:
+        except Exception:
             # codex does not give reliable YAML
             objs = self.parse_what_you_can(effective_payload)
         logger.info(f"## PARSED: {len(objs)}")
@@ -401,7 +400,7 @@ class HALOEngine(KnowledgeEngine):
             chunk += line + "\n"
             try:
                 objs = yaml.safe_load(chunk)
-            except:
+            except Exception:
                 pass
         if objs is None:
             raise ValueError(f"Could not parse YAML {yaml_str}")
@@ -473,7 +472,7 @@ class HALOEngine(KnowledgeEngine):
             else:
                 try:
                     pred = adapter.uri_to_curie(edge.pred)
-                except:
+                except Exception:
                     pred = edge.pred
             if pred not in id2slot:
                 continue

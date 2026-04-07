@@ -86,7 +86,7 @@ from linkml_runtime.linkml_model import ClassDefinition, ElementName, SlotDefini
 from oaklib import BasicOntologyInterface, get_adapter
 from oaklib.datamodels.text_annotator import TextAnnotationConfiguration
 from oaklib.implementations import OntoPortalImplementationBase
-from oaklib.interfaces import MappingProviderInterface, TextAnnotatorInterface
+from oaklib.interfaces import MappingProviderInterface
 from oaklib.utilities.apikey_manager import get_apikey_value
 from oaklib.utilities.subsets.value_set_expander import ValueSetExpander
 from requests.exceptions import ConnectionError, HTTPError, ProxyError

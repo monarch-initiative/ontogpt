@@ -24,7 +24,6 @@ from oaklib import BasicOntologyInterface
 
 from ontogpt.engines.knowledge_engine import (
     ANNOTATION_KEY_PROMPT,
-    ANNOTATION_KEY_PROMPT_SKIP,
     EXAMPLE,
     FIELD,
     OBJECT,
@@ -41,7 +40,7 @@ this_path = Path(__file__).parent
 
 CODE_FENCE = "```"
 
-RESPONSE_ATOM = Union[str, "ResponseAtom"]  # type: ignore
+RESPONSE_ATOM = Any
 RESPONSE_DICT = Dict[FIELD, Union[RESPONSE_ATOM, List[RESPONSE_ATOM]]]
 
 

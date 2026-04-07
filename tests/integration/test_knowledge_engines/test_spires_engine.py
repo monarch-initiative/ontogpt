@@ -447,7 +447,10 @@ class TestCore(unittest.TestCase):
             "Expected to derived prompt from description of gene slot",
         )
         self.assertIn(
-            "gene_organisms: <semicolon-separated list of asterisk separated gene to organism relationships>",
+            (
+                "gene_organisms: <semicolon-separated list of asterisk separated gene to "
+                "organism relationships>"
+            ),
             prompt,
             "Expected to derived prompt from annotations of gene_organisms slot",
         )
