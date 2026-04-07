@@ -1,444 +1,388 @@
-input_id: /Users/cjm/repos/ontogpt/tests/input/cases/recipe-tortilla-soup.txt
-input_text: 'Tortilla Soup
-
+input_id: /home/harry/ontogpt/tests/input/cases/recipe-tortilla-soup.txt
+input_text: |
+  Tortilla Soup
 
   Ingredients
-
   1 rotisserie chicken or 3-4 cups poached chicken
-
   1 (15 oz) can fire roasted tomatoes, diced
-
   1 (10 oz) can red enchilada sauce, mild
-
   1 small onion, chopped
-
   1 medium zucchini, sliced into 1/4-inch half circles
-
   1 (4 oz) can green chilies
-
   4 cloves garlic, minced
-
   4 cups chicken broth
-
   1 (14.5 oz) can creamed corn, undrained (can sub with 1 can sweet corn, drained)
-
   1 tsp ground cumin
-
   1 tsp chili powder
-
   1 tsp sea salt
-
   1/4 tsp freshly ground black pepper
-
   3 bay leaves
 
-
   Garnish
-
   4 Tbsp chopped cilantro
-
   1 lime cut into wedges
-
   sour cream
-
   cheese, shredded (cheddar, mozzarella, Mexican blend)
-
   1 large avocado, sliced
-
   Tortilla chips, crushed
 
-
   Method
-
-  While rotisserie chicken is still warm, pick all meat of the bones, discard skin.
-  Place the chicken meat in a large stock pot. Discard bones, or save if you like
-  to make homemade stock.
-
-  Add to the pot the tomatoes, enchilada sauce, chicken broth, onion, zucchini, chilis,
-  garlic, corn, cumin, chili powder, salt, pepper and bay leaves. Stir to combine
-  and turn the heat to high.
-
-  As soon as soup begins to boil, turn the heat to medium-low heat and continue to
-  cook, uncovered, until the onions are translucent and zucchini is tender, about
-  30 minutes.
-
-  Serve the soup topped with chopped cilantro, a squeeze of fresh lime juice, sour
-  cream, cheese, avocado and corn chips.
-
-  '
-raw_completion_output: "\nurl: \nlabel: Tortilla Soup\ndescription: This is a traditional\
-  \ Mexican soup that can be made with a rotisserie chicken or poached chicken. It\
-  \ is full of flavor and garnished with cilantro, lime juice, sour cream, cheese,\
-  \ avocado, and corn chips. \ncategories: Mexican; Soup\ningredients: 1 rotisserie\
-  \ chicken or 3-4 cups poached chicken; 1 (15 oz) can fire roasted tomatoes, diced;\
-  \ 1 (10 oz) can red enchilada sauce, mild; 1 small onion, chopped; 1 medium zucchini,\
-  \ sliced into 1/4-inch half circles; 1 (4 oz) can green chilies; 4 cloves garlic,\
-  \ minced; 4 cups chicken broth; 1 (14.5 oz) can creamed corn, undrained (can sub\
-  \ with 1 can sweet corn, drained); 1 tsp ground cumin; 1 tsp chili powder; 1 tsp\
-  \ sea salt; 1/4 tsp freshly ground black pepper; 3 bay leaves; 4 Tbsp chopped cilantro;\
-  \ 1 lime cut into wedges; sour cream; cheese, shredded (cheddar, mozzarella, Mexican\
-  \ blend); 1 large avocado, sliced; Tortilla chips, crushed\nsteps: Pick all meat\
-  \ of the bones from pre-cooked chicken, discard skin and bones; Place chicken meat\
-  \ into large stock pot; Add tomatoes, enchilada sauce, chicken broth, onion, zucchini,\
-  \ chilis, garlic, corn, cumin, chili powder, salt, pepper and bay leaves to pot;\
-  \ Stir to combine and turn the heat to high; As soon as soup begins to boil, turn\
-  \ the heat to medium-low and cook uncovered until onions are translucent and zucchini\
-  \ is tender, about 30 minutes; Serve soup topped with chopped cilantro, a squeeze\
-  \ of fresh lime juice, sour cream, cheese, avocado and corn chips."
-prompt: 'Split the following piece of text into fields in the following format:
-
+  While rotisserie chicken is still warm, pick all meat of the bones, discard skin. Place the chicken meat in a large stock pot. Discard bones, or save if you like to make homemade stock.
+  Add to the pot the tomatoes, enchilada sauce, chicken broth, onion, zucchini, chilis, garlic, corn, cumin, chili powder, salt, pepper and bay leaves. Stir to combine and turn the heat to high.
+  As soon as soup begins to boil, turn the heat to medium-low heat and continue to cook, uncovered, until the onions are translucent and zucchini is tender, about 30 minutes.
+  Serve the soup topped with chopped cilantro, a squeeze of fresh lime juice, sour cream, cheese, avocado and corn chips.
+raw_completion_output: |-
+  label: Tortilla Soup  
+  description: A flavorful and hearty soup made with chicken, vegetables, and spices, topped with fresh garnishes.  
+  categories: Soup; Mexican; Main Course  
+  ingredients: 1 rotisserie chicken or 3-4 cups poached chicken; 1 (15 oz) can fire roasted tomatoes, diced; 1 (10 oz) can red enchilada sauce, mild; 1 small onion, chopped; 1 medium zucchini, sliced into 1/4-inch half circles; 1 (4 oz) can green chilies; 4 cloves garlic, minced; 4 cups chicken broth; 1 (14.5 oz) can creamed corn, undrained (can sub with 1 can sweet corn, drained); 1 tsp ground cumin; 1 tsp chili powder; 1 tsp sea salt; 1/4 tsp freshly ground black pepper; 3 bay leaves  
+  steps: While rotisserie chicken is still warm, pick all meat of the bones, discard skin. Place the chicken meat in a large stock pot. Discard bones, or save if you like to make homemade stock.; Add to the pot the tomatoes, enchilada sauce, chicken broth, onion, zucchini, chilis, garlic, corn, cumin, chili powder, salt, pepper and bay leaves. Stir to combine and turn the heat to high.; As soon as soup begins to boil, turn the heat to medium-low heat and continue to cook, uncovered, until the onions are translucent and zucchini is tender, about 30 minutes.; Serve the soup topped with chopped cilantro, a squeeze of fresh lime juice, sour cream, cheese, avocado and corn chips.
+prompt: |+
+  Split the following piece of text into fields in the following format:
 
   food: <the food item>
-
   state: <the state of the food item (e.g. chopped, diced)>
 
 
-
   Text:
-
   soup
-
 
   ===
 
-
-  '
 extracted_object:
+  url: AUTO:7af8593b-bfe4-4cf2-b736-ea9976defb48
   label: Tortilla Soup
-  description: This is a traditional Mexican soup that can be made with a rotisserie
-    chicken or poached chicken. It is full of flavor and garnished with cilantro,
-    lime juice, sour cream, cheese, avocado, and corn chips.
+  description: A flavorful and hearty soup made with chicken, vegetables, and 
+    spices, topped with fresh garnishes.
   categories:
-  - HANCESTRO:0415
-  - AUTO:Soup
+    - AUTO:Soup
+    - HANCESTRO:0415
+    - AUTO:Main%20Course
   ingredients:
-  - food_item:
-      food: AUTO:poached%20chicken
-      state: poached
-    amount:
-      value: 3-4
-      unit: AUTO:cups
-  - food_item:
-      food: AUTO:1%20%2815%20oz%29%20can%20fire%20roasted%20tomatoes
-      state: chopped
-    amount:
-      value: diced
-      unit: AUTO:N/A
-  - food_item:
-      food: AUTO:red%20enchilada%20sauce
-      state: chopped
-    amount:
-      value: '10'
-      unit: AUTO:oz
-  - food_item:
-      food: FOODON:03301704
-      state: small
-    amount:
-      value: chopped
-      unit: AUTO:N/A
-  - food_item:
-      food: FOODON:03310943
-      state: chopped
-    amount:
-      value: '1'
-      unit: AUTO:medium%2C%20sliced%20into%201/4-inch%20half%20circles
-  - food_item:
-      food: AUTO:1%20%284%20oz%29%20can%20green%20chilies
-      state: chopped, diced
-    amount:
-      value: '1'
-  - food_item:
-      food: FOODON:00003582
-      state: cloves
-    amount:
-      value: minced
-  - food_item:
-      food: FOODON:03411457
-      state: broth
-    amount:
-      value: '4'
-      unit: AUTO:cups
-  - food_item:
-      food: AUTO:creamed%20corn
-      state: creamed
-    amount:
-      value: '14.5'
-      unit: AUTO:oz
-  - food_item:
-      food: AUTO:ground%20cumin
-      state: ground
-    amount:
-      value: '1'
-      unit: AUTO:tsp
-  - food_item:
-      food: FOODON:03302030
-      state: chopped
-    amount:
-      value: '1'
-      unit: AUTO:tsp
-  - food_item:
-      food: AUTO:sea%20salt
-      state: diced
-    amount:
-      value: '1'
-      unit: AUTO:tsp
-  - food_item:
-      food: AUTO:freshly%20ground%20black%20pepper
-      state: ground
-    amount:
-      value: 1/4
-      unit: AUTO:tsp
-  - food_item:
-      food: AUTO:bay%20leaves
-      state: chopped
-  - food_item:
-      food: AUTO:cilantro
-      state: chopped
-    amount:
-      value: '4'
-      unit: AUTO:Tbsp
-  - food_item:
-      food: FOODON:00003661
-    amount:
-      value: '1'
-  - food_item:
-      food: FOODON:03302515
-      state: chopped
-  - food_item:
-      food: FOODON:00001013
-      state: shredded (cheddar, mozzarella, Mexican blend)
-  - food_item:
-      food: FOODON:00003600
-    amount:
-      value: '1'
-      unit: AUTO:large%2C%20sliced
-  - food_item:
-      food: FOODON:03310710
-      state: Chopped
-    amount:
-      value: crushed
+    - food_item:
+        food: AUTO:poached%20chicken
+      amount:
+        unit: AUTO:cups
+    - food_item:
+        food: AUTO:fire%20roasted%20tomatoes
+        state: diced
+      amount:
+        value: '15'
+        unit: UO:0010033
+    - food_item:
+        food: AUTO:red%20enchilada%20sauce
+        state: mild
+      amount:
+        value: '10'
+        unit: UO:0010033
+    - food_item:
+        food: FOODON:03316347
+        state: None
+      amount:
+        value: '1'
+        unit: AUTO:small%2C%20chopped
+    - food_item:
+        food: FOODON:03310943
+        state: none
+      amount:
+        value: '1'
+        unit: AUTO:medium
+    - food_item:
+        food: AUTO:green%20chilies
+        state: none
+      amount:
+        value: '4'
+        unit: UO:0010033
+    - food_item:
+        food: FOODON:00003582
+        state: minced
+      amount:
+        value: '4'
+        unit: AUTO:cloves
+    - food_item:
+        food: FOODON:03303004
+        state: none
+      amount:
+        value: '4'
+        unit: AUTO:cups
+    - food_item:
+        food: AUTO:sweet%20corn
+        state: none
+      amount:
+        value: '1'
+        unit: AUTO:can
+    - food_item:
+        food: FOODON:00003024
+        state: ground
+      amount:
+        value: '1'
+        unit: UO:0010040
+    - food_item:
+        food: FOODON:03302030
+        state: powdered
+      amount:
+        value: '1'
+        unit: UO:0010040
+    - food_item:
+        food: AUTO:sea%20salt
+        state: none
+      amount:
+        value: '1'
+        unit: UO:0010040
+    - food_item:
+        food: FOODON:03000242
+        state: freshly ground
+      amount:
+        value: 1/4
+        unit: UO:0010040
+    - food_item:
+        food: AUTO:bay%20leaves
+        state: whole
+      amount:
+        value: '3'
+        unit: AUTO:%28None%20specified%29
   steps:
-  - action: AUTO:Pick%3B
-    inputs:
-    - food: AUTO:pre-cooked%20chicken
-      state: pre-cooked
-    outputs:
-    - food: AUTO:meat
-    utensils:
-    - AUTO:none
-  - action: dbpediaont:Square
-    inputs:
-    - food: FOODON:03411457
-      state: meat
-    outputs:
-    - food: AUTO:large%20stock%20pot
-    utensils:
-    - AUTO:Pot
-  - action: AUTO:add%3B
-    inputs:
-    - food: FOODON:03000227
-    - food: FOODON:03304007
-    - food: FOODON:03411457
-      state: broth
-    - food: FOODON:03301704
-    - food: FOODON:03310943
-      state: chopped
-    - food: FOODON:03317304
-      state: chopped
-    - food: FOODON:00003582
-    - food: AUTO:corn
-    - food: FOODON:00003024
-      state: chopped
-    - food: FOODON:03302030
-      state: chopped
-    - food: AUTO:salt
-    - food: FOODON:00001649
-    - food: AUTO:bay%20leaves
-    outputs:
-    - food: AUTO:pot
-    utensils:
-    - AUTO:pot
-  - action: AUTO:Stir%3B
-    inputs:
-    - food: AUTO:combine
-    utensils:
-    - AUTO:-
-  - action: AUTO:cook%3B
-    inputs:
-    - food: AUTO:soup
-    outputs:
-    - food: FOODON:03310943
-      state: diced
-    utensils:
-    - AUTO:none.
-  - action: AUTO:topping%3B
-    inputs:
-    - food: AUTO:cilantro
-      state: chopped
-    - food: AUTO:fresh%20lime%20juice
-      state: chopped
-    - food: FOODON:03302515
-      state: chopped
-    - food: FOODON:00001013
-    - food: FOODON:00003600
-    - food: FOODON:03302052
-      state: chopped
-    outputs:
-    - food: AUTO:soup
-    utensils:
-    - AUTO:none
+    - inputs:
+        - food: dbpediaont:Bone
+          state: not specified
+      utensils:
+        - AUTO:none
+    - action: AUTO:add%3B%20stir
+      inputs:
+        - food: FOODON:03301453
+          state: none
+        - food: FOODON:03304007
+          state: None
+        - food: FOODON:03303004
+          state: none
+        - food: FOODON:03316347
+          state: None
+        - food: FOODON:03310943
+          state: none
+        - food: FOODON:03317304
+          state: none specified
+        - food: FOODON:00003582
+          state: whole
+        - food: AUTO:corn
+          state: none
+        - food: FOODON:00003024
+          state: whole
+        - food: FOODON:03302030
+          state: powdered
+        - food: AUTO:salt
+          state: none
+        - food: FOODON:00003520
+          state: none
+        - food: AUTO:bay%20leaves
+          state: whole
+      outputs:
+        - food: AUTO:mixture
+          state: combined
+      utensils:
+        - AUTO:pot
+    - action: AUTO:cook
+      inputs:
+        - food: AUTO:soup
+          state: none
+        - food: AUTO:heat
+          state: N/A
+      outputs:
+        - food: FOODON:03316347
+          state: translucent
+        - food: FOODON:03310943
+          state: tender
+      utensils:
+        - AUTO:none%20%28uncovered%20cooking%29
+    - action: AUTO:serve
+      inputs:
+        - food: AUTO:cilantro
+          state: chopped
+        - food: FOODON:03306160
+          state: fresh
+        - food: FOODON:03302515
+          state: none
+        - food: FOODON:03000287
+          state: none
+        - food: FOODON:00003600
+          state: whole
+        - food: FOODON:03302052
+          state: none
+      outputs:
+        - food: AUTO:soup
+          state: none
+      utensils:
+        - AUTO:none
 named_entities:
-- id: AUTO:Main
-  label: Main
-- id: FOODON:03306347
-  label: Pasta
-- id: FOODON:03301704
-  label: onion
-- id: AUTO:small%20%28chopped%29
-  label: small (chopped)
-- id: FOODON:00003485
-  label: bell pepper
-- id: AUTO:cups
-  label: cups
-- id: FOODON:00003582
-  label: garlic
-- id: UO:0010042
-  label: tablespoons
-- id: FOODON:03310351
-  label: butter
-- id: AUTO:salt
-  label: salt
-- id: UO:0010040
-  label: teaspoon
-- id: FOODON:00001649
-  label: pepper
-- id: FOODON:03000227
-  label: tomato
-- id: AUTO:%2815%20ounce%29%20cans
-  label: (15 ounce) cans
-- id: AUTO:1%20%2816%20ounce%29%20box%20spaghetti%20noodles
-  label: 1 (16 ounce) box spaghetti noodles
-- id: FOODON:00001282
-  label: hamburger meat
-- id: AUTO:lbs
-  label: lbs
-- id: AUTO:Melt%3B%20Saut%C3%A9
-  label: "Melt; Saut\xE9"
-- id: AUTO:Pan
-  label: Pan
-- id: AUTO:add%3B%20cook
-  label: add; cook
-- id: AUTO:well%20done
-  label: well done
-- id: AUTO:pan
-  label: pan
-- id: AUTO:Add
-  label: Add
-- id: AUTO:adjust%3B
-  label: adjust;
-- id: FOODON:03460173
-  label: salted
-- id: AUTO:none
-  label: none
-- id: AUTO:Cook
-  label: Cook
-- id: FOODON:03306944
-  label: noodles
-- id: AUTO:Mix%3B
-  label: Mix;
-- id: FOODON:03311146
-  label: sauce
-- id: HANCESTRO:0415
-  label: Mexican
-- id: AUTO:Soup
-  label: Soup
-- id: AUTO:poached%20chicken
-  label: poached chicken
-- id: AUTO:1%20%2815%20oz%29%20can%20fire%20roasted%20tomatoes
-  label: 1 (15 oz) can fire roasted tomatoes
-- id: AUTO:N/A
-  label: N/A
-- id: AUTO:red%20enchilada%20sauce
-  label: red enchilada sauce
-- id: AUTO:oz
-  label: oz
-- id: FOODON:03310943
-  label: zucchini
-- id: AUTO:medium%2C%20sliced%20into%201/4-inch%20half%20circles
-  label: medium, sliced into 1/4-inch half circles
-- id: AUTO:1%20%284%20oz%29%20can%20green%20chilies
-  label: 1 (4 oz) can green chilies
-- id: FOODON:03411457
-  label: chicken
-- id: AUTO:creamed%20corn
-  label: creamed corn
-- id: AUTO:ground%20cumin
-  label: ground cumin
-- id: AUTO:tsp
-  label: tsp
-- id: FOODON:03302030
-  label: chili powder
-- id: AUTO:sea%20salt
-  label: sea salt
-- id: AUTO:freshly%20ground%20black%20pepper
-  label: freshly ground black pepper
-- id: AUTO:bay%20leaves
-  label: bay leaves
-- id: AUTO:cilantro
-  label: cilantro
-- id: AUTO:Tbsp
-  label: Tbsp
-- id: FOODON:00003661
-  label: lime
-- id: FOODON:03302515
-  label: sour cream
-- id: FOODON:00001013
-  label: cheese
-- id: FOODON:00003600
-  label: avocado
-- id: AUTO:large%2C%20sliced
-  label: large, sliced
-- id: FOODON:03310710
-  label: Tortilla chips
-- id: AUTO:Pick%3B
-  label: Pick;
-- id: AUTO:pre-cooked%20chicken
-  label: pre-cooked chicken
-- id: AUTO:meat
-  label: meat
-- id: dbpediaont:Square
-  label: Place
-- id: AUTO:large%20stock%20pot
-  label: large stock pot
-- id: AUTO:Pot
-  label: Pot
-- id: AUTO:add%3B
-  label: add;
-- id: FOODON:03304007
-  label: enchilada sauce
-- id: FOODON:03317304
-  label: chilis
-- id: AUTO:corn
-  label: corn
-- id: FOODON:00003024
-  label: cumin
-- id: AUTO:pot
-  label: pot
-- id: AUTO:Stir%3B
-  label: Stir;
-- id: AUTO:combine
-  label: combine
-- id: AUTO:-
-  label: '-'
-- id: AUTO:cook%3B
-  label: cook;
-- id: AUTO:soup
-  label: soup
-- id: AUTO:none.
-  label: none.
-- id: AUTO:topping%3B
-  label: topping;
-- id: AUTO:fresh%20lime%20juice
-  label: fresh lime juice
-- id: FOODON:03302052
-  label: corn chips
+  - id: AUTO:Soup
+    label: Soup
+    original_spans:
+      - 9:12
+      - 1057:1060
+      - 1229:1232
+  - id: HANCESTRO:0415
+    label: Mexican
+    original_spans:
+      - 596:602
+  - id: AUTO:poached%20chicken
+    label: poached chicken
+    original_spans:
+      - 60:74
+  - id: AUTO:cups
+    label: cups
+    original_spans:
+      - 55:58
+      - 288:291
+  - id: AUTO:fire%20roasted%20tomatoes
+    label: fire roasted tomatoes
+    original_spans:
+      - 90:110
+  - id: AUTO:red%20enchilada%20sauce
+    label: red enchilada sauce
+    original_spans:
+      - 133:151
+  - id: AUTO:small%2C%20chopped
+    label: small, chopped
+  - id: FOODON:03310943
+    label: zucchini
+    original_spans:
+      - 191:198
+      - 921:928
+      - 1181:1188
+  - id: AUTO:medium
+    label: medium
+    original_spans:
+      - 184:189
+      - 1095:1100
+  - id: AUTO:green%20chilies
+    label: green chilies
+    original_spans:
+      - 248:260
+  - id: AUTO:cloves
+    label: cloves
+    original_spans:
+      - 264:269
+  - id: FOODON:03303004
+    label: chicken broth
+    original_spans:
+      - 293:305
+      - 899:911
+  - id: AUTO:sweet%20corn
+    label: sweet corn
+    original_spans:
+      - 367:376
+  - id: AUTO:can
+    label: can
+    original_spans:
+      - 86:88
+      - 129:131
+      - 244:246
+      - 319:321
+      - 348:350
+      - 363:365
+      - 600:602
+  - id: FOODON:00003024
+    label: cumin
+    original_spans:
+      - 401:405
+      - 953:957
+  - id: FOODON:03302030
+    label: chili powder
+    original_spans:
+      - 413:424
+      - 960:971
+  - id: AUTO:sea%20salt
+    label: sea salt
+    original_spans:
+      - 432:439
+  - id: FOODON:03000242
+    label: black pepper
+    original_spans:
+      - 464:475
+  - id: AUTO:bay%20leaves
+    label: bay leaves
+    original_spans:
+      - 479:488
+      - 991:1000
+  - id: AUTO:%28None%20specified%29
+    label: (None specified)
+  - id: dbpediaont:Bone
+    label: bones
+    original_spans:
+      - 728:732
+      - 802:806
+  - id: AUTO:add%3B%20stir
+    label: add; stir
+  - id: FOODON:03301453
+    label: tomatoes
+    original_spans:
+      - 103:110
+      - 872:879
+  - id: FOODON:03304007
+    label: enchilada sauce
+    original_spans:
+      - 137:151
+      - 882:896
+  - id: FOODON:03317304
+    label: chilis
+    original_spans:
+      - 931:936
+  - id: AUTO:corn
+    label: corn
+    original_spans:
+      - 331:334
+      - 373:376
+      - 947:950
+      - 1327:1330
+  - id: AUTO:mixture
+    label: mixture
+  - id: AUTO:pot
+    label: pot
+    original_spans:
+      - 789:791
+      - 864:866
+  - id: AUTO:soup
+    label: soup
+    original_spans:
+      - 9:12
+      - 1057:1060
+      - 1229:1232
+  - id: AUTO:heat
+    label: heat
+    original_spans:
+      - 1032:1035
+      - 1087:1090
+      - 1106:1109
+  - id: AUTO:none%20%28uncovered%20cooking%29
+    label: none (uncovered cooking)
+  - id: AUTO:serve
+    label: serve
+    original_spans:
+      - 1219:1223
+  - id: AUTO:cilantro
+    label: cilantro
+    original_spans:
+      - 514:521
+      - 1254:1261
+  - id: FOODON:03306160
+    label: lime juice
+    original_spans:
+      - 1283:1292
+  - id: FOODON:03302515
+    label: sour cream
+    original_spans:
+      - 546:555
+      - 1295:1304
+  - id: FOODON:03000287
+    label: cheese
+    original_spans:
+      - 557:562
+      - 1307:1312
+  - id: FOODON:00003600
+    label: avocado
+    original_spans:
+      - 619:625
+      - 1315:1321
+  - id: FOODON:03302052
+    label: corn chips
+    original_spans:
+      - 1327:1336

@@ -122,8 +122,12 @@ class EvalHPOA(SPIRESEvaluationEngine):
             self.enhance(disease)
         return diseases
 
-    def diseases_by_publication(self) -> Dict[Tuple[DISEASE_ID, PUBLICATION], MendelianDisease]:
-        anns = list(self.parse_hpoa())
+    def diseases_by_publication(
+        self, anns: Iterable[HPOAnnotation] = None
+    ) -> Dict[Tuple[DISEASE_ID, PUBLICATION], MendelianDisease]:
+        if anns is None:
+            anns = self.parse_hpoa()
+        anns = list(anns)
         tuple2ann = defaultdict(list)
         for ann in anns:
             if ann.publication and ann.publication.startswith("PMID:"):

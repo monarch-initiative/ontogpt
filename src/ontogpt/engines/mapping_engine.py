@@ -35,7 +35,7 @@ from copy import deepcopy
 from dataclasses import dataclass
 from enum import Enum
 from pathlib import Path
-from typing import Callable, Dict, Iterator, List, Optional, Tuple, Union
+from typing import Callable, Dict, Iterator, List, Optional, Tuple, Union, cast
 
 from jinja2 import Template
 from oaklib import BasicOntologyInterface, get_adapter
@@ -87,27 +87,27 @@ class Confidence(str, Enum):
 
 
 class CategorizedMapping(BaseModel):
-    subject: CURIE = None
-    object: CURIE = None
-    completion: str = None
-    predicate: Union[MappingPredicate, str] = None
-    confidence: Union[Confidence, str] = None
-    similarities: List[str] = None
-    differences: List[str] = None
+    subject: Optional[CURIE] = None
+    object: Optional[CURIE] = None
+    completion: Optional[str] = None
+    predicate: Optional[Union[MappingPredicate, str]] = None
+    confidence: Optional[Union[Confidence, str]] = None
+    similarities: Optional[List[str]] = None
+    differences: Optional[List[str]] = None
 
 
 class MappingTask(BaseModel):
     subject: CURIE
     object: CURIE
-    subject_label: str = None
-    object_label: str = None
-    subject_source: str = None
-    object_source: str = None
-    subject_adapter: str = None
-    object_adapter: str = None
-    predicate: Union[str, MappingPredicate] = None
-    difficulty: Confidence = None
-    score: float = None
+    subject_label: Optional[str] = None
+    object_label: Optional[str] = None
+    subject_source: Optional[str] = None
+    object_source: Optional[str] = None
+    subject_adapter: Optional[str] = None
+    object_adapter: Optional[str] = None
+    predicate: Optional[Union[str, MappingPredicate]] = None
+    difficulty: Optional[Confidence] = None
+    score: Optional[float] = None
 
 
 class MappingTaskCollection(BaseModel):
@@ -129,7 +129,7 @@ class Relationship(BaseModel):
 class Concept(BaseModel):
     id: CURIE
     label: str
-    definition: str = None
+    definition: Optional[str] = None
     synonyms: List[str] = []
     parents: List[str] = []
     relationships: List[Relationship] = []
@@ -140,11 +140,21 @@ class Concept(BaseModel):
 class MappingEngine(KnowledgeEngine):
     """Engine for generating and resolving mappings."""
 
-    subject_adapter: BasicOntologyInterface = None
-    object_adapter: BasicOntologyInterface = None
+    subject_adapter: Optional[BasicOntologyInterface] = None
+    object_adapter: Optional[BasicOntologyInterface] = None
+
+    @staticmethod
+    def _require_curie(value: object, field_name: str) -> CURIE:
+        if isinstance(value, str) and value:
+            return value
+        raise ValueError(f"Expected {field_name} to be a non-empty CURIE string, got {value!r}")
+
+    def _source_from_curie(self, value: object, field_name: str) -> str:
+        curie = self._require_curie(value, field_name)
+        return curie.split(":", 1)[0]
 
     def categorize_mapping(
-        self, subject: CURIE, object: CURIE, template_path: str = None
+        self, subject: CURIE, object: CURIE, template_path: Optional[str] = None
     ) -> CategorizedMapping:
         if template_path is None:
             template_path = str(DEFAULT_MAPPING_EVAL_PROMPT)
@@ -152,17 +162,17 @@ class MappingEngine(KnowledgeEngine):
             template_path = str(DEFAULT_MAPPING_EVAL_PROMPT)
         if isinstance(template_path, Path):
             template_path = str(template_path)
-        if isinstance(template_path, str):
-            # create a Jinja2 template object
-            template_txt = read_text_with_fallbacks(Path(template_path))
-            template = Template(template_txt)
+        if not isinstance(template_path, str):
+            raise TypeError(f"Unsupported template path type: {type(template_path)}")
+        template_txt = read_text_with_fallbacks(Path(template_path))
+        template = Template(template_txt)
         subject_concept = self._concept(subject, self.subject_adapter)
         object_concept = self._concept(object, self.object_adapter)
         prompt = template.render(
             subject=subject_concept,
             object=object_concept,
         )
-        payload = self.client.complete(prompt, max_tokens=MAX_TOKENS)
+        payload = self._require_client().complete(prompt, max_tokens=MAX_TOKENS)
         cm = self._parse(payload)
         cm.subject = str(subject)
         cm.object = str(object)
@@ -209,16 +219,19 @@ class MappingEngine(KnowledgeEngine):
         return cm
 
     def categorize_mappings(
-        self, subjects: List[CURIE], object_sources: List[CURIE] = None
+        self, subjects: List[CURIE], object_sources: Optional[List[str]] = None
     ) -> Iterator[CategorizedMapping]:
         sa = self.subject_adapter
         if not isinstance(sa, MappingProviderInterface):
             raise TypeError(f"subject adapter {sa} must implement MappingProviderInterface")
-        for object_source in object_sources:
+        mapping_provider = cast(MappingProviderInterface, sa)
+        for object_source in object_sources or []:
             print(f"EVAL: {object_source} x {subjects}")
-            for mapping in sa.sssom_mappings(subjects, source=object_source):
+            for mapping in mapping_provider.sssom_mappings(subjects, source=object_source):
                 print(f" MAP: {mapping}")
-                yield self.categorize_mapping(mapping.subject_id, mapping.object_id)
+                subject_id = self._require_curie(getattr(mapping, "subject_id", None), "subject_id")
+                object_id = self._require_curie(getattr(mapping, "object_id", None), "object_id")
+                yield self.categorize_mapping(subject_id, object_id)
 
     def run_tasks(
         self, task_collection: MappingTaskCollection, evaluate: bool = False
@@ -235,9 +248,9 @@ class MappingEngine(KnowledgeEngine):
 
     def generate_tasks(
         self,
-        task_collection: MappingTaskCollection = None,
-        subjects: List[CURIE] = None,
-        object_sources: List[CURIE] = None,
+        task_collection: Optional[MappingTaskCollection] = None,
+        subjects: Optional[List[CURIE]] = None,
+        object_sources: Optional[List[str]] = None,
     ) -> Iterator[MappingTask]:
         sa = self.subject_adapter
         if task_collection:
@@ -253,15 +266,20 @@ class MappingEngine(KnowledgeEngine):
                 subjects = task_collection.subjects
         if not isinstance(sa, MappingProviderInterface):
             raise TypeError(f"subject adapter {sa} must implement MappingProviderInterface")
-        for object_source in object_sources:
-            for mapping in sa.sssom_mappings(subjects, source=object_source):
+        mapping_provider = cast(MappingProviderInterface, sa)
+        for object_source in object_sources or []:
+            for mapping in mapping_provider.sssom_mappings(subjects or [], source=object_source):
+                subject_id = self._require_curie(getattr(mapping, "subject_id", None), "subject_id")
+                object_id = self._require_curie(getattr(mapping, "object_id", None), "object_id")
+                subject_source = self._source_from_curie(subject_id, "subject_id")
+                object_source_name = self._source_from_curie(object_id, "object_id")
                 yield MappingTask(
-                    subject=mapping.subject_id,
-                    object=mapping.object_id,
-                    subject_source=mapping.subject_source,
-                    object_source=mapping.object_source,
-                    subject_adapter=f"sqlite:obo:{mapping.subject_source.lower()}",
-                    object_adapter=f"sqlite:obo:{mapping.object_source.lower()}",
+                    subject=subject_id,
+                    object=object_id,
+                    subject_source=subject_source,
+                    object_source=object_source_name,
+                    subject_adapter=f"sqlite:obo:{subject_source.lower()}",
+                    object_adapter=f"sqlite:obo:{object_source_name.lower()}",
                 )
 
     def from_sssom(
@@ -270,9 +288,12 @@ class MappingEngine(KnowledgeEngine):
         """Generate tasks from an SSSOM file."""
         msdf = parse_sssom_table(path)
         msd = to_mapping_set_document(msdf)
-        mappings = msd.mapping_set.mappings
+        mappings = msd.mapping_set.mappings or []
         tasks = []
         for mapping in mappings:
+            if not isinstance(mapping, Mapping):
+                logger.warning(f"Skipping unexpected SSSOM mapping entry: {type(mapping)}")
+                continue
             exclude = False
             if exclude_functions:
                 for exclude_function in exclude_functions:
@@ -281,23 +302,21 @@ class MappingEngine(KnowledgeEngine):
                         break
             if exclude:
                 continue
-
-            def _get_source(curie: CURIE) -> str:
-                return curie.split(":")[0]
-
-            mapping.subject_source = _get_source(mapping.subject_id)
-            mapping.object_source = _get_source(mapping.object_id)
-            mp = MappingPredicate()
+            subject_id = self._require_curie(mapping.subject_id, "subject_id")
+            object_id = self._require_curie(mapping.object_id, "object_id")
+            subject_source = self._source_from_curie(subject_id, "subject_id")
+            object_source = self._source_from_curie(object_id, "object_id")
+            mp = MappingPredicate.EXACT_MATCH
             task = MappingTask(
-                subject=mapping.subject_id,
-                object=mapping.object_id,
+                subject=subject_id,
+                object=object_id,
                 predicate=mp.mappings().get(mapping.predicate_id),
                 subject_label=mapping.subject_label,
                 object_label=mapping.object_label,
-                subject_source=mapping.subject_source,
-                object_source=mapping.object_source,
-                subject_adapter=f"sqlite:obo:{mapping.subject_source.lower()}",
-                object_adapter=f"sqlite:obo:{mapping.object_source.lower()}",
+                subject_source=subject_source,
+                object_source=object_source,
+                subject_adapter=f"sqlite:obo:{subject_source.lower()}",
+                object_adapter=f"sqlite:obo:{object_source.lower()}",
             )
             tasks.append(task)
         return MappingTaskCollection(
@@ -310,29 +329,30 @@ class MappingEngine(KnowledgeEngine):
     ) -> Tuple[Mapping, CategorizedMapping]:
         mapping = deepcopy(mapping)
 
-        def _get_source(curie: CURIE) -> str:
-            return curie.split(":")[0]
-
         def _get_adapter(src: str):
             return get_adapter(f"sqlite:obo:{src.lower()}")
-
-        mapping.subject_source = _get_source(mapping.subject_id)
-        mapping.object_source = _get_source(mapping.object_id)
-        self.subject_adapter = _get_adapter(mapping.subject_source)
-        self.object_adapter = _get_adapter(mapping.object_source)
-        cm = self.categorize_mapping(mapping.subject_id, mapping.object_id)
-        mp = MappingPredicate()
+        subject_id = self._require_curie(mapping.subject_id, "subject_id")
+        object_id = self._require_curie(mapping.object_id, "object_id")
+        subject_source = self._source_from_curie(subject_id, "subject_id")
+        object_source = self._source_from_curie(object_id, "object_id")
+        self.subject_adapter = _get_adapter(subject_source)
+        self.object_adapter = _get_adapter(object_source)
+        cm = self.categorize_mapping(subject_id, object_id)
+        mp = MappingPredicate.EXACT_MATCH
         revmap = {v.upper(): k for k, v in mp.mappings().items()}
-        if cm.predicate.upper() not in revmap:
-            logger.warning(f"Unknown predicate {cm.predicate}")
-        mapping.predicate_id = revmap.get(cm.predicate.upper(), SKOS_RELATED_MATCH)
+        predicate = str(cm.predicate or MappingPredicate.UNCATEGORIZED.value)
+        if predicate.upper() not in revmap:
+            logger.warning(f"Unknown predicate {predicate}")
+        mapping.predicate_id = revmap.get(predicate.upper(), SKOS_RELATED_MATCH)
         return mapping, cm
 
-    def _concept(self, curie: CURIE, adapter: BasicOntologyInterface) -> Concept:
+    def _concept(self, curie: CURIE, adapter: Optional[BasicOntologyInterface]) -> Concept:
         """Get a concept."""
+        if adapter is None:
+            raise ValueError(f"No adapter configured for {curie}")
 
         def _label(curie: CURIE) -> str:
-            return adapter.label(curie)
+            return adapter.label(curie) or str(curie)
 
         def _relationship(p, o) -> Relationship:
             return Relationship(
@@ -354,10 +374,11 @@ class MappingEngine(KnowledgeEngine):
         label = adapter.label(curie)
         if not label:
             logger.warning(f"Could not find label for {curie} in {adapter}")
+            label = str(curie)
         return Concept(
             id=str(curie),
             label=label,
-            synonyms=sorted(list(adapter.aliases_by_curie(curie))),
+            synonyms=sorted(list(adapter.entity_aliases(curie))),
             definition=adapter.definition(curie),
             parents=parents,
             relationships=rels,

@@ -1,15 +1,15 @@
 """CSV exporter class."""
 
 from dataclasses import dataclass
-from io import BytesIO
+from io import BytesIO, StringIO, TextIOWrapper
 from pathlib import Path
 from typing import Optional, TextIO, Union
-from ontogpt.io.exporter import Exporter
-from io import BytesIO, StringIO, TextIOWrapper
+
 import pandas as pd
 
 from linkml_runtime import SchemaView
 
+from ontogpt.io.exporter import Exporter
 from ontogpt.templates.core import ExtractionResult
 
 
@@ -30,7 +30,7 @@ class CSVExporter(Exporter):
             output = StringIO(output)
         if isinstance(output, BytesIO):
             output = TextIOWrapper(output, encoding="utf-8")
-        out_dict = extraction_output.extracted_object.dict()
+        out_dict = extraction_output.extracted_object.model_dump()
         df = pd.DataFrame.from_dict(out_dict, orient="index")
         df.columns = ["values"]
         df = df.explode("values")

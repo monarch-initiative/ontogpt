@@ -1,0 +1,898 @@
+name: basic
+results:
+  - name: transitive-ancestor-nucleus-basic-gpt-4o
+    completed: true
+    task_name: transitive-ancestor-nucleus
+    task_type: EntailedTransitiveSuperClassTask
+    method: basic
+    model: gpt-4o
+    answers:
+      - text: IntracellularMembraneBoundedOrganelle
+      - text: MembraneBoundedOrganelle
+      - text: IntracellularOrganelle
+      - text: Organelle
+    prompt: |2-
+
+
+
+      I will provide an ontology as a list of axioms using OWL syntax.
+      I will then ask a question about the ontology.
+      Answer the question, after performing reasoning over the ontology.
+      If there are multiple answers, list them all each on a separate line starting with the minus symbol ("-"),
+      like a markdown list.
+      Here are some examples:
+
+
+      ## EXAMPLE ONTOLOGY:
+
+      - E2 SubClassOf E
+      - E SubClassOf B
+      - B SubClassOf A
+      - C SubClassOf A
+      - D SubClassOf B
+
+
+      QUERY: 
+          What are the transitive superclasses of E?
+          Include answers entailed by the transitivity of SubClassOf.
+          Also direct (one-hop) superclasses.
+          
+      ANSWERS:
+      - A- B
+
+      QUERY: 
+          What are the transitive superclasses of E2?
+          Include answers entailed by the transitivity of SubClassOf.
+          Also direct (one-hop) superclasses.
+          
+      ANSWERS:
+      - A- B- E
+
+
+
+
+
+      ---
+      Here is the actual ontology:
+
+
+      - Vacuole SubClassOf IntracellularMembraneBoundedOrganelle
+      - Nucleus SubClassOf IntracellularMembraneBoundedOrganelle
+      - MembraneBoundedOrganelle SubClassOf Organelle
+      - IntracellularOrganelle SubClassOf Organelle
+      - IntracellularMembraneBoundedOrganelle SubClassOf MembraneBoundedOrganelle
+      - IntracellularMembraneBoundedOrganelle SubClassOf IntracellularOrganelle
+
+      QUERY: 
+          What are the transitive superclasses of Nucleus?
+          Include answers entailed by the transitivity of SubClassOf.
+          Also direct (one-hop) superclasses.
+          
+
+      ANSWERS:
+    completion: |-
+      - IntracellularMembraneBoundedOrganelle
+      - MembraneBoundedOrganelle
+      - IntracellularOrganelle
+      - Organelle
+    jaccard_score: 1.0
+    num_true_positives: 4
+    precision: 1.0
+    recall: 1.0
+    f1_score: 1.0
+  - name: indirect-ancestor-nucleus-basic-gpt-4o
+    completed: true
+    task_name: indirect-ancestor-nucleus
+    task_type: EntailedIndirectSuperClassTask
+    method: basic
+    model: gpt-4o
+    answers:
+      - text: Organelle
+      - text: IntracellularOrganelle
+      - text: MembraneBoundedOrganelle
+    prompt: |2-
+
+
+
+      I will provide an ontology as a list of axioms using OWL syntax.
+      I will then ask a question about the ontology.
+      Answer the question, after performing reasoning over the ontology.
+      If there are multiple answers, list them all each on a separate line starting with the minus symbol ("-"),
+      like a markdown list.
+      Here are some examples:
+
+
+      ## EXAMPLE ONTOLOGY:
+
+      - E2 SubClassOf E
+      - E SubClassOf B
+      - B SubClassOf A
+      - C SubClassOf A
+      - D SubClassOf B
+
+
+      QUERY: 
+          What are the indirect entailed superclasses of E?
+          Include answers entailed by the transitivity of SubClassOf.
+          Do not include direct (one-hop) superclasses.
+          
+      ANSWERS:
+      - A
+
+      QUERY: 
+          What are the indirect entailed superclasses of E2?
+          Include answers entailed by the transitivity of SubClassOf.
+          Do not include direct (one-hop) superclasses.
+          
+      ANSWERS:
+      - A- B
+
+
+
+
+
+      ---
+      Here is the actual ontology:
+
+
+      - Vacuole SubClassOf IntracellularMembraneBoundedOrganelle
+      - Nucleus SubClassOf IntracellularMembraneBoundedOrganelle
+      - MembraneBoundedOrganelle SubClassOf Organelle
+      - IntracellularOrganelle SubClassOf Organelle
+      - IntracellularMembraneBoundedOrganelle SubClassOf MembraneBoundedOrganelle
+      - IntracellularMembraneBoundedOrganelle SubClassOf IntracellularOrganelle
+
+      QUERY: 
+          What are the indirect entailed superclasses of Nucleus?
+          Include answers entailed by the transitivity of SubClassOf.
+          Do not include direct (one-hop) superclasses.
+          
+
+      ANSWERS:
+    completion: |-
+      - Organelle
+      - IntracellularOrganelle
+      - MembraneBoundedOrganelle
+    jaccard_score: 1.0
+    num_true_positives: 3
+    precision: 1.0
+    recall: 1.0
+    f1_score: 1.0
+  - name: transitive-ancestor-nuclear-membrane-basic-gpt-4o
+    completed: true
+    task_name: transitive-ancestor-nuclear-membrane
+    task_type: EntailedTransitiveSuperClassTask
+    method: basic
+    model: gpt-4o
+    answers:
+      - text: MembraneBoundedOrganelle
+      - text: IntracellularOrganelle
+      - text: Organelle
+    prompt: |2-
+
+
+
+      I will provide an ontology as a list of axioms using OWL syntax.
+      I will then ask a question about the ontology.
+      Answer the question, after performing reasoning over the ontology.
+      If there are multiple answers, list them all each on a separate line starting with the minus symbol ("-"),
+      like a markdown list.
+      Here are some examples:
+
+
+      ## EXAMPLE ONTOLOGY:
+
+      - E2 SubClassOf E
+      - E SubClassOf B
+      - B SubClassOf A
+      - C SubClassOf A
+      - D SubClassOf B
+
+
+      QUERY: 
+          What are the transitive superclasses of E?
+          Include answers entailed by the transitivity of SubClassOf.
+          Also direct (one-hop) superclasses.
+          
+      ANSWERS:
+      - A- B
+
+      QUERY: 
+          What are the transitive superclasses of E2?
+          Include answers entailed by the transitivity of SubClassOf.
+          Also direct (one-hop) superclasses.
+          
+      ANSWERS:
+      - A- B- E
+
+
+
+
+
+      ---
+      Here is the actual ontology:
+
+
+      - Nucleus SubClassOf IntracellularMembraneBoundedOrganelle
+      - MembraneBoundedOrganelle SubClassOf Organelle
+      - IntracellularOrganelle SubClassOf Organelle
+      - IntracellularMembraneBoundedOrganelle SubClassOf MembraneBoundedOrganelle
+      - IntracellularMembraneBoundedOrganelle SubClassOf IntracellularOrganelle
+
+      QUERY: 
+          What are the transitive superclasses of IntracellularMembraneBoundedOrganelle?
+          Include answers entailed by the transitivity of SubClassOf.
+          Also direct (one-hop) superclasses.
+          
+
+      ANSWERS:
+    completion: |-
+      - MembraneBoundedOrganelle
+      - IntracellularOrganelle
+      - Organelle
+    jaccard_score: 1.0
+    num_true_positives: 3
+    precision: 1.0
+    recall: 1.0
+    f1_score: 1.0
+  - name: indirect-ancestor-nuclear-membrane-basic-gpt-4o
+    completed: true
+    task_name: indirect-ancestor-nuclear-membrane
+    task_type: EntailedIndirectSuperClassTask
+    method: basic
+    model: gpt-4o
+    answers:
+      - text: Organelle
+    prompt: |2-
+
+
+
+      I will provide an ontology as a list of axioms using OWL syntax.
+      I will then ask a question about the ontology.
+      Answer the question, after performing reasoning over the ontology.
+      If there are multiple answers, list them all each on a separate line starting with the minus symbol ("-"),
+      like a markdown list.
+      Here are some examples:
+
+
+      ## EXAMPLE ONTOLOGY:
+
+      - E2 SubClassOf E
+      - E SubClassOf B
+      - B SubClassOf A
+      - C SubClassOf A
+      - D SubClassOf B
+
+
+      QUERY: 
+          What are the indirect entailed superclasses of E?
+          Include answers entailed by the transitivity of SubClassOf.
+          Do not include direct (one-hop) superclasses.
+          
+      ANSWERS:
+      - A
+
+      QUERY: 
+          What are the indirect entailed superclasses of E2?
+          Include answers entailed by the transitivity of SubClassOf.
+          Do not include direct (one-hop) superclasses.
+          
+      ANSWERS:
+      - A- B
+
+
+
+
+
+      ---
+      Here is the actual ontology:
+
+
+      - Nucleus SubClassOf IntracellularMembraneBoundedOrganelle
+      - MembraneBoundedOrganelle SubClassOf Organelle
+      - IntracellularOrganelle SubClassOf Organelle
+      - IntracellularMembraneBoundedOrganelle SubClassOf MembraneBoundedOrganelle
+      - IntracellularMembraneBoundedOrganelle SubClassOf IntracellularOrganelle
+
+      QUERY: 
+          What are the indirect entailed superclasses of IntracellularMembraneBoundedOrganelle?
+          Include answers entailed by the transitivity of SubClassOf.
+          Do not include direct (one-hop) superclasses.
+          
+
+      ANSWERS:
+    completion: '- Organelle'
+    jaccard_score: 1.0
+    num_true_positives: 1
+    precision: 1.0
+    recall: 1.0
+    f1_score: 1.0
+  - name: ancestor-nuclear-envelope-basic-gpt-4o
+    completed: true
+    task_name: ancestor-nuclear-envelope
+    task_type: EntailedIndirectSuperClassTask
+    method: basic
+    model: gpt-4o
+    answers:
+      - text: Membrane
+      - text: CellularAnatomicalEntity
+      - text: Envelope
+    prompt: |2-
+
+
+
+      I will provide an ontology as a list of axioms using OWL syntax.
+      I will then ask a question about the ontology.
+      Answer the question, after performing reasoning over the ontology.
+      If there are multiple answers, list them all each on a separate line starting with the minus symbol ("-"),
+      like a markdown list.
+      Here are some examples:
+
+
+      ## EXAMPLE ONTOLOGY:
+
+      - E2 SubClassOf E
+      - E SubClassOf B
+      - B SubClassOf A
+      - C SubClassOf A
+      - D SubClassOf B
+
+
+      QUERY: 
+          What are the indirect entailed superclasses of E?
+          Include answers entailed by the transitivity of SubClassOf.
+          Do not include direct (one-hop) superclasses.
+          
+      ANSWERS:
+      - A
+
+      QUERY: 
+          What are the indirect entailed superclasses of E2?
+          Include answers entailed by the transitivity of SubClassOf.
+          Do not include direct (one-hop) superclasses.
+          
+      ANSWERS:
+      - A- B
+
+
+
+
+
+      ---
+      Here is the actual ontology:
+
+
+      - Membrane SubClassOf CellularAnatomicalEntity
+      - NuclearEnvelope SubClassOf OrganelleEnvelope
+      - OrganelleEnvelope SubClassOf Envelope
+      - OrganelleMembrane SubClassOf Membrane
+      - Envelope SubClassOf CellularAnatomicalEntity
+      - NuclearMembrane SubClassOf OrganelleMembrane
+
+      QUERY: 
+          What are the indirect entailed superclasses of NuclearMembrane?
+          Include answers entailed by the transitivity of SubClassOf.
+          Do not include direct (one-hop) superclasses.
+          
+
+      ANSWERS:
+    completion: |-
+      - Membrane
+      - CellularAnatomicalEntity
+      - Envelope
+    jaccard_score: 0.6666666666666666
+    false_positives:
+      - Envelope
+    num_false_positives: 1
+    num_true_positives: 2
+    precision: 0.6666666666666666
+    recall: 1.0
+    f1_score: 0.8
+  - name: ancestor-human-basic-gpt-4o
+    completed: true
+    task_name: ancestor-human
+    task_type: EntailedIndirectSuperClassTask
+    method: basic
+    model: gpt-4o
+    answers:
+      - text: Organelle
+    prompt: |2-
+
+
+
+      I will provide an ontology as a list of axioms using OWL syntax.
+      I will then ask a question about the ontology.
+      Answer the question, after performing reasoning over the ontology.
+      If there are multiple answers, list them all each on a separate line starting with the minus symbol ("-"),
+      like a markdown list.
+      Here are some examples:
+
+
+      ## EXAMPLE ONTOLOGY:
+
+      - E2 SubClassOf E
+      - E SubClassOf B
+      - B SubClassOf A
+      - C SubClassOf A
+      - D SubClassOf B
+
+
+      QUERY: 
+          What are the indirect entailed superclasses of E?
+          Include answers entailed by the transitivity of SubClassOf.
+          Do not include direct (one-hop) superclasses.
+          
+      ANSWERS:
+      - A
+
+      QUERY: 
+          What are the indirect entailed superclasses of E2?
+          Include answers entailed by the transitivity of SubClassOf.
+          Do not include direct (one-hop) superclasses.
+          
+      ANSWERS:
+      - A- B
+
+
+
+
+
+      ---
+      Here is the actual ontology:
+
+
+      - Nucleus SubClassOf IntracellularMembraneBoundedOrganelle
+      - MembraneBoundedOrganelle SubClassOf Organelle
+      - IntracellularOrganelle SubClassOf Organelle
+      - IntracellularMembraneBoundedOrganelle SubClassOf MembraneBoundedOrganelle
+      - IntracellularMembraneBoundedOrganelle SubClassOf IntracellularOrganelle
+
+      QUERY: 
+          What are the indirect entailed superclasses of IntracellularMembraneBoundedOrganelle?
+          Include answers entailed by the transitivity of SubClassOf.
+          Do not include direct (one-hop) superclasses.
+          
+
+      ANSWERS:
+    completion: '- Organelle'
+    jaccard_score: 1.0
+    num_true_positives: 1
+    precision: 1.0
+    recall: 1.0
+    f1_score: 1.0
+  - name: mrca-nucleus-vacuole-basic-gpt-4o
+    completed: true
+    task_name: mrca-nucleus-vacuole
+    task_type: MostRecentCommonSubsumerTask
+    method: basic
+    model: gpt-4o
+    answers:
+      - text: IntracellularMembraneBoundedOrganelle
+    prompt: |2-
+
+
+
+      I will provide an ontology as a list of axioms using OWL syntax.
+      I will then ask a question about the ontology.
+      Answer the question, after performing reasoning over the ontology.
+      If there are multiple answers, list them all each on a separate line starting with the minus symbol ("-"),
+      like a markdown list.
+      Here are some examples:
+
+
+      ## EXAMPLE ONTOLOGY:
+
+      - E2 SubClassOf E
+      - E SubClassOf B
+      - B SubClassOf A
+      - C SubClassOf A
+      - D SubClassOf B
+
+
+      QUERY: 
+          What are the most specific common entailed superclasses of E2 and D?.
+          
+      ANSWERS:
+      - B
+
+      QUERY: 
+          What are the most specific common entailed superclasses of E2 and C?.
+          
+      ANSWERS:
+      - A
+
+      QUERY: 
+          What are the most specific common entailed superclasses of E2 and E?.
+          
+      ANSWERS:
+      - E
+
+
+
+
+
+      ---
+      Here is the actual ontology:
+
+
+      - Vacuole SubClassOf IntracellularMembraneBoundedOrganelle
+      - BiologicalEntity SubClassOf IndependentContinuant
+      - Organelle SubClassOf CellularAnatomicalEntity
+      - CellularComponent SubClassOf MaterialEntity
+      - Membrane SubClassOf CellularAnatomicalEntity
+      - IndependentContinuant SubClassOf Continuant
+      - Nucleus SubClassOf IntracellularMembraneBoundedOrganelle
+      - AnatomicalEntity SubClassOf BiologicalEntity
+      - OrganelleMembrane SubClassOf Membrane
+      - CellularAnatomicalEntity SubClassOf AnatomicalEntity
+      - CellularAnatomicalEntity SubClassOf CellularComponent
+      - NuclearMembrane SubClassOf OrganelleMembrane
+      - MaterialEntity SubClassOf IndependentContinuant
+      - MembraneBoundedOrganelle SubClassOf Organelle
+      - IntracellularOrganelle SubClassOf Organelle
+      - IntracellularMembraneBoundedOrganelle SubClassOf MembraneBoundedOrganelle
+      - IntracellularMembraneBoundedOrganelle SubClassOf IntracellularOrganelle
+
+      QUERY: 
+          What are the most specific common entailed superclasses of Nucleus and Vacuole?.
+          
+
+      ANSWERS:
+    completion: '- IntracellularMembraneBoundedOrganelle'
+    jaccard_score: 1.0
+    num_true_positives: 1
+    precision: 1.0
+    recall: 1.0
+    f1_score: 1.0
+  - name: subclass-of-part-of-nuclear-envelope-basic-gpt-4o
+    completed: true
+    task_name: subclass-of-part-of-nuclear-envelope
+    task_type: EntailedSubClassOfExpressionTask
+    method: basic
+    model: gpt-4o
+    answers:
+      - text: NuclearMembrane
+      - text: NuclearEnvelope
+    prompt: |2-
+
+
+
+      I will provide an ontology as a list of axioms using OWL syntax.
+      I will then ask a question about the ontology.
+      Answer the question, after performing reasoning over the ontology.
+      If there are multiple answers, list them all each on a separate line starting with the minus symbol ("-"),
+      like a markdown list.
+      Here are some examples:
+
+
+      ## EXAMPLE ONTOLOGY:
+
+      - P type TransitiveProperty
+      - E2 SubClassOf P some E
+      - E SubClassOf B
+      - B SubClassOf P some A
+      - C SubClassOf A
+      - D SubClassOf Q some B
+
+
+      QUERY: 
+          What are the entailed subclasses of the expression P Some A?
+          Include indirect (transitive) descendants.
+          
+      ANSWERS:
+      - B- E- E2
+
+      QUERY: 
+          What are the entailed subclasses of the expression Q Some B?
+          Include indirect (transitive) descendants.
+          
+      ANSWERS:
+      - D
+
+
+
+
+
+      ---
+      Here is the actual ontology:
+
+
+      - NuclearMembrane SubClassOf PartOf Some Nucleus
+      - NuclearMembrane SubClassOf PartOf Some NuclearEnvelope
+      - NuclearEnvelope SubClassOf PartOf Some Nucleus
+
+      QUERY: 
+          What are the entailed subclasses of the expression PartOf Some Nucleus?
+          Include indirect (transitive) descendants.
+          
+
+      ANSWERS:
+    completion: |-
+      - NuclearMembrane
+      - NuclearEnvelope
+    jaccard_score: 1.0
+    num_true_positives: 2
+    precision: 1.0
+    recall: 1.0
+    f1_score: 1.0
+  - name: incoherent-nucleus-basic-gpt-4o
+    completed: true
+    task_name: incoherent-nucleus
+    task_type: OntologyCoherencyTask
+    method: basic
+    model: gpt-4o
+    answers:
+      - text: '- NuclearMembrane'
+    prompt: |2-
+
+
+
+      I will provide an ontology as a list of axioms using OWL syntax.
+      I will then ask a question about the ontology.
+      Answer the question, after performing reasoning over the ontology.
+      If there are multiple answers, list them all each on a separate line starting with the minus symbol ("-"),
+      like a markdown list.
+      Here are some examples:
+
+
+      ## EXAMPLE ONTOLOGY:
+
+      - B SubClassOf A
+      - C SubClassOf A
+      - D SubClassOf B
+      - D SubClassOf C
+      - B DisjointWith C
+
+
+      QUERY: 
+          What are the unsatisfiable classes in the ontology?
+          A class X is unsatisfiable if X is a subclass of DC1 and also a subclass of DC2,
+          where there is an axiom DC1 DisjointWith DC2.
+          Here, SubClassOf can mean either direct or indirect subclass, entailed
+          through the transitivity of SubClassOf.
+          List all unsatisfiable classes that can be found with this rule.
+          If there are no unsatisfiable classes, just write NONE.
+      ANSWERS:
+      - D
+
+
+
+      ## EXAMPLE ONTOLOGY:
+
+      - B SubClassOf A
+      - C SubClassOf A
+      - D SubClassOf B
+      - B DisjointWith A
+
+
+      QUERY: 
+          What are the unsatisfiable classes in the ontology?
+          A class X is unsatisfiable if X is a subclass of DC1 and also a subclass of DC2,
+          where there is an axiom DC1 DisjointWith DC2.
+          Here, SubClassOf can mean either direct or indirect subclass, entailed
+          through the transitivity of SubClassOf.
+          List all unsatisfiable classes that can be found with this rule.
+          If there are no unsatisfiable classes, just write NONE.
+      ANSWERS:
+      - NONE
+
+
+
+
+
+      ---
+      Here is the actual ontology:
+
+
+      - Vacuole SubClassOf IntracellularMembraneBoundedOrganelle
+      - Organelle SubClassOf CellularAnatomicalEntity
+      - Membrane SubClassOf CellularAnatomicalEntity
+      - Nucleus SubClassOf IntracellularMembraneBoundedOrganelle
+      - OrganelleMembrane SubClassOf Membrane
+      - NuclearMembrane SubClassOf OrganelleMembrane
+      - MembraneBoundedOrganelle SubClassOf Organelle
+      - IntracellularOrganelle SubClassOf Organelle
+      - IntracellularMembraneBoundedOrganelle SubClassOf MembraneBoundedOrganelle
+      - IntracellularMembraneBoundedOrganelle SubClassOf IntracellularOrganelle
+      - Nucleus SubClassOf NuclearMembrane
+      - Organelle DisjointWith Envelope
+
+      QUERY: 
+          What are the unsatisfiable classes in the ontology?
+          A class X is unsatisfiable if X is a subclass of DC1 and also a subclass of DC2,
+          where there is an axiom DC1 DisjointWith DC2.
+          Here, SubClassOf can mean either direct or indirect subclass, entailed
+          through the transitivity of SubClassOf.
+          List all unsatisfiable classes that can be found with this rule.
+          If there are no unsatisfiable classes, just write NONE.
+
+      ANSWERS:
+    completion: '- NuclearMembrane'
+    false_positives:
+      - '- NuclearMembrane'
+    false_negatives:
+      - Nucleus
+    num_false_positives: 1
+    num_false_negatives: 1
+  - name: incoherent-plasma-membrane-basic-gpt-4o
+    completed: true
+    task_name: incoherent-plasma-membrane
+    task_type: OntologyCoherencyTask
+    method: basic
+    model: gpt-4o
+    answers:
+      - text: '- PlasmaMembrane'
+    prompt: |2-
+
+
+
+      I will provide an ontology as a list of axioms using OWL syntax.
+      I will then ask a question about the ontology.
+      Answer the question, after performing reasoning over the ontology.
+      If there are multiple answers, list them all each on a separate line starting with the minus symbol ("-"),
+      like a markdown list.
+      Here are some examples:
+
+
+      ## EXAMPLE ONTOLOGY:
+
+      - B SubClassOf A
+      - C SubClassOf A
+      - D SubClassOf B
+      - D SubClassOf C
+      - B DisjointWith C
+
+
+      QUERY: 
+          What are the unsatisfiable classes in the ontology?
+          A class X is unsatisfiable if X is a subclass of DC1 and also a subclass of DC2,
+          where there is an axiom DC1 DisjointWith DC2.
+          Here, SubClassOf can mean either direct or indirect subclass, entailed
+          through the transitivity of SubClassOf.
+          List all unsatisfiable classes that can be found with this rule.
+          If there are no unsatisfiable classes, just write NONE.
+      ANSWERS:
+      - D
+
+
+
+      ## EXAMPLE ONTOLOGY:
+
+      - B SubClassOf A
+      - C SubClassOf A
+      - D SubClassOf B
+      - B DisjointWith A
+
+
+      QUERY: 
+          What are the unsatisfiable classes in the ontology?
+          A class X is unsatisfiable if X is a subclass of DC1 and also a subclass of DC2,
+          where there is an axiom DC1 DisjointWith DC2.
+          Here, SubClassOf can mean either direct or indirect subclass, entailed
+          through the transitivity of SubClassOf.
+          List all unsatisfiable classes that can be found with this rule.
+          If there are no unsatisfiable classes, just write NONE.
+      ANSWERS:
+      - NONE
+
+
+
+
+
+      ---
+      Here is the actual ontology:
+
+
+      - PlasmaMembrane SubClassOf Membrane
+      - Organelle SubClassOf CellularAnatomicalEntity
+      - Membrane SubClassOf CellularAnatomicalEntity
+      - Nucleus SubClassOf IntracellularMembraneBoundedOrganelle
+      - MembraneBoundedOrganelle SubClassOf Organelle
+      - IntracellularOrganelle SubClassOf Organelle
+      - IntracellularMembraneBoundedOrganelle SubClassOf MembraneBoundedOrganelle
+      - IntracellularMembraneBoundedOrganelle SubClassOf IntracellularOrganelle
+      - PlasmaMembrane SubClassOf Organelle
+      - Organelle DisjointWith Membrane
+
+      QUERY: 
+          What are the unsatisfiable classes in the ontology?
+          A class X is unsatisfiable if X is a subclass of DC1 and also a subclass of DC2,
+          where there is an axiom DC1 DisjointWith DC2.
+          Here, SubClassOf can mean either direct or indirect subclass, entailed
+          through the transitivity of SubClassOf.
+          List all unsatisfiable classes that can be found with this rule.
+          If there are no unsatisfiable classes, just write NONE.
+
+      ANSWERS:
+    completion: '- PlasmaMembrane'
+    false_positives:
+      - '- PlasmaMembrane'
+    false_negatives:
+      - PlasmaMembrane
+    num_false_positives: 1
+    num_false_negatives: 1
+  - name: incoherent-ok-organism-basic-gpt-4o
+    completed: true
+    task_name: incoherent-ok-organism
+    task_type: OntologyCoherencyTask
+    method: basic
+    model: gpt-4o
+    answers:
+      - text: '- NONE'
+    prompt: |2-
+
+
+
+      I will provide an ontology as a list of axioms using OWL syntax.
+      I will then ask a question about the ontology.
+      Answer the question, after performing reasoning over the ontology.
+      If there are multiple answers, list them all each on a separate line starting with the minus symbol ("-"),
+      like a markdown list.
+      Here are some examples:
+
+
+      ## EXAMPLE ONTOLOGY:
+
+      - B SubClassOf A
+      - C SubClassOf A
+      - D SubClassOf B
+      - D SubClassOf C
+      - B DisjointWith C
+
+
+      QUERY: 
+          What are the unsatisfiable classes in the ontology?
+          A class X is unsatisfiable if X is a subclass of DC1 and also a subclass of DC2,
+          where there is an axiom DC1 DisjointWith DC2.
+          Here, SubClassOf can mean either direct or indirect subclass, entailed
+          through the transitivity of SubClassOf.
+          List all unsatisfiable classes that can be found with this rule.
+          If there are no unsatisfiable classes, just write NONE.
+      ANSWERS:
+      - D
+
+
+
+      ## EXAMPLE ONTOLOGY:
+
+      - B SubClassOf A
+      - C SubClassOf A
+      - D SubClassOf B
+      - B DisjointWith A
+
+
+      QUERY: 
+          What are the unsatisfiable classes in the ontology?
+          A class X is unsatisfiable if X is a subclass of DC1 and also a subclass of DC2,
+          where there is an axiom DC1 DisjointWith DC2.
+          Here, SubClassOf can mean either direct or indirect subclass, entailed
+          through the transitivity of SubClassOf.
+          List all unsatisfiable classes that can be found with this rule.
+          If there are no unsatisfiable classes, just write NONE.
+      ANSWERS:
+      - NONE
+
+
+
+
+
+      ---
+      Here is the actual ontology:
+
+
+      - Mammalia DisjointWith Fungi
+
+      QUERY: 
+          What are the unsatisfiable classes in the ontology?
+          A class X is unsatisfiable if X is a subclass of DC1 and also a subclass of DC2,
+          where there is an axiom DC1 DisjointWith DC2.
+          Here, SubClassOf can mean either direct or indirect subclass, entailed
+          through the transitivity of SubClassOf.
+          List all unsatisfiable classes that can be found with this rule.
+          If there are no unsatisfiable classes, just write NONE.
+
+      ANSWERS:
+    completion: '- NONE'
+    false_positives:
+      - '- NONE'
+    num_false_positives: 1

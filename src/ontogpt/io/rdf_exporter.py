@@ -31,7 +31,7 @@ class RDFExporter(Exporter):
             output = open(str(output), "w", encoding="utf-8")
         element = extraction_output.extracted_object
         cls_name = type(element).__name__
-        element_dict_obj = element.dict()
+        element_dict_obj = element.model_dump()
         dc_mod = self._dataclass_model(schemaview)
         dc_cls = dc_mod.__dict__[cls_name]
         dc_obj = dc_cls(**element_dict_obj)

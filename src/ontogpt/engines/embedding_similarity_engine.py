@@ -20,7 +20,7 @@ Methods:
 
 import logging
 from dataclasses import dataclass
-from typing import Iterable, List
+from typing import Iterable, List, Optional
 
 from oaklib import BasicOntologyInterface
 from oaklib.datamodels.vocabulary import IS_A
@@ -37,15 +37,15 @@ class EmbeddingSimilarity:
     subject_label: str = ""
     object_id: str = ""
     object_label: str = ""
-    embedding_cosine_similarity: float = None
-    object_rank_for_subject: int = None
+    embedding_cosine_similarity: Optional[float] = None
+    object_rank_for_subject: Optional[int] = None
 
 
 @dataclass
 class SimilarityEngine(KnowledgeEngine):
     """Engine for finding embedding similarity."""
 
-    adapter: BasicOntologyInterface = None
+    adapter: Optional[BasicOntologyInterface] = None
     autolabel: bool = True
     definitions: bool = True
     parents: bool = True
@@ -53,23 +53,30 @@ class SimilarityEngine(KnowledgeEngine):
     synonyms: bool = True
     logical_definitions: bool = False
 
+    def _require_adapter(self) -> BasicOntologyInterface:
+        if self.adapter is None:
+            raise ValueError("Ontology adapter has not been initialized")
+        return self.adapter
+
     def similarity(self, entity1: str, entity2: str) -> EmbeddingSimilarity:
         """Get similarity."""
         t1 = self.entity_text(entity1)
         t2 = self.entity_text(entity2)
         client = LLMClient()
+        adapter = self._require_adapter()
         score = client.similarity(t1, t2)
         obj = EmbeddingSimilarity(
             subject_id=entity1, object_id=entity2, embedding_cosine_similarity=score
         )
         if self.autolabel:
-            obj.subject_label = self.adapter.label(entity1)
-            obj.object_label = self.adapter.label(entity2)
+            obj.subject_label = adapter.label(entity1) or entity1
+            obj.object_label = adapter.label(entity2) or entity2
         return obj
 
     def search(self, entity1: str, entities: List[str]) -> Iterable[EmbeddingSimilarity]:
         """Get similarity."""
         client = LLMClient()
+        adapter = self._require_adapter()
         t1 = self.entity_text(entity1)
         sims = []
         for entity2 in entities:
@@ -79,8 +86,8 @@ class SimilarityEngine(KnowledgeEngine):
                 subject_id=entity1, object_id=entity2, embedding_cosine_similarity=score
             )
             if self.autolabel:
-                sim.subject_label = self.adapter.label(entity1)
-                sim.object_label = self.adapter.label(entity2)
+                sim.subject_label = adapter.label(entity1) or entity1
+                sim.object_label = adapter.label(entity2) or entity2
             sims.append(sim)
         sims = sorted(sims, key=lambda x: x.embedding_cosine_similarity, reverse=True)
         for i, sim in enumerate(sims):
@@ -89,31 +96,38 @@ class SimilarityEngine(KnowledgeEngine):
 
     def entity_text(self, entity: str) -> str:
         """Get text for an entity."""
-        adapter = self.adapter
-        s = f"{adapter.label(entity)}"
+        adapter = self._require_adapter()
+        s = adapter.label(entity) or entity
         if self.definitions:
-            s += f"\ndefinition: {adapter.definition(entity)}"
+            s += f"\ndefinition: {adapter.definition(entity) or ''}"
         if self.parents:
             parent_labels = [
-                adapter.label(o) for _s, _p, o in adapter.relationships([entity], [IS_A])
+                adapter.label(o) or str(o)
+                for _s, _p, o in adapter.relationships([entity], [IS_A])
             ]
             s += f"\nparents: {'; '.join(parent_labels)}"
         if self.ancestors:
             ancestor_labels = [
-                adapter.label(a) for a in adapter.ancestors([entity], [IS_A], reflexive=False)
+                adapter.label(a) or str(a)
+                for a in adapter.ancestors([entity], [IS_A], reflexive=False)
             ]
             s += f"\nancestors: {'; '.join(ancestor_labels)}"
         if self.synonyms:
             s += f"\nsynonyms: {'; '.join(adapter.entity_aliases(entity))}"
         if self.logical_definitions:
-            for ldef in adapter.logical_definitions(entity):
-                genus_labels = [adapter.label(g) for g in ldef.genusIds]
+            logical_definitions = list(adapter.logical_definitions([entity]))
+            for ldef in logical_definitions:
+                genus_labels = [adapter.label(g) or str(g) for g in ldef.genusIds]
                 restriction_labels = [
-                    f"{adapter.label(r.propertyId)} {adapter.label(r.valueId)}"
+                    f"{adapter.label(r.propertyId) or r.propertyId} "
+                    f"{adapter.label(r.valueId) or r.valueId}"
                     for r in ldef.restrictions
                 ]
                 s += f"\nlogical definition: A {', '.join(genus_labels)} that\
                     {' and '.join(restriction_labels)}"
-            s += f"\nlogical definitions: {'; '.join(adapter.logical_definitions(entity))}"
+            s += (
+                "\nlogical definitions: "
+                + "; ".join(str(ldef) for ldef in logical_definitions)
+            )
         logger.info(f"Entity text for {entity}: {s}")
         return s

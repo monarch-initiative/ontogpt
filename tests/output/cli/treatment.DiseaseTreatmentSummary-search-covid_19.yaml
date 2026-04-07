@@ -1,0 +1,36 @@
+---
+input_text: |-
+  Title: Neuropsychiatric Sequelae of COVID-19: A Systematic Review of Acute and Prolonged Effects.
+  Keywords: COVID-19; SARS-CoV-2 coronavirus; cognitive impairment; memory; neurological manifestations; quality of life.
+  PMID: 41941235
+  Abstract: Following the global emergence of SARS-CoV-2, it has become evident that COVID-19 can produce persistent, multisystemic symptoms known as "long COVID." Neurocognitive and neuropsychiatric symptoms are reported in approximately 40% of patients, often resulting in significant difficulties with daily functioning, workplace challenges, increased healthcare consumption, and a substantial economic burden. This condition is further linked to serious neurological complications, such as encephalitis, stroke, seizures, and Guillain-Barré syndrome.This study comprised a comprehensive literature review to identify and understand existing research on the long-term neurological impacts of COVID-19. The process involved evaluating investigations into multisystemic symptoms and reviewing documented clinical cases of neurological complications by searching relevant databases for studies published between January 2020 and December 2024.The work identified that while the neurological burden of long COVID-19 is high, there are currently very few treatments described in the literature. Furthermore, the treatments that do exist are often inadequately defined, leaving a gap in standardized clinical protocols for managing neurocognitive decline post-infection.The persistence of these symptoms suggests a need for a deeper understanding of the underlying mechanisms of post-viral neurological damage. The discussion centres on the intersection of cognitive impairment and economic impact, emphasizing that the lack of defined therapeutic pathways hinders recovery and increases the long-term societal burden of the pandemic.This review summarizes current evidence on the neurological and neuropsychiatric sequelae of long COVID-19. It highlights the urgent need for emerging therapeutic approaches and structured management strategies to alleviate cognitive and neuropsychiatric impairments in this patient population effectively.Copyright© Bentham Science Publishers; For any queries, please email at epub@benthamscience.net.
+raw_completion_output: |-
+  disease: long COVID  
+  drugs:   
+  treatments:   
+  contraindications:   
+  treatment_mechanisms:   
+  treatment_efficacies:   
+  treatment_adverse_effects:   
+prompt: |+
+  From the text below, extract the following entities in the following format:
+
+  disease: <the name of the disease that is treated.>
+  drugs: <semicolon-separated list of named small molecule drugs>
+  treatments: <semicolon-separated list of therapies and treatments are indicated for treating the disease.>
+  contraindications: <semicolon-separated list of therapies and treatments that are contra-indicated for the disease, and should not be used, due to risk of adverse effects.>
+  treatment_mechanisms: <semicolon-separated list of treatment to asterisk-separated mechanism associations>
+  treatment_efficacies: <semicolon-separated list of treatment to efficacy associations, e.g. Imatinib*effective>
+  treatment_adverse_effects: <semicolon-separated list of treatment to adverse effect associations, e.g. Imatinib*nausea>
+
+
+  Text:
+  Title: Neuropsychiatric Sequelae of COVID-19: A Systematic Review of Acute and Prolonged Effects.
+  Keywords: COVID-19; SARS-CoV-2 coronavirus; cognitive impairment; memory; neurological manifestations; quality of life.
+  PMID: 41941235
+  Abstract: Following the global emergence of SARS-CoV-2, it has become evident that COVID-19 can produce persistent, multisystemic symptoms known as "long COVID." Neurocognitive and neuropsychiatric symptoms are reported in approximately 40% of patients, often resulting in significant difficulties with daily functioning, workplace challenges, increased healthcare consumption, and a substantial economic burden. This condition is further linked to serious neurological complications, such as encephalitis, stroke, seizures, and Guillain-Barré syndrome.This study comprised a comprehensive literature review to identify and understand existing research on the long-term neurological impacts of COVID-19. The process involved evaluating investigations into multisystemic symptoms and reviewing documented clinical cases of neurological complications by searching relevant databases for studies published between January 2020 and December 2024.The work identified that while the neurological burden of long COVID-19 is high, there are currently very few treatments described in the literature. Furthermore, the treatments that do exist are often inadequately defined, leaving a gap in standardized clinical protocols for managing neurocognitive decline post-infection.The persistence of these symptoms suggests a need for a deeper understanding of the underlying mechanisms of post-viral neurological damage. The discussion centres on the intersection of cognitive impairment and economic impact, emphasizing that the lack of defined therapeutic pathways hinders recovery and increases the long-term societal burden of the pandemic.This review summarizes current evidence on the neurological and neuropsychiatric sequelae of long COVID-19. It highlights the urgent need for emerging therapeutic approaches and structured management strategies to alleviate cognitive and neuropsychiatric impairments in this patient population effectively.Copyright© Bentham Science Publishers; For any queries, please email at epub@benthamscience.net.
+
+  ===
+
+extracted_object:
+  disease: long COVID

@@ -1,4 +1,4 @@
-input_id: /home/harry/ontogpt/tests/input/cases/treatment-schiz.txt
+---
 input_text: |-
   According to the American Psychiatric Association, second-generation (atypical) antipsychotics (SGAs)—with the exception of clozapine—are the agents of choice for first-line treatment of schizophrenia.16,25 Clozapine is not recommended because of its risk of agranulocytosis.2 SGAs are usually preferred over first-generation (typical) antipsychotics (FGAs) because they are associated with fewer extrapyramidal symptoms.2 However, SGAs tend to have metabolic side effects, such as weight gain, hyperlipidemia, and diabetes mellitus.26 These adverse effects can contribute to the increased risk of cardiovascular mortality observed in schizophrenia patients.26
 
@@ -6,20 +6,20 @@ input_text: |-
 raw_completion_output: |-
   disease: schizophrenia  
   drugs: clozapine  
-  treatments: SGA therapy; FGA therapy; clozapine monotherapy; clozapine and FGA combination therapy; clozapine and SGA combination therapy; clozapine and electroconvulsive therapy; electroconvulsive therapy; mood stabilizer combination therapy  
+  treatments: second-generation antipsychotics (SGAs); first-generation antipsychotics (FGAs); electroconvulsive therapy (ECT); mood stabilizer  
   contraindications: clozapine  
-  treatment_mechanisms: clozapine*white blood cell count monitoring  
-  treatment_efficacies: SGA therapy*first-line; FGA therapy*alternative  
-  treatment_adverse_effects: SGA therapy*weight gain; SGA therapy*hyperlipidemia; SGA therapy*diabetes mellitus; SGAs*cardiovascular mortality; clozapine*agranulocytosis; clozapine and FGA combination therapy*agranulocytosis; clozapine and SGA combination therapy*agranulocytosis; clozapine and electroconvulsive therapy*agranulocytosis
+  treatment_mechanisms: second-generation antipsychotics (SGAs)*fewer extrapyramidal symptoms; clozapine*monitoring of the white blood cell (WBC) count  
+  treatment_efficacies: second-generation antipsychotics (SGAs)*preferred; clozapine*monotherapy  
+  treatment_adverse_effects: second-generation antipsychotics (SGAs)*weight gain; second-generation antipsychotics (SGAs)*hyperlipidemia; second-generation antipsychotics (SGAs)*diabetes mellitus; clozapine*agranulocytosis; second-generation antipsychotics (SGAs)*increased risk of cardiovascular mortality  
 prompt: |+
-  Split the following piece of text into fields in the following format:
+  From the text below, extract the following entities in the following format:
 
   treatment: <the value for treatment>
   adverse_effects: <semicolon-separated list of adverse_effectss>
 
 
   Text:
-  clozapine and electroconvulsive therapyagranulocytosis
+  second-generation antipsychotics (SGAs)increased risk of cardiovascular mortality
 
   ===
 
@@ -28,49 +28,38 @@ extracted_object:
   drugs:
     - CHEBI:3766
   treatments:
-    - AUTO:SGA%20therapy
-    - AUTO:FGA%20therapy
-    - AUTO:clozapine%20monotherapy
-    - AUTO:clozapine%20and%20FGA%20combination%20therapy
-    - AUTO:clozapine%20and%20SGA%20combination%20therapy
-    - AUTO:clozapine%20and%20electroconvulsive%20therapy
-    - NCIT:C93303
-    - AUTO:mood%20stabilizer%20combination%20therapy
+    - NCIT:C210849
+    - NCIT:C150227
+    - NCIT:C100422
+    - AUTO:mood%20stabilizer
   contraindications:
     - NCIT:C28936
   treatment_mechanisms:
+    - treatment: NCIT:C210849
+      mechanism: AUTO:fewer%20extrapyramidal%20symptoms
     - treatment: NCIT:C28936
-      mechanism: AUTO:white%20blood%20cell%20count%20monitoring
+      mechanism: NCIT:C12529
   treatment_efficacies:
-    - treatment: AUTO:SGA%20therapy
-      efficacy: first-line
-    - treatment: NCIT:C150227
-      efficacy: therapyalternative
+    - treatment: NCIT:C210849
+      efficacy: preferred
+    - treatment: NCIT:C28936
+      efficacy: monotherapy
   treatment_adverse_effects:
-    - treatment: AUTO:SGA%20therapy
-      adverse_effects:
-        - HP:0004324
-    - treatment: AUTO:SGA%20therapy
-      adverse_effects:
-        - HP:0003077
-    - treatment: AUTO:SGA%20therapy
-      adverse_effects:
-        - HP:0000819
     - treatment: NCIT:C210849
       adverse_effects:
-        - AUTO:cardiovascular%20mortality
+        - HP:0004324
+    - treatment: NCIT:C210849
+      adverse_effects:
+        - HP:0003077
+    - treatment: NCIT:C210849
+      adverse_effects:
+        - HP:0000819
     - treatment: NCIT:C28936
       adverse_effects:
         - HP:0012234
-    - treatment: AUTO:clozapine%20and%20FGA%20combination%20therapy
+    - treatment: NCIT:C210849
       adverse_effects:
-        - HP:0012234
-    - treatment: AUTO:clozapine%20and%20SGA%20combination%20therapy
-      adverse_effects:
-        - HP:0012234
-    - treatment: AUTO:clozapine%20and%20electroconvulsive%20therapy
-      adverse_effects:
-        - HP:0012234
+        - AUTO:increased%20risk%20of%20cardiovascular%20mortality
 named_entities:
   - id: MONDO:0005090
     label: schizophrenia
@@ -86,26 +75,18 @@ named_entities:
       - 1077:1085
       - 1181:1189
       - 1316:1324
-  - id: AUTO:SGA%20therapy
-    label: SGA therapy
-  - id: AUTO:FGA%20therapy
-    label: FGA therapy
-  - id: AUTO:clozapine%20monotherapy
-    label: clozapine monotherapy
+  - id: NCIT:C210849
+    label: second-generation antipsychotics (SGAs)
+  - id: NCIT:C150227
+    label: first-generation antipsychotics (FGAs)
+  - id: NCIT:C100422
+    label: electroconvulsive therapy (ECT)
     original_spans:
-      - 1077:1097
-  - id: AUTO:clozapine%20and%20FGA%20combination%20therapy
-    label: clozapine and FGA combination therapy
-  - id: AUTO:clozapine%20and%20SGA%20combination%20therapy
-    label: clozapine and SGA combination therapy
-  - id: AUTO:clozapine%20and%20electroconvulsive%20therapy
-    label: clozapine and electroconvulsive therapy
-  - id: NCIT:C93303
-    label: electroconvulsive therapy
+      - 1350:1380
+  - id: AUTO:mood%20stabilizer
+    label: mood stabilizer
     original_spans:
-      - 1350:1374
-  - id: AUTO:mood%20stabilizer%20combination%20therapy
-    label: mood stabilizer combination therapy
+      - 1639:1653
   - id: NCIT:C28936
     label: clozapine
     original_spans:
@@ -114,16 +95,14 @@ named_entities:
       - 1077:1085
       - 1181:1189
       - 1316:1324
-  - id: AUTO:white%20blood%20cell%20count%20monitoring
-    label: white blood cell count monitoring
-  - id: NCIT:C150227
-    label: FGA
+  - id: AUTO:fewer%20extrapyramidal%20symptoms
+    label: fewer extrapyramidal symptoms
     original_spans:
-      - 352:354
-      - 987:989
-      - 1334:1336
-      - 1476:1478
-      - 1620:1622
+      - 391:419
+  - id: NCIT:C12529
+    label: monitoring of the white blood cell (WBC) count
+    original_spans:
+      - 1104:1149
   - id: HP:0004324
     label: weight gain
     original_spans:
@@ -136,18 +115,12 @@ named_entities:
     label: diabetes mellitus
     original_spans:
       - 515:531
-  - id: NCIT:C210849
-    label: SGAs
-    original_spans:
-      - 96:99
-      - 277:280
-      - 432:435
-  - id: AUTO:cardiovascular%20mortality
-    label: cardiovascular mortality
-    original_spans:
-      - 598:621
   - id: HP:0012234
     label: agranulocytosis
     original_spans:
       - 259:273
       - 1157:1171
+  - id: AUTO:increased%20risk%20of%20cardiovascular%20mortality
+    label: increased risk of cardiovascular mortality
+    original_spans:
+      - 580:621

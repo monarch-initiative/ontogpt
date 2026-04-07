@@ -9,6 +9,7 @@ from urllib import parse
 import inflection
 import requests
 from bs4 import BeautifulSoup
+from bs4.element import PageElement, Tag
 from oaklib.utilities.apikey_manager import get_apikey_value
 
 PMID = str
@@ -24,6 +25,22 @@ def _normalize(s: str) -> str:
     return inflection.singularize(s).lower()
 
 
+def _as_tag(element: PageElement | None) -> Tag | None:
+    if isinstance(element, Tag):
+        return element
+    return None
+
+
+def _find_tag(parent: BeautifulSoup | Tag, name: str, attrs=None, **kwargs) -> Tag | None:
+    return _as_tag(parent.find(name, attrs=attrs, **kwargs))
+
+
+def _tag_text(tag: Tag | None) -> str:
+    if tag is None:
+        return ""
+    return tag.get_text()
+
+
 def _score_paper(paper: str, keywords: List[str]) -> Tuple[PMID, int]:
     """Assign a quality score to a PubMed entry.
 
@@ -34,13 +51,16 @@ def _score_paper(paper: str, keywords: List[str]) -> Tuple[PMID, int]:
     """
     # Parse the paper by component first
     soup = BeautifulSoup(paper, "xml")
-    for pa in soup.find_all(["PubmedArticle", "PubmedBookArticle"]):  # This should be one exactly
-        ti = pa.find("ArticleTitle").text
-        pmid = pa.find("ArticleId", IdType="pubmed").text
-        if pa.find("Abstract"):  # Document may not have abstract
-            ab = pa.find("Abstract").text
-        else:
-            ab = ""
+    ti = ""
+    pmid = ""
+    ab = ""
+    for element in soup.find_all(["PubmedArticle", "PubmedBookArticle"]):  # This should be one exactly
+        pa = _as_tag(element)
+        if pa is None:
+            continue
+        ti = _tag_text(_find_tag(pa, "ArticleTitle"))
+        pmid = _tag_text(_find_tag(pa, "ArticleId", IdType="pubmed"))
+        ab = _tag_text(_find_tag(pa, "Abstract"))
 
     title_score = _score_text(ti, keywords)
     abstract_score = _score_text(ab, keywords)
@@ -116,12 +136,12 @@ class PubmedClient:
                 "db": PUBMED,
                 "term": term,
                 "retmode": "json",
-                "retmax": 0,
+                "retmax": "0",
                 "email": self.email,
                 "api_key": self.ncbi_key,
             }
         else:
-            params = {"db": PUBMED, "term": term, "retmode": "json", "retmax": 0}
+            params = {"db": PUBMED, "term": term, "retmode": "json", "retmax": "0"}
 
         # We are explicit with the delimiters in this query,
         # no percent encoding allowed. This mostly just makes it more human readable
@@ -145,8 +165,8 @@ class PubmedClient:
         # Now we get the list of PMIDs, iterating as needed
         logging.info(f"Retrieving PMIDs matching search term {term}...")
         for retstart in range(0, resultcount, batch_size):
-            params["retstart"] = retstart
-            params["retmax"] = batch_size
+            params["retstart"] = str(retstart)
+            params["retmax"] = str(batch_size)
 
             response = requests.get(search_url, params=parse.urlencode(params, safe=","))
 
@@ -226,8 +246,8 @@ class PubmedClient:
                 params = {"db": PUBMED, "id": ",".join(ids), "rettype": "xml", "retmode": "xml"}
 
             for retstart in range(0, len(ids), batch_size):
-                params["retstart"] = retstart
-                params["retmax"] = batch_size
+                params["retstart"] = str(retstart)
+                params["retmax"] = str(batch_size)
 
                 response = requests.get(fetch_url, params=parse.urlencode(params, safe=","))
 
@@ -466,54 +486,53 @@ class PubmedClient:
         soup = BeautifulSoup(xml, "xml")
 
         logging.info("Parsing all xml entries...")
-        for pa in soup.find_all(["PubmedArticle", "PubmedBookArticle"]):
+        for element in soup.find_all(["PubmedArticle", "PubmedBookArticle"]):
+            pa = _as_tag(element)
+            if pa is None:
+                continue
+
             # First check the PMID, and if requested, any PMC ID
-            pmid = ""
-            if pa.find("PMID"):  # If this is missing something has gone Wrong
-                pmid = pa.find("PMID").text
+            pmid = _tag_text(_find_tag(pa, "PMID"))
             pmc_id = ""
             has_pmc_id = False
             try:  # There's a chance that this entry is missing one or more fields below
-                if (
-                    pa.find("PubmedData").find("ArticleIdList").find("ArticleId", {"IdType": "pmc"})
-                    and pubmedcentral
-                ):
-                    pmc_id = (
-                        pa.find("PubmedData")
-                        .find("ArticleIdList")
-                        .find("ArticleId", {"IdType": "pmc"})
-                        .text
-                    )
+                pubmed_data = _find_tag(pa, "PubmedData")
+                article_id_list = _find_tag(pubmed_data, "ArticleIdList") if pubmed_data else None
+                pmc_tag = (
+                    _find_tag(article_id_list, "ArticleId", attrs={"IdType": "pmc"})
+                    if article_id_list
+                    else None
+                )
+                if pmc_tag and pubmedcentral:
+                    pmc_id = _tag_text(pmc_tag)
                     has_pmc_id = True
             except AttributeError:
                 logging.info(f"PubMed entry {pmid} is missing the expected PubMedData fields.")
             if autoformat and not raw and not has_pmc_id:  # No PMC ID - just use title+abstract
-                ti = ""
-                if pa.find("ArticleTitle"):
-                    ti = pa.find("ArticleTitle").text
-                ab = ""
-                if pa.find("Abstract"):  # Document may not have abstract
-                    ab = pa.find("Abstract").text
+                ti = _tag_text(_find_tag(pa, "ArticleTitle"))
+                ab = _tag_text(_find_tag(pa, "Abstract"))
                 kw = [""]
-                if pa.find("KeywordList"):  # Document may not have MeSH terms or keywords
-                    kw = [tag.text for tag in pa.find_all("Keyword")]
+                if _find_tag(pa, "KeywordList"):  # Document may not have MeSH terms or keywords
+                    kw = [tag.get_text() for tag in pa.find_all("Keyword") if isinstance(tag, Tag)]
                 txt = f"Title: {ti}\nKeywords: {'; '.join(kw)}\nPMID: {pmid}\nAbstract: {ab}"
                 docs.append(txt)
             elif autoformat and not raw and has_pmc_id:  # PMC ID - get and use that text instead
                 fulltext = self.pmc_text(pmc_id)
                 fullsoup = BeautifulSoup(fulltext, "xml")
                 body = ""
-                if fullsoup.find("pmc-articleset").find("article").find("body"):
-                    body = fullsoup.find("pmc-articleset").find("article").find("body").text
+                article_set = _find_tag(fullsoup, "pmc-articleset")
+                article = _find_tag(article_set, "article") if article_set else None
+                body_tag = _find_tag(article, "body") if article else None
+                if body_tag:
+                    body = _tag_text(body_tag)
                     body = body.replace("\n", " ")
-                ti = ""
-                if pa.find("ArticleTitle"):
-                    ti = pa.find("ArticleTitle").text
-                if pa.find("Abstract"):  # Document may not have abstract
-                    body = pa.find("Abstract").text + body
+                ti = _tag_text(_find_tag(pa, "ArticleTitle"))
+                abstract_tag = _find_tag(pa, "Abstract")
+                if abstract_tag:  # Document may not have abstract
+                    body = _tag_text(abstract_tag) + body
                 kw = [""]
-                if pa.find("KeywordList"):  # Document may not have MeSH terms or keywords
-                    kw = [tag.text for tag in pa.find_all("Keyword")]
+                if _find_tag(pa, "KeywordList"):  # Document may not have MeSH terms or keywords
+                    kw = [tag.get_text() for tag in pa.find_all("Keyword") if isinstance(tag, Tag)]
 
                 id_txt = f"Title: {ti}\nKeywords: {'; '.join(kw)}\nPMID: {pmid}\nPMCID: {pmc_id}\n"
                 full_max_len = self.max_text_length - len(id_txt)

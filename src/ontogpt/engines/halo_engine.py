@@ -21,7 +21,6 @@ from oaklib.datamodels.vocabulary import IS_A
 from oaklib.interfaces.obograph_interface import OboGraphInterface
 from tiktoken import Encoding
 
-from ontogpt.clients import LLMClient
 from ontogpt.engines.knowledge_engine import FIELD, KnowledgeEngine
 from ontogpt.io.utils import read_text_with_fallbacks
 from ontogpt.io.yaml_wrapper import dump_minimal_yaml
@@ -58,14 +57,14 @@ class StructuredPrompt(pydantic.BaseModel):
 class HALOEngine(KnowledgeEngine):
     """Engine for Hallucinating Latent Ontologies."""
 
-    ontology: Ontology = None
+    ontology: Optional[Ontology] = None
     traverse_slots: List[FIELD] = field(
         default_factory=lambda: ["subtypes", "parts", "subclass_of", "part_of"]
     )
     fixed_slot_values: Optional[Dict[str, str]] = None
-    adapter: OboGraphInterface = None
+    adapter: Optional[OboGraphInterface] = None
     visited: Set[ELEMENT_NAME] = field(default_factory=lambda: set())
-    candidates: List[ELEMENT_NAME] = None
+    candidates: Optional[List[ELEMENT_NAME]] = None
     always_extend: bool = False
     expand_horizon: bool = False
 
@@ -77,9 +76,9 @@ class HALOEngine(KnowledgeEngine):
     )
 
     def __post_init__(self):
-        self.template_class = self._get_template_class("halo.OntologyElement")
-        self.client = LLMClient(model=self.engine)
-        self.api_key = self._get_openai_api_key()
+        if self.template is None and self.template_details is None:
+            self.template = "halo.OntologyElement"
+        super().__post_init__()
 
     def seed(self, seed_ontology: Ontology):
         """Seed the engine with an initial ontology.
@@ -104,7 +103,7 @@ class HALOEngine(KnowledgeEngine):
         return ontology
 
     def hallucinate(
-        self, seed_elements: List[ELEMENT_NAME] = None, num_iterations=10
+        self, seed_elements: Optional[List[ELEMENT_NAME]] = None, num_iterations=10
     ) -> List[OntologyElement]:
         """Run the HALO engine for a given number of iterations.
 
@@ -311,7 +310,7 @@ class HALOEngine(KnowledgeEngine):
         # logger.info(f"## EFFECTIVE: {effective_payload}")
         try:
             objs = yaml.safe_load(effective_payload)
-        except:
+        except Exception:
             # codex does not give reliable YAML
             objs = self.parse_what_you_can(effective_payload)
         logger.info(f"## PARSED: {len(objs)}")
@@ -360,7 +359,7 @@ class HALOEngine(KnowledgeEngine):
         # logger.info(f"## EFFECTIVE: {effective_payload}")
         try:
             objs = yaml.safe_load(effective_payload)
-        except:
+        except Exception:
             # codex does not give reliable YAML
             objs = self.parse_what_you_can(effective_payload)
         logger.info(f"## PARSED: {len(objs)}")
@@ -401,7 +400,7 @@ class HALOEngine(KnowledgeEngine):
             chunk += line + "\n"
             try:
                 objs = yaml.safe_load(chunk)
-            except:
+            except Exception:
                 pass
         if objs is None:
             raise ValueError(f"Could not parse YAML {yaml_str}")
@@ -473,7 +472,7 @@ class HALOEngine(KnowledgeEngine):
             else:
                 try:
                     pred = adapter.uri_to_curie(edge.pred)
-                except:
+                except Exception:
                     pred = edge.pred
             if pred not in id2slot:
                 continue

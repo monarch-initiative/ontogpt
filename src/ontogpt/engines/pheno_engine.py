@@ -42,10 +42,10 @@ class DiagnosisPrediction(BaseModel):
 @dataclass
 class PhenoEngine(KnowledgeEngine):
     completion_length = 850
-    _mondo: TextAnnotatorInterface = None
+    _mondo: Optional[TextAnnotatorInterface] = None
 
     @property
-    def mondo(self):
+    def mondo(self) -> TextAnnotatorInterface:
         if not self._mondo:
             self._mondo = get_adapter("sqlite:obo:mondo")
         return self._mondo
@@ -57,10 +57,10 @@ class PhenoEngine(KnowledgeEngine):
             template_path = DEFAULT_PHENOPACKET_PROMPT
         if isinstance(template_path, Path):
             template_path = str(template_path)
-        if isinstance(template_path, str):
-            # create a Jinja2 template object
-            template_txt = read_text_with_fallbacks(Path(template_path))
-            template = Template(template_txt)
+        if not isinstance(template_path, str):
+            raise TypeError(f"Unsupported template path type: {type(template_path)}")
+        template_txt = read_text_with_fallbacks(Path(template_path))
+        template = Template(template_txt)
         # Account for missing template fields if necessary
         # TODO: make this its own function
         for subject_key in ["sex", "ageAtCollection"]:
@@ -88,7 +88,7 @@ class PhenoEngine(KnowledgeEngine):
         prompt = template.render(
             phenopacket=phenopacket,
         )
-        payload = self.client.complete(prompt, max_tokens=self.completion_length)
+        payload = self._require_client().complete(prompt, max_tokens=self.completion_length)
         print(payload)
         try:
             obj = json.loads(payload)
@@ -122,10 +122,14 @@ class PhenoEngine(KnowledgeEngine):
             dp.validated_mondo_disease_ids = []
             dp.validated_mondo_disease_labels = []
             for disease_id in validated_disease_ids:
-                mondo_id = mondo.normalize(disease_id, target_prefixes=["MONDO"])
+                normalized = mondo.normalize(disease_id, target_prefixes=["MONDO"])
+                if isinstance(normalized, list):
+                    mondo_id = normalized[0] if normalized else None
+                else:
+                    mondo_id = normalized
                 if mondo_id:
                     dp.validated_mondo_disease_ids.append(mondo_id)
-                    dp.validated_mondo_disease_labels.append(mondo.label(mondo_id))
+                    dp.validated_mondo_disease_labels.append(mondo.label(mondo_id) or mondo_id)
                 else:
                     logger.warning(f"Could not normalize {disease_id} to MONDO")
             diagnoses = self.predict_disease(phenopacket)
@@ -136,7 +140,9 @@ class PhenoEngine(KnowledgeEngine):
                 predicted_disease_ids = diagnosis["disease_ids"]
                 dp.predicted_disease_ids.append(";".join(predicted_disease_ids))
                 dp.predicted_disease_labels.append(diagnosis["disease"])
-                matches = set(dp.validated_mondo_disease_ids).intersection(predicted_disease_ids)
+                matches = set(dp.validated_mondo_disease_ids or []).intersection(
+                    predicted_disease_ids
+                )
                 if matches:
                     print("Found match at index", i)
                     dp.rank = i
