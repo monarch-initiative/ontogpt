@@ -5,6 +5,60 @@ import unicodedata
 from typing import List, Optional
 
 
+# Tokens an LLM commonly emits to mean "there is no value here". When one of
+# these is the *entire* value of a slot, it should be treated as absent rather
+# than as real text to recurse into or ground.
+_NULL_LIKE_TOKENS = frozenset(
+    {
+        "",
+        "none",
+        "n/a",
+        "na",
+        "n.a",
+        "null",
+        "nil",
+        "nan",
+        "unknown",
+        "unspecified",
+        "not specified",
+        "not applicable",
+        "not provided",
+        "none provided",
+        "no value",
+        "no value provided",
+    }
+)
+
+# Brackets, quotes, emphasis and trailing punctuation that models wrap around
+# placeholders, e.g. "(none)", "[N/A]", "*none*", "none.".
+_NULL_LIKE_WRAPPERS = "()[]{}\"'*` \t.,;:"
+
+
+def is_null_like_value(text: Optional[str]) -> bool:
+    """Return True if ``text``, as a whole, means "no value".
+
+    This matches empty/whitespace-only strings, common placeholder tokens
+    (e.g. "none", "N/A", "not specified"), the same tokens wrapped in brackets,
+    quotes or emphasis (e.g. "(none)", "*N/A*"), and template echoes that the LLM
+    sometimes returns verbatim (e.g. "<the food item>"). The match is on the
+    *entire* stripped value (case-insensitive), so legitimate values that merely
+    contain such a word (e.g. "non-fat milk") are not affected.
+    """
+    if text is None:
+        return True
+    stripped = text.strip()
+    if not stripped:
+        return True
+    # Template echo, e.g. the model copies the prompt placeholder "<...>" back.
+    if stripped.startswith("<") and stripped.endswith(">"):
+        return True
+    # Unwrap surrounding brackets/quotes/emphasis so "(none)" reads as "none".
+    core = stripped.strip(_NULL_LIKE_WRAPPERS)
+    if not core:
+        return True
+    return core.lower() in _NULL_LIKE_TOKENS
+
+
 def split_on_one_of(text: str, separators: List[str]) -> List[str]:
     """Split text on the first separator found."""
     for sep in separators:
