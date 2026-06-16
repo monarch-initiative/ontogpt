@@ -45,11 +45,25 @@ class OWLExporter(Exporter):
             for named_entity in extraction_output.named_entities:
                 ne_as_dc = self._as_dataclass_object(named_entity, schemaview)
                 doc = dumper.to_ontology_document(ne_as_dc, schemaview.schema)
-                axioms.extend(doc.ontology.axioms)
+                # Newer pyhornedowl returns a PyIndexedOntology directly from
+                # to_ontology_document(); older versions wrap it in `.ontology`.
+                ont = getattr(doc, "ontology", doc)
+                if hasattr(ont, "axioms"):
+                    axioms.extend(ont.axioms)
+                else:
+                    axioms.extend(ont.get_axioms())
         element_as_dataclass = self._as_dataclass_object(element, schemaview)
         doc = dumper.to_ontology_document(element_as_dataclass, schemaview.schema)
-        doc.ontology.axioms.extend(axioms)
-        output.write(str(doc))  # type: ignore
+        ont = getattr(doc, "ontology", doc)
+        if hasattr(ont, "axioms"):
+            ont.axioms.extend(axioms)
+            output.write(str(doc))  # type: ignore
+        else:
+            # PyIndexedOntology.get_axioms() yields AnnotatedComponent wrappers
+            # that add_axiom() won't accept, so unwrap to the inner component.
+            for ax in axioms:
+                ont.add_axiom(getattr(ax, "component", ax))
+            output.write(ont.save_to_string("owl"))  # type: ignore
 
     def _as_dataclass_object(self, element: pydantic.BaseModel, schemaview: SchemaView):
         cls_name = type(element).__name__
