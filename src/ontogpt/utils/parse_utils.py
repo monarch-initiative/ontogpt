@@ -49,8 +49,17 @@ def is_null_like_value(text: Optional[str]) -> bool:
     stripped = text.strip()
     if not stripped:
         return True
-    # Template echo, e.g. the model copies the prompt placeholder "<...>" back.
-    if stripped.startswith("<") and stripped.endswith(">"):
+    # Template echo: the model copies a prompt placeholder back verbatim. SPIRES
+    # builds these as "<{slot_prompt}>", where slot_prompt is always multi-word
+    # prose (e.g. "<the food item>", "<semicolon-separated list of foods>"), so a
+    # real echo always contains whitespace between the brackets. We require that
+    # whitespace so we don't eat genuine angle-bracketed values such as
+    # autolinked URLs or emails ("<https://example.com>", "<a@b.com>").
+    if (
+        stripped.startswith("<")
+        and stripped.endswith(">")
+        and any(c.isspace() for c in stripped[1:-1])
+    ):
         return True
     # Unwrap surrounding brackets/quotes/emphasis so "(none)" reads as "none".
     core = stripped.strip(_NULL_LIKE_WRAPPERS)

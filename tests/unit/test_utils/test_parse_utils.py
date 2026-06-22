@@ -61,8 +61,18 @@ class TestIsNullLikeValue(unittest.TestCase):
 
     def test_template_echo_is_null_like(self):
         # The model sometimes echoes the prompt placeholder back verbatim.
+        # SPIRES placeholders are multi-word prose, so a real echo always has
+        # whitespace between the brackets.
         self.assertTrue(is_null_like_value("<the food item>"))
         self.assertTrue(is_null_like_value("<no url provided>"))
+        self.assertTrue(is_null_like_value("<semicolon-separated list of foods>"))
+
+    def test_angle_bracketed_real_values_are_not_null_like(self):
+        # Genuine values can arrive wrapped in angle brackets (e.g. a model
+        # autolinks a URL or email). These have no internal whitespace and must
+        # not be mistaken for a template-placeholder echo.
+        for value in ["<https://example.com>", "<a@b.com>", "<GO:0008150>"]:
+            self.assertFalse(is_null_like_value(value), f"expected {value!r} to be a real value")
 
     def test_wrapped_placeholders_are_null_like(self):
         # Models wrap placeholders in brackets/quotes/emphasis or add trailing
