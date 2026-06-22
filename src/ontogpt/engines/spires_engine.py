@@ -34,7 +34,7 @@ from ontogpt.engines.knowledge_engine import (
 from ontogpt.io.utils import read_text_with_fallbacks
 from ontogpt.io.yaml_wrapper import dump_minimal_yaml
 from ontogpt.templates.core import ExtractionResult, NamedEntity
-from ontogpt.utils.parse_utils import get_span_values, sanitize_text
+from ontogpt.utils.parse_utils import get_span_values, is_null_like_value, sanitize_text
 
 this_path = Path(__file__).parent
 
@@ -193,6 +193,13 @@ class SPIRESEngine(KnowledgeEngine):
     def _extract_from_text_to_dict(
         self, text: str, cls: Optional[ClassDefinition] = None
     ) -> RESPONSE_DICT:
+        # Placeholder values such as "none" or "N/A" are not real text to split
+        # into fields. Recursing on them wastes an LLM call and, because the model
+        # has nothing to extract, it often replies with a clarifying question that
+        # the parser then rejects ("does not contain a colon; ignoring").
+        if is_null_like_value(text):
+            logging.info(f"Skipping sub-extraction for null-like text: {text!r}")
+            return {}
         raw_text = self._raw_extract(text=text, cls=cls)
         return self._parse_response_to_dict(raw_text, cls)
 
@@ -627,7 +634,10 @@ class SPIRESEngine(KnowledgeEngine):
                             logging.info(f"Line '{line}' continuing from {continued_line}")
                             line = continued_line + ";" + line
                         if ":" not in line:
-                            logging.error(f"Line '{line}' does not contain a colon; ignoring")
+                            # Recoverable: the model returned a line we can't map
+                            # to a field (often a clarification/refusal during a
+                            # recursive sub-extraction). We skip it and continue.
+                            logging.warning(f"Line '{line}' does not contain a colon; ignoring")
                             continue
                     else:
                         # We made it this far but may still have a continued line
@@ -679,7 +689,10 @@ class SPIRESEngine(KnowledgeEngine):
             if field in cls_slots:
                 slot = sv.induced_slot(field, class_name)
         if not slot:
-            logging.error(f"Cannot find slot for {field} in {line}")
+            # Recoverable: the line's key doesn't match any slot of this class.
+            # This is expected when the model returns prose instead of fields
+            # (e.g. a refusal during recursion); we drop the line and continue.
+            logging.warning(f"Cannot find slot for {field} in {line}")
             return None
         if not val:
             msg = f"Empty value in key-value line: {line}"
@@ -711,6 +724,11 @@ class SPIRESEngine(KnowledgeEngine):
                 vals = [
                     self._extract_from_text_to_dict(v, slot_range) for v in vals  # type: ignore
                 ]
+                # Drop empty sub-extractions (e.g. from null-like placeholder values)
+                # so we don't emit empty inlined objects.
+                vals = [v for v in vals if v]
+                if not vals:
+                    return None
             else:
                 for sep in [" - ", ":", "/", "*", "-"]:
                     if all([sep in v for v in vals]):
