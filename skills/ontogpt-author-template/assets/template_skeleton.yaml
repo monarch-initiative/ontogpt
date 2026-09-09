@@ -1,0 +1,107 @@
+id: http://w3id.org/ontogpt/case_report
+name: case_report
+title: Case Report Template
+description: >-
+  Extracts a patient's diagnoses, clinical findings, and drug treatments from a
+  clinical case report. Diagnoses ground to MONDO, findings to HPO, drugs to
+  DrugBank or ChEBI. Skeleton for new OntoGPT templates: copy, rename, and
+  replace the classes.
+license: https://creativecommons.org/publicdomain/zero/1.0/
+prefixes:
+  linkml: https://w3id.org/linkml/
+  case_report: http://w3id.org/ontogpt/case_report/
+  MONDO: http://purl.obolibrary.org/obo/MONDO_
+  HP: http://purl.obolibrary.org/obo/HP_
+  CHEBI: http://purl.obolibrary.org/obo/CHEBI_
+  DRUGBANK: https://go.drugbank.com/drugs/
+default_prefix: case_report
+default_range: string
+
+imports:
+  - linkml:types
+  - core
+
+classes:
+
+  CaseReport:
+    tree_root: true
+    description: A single clinical case report.
+    attributes:
+      patient_description:
+        description: >-
+          the age and sex of the patient at presentation, as written in the text,
+          e.g. "45-year-old woman"
+      diagnoses:
+        description: >-
+          semicolon-separated list of the diseases or conditions the patient was
+          diagnosed with, using the names as written in the text
+        multivalued: true
+        range: Disease
+        annotations:
+          prompt.examples: type 2 diabetes mellitus, Marfan syndrome, community-acquired pneumonia
+      findings:
+        description: >-
+          semicolon-separated list of the clinical signs, symptoms, and findings
+          observed in the patient. Include laboratory and imaging findings stated
+          as abnormalities. Do not include diseases already listed as diagnoses.
+        multivalued: true
+        range: Phenotype
+        annotations:
+          prompt.examples: seizures, short stature, elevated serum creatinine
+      treatments:
+        description: >-
+          semicolon-separated list of drug treatments given to the patient, each
+          as "drug / dose / route", e.g. "metformin / 500 mg twice daily / oral"
+        multivalued: true
+        range: Treatment
+
+  Disease:
+    is_a: NamedEntity
+    description: A disease or condition.
+    id_prefixes:
+      - MONDO
+    annotations:
+      annotators: sqlite:obo:mondo
+
+  Phenotype:
+    is_a: NamedEntity
+    description: A clinical sign, symptom, or finding.
+    id_prefixes:
+      - HP
+    annotations:
+      annotators: sqlite:obo:hp
+
+  Drug:
+    is_a: NamedEntity
+    description: A drug or medication.
+    id_prefixes:
+      - DRUGBANK
+      - CHEBI
+    annotations:
+      annotators: sqlite:obo:drugbank, sqlite:obo:chebi
+
+  Treatment:
+    is_a: CompoundExpression
+    description: One drug treatment with its dose and route.
+    attributes:
+      drug:
+        range: Drug
+        annotations:
+          prompt: the name of the drug. This comes first.
+      dose:
+        description: the dose and frequency, e.g. "500 mg twice daily". This comes second.
+      route:
+        description: the route of administration. This comes third.
+        range: RouteEnum
+
+enums:
+
+  RouteEnum:
+    permissible_values:
+      oral:
+      intravenous:
+      subcutaneous:
+      intramuscular:
+      topical:
+      inhaled:
+      other:
