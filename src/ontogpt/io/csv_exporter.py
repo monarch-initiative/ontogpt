@@ -6,7 +6,6 @@ from pathlib import Path
 from typing import Optional, TextIO, Union
 
 import pandas as pd
-
 from linkml_runtime import SchemaView
 
 from ontogpt.io.exporter import Exporter

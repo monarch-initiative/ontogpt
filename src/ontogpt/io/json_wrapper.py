@@ -1,12 +1,11 @@
 """JSON Wrapper."""
 
 import io
-import logging
 import json
+import logging
 from typing import Any, Optional, TextIO
 
 from ontogpt.io.utils import eliminate_empty
-
 
 logger = logging.getLogger(__name__)
 

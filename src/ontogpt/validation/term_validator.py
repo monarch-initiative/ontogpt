@@ -45,9 +45,42 @@ REPLACED_BY = "IAO:0100001"
 # Prefixes whose sqlite:obo: builds are known to exist, used when a template's
 # annotators do not name the prefix's own ontology. Keys are lower-case.
 KNOWN_SQLITE_BUILDS = {
-    "biolink", "chebi", "cl", "doid", "drugbank", "efo", "emapa", "envo", "fbbt", "foodon", "go",
-    "hgnc", "hp", "maxo", "mesh", "mondo", "mp", "nbo", "ncbitaxon", "ncit", "oba", "obi", "opmi",
-    "pato", "peco", "po", "pr", "pw", "ro", "so", "to", "uberon", "uo", "vbo", "wbbt", "zfa",
+    "biolink",
+    "chebi",
+    "cl",
+    "doid",
+    "drugbank",
+    "efo",
+    "emapa",
+    "envo",
+    "fbbt",
+    "foodon",
+    "go",
+    "hgnc",
+    "hp",
+    "maxo",
+    "mesh",
+    "mondo",
+    "mp",
+    "nbo",
+    "ncbitaxon",
+    "ncit",
+    "oba",
+    "obi",
+    "opmi",
+    "pato",
+    "peco",
+    "po",
+    "pr",
+    "pw",
+    "ro",
+    "so",
+    "to",
+    "uberon",
+    "uo",
+    "vbo",
+    "wbbt",
+    "zfa",
 }
 
 # Annotator selectors that expose label lookup and can serve as validation adapters.
@@ -143,7 +176,8 @@ class TermValidator:
         if sv is None:
             return []
         return [
-            c for c in sv.all_classes().values()
+            c
+            for c in sv.all_classes().values()
             if c.name != "NamedEntity" and "NamedEntity" in sv.class_ancestors(c.name)
         ]
 
@@ -392,8 +426,14 @@ class TermValidator:
         if root_class is None:
             root_class = type(result.extracted_object).__name__ if result.extracted_object else None
         report = TermValidationReport(
-            validator=VALIDATOR_NAME, total_terms=0, valid_terms=0, replaced_terms=0,
-            unresolved_terms=0, label_mismatches=0, skipped_terms=0, results=[],
+            validator=VALIDATOR_NAME,
+            total_terms=0,
+            valid_terms=0,
+            replaced_terms=0,
+            unresolved_terms=0,
+            label_mismatches=0,
+            skipped_terms=0,
+            results=[],
         )
         if sv is None or result.extracted_object is None or root_class is None:
             result.validation = report
@@ -466,7 +506,8 @@ class TermValidator:
             if self._label_agrees(curie, label, ontology_label):
                 outcome.status = TermValidationStatus.VALID
                 outcome.message = (
-                    "Label matches" if not label or _normalize(label) == _normalize(ontology_label)
+                    "Label matches"
+                    if not label or _normalize(label) == _normalize(ontology_label)
                     else "Label matches a synonym"
                 )
                 return outcome

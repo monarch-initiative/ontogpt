@@ -4,7 +4,6 @@ import re
 import unicodedata
 from typing import List, Optional
 
-
 # Tokens an LLM commonly emits to mean "there is no value here". When one of
 # these is the *entire* value of a slot, it should be treated as absent rather
 # than as real text to recurse into or ground.
@@ -93,7 +92,7 @@ def get_section_of_interest(data, tag_of_interest):
         next_index = next(
             (
                 i
-                for i, item in enumerate(data[start_index + 1:], start=start_index + 1)
+                for i, item in enumerate(data[start_index + 1 :], start=start_index + 1)
                 if item.startswith("<p>")
             ),
             None,

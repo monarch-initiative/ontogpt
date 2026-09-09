@@ -1,4 +1,5 @@
 """Tests the command-line interface."""
+
 import importlib.util
 import os
 import unittest

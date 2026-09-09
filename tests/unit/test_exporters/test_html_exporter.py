@@ -35,7 +35,9 @@ def test_html_exporter_smoke():
         input_text="Input text",
         raw_completion_output="Raw output",
         prompt="Prompt text",
-        extracted_object=Publication(id="PMID:1", title="Example title", abstract="Example abstract"),
+        extracted_object=Publication(
+            id="PMID:1", title="Example title", abstract="Example abstract"
+        ),
         named_entities=[NamedEntity(id="PMID:1", label="Example title")],
     )
     output = io.StringIO()

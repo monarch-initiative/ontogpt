@@ -10,7 +10,9 @@ def test_csv_exporter_smoke():
     """Ensure the exporter works with current Pydantic serialization."""
     exporter = CSVExporter()
     extraction_result = ExtractionResult(
-        extracted_object=Publication(id="PMID:1", title="Example title", abstract="Example abstract")
+        extracted_object=Publication(
+            id="PMID:1", title="Example title", abstract="Example abstract"
+        )
     )
     output = io.StringIO()
 

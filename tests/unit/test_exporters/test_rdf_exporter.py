@@ -35,7 +35,9 @@ def test_rdf_exporter_smoke():
     exporter = RDFExporter()
     schemaview = SchemaView(str(PATH_TO_TEMPLATES / "core.yaml"))
     extraction_result = ExtractionResult(
-        extracted_object=Publication(id="PMID:1", title="Example title", abstract="Example abstract")
+        extracted_object=Publication(
+            id="PMID:1", title="Example title", abstract="Example abstract"
+        )
     )
     output = io.StringIO()
 

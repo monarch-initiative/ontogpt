@@ -5,6 +5,7 @@ DrugMechDB evaluation.
 Source Data Model: a direct transliteration of the DrugMechDB schema
 Target Data Model: the semllama native representation of drugs and mechanism
 """
+
 import gzip
 import logging
 from dataclasses import dataclass

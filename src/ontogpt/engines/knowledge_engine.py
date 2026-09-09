@@ -127,7 +127,7 @@ def chunk_text_by_sentence(text: str, window_size=3) -> Iterator[str]:
 def chunk_text_by_char(text: str, window_size=1000) -> Iterator[str]:
     """Chunk text into windows of characters."""
     for i in range(0, len(text), window_size):
-        yield text[i: i + window_size]
+        yield text[i : i + window_size]
 
 
 @dataclass
@@ -299,9 +299,7 @@ class KnowledgeEngine(ABC):
             raise ValueError("SchemaView has not been initialized")
         return self.schemaview
 
-    def _require_template_class(
-        self, cls: Optional[ClassDefinition] = None
-    ) -> ClassDefinition:
+    def _require_template_class(self, cls: Optional[ClassDefinition] = None) -> ClassDefinition:
         template_class = cls or self.template_class
         if template_class is None:
             raise ValueError("Template class has not been initialized")
@@ -341,9 +339,9 @@ class KnowledgeEngine(ABC):
             validator = TermValidator(
                 engine=self,
                 prefix_adapters=self.term_validation_adapters,
-                cache_dir=Path(self.term_validation_cache_dir)
-                if self.term_validation_cache_dir
-                else None,
+                cache_dir=(
+                    Path(self.term_validation_cache_dir) if self.term_validation_cache_dir else None
+                ),
             )
             validator.validate(result)
         except Exception as e:  # noqa: BLE001

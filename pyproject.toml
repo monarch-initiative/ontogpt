@@ -1,6 +1,6 @@
 [project]
 name = "ontogpt"
-version = "1.1.1"
+version = "1.2.0"
 description = "OntoGPT is a Python package for extracting structured information from text with large language models (LLMs), instruction prompts, and ontology-based grounding."
 readme = "README.md"
 authors = [
@@ -89,9 +89,12 @@ ontogpt = ["*.yaml"]
 [tool.black]
 line-length = 100
 target-version = ["py310", "py313"]
+# Generated pydantic modules are not hand-formatted.
+extend-exclude = "src/ontogpt/templates/"
 
 [tool.isort]
 profile = "black"
+skip_glob = ["src/ontogpt/templates/*"]
 multi_line_output = 3
 line_length = 100
 include_trailing_comma = true

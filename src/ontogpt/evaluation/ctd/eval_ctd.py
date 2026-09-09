@@ -228,10 +228,8 @@ class EvalCTD(SPIRESEvaluationEngine):
             for chunked_text in text_list:
                 extraction = ke.extract_from_text(chunked_text)
                 if extraction.extracted_object is not None:
-                    logger.info(
-                        f"{len(extraction.extracted_object.triples)}\
-                            triples from window: {chunked_text}"
-                    )
+                    logger.info(f"{len(extraction.extracted_object.triples)}\
+                            triples from window: {chunked_text}")
                 if not predicted_obj and extraction.extracted_object is not None:
                     predicted_obj = extraction.extracted_object
                 else:

@@ -102,8 +102,7 @@ class SimilarityEngine(KnowledgeEngine):
             s += f"\ndefinition: {adapter.definition(entity) or ''}"
         if self.parents:
             parent_labels = [
-                adapter.label(o) or str(o)
-                for _s, _p, o in adapter.relationships([entity], [IS_A])
+                adapter.label(o) or str(o) for _s, _p, o in adapter.relationships([entity], [IS_A])
             ]
             s += f"\nparents: {'; '.join(parent_labels)}"
         if self.ancestors:
@@ -125,9 +124,6 @@ class SimilarityEngine(KnowledgeEngine):
                 ]
                 s += f"\nlogical definition: A {', '.join(genus_labels)} that\
                     {' and '.join(restriction_labels)}"
-            s += (
-                "\nlogical definitions: "
-                + "; ".join(str(ldef) for ldef in logical_definitions)
-            )
+            s += "\nlogical definitions: " + "; ".join(str(ldef) for ldef in logical_definitions)
         logger.info(f"Entity text for {entity}: {s}")
         return s

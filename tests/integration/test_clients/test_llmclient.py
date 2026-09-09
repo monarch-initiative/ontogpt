@@ -1,4 +1,5 @@
 """LLMClient tests."""
+
 import re
 import unittest
 
@@ -179,8 +180,7 @@ class TestCompletion(unittest.TestCase):
     def test_drug_mech_db(self):
         """Test drug mechanism database."""
         client = self.llm_client
-        ann = client.complete(
-            """
+        ann = client.complete("""
         Explain the chain of events that relate a drug to a disease as a semi-colon separated list.
 
         Example:
@@ -194,8 +194,7 @@ class TestCompletion(unittest.TestCase):
         Text:
 
         imatinib treats chronic myeloid leukemia:
-        """
-        )
+        """)
         print(ann)
 
     def test_code_completion_generalization(self):

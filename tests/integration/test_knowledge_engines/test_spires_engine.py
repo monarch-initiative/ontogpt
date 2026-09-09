@@ -484,17 +484,15 @@ class TestCore(unittest.TestCase):
             # We expect some of these cases to be missing due to parsing issues we
             # don't want to make assumptions about
             for dataclass in CLASSES:
-                if (
-                    example_set
-                    in [
-                        "Example results",
-                        "Example results, alternative",
-                        "Example results in Markdown",
-                    ]
-                    and dataclass in {"organisms", "gene_organisms"}
-                ):
+                if example_set in [
+                    "Example results",
+                    "Example results, alternative",
+                    "Example results in Markdown",
+                ] and dataclass in {"organisms", "gene_organisms"}:
                     if dataclass in ann:
-                        self.assertTrue(ann[dataclass], f"Expected parsed {dataclass} to be non-empty")
+                        self.assertTrue(
+                            ann[dataclass], f"Expected parsed {dataclass} to be non-empty"
+                        )
                 else:
                     self.assertIn(dataclass, ann.keys())
             self.assertIn("STING", ann["genes"])

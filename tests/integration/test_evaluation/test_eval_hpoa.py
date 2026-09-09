@@ -1,4 +1,5 @@
 """Core tests for Human Phenotype Ontology Annotations (HPOA) evaluation."""
+
 import os
 import unittest
 

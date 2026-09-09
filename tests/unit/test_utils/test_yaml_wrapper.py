@@ -1,4 +1,5 @@
 """Tests YAML utils."""
+
 import io
 import unittest
 

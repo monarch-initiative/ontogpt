@@ -80,9 +80,7 @@ class MarkdownExporter(Exporter):
 
     def export_atom(self, value, extraction_output: ExtractionResult, output: TextIO, indent: int):
         named_entities = extraction_output.named_entities or []
-        matches = [
-            ne for ne in named_entities if ne.id == value and is_curie(ne.id)
-        ]
+        matches = [ne for ne in named_entities if ne.id == value and is_curie(ne.id)]
         output.write(f"\n{'  ' * indent}- ")
         if matches:
             match = matches[0]
@@ -122,7 +120,12 @@ class MarkdownExporter(Exporter):
             if replacement and r.replacement_label:
                 replacement += f" ({r.replacement_label})"
             cells = [
-                status, ident, r.label or "", r.ontology_label or "", replacement, r.message or ""
+                status,
+                ident,
+                r.label or "",
+                r.ontology_label or "",
+                replacement,
+                r.message or "",
             ]
             output.write("| " + " | ".join(c.replace("|", "\\|") for c in cells) + " |\n")
 
