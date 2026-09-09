@@ -533,9 +533,11 @@ class SPIRESEngine(KnowledgeEngine):
         if object:
             if isinstance(object, str):
                 logging.error(
-                    f"Error in getting prompt. Cannot serialize object of type {type(object)}")
+                    f"Error in getting prompt. Cannot serialize object of type {type(object)}"
+                )
                 raise ValueError(
-                    f"Error in getting prompt. Cannot serialize object of type {type(object)}")
+                    f"Error in getting prompt. Cannot serialize object of type {type(object)}"
+                )
             object_dict = self._as_object_dict(object)
             for k, v in object_dict.items():
                 if v:
@@ -872,7 +874,8 @@ class SPIRESEngine(KnowledgeEngine):
                             logging.error(f"Cannot find range for {sub_slot.name}")
                         if sub_slot.range is None:
                             logging.error(
-                                f"Cannot normalize value for slot without range: {sub_slot.name}")
+                                f"Cannot normalize value for slot without range: {sub_slot.name}"
+                            )
                             continue
                         result = self.normalize_named_entity(
                             val[i], cast(ElementName, sub_slot.range)

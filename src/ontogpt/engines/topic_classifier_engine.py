@@ -14,7 +14,6 @@ Methods:
 """
 
 import logging
-
 from dataclasses import dataclass
 
 from ontogpt.engines.knowledge_engine import KnowledgeEngine

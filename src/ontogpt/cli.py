@@ -1363,7 +1363,7 @@ def text_similarity(text, model, api_base, api_version, model_provider, **kwargs
         raise ValueError("Texts must be separated with @")
     ix = text.index("@")
     text1 = " ".join(text[:ix])
-    text2 = " ".join(text[ix + 1:])
+    text2 = " ".join(text[ix + 1 :])
     logging.info(text1)
     logging.info(text2)
 
@@ -1398,7 +1398,7 @@ def text_distance(text, model, api_base, api_version, model_provider, **kwargs):
         raise ValueError("Text must be separated with @")
     ix = text.index("@")
     text1 = " ".join(text[:ix])
-    text2 = " ".join(text[ix + 1:])
+    text2 = " ".join(text[ix + 1 :])
     logging.info(text1)
     logging.info(text2)
 
@@ -1472,7 +1472,7 @@ def entity_similarity(
     else:
         ix = terms.index("@")
         terms1 = terms[:ix]
-        terms2 = terms[ix + 1:]
+        terms2 = terms[ix + 1 :]
     adapter = get_adapter(ontology)
     entities1 = list(query_terms_iterator(terms1, adapter))
     entities2 = list(query_terms_iterator(terms2, adapter))
@@ -1651,9 +1651,7 @@ def run_multilingual_analysis(
     elif input_data_dir and Path(input_data_dir).is_dir():
         logging.info(f"Input file directory: {input_data_dir}")
         inputfiles = Path(input_data_dir).glob("*.txt")
-        inputdict = {
-            str(f.name): read_text_with_fallbacks(f) for f in inputfiles if f.is_file()
-        }
+        inputdict = {str(f.name): read_text_with_fallbacks(f) for f in inputfiles if f.is_file()}
         logging.info(f"Found {len(inputdict)} input files here.")
 
     i = 0

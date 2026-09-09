@@ -16,7 +16,9 @@ this_path = Path(__file__).parent
 logger = logging.getLogger(__name__)
 
 
-def get_template_details(template: TEMPLATE_NAME) -> tuple[ClassDefinition, object, object, SchemaView]:
+def get_template_details(
+    template: TEMPLATE_NAME,
+) -> tuple[ClassDefinition, object, object, SchemaView]:
     """
     Get the LinkML class, module, and schemaview for a template.
 
@@ -61,8 +63,10 @@ def get_template_details(template: TEMPLATE_NAME) -> tuple[ClassDefinition, obje
             mod = importlib.import_module(f"ontogpt.templates.{module_name}")
         except ImportError as e:
             logger.error(f"Failed to import module {module_name}: {e}")
-            raise ImportError(f"Failed to import module {module_name}. "
-                              f"Please check the generated version at {path_to_module}")
+            raise ImportError(
+                f"Failed to import module {module_name}. "
+                f"Please check the generated version at {path_to_module}"
+            )
 
         class_name = None
 
@@ -81,13 +85,15 @@ def get_template_details(template: TEMPLATE_NAME) -> tuple[ClassDefinition, obje
         roots = [c.name for c in sv.all_classes().values() if c.tree_root]
         if len(roots) == 0:
             logger.warning(
-                f"Template {template} has no root class. Consider defining one in the schema.")
+                f"Template {template} has no root class. Consider defining one in the schema."
+            )
             roots = [c.name for c in sv.all_classes().values() if c.name not in core_classes]
             # There's an edge case here if the core schema is passed.
             # So we check to see if we still have any roots
             if len(roots) == 0:
                 raise ValueError(
-                    f"Template {template} has no root class and all classes are in the core schema.")
+                    f"Template {template} has no root class and all classes are in the core schema."
+                )
         elif len(roots) > 1:
             raise ValueError(f"Template {template} has multiple root classes: {roots}")
         class_name = roots[0]

@@ -1,4 +1,5 @@
 """Evaluate GO."""
+
 from dataclasses import dataclass
 from pathlib import Path
 from random import shuffle
@@ -125,10 +126,8 @@ class EvalGO(SPIRESEvaluationEngine):
         ontology = self.ontology
         entities = set(ontology.descendants([self.genus], [IS_A]))
         all_entities = []
-        print(
-            f"Found {len(entities)} entities that are descendants of\
-                genus {self.genus}; {list(entities)[0:5]}"
-        )
+        print(f"Found {len(entities)} entities that are descendants of\
+                genus {self.genus}; {list(entities)[0:5]}")
         assert "GO:0140872" in entities
         have_curated_test_ids = (TEST_CASES_DIR / "go-ids-2022.txt").exists()
         all_test_ids = set(self.valid_test_ids())

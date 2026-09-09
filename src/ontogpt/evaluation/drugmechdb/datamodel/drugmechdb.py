@@ -1,12 +1,12 @@
 # type: ignore
 """DrugMechDB."""
+
 from __future__ import annotations
 
 from typing import List, Optional
 
 from pydantic import BaseModel as BaseModel
-from pydantic import ConfigDict
-from pydantic import Field
+from pydantic import ConfigDict, Field
 
 metamodel_version = "None"
 version = "None"
@@ -16,9 +16,7 @@ class WeakRefShimBaseModel(BaseModel):
     __slots__ = "__weakref__"
 
 
-class ConfiguredBaseModel(
-    WeakRefShimBaseModel
-):
+class ConfiguredBaseModel(WeakRefShimBaseModel):
     model_config = ConfigDict(
         validate_assignment=True,
         validate_default=True,

@@ -29,7 +29,7 @@ class TestCompletion(unittest.TestCase):
     def test_complete(self):
         """Test completion."""
         # Create a mock for the LLMClient class
-        with mock.patch('ontogpt.clients.LLMClient') as mock_client_class:
+        with mock.patch("ontogpt.clients.LLMClient") as mock_client_class:
             # Configure the mock
             mock_client = mock_client_class.return_value
             mock_client.complete.return_value = "test"
@@ -50,7 +50,7 @@ class TestCompletion(unittest.TestCase):
         mock_embedding_result = [0.1] * 1536
 
         # Create a mock for the LLMClient class
-        with mock.patch('ontogpt.clients.LLMClient') as mock_client_class:
+        with mock.patch("ontogpt.clients.LLMClient") as mock_client_class:
             # Configure the mock
             mock_client = mock_client_class.return_value
             mock_client.embeddings.return_value = mock_embedding_result
@@ -72,7 +72,7 @@ class TestCompletion(unittest.TestCase):
         expected_similarity = 0.85
 
         # Create a mock for the LLMClient class
-        with mock.patch('ontogpt.clients.LLMClient') as mock_client_class:
+        with mock.patch("ontogpt.clients.LLMClient") as mock_client_class:
             # Configure the mock
             mock_client = mock_client_class.return_value
             mock_client.similarity.return_value = expected_similarity
@@ -99,7 +99,7 @@ class TestCompletion(unittest.TestCase):
         expected_distance = 0.25
 
         # Create a mock for the LLMClient class
-        with mock.patch('ontogpt.clients.LLMClient') as mock_client_class:
+        with mock.patch("ontogpt.clients.LLMClient") as mock_client_class:
             # Configure the mock
             mock_client = mock_client_class.return_value
             mock_client.euclidian_distance.return_value = expected_distance
@@ -122,7 +122,7 @@ class TestCompletion(unittest.TestCase):
         # Patch the Cache used inside LLMClient.__post_init__
         with mock.patch.object(llm_mod, "Cache", FakeCache, create=True):
             # Also mock the API client to avoid any API calls
-            with mock.patch('litellm.completion'):
+            with mock.patch("litellm.completion"):
                 # Create client with default cache path (empty string)
                 llm_mod.LLMClient(model="fake/model", cache_db_path="")
                 self.assertIsInstance(litellm.cache, FakeCache)
@@ -140,7 +140,7 @@ class TestCompletion(unittest.TestCase):
             # Patch the Cache used inside LLMClient.__post_init__
             with mock.patch.object(llm_mod, "Cache", FakeCache, create=True):
                 # Also mock the API client to avoid any API calls
-                with mock.patch('litellm.completion'):
+                with mock.patch("litellm.completion"):
                     # Create client with custom cache path
                     llm_mod.LLMClient(model="fake/model", cache_db_path=tmpdir)
                     self.assertIsInstance(litellm.cache, FakeCache)
@@ -153,6 +153,7 @@ def fake_cache():
     class FakeCache:
         def __init__(self, disk_cache_dir=None, *args, **kwargs):
             self.disk_cache_dir = disk_cache_dir
+
     return FakeCache
 
 
@@ -163,19 +164,17 @@ def original_litellm_cache():
     litellm.cache = original_cache
 
 
-@pytest.mark.parametrize("cache_path", [
-    "",  # Default path
-    "custom/path/to/cache"  # Custom path
-])
-def test_llmclient_cache_paths_pytest_style(monkeypatch, tmp_path, fake_cache,
-                                            original_litellm_cache, cache_path):
+@pytest.mark.parametrize("cache_path", ["", "custom/path/to/cache"])  # Default path  # Custom path
+def test_llmclient_cache_paths_pytest_style(
+    monkeypatch, tmp_path, fake_cache, original_litellm_cache, cache_path
+):
     """Test that LLMClient sets cache paths correctly using pytest fixtures."""
     import ontogpt.clients.llm_client as llm_mod
 
     monkeypatch.setattr(llm_mod, "Cache", fake_cache, raising=True)
 
     # Also mock litellm.completion to avoid API calls
-    monkeypatch.setattr('litellm.completion', mock.MagicMock())
+    monkeypatch.setattr("litellm.completion", mock.MagicMock())
 
     if cache_path:
         # If a specific path is provided
@@ -263,7 +262,9 @@ def test_llmclient_explicit_api_key_preserves_key_and_allows_other_provider_sett
         }
         return values[name]
 
-    monkeypatch.setattr(llm_mod, "get_apikey_value", mock.MagicMock(side_effect=fake_get_apikey_value))
+    monkeypatch.setattr(
+        llm_mod, "get_apikey_value", mock.MagicMock(side_effect=fake_get_apikey_value)
+    )
 
     client = llm_mod.LLMClient(model="azure/gpt-4o", api_key="provided-key")
 
@@ -378,7 +379,9 @@ def test_llmclient_uses_oaklib_env_fallback_for_vertex_settings(monkeypatch):
         }
         return values[name]
 
-    monkeypatch.setattr(llm_mod, "get_apikey_value", mock.MagicMock(side_effect=fake_get_apikey_value))
+    monkeypatch.setattr(
+        llm_mod, "get_apikey_value", mock.MagicMock(side_effect=fake_get_apikey_value)
+    )
 
     client = llm_mod.LLMClient(model="vertex_ai/gemini-1.5-flash")
 
@@ -428,9 +431,7 @@ def test_llmclient_oaklib_fallback_uses_model_provider_option(monkeypatch):
     lookup = _oaklib_lookup({"groq-key": "gsk-test"})
     monkeypatch.setattr(llm_mod, "get_apikey_value", lookup)
 
-    client = llm_mod.LLMClient(
-        model="llama-3.1-8b-instant", custom_llm_provider="groq"
-    )
+    client = llm_mod.LLMClient(model="llama-3.1-8b-instant", custom_llm_provider="groq")
 
     assert client.api_key == "gsk-test"
     assert os.environ["GROQ_API_KEY"] == "gsk-test"

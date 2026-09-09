@@ -2,16 +2,17 @@
 
 import csv
 import logging
+import uuid
 from pathlib import Path
 from typing import Any, List, Optional
-import yaml
+
 import pandas as pd
-import uuid
-from tqdm import tqdm
+import yaml
+from linkml_runtime import SchemaView
 from oaklib import get_adapter
 from pydantic import BaseModel
+from tqdm import tqdm
 
-from linkml_runtime import SchemaView
 from ontogpt.io.utils import read_text_with_fallbacks
 
 logger = logging.getLogger(__name__)
@@ -73,7 +74,7 @@ def output_parser(obj: Any, file) -> List[str]:
     i = 0
     while i < len(cleaned_lines):
         if cleaned_lines[i].startswith("extracted_object"):
-            for index, elem in enumerate(cleaned_lines[i + 1: i + 4]):
+            for index, elem in enumerate(cleaned_lines[i + 1 : i + 4]):
                 if elem.startswith("extracted_object"):
                     next_index = i + 1 + index
                     del cleaned_lines[i:next_index]
@@ -81,7 +82,7 @@ def output_parser(obj: Any, file) -> List[str]:
         i += 1
 
     # Separate extracted values into indexed items in dictionary of lists
-    grouped_lines = [cleaned_lines[n: n + 4] for n in range(0, len(cleaned_lines), 4)]
+    grouped_lines = [cleaned_lines[n : n + 4] for n in range(0, len(cleaned_lines), 4)]
     trimmed_dict: dict = {"genes": [], "relationships": [], "exposures": []}
     for group in grouped_lines:
         group.pop(0)

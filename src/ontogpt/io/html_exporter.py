@@ -68,8 +68,10 @@ class HTMLExporter(Exporter):
         )
         if not report.results:
             return
-        self.w("<table>\n<tr><th>Status</th><th>Identifier</th><th>Extracted label</th>"
-               "<th>Ontology label</th><th>Replacement</th><th>Note</th></tr>\n")
+        self.w(
+            "<table>\n<tr><th>Status</th><th>Identifier</th><th>Extracted label</th>"
+            "<th>Ontology label</th><th>Replacement</th><th>Note</th></tr>\n"
+        )
         for r in report.results:
             status = getattr(r.status, "value", r.status) or ""
             ident = r.original_id or ""

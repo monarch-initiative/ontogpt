@@ -331,6 +331,7 @@ class MappingEngine(KnowledgeEngine):
 
         def _get_adapter(src: str):
             return get_adapter(f"sqlite:obo:{src.lower()}")
+
         subject_id = self._require_curie(mapping.subject_id, "subject_id")
         object_id = self._require_curie(mapping.object_id, "object_id")
         subject_source = self._source_from_curie(subject_id, "subject_id")

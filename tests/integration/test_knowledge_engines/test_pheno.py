@@ -1,4 +1,5 @@
 """Core tests."""
+
 import json
 import logging
 import unittest

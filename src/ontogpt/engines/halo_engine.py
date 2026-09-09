@@ -6,6 +6,7 @@ Originally used code-davinci-002, which has since been supplanted by
 gpt chat models.
 
 """
+
 import logging
 from dataclasses import dataclass, field
 from pathlib import Path
@@ -291,10 +292,8 @@ class HALOEngine(KnowledgeEngine):
         for k, v in self.fixed_slot_values.items():
             stub_object[k] = v
         prompt.main_prompt = yaml.dump([stub_object])
-        logger.info(
-            f"Generated prompt: {len(prompt.text)} = {len(prompt.header)} +\
-                {len(prompt.body)} + {len(prompt.main_prompt)}"
-        )
+        logger.info(f"Generated prompt: {len(prompt.text)} = {len(prompt.header)} +\
+                {len(prompt.body)} + {len(prompt.main_prompt)}")
         return prompt
 
     def integrate_payload(
