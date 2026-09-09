@@ -39,6 +39,7 @@ class HTMLExporter(Exporter):
         self.output = output
         self.export_metadata(extraction_output)
         self.export_results(extraction_output.extracted_object, extraction_output)
+        self.export_validation(extraction_output)
         self.h2("YAML Object")
         self.details(yaml.dump(extraction_output.model_dump()), output, code="yaml")
         self.h2("Prompt")
@@ -50,6 +51,42 @@ class HTMLExporter(Exporter):
         self.h1("Extraction Results:\n\n")
         self.h2("Input")
         self.i(extraction_output.input_text or "")
+
+    def export_validation(self, extraction_output: ExtractionResult):
+        """Write the term validation section."""
+        self.h2("Validation")
+        report = extraction_output.validation
+        if report is None:
+            self.w("<p>Term validation was not run.</p>\n")
+            return
+        self.w(
+            f"<p>Checked {report.total_terms or 0} grounded identifiers with "
+            f"{html.escape(report.validator or '')}: {report.valid_terms or 0} valid, "
+            f"{report.replaced_terms or 0} replaced, {report.unresolved_terms or 0} unresolved, "
+            f"{report.label_mismatches or 0} with a differing label, "
+            f"{report.skipped_terms or 0} skipped.</p>\n"
+        )
+        if not report.results:
+            return
+        self.w("<table>\n<tr><th>Status</th><th>Identifier</th><th>Extracted label</th>"
+               "<th>Ontology label</th><th>Replacement</th><th>Note</th></tr>\n")
+        for r in report.results:
+            status = getattr(r.status, "value", r.status) or ""
+            ident = r.original_id or ""
+            ident = self.link(ident) if ident and is_curie(ident) else html.escape(ident)
+            replacement = r.replacement_id or ""
+            if replacement:
+                replacement = (
+                    self.link(replacement) if is_curie(replacement) else html.escape(replacement)
+                )
+            if replacement and r.replacement_label:
+                replacement += f" ({html.escape(r.replacement_label)})"
+            self.w(
+                f"<tr><td>{status}</td><td>{ident}</td><td>{html.escape(r.label or '')}</td>"
+                f"<td>{html.escape(r.ontology_label or '')}</td><td>{replacement}</td>"
+                f"<td>{html.escape(r.message or '')}</td></tr>\n"
+            )
+        self.w("</table>\n")
 
     def export_results(self, obj: Any, extraction_output: ExtractionResult):
         self.h2("Results")

@@ -35,6 +35,7 @@ class MarkdownExporter(Exporter):
         output.write("## Results\n\n")
         obj = extraction_output.extracted_object
         self.export_object(obj, extraction_output, output, -1)
+        self.export_validation(extraction_output, output)
         output.write("\n\nYAML:\n\n")
         self.details(yaml.dump(extraction_output.model_dump()), output, code="yaml")
         output.write("\n\nPrompt:\n\n")
@@ -89,6 +90,41 @@ class MarkdownExporter(Exporter):
         else:
             output.write(f"{value}")
         output.write("\n")
+
+    def export_validation(self, extraction_output: ExtractionResult, output: TextIO):
+        """Write the term validation section."""
+        output.write("\n\n## Validation\n\n")
+        report = extraction_output.validation
+        if report is None:
+            output.write("Term validation was not run.\n")
+            return
+        output.write(
+            f"Checked {report.total_terms or 0} grounded identifiers with {report.validator}: "
+            f"{report.valid_terms or 0} valid, {report.replaced_terms or 0} replaced, "
+            f"{report.unresolved_terms or 0} unresolved, "
+            f"{report.label_mismatches or 0} with a differing label, "
+            f"{report.skipped_terms or 0} skipped.\n\n"
+        )
+        if not report.results:
+            return
+        output.write(
+            "| Status | Identifier | Extracted label | Ontology label | Replacement | Note |\n"
+        )
+        output.write("|---|---|---|---|---|---|\n")
+        for r in report.results:
+            status = getattr(r.status, "value", r.status) or ""
+            ident = r.original_id or ""
+            if ident and is_curie(ident):
+                ident = self.link(ident)
+            replacement = r.replacement_id or ""
+            if replacement and is_curie(replacement):
+                replacement = self.link(replacement)
+            if replacement and r.replacement_label:
+                replacement += f" ({r.replacement_label})"
+            cells = [
+                status, ident, r.label or "", r.ontology_label or "", replacement, r.message or ""
+            ]
+            output.write("| " + " | ".join(c.replace("|", "\\|") for c in cells) + " |\n")
 
     def details(self, text: str, output: TextIO, code: str = ""):
         output.write("<details>\n")
