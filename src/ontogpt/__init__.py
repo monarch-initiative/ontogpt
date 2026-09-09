@@ -3,8 +3,6 @@
 from importlib import metadata
 from pathlib import Path
 
-from litellm import get_model_cost_map
-
 rel_path = Path(__file__).resolve()
 
 # Define the default model
@@ -21,10 +19,6 @@ DEFAULT_EMBEDDING_MODEL = "text-embedding-ada-002"
 VALID_INPUT_FORMATS = [".csv", ".tsv", ".txt", ".od", ".odf", ".ods", ".pdf", ".xls", ".xlsx"]
 VALID_TABULAR_FORMATS = [".csv", ".tsv"]
 VALID_SPREADSHEET_FORMATS = [".od", ".odf", ".ods", ".xls", ".xlsb", ".xlsm", ".xlsx"]
-
-# Build list of available models
-# This is provided by the litellm package
-MODELS = get_model_cost_map("")
 
 try:
     __version__ = metadata.version(__name__)

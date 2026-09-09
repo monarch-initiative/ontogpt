@@ -13,8 +13,8 @@ from typing import Dict, List, Optional, Tuple, Union
 
 import click
 import jsonlines
+import litellm
 import yaml
-from litellm.litellm_core_utils.get_model_cost_map import get_model_cost_map
 from oaklib import get_adapter
 from oaklib.cli import query_terms_iterator
 from oaklib.interfaces import OboGraphInterface
@@ -2213,12 +2213,13 @@ def list_models():
     in particular ways, so consult a model's original documentation for
     further details.
     """
-    models = get_model_cost_map("")
+    # LiteLLM loads this map at import time (remote, with a bundled fallback).
+    models = litellm.model_cost
 
     print("Model Name\tProvider\tFunctionality\tMax Tokens")
     for model in models:
         primary_name = model
-        provider = models[model]["litellm_provider"]
+        provider = models[model].get("litellm_provider", "")
 
         if "mode" in models[model]:
             functionality = models[model]["mode"]
@@ -2227,7 +2228,8 @@ def list_models():
         else:
             continue
 
-        max_tokens = models[model]["max_tokens"]
+        # Not every entry in the map has a token limit.
+        max_tokens = models[model].get("max_tokens", "")
 
         print(f"{primary_name}\t{provider}\t{functionality}\t{max_tokens}")
 
