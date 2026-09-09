@@ -151,3 +151,6 @@ LOG
 # Custom config files
 **_custom.*
 *.tmp
+
+# label cache written by the term validation unit tests
+tests/output/term-validator-cache/
