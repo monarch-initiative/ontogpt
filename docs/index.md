@@ -11,6 +11,20 @@ The primary extraction method currently implemented in OntoGPT is SPIRES:
   * This approach takes two inputs - 1) LinkML schema 2) free text, and outputs knowledge in a structure conformant with the supplied schema in JSON, YAML, RDF or OWL formats
   * Uses OpenAI GPT models, many LiteLLM-supported hosted providers, or local models through Ollama
 
+## Why OntoGPT?
+
+A modern LLM can turn text into structured data on its own. OntoGPT exists for the parts of that job that LLMs, and the agents built on them, still get wrong or do inefficiently.
+
+* **Grounding without hallucination.** Ask an LLM for an ontology identifier and it will often invent one, or attach a real identifier to the wrong term. OntoGPT does not ask the model for identifiers. It asks for names, grounds each name against the actual ontology through [OAK](https://github.com/INCATools/ontology-access-kit) annotators, and then validates every grounded identifier against its source ontology. A name that cannot be grounded is marked with the `AUTO:` prefix instead of being guessed. The only identifiers in the output are ones that exist.
+
+* **Schema adherence without loading the whole schema.** A large data model does not fit well in a context window, and an agent that searches the model field by field for each document is slow and expensive. OntoGPT's SPIRES method walks a [LinkML](https://linkml.io) schema recursively. The model is prompted for one class at a time, with only that class's fields, so each prompt stays small and the assembled output conforms to the full schema.
+
+* **Repeatable, batchable extraction.** A template plus a model gives the same procedure for every document. It runs from the command line or from Python over one abstract or thousands of papers, with prompt caching and output as YAML, JSON, RDF, or OWL, and with no agent in the loop deciding what to do next.
+
+* **A library of ready templates.** Dozens of bundled templates cover diseases, phenotypes, drugs, genes, GO terms, environmental samples, and more, each already wired to the right ontologies. A new template is a LinkML schema with a few annotations; see the [documentation](custom.md).
+
+* **Functions for agents.** When an AI agent does need to extract and ground, the bundled [Agent Skills](agent_skills.md) teach it to call OntoGPT for that step rather than reinvent grounding and schema-walking inside its own context.
+
 ## Quick Start
 
 Please see the Setup page on the left for more detailed instructions.

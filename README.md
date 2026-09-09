@@ -11,6 +11,20 @@ _OntoGPT_ is a Python package for extracting structured information from text wi
 
 [For more details, please see the full documentation.](https://monarch-initiative.github.io/ontogpt/)
 
+## Why OntoGPT?
+
+A modern LLM can turn text into structured data on its own. OntoGPT exists for the parts of that job that LLMs, and the agents built on them, still get wrong or do inefficiently.
+
+* **Grounding without hallucination.** Ask an LLM for an ontology identifier and it will often invent one, or attach a real identifier to the wrong term. OntoGPT does not ask the model for identifiers. It asks for names, grounds each name against the actual ontology through [OAK](https://github.com/INCATools/ontology-access-kit) annotators, and then validates every grounded identifier against its source ontology. A name that cannot be grounded is marked with the `AUTO:` prefix instead of being guessed. The only identifiers in the output are ones that exist.
+
+* **Schema adherence without loading the whole schema.** A large data model does not fit well in a context window, and an agent that searches the model field by field for each document is slow and expensive. OntoGPT's SPIRES method walks a [LinkML](https://linkml.io) schema recursively. The model is prompted for one class at a time, with only that class's fields, so each prompt stays small and the assembled output conforms to the full schema.
+
+* **Repeatable, batchable extraction.** A template plus a model gives the same procedure for every document. It runs from the command line or from Python over one abstract or thousands of papers, with prompt caching and output as YAML, JSON, RDF, or OWL, and with no agent in the loop deciding what to do next.
+
+* **A library of ready templates.** Dozens of bundled templates cover diseases, phenotypes, drugs, genes, GO terms, environmental samples, and more, each already wired to the right ontologies. A new template is a LinkML schema with a few annotations; see the [documentation](docs/custom.md).
+
+* **Functions for agents.** When an AI agent does need to extract and ground, the bundled [Agent Skills](skills/) teach it to call OntoGPT for that step rather than reinvent grounding and schema-walking inside its own context.
+
 ## Quick Start
 
 OntoGPT runs on the command line, though there's also a minimal web app interface (see `Web Application` section below).
