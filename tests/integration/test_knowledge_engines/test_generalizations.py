@@ -79,7 +79,7 @@ class TestGeneralize(unittest.TestCase):
                     test_obj = {k: obj[k] for k in combo}
                     nu_obj = ke.generalize(test_obj, examples)
                     print(nu_obj)
-                    nu_obj = nu_obj.dict()
+                    nu_obj = nu_obj.model_dump()
                     nu_obj["_combo"] = list(combo)
                     nu_obj["_input"] = test_obj
                     nu_objs.append(nu_obj)

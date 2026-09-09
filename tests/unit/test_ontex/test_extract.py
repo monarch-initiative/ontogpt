@@ -97,7 +97,7 @@ class TestOntologyExtractor(unittest.TestCase):
         for task, expected in self.cases():
             if not task.ontology.axioms:
                 raise ValueError(f"Task {task} has no axioms")
-            print(yaml.dump(task.dict(), sort_keys=False))
+            print(yaml.dump(task.model_dump(), sort_keys=False))
             answer_texts = [a.text for a in task.answers]
             if expected is not None:
                 self.assertCountEqual(answer_texts, [extractor._name(x) for x in expected])

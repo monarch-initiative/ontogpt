@@ -432,7 +432,7 @@ class TestCore(unittest.TestCase):
         print(f"RESULTS={ann}")
         self.assertIsInstance(ann, dict)
         self.assertIn(ann, ({}, {"gene": "foobaz", "molecular_activity": "Not specified"}))
-        # print(yaml.dump(ann.dict()))
+        # print(yaml.dump(ann.model_dump()))
 
     def test_prompt(self):
         """Tests prompt generation.

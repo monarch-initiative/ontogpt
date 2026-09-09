@@ -23,16 +23,16 @@ class TestEvalGO(unittest.TestCase):
             id="GO:0008152",
         )
         eos = EvaluationObjectSetGO(test=[mp], training=[])
-        print(yaml.dump(eos.dict()))
+        print(yaml.dump(eos.model_dump()))
 
     def test_create_test_and_training(self):
         engine = self.engine
         ke = engine.extractor
         eos = engine.create_test_and_training()
         with open(EXAMPLES_OUT, "w") as f:
-            yaml.dump(eos.dict(), f)
+            yaml.dump(eos.model_dump(), f)
         for t in eos.test:
-            print(yaml.dump(t.dict()))
+            print(yaml.dump(t.model_dump()))
             ser = ke.serialize_object(t)
             print(f"Serialized: {ser}")
 
@@ -40,4 +40,4 @@ class TestEvalGO(unittest.TestCase):
         engine = self.engine
         eos = engine.eval()
         with open(PREDICTIONS_OUT, "w") as f:
-            yaml.dump(eos.dict(), f)
+            yaml.dump(eos.model_dump(), f)

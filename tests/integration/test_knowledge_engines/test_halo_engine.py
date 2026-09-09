@@ -48,7 +48,7 @@ class TestHALO(unittest.TestCase):
         name = "Axon"
         elt = ke.hallucinate_element(name)
         print("## ELEMENT:")
-        print(yaml.dump(elt.dict()))
+        print(yaml.dump(elt.model_dump()))
         [elt2] = [elt for elt in ke.ontology.elements if elt.name == name]
         self.assertEqual(elt, elt2)
         self.assertIn(name, ke.visited)

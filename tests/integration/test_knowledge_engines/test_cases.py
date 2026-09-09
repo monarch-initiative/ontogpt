@@ -70,14 +70,14 @@ class TestCases(unittest.TestCase):
             ke = self.ke_map[template]
             input_file = CASES_DIR / f"{input_name}.txt"
             ann = ke.extract_from_file(input_file)
-            # print(yaml.dump(ann.dict()))
+            # print(yaml.dump(ann.model_dump()))
             # for ne in ke.named_entities:
-            #    print(yaml.dump(ne.dict()))
+            #    print(yaml.dump(ne.model_dump()))
             # result_dict = {
             #    "input_file": str(input_file),
             #    "text": ke.last_text,
-            #    "results": ann.dict(),
-            #    "named_entities": [ne.dict() for ne in ke.named_entities],
+            #    "results": ann.model_dump(),
+            #    "named_entities": [ne.model_dump() for ne in ke.named_entities],
             # }
             # print(yaml.dump(result_dict))
             output_file = str(OUTPUT_DIR / f"{input_name}.yaml")

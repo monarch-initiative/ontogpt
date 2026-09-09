@@ -47,7 +47,7 @@ class TestCTD(unittest.TestCase):
         eos = evaluator.eval()
         with open(EXTRACTIONS_OUT, "w") as f:
             f.write(dump_minimal_yaml(eos, minimize=False))
-            # yaml.dump(eos.dict(), f)
+            # yaml.dump(eos.model_dump(), f)
 
     def test_individual_case(self):
         evaluator = self.engine

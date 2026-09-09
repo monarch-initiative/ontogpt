@@ -169,10 +169,10 @@ class EvalGO(SPIRESEvaluationEngine):
         ke = self.extractor
         eos = self.create_test_and_training()
         eos.predictions = []
-        print(yaml.dump(eos.dict()))
+        print(yaml.dump(eos.model_dump()))
         if eos.test is not None:
             for test_obj in eos.test[0:10]:
-                print(yaml.dump(test_obj.dict()))
+                print(yaml.dump(test_obj.model_dump()))
                 predicted_obj = ke.generalize({"label": test_obj.label}, eos.training[0:4])
                 pred = PredictionGO(predicted_object=predicted_obj, test_object=test_obj)
                 pred.calculate_scores()
