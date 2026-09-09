@@ -126,6 +126,8 @@ Note that models can and will vary in performance and larger models will not alw
 
 #### OpenAI-compatible Proxy Servers
 
+If the service is one LiteLLM supports directly, such as OpenRouter, prefer its provider prefix (for example `--model openrouter/anthropic/claude-sonnet-4.5` with `OPENROUTER_API_KEY` or `runoak set-apikey -e openrouter-key`). See [Setup](setup.md) for details. The proxy form below is for endpoints LiteLLM does not know by name.
+
 If accessing an LLM though an OpenAI client-compatible proxy server, you will need to set the following:
 
 * Your API key. Set this the same way as the OpenAI API key, either as

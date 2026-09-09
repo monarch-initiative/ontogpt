@@ -385,3 +385,69 @@ def test_llmclient_uses_oaklib_env_fallback_for_vertex_settings(monkeypatch):
     assert client.api_key == ""
     assert os.environ["VERTEXAI_PROJECT"] == "oaklib-project"
     assert os.environ["VERTEXAI_LOCATION"] == "us-central1"
+
+
+def _oaklib_lookup(values):
+    """Build a get_apikey_value stand-in that knows only the given names."""
+
+    def lookup(name):
+        if name in values:
+            return values[name]
+        raise ValueError(f"No API key found in: {name}")
+
+    return mock.MagicMock(side_effect=lookup)
+
+
+def test_llmclient_oaklib_fallback_uses_provider_prefix(monkeypatch):
+    """A provider-prefixed model must look up that provider's Oaklib key.
+
+    LiteLLM strips the prefix from the model name during resolution, so the
+    credential check has to restore it. See issue #556 (OpenRouter).
+    """
+    import ontogpt.clients.llm_client as llm_mod
+
+    monkeypatch.delenv("OPENROUTER_API_KEY", raising=False)
+    monkeypatch.delenv("ANTHROPIC_API_KEY", raising=False)
+    lookup = _oaklib_lookup({"openrouter-key": "sk-or-test"})
+    monkeypatch.setattr(llm_mod, "get_apikey_value", lookup)
+
+    client = llm_mod.LLMClient(model="openrouter/anthropic/claude-sonnet-4.5")
+
+    assert client.custom_llm_provider == "openrouter"
+    assert client.model == "anthropic/claude-sonnet-4.5"
+    assert client.api_key == "sk-or-test"
+    assert os.environ["OPENROUTER_API_KEY"] == "sk-or-test"
+    assert "anthropic-key" not in [c.args[0] for c in lookup.call_args_list]
+
+
+def test_llmclient_oaklib_fallback_uses_model_provider_option(monkeypatch):
+    """--model-provider alone must select the same Oaklib key as a prefix."""
+    import ontogpt.clients.llm_client as llm_mod
+
+    monkeypatch.delenv("GROQ_API_KEY", raising=False)
+    lookup = _oaklib_lookup({"groq-key": "gsk-test"})
+    monkeypatch.setattr(llm_mod, "get_apikey_value", lookup)
+
+    client = llm_mod.LLMClient(
+        model="llama-3.1-8b-instant", custom_llm_provider="groq"
+    )
+
+    assert client.api_key == "gsk-test"
+    assert os.environ["GROQ_API_KEY"] == "gsk-test"
+
+
+def test_llmclient_warns_when_no_credential_found(monkeypatch, caplog):
+    """A missing key is reported with the env var and runoak names, not swallowed."""
+    import logging
+
+    import ontogpt.clients.llm_client as llm_mod
+
+    monkeypatch.delenv("OPENROUTER_API_KEY", raising=False)
+    monkeypatch.setattr(llm_mod, "get_apikey_value", _oaklib_lookup({}))
+
+    with caplog.at_level(logging.WARNING, logger="ontogpt.clients.llm_client"):
+        client = llm_mod.LLMClient(model="openrouter/anthropic/claude-sonnet-4.5")
+
+    assert client.api_key == ""
+    assert "OPENROUTER_API_KEY" in caplog.text
+    assert "runoak set-apikey -e openrouter-key" in caplog.text

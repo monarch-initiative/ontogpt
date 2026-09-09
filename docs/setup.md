@@ -83,6 +83,31 @@ runoak set-apikey -e huggingface-key <your HuggingFace api key>
 
 Equivalent environment variables also work directly with LiteLLM, for example `OPENAI_API_KEY`, `ANTHROPIC_API_KEY`, `MISTRAL_API_KEY`, `GROQ_API_KEY`, `AZURE_API_KEY`, `AZURE_API_BASE`, and `AZURE_API_VERSION`.
 
+The `runoak set-apikey` name must match the provider OntoGPT resolves for the model. The rule is: take LiteLLM's environment variable for that provider, lowercase it, and replace `_API_KEY` with `-key` (so `OPENROUTER_API_KEY` becomes `openrouter-key`, `GROQ_API_KEY` becomes `groq-key`). If no credential is found, OntoGPT logs a warning naming the environment variable and the matching `runoak set-apikey` command.
+
+#### Model routers such as OpenRouter
+
+[OpenRouter](https://openrouter.ai/) serves models from many vendors behind one API key. LiteLLM supports it as a provider, so the simplest setup is to store the key under the OpenRouter name and prefix the model with `openrouter/`:
+
+```bash
+runoak set-apikey -e openrouter-key <your OpenRouter api key>
+# or: export OPENROUTER_API_KEY="<your OpenRouter api key>"
+
+ontogpt complete -i example.txt --model openrouter/anthropic/claude-sonnet-4.5
+```
+
+`--model-provider openrouter` with an unprefixed model name (`--model anthropic/claude-sonnet-4.5`) is equivalent. No `--api-base` is needed; LiteLLM knows the OpenRouter endpoint. Model names are those OpenRouter lists on its site; `ontogpt list-models | grep '^openrouter/'` shows the ones LiteLLM has metadata for, and others still work.
+
+OpenRouter also speaks the OpenAI protocol, so the proxy form works too. In that form the key must be stored as the **OpenAI** key, because `--model-provider openai` makes OntoGPT look for `OPENAI_API_KEY` (or `runoak set-apikey -e openai`):
+
+```bash
+export OPENAI_API_KEY="<your OpenRouter api key>"
+ontogpt complete -i example.txt --model anthropic/claude-sonnet-4.5 \
+  --model-provider openai --api-base https://openrouter.ai/api/v1
+```
+
+Storing the key as `openrouter-key` and then calling with `--model-provider openai` fails with `Missing Authentication header` or `Missing credentials`, because the two names do not meet.
+
 This is also a convenient way to set details for custom endpoints, e.g., for Azure OpenAI (set API key, API base URL, and API version):
 
 ```bash

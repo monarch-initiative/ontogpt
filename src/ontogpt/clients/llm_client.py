@@ -92,16 +92,31 @@ class LLMClient:
         if not self.api_key and dynamic_api_key:
             self.api_key = dynamic_api_key
 
+    def _provider_qualified_model(self) -> str:
+        """Return the model name with its provider prefix restored.
+
+        LiteLLM strips the provider from the model name during resolution
+        (e.g. openrouter/anthropic/claude-sonnet-4.5 -> anthropic/claude-sonnet-4.5
+        with provider "openrouter"). validate_environment has no provider
+        argument and would otherwise report the wrong credentials as missing.
+        """
+        provider = self.custom_llm_provider
+        if provider and not self.model.startswith(f"{provider}/"):
+            return f"{provider}/{self.model}"
+        return self.model
+
     def _apply_oaklib_credentials(self) -> None:
         validation = litellm.validate_environment(
-            model=self.model,
+            model=self._provider_qualified_model(),
             api_key=self.api_key or None,
             api_base=self.api_base,
             api_version=self.api_version,
         )
+        still_missing: list[str] = []
         for missing_key in validation["missing_keys"]:
             oaklib_value = self._get_oaklib_credential(missing_key)
             if oaklib_value is None:
+                still_missing.append(missing_key)
                 continue
 
             logger.info(f"Using Oaklib credential fallback for {missing_key}")
@@ -117,6 +132,18 @@ class LLMClient:
 
             if missing_key not in os.environ:
                 os.environ[missing_key] = oaklib_value
+
+        # Some endpoints (local proxies, ollama-compatible servers) need no key,
+        # so this is a warning rather than an exit.
+        for missing_key in still_missing:
+            names = " or ".join(
+                f"`runoak set-apikey -e {name} <key>`"
+                for name in self._oaklib_key_names_for_env_var(missing_key)
+            )
+            logger.warning(
+                f"No credential found for {missing_key}. Set that environment variable, "
+                f"or store it with {names}."
+            )
 
     def _extract_response_text(self, response: object) -> str:
         choices = getattr(response, "choices", None)

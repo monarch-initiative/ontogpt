@@ -102,6 +102,8 @@ export AZURE_API_VERSION="2023-05-15"
 
 If the provider is not encoded in the model name, use `--model-provider` to specify it explicitly. This is most common for OpenAI-compatible proxy endpoints.
 
+Model routers work the same way. For OpenRouter, store the key as `runoak set-apikey -e openrouter-key <key>` (or set `OPENROUTER_API_KEY`) and prefix the model, e.g. `--model openrouter/anthropic/claude-sonnet-4.5`. The `runoak set-apikey` name must match the provider in the model name; see the [setup docs](docs/setup.md) for the naming rule.
+
 For the current list of supported providers, model naming rules, and credential environment variables, see the LiteLLM docs:
 
 * <https://docs.litellm.ai/docs/providers>
