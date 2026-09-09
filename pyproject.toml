@@ -35,6 +35,7 @@ dependencies = [
     "pymupdf<2.0.0,>=1.24.9",
     "scipy<2.0.0,>=1.14.1",
     "numpy>=2.0.0",
+    "linkml-term-validator>=0.4.5",
 ]
 
 [build-system]

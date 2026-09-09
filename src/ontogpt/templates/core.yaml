@@ -43,6 +43,75 @@ classes:
         multivalued: true
         inlined: true
         inlined_as_list: true
+      validation:
+        description: >-
+          Results of validating the grounded terms in the extracted object
+          against their source ontologies, including any replacements made.
+          Absent when validation was not run.
+        range: TermValidationReport
+        inlined: true
+
+  TermValidationReport:
+    description: >-
+      Summary of ontology term validation performed on an extraction result.
+      Each grounded identifier in the extracted object is checked for existence
+      and obsolescence in its ontology and for agreement between the extracted
+      label and the ontology's label or synonyms. Invalid identifiers are
+      replaced when a valid substitute can be found.
+    attributes:
+      validator:
+        description: Name and version of the validation library used
+      total_terms:
+        description: Number of grounded identifiers examined
+        range: integer
+      valid_terms:
+        description: Identifiers that resolved with a matching label or synonym
+        range: integer
+      replaced_terms:
+        description: Identifiers replaced with a valid substitute
+        range: integer
+      unresolved_terms:
+        description: >-
+          Invalid identifiers for which no substitute was found; these are
+          rewritten with the auto prefix so that no invalid identifier remains
+        range: integer
+      label_mismatches:
+        description: >-
+          Identifiers that resolved but whose extracted label is neither the
+          ontology label nor a known synonym; kept as they are
+        range: integer
+      skipped_terms:
+        description: Identifiers that could not be checked because no ontology adapter was available
+        range: integer
+      results:
+        description: One entry per examined identifier
+        range: TermValidationResult
+        multivalued: true
+        inlined: true
+        inlined_as_list: true
+
+  TermValidationResult:
+    description: Outcome of validating one grounded identifier.
+    attributes:
+      original_id:
+        description: The identifier as produced by grounding
+      label:
+        description: The label extracted from the text for this identifier
+      entity_class:
+        description: The template class the identifier was grounded for
+      status:
+        range: TermValidationStatus
+      ontology_label:
+        description: The label of the original identifier in its ontology, when it resolved
+      replacement_id:
+        description: The identifier substituted into the output, if any
+      replacement_label:
+        description: The ontology label of the replacement identifier
+      message:
+        description: Human-readable explanation of the outcome
+      attempts:
+        description: Candidate identifiers considered while searching for a replacement
+        multivalued: true
 
   NamedEntity:
     abstract: true
@@ -163,6 +232,20 @@ classes:
       object_text:
 
 enums:
+
+  TermValidationStatus:
+    description: Outcome categories for ontology term validation.
+    permissible_values:
+      VALID:
+        description: The identifier resolves and the extracted label is its label or a synonym
+      LABEL_DIFFERS:
+        description: The identifier resolves but the extracted label is neither its label nor a synonym
+      REPLACED:
+        description: The identifier was invalid or obsolete and a valid substitute was found
+      UNRESOLVED:
+        description: The identifier was invalid and no substitute was found; the value was rewritten with the auto prefix
+      SKIPPED:
+        description: The identifier could not be checked because no ontology adapter was available for its prefix
 
   NullDataOptions:
     permissible_values:
