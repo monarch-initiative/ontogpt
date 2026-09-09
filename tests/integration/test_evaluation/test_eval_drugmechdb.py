@@ -3,6 +3,7 @@ import unittest
 
 import yaml
 
+from ontogpt import DEFAULT_MODEL
 from ontogpt.engines.spires_engine import SPIRESEngine
 from ontogpt.evaluation.drugmechdb.datamodel.drugmechdb import Graph, Mechanism
 from ontogpt.evaluation.drugmechdb.eval_drugmechdb import (
@@ -163,7 +164,7 @@ class TestDrugMechDB(unittest.TestCase):
         evaluator = self.engine
         ke = evaluator.extractor
         training_set = list(evaluator.create_training_set(100))
-        t = dict(base_model="gpt-4o", template=ke.template, examples=training_set)
+        t = dict(base_model=DEFAULT_MODEL, template=ke.template, examples=training_set)
         with open(TRAINING_OUT, "w") as f:
             yaml.dump(t, f)
         # print(yaml.dump(training_set))

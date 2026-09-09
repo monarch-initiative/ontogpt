@@ -4,6 +4,7 @@ import unittest
 
 import yaml
 
+from ontogpt import DEFAULT_MODEL
 from ontogpt.clients import LLMClient
 from tests import PROMPTS_FILE
 
@@ -153,7 +154,7 @@ class TestCompletion(unittest.TestCase):
     def test_all_prompts(self):
         """Test all prompts."""
         prompt_doc = yaml.safe_load(open(PROMPTS_FILE))
-        default_engine = prompt_doc.get("default_engine", "gpt-4o")
+        default_engine = prompt_doc.get("default_engine", DEFAULT_MODEL)
         for prompt in prompt_doc["prompts"]:
             prompt_text = prompt["prompt"]
             if not isinstance(prompt_text, str):
@@ -199,7 +200,7 @@ class TestCompletion(unittest.TestCase):
 
     def test_code_completion_generalization(self):
         """Tests structured responses."""
-        engine = "gpt-4o"
+        engine = DEFAULT_MODEL
         client = LLMClient(model=engine)
         print(len(CODE_PROMPT_GENERALIZATION))
         ann = client.complete(CODE_PROMPT_GENERALIZATION)
@@ -207,7 +208,7 @@ class TestCompletion(unittest.TestCase):
 
     def test_extract_via_code_completion(self):
         """Tests structured responses."""
-        engine = "gpt-4o"
+        engine = DEFAULT_MODEL
         client = LLMClient(model=engine)
         ann = client.complete(CODE_PROMPT_EXTRACT)
         print(ann)
