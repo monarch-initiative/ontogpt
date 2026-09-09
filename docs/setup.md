@@ -8,7 +8,7 @@ OntoGPT uses [LiteLLM](https://docs.litellm.ai/docs/) to interface with LLM endp
 
 ### Additional requirements and options
 
-* Python 3.10 to 3.13.
+* Python 3.10 to 3.14.
 
 * OpenAI API key: necessary for using OpenAI's GPT models. This is a paid API and you will be charged based on usage. If you do not have an OpenAI account, [you may sign up here](https://platform.openai.com/signup).
 

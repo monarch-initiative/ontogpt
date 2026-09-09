@@ -67,9 +67,13 @@ OntoGPT uses [LiteLLM](https://docs.litellm.ai/docs/) to interface with LLMs.
 
 This means OntoGPT can work with a much broader range of providers than just OpenAI. If a provider and model are supported by the installed LiteLLM version, they will generally work in OntoGPT as well. This includes OpenAI, Azure OpenAI, Anthropic, Mistral, Groq, Cohere, Vertex AI, Replicate, and many others.
 
-The model name to use may be found from the command `ontogpt list-models` - use the name in the first column with the `--model` option. In most cases, the most reliable form is a provider-qualified LiteLLM model name such as `openai/gpt-4o`, `anthropic/claude-3-5-sonnet`, `groq/llama-3.1-8b-instant`, or `mistral/mistral-large-latest`.
+The model name to use may be found from the command `ontogpt list-models` - use the name in the first column with the `--model` option. In most cases, the most reliable form is a provider-qualified LiteLLM model name such as `openai/gpt-5.5`, `anthropic/claude-sonnet-5`, `groq/llama-3.1-8b-instant`, or `mistral/mistral-large-latest`. Without `--model`, OntoGPT uses `gpt-5.5`.
+
+Reasoning models, including the GPT-5 family and Claude Sonnet 5 and Opus 5, accept only their default temperature. If `--temperature` is set for one of these, OntoGPT logs a warning and retries the request without it.
 
 Credential handling now follows LiteLLM first. Standard LiteLLM environment variables such as `OPENAI_API_KEY`, `ANTHROPIC_API_KEY`, `GROQ_API_KEY`, `MISTRAL_API_KEY`, `AZURE_API_KEY`, `AZURE_API_BASE`, and `AZURE_API_VERSION` are supported directly. For backward compatibility, OntoGPT also checks Oaklib credentials created with `runoak set-apikey` and passes them through to LiteLLM when the corresponding provider settings are missing.
+
+Anthropic OAuth tokens (those beginning with `sk-ant-oat`) may be supplied in `ANTHROPIC_API_KEY` as well; LiteLLM sends them with the bearer authorization the API expects.
 
 Examples:
 
