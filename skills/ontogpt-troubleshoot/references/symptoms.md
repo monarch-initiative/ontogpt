@@ -55,6 +55,16 @@ Log lines are as OntoGPT prints them at default verbosity unless marked `-v`.
 | `WARNING:root:Could not find any mappings for ...` | `id_prefixes` do not match what the annotator returns | fix prefixes (`HP` not `HPO`) |
 | grounded id but `original_spans` missing | label not verbatim in the text | expected for normalized labels; not an error |
 
+## Validation section
+
+| What you see | Cause | Fix |
+|---|---|---|
+| `status: UNRESOLVED` and the value became `AUTO:...` | the grounded id does not exist in its ontology (or is obsolete with no successor) and neither re-grounding nor search found the label | the id was a bad grounding; treat the value as ungrounded. Check the annotator returns ids from the ontology named in `id_prefixes`. |
+| `status: REPLACED` with a wrong `replacement_label` | the label matched a different term by search | add the intended term to a `--dictionary`; make the prompt ask for the canonical name |
+| many `status: SKIPPED` | prefixes with no matching annotator (`bioportal:` or `gilda:` only, or a prefix not in the known sqlite builds) | add a `sqlite:obo:<prefix>` annotator to the class, or accept |
+| `Term validation failed and was skipped` in the log | the validator raised (network, adapter download) | rerun; the extraction itself is intact. `--no-validate-terms` to bypass. |
+| validation adds minutes on first run | `obsoletes()` scan and label lookups on large ontologies | the label cache in `~/.data/ontogpt/term-validator-cache` makes later runs fast |
+
 ## Cache confusion
 
 | What you see | Cause | Fix |

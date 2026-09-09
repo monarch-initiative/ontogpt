@@ -231,6 +231,20 @@ class KnowledgeEngine(ABC):
     system_message: str = ""
     """System message to be provided to the LLM."""
 
+    validate_terms: bool = True
+    """If True, every grounded identifier in a finished extraction is checked against its
+    ontology with linkml-term-validator and invalid identifiers are repaired or rewritten.
+    The outcome is recorded in the result's validation report."""
+
+    term_validation_adapters: Dict[str, Any] = field(default_factory=dict)
+    """Optional prefix to OAK selector (or adapter) overrides for term validation."""
+
+    term_validation_cache_dir: Optional[str] = None
+    """Where linkml-term-validator caches ontology labels; defaults to ~/.data/ontogpt."""
+
+    _extraction_depth: int = field(default=0, init=False, repr=False)
+    """Nesting depth of extract_from_text calls; validation runs only at the outermost."""
+
     def __post_init__(self):
         if self.engine and not self.model:
             self.model = self.engine
@@ -314,6 +328,27 @@ class KnowledgeEngine(ABC):
 
     def set_api_key(self, key: str):
         self.api_key = key
+
+    def validate_extraction_result(self, result: ExtractionResult) -> ExtractionResult:
+        """Validate and repair the grounded terms in a finished extraction result.
+
+        Attaches a TermValidationReport to the result. Failures inside the
+        validator are logged and never abort an extraction.
+        """
+        from ontogpt.validation import TermValidator
+
+        try:
+            validator = TermValidator(
+                engine=self,
+                prefix_adapters=self.term_validation_adapters,
+                cache_dir=Path(self.term_validation_cache_dir)
+                if self.term_validation_cache_dir
+                else None,
+            )
+            validator.validate(result)
+        except Exception as e:  # noqa: BLE001
+            logger.error(f"Term validation failed and was skipped: {e}")
+        return result
 
     def extract_from_text(
         self, text: str, cls: Optional[ClassDefinition] = None, object: OBJECT = None

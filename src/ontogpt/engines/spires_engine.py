@@ -75,7 +75,9 @@ class SPIRESEngine(KnowledgeEngine):
         raise TypeError(f"Cannot serialize object of type {type(value)}")
 
     @staticmethod
-    def _merge_model_objects(current_object: pydantic.BaseModel, next_object: pydantic.BaseModel) -> None:
+    def _merge_model_objects(
+        current_object: pydantic.BaseModel, next_object: pydantic.BaseModel
+    ) -> None:
         for field_name, value in next_object.model_dump().items():
             current_value = getattr(current_object, field_name, None)
             if isinstance(value, list):
@@ -97,11 +99,34 @@ class SPIRESEngine(KnowledgeEngine):
         """
         Extract annotations from the given text.
 
+        When validate_terms is set, the grounded identifiers of the finished
+        result are validated against their ontologies and repaired once the
+        outermost extraction (not the nested ones SPIRES runs for compound
+        classes) has completed.
+
         :param text:
         :param cls:
         :param object: optional stub object
         :return:
         """
+        self._extraction_depth += 1
+        try:
+            result = self._extract_from_text_unvalidated(
+                text=text, cls=cls, object=object, show_prompt=show_prompt
+            )
+            if self._extraction_depth == 1 and self.validate_terms:
+                self.validate_extraction_result(result)
+        finally:
+            self._extraction_depth -= 1
+        return result
+
+    def _extract_from_text_unvalidated(
+        self,
+        text: str,
+        cls: Optional[ClassDefinition] = None,
+        object: OBJECT = None,
+        show_prompt: bool = False,
+    ) -> ExtractionResult:
         self.extracted_named_entities = []  # Clear the named entity buffer
 
         # This indicates that the text will be chunked in some way

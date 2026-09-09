@@ -36,6 +36,38 @@ named_entities:
     label: beta receptors
 ```
 
+## Validation section
+
+Since September 2026 every result also carries a `validation` block, produced after extraction by linkml-term-validator. Each grounded identifier is checked for existence, obsolescence, and label agreement (label or synonym). Invalid identifiers are replaced from the obsolete term's successor, from re-grounding the label, or from an ontology search; when nothing is found they are rewritten as `AUTO:<label>` so the output holds no invalid id.
+
+```yaml
+validation:
+  validator: linkml-term-validator 0.4.5
+  total_terms: 5
+  valid_terms: 3
+  replaced_terms: 1
+  unresolved_terms: 0
+  label_mismatches: 1
+  skipped_terms: 0
+  results:
+    - original_id: MONDO:0005044
+      label: hypertension
+      entity_class: Disease
+      status: VALID
+      ontology_label: hypertensive disorder
+      message: Label matches a synonym
+```
+
+| Status | Meaning | What to do |
+|---|---|---|
+| `VALID` | term exists and the extracted label is its label or a synonym | nothing |
+| `LABEL_DIFFERS` | term exists but the extracted label is not its label or a synonym; kept | inspect: often a partial match to a broader term. Tighten the prompt or annotators if it recurs. |
+| `REPLACED` | the id was missing, obsolete, or mislabeled and a valid term was substituted; `replacement_id` and `attempts` show the path | check `replacement_label` against the text |
+| `UNRESOLVED` | invalid id, no substitute found; value rewritten with the auto prefix | treat as ungrounded |
+| `SKIPPED` | no ontology adapter for that prefix | add an annotator that names the prefix's ontology, or ignore |
+
+`--no-validate-terms` turns the step off. Absence of the block means it did not run.
+
 ## Fields
 
 | Field | Meaning |

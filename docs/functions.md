@@ -141,6 +141,12 @@ When OntoGPT's extract functions find an entity matching the input schema but ca
 
 By default, these entities will be assigned identifiers like `AUTO:tangerine`. If you ground this term to the [Food Ontology](https://foodon.org), however, the entity may be `FOODON:00003488` instead.
 
+### validate-terms
+
+Use the option `--validate-terms/--no-validate-terms` to turn post-extraction ontology term validation on or off. It is on by default.
+
+When on, every grounded identifier in the result is checked against its ontology with linkml-term-validator, invalid identifiers are replaced where a valid term can be found, and the outcome is recorded in the `validation` section of the output. See [Term validation](operation.md#term-validation).
+
 ### show-prompt
 
 Use the option `show-prompt` to show _all_ prompts constructed and sent to the model. Otherwise, only the final prompt will be shown.

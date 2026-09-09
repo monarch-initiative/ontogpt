@@ -41,7 +41,7 @@ OntoGPT runs on the command line, though there's also a minimal web app interfac
     ontogpt extract -i example.txt -t drug
     ```
 
-    OntoGPT will retrieve the necessary ontologies and output results to the command line. Your output will provide all extracted objects under the heading `extracted_object`.
+    OntoGPT will retrieve the necessary ontologies and output results to the command line. Your output will provide all extracted objects under the heading `extracted_object`, and a `validation` section reporting whether each grounded identifier exists in its ontology and matches its label (invalid ones are replaced when a valid term can be found; see the [documentation](docs/operation.md#term-validation)).
 
 ## Web Application
 

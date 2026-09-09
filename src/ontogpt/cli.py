@@ -323,6 +323,14 @@ auto_prefix_option = click.option(
     default="AUTO",
     help="Prefix to use for auto-generated classes. Default is AUTO.",
 )
+validate_terms_option = click.option(
+    "--validate-terms/--no-validate-terms",
+    default=True,
+    show_default=True,
+    help="After extraction, check every grounded identifier against its ontology with"
+    " linkml-term-validator, replace invalid ones where a valid term can be found,"
+    " and record the outcome in the result's validation section.",
+)
 show_prompt_option = click.option(
     "--show-prompt/--no-show-prompt",
     default=False,
@@ -426,6 +434,7 @@ def main(verbose: int, quiet: bool, cache_db: str):
 @cut_input_text_option
 @selectcols_option
 @max_text_length_option
+@validate_terms_option
 def extract(
     inputfile,
     template,
@@ -543,6 +552,7 @@ def extract(
 @model_provider_option
 @system_message_option
 @click.argument("entity")
+@validate_terms_option
 def generate_extract(
     model,
     entity,
@@ -614,6 +624,7 @@ def generate_extract(
 @model_provider_option
 @system_message_option
 @click.argument("entity")
+@validate_terms_option
 def iteratively_generate_extract(
     model,
     entity,
@@ -695,6 +706,7 @@ def iteratively_generate_extract(
 @system_message_option
 @max_text_length_option
 @click.argument("search")
+@validate_terms_option
 def pubmed_annotate(
     model,
     search,
@@ -772,6 +784,7 @@ def pubmed_annotate(
 @model_provider_option
 @system_message_option
 @click.argument("article")
+@validate_terms_option
 def wikipedia_extract(
     model,
     article,
@@ -838,6 +851,7 @@ def wikipedia_extract(
 @model_provider_option
 @system_message_option
 @click.argument("topic")
+@validate_terms_option
 def wikipedia_search(
     model,
     topic,
@@ -912,6 +926,7 @@ def wikipedia_search(
 @model_provider_option
 @system_message_option
 @click.argument("term_tokens", nargs=-1)
+@validate_terms_option
 def search_and_extract(
     model,
     term_tokens,
@@ -990,6 +1005,7 @@ def search_and_extract(
 @model_provider_option
 @system_message_option
 @click.argument("url")
+@validate_terms_option
 def web_extract(
     model,
     template,
@@ -1061,6 +1077,7 @@ def web_extract(
 @model_provider_option
 @system_message_option
 @click.argument("url")
+@validate_terms_option
 def recipe_extract(
     model,
     url,
