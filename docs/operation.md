@@ -156,6 +156,53 @@ Here is an example with the `extract` command (this is not a public proxy and wi
 ontogpt -vvv extract -t go_terms -i temp/genetest.txt -m anthropic/claude-opus --model-provider openai --api-base "https://api.cborg.lbl.gov"
 ```
 
+## Term validation
+
+After an extraction finishes, OntoGPT checks every grounded identifier in the result with [linkml-term-validator](https://github.com/linkml/linkml-term-validator). For each identifier it asks three things of the ontology it came from: does the term exist, is it obsolete, and does the label the model extracted match the term's label or one of its synonyms.
+
+Invalid identifiers are repaired when a valid substitute can be found. The search runs in this order and stops at the first valid term:
+
+1. the replacement an obsolete term names for itself;
+2. grounding the extracted label again through the template's annotators;
+3. searching the annotators' ontologies for the extracted label.
+
+If nothing valid turns up, the identifier is rewritten with the auto prefix (`AUTO:` by default) so that no invalid identifier is left in the output. An identifier that resolves but whose extracted label is neither its label nor a synonym is kept, unless a term with exactly that label exists, in which case it is swapped for that term.
+
+Every decision is written to a `validation` section of the result:
+
+```yaml
+validation:
+  validator: linkml-term-validator 0.4.5
+  total_terms: 4
+  valid_terms: 2
+  replaced_terms: 1
+  unresolved_terms: 0
+  label_mismatches: 1
+  skipped_terms: 0
+  results:
+    - original_id: MONDO:0005044
+      label: hypertension
+      entity_class: Disease
+      status: VALID
+      ontology_label: hypertensive disorder
+      message: Label matches a synonym
+    - original_id: GO:0005636
+      label: nuclear envelope lumen
+      entity_class: CellularComponent
+      status: REPLACED
+      replacement_id: GO:0005635
+      replacement_label: nuclear envelope
+      message: GO:0005636 is obsolete; replaced
+      attempts:
+        - GO:0005635
+```
+
+The statuses are `VALID`, `LABEL_DIFFERS` (kept as is), `REPLACED`, `UNRESOLVED` (rewritten with the auto prefix), and `SKIPPED` (no ontology adapter was available for the prefix). The Markdown and HTML exporters render the section as a table.
+
+Which ontology checks a prefix is decided from the template: a prefix is checked against the annotator whose ontology it names (`MONDO` against `sqlite:obo:mondo`), or, failing that, against a known `sqlite:obo:` build for that prefix. Prefixes with neither are skipped. Ontology labels are cached under `~/.data/ontogpt/term-validator-cache` (`PYSTOW_HOME` moves it).
+
+Validation is on by default for `extract`, `pubmed-annotate`, `web-extract`, `wikipedia-extract`, `wikipedia-search`, `search-and-extract`, `recipe-extract`, `generate-extract`, and `iteratively-generate-extract`. Turn it off with `--no-validate-terms`. From Python, set `validate_terms=False` on the engine, or call `engine.validate_extraction_result(result)` yourself.
+
 ## Caching
 
 OntoGPT uses LiteLLM to work with multiple LLM APIs and providers.
