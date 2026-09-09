@@ -121,6 +121,10 @@ The model may then be used in OntoGPT by prefixing its name with `ollama/`, e.g.
 
 Some ollama models may not be listed in `ontogpt list-models` but the full list of downloaded LLMs can be seen with `ollama list` command.
 
+## Agent Skills
+
+The [`skills/`](skills/) directory holds four [Agent Skills](https://agentskills.io) that teach an AI coding agent to operate OntoGPT: run extractions, select a template, write a new template and choose its ontologies, and troubleshoot outputs. In a Claude Code session opened in this repository they load automatically; see [skills/README.md](skills/README.md) to install them elsewhere. Details in the [documentation](docs/agent_skills.md).
+
 ## Evaluations
 
 OntoGPT's functions have been evaluated on test data. Please see the full documentation for details on these evaluations and how to reproduce them.
