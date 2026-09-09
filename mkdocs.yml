@@ -42,6 +42,7 @@ nav:
       - Biochemical Reactions: reaction/index.md
       - Biological Processes: biological_process/index.md
       - Biotic Interactions: biotic_interaction/index.md
+      - Cat and Dog Breeds: pet_breed/index.md
       - Cell Types: cell_type/index.md
       - Chemical to Disease: ctd/index.md
       - Chemical to Disease (Entities Only): ctd_ner/index.md
