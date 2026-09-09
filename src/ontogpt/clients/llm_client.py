@@ -12,7 +12,7 @@ from litellm import completion, embedding
 from litellm.caching.caching import Cache, LiteLLMCacheType
 from oaklib.utilities.apikey_manager import get_apikey_value
 
-from ontogpt import DEFAULT_MODEL
+from ontogpt import DEFAULT_EMBEDDING_MODEL, DEFAULT_MODEL
 
 logger = logging.getLogger(__name__)
 
@@ -269,8 +269,7 @@ class LLMClient:
         text = str(text)
 
         # TODO: set embedding model based on model source
-        # Or at least set the default for OpenAI models
-        model = self.model or "text-embedding-ada-002"
+        model = self.model or DEFAULT_EMBEDDING_MODEL
 
         logger.info(f"Retrieving embeddings from {model} for text: {text[0:80]}...")
 

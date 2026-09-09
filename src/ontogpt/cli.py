@@ -288,7 +288,7 @@ target_class_option = click.option(
 model_option = click.option(
     "-m",
     "--model",
-    help="Model name to use, e.g. orca-mini-7b or gpt-4."
+    help="Model name to use, e.g. gpt-5.5, anthropic/claude-sonnet-5, or ollama/llama3."
     " See all model names with ontogpt list-models.",
 )
 prompt_template_option = click.option(
@@ -349,7 +349,8 @@ temperature_option = click.option(
     "--temperature",
     type=click.FLOAT,
     default=DEFAULT_TEMPERATURE,
-    help="Temperature for model completion.",
+    help="Temperature for model completion."
+    " Reasoning models accept only the default and other values are dropped with a warning.",
 )
 cut_input_text_option = click.option(
     "--cut-input-text/--no-cut-input-text",
@@ -716,7 +717,7 @@ def pubmed_annotate(
 
     Example:
     ontogpt pubmed-annotate -t phenotype "Takotsubo Cardiomyopathy: A Brief Review"
-        --get-pmc --model gpt-4o --limit 3
+        --get-pmc --model gpt-5.5 --limit 3
     """
     if not model:
         model = DEFAULT_MODEL
@@ -1623,7 +1624,7 @@ def run_multilingual_analysis(
 
     Example:
 
-    ontogpt run-multilingual-analysis -m gpt-4o en_test/ test_multiling_out/
+    ontogpt run-multilingual-analysis -m gpt-5.5 en_test/ test_multiling_out/
 
     """
     template = "all_disease_grounding"

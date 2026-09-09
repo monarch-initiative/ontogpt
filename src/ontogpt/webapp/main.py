@@ -56,13 +56,14 @@ for template_id, (_name, description) in all_templates.items():
     DATAMODELS[template_id] = f"{description}"
 
 LLM_MODELS = [
-    "gpt-4o-mini",
+    "gpt-5.5",
+    "gpt-5.4-mini",
     "gpt-4o",
-    "gpt-4",
-    "gpt-4-turbo",
-    "ollama/llama2",
+    "anthropic/claude-opus-5",
+    "anthropic/claude-sonnet-5",
+    "anthropic/claude-haiku-4-5",
     "ollama/llama3",
-    "ollama/orca-mini",
+    "ollama/gemma3",
 ]
 
 
