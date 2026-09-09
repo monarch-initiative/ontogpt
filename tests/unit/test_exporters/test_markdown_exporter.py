@@ -19,7 +19,7 @@ class TestExport(unittest.TestCase):
         self.exporter = MarkdownExporter()
         with open(TEST_PICKLED_RESULTS, "rb") as f:
             self.extraction_result = pickle.load(f)
-        # print(yaml.dump(self.extraction_result.dict()))
+        # print(yaml.dump(self.extraction_result.model_dump()))
 
     def test_export(self):
         """Test export."""

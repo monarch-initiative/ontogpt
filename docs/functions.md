@@ -78,7 +78,9 @@ Alternatively, the target class can be specified as part of the `--template` opt
 
 Use the option `model` to specify the name of a large language model to be used.
 
-For example, this may be `--model gpt-4`.
+For example, this may be `--model gpt-5.5` or `--model anthropic/claude-sonnet-5`.
+
+If no model is specified, OntoGPT uses `gpt-5.5`.
 
 Consult the full list of available models with:
 
@@ -107,7 +109,7 @@ This is done through the `pymupdf` package.
 Example:
 
 ```bash
-ontogpt extract -i temp/test1.pdf -m gpt-4o --use-pdf -t composite_disease --output-format json -o test.json
+ontogpt extract -i temp/test1.pdf -m gpt-5.5 --use-pdf -t composite_disease --output-format json -o test.json
 ```
 
 ### output
@@ -165,13 +167,15 @@ Use the option `model-provider` to specify a provider if it is not already encod
 
 For example, if using a proxy using the OpenAI API format, this should be set to `openai`.
 
-In general, provider-qualified model names such as `anthropic/claude-3-5-sonnet` or `groq/llama-3.1-8b-instant` are preferred because they align directly with LiteLLM's provider resolution.
+In general, provider-qualified model names such as `anthropic/claude-sonnet-5` or `groq/llama-3.1-8b-instant` are preferred because they align directly with LiteLLM's provider resolution.
 
 ### temperature
 
 Use the option `temperature` to specify the temperature the model should generate using.
 
 The range may vary per model, but for the OpenAI API this value must range from 0 to 2, with a default of 1.0.
+
+Reasoning models, including the GPT-5 family and Claude Sonnet 5 and Opus 5, accept only the default temperature. For these models any other value is dropped with a warning and the request is retried.
 
 Higher temperatures generally correspond to greater randomness, which may be desirable.
 
@@ -361,7 +365,7 @@ Example:
 ontogpt embed "obstreperous muskrat"
 ```
 
-For OpenAI's "text-embedding-ada-002" model, the output will be a vector of length 1536, like so:
+For OpenAI's "text-embedding-3-small" model (the default), the output will be a vector of length 1536, like so:
 
 ```bash
 [-0.015013165771961212, -0.013102399185299873, -0.005333086010068655, ...]
@@ -498,7 +502,7 @@ extracted_object:
 Or, we can extract information about a drug and specify which model to use:
 
 ```bash
-ontogpt extract -t drug -i tests/input/cases/drug-DB00316-moa.txt --auto-prefix UNKNOWN -m gpt-4
+ontogpt extract -t drug -i tests/input/cases/drug-DB00316-moa.txt --auto-prefix UNKNOWN -m gpt-5.5
 ```
 
 The `ontology_class` schema may be used to perform more domain-agnostic entity recognition, though this is generally incompatible with grounding.
@@ -604,7 +608,7 @@ Options:
 Examples:
 
 ```bash
-ontogpt pubmed-annotate -t phenotype "Takotsubo Cardiomyopathy: A Brief Review" --get-pmc --model gpt-4o --limit 3
+ontogpt pubmed-annotate -t phenotype "Takotsubo Cardiomyopathy: A Brief Review" --get-pmc --model gpt-5.5 --limit 3
 ```
 
 ```bash
@@ -778,7 +782,7 @@ Even relatively short pages may exceed a model's context size, so larger context
 Example:
 
 ```bash
-ontogpt web-extract -t reaction.Reaction -m gpt-4o https://www.scienceofcooking.com/maillard_reaction.htm 
+ontogpt web-extract -t reaction.Reaction -m gpt-5.5 https://www.scienceofcooking.com/maillard_reaction.htm 
 ```
 
 ### wikipedia-extract
@@ -792,7 +796,7 @@ Even relatively short pages may exceed a model's context size, so larger context
 Example:
 
 ```bash
-ontogpt wikipedia-extract -t mendelian_disease.MendelianDisease -m gpt-4o  "Cartilage–hair hypoplasia"
+ontogpt wikipedia-extract -t mendelian_disease.MendelianDisease -m gpt-5.5  "Cartilage–hair hypoplasia"
 ```
 
 ### wikipedia-search
@@ -806,5 +810,5 @@ Even relatively short pages may exceed a model's context size, so larger context
 Example:
 
 ```bash
-ontogpt wikipedia-search -t biological_process -m gpt-4o "digestion"
+ontogpt wikipedia-search -t biological_process -m gpt-5.5 "digestion"
 ```

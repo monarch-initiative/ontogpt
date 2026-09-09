@@ -253,11 +253,11 @@ class EvalDrugMechDB(SPIRESEvaluationEngine):
             training=[],
             predictions=[],
         )
-        print(yaml.dump(eos.dict()))
+        print(yaml.dump(eos.model_dump()))
         for test_obj in eos.test:
             text = self.drug_to_mechanism_text[test_obj.drug]
             test_obj.source_text = text
-            print(yaml.dump(test_obj.dict()))
+            print(yaml.dump(test_obj.model_dump()))
             stub = {
                 "disease": test_obj.disease,
                 "drug": test_obj.drug,
@@ -266,9 +266,9 @@ class EvalDrugMechDB(SPIRESEvaluationEngine):
             predicted_obj = results.extracted_object
             pred = PredictionDrugMechDB(predicted_object=predicted_obj, test_object=test_obj)
             pred.named_entities = results.named_entities
-            print(yaml.dump(pred.dict()))
+            print(yaml.dump(pred.model_dump()))
             pred.calculate_scores()
-            print(yaml.dump(pred.dict()))
+            print(yaml.dump(pred.model_dump()))
             eos.predictions.append(pred)
         return eos
 
@@ -280,9 +280,9 @@ class EvalDrugMechDB(SPIRESEvaluationEngine):
         ke = self.extractor
         eos = self.create_test_and_training(num_test=self.num_tests, num_training=self.num_training)
         eos.predictions = []
-        print(yaml.dump(eos.dict()))
+        print(yaml.dump(eos.model_dump()))
         for test_obj in eos.test:
-            print(yaml.dump(test_obj.dict()))
+            print(yaml.dump(test_obj.model_dump()))
             stub = {
                 "disease": test_obj.disease,
                 "drug": test_obj.drug,

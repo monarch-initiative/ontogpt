@@ -8,12 +8,11 @@ from typing import Optional
 
 import litellm
 import numpy as np
-import openai  # For error handling
 from litellm import completion, embedding
-from litellm.caching.caching import Cache
+from litellm.caching.caching import Cache, LiteLLMCacheType
 from oaklib.utilities.apikey_manager import get_apikey_value
 
-from ontogpt import DEFAULT_MODEL
+from ontogpt import DEFAULT_EMBEDDING_MODEL, DEFAULT_MODEL
 
 logger = logging.getLogger(__name__)
 
@@ -168,11 +167,11 @@ class LLMClient:
             self._resolve_provider_settings()
             self._apply_oaklib_credentials()
 
-        # Set up the cache, and set the cache path if provided
-        if len(self.cache_db_path) == 0:
-            litellm.cache = Cache(disk_cache_dir="./.litellm_cache")
-        else:
-            litellm.cache = Cache(disk_cache_dir=self.cache_db_path)
+        # Set up the on-disk cache, and set the cache path if provided.
+        # The cache type must be set explicitly; LiteLLM's default is an
+        # in-memory cache that ignores disk_cache_dir.
+        cache_dir = self.cache_db_path if self.cache_db_path else "./.litellm_cache"
+        litellm.cache = Cache(type=LiteLLMCacheType.DISK, disk_cache_dir=cache_dir)
 
     def complete(self, prompt, show_prompt: bool = False, **kwargs) -> str:
 
@@ -192,52 +191,68 @@ class LLMClient:
         # require action before we may continue.
         force_stop = False
 
-        try:
-            # TODO: expose user prompt to CLI
-            request_kwargs = {
-                "api_base": self.api_base,
-                "api_version": self.api_version,
-                "model": self.model,
-                "messages": these_messages,
-                "temperature": self.temperature,
-                "caching": True,
-                "custom_llm_provider": self.custom_llm_provider,
-            }
-            if self.api_key:
-                request_kwargs["api_key"] = self.api_key
-            response = completion(**request_kwargs)
-        except openai.APITimeoutError as e:
-            logger.error(f"Encountered API timeout error: {e}")
-        except litellm.exceptions.AuthenticationError as e:
-            logger.error(f"Encountered authentication error: {e}")
-            force_stop = True
-        except litellm.exceptions.NotFoundError as e:
-            logger.error(f"Encountered error due to unrecognized model or endpoint: {e}")
-            force_stop = True
-        except litellm.exceptions.ContextWindowExceededError as e:
-            logger.error(f"Exceeded context window: {e}")
-        except litellm.exceptions.BadRequestError as e:
-            logger.error(f"Encountered error due to bad request: {e}")
-            force_stop = True
-        except litellm.exceptions.UnprocessableEntityError as e:
-            logger.error(f"Encountered error due to unprocessable entity: {e}")
-        except litellm.exceptions.PermissionDeniedError as e:
-            logger.error(f"Encountered error - permission denied: {e}")
-            force_stop = True
-        except litellm.exceptions.RateLimitError as e:
-            logger.error(f"Encountered rate limiting: {e}")
-        except litellm.exceptions.ServiceUnavailableError as e:
-            logger.error(f"Service unavailable: {e}")
-            force_stop = True
-        except litellm.exceptions.InternalServerError as e:
-            logger.error(f"Internal server error: {e}")
-            force_stop = True
-        except litellm.exceptions.APIError as e:
-            logger.error(f"API returned an invalid response: {e}")
-        except litellm.exceptions.APIConnectionError as e:
-            logger.error(f"API connection error: {e}")
-        except Exception as e:
-            logger.error(f"Encountered error: {type(e)}, Error: {e}")
+        # TODO: expose user prompt to CLI
+        request_kwargs = {
+            "api_base": self.api_base,
+            "api_version": self.api_version,
+            "model": self.model,
+            "messages": these_messages,
+            "temperature": self.temperature,
+            "caching": True,
+            "custom_llm_provider": self.custom_llm_provider,
+        }
+        if self.api_key:
+            request_kwargs["api_key"] = self.api_key
+
+        while True:
+            try:
+                response = completion(**request_kwargs)
+            except litellm.exceptions.UnsupportedParamsError as e:
+                # Reasoning models (e.g., the GPT-5 family, Claude Sonnet 5 and Opus 5)
+                # reject sampling parameters such as temperature. Retry once and let
+                # LiteLLM drop whatever the provider does not accept.
+                if not request_kwargs.get("drop_params"):
+                    logger.warning(
+                        f"Model {self.model} rejected a request parameter; "
+                        f"retrying without it. Details: {e}"
+                    )
+                    request_kwargs["drop_params"] = True
+                    continue
+                logger.error(f"Encountered error due to unsupported parameters: {e}")
+                force_stop = True
+            except litellm.exceptions.Timeout as e:
+                logger.error(f"Encountered API timeout error: {e}")
+            except litellm.exceptions.AuthenticationError as e:
+                logger.error(f"Encountered authentication error: {e}")
+                force_stop = True
+            except litellm.exceptions.NotFoundError as e:
+                logger.error(f"Encountered error due to unrecognized model or endpoint: {e}")
+                force_stop = True
+            except litellm.exceptions.ContextWindowExceededError as e:
+                logger.error(f"Exceeded context window: {e}")
+            except litellm.exceptions.BadRequestError as e:
+                logger.error(f"Encountered error due to bad request: {e}")
+                force_stop = True
+            except litellm.exceptions.UnprocessableEntityError as e:
+                logger.error(f"Encountered error due to unprocessable entity: {e}")
+            except litellm.exceptions.PermissionDeniedError as e:
+                logger.error(f"Encountered error - permission denied: {e}")
+                force_stop = True
+            except litellm.exceptions.RateLimitError as e:
+                logger.error(f"Encountered rate limiting: {e}")
+            except litellm.exceptions.ServiceUnavailableError as e:
+                logger.error(f"Service unavailable: {e}")
+                force_stop = True
+            except litellm.exceptions.InternalServerError as e:
+                logger.error(f"Internal server error: {e}")
+                force_stop = True
+            except litellm.exceptions.APIError as e:
+                logger.error(f"API returned an invalid response: {e}")
+            except litellm.exceptions.APIConnectionError as e:
+                logger.error(f"API connection error: {e}")
+            except Exception as e:
+                logger.error(f"Encountered error: {type(e)}, Error: {e}")
+            break
 
         if force_stop:
             sys.exit("Exiting...")
@@ -254,8 +269,7 @@ class LLMClient:
         text = str(text)
 
         # TODO: set embedding model based on model source
-        # Or at least set the default for OpenAI models
-        model = self.model or "text-embedding-ada-002"
+        model = self.model or DEFAULT_EMBEDDING_MODEL
 
         logger.info(f"Retrieving embeddings from {model} for text: {text[0:80]}...")
 

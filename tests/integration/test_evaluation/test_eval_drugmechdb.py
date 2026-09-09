@@ -3,6 +3,7 @@ import unittest
 
 import yaml
 
+from ontogpt import DEFAULT_MODEL
 from ontogpt.engines.spires_engine import SPIRESEngine
 from ontogpt.evaluation.drugmechdb.datamodel.drugmechdb import Graph, Mechanism
 from ontogpt.evaluation.drugmechdb.eval_drugmechdb import (
@@ -107,7 +108,7 @@ class TestDrugMechDB(unittest.TestCase):
         if not EXEMPLAR_CASES.exists():
             self.skipTest("DrugMechDB exemplar data is not available in this checkout")
         mechanisms = self.engine.load_exemplars()
-        objs = [m.dict() for m in mechanisms]
+        objs = [m.model_dump() for m in mechanisms]
         print(yaml.dump(objs[0:5]))
         self.assertGreater(len(mechanisms), 0)
 
@@ -133,7 +134,7 @@ class TestDrugMechDB(unittest.TestCase):
             self.skipTest("DrugMechDB source database is not available in this checkout")
         mechanisms = self.engine.load_and_transform_source_database()
         print(f"Loaded {len(mechanisms)} mechanisms")
-        objs = [m.dict() for m in mechanisms]
+        objs = [m.model_dump() for m in mechanisms]
         with open(NORMALIZED_OUT, "w") as f:
             yaml.dump(objs, f)
         print(yaml.dump(objs[0:5]))
@@ -144,7 +145,7 @@ class TestDrugMechDB(unittest.TestCase):
             self.skipTest("DrugMechDB normalized database is not available in this checkout")
         mechanisms = self.engine.load_target_database()
         print(f"Loaded {len(mechanisms)} mechanisms")
-        objs = [m.dict() for m in mechanisms[0:5]]
+        objs = [m.model_dump() for m in mechanisms[0:5]]
         print(yaml.dump(objs))
         self.assertGreater(len(mechanisms), 0)
 
@@ -163,7 +164,7 @@ class TestDrugMechDB(unittest.TestCase):
         evaluator = self.engine
         ke = evaluator.extractor
         training_set = list(evaluator.create_training_set(100))
-        t = dict(base_model="gpt-4o", template=ke.template, examples=training_set)
+        t = dict(base_model=DEFAULT_MODEL, template=ke.template, examples=training_set)
         with open(TRAINING_OUT, "w") as f:
             yaml.dump(t, f)
         # print(yaml.dump(training_set))
@@ -175,7 +176,7 @@ class TestDrugMechDB(unittest.TestCase):
         evaluator.num_tests = 100
         eos = evaluator.eval()
         with open(EXTRACTION_OUT, "w") as f:
-            yaml.dump(eos.dict(), f)
+            yaml.dump(eos.model_dump(), f)
 
     @unittest.skip("Skip this test because it takes a long time and is more expensive")
     def test_eval_fine_tuned_extraction(self):
@@ -185,7 +186,7 @@ class TestDrugMechDB(unittest.TestCase):
         evaluator.num_tests = 40
         eos = evaluator.eval()
         with open(EXTRACTION_OUT, "w") as f:
-            yaml.dump(eos.dict(), f)
+            yaml.dump(eos.model_dump(), f)
 
     def test_eval_generalize(self):
         if not EXEMPLAR_CASES.exists():
@@ -197,4 +198,4 @@ class TestDrugMechDB(unittest.TestCase):
         evaluator.data = mechanisms
         eos = evaluator.eval_path_prediction()
         with open(PREDICTIONS_OUT, "w") as f:
-            yaml.dump(eos.dict(), f)
+            yaml.dump(eos.model_dump(), f)

@@ -8,7 +8,7 @@ authors = [
     {name = "J. Harry Caufield", email = "jhc@lbl.gov"},
 ]
 license = {text = "BSD-3"}
-requires-python = ">=3.10,<3.14"
+requires-python = ">=3.10,<3.15"
 dependencies = [
     "ruamel-yaml>=0.17.31",
     "aiohttp>=3.8.4",
@@ -29,14 +29,12 @@ dependencies = [
     "wikipedia-api>=0.5.8",
     "dpath<3.0.0,>=2.1.6",
     "toml>=0.10.2",
-    "frontend>=0.0.3",
-    "litellm[caching]>=1.81.4",
+    "litellm[caching]>=1.95.0,<1.98; python_version < \"3.11\"",
+    "litellm[caching]>=1.95.0; python_version >= \"3.11\"",
     "diskcache<6.0.0,>=5.6.3",
     "pymupdf<2.0.0,>=1.24.9",
-    "scipy<2.0.0,>=1.13.0; python_version < \"3.13\"",
-    "scipy<2.0.0,>=1.14.1; python_version >= \"3.13\"",
-    "numpy<2.1,>=1.23; python_version < \"3.13\"",
-    "numpy>=2.0.0; python_version >= \"3.13\"",
+    "scipy<2.0.0,>=1.14.1",
+    "numpy>=2.0.0",
 ]
 
 [build-system]

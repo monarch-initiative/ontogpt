@@ -6,6 +6,7 @@ import yaml
 from linkml_runtime.linkml_model import ClassDefinitionName
 from oaklib import get_implementation_from_shorthand
 
+from ontogpt import DEFAULT_MODEL
 from ontogpt.clients.pubmed_client import PubmedClient
 from ontogpt.engines import create_engine
 from ontogpt.engines.knowledge_engine import chunk_text_by_sentence
@@ -23,7 +24,7 @@ from ontogpt.templates.gocam import (
 
 TEMPLATE = "gocam.GoCamAnnotations"
 
-MODEL = "gpt-4o"
+MODEL = DEFAULT_MODEL
 MODEL_SOURCE = "openai"
 
 PAPER = """
@@ -431,7 +432,7 @@ class TestCore(unittest.TestCase):
         print(f"RESULTS={ann}")
         self.assertIsInstance(ann, dict)
         self.assertIn(ann, ({}, {"gene": "foobaz", "molecular_activity": "Not specified"}))
-        # print(yaml.dump(ann.dict()))
+        # print(yaml.dump(ann.model_dump()))
 
     def test_prompt(self):
         """Tests prompt generation.

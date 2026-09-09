@@ -66,7 +66,7 @@
           </select>
         </div>
         <div>
-          Select LLM (non-GPT models will require ollama to be running):
+          Select LLM (ollama/ models require ollama to be running; API models require the matching provider key):
           <select name="llm_model" id="llm_model">
             {% for llm_model in llm_models %}
             <option value="{{ llm_model }}">{{ llm_model }}</option>

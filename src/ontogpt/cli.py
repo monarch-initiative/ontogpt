@@ -13,8 +13,8 @@ from typing import Dict, List, Optional, Tuple, Union
 
 import click
 import jsonlines
+import litellm
 import yaml
-from litellm.litellm_core_utils.get_model_cost_map import get_model_cost_map
 from oaklib import get_adapter
 from oaklib.cli import query_terms_iterator
 from oaklib.interfaces import OboGraphInterface
@@ -288,7 +288,7 @@ target_class_option = click.option(
 model_option = click.option(
     "-m",
     "--model",
-    help="Model name to use, e.g. orca-mini-7b or gpt-4."
+    help="Model name to use, e.g. gpt-5.5, anthropic/claude-sonnet-5, or ollama/llama3."
     " See all model names with ontogpt list-models.",
 )
 prompt_template_option = click.option(
@@ -349,7 +349,8 @@ temperature_option = click.option(
     "--temperature",
     type=click.FLOAT,
     default=DEFAULT_TEMPERATURE,
-    help="Temperature for model completion.",
+    help="Temperature for model completion."
+    " Reasoning models accept only the default and other values are dropped with a warning.",
 )
 cut_input_text_option = click.option(
     "--cut-input-text/--no-cut-input-text",
@@ -716,7 +717,7 @@ def pubmed_annotate(
 
     Example:
     ontogpt pubmed-annotate -t phenotype "Takotsubo Cardiomyopathy: A Brief Review"
-        --get-pmc --model gpt-4o --limit 3
+        --get-pmc --model gpt-5.5 --limit 3
     """
     if not model:
         model = DEFAULT_MODEL
@@ -1623,7 +1624,7 @@ def run_multilingual_analysis(
 
     Example:
 
-    ontogpt run-multilingual-analysis -m gpt-4o en_test/ test_multiling_out/
+    ontogpt run-multilingual-analysis -m gpt-5.5 en_test/ test_multiling_out/
 
     """
     template = "all_disease_grounding"
@@ -2213,12 +2214,13 @@ def list_models():
     in particular ways, so consult a model's original documentation for
     further details.
     """
-    models = get_model_cost_map("")
+    # LiteLLM loads this map at import time (remote, with a bundled fallback).
+    models = litellm.model_cost
 
     print("Model Name\tProvider\tFunctionality\tMax Tokens")
     for model in models:
         primary_name = model
-        provider = models[model]["litellm_provider"]
+        provider = models[model].get("litellm_provider", "")
 
         if "mode" in models[model]:
             functionality = models[model]["mode"]
@@ -2227,7 +2229,8 @@ def list_models():
         else:
             continue
 
-        max_tokens = models[model]["max_tokens"]
+        # Not every entry in the map has a token limit.
+        max_tokens = models[model].get("max_tokens", "")
 
         print(f"{primary_name}\t{provider}\t{functionality}\t{max_tokens}")
 

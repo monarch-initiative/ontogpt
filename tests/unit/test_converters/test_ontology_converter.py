@@ -38,7 +38,7 @@ class TestOntologyConverter(unittest.TestCase):
         graph = oi.as_obograph()
         converter = self.converter
         ontology = converter.from_obograph(graph)
-        # print(yaml.dump(ontology.dict()))
+        # print(yaml.dump(ontology.model_dump()))
         [nucleus] = [x for x in ontology.elements if x.name == "Nucleus"]
         self.assertCountEqual(["NuclearEnvelope", "NuclearMembrane"], nucleus.parts)
         self.assertCountEqual(["IntracellularMembrane-boundedOrganelle"], nucleus.subclass_of)
