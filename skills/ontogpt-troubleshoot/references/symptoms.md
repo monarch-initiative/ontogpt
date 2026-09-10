@@ -47,9 +47,9 @@ Log lines are as OntoGPT prints them at default verbosity unless marked `-v`.
 | `AUTO:term` and `runoak` returns an id with a different prefix | prefix not in `id_prefixes` | add the prefix (and its `prefixes:` expansion) or switch annotator |
 | `AUTO:long phrase with qualifiers` | annotator matches whole text first; partial matches only apply for BioPortal annotators | prompt for the bare term; separate qualifier fields |
 | `-v` shows `ID X not in prefixes [...]` | as above | as above |
-| `-v` shows `ID X not in value set Y` | dynamic enum filtered it | widen `reachable_from.source_nodes` or drop `values_from` |
+| `-v` shows `ID X not in value set Y` or `Rejected X (label): not in enum Y` | dynamic enum filtered it; the id was dropped without a mapper call | widen `reachable_from.source_nodes` or drop `values_from`. If the label shown is the intended term, the enum root is too narrow. |
 | `-v` shows `ID X does not match pattern` | `slot_usage.id.pattern` too strict | fix the regex |
-| `ERROR:root:Encountered error when normalizing X: HTTPSConnectionPool(host='nodenormalization-sri.renci.org' ...` | an id outside `id_prefixes` was sent to the Translator node normalizer for mapping and the service timed out | harmless; the id is dropped and the value becomes `AUTO:`. Align annotators with `id_prefixes` so the mapper is not needed. |
+| `ERROR:root:Encountered error when normalizing X: HTTPSConnectionPool(host='nodenormalization-sri.renci.org' ...` | an id outside `id_prefixes` was sent to the Translator node normalizer for mapping and the service timed out (30 s each) | harmless; the id is dropped and the value becomes `AUTO:`. Align annotators with `id_prefixes` so the mapper is not needed. Ids with the right prefix that an enum or pattern rejects never reach the mapper. |
 | a broad, wrong id (a parent term) | partial match or a synonym collision | reorder annotators; restrict with `values_from`; add the exact term to a `--dictionary` |
 | ids from the wrong species ontology | annotator order | put the intended ontology first; drop the other |
 | `WARNING:root:Could not find any mappings for ...` | `id_prefixes` do not match what the annotator returns | fix prefixes (`HP` not `HPO`) |
