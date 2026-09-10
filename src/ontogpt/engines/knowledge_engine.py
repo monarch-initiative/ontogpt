@@ -802,10 +802,17 @@ class KnowledgeEngine(ABC):
                 except Exception as e:
                     logger.error(f"Error with {annotator} for {text}: {e}")
                     continue
+                if matches_whole_text:
+                    # A hit whose own label is the text outranks one that matched by synonym.
+                    results.sort(key=lambda r: not self._label_matches_text(r.object_label, text))
                 for result in results:
                     if result.object_label:
                         self.grounding_labels[str(result.object_id)] = str(result.object_label)
                     yield result.object_id
+
+    @staticmethod
+    def _label_matches_text(label: Optional[str], text: str) -> bool:
+        return label is not None and str(label).casefold() == text.casefold()
 
     def merge_resultsets(
         self, resultset: List[ExtractionResult], unique_fields: Optional[List[str]] = None
