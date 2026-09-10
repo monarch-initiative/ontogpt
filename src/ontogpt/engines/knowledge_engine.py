@@ -57,7 +57,11 @@ Functions:
     is_valid_identifier(input_id: str, cls: ClassDefinition) -> bool:
         Check if an identifier is valid for a given class.
 
+    identifier_rejection(input_id: str, cls: ClassDefinition) -> Optional[IdentifierRejection]:
+        Say why an identifier is not valid for a given class, or None if it is.
+
     normalize_identifier(input_id: str, cls: ClassDefinition) -> Iterator[str]:
+        Yield acceptable identifiers, mapping to a preferred prefix only when the prefix is wrong.
 
     map_identifier(input_id: str, cls: ClassDefinition) -> Iterator[str]:
         Map an identifier to a preferred prefix.
@@ -128,6 +132,30 @@ def chunk_text_by_char(text: str, window_size=1000) -> Iterator[str]:
     """Chunk text into windows of characters."""
     for i in range(0, len(text), window_size):
         yield text[i : i + window_size]
+
+
+REJECT_NO_SCHEMA = "schema"
+REJECT_PREFIX = "prefix"
+REJECT_PATTERN = "pattern"
+REJECT_VALUE_SET = "value_set"
+
+
+@dataclass
+class IdentifierRejection:
+    """Why an identifier was refused for a class.
+
+    ``reason`` is one of ``REJECT_NO_SCHEMA``, ``REJECT_PREFIX``, ``REJECT_PATTERN``, or
+    ``REJECT_VALUE_SET``. Only a prefix rejection can be helped by mapping to another
+    identifier: an id with an acceptable prefix that fails the pattern or the value set
+    is simply the wrong term, and no mapper will change that.
+    """
+
+    reason: str
+    message: str
+
+    @property
+    def mappable(self) -> bool:
+        return self.reason == REJECT_PREFIX
 
 
 @dataclass
@@ -203,6 +231,9 @@ class KnowledgeEngine(ABC):
     """Local dictionary of strings/labels to IDs"""
 
     value_set_expansions: Dict[str, List[str]] = field(default_factory=dict)
+
+    grounding_labels: Dict[str, str] = field(default_factory=dict)
+    """Labels of identifiers returned by annotators during grounding, used for logging."""
 
     min_grounding_text_overlap = 0.66
     """Min proportion of overlap in characters between text and grounding. TODO: use tokenization"""
@@ -525,23 +556,37 @@ class KnowledgeEngine(ABC):
         return obj_id
 
     def is_valid_identifier(self, input_id: str, cls: ClassDefinition) -> bool:
+        return self.identifier_rejection(input_id, cls) is None
+
+    def identifier_rejection(
+        self, input_id: str, cls: ClassDefinition
+    ) -> Optional[IdentifierRejection]:
+        """
+        Check an identifier against a class and say why it fails, if it does.
+
+        :param input_id: a CURIE
+        :param cls: schema class the identifier should belong to
+        :return: None when the identifier is acceptable, otherwise an IdentifierRejection
+        """
         if self.schemaview is None:
-            return False
+            return IdentifierRejection(REJECT_NO_SCHEMA, "no schema loaded")
         sv = self.schemaview
         if cls.id_prefixes:
             if ":" not in input_id:
-                return False
+                return IdentifierRejection(REJECT_PREFIX, f"not a CURIE; want {cls.id_prefixes}")
             prefix, rest = input_id.split(":", 1)
             if prefix not in cls.id_prefixes:
                 logger.debug(f"ID {input_id} not in prefixes {cls.id_prefixes}")
-                return False
+                return IdentifierRejection(REJECT_PREFIX, f"prefix not in {cls.id_prefixes}")
         id_slot = sv.get_identifier_slot(cls.name)
         if id_slot and id_slot.pattern:
             id_regex = re.compile(id_slot.pattern)
             m = re.match(id_regex, input_id)
             if not m:
                 logger.debug(f"ID {input_id} does not match pattern {id_slot.pattern}")
-                return False
+                return IdentifierRejection(
+                    REJECT_PATTERN, f"does not match pattern {id_slot.pattern}"
+                )
         if id_slot and id_slot.values_from:
             vse = ValueSetExpander()
             is_found = False
@@ -561,13 +606,31 @@ class KnowledgeEngine(ABC):
                     break
             if not is_found:
                 logger.info(f"ID {input_id} not in value set {missing_valueset}")
-                return False
-        return True
+                return IdentifierRejection(REJECT_VALUE_SET, f"not in enum {missing_valueset}")
+        return None
 
     def normalize_identifier(self, input_id: str, cls: ClassDefinition) -> Iterator[str]:
+        """
+        Yield acceptable identifiers for a grounded id, mapping to another prefix if needed.
+
+        An id that already fits the class is yielded as is. An id whose prefix is not in
+        the class's ``id_prefixes`` is sent to the mappers, and any mapped id that fits is
+        yielded. An id with an acceptable prefix that is excluded by the id slot's pattern
+        or ``values_from`` is the wrong term, and no mapping can help. It is logged and
+        dropped without a mapper call.
+
+        :param input_id: a CURIE, typically from :meth:`groundings`
+        :param cls: schema class the identifier should belong to
+        """
         input_id = self._canonicalize_identifier_prefix(input_id, cls)
-        if self.is_valid_identifier(input_id, cls):
+        rejection = self.identifier_rejection(input_id, cls)
+        if rejection is None:
             yield input_id
+            return
+        if not rejection.mappable:
+            label = self.grounding_labels.get(input_id)
+            shown = f"{input_id} ({label})" if label else input_id
+            logger.info(f"Rejected {shown}: {rejection.message}")
             return
         seen = set()
         for obj_id in self.map_identifier(input_id, cls):
@@ -735,11 +798,14 @@ class KnowledgeEngine(ABC):
                     )
                     continue
                 try:
-                    results = annotator.annotate_text(text, config)
-                    for result in results:
-                        yield result.object_id
+                    results = list(annotator.annotate_text(text, config))
                 except Exception as e:
                     logger.error(f"Error with {annotator} for {text}: {e}")
+                    continue
+                for result in results:
+                    if result.object_label:
+                        self.grounding_labels[str(result.object_id)] = str(result.object_label)
+                    yield result.object_id
 
     def merge_resultsets(
         self, resultset: List[ExtractionResult], unique_fields: Optional[List[str]] = None
