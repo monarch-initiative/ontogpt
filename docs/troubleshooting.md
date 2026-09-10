@@ -14,6 +14,8 @@ There are a variety of reasons why this may happen, but one cause is if your sch
 
 Verify that the `id_prefixes` you specify in your schema correspond to those provided by the annotator. If your annotator is `sqlite:obo:hp`, for example, the prefix will be `HP` rather than `HPO`.
 
+Only an identifier whose prefix is outside `id_prefixes` is sent to the mapper (the Translator node normalizer) and can produce this warning. An identifier with the right prefix that is excluded by a `values_from` enum or an `id` `pattern` is dropped without a mapper call, and with `-v` you will see a line like `Rejected VBO:0001830 (Abyssinian, Ethiopia (Ass)): not in enum CatOrDogBreedIdentifier` instead.
+
 ## I stored a key with `runoak set-apikey` but get `AuthenticationError`, `Missing Authentication header`, or `Missing credentials`
 
 The stored name does not match the provider OntoGPT resolved for your model. For example, a key stored as `openrouter-key` is only read for `--model openrouter/...` (or `--model-provider openrouter`). With `--model-provider openai --api-base https://openrouter.ai/api/v1`, OntoGPT looks for the OpenAI key instead (`OPENAI_API_KEY` or `runoak set-apikey -e openai`). Run with `-v`: OntoGPT logs a warning naming the environment variable it wanted and the matching `runoak set-apikey` command. See [Setup](setup.md#setting-api-keys).
