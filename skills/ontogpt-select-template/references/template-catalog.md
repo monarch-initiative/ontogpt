@@ -55,6 +55,7 @@ Generated from `src/ontogpt/templates/*.yaml`. Regenerate when templates change.
 | `ontology_class` | OntologyClass | RO | A template for Ontology Classes |
 | `ontology_issue` | OntologyIssue | ungrounded | A data model for representing the contents of a GitHub issue on an ontology tracker |
 | `pathology` | PathologyReport | ICD10CM, PATO, SNOMEDCT, UBERON | A template for extracting and grounding pathology descriptions from text. |
+| `pet_breed` | BreedDescription | PATO, UBERON, UPHENO, VBO | Extracts a structured description of a single cat or dog breed from an encyclopedia-style text such as a Wikipedia article. Breed grounds to VBO (restricted to cat and dog breeds); each characteristic is split into phenotype (UPHENO), body part (UBERON), and quality (PATO). Also year established, origin, coat colours, temperament. |
 | `phenopackets` | PhenopacketCollection | CHEBI, CL, CMO, DRUGBANK, ECO, EFO, GENO, GSSO, HP, MAXO, MONDO, NCIT, OAE, PATO, SO, UBERON, UO | A template for extracting a phenopacket, an anonymous phenotypic description of an individual or biosample with potential genes of interest and/or diagnoses. This template is based on the Phenopackets schema v2, originally... |
 | `phenotype` | Trait | CHEBI, PATO, PR, UBERON | A template for Computational Phenotypes |
 | `predator_prey` | PredatorPreyRelationship | NCBITaxon | A template for extracting information about predator-prey relationships in ecological contexts |

@@ -46,6 +46,7 @@ A template decides three things: **what fields** the model is asked for, **which
 | Clinical case as a phenopacket | `phenopackets` (HP, MONDO, many more); `condition` (SNOMED via BioPortal, needs a key) | HP, MONDO, SNOMEDCT |
 | Pathology or clinical notes | `pathology`, `dietitian_notes` | SNOMEDCT, UBERON, PATO; FOODON, MAXO, MONDO |
 | Environmental samples, sites, materials | `environmental_sample`, `metagenome_study` (no root, use `-T`), `nmdc_schema_data` | ENVO, GAZ, MIXS, NCBITaxon, UO |
+| Cat or dog breed description (breed, year, characteristics) | `pet_breed` | VBO, UPHENO, UBERON, PATO |
 | Ecological interactions | `predator_prey` (NCBITaxon), `biotic_interaction` (relations only, RO) | NCBITaxon, RO |
 | Food and recipes | `food`, `foodon_simple`, `recipe` | FOODON |
 | Chemical reactions and enzymes | `reaction`, `metabolic_process` (no root, use `-T`) | CHEBI, GO, HGNC, NCBITaxon |

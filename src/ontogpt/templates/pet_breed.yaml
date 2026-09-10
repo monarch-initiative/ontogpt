@@ -1,0 +1,188 @@
+id: http://w3id.org/ontogpt/pet_breed
+name: pet_breed
+title: Cat and Dog Breed Description Template
+description: >-
+  Extracts a structured description of a single cat or dog breed from an
+  encyclopedia-style text such as a Wikipedia article. The breed grounds to
+  VBO (Vertebrate Breed Ontology). Each characteristic is decomposed into a
+  whole-phenotype term (UPHENO), the body part involved (UBERON), and the
+  quality observed (PATO).
+license: https://creativecommons.org/publicdomain/zero/1.0/
+prefixes:
+  linkml: https://w3id.org/linkml/
+  pet_breed: http://w3id.org/ontogpt/pet_breed/
+  VBO: http://purl.obolibrary.org/obo/VBO_
+  UPHENO: http://purl.obolibrary.org/obo/UPHENO_
+  UBERON: http://purl.obolibrary.org/obo/UBERON_
+  PATO: http://purl.obolibrary.org/obo/PATO_
+default_prefix: pet_breed
+default_range: string
+
+imports:
+  - linkml:types
+  - core
+
+classes:
+
+  BreedDescription:
+    tree_root: true
+    description: A structured description of one cat or dog breed.
+    attributes:
+      breed:
+        description: >-
+          the name of the single cat or dog breed that the text is about,
+          as written in the text, followed by the species in parentheses,
+          e.g. "Abyssinian (Cat)" or "Border Collie (Dog)"
+        range: Breed
+        annotations:
+          prompt.examples: Abyssinian (Cat), Siamese (Cat), Border Collie (Dog)
+      species:
+        description: whether the breed is a breed of cat or of dog
+        range: SpeciesEnum
+      year_established:
+        description: >-
+          the year the breed was first established, recognized, or
+          registered as a breed, as a four-digit year. If the text gives
+          several years, use the earliest year of formal recognition by a
+          breed registry. If no year is given, write "not stated".
+        annotations:
+          prompt.examples: "1868, 1979, not stated"
+      place_of_origin:
+        description: >-
+          the country or region where the breed is said to have originated,
+          as written in the text
+      characteristics:
+        description: >-
+          semicolon-separated list of the distinctive physical
+          characteristics of the breed described in the text. Each item
+          is exactly one body part with exactly one quality, as a short
+          phrase, e.g. "ticked coat", "large ears", "almond-shaped eyes",
+          "long body". If the text gives a body part two qualities, such
+          as "large erect ears" or "long lean body", write two items:
+          "large ears; erect ears". Do not include behaviour or
+          temperament here.
+        multivalued: true
+        range: BreedCharacteristic
+        inlined: true
+        inlined_as_list: true
+        annotations:
+          prompt.examples: ticked coat; large ears; erect ears; almond-shaped eyes; long body
+      coat_colors:
+        description: >-
+          semicolon-separated list of the coat colours accepted for the
+          breed, each as a single colour word or short phrase as written
+          in the text
+        multivalued: true
+        range: Color
+        annotations:
+          prompt.examples: ruddy; sorrel; blue; fawn
+      temperament:
+        description: >-
+          semicolon-separated list of short phrases describing the
+          behaviour and temperament of the breed, as written in the text
+        multivalued: true
+        annotations:
+          prompt.examples: highly social; active; playful; not a lap cat
+
+  BreedCharacteristic:
+    is_a: CompoundExpression
+    description: >-
+      One physical characteristic of a breed, decomposed into the phenotype
+      as a whole, the body part it affects, and the quality of that part.
+    attributes:
+      phenotype:
+        description: >-
+          the characteristic restated as a formal phenotype phrase of the
+          form "<increased or decreased> <attribute> of the <body part>"
+          or "<shape> <body part>", naming exactly one attribute, e.g. for
+          "large ears" write "increased size of the external ear"; for
+          "long body" write "increased length of the trunk"; for
+          "short coat" write "decreased length of the hair"; for
+          "almond-shaped eyes" write "almond-shaped eye"
+        range: Phenotype
+        annotations:
+          prompt.examples: increased size of the external ear, increased length of the trunk, almond-shaped eye
+      anatomical_part:
+        description: >-
+          the body part or structure the characteristic refers to, as a
+          single anatomical noun, e.g. "ear", "coat hair", "eye", "trunk"
+        range: AnatomicalPart
+        annotations:
+          prompt.examples: ear, coat hair, eye, trunk, limb
+      quality:
+        description: >-
+          the quality of the body part, as exactly one adjective, e.g.
+          "large", "erect", "long", "tapered", "oval", "dense", "short".
+          Never give two adjectives. Prefer a plain adjective of size,
+          length, shape, or density over a specialised term, e.g. "banded"
+          rather than "ticked", "slender" rather than "lithe"
+        range: Quality
+        annotations:
+          prompt.examples: large, erect, long, tapered, oval, dense, short
+
+  Breed:
+    is_a: NamedEntity
+    description: A cat or dog breed.
+    id_prefixes:
+      - VBO
+    annotations:
+      annotators: sqlite:obo:vbo
+    slot_usage:
+      id:
+        values_from:
+          - CatOrDogBreedIdentifier
+        identifier: true
+
+  Phenotype:
+    is_a: NamedEntity
+    description: A whole-organism or body-part phenotype.
+    id_prefixes:
+      - UPHENO
+    annotations:
+      annotators: sqlite:obo:upheno
+
+  AnatomicalPart:
+    is_a: NamedEntity
+    description: An anatomical structure.
+    id_prefixes:
+      - UBERON
+    annotations:
+      annotators: sqlite:obo:uberon
+
+  Quality:
+    is_a: NamedEntity
+    description: A quality or attribute.
+    id_prefixes:
+      - PATO
+    annotations:
+      annotators: sqlite:obo:pato
+
+  Color:
+    is_a: NamedEntity
+    description: A colour, as a PATO color quality.
+    id_prefixes:
+      - PATO
+    annotations:
+      annotators: sqlite:obo:pato
+
+enums:
+  SpeciesEnum:
+    permissible_values:
+      cat:
+      dog:
+
+  CatOrDogBreedIdentifier:
+    description: Any breed below the VBO cat breed or dog breed nodes.
+    include:
+      - reachable_from:
+          source_ontology: obo:vbo
+          relationship_types:
+            - rdfs:subClassOf
+          source_nodes:
+            - VBO:0400018  ## Cat breed
+      - reachable_from:
+          source_ontology: obo:vbo
+          relationship_types:
+            - rdfs:subClassOf
+          source_nodes:
+            - VBO:0400024  ## Dog breed
