@@ -8,12 +8,12 @@ Ex.:
 ontogpt extract -t recipe -i recipe-spaghetti.txt -o recipe-spaghetti.owl -O owl
 ```
 
-[src/ontogpt/templates/recipe.yaml](src/ontogpt/templates/recipe.yaml) is an example schema that uses linkml-owl mappings.
+[src/ontogpt/templates/recipe.yaml](https://github.com/monarch-initiative/ontogpt/blob/main/src/ontogpt/templates/recipe.yaml) is an example schema that uses linkml-owl mappings.
 
-See the [Makefile](Makefile) for a full pipeline that involves using robot to extract a subset of FOODON
+See the [Makefile](https://github.com/monarch-initiative/ontogpt/blob/main/Makefile) for a full pipeline that involves using robot to extract a subset of FOODON
 and merge in the extracted results. This uses [recipe-scrapers](https://github.com/hhursev/recipe-scrapers).
 
-OWL output: [recipe-all-merged.owl](tests/output/owl/merged/recipe-all-merged.owl)
+OWL output: [recipe-all-merged.owl](https://github.com/monarch-initiative/ontogpt/blob/main/tests/output/owl/merged/recipe-all-merged.owl)
 
 Classification:
 
