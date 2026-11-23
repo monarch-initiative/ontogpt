@@ -16,7 +16,7 @@ A template decides three things: **what fields** the model is asked for, **which
 
 1. **State the target in one line.** "Drug, disease, and mechanism triples from pharmacology abstracts." "HPO phenotypes from case reports." "Sampling site, environmental material, and taxa from a metagenomics methods section." Name the entity types and, if the user needs them, the relations between them.
 2. **Name the identifier namespaces the user needs downstream.** MONDO or MESH for disease? HGNC or UniProt for genes? This decides between templates that look alike. Ask only if the downstream use is unstated and it changes the answer.
-3. **Scan the catalog.** [references/template-catalog.md](references/template-catalog.md) lists every bundled template with its root class, grounding prefixes, and purpose. Shortlist by entity types first, then by prefixes, then by input shape (abstract, full paper, clinical note, table).
+3. **Scan the catalog.** [references/template-catalog.md](references/template-catalog.md) lists every bundled template with its root class, grounding prefixes, and purpose. A prefix marked `*` comes from a class's annotators rather than its `id_prefixes`; confirm those with the script in step 4. Shortlist by entity types first, then by prefixes, then by input shape (abstract, full paper, clinical note, table).
 4. **Inspect the shortlist.** For each candidate run
    ```bash
    uv run python skills/ontogpt-select-template/scripts/describe_template.py <name>
