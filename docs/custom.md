@@ -4,7 +4,7 @@
 
 Define a schema (using a subset of [LinkML](https://linkml.io)) that describes the structure in which you want to extract knowledge from your text.
 
-There are a number of pre-defined LinkML data models already developed here - [src/ontogpt/templates/](src/ontogpt/templates/) which you can use as reference when creating your own data models.
+There are a number of pre-defined LinkML data models already developed here - [src/ontogpt/templates/](https://github.com/monarch-initiative/ontogpt/tree/main/src/ontogpt/templates) which you can use as reference when creating your own data models.
 
 ### The header
 
@@ -263,7 +263,7 @@ enums:
 
 ### Schema design tips
 
-It helps to have an understanding of the [LinkML](https://linkml.io) schema language, but it should be possible to define your own schemas using the examples in [src/ontogpt/templates](src/ontogpt/templates/) as a guide.
+It helps to have an understanding of the [LinkML](https://linkml.io) schema language, but it should be possible to define your own schemas using the examples in [src/ontogpt/templates](https://github.com/monarch-initiative/ontogpt/tree/main/src/ontogpt/templates) as a guide.
 
 * Prompt hints can be specified using the `prompt` annotation (otherwise description is used)
 * Multivalued fields are supported
