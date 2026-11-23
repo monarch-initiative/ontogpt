@@ -113,8 +113,8 @@ for group in grouped_lines:
 for _key, value in trimmed_dict.copy().items():
     for i, elem in enumerate(value):
         if elem.lower() in (val.lower() for val in NULL_VALS):
-            for _key, value in trimmed_dict.items():
-                del value[i]
+            for _key, column in trimmed_dict.items():
+                del column[i]
 
 subjects_with_mondo = []
 key = next(iter(trimmed_dict))

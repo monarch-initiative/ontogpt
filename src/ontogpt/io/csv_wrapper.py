@@ -98,8 +98,8 @@ def output_parser(obj: Any, file) -> List[str]:
     for _, value in trimmed_dict.copy().items():
         for i, elem in enumerate(value):
             if elem.lower() in (val.lower() for val in NULL_VALS):
-                for _, value in trimmed_dict.items():
-                    del value[i]
+                for _, column in trimmed_dict.items():
+                    del column[i]
 
     # Find names for all ID entries in OBO Foundry
     for key, value in trimmed_dict.copy().items():
