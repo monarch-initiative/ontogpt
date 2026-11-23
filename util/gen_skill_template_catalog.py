@@ -74,8 +74,9 @@ print("|---|---|---|---|")
 for name, roots, desc, prefixes, ents in rows:
     if name in SKIP:
         continue
-    short = desc if len(desc) <= 230 else desc[:227].rsplit(" ", 1)[0] + "..."
-    print(f"| `{name}` | {', '.join(roots) or '(none; use -T)'} | {', '.join(prefixes) or 'ungrounded'} | {short} |")
+    # Full descriptions: the detail that decides between templates is often near the end.
+    cell = desc.replace("|", "\\|")
+    print(f"| `{name}` | {', '.join(roots) or '(none; use -T)'} | {', '.join(prefixes) or 'ungrounded'} | {cell} |")
 print("\n## Templates that are not for text extraction\n")
 print("- `core`: the upper-level schema every template imports (NamedEntity, CompoundExpression, Triple).")
 print("- `halo`: schema for the HALO ontology-growing engine (`ontogpt halo`), not SPIRES.")

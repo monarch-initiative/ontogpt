@@ -4,9 +4,10 @@ title: Cat and Dog Breed Description Template
 description: >-
   Extracts a structured description of a single cat or dog breed from an
   encyclopedia-style text such as a Wikipedia article. The breed grounds to
-  VBO (Vertebrate Breed Ontology). Each characteristic is decomposed into a
-  whole-phenotype term (UPHENO), the body part involved (UBERON), and the
-  quality observed (PATO).
+  VBO (Vertebrate Breed Ontology), restricted to cat and dog breeds. Each
+  characteristic is decomposed into a whole-phenotype term (UPHENO), the body
+  part involved (UBERON), and the quality observed (PATO). Also captures the
+  species, year established, place of origin, coat colors, and temperament.
 license: https://creativecommons.org/publicdomain/zero/1.0/
 prefixes:
   linkml: https://w3id.org/linkml/

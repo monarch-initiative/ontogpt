@@ -71,9 +71,11 @@ linkml_meta = LinkMLMeta({'default_prefix': 'pet_breed',
      'description': 'Extracts a structured description of a single cat or dog '
                     'breed from an encyclopedia-style text such as a Wikipedia '
                     'article. The breed grounds to VBO (Vertebrate Breed '
-                    'Ontology). Each characteristic is decomposed into a '
-                    'whole-phenotype term (UPHENO), the body part involved '
-                    '(UBERON), and the quality observed (PATO).',
+                    'Ontology), restricted to cat and dog breeds. Each '
+                    'characteristic is decomposed into a whole-phenotype term '
+                    '(UPHENO), the body part involved (UBERON), and the quality '
+                    'observed (PATO). Also captures the species, year established, '
+                    'place of origin, coat colors, and temperament.',
      'id': 'http://w3id.org/ontogpt/pet_breed',
      'imports': ['linkml:types', 'core'],
      'license': 'https://creativecommons.org/publicdomain/zero/1.0/',
