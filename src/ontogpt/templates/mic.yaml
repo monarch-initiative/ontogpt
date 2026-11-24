@@ -308,7 +308,7 @@ classes:
           "(3-5)" should become 3;4;5.
 
   Relationship:
-    is_a: NamedEntity
+    is_a: RelationshipType
     description: >-
       The name of a type of relationship between two
       entities.

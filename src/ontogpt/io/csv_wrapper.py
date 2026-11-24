@@ -173,6 +173,33 @@ def schema_process(schema_path: str, root_class: Optional[str]):
     return sv, classdef
 
 
+def _relation_slots(sv: SchemaView, class_name: str):
+    """
+    Find the predicate slot and the entity slots of a relation class.
+
+    The predicate slot is the first slot whose range is RelationshipType
+    or a subclass of it. Entity slots are the other slots, except one named
+    predicate, whose range is a NamedEntity class, in schema order. Slots
+    with other ranges, such as free-text context or reference lists, are in
+    neither.
+
+    returns:
+        predicate_slot, str or None: name of the predicate slot
+        entity_slots, list of str: names of the entity slots
+    """
+    predicate_slot = None
+    entity_slots = []
+    for slot in sv.class_induced_slots(class_name):
+        if slot.range not in sv.all_classes():
+            continue
+        ancestors = sv.class_ancestors(slot.range)
+        if "RelationshipType" in ancestors and predicate_slot is None:
+            predicate_slot = slot.name
+        elif "NamedEntity" in ancestors and slot.name != "predicate":
+            entity_slots.append(slot.name)
+    return predicate_slot, entity_slots
+
+
 def parse_yaml_predictions(yaml_path: str, schema_path: str, root_class=None):
     """
     Parse named entities and relations from the YAML output of OntoGPT.
@@ -268,12 +295,12 @@ def parse_yaml_predictions(yaml_path: str, schema_path: str, root_class=None):
         # TODO: translate to SchemaView
         rel_types = {k: v for k, v in obj.items() if all([isinstance(rl, dict) for rl in v])}
         for rel_type, rels in rel_types.items():
+            class_name = sv.get_slot(rel_type).range
+            predicate_slot, entity_slots = _relation_slots(sv, class_name)
             for rel in rels:
 
                 row = {}
                 row["id"] = str(uuid.uuid4())
-
-                class_name = sv.get_slot(rel_type).range
 
                 row["category"] = class_name
                 row["provided_by"] = doc_id
@@ -286,29 +313,24 @@ def parse_yaml_predictions(yaml_path: str, schema_path: str, root_class=None):
 
                 if "predicate" in rel.keys():
                     row["predicate"] = rel["predicate"]
+                elif predicate_slot in rel.keys():
+                    row["predicate"] = rel[predicate_slot]
                 else:
                     row["predicate"] = class_name
 
-                # If s, p, o are not explicitly defined, try to infer them
+                # If s, p, o are not explicitly defined, infer s and o from the
+                # first two entity slots of the relation class, in schema order
                 if not row.get("subject") or not row.get("object"):
                     logger.info("s, p, o not explicitly defined in relation - inferring")
-                    try:
-                        for i, rel_part in enumerate(rel.values()):
-                            if not isinstance(rel_part, str):
-                                raise ValueError
-                            if i == 0:
-                                row["subject"] = rel_part
-                            elif i == 1:
-                                row["object"] = rel_part
-                        rel_rows.append(row)
-                    except KeyError:
+                    rel_parts = [rel[slot] for slot in entity_slots if slot in rel][:2]
+                    if len(rel_parts) < 2:
                         logger.warning(f"Relation {rel} missing part")
                         continue
-                    except ValueError:
-                        logger.warning(f"Relation {rel} looks n-ary: {rel_part}")
+                    if not all(isinstance(rel_part, str) for rel_part in rel_parts):
+                        logger.warning(f"Relation {rel} looks n-ary: {rel_parts}")
                         continue
-                else:
-                    rel_rows.append(row)
+                    row["subject"], row["object"] = rel_parts
+                rel_rows.append(row)
 
         # Format entities
         for ent, lab in ent_labels.items():
