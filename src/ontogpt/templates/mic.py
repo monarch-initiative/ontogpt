@@ -726,7 +726,7 @@ class ScientificClaim(CompoundExpression):
     references: Optional[list[str]] = Field(default=None, description="""A semi-colon separated list of references included inline in the input, identified by number only. Multiple references may contain commas, e.g., \"(3, 4)\" and should be treated as two different values. If a range of references is provided, include all, e.g., \"(3-5)\" should become 3;4;5.""", json_schema_extra = { "linkml_meta": {'alias': 'references', 'domain_of': ['ScientificClaim']} })
 
 
-class Relationship(NamedEntity):
+class Relationship(RelationshipType):
     """
     The name of a type of relationship between two entities.
     """
