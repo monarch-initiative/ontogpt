@@ -3,7 +3,7 @@ The case is a {{ phenopacket.subject.sex }} of age {{ phenopacket.subject.ageAtC
 
 Case Phenotypes:
 
-{% for pf in phenopacket.phenotypicFeatures -%}
+{% for pf in phenopacket.phenotypicFeatures if not pf.excluded -%}
 * {{pf.type.label}}
 {% endfor -%}
 
