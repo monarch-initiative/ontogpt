@@ -666,11 +666,14 @@ class SPIRESEngine(KnowledgeEngine):
                             # recursive sub-extraction). We skip it and continue.
                             logging.warning(f"Line '{line}' does not contain a colon; ignoring")
                             continue
-                    else:
-                        # We made it this far but may still have a continued line
-                        # So parse that first
-                        if len(continued_line) > 0:
-                            line = continued_line
+                    elif len(continued_line) > 0:
+                        # This line starts a new field, so finish the pending continued
+                        # line first, then parse this one too. (Replacing this line with
+                        # the continued one dropped it, e.g. "places:" then "persons: x".)
+                        r = self._parse_line_to_dict(continued_line, cls)
+                        if r is not None:
+                            field, val = r
+                            ann[field] = val
                     r = self._parse_line_to_dict(line, cls)
                     continued_line = ""
                     if r is not None:
