@@ -25,6 +25,26 @@ PHENOPACKET = Dict[str, Any]
 DIAGNOSIS = Dict[str, Any]
 
 
+def subject_age(subject: Dict[str, Any]) -> str:
+    """Return the age of a phenopacket subject as text for the prompt.
+
+    Reads the Phenopacket v2 timeAtLastEncounter (an ISO 8601 duration, a gestational
+    age or an ontology class such as an HPO onset term), then the v1 ageAtCollection.
+    """
+    time = subject.get("timeAtLastEncounter", {})
+    if "iso8601duration" in time.get("age", {}):
+        return time["age"]["iso8601duration"]
+    if "gestationalAge" in time:
+        gestational_age = time["gestationalAge"]
+        return f"{gestational_age['weeks']}+{gestational_age.get('days', 0)} weeks gestation"
+    if "label" in time.get("ontologyClass", {}):
+        return time["ontologyClass"]["label"]
+    if "age" in subject.get("ageAtCollection", {}):
+        return subject["ageAtCollection"]["age"]
+    logging.warning("Missing subject age. Setting to 'UNKNOWN'.")
+    return "UNKNOWN"
+
+
 class DiagnosisPrediction(BaseModel):
     case_id: str
     validated_disease_ids: Optional[List[str]] = None
@@ -62,26 +82,10 @@ class PhenoEngine(KnowledgeEngine):
         template_txt = read_text_with_fallbacks(Path(template_path))
         template = Template(template_txt)
         # Account for missing template fields if necessary
-        # TODO: make this its own function
-        for subject_key in ["sex", "ageAtCollection"]:
-            if subject_key not in phenopacket["subject"]:
-                logging.warning(f"Missing subject key: {subject_key}. Setting to 'UNKNOWN'.")
-                phenopacket["subject"][subject_key] = "UNKNOWN"
-            if subject_key == "ageAtCollection":
-                if "timeAtLastEncounter" in phenopacket["subject"]:
-                    if "age" in phenopacket["subject"]["timeAtLastEncounter"]:
-                        if (
-                            "iso8601duration"
-                            in phenopacket["subject"]["timeAtLastEncounter"]["age"]
-                        ):
-                            logging.warning("Found patient age in timeAtLastEncounter. Updating.")
-                            phenopacket["subject"]["ageAtCollection"] = {
-                                "age": phenopacket["subject"]["timeAtLastEncounter"]["age"][
-                                    "iso8601duration"
-                                ]
-                            }
-                else:
-                    phenopacket["subject"]["ageAtCollection"] = {"age": "UNKNOWN"}
+        if "sex" not in phenopacket["subject"]:
+            logging.warning("Missing subject key: sex. Setting to 'UNKNOWN'.")
+            phenopacket["subject"]["sex"] = "UNKNOWN"
+        phenopacket["subject"]["ageAtCollection"] = {"age": subject_age(phenopacket["subject"])}
         if "phenotypicFeatures" not in phenopacket:
             logging.warning(f"No phenotypicFeatures found in phenopacket {phenopacket['id']}.")
             logging.warning("Diagnosis accuracy may be very inaccurate.")
